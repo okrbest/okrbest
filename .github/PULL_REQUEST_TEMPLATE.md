@@ -1,8 +1,8 @@
 <!-- Pull Request를 기여해 주셔서 감사합니다! 다음은 도움이 될 만한 몇 가지 팁입니다:
 
-1. 첫 기여인 경우, 기여 체크리스트를 읽어주세요 https://developers.mattermost.com/contribute/getting-started/contribution-checklist/
-2. "훌륭한 PR 제출하기"에 대한 블로그 포스트를 읽어보세요 https://developers.mattermost.com/blog/2019-01-24-submitting-great-prs
-3. 저장소별 문서는 여기서 확인하세요 https://developers.mattermost.com/contribute
+1. 첫 기여인 경우, 기여 체크리스트를 읽어주세요 https://developers.okrbest.com/contribute/getting-started/contribution-checklist/
+2. "훌륭한 PR 제출하기"에 대한 블로그 포스트를 읽어보세요 https://developers.okrbest.com/blog/2019-01-24-submitting-great-prs
+3. 저장소별 문서는 여기서 확인하세요 https://developers.okrbest.com/contribute
 -->
 
 #### 요약
@@ -16,8 +16,8 @@
 <!--
 해당되는 경우 다음 링크 중 하나 또는 둘 다 포함해주세요:
 
-수정: https://github.com/mattermost/mattermost/issues/XXX
-Jira: https://mattermost.atlassian.net/browse/MM-XXX
+수정: https://github.com/okrbest/okrbest/issues/XXX
+
 -->
 
 #### 스크린샷
