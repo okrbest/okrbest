@@ -8,15 +8,15 @@ body:
       label: 버그 리포트를 제출하기 전에
       description: 다음 사항을 확인해주세요
       options:
-        - label: "이슈 트래커(https://github.com/mattermost/mattermost/issues)를 확인했으며, 제가 제출하려는 문제와 일치하는 이슈를 찾지 못했습니다."
+        - label: "이슈 트래커(https://github.com/okrbest/okrbest/issues)를 확인했으며, 제가 제출하려는 문제와 일치하는 이슈를 찾지 못했습니다."
           required: true
-        - label: "이 이슈는 문제 해결 질문이 아닙니다. 문제 해결 질문은 여기에서 해주세요: https://forum.mattermost.com/c/trouble-shoot/16"
+        - label: "이 이슈는 문제 해결 질문이 아닙니다. 문제 해결 질문은 여기에서 해주세요: https://forum.okrbest.com/c/trouble-shoot/16"
           required: true
-        - label: "이 이슈는 기능 요청이 아닙니다. 기능 요청과 제품 제안은 여기에서 해주세요: https://mattermost.uservoice.com/forums/306457-general/"
+        - label: "이 이슈는 기능 요청이 아닙니다. 기능 요청과 제품 제안은 여기에서 해주세요: https://okrbest.uservoice.com/forums/306457-general/"
           required: true
-        - label: "이 이슈는 현재 지원되는 서버 버전(https://docs.mattermost.com/about/mattermost-server-releases.html#latest-releases) 중 하나에서 재현됩니다."
+        - label: "이 이슈는 현재 지원되는 서버 버전(https://docs.okrbest.com/about/okrbest-server-releases.html#latest-releases) 중 하나에서 재현됩니다."
           required: true
-        - label: "기여 가이드라인(https://github.com/mattermost/mattermost/blob/master/CONTRIBUTING.md)을 읽었습니다."
+        - label: "기여 가이드라인(https://github.com/okrbest/okrbest/blob/master/CONTRIBUTING.md)을 읽었습니다."
           required: true
   - type: input
     attributes:
