@@ -37,6 +37,16 @@ RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
 # We should refrain from running as privileged user
 USER mattermost
 
+# Remove mattermost server and client
+RUN rm -f /mattermost/bin/mattermost \
+  && rm -f /mattermost/bin/mmctl \
+  && rm -rf /mattermost/client/*
+
+# Copy the new mattermost server and client
+COPY --chown=mattermost:mattermost --chmod=755 dist/server/mattermost /mattermost/bin/mattermost
+COPY --chown=mattermost:mattermost --chmod=755 dist/server/mmctl /mattermost/bin/mmctl
+COPY --chown=mattermost:mattermost --chmod=755 dist/client/* /mattermost/client
+
 # Healthcheck to make sure container is ready
 HEALTHCHECK --interval=30s --timeout=10s \
   CMD curl -f http://localhost:8065/api/v4/system/ping || exit 1
