@@ -1,64 +1,64 @@
-name: Bug report
-description: Create a report about an issue you found
-title: "[Bug]: "
+name: 버그 리포트
+description: 발견하신 문제에 대한 리포트를 작성해주세요
+title: "[버그]: "
 labels: "Bug Report/Open"
 body:
-- type: checkboxes
-  attributes:
-    label: Before you file a bug report
-    description: Please ensure you can confirm the following
-    options:
-      - label: I have checked the [issue tracker](https://github.com/mattermost/mattermost/issues) and have not found an issue that matches the one I'm filing.
-        required: true
-      - label: "This issue is not a troubleshooting question. Troubleshooting questions go here: https://forum.mattermost.com/c/trouble-shoot/16."
-        required: true
-      - label: "This issue is not a feature request. You can request features and make product suggestions here: https://mattermost.uservoice.com/forums/306457-general/."
-        required: true
-      - label: This issue reproduces on one of the [currently supported server versions](https://docs.mattermost.com/about/mattermost-server-releases.html#latest-releases).
-        required: true
-      - label: I have read the [contribution guidelines](https://github.com/mattermost/mattermost/blob/master/CONTRIBUTING.md) and the [Mattermost Handbook Contribution Guidelines](https://handbook.mattermost.com/contributors/contributors/guidelines/contribution-guidelines).
-        required: true
-- type: input
-  attributes:
-    label: Mattermost Server Version
-    description: |
-      What version of the Mattermost server are you using? You can find it by going to [Main Menu] > [About Mattermost].
-  validations:
-    required: true
-- type: input
-  attributes:
-    label: Operating System
-    description: |
-      What operating system does this issue occur on?
-      Example: Windows 10
-  validations:
-    required: true
-- type: textarea
-  attributes:
-    label: Steps to reproduce
-    description: |
-      Include a clear description of the steps taken to reproduce this issue.
-      It is also helpful to attach a screenshot or video if applicable.
-  validations:
-    required: true
-- type: textarea
-  attributes:
-    label: Expected behavior
-    description: Include a clear description of what you expect to happen.
-  validations:
-    required: true
-- type: textarea
-  attributes:
-    label: Observed behavior
-    description: Include a clear description of what actually happens.
-  validations:
-    required: true
-- type: textarea
-  attributes:
-    label: Log Output
-    description: Please include output from the log files.
-    render: shell
-- type: textarea
-  attributes:
-    label: Additional Information
-    description: If you have anything else to add to the ticket, you may do so here.
+  - type: checkboxes
+    attributes:
+      label: 버그 리포트를 제출하기 전에
+      description: 다음 사항을 확인해주세요
+      options:
+        - label: "이슈 트래커(https://github.com/okrbest/okrbest/issues)를 확인했으며, 제가 제출하려는 문제와 일치하는 이슈를 찾지 못했습니다."
+          required: true
+        - label: "이 이슈는 문제 해결 질문이 아닙니다. 문제 해결 질문은 여기에서 해주세요: https://forum.okrbest.com/c/trouble-shoot/16"
+          required: true
+        - label: "이 이슈는 기능 요청이 아닙니다. 기능 요청과 제품 제안은 여기에서 해주세요: https://okrbest.uservoice.com/forums/306457-general/"
+          required: true
+        - label: "이 이슈는 현재 지원되는 서버 버전(https://docs.okrbest.com/about/okrbest-server-releases.html#latest-releases) 중 하나에서 재현됩니다."
+          required: true
+        - label: "기여 가이드라인(https://github.com/okrbest/okrbest/blob/master/CONTRIBUTING.md)을 읽었습니다."
+          required: true
+  - type: input
+    attributes:
+      label: OKR.BEST 서버 버전
+      description: |
+        사용 중인 OKR.BEST 서버의 버전을 알려주세요. [메인 메뉴] > [OKR.BEST 정보]에서 확인하실 수 있습니다.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: 운영 체제
+      description: |
+        이 문제가 발생하는 운영 체제는 무엇인가요?
+        예시: Windows 10
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 재현 단계
+      description: |
+        이 문제를 재현하기 위한 단계를 명확하게 설명해주세요.
+        가능한 경우 스크린샷이나 동영상을 첨부하시면 도움이 됩니다.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 예상 동작
+      description: 예상되는 동작에 대해 명확하게 설명해주세요.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 관찰된 동작
+      description: 실제로 발생하는 동작에 대해 명확하게 설명해주세요.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 로그 출력
+      description: 로그 파일의 출력을 포함해주세요.
+      render: shell
+  - type: textarea
+    attributes:
+      label: 추가 정보
+      description: 티켓에 추가하실 내용이 있다면 여기에 작성해주세요.
