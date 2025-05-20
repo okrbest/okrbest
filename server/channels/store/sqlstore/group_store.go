@@ -963,7 +963,7 @@ func (s *SqlGroupStore) DeleteGroupSyncable(groupID string, syncableID string, s
 	return groupSyncable, nil
 }
 
-func (s *SqlGroupStore) TeamMembersToAdd(since int64, teamID *string, includeRemovedMembers bool) ([]*model.UserTeamIDPair, error) {
+func (s *SqlGroupStore) TeamMembersToAdd(since int64, teamID *string, reAddRemovedMembers bool) ([]*model.UserTeamIDPair, error) {
 	builder := s.getQueryBuilder().Select("GroupMembers.UserId UserID", "GroupTeams.TeamId TeamID").
 		From("GroupMembers").
 		Join("GroupTeams ON GroupTeams.GroupId = GroupMembers.GroupId").
@@ -977,7 +977,7 @@ func (s *SqlGroupStore) TeamMembersToAdd(since int64, teamID *string, includeRem
 			"Teams.DeleteAt":        0,
 		})
 
-	if !includeRemovedMembers {
+	if !reAddRemovedMembers {
 		builder = builder.
 			JoinClause("LEFT OUTER JOIN TeamMembers ON TeamMembers.TeamId = GroupTeams.TeamId AND TeamMembers.UserId = GroupMembers.UserId").
 			Where(sq.Eq{"TeamMembers.UserId": nil}).
@@ -999,7 +999,7 @@ func (s *SqlGroupStore) TeamMembersToAdd(since int64, teamID *string, includeRem
 	return teamMembers, nil
 }
 
-func (s *SqlGroupStore) ChannelMembersToAdd(since int64, channelID *string, includeRemovedMembers bool) ([]*model.UserChannelIDPair, error) {
+func (s *SqlGroupStore) ChannelMembersToAdd(since int64, channelID *string, reAddRemovedMembers bool) ([]*model.UserChannelIDPair, error) {
 	builder := s.getQueryBuilder().Select("GroupMembers.UserId UserID", "GroupChannels.ChannelId ChannelID").
 		From("GroupMembers").
 		Join("GroupChannels ON GroupChannels.GroupId = GroupMembers.GroupId").
@@ -1013,7 +1013,7 @@ func (s *SqlGroupStore) ChannelMembersToAdd(since int64, channelID *string, incl
 			"Channels.DeleteAt":      0,
 		})
 
-	if !includeRemovedMembers {
+	if !reAddRemovedMembers {
 		builder = builder.
 			JoinClause("LEFT OUTER JOIN ChannelMemberHistory ON ChannelMemberHistory.ChannelId = GroupChannels.ChannelId AND ChannelMemberHistory.UserId = GroupMembers.UserId").
 			Where(sq.Eq{
@@ -1284,34 +1284,42 @@ func (s *SqlGroupStore) ChannelMembersToRemove(channelID *string) ([]*model.Chan
 }
 
 func (s *SqlGroupStore) groupsBySyncableBaseQuery(st model.GroupSyncableType, t selectType, syncableID string, opts model.GroupSearchOpts) sq.SelectBuilder {
-	selectStrs := map[selectType]string{
-		selectGroups:      "UserGroups.*, gs.SchemeAdmin AS SyncableSchemeAdmin",
-		selectCountGroups: "COUNT(*)",
+	var query sq.SelectBuilder
+	switch t {
+	case selectGroups:
+		query = s.userGroupsSelectQuery.
+			Column("gs.SchemeAdmin AS SyncableSchemeAdmin")
+	case selectCountGroups:
+		query = s.getQueryBuilder().
+			Select("COUNT(*)").
+			From("UserGroups")
 	}
 
-	var table string
-	var idCol string
 	if st == model.GroupSyncableTypeTeam {
-		table = "GroupTeams"
-		idCol = "TeamId"
+		query = query.
+			Join("GroupTeams gs ON gs.GroupId = UserGroups.Id").
+			Where(sq.Eq{
+				"gs.TeamId":   syncableID,
+				"gs.DeleteAt": 0,
+			})
 	} else {
-		table = "GroupChannels"
-		idCol = "ChannelId"
+		query = query.
+			Join("GroupChannels gs ON gs.GroupId = UserGroups.Id").
+			Where(sq.Eq{
+				"gs.ChannelId": syncableID,
+				"gs.DeleteAt":  0,
+			})
 	}
 
-	query := s.getQueryBuilder().
-		Select(selectStrs[t]).
-		From(fmt.Sprintf("%s gs", table)).
-		LeftJoin("UserGroups ON gs.GroupId = UserGroups.Id").
-		Where(fmt.Sprintf("UserGroups.DeleteAt = 0 AND gs.%s = ? AND gs.DeleteAt = 0", idCol), syncableID)
+	query = query.
+		Where(sq.Eq{
+			"UserGroups.DeleteAt": 0,
+		})
 
 	if opts.IncludeMemberCount && t == selectGroups {
-		query = s.getQueryBuilder().
-			Select(fmt.Sprintf("UserGroups.*, coalesce(Members.MemberCount, 0) AS MemberCount, Group%ss.SchemeAdmin AS SyncableSchemeAdmin", st)).
-			From("UserGroups").
+		query = query.
+			Column("coalesce(Members.MemberCount, 0) AS MemberCount").
 			LeftJoin("(SELECT GroupMembers.GroupId, COUNT(*) AS MemberCount FROM GroupMembers LEFT JOIN Users ON Users.Id = GroupMembers.UserId WHERE GroupMembers.DeleteAt = 0 AND Users.DeleteAt = 0 GROUP BY GroupId) AS Members ON Members.GroupId = UserGroups.Id").
-			LeftJoin(fmt.Sprintf("%[1]s ON %[1]s.GroupId = UserGroups.Id", table)).
-			Where(fmt.Sprintf("UserGroups.DeleteAt = 0 AND %[1]s.DeleteAt = 0 AND %[1]s.%[2]s = ?", table, idCol), syncableID).
 			OrderBy("UserGroups.DisplayName")
 	}
 
