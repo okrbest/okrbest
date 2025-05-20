@@ -9,9 +9,10 @@
     "build:watch": "npm run build:watch --workspaces",
     "tsc": "tsc -b && npm run tsc --workspaces",
     "lint": "eslint .",
+    "lint:test-docs": "node script/lint-test-docs.js",
     "prettier": "prettier . --check",
     "prettier:fix": "prettier --write .",
-    "check": "npm run lint && npm run prettier && npm run tsc",
+    "check": "npm run lint && npm run prettier && npm run tsc && npm run lint:test-docs",
     "test": "npm run build && cross-env PW_SNAPSHOT_ENABLE=true playwright test",
     "test:ci": "npm run build && cross-env PW_SNAPSHOT_ENABLE=true playwright test --project=chrome",
     "test:update-snapshots": "npm run build && cross-env PW_SNAPSHOT_ENABLE=true playwright test --update-snapshots",
@@ -30,15 +31,16 @@
     "cross-env": "7.0.3",
     "dayjs": "1.11.13",
     "luxon": "3.6.1",
-    "zod": "3.24.3"
+    "zod": "3.24.4"
   },
   "devDependencies": {
     "@types/luxon": "3.6.2",
-    "@typescript-eslint/eslint-plugin": "8.30.1",
-    "eslint": "9.25.0",
-    "eslint-import-resolver-typescript": "4.3.3",
+    "@typescript-eslint/eslint-plugin": "8.32.0",
+    "eslint": "9.26.0",
+    "eslint-import-resolver-typescript": "4.3.4",
     "eslint-plugin-header": "3.1.1",
     "eslint-plugin-import": "2.31.0",
+    "glob": "11.0.2",
     "prettier": "3.5.3",
     "typescript": "5.8.3"
   }
