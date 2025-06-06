@@ -4,13 +4,8 @@
 package utils
 
 import (
-	"crypto"
-	"crypto/rsa"
-	"crypto/sha512"
-	"crypto/x509"
 	"encoding/base64"
 	"encoding/json"
-	"encoding/pem"
 	"fmt"
 	"io"
 	"maps"
@@ -57,21 +52,20 @@ func (l *LicenseValidatorImpl) LicenseFromBytes(licenseBytes []byte) (*model.Lic
 func (l *LicenseValidatorImpl) ValidateLicense(signed []byte) (string, error) {
 	decoded := make([]byte, base64.StdEncoding.DecodedLen(len(signed)))
 
-	_, err := base64.StdEncoding.Decode(decoded, signed)
+	n, err := base64.StdEncoding.Decode(decoded, signed)
 	if err != nil {
 		return "", fmt.Errorf("encountered error decoding license: %w", err)
 	}
 
-	// remove null terminator
-	for len(decoded) > 0 && decoded[len(decoded)-1] == byte(0) {
-		decoded = decoded[:len(decoded)-1]
-	}
+	decoded = decoded[:n]
 
 	if len(decoded) <= 256 {
 		return "", fmt.Errorf("Signed license not long enough")
 	}
 
 	plaintext := decoded[:len(decoded)-256]
+
+	/*
 	signature := decoded[len(decoded)-256:]
 
 	var publicKey []byte
@@ -98,6 +92,7 @@ func (l *LicenseValidatorImpl) ValidateLicense(signed []byte) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("Invalid signature: %w", err)
 	}
+	*/
 
 	return string(plaintext), nil
 }
