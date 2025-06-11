@@ -1,6 +1,6 @@
 # [![OKR.BEST 로고](https://github.com/user-attachments/assets/afd3fa9b-59b1-4659-b1ff-c6d1dae40597)](https://okr.best)
 
-[OKR.BEST](https://okr.best)는 기업이 안전한 협업을 위한 오픈 소스 플랫폼입니다. 이 저장소는 OKR.BEST 플랫폼의 핵심 개발을 위한 주요 소스입니다. Go와 React로 작성되었으며 MySQL 또는 PostgreSQL과 함께 단일 Linux 바이너리로 실행됩니다. 매월 16일에 MIT 라이선스 하에 새로운 컴파일 버전이 출시됩니다.
+[OKR.BEST](https://OKR.BEST)는 오픈 코어 기반의 자체 호스팅 협업 플랫폼으로, 채팅, 워크플로우 자동화, 음성 통화, 화면 공유, AI 통합 기능을 제공합니다. 이 리포지토리는 Mattermost 플랫폼의 핵심 개발을 위한 주요 소스입니다. Go와 React로 작성되었으며, 단일 Linux 바이너리로 실행되며 PostgreSQL에 의존합니다. 매월 16일에 MIT 라이선스 하에 새로운 컴파일된 버전이 출시됩니다.
 
 [OKR.BEST를 온프레미스로 배포](https://mattermost.com/deploy/?utm_source=github-mattermost-server-readme)하거나 [클라우드에서 무료로 사용해보세요](https://mattermost.com/sign-up/?utm_source=github-mattermost-server-readme).
 
