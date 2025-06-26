@@ -34,7 +34,7 @@ const ssl = (
         }),
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.configuration.ssl.description',
-            defaultMessage: 'We strongly recommend securing your Mattermost workspace by configuring SSL in production environments.',
+            defaultMessage: 'We strongly recommend securing your OKR.BEST workspace by configuring SSL in production environments.',
         }),
         infoUrl: DocLinks.SSL_CERTIFICATE,
         infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),

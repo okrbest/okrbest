@@ -221,7 +221,7 @@ export default class Integrations extends React.PureComponent <Props> {
                 <div className='backstage-list__help'>
                     <FormattedMessage
                         id='integrations.help'
-                        defaultMessage='Visit the {appDirectory} to find self-hosted, third-party apps and integrations for Mattermost.'
+                        defaultMessage='Visit the {appDirectory} to find self-hosted, third-party apps and integrations for OKR.BEST.'
                         values={{
                             appDirectory: (
                                 <ExternalLink

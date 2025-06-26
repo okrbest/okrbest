@@ -3832,15 +3832,15 @@
   },
   {
     "id": "api.upgrade_to_enterprise.system_not_supported.app_error",
-    "translation": "Mattermost Enterprise Edition으로 업그레이드하지 못했습니다. 이 기능은 x86-64 아키텍처의 Linux 시스템에서만 작동합니다."
+    "translation": "OKR.BEST Enterprise Edition으로 업그레이드하지 못했습니다. 이 기능은 x86-64 아키텍처의 Linux 시스템에서만 작동합니다."
   },
   {
     "id": "api.upgrade_to_enterprise_status.app_error",
-    "translation": "Mattermost Enterprise Edition으로 업그레이드하지 못했습니다."
+    "translation": "OKR.BEST Enterprise Edition으로 업그레이드하지 못했습니다."
   },
   {
     "id": "api.upgrade_to_enterprise_status.signature.app_error",
-    "translation": "Mattermost Enterprise Edition으로 업그레이드하지 못했습니다. 다운로드한 이진 파일의 디지털 서명을 확인할 수 없습니다."
+    "translation": "OKR.BEST Enterprise Edition으로 업그레이드하지 못했습니다. 다운로드한 이진 파일의 디지털 서명을 확인할 수 없습니다."
   },
   {
     "id": "api.upload.create.upload_channel_not_shared_with_remote.app_error",
