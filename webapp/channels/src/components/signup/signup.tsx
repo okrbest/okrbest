@@ -415,7 +415,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
             <p className='signup-body-message-subtitle'>
                 {formatMessage({
                     id: 'signup_user_completed.subtitle',
-                    defaultMessage: 'Create your Mattermost account to start collaborating with your team',
+                    defaultMessage: 'Create your OKR.BEST account to start collaborating with your team',
                 })}
             </p>
         );
@@ -645,7 +645,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         return (
             <div className='newsletter'>
                 <span className='interested'>
-                    {formatMessage({id: 'newsletter_optin.title', defaultMessage: 'Interested in receiving Mattermost security, product, promotions, and company updates updates via newsletter?'})}
+                    {formatMessage({id: 'newsletter_optin.title', defaultMessage: 'Interested in receiving OKR.BEST security, product, promotions, and company updates updates via newsletter?'})}
                 </span>
                 <span className='link'>
                     {formatMessage(

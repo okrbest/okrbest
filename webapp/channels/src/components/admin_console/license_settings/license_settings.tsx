@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import React from 'react';
-import {FormattedMessage, defineMessages} from 'react-intl';
+import {FormattedMessage, defineMessages, useIntl} from 'react-intl';
 
 import type {StatusOK} from '@mattermost/types/client4';
 import type {ClientLicense, EnvironmentConfig} from '@mattermost/types/config';
@@ -45,6 +45,8 @@ type Props = {
     isDisabled: boolean;
     prevTrialLicense: ClientLicense;
     environmentConfig: Partial<EnvironmentConfig>;
+    isMySql: boolean;
+    intl: any;
     actions: {
         getLicenseConfig: () => void;
         uploadLicense: (file: File) => Promise<ActionResult>;
@@ -267,19 +269,31 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
     termsAndPolicy = (
         <div className='terms-and-policy'>
-            {'See also '}
-            {this.createLink(AboutLinks.TERMS_OF_SERVICE, 'Enterprise Edition Terms of Use')}
-            {' and '}
-            {this.createLink(AboutLinks.PRIVACY_POLICY, 'Privacy Policy')}
+            {this.props.intl.formatMessage(
+                {id: 'admin.license.termsAndPolicy', defaultMessage: 'See also {termsLink} and {privacyLink}'},
+                {
+                    termsLink: this.createLink(AboutLinks.TERMS_OF_SERVICE, 
+                        this.props.intl.formatMessage({id: 'admin.license.termsLink', defaultMessage: 'Enterprise Edition Terms of Use'})),
+                    privacyLink: this.createLink(AboutLinks.PRIVACY_POLICY, 
+                        this.props.intl.formatMessage({id: 'admin.license.privacyLink', defaultMessage: 'Privacy Policy'})),
+                }
+            )}
         </div>
     );
 
     comparePlans = (this.props.license.SkuShortName === LicenseSkus.Entry ? null : (
         <div className='compare-plans-text'>
-            {'Curious about upgrading? '}
-            {this.createLink(CloudLinks.PRICING, 'Compare Plans')}
-        </div>
-    ));
+        {this.props.intl.formatMessage(
+            {id: 'admin.license.comparePlans', defaultMessage: 'Curious about upgrading? {compareLink}'},
+            {
+                compareLink: this.createLink(
+                    CloudLinks.PRICING,
+                    this.props.intl.formatMessage({id: 'admin.license.compareLink', defaultMessage: 'Compare Plans'})
+                ),
+            }
+        )}
+    </div>
+    );
 
     render() {
         const {license, upgradedFromTE, isDisabled} = this.props;

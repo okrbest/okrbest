@@ -50,10 +50,10 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
         handleUpgrade(e);
     };
     const upgradeAdvantages = [
-        'AD/LDAP Group Sync',
-        'High Availability',
-        'Advanced compliance',
-        'And more...',
+        intl.formatMessage({id: 'admin.license.upgradeAdvantage.adLdapSync', defaultMessage: 'AD/LDAP Group Sync'}),
+        intl.formatMessage({id: 'admin.license.upgradeAdvantage.highAvailability', defaultMessage: 'High Availability'}),
+        intl.formatMessage({id: 'admin.license.upgradeAdvantage.advancedCompliance', defaultMessage: 'Advanced compliance'}),
+        intl.formatMessage({id: 'admin.license.upgradeAdvantage.andMore', defaultMessage: 'And more...'}),
     ];
     if (upgradeDisabled) {
         upgradeButton = (
@@ -102,7 +102,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                 <p className='upgrade-legal-terms'>
                     <FormattedMessage
                         id='admin.licenseSettings.teamEdition.teamEditionRightPanel.acceptTermsInitial'
-                        defaultMessage='By clicking <b>Upgrade</b>, I agree to the terms of the Mattermost '
+                        defaultMessage='By clicking <b>Upgrade</b>, I agree to the terms of the OKR.BEST '
                         values={{
                             b: (chunks: string) => <b>{chunks}</b>,
                         }}
