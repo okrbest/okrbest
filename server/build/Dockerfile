@@ -1,5 +1,5 @@
 # First stage - Ubuntu with document processing dependencies and curl for downloading
-FROM ubuntu:noble-20250415.1@sha256:dc17125eaac86538c57da886e494a34489122fb6a3ebb6411153d742594c2ddc AS builder
+FROM ubuntu:noble-20250415.1@sha256:6015f66923d7afbc53558d7ccffd325d43b4e249f41a6e93eef074c9505d2233 AS builder
 # Setting bash as our shell, and enabling pipefail option
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
