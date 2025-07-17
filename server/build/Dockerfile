@@ -31,6 +31,20 @@ RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
   && curl -L $MM_PACKAGE | tar -xvz \
   && chown -R mattermost:mattermost /mattermost /mattermost/data /mattermost/plugins /mattermost/client/plugins
 
+# Remove mattermost server and client
+RUN rm -f /mattermost/bin/mattermost \
+  && rm -f /mattermost/bin/mmctl \
+  && rm -rf /mattermost/client/*
+# && rm -rf /mattermost/i18n/*
+#  && rm -f /mattermost/config/config.json 
+
+# Copy the new mattermost server and client
+COPY --chown=mattermost:mattermost --chmod=755 dist/server/mattermost /mattermost/bin/mattermost
+COPY --chown=mattermost:mattermost --chmod=755 dist/server/mmctl /mattermost/bin/mmctl
+COPY --chown=mattermost:mattermost --chmod=755 dist/client/* /mattermost/client
+# COPY --chown=mattermost:mattermost --chmod=755 ../i18n/* /mattermost/i18n
+# COPY --chown=mattermost:mattermost --chmod=755 ../config/config.json /mattermost/config/config.json
+
 # Final stage using distroless for minimal attack surface
 FROM gcr.io/distroless/base-debian12
 
