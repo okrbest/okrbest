@@ -1,5 +1,5 @@
 # First stage - Ubuntu with document processing dependencies and curl for downloading
-FROM ubuntu:noble-20250415.1@sha256:dc17125eaac86538c57da886e494a34489122fb6a3ebb6411153d742594c2ddc AS builder
+FROM ubuntu:noble-20250415.1@sha256:6015f66923d7afbc53558d7ccffd325d43b4e249f41a6e93eef074c9505d2233 AS builder
 # Setting bash as our shell, and enabling pipefail option
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -30,6 +30,20 @@ RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
   && useradd --uid ${PUID} --gid ${PGID} --comment "" --home-dir /mattermost mattermost \
   && curl -L $MM_PACKAGE | tar -xvz \
   && chown -R mattermost:mattermost /mattermost /mattermost/data /mattermost/plugins /mattermost/client/plugins
+
+# Remove mattermost server and client
+RUN rm -f /mattermost/bin/mattermost \
+  && rm -f /mattermost/bin/mmctl \
+  && rm -rf /mattermost/client/*
+# && rm -rf /mattermost/i18n/*
+#  && rm -f /mattermost/config/config.json 
+
+# Copy the new mattermost server and client
+COPY --chown=mattermost:mattermost --chmod=755 dist/server/mattermost /mattermost/bin/mattermost
+COPY --chown=mattermost:mattermost --chmod=755 dist/server/mmctl /mattermost/bin/mmctl
+COPY --chown=mattermost:mattermost --chmod=755 dist/client/* /mattermost/client
+# COPY --chown=mattermost:mattermost --chmod=755 ../i18n/* /mattermost/i18n
+# COPY --chown=mattermost:mattermost --chmod=755 ../config/config.json /mattermost/config/config.json
 
 # Final stage using distroless for minimal attack surface
 FROM gcr.io/distroless/base-debian12
