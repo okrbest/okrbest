@@ -4079,6 +4079,7 @@
   "generic_icons.warning": "경고 아이콘",
   "generic_modal.cancel": "취소",
   "generic_modal.confirm": "확인",
+  "generic_modal.close": "닫기",
   "generic.close": "닫기",
   "generic.done": "완료",
   "generic.enterprise_feature": "엔터프라이즈 기능",
