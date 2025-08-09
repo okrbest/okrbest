@@ -1686,6 +1686,10 @@ func (us SqlUserStore) performSearch(query sq.SelectBuilder, term string, option
 
 	if strings.TrimSpace(term) != "" {
 		query = generateSearchQuery(query, strings.Fields(term), searchType, isPostgreSQL)
+	} else {
+		// 빈 검색어일 때도 검색 조건을 추가하여 권한 제한을 우회
+		// 원래 검색 로직과 비슷하게 모든 사용자를 반환하도록 함
+		query = generateSearchQuery(query, []string{""}, searchType, isPostgreSQL)
 	}
 
 	query = applyViewRestrictionsFilter(query, options.ViewRestrictions, true)

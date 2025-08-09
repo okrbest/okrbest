@@ -552,7 +552,7 @@ export class UsersEmailsInput extends React.PureComponent<Props, State> {
                     components={this.components}
                     getOptionValue={this.getOptionValue}
                     formatOptionLabel={this.formatOptionLabel}
-                    defaultOptions={false}
+                    defaultOptions={true}
                     defaultMenuIsOpen={false}
                     openMenuOnClick={false}
                     loadingMessage={this.loadingMessage}
