@@ -35,9 +35,7 @@ import type {GlobalState} from 'types/store';
 const InvitationModal = makeAsyncComponent('InvitationModal', React.lazy(() => import('./invitation_modal')));
 
 const searchProfiles = (term: string, options = {}) => {
-    if (!term) {
-        return getProfiles(0, 20, options);
-    }
+    // 빈 검색어일 때도 searchProfiles를 호출하여 초대 가능한 사용자 목록을 가져옴
     return reduxSearchProfiles(term, options);
 };
 

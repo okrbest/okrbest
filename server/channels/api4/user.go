@@ -1058,11 +1058,14 @@ func searchUsers(c *Context, w http.ResponseWriter, r *http.Request) {
 		props.Limit = model.UserSearchDefaultLimit
 	}
 
+	// 빈 검색어일 때는 모든 사용자 목록을 반환 (초대 가능한 사용자들)
 	if props.Term == "" {
-		c.SetInvalidParam("term")
-		return
-	}
-
+		// 빈 검색어일 때는 적당한 수량으로 제한
+		if props.Limit == model.UserSearchDefaultLimit {
+			props.Limit = 100 // 기본 100명으로 제한
+		}
+	} 
+	
 	if props.TeamId == "" && props.NotInChannelId != "" {
 		c.SetInvalidParam("team_id")
 		return
