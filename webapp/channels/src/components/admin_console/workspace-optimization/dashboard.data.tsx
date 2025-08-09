@@ -109,7 +109,7 @@ const getAccessData = async (
     }),
     description: formatMessage({
         id: 'admin.reporting.workspace_optimization.access.description',
-        defaultMessage: 'Web server configuration may be affecting access to your Mattermost workspace.',
+        defaultMessage: 'Web server configuration may be affecting access to your OKR.BEST workspace.',
     }),
     hide: options.isCloud,
     descriptionOk: formatMessage({

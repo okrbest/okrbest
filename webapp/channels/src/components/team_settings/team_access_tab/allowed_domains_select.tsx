@@ -55,7 +55,7 @@ const AllowedDomainsSelect = ({allowedDomains, setAllowedDomains, setHasChanges,
                 })}
                 description={formatMessage({
                     id: 'general_tab.AllowedDomainsInfo',
-                    defaultMessage: 'When enabled, users can only join the team if their email matches a specific domain (e.g. "mattermost.org")',
+                    defaultMessage: 'When enabled, users can only join the team if their email matches a specific domain (e.g. "okrbest.org")',
                 })}
                 descriptionAboveContent={true}
                 inputFieldData={{name: 'showAllowedDomains'}}
