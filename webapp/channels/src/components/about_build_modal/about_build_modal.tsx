@@ -114,9 +114,9 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
                 />
                 <ExternalLink
                     location='about_build_modal'
-                    href='https://mattermost.com/community/'
+                    href='https://okr.best/community/'
                 >
-                    {'mattermost.com/community/'}
+                    {'okr.best/community/'}
                 </ExternalLink>
             </div>
         );
