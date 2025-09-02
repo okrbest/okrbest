@@ -13,7 +13,7 @@
   "about.hashee": "EE 빌드 해시:",
   "about.licensed": "라이선스 대상:",
   "about.loadmetric": "로드 메트릭:",
-  "about.notice": "OKR.BEST는 <linkServer>서버</linkServer>, <linkDesktop>데스크톱</linkDesktop> 및 <linkMobile>모바일</linkMobile> 앱에서 사용되는 오픈 소스 소프트웨어로 가능해졌습니다.",
+  "about.notice": "OKR.BEST는 Mattermost에서 제공하는 오픈 소스 소프트웨어(<linkServer>서버</linkServer>, <linkDesktop>데스크톱</linkDesktop> 및 <linkMobile>모바일</linkMobile> 앱)로 가능해졌습니다.",
   "about.privacy": "개인정보 처리방침",
   "about.serverDisconnected": "연결 끊김",
   "about.serverHostname": "호스트명:",
