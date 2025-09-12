@@ -25,9 +25,9 @@ export function getReportAProblemLink(state: GlobalState): string {
     case 'default': {
         const isLicensed = getLicense(state).IsLicensed === 'true';
         if (isLicensed) {
-            return 'https://mattermost.com/pl/report_a_problem_licensed';
+            return 'https://okr.best/pl/report_a_problem_licensed';
         }
-        return 'https://mattermost.com/pl/report_a_problem_unlicensed';
+        return 'https://okr.best/pl/report_a_problem_unlicensed';
     }
     }
     return '';
