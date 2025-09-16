@@ -6,6 +6,8 @@ import React, {useEffect} from 'react';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
+import * as Utils from 'utils/utils';
+
 import ProfilePopover from 'components/profile_popover';
 import SharedUserIndicator from 'components/shared_user_indicator';
 import BotTag from 'components/widgets/tag/bot_tag';
@@ -45,13 +47,9 @@ export default function UserProfile({
         name = `@${(getUsername(user))}`;
     } else {
         const baseName = overwriteName || displayName || '...';
-        if (user && user.nickname && user.nickname !== displayName && user.nickname !== user.username && !overwriteName) {
-            name = (
-                <>
-                    {baseName}
-                    <span className='user-profile__nickname'>{' ('}{user.nickname}{')'}</span>
-                </>
-            );
+        if (user && (user.first_name || user.last_name || user.nickname) && !overwriteName) {
+            const fullName = Utils.getFullName(user);
+            name = `${baseName} - ${fullName} ${user.nickname ? `(${user.nickname})` : ''}`.trim();
         } else {
             name = baseName;
         }

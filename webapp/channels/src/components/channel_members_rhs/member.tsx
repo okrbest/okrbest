@@ -11,6 +11,8 @@ import type {UserProfile} from '@mattermost/types/users';
 import {Client4} from 'mattermost-redux/client';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
+import * as Utils from 'utils/utils';
+
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import ProfilePicture from 'components/profile_picture';
@@ -69,10 +71,13 @@ const Member = ({channel, member, index, totalUsers, editing, actions}: Props) =
                     hideStatus={member.user.is_bot}
                 >
                     <span className='channel-members-rhs__display-name'>
-                        {member.displayName}
-                        {member.user.nickname && member.user.nickname !== member.displayName && member.user.nickname !== member.user.username && (
-                            <span className='channel-members-rhs__nickname'>{' ('}{member.user.nickname}{')'}</span>
-                        )}
+                        {(() => {
+                            if (member.user.first_name || member.user.last_name || member.user.nickname) {
+                                const fullName = Utils.getFullName(member.user);
+                                return `${member.displayName} - ${fullName} ${member.user.nickname ? `(${member.user.nickname})` : ''}`.trim();
+                            }
+                            return member.displayName;
+                        })()}
                         {isGuest(member.user.roles) && <GuestTag/>}
                         {member.user.remote_id &&
                         (
