@@ -44,7 +44,17 @@ export default function UserProfile({
     if (user && displayUsername) {
         name = `@${(getUsername(user))}`;
     } else {
-        name = overwriteName || displayName || '...';
+        const baseName = overwriteName || displayName || '...';
+        if (user && user.nickname && user.nickname !== displayName && user.nickname !== user.username && !overwriteName) {
+            name = (
+                <>
+                    {baseName}
+                    <span className='user-profile__nickname'>{' ('}{user.nickname}{')'}</span>
+                </>
+            );
+        } else {
+            name = baseName;
+        }
     }
 
     let userColor = theme?.centerChannelColor;

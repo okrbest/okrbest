@@ -1239,6 +1239,12 @@
                 -moz-user-select: all; /* Firefox all */
                 vertical-align: top;
                 white-space: nowrap;
+
+                .user-profile__nickname {
+                    margin-left: 4px;
+                    color: rgba(functions.v(center-channel-color-rgb), 0.6);
+                    font-size: 12px;
+                }
             }
 
             .colon {
