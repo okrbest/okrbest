@@ -101,6 +101,14 @@
         line-height: 18px;
     }
 
+    &__nickname {
+        margin-left: 4px;
+        color: rgba(var(--center-channel-color-rgb), 0.6);
+        font-size: 12px;
+        line-height: 18px;
+        font-style: italic;
+    }
+
     &__send-message {
         display: none;
         width: 24px;
