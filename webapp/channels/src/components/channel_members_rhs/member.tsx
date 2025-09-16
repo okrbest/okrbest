@@ -62,6 +62,9 @@ const Member = ({channel, member, index, totalUsers, editing, actions}: Props) =
                 >
                     <span className='channel-members-rhs__display-name'>
                         {member.displayName}
+                        {member.user.nickname && member.user.nickname !== member.displayName && member.user.nickname !== member.user.username && (
+                            <span className='channel-members-rhs__nickname'>{' ('}{member.user.nickname}{')'}</span>
+                        )}
                         {isGuest(member.user.roles) && <GuestTag/>}
                         {member.user.remote_id &&
                         (
