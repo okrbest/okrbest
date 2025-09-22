@@ -140,6 +140,9 @@ export const useTasksList = () => {
         delete list.INVITE_PEOPLE;
     }
 
+    // Hide download app task
+    delete list.DOWNLOAD_APP;
+
     return Object.values(list);
 };
 
