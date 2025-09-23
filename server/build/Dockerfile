@@ -7,7 +7,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG PUID=2000
 ARG PGID=2000
 # MM_PACKAGE build arguments controls which version of mattermost to install, defaults to latest stable enterprise
-# i.e. https://releases.mattermost.com/9.7.1/mattermost-9.7.1-linux-amd64.tar.gz
+# e.g. https://releases.mattermost.com/9.7.1/mattermost-9.7.1-linux-amd64.tar.gz
 ARG MM_PACKAGE="https://latest.mattermost.com/mattermost-enterprise-linux"
 
 # Install needed packages and indirect dependencies
@@ -45,6 +45,10 @@ COPY --chown=mattermost:mattermost --chmod=755 dist/client/* /mattermost/client
 # COPY --chown=mattermost:mattermost --chmod=755 ../i18n/* /mattermost/i18n
 # COPY --chown=mattermost:mattermost --chmod=755 ../config/config.json /mattermost/config/config.json
 
+# Create PostgreSQL client SSL directory structure for ssl_mode=require
+RUN mkdir -p /mattermost/.postgresql \
+  && chmod 700 /mattermost/.postgresql
+
 # Final stage using distroless for minimal attack surface
 FROM gcr.io/distroless/base-debian12
 
@@ -54,6 +58,9 @@ ENV MM_SERVICESETTINGS_ENABLELOCALMODE="true"
 
 # Copy over metadata files needed by runtime
 COPY --from=builder /etc/mime.types /etc
+
+# Copy CA certificates for SSL/TLS validation with proper ownership
+COPY --from=builder --chown=2000:2000 /etc/ssl/certs /etc/ssl/certs
 
 # Copy document processing utilities and necessary support files
 COPY --from=builder /usr/bin/pdftotext /usr/bin/pdftotext
@@ -71,7 +78,7 @@ COPY --from=builder /usr/lib/libwv.so* /usr/lib/
 COPY --from=builder /usr/lib/libtidy.so* /usr/lib/
 COPY --from=builder /usr/lib/libfontconfig.so* /usr/lib/
 
-# Copy mattermost from builder stage 
+# Copy mattermost from builder stage
 COPY --from=builder --chown=2000:2000 /mattermost /mattermost
 
 # Copy passwd including mattermost user

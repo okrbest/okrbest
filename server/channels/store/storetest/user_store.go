@@ -12,13 +12,12 @@ import (
 	"testing"
 	"time"
 
-	"golang.org/x/crypto/bcrypt"
-
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/app/password/hashers"
 	"github.com/mattermost/mattermost/server/v8/channels/store"
 )
 
@@ -151,7 +150,7 @@ func testUserStoreSave(t *testing.T, rctx request.CTX, ss store.Store) {
 	_, err = ss.User().Save(rctx, &u3)
 	require.Error(t, err, "auto responder message size should not be greater than maxPostSize")
 
-	for i := 0; i < 49; i++ {
+	for range 49 {
 		u := model.User{
 			Email:    MakeEmail(),
 			Username: model.NewUsername(),
@@ -1710,37 +1709,37 @@ func testUserStoreGetProfilesByIds(t *testing.T, rctx request.CTX, ss store.Stor
 	defer func() { require.NoError(t, ss.User().PermanentDelete(rctx, u4.Id)) }()
 
 	t.Run("get u1 by id, no caching", func(t *testing.T) {
-		users, err := ss.User().GetProfileByIds(context.Background(), []string{u1.Id}, nil, false)
+		users, err := ss.User().GetProfileByIds(rctx, []string{u1.Id}, nil, false)
 		require.NoError(t, err)
 		assert.Equal(t, []*model.User{u1}, users)
 	})
 
 	t.Run("get u1 by id, caching", func(t *testing.T) {
-		users, err := ss.User().GetProfileByIds(context.Background(), []string{u1.Id}, nil, true)
+		users, err := ss.User().GetProfileByIds(rctx, []string{u1.Id}, nil, true)
 		require.NoError(t, err)
 		assert.Equal(t, []*model.User{u1}, users)
 	})
 
 	t.Run("get u1, u2, u3 by id, no caching", func(t *testing.T) {
-		users, err := ss.User().GetProfileByIds(context.Background(), []string{u1.Id, u2.Id, u3.Id}, nil, false)
+		users, err := ss.User().GetProfileByIds(rctx, []string{u1.Id, u2.Id, u3.Id}, nil, false)
 		require.NoError(t, err)
 		assert.Equal(t, []*model.User{u1, u2, u3}, users)
 	})
 
 	t.Run("get u1, u2, u3 by id, caching", func(t *testing.T) {
-		users, err := ss.User().GetProfileByIds(context.Background(), []string{u1.Id, u2.Id, u3.Id}, nil, true)
+		users, err := ss.User().GetProfileByIds(rctx, []string{u1.Id, u2.Id, u3.Id}, nil, true)
 		require.NoError(t, err)
 		assert.Equal(t, []*model.User{u1, u2, u3}, users)
 	})
 
 	t.Run("get unknown id, caching", func(t *testing.T) {
-		users, err := ss.User().GetProfileByIds(context.Background(), []string{"123"}, nil, true)
+		users, err := ss.User().GetProfileByIds(rctx, []string{"123"}, nil, true)
 		require.NoError(t, err)
 		assert.Equal(t, []*model.User{}, users)
 	})
 
 	t.Run("should only return users with UpdateAt greater than the since time", func(t *testing.T) {
-		users, err := ss.User().GetProfileByIds(context.Background(), []string{u1.Id, u2.Id, u3.Id, u4.Id}, &store.UserGetByIdsOpts{
+		users, err := ss.User().GetProfileByIds(rctx, []string{u1.Id, u2.Id, u3.Id, u4.Id}, &store.UserGetByIdsOpts{
 			Since: u2.CreateAt,
 		}, true)
 		require.NoError(t, err)
@@ -2324,10 +2323,10 @@ func testUserStoreUpdatePassword(t *testing.T, rctx request.CTX, ss store.Store)
 	_, nErr := ss.Team().SaveMember(rctx, &model.TeamMember{TeamId: teamID, UserId: u1.Id}, -1)
 	require.NoError(t, nErr)
 
-	_, err = model.HashPassword(strings.Repeat("1234567890", 8))
-	require.ErrorIs(t, err, bcrypt.ErrPasswordTooLong)
+	_, err = hashers.Hash(strings.Repeat("1234567890", 8))
+	require.ErrorIs(t, err, hashers.ErrPasswordTooLong)
 
-	hashedPassword, err := model.HashPassword("newpwd")
+	hashedPassword, err := hashers.Hash("newpwd")
 	require.NoError(t, err)
 
 	err = ss.User().UpdatePassword(u1.Id, hashedPassword)
@@ -5058,7 +5057,7 @@ func testUserStoreGetTeamGroupUsers(t *testing.T, rctx request.CTX, ss store.Sto
 
 	// create users
 	var testUsers []*model.User
-	for i := 0; i < 3; i++ {
+	for range 3 {
 		id = model.NewId()
 		user, userErr := ss.User().Save(rctx, &model.User{
 			Email:     id + "@test.com",
@@ -5085,7 +5084,7 @@ func testUserStoreGetTeamGroupUsers(t *testing.T, rctx request.CTX, ss store.Sto
 
 	// create groups
 	var testGroups []*model.Group
-	for i := 0; i < 2; i++ {
+	for range 2 {
 		id = model.NewId()
 
 		var group *model.Group
@@ -5179,7 +5178,7 @@ func testUserStoreGetChannelGroupUsers(t *testing.T, rctx request.CTX, ss store.
 
 	// create users
 	var testUsers []*model.User
-	for i := 0; i < 3; i++ {
+	for range 3 {
 		id = model.NewId()
 		user, userErr := ss.User().Save(rctx, &model.User{
 			Email:     id + "@test.com",
@@ -5207,7 +5206,7 @@ func testUserStoreGetChannelGroupUsers(t *testing.T, rctx request.CTX, ss store.
 
 	// create groups
 	var testGroups []*model.Group
-	for i := 0; i < 2; i++ {
+	for range 2 {
 		id = model.NewId()
 		var group *model.Group
 		group, err = ss.Group().Create(&model.Group{
@@ -5330,7 +5329,7 @@ func testUserStorePromoteGuestToUser(t *testing.T, rctx request.CTX, ss store.St
 		require.False(t, updatedTeamMember.SchemeGuest)
 		require.True(t, updatedTeamMember.SchemeUser)
 
-		updatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, user.Id)
+		updatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, user.Id)
 		require.NoError(t, nErr)
 		require.False(t, updatedChannelMember.SchemeGuest)
 		require.True(t, updatedChannelMember.SchemeUser)
@@ -5375,7 +5374,7 @@ func testUserStorePromoteGuestToUser(t *testing.T, rctx request.CTX, ss store.St
 		require.False(t, updatedTeamMember.SchemeGuest)
 		require.True(t, updatedTeamMember.SchemeUser)
 
-		updatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, user.Id)
+		updatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, user.Id)
 		require.NoError(t, nErr)
 		require.False(t, updatedChannelMember.SchemeGuest)
 		require.True(t, updatedChannelMember.SchemeUser)
@@ -5471,7 +5470,7 @@ func testUserStorePromoteGuestToUser(t *testing.T, rctx request.CTX, ss store.St
 		require.False(t, updatedTeamMember.SchemeGuest)
 		require.True(t, updatedTeamMember.SchemeUser)
 
-		updatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, user.Id)
+		updatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, user.Id)
 		require.NoError(t, nErr)
 		require.False(t, updatedChannelMember.SchemeGuest)
 		require.True(t, updatedChannelMember.SchemeUser)
@@ -5516,7 +5515,7 @@ func testUserStorePromoteGuestToUser(t *testing.T, rctx request.CTX, ss store.St
 		require.False(t, updatedTeamMember.SchemeGuest)
 		require.True(t, updatedTeamMember.SchemeUser)
 
-		updatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, user.Id)
+		updatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, user.Id)
 		require.NoError(t, nErr)
 		require.False(t, updatedChannelMember.SchemeGuest)
 		require.True(t, updatedChannelMember.SchemeUser)
@@ -5582,7 +5581,7 @@ func testUserStorePromoteGuestToUser(t *testing.T, rctx request.CTX, ss store.St
 		require.False(t, updatedTeamMember.SchemeGuest)
 		require.True(t, updatedTeamMember.SchemeUser)
 
-		updatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, user1.Id)
+		updatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, user1.Id)
 		require.NoError(t, nErr)
 		require.False(t, updatedChannelMember.SchemeGuest)
 		require.True(t, updatedChannelMember.SchemeUser)
@@ -5596,7 +5595,7 @@ func testUserStorePromoteGuestToUser(t *testing.T, rctx request.CTX, ss store.St
 		require.True(t, notUpdatedTeamMember.SchemeGuest)
 		require.False(t, notUpdatedTeamMember.SchemeUser)
 
-		notUpdatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, user2.Id)
+		notUpdatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, user2.Id)
 		require.NoError(t, nErr)
 		require.True(t, notUpdatedChannelMember.SchemeGuest)
 		require.False(t, notUpdatedChannelMember.SchemeUser)
@@ -5643,7 +5642,7 @@ func testUserStoreDemoteUserToGuest(t *testing.T, rctx request.CTX, ss store.Sto
 		require.True(t, updatedTeamMember.SchemeGuest)
 		require.False(t, updatedTeamMember.SchemeUser)
 
-		updatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, updatedUser.Id)
+		updatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, updatedUser.Id)
 		require.NoError(t, nErr)
 		require.True(t, updatedChannelMember.SchemeGuest)
 		require.False(t, updatedChannelMember.SchemeUser)
@@ -5686,7 +5685,7 @@ func testUserStoreDemoteUserToGuest(t *testing.T, rctx request.CTX, ss store.Sto
 		require.True(t, updatedTeamMember.SchemeGuest)
 		require.False(t, updatedTeamMember.SchemeUser)
 
-		updatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, user.Id)
+		updatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, user.Id)
 		require.NoError(t, nErr)
 		require.True(t, updatedChannelMember.SchemeGuest)
 		require.False(t, updatedChannelMember.SchemeUser)
@@ -5776,7 +5775,7 @@ func testUserStoreDemoteUserToGuest(t *testing.T, rctx request.CTX, ss store.Sto
 		require.True(t, updatedTeamMember.SchemeGuest)
 		require.False(t, updatedTeamMember.SchemeUser)
 
-		updatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, user.Id)
+		updatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, user.Id)
 		require.NoError(t, nErr)
 		require.True(t, updatedChannelMember.SchemeGuest)
 		require.False(t, updatedChannelMember.SchemeUser)
@@ -5819,7 +5818,7 @@ func testUserStoreDemoteUserToGuest(t *testing.T, rctx request.CTX, ss store.Sto
 		require.True(t, updatedTeamMember.SchemeGuest)
 		require.False(t, updatedTeamMember.SchemeUser)
 
-		updatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, user.Id)
+		updatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, user.Id)
 		require.NoError(t, nErr)
 		require.True(t, updatedChannelMember.SchemeGuest)
 		require.False(t, updatedChannelMember.SchemeUser)
@@ -5883,7 +5882,7 @@ func testUserStoreDemoteUserToGuest(t *testing.T, rctx request.CTX, ss store.Sto
 		require.True(t, updatedTeamMember.SchemeGuest)
 		require.False(t, updatedTeamMember.SchemeUser)
 
-		updatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, user1.Id)
+		updatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, user1.Id)
 		require.NoError(t, nErr)
 		require.True(t, updatedChannelMember.SchemeGuest)
 		require.False(t, updatedChannelMember.SchemeUser)
@@ -5897,7 +5896,7 @@ func testUserStoreDemoteUserToGuest(t *testing.T, rctx request.CTX, ss store.Sto
 		require.False(t, notUpdatedTeamMember.SchemeGuest)
 		require.True(t, notUpdatedTeamMember.SchemeUser)
 
-		notUpdatedChannelMember, nErr := ss.Channel().GetMember(context.Background(), channel.Id, user2.Id)
+		notUpdatedChannelMember, nErr := ss.Channel().GetMember(rctx, channel.Id, user2.Id)
 		require.NoError(t, nErr)
 		require.False(t, notUpdatedChannelMember.SchemeGuest)
 		require.True(t, notUpdatedChannelMember.SchemeUser)
@@ -6236,7 +6235,7 @@ func testGetUserReport(t *testing.T, rctx request.CTX, ss store.Store, s SqlStor
 	now := time.Now()
 
 	users := make([]*model.User, numUsers)
-	for i := 0; i < numUsers; i++ {
+	for i := range numUsers {
 		user := &model.User{Username: fmt.Sprintf("username_%d", i), DeleteAt: 0}
 		user.Email = MakeEmail()
 
@@ -6265,7 +6264,7 @@ func testGetUserReport(t *testing.T, rctx request.CTX, ss store.Store, s SqlStor
 	}()
 
 	for _, user := range users {
-		for i := 0; i < numPostsPerUser; i++ {
+		for i := range numPostsPerUser {
 			post := model.Post{UserId: user.Id, ChannelId: model.NewId(), Message: NewTestID(), CreateAt: now.AddDate(0, 0, -i).UnixMilli()}
 			_, err := ss.Post().Save(rctx, &post)
 			require.NoError(t, err)
@@ -6451,11 +6450,6 @@ func testGetUserReport(t *testing.T, rctx request.CTX, ss store.Store, s SqlStor
 	})
 
 	t.Run("should return accurate post stats for various date ranges", func(t *testing.T) {
-		// These stats are disabled for MySQL
-		if s.DriverName() == model.DatabaseDriverMysql {
-			return
-		}
-
 		userReport, err := ss.User().GetUserReport(&model.UserReportOptions{
 			ReportingBaseOptions: model.ReportingBaseOptions{
 				SortColumn: "Username",
