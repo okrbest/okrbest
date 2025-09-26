@@ -4957,7 +4957,7 @@
   "public_private_selector.public.title": "공개",
   "quick_switch_modal.help_mobile": "채널을 찾으려면 입력하세요.",
   "quick_switch_modal.input": "빠른 전환 입력",
-  "quick_switch_modal.switchChannels": "채널 찾기",
+  "quick_switch_modal.switchChannels": "채널 변경",
   "quickSwitchModal.help_no_team": "채널을 찾으려면 입력하세요. <b>위/아래</b>로 탐색하고, <b>엔터</b>로 선택하며, <b>ESC</b>로 닫을 수 있습니다.",
   "reaction_limit_reached_modal.body": "죄송합니다! 이 메시지에 대한 이모지 반응 한도에 도달했습니다. 이 제한에 대한 조정은 시스템 관리자에게 문의하세요.",
   "reaction_limit_reached_modal.body.admin": "죄송합니다! 이 메시지에 대한 이모지 반응 한도에 도달했습니다. 서버의 원활한 운영을 위해 <link>제한을 설정</link>했습니다. 시스템 관리자는 <linkAdmin>시스템 콘솔</linkAdmin>에서 이 제한을 조정할 수 있습니다.",

@@ -2,6 +2,7 @@
 
 [OKR.BEST](https://okr.best)는 기업이 안전한 협업을 위한 오픈 소스 플랫폼입니다. 이 저장소는 OKR.BEST 플랫폼의 핵심 개발을 위한 주요 소스입니다. Go와 React로 작성되었으며 MySQL 또는 PostgreSQL과 함께 단일 Linux 바이너리로 실행됩니다. 매월 16일에 MIT 라이선스 하에 새로운 컴파일 버전이 출시됩니다.
 
+
 [OKR.BEST를 온프레미스로 배포](https://mattermost.com/deploy/?utm_source=github-mattermost-server-readme)하거나 [클라우드에서 무료로 사용해보세요](https://mattermost.com/sign-up/?utm_source=github-mattermost-server-readme).
 
 <img width="1006" alt="mattermost 사용자 인터페이스" src="https://user-images.githubusercontent.com/7205829/136107976-7a894c9e-290a-490d-8501-e5fdbfc3785a.png">

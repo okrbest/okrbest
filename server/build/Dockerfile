@@ -45,6 +45,7 @@ COPY --chown=mattermost:mattermost --chmod=755 dist/client/* /mattermost/client
 # COPY --chown=mattermost:mattermost --chmod=755 ../i18n/* /mattermost/i18n
 # COPY --chown=mattermost:mattermost --chmod=755 ../config/config.json /mattermost/config/config.json
 
+
 # Create PostgreSQL client SSL directory structure for ssl_mode=require
 RUN mkdir -p /mattermost/.postgresql \
   && chmod 700 /mattermost/.postgresql

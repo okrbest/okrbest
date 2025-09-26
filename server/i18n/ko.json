@@ -3959,6 +3959,106 @@
     "translation": "There is already an account associated with that email address using a sign in method other than {{.Service}}. Please sign in using {{.Auth}}."
   },
   {
+    "id": "api.upload.upload_data.invalid_content_type",
+    "translation": "유효하지 않은 Content-Type입니다."
+  },
+  {
+    "id": "api.upload.upload_data.multipart_error",
+    "translation": "다중 파트 데이터를 처리하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "api.user.activate_mfa.email_and_ldap_only.app_error",
+    "translation": "MFA가 이 계정 형식에 대해 유효하지 않습니다."
+  },
+  {
+    "id": "api.user.add_direct_channels_and_forget.failed.error",
+    "translation": "사용자 user_id={{.UserId}}, team_id={{.TeamId}}에 대한 개인 채널 설정을 추가하는데 실패했습니다. err={{.Error}}"
+  },
+  {
+    "id": "api.user.add_user_to_group_syncables.not_ldap_user.app_error",
+    "translation": "LDAP 사용자가 아닙니다"
+  },
+  {
+    "id": "api.user.auth_switch.not_available.email_signup_disabled.app_error",
+    "translation": "이메일 가입이 비활성화되어 있어 인증 전환을 사용할 수 없습니다."
+  },
+  {
+    "id": "api.user.auth_switch.not_available.login_disabled.app_error",
+    "translation": "이메일 로그인이나 사용자명 로그인이 비활성화되어 있어 인증 전환을 사용할 수 없습니다."
+  },
+  {
+    "id": "api.user.authorize_oauth_user.bad_response.app_error",
+    "translation": "토큰 요청으로부터 잘못된 응답을 받았습니다."
+  },
+  {
+    "id": "api.user.authorize_oauth_user.bad_token.app_error",
+    "translation": "잘못된 토큰 형식입니다."
+  },
+  {
+    "id": "api.user.authorize_oauth_user.invalid_state.app_error",
+    "translation": "올바르지 않은 상태"
+  },
+  {
+    "id": "api.user.authorize_oauth_user.missing.app_error",
+    "translation": "접근 토큰이 없습니다."
+  },
+  {
+    "id": "api.user.authorize_oauth_user.response.app_error",
+    "translation": "OAuth 서비스 제공자로부터 잘못된 응답을 받았습니다."
+  },
+  {
+    "id": "api.user.authorize_oauth_user.saml_response_too_long.app_error",
+    "translation": "SAML 응답이 너무 깁니다"
+  },
+  {
+    "id": "api.user.authorize_oauth_user.service.app_error",
+    "translation": "{{.Sevice}} 토큰 요청이 실패했습니다."
+  },
+  {
+    "id": "api.user.authorize_oauth_user.token_failed.app_error",
+    "translation": "토큰 요청이 실패했습니다."
+  },
+  {
+    "id": "api.user.authorize_oauth_user.unsupported.app_error",
+    "translation": "{{.Service}} OAuth 2.0을 통한 SSO는 이 서버에서 사용할 수 없습니다."
+  },
+  {
+    "id": "api.user.autocomplete_users.missing_team_id.app_error",
+    "translation": "채널 자동 완성을 위해서는 team_id 매개변수가 필요합니다."
+  },
+  {
+    "id": "api.user.check_user_login_attempts.too_many.app_error",
+    "translation": "로그인 실패가 계속되어 계정이 잠겼습니다. 비밀번호를 재설정하세요."
+  },
+  {
+    "id": "api.user.check_user_login_attempts.too_many_ldap.app_error",
+    "translation": "너무 많은 패스워드 시도 실패로 인해 계정이 잠겼습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "api.user.check_user_mfa.bad_code.app_error",
+    "translation": "유효하지 않은 MFA 토큰입니다."
+  },
+  {
+    "id": "api.user.check_user_password.invalid.app_error",
+    "translation": "잘못된 패스워드로 인해 로그인에 실패했습니다."
+  },
+  {
+    "id": "api.user.complete_switch_with_oauth.blank_email.app_error",
+    "translation": "전자우편 주소가 비었음."
+  },
+  {
+    "id": "api.user.complete_switch_with_oauth.parse.app_error",
+    "translation": "{{.Service}} 사용자 개체에서 인증 데이터를 구문 분석할 수 없습니다."
+  },
+  {
+    "id": "api.user.create_email_token.error",
+    "translation": "Failed to create token data for email verification"
+  },
+  {
+    "id": "api.user.create_oauth_user.already_attached.app_error",
+    "translation": "There is already an account associated with that email address using a sign in method other than {{.Service}}. Please sign in using {{.Auth}}."
+  },
+  {
     "id": "api.user.create_oauth_user.create.app_error",
     "translation": "{{.Service}} 사용자 개체에서 사용자를 만들 수 없습니다."
   },
@@ -10485,8 +10585,2908 @@
     "translation": "수신 웹훅 {{.hook_id}}의 미디어를 구문 분석하지 못했습니다."
   },
   {
-    "id": "api.acknowledgement.save.archived_channel.app_error",
-    "translation": "보관된 채널에서는 승인할 수 없습니다."
+    "id": "bleveengine.delete_user_posts.error",
+    "translation": "사용자 게시물을 삭제하는 데 실패했습니다"
+  },
+  {
+    "id": "bleveengine.index_channel.error",
+    "translation": "채널을 인덱싱하는 데 실패했습니다"
+  },
+  {
+    "id": "bleveengine.index_file.error",
+    "translation": "파일을 인덱싱하는 데 실패했습니다"
+  },
+  {
+    "id": "bleveengine.index_post.error",
+    "translation": "게시물을 인덱싱하는 데 실패했습니다"
+  },
+  {
+    "id": "bleveengine.index_user.error",
+    "translation": "사용자를 인덱싱하는 데 실패했습니다"
+  },
+  {
+    "id": "bleveengine.indexer.do_job.bulk_index_channels.batch_error",
+    "translation": "채널 배치를 인덱싱하는 데 실패했습니다"
+  },
+  {
+    "id": "bleveengine.indexer.do_job.bulk_index_files.batch_error",
+    "translation": "파일 배치를 인덱싱하는 데 실패했습니다"
+  },
+  {
+    "id": "bleveengine.indexer.do_job.bulk_index_posts.batch_error",
+    "translation": "게시물 배치를 인덱싱하는 데 실패했습니다"
+  },
+  {
+    "id": "bleveengine.indexer.do_job.bulk_index_users.batch_error",
+    "translation": "사용자 배치를 인덱싱하는 데 실패했습니다"
+  },
+  {
+    "id": "bleveengine.indexer.do_job.engine_inactive",
+    "translation": "Bleve 인덱스 작업을 실행하는 데 실패했습니다: 엔진이 비활성화되어 있습니다"
+  },
+  {
+    "id": "bleveengine.indexer.do_job.get_oldest_entity.error",
+    "translation": "데이터베이스에서 가장 오래된 엔티티(사용자, 채널 또는 게시물)를 검색할 수 없습니다"
+  },
+  {
+    "id": "bleveengine.indexer.do_job.parse_end_time.error",
+    "translation": "종료 시간을 파싱하는 데 Bleve 인덱싱 워커가 실패했습니다."
+  },
+  {
+    "id": "bleveengine.indexer.do_job.parse_start_time.error",
+    "translation": "시작 시간을 파싱하는 데 Bleve 인덱싱 워커가 실패했습니다."
+  },
+  {
+    "id": "bleveengine.indexer.index_batch.nothing_left_to_index.error",
+    "translation": "모든 엔티티가 완료되었을 때 새 배치를 인덱싱하려고 시도했습니다."
+  },
+  {
+    "id": "bleveengine.purge_channel_index.error",
+    "translation": "채널 인덱스를 삭제하는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.purge_file_index.error",
+    "translation": "파일 인덱스를 삭제하는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.purge_list.not_implemented",
+    "translation": "Bleve에서는 삭제 목록 기능을 사용할 수 없습니다."
+  },
+  {
+    "id": "bleveengine.purge_post_index.error",
+    "translation": "게시물 인덱스를 삭제하는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.purge_user_index.error",
+    "translation": "사용자 인덱스를 삭제하는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.search_channels.error",
+    "translation": "채널 검색을 완료하는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.search_files.error",
+    "translation": "파일 검색을 완료하는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.search_posts.error",
+    "translation": "게시물 검색을 완료하는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.search_users_in_channel.nuchan.error",
+    "translation": "사용자 검색을 완료하는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.search_users_in_channel.uchan.error",
+    "translation": "사용자 검색을 완료하는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.search_users_in_team.error",
+    "translation": "사용자 검색을 완료하는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.stop_channel_index.error",
+    "translation": "채널 인덱스를 닫는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.stop_file_index.error",
+    "translation": "파일 인덱스를 닫는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.stop_post_index.error",
+    "translation": "게시물 인덱스를 닫는 데 실패했습니다."
+  },
+  {
+    "id": "bleveengine.stop_user_index.error",
+    "translation": "사용자 인덱스를 닫는 데 실패했습니다."
+  },
+  {
+    "id": "brand.save_brand_image.check_image_limits.app_error",
+    "translation": "이미지 제한 확인에 실패했습니다. 해상도가 너무 높습니다."
+  },
+  {
+    "id": "brand.save_brand_image.decode.app_error",
+    "translation": "이미지 데이터를 디코딩할 수 없습니다."
+  },
+  {
+    "id": "brand.save_brand_image.encode.app_error",
+    "translation": "이미지 데이터를 PNG 형식으로 변환할 수 없습니다. 다시 시도해 주세요."
+  },
+  {
+    "id": "brand.save_brand_image.open.app_error",
+    "translation": "사용자 정의 브랜드 이미지를 업로드할 수 없습니다. 이미지 크기가 2MB 미만인지 확인하고 다시 시도해 주세요."
+  },
+  {
+    "id": "brand.save_brand_image.save_image.app_error",
+    "translation": "이미지 파일을 파일 저장소에 쓸 수 없습니다. 연결을 확인하고 다시 시도해 주세요."
+  },
+  {
+    "id": "common.parse_error_int64",
+    "translation": "값:{{.Value}}을(를) int64로 파싱하는 데 실패했습니다"
+  },
+  {
+    "id": "ent.account_migration.get_all_failed",
+    "translation": "사용자를 가져올 수 없습니다."
+  },
+  {
+    "id": "ent.account_migration.get_saml_users_failed",
+    "translation": "SAML 사용자를 가져올 수 없습니다."
+  },
+  {
+    "id": "ent.api.post.send_notifications_and_forget.push_image_only",
+    "translation": " 파일을 첨부했습니다."
+  },
+  {
+    "id": "ent.cluster.config_changed.info",
+    "translation": "id={{ .id }}에 대한 클러스터 구성이 변경되었습니다. 클러스터가 불안정해질 수 있으며 재시작이 필요합니다. 클러스터가 올바르게 구성되었는지 확인하려면 즉시 롤링 재시작을 수행해야 합니다."
+  },
+  {
+    "id": "ent.cluster.json_encode.error",
+    "translation": "JSON 요청을 마샬링하는 동안 오류가 발생했습니다"
+  },
+  {
+    "id": "ent.cluster.save_config.error",
+    "translation": "구성 파일에서 ReadOnlyConfig가 비활성화되지 않은 한, 고가용성이 활성화되면 시스템 콘솔이 읽기 전용으로 설정됩니다."
+  },
+  {
+    "id": "ent.cluster.timeout.error",
+    "translation": "클러스터 응답을 기다리는 시간이 초과되었습니다"
+  },
+  {
+    "id": "ent.compliance.licence_disable.app_error",
+    "translation": "현재 라이선스로 인해 규정 준수 기능이 비활성화되었습니다. 엔터프라이즈 라이선스 업그레이드에 대해 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.compliance.run_failed.error",
+    "translation": "'{{.FilePath}}'에서 작업 '{{.JobName}}'에 대한 규정 준수 내보내기가 실패했습니다"
+  },
+  {
+    "id": "ent.data_retention.generic.license.error",
+    "translation": "귀하의 라이선스는 데이터 보존을 지원하지 않습니다."
+  },
+  {
+    "id": "ent.data_retention.policies.internal_error",
+    "translation": "요청한 작업을 수행하는 동안 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.data_retention.policies.invalid_policy",
+    "translation": "정책이 유효하지 않습니다."
+  },
+  {
+    "id": "ent.data_retention.run_failed.error",
+    "translation": "데이터 보존 작업이 실패했습니다."
+  },
+  {
+    "id": "ent.elasticsearch.aggregator_worker.create_index_job.error",
+    "translation": "{{.Backend}} 집계 워커가 인덱싱 작업을 생성하는 데 실패했습니다"
+  },
+  {
+    "id": "ent.elasticsearch.aggregator_worker.delete_indexes.error",
+    "translation": "{{.Backend}} 집계 워커가 인덱스를 삭제하는 데 실패했습니다"
+  },
+  {
+    "id": "ent.elasticsearch.aggregator_worker.get_indexes.error",
+    "translation": "{{.Backend}} 집계 워커가 인덱스를 가져오는 데 실패했습니다"
+  },
+  {
+    "id": "ent.elasticsearch.aggregator_worker.index_job_failed.error",
+    "translation": "인덱싱 작업 실패로 인해 {{.Backend}} 집계 워커가 실패했습니다"
+  },
+  {
+    "id": "ent.elasticsearch.create_client.ca_cert_missing",
+    "translation": "{{.Backend}}에 대한 CA 파일을 열 수 없습니다"
+  },
+  {
+    "id": "ent.elasticsearch.create_client.client_cert_malformed",
+    "translation": "{{.Backend}}에 대한 클라이언트 인증서 디코딩에 실패했습니다"
+  },
+  {
+    "id": "ent.elasticsearch.create_client.client_cert_missing",
+    "translation": "{{.Backend}}에 대한 클라이언트 인증서 파일을 열 수 없습니다"
+  },
+  {
+    "id": "ent.elasticsearch.create_client.client_key_missing",
+    "translation": "{{.Backend}}의 클라이언트 키 파일을 열 수 없습니다"
+  },
+  {
+    "id": "ent.elasticsearch.create_client.connect_failed",
+    "translation": "{{.Backend}} 클라이언트 설정 실패"
+  },
+  {
+    "id": "ent.elasticsearch.create_template_channels_if_not_exists.template_create_failed",
+    "translation": "채널용 {{.Backend}} 템플릿 생성 실패"
+  },
+  {
+    "id": "ent.elasticsearch.create_template_file_info_if_not_exists.template_create_failed",
+    "translation": "파일용 {{.Backend}} 템플릿 생성 실패"
+  },
+  {
+    "id": "ent.elasticsearch.create_template_posts_if_not_exists.template_create_failed",
+    "translation": "게시물용 {{.Backend}} 템플릿 생성 실패"
+  },
+  {
+    "id": "ent.elasticsearch.create_template_users_if_not_exists.template_create_failed",
+    "translation": "사용자용 {{.Backend}} 템플릿 생성 실패"
+  },
+  {
+    "id": "ent.elasticsearch.data_retention_delete_indexes.delete_index.error",
+    "translation": "{{.Backend}} 인덱스 삭제 실패"
+  },
+  {
+    "id": "ent.elasticsearch.data_retention_delete_indexes.get_indexes.error",
+    "translation": "{{.Backend}} 인덱스 가져오기 실패"
+  },
+  {
+    "id": "ent.elasticsearch.delete_channel.error",
+    "translation": "채널 삭제 실패"
+  },
+  {
+    "id": "ent.elasticsearch.delete_channel_posts.error",
+    "translation": "채널 게시물 삭제 실패"
+  },
+  {
+    "id": "ent.elasticsearch.delete_file.error",
+    "translation": "파일 삭제 실패"
+  },
+  {
+    "id": "ent.elasticsearch.delete_post.error",
+    "translation": "게시물 삭제 실패"
+  },
+  {
+    "id": "ent.elasticsearch.delete_post_files.error",
+    "translation": "게시물 파일 삭제 실패"
+  },
+  {
+    "id": "ent.elasticsearch.delete_user.error",
+    "translation": "사용자 삭제 실패"
+  },
+  {
+    "id": "ent.elasticsearch.delete_user_files.error",
+    "translation": "사용자 파일 삭제 실패"
+  },
+  {
+    "id": "ent.elasticsearch.delete_user_posts.error",
+    "translation": "사용자 게시물 삭제 실패"
+  },
+  {
+    "id": "ent.elasticsearch.generic.disabled",
+    "translation": "이 서버에서 {{.Backend}} 검색이 활성화되어 있지 않습니다"
+  },
+  {
+    "id": "ent.elasticsearch.getAllChannelMembers.error",
+    "translation": "모든 채널 멤버 가져오기 실패"
+  },
+  {
+    "id": "ent.elasticsearch.getAllTeamMembers.error",
+    "translation": "모든 팀 멤버 가져오기 실패"
+  },
+  {
+    "id": "ent.elasticsearch.index_channel.error",
+    "translation": "채널 인덱싱 실패"
+  },
+  {
+    "id": "ent.elasticsearch.index_channels_batch.error",
+    "translation": "인덱싱을 위한 채널 배치를 가져올 수 없습니다"
+  },
+  {
+    "id": "ent.elasticsearch.index_file.error",
+    "translation": "파일 인덱싱 실패"
+  },
+  {
+    "id": "ent.elasticsearch.index_post.error",
+    "translation": "게시물 인덱싱 실패"
+  },
+  {
+    "id": "ent.elasticsearch.index_user.error",
+    "translation": "사용자 인덱싱 실패"
+  },
+  {
+    "id": "ent.elasticsearch.indexer.do_job.get_oldest_entity.error",
+    "translation": "데이터베이스에서 가장 오래된 엔티티(사용자, 채널 또는 게시물)를 가져올 수 없습니다"
+  },
+  {
+    "id": "ent.elasticsearch.indexer.do_job.parse_end_time.error",
+    "translation": "{{.Backend}} 인덱싱 워커가 종료 시간을 파싱하는 데 실패했습니다"
+  },
+  {
+    "id": "ent.elasticsearch.indexer.do_job.parse_start_time.error",
+    "translation": "{{.Backend}} 인덱싱 워커가 시작 시간을 파싱하는 데 실패했습니다"
+  },
+  {
+    "id": "ent.elasticsearch.indexer.index_batch.nothing_left_to_index.error",
+    "translation": "모든 엔티티가 완료되었을 때 새 배치를 인덱싱하려고 시도합니다"
+  },
+  {
+    "id": "ent.elasticsearch.max_version.app_error",
+    "translation": "{{.Backend}} 버전 {{.Version}}이(가) 지원되는 최대 버전 {{.MaxVersion}}보다 높습니다"
+  },
+  {
+    "id": "ent.elasticsearch.not_started.error",
+    "translation": "{{.Backend}}가 시작되지 않았습니다"
+  },
+  {
+    "id": "ent.elasticsearch.post.get_files_batch_for_indexing.error",
+    "translation": "인덱싱을 위한 파일 배치를 가져올 수 없습니다"
+  },
+  {
+    "id": "ent.elasticsearch.post.get_posts_batch_for_indexing.error",
+    "translation": "인덱싱을 위한 게시물 배치를 가져올 수 없습니다"
+  },
+  {
+    "id": "ent.elasticsearch.purge_index.delete_failed",
+    "translation": "검색 인덱스 삭제 실패"
+  },
+  {
+    "id": "ent.elasticsearch.purge_indexes.unknown_index",
+    "translation": "지정된 알 수 없는 인덱스 삭제 실패"
+  },
+  {
+    "id": "ent.elasticsearch.refresh_indexes.refresh_failed",
+    "translation": "검색 인덱스 새로고침 실패"
+  },
+  {
+    "id": "ent.elasticsearch.search_channels.disabled",
+    "translation": "이 서버에서 {{.Backend}} 검색이 비활성화되어 있습니다"
+  },
+  {
+    "id": "ent.elasticsearch.search_channels.search_failed",
+    "translation": "검색 완료 실패"
+  },
+  {
+    "id": "ent.elasticsearch.search_channels.unmarshall_channel_failed",
+    "translation": "검색 결과 디코딩 실패"
+  },
+  {
+    "id": "ent.elasticsearch.search_files.disabled",
+    "translation": "이 서버에서 {{.Backend}} 파일 검색이 비활성화되어 있습니다"
+  },
+  {
+    "id": "ent.elasticsearch.search_files.search_failed",
+    "translation": "검색 완료 실패"
+  },
+  {
+    "id": "ent.elasticsearch.search_files.unmarshall_file_failed",
+    "translation": "검색 결과 디코딩 실패"
+  },
+  {
+    "id": "ent.elasticsearch.search_posts.disabled",
+    "translation": "이 서버에서 {{.Backend}} 검색이 비활성화되어 있습니다"
+  },
+  {
+    "id": "ent.elasticsearch.search_posts.parse_matches_failed",
+    "translation": "검색 결과 일치 항목 파싱 실패"
+  },
+  {
+    "id": "ent.elasticsearch.search_posts.search_failed",
+    "translation": "검색 완료 실패"
+  },
+  {
+    "id": "ent.elasticsearch.search_posts.unmarshall_post_failed",
+    "translation": "검색 결과 디코딩 실패"
+  },
+  {
+    "id": "ent.elasticsearch.search_users.search_failed",
+    "translation": "검색 완료 실패"
+  },
+  {
+    "id": "ent.elasticsearch.search_users.unmarshall_user_failed",
+    "translation": "검색 결과 디코딩 실패"
+  },
+  {
+    "id": "ent.elasticsearch.start.get_server_version.app_error",
+    "translation": "{{.Backend}} 서버 버전을 가져오는 데 실패했습니다"
+  },
+  {
+    "id": "ent.elasticsearch.start.parse_server_version.app_error",
+    "translation": "{{.Backend}} 서버 버전을 파싱하는 데 실패했습니다"
+  },
+  {
+    "id": "ent.elasticsearch.stop.already_stopped.app_error",
+    "translation": "{{.Backend}}가 이미 중지되었습니다."
+  },
+  {
+    "id": "ent.elasticsearch.test_config.indexing_disabled.error",
+    "translation": "{{.Backend}}가 비활성화되어 있습니다."
+  },
+  {
+    "id": "ent.elasticsearch.test_config.license.error",
+    "translation": "귀하의 OKR.BEST 라이선스는 인덱스 검색을 지원하지 않습니다."
+  },
+  {
+    "id": "ent.elasticsearch.test_config.reenter_password",
+    "translation": "검색 서버 URL 또는 사용자 이름이 변경되었습니다. 연결을 테스트하려면 비밀번호를 다시 입력하세요."
+  },
+  {
+    "id": "ent.id_loaded.license_disable.app_error",
+    "translation": "귀하의 라이선스는 ID 로드 푸시 알림을 지원하지 않습니다."
+  },
+  {
+    "id": "ent.jobs.start_synchronize_job.timeout",
+    "translation": "AD/LDAP 동기화 작업 시간이 초과되었습니다."
+  },
+  {
+    "id": "ent.ldap.app_error",
+    "translation": "ldap 인터페이스가 nil입니다."
+  },
+  {
+    "id": "ent.ldap.create_fail",
+    "translation": "LDAP 사용자를 생성할 수 없습니다."
+  },
+  {
+    "id": "ent.ldap.disabled.app_error",
+    "translation": "AD/LDAP가 비활성화되었거나 라이선스가 AD/LDAP를 지원하지 않습니다."
+  },
+  {
+    "id": "ent.ldap.do_login.bind_admin_user.app_error",
+    "translation": "AD/LDAP 서버에 바인딩할 수 없습니다. BindUsername과 BindPassword를 확인하세요."
+  },
+  {
+    "id": "ent.ldap.do_login.certificate.app_error",
+    "translation": "LDAP TLS 인증서 파일을 로드하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.ldap.do_login.invalid_password.app_error",
+    "translation": "잘못된 비밀번호입니다."
+  },
+  {
+    "id": "ent.ldap.do_login.key.app_error",
+    "translation": "LDAP TLS 키 파일을 로드하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.ldap.do_login.licence_disable.app_error",
+    "translation": "현재 라이선스로 인해 AD/LDAP 기능이 비활성화되었습니다. 엔터프라이즈 라이선스 업그레이드에 대해 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.ldap.do_login.matched_to_many_users.app_error",
+    "translation": "입력한 사용자 이름이 여러 사용자와 일치합니다."
+  },
+  {
+    "id": "ent.ldap.do_login.search_ldap_server.app_error",
+    "translation": "AD/LDAP 서버 검색에 실패했습니다."
+  },
+  {
+    "id": "ent.ldap.do_login.unable_to_connect.app_error",
+    "translation": "AD/LDAP 서버에 연결할 수 없습니다."
+  },
+  {
+    "id": "ent.ldap.do_login.user_filtered.app_error",
+    "translation": "귀하의 AD/LDAP 계정은 이 OKR.BEST 서버를 사용할 권한이 없습니다. 시스템 관리자에게 AD/LDAP 사용자 필터를 확인해달라고 요청하세요."
+  },
+  {
+    "id": "ent.ldap.do_login.user_not_registered.app_error",
+    "translation": "AD/LDAP 서버에 등록되지 않은 사용자입니다."
+  },
+  {
+    "id": "ent.ldap.do_login.x509.app_error",
+    "translation": "키 쌍 생성 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.ldap.get_user_by_auth.app_error",
+    "translation": "사용자를 가져오는데 실패했습니다."
+  },
+  {
+    "id": "ent.ldap.no.users.checkcertificate",
+    "translation": "LDAP 사용자를 찾을 수 없습니다. 사용자 필터와 인증서를 확인하세요."
+  },
+  {
+    "id": "ent.ldap.save_user.email_exists.ldap_app_error",
+    "translation": "이 계정은 AD/LDAP 인증을 사용하지 않습니다. 이메일과 비밀번호로 로그인하세요."
+  },
+  {
+    "id": "ent.ldap.save_user.username_exists.ldap_app_error",
+    "translation": "해당 사용자 이름의 계정이 이미 존재합니다. 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.ldap.syncronize.get_all.app_error",
+    "translation": "AD/LDAP를 사용하여 모든 사용자를 가져올 수 없습니다."
+  },
+  {
+    "id": "ent.ldap.syncronize.get_all_groups.app_error",
+    "translation": "그룹을 검색하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.ldap.syncronize.populate_syncables",
+    "translation": "동기화 가능한 항목을 채우는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.ldap.syncronize.search_failure.app_error",
+    "translation": "AD/LDAP에서 사용자 검색에 실패했습니다. OKR.BEST 서버가 AD/LDAP 서버에 연결할 수 있는지 테스트하고 다시 시도하세요."
+  },
+  {
+    "id": "ent.ldap.syncronize.search_failure_size_exceeded.app_error",
+    "translation": "크기 제한을 초과했습니다. 최대 페이지 크기 설정을 늘려보세요. 자세한 내용은 https://docs.mattermost.com/onboard/ad-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded 를 확인하세요."
+  },
+  {
+    "id": "ent.ldap.validate_admin_filter.app_error",
+    "translation": "잘못된 AD/LDAP 관리자 필터입니다."
+  },
+  {
+    "id": "ent.ldap.validate_filter.app_error",
+    "translation": "잘못된 AD/LDAP 필터입니다."
+  },
+  {
+    "id": "ent.ldap.validate_guest_filter.app_error",
+    "translation": "잘못된 AD/LDAP 게스트 필터입니다."
+  },
+  {
+    "id": "ent.ldap_groups.group_search_error",
+    "translation": "LDAP 그룹을 검색하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.ldap_groups.groups_search_error",
+    "translation": "LDAP 그룹들을 검색하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.ldap_groups.members_of_group_error",
+    "translation": "그룹 멤버를 검색하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.ldap_groups.no_rows",
+    "translation": "일치하는 uid로 그룹을 찾을 수 없습니다."
+  },
+  {
+    "id": "ent.ldap_groups.reachable_groups_error",
+    "translation": "사용자의 그룹을 검색하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.ldap_id_migrate.app_error",
+    "translation": "마이그레이션할 수 없습니다."
+  },
+  {
+    "id": "ent.message_export.actiance_export.calculate_channel_exports.activity_message",
+    "translation": "채널 활동 계산 중: {{.NumCompleted}}/{{.NumChannels}} 채널 완료됨."
+  },
+  {
+    "id": "ent.message_export.actiance_export.calculate_channel_exports.channel_message",
+    "translation": "{{.NumChannels}}개 채널의 채널 정보 내보내는 중."
+  },
+  {
+    "id": "ent.message_export.calculate_channel_exports.app_error",
+    "translation": "채널 내보내기 데이터를 계산하는 데 실패했습니다."
+  },
+  {
+    "id": "ent.message_export.job_data_conversion.app_error",
+    "translation": "작업의 데이터 필드에서 값을 변환하는 데 실패했습니다."
+  },
+  {
+    "id": "ent.message_export.run_export.app_error",
+    "translation": "메시지 내보내기 데이터를 선택하는 데 실패했습니다."
+  },
+  {
+    "id": "ent.migration.migratetoldap.duplicate_field",
+    "translation": "지정된 필드로 AD/LDAP 사용자를 마이그레이션할 수 없습니다. 중복 항목이 감지되었습니다. 모든 중복 항목을 제거하고 다시 시도하세요."
+  },
+  {
+    "id": "ent.migration.migratetoldap.user_not_found",
+    "translation": "AD/LDAP 서버에서 사용자를 찾을 수 없습니다: "
+  },
+  {
+    "id": "ent.migration.migratetosaml.email_already_used_by_other_user",
+    "translation": "이미 다른 SAML 사용자가 사용 중인 이메일입니다."
+  },
+  {
+    "id": "ent.migration.migratetosaml.user_not_found_in_users_mapping_file",
+    "translation": "사용자 파일에서 사용자를 찾을 수 없습니다."
+  },
+  {
+    "id": "ent.migration.migratetosaml.username_already_used_by_other_user",
+    "translation": "이미 다른 OKR.BEST 사용자가 사용 중인 사용자 이름입니다."
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.authenticate.app_error",
+    "translation": "발신 OAuth 연결을 인증하는 중 오류가 발생했습니다: {{ .Error }}"
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.connection_matching_audience_exists.app_error",
+    "translation": "제공된 대상에 대한 발신 OAuth 연결이 이미 존재합니다."
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.connection_matching_audience_exists.not_found",
+    "translation": "제공된 대상에 대한 발신 OAuth 연결이 없습니다."
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.delete_connection.app_error",
+    "translation": "발신 OAuth 연결을 삭제하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.feature_disabled",
+    "translation": "이 서버에서는 발신 OAuth 연결을 사용할 수 없습니다."
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.get_connection.app_error",
+    "translation": "발신 OAuth 연결을 검색하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.get_connection.not_found.app_error",
+    "translation": "발신 OAuth 연결을 찾을 수 없습니다."
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.get_connection_for_audience.app_error",
+    "translation": "대상에 대한 발신 OAuth 연결을 검색하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.get_connection_for_audience.not_found.app_error",
+    "translation": "제공된 대상에 대한 발신 OAuth 연결을 찾을 수 없습니다."
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.get_connections.app_error",
+    "translation": "발신 OAuth 연결들을 검색하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.license_disable.app_error",
+    "translation": "라이선스가 발신 OAuth 연결을 지원하지 않습니다."
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.save_connection.app_error",
+    "translation": "발신 OAuth 연결을 저장하는 중 오류가 발생했습니다: {{ .Error }}"
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.save_connection.audience_duplicated",
+    "translation": "제공된 대상에 대한 발신 OAuth 연결이 이미 존재합니다: {{ .Audience }}"
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.save_connection.audience_invalid",
+    "translation": "제공된 대상이 유효하지 않습니다: {{ .Error }}"
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.update_connection.app_error",
+    "translation": "발신 OAuth 연결을 업데이트하는 중 오류가 발생했습니다: {{ .Error }}"
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.update_connection.audience_duplicated",
+    "translation": "제공된 대상에 대한 발신 OAuth 연결이 이미 존재합니다: {{ .Audience }}"
+  },
+  {
+    "id": "ent.outgoing_oauth_connections.update_connection.audience_invalid",
+    "translation": "제공된 대상이 유효하지 않습니다: {{ .Error }}"
+  },
+  {
+    "id": "ent.saml.attribute.app_error",
+    "translation": "속성 중 하나가 올바르지 않아 SAML 로그인이 실패했습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.saml.build_request.app_error",
+    "translation": "ID 제공자에 대한 요청을 시작하는 중 오류가 발생했습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.saml.configure.certificate_parse_error.app_error",
+    "translation": "SAML이 ID 제공자 공개 인증서를 성공적으로 로드할 수 없습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.saml.configure.encryption_not_enabled.app_error",
+    "translation": "암호화가 활성화되지 않아 SAML 로그인이 실패했습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.saml.configure.load_private_key.app_error",
+    "translation": "서비스 제공자 개인 키를 찾을 수 없어 SAML 로그인이 실패했습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.saml.configure.not_encrypted_response.app_error",
+    "translation": "ID 제공자 응답이 암호화되지 않아 SAML 로그인이 실패했습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.saml.do_login.empty_response.app_error",
+    "translation": "ID 제공자로부터 빈 응답을 받았습니다."
+  },
+  {
+    "id": "ent.saml.do_login.invalid_signature.app_error",
+    "translation": "ID 제공자로부터 받은 응답에 유효하지 않은 서명이 있습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.saml.do_login.invalid_time.app_error",
+    "translation": "ID 제공자로부터 받은 응답에 유효하지 않은 시간이 있습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.saml.do_login.parse.app_error",
+    "translation": "ID 제공자로부터 받은 응답을 구문 분석하는 중 오류가 발생했습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.saml.license_disable.app_error",
+    "translation": "라이선스가 SAML 인증을 지원하지 않습니다."
+  },
+  {
+    "id": "ent.saml.metadata.app_error",
+    "translation": "서비스 제공자 메타데이터를 빌드하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.saml.save_user.email_exists.saml_app_error",
+    "translation": "이 계정은 SAML 인증을 사용하지 않습니다. 이메일과 비밀번호로 로그인하세요."
+  },
+  {
+    "id": "ent.saml.save_user.username_exists.saml_app_error",
+    "translation": "해당 사용자 이름을 가진 계정이 이미 존재합니다. 관리자에게 문의하세요."
+  },
+  {
+    "id": "ent.saml.service_disable.app_error",
+    "translation": "이 서버에서 SAML 2.0이 구성되지 않았거나 지원되지 않습니다."
+  },
+  {
+    "id": "ent.user.complete_switch_with_oauth.blank_email.app_error",
+    "translation": "빈 이메일 주소로 SAML 로그인을 완료할 수 없습니다."
+  },
+  {
+    "id": "error",
+    "translation": "오류"
+  },
+  {
+    "id":"generic_modal.close",
+    "translation":"닫기"
+  },
+  {
+    "id": "group_not_associated_to_synced_team",
+    "translation": "그룹이 먼저 상위 그룹 동기화 팀과 연결되어야 채널과 연결할 수 있습니다."
+  },
+  {
+    "id": "groups.unsupported_syncable_type",
+    "translation": "지원되지 않는 동기화 가능한 유형 '{{.Value}}'입니다."
+  },
+  {
+    "id": "humanize.list_join",
+    "translation": "{{.OtherItems}} 및 {{.LastItem}}"
+  },
+  {
+    "id": "import_process.worker.do_job.file_exists",
+    "translation": "가져오기를 처리할 수 없습니다: 파일이 존재하지 않습니다."
+  },
+  {
+    "id": "import_process.worker.do_job.missing_file",
+    "translation": "가져오기를 처리할 수 없습니다: import_file 매개변수가 누락되었습니다."
+  },
+  {
+    "id": "import_process.worker.do_job.missing_jsonl",
+    "translation": "가져오기를 처리할 수 없습니다: JSONL 파일이 누락되었습니다."
+  },
+  {
+    "id": "import_process.worker.do_job.open_file",
+    "translation": "가져오기를 처리할 수 없습니다: 파일을 열지 못했습니다."
+  },
+  {
+    "id": "interactive_message.decode_trigger_id.base64_decode_failed",
+    "translation": "대화형 대화 상자의 트리거 ID에 대한 base64 디코딩에 실패했습니다."
+  },
+  {
+    "id": "interactive_message.decode_trigger_id.base64_decode_failed_signature",
+    "translation": "대화형 대화 상자의 트리거 ID 서명의 base64 디코딩에 실패했습니다."
+  },
+  {
+    "id": "interactive_message.decode_trigger_id.expired",
+    "translation": "대화형 대화 상자의 트리거 ID가 만료되었습니다. 트리거 ID는 최대 {{.Duration}} 동안 유효합니다."
+  },
+  {
+    "id": "interactive_message.decode_trigger_id.missing_data",
+    "translation": "대화형 대화 상자에 필요한 데이터가 트리거 ID에 누락되었습니다."
+  },
+  {
+    "id": "interactive_message.decode_trigger_id.signature_decode_failed",
+    "translation": "대화형 대화 상자의 트리거 ID 서명의 base64 디코딩에 실패했습니다."
+  },
+  {
+    "id": "interactive_message.decode_trigger_id.verify_signature_failed",
+    "translation": "대화형 대화 상자의 트리거 ID 서명 확인에 실패했습니다."
+  },
+  {
+    "id": "interactive_message.generate_trigger_id.signing_failed",
+    "translation": "대화형 대화 상자의 생성된 트리거 ID 서명에 실패했습니다."
+  },
+  {
+    "id": "jobs.request_cancellation.status.error",
+    "translation": "취소 가능한 상태가 아닌 작업에 대한 취소 요청을 할 수 없습니다."
+  },
+  {
+    "id": "jobs.set_job_error.update.error",
+    "translation": "작업 상태를 오류로 설정하지 못했습니다"
+  },
+  {
+    "id": "license_error.feature_unavailable",
+    "translation": "현재 라이선스에서 사용할 수 없는 기능입니다"
+  },
+  {
+    "id": "manaultesting.manual_test.parse.app_error",
+    "translation": "URL을 구문 분석할 수 없습니다."
+  },
+  {
+    "id": "manaultesting.test_autolink.unable.app_error",
+    "translation": "채널을 가져올 수 없습니다."
+  },
+  {
+    "id": "mattermost.bulletin.subject",
+    "translation": "OKR.BEST 보안 공지"
+  },
+  {
+    "id": "mfa.activate.app_error",
+    "translation": "사용자의 MFA 활성 상태를 업데이트할 수 없습니다."
+  },
+  {
+    "id": "mfa.activate.bad_token.app_error",
+    "translation": "유효하지 않은 MFA 토큰입니다."
+  },
+  {
+    "id": "mfa.deactivate.app_error",
+    "translation": "사용자의 MFA 활성 상태를 업데이트할 수 없습니다."
+  },
+  {
+    "id": "mfa.generate_qr_code.create_code.app_error",
+    "translation": "QR 코드 생성 중 오류가 발생했습니다."
+  },
+  {
+    "id": "mfa.mfa_disabled.app_error",
+    "translation": "이 서버에서 다중 요소 인증이 비활성화되었습니다."
+  },
+  {
+    "id": "mfa.validate_token.authenticate.app_error",
+    "translation": "유효하지 않은 MFA 토큰입니다."
+  },
+  {
+    "id": "migrations.system.save.app_error",
+    "translation": "시스템 속성을 저장하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "migrations.worker.run_advanced_permissions_phase_2_migration.invalid_progress",
+    "translation": "잘못된 진행 데이터로 인해 마이그레이션이 실패했습니다."
+  },
+  {
+    "id": "migrations.worker.run_migration.unknown_key",
+    "translation": "알 수 없는 마이그레이션 키로 인해 마이그레이션 작업을 실행할 수 없습니다."
+  },
+  {
+    "id": "model.access.is_valid.access_token.app_error",
+    "translation": "유효하지 않은 액세스 토큰입니다."
+  },
+  {
+    "id": "model.access.is_valid.client_id.app_error",
+    "translation": "유효하지 않은 클라이언트 ID입니다."
+  },
+  {
+    "id": "model.access.is_valid.redirect_uri.app_error",
+    "translation": "유효하지 않은 리다이렉트 URI입니다."
+  },
+  {
+    "id": "model.access.is_valid.refresh_token.app_error",
+    "translation": "유효하지 않은 리프레시 토큰입니다."
+  },
+  {
+    "id": "model.access.is_valid.user_id.app_error",
+    "translation": "유효하지 않은 사용자 ID입니다."
+  },
+  {
+    "id": "model.acknowledgement.is_valid.post_id.app_error",
+    "translation": "유효하지 않은 게시물 ID입니다."
+  },
+  {
+    "id": "model.acknowledgement.is_valid.user_id.app_error",
+    "translation": "유효하지 않은 사용자 ID입니다."
+  },
+  {
+    "id": "model.authorize.is_valid.auth_code.app_error",
+    "translation": "유효하지 않은 인증 코드입니다."
+  },
+  {
+    "id": "model.authorize.is_valid.client_id.app_error",
+    "translation": "유효하지 않은 클라이언트 ID입니다."
+  },
+  {
+    "id": "model.authorize.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효해야 합니다."
+  },
+  {
+    "id": "model.authorize.is_valid.expires.app_error",
+    "translation": "만료 시간을 설정해야 합니다."
+  },
+  {
+    "id": "model.authorize.is_valid.redirect_uri.app_error",
+    "translation": "유효하지 않은 리다이렉트 URI입니다."
+  },
+  {
+    "id": "model.authorize.is_valid.response_type.app_error",
+    "translation": "유효하지 않은 응답 유형입니다."
+  },
+  {
+    "id": "model.authorize.is_valid.scope.app_error",
+    "translation": "유효하지 않은 범위입니다."
+  },
+  {
+    "id": "model.authorize.is_valid.state.app_error",
+    "translation": "유효하지 않은 상태입니다."
+  },
+  {
+    "id": "model.authorize.is_valid.user_id.app_error",
+    "translation": "유효하지 않은 사용자 ID입니다."
+  },
+  {
+    "id": "model.bot.is_valid.create_at.app_error",
+    "translation": "유효하지 않은 생성 시간입니다."
+  },
+  {
+    "id": "model.bot.is_valid.creator_id.app_error",
+    "translation": "유효하지 않은 생성자 ID입니다."
+  },
+  {
+    "id": "model.bot.is_valid.description.app_error",
+    "translation": "유효하지 않은 설명입니다."
+  },
+  {
+    "id": "model.bot.is_valid.update_at.app_error",
+    "translation": "유효하지 않은 업데이트 시간입니다."
+  },
+  {
+    "id": "model.bot.is_valid.user_id.app_error",
+    "translation": "유효하지 않은 사용자 ID입니다."
+  },
+  {
+    "id": "model.bot.is_valid.username.app_error",
+    "translation": "유효하지 않은 사용자 이름입니다."
+  },
+  {
+    "id": "model.channel.is_valid.1_or_more.app_error",
+    "translation": "이름은 1개 이상의 소문자 알파벳 문자여야 합니다."
+  },
+  {
+    "id": "model.channel.is_valid.banner_info.background_color.empty.app_error",
+    "translation": "채널 배너가 활성화된 경우 배너 색상은 비워둘 수 없습니다."
+  },
+  {
+    "id": "model.channel.is_valid.banner_info.channel_type.app_error",
+    "translation": "채널 배너는 공개 및 비공개 채널에서만 구성할 수 있습니다."
+  },
+  {
+    "id": "model.channel.is_valid.banner_info.text.empty.app_error",
+    "translation": "채널 배너가 활성화된 경우 배너 정보 텍스트는 비워둘 수 없습니다."
+  },
+  {
+    "id": "model.channel.is_valid.banner_info.text.invalid_length.app_error",
+    "translation": "채널 배너 정보 텍스트가 너무 깁니다. 최대 허용 길이는 {{.maxLength}}자입니다."
+  },
+  {
+    "id": "model.channel.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효해야 합니다."
+  },
+  {
+    "id": "model.channel.is_valid.creator_id.app_error",
+    "translation": "유효하지 않은 생성자 ID입니다."
+  },
+  {
+    "id": "model.channel.is_valid.display_name.app_error",
+    "translation": "유효하지 않은 표시 이름입니다."
+  },
+  {
+    "id": "model.channel.is_valid.header.app_error",
+    "translation": "유효하지 않은 헤더입니다."
+  },
+  {
+    "id": "model.channel.is_valid.id.app_error",
+    "translation": "유효하지 않은 ID입니다."
+  },
+  {
+    "id": "model.channel.is_valid.name.app_error",
+    "translation": "채널 이름은 16진수 형식일 수 없습니다. 다른 채널 이름을 입력해주세요."
+  },
+  {
+    "id": "model.channel.is_valid.purpose.app_error",
+    "translation": "유효하지 않은 목적입니다."
+  },
+  {
+    "id": "model.channel.is_valid.type.app_error",
+    "translation": "유효하지 않은 유형입니다."
+  },
+  {
+    "id": "model.channel.is_valid.update_at.app_error",
+    "translation": "업데이트 시간이 유효해야 합니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.channel_id.app_error",
+    "translation": "유효하지 않은 채널 ID입니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효해야 합니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.display_name.app_error",
+    "translation": "표시 이름이 누락되었습니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.file_id.missing_or_invalid.app_error",
+    "translation": "파일 ID가 누락되었거나 유효하지 않습니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.id.app_error",
+    "translation": "유효하지 않은 ID입니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.image_url.app_error",
+    "translation": "유효하지 않은 이미지 URL입니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.link_file.app_error",
+    "translation": "동일한 북마크에 링크와 파일을 함께 설정할 수 없습니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.link_url.missing_or_invalid.app_error",
+    "translation": "링크 URL이 누락되었거나 유효하지 않습니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.original_id.app_error",
+    "translation": "유효하지 않은 원본 ID입니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.owner_id.app_error",
+    "translation": "유효하지 않은 소유자 ID입니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.parent_id.app_error",
+    "translation": "유효하지 않은 부모 ID입니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.type.app_error",
+    "translation": "유효하지 않은 유형입니다."
+  },
+  {
+    "id": "model.channel_bookmark.is_valid.update_at.app_error",
+    "translation": "업데이트 시간이 유효해야 합니다."
+  },
+  {
+    "id": "model.channel_member.is_valid.channel_auto_follow_threads_value.app_error",
+    "translation": "유효하지 않은 채널-자동-스레드-팔로우 값입니다."
+  },
+  {
+    "id": "model.channel_member.is_valid.channel_id.app_error",
+    "translation": "유효하지 않은 채널 ID입니다."
+  },
+  {
+    "id": "model.channel_member.is_valid.email_value.app_error",
+    "translation": "유효하지 않은 이메일 알림 값입니다."
+  },
+  {
+    "id": "model.channel_member.is_valid.ignore_channel_mentions_value.app_error",
+    "translation": "채널 멘션 무시 상태가 유효하지 않습니다."
+  },
+  {
+    "id": "model.channel_member.is_valid.notify_level.app_error",
+    "translation": "알림 수준이 유효하지 않습니다."
+  },
+  {
+    "id": "model.channel_member.is_valid.notify_props.app_error",
+    "translation": "알림 속성 크기 제한을 초과했습니다."
+  },
+  {
+    "id": "model.channel_member.is_valid.push_level.app_error",
+    "translation": "푸시 알림 수준이 유효하지 않습니다."
+  },
+  {
+    "id": "model.channel_member.is_valid.roles_limit.app_error",
+    "translation": "채널 멤버 역할이 {{.Limit}}자를 초과했습니다."
+  },
+  {
+    "id": "model.channel_member.is_valid.unread_level.app_error",
+    "translation": "읽지 않음 표시 수준이 유효하지 않습니다."
+  },
+  {
+    "id": "model.channel_member.is_valid.user_id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.cluster.is_valid.create_at.app_error",
+    "translation": "CreateAt이 설정되어야 합니다."
+  },
+  {
+    "id": "model.cluster.is_valid.hostname.app_error",
+    "translation": "Hostname이 설정되어야 합니다."
+  },
+  {
+    "id": "model.cluster.is_valid.id.app_error",
+    "translation": "Id가 유효하지 않습니다."
+  },
+  {
+    "id": "model.cluster.is_valid.last_ping_at.app_error",
+    "translation": "LastPingAt이 설정되어야 합니다."
+  },
+  {
+    "id": "model.cluster.is_valid.name.app_error",
+    "translation": "ClusterName이 설정되어야 합니다."
+  },
+  {
+    "id": "model.cluster.is_valid.type.app_error",
+    "translation": "Type이 설정되어야 합니다."
+  },
+  {
+    "id": "model.command.is_valid.autocomplete_data.app_error",
+    "translation": "AutocompleteData가 유효하지 않습니다."
+  },
+  {
+    "id": "model.command.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효해야 합니다."
+  },
+  {
+    "id": "model.command.is_valid.description.app_error",
+    "translation": "설명이 유효하지 않습니다."
+  },
+  {
+    "id": "model.command.is_valid.display_name.app_error",
+    "translation": "제목이 유효하지 않습니다."
+  },
+  {
+    "id": "model.command.is_valid.id.app_error",
+    "translation": "Id가 유효하지 않습니다."
+  },
+  {
+    "id": "model.command.is_valid.method.app_error",
+    "translation": "Method가 유효하지 않습니다."
+  },
+  {
+    "id": "model.command.is_valid.plugin_id.app_error",
+    "translation": "플러그인 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.command.is_valid.team_id.app_error",
+    "translation": "팀 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.command.is_valid.token.app_error",
+    "translation": "토큰이 유효하지 않습니다."
+  },
+  {
+    "id": "model.command.is_valid.trigger.app_error",
+    "translation": "트리거가 유효하지 않습니다."
+  },
+  {
+    "id": "model.command.is_valid.update_at.app_error",
+    "translation": "업데이트 시간이 유효해야 합니다."
+  },
+  {
+    "id": "model.command.is_valid.url.app_error",
+    "translation": "URL이 유효하지 않습니다."
+  },
+  {
+    "id": "model.command.is_valid.url_http.app_error",
+    "translation": "URL이 유효하지 않습니다. 유효한 URL이어야 하며 http:// 또는 https://로 시작해야 합니다."
+  },
+  {
+    "id": "model.command.is_valid.user_id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.command_hook.channel_id.app_error",
+    "translation": "채널 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.command_hook.command_id.app_error",
+    "translation": "명령 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.command_hook.create_at.app_error",
+    "translation": "생성 시간이 유효해야 합니다."
+  },
+  {
+    "id": "model.command_hook.id.app_error",
+    "translation": "명령 훅 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.command_hook.root_id.app_error",
+    "translation": "루트 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.command_hook.user_id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.compliance.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효해야 합니다."
+  },
+  {
+    "id": "model.compliance.is_valid.desc.app_error",
+    "translation": "설명이 유효하지 않습니다."
+  },
+  {
+    "id": "model.compliance.is_valid.end_at.app_error",
+    "translation": "종료 시간이 유효해야 합니다."
+  },
+  {
+    "id": "model.compliance.is_valid.id.app_error",
+    "translation": "Id가 유효하지 않습니다."
+  },
+  {
+    "id": "model.compliance.is_valid.start_at.app_error",
+    "translation": "시작 시간이 유효해야 합니다."
+  },
+  {
+    "id": "model.compliance.is_valid.start_end_at.app_error",
+    "translation": "종료 시간은 시작 시간보다 커야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.allow_cookies_for_subdomains.app_error",
+    "translation": "하위 도메인에 대한 쿠키 허용을 위해서는 SiteURL이 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.amazons3_timeout.app_error",
+    "translation": "유효하지 않은 타임아웃 값 {{.Value}}입니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.atmos_camo_image_proxy_options.app_error",
+    "translation": "atmos/camo에 대한 RemoteImageProxyOptions이 유효하지 않습니다. 공유 키로 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.atmos_camo_image_proxy_url.app_error",
+    "translation": "atmos/camo에 대한 RemoteImageProxyURL이 유효하지 않습니다. 공유 키로 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.bleve_search.bulk_indexing_batch_size.app_error",
+    "translation": "Bleve 일괄 인덱싱 배치 크기는 최소 {{.BatchSize}} 이상이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.bleve_search.enable_autocomplete.app_error",
+    "translation": "Bleve 자동완성 활성화가 true로 설정된 경우 Bleve 인덱싱 활성화도 true로 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.bleve_search.enable_searching.app_error",
+    "translation": "Bleve 검색 활성화가 true로 설정된 경우 Bleve 인덱싱 활성화도 true로 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.bleve_search.filename.app_error",
+    "translation": "Bleve 인덱싱 활성화가 true로 설정된 경우 Bleve IndexingDir 설정이 필요합니다."
+  },
+  {
+    "id": "model.config.is_valid.cache_type.app_error",
+    "translation": "캐시 유형은 lru 또는 redis여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.cluster_email_batching.app_error",
+    "translation": "클러스터링이 활성화된 경우 이메일 일괄 처리를 활성화할 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.collapsed_threads.app_error",
+    "translation": "CollapsedThreads 설정은 disabled, default_on 또는 default_off여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.collapsed_threads.autofollow.app_error",
+    "translation": "CollapsedThreads를 활성화하려면 ThreadAutoFollow가 true여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.data_retention.deletion_job_start_time.app_error",
+    "translation": "데이터 보존 작업 시작 시간은 HH:MM 형식의 24시간 타임스탬프여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.data_retention.file_retention_both_zero.app_error",
+    "translation": "파일 보존 일수와 파일 보존 시간은 모두 0일 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.data_retention.file_retention_days_too_low.app_error",
+    "translation": "파일 보존 일수는 0보다 작을 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.data_retention.file_retention_hours_too_low.app_error",
+    "translation": "파일 보존 시간은 0보다 작을 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.data_retention.file_retention_misconfiguration.app_error",
+    "translation": "파일 보존 일수와 파일 보존 시간은 모두 0보다 클 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.data_retention.message_retention_both_zero.app_error",
+    "translation": "메시지 보존 일수와 메시지 보존 시간은 모두 0일 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.data_retention.message_retention_days_too_low.app_error",
+    "translation": "메시지 보존 일수는 0보다 작을 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.data_retention.message_retention_hours_too_low.app_error",
+    "translation": "메시지 보존 시간은 0보다 작을 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.data_retention.message_retention_misconfiguration.app_error",
+    "translation": "메시지 보존 일수와 메시지 보존 시간은 모두 0보다 클 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.directory.app_error",
+    "translation": "로컬 스토리지 디렉토리가 유효하지 않습니다. 비어있지 않은 문자열이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.display.custom_url_schemes.app_error",
+    "translation": "사용자 정의 URL 스키마 {{.Scheme}}가 유효하지 않습니다. 사용자 정의 URL 스키마는 문자로 시작하고 문자, 숫자, 더하기(+), 마침표(.), 하이픈(-)만 포함해야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.elastic_search.aggregate_posts_after_days.app_error",
+    "translation": "검색 AggregatePostsAfterDays 설정은 1 이상의 숫자여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.elastic_search.bulk_indexing_batch_size.app_error",
+    "translation": "검색 일괄 인덱싱 배치 크기는 최소 {{.BatchSize}} 이상이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.elastic_search.connection_url.app_error",
+    "translation": "인덱싱이 활성화된 경우 검색 ConnectionUrl 설정이 제공되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.elastic_search.enable_autocomplete.app_error",
+    "translation": "{{.Autocomplete}}가 true로 설정된 경우 {{.EnableIndexing}} 설정도 true로 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.elastic_search.enable_searching.app_error",
+    "translation": "{{.Searching}}이 true로 설정된 경우 {{.EnableIndexing}} 설정도 true로 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.elastic_search.ignored_indexes_dash_prefix.app_error",
+    "translation": "삭제를 위한 무시된 인덱스는 대시로 시작할 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.elastic_search.invalid_backend.app_error",
+    "translation": "유효하지 않은 검색 백엔드입니다. elasticsearch 또는 opensearch여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.elastic_search.live_indexing_batch_size.app_error",
+    "translation": "검색 실시간 인덱싱 배치 크기는 최소 1 이상이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.elastic_search.posts_aggregator_job_start_time.app_error",
+    "translation": "검색 PostsAggregatorJobStartTime 설정은 \"hh:mm\" 형식의 시간이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.elastic_search.request_timeout_seconds.app_error",
+    "translation": "검색 요청 타임아웃은 최소 1초 이상이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.email_batching_buffer_size.app_error",
+    "translation": "이메일 설정의 이메일 일괄 처리 버퍼 크기가 유효하지 않습니다. 0 또는 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.email_batching_interval.app_error",
+    "translation": "이메일 설정의 이메일 일괄 처리 간격이 유효하지 않습니다. 30초 이상이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.email_notification_contents_type.app_error",
+    "translation": "이메일 설정의 이메일 알림 내용 유형이 유효하지 않습니다. 'full' 또는 'generic' 중 하나여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.email_security.app_error",
+    "translation": "이메일 설정의 연결 보안이 유효하지 않습니다. '', 'TLS' 또는 'STARTTLS'여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.empty_redis_address.app_error",
+    "translation": "redis 캐시 유형의 경우 RedisAddress가 지정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.encrypt_sql.app_error",
+    "translation": "SQL 설정의 저장 시 암호화 키가 유효하지 않습니다. 32자 이상이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.export.directory.app_error",
+    "translation": "Directory 값은 비어있지 않아야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.export.retention_days_too_low.app_error",
+    "translation": "RetentionDays 값이 유효하지 않습니다. 0보다 커야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.file_driver.app_error",
+    "translation": "파일 설정의 드라이버 이름이 유효하지 않습니다. 'local' 또는 'amazons3'여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.file_salt.app_error",
+    "translation": "파일 설정의 공개 링크 솔트가 유효하지 않습니다. 32자 이상이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.group_unread_channels.app_error",
+    "translation": "서비스 설정의 그룹 읽지 않은 채널이 유효하지 않습니다. 'disabled', 'default_on' 또는 'default_off'여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.image_decoder_concurrency.app_error",
+    "translation": "디코더 동시성 {{.Value}}이(가) 유효하지 않습니다. 양수 또는 -1이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.image_proxy_type.app_error",
+    "translation": "이미지 프록시 유형이 유효하지 않습니다. 'local' 또는 'atmos/camo'여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.import.directory.app_error",
+    "translation": "Directory 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.config.is_valid.import.retention_days_too_low.app_error",
+    "translation": "RetentionDays 값이 유효하지 않습니다. 값이 너무 낮습니다."
+  },
+  {
+    "id": "model.config.is_valid.invalid_redis_db.app_error",
+    "translation": "Redis DB는 0보다 크거나 같은 값을 가져야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.ldap_basedn",
+    "translation": "AD/LDAP 필드 \"BaseDN\"이(가) 필요합니다."
+  },
+  {
+    "id": "model.config.is_valid.ldap_email",
+    "translation": "AD/LDAP 필드 \"Email Attribute\"이(가) 필요합니다."
+  },
+  {
+    "id": "model.config.is_valid.ldap_id",
+    "translation": "AD/LDAP 필드 \"ID Attribute\"이(가) 필요합니다."
+  },
+  {
+    "id": "model.config.is_valid.ldap_login_id",
+    "translation": "AD/LDAP 필드 \"Login ID Attribute\"이(가) 필요합니다."
+  },
+  {
+    "id": "model.config.is_valid.ldap_max_login_attempts.app_error",
+    "translation": "LDAP 설정의 최대 로그인 시도 횟수가 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.ldap_max_page_size.app_error",
+    "translation": "최대 페이지 크기 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.config.is_valid.ldap_security.app_error",
+    "translation": "AD/LDAP 설정의 연결 보안이 유효하지 않습니다. '', 'TLS' 또는 'STARTTLS'여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.ldap_server",
+    "translation": "AD/LDAP 필드 \"AD/LDAP Server\"이(가) 필요합니다."
+  },
+  {
+    "id": "model.config.is_valid.ldap_sync_interval.app_error",
+    "translation": "동기화 간격 시간이 유효하지 않습니다. 최소 1분 이상이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.ldap_username",
+    "translation": "AD/LDAP 필드 \"Username Attribute\"이(가) 필요합니다."
+  },
+  {
+    "id": "model.config.is_valid.link_metadata_timeout.app_error",
+    "translation": "링크 메타데이터 타임아웃 값이 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.listen_address.app_error",
+    "translation": "서비스 설정의 수신 주소가 유효하지 않습니다. 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.local_mode_socket.app_error",
+    "translation": "로컬 소켓 파일 디렉토리를 찾을 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.localization.available_locales.app_error",
+    "translation": "사용 가능한 언어에 기본 클라이언트 언어가 포함되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.log.advanced_logging.json",
+    "translation": "JSON 파싱 실패: {{.Error}}"
+  },
+  {
+    "id": "model.config.is_valid.log.advanced_logging.parse",
+    "translation": "유효하지 않은 형식: {{.Error}}"
+  },
+  {
+    "id": "model.config.is_valid.login_attempts.app_error",
+    "translation": "서비스 설정의 최대 로그인 시도 횟수가 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.max_burst.app_error",
+    "translation": "최대 버스트 크기는 0보다 커야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.max_channels.app_error",
+    "translation": "팀 설정의 팀당 최대 채널 수가 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.max_file_size.app_error",
+    "translation": "파일 설정의 최대 파일 크기가 유효하지 않습니다. 0보다 큰 정수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.max_notify_per_channel.app_error",
+    "translation": "팀 설정의 채널당 최대 알림 수가 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.max_payload_size.app_error",
+    "translation": "서비스 설정의 최대 페이로드 크기가 유효하지 않습니다. 0보다 큰 정수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.max_url_length.app_error",
+    "translation": "서비스 설정의 최대 URL 길이가 유효하지 않습니다. 0보다 큰 정수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.max_users.app_error",
+    "translation": "팀 설정의 팀당 최대 사용자 수가 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.message_export.batch_size.app_error",
+    "translation": "메시지 내보내기 작업의 BatchSize는 양의 정수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.message_export.daily_runtime.app_error",
+    "translation": "메시지 내보내기 작업의 DailyRuntime은 HH:MM 형식의 24시간 타임스탬프여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.message_export.enable.app_error",
+    "translation": "메시지 내보내기 작업의 EnableExport 설정은 true 또는 false여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.message_export.export_from.app_error",
+    "translation": "메시지 내보내기 작업의 ExportFromTimestamp는 타임스탬프(유닉스 에포크 이후의 초 단위)여야 합니다. 이 타임스탬프 이후에 전송된 메시지만 내보내집니다."
+  },
+  {
+    "id": "model.config.is_valid.message_export.export_type.app_error",
+    "translation": "메시지 내보내기 작업의 ExportFormat은 'actiance', 'csv' 또는 'globalrelay' 중 하나여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.message_export.global_relay.config_missing.app_error",
+    "translation": "메시지 내보내기 작업의 ExportFormat이 'globalrelay'로 설정되었지만 GlobalRelaySettings가 누락되었습니다."
+  },
+  {
+    "id": "model.config.is_valid.message_export.global_relay.customer_type.app_error",
+    "translation": "메시지 내보내기 GlobalRelaySettings.CustomerType은 'A9', 'A10' 또는 'CUSTOM' 중 하나로 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.message_export.global_relay.customer_type_custom.app_error",
+    "translation": "GlobalRelaySettings.CustomerType이 'CUSTOM'인 경우 GlobalRelaySettings.CustomSMTPServerName과 GlobalRelaySettings.CustomSMTPPort가 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.message_export.global_relay.email_address.app_error",
+    "translation": "메시지 내보내기 작업의 GlobalRelaySettings.EmailAddress는 유효한 이메일 주소로 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.message_export.global_relay.smtp_password.app_error",
+    "translation": "메시지 내보내기 작업의 GlobalRelaySettings.SmtpPassword가 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.message_export.global_relay.smtp_username.app_error",
+    "translation": "메시지 내보내기 작업의 GlobalRelaySettings.SmtpUsername이 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.metrics_client_side_user_id.app_error",
+    "translation": "유효하지 않은 클라이언트 측 사용자 ID: {{.Id}}"
+  },
+  {
+    "id": "model.config.is_valid.metrics_client_side_user_ids.app_error",
+    "translation": "ClientSideUserIds의 요소 수 {{.CurrentLength}}가 최대 제한 {{.MaxLength}}보다 높습니다."
+  },
+  {
+    "id": "model.config.is_valid.move_thread.domain_invalid.app_error",
+    "translation": "스레드 이동 설정의 도메인이 유효하지 않습니다"
+  },
+  {
+    "id": "model.config.is_valid.outgoing_integrations_request_timeout.app_error",
+    "translation": "서비스 설정의 발신 통합 요청 타임아웃이 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.password_length.app_error",
+    "translation": "비밀번호 최소 길이는 {{.MinLength}}보다 크거나 같고 {{.MaxLength}}보다 작거나 같은 정수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.persistent_notifications_count.app_error",
+    "translation": "게시물당 지속 알림의 총 개수가 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.persistent_notifications_interval.app_error",
+    "translation": "지속 알림의 빈도가 유효하지 않습니다. 최소 2분 이상이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.persistent_notifications_recipients.app_error",
+    "translation": "지속 알림의 최대 수신자 수가 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.rate_mem.app_error",
+    "translation": "속도 제한 설정의 메모리 저장소 크기가 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.rate_sec.app_error",
+    "translation": "속도 제한 설정의 초당 값이 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.read_timeout.app_error",
+    "translation": "읽기 타임아웃 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.config.is_valid.restrict_direct_message.app_error",
+    "translation": "다이렉트 메시지 제한이 유효하지 않습니다. 'any' 또는 'team'이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.saml_admin_attribute.app_error",
+    "translation": "관리자 속성이 유효하지 않습니다. 'field=value' 형식이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.saml_assertion_consumer_service_url.app_error",
+    "translation": "서비스 제공자 로그인 URL은 유효한 URL이어야 하며 http:// 또는 https://로 시작해야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.saml_canonical_algorithm.app_error",
+    "translation": "정규 알고리즘이 유효하지 않습니다."
+  },
+  {
+    "id": "model.config.is_valid.saml_email_attribute.app_error",
+    "translation": "이메일 속성이 유효하지 않습니다. 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.saml_guest_attribute.app_error",
+    "translation": "게스트 속성이 유효하지 않습니다. 'field=value' 형식이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.saml_idp_cert.app_error",
+    "translation": "ID 제공자 공개 인증서가 누락되었습니다. 업로드하는 것을 잊으셨나요?"
+  },
+  {
+    "id": "model.config.is_valid.saml_idp_descriptor_url.app_error",
+    "translation": "ID 제공자 발급자 URL은 빈 문자열일 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.saml_idp_url.app_error",
+    "translation": "SAML SSO URL은 유효한 URL이어야 하며 http:// 또는 https://로 시작해야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.saml_private_key.app_error",
+    "translation": "서비스 제공자 개인 키가 누락되었습니다. 업로드하는 것을 잊으셨나요?"
+  },
+  {
+    "id": "model.config.is_valid.saml_public_cert.app_error",
+    "translation": "서비스 제공자 공개 인증서가 누락되었습니다. 업로드하는 것을 잊으셨나요?"
+  },
+  {
+    "id": "model.config.is_valid.saml_signature_algorithm.app_error",
+    "translation": "서명 알고리즘이 유효하지 않습니다."
+  },
+  {
+    "id": "model.config.is_valid.saml_spidentifier_attribute.app_error",
+    "translation": "서비스 제공자 식별자가 필요합니다."
+  },
+  {
+    "id": "model.config.is_valid.saml_username_attribute.app_error",
+    "translation": "사용자 이름 속성이 유효하지 않습니다. 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.site_url.app_error",
+    "translation": "사이트 URL은 유효한 URL이어야 하며 http:// 또는 https://로 시작해야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.site_url_email_batching.app_error",
+    "translation": "SiteURL이 설정되지 않은 경우 이메일 일괄 처리를 활성화할 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.sitename_length.app_error",
+    "translation": "사이트 이름은 {{.MaxLength}}자 이하여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.sql_conn_max_idle_time_milliseconds.app_error",
+    "translation": "SQL 설정의 연결 최대 유휴 시간이 유효하지 않습니다. 음수가 아닌 숫자여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.sql_conn_max_lifetime_milliseconds.app_error",
+    "translation": "SQL 설정의 연결 최대 수명이 유효하지 않습니다. 음수가 아닌 숫자여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.sql_data_src.app_error",
+    "translation": "SQL 설정의 데이터 소스가 유효하지 않습니다. 설정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.sql_driver.app_error",
+    "translation": "SQL 설정의 드라이버 이름이 유효하지 않습니다. 'mysql' 또는 'postgres'여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.sql_idle.app_error",
+    "translation": "SQL 설정의 최대 유휴 연결이 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.sql_max_conn.app_error",
+    "translation": "SQL 설정의 최대 열린 연결이 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.sql_query_timeout.app_error",
+    "translation": "SQL 설정의 쿼리 타임아웃이 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.storage_class.app_error",
+    "translation": "저장소 클래스 {{.Value}}가 유효하지 않습니다."
+  },
+  {
+    "id": "model.config.is_valid.teammate_name_display.app_error",
+    "translation": "팀원 표시가 유효하지 않습니다. 'full_name', 'nickname_full_name' 또는 'username'이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.time_between_user_typing.app_error",
+    "translation": "사용자 타이핑 업데이트 간 시간은 1000밀리초 미만으로 설정할 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.tls_cert_file_missing.app_error",
+    "translation": "TLS 인증서 파일 값이 유효하지 않습니다. LetsEncrypt를 사용하거나 기존 인증서 파일의 경로를 설정하세요."
+  },
+  {
+    "id": "model.config.is_valid.tls_key_file_missing.app_error",
+    "translation": "TLS 키 파일 값이 유효하지 않습니다. LetsEncrypt를 사용하거나 기존 키 파일의 경로를 설정하세요."
+  },
+  {
+    "id": "model.config.is_valid.tls_overwrite_cipher.app_error",
+    "translation": "TLS 암호 덮어쓰기에 전달된 값이 유효하지 않습니다. 유효한 값은 문서를 참조하세요."
+  },
+  {
+    "id": "model.config.is_valid.user_status_away_timeout.app_error",
+    "translation": "사용자 상태 자리 비움 타임아웃 값이 유효하지 않습니다. 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.webserver_security.app_error",
+    "translation": "웹서버 연결 보안 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.config.is_valid.websocket_url.app_error",
+    "translation": "웹소켓 URL은 유효한 URL이어야 하며 ws:// 또는 wss://로 시작해야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.write_timeout.app_error",
+    "translation": "쓰기 타임아웃 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.draft.is_valid.channel_id.app_error",
+    "translation": "채널 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.draft.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.draft.is_valid.file_ids.app_error",
+    "translation": "파일 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.draft.is_valid.message_length.app_error",
+    "translation": "임시 메시지 속성이 허용된 최대 길이를 초과했습니다."
+  },
+  {
+    "id": "model.draft.is_valid.priority.app_error",
+    "translation": "우선순위가 유효하지 않습니다."
+  },
+  {
+    "id": "model.draft.is_valid.props.app_error",
+    "translation": "속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.draft.is_valid.root_id.app_error",
+    "translation": "루트 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.draft.is_valid.update_at.app_error",
+    "translation": "업데이트 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.draft.is_valid.user_id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.emoji.create_at.app_error",
+    "translation": "생성 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.emoji.id.app_error",
+    "translation": "이모지 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.emoji.name.app_error",
+    "translation": "이름은 1~64자의 소문자 알파벳과 숫자로 구성되어야 합니다."
+  },
+  {
+    "id": "model.emoji.system_emoji_name.app_error",
+    "translation": "이름이 기존 시스템 이모지 이름과 충돌합니다."
+  },
+  {
+    "id": "model.emoji.update_at.app_error",
+    "translation": "업데이트 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.emoji.user_id.app_error",
+    "translation": "생성자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.file_info.is_valid.create_at.app_error",
+    "translation": "create_at 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.file_info.is_valid.id.app_error",
+    "translation": "id 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.file_info.is_valid.path.app_error",
+    "translation": "path 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.file_info.is_valid.post_id.app_error",
+    "translation": "post_id 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.file_info.is_valid.update_at.app_error",
+    "translation": "update_at 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.file_info.is_valid.user_id.app_error",
+    "translation": "user_id 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.group.create_at.app_error",
+    "translation": "그룹의 생성 시간 속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.group.description.app_error",
+    "translation": "그룹의 설명 속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.group.display_name.app_error",
+    "translation": "그룹의 표시 이름 속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.group.name.app_error",
+    "translation": "그룹의 이름 속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.group.name.invalid_chars.app_error",
+    "translation": "그룹의 이름 속성에 유효하지 않은 문자가 포함되어 있습니다."
+  },
+  {
+    "id": "model.group.name.invalid_length.app_error",
+    "translation": "이름은 1~64자의 소문자 알파벳과 숫자로 구성되어야 합니다."
+  },
+  {
+    "id": "model.group.name.reserved_name.app_error",
+    "translation": "그룹 이름이 이미 예약된 이름으로 존재합니다."
+  },
+  {
+    "id": "model.group.remote_id.app_error",
+    "translation": "그룹의 원격 ID 속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.group.source.app_error",
+    "translation": "그룹의 소스 속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.group.update_at.app_error",
+    "translation": "그룹의 업데이트 시간 속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.group_member.group_id.app_error",
+    "translation": "그룹 멤버의 그룹 ID 속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.group_member.user_id.app_error",
+    "translation": "그룹 멤버의 사용자 ID 속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.group_syncable.group_id.app_error",
+    "translation": "그룹 동기화의 그룹 ID 속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.group_syncable.syncable_id.app_error",
+    "translation": "그룹 동기화의 동기화 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.guest.is_valid.channel.app_error",
+    "translation": "채널이 유효하지 않습니다."
+  },
+  {
+    "id": "model.guest.is_valid.channels.app_error",
+    "translation": "채널이 유효하지 않습니다."
+  },
+  {
+    "id": "model.guest.is_valid.email.app_error",
+    "translation": "이메일이 유효하지 않습니다."
+  },
+  {
+    "id": "model.guest.is_valid.emails.app_error",
+    "translation": "이메일이 유효하지 않습니다."
+  },
+  {
+    "id": "model.incoming_hook.channel_id.app_error",
+    "translation": "채널 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.incoming_hook.create_at.app_error",
+    "translation": "생성 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.incoming_hook.description.app_error",
+    "translation": "설명이 유효하지 않습니다."
+  },
+  {
+    "id": "model.incoming_hook.display_name.app_error",
+    "translation": "제목이 유효하지 않습니다."
+  },
+  {
+    "id": "model.incoming_hook.icon_url.app_error",
+    "translation": "게시물 아이콘이 유효하지 않습니다."
+  },
+  {
+    "id": "model.incoming_hook.id.app_error",
+    "translation": "ID가 유효하지 않습니다: {{.Id}}."
+  },
+  {
+    "id": "model.incoming_hook.parse_data.app_error",
+    "translation": "수신 데이터를 구문 분석할 수 없습니다."
+  },
+  {
+    "id": "model.incoming_hook.team_id.app_error",
+    "translation": "팀 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.incoming_hook.update_at.app_error",
+    "translation": "업데이트 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.incoming_hook.user_id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.incoming_hook.username.app_error",
+    "translation": "사용자 이름이 유효하지 않습니다."
+  },
+  {
+    "id": "model.job.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.job.is_valid.id.app_error",
+    "translation": "작업 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.job.is_valid.status.app_error",
+    "translation": "작업 상태가 유효하지 않습니다."
+  },
+  {
+    "id": "model.job.is_valid.type.app_error",
+    "translation": "작업 유형이 유효하지 않습니다."
+  },
+  {
+    "id": "model.license_record.is_valid.bytes.app_error",
+    "translation": "라이선스 업로드 시 bytes 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.license_record.is_valid.create_at.app_error",
+    "translation": "라이선스 업로드 시 create_at 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.license_record.is_valid.id.app_error",
+    "translation": "라이선스 업로드 시 id 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.link_metadata.is_valid.data.app_error",
+    "translation": "링크 메타데이터 데이터는 nil일 수 없습니다."
+  },
+  {
+    "id": "model.link_metadata.is_valid.data_type.app_error",
+    "translation": "링크 메타데이터 데이터가 주어진 유형과 일치하지 않습니다."
+  },
+  {
+    "id": "model.link_metadata.is_valid.timestamp.app_error",
+    "translation": "링크 메타데이터 타임스탬프는 0이 아니어야 하며 가장 가까운 시간으로 반올림되어야 합니다."
+  },
+  {
+    "id": "model.link_metadata.is_valid.type.app_error",
+    "translation": "링크 메타데이터 유형이 유효하지 않습니다."
+  },
+  {
+    "id": "model.link_metadata.is_valid.url.app_error",
+    "translation": "링크 메타데이터 URL이 설정되어야 합니다."
+  },
+  {
+    "id": "model.link_metadata.is_valid.url_length.app_error",
+    "translation": "링크 메타데이터 URL의 길이가 {{ .Length }}자로, 최대 제한인 {{ .MaxLength }}자를 초과했습니다."
+  },
+  {
+    "id": "model.member.is_valid.channel.app_error",
+    "translation": "채널 이름이 유효하지 않습니다."
+  },
+  {
+    "id": "model.member.is_valid.emails.app_error",
+    "translation": "이메일 목록이 비어 있습니다."
+  },
+  {
+    "id": "model.oauth.is_valid.app_id.app_error",
+    "translation": "앱 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.oauth.is_valid.callback.app_error",
+    "translation": "콜백 URL은 유효한 URL이어야 하며 http:// 또는 https://로 시작해야 합니다."
+  },
+  {
+    "id": "model.oauth.is_valid.client_secret.app_error",
+    "translation": "클라이언트 시크릿이 유효하지 않습니다."
+  },
+  {
+    "id": "model.oauth.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.oauth.is_valid.creator_id.app_error",
+    "translation": "생성자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.oauth.is_valid.description.app_error",
+    "translation": "설명이 유효하지 않습니다."
+  },
+  {
+    "id": "model.oauth.is_valid.homepage.app_error",
+    "translation": "홈페이지는 유효한 URL이어야 하며 http:// 또는 https://로 시작해야 합니다."
+  },
+  {
+    "id": "model.oauth.is_valid.icon_url.app_error",
+    "translation": "아이콘 URL은 유효한 URL이어야 하며 http:// 또는 https://로 시작해야 합니다."
+  },
+  {
+    "id": "model.oauth.is_valid.mattermost_app_id.app_error",
+    "translation": "OKR.BEST AppID의 최대 길이는 32자입니다."
+  },
+  {
+    "id": "model.oauth.is_valid.name.app_error",
+    "translation": "이름이 유효하지 않습니다."
+  },
+  {
+    "id": "model.oauth.is_valid.update_at.app_error",
+    "translation": "업데이트 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.outgoing_hook.icon_url.app_error",
+    "translation": "아이콘이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.callback.app_error",
+    "translation": "콜백 URL이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.channel_id.app_error",
+    "translation": "채널 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.content_type.app_error",
+    "translation": "content_type 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.description.app_error",
+    "translation": "설명이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.display_name.app_error",
+    "translation": "제목이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.id.app_error",
+    "translation": "ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.team_id.app_error",
+    "translation": "팀 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.token.app_error",
+    "translation": "토큰이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.trigger_words.app_error",
+    "translation": "트리거 단어가 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.update_at.app_error",
+    "translation": "업데이트 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.url.app_error",
+    "translation": "콜백 URL이 유효하지 않습니다. 각 URL은 유효한 URL이어야 하며 http:// 또는 https://로 시작해야 합니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.user_id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.is_valid.words.app_error",
+    "translation": "트리거 단어가 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_hook.username.app_error",
+    "translation": "사용자 이름이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.audience.empty",
+    "translation": "Audience는 비어있지 않아야 합니다."
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.audience.error",
+    "translation": "Audience URL이 유효하지 않습니다: {{ .Url }}"
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.client_id.error",
+    "translation": "클라이언트 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.client_secret.error",
+    "translation": "클라이언트 시크릿이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.create_at.error",
+    "translation": "생성 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.creator_id.error",
+    "translation": "생성자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.grant_type.error",
+    "translation": "grant type이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.id.error",
+    "translation": "ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.name.error",
+    "translation": "이름이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.oauth_token_url.error",
+    "translation": "OAuth 토큰 URL이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.password_credentials.error",
+    "translation": "비밀번호 자격 증명이 유효하지 않습니다."
+  },
+  {
+    "id": "model.outgoing_oauth_connection.is_valid.update_at.error",
+    "translation": "업데이트 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.plugin_command.error.app_error",
+    "translation": "명령을 실행하는 중에 오류가 발생했습니다."
+  },
+  {
+    "id": "model.plugin_command_crash.error.app_error",
+    "translation": "/{{.Command}} 명령이 {{.PluginId}} 플러그인을 충돌시켰습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "model.plugin_command_error.error.app_error",
+    "translation": "/{{.Command}} 플러그인이 작동하지 않습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "model.plugin_key_value.is_valid.key.app_error",
+    "translation": "키가 유효하지 않습니다. {{.Min}}자 이상 {{.Max}}자 이하여야 합니다."
+  },
+  {
+    "id": "model.plugin_key_value.is_valid.plugin_id.app_error",
+    "translation": "플러그인 ID가 유효하지 않습니다. {{.Min}}자 이상 {{.Max}}자 이하여야 합니다."
+  },
+  {
+    "id": "model.plugin_kvset_options.is_valid.old_value.app_error",
+    "translation": "이전 값이 유효하지 않습니다. 작업이 원자적이지 않을 때는 설정되지 않아야 합니다."
+  },
+  {
+    "id": "model.post.channel_notifications_disabled_in_channel.message",
+    "translation": "{{.ChannelName}}에서 채널 알림이 비활성화되어 있습니다. {{.Mention}}이(가) 알림을 트리거하지 않았습니다."
+  },
+  {
+    "id": "model.post.is_valid.channel_id.app_error",
+    "translation": "채널 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.post.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.post.is_valid.file_ids.app_error",
+    "translation": "파일 ID가 유효하지 않습니다. 업로드는 최대 10개 파일로 제한됩니다. 더 많은 파일을 업로드하려면 추가 게시물을 사용하세요."
+  },
+  {
+    "id": "model.post.is_valid.filenames.app_error",
+    "translation": "파일 이름이 유효하지 않습니다."
+  },
+  {
+    "id": "model.post.is_valid.hashtags.app_error",
+    "translation": "해시태그가 유효하지 않습니다."
+  },
+  {
+    "id": "model.post.is_valid.id.app_error",
+    "translation": "ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.post.is_valid.message_length.app_error",
+    "translation": "게시물 메시지가 허용된 최대 길이를 초과했습니다."
+  },
+  {
+    "id": "model.post.is_valid.original_id.app_error",
+    "translation": "원본 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.post.is_valid.props.app_error",
+    "translation": "속성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.post.is_valid.root_id.app_error",
+    "translation": "루트 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.post.is_valid.type.app_error",
+    "translation": "유형이 유효하지 않습니다."
+  },
+  {
+    "id": "model.post.is_valid.update_at.app_error",
+    "translation": "업데이트 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.post.is_valid.user_id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.preference.is_valid.category.app_error",
+    "translation": "카테고리가 유효하지 않습니다."
+  },
+  {
+    "id": "model.preference.is_valid.id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.preference.is_valid.limit_visible_dms_gms.app_error",
+    "translation": "limit_visible_dms_gms의 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.preference.is_valid.name.app_error",
+    "translation": "이름이 유효하지 않습니다."
+  },
+  {
+    "id": "model.preference.is_valid.theme.app_error",
+    "translation": "테마가 유효하지 않습니다."
+  },
+  {
+    "id": "model.preference.is_valid.value.app_error",
+    "translation": "값이 너무 깁니다."
+  },
+  {
+    "id": "model.property_field.is_valid.app_error",
+    "translation": "속성 필드가 유효하지 않습니다: {{.FieldName}} ({{.Reason}})."
+  },
+  {
+    "id": "model.property_value.is_valid.app_error",
+    "translation": "속성 값이 유효하지 않습니다: {{.FieldName}} ({{.Reason}})."
+  },
+  {
+    "id": "model.reaction.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.reaction.is_valid.emoji_name.app_error",
+    "translation": "이모지 이름이 유효하지 않습니다."
+  },
+  {
+    "id": "model.reaction.is_valid.post_id.app_error",
+    "translation": "게시물 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.reaction.is_valid.update_at.app_error",
+    "translation": "업데이트 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.reaction.is_valid.user_id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.remote_cluster_invite.is_valid.remote_id.app_error",
+    "translation": "원격 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.remote_cluster_invite.is_valid.site_url.app_error",
+    "translation": "사이트 URL이 유효하지 않습니다."
+  },
+  {
+    "id": "model.remote_cluster_invite.is_valid.token.app_error",
+    "translation": "토큰이 유효하지 않습니다."
+  },
+  {
+    "id": "model.reporting_base_options.is_valid.bad_date_range",
+    "translation": "제공된 날짜 범위가 유효하지 않습니다."
+  },
+  {
+    "id": "model.scheduled_post.is_valid.empty_post.app_error",
+    "translation": "빈 게시물을 예약할 수 없습니다. 예약된 게시물에는 메시지나 파일 첨부가 하나 이상 있어야 합니다."
+  },
+  {
+    "id": "model.scheduled_post.is_valid.id.app_error",
+    "translation": "예약된 게시물에는 ID가 있어야 합니다."
+  },
+  {
+    "id": "model.scheduled_post.is_valid.processed_at.app_error",
+    "translation": "처리 시간이 유효하지 않습니다."
+  },
+  {
+    "id": "model.scheduled_post.is_valid.scheduled_at.app_error",
+    "translation": "예약 시간이 유효하지 않습니다."
+  },
+  {
+    "id": "model.scheme.is_valid.app_error",
+    "translation": "스키마가 유효하지 않습니다."
+  },
+  {
+    "id": "model.search_params_list.is_valid.include_deleted_channels.app_error",
+    "translation": "모든 IncludeDeletedChannels 매개변수는 동일한 값을 가져야 합니다."
+  },
+  {
+    "id": "model.session.is_valid.create_at.app_error",
+    "translation": "세션의 CreateAt 필드가 유효하지 않습니다."
+  },
+  {
+    "id": "model.session.is_valid.id.app_error",
+    "translation": "세션의 Id 필드가 유효하지 않습니다."
+  },
+  {
+    "id": "model.session.is_valid.roles_limit.app_error",
+    "translation": "세션 역할이 {{.Limit}}자를 초과할 수 없습니다."
+  },
+  {
+    "id": "model.session.is_valid.user_id.app_error",
+    "translation": "세션의 UserId 필드가 유효하지 않습니다."
+  },
+  {
+    "id": "model.team.is_valid.characters.app_error",
+    "translation": "이름은 2자 이상의 소문자 알파벳 문자여야 합니다."
+  },
+  {
+    "id": "model.team.is_valid.company.app_error",
+    "translation": "회사 이름이 유효하지 않습니다."
+  },
+  {
+    "id": "model.team.is_valid.create_at.app_error",
+    "translation": "생성 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.team.is_valid.description.app_error",
+    "translation": "설명이 유효하지 않습니다."
+  },
+  {
+    "id": "model.team.is_valid.domains.app_error",
+    "translation": "허용된 도메인이 유효하지 않습니다."
+  },
+  {
+    "id": "model.team.is_valid.email.app_error",
+    "translation": "이메일이 유효하지 않습니다."
+  },
+  {
+    "id": "model.team.is_valid.id.app_error",
+    "translation": "ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.team.is_valid.invite_id.app_error",
+    "translation": "초대 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.team.is_valid.name.app_error",
+    "translation": "이름이 유효하지 않습니다."
+  },
+  {
+    "id": "model.team.is_valid.reserved.app_error",
+    "translation": "이 URL을 사용할 수 없습니다. 다른 URL을 시도해 주세요."
+  },
+  {
+    "id": "model.team.is_valid.type.app_error",
+    "translation": "유형이 유효하지 않습니다."
+  },
+  {
+    "id": "model.team.is_valid.update_at.app_error",
+    "translation": "업데이트 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.team.is_valid.url.app_error",
+    "translation": "URL 식별자가 유효하지 않습니다."
+  },
+  {
+    "id": "model.team_member.is_valid.roles_limit.app_error",
+    "translation": "팀원 역할이 {{.Limit}}자를 초과할 수 없습니다."
+  },
+  {
+    "id": "model.team_member.is_valid.team_id.app_error",
+    "translation": "팀 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.team_member.is_valid.user_id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.thread.is_valid.post_id.app_error",
+    "translation": "게시물 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.thread.is_valid.user_id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.token.is_valid.expiry",
+    "translation": "토큰 만료가 유효하지 않습니다."
+  },
+  {
+    "id": "model.token.is_valid.size",
+    "translation": "토큰이 유효하지 않습니다."
+  },
+  {
+    "id": "model.upload_session.is_valid.channel_id.app_error",
+    "translation": "ChannelId 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.upload_session.is_valid.create_at.app_error",
+    "translation": "CreateAt 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.upload_session.is_valid.file_offset.app_error",
+    "translation": "FileOffset 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.upload_session.is_valid.file_size.app_error",
+    "translation": "FileSize 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.upload_session.is_valid.filename.app_error",
+    "translation": "Filename 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.upload_session.is_valid.id.app_error",
+    "translation": "Id 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.upload_session.is_valid.path.app_error",
+    "translation": "Path 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.upload_session.is_valid.type.app_error",
+    "translation": "Type 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.upload_session.is_valid.user_id.app_error",
+    "translation": "UserId 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.user.is_valid.auth_data.app_error",
+    "translation": "인증 데이터가 유효하지 않습니다."
+  },
+  {
+    "id": "model.user.is_valid.auth_data_pwd.app_error",
+    "translation": "사용자가 유효하지 않습니다. 비밀번호와 인증 데이터를 동시에 설정할 수 없습니다."
+  },
+  {
+    "id": "model.user.is_valid.auth_data_type.app_error",
+    "translation": "사용자가 유효하지 않습니다. 인증 데이터는 인증 유형과 함께 설정되어야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.create_at.app_error",
+    "translation": "생성 시간은 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.email.app_error",
+    "translation": "이메일이 유효하지 않습니다."
+  },
+  {
+    "id": "model.user.is_valid.first_name.app_error",
+    "translation": "이름이 유효하지 않습니다."
+  },
+  {
+    "id": "model.user.is_valid.id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.user.is_valid.invalidProperty.app_error",
+    "translation": "속성이 유효하지 않습니다 (사용자 정의 상태)."
+  },
+  {
+    "id": "model.user.is_valid.last_name.app_error",
+    "translation": "성이 유효하지 않습니다."
+  },
+  {
+    "id": "model.user.is_valid.locale.app_error",
+    "translation": "로케일이 유효하지 않습니다."
+  },
+  {
+    "id": "model.user.is_valid.marshal.app_error",
+    "translation": "JSON으로 필드 인코딩에 실패했습니다."
+  },
+  {
+    "id": "model.user.is_valid.nickname.app_error",
+    "translation": "닉네임이 유효하지 않습니다."
+  },
+  {
+    "id": "model.user.is_valid.password_limit.app_error",
+    "translation": "bcrypt의 제한으로 인해 72자 이상의 비밀번호를 설정할 수 없습니다."
+  },
+  {
+    "id": "model.user.is_valid.position.app_error",
+    "translation": "직책이 유효하지 않습니다: 128자를 초과할 수 없습니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_lowercase.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 소문자를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_lowercase_number.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 소문자와 하나의 숫자를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_lowercase_number_symbol.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 소문자, 하나의 숫자, 하나의 특수문자(예: \"~!@#$%^&*()\")를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_lowercase_symbol.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 소문자와 하나의 특수문자(예: \"~!@#$%^&*()\")를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_lowercase_uppercase.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 소문자와 하나의 대문자를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_lowercase_uppercase_number.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 소문자, 하나의 대문자, 하나의 숫자를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_lowercase_uppercase_number_symbol.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 소문자, 하나의 대문자, 하나의 숫자, 하나의 특수문자(예: \"~!@#$%^&*()\")를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_lowercase_uppercase_symbol.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 소문자, 하나의 대문자, 하나의 특수문자(예: \"~!@#$%^&*()\")를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_max_length.app_error",
+    "translation": "비밀번호는 72자를 초과할 수 없습니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_min_length.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_number.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 숫자를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_number_symbol.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 숫자와 하나의 특수문자(예: \"~!@#$%^&*()\")를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_symbol.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 특수문자(예: \"~!@#$%^&*()\")를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_uppercase.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 대문자를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_uppercase_number.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 대문자와 하나의 숫자를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_uppercase_number_symbol.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 대문자, 하나의 숫자, 하나의 특수문자(예: \"~!@#$%^&*()\")를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.pwd_uppercase_symbol.app_error",
+    "translation": "비밀번호는 최소 {{.Min}}자 이상이어야 하며, 최소 하나의 대문자와 하나의 특수문자(예: \"~!@#$%^&*()\")를 포함해야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.roles_limit.app_error",
+    "translation": "사용자 역할이 {{.Limit}}자를 초과할 수 없습니다."
+  },
+  {
+    "id": "model.user.is_valid.update_at.app_error",
+    "translation": "업데이트 시간이 유효한 시간이어야 합니다."
+  },
+  {
+    "id": "model.user.is_valid.username.app_error",
+    "translation": "사용자 이름은 문자로 시작해야 하며, 3~22자의 소문자로 구성되어야 하며 숫자, 문자, \".\", \"-\", \"_\" 기호를 포함할 수 있습니다."
+  },
+  {
+    "id": "model.user.pre_save.password_hash.app_error",
+    "translation": "비밀번호 저장 중 내부 오류가 발생했습니다."
+  },
+  {
+    "id": "model.user.pre_save.password_too_long.app_error",
+    "translation": "비밀번호는 72자를 초과할 수 없습니다."
+  },
+  {
+    "id": "model.user_access_token.is_valid.description.app_error",
+    "translation": "설명이 유효하지 않습니다. 255자 이하여야 합니다."
+  },
+  {
+    "id": "model.user_access_token.is_valid.id.app_error",
+    "translation": "ID 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.user_access_token.is_valid.token.app_error",
+    "translation": "액세스 토큰이 유효하지 않습니다."
+  },
+  {
+    "id": "model.user_access_token.is_valid.user_id.app_error",
+    "translation": "사용자 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.user_report_options.is_valid.invalid_sort_column",
+    "translation": "제공된 정렬 열이 유효하지 않습니다."
+  },
+  {
+    "id": "model.utils.decode_json.app_error",
+    "translation": "디코딩할 수 없습니다."
+  },
+  {
+    "id": "model.websocket_client.connect_fail.app_error",
+    "translation": "WebSocket 서버에 연결할 수 없습니다."
+  },
+  {
+    "id": "oauth.gitlab.tos.error",
+    "translation": "GitLab의 서비스 약관이 업데이트되었습니다. {{.URL}}로 이동하여 약관을 수락한 후 OKR.BEST에 다시 로그인해 주세요."
+  },
+  {
+    "id": "plugin.api.get_users_in_channel",
+    "translation": "사용자를 가져올 수 없습니다. 정렬 기준이 유효하지 않습니다."
+  },
+  {
+    "id": "plugin.api.update_user_status.bad_status",
+    "translation": "사용자 상태를 설정할 수 없습니다. 알 수 없는 사용자 상태입니다."
+  },
+  {
+    "id": "plugin_api.bot_cant_create_bot",
+    "translation": "봇 사용자는 봇 사용자를 생성할 수 없습니다."
+  },
+  {
+    "id": "plugin_api.get_file_link.disabled.app_error",
+    "translation": "공개 링크가 비활성화되었습니다."
+  },
+  {
+    "id": "plugin_api.get_file_link.no_post.app_error",
+    "translation": "파일의 공개 링크를 가져올 수 없습니다. 파일은 읽을 수 있는 게시물에 첨부되어 있어야 합니다."
+  },
+  {
+    "id": "plugin_api.send_mail.missing_htmlbody",
+    "translation": "HTML 본문이 누락되었습니다."
+  },
+  {
+    "id": "plugin_api.send_mail.missing_subject",
+    "translation": "이메일 제목이 누락되었습니다."
+  },
+  {
+    "id": "plugin_api.send_mail.missing_to",
+    "translation": "수신자 주소가 누락되었습니다."
+  },
+  {
+    "id": "plugin_reattach_request.is_valid.manifest.app_error",
+    "translation": "매니페스트가 누락되었습니다."
+  },
+  {
+    "id": "plugin_reattach_request.is_valid.plugin_reattach_config.app_error",
+    "translation": "플러그인 재연결 설정이 누락되었습니다."
+  },
+  {
+    "id": "searchengine.bleve.disabled.error",
+    "translation": "Bleve 인덱스 삭제 오류: 엔진이 비활성화되었습니다."
+  },
+  {
+    "id": "sharedchannel.cannot_deliver_post",
+    "translation": "원격 사이트 {{.Remote}}가 오프라인 상태여서 하나 이상의 게시물을 전달할 수 없습니다. 사이트가 온라인 상태가 되면 게시물이 전달됩니다."
+  },
+  {
+    "id": "sharedchannel.permalink.not_found",
+    "translation": "이 게시물에는 다른 사이트의 사용자에게 보이지 않을 수 있는 다른 채널의 영구 링크가 포함되어 있습니다."
+  },
+  {
+    "id": "store.sql_bot.get.missing.app_error",
+    "translation": "봇이 존재하지 않습니다."
+  },
+  {
+    "id": "store.sql_channel.get.existing.app_error",
+    "translation": "기존 채널을 찾을 수 없습니다."
+  },
+  {
+    "id": "store.sql_channel.save.archived_channel.app_error",
+    "translation": "보관된 채널은 수정할 수 없습니다."
+  },
+  {
+    "id": "store.sql_channel.save.direct_channel.app_error",
+    "translation": "직접 채널을 생성하려면 SaveDirectChannel을 사용하세요."
+  },
+  {
+    "id": "store.sql_channel.save_channel.existing.app_error",
+    "translation": "기존 채널의 경우 업데이트를 호출해야 합니다."
+  },
+  {
+    "id": "store.sql_channel.save_channel.exists.app_error",
+    "translation": "같은 팀에 해당 이름의 채널이 이미 존재합니다."
+  },
+  {
+    "id": "store.sql_channel.save_channel.limit.app_error",
+    "translation": "허용된 채널 수의 한도에 도달했습니다."
+  },
+  {
+    "id": "store.sql_channel.save_direct_channel.not_direct.app_error",
+    "translation": "SaveDirectChannel로 직접 채널이 아닌 채널을 생성하려고 시도했습니다."
+  },
+  {
+    "id": "store.sql_command.get.missing.app_error",
+    "translation": "명령어가 존재하지 않습니다."
+  },
+  {
+    "id": "store.sql_command.save.get.app_error",
+    "translation": "명령어를 가져올 수 없습니다."
+  },
+  {
+    "id": "store.sql_command.update.missing.app_error",
+    "translation": "명령어가 존재하지 않습니다."
+  },
+  {
+    "id": "store.sql_file_info.search.disabled",
+    "translation": "이 서버에서 파일 검색이 비활성화되었습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "store.sql_post.search.disabled",
+    "translation": "이 서버에서 검색이 비활성화되었습니다. 시스템 관리자에게 문의하세요."
+  },
+  {
+    "id": "store.sql_team.save_member.exists.app_error",
+    "translation": "해당 ID의 팀 멤버가 이미 존재합니다."
+  },
+  {
+    "id": "store.sql_team.save_team.existing.app_error",
+    "translation": "이 URL의 팀이 이미 존재합니다."
+  },
+  {
+    "id": "store.sql_user.get_for_login.app_error",
+    "translation": "자격 증명과 일치하는 기존 계정을 찾을 수 없습니다. 이 팀은 팀 소유자의 초대가 필요할 수 있습니다."
+  },
+  {
+    "id": "system.message.name",
+    "translation": "시스템"
+  },
+  {
+    "id": "web.command_webhook.command.app_error",
+    "translation": "명령어 {{.command_id}}를 찾을 수 없습니다."
+  },
+  {
+    "id": "web.command_webhook.general.app_error",
+    "translation": "명령어 웹훅 {{.hook_id}}를 처리하지 못했습니다."
+  },
+  {
+    "id": "web.command_webhook.parse.app_error",
+    "translation": "웹훅 {{.hook_id}}의 들어오는 데이터를 구문 분석할 수 없습니다."
+  },
+  {
+    "id": "web.error.unsupported_browser.browser_get_latest.chrome",
+    "translation": "최신 Chrome 브라우저 다운로드"
+  },
+  {
+    "id": "web.error.unsupported_browser.browser_get_latest.firefox",
+    "translation": "최신 Firefox 브라우저 다운로드"
+  },
+  {
+    "id": "web.error.unsupported_browser.browser_get_latest.safari",
+    "translation": "최신 Safari 브라우저 다운로드"
+  },
+  {
+    "id": "web.error.unsupported_browser.browser_title.chrome",
+    "translation": "Google Chrome"
+  },
+  {
+    "id": "web.error.unsupported_browser.browser_title.edge",
+    "translation": "Microsoft Edge"
+  },
+  {
+    "id": "web.error.unsupported_browser.browser_title.firefox",
+    "translation": "Firefox"
+  },
+  {
+    "id": "web.error.unsupported_browser.browser_title.safari",
+    "translation": "Safari"
+  },
+  {
+    "id": "web.error.unsupported_browser.download",
+    "translation": "앱 다운로드"
+  },
+  {
+    "id": "web.error.unsupported_browser.download_app_or_upgrade_browser",
+    "translation": "더 나은 경험을 위해 OKR.BEST 앱을 다운로드하거나 지원되는 브라우저를 사용하세요."
+  },
+  {
+    "id": "web.error.unsupported_browser.download_the_app",
+    "translation": "앱 다운로드"
+  },
+  {
+    "id": "web.error.unsupported_browser.install_guide.mac",
+    "translation": "설치 가이드"
+  },
+  {
+    "id": "web.error.unsupported_browser.install_guide.windows",
+    "translation": "설치 가이드"
+  },
+  {
+    "id": "web.error.unsupported_browser.learn_more",
+    "translation": "지원되는 브라우저에 대해 자세히 알아보기."
+  },
+  {
+    "id": "web.error.unsupported_browser.min_browser_version.chrome",
+    "translation": "버전 132+"
+  },
+  {
+    "id": "web.error.unsupported_browser.min_browser_version.edge",
+    "translation": "버전 132+"
+  },
+  {
+    "id": "web.error.unsupported_browser.min_browser_version.firefox",
+    "translation": "버전 119+"
+  },
+  {
+    "id": "web.error.unsupported_browser.min_browser_version.safari",
+    "translation": "버전 17.4+"
+  },
+  {
+    "id": "web.error.unsupported_browser.min_os_version.mac",
+    "translation": "macOS 12+"
+  },
+  {
+    "id": "web.error.unsupported_browser.min_os_version.windows",
+    "translation": "Windows 10+"
+  },
+  {
+    "id": "web.error.unsupported_browser.no_longer_support",
+    "translation": "이 브라우저는 더 이상 OKR.BEST에서 지원되지 않습니다."
+  },
+  {
+    "id": "web.error.unsupported_browser.no_longer_support_version",
+    "translation": "이 버전의 브라우저는 더 이상 OKR.BEST에서 지원되지 않습니다."
+  },
+  {
+    "id": "web.error.unsupported_browser.open_system_browser.edge",
+    "translation": "Edge 열기"
+  },
+  {
+    "id": "web.error.unsupported_browser.system_browser_make_default",
+    "translation": "기본값으로 설정"
+  },
+  {
+    "id": "web.error.unsupported_browser.system_browser_or",
+    "translation": "또는"
+  },
+  {
+    "id": "web.get_access_token.internal_saving.app_error",
+    "translation": "사용자 액세스 데이터를 업데이트할 수 없습니다."
+  },
+  {
+    "id": "web.incoming_webhook.channel.app_error",
+    "translation": "채널을 찾을 수 없습니다."
+  },
+  {
+    "id": "web.incoming_webhook.channel_locked.app_error",
+    "translation": "요청된 채널 {{.channel_id}}에 게시할 권한이 없는 웹훅입니다."
+  },
+  {
+    "id": "web.incoming_webhook.decode.app_error",
+    "translation": "수신 웹훅 {{.hook_id}}의 미디어 유형 {{.media_type}} 페이로드를 디코딩하지 못했습니다."
+  },
+  {
+    "id": "web.incoming_webhook.disabled.app_error",
+    "translation": "시스템 관리자에 의해 수신 웹훅이 비활성화되었습니다."
+  },
+  {
+    "id": "web.incoming_webhook.general.app_error",
+    "translation": "수신 웹훅 {{.hook_id}}의 미디어 유형 {{.media_type}} 페이로드를 처리하지 못했습니다."
+  },
+  {
+    "id": "web.incoming_webhook.invalid.app_error",
+    "translation": "유효하지 않은 웹훅입니다."
+  },
+  {
+    "id": "web.incoming_webhook.media_type.app_error",
+    "translation": "수신 웹훅 {{.hook_id}}의 미디어를 구문 분석하지 못했습니다."
+  },
+  {
+    "id": "web.incoming_webhook.parse.app_error",
+    "translation": "수신 데이터를 구문 분석할 수 없습니다."
   },
   {
     "id": "web.incoming_webhook.permissions.app_error",
@@ -10496,10 +13496,12 @@
     "id": "web.incoming_webhook.split_props_length.app_error",
     "translation": "웹훅 속성을 {{.Max}}자 부분으로 분할할 수 없습니다."
   },
+    
   {
     "id": "web.incoming_webhook.text.app_error",
     "translation": "지정된 텍스트가 없습니다."
   },
+ 
   {
     "id": "web.incoming_webhook.user.app_error",
     "translation": "사용자 {{.user}}를 찾을 수 없습니다."
