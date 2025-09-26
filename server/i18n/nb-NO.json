@@ -450,5 +450,38 @@
   {
     "id": "api.command_join.desc",
     "translation": "Bli med i den åpne kanalen"
+  },
+  {
+    "id": "api.command_invite.user_already_in_channel.app_error",
+    "translation": {
+      "one": "{{.User}} er allerede i kanalen.",
+      "other": "{{.User}} er allerede i kanalen."
+    }
+  },
+  {
+    "id": "api.command_groupmsg.invalid_user.app_error",
+    "translation": {
+      "one": "Kan ikke finne brukeren: {{.Users}}",
+      "other": "Kan ikke finne brukerne: {{.Users}}"
+    }
+  },
+  {
+    "id": "api.email_batching.send_batched_email_notification.subject",
+    "translation": {
+      "one": "[{{.SiteName}}] Nytt varsel for {{.Month}} {{.Day}}, {{.Year}}",
+      "other": "[{{.SiteName}}] Nye varsler for {{.Month}} {{.Day}}, {{.Year}}"
+    }
+  },
+  {
+    "id": "api.admin.test_email.missing_server",
+    "translation": "SMTP-server er påkrevd"
+  },
+  {
+    "id": "api.admin.test_email.subject",
+    "translation": "Mattermost - Testing av e-postinnstillinger"
+  },
+  {
+    "id": "api.channel.channel_member_counts_by_group.license.error",
+    "translation": "Lisensen din støtter ikke grupper"
   }
 ]

@@ -93,6 +93,7 @@
   "add_command.save": "저장",
   "add_command.saving": "저장 중...",
   "add_command.token": "<b>토큰</b>: {token}",
+  "add_command.token": "<b>토큰</b>: {token}",
   "add_command.trigger": "명령어 트리거 단어",
   "add_command.trigger.help": "내장 명령어가 아니고, 공백을 포함하지 않으며, 슬래시 문자로 시작하지 않는 트리거 단어를 지정해주세요.",
   "add_command.trigger.helpExamples": "예시: client, employee, patient, weather",
