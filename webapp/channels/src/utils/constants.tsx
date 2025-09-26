@@ -150,6 +150,8 @@ export const Preferences = {
     CONFIGURATION_BANNERS: 'configuration_banners',
     NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
     OVERAGE_USERS_BANNER: ReduxPreferences.CATEGORY_OVERAGE_USERS_BANNER,
+    POST_HISTORY_LIMIT_BANNER: ReduxPreferences.CATEGORY_POST_HISTORY_LIMIT_BANNER,
+    USERS_LIMITS_BANNER: 'users_limits_banner',
     TO_CLOUD_YEARLY_PLAN_NUDGE: 'to_cloud_yearly_plan_nudge',
     TO_PAID_PLAN_NUDGE: 'to_paid_plan_nudge',
     CLOUD_ANNUAL_RENEWAL_BANNER: 'cloud_annual_renewal_banner',
@@ -479,6 +481,9 @@ export const ModalIdentifiers = {
     SHARED_CHANNEL_REMOTE_UNINVITE: 'shared_channel_remote_uninvite',
     CONFIRM_RESET_FAILED_ATTEMPTS_MODAL: 'confirm_reset_failed_attempts_modal',
     USER_PROPERTY_FIELD_DELETE: 'user_property_field_delete',
+    ATTRIBUTE_MODAL_LDAP: 'attribute_modal_ldap',
+    ATTRIBUTE_MODAL_SAML: 'attribute_modal_saml',
+    FLAG_POST: 'flag_post',
 };
 
 export const UserStatuses = {
@@ -515,6 +520,7 @@ export const CloudProducts = {
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
     LEGACY: 'cloud-legacy',
+    ADVANCED: 'cloud-advanced',
 };
 
 export const CloudBillingTypes = {
@@ -550,6 +556,7 @@ export enum LicenseSkus {
     Professional = 'professional',
     Enterprise = 'enterprise',
     EnterpriseAdvanced = 'advanced',
+    Entry = 'entry',
 }
 
 export function getLicenseTier(licenseSku: string): number {
@@ -558,6 +565,7 @@ export function getLicenseTier(licenseSku: string): number {
         return 10;
     case LicenseSkus.Enterprise:
         return 20;
+    case LicenseSkus.Entry:
     case LicenseSkus.EnterpriseAdvanced:
         return 30;
     default:
@@ -789,44 +797,6 @@ export const AdvancedTextEditorTextboxIds = {
     Default: 'textbox',
 };
 
-export const TELEMETRY_CATEGORIES = {
-    CLOUD_PURCHASING: 'cloud_purchasing',
-    CLOUD_PRICING: 'cloud_pricing',
-    SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
-    SELF_HOSTED_EXPANSION: 'self_hosted_expansion',
-    CLOUD_ADMIN: 'cloud_admin',
-    CLOUD_DELINQUENCY: 'cloud_delinquency',
-    SELF_HOSTED_ADMIN: 'self_hosted_admin',
-    POST_INFO_MORE: 'post_info_more_menu',
-    POST_INFO: 'post_info',
-    SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
-    SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
-    CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
-    CLOUD_THREE_DAYS_LEFT_MODAL: 'cloud_three_days_left_modal',
-    SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
-    SELF_HOSTED_LICENSE_EXPIRED: 'self_hosted_license_expired',
-    WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
-    REQUEST_BUSINESS_EMAIL: 'request_business_email',
-    TRUE_UP_REVIEW: 'true_up_review',
-};
-
-export const TELEMETRY_LABELS = {
-    UNSAVE: 'unsave',
-    SAVE: 'save',
-    COPY_LINK: 'copy_link',
-    COPY_TEXT: 'copy_text',
-    DELETE: 'delete',
-    EDIT: 'edit',
-    FOLLOW: 'follow',
-    UNFOLLOW: 'unfollow',
-    PIN: 'pin',
-    UNPIN: 'unpin',
-    REPLY: 'reply',
-    UNREAD: 'unread',
-    FORWARD: 'forward',
-    MOVE_THREAD: 'move_thread',
-};
-
 export const PostTypes = {
     JOIN_LEAVE: 'system_join_leave',
     JOIN_CHANNEL: 'system_join_channel',
@@ -854,6 +824,7 @@ export const PostTypes = {
     WRANGLER: 'system_wrangler',
     CUSTOM_CALLS: 'custom_calls',
     CUSTOM_CALLS_RECORDING: 'custom_calls_recording',
+    CUSTOM_DATA_SPILLAGE_REPORT: 'custom_spillage_report',
 };
 
 export const StatTypes = keyMirror({
@@ -962,6 +933,7 @@ export const AnnouncementBarTypes = {
     ADVISOR: 'advisor',
     ADVISOR_ACK: 'advisor-ack',
     GENERAL: 'general',
+    WARNING: 'warning',
 };
 
 export const AnnouncementBarMessages = {
@@ -1198,11 +1170,13 @@ export const DeveloperLinks = {
 
 export const LicenseLinks = {
     CONTACT_SALES: 'https://okr.best/contact-sales/',
+    ENTRY_LIMITS_INFO: 'https://okr.best/pl/entry',
     TRIAL_INFO_LINK: 'https://okr.best/trial',
     EMBARGOED_COUNTRIES: 'https://okr.best/pl/limitations-for-embargoed-countries',
     SOFTWARE_SERVICES_LICENSE_AGREEMENT: 'https://okr.best/pl/software-and-services-license-agreement',
     SOFTWARE_SERVICES_LICENSE_AGREEMENT_TEXT: 'Software Services and License Agreement',
     UNSUPPORTED: 'https://okr.best/pricing/',
+    UNSUPPORTED_UPGRADE_LINK: 'https://docs.okrbest.com/administration-guide/upgrade/enterprise-install-upgrade.html#upgrading-to-enterprise-edition-from-mattermost-team-edition',
 };
 
 export const MattermostLink = 'https://okr.best/';
@@ -1318,6 +1292,7 @@ export const PermissionsScope = {
     [Permissions.ORDER_BOOKMARK_PRIVATE_CHANNEL]: 'channel_scope',
     [Permissions.MANAGE_PUBLIC_CHANNEL_BANNER]: 'channel_scope',
     [Permissions.MANAGE_PRIVATE_CHANNEL_BANNER]: 'channel_scope',
+    [Permissions.MANAGE_CHANNEL_ACCESS_RULES]: 'channel_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -1399,6 +1374,7 @@ export const DefaultRolePermissions = {
         Permissions.ORDER_BOOKMARK_PRIVATE_CHANNEL,
         Permissions.MANAGE_PUBLIC_CHANNEL_BANNER,
         Permissions.MANAGE_PRIVATE_CHANNEL_BANNER,
+        Permissions.MANAGE_CHANNEL_ACCESS_RULES,
     ],
     team_admin: [
         Permissions.EDIT_OTHERS_POSTS,
@@ -1436,6 +1412,7 @@ export const DefaultRolePermissions = {
         Permissions.ORDER_BOOKMARK_PRIVATE_CHANNEL,
         Permissions.MANAGE_PUBLIC_CHANNEL_BANNER,
         Permissions.MANAGE_PRIVATE_CHANNEL_BANNER,
+        Permissions.MANAGE_CHANNEL_ACCESS_RULES,
     ],
     guests: [
         Permissions.EDIT_POST,
@@ -1505,6 +1482,23 @@ export const ZoomSettings = {
     MAX_SCALE: 3.0,
 };
 
+export const DataSpillagePropertyNames = {
+    Status: 'Status',
+    FlaggedBy: 'Flagged by',
+    Reason: 'Reason',
+    Comment: 'Comment',
+    ReportingTime: 'Reporting Time',
+    ReviewingUser: 'Reviewing User',
+    ActionBy: 'Action By',
+    ActionComment: 'Action Comment',
+    ActionTime: 'Action Time',
+    Message: 'Message',
+    PostedIn: 'Posted in',
+    Team: 'Team',
+    PostedBy: 'Posted by',
+    PostedAt: 'Posted at',
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,
@@ -1565,7 +1559,7 @@ export const Constants = {
     HERE_MENTION_REGEX: /(?:\B|\b_+)@(here)(?!(\.|-|_)*[^\W_])/gi,
     NOTIFY_ALL_MEMBERS: 5,
     ALL_MEMBERS_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all)(?!(\.|-|_)*[^\W_])/gi,
-    MENTIONS_REGEX: /(?:\B|\b_+)@([a-z0-9.\-_]+)/gi,
+    MENTIONS_REGEX: /(?:\B|\b_+)@([a-z0-9.\-_]+(?::[a-z0-9.\-_]+)?)/gi,
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf', 'vtt'],
@@ -2103,17 +2097,11 @@ export const Constants = {
     ALLOW_EDIT_POST_NEVER: 'never',
     ALLOW_EDIT_POST_TIME_LIMIT: 'time_limit',
     UNSET_POST_EDIT_TIME_LIMIT: -1,
-    MENTION_CHANNELS: 'mention.channels',
     MENTION_MORE_CHANNELS: 'mention.morechannels',
-    MENTION_UNREAD_CHANNELS: 'mention.unread.channels',
     MENTION_UNREAD: 'mention.unread',
-    MENTION_MEMBERS: 'mention.members',
-    MENTION_MORE_MEMBERS: 'mention.moremembers',
-    MENTION_NONMEMBERS: 'mention.nonmembers',
     MENTION_PUBLIC_CHANNELS: 'mention.public.channels',
     MENTION_PRIVATE_CHANNELS: 'mention.private.channels',
     MENTION_RECENT_CHANNELS: 'mention.recent.channels',
-    MENTION_SPECIAL: 'mention.special',
     MENTION_GROUPS: 'search.group',
     STATUS_INTERVAL: 60000,
     AUTOCOMPLETE_TIMEOUT: 100,
