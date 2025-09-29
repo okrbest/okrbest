@@ -57,7 +57,7 @@ COPY --from=builder /usr/lib/libwv.so* /usr/lib/
 COPY --from=builder /usr/lib/libtidy.so* /usr/lib/
 COPY --from=builder /usr/lib/libfontconfig.so* /usr/lib/
 
-# Copy mattermost from builder stage 
+# Copy mattermost from builder stage
 COPY --from=builder --chown=2000:2000 /mattermost /mattermost
 
 # Copy passwd including mattermost user
@@ -66,11 +66,23 @@ COPY  passwd /etc/passwd
 # We should refrain from running as privileged user
 USER mattermost
 
+# Remove mattermost server and client
+RUN rm -f /mattermost/bin/mattermost \
+  && rm -f /mattermost/bin/mmctl \
+  && rm -rf /mattermost/client/*
+
+# Copy the new mattermost server and client
+COPY --chown=mattermost:mattermost --chmod=755 dist/server/mattermost /mattermost/bin/mattermost
+COPY --chown=mattermost:mattermost --chmod=755 dist/server/mmctl /mattermost/bin/mmctl
+COPY --chown=mattermost:mattermost --chmod=755 dist/client/* /mattermost/client
+
 # Healthcheck to make sure container is ready - using mmctl instead of curl for distroless compatibility
 HEALTHCHECK --interval=30s --timeout=10s \
   CMD ["/mattermost/bin/mmctl", "system", "status", "--local"]
 
 # Configure entrypoint and command with proper permissions
+COPY --chown=mattermost:mattermost --chmod=765 entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
 WORKDIR /mattermost
 CMD ["/mattermost/bin/mattermost"]
 

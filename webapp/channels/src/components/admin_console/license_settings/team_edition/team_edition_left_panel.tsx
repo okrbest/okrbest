@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useIntl} from 'react-intl';
 
 import './team_edition.scss';
 export interface TeamEditionProps {
@@ -10,6 +11,7 @@ export interface TeamEditionProps {
 }
 
 const TeamEdition: React.FC<TeamEditionProps> = ({openEELicenseModal, currentPlan}: TeamEditionProps) => {
+    const {formatMessage} = useIntl();
     const title = 'Team Edition';
     return (
         <div className='TeamEditionLeftPanel'>
@@ -19,19 +21,19 @@ const TeamEdition: React.FC<TeamEditionProps> = ({openEELicenseModal, currentPla
             </div>
             <hr/>
             <div>
-                <p>{'When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.'}</p>
+                <p>{formatMessage({id: 'admin.licenseSettings.teamEdition.teamEditionDescription', defaultMessage: 'When using OKR.BEST Team Edition, the software is offered under a OKR.BEST MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.'})}</p>
                 <p>
-                    {'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See '}
+                    {formatMessage({id: 'admin.licenseSettings.teamEdition.enterpriseEditionDescription', defaultMessage: 'When using OKR.BEST Enterprise Edition, the software is offered under a commercial license. See '})}
                     <a
                         role='button'
                         onClick={openEELicenseModal}
                         className='openEELicenseModal'
                     >
-                        {'here'}
+                        {formatMessage({id: 'admin.licenseSettings.teamEdition.enterpriseEditionLink', defaultMessage: 'here'})}
                     </a>
-                    {' for “Enterprise Edition License” for details.'}
+                    {formatMessage({id: 'admin.licenseSettings.teamEdition.enterpriseEditionEnd', defaultMessage: ' for "Enterprise Edition License" for details.'})}
                 </p>
-                <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
+                <p>{formatMessage({id: 'admin.licenseSettings.teamEdition.noticeDescription', defaultMessage: 'See NOTICE.txt for information about open source software used in the system.'})}</p>
             </div>
         </div>
     );
