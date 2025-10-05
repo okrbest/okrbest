@@ -46,7 +46,6 @@ type Props = {
     isDisabled: boolean;
     prevTrialLicense: ClientLicense;
     environmentConfig: Partial<EnvironmentConfig>;
-    isMySql: boolean;
     intl: any;
     actions: {
         getLicenseConfig: () => void;
@@ -271,9 +270,9 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             {this.props.intl.formatMessage(
                 {id: 'admin.license.termsAndPolicy', defaultMessage: 'See also {termsLink} and {privacyLink}'},
                 {
-                    termsLink: this.createLink(AboutLinks.TERMS_OF_SERVICE, 
+                    termsLink: this.createLink(AboutLinks.TERMS_OF_SERVICE,
                         this.props.intl.formatMessage({id: 'admin.license.termsLink', defaultMessage: 'Enterprise Edition Terms of Use'})),
-                    privacyLink: this.createLink(AboutLinks.PRIVACY_POLICY, 
+                    privacyLink: this.createLink(AboutLinks.PRIVACY_POLICY,
                         this.props.intl.formatMessage({id: 'admin.license.privacyLink', defaultMessage: 'Privacy Policy'})),
                 }
             )}
@@ -295,7 +294,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
     );
 
     render() {
-        const {license, upgradedFromTE, isDisabled, isMySql} = this.props;
+        const {license, upgradedFromTE, isDisabled} = this.props;
 
         let leftPanel = null;
         let rightPanel = null;
@@ -378,7 +377,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                             />
                             {!this.state.clickNormalUpgradeBtn && license.IsLicensed !== 'true' &&
                                 this.props.prevTrialLicense?.IsLicensed !== 'true' &&
-                                !isMySql &&
                                 <TrialBanner
                                     isDisabled={isDisabled}
                                     gettingTrialResponseCode={this.state.gettingTrialResponseCode}

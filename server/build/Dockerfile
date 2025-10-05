@@ -1,5 +1,5 @@
 # First stage - Ubuntu with document processing dependencies and curl for downloading
-FROM ubuntu:noble-20250415.1@sha256:6015f66923d7afbc53558d7ccffd325d43b4e249f41a6e93eef074c9505d2233 AS builder
+FROM ubuntu:noble-20250415.1@sha256:dc17125eaac86538c57da886e494a34489122fb6a3ebb6411153d742594c2ddc AS builder
 # Setting bash as our shell, and enabling pipefail option
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -31,12 +31,16 @@ RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
   && curl -L $MM_PACKAGE | tar -xvz \
   && chown -R mattermost:mattermost /mattermost /mattermost/data /mattermost/plugins /mattermost/client/plugins
 
+# Create PostgreSQL client SSL directory structure for ssl_mode=require
+RUN mkdir -p /mattermost/.postgresql \
+  && chmod 700 /mattermost/.postgresql
+
 # Remove mattermost server and client
 RUN rm -f /mattermost/bin/mattermost \
   && rm -f /mattermost/bin/mmctl \
   && rm -rf /mattermost/client/*
 # && rm -rf /mattermost/i18n/*
-#  && rm -f /mattermost/config/config.json 
+#  && rm -f /mattermost/config/config.json
 
 # Copy the new mattermost server and client
 COPY --chown=mattermost:mattermost --chmod=755 dist/server/mattermost /mattermost/bin/mattermost
@@ -55,6 +59,9 @@ ENV MM_SERVICESETTINGS_ENABLELOCALMODE="true"
 # Copy over metadata files needed by runtime
 COPY --from=builder /etc/mime.types /etc
 
+# Copy CA certificates for SSL/TLS validation with proper ownership
+COPY --from=builder --chown=2000:2000 /etc/ssl/certs /etc/ssl/certs
+
 # Copy document processing utilities and necessary support files
 COPY --from=builder /usr/bin/pdftotext /usr/bin/pdftotext
 COPY --from=builder /usr/bin/wvText /usr/bin/wvText
@@ -71,7 +78,7 @@ COPY --from=builder /usr/lib/libwv.so* /usr/lib/
 COPY --from=builder /usr/lib/libtidy.so* /usr/lib/
 COPY --from=builder /usr/lib/libfontconfig.so* /usr/lib/
 
-# Copy mattermost from builder stage 
+# Copy mattermost from builder stage
 COPY --from=builder --chown=2000:2000 /mattermost /mattermost
 
 # Copy passwd including mattermost user
