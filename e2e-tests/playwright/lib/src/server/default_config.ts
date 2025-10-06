@@ -170,7 +170,7 @@ const defaultServerConfig: AdminConfig = {
         EnableAPIPostDeletion: false,
         EnableDesktopLandingPage: true,
         ExperimentalEnableHardenedMode: false,
-        StrictCSRFEnforcement: true,
+        ExperimentalStrictCSRFEnforcement: false,
         EnableEmailInvitations: false,
         DisableBotsWhenOwnerIsDeactivated: true,
         EnableBotAccountCreation: false,
@@ -535,7 +535,7 @@ const defaultServerConfig: AdminConfig = {
         IdpMetadataURL: '',
         ServiceProviderIdentifier: '',
         AssertionConsumerServiceURL: '',
-        SignatureAlgorithm: 'RSAwithSHA256',
+        SignatureAlgorithm: 'RSAwithSHA1',
         CanonicalAlgorithm: 'Canonical1.0',
         ScopingIDPProviderId: '',
         ScopingIDPName: '',
@@ -587,7 +587,7 @@ const defaultServerConfig: AdminConfig = {
         AdvertiseAddress: '',
         UseIPAddress: true,
         EnableGossipCompression: true,
-        EnableGossipEncryption: true,
+        EnableGossipEncryption: false,
         ReadOnlyConfig: true,
         GossipPort: 8074,
     },
@@ -745,7 +745,6 @@ const defaultServerConfig: AdminConfig = {
         CWSAPIURL: 'https://portal.internal.prod.cloud.mattermost.com',
         CWSMock: false,
         Disable: false,
-        PreviewModalBucketURL: '',
     },
     FeatureFlags: {
         TestFeature: 'off',
@@ -774,7 +773,6 @@ const defaultServerConfig: AdminConfig = {
         ExperimentalAuditSettingsSystemConsoleUI: true,
         CustomProfileAttributes: true,
         AttributeBasedAccessControl: true,
-        ContentFlagging: false,
     },
     ImportSettings: {
         Directory: './import',
@@ -805,36 +803,28 @@ const defaultServerConfig: AdminConfig = {
     AccessControlSettings: {
         EnableAttributeBasedAccessControl: false,
         EnableChannelScopeAccessControl: false,
-        EnableUserManagedAttributes: false,
     },
     ContentFlaggingSettings: {
-        EnableContentFlagging: false,
-        ReviewerSettings: {
-            CommonReviewers: true,
-            CommonReviewerIds: [],
-            TeamReviewersSetting: {},
-            SystemAdminsAsReviewers: false,
-            TeamAdminsAsReviewers: true,
-        },
         NotificationSettings: {
-            EventTargetMapping: {
-                assigned: ['reviewers'],
-                dismissed: ['reviewers', 'reporter'],
-                flagged: ['reviewers'],
-                removed: ['reviewers', 'author', 'reporter'],
+            ReviewerSettings: {
+                CommonReviewers: false,
+                CommonReviewerIds: [],
+                TeamReviewersSetting: {},
+                SystemAdminsAsReviewers: false,
+                TeamAdminsAsReviewers: false,
             },
-        },
-        AdditionalSettings: {
-            Reasons: [
-                'Inappropriate content',
-                'Sensitive data',
-                'Security concern',
-                'Harassment or abuse',
-                'Spam or phishing',
-            ],
-            ReporterCommentRequired: true,
-            ReviewerCommentRequired: true,
-            HideFlaggedContent: true,
+            EventTargetMapping: {
+                flagged: ['reviewers', 'author'],
+                assigned: ['reviewers'],
+                removed: ['reviewers'],
+                dismissed: ['reviewers', 'author'],
+            },
+            AdditionalSettings: {
+                Reasons: ['Reason 1', 'Reason 2'],
+                ReporterCommentRequired: false,
+                ReviewerCommentRequired: false,
+                HideFlaggedContent: false,
+            },
         },
     },
 };
