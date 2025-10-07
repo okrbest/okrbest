@@ -5287,6 +5287,7 @@
   "search_bar.usage.title": "検索オプション",
   "search_bar.usage.title_files": "ファイル検索オプション",
   "search_bar.usage.title_messages": "メッセージ検索オプション",
+  "search_bar.users": "ユーザー",
   "search_file_extension_suggestion.aria_label": "{fileType} (.{extension})",
   "search_files_list_option.after": "日付以降のファイル",
   "search_files_list_option.before": "日付以前のファイル",
