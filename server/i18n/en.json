@@ -4175,14 +4175,6 @@
     "translation": "Bot login is forbidden."
   },
   {
-    "id": "api.user.login.client_side_cert.certificate.app_error",
-    "translation": "Attempted to sign in using the experimental feature ClientSideCert without providing a valid certificate."
-  },
-  {
-    "id": "api.user.login.client_side_cert.license.app_error",
-    "translation": "Attempt to use the experimental feature ClientSideCertEnable without a valid enterprise license."
-  },
-  {
     "id": "api.user.login.guest_accounts.disabled.error",
     "translation": "Guest accounts are disabled"
   },
@@ -5145,6 +5137,10 @@
   {
     "id": "app.custom_profile_attributes.property_field_delete.app_error",
     "translation": "Unable to delete Custom Profile Attribute field"
+  },
+  {
+    "id": "app.custom_profile_attributes.property_field_is_managed.app_error",
+    "translation": "Cannot update value for an admin-managed Custom Profile Attribute field"
   },
   {
     "id": "app.custom_profile_attributes.property_field_is_synced.app_error",
@@ -9015,6 +9011,10 @@
   {
     "id": "model.config.is_valid.cache_type.app_error",
     "translation": "Cache type must be either lru or redis."
+  },
+  {
+    "id": "model.config.is_valid.client_side_cert_enable.app_error",
+    "translation": "Certificate-based authentication has been removed. Please disable ClientSideCertEnable to continue."
   },
   {
     "id": "model.config.is_valid.cluster_email_batching.app_error",

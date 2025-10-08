@@ -481,6 +481,7 @@ export const ModalIdentifiers = {
     USER_PROPERTY_FIELD_DELETE: 'user_property_field_delete',
     ATTRIBUTE_MODAL_LDAP: 'attribute_modal_ldap',
     ATTRIBUTE_MODAL_SAML: 'attribute_modal_saml',
+    FLAG_POST: 'flag_post',
 };
 
 export const UserStatuses = {
@@ -517,6 +518,7 @@ export const CloudProducts = {
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
     LEGACY: 'cloud-legacy',
+    ADVANCED: 'cloud-advanced',
 };
 
 export const CloudBillingTypes = {
@@ -1157,7 +1159,6 @@ export const DocLinks = {
     DEFAULT_LDAP_GROUP_SYNC: 'https://okr.best/pl/default-ldap-group-sync',
     DESKTOP_MANAGED_RESOURCES: 'https://okr.best/pl/desktop-managed-resources',
     ELASTICSEARCH: 'https://okr.best/pl/setup-elasticsearch',
-    ENABLE_CLIENT_SIDE_CERTIFICATION: 'https://okr.best/pl/enable-client-side-certification',
     ENABLE_HARDENED_MODE: 'https://okr.best/pl/enable-hardened-mode',
     FORMAT_MESSAGES: 'https://okr.best/pl/format-messages',
     FILE_STORAGE: 'https://okr.best/pl/configure-file-storage',
