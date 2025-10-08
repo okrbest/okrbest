@@ -118,12 +118,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         if (this.props.enterpriseReady) {
             this.props.actions.getPrevTrialLicense();
         } else {
-            this.props.actions.isAllowedToUpgradeToEnterprise().then(({error}) => {
-                this.setState({upgradeDisabled: Boolean(error?.message), upgradeError: error?.message});
-                if (!error?.message) {
-                    this.reloadPercentage();
-                }
-            });
+            this.reloadPercentage();
         }
         this.props.actions.getLicenseConfig();
         this.props.actions.getFilteredUsersStats({include_bots: false, include_deleted: false});
