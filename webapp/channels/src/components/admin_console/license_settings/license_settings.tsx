@@ -54,7 +54,6 @@ type Props = {
         getPrevTrialLicense: () => void;
         upgradeToE0: () => Promise<StatusOK>;
         upgradeToE0Status: () => Promise<{percentage: number; error: string | JSX.Element | null}>;
-        isAllowedToUpgradeToEnterprise: () => Promise<ActionResult>;
         restartServer: () => Promise<StatusOK>;
         ping: () => Promise<{status: string}>;
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
@@ -90,7 +89,6 @@ type State = {
     restarting: boolean;
     restartError: string | null;
     clickNormalUpgradeBtn: boolean;
-    upgradeDisabled: boolean;
 };
 export default class LicenseSettings extends React.PureComponent<Props, State> {
     private interval: ReturnType<typeof setInterval> | null;
@@ -112,7 +110,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             restarting: false,
             restartError: null,
             clickNormalUpgradeBtn: false,
-            upgradeDisabled: false,
         };
         this.fileInputRef = React.createRef();
     }
@@ -326,7 +323,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     restarting={this.state.restarting}
                     openEEModal={this.openEELicenseModal}
                     setClickNormalUpgradeBtn={this.setClickNormalUpgradeBtn}
-                    upgradeDisabled={this.state.upgradeDisabled}
                 />
             );
         } else if (license.IsLicensed === 'true') {
@@ -399,7 +395,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                     handleRestart={this.handleRestart}
                                     restarting={this.state.restarting}
                                     openEEModal={this.openEELicenseModal}
-                                    upgradeDisabled={this.state.upgradeDisabled}
                                 />
                             }
                             {this.renewLicenseCard()}
