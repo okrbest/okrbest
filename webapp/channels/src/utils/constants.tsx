@@ -1205,6 +1205,7 @@ export const LicenseLinks = {
     SOFTWARE_SERVICES_LICENSE_AGREEMENT: 'https://okr.best/pl/software-and-services-license-agreement',
     SOFTWARE_SERVICES_LICENSE_AGREEMENT_TEXT: 'Software Services and License Agreement',
     UNSUPPORTED: 'https://okr.best/pricing/',
+    UNSUPPORTED_UPGRADE_LINK: 'https://docs.okrbest.com/administration-guide/upgrade/enterprise-install-upgrade.html#upgrading-to-enterprise-edition-from-mattermost-team-edition',
 };
 
 export const MattermostLink = 'https://okr.best/';
