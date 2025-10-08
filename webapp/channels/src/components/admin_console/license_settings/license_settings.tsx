@@ -290,17 +290,18 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
     comparePlans = (this.props.license.SkuShortName === LicenseSkus.Entry ? null : (
         <div className='compare-plans-text'>
-                   {this.props.intl.formatMessage(
-                       {id: 'admin.license.comparePlans', defaultMessage: 'Curious about upgrading? {compareLink}'},
-                       {
-                           compareLink: this.createLink(
-                               CloudLinks.PRICING,
-                               this.props.intl.formatMessage({id: 'admin.license.compareLink', defaultMessage: 'Compare Plans'}),
-                           ),
-                       },
-                   )}
-               </div>
-           ));
+            {this.props.intl.formatMessage(
+                {id: 'admin.license.comparePlans', defaultMessage: 'Curious about upgrading? {compareLink}'},
+                {
+                    compareLink: this.createLink(
+                        CloudLinks.PRICING,
+                        this.props.intl.formatMessage({id: 'admin.license.compareLink', defaultMessage: 'Compare Plans'}),
+                    ),
+                },
+            )}
+        </div>
+    ));
+
     render() {
         const {license, upgradedFromTE, isDisabled} = this.props;
 
