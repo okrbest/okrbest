@@ -3,9 +3,9 @@
 /webapp/channels/package.json @okrbest/okrbest
 /webapp/channels/src/packages/mattermost-redux/src/store/configureStore.ts @okrbest/okrbest
 /webapp/Makefile @okrbest/okrbest
-/webapp/package-lock.json @mokrbest/okrbest
+/webapp/package-lock.json @okrbest/okrbest
 /webapp/platform/*/package.json @okrbest/okrbest
-/webapp/scripts @mokrbest/okrbest
+/webapp/scripts @okrbest/okrbest
 /server/channels/db/migrations @okrbest/okrbest
 /server/boards/services/store/sqlstore/migrations @okrbest/okrbest
 /server/playbooks/server/sqlstore/migrations @okrbest/okrbest
