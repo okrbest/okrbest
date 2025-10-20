@@ -305,7 +305,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             leftPanel = (
                 <TeamEditionLeftPanel
                     openEELicenseModal={this.openEELicenseModal}
-                    currentPlan={this.currentPlan}
                 />
             );
 

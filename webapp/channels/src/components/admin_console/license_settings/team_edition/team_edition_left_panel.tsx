@@ -7,20 +7,17 @@ import {useIntl} from 'react-intl';
 import './team_edition.scss';
 export interface TeamEditionProps {
     openEELicenseModal: () => void;
-    currentPlan: JSX.Element;
 }
 
-const TeamEdition: React.FC<TeamEditionProps> = ({openEELicenseModal, currentPlan}: TeamEditionProps) => {
+const TeamEdition: React.FC<TeamEditionProps> = ({openEELicenseModal}: TeamEditionProps) => {
     const {formatMessage} = useIntl();
     const title = 'Team Edition';
     return (
         <div className='TeamEditionLeftPanel'>
-            <div className='title'>{title}</div>
-            <div className='currentPlanLegend'>
-                {currentPlan}
+            <div className='TeamEditionLeftPanel__Header'>
+                <div className='TeamEditionLeftPanel__Title'>{title}</div>
             </div>
-            <hr/>
-            <div>
+            <div className='TeamEditionLeftPanel__LicenseNotices'>
                 <p>{formatMessage({id: 'admin.licenseSettings.teamEdition.teamEditionDescription', defaultMessage: 'When using OKR.BEST Team Edition, the software is offered under a OKR.BEST MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.'})}</p>
                 <p>
                     {formatMessage({id: 'admin.licenseSettings.teamEdition.enterpriseEditionDescription', defaultMessage: 'When using OKR.BEST Enterprise Edition, the software is offered under a commercial license. See '})}
