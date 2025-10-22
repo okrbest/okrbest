@@ -787,15 +787,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 defaultMessage: 'Teammate Name Display',
             }),
             firstOption: {
-                value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
-                radionButtonText: {
-                    label: defineMessage({
-                        id: 'user.settings.display.teammateNameDisplayUsername',
-                        defaultMessage: 'Show username',
-                    }),
-                },
-            },
-            secondOption: {
                 value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME,
                 radionButtonText: {
                     label: defineMessage({
@@ -804,12 +795,21 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     }),
                 },
             },
-            thirdOption: {
+            secondOption: {
                 value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME,
                 radionButtonText: {
                     label: defineMessage({
                         id: 'user.settings.display.teammateNameDisplayFullname',
                         defaultMessage: 'Show first and last name',
+                    }),
+                },
+            },
+            thirdOption: {
+                value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
+                radionButtonText: {
+                    label: defineMessage({
+                        id: 'user.settings.display.teammateNameDisplayUsername',
+                        defaultMessage: 'Show username',
                     }),
                 },
             },

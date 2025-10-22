@@ -107,7 +107,7 @@ export const getTeammateNameDisplaySetting: (state: GlobalState) => string = cre
         } else if (config.TeammateNameDisplay) {
             return config.TeammateNameDisplay;
         }
-        return General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME;
+        return General.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME;
     },
 );
 

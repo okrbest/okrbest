@@ -33,6 +33,24 @@ export function displayUsername(
             name = user.nickname || getFullName(user);
         } else if (teammateNameDisplay === Preferences.DISPLAY_PREFER_FULL_NAME) {
             name = getFullName(user);
+        } else if (teammateNameDisplay === Preferences.DISPLAY_PREFER_USERNAME) {
+            // 커스텀 형식: username - fullName (nickname) - 존재 여부에 따라 조건 분기
+            const fullName = getFullName(user);
+            const nickname = user.nickname ? `(${user.nickname})` : '';
+
+            if (fullName && nickname) {
+                // 성명과 닉네임 모두 있는 경우: "admin - 홍길동 김 (관리자)"
+                name = `${user.username} - ${fullName} ${nickname}`;
+            } else if (fullName) {
+                // 성명만 있는 경우: "admin - 홍길동 김"
+                name = `${user.username} - ${fullName}`;
+            } else if (nickname) {
+                // 닉네임만 있는 경우: "admin (관리자)"
+                name = `${user.username} ${nickname}`;
+            } else {
+                // 둘 다 없는 경우: "admin"
+                name = user.username;
+            }
         } else {
             name = (user.remote_id && user.props?.RemoteUsername) ? user.props.RemoteUsername : user.username;
         }

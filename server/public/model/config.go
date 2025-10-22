@@ -3941,10 +3941,10 @@ func (o *Config) SetDefaults() {
 	o.SamlSettings.SetDefaults()
 
 	if o.TeamSettings.TeammateNameDisplay == nil {
-		o.TeamSettings.TeammateNameDisplay = NewPointer(ShowUsername)
+		o.TeamSettings.TeammateNameDisplay = NewPointer(ShowNicknameFullName)
 
 		if *o.SamlSettings.Enable || *o.LdapSettings.Enable {
-			*o.TeamSettings.TeammateNameDisplay = ShowFullName
+			*o.TeamSettings.TeammateNameDisplay = ShowNicknameFullName
 		}
 	}
 
