@@ -161,7 +161,7 @@
   },
   {
     "id": "api.admin.test_email.reenter_password",
-    "translation": "SMTP 서버, 포트 또는 사용자이름이 변경되었습니다. SMTP 비밀번호를 다시 입력해주세요."
+    "translation": "SMTP 서버, 포트 또는 사용자 ID가 변경되었습니다. SMTP 비밀번호를 다시 입력해주세요."
   },
   {
     "id": "api.admin.test_email.subject",
@@ -1036,11 +1036,11 @@
   },
   {
     "id": "api.command_invite.hint",
-    "translation": "@[사용자 이름] ~[채널]"
+    "translation": "@[사용자 ID] ~[채널]"
   },
   {
     "id": "api.command_invite.missing_message.app_error",
-    "translation": "사용자 이름 및 채널이 없습니다."
+    "translation": "사용자 ID 및 채널이 없습니다."
   },
   {
     "id": "api.command_invite.missing_user.app_error",
@@ -1419,7 +1419,7 @@
   },
   {
     "id": "api.command_remove.hint",
-    "translation": "@[사용자 이름]"
+    "translation": "@[사용자 ID]"
   },
   {
     "id": "api.command_remove.message.app_error",
@@ -2206,7 +2206,7 @@
   },
   {
     "id": "api.incoming_webhook.invalid_username.app_error",
-    "translation": "유효하지 않은 사용자 이름."
+    "translation": "유효하지 않은 사용자 ID."
   },
   {
     "id": "api.invalid_channel",
@@ -2214,7 +2214,7 @@
   },
   {
     "id": "api.invalid_custom_url_scheme",
-    "translation": "유효하지 않은 사용자 이름."
+    "translation": "유효하지 않은 사용자 ID."
   },
   {
     "id": "api.invalid_redirect_url",
@@ -2262,7 +2262,7 @@
   },
   {
     "id": "api.ldap_groups.existing_user_name_error",
-    "translation": "그룹 이름이 사용자 이름으로 이미 존재합니다."
+    "translation": "그룹 이름이 사용자 ID로 이미 존재합니다."
   },
   {
     "id": "api.ldap_groups.license_error",
@@ -3008,11 +3008,11 @@
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing",
-    "translation": "전자우편 {{.Email}}, 사용자명 {{.Username}}을 통해 Slack 사용자와 OKR.BEST에 존재하는 사용자를 통합했습니다.\n"
+    "translation": "전자우편 {{.Email}}, 사용자 ID {{.Username}}를 통해 Slack 사용자와 OKR.BEST에 존재하는 사용자를 통합했습니다.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing_failed",
-    "translation": "전자우편 {{.Email}}, 사용자명 {{.Username}}을 통해 Slack 사용자와 OKR.BEST에 존재하는 사용자를 통합했지만 팀에 추가하지는 못했습니다.\n"
+    "translation": "전자우편 {{.Email}}, 사용자 ID {{.Username}}를 통해 Slack 사용자와 OKR.BEST에 존재하는 사용자를 통합했지만 팀에 추가하지는 못했습니다.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.missing_email_address",
@@ -3700,15 +3700,15 @@
   },
   {
     "id": "api.templates.username_change_body.info",
-    "translation": "{{.TeamDisplayName}} 팀의 당신의 사용자명이 {{.NewUsername}} 로 변경되었습니다."
+    "translation": "{{.TeamDisplayName}} 팀의 당신의 사용자 ID가 {{.NewUsername}} 로 변경되었습니다."
   },
   {
     "id": "api.templates.username_change_body.title",
-    "translation": "사용자명을 변경했습니다"
+    "translation": "사용자 ID를 변경했습니다"
   },
   {
     "id": "api.templates.username_change_subject",
-    "translation": "[{{ .SiteName }}] 당신의 사용자명이 변경되었습니다"
+    "translation": "[{{ .SiteName }}] 당신의 사용자 ID가 변경되었습니다"
   },
   {
     "id": "api.templates.verify_body.button",
@@ -3880,7 +3880,7 @@
   },
   {
     "id": "api.user.auth_switch.not_available.login_disabled.app_error",
-    "translation": "이메일 로그인이나 사용자명 로그인이 비활성화되어 있어 인증 전환을 사용할 수 없습니다."
+    "translation": "이메일 로그인이나 사용자 ID 로그인이 비활성화되어 있어 인증 전환을 사용할 수 없습니다."
   },
   {
     "id": "api.user.authorize_oauth_user.bad_response.app_error",
@@ -4120,15 +4120,15 @@
   },
   {
     "id": "api.user.login.invalid_credentials_email_username",
-    "translation": "유효한 이메일 또는 사용자 이름 또는 비밀번호를 입력하세요."
+    "translation": "유효한 이메일 또는 사용자 ID 또는 비밀번호를 입력하세요."
   },
   {
     "id": "api.user.login.invalid_credentials_sso",
-    "translation": "유효한 이메일 또는 사용자 이름 또는 비밀번호를 입력하세요, 또는 다른 방법을 사용하여 로그인하세요."
+    "translation": "유효한 이메일 또는 사용자 ID 또는 비밀번호를 입력하세요, 또는 다른 방법을 사용하여 로그인하세요."
   },
   {
     "id": "api.user.login.invalid_credentials_username",
-    "translation": "유효한 사용자 이름 또는 비밀번호를 입력하세요."
+    "translation": "유효한 사용자 ID 또는 비밀번호를 입력하세요."
   },
   {
     "id": "api.user.login.not_verified.app_error",
@@ -5324,7 +5324,7 @@
   },
   {
     "id": "app.group.username_conflict",
-    "translation": "사용자 이름 \"{{.Username}}\"을 가진 사용자가 이미 존재합니다."
+    "translation": "사용자 ID \"{{.Username}}\"를 가진 사용자가 이미 존재합니다."
   },
   {
     "id": "app.import.attachment.bad_file.error",
@@ -5476,7 +5476,7 @@
   },
   {
     "id": "app.import.import_post.user_not_found.error",
-    "translation": "게시물 가져오기 오류. 사용자 이름이 \"{{.Username}}\"인 사용자를 찾을 수 없습니다."
+    "translation": "게시물 가져오기 오류. 사용자 ID가 \"{{.Username}}\"인 사용자를 찾을 수 없습니다."
   },
   {
     "id": "app.import.import_scheme.scope_change.error",
@@ -5848,7 +5848,7 @@
   },
   {
     "id": "app.import.validate_user_import_data.first_name_length.error",
-    "translation": "사용자 이름이 너무 깁니다."
+    "translation": "사용자 ID가 너무 깁니다."
   },
   {
     "id": "app.import.validate_user_import_data.guest_roles_conflict.error",
@@ -7206,7 +7206,7 @@
   },
   {
     "id": "app.user.get_by_username.app_error",
-    "translation": "이 팀에서 사용자 이름과 일치하는 기존 계정을 찾을 수 없습니다. 이 팀에 참여하려면 팀 소유자의 초대가 필요할 수 있습니다."
+    "translation": "이 팀에서 사용자 ID과 일치하는 기존 계정을 찾을 수 없습니다. 이 팀에 참여하려면 팀 소유자의 초대가 필요할 수 있습니다."
   },
   {
     "id": "app.user.get_known_users.get_users.app_error",
@@ -7294,11 +7294,11 @@
   },
   {
     "id": "app.user.save.groupname.app_error",
-    "translation": "해당 사용자 이름이 이미 존재하는지 확인할 수 없습니다."
+    "translation": "해당 사용자 ID가 이미 존재하는지 확인할 수 없습니다."
   },
   {
     "id": "app.user.save.username_exists.app_error",
-    "translation": "해당 사용자 이름을 사용하는 계정이 이미 존재합니다."
+    "translation": "해당 사용자 ID를 사용하는 계정이 이미 존재합니다."
   },
   {
     "id": "app.user.search.app_error",
@@ -7998,7 +7998,7 @@
   },
   {
     "id": "ent.elasticsearch.test_config.reenter_password",
-    "translation": "검색 서버 URL 또는 사용자 이름이 변경되었습니다. 연결을 테스트하려면 비밀번호를 다시 입력하세요."
+    "translation": "검색 서버 URL 또는 사용자 ID가 변경되었습니다. 연결을 테스트하려면 비밀번호를 다시 입력하세요."
   },
   {
     "id": "ent.id_loaded.license_disable.app_error",
@@ -8042,7 +8042,7 @@
   },
   {
     "id": "ent.ldap.do_login.matched_to_many_users.app_error",
-    "translation": "사용자명이 여러 사용자와 일치합니다."
+    "translation": "사용자 ID가 여러 사용자와 일치합니다."
   },
   {
     "id": "ent.ldap.do_login.search_ldap_server.app_error",
@@ -8078,7 +8078,7 @@
   },
   {
     "id": "ent.ldap.save_user.username_exists.ldap_app_error",
-    "translation": "해당 사용자 이름의 계정이 이미 존재합니다. 관리자에게 문의하세요."
+    "translation": "해당 사용자 ID의 계정이 이미 존재합니다. 관리자에게 문의하세요."
   },
   {
     "id": "ent.ldap.syncronize.get_all.app_error",
@@ -8174,7 +8174,7 @@
   },
   {
     "id": "ent.migration.migratetosaml.username_already_used_by_other_user",
-    "translation": "이미 다른 OKR.BEST 사용자가 사용 중인 사용자 이름입니다."
+    "translation": "이미 다른 OKR.BEST 사용자가 사용 중인 사용자 ID입니다."
   },
   {
     "id": "ent.outgoing_oauth_connections.authenticate.app_error",
@@ -8298,7 +8298,7 @@
   },
   {
     "id": "ent.saml.save_user.username_exists.saml_app_error",
-    "translation": "해당 사용자 이름을 가진 계정이 이미 존재합니다. 관리자에게 문의하세요."
+    "translation": "해당 사용자 ID를 가진 계정이 이미 존재합니다. 관리자에게 문의하세요."
   },
   {
     "id": "ent.saml.service_disable.app_error",
@@ -8518,7 +8518,7 @@
   },
   {
     "id": "model.bot.is_valid.username.app_error",
-    "translation": "유효하지 않은 사용자 이름입니다."
+    "translation": "유효하지 않은 사용자 ID입니다."
   },
   {
     "id": "model.channel.is_valid.1_or_more.app_error",
@@ -9230,7 +9230,7 @@
   },
   {
     "id": "model.config.is_valid.saml_username_attribute.app_error",
-    "translation": "사용자 이름 속성이 유효하지 않습니다. 설정되어야 합니다."
+    "translation": "사용자 ID 속성이 유효하지 않습니다. 설정되어야 합니다."
   },
   {
     "id": "model.config.is_valid.site_url.app_error",
@@ -9510,7 +9510,7 @@
   },
   {
     "id": "model.incoming_hook.username.app_error",
-    "translation": "사용자 이름이 유효하지 않습니다."
+    "translation": "사용자 ID가 유효하지 않습니다."
   },
   {
     "id": "model.job.is_valid.create_at.app_error",
@@ -9678,7 +9678,7 @@
   },
   {
     "id": "model.outgoing_hook.username.app_error",
-    "translation": "사용자 이름이 유효하지 않습니다."
+    "translation": "사용자 ID가 유효하지 않습니다."
   },
   {
     "id": "model.outgoing_oauth_connection.is_valid.audience.empty",
@@ -10166,7 +10166,7 @@
   },
   {
     "id": "model.user.is_valid.username.app_error",
-    "translation": "사용자 이름은 문자로 시작해야 하며, 3~22자의 소문자로 구성되어야 하며 숫자, 문자, \".\", \"-\", \"_\" 기호를 포함할 수 있습니다."
+    "translation": "사용자 ID는 문자로 시작해야 하며, 3~22자의 소문자로 구성되어야 하며 숫자, 문자, \".\", \"-\", \"_\" 기호를 포함할 수 있습니다."
   },
   {
     "id": "model.user.pre_save.password_hash.app_error",
