@@ -4,10 +4,12 @@
 import React from 'react';
 import type {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
+import {useSelector} from 'react-redux';
 
 import type {UserProfile} from '@mattermost/types/users';
 
-import {isGuest} from 'mattermost-redux/utils/user_utils';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {isGuest, displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import usePrefixedIds, {joinIds} from 'components/common/hooks/usePrefixedIds';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
@@ -39,6 +41,8 @@ function isGroup(o: unknown): o is Group {
 
 const AtMentionSuggestion = React.forwardRef<HTMLLIElement, SuggestionProps<Item>>((props, ref) => {
     const {id, item} = props;
+
+    const teammateNameDisplay = useSelector(getTeammateNameDisplaySetting);
 
     const ids = usePrefixedIds(id, {
         atMention: null,
@@ -117,15 +121,15 @@ const AtMentionSuggestion = React.forwardRef<HTMLLIElement, SuggestionProps<Item
             </span>
         );
     } else {
-        itemname = item.username;
+        itemname = displayUsername(item, teammateNameDisplay);
 
-        if (item.isCurrentUser) {
-            if (item.first_name || item.last_name) {
-                description = <span>{Utils.getFullName(item)}</span>;
-            }
-        } else if (item.first_name || item.last_name || item.nickname) {
-            description = <span>{`${Utils.getFullName(item)} ${item.nickname ? `(${item.nickname})` : ''}`.trim()}</span>;
-        }
+        // if (item.isCurrentUser) {
+        //     if (item.first_name || item.last_name) {
+        //         description = <span>{Utils.getFullName(item)}</span>;
+        //     }
+        // } else if (item.first_name || item.last_name || item.nickname) {
+        //     description = <span>{`${Utils.getFullName(item)} ${item.nickname ? `(${item.nickname})` : ''}`.trim()}</span>;
+        // }
 
         icon = (
             <span className='status-wrapper style--none'>
