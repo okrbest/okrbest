@@ -422,10 +422,10 @@ const ChannelInviteModalComponent = (props: Props) => {
                                 {displayName}
                                 {option.is_bot && <BotTag/>}
                                 {isGuest(option.roles) && <GuestTag className='popoverlist'/>}
-                                {displayName === option.username ? null : <span className='channel-invite__username ml-2 light'>
+                                {/* {displayName === option.username ? null : <span className='channel-invite__username ml-2 light'>
                                     {'@'}{option.username}
                                 </span>
-                                }
+                                } */}
                                 <span
                                     className='channel-invite__user-mapping light'
                                 >
