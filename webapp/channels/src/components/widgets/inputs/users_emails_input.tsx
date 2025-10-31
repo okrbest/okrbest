@@ -51,6 +51,9 @@ type Props = {
     suppressNoOptionsMessage?: boolean;
     onPaste?: (e: ClipboardEvent) => void;
     intl: IntlShape;
+
+    // Custom display name formatter (e.g., displayUsername). When provided, it replaces default name parts rendering
+    formatDisplayName?: (user: UserProfile) => React.ReactNode;
 }
 
 export type EmailInvite = {
@@ -99,6 +102,9 @@ export class UsersEmailsInput extends React.PureComponent<Props, State> {
     }
 
     renderUserName = (user: UserProfile) => {
+        if (this.props.formatDisplayName) {
+            return this.props.formatDisplayName(user);
+        }
         const parts = getLongDisplayNameParts(user);
         let fullName = null;
         if (parts.fullName) {
@@ -183,7 +189,7 @@ export class UsersEmailsInput extends React.PureComponent<Props, State> {
                     username={(user as UserProfile).username}
                     url={profileImg}
                 />
-                {getDisplayName(user as UserProfile)}
+                {this.props.formatDisplayName ? this.props.formatDisplayName(user as UserProfile) : getDisplayName(user as UserProfile)}
                 {botBadge}
                 {guestBadge}
             </>

@@ -81,9 +81,9 @@ const Member = ({channel, member, index, totalUsers, editing, actions}: Props) =
                             </span>
                         )}
                     </span>
-                    {
+                    {/* {
                         member.displayName === member.user.username ? null : <span className='channel-members-rhs__username'>{'@'}{member.user.username}</span>
-                    }
+                    } */}
                     <CustomStatusEmoji
                         userID={member.user.id}
                         showTooltip={true}

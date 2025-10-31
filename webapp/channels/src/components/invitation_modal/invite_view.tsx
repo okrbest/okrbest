@@ -5,12 +5,15 @@ import classNames from 'classnames';
 import React, {useEffect, useMemo} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
 
 import type {Channel} from '@mattermost/types/channels';
 import type {Team} from '@mattermost/types/teams';
 import type {UserProfile} from '@mattermost/types/users';
 
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import useCopyText from 'components/common/hooks/useCopyText';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
@@ -71,6 +74,7 @@ export type Props = InviteState & {
 }
 
 export default function InviteView(props: Props) {
+    const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
     useEffect(() => {
         if (!props.currentTeam.invite_id) {
             props.regenerateTeamInviteId(props.currentTeam.id);
@@ -214,6 +218,7 @@ export default function InviteView(props: Props) {
                         id: 'invitation_modal.members.search_and_add.title',
                         defaultMessage: 'Invite People',
                     })}
+                    formatDisplayName={(user: UserProfile) => displayUsername(user, teammateNameDisplaySetting)}
                     onChange={(usersEmails: Array<UserProfile | string>) => {
                         props.onChangeUsersEmails(usersEmails);
                     }}
