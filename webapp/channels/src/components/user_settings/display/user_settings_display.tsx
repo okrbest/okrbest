@@ -1204,7 +1204,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {themeSection}
                     {collapsedReplyThreads}
                     {clockSection}
-                    {teammateNameDisplaySection}
+                    {/* {teammateNameDisplaySection} */}
                     {availabilityStatusOnPostsSection}
                     {lastActiveSection}
                     {timezoneSelection}
