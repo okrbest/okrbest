@@ -110,6 +110,9 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const emailInput = useRef<HTMLInputElement>(null);
     const nameInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
+    const realNameInput = useRef<HTMLInputElement>(null);
+    const lastNameInput = useRef<HTMLInputElement>(null);
+    const displayNameInput = useRef<HTMLInputElement>(null);
 
     const isLicensed = IsLicensed === 'true';
     const enableOpenServer = EnableOpenServer === 'true';
@@ -129,11 +132,15 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const [email, setEmail] = useState(parsedEmail ?? '');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [realName, setRealName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [displayName, setDisplayName] = useState('');
     const [loading, setLoading] = useState(Boolean(inviteId));
     const [isWaiting, setIsWaiting] = useState(false);
     const [emailError, setEmailError] = useState('');
     const [nameError, setNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [realNameError, setRealNameError] = useState('');
     const [brandImageError, setBrandImageError] = useState(false);
     const [serverError, setServerError] = useState('');
     const [teamName, setTeamName] = useState(parsedTeamName ?? '');
@@ -145,8 +152,8 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const cwsAvailability = useCWSAvailabilityCheck();
 
     const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableSignUpWithOpenId || enableLDAP || enableSAML;
-    const hasError = Boolean(emailError || nameError || passwordError || serverError || alertBanner);
-    const canSubmit = Boolean(email && name && password) && !hasError && !loading;
+    const hasError = Boolean(emailError || nameError || passwordError || realNameError || serverError || alertBanner);
+    const canSubmit = Boolean(email && name && password && realName) && !hasError && !loading;
     const passwordConfig = useSelector(getPasswordConfig);
     const {error: passwordInfo} = isValidPassword('', passwordConfig, intl);
 
@@ -374,10 +381,12 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                 nameInput.current.focus();
             } else if (passwordError && passwordInput.current) {
                 passwordInput.current.focus();
+            } else if (realNameError && realNameInput.current) {
+                realNameInput.current.focus();
             }
             setSubmitClicked(false);
         }
-    }, [emailError, nameError, passwordError, submitClicked]);
+    }, [emailError, nameError, passwordError, realNameError, submitClicked]);
 
     if (loading) {
         return (<LoadingScreen/>);
@@ -446,6 +455,25 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         if (passwordError) {
             setPasswordError('');
         }
+    };
+
+    const handleRealNameOnChange = ({target: {value: realName}}: React.ChangeEvent<HTMLInputElement>) => {
+        setRealName(realName);
+        dismissAlert();
+
+        if (realNameError) {
+            setRealNameError('');
+        }
+    };
+
+    const handleLastNameOnChange = ({target: {value: lastName}}: React.ChangeEvent<HTMLInputElement>) => {
+        setLastName(lastName);
+        dismissAlert();
+    };
+
+    const handleDisplayNameOnChange = ({target: {value: displayName}}: React.ChangeEvent<HTMLInputElement>) => {
+        setDisplayName(displayName);
+        dismissAlert();
     };
 
     const handleSignupSuccess = async (user: UserProfile, data: UserProfile) => {
@@ -549,6 +577,13 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
             isValid = false;
         }
 
+        const providedRealName = realNameInput.current?.value.trim();
+
+        if (!providedRealName) {
+            setRealNameError(formatMessage({id: 'signup_user_completed.required', defaultMessage: 'This field is required'}));
+            isValid = false;
+        }
+
         return isValid;
     };
 
@@ -565,6 +600,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
             setNameError('');
             setEmailError('');
             setPasswordError('');
+            setRealNameError('');
             setServerError('');
             setIsWaiting(true);
 
@@ -572,6 +608,9 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                 email: emailInput.current?.value.trim(),
                 username: nameInput.current?.value.trim().toLowerCase(),
                 password: passwordInput.current?.value,
+                first_name: realNameInput.current?.value.trim(),
+                last_name: lastNameInput.current?.value.trim(),
+                nickname: displayNameInput.current?.value.trim(),
             } as UserProfile;
 
             const redirectTo = (new URLSearchParams(search)).get('redirect_to') as string;
@@ -829,6 +868,69 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                         createMode={true}
                                         info={passwordInfo as string}
                                         error={passwordError}
+                                    />
+                                    <div className='signup-body-card-form-name-section'>
+                                        <label className='signup-body-card-form-name-section-label'>
+                                            {formatMessage({
+                                                id: 'signup_user_completed.nameSection',
+                                                defaultMessage: '사용자 이름',
+                                            })}
+                                        </label>
+                                        <div className='signup-body-card-form-name-fields'>
+                                            <Input
+                                                data-testid='signup-body-card-form-realname-input'
+                                                ref={realNameInput}
+                                                name='realName'
+                                                className='signup-body-card-form-realname-input'
+                                                type='text'
+                                                inputSize={SIZE.LARGE}
+                                                value={realName}
+                                                onChange={handleRealNameOnChange}
+                                                placeholder={formatMessage({
+                                                    id: 'signup_user_completed.firstNameLabel',
+                                                    defaultMessage: '이름',
+                                                })}
+                                                disabled={isWaiting}
+                                                customMessage={
+                                                    realNameError ? {type: ItemStatus.ERROR, value: realNameError} : null
+                                                }
+                                            />
+                                            <Input
+                                                data-testid='signup-body-card-form-lastname-input'
+                                                ref={lastNameInput}
+                                                name='lastName'
+                                                className='signup-body-card-form-lastname-input'
+                                                type='text'
+                                                inputSize={SIZE.LARGE}
+                                                value={lastName}
+                                                onChange={handleLastNameOnChange}
+                                                placeholder={formatMessage({
+                                                    id: 'signup_user_completed.lastNameLabel',
+                                                    defaultMessage: '성 (선택)',
+                                                })}
+                                                disabled={isWaiting}
+                                            />
+                                        </div>
+                                        {realNameError && (
+                                            <div className='signup-body-card-form-name-section-error'>
+                                                {realNameError}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <Input
+                                        data-testid='signup-body-card-form-displayname-input'
+                                        ref={displayNameInput}
+                                        name='displayName'
+                                        className='signup-body-card-form-displayname-input'
+                                        type='text'
+                                        inputSize={SIZE.LARGE}
+                                        value={displayName}
+                                        onChange={handleDisplayNameOnChange}
+                                        placeholder={formatMessage({
+                                            id: 'signup_user_completed.displayNameLabel',
+                                            defaultMessage: '표시 이름 (선택)',
+                                        })}
+                                        disabled={isWaiting}
                                     />
                                     {getNewsletterCheck()}
                                     <SaveButton
