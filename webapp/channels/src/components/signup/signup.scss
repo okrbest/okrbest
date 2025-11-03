@@ -208,6 +208,44 @@
                     }
                 }
 
+                .signup-body-card-form-name-section {
+                    margin-top: 24px;
+                    margin-bottom: 16px;
+
+                    .signup-body-card-form-name-section-label {
+                        display: block;
+                        margin-bottom: 8px;
+                        color: var(--center-channel-color);
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 20px;
+                    }
+
+                    .signup-body-card-form-name-fields {
+                        display: flex;
+                        gap: 12px;
+
+                        .signup-body-card-form-realname-input,
+                        .signup-body-card-form-lastname-input {
+                            flex: 1;
+                        }
+                    }
+
+                    .signup-body-card-form-name-section-error {
+                        margin-top: 4px;
+                        color: var(--error-text);
+                        font-size: 12px;
+                        line-height: 16px;
+                    }
+
+                    .signup-body-card-form-name-section-help {
+                        margin-top: 4px;
+                        color: rgba(var(--center-channel-color-rgb), 0.64);
+                        font-size: 12px;
+                        line-height: 16px;
+                    }
+                }
+
                 .signup-body-card-form-login-options {
                     display: flex;
                     flex: 1;
@@ -360,6 +398,13 @@
                         .signup-body-card-form-name-input,
                         .signup-body-card-form-password-input {
                             background-color: var(--center-channel-bg);
+                        }
+
+                        .signup-body-card-form-name-section {
+                            .signup-body-card-form-name-fields {
+                                flex-direction: column;
+                                gap: 16px;
+                            }
                         }
                     }
                 }
