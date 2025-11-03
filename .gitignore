@@ -160,8 +160,10 @@ docker-compose.override.yaml
 .aider*
 .env
 
+.claude
 **/CLAUDE.local.md
 CLAUDE.md
+CLAUDE*md
 .cursorrules
 
-/analysis
+.analysis
