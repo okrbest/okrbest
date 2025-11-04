@@ -259,6 +259,9 @@ export function shouldOpenInNewTab(url: string, siteURL?: string, managedResourc
 
         // Internal help pages should always open in a new tab
         'help',
+
+        // Boards plugin should always open in a new tab
+        'boards',
     ];
 
     // Paths managed by another service shouldn't be handled by the web app either
@@ -266,6 +269,11 @@ export function shouldOpenInNewTab(url: string, siteURL?: string, managedResourc
         for (const managedPath of managedResourcePaths) {
             unhandledPaths.push(TextFormatting.escapeRegex(managedPath));
         }
+    }
+
+    // Boards plugin links with /team/ format should also open in new tab
+    if (path.match(/^\/team\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+/)) {
+        return true;
     }
 
     return unhandledPaths.some((unhandledPath) => new RegExp('^/' + unhandledPath + '\\b').test(path));
