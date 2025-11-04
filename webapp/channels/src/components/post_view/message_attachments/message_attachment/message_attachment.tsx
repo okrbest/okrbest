@@ -313,6 +313,22 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
 
     handleFormattedTextClick = (e: MouseEvent) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
+    handleAttachmentClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        const {attachment} = this.props;
+
+        // title_link가 있으면 해당 링크로 이동 (박스 클릭 시)
+        if (attachment.title_link) {
+            // 링크나 버튼 같은 요소를 클릭한 경우는 제외 (중복 처리 방지)
+            const target = e.target as HTMLElement;
+            if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button')) {
+                return;
+            }
+
+            e.stopPropagation();
+            window.open(attachment.title_link, '_blank');
+        }
+    };
+
     getFileExtensionFromUrl = (url: string) => {
         const index = url.lastIndexOf('.');
         return index > 0 ? url.substring(index + 1) : null;
@@ -549,7 +565,11 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                     <div className='attachment__content'>
                         <div
                             className={useBorderStyle ? 'clearfix attachment__container' : 'clearfix attachment__container attachment__container--' + attachment.color}
-                            style={useBorderStyle}
+                            style={{
+                                ...useBorderStyle,
+                                ...(attachment.title_link ? {cursor: 'pointer'} : {}),
+                            }}
+                            onClick={this.handleAttachmentClick}
                         >
                             {author}
                             {title}
