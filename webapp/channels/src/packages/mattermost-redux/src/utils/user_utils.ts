@@ -206,7 +206,7 @@ export function filterProfilesStartingWithTerm(users: UserProfile[], term: strin
         }
 
         const profileSuggestions = nameSuggestionsForUser(user, includeFullEmail);
-        return profileSuggestions.filter((suggestion) => suggestion !== '').some((suggestion) => suggestion.startsWith(trimmedTerm));
+        return profileSuggestions.filter((suggestion) => suggestion !== '').some((suggestion) => suggestion.includes(trimmedTerm));
     });
 }
 

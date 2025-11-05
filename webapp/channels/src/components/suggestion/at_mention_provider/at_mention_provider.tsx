@@ -165,7 +165,7 @@ export default class AtMentionProvider extends Provider {
         const prefixLower = this.latestPrefix.toLowerCase();
         const profileSuggestions = this.getProfileSuggestions(profile);
         return profileSuggestions.some((suggestion) =>
-            this.normalizeString(suggestion).startsWith(this.normalizeString(prefixLower)),
+            this.normalizeString(suggestion).includes(this.normalizeString(prefixLower)),
         );
     }
 
@@ -177,7 +177,7 @@ export default class AtMentionProvider extends Provider {
 
         const prefixLower = this.latestPrefix.toLowerCase();
         const groupSuggestions = this.getGroupSuggestions(group);
-        return groupSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
+        return groupSuggestions.some((suggestion) => suggestion.includes(prefixLower));
     }
 
     getProfilesWithLastViewAtInChannel() {
