@@ -6,6 +6,7 @@ import {defineMessage} from 'react-intl';
 import type {Group} from '@mattermost/types/groups';
 import type {UserProfile} from '@mattermost/types/users';
 
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import type {Filters} from 'mattermost-redux/selectors/entities/users';
 import {makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
@@ -253,6 +254,14 @@ export default class AtMentionProvider extends Provider {
     // listed in the channel from local results.
     remoteNonMembers(): CreatedProfile[] {
         if (!this.data) {
+            return [];
+        }
+
+        // DM/GM 채널에서는 외부 사용자를 자동완성에 표시하지 않음
+        // (채널에 추가할 수 없으므로 멘션해도 의미가 없음)
+        const state = store.getState();
+        const channel = getChannel(state, this.channelId);
+        if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
             return [];
         }
 
