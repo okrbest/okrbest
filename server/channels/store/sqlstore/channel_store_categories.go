@@ -657,13 +657,20 @@ func (s SqlChannelStore) UpdateSidebarCategories(userId, teamId string, categori
 			destCategory.DisplayName = srcCategory.DisplayName
 		}
 
-		if destCategory.Type != model.SidebarCategoryDirectMessages {
-			destCategory.Channels = make([]string, len(category.Channels))
-			copy(destCategory.Channels, category.Channels)
+		// MODIFIED: Allow all categories including DirectMessages to have custom channel order
+		// ORIGINAL:
+		// if destCategory.Type != model.SidebarCategoryDirectMessages {
+		//     destCategory.Channels = make([]string, len(category.Channels))
+		//     copy(destCategory.Channels, category.Channels)
+		//     destCategory.Muted = category.Muted
+		// } else {
+		//     destCategory.Channels = make([]string, 0)
+		// }
+		destCategory.Channels = make([]string, len(category.Channels))
+		copy(destCategory.Channels, category.Channels)
 
+		if destCategory.Type != model.SidebarCategoryDirectMessages {
 			destCategory.Muted = category.Muted
-		} else {
-			destCategory.Channels = make([]string, 0)
 		}
 
 		updatedCategories = append(updatedCategories, destCategory)
@@ -721,12 +728,15 @@ func (s SqlChannelStore) UpdateSidebarCategories(userId, teamId string, categori
 		return nil, nil, errors.Wrap(err, "failed to delete SidebarChannels")
 	}
 
+	// MODIFIED: Allow DirectMessages category to save channel order for manual sorting
+	// ORIGINAL:
+	// for _, category := range categories {
+	//     if category.Type == model.SidebarCategoryDirectMessages {
+	//         // The order of the DM category isn't stored explicitly, so there's nothing to do here
+	//         continue
+	//     }
+	//     runningOrder := 0
 	for _, category := range categories {
-		if category.Type == model.SidebarCategoryDirectMessages {
-			// The order of the DM category isn't stored explicitly, so there's nothing to do here
-			continue
-		}
-
 		runningOrder := 0
 		insertQuery := s.getQueryBuilder().
 			Insert("SidebarChannels").
