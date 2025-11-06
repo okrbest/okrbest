@@ -5517,7 +5517,7 @@
   "three_days_left_trial.modal.useSsoTitle": "SSO 사용 (OpenID, SAML, Google, O365 지원)",
   "three_days_left_trial.modal.viewPlans": "플랜 옵션 보기",
   "time_dropdown.choose_time": "시간 선택",
-  "timestamp.datetime": "{time}의 {relativeOrDate}",
+  "timestamp.datetime": "{relativeOrDate} {time}",
   "trial_benefits_modal.trial_just_started.buttons.close": "닫기",
   "trial_benefits_modal.trial_just_started.buttons.invitePeople": "사람 초대",
   "trial_benefits_modal.trial_just_started.buttons.setUp": "시스템 콘솔 설정",
