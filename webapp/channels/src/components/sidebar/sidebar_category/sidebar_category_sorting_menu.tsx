@@ -15,6 +15,7 @@ import {
     DotsVerticalIcon,
     ChevronRightIcon,
     CheckIcon,
+    FormatListBulletedIcon,
 } from '@mattermost/compass-icons/components';
 import type {ChannelCategory} from '@mattermost/types/channel_categories';
 import {CategorySorting} from '@mattermost/types/channel_categories';
@@ -64,7 +65,18 @@ const SidebarCategorySortingMenu = ({
             />
         );
         sortDirectMessagesIcon = <SortAlphabeticalAscendingIcon size={18}/>;
+    } else if (category.sorting === CategorySorting.Manual) {
+        // ADDED: Manual sorting option for DirectMessages
+        sortDirectMessagesSelectedValue = (
+            <FormattedMessage
+                id='sidebar.sortedManually'
+                defaultMessage='Manually'
+            />
+        );
+        sortDirectMessagesIcon = <FormatListBulletedIcon size={18}/>;
     }
+
+    // ORIGINAL: Only Alphabetical and Recency options
 
     const sortDirectMessagesMenuItem = (
         <Menu.SubMenu
@@ -105,6 +117,18 @@ const SidebarCategorySortingMenu = ({
                 )}
                 onClick={() => handleSortDirectMessages(CategorySorting.Recency)}
                 trailingElements={category.sorting === CategorySorting.Recency ? <CheckIcon size={16}/> : null}
+            />
+            {/* ADDED: Manual sorting menu item for DirectMessages */}
+            <Menu.Item
+                id={`sortManual-${category.id}`}
+                labels={(
+                    <FormattedMessage
+                        id='sidebar.sortedManually'
+                        defaultMessage='Manually'
+                    />
+                )}
+                onClick={() => handleSortDirectMessages(CategorySorting.Manual)}
+                trailingElements={category.sorting === CategorySorting.Manual ? <CheckIcon size={16}/> : null}
             />
         </Menu.SubMenu>
 

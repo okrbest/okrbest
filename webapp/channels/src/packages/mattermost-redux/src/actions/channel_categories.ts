@@ -18,6 +18,7 @@ import {
     getCategoryIdsForTeam,
     getCategoryInTeamByType,
     getCategoryInTeamWithChannel,
+    makeGetChannelIdsForCategory,
 } from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import type {
@@ -34,10 +35,28 @@ export function setCategoryCollapsed(categoryId: string, collapsed: boolean) {
     });
 }
 
-export function setCategorySorting(categoryId: string, sorting: CategorySorting) {
-    return patchCategory(categoryId, {
-        sorting,
-    });
+export function setCategorySorting(categoryId: string, sorting: CategorySorting): ActionFuncAsync {
+    // MODIFIED: Added logic to preserve current display order when switching to Manual
+    // ORIGINAL: return patchCategory(categoryId, { sorting });
+    return (dispatch, getState) => {
+        const state = getState();
+        const category = getCategory(state, categoryId);
+
+        let patch: Partial<ChannelCategory> = {sorting};
+
+        // When switching to manual sorting, preserve the current display order
+        if (sorting === CategorySorting.Manual && category.sorting !== CategorySorting.Manual) {
+            const getChannelIdsForCategory = makeGetChannelIdsForCategory();
+            const currentDisplayOrder = getChannelIdsForCategory(state, category);
+
+            patch = {
+                sorting,
+                channel_ids: currentDisplayOrder,
+            };
+        }
+
+        return dispatch(patchCategory(categoryId, patch));
+    };
 }
 
 export function patchCategory(categoryId: string, patch: Partial<ChannelCategory>): ActionFuncAsync {
@@ -236,9 +255,10 @@ export function moveChannelToCategory(categoryId: string, channelId: string, new
         // The default sorting needs to behave like alphabetical sorting until the point that the user rearranges their
         // channels at which point, it becomes manual. Other than that, we never change the sorting method automatically.
         let sorting = targetCategory.sorting;
-        if (setManualSorting &&
-            targetCategory.type !== CategoryTypes.DIRECT_MESSAGES &&
-            targetCategory.sorting === CategorySorting.Default) {
+
+        // MODIFIED: Allow DirectMessages to switch to Manual sorting on drag
+        // ORIGINAL: if (setManualSorting && targetCategory.type !== CategoryTypes.DIRECT_MESSAGES && targetCategory.sorting === CategorySorting.Default)
+        if (setManualSorting && targetCategory.sorting !== CategorySorting.Manual) {
             sorting = CategorySorting.Manual;
         }
 
@@ -294,18 +314,21 @@ export function moveChannelsToCategory(categoryId: string, channelIds: string[],
         // The default sorting needs to behave like alphabetical sorting until the point that the user rearranges their
         // channels at which point, it becomes manual. Other than that, we never change the sorting method automatically.
         let sorting = targetCategory.sorting;
-        if (setManualSorting &&
-            targetCategory.type !== CategoryTypes.DIRECT_MESSAGES &&
-            targetCategory.sorting === CategorySorting.Default) {
+
+        // MODIFIED: Allow DirectMessages to switch to Manual sorting on drag
+        // ORIGINAL: if (setManualSorting && targetCategory.type !== CategoryTypes.DIRECT_MESSAGES && targetCategory.sorting === CategorySorting.Default)
+        if (setManualSorting && targetCategory.sorting !== CategorySorting.Manual) {
             sorting = CategorySorting.Manual;
         }
+
+        const newChannelIds = insertMultipleWithoutDuplicates(targetCategory.channel_ids, channelIds, newIndex);
 
         // Add the channels to the new category
         let categories = {
             [targetCategory.id]: {
                 ...targetCategory,
                 sorting,
-                channel_ids: insertMultipleWithoutDuplicates(targetCategory.channel_ids, channelIds, newIndex),
+                channel_ids: newChannelIds,
             },
         };
 

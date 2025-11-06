@@ -362,7 +362,14 @@ export function makeSortChannels() {
             } else {
                 channels = sortChannelsByName(state, channels);
             }
+        } else if (category.sorting === CategorySorting.Manual) {
+            // ADDED: Manual sorting support for all categories including DirectMessages
+            // For manual sorting, maintain the order from category.channel_ids
+            const channelMap = new Map(channels.map((channel) => [channel.id, channel]));
+            channels = category.channel_ids.map((id) => channelMap.get(id)).filter((channel): channel is Channel => channel !== undefined);
         }
+
+        // ORIGINAL: No Manual sorting logic - would fall through to Default/Alphabetical
 
         return channels;
     };
