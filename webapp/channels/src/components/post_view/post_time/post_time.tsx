@@ -11,10 +11,18 @@ import Timestamp from 'components/timestamp';
 import WithTooltip from 'components/with_tooltip';
 
 import {Locations} from 'utils/constants';
+import {isSameDay} from 'utils/datetime';
 import {isMobile} from 'utils/user_agent';
 
 const getTimeFormat: ComponentProps<typeof Timestamp>['useTime'] = (_, {hour, minute, second}) => ({hour, minute, second});
 const getDateFormat: ComponentProps<typeof Timestamp>['useDate'] = {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'};
+const getPostDateFormat: ComponentProps<typeof Timestamp>['useDate'] = ({value}) => {
+    // 오늘이면 날짜 표시 안 함, 어제부터는 날짜 표시
+    if (isSameDay(value)) {
+        return false;
+    }
+    return {month: 'long', day: 'numeric'};
+};
 
 type Props = {
 
@@ -65,7 +73,7 @@ export default class PostTime extends React.PureComponent<Props> {
             <Timestamp
                 value={eventTime}
                 className='post__time'
-                useDate={false}
+                useDate={getPostDateFormat}
                 {...timestampProps}
             />
         );
