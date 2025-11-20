@@ -46,6 +46,30 @@ func saveReaction(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Add user to thread following when adding reaction
+	post, appErr := c.App.GetSinglePost(c.AppContext, reaction.PostId, false)
+	if appErr != nil {
+		c.Logger.Warn("Failed to get post for thread following", mlog.Err(appErr))
+	} else {
+		// Determine thread ID (root post ID)
+		threadId := reaction.PostId
+		if post.RootId != "" {
+			threadId = post.RootId
+		}
+
+		// Get channel to obtain team ID
+		channel, appErr := c.App.GetChannel(c.AppContext, post.ChannelId)
+		if appErr != nil {
+			c.Logger.Warn("Failed to get channel for thread following", mlog.Err(appErr))
+		} else if channel.TeamId != "" {
+			// Update thread follow status to true
+			err := c.App.UpdateThreadFollowForUser(reaction.UserId, channel.TeamId, threadId, true)
+			if err != nil {
+				c.Logger.Warn("Failed to update thread follow for user", mlog.Err(err))
+			}
+		}
+	}
+
 	if err := json.NewEncoder(w).Encode(re); err != nil {
 		c.Logger.Warn("Error while writing response", mlog.Err(err))
 	}
@@ -105,6 +129,30 @@ func deleteReaction(c *Context, w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		c.Err = err
 		return
+	}
+
+	// Remove user from thread following when deleting reaction
+	post, appErr := c.App.GetSinglePost(c.AppContext, c.Params.PostId, false)
+	if appErr != nil {
+		c.Logger.Warn("Failed to get post for thread unfollowing", mlog.Err(appErr))
+	} else {
+		// Determine thread ID (root post ID)
+		threadId := c.Params.PostId
+		if post.RootId != "" {
+			threadId = post.RootId
+		}
+
+		// Get channel to obtain team ID
+		channel, appErr := c.App.GetChannel(c.AppContext, post.ChannelId)
+		if appErr != nil {
+			c.Logger.Warn("Failed to get channel for thread unfollowing", mlog.Err(appErr))
+		} else if channel.TeamId != "" {
+			// Update thread follow status to false
+			err := c.App.UpdateThreadFollowForUser(c.Params.UserId, channel.TeamId, threadId, false)
+			if err != nil {
+				c.Logger.Warn("Failed to update thread unfollow for user", mlog.Err(err))
+			}
+		}
 	}
 
 	ReturnStatusOK(w)
