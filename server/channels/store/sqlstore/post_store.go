@@ -2073,53 +2073,44 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 	if terms == "" && excludedTerms == "" {
 		// we've already confirmed that we have a channel or user to search for
 	} else {
-		// Parse text for wildcards
-		terms = wildCardRegex.ReplaceAllLiteralString(terms, ":* ")
-		excludedTerms = wildCardRegex.ReplaceAllLiteralString(excludedTerms, ":* ")
+		// Use LIKE search for better CJK (Korean, Chinese, Japanese) language support
+		termList := strings.Fields(terms)
+		excludedTermList := strings.Fields(excludedTerms)
 
-		simpleSearch := false
-		// Replace spaces with to_tsquery symbols
-		replaceSpaces := func(input string, excludedInput bool) string {
-			if input == "" {
-				return input
-			}
-
-			// Remove extra spaces
-			input = strings.Join(strings.Fields(input), " ")
-
-			// Replace spaces within quoted strings with '<->'
-			input = quotedStringsRegex.ReplaceAllStringFunc(input, func(match string) string {
-				// If the whole search term is a quoted string,
-				// we don't want to do stemming.
-				if input == match {
-					simpleSearch = true
+		if len(termList) > 0 {
+			if params.OrTerms {
+				// OR search: any term can match
+				orConditions := sq.Or{}
+				for _, term := range termList {
+					if term == "" {
+						continue
+					}
+					likePattern := "%" + term + "%"
+					orConditions = append(orConditions, sq.ILike{searchType: likePattern})
 				}
-				return strings.Replace(match, " ", "<->", -1)
-			})
-
-			// Replace spaces outside of quoted substrings with '&' or '|'
-			replacer := "&"
-			if excludedInput || params.OrTerms {
-				replacer = "|"
+				if len(orConditions) > 0 {
+					baseQuery = baseQuery.Where(orConditions)
+				}
+			} else {
+				// AND search: all terms must match
+				for _, term := range termList {
+					if term == "" {
+						continue
+					}
+					likePattern := "%" + term + "%"
+					baseQuery = baseQuery.Where(sq.ILike{searchType: likePattern})
+				}
 			}
-			input = strings.Replace(input, " ", replacer, -1)
-
-			return input
 		}
 
-		tsQueryClause := replaceSpaces(terms, false)
-		excludedClause := replaceSpaces(excludedTerms, true)
-		if excludedClause != "" {
-			tsQueryClause += " &!(" + excludedClause + ")"
+		// Excluded terms
+		for _, term := range excludedTermList {
+			if term == "" {
+				continue
+			}
+			likePattern := "%" + term + "%"
+			baseQuery = baseQuery.Where(sq.NotILike{searchType: likePattern})
 		}
-
-		textSearchCfg := s.pgDefaultTextSearchConfig
-		if simpleSearch {
-			textSearchCfg = "simple"
-		}
-
-		searchClause := fmt.Sprintf("to_tsvector('%[1]s', %[2]s) @@  to_tsquery('%[1]s', ?)", textSearchCfg, searchType)
-		baseQuery = baseQuery.Where(searchClause, tsQueryClause)
 	}
 
 	inQuery := s.getSubQueryBuilder().Select("Id").
