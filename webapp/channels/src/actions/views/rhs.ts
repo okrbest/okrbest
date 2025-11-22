@@ -218,13 +218,8 @@ export function performSearch(terms: string, teamId: string, isMentionSearch?: b
         }
 
         if (isMentionSearch) {
-            // For mentions, perform a specific search by quoting all terms.
-            // This ensures terms split by dashes or other symbols are treated as a single unit.
-            const termsArr = searchTerms.split(' ').filter((t) => Boolean(t && t.trim()));
-            for (let i = 0; i < termsArr.length; i++) {
-                termsArr[i] = `"${termsArr[i]}"`;
-            }
-            searchTerms = termsArr.join(' ');
+            // LIKE 검색을 사용하므로 따옴표로 감싸지 않음
+            searchTerms = searchTerms.trim();
         }
 
         // timezone offset in seconds
