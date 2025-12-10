@@ -401,7 +401,7 @@
   },
   {
     "id": "api.channel.leave.default.app_error",
-    "translation": "기본 채널인 {{.Channel}} 채널은 삭제할 수 없습니다."
+    "translation": "기본 채널인 {{.Channel}} 채널은 탈퇴할 수 없습니다."
   },
   {
     "id": "api.channel.leave.direct.app_error",
@@ -805,7 +805,7 @@
   },
   {
     "id": "api.command_channel_rename.too_short.app_error",
-    "translation": "채널 이름은 {{.Length}} 자 이상이여야 합니다."
+    "translation": "채널 이름은 {{.Length}} 글자 이상이여야 합니다."
   },
   {
     "id": "api.command_channel_rename.update_channel.app_error",
@@ -1016,7 +1016,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "{{.Channel}} 채널을 찾을 수 없습니다. 채널을 식별하려면 [채널 핸들](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) 을 사용하세요."
+    "translation": "{{.Channel}} 채널을 찾을 수 없습니다. 채널을 식별하려면 [채널 핸들](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) 을 사용하세요."
   },
   {
     "id": "api.command_invite.channel_constrained_user_denied",
@@ -1044,7 +1044,7 @@
   },
   {
     "id": "api.command_invite.missing_user.app_error",
-    "translation": "사용자 {{.User}} 를 찾을 수 없습니다. 시스템 관리자가 사용자를 비활성화 했을 수 있습니다."
+    "translation": "{{.User}} 사용자를 찾을 수 없습니다. 시스템 관리자가 사용자를 비활성화 했을 수 있습니다."
   },
   {
     "id": "api.command_invite.name",
@@ -1056,11 +1056,11 @@
   },
   {
     "id": "api.command_invite.private_channel.app_error",
-    "translation": "{{.Channel}} 채널을 찾을 수 없습니다. 채널을 식별하려면 [채널 핸들을](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) 사용하십시오."
+    "translation": "{{.Channel}} 채널을 찾을 수 없습니다. 채널을 식별하려면 [채널 핸들을](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) 사용하세요."
   },
   {
     "id": "api.command_invite.success",
-    "translation": "{{.Channel}} 채널에 {{.User}} 가 추가되었습니다."
+    "translation": "{{.User}}이/가 {{.Channel}} 채널에 추가되었습니다."
   },
   {
     "id": "api.command_invite.successOverflow",
@@ -1223,7 +1223,7 @@
   },
   {
     "id": "api.command_mute.success_unmute",
-    "translation": "{{.Channel}} 이 더 이상 음소거가 상태가 아닙니다."
+    "translation": "{{.Channel}} 음소거가 해제되었습니다."
   },
   {
     "id": "api.command_mute.success_unmute_direct_msg",
@@ -1439,7 +1439,7 @@
   },
   {
     "id": "api.command_remove.user_not_in_channel",
-    "translation": "{{.Username}}은 이 채널의 사용자가 아닙니다."
+    "translation": "{{.Username}}은 이 채널에 가입되어 있지 않습니다."
   },
   {
     "id": "api.command_search.desc",
@@ -1719,7 +1719,7 @@
   },
   {
     "id": "api.context.invalid_token.error",
-    "translation": "잘못된 세션 token={{.Token}}, err={{.Error}}"
+    "translation": "유효하지 않은 세션 토큰={{.Token}}, err={{.Error}}"
   },
   {
     "id": "api.context.invalid_url_param.app_error",
@@ -2146,7 +2146,7 @@
   },
   {
     "id": "api.file.upload_file.read_form_value.app_error",
-    "translation": "파일을 업로드할 수 없습니다. {{.Formname}}의 값을 읽는 중 오류가 발생했습니다."
+    "translation": "파일을 업로드할 수 없습니다. {{.Formname}} 값을 읽는데 에러가 발생했습니다."
   },
   {
     "id": "api.file.upload_file.read_request.app_error",
@@ -2306,7 +2306,7 @@
   },
   {
     "id": "api.license.add_license.unique_users.app_error",
-    "translation": "이 라이선스는 시스템에 {{.Count}}명의 고유 사용자들이 있을 때, {{.Users}}명의 사용자를 지원합니다. 고유 사용자는 전자우편 주소로 구분됩니다. 사용자 수는 리포팅 -> 사이트 통계에서 확인할 수 있습니다."
+    "translation": "이 라이선스는 시스템에 {{.Count}}명의 고유 사용자들이 있을 때, {{.Users}}명의 사용자를 지원합니다. 고유 사용자는 이메일 주소로 구분됩니다. 사용자 수는 리포팅 -> 사이트 통계에서 확인할 수 있습니다."
   },
   {
     "id": "api.license.client.old_format.app_error",
@@ -2391,10 +2391,6 @@
   {
     "id": "api.oauth.get_access_token.bad_client_id.app_error",
     "translation": "invalid_request: 잘못된 client_id."
-  },
-  {
-    "id": "api.oauth.get_access_token.bad_client_secret.app_error",
-    "translation": "invalid_request: client_secret 값이 누락되었습니다."
   },
   {
     "id": "api.oauth.get_access_token.bad_grant.app_error",
@@ -2530,11 +2526,11 @@
   },
   {
     "id": "api.post.check_for_out_of_channel_mentions.message.multiple",
-    "translation": "@{{.Usernames}} 와 @{{.LastUsername}} 에게 메시지는 전달했디만, 이 채널에 속하지 않기 때문에 알림을 받지 못했습니다."
+    "translation": "@{{.Usernames}} 와 @{{.LastUsername}}은/는 채널에 없기 때문에 이 멘션에 의해 알림을 받지 못했습니다."
   },
   {
     "id": "api.post.check_for_out_of_channel_mentions.message.one",
-    "translation": "@{{.Username}} 에게 메시지는 전달했지만, 이 채널에 속하지 않기 때문에 알림을 받지 못했습니다."
+    "translation": "@{{.Username}}은/는 채널에 없기 때문에 이 멘션에 의해 알림을 받지 못했습니다."
   },
   {
     "id": "api.post.check_for_out_of_team_mentions.message.multiple",
@@ -2582,15 +2578,15 @@
   },
   {
     "id": "api.post.disabled_all",
-    "translation": "채널에 {{.Users}}명 이상의 사용자가 있기 때문에 @all이 비활성화 되었습니다."
+    "translation": "채널에 {{.Users}}명 이상의 사용자가 있기 때문에 @all 멘션이 비활성화 되었습니다."
   },
   {
     "id": "api.post.disabled_channel",
-    "translation": "채널에 {{.Users}}명 이상의 사용자가 있기 때문에 @channel이 비활성화 되었습니다."
+    "translation": "채널에 {{.Users}}명 이상의 사용자가 있기 때문에 @channel 멘션이 비활성화 되었습니다. 더 자세한 정보는 시스템 관리자에게 문의하세요."
   },
   {
     "id": "api.post.disabled_here",
-    "translation": "채널에 {{.Users}}명 이상의 사용자가 있기 때문에 @here이 비활성화 되었습니다."
+    "translation": "채널에 {{.Users}}명 이상의 사용자가 있기 때문에 @here 멘션이 비활성화 되었습니다."
   },
   {
     "id": "api.post.do_action.action_id.app_error",
@@ -2609,14 +2605,14 @@
     "translation": {
       "one": "{{.Count}}개 파일 발송됨: {{.Filenames}}",
       "other": "{{.Count}}개 파일 발송됨: {{.Filenames}}"
-      }
+    }
   },
   {
     "id": "api.post.get_message_for_notification.images_sent",
     "translation": {
       "one": "{{.Count}}개 이미지 발송됨: {{.Filenames}}",
       "other": "{{.Count}}개 이미지 발송됨: {{.Filenames}}"
-      }
+    }
   },
   {
     "id": "api.post.move_thread.disabled.app_error",
@@ -2712,11 +2708,11 @@
   },
   {
     "id": "api.post.update_post.permissions_details.app_error",
-    "translation": "이미 지워진 id={{.PostId}}."
+    "translation": "이미 삭제된 id={{.PostId}}."
   },
   {
     "id": "api.post.update_post.permissions_time_limit.app_error",
-    "translation": "게시 수정은 {{.timeLimit}} 초 동안만 가능합니다. 상세한 내용은 시스템 관리자에게 문의하세요."
+    "translation": "게시 수정은 {{.timeLimit}} 초 동안만 가능합니다. 자세한 내용은 시스템 관리자에게 문의하세요."
   },
   {
     "id": "api.post.update_post.system_message.app_error",
@@ -2976,23 +2972,23 @@
   },
   {
     "id": "api.slackimport.slack_add_bot_user.email_pwd",
-    "translation": "전자우편 {{.Email}}, 비밀번호 {{.Password}}를 사용하는 슬랙 봇 계정이 추가되었습니다.\n"
+    "translation": "이메일 {{.Email}}, 비밀번호 {{.Password}}를 사용하는 슬랙 봇 계정이 추가되었습니다.\n"
   },
   {
     "id": "api.slackimport.slack_add_bot_user.unable_import",
-    "translation": "{{.Username}} Slack Bot계정을 추가할 수 없습니다.\r\n"
+    "translation": "{{.Username}} 슬랙 봇 계정을 추가할 수 없습니다.\n"
   },
   {
     "id": "api.slackimport.slack_add_channels.added",
-    "translation": "\r\n채널 추가되었습니다:\r\n"
+    "translation": "\n채널 추가되었습니다:\n"
   },
   {
     "id": "api.slackimport.slack_add_channels.failed_to_add_user",
-    "translation": "Slack 사용자 {{.Username}}을(를) 채널에 추가할 수 없습니다.\r\n"
+    "translation": "슬랙 사용자 {{.Username}}을(를) 채널에 추가할 수 없습니다.\n"
   },
   {
     "id": "api.slackimport.slack_add_channels.import_failed",
-    "translation": "Slack채널 {{.DisplayName}}을(를) 적용할 수 없습니다.\r\n"
+    "translation": "슬랙 채널 {{.DisplayName}}을(를) 임포트할 수 없습니다.\n"
   },
   {
     "id": "api.slackimport.slack_add_channels.merge",
@@ -3000,11 +2996,11 @@
   },
   {
     "id": "api.slackimport.slack_add_users.created",
-    "translation": "\r\n사용자가 생성되었습니다:\r\n"
+    "translation": "\n사용자가 생성되었습니다:\n"
   },
   {
     "id": "api.slackimport.slack_add_users.email_pwd",
-    "translation": "전자우편 {{.Email}}, 비밀번호 {{.Password}}를 사용하는 슬랙 사용자가 추가되었습니다.\n"
+    "translation": "이메일 {{.Email}}, 비밀번호 {{.Password}}를 사용하는 슬랙 사용자가 추가되었습니다.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing",
@@ -3016,43 +3012,43 @@
   },
   {
     "id": "api.slackimport.slack_add_users.missing_email_address",
-    "translation": "사용자 {{.Username}}은(는) Slack 추출 정보에 전자우편 계정이 없습니다. {{.Email}}을(를) 표시합니다. 사용자는 시스템에 접속하여 전자우편 주소를 갱신해야 합니다.\n"
+    "translation": "사용자 {{.Username}}은(는) Slack 추출 정보에 이메일 주소가 없습니다. 임시로 {{.Email}}을(를) 플레이스홀더로 사용합니다. 사용자는 시스템에 접속하여 전자우편 주소를 변경해야 합니다.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.unable_import",
-    "translation": "불러올 수 없는 Slack사용자 입니다: {{.Username}}\r\n"
+    "translation": "불러올 수 없는 Slack사용자 입니다: {{.Username}}\n"
   },
   {
     "id": "api.slackimport.slack_import.log",
-    "translation": "Slack에서 가져오기 Log\r\n"
+    "translation": "Slack에서 가져오기 Log\n"
   },
   {
     "id": "api.slackimport.slack_import.note1",
-    "translation": "- 몇몇 메시지는 이 불러오기 프로그램을 지원하지 않기 때문에 불러올 수 없을 수 없습니다.\r\n"
+    "translation": "- 몇몇 메시지는 이 불러오기 프로그램을 지원하지 않기 때문에 불러올 수 없을 수 없습니다.\n"
   },
   {
     "id": "api.slackimport.slack_import.note2",
-    "translation": "- Slack bot 메시지는 최근 지원하지 않습니다.\r\n"
+    "translation": "- Slack bot 메시지는 최근 지원하지 않습니다.\n"
   },
   {
     "id": "api.slackimport.slack_import.note3",
-    "translation": "- 서버 로그에서 찾을 수 있는 추가적인 오류들.\r\n"
+    "translation": "- 서버 로그에서 찾을 수 있는 추가적인 오류들.\n"
   },
   {
     "id": "api.slackimport.slack_import.notes",
-    "translation": "\r\n알림:\r\n"
+    "translation": "\n알림:\n"
   },
   {
     "id": "api.slackimport.slack_import.open.app_error",
-    "translation": "{{.Filename}}을 열 수 없습니다.\r\n"
+    "translation": "{{.Filename}} 파일을 열 수 없습니다.\n"
   },
   {
     "id": "api.slackimport.slack_import.team_fail",
-    "translation": "불러오기 할 팀을 가져올 수 없습니다.\r\n"
+    "translation": "불러오기 할 팀을 가져올 수 없습니다.\n"
   },
   {
     "id": "api.slackimport.slack_import.zip.app_error",
-    "translation": "Slack에서 불러온 zip파일을 열 수 없습니다.\r\n"
+    "translation": "Slack에서 불러온 zip파일을 열 수 없습니다.\n"
   },
   {
     "id": "api.slackimport.slack_import.zip.file_too_large",
@@ -3200,7 +3196,7 @@
   },
   {
     "id": "api.team.invite_members.invalid_email.app_error",
-    "translation": "허가된 도메인의 전자우편 주소가 아닙니다: {{.Addresses}}. 자세한 내용은 시스템 관리자에게 문의해 주세요."
+    "translation": "허가된 도메인의 이메일 주소가 아닙니다: {{.Addresses}}. 자세한 내용은 시스템 관리자에게 문의하세요."
   },
   {
     "id": "api.team.invite_members.no_one.app_error",
@@ -3420,7 +3416,7 @@
   },
   {
     "id": "api.templates.deactivate_body.info",
-    "translation": "사용자 본인이 {{ .SiteURL }}에서 계정을 정지했습니다."
+    "translation": "당신은 {{ .SiteURL }}에서 본인의 계정을 비활성화했습니다."
   },
   {
     "id": "api.templates.deactivate_body.title",
@@ -3436,7 +3432,7 @@
   },
   {
     "id": "api.templates.email_change_body.info",
-    "translation": "{{.TeamDisplayName}}에 속한 당신의 전자우편 주소가 {{.NewEmail}}로 변경되었습니다."
+    "translation": "{{.TeamDisplayName}}에 속한 당신의 이메일 주소가 {{.NewEmail}}로 변경되었습니다."
   },
   {
     "id": "api.templates.email_change_body.title",
@@ -3444,7 +3440,7 @@
   },
   {
     "id": "api.templates.email_change_subject",
-    "translation": "[{{ .SiteName }}] 당신의 전자우편 주소가 변경되었습니다"
+    "translation": "[{{ .SiteName }}] 당신의 이메일 주소가 변경되었습니다"
   },
   {
     "id": "api.templates.email_change_verify_body.button",
@@ -3452,7 +3448,7 @@
   },
   {
     "id": "api.templates.email_change_verify_body.info",
-    "translation": "{{.TeamDisplayName}}의 전자우편 주소 변경을 완료하려면, 아래 링크를 클릭하여 검증하세요."
+    "translation": "{{.TeamDisplayName}}의 이메일 주소 변경을 완료하려면, 이메일 검증을 위한 아래 링크를 클릭하세요."
   },
   {
     "id": "api.templates.email_change_verify_body.title",
@@ -3460,7 +3456,7 @@
   },
   {
     "id": "api.templates.email_change_verify_subject",
-    "translation": "[{{ .SiteName }}] 새로운 전자우편 주소를 확인하세요"
+    "translation": "[{{ .SiteName }}] 새로운 이메일 주소를 확인하세요"
   },
   {
     "id": "api.templates.email_footer",
@@ -3600,7 +3596,7 @@
   },
   {
     "id": "api.templates.mfa_activated_body.info",
-    "translation": "{{ .SiteURL }} 의 당신의 계정에 다중 요소 인증이 추가되었습니다."
+    "translation": "{{ .SiteURL }}에 당신의 계정에 다중 인증이 추가되었습니다."
   },
   {
     "id": "api.templates.mfa_activated_body.title",
@@ -3608,11 +3604,11 @@
   },
   {
     "id": "api.templates.mfa_change_subject",
-    "translation": "[{{ .SiteName }}], 당신의 MFA가 업데이트 되었습니다"
+    "translation": "[{{ .SiteName }}] 당신의 다중 인증 설정이 업데이트 되었습니다"
   },
   {
     "id": "api.templates.mfa_deactivated_body.info",
-    "translation": "{{ .SiteURL }}의 당신의 계정에서 다중 요소 인증이 제거되었습니다."
+    "translation": "{{ .SiteURL }}에 당신의 계정에서 다중 인증이 제거되었습니다."
   },
   {
     "id": "api.templates.mfa_deactivated_body.title",
@@ -3628,7 +3624,7 @@
   },
   {
     "id": "api.templates.password_change_subject",
-    "translation": "[{{ .SiteName }}], 당신의 비밀번호가 업데이트 되었습니다"
+    "translation": "[{{ .SiteName }}] 당신의 비밀번호가 업데이트 되었습니다"
   },
   {
     "id": "api.templates.post_body.button",
@@ -3668,11 +3664,11 @@
   },
   {
     "id": "api.templates.reset_subject",
-    "translation": "[{{ .SiteName }}] 비밀번호를 초기화했습니다"
+    "translation": "[{{ .SiteName }}] 비밀번호를 초기화하세요"
   },
   {
     "id": "api.templates.signin_change_email.body.info",
-    "translation": "{{ .SiteName }}에서의 로그인 방법을 변경했습니다."
+    "translation": "{{ .SiteName }}에서의 로그인 방식은 {{.Method}}로 변경했습니다."
   },
   {
     "id": "api.templates.signin_change_email.body.method_email",
@@ -3688,7 +3684,7 @@
   },
   {
     "id": "api.templates.user_access_token_body.info",
-    "translation": "{{ .SiteURL }} 에서 당신의 계정에 개인 엑세스 토큰이 발급되었습니다. 당신의 계정으로 {{.SiteName}} 에 접속할 때 사용하실 수 있습니다."
+    "translation": "{{ .SiteURL }} 에서 당신의 계정에 개인 엑세스 토큰이 발급되었습니다. 당신의 계정으로 {{.SiteName}} 에 접속할 수 있도록 사용이 가능합니다."
   },
   {
     "id": "api.templates.user_access_token_body.title",
@@ -3916,7 +3912,7 @@
   },
   {
     "id": "api.user.authorize_oauth_user.unsupported.app_error",
-    "translation": "{{.Service}} OAuth 2.0을 통한 SSO는 이 서버에서 사용할 수 없습니다."
+    "translation": "{{.Service}} 이 서버에서 OAuth 2.0을 통한 SSO는 사용할 수 없습니다."
   },
   {
     "id": "api.user.autocomplete_users.missing_team_id.app_error",
@@ -3944,7 +3940,7 @@
   },
   {
     "id": "api.user.complete_switch_with_oauth.parse.app_error",
-    "translation": "{{.Service}} 사용자 개체에서 인증 데이터를 구문 분석할 수 없습니다."
+    "translation": "{{.Service}} 사용자 객체에서 인증 데이터를 구문 분석할 수 없습니다."
   },
   {
     "id": "api.user.create_email_token.error",
@@ -3952,11 +3948,11 @@
   },
   {
     "id": "api.user.create_oauth_user.already_attached.app_error",
-    "translation": "There is already an account associated with that email address using a sign in method other than {{.Service}}. Please sign in using {{.Auth}}."
+    "translation": "이메일 주소를 같되 {{.Service}}가 아닌 다른 인증 방식을 사용하는 계정이 이미 존재합니다. {{.Auth}} 방식으로 인증하세요."
   },
   {
     "id": "api.user.create_oauth_user.create.app_error",
-    "translation": "{{.Service}} 사용자 개체에서 사용자를 만들 수 없습니다."
+    "translation": "{{.Service}} 사용자 객체에서 사용자를 생성할 수 없습니다."
   },
   {
     "id": "api.user.create_password_token.error",
@@ -4140,7 +4136,7 @@
   },
   {
     "id": "api.user.login.use_auth_service.app_error",
-    "translation": "{{.AuthService}} 서비스를 사용하여 로그인해주세요."
+    "translation": "{{.AuthService}}을/를 사용하여 로그인하세요."
   },
   {
     "id": "api.user.login_by_cws.invalid_token.app_error",
@@ -4152,11 +4148,11 @@
   },
   {
     "id": "api.user.login_by_oauth.not_available.app_error",
-    "translation": "{{.Service}} OAuth 2.0을 통한 SSO는 이 서버에서 사용할 수 없습니다."
+    "translation": "{{.Service}} 이 서버에서 OAuth 2.0을 통한 SSO는 사용할 수 없습니다."
   },
   {
     "id": "api.user.login_by_oauth.parse.app_error",
-    "translation": "Could not parse auth data out of {{.Service}} user object"
+    "translation": "{{.Service}} 사용자 객체에서 인증 데이터를 구문 분석할 수 없습니다."
   },
   {
     "id": "api.user.login_ldap.not_available.app_error",
@@ -4228,7 +4224,7 @@
   },
   {
     "id": "api.user.send_email_change_verify_email_and_forget.error",
-    "translation": "이메일 변경 확인 이메일 전송에 실패했습니다"
+    "translation": "전자우편 주소 변경 검증을 위한 전자우편을 발송하지 못했습니다"
   },
   {
     "id": "api.user.send_password_reset.send.app_error",
@@ -4476,7 +4472,7 @@
   },
   {
     "id": "app.admin.test_email.failure",
-    "translation": "연결 실패: {{.Error}}"
+      "translation": "연결 실패: {{.Error}}"
   },
   {
     "id": "app.admin.test_site_url.failure",
@@ -4733,10 +4729,6 @@
   {
     "id": "app.channel.get_members_by_ids.app_error",
     "translation": "채널 멤버를 가져올 수 없습니다."
-  },
-  {
-    "id": "app.channel.get_more_channels.get.app_error",
-    "translation": "채널을 가져올 수 없습니다."
   },
   {
     "id": "app.channel.get_pinnedpost_count.app_error",
@@ -6056,7 +6048,7 @@
   },
   {
     "id": "app.notification.subject.direct.full",
-    "translation": "[{{.SiteName}}] {{.SenderDisplayName}} (으)로부터 {{.Month}} {{.Day}}일, {{.Year}} 에 새로운 개인 메시지가 왔습니다."
+    "translation": "[{{.SiteName}}] {{.SenderDisplayName}} (으)로부터 {{.Year}}년 {{.Month}} {{.Day}}일에 새로운 개인 메시지가 왔습니다"
   },
   {
     "id": "app.notification.subject.group_message.full",
@@ -6769,24 +6761,8 @@
     "translation": "이 스키마를 삭제할 수 없습니다"
   },
   {
-    "id": "app.scheme.get.app_error",
-    "translation": "스키마를 가져올 수 없습니다"
-  },
-  {
     "id": "app.scheme.get_all_page.app_error",
     "translation": "스키마 페이지를 가져올 수 없습니다"
-  },
-  {
-    "id": "app.scheme.permanent_delete_all.app_error",
-    "translation": "스키마를 영구적으로 삭제할 수 없습니다"
-  },
-  {
-    "id": "app.scheme.save.app_error",
-    "translation": "스키마를 생성할 수 없습니다"
-  },
-  {
-    "id": "app.scheme.save.invalid_scheme.app_error",
-    "translation": "제공된 스키마가 유효하지 않습니다"
   },
   {
     "id": "app.schemes.is_phase_2_migration_completed.not_completed.app_error",
@@ -9417,10 +9393,6 @@
     "translation": "그룹의 이름 속성에 유효하지 않은 문자가 포함되어 있습니다."
   },
   {
-    "id": "model.group.name.invalid_length.app_error",
-    "translation": "이름은 1~64자의 소문자 알파벳과 숫자로 구성되어야 합니다."
-  },
-  {
     "id": "model.group.name.reserved_name.app_error",
     "translation": "그룹 이름이 이미 예약된 이름으로 존재합니다."
   },
@@ -10429,14 +10401,6 @@
     "translation": "Edge 열기"
   },
   {
-    "id": "web.error.unsupported_browser.system_browser_make_default",
-    "translation": "기본값으로 설정"
-  },
-  {
-    "id": "web.error.unsupported_browser.system_browser_or",
-    "translation": "또는"
-  },
-  {
     "id": "web.get_access_token.internal_saving.app_error",
     "translation": "사용자 액세스 데이터를 업데이트할 수 없습니다."
   },
@@ -10465,10 +10429,6 @@
     "translation": "유효하지 않은 웹훅입니다."
   },
   {
-    "id": "web.incoming_webhook.media_type.app_error",
-    "translation": "수신 웹훅 {{.hook_id}}의 미디어를 구문 분석하지 못했습니다."
-  },
-  {
     "id": "web.incoming_webhook.parse.app_error",
     "translation": "수신 데이터를 구문 분석할 수 없습니다."
   },
@@ -10487,5 +10447,49 @@
   {
     "id": "web.incoming_webhook.user.app_error",
     "translation": "사용자 {{.user}}를 찾을 수 없습니다."
+  },
+  {
+    "id": "model.group.name.invalid_length.app_error",
+    "translation": "이름은 반드시 1글자 이상 64글자 이하 영문 또는 숫자여야 합니다."
+  },
+  {
+    "id": "app.scheme.save.invalid_scheme.app_error",
+    "translation": "제공된 스키마가 잘못되었습니다"
+  },
+  {
+    "id": "app.scheme.save.app_error",
+    "translation": "채널 업데이트에 실패하였습니다"
+  },
+  {
+    "id": "app.scheme.permanent_delete_all.app_error",
+    "translation": "스키마를 영구적으로 삭제할 수 없습니다"
+  },
+  {
+    "id": "app.scheme.get.app_error",
+    "translation": "채널을 불러올 수 없습니다."
+  },
+  {
+    "id": "app.channel.get_more_channels.get.app_error",
+    "translation": "채널을 불러올 수 없습니다."
+  },
+  {
+    "id": "web.error.unsupported_browser.system_browser_or",
+    "translation": "또는"
+  },
+  {
+    "id": "web.error.unsupported_browser.system_browser_make_default",
+    "translation": "기본값으로 설정합니다"
+  },
+  {
+    "id": "web.incoming_webhook.media_type.app_error",
+    "translation": "미디어 수신 웹훅 {{.hook_id}}을 구문 분석하지 못했습니다."
+  },
+  {
+    "id": "web.incoming_webhook.parse_form.app_error",
+    "translation": "웹훅 {{.hook_id}}에 대한 양식을 구문 분석하지 못했습니다."
+  },
+  {
+    "id": "web.incoming_webhook.parse_multipart.app_error",
+    "translation": "웹훅 {{.hook_id}}에 대한 멀티파트 양식을 구문 분석하지 못했습니다."
   }
 ]
