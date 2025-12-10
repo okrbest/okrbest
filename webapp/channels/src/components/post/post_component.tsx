@@ -302,7 +302,9 @@ function PostComponent(props: Props) {
             'post--comment': (post.root_id && post.root_id.length > 0 && !props.isCollapsedThreadsEnabled) || (props.location === Locations.RHS_COMMENT),
             'post--compact': props.compactDisplay,
             'post--hovered': hovered,
-            'same--user': props.isConsecutivePost && (!props.compactDisplay || props.location === Locations.RHS_COMMENT),
+
+            // 각 메시지를 독립적으로 표시하기 위해 same--user 클래스 추가하지 않음
+            // 'same--user': props.isConsecutivePost && (!props.compactDisplay || props.location === Locations.RHS_COMMENT),
             'cursor--pointer': alt && !props.channelIsArchived,
             'post--hide-controls': post.failed || post.state === Posts.POST_DELETED,
             'post--comment same--root': fromAutoResponder,
@@ -462,24 +464,22 @@ function PostComponent(props: Props) {
     }
 
     let profilePic;
-    const hideProfilePicture = hasSameRoot(props) && (!post.root_id && !props.hasReplies) && !PostUtils.isFromBot(post);
-    const hideProfileCase = !(props.location === Locations.RHS_COMMENT && props.compactDisplay && props.isConsecutivePost);
-    if (!hideProfilePicture && hideProfileCase) {
-        profilePic = (
-            <PostProfilePicture
-                compactDisplay={props.compactDisplay}
-                post={post}
-                userId={post.user_id}
-            />
-        );
 
-        if (fromAutoResponder) {
-            profilePic = (
-                <span className='auto-responder'>
-                    {profilePic}
-                </span>
-            );
-        }
+    // 각 포스트마다 프로필 사진을 항상 표시하여 메시지를 구분할 수 있도록 함
+    profilePic = (
+        <PostProfilePicture
+            compactDisplay={props.compactDisplay}
+            post={post}
+            userId={post.user_id}
+        />
+    );
+
+    if (fromAutoResponder) {
+        profilePic = (
+            <span className='auto-responder'>
+                {profilePic}
+            </span>
+        );
     }
 
     // Determine if we should show concealed placeholder for burn-on-read posts
@@ -653,16 +653,14 @@ function PostComponent(props: Props) {
                                 isSystemMessage={isSystemMessage}
                             />
                             <div className='col d-flex align-items-center'>
-                                {((!hideProfilePicture && props.location === Locations.CENTER) || hover || props.location !== Locations.CENTER) &&
-                                    <PostTime
-                                        isPermalink={!(Posts.POST_DELETED === post.state || isPostPendingOrFailed(post))}
-                                        teamName={props.team?.name}
-                                        eventTime={post.create_at}
-                                        postId={post.id}
-                                        location={props.location}
-                                        timestampProps={{...props.timestampProps, style: props.isConsecutivePost && !props.compactDisplay ? 'narrow' : undefined}}
-                                    />
-                                }
+                                <PostTime
+                                    isPermalink={!(Posts.POST_DELETED === post.state || isPostPendingOrFailed(post))}
+                                    teamName={props.team?.name}
+                                    eventTime={post.create_at}
+                                    postId={post.id}
+                                    location={props.location}
+                                    timestampProps={props.timestampProps}
+                                />
                                 {priority}
                                 {burnOnReadBadge}
                                 {((!props.compactDisplay && !(hasSameRoot(props) && props.isConsecutivePost)) || (props.compactDisplay && isRHS)) &&
