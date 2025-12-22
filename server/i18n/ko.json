@@ -1698,6 +1698,10 @@
     "translation": "서버 번역을 업데이트하는 중 오류가 발생했습니다."
   },
   {
+    "id": "api.content_flagging.error.invalid_post_type",
+    "translation": "'{{.PostType}}' 타입의 게시물은 신고할 수 없습니다."
+  },
+  {
     "id": "api.context.404.app_error",
     "translation": "죄송합니다, 페이지를 찾을 수 없습니다."
   },
