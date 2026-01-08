@@ -373,6 +373,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                             canDownloadFiles={this.props.canDownloadFiles}
                             scale={this.state.scale[this.state.imageIndex]}
                             onAutoScale={(nextScale) => this.handleAutoScale(this.state.imageIndex, nextScale)}
+                            onBackgroundClick={this.handleBgClose}
                         />
                     );
                     zoomBar = (

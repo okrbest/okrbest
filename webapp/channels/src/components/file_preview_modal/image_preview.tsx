@@ -17,6 +17,7 @@ interface Props {
     canDownloadFiles: boolean;
     scale?: number;
     onAutoScale?: (nextScale: number) => void;
+    onBackgroundClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export default function ImagePreview({
@@ -24,6 +25,7 @@ export default function ImagePreview({
     canDownloadFiles,
     scale = ZoomSettings.DEFAULT_SCALE,
     onAutoScale,
+    onBackgroundClick,
 }: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
     const imageRef = useRef<HTMLImageElement>(null);
@@ -136,6 +138,7 @@ export default function ImagePreview({
             ref={containerRef}
             className={`image_preview ${shouldEnableScroll ? 'image_preview--zoomed' : ''}`}
             style={containerStyle}
+            onClick={onBackgroundClick}
         >
             <img
                 ref={imageRef}
