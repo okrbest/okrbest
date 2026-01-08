@@ -77,6 +77,7 @@ type State = {
     showCloseBtn: boolean;
     showZoomControls: boolean;
     scale: Record<number, number>;
+    fitScale: Record<number, number>;
     content: string;
 }
 
@@ -100,6 +101,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             showCloseBtn: false,
             showZoomControls: false,
             scale: Utils.fillRecord(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length),
+            fitScale: Utils.fillRecord(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length),
             content: '',
         };
     }
@@ -140,14 +142,22 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
 
     static getDerivedStateFromProps(props: Props, state: State) {
         const updatedState: Partial<State> = {};
-        if (props.fileInfos[state.imageIndex] && props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
-            updatedState.showZoomControls = true;
+        if (props.fileInfos[state.imageIndex]) {
+            const fileInfo = props.fileInfos[state.imageIndex];
+            const fileType = Utils.getFileType(fileInfo.extension);
+            if (fileType === FileTypes.PDF || fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
+                updatedState.showZoomControls = true;
+            } else {
+                updatedState.showZoomControls = false;
+            }
         } else {
             updatedState.showZoomControls = false;
         }
         if (props.fileInfos.length !== state.prevFileInfosCount) {
             updatedState.loaded = Utils.fillRecord(false, props.fileInfos.length);
             updatedState.progress = Utils.fillRecord(0, props.fileInfos.length);
+            updatedState.scale = Utils.fillRecord(ZoomSettings.DEFAULT_SCALE, props.fileInfos.length);
+            updatedState.fitScale = Utils.fillRecord(ZoomSettings.DEFAULT_SCALE, props.fileInfos.length);
             updatedState.prevFileInfosCount = props.fileInfos.length;
         }
         return Object.keys(updatedState).length ? updatedState : null;
@@ -276,7 +286,25 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
     };
 
     handleZoomReset = () => {
-        this.setScale(this.state.imageIndex, ZoomSettings.DEFAULT_SCALE);
+        const resetScale = this.state.fitScale[this.state.imageIndex] ?? ZoomSettings.DEFAULT_SCALE;
+        this.setScale(this.state.imageIndex, resetScale);
+    };
+
+    handleAutoScale = (index: number, nextScale: number) => {
+        this.setState((prevState) => {
+            const currentScale = prevState.scale[index];
+            const shouldApply = Math.abs(currentScale - ZoomSettings.DEFAULT_SCALE) < 0.001;
+            return {
+                scale: {
+                    ...prevState.scale,
+                    [index]: shouldApply ? nextScale : currentScale,
+                },
+                fitScale: {
+                    ...prevState.fitScale,
+                    [index]: nextScale,
+                },
+            };
+        });
     };
 
     handleModalClose = () => {
@@ -343,6 +371,17 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                         <ImagePreview
                             fileInfo={fileInfo as FileInfo}
                             canDownloadFiles={this.props.canDownloadFiles}
+                            scale={this.state.scale[this.state.imageIndex]}
+                            onAutoScale={(nextScale) => this.handleAutoScale(this.state.imageIndex, nextScale)}
+                        />
+                    );
+                    zoomBar = (
+                        <PopoverBar
+                            scale={this.state.scale[this.state.imageIndex]}
+                            showZoomControls={this.state.showZoomControls}
+                            handleZoomIn={this.handleZoomIn}
+                            handleZoomOut={this.handleZoomOut}
+                            handleZoomReset={this.handleZoomReset}
                         />
                     );
                 } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {
