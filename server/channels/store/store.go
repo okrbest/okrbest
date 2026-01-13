@@ -99,6 +99,7 @@ type Store interface {
 	GetSchemaDefinition() (*model.SupportPacketDatabaseSchema, error)
 	ContentFlagging() ContentFlaggingStore
 	NotificationHistory() NotificationHistoryStore
+	Recap() RecapStore
 	ReadReceipt() ReadReceiptStore
 	TemporaryPost() TemporaryPostStore
 }
@@ -1318,4 +1319,17 @@ type NotificationHistoryStore interface {
 	DeleteOlderThan(timestamp int64) (int64, error)
 	// DeleteForUser는 사용자의 모든 알림을 삭제합니다.
 	DeleteForUser(userId string) error
+}
+
+type RecapStore interface {
+	SaveRecap(recap *model.Recap) (*model.Recap, error)
+	UpdateRecap(recap *model.Recap) (*model.Recap, error)
+	GetRecap(id string) (*model.Recap, error)
+	GetRecapsForUser(userId string, page, perPage int) ([]*model.Recap, error)
+	UpdateRecapStatus(id, status string) error
+	MarkRecapAsRead(id string) error
+	DeleteRecap(id string) error
+	DeleteRecapChannels(recapId string) error
+	SaveRecapChannel(recapChannel *model.RecapChannel) error
+	GetRecapChannelsByRecapId(recapId string) ([]*model.RecapChannel, error)
 }
