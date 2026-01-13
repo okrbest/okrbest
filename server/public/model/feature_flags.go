@@ -93,6 +93,9 @@ type FeatureFlags struct {
 
 	// Enable Lexical-based WYSIWYG editor in Channels
 	EnableLexicalEditor bool
+
+	// FEATURE_FLAG_REMOVAL: EnableAIRecaps - Remove this when GA is released
+	EnableAIRecaps bool
 }
 
 func (f *FeatureFlags) SetDefaults() {
@@ -137,6 +140,8 @@ func (f *FeatureFlags) SetDefaults() {
 	f.EnableAIPluginBridge = false
 
 	f.EnableLexicalEditor = false
+
+	f.EnableAIRecaps = false
 }
 
 // ToMap returns the feature flags as a map[string]string

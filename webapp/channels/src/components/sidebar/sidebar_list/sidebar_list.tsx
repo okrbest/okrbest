@@ -32,6 +32,7 @@ const DraftsLink = makeAsyncComponent('DraftsLink', lazy(() => import('component
 const GlobalThreadsLink = makeAsyncComponent('GlobalThreadsLink', lazy(() => import('components/threading/global_threads_link')));
 const SidebarMentionsLink = makeAsyncComponent('SidebarMentionsLink', lazy(() => import('components/sidebar/sidebar_mentions_link/sidebar_mentions_link')));
 const SidebarSavedPostsLink = makeAsyncComponent('SidebarSavedPostsLink', lazy(() => import('components/sidebar/sidebar_saved_posts_link/sidebar_saved_posts_link')));
+const RecapsLink = makeAsyncComponent('RecapsLink', lazy(() => import('components/recaps_link')));
 const UnreadChannelIndicator = makeAsyncComponent('UnreadChannelIndicator', lazy(() => import('../unread_channel_indicator')));
 const UnreadChannels = makeAsyncComponent('UnreadChannels', lazy(() => import('../unread_channels')));
 
@@ -499,6 +500,7 @@ export class SidebarList extends React.PureComponent<Props, State> {
                 <DraftsLink/>
                 <SidebarMentionsLink/>
                 <SidebarSavedPostsLink/>
+                <RecapsLink/>
                 <div
                     id='sidebar-left'
                     role='application'
