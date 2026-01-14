@@ -14,6 +14,7 @@ import store from 'stores/redux_store';
 
 import usePrefixedIds from 'components/common/hooks/usePrefixedIds';
 
+import {getArchiveIconClassName} from 'utils/channel_utils';
 import {Constants} from 'utils/constants';
 import {channelMatchesMentionPrefix} from 'utils/channel_mention_filter';
 
@@ -48,7 +49,7 @@ export const ChannelMentionSuggestion = React.forwardRef<HTMLLIElement, Suggesti
                 })}
             >
                 <i
-                    className='icon icon-archive-outline'
+                    className={`icon ${getArchiveIconClassName(channel?.type)}`}
                     role='presentation'
                 />
             </span>
