@@ -10406,11 +10406,11 @@
   },
   {
     "id": "web.error.unsupported_browser.min_browser_version.chrome",
-    "translation": "버전 132+"
+    "translation": "버전 142+"
   },
   {
     "id": "web.error.unsupported_browser.min_browser_version.edge",
-    "translation": "버전 132+"
+    "translation": "버전 142+"
   },
   {
     "id": "web.error.unsupported_browser.min_browser_version.firefox",
