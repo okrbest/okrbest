@@ -2813,7 +2813,7 @@
   "admin.service.maximumPayloadSizeDescription": "들어오는 HTTP 호출의 페이로드에 허용되는 최대 바이트 수입니다",
   "admin.service.mfaDesc": "true로 설정하면 AD/LDAP 또는 이메일 로그인을 사용하는 사용자가 인증 앱을 사용하여 계정에 다중 인증을 추가할 수 있습니다.",
   "admin.service.mfaTitle": "다중 인증 활성화:",
-  "admin.service.minimumHashtagLengthDescription": "해시 태그의 최소 문자수는 2보다 크거나 같아야합니다. MySQL 데이터베이스는 3보다 짧은 문자열 검색을 지원하도록 구성해야합니다. <link>참조문서</link>.",
+  "admin.service.minimumHashtagLengthDescription": "해시 태그의 최소 문자수는 2보다 크거나 같아야합니다.",
   "admin.service.minimumHashtagLengthExample": "예: \"3\"",
   "admin.service.minimumHashtagLengthTitle": "최소 해시태그 길이:",
   "admin.service.mobileSessionHours": "모바일 세션 길이(시간):",
