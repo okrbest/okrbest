@@ -74,7 +74,6 @@ export type Props = {
     priorityProfiles?: UserProfile[];
     hasLabels?: boolean;
     hasError?: boolean;
-    isInEditMode?: boolean;
     // 멘션 아이템이 선택될 때 호출되는 콜백
     onMentionSelected?: (item: MentionItem) => void;
 };
