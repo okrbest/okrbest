@@ -7,6 +7,7 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import {getNewMessagesIndex, isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
+import {openBoardInModal} from 'actions/boards_modal';
 import type {updateNewMessagesAtInChannel} from 'actions/global_actions';
 import type {CanLoadMorePosts} from 'actions/views/channel';
 
@@ -22,6 +23,8 @@ import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils
 import DelayedAction from 'utils/delayed_action';
 import {getPreviousPostId, getLatestPostId} from 'utils/post_utils';
 import * as Utils from 'utils/utils';
+
+import type {DispatchFunc} from 'types/store';
 
 import LatestPostReader from './latest_post_reader';
 
@@ -119,6 +122,8 @@ type Props = {
 
         toggleShouldStartFromBottomWhenUnread: () => void;
     };
+
+    dispatch: DispatchFunc;
 }
 
 type State = {
@@ -146,6 +151,7 @@ type State = {
 export default class PostList extends React.PureComponent<Props, State> {
     listRef: React.RefObject<DynamicVirtualizedList>;
     postListRef: React.RefObject<HTMLDivElement>;
+    postListContentRef: React.RefObject<HTMLDivElement>;
     scrollStopAction: DelayedAction | null = null;
     initRangeToRender: number[];
     showSearchHintThreshold: number;
@@ -181,6 +187,7 @@ export default class PostList extends React.PureComponent<Props, State> {
 
         this.listRef = React.createRef();
         this.postListRef = React.createRef();
+        this.postListContentRef = React.createRef();
         if (this.props.isMobileView) {
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
@@ -208,6 +215,10 @@ export default class PostList extends React.PureComponent<Props, State> {
 
         window.addEventListener('resize', this.handleWindowResize);
         EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
+
+        if (this.postListContentRef.current) {
+            this.postListContentRef.current.addEventListener('click', this.handleBoardsLinkClick, true);
+        }
     }
 
     getSnapshotBeforeUpdate(prevProps: Props) {
@@ -259,6 +270,10 @@ export default class PostList extends React.PureComponent<Props, State> {
         this.mounted = false;
         window.removeEventListener('resize', this.handleWindowResize);
         EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
+
+        if (this.postListContentRef.current) {
+            this.postListContentRef.current.removeEventListener('click', this.handleBoardsLinkClick, true);
+        }
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
@@ -306,6 +321,40 @@ export default class PostList extends React.PureComponent<Props, State> {
 
         return nextState;
     }
+
+    handleBoardsLinkClick = (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+
+        const link = target.closest('a');
+        if (!link) {
+            return;
+        }
+
+        const href = link.getAttribute('href');
+        if (!href) {
+            return;
+        }
+
+        let pathname = href;
+        if (href.startsWith('http://') || href.startsWith('https://')) {
+            try {
+                const url = new URL(href);
+                pathname = url.pathname;
+            } catch (e) {
+                pathname = href;
+            }
+        }
+
+        // 보드 링크인지 확인 (경로 패턴: /boards/team/{teamId}/{boardId}/...)
+        const boardsPathRegex = /^\/boards\/team\/[^/]+\/[^/]+/;
+        console.log('boards link clicked:', href, 'pathname:', pathname);
+        if (boardsPathRegex.test(pathname)) {
+            // 기본 동작 방지 및 모달에서 보드 열기
+            e.preventDefault();
+            e.stopPropagation();
+            openBoardInModal(href, this.props.dispatch);
+        }
+    };
 
     handleWindowResize = () => {
         this.showSearchHintThreshold = this.getShowSearchHintThreshold();
@@ -612,6 +661,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             };
         }
 
+        // 기본값: 하단으로 스크롤
         return {
             index: 0,
             position: 'end',
@@ -701,6 +751,7 @@ export default class PostList extends React.PureComponent<Props, State> {
                         className='post-list__table'
                     >
                         <div
+                            ref={this.postListContentRef}
                             id='postListContent'
                             className='post-list__content'
                         >
