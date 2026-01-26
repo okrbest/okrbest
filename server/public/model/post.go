@@ -394,6 +394,7 @@ type GetPostsSinceOptions struct {
 	CollapsedThreads         bool
 	CollapsedThreadsExtended bool
 	SortAscending            bool
+	FilterUserIds            []string // Filter posts by specific user IDs (empty means no filter)
 }
 
 type GetPostsSinceForSyncCursor struct {
@@ -431,6 +432,7 @@ type GetPostsOptions struct {
 	UpdatesOnly              bool   // This flag is used to make the API work with the updateAt value.
 	IncludeDeleted           bool
 	IncludePostPriority      bool
+	FilterUserIds            []string // Filter posts by specific user IDs (empty means no filter)
 }
 
 type PostCountOptions struct {

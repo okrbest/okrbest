@@ -1564,7 +1564,7 @@ func (a *App) AddCursorIdsForPostList(originalList *model.PostList, afterPost, b
 	originalList.PrevPostId = prevPostId
 }
 
-func (a *App) GetPostsForChannelAroundLastUnread(rctx request.CTX, channelID, userID string, limitBefore, limitAfter int, skipFetchThreads bool, collapsedThreads, collapsedThreadsExtended bool) (*model.PostList, *model.AppError) {
+func (a *App) GetPostsForChannelAroundLastUnread(rctx request.CTX, channelID, userID string, limitBefore, limitAfter int, skipFetchThreads bool, collapsedThreads, collapsedThreadsExtended bool, filterUserIds []string) (*model.PostList, *model.AppError) {
 	var lastViewedAt int64
 	var err *model.AppError
 	if lastViewedAt, err = a.Srv().getChannelMemberLastViewedAt(rctx, channelID, userID); err != nil {
@@ -1584,6 +1584,7 @@ func (a *App) GetPostsForChannelAroundLastUnread(rctx request.CTX, channelID, us
 		SkipFetchThreads:         skipFetchThreads,
 		CollapsedThreads:         collapsedThreads,
 		CollapsedThreadsExtended: collapsedThreadsExtended,
+		FilterUserIds:            filterUserIds,
 	}
 	postList, err := a.GetPostThread(rctx, lastUnreadPostId, opts, userID)
 	if err != nil {
@@ -1597,14 +1598,14 @@ func (a *App) GetPostsForChannelAroundLastUnread(rctx request.CTX, channelID, us
 		postList.Order = []string{lastUnreadPostId}
 
 		// BeforePosts will only be accessible if the lastUnreadPostId is itself accessible
-		if postListBefore, err := a.GetPostsBeforePost(rctx, model.GetPostsOptions{ChannelId: channelID, PostId: lastUnreadPostId, Page: PageDefault, PerPage: limitBefore, SkipFetchThreads: skipFetchThreads, CollapsedThreads: collapsedThreads, CollapsedThreadsExtended: collapsedThreadsExtended, UserId: userID}); err != nil {
+		if postListBefore, err := a.GetPostsBeforePost(rctx, model.GetPostsOptions{ChannelId: channelID, PostId: lastUnreadPostId, Page: PageDefault, PerPage: limitBefore, SkipFetchThreads: skipFetchThreads, CollapsedThreads: collapsedThreads, CollapsedThreadsExtended: collapsedThreadsExtended, UserId: userID, FilterUserIds: filterUserIds}); err != nil {
 			return nil, err
 		} else if postListBefore != nil {
 			postList.Extend(postListBefore)
 		}
 	}
 
-	if postListAfter, err := a.GetPostsAfterPost(rctx, model.GetPostsOptions{ChannelId: channelID, PostId: lastUnreadPostId, Page: PageDefault, PerPage: limitAfter - 1, SkipFetchThreads: skipFetchThreads, CollapsedThreads: collapsedThreads, CollapsedThreadsExtended: collapsedThreadsExtended, UserId: userID}); err != nil {
+	if postListAfter, err := a.GetPostsAfterPost(rctx, model.GetPostsOptions{ChannelId: channelID, PostId: lastUnreadPostId, Page: PageDefault, PerPage: limitAfter - 1, SkipFetchThreads: skipFetchThreads, CollapsedThreads: collapsedThreads, CollapsedThreadsExtended: collapsedThreadsExtended, UserId: userID, FilterUserIds: filterUserIds}); err != nil {
 		return nil, err
 	} else if postListAfter != nil {
 		postList.Extend(postListAfter)
