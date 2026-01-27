@@ -9,6 +9,7 @@ import (
 
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
 )
 
 type filterPostOptions struct {
@@ -405,4 +406,97 @@ func (a *App) revealBurnOnReadPostsForUser(rctx request.CTX, postList *model.Pos
 	}
 
 	return postList, nil
+}
+
+// FilterBotMessagesFromPostList filters out bot messages from the post list if the user's preference is set to hide them.
+// It checks the user's preference for the channel and filters bot messages accordingly.
+// Bot messages include posts from users with IsBot=true and posts from webhooks.
+func (a *App) FilterBotMessagesFromPostList(rctx request.CTX, postList *model.PostList, userId string, channelId string) *model.AppError {
+	if postList == nil || postList.Posts == nil || len(postList.Posts) == 0 {
+		return nil
+	}
+
+	// Get user preference for showing bot messages in this channel
+	// Default is "true" (show bot messages) if preference doesn't exist
+	preference, err := a.GetPreferenceByCategoryAndNameForUser(rctx, userId, model.PreferenceCategoryChannelBotMessages, channelId)
+	if err != nil {
+		// If preference doesn't exist, default to showing bot messages
+		// This is not an error, just means the user hasn't set a preference yet
+		return nil
+	}
+
+	// If preference is "true", show bot messages (no filtering needed)
+	if preference.Value == "true" {
+		return nil
+	}
+
+	// If preference is "false", filter out bot messages
+	// First, collect all unique user IDs from posts
+	userIdsMap := make(map[string]bool)
+	for _, post := range postList.Posts {
+		if post.UserId != "" {
+			userIdsMap[post.UserId] = true
+		}
+	}
+
+	// Convert map to slice
+	userIds := make([]string, 0, len(userIdsMap))
+	for userId := range userIdsMap {
+		userIds = append(userIds, userId)
+	}
+
+	// Batch fetch users to check IsBot field
+	var users []*model.User
+	if len(userIds) > 0 {
+		var fetchErr error
+		users, fetchErr = a.Srv().Store().User().GetProfileByIds(rctx, userIds, &store.UserGetByIdsOpts{}, false)
+		if fetchErr != nil {
+			return model.NewAppError("filterBotMessagesFromPostList", "app.user.get_profiles.app_error", nil, "", http.StatusInternalServerError).Wrap(fetchErr)
+		}
+	}
+
+	// Create a map of bot user IDs for quick lookup
+	botUserIds := make(map[string]bool)
+	for _, user := range users {
+		if user.IsBot {
+			botUserIds[user.Id] = true
+		}
+	}
+
+	// Filter out bot messages
+	// Remove posts from bot users or webhook posts
+	filteredOrder := make([]string, 0, len(postList.Order))
+	for _, postId := range postList.Order {
+		post, ok := postList.Posts[postId]
+		if !ok {
+			continue
+		}
+
+		// Check if post is from a bot user
+		if botUserIds[post.UserId] {
+			continue
+		}
+
+		// Check if post is from a webhook
+		if post.GetProp(model.PostPropsFromWebhook) == "true" {
+			continue
+		}
+
+		// Keep the post
+		filteredOrder = append(filteredOrder, postId)
+	}
+
+	// Remove filtered posts from Posts map
+	filteredPosts := make(map[string]*model.Post)
+	for _, postId := range filteredOrder {
+		if post, ok := postList.Posts[postId]; ok {
+			filteredPosts[postId] = post
+		}
+	}
+
+	// Update the post list
+	postList.Order = filteredOrder
+	postList.Posts = filteredPosts
+
+	return nil
 }
