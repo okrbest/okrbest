@@ -227,6 +227,7 @@ func getPostsForChannel(c *Context, w http.ResponseWriter, r *http.Request) {
 	collapsedThreads, _ := strconv.ParseBool(r.URL.Query().Get("collapsedThreads"))
 	collapsedThreadsExtended, _ := strconv.ParseBool(r.URL.Query().Get("collapsedThreadsExtended"))
 	includeDeleted, _ := strconv.ParseBool(r.URL.Query().Get("include_deleted"))
+	showBotMessages := r.URL.Query().Get("showBotMessages") != "false" // default: true
 	filterUserIdsParam := r.URL.Query().Get("filterUserIds")
 	var filterUserIds []string
 	if filterUserIdsParam != "" {
@@ -303,8 +304,8 @@ func getPostsForChannel(c *Context, w http.ResponseWriter, r *http.Request) {
 
 	clientPostList := c.App.PreparePostListForClient(c.AppContext, list)
 
-	// Filter bot messages based on user preference
-	if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, c.AppContext.Session().UserId, channelId); err != nil {
+	// Filter bot messages based on query parameter
+	if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, showBotMessages); err != nil {
 		c.Err = err
 		return
 	}
@@ -355,6 +356,7 @@ func getPostsForChannelAroundLastUnread(c *Context, w http.ResponseWriter, r *ht
 	skipFetchThreads := r.URL.Query().Get("skipFetchThreads") == "true"
 	collapsedThreads := r.URL.Query().Get("collapsedThreads") == "true"
 	collapsedThreadsExtended := r.URL.Query().Get("collapsedThreadsExtended") == "true"
+	showBotMessages := r.URL.Query().Get("showBotMessages") != "false" // default: true
 	filterUserIdsParam := r.URL.Query().Get("filterUserIds")
 	var filterUserIds []string
 	if filterUserIdsParam != "" {
@@ -394,8 +396,8 @@ func getPostsForChannelAroundLastUnread(c *Context, w http.ResponseWriter, r *ht
 
 	clientPostList := c.App.PreparePostListForClient(c.AppContext, postList)
 
-	// Filter bot messages based on user preference
-	if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, userId, channelId); err != nil {
+	// Filter bot messages based on query parameter
+	if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, showBotMessages); err != nil {
 		c.Err = err
 		return
 	}
@@ -766,6 +768,8 @@ func getPostThread(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	showBotMessages := r.URL.Query().Get("showBotMessages") != "false" // default: true
+
 	opts := model.GetPostsOptions{
 		SkipFetchThreads:         r.URL.Query().Get("skipFetchThreads") == "true",
 		CollapsedThreads:         r.URL.Query().Get("collapsedThreads") == "true",
@@ -811,13 +815,10 @@ func getPostThread(c *Context, w http.ResponseWriter, r *http.Request) {
 
 	clientPostList := c.App.PreparePostListForClient(c.AppContext, list)
 
-	// Filter bot messages based on user preference
-	// Get channelId from the root post
-	if post != nil && post.ChannelId != "" {
-		if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, c.AppContext.Session().UserId, post.ChannelId); err != nil {
-			c.Err = err
-			return
-		}
+	// Filter bot messages based on query parameter
+	if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, showBotMessages); err != nil {
+		c.Err = err
+		return
 	}
 
 	clientPostList, err = c.App.SanitizePostListMetadataForUser(c.AppContext, clientPostList, c.AppContext.Session().UserId)
