@@ -1323,7 +1323,8 @@ func (s *SqlPostStore) getPostsCollapsedThreads(rctx request.CTX, options model.
 		Where(sq.Eq{"Posts.RootId": ""})
 	
 	if len(options.FilterUserIds) > 0 {
-		builder = builder.Where(sq.Eq{"Posts.UserId": options.FilterUserIds})
+		builder = builder.Where(sq.Eq{"Posts.UserId": options.FilterUserIds}).
+			Where(sq.NotLike{"Posts.Type": model.PostSystemMessagePrefix + "%"})
 	}
 	
 	postFetchQuery, args, _ := builder.
@@ -1413,7 +1414,8 @@ func (s *SqlPostStore) getPostsSinceCollapsedThreads(rctx request.CTX, options m
 		Where(sq.Eq{"Posts.RootId": ""})
 	
 	if len(options.FilterUserIds) > 0 {
-		builder = builder.Where(sq.Eq{"Posts.UserId": options.FilterUserIds})
+		builder = builder.Where(sq.Eq{"Posts.UserId": options.FilterUserIds}).
+			Where(sq.NotLike{"Posts.Type": model.PostSystemMessagePrefix + "%"})
 	}
 	
 	postFetchQuery, args, err := builder.
@@ -1463,7 +1465,7 @@ func (s *SqlPostStore) GetPostsSince(rctx request.CTX, options model.GetPostsSin
 		for _, userId := range options.FilterUserIds {
 			params = append(params, userId)
 		}
-		userIdFilter = " AND UserId IN (" + strings.Join(placeholders, ",") + ")"
+		userIdFilter = " AND UserId IN (" + strings.Join(placeholders, ",") + ") AND Type NOT LIKE 'system_%'"
 	}
 
 	query = `WITH cte AS (SELECT
@@ -1750,6 +1752,7 @@ func (s *SqlPostStore) getPostsAround(rctx request.CTX, before bool, options mod
 
 	if len(options.FilterUserIds) > 0 {
 		conditions = append(conditions, sq.Eq{"p.UserId": options.FilterUserIds})
+		conditions = append(conditions, sq.NotLike{"p.Type": model.PostSystemMessagePrefix + "%"})
 	}
 
 	if !options.IncludeDeleted {
@@ -1930,7 +1933,7 @@ func (s *SqlPostStore) getRootPosts(channelId string, offset int, limit int, ski
 			placeholders[i] = "?"
 			params = append(params, filterUserIds[i])
 		}
-		userIdCondition = " AND p.UserId IN (" + strings.Join(placeholders, ",") + ")"
+		userIdCondition = " AND p.UserId IN (" + strings.Join(placeholders, ",") + ") AND p.Type NOT LIKE 'system_%'"
 	}
 	
 	if skipFetchThreads {
@@ -1971,7 +1974,7 @@ func (s *SqlPostStore) getParentsPosts(channelId string, offset int, limit int, 
 			placeholders[i] = "?"
 			params = append(params, filterUserIds[i])
 		}
-		userIdCondition = " AND UserId IN (" + strings.Join(placeholders, ",") + ")"
+		userIdCondition = " AND UserId IN (" + strings.Join(placeholders, ",") + ") AND Type NOT LIKE 'system_%'"
 	}
 	params = append(params, limit, offset)
 
