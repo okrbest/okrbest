@@ -6,6 +6,7 @@ package app
 import (
 	"net/http"
 	"sort"
+	"strings"
 
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/shared/request"
@@ -421,7 +422,6 @@ func (a *App) FilterBotMessagesFromPostList(rctx request.CTX, postList *model.Po
 	preference, err := a.GetPreferenceByCategoryAndNameForUser(rctx, userId, model.PreferenceCategoryChannelBotMessages, channelId)
 	if err != nil {
 		// If preference doesn't exist, default to showing bot messages
-		// This is not an error, just means the user hasn't set a preference yet
 		return nil
 	}
 
@@ -464,7 +464,7 @@ func (a *App) FilterBotMessagesFromPostList(rctx request.CTX, postList *model.Po
 	}
 
 	// Filter out bot messages
-	// Remove posts from bot users or webhook posts
+	// Remove posts from bot users, webhook posts, or system messages
 	filteredOrder := make([]string, 0, len(postList.Order))
 	for _, postId := range postList.Order {
 		post, ok := postList.Posts[postId]
@@ -479,6 +479,11 @@ func (a *App) FilterBotMessagesFromPostList(rctx request.CTX, postList *model.Po
 
 		// Check if post is from a webhook
 		if post.GetProp(model.PostPropsFromWebhook) == "true" {
+			continue
+		}
+
+		// Check if post is a system message (e.g., "user joined channel", "user added to channel")
+		if strings.HasPrefix(post.Type, "system_") {
 			continue
 		}
 

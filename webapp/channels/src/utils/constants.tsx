@@ -147,6 +147,7 @@ export const Preferences = {
     NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
     OVERAGE_USERS_BANNER: ReduxPreferences.CATEGORY_OVERAGE_USERS_BANNER,
     POST_HISTORY_LIMIT_BANNER: ReduxPreferences.CATEGORY_POST_HISTORY_LIMIT_BANNER,
+    CATEGORY_CHANNEL_BOT_MESSAGES: ReduxPreferences.CATEGORY_CHANNEL_BOT_MESSAGES,
     USERS_LIMITS_BANNER: 'users_limits_banner',
     TO_CLOUD_YEARLY_PLAN_NUDGE: 'to_cloud_yearly_plan_nudge',
     TO_PAID_PLAN_NUDGE: 'to_paid_plan_nudge',
