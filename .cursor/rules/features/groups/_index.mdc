@@ -1,0 +1,220 @@
+---
+description: 그룹 (Groups) 기능 관련 규칙
+globs: ["server/channels/app/group*.go", "server/channels/api4/group*.go", "server/public/model/group*.go", "webapp/channels/src/components/user_groups_modal/**"]
+---
+
+# 그룹 (Groups) 도메인
+
+## 개요
+
+LDAP/AD 그룹 동기화 및 커스텀 그룹 기능입니다.
+그룹을 통해 사용자를 묶어서 채널 멤버십, 팀 멤버십, 멘션을 관리할 수 있습니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/group.go` |
+| 비즈니스 로직 | `server/channels/app/group.go` |
+| LDAP 동기화 | `server/channels/app/ldap.go` |
+| Store | `server/channels/store/sqlstore/group_store.go` |
+| 모델 | `server/public/model/group.go` |
+| 웹앱 모달 | `webapp/channels/src/components/user_groups_modal/` |
+
+## Group 모델
+
+```go
+// server/public/model/group.go
+type Group struct {
+    Id                          string      `json:"id"`
+    Name                        *string     `json:"name,omitempty"`
+    DisplayName                 string      `json:"display_name"`
+    Description                 string      `json:"description"`
+    Source                      GroupSource `json:"source"`
+    RemoteId                    *string     `json:"remote_id"`
+    CreateAt                    int64       `json:"create_at"`
+    UpdateAt                    int64       `json:"update_at"`
+    DeleteAt                    int64       `json:"delete_at"`
+    HasSyncables                bool        `json:"has_syncables"`       // db:"-"
+    MemberCount                 *int        `json:"member_count,omitempty"`    // db:"-"
+    AllowReference              bool        `json:"allow_reference"`
+    ChannelMemberCount          *int        `json:"channel_member_count,omitempty"`  // db:"-"
+    ChannelMemberTimezonesCount *int        `json:"channel_member_timezones_count,omitempty"` // db:"-"
+    MemberIDs                   []string    `json:"member_ids"`          // db:"-"
+}
+
+type GroupSource string
+
+const (
+    GroupSourceLdap         GroupSource = "ldap"
+    GroupSourceCustom       GroupSource = "custom"
+    GroupSourcePluginPrefix GroupSource = "plugin_"  // 플러그인 그룹은 이 접두사 사용
+)
+```
+
+## GroupMember
+
+```go
+type GroupMember struct {
+    GroupId  string `json:"group_id"`
+    UserId   string `json:"user_id"`
+    CreateAt int64  `json:"create_at"`
+    DeleteAt int64  `json:"delete_at"`
+}
+```
+
+## GroupSyncable (그룹-채널/팀 연동)
+
+```go
+type GroupSyncable struct {
+    GroupId       string             `json:"group_id"`
+    SyncableId    string             `json:"syncable_id"`
+    SyncableType  GroupSyncableType  `json:"type"`
+    AutoAdd       bool               `json:"auto_add"`
+    SchemeAdmin   bool               `json:"scheme_admin"`
+    CreateAt      int64              `json:"create_at"`
+    DeleteAt      int64              `json:"delete_at"`
+    UpdateAt      int64              `json:"update_at"`
+}
+
+type GroupSyncableType string
+
+const (
+    GroupSyncableTypeTeam    GroupSyncableType = "Team"
+    GroupSyncableTypeChannel GroupSyncableType = "Channel"
+)
+```
+
+## 주요 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/groups` | GET | 그룹 목록 |
+| `/api/v4/groups` | POST | 커스텀 그룹 생성 |
+| `/api/v4/groups/{group_id}` | GET | 그룹 상세 |
+| `/api/v4/groups/{group_id}` | PUT | 그룹 수정 |
+| `/api/v4/groups/{group_id}` | DELETE | 그룹 삭제 |
+| `/api/v4/groups/{group_id}/members` | GET | 그룹 멤버 목록 |
+| `/api/v4/groups/{group_id}/members` | POST | 그룹에 멤버 추가 |
+| `/api/v4/groups/{group_id}/members/{user_id}` | DELETE | 그룹에서 멤버 제거 |
+| `/api/v4/groups/{group_id}/teams` | GET | 그룹 연동 팀 목록 |
+| `/api/v4/groups/{group_id}/teams/{team_id}/link` | POST | 그룹-팀 연동 |
+| `/api/v4/groups/{group_id}/channels` | GET | 그룹 연동 채널 목록 |
+| `/api/v4/groups/{group_id}/channels/{channel_id}/link` | POST | 그룹-채널 연동 |
+
+## LDAP 그룹 동기화
+
+```go
+// LDAP에서 그룹 동기화
+func (a *App) SyncLdapGroups() *model.AppError {
+    // 1. LDAP 연결
+    ldap := a.Ldap()
+    if ldap == nil {
+        return model.NewAppError(...)
+    }
+    
+    // 2. LDAP 그룹 조회
+    ldapGroups, err := ldap.GetAllGroups()
+    if err != nil {
+        return err
+    }
+    
+    // 3. 로컬 그룹과 비교 및 동기화
+    for _, lg := range ldapGroups {
+        group, err := a.GetGroupByRemoteId(lg.RemoteId, model.GroupSourceLdap)
+        if err != nil {
+            // 새 그룹 생성
+            a.CreateGroup(&model.Group{
+                Name:        &lg.Name,
+                DisplayName: lg.DisplayName,
+                Source:      model.GroupSourceLdap,
+                RemoteId:    &lg.RemoteId,
+            })
+        } else {
+            // 기존 그룹 업데이트
+            a.UpdateGroup(group)
+        }
+        
+        // 멤버십 동기화
+        a.syncGroupMembers(group, lg.Members)
+    }
+    
+    return nil
+}
+```
+
+## 그룹 멘션
+
+```go
+// @그룹명으로 그룹 멘션 (예: @engineering)
+func (a *App) GetGroupsForReferenceParsing() ([]*model.Group, *model.AppError) {
+    // AllowReference가 true인 그룹만 조회
+    groups, err := a.Srv().Store().Group().GetAllBySource(model.GroupSourceCustom)
+    
+    var refGroups []*model.Group
+    for _, g := range groups {
+        if g.AllowReference {
+            refGroups = append(refGroups, g)
+        }
+    }
+    
+    return refGroups, nil
+}
+```
+
+## 자동 멤버십 추가
+
+```go
+// AutoAdd가 true인 경우 그룹 멤버는 자동으로 팀/채널에 추가
+func (a *App) AddGroupMemberToSyncables(userId, groupId string) {
+    syncables, _ := a.GetGroupSyncables(groupId)
+    
+    for _, sync := range syncables {
+        if sync.AutoAdd {
+            if sync.SyncableType == model.GroupSyncableTypeTeam {
+                a.AddTeamMember(rctx, sync.SyncableId, userId)
+            } else if sync.SyncableType == model.GroupSyncableTypeChannel {
+                a.AddChannelMember(rctx, userId, sync.SyncableId, ...)
+            }
+        }
+    }
+}
+```
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `sysconsole_write_user_management_groups` | 시스템 콘솔에서 그룹 관리 |
+| `create_custom_group` | 커스텀 그룹 생성 |
+| `manage_custom_group_members` | 커스텀 그룹 멤버 관리 |
+| `delete_custom_group` | 커스텀 그룹 삭제 |
+
+## 설정
+
+```json
+{
+    "LdapSettings": {
+        "Enable": true,
+        "EnableSync": true,
+        "GroupFilter": "(objectClass=group)",
+        "GroupDisplayNameAttribute": "cn",
+        "GroupIdAttribute": "objectGUID"
+    }
+}
+```
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `group_member_add` | 그룹에 멤버 추가됨 |
+| `group_member_delete` | 그룹에서 멤버 제거됨 |
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

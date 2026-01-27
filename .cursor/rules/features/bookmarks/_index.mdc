@@ -1,0 +1,186 @@
+---
+description: 채널 북마크 (Channel Bookmarks) 기능 관련 규칙
+globs: ["server/channels/app/channel_bookmark*.go", "server/channels/api4/channel_bookmark*.go", "server/public/model/channel_bookmark*.go", "webapp/channels/src/components/channel_bookmarks/**"]
+---
+
+# 채널 북마크 (Channel Bookmarks) 도메인
+
+## 개요
+
+채널 상단에 중요한 링크나 파일을 고정하여 빠르게 접근할 수 있는 기능입니다.
+채널 멤버 모두가 공유하는 북마크를 관리합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/channel_bookmark.go` |
+| 비즈니스 로직 | `server/channels/app/channel_bookmark.go` |
+| Store | `server/channels/store/sqlstore/channel_bookmark_store.go` |
+| 모델 | `server/public/model/channel_bookmark.go` |
+| 웹앱 컴포넌트 | `webapp/channels/src/components/channel_bookmarks/` |
+
+## ChannelBookmark 모델
+
+```go
+// server/public/model/channel_bookmark.go
+type ChannelBookmark struct {
+    Id          string           `json:"id"`
+    CreateAt    int64            `json:"create_at"`
+    UpdateAt    int64            `json:"update_at"`
+    DeleteAt    int64            `json:"delete_at"`
+    ChannelId   string           `json:"channel_id"`
+    OwnerId     string           `json:"owner_id"`
+    FileId      string           `json:"file_id,omitempty"`
+    DisplayName string           `json:"display_name"`
+    SortOrder   int64            `json:"sort_order"`
+    LinkUrl     string           `json:"link_url,omitempty"`
+    ImageUrl    string           `json:"image_url,omitempty"`
+    Emoji       string           `json:"emoji,omitempty"`
+    Type        ChannelBookmarkType `json:"type"`
+    OriginalId  string           `json:"original_id,omitempty"`
+    ParentId    string           `json:"parent_id,omitempty"`
+}
+
+type ChannelBookmarkType string
+
+const (
+    ChannelBookmarkLink ChannelBookmarkType = "link"
+    ChannelBookmarkFile ChannelBookmarkType = "file"
+)
+```
+
+## 주요 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/channels/{channel_id}/bookmarks` | GET | 채널 북마크 목록 |
+| `/api/v4/channels/{channel_id}/bookmarks` | POST | 북마크 생성 |
+| `/api/v4/channels/{channel_id}/bookmarks/{bookmark_id}` | PATCH | 북마크 수정 |
+| `/api/v4/channels/{channel_id}/bookmarks/{bookmark_id}` | DELETE | 북마크 삭제 |
+| `/api/v4/channels/{channel_id}/bookmarks/{bookmark_id}/sort_order` | POST | 북마크 순서 변경 |
+
+## 북마크 생성
+
+```go
+func (a *App) CreateChannelBookmark(rctx request.CTX, bookmark *model.ChannelBookmark) (*model.ChannelBookmarkWithFileInfo, *model.AppError) {
+    // 1. 권한 확인
+    if !a.HasPermissionToChannel(bookmark.OwnerId, bookmark.ChannelId, model.PermissionAddBookmarkPublicChannel) {
+        return nil, model.NewAppError(...)
+    }
+    
+    // 2. 유효성 검사
+    if err := bookmark.IsValid(); err != nil {
+        return nil, err
+    }
+    
+    // 3. 파일 타입인 경우 파일 정보 확인
+    if bookmark.Type == model.ChannelBookmarkFile {
+        fileInfo, err := a.GetFileInfo(bookmark.FileId)
+        if err != nil {
+            return nil, err
+        }
+    }
+    
+    // 4. 정렬 순서 설정
+    if bookmark.SortOrder == 0 {
+        bookmark.SortOrder = a.getNextBookmarkSortOrder(bookmark.ChannelId)
+    }
+    
+    // 5. DB 저장
+    created, err := a.Srv().Store().ChannelBookmark().Save(bookmark)
+    if err != nil {
+        return nil, err
+    }
+    
+    return created, nil
+}
+```
+
+## 북마크 타입
+
+### 링크 북마크
+
+```go
+bookmark := &model.ChannelBookmark{
+    ChannelId:   channelId,
+    OwnerId:     userId,
+    Type:        model.ChannelBookmarkLink,
+    DisplayName: "공식 문서",
+    LinkUrl:     "https://docs.example.com",
+    Emoji:       "📚",
+}
+```
+
+### 파일 북마크
+
+```go
+bookmark := &model.ChannelBookmark{
+    ChannelId:   channelId,
+    OwnerId:     userId,
+    Type:        model.ChannelBookmarkFile,
+    DisplayName: "회의록.pdf",
+    FileId:      fileInfo.Id,
+}
+```
+
+## 북마크 순서 변경
+
+```go
+// 드래그 앤 드롭으로 순서 변경
+func (a *App) UpdateChannelBookmarkSortOrder(channelId, bookmarkId string, newIndex int64) *model.AppError {
+    // 재정렬 로직
+    bookmarks, _ := a.GetChannelBookmarks(channelId)
+    
+    // 새 인덱스에 삽입하고 다른 북마크들 재정렬
+    for i, b := range bookmarks {
+        b.SortOrder = int64((i + 1) * 100)
+        a.Srv().Store().ChannelBookmark().Update(b)
+    }
+    
+    return nil
+}
+```
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `channel_bookmark_created` | 북마크 생성됨 |
+| `channel_bookmark_updated` | 북마크 수정됨 |
+| `channel_bookmark_deleted` | 북마크 삭제됨 |
+| `channel_bookmark_sorted` | 북마크 순서 변경됨 |
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `add_bookmark_public_channel` | 공개 채널에 북마크 추가 |
+| `add_bookmark_private_channel` | 비공개 채널에 북마크 추가 |
+| `edit_bookmark_public_channel` | 공개 채널 북마크 수정 |
+| `edit_bookmark_private_channel` | 비공개 채널 북마크 수정 |
+| `delete_bookmark_public_channel` | 공개 채널 북마크 삭제 |
+| `delete_bookmark_private_channel` | 비공개 채널 북마크 삭제 |
+| `order_bookmark_public_channel` | 공개 채널 북마크 순서 변경 |
+| `order_bookmark_private_channel` | 비공개 채널 북마크 순서 변경 |
+
+## UI 구조
+
+```
+Channel Header
+├── Channel Name
+├── Channel Info
+└── Bookmarks Bar
+    ├── 📚 공식 문서 (링크)
+    ├── 📄 회의록.pdf (파일)
+    ├── 🔗 GitHub Repo (링크)
+    └── + 북마크 추가 버튼
+```
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

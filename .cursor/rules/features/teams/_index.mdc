@@ -1,0 +1,173 @@
+---
+description: 팀 관리 기능 관련 규칙
+globs: ["server/channels/app/team*.go", "server/channels/api4/team*.go", "server/channels/store/sqlstore/team*.go", "webapp/channels/src/components/team*/**"]
+---
+
+# 팀 (Teams) 도메인
+
+## 개요
+
+팀은 사용자와 채널을 그룹화하는 최상위 조직 단위입니다.
+사용자는 여러 팀에 속할 수 있습니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/team.go`, `team_local.go` |
+| 비즈니스 로직 | `server/channels/app/team.go` |
+| Store | `server/channels/store/sqlstore/team_store.go` |
+| 모델 | `server/public/model/team.go`, `team_member.go` |
+| 웹앱 | `webapp/channels/src/components/team_sidebar/` |
+| Redux | `webapp/channels/src/reducers/entities/teams.ts` |
+
+## 팀 모델
+
+```go
+// server/public/model/team.go
+type Team struct {
+    Id                  string  `json:"id"`
+    CreateAt            int64   `json:"create_at"`
+    UpdateAt            int64   `json:"update_at"`
+    DeleteAt            int64   `json:"delete_at"`
+    DisplayName         string  `json:"display_name"`
+    Name                string  `json:"name"`
+    Description         string  `json:"description"`
+    Email               string  `json:"email"`
+    Type                string  `json:"type"`
+    CompanyName         string  `json:"company_name"`
+    AllowedDomains      string  `json:"allowed_domains"`
+    InviteId            string  `json:"invite_id"`
+    AllowOpenInvite     bool    `json:"allow_open_invite"`
+    LastTeamIconUpdate  int64   `json:"last_team_icon_update"`
+    SchemeId            *string `json:"scheme_id"`
+    GroupConstrained    *bool   `json:"group_constrained"`
+    CloudLimitsArchived bool    `json:"cloud_limits_archived"`
+}
+```
+
+## 팀 타입
+
+| 타입 | 코드 | 설명 |
+|------|------|------|
+| Open | `"O"` | 누구나 참여 가능 |
+| Invite Only | `"I"` | 초대된 사용자만 참여 가능 |
+
+## 팀 멤버 모델
+
+```go
+// server/public/model/team_member.go
+type TeamMember struct {
+    TeamId        string `json:"team_id"`
+    UserId        string `json:"user_id"`
+    Roles         string `json:"roles"`
+    DeleteAt      int64  `json:"delete_at"`
+    SchemeGuest   bool   `json:"scheme_guest"`
+    SchemeUser    bool   `json:"scheme_user"`
+    SchemeAdmin   bool   `json:"scheme_admin"`
+    ExplicitRoles string `json:"explicit_roles"`
+}
+```
+
+## 주요 API
+
+### 팀 CRUD
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/teams` | GET | 팀 목록 |
+| `/api/v4/teams` | POST | 팀 생성 |
+| `/api/v4/teams/{team_id}` | GET | 팀 조회 |
+| `/api/v4/teams/{team_id}` | PUT | 팀 수정 |
+| `/api/v4/teams/{team_id}` | DELETE | 팀 삭제 |
+| `/api/v4/teams/{team_id}/patch` | PUT | 팀 부분 수정 |
+
+### 팀 멤버 관리
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/teams/{team_id}/members` | GET | 멤버 목록 |
+| `/api/v4/teams/{team_id}/members` | POST | 멤버 추가 |
+| `/api/v4/teams/{team_id}/members/{user_id}` | DELETE | 멤버 제거 |
+| `/api/v4/teams/{team_id}/members/{user_id}/roles` | PUT | 멤버 역할 변경 |
+
+### 초대
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/teams/{team_id}/invite/email` | POST | 이메일 초대 |
+| `/api/v4/teams/{team_id}/regenerate_invite_id` | POST | 초대 링크 재생성 |
+| `/api/v4/teams/invite/{invite_id}` | GET | 초대 정보 조회 |
+
+### 검색
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/teams/search` | POST | 팀 검색 |
+| `/api/v4/users/{user_id}/teams` | GET | 사용자의 팀 목록 |
+
+## 팀 생성 흐름
+
+```go
+// server/channels/app/team.go
+func (a *App) CreateTeam(team *model.Team) (*model.Team, *model.AppError) {
+    // 1. 유효성 검사
+    if err := team.IsValid(); err != nil {
+        return nil, err
+    }
+    
+    // 2. 이름 중복 확인
+    if _, err := a.GetTeamByName(team.Name); err == nil {
+        return nil, model.NewAppError(...)
+    }
+    
+    // 3. DB 저장
+    rteam, err := a.Srv().Store().Team().Save(team)
+    if err != nil {
+        return nil, err
+    }
+    
+    // 4. 기본 채널 생성 (town-square, off-topic)
+    a.CreateDefaultChannels(rteam.Id)
+    
+    return rteam, nil
+}
+```
+
+## 기본 채널
+
+팀 생성 시 자동 생성되는 채널:
+
+| 채널 | Name | 설명 |
+|------|------|------|
+| Town Square | `town-square` | 전체 공지 채널 |
+| Off-Topic | `off-topic` | 자유 대화 채널 |
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `added_to_team` | 팀에 추가됨 |
+| `leave_team` | 팀에서 나감 |
+| `update_team` | 팀 정보 변경 |
+| `delete_team` | 팀 삭제됨 |
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `create_team` | 팀 생성 |
+| `manage_team` | 팀 관리 |
+| `delete_team` | 팀 삭제 |
+| `invite_user` | 사용자 초대 |
+| `remove_user_from_team` | 팀에서 사용자 제거 |
+| `add_user_to_team` | 팀에 사용자 추가 |
+| `manage_team_roles` | 팀 역할 관리 |
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

@@ -1,0 +1,138 @@
+---
+description: 임시저장 (Drafts) 기능 관련 규칙
+globs: ["server/channels/app/draft*.go", "server/channels/api4/drafts*.go", "server/public/model/draft*.go", "webapp/channels/src/components/drafts/**", "webapp/channels/src/components/advanced_create_post/**"]
+---
+
+# 임시저장 (Drafts) 도메인
+
+## 개요
+
+작성 중인 메시지를 임시저장하여 나중에 다시 편집하거나 전송할 수 있는 기능입니다.
+채널별로 드래프트가 저장되며, 서버와 동기화됩니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/drafts.go` |
+| 비즈니스 로직 | `server/channels/app/draft.go` |
+| Store | `server/channels/store/sqlstore/draft_store.go` |
+| 모델 | `server/public/model/draft.go` |
+| 웹앱 컴포넌트 | `webapp/channels/src/components/drafts/` |
+| 에디터 통합 | `webapp/channels/src/components/advanced_create_post/` |
+
+## Draft 모델
+
+```go
+// server/public/model/draft.go
+type Draft struct {
+    CreateAt  int64           `json:"create_at"`
+    UpdateAt  int64           `json:"update_at"`
+    DeleteAt  int64           `json:"delete_at"`  // Deprecated, hard delete 사용
+    UserId    string          `json:"user_id"`
+    ChannelId string          `json:"channel_id"`
+    RootId    string          `json:"root_id"`
+    Message   string          `json:"message"`
+    Type      string          `json:"type"`
+    Props     StringInterface `json:"props"`      // GetProps() 사용 권장
+    FileIds   StringArray     `json:"file_ids,omitempty"`
+    Metadata  *PostMetadata   `json:"metadata,omitempty"`
+    Priority  StringInterface `json:"priority,omitempty"`  // StringInterface 타입!
+}
+```
+
+## 주요 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/users/{user_id}/teams/{team_id}/drafts` | GET | 드래프트 목록 |
+| `/api/v4/users/{user_id}/channels/{channel_id}/drafts` | POST | 드래프트 생성/업데이트 |
+| `/api/v4/users/{user_id}/channels/{channel_id}/drafts` | DELETE | 드래프트 삭제 |
+
+## 드래프트 저장 흐름
+
+```typescript
+// 웹앱에서 드래프트 자동 저장
+const saveDraft = debounce(async (channelId: string, message: string, rootId?: string) => {
+    const draft: Draft = {
+        channel_id: channelId,
+        message: message,
+        root_id: rootId || '',
+        file_ids: uploadedFileIds,
+    };
+    
+    await Client4.createDraft(draft);
+}, 500);
+
+// 메시지 입력 시 자동 저장
+useEffect(() => {
+    if (message.trim()) {
+        saveDraft(channelId, message, rootId);
+    }
+}, [message]);
+```
+
+## 드래프트 로드 흐름
+
+```go
+// 채널 진입 시 드래프트 로드
+func (a *App) GetDraft(userId, channelId, rootId string) (*model.Draft, *model.AppError) {
+    draft, err := a.Srv().Store().Draft().Get(userId, channelId, rootId, false)
+    if err != nil {
+        return nil, model.NewAppError(...)
+    }
+    return draft, nil
+}
+```
+
+## 드래프트 목록 뷰
+
+```
+Drafts Panel (사이드바 또는 별도 뷰)
+├── Draft Item
+│   ├── Channel Name
+│   ├── Message Preview
+│   ├── File Attachments Count
+│   ├── Timestamp
+│   └── Actions (Edit, Delete, Send)
+└── Draft Item
+    └── ...
+```
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `draft_created` | 드래프트 생성됨 |
+| `draft_updated` | 드래프트 업데이트됨 |
+| `draft_deleted` | 드래프트 삭제됨 |
+
+## 드래프트 우선순위
+
+드래프트에도 포스트 우선순위 설정 가능:
+
+```go
+type PostPriority struct {
+    Priority                *string `json:"priority,omitempty"`
+    RequestedAck            *bool   `json:"requested_ack,omitempty"`
+    PersistentNotifications *bool   `json:"persistent_notifications,omitempty"`
+}
+```
+
+## 스레드 드래프트
+
+스레드 답글에 대한 드래프트:
+- `RootId`가 설정되면 스레드 드래프트
+- 루트 포스트가 삭제되면 해당 드래프트도 삭제
+
+## 설정
+
+드래프트 관련 설정은 별도 없음 (기본 활성화)
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

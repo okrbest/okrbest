@@ -1,0 +1,278 @@
+---
+description: 플러그인 시스템 관련 규칙
+globs: ["server/channels/app/plugin*.go", "server/channels/api4/plugin*.go", "server/public/plugin/**", "webapp/channels/src/plugins/**"]
+---
+
+# 플러그인 (Plugins) 도메인
+
+## 개요
+
+Mattermost의 기능을 확장하는 플러그인 시스템입니다.
+서버(Go)와 웹앱(JavaScript) 플러그인을 지원합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/plugin.go` |
+| 비즈니스 로직 | `server/channels/app/plugin.go`, `plugin_api.go` |
+| Plugin API | `server/public/plugin/` |
+| Plugin Hooks | `server/public/plugin/hooks.go` |
+| 웹앱 레지스트리 | `webapp/channels/src/plugins/` |
+
+## 플러그인 구조
+
+```
+my-plugin/
+├── plugin.json              # 매니페스트
+├── server/                  # 서버 플러그인 (Go)
+│   ├── main.go
+│   └── plugin.go
+├── webapp/                  # 웹앱 플러그인 (JS/TS)
+│   ├── src/
+│   │   └── index.tsx
+│   └── package.json
+└── assets/                  # 정적 리소스
+```
+
+## 플러그인 매니페스트
+
+```json
+{
+    "id": "com.example.myplugin",
+    "name": "My Plugin",
+    "description": "Plugin description",
+    "homepage_url": "https://example.com",
+    "support_url": "https://example.com/support",
+    "version": "1.0.0",
+    "min_server_version": "9.0.0",
+    "server": {
+        "executables": {
+            "linux-amd64": "server/dist/plugin-linux-amd64",
+            "darwin-amd64": "server/dist/plugin-darwin-amd64",
+            "windows-amd64": "server/dist/plugin-windows-amd64.exe"
+        }
+    },
+    "webapp": {
+        "bundle_path": "webapp/dist/main.js"
+    },
+    "settings_schema": {
+        "header": "Plugin Settings",
+        "settings": [
+            {
+                "key": "EnableFeature",
+                "display_name": "Enable Feature",
+                "type": "bool",
+                "default": true
+            }
+        ]
+    }
+}
+```
+
+## 서버 플러그인 API
+
+### Plugin 인터페이스
+
+```go
+// server/public/plugin/api.go
+type API interface {
+    // 사용자
+    GetUser(userId string) (*model.User, *model.AppError)
+    GetUserByUsername(username string) (*model.User, *model.AppError)
+    CreateUser(user *model.User) (*model.User, *model.AppError)
+    
+    // 채널
+    GetChannel(channelId string) (*model.Channel, *model.AppError)
+    CreateChannel(channel *model.Channel) (*model.Channel, *model.AppError)
+    
+    // 포스트
+    GetPost(postId string) (*model.Post, *model.AppError)
+    CreatePost(post *model.Post) (*model.Post, *model.AppError)
+    
+    // KV Store
+    KVGet(key string) ([]byte, *model.AppError)
+    KVSet(key string, value []byte) *model.AppError
+    KVDelete(key string) *model.AppError
+    
+    // 슬래시 명령어
+    RegisterCommand(command *model.Command) error
+    
+    // 설정
+    GetConfig() *model.Config
+    GetPluginConfig() map[string]interface{}
+    
+    // 기타
+    PublishWebSocketEvent(event string, payload map[string]interface{}, broadcast *model.WebsocketBroadcast)
+    SendMail(to, subject, htmlBody string) *model.AppError
+}
+```
+
+### Plugin Hooks
+
+```go
+// server/public/plugin/hooks.go
+type Hooks interface {
+    // 라이프사이클
+    OnActivate() error
+    OnDeactivate() error
+    OnConfigurationChange() error
+    
+    // 메시지 훅
+    MessageWillBePosted(c *Context, post *model.Post) (*model.Post, string)
+    MessageHasBeenPosted(c *Context, post *model.Post)
+    MessageWillBeUpdated(c *Context, newPost, oldPost *model.Post) (*model.Post, string)
+    MessageHasBeenUpdated(c *Context, newPost, oldPost *model.Post)
+    
+    // 사용자 훅
+    UserHasJoinedChannel(c *Context, channelMember *model.ChannelMember, actor *model.User)
+    UserHasLeftChannel(c *Context, channelMember *model.ChannelMember, actor *model.User)
+    UserHasJoinedTeam(c *Context, teamMember *model.TeamMember, actor *model.User)
+    UserHasLeftTeam(c *Context, teamMember *model.TeamMember, actor *model.User)
+    UserHasLoggedIn(c *Context, user *model.User)
+    
+    // 명령어 훅
+    ExecuteCommand(c *Context, args *model.CommandArgs) (*model.CommandResponse, *model.AppError)
+    
+    // HTTP 훅
+    ServeHTTP(c *Context, w http.ResponseWriter, r *http.Request)
+}
+```
+
+### 서버 플러그인 구현 예시
+
+```go
+// server/plugin.go
+package main
+
+import (
+    "sync"
+    "github.com/mattermost/mattermost/server/public/plugin"
+    "github.com/mattermost/mattermost/server/public/model"
+)
+
+type Plugin struct {
+    plugin.MattermostPlugin
+    configurationLock sync.RWMutex
+}
+
+func (p *Plugin) OnActivate() error {
+    // 슬래시 명령어 등록
+    return p.API.RegisterCommand(&model.Command{
+        Trigger:          "mycommand",
+        AutoComplete:     true,
+        AutoCompleteDesc: "My custom command",
+    })
+}
+
+func (p *Plugin) ExecuteCommand(c *plugin.Context, args *model.CommandArgs) (*model.CommandResponse, *model.AppError) {
+    return &model.CommandResponse{
+        ResponseType: model.CommandResponseTypeEphemeral,
+        Text:         "Hello from plugin!",
+    }, nil
+}
+
+func (p *Plugin) MessageHasBeenPosted(c *plugin.Context, post *model.Post) {
+    // 포스트 후처리 로직
+}
+```
+
+## 웹앱 플러그인
+
+### Registry API
+
+```typescript
+// webapp/src/index.tsx
+import {Store, Action} from 'redux';
+
+export default class Plugin {
+    initialize(registry: PluginRegistry, store: Store<GlobalState, Action<any>>) {
+        // 컴포넌트 등록
+        registry.registerRootComponent(MyRootComponent);
+        registry.registerLeftSidebarHeaderComponent(MySidebarComponent);
+        registry.registerPopoverUserActionsComponent(MyPopoverComponent);
+        
+        // 채널 헤더 버튼
+        registry.registerChannelHeaderButtonAction(
+            <MyIcon />,
+            () => { /* 클릭 핸들러 */ },
+            'Button tooltip'
+        );
+        
+        // 포스트 액션
+        registry.registerPostDropdownMenuAction(
+            'Menu Item',
+            (postId) => { /* 핸들러 */ }
+        );
+        
+        // WebSocket 이벤트 핸들러
+        registry.registerWebSocketEventHandler(
+            'custom_event',
+            (msg) => { /* 핸들러 */ }
+        );
+        
+        // 리듀서
+        registry.registerReducer(myReducer);
+    }
+    
+    uninitialize() {
+        // 정리 로직
+    }
+}
+```
+
+### Registry 메서드
+
+| 메서드 | 설명 |
+|--------|------|
+| `registerRootComponent` | 루트 컴포넌트 등록 |
+| `registerLeftSidebarHeaderComponent` | 사이드바 헤더 컴포넌트 |
+| `registerChannelHeaderButtonAction` | 채널 헤더 버튼 |
+| `registerPostDropdownMenuAction` | 포스트 드롭다운 메뉴 |
+| `registerMainMenuAction` | 메인 메뉴 항목 |
+| `registerWebSocketEventHandler` | WebSocket 이벤트 핸들러 |
+| `registerReducer` | Redux 리듀서 |
+| `registerSlashCommandWillBePostedHook` | 슬래시 명령어 훅 |
+
+## 플러그인 관리 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/plugins` | GET | 플러그인 목록 |
+| `/api/v4/plugins` | POST | 플러그인 설치 (업로드) |
+| `/api/v4/plugins/{plugin_id}` | DELETE | 플러그인 제거 |
+| `/api/v4/plugins/{plugin_id}/enable` | POST | 플러그인 활성화 |
+| `/api/v4/plugins/{plugin_id}/disable` | POST | 플러그인 비활성화 |
+| `/api/v4/plugins/marketplace` | GET | 마켓플레이스 목록 |
+
+## 설정
+
+```json
+{
+    "PluginSettings": {
+        "Enable": true,
+        "EnableUploads": true,
+        "AllowInsecureDownloadURL": false,
+        "Directory": "./plugins",
+        "ClientDirectory": "./client/plugins",
+        "Plugins": {
+            "com.example.myplugin": {
+                "enablefeature": true
+            }
+        },
+        "PluginStates": {
+            "com.example.myplugin": {
+                "Enable": true
+            }
+        }
+    }
+}
+```
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

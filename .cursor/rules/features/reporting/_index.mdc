@@ -1,0 +1,219 @@
+---
+description: 콘텐츠 신고 (Content Flagging/Reporting) 기능 관련 규칙
+globs: ["server/channels/app/content_flagging*.go", "server/channels/api4/post.go", "webapp/channels/src/components/post_view/post_flag_icon/**"]
+---
+
+# 콘텐츠 신고 (Content Reporting) 도메인
+
+## 개요
+
+부적절하거나 규정 위반 콘텐츠를 관리자에게 신고하는 기능입니다.
+스팸, 괴롭힘, 부적절한 내용 등을 신고하고 관리할 수 있습니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| 비즈니스 로직 | `server/channels/app/content_flagging.go` |
+| 포스트 API | `server/channels/api4/post.go` |
+| Store | `server/channels/store/sqlstore/post_flagging_store.go` |
+
+## 콘텐츠 신고 vs 저장 (Flag)
+
+Mattermost에서 "Flag"는 두 가지 의미:
+
+| 기능 | 설명 |
+|------|------|
+| **Post Flagging (저장)** | 나중에 보려고 메시지 저장 (북마크) |
+| **Content Reporting (신고)** | 부적절한 콘텐츠 관리자에게 신고 |
+
+## ContentReport 모델
+
+```go
+type ContentReport struct {
+    Id          string `json:"id"`
+    PostId      string `json:"post_id"`
+    ReporterId  string `json:"reporter_id"`
+    Reason      string `json:"reason"`
+    Description string `json:"description"`
+    CreateAt    int64  `json:"create_at"`
+    Status      string `json:"status"`
+    ReviewedBy  string `json:"reviewed_by,omitempty"`
+    ReviewedAt  int64  `json:"reviewed_at,omitempty"`
+}
+
+// 신고 사유
+const (
+    ReportReasonSpam        = "spam"
+    ReportReasonHarassment  = "harassment"
+    ReportReasonInappropriate = "inappropriate"
+    ReportReasonOther       = "other"
+)
+
+// 신고 상태
+const (
+    ReportStatusPending   = "pending"
+    ReportStatusReviewed  = "reviewed"
+    ReportStatusDismissed = "dismissed"
+)
+```
+
+## 주요 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/posts/{post_id}/report` | POST | 게시물 신고 |
+| `/api/v4/reports` | GET | 신고 목록 (관리자) |
+| `/api/v4/reports/{report_id}` | GET | 신고 상세 |
+| `/api/v4/reports/{report_id}/review` | PUT | 신고 처리 |
+
+## 콘텐츠 신고 흐름
+
+```go
+// 게시물 신고
+func (a *App) ReportPost(rctx request.CTX, postId, reporterId, reason, description string) (*model.ContentReport, *model.AppError) {
+    // 1. 포스트 존재 확인
+    post, err := a.GetSinglePost(rctx, postId, false)
+    if err != nil {
+        return nil, err
+    }
+    
+    // 2. 자기 글 신고 방지
+    if post.UserId == reporterId {
+        return nil, model.NewAppError("ReportPost", "api.post.report_own_post", nil, "", http.StatusBadRequest)
+    }
+    
+    // 3. 중복 신고 확인
+    existingReport, _ := a.GetReportByPostAndUser(postId, reporterId)
+    if existingReport != nil {
+        return nil, model.NewAppError("ReportPost", "api.post.already_reported", nil, "", http.StatusBadRequest)
+    }
+    
+    // 4. 신고 생성
+    report := &model.ContentReport{
+        Id:          model.NewId(),
+        PostId:      postId,
+        ReporterId:  reporterId,
+        Reason:      reason,
+        Description: description,
+        CreateAt:    model.GetMillis(),
+        Status:      model.ReportStatusPending,
+    }
+    
+    // 5. DB 저장
+    created, err := a.Srv().Store().ContentReport().Save(report)
+    if err != nil {
+        return nil, err
+    }
+    
+    // 6. 관리자에게 알림
+    a.NotifyAdminsAboutReport(report)
+    
+    return created, nil
+}
+```
+
+## 신고 처리 (관리자)
+
+```go
+// 신고 검토 및 처리
+func (a *App) ReviewReport(rctx request.CTX, reportId, reviewerId string, action string) *model.AppError {
+    report, err := a.GetReport(reportId)
+    if err != nil {
+        return err
+    }
+    
+    switch action {
+    case "dismiss":
+        // 신고 기각
+        report.Status = model.ReportStatusDismissed
+        
+    case "delete_post":
+        // 게시물 삭제
+        a.DeletePost(rctx, report.PostId, reviewerId)
+        report.Status = model.ReportStatusReviewed
+        
+    case "warn_user":
+        // 사용자 경고
+        post, _ := a.GetSinglePost(rctx, report.PostId, false)
+        a.WarnUser(post.UserId, "Content violation")
+        report.Status = model.ReportStatusReviewed
+    }
+    
+    report.ReviewedBy = reviewerId
+    report.ReviewedAt = model.GetMillis()
+    
+    return a.Srv().Store().ContentReport().Update(report)
+}
+```
+
+## 저장된 메시지 (Post Flagging)
+
+```go
+// 메시지 저장 (북마크 개념)
+func (a *App) SavePostFlag(userId, postId string) *model.AppError {
+    preference := model.Preference{
+        UserId:   userId,
+        Category: model.PreferenceCategoryFlaggedPost,
+        Name:     postId,
+        Value:    "true",
+    }
+    
+    return a.UpdatePreferences(userId, model.Preferences{preference})
+}
+
+// 저장된 메시지 목록
+func (a *App) GetFlaggedPostsForUser(userId string, offset, limit int) (*model.PostList, *model.AppError) {
+    prefs, err := a.GetPreferenceByCategoryForUser(userId, model.PreferenceCategoryFlaggedPost)
+    if err != nil {
+        return nil, err
+    }
+    
+    postIds := make([]string, 0, len(prefs))
+    for _, pref := range prefs {
+        postIds = append(postIds, pref.Name)
+    }
+    
+    return a.GetPostsByIds(postIds)
+}
+```
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `manage_system` | 신고 관리 (관리자) |
+
+## 설정
+
+```json
+{
+    "ServiceSettings": {
+        "EnableContentReporting": true
+    }
+}
+```
+
+## 관리자 콘솔 UI
+
+```
+System Console > User Management > Content Reports
+├── Pending Reports (대기 중)
+│   ├── Report Item
+│   │   ├── Post Preview
+│   │   ├── Reporter
+│   │   ├── Reason
+│   │   ├── Reported At
+│   │   └── Actions [Dismiss] [Delete Post] [Warn User]
+│   └── ...
+├── Reviewed Reports (처리됨)
+└── Dismissed Reports (기각됨)
+```
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

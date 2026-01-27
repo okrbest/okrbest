@@ -1,0 +1,302 @@
+---
+description: React/TypeScript 웹앱 코드 규칙
+globs: ["webapp/**/*.tsx", "webapp/**/*.ts", "webapp/**/*.scss"]
+---
+
+# 웹앱 코드 규칙
+
+## 디렉토리 구조
+
+```
+webapp/channels/src/
+├── actions/         # Redux 액션
+├── client/          # API 클라이언트
+├── components/      # React 컴포넌트
+│   ├── admin_console/   # 관리자 콘솔
+│   ├── channel_view/    # 채널 뷰
+│   ├── post_view/       # 포스트 렌더링
+│   ├── sidebar/         # 사이드바
+│   └── ...
+├── hooks/           # React 훅
+├── i18n/            # 국제화
+├── plugins/         # 플러그인 시스템
+├── reducers/        # Redux 리듀서
+├── selectors/       # Redux 셀렉터
+├── store/           # Redux 스토어
+├── types/           # TypeScript 타입
+└── utils/           # 유틸리티
+```
+
+## 컴포넌트 패턴
+
+### 컴포넌트 생성
+
+```tsx
+// components/my_component/my_component.tsx
+import React from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+
+import {GlobalState} from 'types/store';
+
+import './my_component.scss';
+
+type Props = {
+    id: string;
+    title: string;
+    onChange?: (value: string) => void;
+};
+
+const MyComponent: React.FC<Props> = ({id, title, onChange}) => {
+    const dispatch = useDispatch();
+    const data = useSelector((state: GlobalState) => state.entities.data[id]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange?.(e.target.value);
+    };
+
+    return (
+        <div className="MyComponent">
+            <h2>{title}</h2>
+            <input onChange={handleChange} />
+        </div>
+    );
+};
+
+export default MyComponent;
+```
+
+### 스타일 규칙
+
+- 각 컴포넌트마다 같은 이름의 `.scss` 파일
+- BEM 네이밍 또는 컴포넌트명 기반 클래스명
+- CSS 변수 활용
+
+```scss
+// components/my_component/my_component.scss
+.MyComponent {
+    padding: 16px;
+    background: var(--center-channel-bg);
+    color: var(--center-channel-color);
+
+    &__title {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    &__content {
+        margin-top: 12px;
+    }
+}
+```
+
+## Redux 상태 관리
+
+### 액션 생성
+
+```typescript
+// actions/my_actions.ts
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Client4} from 'mattermost-redux/client';
+
+export function getMyData(id: string): ActionFunc {
+    return async (dispatch, getState) => {
+        let data;
+        try {
+            data = await Client4.doFetch(`/api/v4/mydata/${id}`, {method: 'GET'});
+        } catch (error) {
+            return {error};
+        }
+
+        dispatch({
+            type: 'RECEIVED_MY_DATA',
+            data,
+        });
+
+        return {data};
+    };
+}
+```
+
+### 리듀서 구조
+
+```typescript
+// reducers/my_reducer.ts
+import {combineReducers} from 'redux';
+
+function items(state: Record<string, MyItem> = {}, action: any) {
+    switch (action.type) {
+    case 'RECEIVED_MY_DATA':
+        return {
+            ...state,
+            [action.data.id]: action.data,
+        };
+    default:
+        return state;
+    }
+}
+
+export default combineReducers({
+    items,
+});
+```
+
+### 셀렉터 패턴
+
+```typescript
+// selectors/my_selectors.ts
+import {createSelector} from 'reselect';
+import {GlobalState} from 'types/store';
+
+export const getMyItems = (state: GlobalState) => state.entities.myFeature.items;
+
+export const getMyItemById = createSelector(
+    getMyItems,
+    (state: GlobalState, id: string) => id,
+    (items, id) => items[id] || null,
+);
+```
+
+## API 통신
+
+### Client4 사용
+
+```typescript
+import {Client4} from 'mattermost-redux/client';
+
+// GET 요청
+const data = await Client4.doFetch('/api/v4/endpoint', {method: 'GET'});
+
+// POST 요청
+const result = await Client4.doFetch('/api/v4/endpoint', {
+    method: 'POST',
+    body: JSON.stringify({key: 'value'}),
+});
+
+// 파일 업로드
+const fileInfo = await Client4.uploadFile(file, channelId);
+```
+
+### WebSocket 이벤트 처리
+
+```typescript
+// actions/websocket_actions.tsx
+export function handleWebSocketEvent(msg: WebSocketMessage) {
+    return (dispatch: Dispatch) => {
+        switch (msg.event) {
+        case WebsocketEvents.POSTED:
+            dispatch(handleNewPost(msg));
+            break;
+        case WebsocketEvents.POST_EDITED:
+            dispatch(handlePostEdited(msg));
+            break;
+        case WebsocketEvents.POST_DELETED:
+            dispatch(handlePostDeleted(msg));
+            break;
+        // ...
+        }
+    };
+}
+```
+
+## 주요 WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `posted` | 새 포스트 |
+| `post_edited` | 포스트 수정 |
+| `post_deleted` | 포스트 삭제 |
+| `typing` | 타이핑 표시 |
+| `channel_viewed` | 채널 조회 |
+| `user_added` | 사용자 추가 |
+| `user_removed` | 사용자 제거 |
+| `reaction_added` | 리액션 추가 |
+| `reaction_removed` | 리액션 제거 |
+
+## 테스트
+
+```bash
+# 웹앱 테스트
+cd webapp && npm test
+
+# 특정 파일 테스트
+npm test -- --testPathPattern="my_component"
+
+# 커버리지
+npm test -- --coverage
+
+# 스냅샷 업데이트
+npm test -- -u
+```
+
+### 테스트 작성 패턴
+
+```tsx
+// components/my_component/my_component.test.tsx
+import React from 'react';
+import {screen, render} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+import MyComponent from './my_component';
+
+describe('MyComponent', () => {
+    test('renders correctly', () => {
+        render(<MyComponent title="Test" />);
+        expect(screen.getByText('Test')).toBeInTheDocument();
+    });
+
+    test('handles click', async () => {
+        const onClick = jest.fn();
+        render(<MyComponent title="Test" onClick={onClick} />);
+        
+        await userEvent.click(screen.getByRole('button'));
+        expect(onClick).toHaveBeenCalled();
+    });
+});
+```
+
+## 국제화
+
+```typescript
+// 번역 파일: webapp/channels/src/i18n/*.json
+import {FormattedMessage, useIntl} from 'react-intl';
+
+// FormattedMessage 컴포넌트
+<FormattedMessage
+    id="component.my_feature.title"
+    defaultMessage="My Feature"
+/>
+
+// useIntl 훅
+const intl = useIntl();
+const text = intl.formatMessage({
+    id: 'component.my_feature.title',
+    defaultMessage: 'My Feature',
+});
+```
+
+## 빌드
+
+```bash
+# 개발 빌드
+cd webapp && npm run build:dev
+
+# 프로덕션 빌드
+cd webapp && npm run build
+
+# 타입 체크
+npm run check-types
+
+# 린트
+npm run check
+```
+
+## 주요 컴포넌트 위치
+
+| 컴포넌트 | 위치 | 설명 |
+|---------|------|------|
+| 사이드바 | `components/sidebar/` | 채널 목록, DM 목록 |
+| 채널 헤더 | `components/channel_header/` | 채널 정보, 액션 버튼 |
+| 포스트 뷰 | `components/post_view/` | 메시지 렌더링 |
+| 텍스트 박스 | `components/textbox/` | 메시지 입력 |
+| 모달 | `components/modal/` | 각종 모달 다이얼로그 |
+| 관리자 콘솔 | `components/admin_console/` | 시스템 설정 |
