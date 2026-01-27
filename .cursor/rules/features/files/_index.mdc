@@ -1,0 +1,231 @@
+---
+description: 파일 관리 기능 관련 규칙
+globs: ["server/channels/app/file*.go", "server/channels/api4/file*.go", "server/channels/store/sqlstore/file_info*.go", "webapp/channels/src/components/file*/**"]
+---
+
+# 파일 (Files) 도메인
+
+## 개요
+
+파일 업로드, 다운로드, 미리보기 기능을 담당합니다.
+로컬 저장소, S3 호환 저장소 등을 지원합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/file.go` |
+| 비즈니스 로직 | `server/channels/app/file.go` |
+| Store | `server/channels/store/sqlstore/file_info_store.go` |
+| 모델 | `server/public/model/file_info.go` |
+| 웹앱 미리보기 | `webapp/channels/src/components/file_preview/` |
+| 첨부 UI | `webapp/channels/src/components/file_attachment/` |
+
+## FileInfo 모델
+
+```go
+// server/public/model/file_info.go
+type FileInfo struct {
+    Id              string `json:"id"`
+    CreatorId       string `json:"user_id"`
+    PostId          string `json:"post_id,omitempty"`
+    ChannelId       string `json:"channel_id,omitempty"`
+    CreateAt        int64  `json:"create_at"`
+    UpdateAt        int64  `json:"update_at"`
+    DeleteAt        int64  `json:"delete_at"`
+    Path            string `json:"-"`
+    ThumbnailPath   string `json:"-"`
+    PreviewPath     string `json:"-"`
+    Name            string `json:"name"`
+    Extension       string `json:"extension"`
+    Size            int64  `json:"size"`
+    MimeType        string `json:"mime_type"`
+    Width           int    `json:"width,omitempty"`
+    Height          int    `json:"height,omitempty"`
+    HasPreviewImage bool   `json:"has_preview_image,omitempty"`
+    MiniPreview     []byte `json:"mini_preview,omitempty"`
+    Content         string `json:"-"`
+    RemoteId        string `json:"remote_id,omitempty"`
+    Archived        bool   `json:"archived"`
+}
+```
+
+## 주요 API
+
+### 파일 업로드/다운로드
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/files` | POST | 파일 업로드 |
+| `/api/v4/files/{file_id}` | GET | 파일 다운로드 |
+| `/api/v4/files/{file_id}/info` | GET | 파일 정보 조회 |
+| `/api/v4/files/{file_id}/thumbnail` | GET | 썸네일 |
+| `/api/v4/files/{file_id}/preview` | GET | 미리보기 |
+| `/api/v4/files/{file_id}/link` | GET | 공개 링크 생성 |
+
+### 다중 파일
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/files/multiple` | POST | 여러 파일 업로드 |
+| `/api/v4/files/search` | POST | 파일 검색 |
+
+## 파일 업로드 흐름
+
+```go
+// server/channels/app/file.go
+func (a *App) UploadFile(c *request.Context, data []byte, channelId, filename string) (*model.FileInfo, *model.AppError) {
+    // 1. 파일 크기 검증
+    if int64(len(data)) > *a.Config().FileSettings.MaxFileSize {
+        return nil, model.NewAppError(...)
+    }
+    
+    // 2. 파일 타입 검증
+    if !a.isFileTypeAllowed(filename) {
+        return nil, model.NewAppError(...)
+    }
+    
+    // 3. FileInfo 생성
+    info := &model.FileInfo{
+        Id:        model.NewId(),
+        CreatorId: c.Session().UserId,
+        Name:      filename,
+        Extension: filepath.Ext(filename),
+        Size:      int64(len(data)),
+        MimeType:  http.DetectContentType(data),
+    }
+    
+    // 4. 파일 저장 (로컬 또는 S3)
+    path := a.generateFilePath(channelId, info.Id, filename)
+    if err := a.WriteFile(data, path); err != nil {
+        return nil, err
+    }
+    info.Path = path
+    
+    // 5. 이미지인 경우 썸네일/미리보기 생성
+    if info.IsImage() {
+        a.generateThumbnails(info, data)
+    }
+    
+    // 6. DB 저장
+    info, err := a.Srv().Store().FileInfo().Save(info)
+    
+    return info, err
+}
+```
+
+## 저장소 설정
+
+### 로컬 저장소
+
+```json
+{
+    "FileSettings": {
+        "DriverName": "local",
+        "Directory": "./data/"
+    }
+}
+```
+
+### S3 호환 저장소
+
+```json
+{
+    "FileSettings": {
+        "DriverName": "amazons3",
+        "AmazonS3AccessKeyId": "access-key",
+        "AmazonS3SecretAccessKey": "secret-key",
+        "AmazonS3Bucket": "bucket-name",
+        "AmazonS3Region": "ap-northeast-2",
+        "AmazonS3Endpoint": "",
+        "AmazonS3SSL": true,
+        "AmazonS3SSE": false
+    }
+}
+```
+
+## 파일 경로 구조
+
+```
+{data_directory}/{year}/{month}/{day}/{random_id}/{filename}
+
+예: ./data/2024/01/15/abc123def456/image.png
+```
+
+## 이미지 처리
+
+### 썸네일 생성
+
+- 크기: 120x120 (비율 유지)
+- 포맷: JPEG
+
+### 미리보기 생성
+
+- 최대 크기: 1920x1920
+- 포맷: JPEG
+
+```go
+func (a *App) generateThumbnails(info *model.FileInfo, data []byte) {
+    // 썸네일 생성
+    thumbnail := imaging.Thumbnail(img, 120, 120, imaging.Lanczos)
+    info.ThumbnailPath = ...
+    
+    // 미리보기 생성
+    preview := imaging.Fit(img, 1920, 1920, imaging.Lanczos)
+    info.PreviewPath = ...
+    info.HasPreviewImage = true
+}
+```
+
+## 지원 파일 타입
+
+### 이미지
+- JPEG, PNG, GIF, BMP, TIFF, WebP, SVG
+
+### 문서
+- PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX
+
+### 미디어
+- MP4, MOV, AVI, MP3, WAV
+
+### 기타
+- ZIP, TAR, GZ, TXT, JSON, XML
+
+## 파일 크기 제한
+
+```json
+{
+    "FileSettings": {
+        "MaxFileSize": 52428800
+    }
+}
+```
+기본값: 50MB (52,428,800 bytes)
+
+## 공개 링크
+
+```go
+// 공개 링크 생성
+type FileLink struct {
+    FileId string `json:"file_id"`
+    Link   string `json:"link"`
+}
+
+// 링크 포맷
+// /api/v4/files/{file_id}/public?h={hash}
+```
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `upload_file` | 파일 업로드 |
+| `create_public_file_link` | 공개 링크 생성 |
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

@@ -1,0 +1,239 @@
+---
+description: 알림 기능 관련 규칙
+globs: ["server/channels/app/notification*.go", "server/channels/app/push*.go", "server/channels/app/email*.go", "webapp/channels/src/components/notification*/**"]
+---
+
+# 알림 (Notifications) 도메인
+
+## 개요
+
+푸시 알림, 이메일 알림, 데스크톱 알림 기능을 담당합니다.
+멘션, DM, 채널 활동 등에 대한 알림을 전송합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| 알림 로직 | `server/channels/app/notification.go` |
+| 푸시 알림 | `server/channels/app/push_notifications.go` |
+| 이메일 알림 | `server/channels/app/email.go`, `email_batching.go` |
+| 모델 | `server/public/model/push_notification.go` |
+| 웹앱 | `webapp/channels/src/components/channel_notifications_modal/` |
+
+## 알림 타입
+
+| 타입 | 설명 |
+|------|------|
+| Desktop | 브라우저/데스크톱 앱 알림 |
+| Push | 모바일 푸시 알림 |
+| Email | 이메일 알림 |
+
+## 알림 트리거
+
+| 상황 | Desktop | Push | Email |
+|------|---------|------|-------|
+| @멘션 | ✅ | ✅ | ✅ |
+| @channel/@all | ✅ | ✅ | ✅ |
+| DM 수신 | ✅ | ✅ | ✅ |
+| 채널 메시지 | 설정에 따라 | 설정에 따라 | ❌ |
+| 스레드 답글 | ✅ | ✅ | ❌ |
+
+## 사용자 알림 설정
+
+```go
+// NotifyProps 구조
+user.NotifyProps = StringMap{
+    "email":          "true",          // 이메일 알림 활성화
+    "push":           "mention",       // 푸시: mention|all|none
+    "desktop":        "all",           // 데스크톱: mention|all|none
+    "desktop_sound":  "true",          // 알림음
+    "mention_keys":   "username,@all", // 멘션 키워드
+    "channel":        "true",          // @channel 알림
+    "first_name":     "false",         // 이름 멘션
+    "push_status":    "away",          // 푸시 전송 조건: online|away|offline
+}
+```
+
+## 채널별 알림 설정
+
+```go
+// ChannelMember.NotifyProps
+channelMember.NotifyProps = StringMap{
+    "desktop":     "default",     // default|all|mention|none
+    "push":        "default",     // default|all|mention|none
+    "email":       "default",     // default|true|false
+    "mark_unread": "all",         // all|mention
+}
+```
+
+## 푸시 알림
+
+### 푸시 알림 모델
+
+```go
+// server/public/model/push_notification.go
+type PushNotification struct {
+    AckId            string `json:"ack_id"`
+    Platform         string `json:"platform"`
+    ServerID         string `json:"server_id"`
+    DeviceId         string `json:"device_id"`
+    PostId           string `json:"post_id"`
+    Category         string `json:"category"`
+    Sound            string `json:"sound"`
+    Message          string `json:"message"`
+    Badge            int    `json:"badge"`
+    ContentAvailable int    `json:"cont_ava"`
+    TeamId           string `json:"team_id"`
+    ChannelId        string `json:"channel_id"`
+    RootId           string `json:"root_id"`
+    ChannelName      string `json:"channel_name"`
+    Type             string `json:"type"`
+    SenderId         string `json:"sender_id"`
+    SenderName       string `json:"sender_name"`
+    OverrideUsername string `json:"override_username"`
+    OverrideIconUrl  string `json:"override_icon_url"`
+    FromWebhook      string `json:"from_webhook"`
+    Version          string `json:"version"`
+}
+```
+
+### 푸시 서버 설정
+
+```json
+{
+    "EmailSettings": {
+        "SendPushNotifications": true,
+        "PushNotificationServer": "https://push-test.mattermost.com",
+        "PushNotificationContents": "full"
+    }
+}
+```
+
+### 푸시 알림 전송 흐름
+
+```go
+func (a *App) SendPushNotifications(post *model.Post, ...) {
+    // 1. 알림 대상 사용자 결정
+    // 2. 각 사용자의 기기 토큰 조회
+    // 3. 푸시 메시지 구성
+    // 4. 푸시 서버로 전송
+}
+```
+
+## 이메일 알림
+
+### 이메일 설정
+
+```json
+{
+    "EmailSettings": {
+        "EnableSignUpWithEmail": true,
+        "EnableSignInWithEmail": true,
+        "EnableSignInWithUsername": true,
+        "SendEmailNotifications": true,
+        "UseChannelInEmailNotifications": true,
+        "RequireEmailVerification": true,
+        "FeedbackName": "OKR.BEST",
+        "FeedbackEmail": "no-reply@okr.best",
+        "SMTPServer": "smtp.example.com",
+        "SMTPPort": "587",
+        "SMTPUsername": "user",
+        "SMTPPassword": "password",
+        "EnableSMTPAuth": true,
+        "ConnectionSecurity": "STARTTLS"
+    }
+}
+```
+
+### 이메일 배칭
+
+```go
+// 여러 알림을 모아서 한 번에 전송
+func (a *App) AddNotificationEmailToBatch(user *model.User, post *model.Post, team *model.Team) *model.AppError {
+    // 배치에 추가
+    // 설정된 간격마다 배치 전송
+}
+```
+
+배칭 설정:
+```json
+{
+    "EmailSettings": {
+        "EnableEmailBatching": true,
+        "EmailBatchingBufferSize": 256,
+        "EmailBatchingInterval": 30
+    }
+}
+```
+
+## 데스크톱 알림
+
+WebSocket을 통해 클라이언트에 알림 이벤트 전송:
+
+```go
+// 서버에서 이벤트 발송
+message := model.NewWebSocketEvent(model.WebsocketEventPosted, ...)
+a.Publish(message)
+
+// 클라이언트에서 알림 표시
+if (Notification.permission === 'granted') {
+    new Notification(title, {
+        body: message,
+        icon: iconUrl,
+    });
+}
+```
+
+## 알림 권한
+
+브라우저 알림 권한 요청:
+```typescript
+Notification.requestPermission().then(permission => {
+    if (permission === 'granted') {
+        // 알림 활성화
+    }
+});
+```
+
+## 알림 처리 흐름
+
+```mermaid
+sequenceDiagram
+    participant Post as 포스트 생성
+    participant App as App Layer
+    participant Notify as 알림 로직
+    participant WS as WebSocket
+    participant Push as Push Server
+    participant Email as Email Server
+
+    Post->>App: CreatePost()
+    App->>Notify: handlePostEvents()
+    
+    Notify->>Notify: 멘션 파싱
+    Notify->>Notify: 알림 대상 결정
+    
+    par Desktop 알림
+        Notify->>WS: WebSocket 이벤트
+    and Push 알림
+        Notify->>Push: 푸시 전송
+    and Email 알림
+        Notify->>Email: 이메일 전송 (또는 배칭)
+    end
+```
+
+## 방해 금지 (DND)
+
+```go
+// 상태가 DND인 경우 알림 억제
+if status.Status == model.StatusDnd {
+    // 푸시/데스크톱 알림 전송 안 함
+}
+```
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

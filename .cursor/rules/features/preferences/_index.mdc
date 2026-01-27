@@ -1,0 +1,209 @@
+---
+description: 환경설정 (Preferences) 기능 관련 규칙
+globs: ["server/channels/app/preference*.go", "server/channels/api4/preference*.go", "server/public/model/preference*.go", "webapp/channels/src/components/user_settings/**"]
+---
+
+# 환경설정 (Preferences) 도메인
+
+## 개요
+
+사용자별 환경설정을 저장하고 관리하는 기능입니다.
+알림, 표시 설정, 사이드바, 테마 등 다양한 설정을 포함합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/preference.go` |
+| 비즈니스 로직 | `server/channels/app/preference.go` |
+| Store | `server/channels/store/sqlstore/preference_store.go` |
+| 모델 | `server/public/model/preference.go` |
+| 웹앱 설정 | `webapp/channels/src/components/user_settings/` |
+
+## Preference 모델
+
+```go
+// server/public/model/preference.go
+type Preference struct {
+    UserId   string `json:"user_id"`
+    Category string `json:"category"`
+    Name     string `json:"name"`
+    Value    string `json:"value"`
+}
+
+type Preferences []Preference
+```
+
+## 주요 카테고리
+
+| 카테고리 | 설명 |
+|----------|------|
+| `direct_channel_show` | DM 채널 표시 여부 |
+| `group_channel_show` | GM 채널 표시 여부 |
+| `tutorial_step` | 튜토리얼 진행 단계 |
+| `channel_open_time` | 채널 마지막 열람 시간 |
+| `channel_approximate_view_time` | 채널 대략적 조회 시간 |
+| `flagged_post` | 저장한 메시지 |
+| `notifications` | 알림 설정 |
+| `display_settings` | 표시 설정 |
+| `sidebar_settings` | 사이드바 설정 |
+| `advanced_settings` | 고급 설정 |
+| `theme` | 테마 설정 |
+| `collapsed_threads_settings` | 스레드 접기 설정 |
+| `recent_emojis` | 최근 사용 이모지 |
+
+## 주요 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/users/{user_id}/preferences` | GET | 사용자 환경설정 전체 조회 |
+| `/api/v4/users/{user_id}/preferences` | PUT | 환경설정 저장 |
+| `/api/v4/users/{user_id}/preferences/delete` | POST | 환경설정 삭제 |
+| `/api/v4/users/{user_id}/preferences/{category}` | GET | 카테고리별 환경설정 조회 |
+| `/api/v4/users/{user_id}/preferences/{category}/name/{preference_name}` | GET | 특정 환경설정 조회 |
+
+## 환경설정 저장
+
+```go
+func (a *App) UpdatePreferences(userId string, preferences model.Preferences) *model.AppError {
+    for _, pref := range preferences {
+        // 유효성 검사
+        if pref.UserId != userId {
+            return model.NewAppError(...)
+        }
+        
+        if !pref.IsValid() {
+            return model.NewAppError(...)
+        }
+    }
+    
+    // DB 저장
+    if err := a.Srv().Store().Preference().Save(preferences); err != nil {
+        return err
+    }
+    
+    // WebSocket 알림
+    a.SendPreferencesChangedEvent(userId, preferences)
+    
+    return nil
+}
+```
+
+## 주요 Preference 항목
+
+### 알림 설정
+
+```go
+// 카테고리: notifications
+const (
+    PreferenceNameEmailInterval = "email_interval"  // 이메일 알림 주기
+    PreferenceNameDesktopSound  = "desktop_sound"   // 데스크톱 사운드
+    PreferenceNameMentionKeys   = "mention_keys"    // 멘션 키워드
+)
+
+// 값 예시
+pref := model.Preference{
+    UserId:   userId,
+    Category: "notifications",
+    Name:     "email_interval",
+    Value:    "30",  // 30초 간격
+}
+```
+
+### 표시 설정
+
+```go
+// 카테고리: display_settings
+const (
+    PreferenceNameUseMilitaryTime    = "use_military_time"     // 24시간제
+    PreferenceNameCollapsePreviews   = "collapse_previews"     // 미리보기 접기
+    PreferenceNameMessageDisplay     = "message_display"       // 메시지 표시 방식
+    PreferenceNameChannelDisplayMode = "channel_display_mode"  // 채널 표시 모드
+    PreferenceNameCollapseConsecutive = "collapse_consecutive" // 연속 메시지 접기
+)
+```
+
+### 사이드바 설정
+
+```go
+// 카테고리: sidebar_settings
+const (
+    PreferenceNameSidebarCategorySorting         = "sidebar_category_sorting"
+    PreferenceNameSidebarDmSidebarCategory       = "dm_sidebar_category"
+    PreferenceNameSidebarLimitVisibleDmsGms      = "limit_visible_dms_gms"
+    PreferenceNameSidebarShowUnreadSection       = "show_unread_section"
+)
+```
+
+### 테마
+
+```go
+// 카테고리: theme
+// 값은 JSON 형식의 테마 객체
+themeValue := `{
+    "sidebarBg": "#145dbf",
+    "sidebarText": "#ffffff",
+    "sidebarUnreadText": "#ffffff",
+    "sidebarTextHoverBg": "#4578bf",
+    "sidebarTextActiveBorder": "#579eff",
+    "sidebarTextActiveColor": "#ffffff",
+    "sidebarHeaderBg": "#1153ab",
+    "sidebarHeaderTextColor": "#ffffff",
+    "sidebarTeamBarBg": "#0a356b",
+    "onlineIndicator": "#06d6a0",
+    "awayIndicator": "#ffbc42",
+    "dndIndicator": "#f74343"
+}`
+```
+
+### 스레드 설정
+
+```go
+// 카테고리: collapsed_threads_settings
+const (
+    PreferenceNameCollapsedThreadsEnabled = "collapsed_threads_enabled"
+)
+```
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `preferences_changed` | 환경설정 변경됨 |
+| `preferences_deleted` | 환경설정 삭제됨 |
+
+## 설정 UI 구조
+
+```
+User Settings Modal
+├── General
+│   ├── Name & Username
+│   └── Email
+├── Security
+│   ├── Password
+│   └── MFA
+├── Notifications
+│   ├── Desktop
+│   ├── Email
+│   ├── Mobile Push
+│   └── Keywords
+├── Display
+│   ├── Theme
+│   ├── Clock Format
+│   ├── Teammate Name Display
+│   └── Channel Display
+├── Sidebar
+│   ├── Category Grouping
+│   └── Unread Section
+└── Advanced
+    ├── Performance
+    └── Developer Mode
+```
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

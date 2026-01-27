@@ -1,0 +1,232 @@
+---
+description: Go 서버 코드 규칙
+globs: ["server/**/*.go"]
+---
+
+# Go 서버 코드 규칙
+
+## 아키텍처 레이어
+
+```
+Client → Router → API4 Handler → App Layer → Store → Database
+```
+
+### 각 레이어 역할
+
+| 레이어 | 위치 | 역할 |
+|--------|------|------|
+| Router | `server/channels/web/` | HTTP 라우팅, 미들웨어 |
+| API4 | `server/channels/api4/` | HTTP 요청/응답, 인증 |
+| App | `server/channels/app/` | 비즈니스 로직, 권한 검증 |
+| Store | `server/channels/store/` | 데이터베이스 CRUD |
+| Model | `server/public/model/` | 도메인 모델 정의 |
+
+### 서비스 구조
+
+| 서비스 | 위치 | 역할 |
+|--------|------|------|
+| Store | `channels/store/` | 데이터 접근 계층 |
+| Cache | `platform/services/cache/` | 캐시 서비스 |
+| Jobs | `channels/jobs/` | 백그라운드 작업 |
+| Audit | `channels/audit/` | 감사 로그 |
+
+## HTTP 요청 처리 흐름
+
+```
+1. Client → Gorilla Mux Router
+2. Router → CORS → Auth → Rate Limiting
+3. Middleware → API4 Handler
+4. API4 Handler:
+   - 인증/권한 검증
+   - 요청 파싱
+5. API4 → App (비즈니스 로직)
+6. App → Store (데이터 접근)
+7. Store → Database
+8. 결과 반환 → JSON Response
+```
+
+## 코딩 패턴
+
+### 새 API 엔드포인트 추가
+
+1. `server/channels/api4/{feature}.go` - 핸들러 작성
+2. `server/channels/api4/api.go` - 라우트 등록
+3. `server/channels/app/{feature}.go` - 비즈니스 로직
+4. 필요시 `server/public/model/` - 모델 추가
+
+```go
+// 핸들러 예시 (server/channels/api4/{feature}.go)
+func (api *API) InitMyFeature() {
+    api.BaseRoutes.APIRoot.Handle("/myfeature", api.APISessionRequired(getMyFeature)).Methods("GET")
+    api.BaseRoutes.APIRoot.Handle("/myfeature", api.APISessionRequired(createMyFeature)).Methods("POST")
+}
+
+func getMyFeature(c *Context, w http.ResponseWriter, r *http.Request) {
+    // 1. 파라미터 파싱
+    // 2. 권한 검증 (필요시)
+    // 3. App 레이어 호출
+    result, appErr := c.App.GetMyFeature(c.Params.Id)
+    if appErr != nil {
+        c.Err = appErr
+        return
+    }
+    // 4. JSON 응답
+    if err := json.NewEncoder(w).Encode(result); err != nil {
+        c.Logger.Warn("Error writing response", mlog.Err(err))
+    }
+}
+```
+
+### 에러 처리
+
+```go
+// 표준 에러 타입 사용 (server/public/model/)
+model.NewAppError("GetUser", "app.user.get.error", nil, err.Error(), http.StatusNotFound)
+
+// 일반적인 에러 케이스
+// - 400 Bad Request: 잘못된 요청
+// - 401 Unauthorized: 인증 필요
+// - 403 Forbidden: 권한 없음
+// - 404 Not Found: 리소스 없음
+// - 500 Internal Server Error: 서버 오류
+```
+
+### 로깅
+
+```go
+import "github.com/mattermost/mattermost/server/public/shared/mlog"
+
+// 로그 레벨별 사용
+mlog.Debug("디버그 메시지", mlog.String("key", "value"))
+mlog.Info("정보 메시지", mlog.Int("count", 42))
+mlog.Warn("경고 메시지", mlog.Err(err))
+mlog.Error("에러 발생", mlog.String("user_id", userId))
+```
+
+## 데이터베이스
+
+### Store 인터페이스 (`server/channels/store/store.go`)
+
+- 모든 DB 작업은 Store 인터페이스를 통해
+- 인터페이스 기반 설계로 테스트 용이
+
+```go
+type Store interface {
+    User() UserStore
+    Team() TeamStore
+    Channel() ChannelStore
+    Post() PostStore
+    Session() SessionStore
+    // ...
+}
+```
+
+### SQLStore 구현 (`server/channels/store/sqlstore/`)
+
+| 파일 | 역할 |
+|------|------|
+| `sqlstore.go` | Store 인터페이스 구현, DB 연결 관리 |
+| `user_store.go` | User 관련 쿼리 |
+| `channel_store.go` | Channel 관련 쿼리 |
+| `post_store.go` | Post 관련 쿼리 |
+
+### 캐시 레이어
+
+`server/channels/store/localcachelayer/`:
+- 사용자 정보
+- 채널 정보
+- 세션 데이터
+- 설정 값
+
+## WebSocket
+
+### Hub 구조 (`server/channels/app/web_hub.go`)
+
+```go
+// WebSocket 연결 관리
+type Hub struct {
+    connections map[*WebConn]bool
+    register    chan *WebConn
+    unregister  chan *WebConn
+    broadcast   chan *model.WebSocketEvent
+}
+```
+
+### 이벤트 브로드캐스트
+
+```go
+// 이벤트 전송
+a.Srv().Broadcast(&model.WebSocketEvent{
+    Event:     model.WebsocketEventPosted,
+    Data:      data,
+    Broadcast: broadcast,
+})
+```
+
+## 테스트
+
+```bash
+# 서버 테스트
+make test-server
+
+# 특정 패키지 테스트
+go test ./channels/app/...
+
+# 커버리지
+make test-server ENABLE_COVERAGE=true
+```
+
+### 테스트 유틸리티
+
+- `server/channels/testlib/` - 테스트 헬퍼
+- `server/channels/app/apitestlib.go` - API 테스트 유틸리티
+
+## 주요 모델
+
+### User (`server/public/model/user.go`)
+```go
+type User struct {
+    Id        string `json:"id"`
+    Username  string `json:"username"`
+    Email     string `json:"email"`
+    Nickname  string `json:"nickname"`
+    FirstName string `json:"first_name"`
+    LastName  string `json:"last_name"`
+    Roles     string `json:"roles"`
+}
+```
+
+### Channel (`server/public/model/channel.go`)
+```go
+type Channel struct {
+    Id          string `json:"id"`
+    TeamId      string `json:"team_id"`
+    Type        ChannelType `json:"type"` // "O" | "P" | "D" | "G"
+    DisplayName string `json:"display_name"`
+    Name        string `json:"name"`
+}
+```
+
+### Post (`server/public/model/post.go`)
+```go
+type Post struct {
+    Id        string          `json:"id"`
+    ChannelId string          `json:"channel_id"`
+    UserId    string          `json:"user_id"`
+    Message   string          `json:"message"`
+    Type      string          `json:"type"`
+    Props     StringInterface `json:"props"`
+}
+```
+
+## 주요 API 엔드포인트
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/users` | GET, POST | 사용자 목록/생성 |
+| `/api/v4/users/{user_id}` | GET, PUT, DELETE | 사용자 CRUD |
+| `/api/v4/teams` | GET, POST | 팀 목록/생성 |
+| `/api/v4/channels` | GET, POST | 채널 목록/생성 |
+| `/api/v4/posts` | GET, POST | 포스트 조회/생성 |
+| `/api/v4/files` | POST | 파일 업로드 |
+| `/api/v4/websocket` | WebSocket | 실시간 연결 |

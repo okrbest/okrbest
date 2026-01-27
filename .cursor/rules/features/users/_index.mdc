@@ -1,0 +1,243 @@
+---
+description: 사용자 관리 기능 관련 규칙
+globs: ["server/channels/app/user*.go", "server/channels/api4/user*.go", "server/channels/store/sqlstore/user*.go", "webapp/channels/src/components/profile*/**", "webapp/channels/src/components/user*/**"]
+---
+
+# 사용자 (Users) 도메인
+
+## 개요
+
+사용자 계정 관리, 프로필, 상태, 인증 등을 담당합니다.
+LDAP, SAML, OAuth 등 다양한 인증 방식을 지원합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/user.go`, `user_local.go` |
+| 비즈니스 로직 | `server/channels/app/user.go`, `users/` |
+| 인증 | `server/channels/app/authentication.go`, `session.go` |
+| Store | `server/channels/store/sqlstore/user_store.go` |
+| 모델 | `server/public/model/user.go`, `session.go` |
+| 웹앱 프로필 | `webapp/channels/src/components/profile_popover/` |
+| Redux | `webapp/channels/src/reducers/entities/users.ts` |
+
+## 사용자 모델
+
+```go
+// server/public/model/user.go
+type User struct {
+    Id                     string    `json:"id"`
+    CreateAt               int64     `json:"create_at"`
+    UpdateAt               int64     `json:"update_at"`
+    DeleteAt               int64     `json:"delete_at"`
+    Username               string    `json:"username"`
+    Password               string    `json:"password,omitempty"`
+    AuthData               *string   `json:"auth_data,omitempty"`
+    AuthService            string    `json:"auth_service"`
+    Email                  string    `json:"email"`
+    EmailVerified          bool      `json:"email_verified"`
+    Nickname               string    `json:"nickname"`
+    FirstName              string    `json:"first_name"`
+    LastName               string    `json:"last_name"`
+    Position               string    `json:"position"`
+    Roles                  string    `json:"roles"`
+    AllowMarketing         bool      `json:"allow_marketing"`
+    Props                  StringMap `json:"props,omitempty"`
+    NotifyProps            StringMap `json:"notify_props,omitempty"`
+    LastPasswordUpdate     int64     `json:"last_password_update"`
+    LastPictureUpdate      int64     `json:"last_picture_update"`
+    FailedAttempts         int       `json:"failed_attempts"`
+    Locale                 string    `json:"locale"`
+    Timezone               StringMap `json:"timezone"`
+    MfaActive              bool      `json:"mfa_active"`
+    MfaSecret              string    `json:"mfa_secret,omitempty"`
+    IsBot                  bool      `json:"is_bot,omitempty"`
+    BotDescription         string    `json:"bot_description,omitempty"`
+    BotLastIconUpdate      int64     `json:"bot_last_icon_update,omitempty"`
+    TermsOfServiceId       string    `json:"terms_of_service_id,omitempty"`
+    TermsOfServiceCreateAt int64     `json:"terms_of_service_create_at,omitempty"`
+}
+```
+
+## 사용자 상태
+
+```go
+// server/public/model/status.go
+type Status struct {
+    UserId         string `json:"user_id"`
+    Status         string `json:"status"`
+    Manual         bool   `json:"manual"`
+    LastActivityAt int64  `json:"last_activity_at"`
+    ActiveChannel  string `json:"active_channel,omitempty"`
+    DNDEndTime     int64  `json:"dnd_end_time"`
+}
+```
+
+| 상태 | 설명 |
+|------|------|
+| `online` | 온라인 |
+| `away` | 자리 비움 |
+| `offline` | 오프라인 |
+| `dnd` | 방해 금지 |
+
+## 주요 API
+
+### 사용자 CRUD
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/users` | GET | 사용자 목록 |
+| `/api/v4/users` | POST | 사용자 생성 |
+| `/api/v4/users/{user_id}` | GET | 사용자 조회 |
+| `/api/v4/users/{user_id}` | PUT | 사용자 수정 |
+| `/api/v4/users/{user_id}` | DELETE | 사용자 비활성화 |
+| `/api/v4/users/{user_id}/patch` | PUT | 사용자 부분 수정 |
+
+### 인증
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/users/login` | POST | 로그인 |
+| `/api/v4/users/logout` | POST | 로그아웃 |
+| `/api/v4/users/password/reset` | POST | 비밀번호 초기화 |
+| `/api/v4/users/{user_id}/password` | PUT | 비밀번호 변경 |
+| `/api/v4/users/{user_id}/mfa` | PUT | MFA 설정 |
+
+### 프로필
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/users/me` | GET | 현재 사용자 |
+| `/api/v4/users/{user_id}/image` | GET | 프로필 이미지 |
+| `/api/v4/users/{user_id}/image` | POST | 프로필 이미지 업로드 |
+| `/api/v4/users/{user_id}/status` | GET | 사용자 상태 |
+| `/api/v4/users/{user_id}/status` | PUT | 상태 변경 |
+
+### 검색
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/users/search` | POST | 사용자 검색 |
+| `/api/v4/users/autocomplete` | GET | 자동완성 |
+| `/api/v4/users/ids` | POST | ID로 여러 사용자 조회 |
+| `/api/v4/users/usernames` | POST | 사용자명으로 조회 |
+
+## 사용자 생성 흐름
+
+```go
+// server/channels/app/user.go
+func (a *App) CreateUser(user *model.User) (*model.User, *model.AppError) {
+    // 1. 유효성 검사
+    if err := user.IsValid(); err != nil {
+        return nil, err
+    }
+    
+    // 2. 비밀번호 해싱
+    user.Password = model.HashPassword(user.Password)
+    
+    // 3. DB 저장
+    ruser, err := a.Srv().Store().User().Save(user)
+    if err != nil {
+        return nil, err
+    }
+    
+    // 4. 환영 메시지 전송 (설정에 따라)
+    if *a.Config().EmailSettings.SendEmailNotifications {
+        a.sendWelcomeEmail(ruser)
+    }
+    
+    return ruser, nil
+}
+```
+
+## 인증 흐름
+
+```go
+// server/channels/app/authentication.go
+func (a *App) AuthenticateUserForLogin(loginId, password string) (*model.User, *model.AppError) {
+    // 1. 사용자 조회 (email 또는 username)
+    user, err := a.GetUserForLogin(loginId)
+    if err != nil {
+        return nil, err
+    }
+    
+    // 2. 계정 잠금 확인
+    if user.IsLocked() {
+        return nil, model.NewAppError(...)
+    }
+    
+    // 3. 비밀번호 검증
+    if !model.ComparePassword(user.Password, password) {
+        a.updateFailedAttempts(user)
+        return nil, model.NewAppError(...)
+    }
+    
+    // 4. MFA 확인 (활성화된 경우)
+    if user.MfaActive {
+        // MFA 토큰 검증 필요
+    }
+    
+    return user, nil
+}
+```
+
+## 세션 관리
+
+```go
+// server/public/model/session.go
+type Session struct {
+    Id             string    `json:"id"`
+    Token          string    `json:"token"`
+    CreateAt       int64     `json:"create_at"`
+    ExpiresAt      int64     `json:"expires_at"`
+    LastActivityAt int64     `json:"last_activity_at"`
+    UserId         string    `json:"user_id"`
+    DeviceId       string    `json:"device_id"`
+    Roles          string    `json:"roles"`
+    IsOAuth        bool      `json:"is_oauth"`
+    Props          StringMap `json:"props"`
+}
+```
+
+## 알림 설정 (NotifyProps)
+
+```go
+user.NotifyProps = StringMap{
+    "email":         "true",          // 이메일 알림
+    "push":          "mention",       // 푸시 알림
+    "desktop":       "all",           // 데스크톱 알림
+    "desktop_sound": "true",          // 알림음
+    "mention_keys":  "username,@all", // 멘션 키워드
+    "channel":       "true",          // @channel 알림
+    "first_name":    "false",         // 이름 멘션
+}
+```
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `user_added` | 사용자 추가됨 |
+| `user_removed` | 사용자 제거됨 |
+| `user_updated` | 사용자 정보 변경 |
+| `user_role_updated` | 역할 변경 |
+| `status_change` | 상태 변경 |
+| `typing` | 타이핑 중 |
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `view_members` | 멤버 조회 |
+| `invite_user` | 사용자 초대 |
+| `manage_system` | 시스템 관리 |
+| `create_user_access_token` | 액세스 토큰 생성 |
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

@@ -1,0 +1,273 @@
+---
+description: 시스템 관리 기능 관련 규칙
+globs: ["server/channels/api4/system*.go", "server/channels/api4/config*.go", "server/channels/app/admin*.go", "server/config/**", "webapp/channels/src/components/admin_console/**"]
+---
+
+# 관리자 (Admin) 도메인
+
+## 개요
+
+시스템 설정, 사용자 관리, 라이선스, 로그, 감사 등 관리 기능입니다.
+시스템 콘솔(Admin Console)에서 접근합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| 시스템 API | `server/channels/api4/system.go` |
+| 설정 API | `server/channels/api4/config.go` |
+| 비즈니스 로직 | `server/channels/app/admin.go`, `config.go` |
+| 설정 관리 | `server/config/` |
+| 모델 | `server/public/model/config.go` |
+| 웹앱 콘솔 | `webapp/channels/src/components/admin_console/` |
+
+## 설정 관리
+
+### 설정 구조
+
+```go
+// server/public/model/config.go
+type Config struct {
+    ServiceSettings           ServiceSettings
+    TeamSettings              TeamSettings
+    ClientRequirements        ClientRequirements
+    SqlSettings               SqlSettings
+    LogSettings               LogSettings
+    ExperimentalAuditSettings ExperimentalAuditSettings
+    PasswordSettings          PasswordSettings
+    FileSettings              FileSettings
+    EmailSettings             EmailSettings
+    RateLimitSettings         RateLimitSettings
+    PrivacySettings           PrivacySettings
+    SupportSettings           SupportSettings
+    AnnouncementSettings      AnnouncementSettings
+    ThemeSettings             ThemeSettings
+    GitLabSettings            SSOSettings
+    GoogleSettings            SSOSettings
+    Office365Settings         Office365Settings
+    OpenIdSettings            SSOSettings
+    LdapSettings              LdapSettings
+    SamlSettings              SamlSettings
+    NativeAppSettings         NativeAppSettings
+    ClusterSettings           ClusterSettings
+    MetricsSettings           MetricsSettings
+    PluginSettings            PluginSettings
+    // ...
+}
+```
+
+### 설정 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/config` | GET | 설정 조회 |
+| `/api/v4/config` | PUT | 설정 수정 |
+| `/api/v4/config/patch` | PUT | 설정 부분 수정 |
+| `/api/v4/config/reload` | POST | 설정 리로드 |
+| `/api/v4/config/environment` | GET | 환경 변수 설정 |
+| `/api/v4/config/client` | GET | 클라이언트 설정 |
+
+### 설정 소스 우선순위
+
+1. 환경 변수 (`MM_*`)
+2. 설정 파일 (`config.json`)
+3. 데이터베이스 (클러스터 환경)
+4. 기본값
+
+### 환경 변수 매핑
+
+```
+MM_SERVICESETTINGS_SITEURL → ServiceSettings.SiteURL
+MM_SQLSETTINGS_DATASOURCE → SqlSettings.DataSource
+MM_FILESETTINGS_DRIVERNAME → FileSettings.DriverName
+```
+
+## 시스템 정보
+
+### API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/system/ping` | GET | 헬스 체크 |
+| `/api/v4/system/database/recycle` | POST | DB 연결 재생성 |
+| `/api/v4/system/caches/invalidate` | POST | 캐시 무효화 |
+| `/api/v4/system/logs` | GET | 로그 조회 |
+| `/api/v4/system/logs` | POST | 로그 추가 |
+| `/api/v4/analytics/old` | GET | 통계 정보 |
+
+### 헬스 체크 응답
+
+```json
+{
+    "status": "OK",
+    "version": "9.0.0"
+}
+```
+
+## 감사 로그 (Audit)
+
+### 설정
+
+```json
+{
+    "ExperimentalAuditSettings": {
+        "FileEnabled": true,
+        "FileName": "/var/log/mattermost/audit.log",
+        "FileMaxSizeMB": 100,
+        "FileMaxAgeDays": 0,
+        "FileMaxBackups": 0,
+        "FileCompress": false,
+        "FileMaxQueueSize": 1000
+    }
+}
+```
+
+### 감사 대상 이벤트
+
+| 카테고리 | 이벤트 |
+|----------|--------|
+| 인증 | 로그인, 로그아웃, 로그인 실패 |
+| 사용자 | 생성, 수정, 삭제, 역할 변경 |
+| 채널 | 생성, 삭제, 멤버 변경 |
+| 팀 | 생성, 삭제, 멤버 변경 |
+| 설정 | 설정 변경 |
+| 플러그인 | 설치, 제거, 활성화 |
+
+## 라이선스
+
+### API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/license` | GET | 라이선스 조회 |
+| `/api/v4/license` | POST | 라이선스 업로드 |
+| `/api/v4/license` | DELETE | 라이선스 제거 |
+| `/api/v4/license/client` | GET | 클라이언트용 라이선스 정보 |
+
+### 라이선스 기능
+
+| 기능 | Free | Professional | Enterprise |
+|------|------|--------------|------------|
+| LDAP | ❌ | ✅ | ✅ |
+| SAML | ❌ | ✅ | ✅ |
+| Guest Accounts | ❌ | ✅ | ✅ |
+| Compliance Export | ❌ | ❌ | ✅ |
+| Data Retention | ❌ | ❌ | ✅ |
+| Cluster | ❌ | ❌ | ✅ |
+
+## 데이터 내보내기/가져오기
+
+### Bulk Export
+
+```bash
+# mmctl로 내보내기
+mmctl export create
+mmctl export download export_id
+```
+
+### Bulk Import
+
+```bash
+# mmctl로 가져오기
+mmctl import process import.zip
+```
+
+### API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/jobs` | GET | 작업 목록 |
+| `/api/v4/jobs` | POST | 작업 생성 |
+| `/api/v4/jobs/{job_id}` | GET | 작업 조회 |
+| `/api/v4/jobs/{job_id}/cancel` | POST | 작업 취소 |
+
+## 데이터 보존 정책
+
+```json
+{
+    "DataRetentionSettings": {
+        "EnableMessageDeletion": true,
+        "EnableFileDeletion": true,
+        "MessageRetentionDays": 365,
+        "FileRetentionDays": 365,
+        "DeletionJobStartTime": "02:00"
+    }
+}
+```
+
+## 규정 준수 (Compliance)
+
+### Compliance Export
+
+```json
+{
+    "MessageExportSettings": {
+        "EnableExport": true,
+        "ExportFormat": "actiance",
+        "DailyRunTime": "01:00",
+        "ExportFromTimestamp": 0,
+        "BatchSize": 10000
+    }
+}
+```
+
+## 시스템 콘솔 구조
+
+```
+Admin Console
+├── About
+│   └── License
+├── Reporting
+│   ├── Site Statistics
+│   ├── Team Statistics
+│   └── Server Logs
+├── User Management
+│   ├── Users
+│   ├── Groups
+│   ├── Teams
+│   └── Channels
+├── Environment
+│   ├── Web Server
+│   ├── Database
+│   ├── File Storage
+│   ├── Image Proxy
+│   └── SMTP
+├── Site Configuration
+│   ├── Customization
+│   ├── Localization
+│   ├── Users and Teams
+│   ├── Notifications
+│   └── Announcement Banner
+├── Authentication
+│   ├── Signup
+│   ├── Email
+│   ├── Password
+│   ├── MFA
+│   ├── AD/LDAP
+│   └── SAML 2.0
+├── Plugins
+│   └── Plugin Management
+├── Integrations
+│   ├── Webhook Settings
+│   └── Bot Accounts
+└── Experimental
+    └── Features
+```
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `manage_system` | 시스템 관리 (전체) |
+| `sysconsole_read_*` | 설정 읽기 권한 |
+| `sysconsole_write_*` | 설정 쓰기 권한 |
+| `manage_jobs` | 백그라운드 작업 관리 |
+| `read_audits` | 감사 로그 읽기 |
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

@@ -1,0 +1,216 @@
+---
+description: 검색 기능 관련 규칙
+globs: ["server/channels/app/search*.go", "server/channels/api4/search*.go", "server/channels/store/searchlayer/**", "webapp/channels/src/components/search*/**"]
+---
+
+# 검색 (Search) 도메인
+
+## 개요
+
+메시지, 파일, 사용자 검색 기능을 담당합니다.
+PostgreSQL Full-Text Search를 기본으로 지원합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/post.go` (검색 엔드포인트) |
+| 비즈니스 로직 | `server/channels/app/post.go` |
+| 검색 레이어 | `server/channels/store/searchlayer/` |
+| SQL 검색 | `server/channels/store/sqlstore/post_store.go` |
+| 웹앱 | `webapp/channels/src/components/search/` |
+
+## 검색 API
+
+### 메시지 검색
+
+```
+POST /api/v4/teams/{team_id}/posts/search
+```
+
+```json
+{
+    "terms": "검색어",
+    "is_or_search": false,
+    "time_zone_offset": 0,
+    "include_deleted_channels": false,
+    "page": 0,
+    "per_page": 60
+}
+```
+
+### 검색 결과
+
+```json
+{
+    "order": ["post_id_1", "post_id_2"],
+    "posts": {
+        "post_id_1": { ... },
+        "post_id_2": { ... }
+    },
+    "matches": {
+        "post_id_1": ["검색어 하이라이트 위치"]
+    }
+}
+```
+
+## 검색 문법
+
+### 기본 검색
+
+| 문법 | 설명 | 예시 |
+|------|------|------|
+| 단어 | 단어 포함 검색 | `hello` |
+| "구문" | 정확한 구문 검색 | `"hello world"` |
+| `-단어` | 제외 검색 | `-bug` |
+
+### 필터
+
+| 필터 | 설명 | 예시 |
+|------|------|------|
+| `from:` | 작성자 | `from:username` |
+| `in:` | 채널 | `in:town-square` |
+| `before:` | 이전 날짜 | `before:2024-01-01` |
+| `after:` | 이후 날짜 | `after:2024-01-01` |
+| `on:` | 특정 날짜 | `on:2024-01-15` |
+
+### 플래그/핀
+
+| 필터 | 설명 |
+|------|------|
+| `is:pinned` | 고정된 메시지 |
+| `is:flagged` | 플래그된 메시지 |
+
+### 파일 검색
+
+| 필터 | 설명 | 예시 |
+|------|------|------|
+| `ext:` | 파일 확장자 | `ext:pdf` |
+| `has:file` | 파일 첨부 있음 | `has:file` |
+
+## 검색 구현
+
+```go
+// server/channels/app/post.go
+func (a *App) SearchPostsInTeam(teamId string, params *model.SearchParameter) (*model.PostList, *model.AppError) {
+    // 1. 검색어 파싱
+    terms := model.ParseSearchTerms(params.Terms)
+    
+    // 2. 권한 확인 (접근 가능한 채널만)
+    channels, err := a.GetChannelsForUser(teamId, userId, ...)
+    
+    // 3. 검색 실행
+    posts, err := a.Srv().Store().Post().Search(teamId, userId, terms, ...)
+    
+    return posts, err
+}
+```
+
+## PostgreSQL Full-Text Search
+
+```sql
+-- 검색 인덱스
+CREATE INDEX idx_posts_message_txt ON Posts USING gin(to_tsvector('english', Message));
+
+-- 검색 쿼리
+SELECT * FROM Posts
+WHERE to_tsvector('english', Message) @@ plainto_tsquery('english', 'search terms')
+AND ChannelId IN (...)
+ORDER BY CreateAt DESC
+LIMIT 60;
+```
+
+## 검색 성능 최적화
+
+### 인덱스
+
+```sql
+-- 메시지 전문 검색 인덱스
+CREATE INDEX idx_posts_message_txt ON Posts USING gin(to_tsvector('english', Message));
+
+-- 채널별 검색 인덱스
+CREATE INDEX idx_posts_channel_id_delete_at ON Posts(ChannelId, DeleteAt);
+
+-- 날짜 범위 검색 인덱스
+CREATE INDEX idx_posts_create_at ON Posts(CreateAt DESC);
+```
+
+### 페이지네이션
+
+```go
+// 기본 페이지 크기
+const SEARCH_DEFAULT_PAGE = 0
+const SEARCH_DEFAULT_PER_PAGE = 60
+const SEARCH_MAX_PER_PAGE = 200
+```
+
+## 사용자 검색/자동완성
+
+### API
+
+```
+GET /api/v4/users/autocomplete?term=검색어&team_id=team123
+```
+
+```
+POST /api/v4/users/search
+{
+    "term": "검색어",
+    "team_id": "team123",
+    "allow_inactive": false
+}
+```
+
+### 구현
+
+```go
+func (a *App) AutocompleteUsersInTeam(teamId, term string, ...) (*model.UserAutocomplete, *model.AppError) {
+    // username, nickname, first_name, last_name 검색
+    users, err := a.Srv().Store().User().Search(teamId, term, ...)
+    
+    return &model.UserAutocomplete{
+        Users: users,
+    }, nil
+}
+```
+
+## 채널 검색
+
+```
+POST /api/v4/teams/{team_id}/channels/search
+{
+    "term": "검색어"
+}
+```
+
+## 검색 결과 하이라이트
+
+```typescript
+// 웹앱에서 검색어 하이라이트
+const highlightSearchTerms = (message: string, searchTerms: string[]) => {
+    let result = message;
+    searchTerms.forEach(term => {
+        const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
+        result = result.replace(regex, '<span class="search-highlight">$1</span>');
+    });
+    return result;
+};
+```
+
+## 설정
+
+```json
+{
+    "SqlSettings": {
+        "DisableDatabaseSearch": false
+    }
+}
+```
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

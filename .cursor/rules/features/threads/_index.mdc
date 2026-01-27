@@ -1,0 +1,146 @@
+---
+description: 스레드 (Collapsed Reply Threads) 기능 관련 규칙
+globs: ["server/channels/app/thread*.go", "server/public/model/thread*.go", "webapp/channels/src/components/threading/**", "webapp/channels/src/components/rhs_thread/**"]
+---
+
+# 스레드 (Threads) 도메인
+
+## 개요
+
+Collapsed Reply Threads (CRT)는 메시지에 대한 답글을 스레드로 관리하는 기능입니다.
+메인 채널 뷰를 깔끔하게 유지하면서 대화를 추적할 수 있습니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| 모델 | `server/public/model/thread.go` |
+| 비즈니스 로직 | `server/channels/app/post.go` (스레드 관련 부분) |
+| Store | `server/channels/store/sqlstore/thread_store.go` |
+| 웹앱 RHS | `webapp/channels/src/components/rhs_thread/` |
+| 스레딩 컴포넌트 | `webapp/channels/src/components/threading/` |
+
+## 스레드 모델
+
+```go
+// server/public/model/thread.go
+type Thread struct {
+    PostId       string      `json:"id"`
+    ChannelId    string      `json:"channel_id"`
+    ReplyCount   int64       `json:"reply_count"`
+    LastReplyAt  int64       `json:"last_reply_at"`
+    Participants StringArray `json:"participants"`
+    DeleteAt     int64       `json:"delete_at"`  // 루트 포스트의 DeleteAt 복사본
+    TeamId       string      `json:"team_id"`    // 채널의 TeamId 복사본
+}
+
+type ThreadResponse struct {
+    PostId         string  `json:"id"`
+    ReplyCount     int64   `json:"reply_count"`
+    LastReplyAt    int64   `json:"last_reply_at"`
+    LastViewedAt   int64   `json:"last_viewed_at"`
+    Participants   []*User `json:"participants"`
+    Post           *Post   `json:"post"`
+    UnreadReplies  int64   `json:"unread_replies"`
+    UnreadMentions int64   `json:"unread_mentions"`
+    IsUrgent       bool    `json:"is_urgent"`   // 긴급 스레드 여부
+    DeleteAt       int64   `json:"delete_at"`
+}
+```
+
+## ThreadMembership
+
+```go
+type ThreadMembership struct {
+    PostId         string `json:"post_id"`
+    UserId         string `json:"user_id"`
+    Following      bool   `json:"following"`
+    LastViewed     int64  `json:"last_view_at"`
+    LastUpdated    int64  `json:"last_update_at"`
+    UnreadMentions int64  `json:"unread_mentions"`
+}
+```
+
+## 주요 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/users/{user_id}/teams/{team_id}/threads` | GET | 사용자의 스레드 목록 |
+| `/api/v4/users/{user_id}/teams/{team_id}/threads/{thread_id}` | GET | 스레드 상세 |
+| `/api/v4/users/{user_id}/teams/{team_id}/threads/{thread_id}/following` | PUT | 스레드 팔로우 |
+| `/api/v4/users/{user_id}/teams/{team_id}/threads/{thread_id}/following` | DELETE | 스레드 언팔로우 |
+| `/api/v4/users/{user_id}/teams/{team_id}/threads/{thread_id}/read` | PUT | 스레드 읽음 처리 |
+| `/api/v4/users/{user_id}/teams/{team_id}/threads/read` | PUT | 모든 스레드 읽음 처리 |
+| `/api/v4/users/{user_id}/teams/{team_id}/threads/{thread_id}/set_unread/{post_id}` | POST | 스레드 읽지 않음으로 설정 |
+
+## 스레드 생성 흐름
+
+```go
+// 포스트 생성 시 스레드 처리
+func (a *App) CreatePost(post *model.Post, ...) (*model.Post, *model.AppError) {
+    // RootId가 있으면 스레드 답글
+    if post.RootId != "" {
+        // 스레드 정보 업데이트
+        a.updateThreadReplyCount(post.RootId)
+        a.updateThreadParticipants(post.RootId, post.UserId)
+        a.updateThreadLastReplyAt(post.RootId, post.CreateAt)
+    }
+    // ...
+}
+```
+
+## CRT 모드 설정
+
+```go
+// 사용자별 CRT 활성화 설정
+// Preferences에서 관리
+const (
+    PreferenceCategoryCollapsedThreadsSettings = "collapsed_threads_settings"
+    PreferenceNameCollapsedThreadsEnabled      = "collapsed_threads_enabled"
+)
+```
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `thread_updated` | 스레드 업데이트됨 |
+| `thread_follow_changed` | 팔로우 상태 변경 |
+| `thread_read_changed` | 읽음 상태 변경 |
+
+## 스레드 뷰 구성요소
+
+```
+RHS (Right Hand Side)
+├── Thread Header (루트 포스트)
+├── Thread Replies (답글 목록)
+│   └── Reply Post
+│   └── Reply Post
+│   └── ...
+└── Reply Input (답글 입력)
+```
+
+## 설정
+
+```json
+{
+    "ServiceSettings": {
+        "CollapsedThreads": "default_on",  // default_on | default_off | disabled
+        "ThreadAutoFollow": true
+    }
+}
+```
+
+| 값 | 설명 |
+|----|------|
+| `default_on` | 기본 활성화 (사용자가 끌 수 있음) |
+| `default_off` | 기본 비활성화 (사용자가 켤 수 있음) |
+| `disabled` | 완전 비활성화 |
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

@@ -1,0 +1,206 @@
+---
+description: 공유 채널 (Shared Channels) 기능 관련 규칙
+globs: ["server/channels/app/shared_channel*.go", "server/channels/api4/shared_channel*.go", "server/public/model/shared_channel*.go", "server/channels/app/remote_cluster*.go"]
+---
+
+# 공유 채널 (Shared Channels) 도메인
+
+## 개요
+
+서로 다른 Mattermost 서버(리모트 클러스터) 간에 채널을 공유하는 Federation 기능입니다.
+원격 서버의 사용자와 실시간으로 메시지를 주고받을 수 있습니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/shared_channel.go` |
+| 비즈니스 로직 | `server/channels/app/shared_channel.go` |
+| 리모트 클러스터 | `server/channels/app/remote_cluster.go` |
+| 동기화 서비스 | `server/channels/app/shared_channel_sync.go` |
+| 모델 | `server/public/model/shared_channel.go` |
+| 리모트 클러스터 모델 | `server/public/model/remote_cluster.go` |
+
+## SharedChannel 모델
+
+```go
+// server/public/model/shared_channel.go
+type SharedChannel struct {
+    ChannelId        string      `json:"id"`           // 주의: json 태그가 "id"
+    TeamId           string      `json:"team_id"`
+    Home             bool        `json:"home"`
+    ReadOnly         bool        `json:"readonly"`
+    ShareName        string      `json:"name"`         // 주의: json 태그가 "name"
+    ShareDisplayName string      `json:"display_name"` // 주의: json 태그가 "display_name"
+    SharePurpose     string      `json:"purpose"`
+    ShareHeader      string      `json:"header"`
+    CreatorId        string      `json:"creator_id"`
+    CreateAt         int64       `json:"create_at"`
+    UpdateAt         int64       `json:"update_at"`
+    RemoteId         string      `json:"remote_id,omitempty"`  // Home이 false일 때만
+    Type             ChannelType `db:"-"`              // DB 매핑 안됨
+}
+```
+
+## RemoteCluster 모델
+
+```go
+// server/public/model/remote_cluster.go
+type RemoteCluster struct {
+    RemoteId     string `json:"remote_id"`
+    RemoteTeamId string `json:"remote_team_id"`
+    Name         string `json:"name"`
+    DisplayName  string `json:"display_name"`
+    SiteURL      string `json:"site_url"`
+    CreateAt     int64  `json:"create_at"`
+    LastPingAt   int64  `json:"last_ping_at"`
+    Token        string `json:"token,omitempty"`
+    RemoteToken  string `json:"remote_token,omitempty"`
+    Topics       string `json:"topics"`
+    CreatorId    string `json:"creator_id"`
+}
+```
+
+## 주요 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/sharedchannels/{team_id}` | GET | 공유 채널 목록 |
+| `/api/v4/sharedchannels/{channel_id}/share` | POST | 채널 공유 시작 |
+| `/api/v4/sharedchannels/{channel_id}/unshare` | DELETE | 채널 공유 해제 |
+| `/api/v4/sharedchannels/{channel_id}/invite` | POST | 원격 서버 초대 |
+| `/api/v4/remotecluster` | GET | 리모트 클러스터 목록 |
+| `/api/v4/remotecluster` | POST | 리모트 클러스터 등록 |
+
+## 공유 채널 생성 흐름
+
+```go
+// 채널을 공유 채널로 설정
+func (a *App) ShareChannel(channelId string, share *model.SharedChannelShare) (*model.SharedChannel, *model.AppError) {
+    // 1. 채널 확인
+    channel, err := a.GetChannel(channelId)
+    if err != nil {
+        return nil, err
+    }
+    
+    // 2. 이미 공유 중인지 확인
+    if a.IsChannelShared(channelId) {
+        return nil, model.NewAppError(...)
+    }
+    
+    // 3. 공유 채널 생성
+    sharedChannel := &model.SharedChannel{
+        ChannelId:        channelId,
+        TeamId:           channel.TeamId,
+        Home:             true,  // 이 서버가 Home
+        ShareName:        channel.Name,
+        ShareDisplayName: channel.DisplayName,
+        CreatorId:        share.CreatorId,
+    }
+    
+    // 4. DB 저장
+    created, err := a.Srv().Store().SharedChannel().Save(sharedChannel)
+    
+    return created, nil
+}
+```
+
+## 원격 서버 초대
+
+```go
+// 원격 서버에 채널 공유 초대
+func (a *App) InviteRemoteToChannel(channelId, remoteId string) *model.AppError {
+    // 1. 리모트 클러스터 확인
+    remote, err := a.GetRemoteCluster(remoteId)
+    if err != nil {
+        return err
+    }
+    
+    // 2. 공유 채널 확인
+    sharedChannel, err := a.GetSharedChannel(channelId)
+    if err != nil {
+        return err
+    }
+    
+    // 3. 초대 메시지 전송
+    invite := &model.RemoteClusterInvite{
+        ChannelId:   channelId,
+        ShareName:   sharedChannel.ShareName,
+        RemoteId:    a.GetClusterId(),
+        Token:       generateInviteToken(),
+    }
+    
+    return a.sendRemoteClusterInvite(remote, invite)
+}
+```
+
+## 동기화 메커니즘
+
+```go
+// 공유 채널 간 데이터 동기화
+func (scs *SharedChannelSyncService) SyncChannel(channelId string) {
+    // 1. 새 포스트 동기화
+    scs.syncPosts(channelId)
+    
+    // 2. 리액션 동기화
+    scs.syncReactions(channelId)
+    
+    // 3. 사용자 프로필 동기화
+    scs.syncUserProfiles(channelId)
+    
+    // 4. 파일 동기화
+    scs.syncFiles(channelId)
+}
+```
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `shared_channel_converted` | 일반 채널이 공유 채널로 변환 |
+| `shared_channel_invite_received` | 공유 초대 수신 |
+| `shared_channel_user_joined` | 원격 사용자 참여 |
+| `shared_channel_user_left` | 원격 사용자 나감 |
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `manage_shared_channels` | 공유 채널 관리 |
+| `manage_secure_connections` | 보안 연결 관리 (리모트 클러스터) |
+
+## 설정
+
+```json
+{
+    "ExperimentalSettings": {
+        "EnableSharedChannels": true
+    }
+}
+```
+
+## 동기화 항목
+
+| 항목 | 동기화 여부 |
+|------|------------|
+| 메시지 | ✅ |
+| 파일 첨부 | ✅ |
+| 리액션 | ✅ |
+| 사용자 프로필 | ✅ (제한적) |
+| 이모지 | ❌ |
+| 플러그인 데이터 | ❌ |
+
+## 제한사항
+
+- 공유 채널은 한 팀에만 속할 수 있음
+- DM/GM은 공유 불가
+- 원격 사용자는 프로필만 동기화 (권한 제한)
+- 봇 계정은 공유 채널에서 제한될 수 있음
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

@@ -1,0 +1,204 @@
+---
+description: 메시지/포스트 관리 기능 관련 규칙
+globs: ["server/channels/app/post*.go", "server/channels/api4/post*.go", "server/channels/store/sqlstore/post*.go", "webapp/channels/src/components/post*/**", "webapp/channels/src/components/textbox/**"]
+---
+
+# 포스트/메시지 (Posts) 도메인
+
+## 개요
+
+포스트는 채널에서 주고받는 메시지입니다.
+텍스트, 파일 첨부, 마크다운, 멘션 등을 지원합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/post.go`, `post_local.go` |
+| 비즈니스 로직 | `server/channels/app/post.go`, `post_metadata.go` |
+| Store | `server/channels/store/sqlstore/post_store.go` |
+| 모델 | `server/public/model/post.go`, `post_list.go` |
+| 웹앱 렌더링 | `webapp/channels/src/components/post_view/` |
+| 입력 컴포넌트 | `webapp/channels/src/components/textbox/` |
+| Redux | `webapp/channels/src/reducers/entities/posts.ts` |
+
+## 포스트 모델
+
+```go
+// server/public/model/post.go
+type Post struct {
+    Id            string          `json:"id"`
+    CreateAt      int64           `json:"create_at"`
+    UpdateAt      int64           `json:"update_at"`
+    EditAt        int64           `json:"edit_at"`
+    DeleteAt      int64           `json:"delete_at"`
+    IsPinned      bool            `json:"is_pinned"`
+    UserId        string          `json:"user_id"`
+    ChannelId     string          `json:"channel_id"`
+    RootId        string          `json:"root_id"`
+    OriginalId    string          `json:"original_id"`
+    Message       string          `json:"message"`
+    Type          string          `json:"type"`
+    Props         StringInterface `json:"props"`
+    Hashtags      string          `json:"hashtags"`
+    FileIds       StringArray     `json:"file_ids,omitempty"`
+    PendingPostId string          `json:"pending_post_id"`
+    HasReactions  bool            `json:"has_reactions,omitempty"`
+    Metadata      *PostMetadata   `json:"metadata,omitempty"`
+}
+```
+
+## 포스트 타입
+
+| 타입 | 설명 |
+|------|------|
+| `""` (빈 문자열) | 일반 메시지 |
+| `system_*` | 시스템 메시지 |
+| `slack_attachment` | Slack 호환 첨부 |
+| `me` | /me 명령어 |
+
+### 시스템 메시지 타입
+
+| 타입 | 설명 |
+|------|------|
+| `system_join_channel` | 채널 참가 |
+| `system_leave_channel` | 채널 퇴장 |
+| `system_add_to_channel` | 채널에 추가됨 |
+| `system_remove_from_channel` | 채널에서 제거됨 |
+| `system_header_change` | 채널 헤더 변경 |
+| `system_purpose_change` | 채널 목적 변경 |
+| `system_displayname_change` | 채널 이름 변경 |
+
+## 주요 API
+
+### 포스트 CRUD
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/posts` | POST | 포스트 생성 |
+| `/api/v4/posts/{post_id}` | GET | 포스트 조회 |
+| `/api/v4/posts/{post_id}` | PUT | 포스트 수정 |
+| `/api/v4/posts/{post_id}` | DELETE | 포스트 삭제 |
+| `/api/v4/posts/{post_id}/patch` | PUT | 포스트 부분 수정 |
+
+### 포스트 목록
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/channels/{channel_id}/posts` | GET | 채널의 포스트 목록 |
+| `/api/v4/users/{user_id}/posts/flagged` | GET | 플래그된 포스트 |
+| `/api/v4/posts/{post_id}/thread` | GET | 스레드 포스트 |
+
+### 포스트 액션
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/posts/{post_id}/pin` | POST | 포스트 고정 |
+| `/api/v4/posts/{post_id}/unpin` | POST | 포스트 고정 해제 |
+
+## 포스트 생성 흐름
+
+```go
+// server/channels/app/post.go
+func (a *App) CreatePost(ctx *request.Context, post *model.Post, channel *model.Channel, ...) (*model.Post, *model.AppError) {
+    // 1. 유효성 검사
+    if err := post.IsValid(); err != nil {
+        return nil, err
+    }
+    
+    // 2. 권한 확인
+    if !a.HasPermissionToChannel(post.UserId, post.ChannelId, model.PermissionCreatePost) {
+        return nil, model.NewAppError(...)
+    }
+    
+    // 3. 멘션 파싱
+    post.Hashtags, _ = model.ParseHashtags(post.Message)
+    
+    // 4. 플러그인 훅 실행
+    post, err = a.runMessageWillBePostedHook(ctx, post, channel)
+    
+    // 5. DB 저장
+    rpost, err := a.Srv().Store().Post().Save(post)
+    
+    // 6. 멘션 알림 처리
+    a.handlePostEvents(ctx, rpost, channel, ...)
+    
+    // 7. WebSocket 이벤트 발송
+    a.PublishPost(rpost)
+    
+    return rpost, nil
+}
+```
+
+## 스레드 (Thread)
+
+```go
+// 루트 포스트와 답글 관계
+type ThreadResponse struct {
+    Order    []string     `json:"order"`
+    Posts    []*Post      `json:"posts"`
+    NextPostId string     `json:"next_post_id"`
+    PrevPostId string     `json:"prev_post_id"`
+}
+
+// 스레드 답글
+post.RootId = parentPost.Id  // 루트 포스트 ID 설정
+```
+
+## 멘션 (Mentions)
+
+| 패턴 | 설명 |
+|------|------|
+| `@username` | 특정 사용자 멘션 |
+| `@channel` | 채널 전체 멘션 |
+| `@all` | 채널 전체 멘션 |
+| `@here` | 온라인 사용자 멘션 |
+
+```go
+// 멘션 파싱
+func GetMentionsFromPost(post *model.Post) []string {
+    // @username 패턴 추출
+}
+```
+
+## 마크다운 지원
+
+| 문법 | 설명 |
+|------|------|
+| `**bold**` | 굵게 |
+| `_italic_` | 기울임 |
+| `~~strike~~` | 취소선 |
+| `` `code` `` | 인라인 코드 |
+| ` ```code``` ` | 코드 블록 |
+| `> quote` | 인용 |
+| `- item` | 목록 |
+| `[text](url)` | 링크 |
+| `![alt](url)` | 이미지 |
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `posted` | 새 포스트 |
+| `post_edited` | 포스트 수정 |
+| `post_deleted` | 포스트 삭제 |
+| `typing` | 타이핑 중 |
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `create_post` | 포스트 생성 |
+| `edit_post` | 자신의 포스트 수정 |
+| `edit_others_posts` | 타인의 포스트 수정 |
+| `delete_post` | 자신의 포스트 삭제 |
+| `delete_others_posts` | 타인의 포스트 삭제 |
+| `use_channel_mentions` | @channel, @all 사용 |
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

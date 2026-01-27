@@ -1,0 +1,173 @@
+---
+description: 예약 포스트 (Scheduled Posts) 기능 관련 규칙
+globs: ["server/channels/app/scheduled_post*.go", "server/channels/api4/scheduled_post*.go", "server/public/model/scheduled_post*.go", "webapp/channels/src/components/edit_scheduled_post/**"]
+---
+
+# 예약 포스트 (Scheduled Posts) 도메인
+
+## 개요
+
+메시지를 특정 시간에 자동으로 전송하도록 예약하는 기능입니다.
+예약된 시간이 되면 백그라운드 Job이 포스트를 생성합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/scheduled_post.go` |
+| 비즈니스 로직 | `server/channels/app/scheduled_post.go` |
+| Job Worker | `server/channels/app/scheduled_post_job.go` |
+| 모델 | `server/public/model/scheduled_post.go` |
+| 웹앱 편집 | `webapp/channels/src/components/edit_scheduled_post/` |
+
+## ScheduledPost 모델
+
+```go
+// server/public/model/scheduled_post.go
+// Draft를 임베드하여 확장
+type ScheduledPost struct {
+    Draft                        // Draft 모델 임베드
+    Id          string `json:"id"`
+    ScheduledAt int64  `json:"scheduled_at"`
+    ProcessedAt int64  `json:"processed_at"`
+    ErrorCode   string `json:"error_code"`
+}
+```
+
+## 에러 코드 상수
+
+```go
+const (
+    ScheduledPostErrorUnknownError            = "unknown"
+    ScheduledPostErrorCodeChannelArchived     = "channel_archived"
+    ScheduledPostErrorCodeChannelNotFound     = "channel_not_found"
+    ScheduledPostErrorCodeUserDoesNotExist    = "user_missing"
+    ScheduledPostErrorCodeUserDeleted         = "user_deleted"
+    ScheduledPostErrorCodeNoChannelPermission = "no_channel_permission"
+    ScheduledPostErrorNoChannelMember         = "no_channel_member"
+    ScheduledPostErrorThreadDeleted           = "thread_deleted"
+    ScheduledPostErrorUnableToSend            = "unable_to_send"
+    ScheduledPostErrorInvalidPost             = "invalid_post"
+)
+```
+
+## 주요 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/scheduled_posts` | POST | 예약 포스트 생성 |
+| `/api/v4/users/{user_id}/scheduled_posts` | GET | 사용자의 예약 포스트 목록 |
+| `/api/v4/scheduled_posts/{scheduled_post_id}` | GET | 예약 포스트 조회 |
+| `/api/v4/scheduled_posts/{scheduled_post_id}` | PATCH | 예약 포스트 수정 |
+| `/api/v4/scheduled_posts/{scheduled_post_id}` | DELETE | 예약 포스트 삭제 |
+
+## 예약 포스트 생성
+
+```go
+func (a *App) CreateScheduledPost(rctx request.CTX, scheduledPost *model.ScheduledPost) (*model.ScheduledPost, *model.AppError) {
+    // 1. 유효성 검사
+    if err := scheduledPost.IsValid(); err != nil {
+        return nil, err
+    }
+    
+    // 2. 권한 확인
+    if !a.HasPermissionToChannel(scheduledPost.UserId, scheduledPost.ChannelId, model.PermissionCreatePost) {
+        return nil, model.NewAppError(...)
+    }
+    
+    // 3. 예약 시간 검증 (과거 시간 불가)
+    if scheduledPost.ScheduledAt <= model.GetMillis() {
+        return nil, model.NewAppError(...)
+    }
+    
+    // 4. DB 저장
+    sp, err := a.Srv().Store().ScheduledPost().Save(scheduledPost)
+    if err != nil {
+        return nil, err
+    }
+    
+    return sp, nil
+}
+```
+
+## 예약 포스트 처리 Job
+
+```go
+// server/channels/app/scheduled_post_job.go
+func (a *App) ProcessScheduledPosts() {
+    // 현재 시간 이전의 예약 포스트 조회
+    scheduledPosts, err := a.Srv().Store().ScheduledPost().GetPendingScheduledPosts(model.GetMillis())
+    
+    for _, sp := range scheduledPosts {
+        // 포스트 생성
+        post := &model.Post{
+            UserId:    sp.UserId,
+            ChannelId: sp.ChannelId,
+            RootId:    sp.RootId,
+            Message:   sp.Message,
+            Props:     sp.Props,
+            FileIds:   sp.FileIds,
+        }
+        
+        _, err := a.CreatePost(rctx, post, channel, ...)
+        if err != nil {
+            // 에러 기록
+            a.Srv().Store().ScheduledPost().UpdateErrorCode(sp.Id, err.Id)
+        } else {
+            // 처리 완료 표시
+            a.Srv().Store().ScheduledPost().MarkAsProcessed(sp.Id)
+        }
+    }
+}
+```
+
+## Job 스케줄러
+
+```go
+// 매분 실행
+const ScheduledPostJobInterval = 1 * time.Minute
+
+func (s *ScheduledPostScheduler) NextScheduleTime(...) *time.Time {
+    next := now.Add(ScheduledPostJobInterval)
+    return &next
+}
+```
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `scheduled_post_created` | 예약 포스트 생성됨 |
+| `scheduled_post_updated` | 예약 포스트 수정됨 |
+| `scheduled_post_deleted` | 예약 포스트 삭제됨 |
+| `scheduled_post_processed` | 예약 포스트 처리됨 (포스트 생성됨) |
+
+## 예약 포스트 상태
+
+| 상태 | 설명 |
+|------|------|
+| Pending | 대기 중 (`ProcessedAt == 0`) |
+| Processed | 처리 완료 (`ProcessedAt > 0`) |
+| Failed | 처리 실패 (`ErrorCode != ""`) |
+
+## 에러 처리
+
+| 에러 코드 | 설명 |
+|----------|------|
+| `channel_not_found` | 채널이 삭제됨 |
+| `user_not_in_channel` | 사용자가 채널에서 제거됨 |
+| `permission_denied` | 권한 없음 |
+
+## 제한사항
+
+- 예약 시간은 현재 시간 이후여야 함
+- 최대 예약 가능 기간 (설정에 따라)
+- 파일 첨부 제한은 일반 포스트와 동일
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

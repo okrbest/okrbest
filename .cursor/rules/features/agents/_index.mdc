@@ -1,0 +1,133 @@
+---
+description: AI 에이전트 (Agents) 기능 관련 규칙
+globs: ["server/channels/app/agents*.go", "server/channels/api4/agents*.go"]
+---
+
+# AI 에이전트 (Agents) 도메인
+
+## 개요
+
+mattermost-ai 플러그인과의 Bridge API를 통한 AI 에이전트 통합 기능입니다.
+채널에 AI 봇을 추가하여 자동 응답, 요약, 분석 등의 기능을 제공합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| API | `server/channels/api4/agents.go` |
+| 비즈니스 로직 | `server/channels/app/agents.go` |
+| 플러그인 연동 | `server/channels/app/plugin_api.go` |
+
+## 주요 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/agents` | GET | 사용 가능한 AI 에이전트 목록 |
+| `/api/v4/channels/{channel_id}/agents` | POST | 채널에 AI 에이전트 추가 |
+| `/api/v4/channels/{channel_id}/agents/{bot_user_id}` | DELETE | 채널에서 AI 에이전트 제거 |
+
+## 에이전트 구조
+
+```go
+type AIAgent struct {
+    BotUserId   string `json:"bot_user_id"`
+    DisplayName string `json:"display_name"`
+    Description string `json:"description"`
+    IconURL     string `json:"icon_url"`
+    IsEnabled   bool   `json:"is_enabled"`
+}
+```
+
+## 에이전트 연동 흐름
+
+```go
+// 채널에 에이전트 추가
+func (a *App) AddAgentToChannel(channelId, botUserId string) *model.AppError {
+    // 1. AI 플러그인 활성화 확인
+    if !a.isAIPluginEnabled() {
+        return model.NewAppError("AddAgentToChannel", "api.agent.plugin_disabled", nil, "", http.StatusBadRequest)
+    }
+    
+    // 2. 봇 계정 확인
+    bot, err := a.GetBot(botUserId, false)
+    if err != nil {
+        return err
+    }
+    
+    // 3. 채널 멤버로 추가
+    _, err = a.AddChannelMember(rctx, botUserId, channel, ...)
+    if err != nil {
+        return err
+    }
+    
+    // 4. AI 플러그인에 알림
+    a.notifyAIPlugin("agent_added", map[string]string{
+        "channel_id": channelId,
+        "bot_user_id": botUserId,
+    })
+    
+    return nil
+}
+```
+
+## AI 플러그인 연동
+
+```go
+// AI 플러그인 호출
+func (a *App) CallAIPlugin(action string, payload map[string]interface{}) (interface{}, *model.AppError) {
+    pluginId := "mattermost-ai"
+    
+    // 플러그인 Inter-Plugin API 호출
+    response := a.ExecutePluginHook(pluginId, action, payload)
+    
+    return response, nil
+}
+```
+
+## AI 기능 예시
+
+| 기능 | 설명 |
+|------|------|
+| 자동 응답 | 질문에 대한 AI 자동 응답 |
+| 메시지 요약 | 채널/스레드 대화 요약 |
+| 번역 | 메시지 자동 번역 |
+| 코드 리뷰 | 코드 블록 분석 및 리뷰 |
+| 일정 분석 | 대화 내용에서 일정 추출 |
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `manage_channel_agents` | 채널에 에이전트 추가/제거 권한 |
+
+## 설정
+
+```json
+{
+    "PluginSettings": {
+        "Plugins": {
+            "mattermost-ai": {
+                "enabled": true,
+                "apikey": "...",
+                "model": "gpt-4"
+            }
+        }
+    }
+}
+```
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `agent_added` | 채널에 에이전트 추가됨 |
+| `agent_removed` | 채널에서 에이전트 제거됨 |
+| `agent_response` | 에이전트 응답 |
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

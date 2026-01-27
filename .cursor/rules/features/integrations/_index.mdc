@@ -1,0 +1,277 @@
+---
+description: 외부 연동 기능 (웹훅, 봇, 슬래시 명령어) 관련 규칙
+globs: ["server/channels/app/webhook*.go", "server/channels/app/bot*.go", "server/channels/app/command*.go", "server/channels/api4/webhook*.go", "server/channels/api4/command*.go"]
+---
+
+# 외부 연동 (Integrations) 도메인
+
+## 개요
+
+Incoming/Outgoing 웹훅, 슬래시 명령어, 봇 계정 등 외부 시스템 연동 기능입니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| Webhook API | `server/channels/api4/webhook.go` |
+| Command API | `server/channels/api4/command.go` |
+| Bot API | `server/channels/api4/bot.go` |
+| 비즈니스 로직 | `server/channels/app/webhook.go`, `command.go`, `bot.go` |
+| 슬래시 명령어 | `server/channels/app/slashcommands/` |
+| 모델 | `server/public/model/incoming_webhook.go`, `outgoing_webhook.go`, `command.go`, `bot.go` |
+
+## Incoming Webhook
+
+외부 시스템에서 Mattermost로 메시지를 전송할 때 사용합니다.
+
+### 모델
+
+```go
+// server/public/model/incoming_webhook.go
+type IncomingWebhook struct {
+    Id          string `json:"id"`
+    CreateAt    int64  `json:"create_at"`
+    UpdateAt    int64  `json:"update_at"`
+    DeleteAt    int64  `json:"delete_at"`
+    UserId      string `json:"user_id"`
+    ChannelId   string `json:"channel_id"`
+    TeamId      string `json:"team_id"`
+    DisplayName string `json:"display_name"`
+    Description string `json:"description"`
+    Username    string `json:"username"`
+    IconURL     string `json:"icon_url"`
+    ChannelLocked bool `json:"channel_locked"`
+}
+```
+
+### API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/hooks/incoming` | GET | 웹훅 목록 |
+| `/api/v4/hooks/incoming` | POST | 웹훅 생성 |
+| `/api/v4/hooks/incoming/{hook_id}` | GET | 웹훅 조회 |
+| `/api/v4/hooks/incoming/{hook_id}` | PUT | 웹훅 수정 |
+| `/api/v4/hooks/incoming/{hook_id}` | DELETE | 웹훅 삭제 |
+
+### 웹훅 호출
+
+```bash
+curl -X POST -H 'Content-Type: application/json' \
+  -d '{
+    "text": "메시지 내용",
+    "channel": "town-square",
+    "username": "Webhook Bot",
+    "icon_url": "https://example.com/icon.png",
+    "attachments": [{
+      "fallback": "첨부 텍스트",
+      "color": "#36a64f",
+      "title": "제목",
+      "text": "본문"
+    }]
+  }' \
+  https://mattermost.example.com/hooks/{webhook_id}
+```
+
+## Outgoing Webhook
+
+특정 트리거에 외부 URL을 호출합니다.
+
+### 모델
+
+```go
+// server/public/model/outgoing_webhook.go
+type OutgoingWebhook struct {
+    Id           string   `json:"id"`
+    Token        string   `json:"token"`
+    CreateAt     int64    `json:"create_at"`
+    UpdateAt     int64    `json:"update_at"`
+    DeleteAt     int64    `json:"delete_at"`
+    CreatorId    string   `json:"creator_id"`
+    ChannelId    string   `json:"channel_id"`
+    TeamId       string   `json:"team_id"`
+    TriggerWords StringArray `json:"trigger_words"`
+    TriggerWhen  int      `json:"trigger_when"`
+    CallbackURLs StringArray `json:"callback_urls"`
+    DisplayName  string   `json:"display_name"`
+    Description  string   `json:"description"`
+    ContentType  string   `json:"content_type"`
+    Username     string   `json:"username"`
+    IconURL      string   `json:"icon_url"`
+}
+```
+
+### API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/hooks/outgoing` | GET | 웹훅 목록 |
+| `/api/v4/hooks/outgoing` | POST | 웹훅 생성 |
+| `/api/v4/hooks/outgoing/{hook_id}` | GET | 웹훅 조회 |
+| `/api/v4/hooks/outgoing/{hook_id}` | PUT | 웹훅 수정 |
+| `/api/v4/hooks/outgoing/{hook_id}` | DELETE | 웹훅 삭제 |
+| `/api/v4/hooks/outgoing/{hook_id}/regen_token` | POST | 토큰 재생성 |
+
+### 트리거 타입
+
+| 값 | 설명 |
+|----|------|
+| `0` | 트리거 워드로 시작하는 경우 |
+| `1` | 트리거 워드가 포함된 경우 |
+
+### 콜백 서버 응답 형식
+
+```json
+{
+    "text": "응답 메시지",
+    "response_type": "in_channel",
+    "username": "Bot",
+    "icon_url": "https://example.com/icon.png"
+}
+```
+
+## 슬래시 명령어 (Slash Commands)
+
+### 모델
+
+```go
+// server/public/model/command.go
+type Command struct {
+    Id               string `json:"id"`
+    Token            string `json:"token"`
+    CreateAt         int64  `json:"create_at"`
+    UpdateAt         int64  `json:"update_at"`
+    DeleteAt         int64  `json:"delete_at"`
+    CreatorId        string `json:"creator_id"`
+    TeamId           string `json:"team_id"`
+    Trigger          string `json:"trigger"`
+    Method           string `json:"method"`
+    Username         string `json:"username"`
+    IconURL          string `json:"icon_url"`
+    AutoComplete     bool   `json:"auto_complete"`
+    AutoCompleteDesc string `json:"auto_complete_desc"`
+    AutoCompleteHint string `json:"auto_complete_hint"`
+    DisplayName      string `json:"display_name"`
+    Description      string `json:"description"`
+    URL              string `json:"url"`
+}
+```
+
+### 내장 슬래시 명령어
+
+| 명령어 | 설명 | 파일 |
+|--------|------|------|
+| `/join` | 채널 참가 | `command_join.go` |
+| `/leave` | 채널 퇴장 | `command_leave.go` |
+| `/invite` | 사용자 초대 | `command_invite.go` |
+| `/kick` | 사용자 추방 | `command_remove.go` |
+| `/mute` | 채널 음소거 | `command_mute.go` |
+| `/search` | 메시지 검색 | `command_search.go` |
+| `/settings` | 설정 열기 | `command_settings.go` |
+| `/shrug` | ¯\_(ツ)_/¯ | `command_shrug.go` |
+| `/me` | 액션 메시지 | `command_me.go` |
+| `/msg` | DM 전송 | `command_msg.go` |
+| `/help` | 도움말 | `command_help.go` |
+
+### 커스텀 명령어 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/commands` | GET | 명령어 목록 |
+| `/api/v4/commands` | POST | 명령어 생성 |
+| `/api/v4/commands/{command_id}` | GET | 명령어 조회 |
+| `/api/v4/commands/{command_id}` | PUT | 명령어 수정 |
+| `/api/v4/commands/{command_id}` | DELETE | 명령어 삭제 |
+
+### 명령어 응답 형식
+
+```go
+type CommandResponse struct {
+    ResponseType     string             `json:"response_type"`
+    Text             string             `json:"text"`
+    Username         string             `json:"username"`
+    ChannelId        string             `json:"channel_id"`
+    IconURL          string             `json:"icon_url"`
+    Type             string             `json:"type"`
+    Props            StringInterface    `json:"props"`
+    GotoLocation     string             `json:"goto_location"`
+    TriggerId        string             `json:"trigger_id"`
+    SkipSlackParsing bool               `json:"skip_slack_parsing"`
+    Attachments      []*SlackAttachment `json:"attachments"`
+    ExtraResponses   []*CommandResponse `json:"extra_responses"`
+}
+```
+
+| ResponseType | 설명 |
+|--------------|------|
+| `in_channel` | 채널에 표시 |
+| `ephemeral` | 본인에게만 표시 |
+
+## 봇 계정 (Bot Accounts)
+
+### 모델
+
+```go
+// server/public/model/bot.go
+type Bot struct {
+    UserId         string `json:"user_id"`
+    Username       string `json:"username"`
+    DisplayName    string `json:"display_name"`
+    Description    string `json:"description"`
+    OwnerId        string `json:"owner_id"`
+    CreateAt       int64  `json:"create_at"`
+    UpdateAt       int64  `json:"update_at"`
+    DeleteAt       int64  `json:"delete_at"`
+}
+```
+
+### API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/bots` | GET | 봇 목록 |
+| `/api/v4/bots` | POST | 봇 생성 |
+| `/api/v4/bots/{bot_user_id}` | GET | 봇 조회 |
+| `/api/v4/bots/{bot_user_id}` | PUT | 봇 수정 |
+| `/api/v4/bots/{bot_user_id}/disable` | POST | 봇 비활성화 |
+| `/api/v4/bots/{bot_user_id}/enable` | POST | 봇 활성화 |
+
+### 봇 토큰
+
+```bash
+# mmctl로 봇 토큰 생성
+mmctl token generate bot-username "Token description"
+```
+
+## 설정
+
+```json
+{
+    "ServiceSettings": {
+        "EnableIncomingWebhooks": true,
+        "EnableOutgoingWebhooks": true,
+        "EnableCommands": true,
+        "EnablePostUsernameOverride": false,
+        "EnablePostIconOverride": false,
+        "EnableBotAccountCreation": true
+    }
+}
+```
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `manage_incoming_webhooks` | Incoming 웹훅 관리 |
+| `manage_outgoing_webhooks` | Outgoing 웹훅 관리 |
+| `manage_slash_commands` | 슬래시 명령어 관리 |
+| `manage_bots` | 봇 계정 관리 |
+| `create_bot` | 봇 생성 |
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

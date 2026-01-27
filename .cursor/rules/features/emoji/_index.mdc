@@ -1,0 +1,229 @@
+---
+description: 이모지 및 리액션 기능 관련 규칙
+globs: ["server/channels/app/emoji*.go", "server/channels/app/reaction*.go", "server/channels/api4/emoji*.go", "server/channels/api4/reaction*.go", "webapp/channels/src/components/emoji*/**"]
+---
+
+# 이모지/리액션 (Emoji/Reactions) 도메인
+
+## 개요
+
+시스템 이모지, 커스텀 이모지, 포스트 리액션 기능을 담당합니다.
+
+## 관련 파일
+
+| 영역 | 파일 |
+|------|------|
+| 이모지 API | `server/channels/api4/emoji.go` |
+| 리액션 API | `server/channels/api4/reaction.go` |
+| 비즈니스 로직 | `server/channels/app/emoji.go`, `reaction.go` |
+| Store | `server/channels/store/sqlstore/emoji_store.go`, `reaction_store.go` |
+| 모델 | `server/public/model/emoji.go`, `reaction.go` |
+| 웹앱 피커 | `webapp/channels/src/components/emoji_picker/` |
+
+## 이모지 모델
+
+```go
+// server/public/model/emoji.go
+type Emoji struct {
+    Id        string `json:"id"`
+    CreateAt  int64  `json:"create_at"`
+    UpdateAt  int64  `json:"update_at"`
+    DeleteAt  int64  `json:"delete_at"`
+    CreatorId string `json:"creator_id"`
+    Name      string `json:"name"`
+}
+```
+
+## 리액션 모델
+
+```go
+// server/public/model/reaction.go
+type Reaction struct {
+    UserId    string `json:"user_id"`
+    PostId    string `json:"post_id"`
+    EmojiName string `json:"emoji_name"`
+    CreateAt  int64  `json:"create_at"`
+    UpdateAt  int64  `json:"update_at"`
+    DeleteAt  int64  `json:"delete_at"`
+    ChannelId string `json:"channel_id"`
+}
+```
+
+## 이모지 API
+
+### 커스텀 이모지 관리
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/emoji` | GET | 이모지 목록 |
+| `/api/v4/emoji` | POST | 커스텀 이모지 생성 |
+| `/api/v4/emoji/{emoji_id}` | GET | 이모지 조회 |
+| `/api/v4/emoji/{emoji_id}` | DELETE | 이모지 삭제 |
+| `/api/v4/emoji/{emoji_id}/image` | GET | 이모지 이미지 |
+| `/api/v4/emoji/name/{emoji_name}` | GET | 이름으로 조회 |
+| `/api/v4/emoji/search` | POST | 이모지 검색 |
+| `/api/v4/emoji/autocomplete` | GET | 자동완성 |
+
+### 커스텀 이모지 생성
+
+```bash
+# multipart/form-data
+POST /api/v4/emoji
+
+# Form fields:
+# - emoji: JSON (name, creator_id)
+# - image: 이미지 파일
+```
+
+```go
+// 이모지 생성 제약
+const (
+    EmojiNameMaxLength = 64
+    EmojiMaxWidth      = 128
+    EmojiMaxHeight     = 128
+    EmojiMaxFileSize   = 1024 * 1024 // 1MB
+)
+```
+
+## 리액션 API
+
+| 엔드포인트 | 메서드 | 설명 |
+|-----------|--------|------|
+| `/api/v4/reactions` | POST | 리액션 추가 |
+| `/api/v4/users/{user_id}/posts/{post_id}/reactions/{emoji_name}` | DELETE | 리액션 제거 |
+| `/api/v4/posts/{post_id}/reactions` | GET | 포스트의 리액션 목록 |
+| `/api/v4/posts/ids/reactions` | POST | 여러 포스트의 리액션 |
+
+### 리액션 추가
+
+```json
+POST /api/v4/reactions
+{
+    "user_id": "user123",
+    "post_id": "post456",
+    "emoji_name": "thumbsup"
+}
+```
+
+## 리액션 추가 흐름
+
+```go
+// server/channels/app/reaction.go
+func (a *App) SaveReactionForPost(reaction *model.Reaction) (*model.Reaction, *model.AppError) {
+    // 1. 포스트 존재 확인
+    post, err := a.GetSinglePost(reaction.PostId, false)
+    if err != nil {
+        return nil, err
+    }
+    
+    // 2. 권한 확인
+    if !a.HasPermissionToChannel(reaction.UserId, post.ChannelId, model.PermissionAddReaction) {
+        return nil, model.NewAppError(...)
+    }
+    
+    // 3. DB 저장
+    reaction, err = a.Srv().Store().Reaction().Save(reaction)
+    if err != nil {
+        return nil, err
+    }
+    
+    // 4. 포스트 HasReactions 플래그 업데이트
+    a.Srv().Store().Post().UpdateReactionCount(reaction.PostId)
+    
+    // 5. WebSocket 이벤트 발송
+    a.PublishReactionAdded(reaction, post)
+    
+    return reaction, nil
+}
+```
+
+## WebSocket 이벤트
+
+| 이벤트 | 설명 |
+|--------|------|
+| `reaction_added` | 리액션 추가됨 |
+| `reaction_removed` | 리액션 제거됨 |
+| `emoji_added` | 커스텀 이모지 추가됨 |
+
+## 시스템 이모지
+
+시스템 이모지는 `webapp/channels/src/sass/components/_emojis.scss`에서 정의됩니다.
+Unicode 이모지와 이미지 스프라이트를 모두 지원합니다.
+
+## 이모지 피커
+
+```typescript
+// 웹앱 이모지 피커 컴포넌트
+interface EmojiPickerProps {
+    onEmojiClick: (emoji: Emoji) => void;
+    rightOffset?: number;
+    topOffset?: number;
+    customEmojis?: Emoji[];
+}
+```
+
+### 카테고리
+
+| 카테고리 | 설명 |
+|---------|------|
+| recent | 최근 사용 |
+| people | 사람/얼굴 |
+| nature | 자연/동물 |
+| foods | 음식 |
+| activity | 활동 |
+| places | 장소 |
+| objects | 물건 |
+| symbols | 기호 |
+| flags | 국기 |
+| custom | 커스텀 이모지 |
+
+## GIF 선택기
+
+```json
+{
+    "ServiceSettings": {
+        "EnableGifPicker": true,
+        "GfycatApiKey": "",
+        "GfycatApiSecret": ""
+    }
+}
+```
+
+## 설정
+
+```json
+{
+    "ServiceSettings": {
+        "EnableCustomEmoji": true,
+        "EnableEmojiPicker": true,
+        "RestrictCustomEmojiCreation": "all"
+    }
+}
+```
+
+### 커스텀 이모지 생성 권한
+
+| 값 | 설명 |
+|----|------|
+| `all` | 모든 사용자 |
+| `admin` | 팀 관리자와 시스템 관리자 |
+| `system_admin` | 시스템 관리자만 |
+
+## 권한
+
+| 권한 | 설명 |
+|------|------|
+| `add_reaction` | 리액션 추가 |
+| `remove_reaction` | 자신의 리액션 제거 |
+| `remove_others_reactions` | 타인의 리액션 제거 |
+| `create_emojis` | 커스텀 이모지 생성 |
+| `delete_emojis` | 커스텀 이모지 삭제 |
+| `delete_others_emojis` | 타인의 이모지 삭제 |
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |
