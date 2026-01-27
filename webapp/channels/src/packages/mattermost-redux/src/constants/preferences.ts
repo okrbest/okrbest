@@ -83,6 +83,10 @@ const Preferences = {
     CATEGORY_BURN_ON_READ: 'burn_on_read',
     BURN_ON_READ_SKIP_CONFIRMATION: 'skip_delete_confirmation',
 
+    // Channel-specific bot messages filter preference
+    // Category name is the channel ID, value is "true" or "false"
+    CATEGORY_CHANNEL_BOT_MESSAGES: 'channel_bot_messages',
+
     CATEGORY_THEME: 'theme',
     THEMES: {
         denim: {

@@ -86,7 +86,7 @@ import {getIsUserStatusesConfigEnabled} from 'mattermost-redux/selectors/entitie
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getGroup} from 'mattermost-redux/selectors/entities/groups';
 import {getPost, getMostRecentPostIdInChannel, getTeamIdFromPost} from 'mattermost-redux/selectors/entities/posts';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {
     getTeamIdByChannelId,
@@ -129,7 +129,7 @@ import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import WebSocketClient from 'client/web_websocket_client';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {getHistory} from 'utils/browser_history';
-import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers, PageLoadContext} from 'utils/constants';
+import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers, PageLoadContext, Preferences} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 
 import {temporarilySetPageLoadContext} from './telemetry_actions';
@@ -799,7 +799,8 @@ export function handleNewPostEvent(msg) {
 export function handleNewPostEvents(queue) {
     return (myDispatch, myGetState) => {
         // Note that this method doesn't properly update the sidebar state for these posts
-        const posts = queue.map((msg) => JSON.parse(msg.data.post));
+        const state = myGetState();
+        let posts = queue.map((msg) => JSON.parse(msg.data.post));
 
         if (window.logPostEvents) {
             // eslint-disable-next-line no-console
@@ -812,8 +813,27 @@ export function handleNewPostEvents(queue) {
             }
         });
 
+        // Filter out bot messages if filtering is enabled
+        posts = posts.filter((post) => {
+            const showBotMessages = get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, post.channel_id, 'true');
+            if (showBotMessages === 'false') {
+                const postUser = getUser(state, post.user_id);
+                const isBot = postUser?.is_bot || false;
+                const isWebhook = post.props?.from_webhook === 'true';
+                const isSystemMessage = post.type?.startsWith('system_') || false;
+                if (isBot || isWebhook || isSystemMessage) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        if (posts.length === 0) {
+            return;
+        }
+
         // Receive the posts as one continuous block since they were received within a short period
-        const crtEnabled = isCollapsedThreadsEnabled(myGetState());
+        const crtEnabled = isCollapsedThreadsEnabled(state);
         const actions = posts.map((post) => receivedNewPost(post, crtEnabled));
         myDispatch(batchActions(actions));
 
