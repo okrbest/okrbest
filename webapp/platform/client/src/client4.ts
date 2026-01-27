@@ -2346,37 +2346,57 @@ export default class Client4 {
         );
     };
 
-    getPosts = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+    getPosts = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[]) => {
+        const queryParams: Record<string, any> = {page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended};
+        if (filterUserIds && filterUserIds.length > 0) {
+            queryParams.filterUserIds = filterUserIds.join(',');
+        }
         return this.doFetch<PostList>(
-            `${this.getChannelRoute(channelId)}/posts${buildQueryString({page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
+            `${this.getChannelRoute(channelId)}/posts${buildQueryString(queryParams)}`,
             {method: 'get'},
         );
     };
 
-    getPostsUnread = (channelId: string, userId: string, limitAfter = DEFAULT_LIMIT_AFTER, limitBefore = DEFAULT_LIMIT_BEFORE, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+    getPostsUnread = (channelId: string, userId: string, limitAfter = DEFAULT_LIMIT_AFTER, limitBefore = DEFAULT_LIMIT_BEFORE, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[]) => {
+        const queryParams: Record<string, any> = {limit_after: limitAfter, limit_before: limitBefore, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended};
+        if (filterUserIds && filterUserIds.length > 0) {
+            queryParams.filterUserIds = filterUserIds.join(',');
+        }
         return this.doFetch<PostList>(
-            `${this.getUserRoute(userId)}/channels/${channelId}/posts/unread${buildQueryString({limit_after: limitAfter, limit_before: limitBefore, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
+            `${this.getUserRoute(userId)}/channels/${channelId}/posts/unread${buildQueryString(queryParams)}`,
             {method: 'get'},
         );
     };
 
-    getPostsSince = (channelId: string, since: number, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+    getPostsSince = (channelId: string, since: number, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[]) => {
+        const queryParams: Record<string, any> = {since, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended};
+        if (filterUserIds && filterUserIds.length > 0) {
+            queryParams.filterUserIds = filterUserIds.join(',');
+        }
         return this.doFetch<PostList>(
-            `${this.getChannelRoute(channelId)}/posts${buildQueryString({since, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
+            `${this.getChannelRoute(channelId)}/posts${buildQueryString(queryParams)}`,
             {method: 'get'},
         );
     };
 
-    getPostsBefore = (channelId: string, postId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+    getPostsBefore = (channelId: string, postId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[]) => {
+        const queryParams: Record<string, any> = {before: postId, page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended};
+        if (filterUserIds && filterUserIds.length > 0) {
+            queryParams.filterUserIds = filterUserIds.join(',');
+        }
         return this.doFetch<PostList>(
-            `${this.getChannelRoute(channelId)}/posts${buildQueryString({before: postId, page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
+            `${this.getChannelRoute(channelId)}/posts${buildQueryString(queryParams)}`,
             {method: 'get'},
         );
     };
 
-    getPostsAfter = (channelId: string, postId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+    getPostsAfter = (channelId: string, postId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[]) => {
+        const queryParams: Record<string, any> = {after: postId, page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended};
+        if (filterUserIds && filterUserIds.length > 0) {
+            queryParams.filterUserIds = filterUserIds.join(',');
+        }
         return this.doFetch<PostList>(
-            `${this.getChannelRoute(channelId)}/posts${buildQueryString({after: postId, page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
+            `${this.getChannelRoute(channelId)}/posts${buildQueryString(queryParams)}`,
             {method: 'get'},
         );
     };
