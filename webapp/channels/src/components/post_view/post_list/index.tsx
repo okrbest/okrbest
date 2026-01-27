@@ -116,6 +116,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             markChannelAsRead,
             updateNewMessagesAtInChannel,
         }, dispatch),
+        dispatch,
     };
 }
 
