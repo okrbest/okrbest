@@ -9,6 +9,7 @@ import {getSelectedPostId, getIsRhsOpen} from 'selectors/rhs';
 import AdvancedTextEditor from 'components/advanced_text_editor/advanced_text_editor';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
+import DatePicker from 'components/date_picker/date_picker';
 import EmojiPickerTabs from 'components/emoji_picker/emoji_picker_tabs';
 import RenderEmoji from 'components/emoji/render_emoji';
 import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
@@ -89,6 +90,7 @@ interface WindowWithLibraries {
         AdvancedTextEditor: typeof AdvancedTextEditor;
         EmojiPickerTabs: typeof EmojiPickerTabs;
         RenderEmoji: typeof RenderEmoji;
+        DatePicker: typeof DatePicker;
     };
     ProductApi: {
         useWebSocket: typeof useWebSocket;
@@ -174,6 +176,7 @@ window.Components = {
     AdvancedTextEditor,
     EmojiPickerTabs,
     RenderEmoji,
+    DatePicker,
 };
 
 // This is a prototype of the Product API for use by internal plugins only while we transition to the proper architecture
