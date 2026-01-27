@@ -38,6 +38,9 @@ const (
 	// PreferenceCategoryFavoriteChannel is used to store the user's favorite channels to be
 	// shown in the sidebar. The Name field is the channel ID.
 	PreferenceCategoryFavoriteChannel = "favorite_channel"
+	// PreferenceCategoryChannelBotMessages is used to store the user's preference for showing bot messages in a channel.
+	// The Name field is the channel ID. The Value field is "true" to show bot messages or "false" to hide them.
+	PreferenceCategoryChannelBotMessages = "channel_bot_messages"
 	// PreferenceCategorySidebarSettings is used to store the user's sidebar settings.
 	// The Name field is the setting name. (ie. PreferenceNameShowUnreadSection or PreferenceLimitVisibleDmsGms)
 	PreferenceCategorySidebarSettings = "sidebar_settings"
@@ -88,6 +91,11 @@ const (
 
 	PreferenceNameShowUnreadSection = "show_unread_section"
 	PreferenceLimitVisibleDmsGms    = "limit_visible_dms_gms"
+
+	// PreferenceNameShowBotMessages is used to store whether to show bot messages in a channel.
+	// The Value field is "true" to show bot messages or "false" to hide them.
+	// Default is "true" if not set.
+	PreferenceNameShowBotMessages = "show_bot_messages"
 
 	PreferenceMaxLimitVisibleDmsGmsValue = 40
 	MaxPreferenceValueLength             = 20000

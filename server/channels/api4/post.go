@@ -303,6 +303,12 @@ func getPostsForChannel(c *Context, w http.ResponseWriter, r *http.Request) {
 
 	clientPostList := c.App.PreparePostListForClient(c.AppContext, list)
 
+	// Filter bot messages based on user preference
+	if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, c.AppContext.Session().UserId, channelId); err != nil {
+		c.Err = err
+		return
+	}
+
 	// Calculate NextPostId and PrevPostId AFTER filtering (including BoR filtering)
 	// to ensure they only reference posts that are actually in the response
 	c.App.AddCursorIdsForPostList(clientPostList, afterPost, beforePost, since, page, perPage, collapsedThreads)
@@ -387,6 +393,12 @@ func getPostsForChannelAroundLastUnread(c *Context, w http.ResponseWriter, r *ht
 	}
 
 	clientPostList := c.App.PreparePostListForClient(c.AppContext, postList)
+
+	// Filter bot messages based on user preference
+	if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, userId, channelId); err != nil {
+		c.Err = err
+		return
+	}
 
 	// Calculate NextPostId and PrevPostId AFTER filtering (including BoR filtering)
 	// to ensure they only reference posts that are actually in the response
@@ -798,6 +810,16 @@ func getPostThread(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	clientPostList := c.App.PreparePostListForClient(c.AppContext, list)
+
+	// Filter bot messages based on user preference
+	// Get channelId from the root post
+	if post != nil && post.ChannelId != "" {
+		if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, c.AppContext.Session().UserId, post.ChannelId); err != nil {
+			c.Err = err
+			return
+		}
+	}
+
 	clientPostList, err = c.App.SanitizePostListMetadataForUser(c.AppContext, clientPostList, c.AppContext.Session().UserId)
 	if err != nil {
 		c.Err = err

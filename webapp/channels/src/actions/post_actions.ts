@@ -18,9 +18,9 @@ import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'matt
 import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
 
 import {addRecentEmoji, addRecentEmojis} from 'actions/emoji_actions';
@@ -42,6 +42,7 @@ import {
     ActionTypes,
     Constants,
     ModalIdentifiers,
+    Preferences,
     RHSStates,
     StoragePrefixes,
 } from 'utils/constants';
@@ -73,6 +74,21 @@ export function handleNewPost(post: Post, msg?: {data?: NewPostMessageProps & Gr
         const state = getState();
         if (msg) {
             websocketMessageProps = msg.data!;
+        }
+
+        // Check if bot message filtering is enabled for this channel
+        const showBotMessages = get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, post.channel_id, 'true');
+        if (showBotMessages === 'false') {
+            // Check if this is a bot message, webhook message, or system message
+            const postUser = getUser(state, post.user_id);
+            const isBot = postUser?.is_bot || false;
+            const isWebhook = post.props?.from_webhook === 'true';
+            const isSystemMessage = post.type?.startsWith('system_') || false;
+
+            if (isBot || isWebhook || isSystemMessage) {
+                // Skip this post - it should be filtered
+                return {data: true};
+            }
         }
 
         const myChannelMember = getMyChannelMemberSelector(state, post.channel_id);
