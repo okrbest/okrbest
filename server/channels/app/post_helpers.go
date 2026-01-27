@@ -409,28 +409,20 @@ func (a *App) revealBurnOnReadPostsForUser(rctx request.CTX, postList *model.Pos
 	return postList, nil
 }
 
-// FilterBotMessagesFromPostList filters out bot messages from the post list if the user's preference is set to hide them.
-// It checks the user's preference for the channel and filters bot messages accordingly.
-// Bot messages include posts from users with IsBot=true and posts from webhooks.
-func (a *App) FilterBotMessagesFromPostList(rctx request.CTX, postList *model.PostList, userId string, channelId string) *model.AppError {
+// FilterBotMessagesFromPostList filters out bot messages from the post list based on the showBotMessages parameter.
+// Bot messages include posts from users with IsBot=true, posts from webhooks, and system messages.
+// If showBotMessages is true, no filtering is performed (bot messages are shown).
+func (a *App) FilterBotMessagesFromPostList(rctx request.CTX, postList *model.PostList, showBotMessages bool) *model.AppError {
 	if postList == nil || postList.Posts == nil || len(postList.Posts) == 0 {
 		return nil
 	}
 
-	// Get user preference for showing bot messages in this channel
-	// Default is "true" (show bot messages) if preference doesn't exist
-	preference, err := a.GetPreferenceByCategoryAndNameForUser(rctx, userId, model.PreferenceCategoryChannelBotMessages, channelId)
-	if err != nil {
-		// If preference doesn't exist, default to showing bot messages
+	// If showBotMessages is true, show bot messages (no filtering needed)
+	if showBotMessages {
 		return nil
 	}
 
-	// If preference is "true", show bot messages (no filtering needed)
-	if preference.Value == "true" {
-		return nil
-	}
-
-	// If preference is "false", filter out bot messages
+	// Filter out bot messages
 	// First, collect all unique user IDs from posts
 	userIdsMap := make(map[string]bool)
 	for _, post := range postList.Posts {
