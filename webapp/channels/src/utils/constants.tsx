@@ -448,6 +448,7 @@ export const ModalIdentifiers = {
     START_TRIAL_FORM_MODAL: 'start_trial_form_modal',
     START_TRIAL_FORM_MODAL_RESULT: 'start_trial_form_modal_result',
     MOVE_THREAD_MODAL: 'move_thread_modal',
+    BOARDS_MODAL: 'boards_modal',
     CONVERT_GM_TO_CHANNEL: 'convert_gm_to_channel',
     IP_FILTERING_ADD_EDIT_MODAL: 'ip_filtering_add_edit_modal',
     IP_FILTERING_DELETE_CONFIRMATION_MODAL: 'ip_filtering_delete_confirmation_modal',

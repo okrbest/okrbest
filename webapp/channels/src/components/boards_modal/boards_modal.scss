@@ -1,0 +1,63 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+.boards-modal {
+    max-width: 95vw;
+    width: 1400px;
+    height: 90vh;
+
+    .modal-content {
+        height: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .modal-header {
+        display: none;
+    }
+
+    .modal-body {
+        height: 100%;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    &__iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    // 모바일 해상도 (768px 이하)
+    @media screen and (max-width: 768px) {
+        max-width: 100vw;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+
+        .modal-content {
+            border-radius: 0;
+            height: 100%;
+        }
+    }
+}
+
+// 모바일에서 모달 다이얼로그 위치 조정
+@media screen and (max-width: 768px) {
+    .modal.show .boards-modal {
+        margin: 0;
+        max-height: 100%;
+    }
+
+    .modal-dialog.boards-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+        max-width: none;
+        width: 100%;
+        height: 100%;
+    }
+}
