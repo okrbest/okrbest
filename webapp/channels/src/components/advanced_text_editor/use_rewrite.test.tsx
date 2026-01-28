@@ -90,7 +90,6 @@ describe('useRewrite', () => {
     };
 
     beforeEach(() => {
-        jest.clearAllMocks();
         MockedRewriteMenu.mockClear();
         // Clear DOM
         while (document.body.firstChild) {
