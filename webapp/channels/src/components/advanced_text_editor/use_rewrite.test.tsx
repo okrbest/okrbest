@@ -167,7 +167,7 @@ describe('useRewrite', () => {
         it('should successfully rewrite message', async () => {
             const {result} = renderHookWithProps();
             render(result.current.additionalControl);
-            const props = MockedRewriteMenu.mock.calls[0][0];
+            const props = MockedRewriteMenu.mock.calls[MockedRewriteMenu.mock.calls.length - 1][0];
             const actionHandler = props.onMenuAction(RewriteAction.SHORTEN);
             actionHandler();
 
@@ -177,6 +177,7 @@ describe('useRewrite', () => {
                     'Test message',
                     RewriteAction.SHORTEN,
                     undefined,
+                    '',
                 );
             });
 
@@ -218,6 +219,7 @@ describe('useRewrite', () => {
                     'Test message',
                     RewriteAction.CUSTOM,
                     'Custom prompt',
+                    '',
                 );
             });
         });
@@ -375,6 +377,7 @@ describe('useRewrite', () => {
                     'Test message',
                     RewriteAction.SHORTEN,
                     undefined,
+                    '',
                 );
             });
         });
@@ -412,6 +415,7 @@ describe('useRewrite', () => {
                     'Test message',
                     RewriteAction.CUSTOM,
                     'Custom prompt',
+                    '',
                 );
             });
         });
@@ -490,6 +494,7 @@ describe('useRewrite', () => {
                     'Test message',
                     RewriteAction.CUSTOM,
                     'Custom prompt',
+                    '',
                 );
             });
         });
@@ -509,6 +514,7 @@ describe('useRewrite', () => {
                     'Test message',
                     RewriteAction.IMPROVE_WRITING,
                     undefined,
+                    '',
                 );
             });
         });
