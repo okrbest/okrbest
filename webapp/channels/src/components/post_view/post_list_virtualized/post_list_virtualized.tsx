@@ -323,11 +323,6 @@ export default class PostList extends React.PureComponent<Props, State> {
     }
 
     handleBoardsLinkClick = (e: MouseEvent) => {
-        // 모바일 해상도에서만 모달로 열기
-        if (!this.props.isMobileView) {
-            return;
-        }
-
         const target = e.target as HTMLElement;
 
         const link = target.closest('a');
