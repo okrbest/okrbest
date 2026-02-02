@@ -99,7 +99,6 @@ const BoardsModal = ({boardUrl, onExited}: Props) => {
             show={true}
             onHide={handleClose}
             onExited={onExited}
-            backdrop='static'
             role='dialog'
             aria-labelledby='boardsModalLabel'
         >
