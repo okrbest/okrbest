@@ -210,6 +210,9 @@ export const ActionTypes = keyMirror({
     SET_RHS_EXPANDED: null,
     TOGGLE_RHS_EXPANDED: null,
 
+    SET_MEMBER_FILTER_USER_IDS: null,
+    CLEAR_MEMBER_FILTER_USER_IDS: null,
+
     UPDATE_MOBILE_VIEW: null,
 
     SET_NAVIGATION_BLOCKED: null,

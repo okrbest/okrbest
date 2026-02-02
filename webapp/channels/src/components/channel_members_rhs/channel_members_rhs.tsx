@@ -43,6 +43,7 @@ export interface Props {
     channelMembers: ChannelMember[];
     canManageMembers: boolean;
     editing: boolean;
+    filterUserIds: string[];
 
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -55,6 +56,7 @@ export interface Props {
         setEditChannelMembers: (active: boolean) => void;
         searchProfilesAndChannelMembers: (term: string, options: any) => Promise<{data: UserProfile[]}>;
         fetchRemoteClusterInfo: (remoteId: string, forceRefresh?: boolean) => void;
+        setMemberFilterUserIds: (channelId: string, userIds: string[]) => void;
     };
 }
 
@@ -68,6 +70,7 @@ export default function ChannelMembersRHS({
     channelMembers,
     canManageMembers,
     editing = false,
+    filterUserIds,
     actions,
 }: Props) {
     const history = useHistory();
@@ -212,6 +215,12 @@ export default function ChannelMembersRHS({
         await actions.closeRightHandSide();
     }, [actions.openDirectChannelToUserId, history, teamUrl, actions.closeRightHandSide]);
 
+    const handleToggleMemberFilter = useCallback((userId: string, checked: boolean) => {
+        const newFilterUserIds = checked ? [...filterUserIds, userId] : filterUserIds.filter((id) => id !== userId);
+
+        actions.setMemberFilterUserIds(channel.id, newFilterUserIds);
+    }, [filterUserIds, channel.id, actions]);
+
     const loadMore = useCallback(async () => {
         setIsNextPageLoading(true);
 
@@ -312,6 +321,8 @@ export default function ChannelMembersRHS({
                         members={list}
                         editing={editing}
                         channel={channel}
+                        filterUserIds={filterUserIds}
+                        onToggleMemberFilter={handleToggleMemberFilter}
                         openDirectMessage={openDirectMessage}
                         fetchRemoteClusterInfo={actions.fetchRemoteClusterInfo}
                         loadMore={loadMore}

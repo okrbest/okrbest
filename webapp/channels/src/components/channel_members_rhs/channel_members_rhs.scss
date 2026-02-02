@@ -38,6 +38,18 @@
         }
     }
 
+    &__filter-checkbox {
+        display: flex;
+        align-items: center;
+        margin-right: 8px;
+
+        input[type='checkbox'] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+    }
+
     &__member {
         display: flex;
         flex-direction: row;

@@ -33,9 +33,9 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {loadProfilesAndReloadChannelMembers, searchProfilesAndChannelMembers} from 'actions/user_actions';
 import {openModal} from 'actions/views/modals';
-import {closeRightHandSide, goBack, setEditChannelMembers} from 'actions/views/rhs';
+import {closeRightHandSide, goBack, setEditChannelMembers, setMemberFilterUserIds} from 'actions/views/rhs';
 import {setChannelMembersRhsSearchTerm} from 'actions/views/search';
-import {getIsEditingMembers, getPreviousRhsState} from 'selectors/rhs';
+import {getIsEditingMembers, getMemberFilterUserIds, getPreviousRhsState} from 'selectors/rhs';
 
 import {Constants, RHSStates} from 'utils/constants';
 
@@ -120,6 +120,7 @@ function mapStateToProps(state: GlobalState) {
             canManageMembers: false,
             canGoBack: false,
             teamUrl: '',
+            filterUserIds: [],
         } as unknown as Props;
     }
 
@@ -149,6 +150,7 @@ function mapStateToProps(state: GlobalState) {
 
     const canGoBack = Boolean(hasInfoPrevState);
     const editing = getIsEditingMembers(state);
+    const filterUserIds = getMemberFilterUserIds(state, channel.id);
 
     const currentUserIsChannelAdmin = currentUser && currentUser.scheme_admin;
 
@@ -162,6 +164,7 @@ function mapStateToProps(state: GlobalState) {
         canManageMembers,
         channelMembers,
         editing,
+        filterUserIds,
     } as Props;
 }
 
@@ -178,6 +181,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             setEditChannelMembers,
             searchProfilesAndChannelMembers,
             fetchRemoteClusterInfo,
+            setMemberFilterUserIds,
         }, dispatch),
     };
 }

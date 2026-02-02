@@ -240,3 +240,12 @@ export function getIsRhsExpanded(state: GlobalState): boolean {
 export function getIsEditingMembers(state: GlobalState): boolean {
     return state.views.rhs.editChannelMembers === true;
 }
+
+export function getMemberFilterUserIds(state: GlobalState, channelId: string): string[] {
+    return state.views.rhs.memberFilterUserIds?.[channelId] || [];
+}
+
+export function hasMemberFilter(state: GlobalState, channelId: string): boolean {
+    const filterUserIds = getMemberFilterUserIds(state, channelId);
+    return filterUserIds && filterUserIds.length > 0;
+}

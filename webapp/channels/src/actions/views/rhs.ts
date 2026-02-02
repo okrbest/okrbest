@@ -497,6 +497,7 @@ export function closeRightHandSide(): ActionFunc {
                 channelId: '',
                 timestamp: 0,
             },
+            clearMemberFilterUserIds(),
         ];
 
         dispatch(batchActions(actionsBatch));
@@ -671,5 +672,20 @@ export function measureRhsOpened() {
         });
 
         performance.clearMarks(Mark.PostSelected);
+    };
+}
+
+export function setMemberFilterUserIds(channelId: string, userIds: string[]): {type: string; channelId: string; userIds: string[]} {
+    return {
+        type: ActionTypes.SET_MEMBER_FILTER_USER_IDS,
+        channelId,
+        userIds,
+    };
+}
+
+export function clearMemberFilterUserIds(channelId?: string): {type: string; channelId?: string} {
+    return {
+        type: ActionTypes.CLEAR_MEMBER_FILTER_USER_IDS,
+        channelId,
     };
 }

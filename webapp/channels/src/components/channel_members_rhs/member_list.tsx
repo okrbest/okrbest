@@ -37,6 +37,8 @@ export interface Props {
     hasNextPage: boolean;
     isNextPageLoading: boolean;
     searchTerms: string;
+    filterUserIds?: string[];
+    onToggleMemberFilter?: (userId: string, checked: boolean) => void;
     openDirectMessage: (user: UserProfile) => void;
     fetchRemoteClusterInfo: (remoteId: string, forceRefresh?: boolean) => void;
     loadMore: () => void;
@@ -49,6 +51,8 @@ const MemberList = ({
     members,
     searchTerms,
     editing,
+    filterUserIds,
+    onToggleMemberFilter,
     openDirectMessage,
     fetchRemoteClusterInfo,
     loadMore,
@@ -109,6 +113,9 @@ const MemberList = ({
                             totalUsers={members.filter((l) => l.type === ListItemType.Member).length}
                             member={member}
                             editing={editing}
+                            isFilterable={!editing}
+                            isChecked={filterUserIds?.includes(member.user.id) || false}
+                            onToggleFilter={onToggleMemberFilter}
                             actions={{openDirectMessage, fetchRemoteClusterInfo}}
                         />
                     </div>
