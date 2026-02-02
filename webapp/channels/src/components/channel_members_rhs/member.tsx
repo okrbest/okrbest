@@ -27,13 +27,16 @@ interface Props {
     index: number;
     totalUsers: number;
     editing: boolean;
+    isFilterable?: boolean;
+    isChecked?: boolean;
+    onToggleFilter?: (userId: string, checked: boolean) => void;
     actions: {
         openDirectMessage: (user: UserProfile) => void;
         fetchRemoteClusterInfo: (remoteId: string, forceRefresh?: boolean) => void;
     };
 }
 
-const Member = ({channel, member, index, totalUsers, editing, actions}: Props) => {
+const Member = ({channel, member, index, totalUsers, editing, isFilterable, isChecked, onToggleFilter, actions}: Props) => {
     const {formatMessage} = useIntl();
 
     // Fetch remote info when component mounts for remote users
@@ -51,6 +54,16 @@ const Member = ({channel, member, index, totalUsers, editing, actions}: Props) =
             style={{height: '48px'}}
             data-testid={`memberline-${member.user.id}`}
         >
+            {!editing && isFilterable && (
+                <div className='channel-members-rhs__filter-checkbox'>
+                    <input
+                        type='checkbox'
+                        checked={isChecked}
+                        onChange={(e) => onToggleFilter?.(member.user.id, e.target.checked)}
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                </div>
+            )}
             <span className='ProfileSpan'>
                 <div className='channel-members-rhs__avatar'>
                     <ProfilePicture

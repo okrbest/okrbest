@@ -50,7 +50,7 @@ import {loadCustomStatusEmojisForPostList} from 'actions/emoji_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
 import {markThreadAsRead} from 'actions/views/threads';
 import {getLastViewedChannelName} from 'selectors/local_storage';
-import {getSelectedPost, getSelectedPostId} from 'selectors/rhs';
+import {getMemberFilterUserIds, getSelectedPost, getSelectedPostId} from 'selectors/rhs';
 import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 import {getSocketStatus} from 'selectors/views/websocket';
@@ -247,7 +247,10 @@ export function autocompleteUsersInChannel(prefix: string, channelId: string): A
 }
 
 export function loadUnreads(channelId: string, prefetch = false): ActionFuncAsync<{atLatestMessage: boolean; atOldestMessage: boolean}> {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const filterUserIds = getMemberFilterUserIds(state, channelId);
+
         const time = Date.now();
         if (prefetch) {
             dispatch({
@@ -256,7 +259,12 @@ export function loadUnreads(channelId: string, prefetch = false): ActionFuncAsyn
                 status: RequestStatus.STARTED,
             });
         }
-        const {data, error} = await dispatch(PostActions.getPostsUnread(channelId));
+        const {data, error} = await dispatch(PostActions.getPostsUnread(
+            channelId,
+            true,
+            false,
+            filterUserIds.length > 0 ? filterUserIds : undefined,
+        ));
         if (error) {
             if (prefetch) {
                 dispatch({
@@ -375,7 +383,10 @@ export function loadPosts({
     perPage,
 }: LoadPostsParameters): ThunkActionFunc<Promise<LoadPostsReturnValue>> {
     //type here can be BEFORE_ID or AFTER_ID
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const filterUserIds = getMemberFilterUserIds(state, channelId);
+
         dispatch({
             type: ActionTypes.LOADING_POSTS,
             data: true,
@@ -385,9 +396,25 @@ export function loadPosts({
         const page = 0;
         let result;
         if (type === PostRequestTypes.BEFORE_ID) {
-            result = await dispatch(PostActions.getPostsBefore(channelId, postId, page, perPage));
+            result = await dispatch(PostActions.getPostsBefore(
+                channelId,
+                postId,
+                page,
+                perPage,
+                true,
+                false,
+                filterUserIds.length > 0 ? filterUserIds : undefined,
+            ));
         } else {
-            result = await dispatch(PostActions.getPostsAfter(channelId, postId, page, perPage));
+            result = await dispatch(PostActions.getPostsAfter(
+                channelId,
+                postId,
+                page,
+                perPage,
+                true,
+                false,
+                filterUserIds.length > 0 ? filterUserIds : undefined,
+            ));
         }
 
         const {data} = result;
@@ -425,6 +452,7 @@ export function syncPostsInChannel(channelId: string, since: number, prefetch = 
         const time = Date.now();
         const state = getState();
         const socketStatus = getSocketStatus(state);
+        const filterUserIds = getMemberFilterUserIds(state, channelId);
         let sinceTimeToGetPosts = since;
         const lastPostsApiCallForChannel = getLastPostsApiTimeForChannel(state, channelId);
         const actions = [];
@@ -441,7 +469,13 @@ export function syncPostsInChannel(channelId: string, since: number, prefetch = 
             });
         }
 
-        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts));
+        const {data, error} = await dispatch(PostActions.getPostsSince(
+            channelId,
+            sinceTimeToGetPosts,
+            true,
+            false,
+            filterUserIds.length > 0 ? filterUserIds : undefined,
+        ));
         if (data) {
             actions.push({
                 type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,

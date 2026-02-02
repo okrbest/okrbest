@@ -423,6 +423,37 @@ function shouldFocusRHS(state = false, action: MMAction) {
     }
 }
 
+function memberFilterUserIds(state: Record<string, string[]> = {}, action: MMAction) {
+    switch (action.type) {
+    case ActionTypes.SET_MEMBER_FILTER_USER_IDS:
+        return {
+            ...state,
+            [action.channelId]: action.userIds,
+        };
+    case ActionTypes.CLEAR_MEMBER_FILTER_USER_IDS: {
+        if (!action.channelId) {
+            // 모든 채널의 필터 제거
+            return {};
+        }
+
+        // 특정 채널의 필터 제거
+        const newState = {...state};
+        delete newState[action.channelId];
+        return newState;
+    }
+    case ActionTypes.UPDATE_RHS_STATE:
+        // RHS가 닫힐 때 필터 초기화
+        if (!action.state) {
+            return {};
+        }
+        return state;
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     selectedPostId,
     selectedPostFocussedAt,
@@ -446,4 +477,5 @@ export default combineReducers({
     isMenuOpen,
     editChannelMembers,
     shouldFocusRHS,
+    memberFilterUserIds,
 });
