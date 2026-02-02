@@ -119,7 +119,7 @@ import {openModal} from 'actions/views/modals';
 import {closeRightHandSide} from 'actions/views/rhs';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
 import {updateThreadLastOpened} from 'actions/views/threads';
-import {getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
+import {getMemberFilterUserIds, getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
 import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 import store from 'stores/redux_store';
 
@@ -768,11 +768,21 @@ const handleNewPostEventDebounced = debouncePostEvent(100);
 
 export function handleNewPostEvent(msg) {
     return (myDispatch, myGetState) => {
+        const state = myGetState();
         const post = JSON.parse(msg.data.post);
 
         if (window.logPostEvents) {
             // eslint-disable-next-line no-console
             console.log('handleNewPostEvent - new post received', post);
+        }
+
+        // Check member filter
+        const filterUserIds = getMemberFilterUserIds(state, post.channel_id);
+        if (filterUserIds && filterUserIds.length > 0) {
+            if (!filterUserIds.includes(post.user_id)) {
+                // Post is filtered out - skip processing
+                return;
+            }
         }
 
         myDispatch(handleNewPost(post, msg));
@@ -824,6 +834,15 @@ export function handleNewPostEvents(queue) {
                 if (isBot || isWebhook || isSystemMessage) {
                     return false;
                 }
+            }
+            return true;
+        });
+
+        // Filter by member filter if enabled
+        posts = posts.filter((post) => {
+            const filterUserIds = getMemberFilterUserIds(state, post.channel_id);
+            if (filterUserIds && filterUserIds.length > 0) {
+                return filterUserIds.includes(post.user_id);
             }
             return true;
         });
