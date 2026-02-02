@@ -1497,6 +1497,12 @@ func (s *Server) initJobs() {
 		s.Jobs.RegisterJobType(model.JobTypePushProxyAuth, builder.MakeWorker(), builder.MakeScheduler())
 	}
 
+	if s.AutoTranslation != nil {
+		s.Jobs.RegisterJobType(model.JobTypeAutoTranslationRecovery,
+			s.AutoTranslation.MakeWorker(),
+			s.AutoTranslation.MakeScheduler())
+	}
+
 	s.Jobs.RegisterJobType(
 		model.JobTypeMigrations,
 		migrations.MakeWorker(s.Jobs, s.Store()),
