@@ -120,11 +120,6 @@ export interface Props {
     shouldStartFromBottomWhenUnread: boolean;
     hasInaccessiblePosts: boolean;
 
-    /*
-     * User IDs to filter posts by (member filtering)
-     */
-    filterUserIds: string[];
-
     dispatch: DispatchFunc;
 
     actions: {
@@ -216,12 +211,6 @@ export default class PostList extends React.PureComponent<Props, State> {
         if (this.props.channelId !== prevProps.channelId) {
             this.postsOnLoad(this.props.channelId);
         }
-
-        // 멤버 필터가 변경되었을 때 게시물 재로드
-        if (this.props.filterUserIds !== prevProps.filterUserIds) {
-            this.postsOnLoad(this.props.channelId);
-        }
-
         if (this.props.postListIds != null && prevProps.postListIds == null) {
             markAndMeasureChannelSwitchEnd(true);
         }
