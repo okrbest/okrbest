@@ -20,6 +20,7 @@ import {
     loadLatestPosts,
 } from 'actions/views/channel';
 import {getIsMobileView} from 'selectors/views/browser';
+import {getMemberFilterUserIds} from 'selectors/rhs';
 
 import {getLatestPostId} from 'utils/post_utils';
 
@@ -101,6 +102,7 @@ function makeMapStateToProps() {
             shouldStartFromBottomWhenUnread,
             isMobileView: getIsMobileView(state),
             hasInaccessiblePosts,
+            filterUserIds: getMemberFilterUserIds(state, channelId),
         };
     };
 }
