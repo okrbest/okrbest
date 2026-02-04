@@ -177,6 +177,8 @@ export default class PostList extends React.PureComponent<Props, State> {
         toggleShouldStartFromBottomWhenUnread: () => void;
     };
     private mounted: boolean | undefined;
+    private isLoadingForFilter: boolean;
+    private lastFilterUserIds: string[];
 
     // public for testing purposes only
     public extraPagesLoaded: number;
@@ -192,6 +194,8 @@ export default class PostList extends React.PureComponent<Props, State> {
         this.extraPagesLoaded = 0;
 
         this.autoRetriesCount = 0;
+        this.isLoadingForFilter = false;
+        this.lastFilterUserIds = props.filterUserIds;
         this.actionsForPostList = {
             loadOlderPosts: this.getPostsBefore,
             loadNewerPosts: this.getPostsAfter,
@@ -218,8 +222,13 @@ export default class PostList extends React.PureComponent<Props, State> {
         }
 
         // 멤버 필터가 변경되었을 때 게시물 재로드
-        if (this.props.filterUserIds !== prevProps.filterUserIds) {
-            this.postsOnLoad(this.props.channelId);
+        // 무한루프 방지: 이전에 처리한 필터와 현재 필터를 비교하고, 로딩 중이면 스킵
+        const currentFilterIds = this.props.filterUserIds;
+        const filterChanged = !this.arraysEqual(currentFilterIds, this.lastFilterUserIds);
+
+        if (filterChanged && !this.isLoadingForFilter) {
+            this.lastFilterUserIds = currentFilterIds;
+            this.loadPostsForFilter(this.props.channelId);
         }
 
         if (this.props.postListIds != null && prevProps.postListIds == null) {
@@ -230,6 +239,34 @@ export default class PostList extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         this.mounted = false;
     }
+
+    // 배열 내용 비교 (순서 무관하게 Set으로 비교)
+    arraysEqual = (a: string[], b: string[]): boolean => {
+        if (a.length !== b.length) {
+            return false;
+        }
+        const setA = new Set(a);
+        const setB = new Set(b);
+        if (setA.size !== setB.size) {
+            return false;
+        }
+        for (const item of setA) {
+            if (!setB.has(item)) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    // 필터 변경 시 게시물 로드 (무한루프 방지 플래그 사용)
+    loadPostsForFilter = async (channelId: string) => {
+        this.isLoadingForFilter = true;
+        try {
+            await this.postsOnLoad(channelId);
+        } finally {
+            this.isLoadingForFilter = false;
+        }
+    };
 
     postsOnLoad = async (channelId: string) => {
         const {focusedPostId, isFirstLoad, latestPostTimeStamp, isPrefetchingInProcess, actions} = this.props;
