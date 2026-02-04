@@ -259,10 +259,23 @@ export default class PostList extends React.PureComponent<Props, State> {
     };
 
     // 필터 변경 시 게시물 로드 (무한루프 방지 플래그 사용)
+    // 필터가 변경되면 항상 loadUnreads를 호출하여 필터링된 게시물 목록으로 갱신
     loadPostsForFilter = async (channelId: string) => {
         this.isLoadingForFilter = true;
         try {
-            await this.postsOnLoad(channelId);
+            const {actions} = this.props;
+
+            // 필터 변경 시에는 항상 loadUnreads를 호출하여 게시물 재로드
+            await actions.loadUnreads(channelId);
+
+            this.props.actions.markChannelAsRead(channelId);
+
+            if (this.mounted) {
+                this.setState({
+                    loadingOlderPosts: false,
+                    loadingNewerPosts: false,
+                });
+            }
         } finally {
             this.isLoadingForFilter = false;
         }

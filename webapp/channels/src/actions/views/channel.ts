@@ -313,8 +313,17 @@ export function loadUnreads(channelId: string, prefetch = false): ActionFuncAsyn
 }
 
 export function loadPostsAround(channelId: string, focusedPostId: string): ActionFuncAsync {
-    return async (dispatch) => {
-        const {data, error} = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2));
+    return async (dispatch, getState) => {
+        const state = getState();
+        const filterUserIds = getMemberFilterUserIds(state, channelId);
+        const {data, error} = await dispatch(PostActions.getPostsAround(
+            channelId,
+            focusedPostId,
+            Posts.POST_CHUNK_SIZE / 2,
+            true,
+            false,
+            filterUserIds.length > 0 ? filterUserIds : undefined,
+        ));
         if (error) {
             return {
                 error,
@@ -336,9 +345,18 @@ export function loadPostsAround(channelId: string, focusedPostId: string): Actio
 }
 
 export function loadLatestPosts(channelId: string): ActionFuncAsync {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const filterUserIds = getMemberFilterUserIds(state, channelId);
         const time = Date.now();
-        const {data, error} = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2));
+        const {data, error} = await dispatch(PostActions.getPosts(
+            channelId,
+            0,
+            Posts.POST_CHUNK_SIZE / 2,
+            true,
+            false,
+            filterUserIds.length > 0 ? filterUserIds : undefined,
+        ));
 
         if (error) {
             return {
