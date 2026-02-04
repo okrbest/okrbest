@@ -217,8 +217,10 @@ export default class PostList extends React.PureComponent<Props, State> {
             this.postsOnLoad(this.props.channelId);
         }
 
-        // 멤버 필터가 변경되었을 때 게시물 재로드
-        if (this.props.filterUserIds !== prevProps.filterUserIds) {
+        // 멤버 필터가 변경되었을 때 게시물 재로드 (배열 내용 비교)
+        const filterChanged = this.props.filterUserIds.length !== prevProps.filterUserIds.length ||
+            this.props.filterUserIds.some((id, index) => id !== prevProps.filterUserIds[index]);
+        if (filterChanged) {
             this.postsOnLoad(this.props.channelId);
         }
 

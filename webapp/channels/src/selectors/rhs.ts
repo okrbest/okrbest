@@ -241,8 +241,11 @@ export function getIsEditingMembers(state: GlobalState): boolean {
     return state.views.rhs.editChannelMembers === true;
 }
 
+// 빈 배열을 상수로 선언하여 매번 새로운 배열 생성 방지
+const EMPTY_FILTER_ARRAY: string[] = [];
+
 export function getMemberFilterUserIds(state: GlobalState, channelId: string): string[] {
-    return state.views.rhs.memberFilterUserIds?.[channelId] || [];
+    return state.views.rhs.memberFilterUserIds?.[channelId] || EMPTY_FILTER_ARRAY;
 }
 
 export function hasMemberFilter(state: GlobalState, channelId: string): boolean {
