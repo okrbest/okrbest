@@ -7,7 +7,7 @@ import type {Dispatch} from 'redux';
 
 import {markChannelAsRead} from 'mattermost-redux/actions/channels';
 import {RequestStatus} from 'mattermost-redux/constants';
-import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost, isPostsChunkIncludingUnreadsPosts, getLimitedViews} from 'mattermost-redux/selectors/entities/posts';
+import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost, isPostsChunkIncludingUnreadsPosts, getLimitedViews, getAllPosts} from 'mattermost-redux/selectors/entities/posts';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
@@ -19,8 +19,8 @@ import {
     syncPostsInChannel,
     loadLatestPosts,
 } from 'actions/views/channel';
-import {getIsMobileView} from 'selectors/views/browser';
 import {getMemberFilterUserIds} from 'selectors/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {getLatestPostId} from 'utils/post_utils';
 
@@ -70,10 +70,21 @@ function makeMapStateToProps() {
             chunk = getRecentPostsChunkInChannel(state, channelId);
         }
 
+        const filterUserIds = getMemberFilterUserIds(state, channelId);
+        const allPostsMap = getAllPosts(state);
+
         if (chunk) {
             postIds = chunk.order;
             atLatestPost = Boolean(chunk.recent);
             atOldestPost = Boolean(chunk.oldest);
+
+            // 멤버 필터가 활성화되어 있으면 게시물 필터링
+            if (filterUserIds.length > 0 && postIds) {
+                postIds = postIds.filter((postId) => {
+                    const post = allPostsMap[postId];
+                    return post && filterUserIds.includes(post.user_id);
+                });
+            }
         }
 
         let shouldHideNewMessageIndicator = false;
@@ -102,7 +113,7 @@ function makeMapStateToProps() {
             shouldStartFromBottomWhenUnread,
             isMobileView: getIsMobileView(state),
             hasInaccessiblePosts,
-            filterUserIds: getMemberFilterUserIds(state, channelId),
+            filterUserIds,
         };
     };
 }
