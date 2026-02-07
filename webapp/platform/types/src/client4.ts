@@ -44,4 +44,5 @@ export type FetchPaginatedThreadOptions = {
     fromCreateAt?: number;
     fromUpdateAt?: number;
     fromPost?: string;
+    showBotMessages?: boolean;
 }
