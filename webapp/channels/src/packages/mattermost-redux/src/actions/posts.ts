@@ -32,7 +32,7 @@ import {getIsUserStatusesConfigEnabled} from 'mattermost-redux/selectors/entitie
 import {getCustomEmojisByName as selectCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getAllGroupsByName} from 'mattermost-redux/selectors/entities/groups';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
-import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 import type {ActionResult, DispatchFunc, GetStateFunc, ActionFunc, ActionFuncAsync, ThunkActionFunc} from 'mattermost-redux/types/actions';
 import {DelayedDataLoader} from 'mattermost-redux/utils/data_loader';
@@ -710,9 +710,11 @@ export function getNewestPostThread(rootId: string): ActionFuncAsync {
 export function getPosts(channelId: string, page = 0, perPage = Posts.POST_CHUNK_SIZE, fetchThreads = true, collapsedThreadsExtended = false, filterUserIds?: string[]): ActionFuncAsync<PostList> {
     return async (dispatch, getState) => {
         let posts;
-        const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
+        const state = getState();
+        const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
+        const showBotMessages = get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, channelId, 'true') === 'true';
         try {
-            posts = await Client4.getPosts(channelId, page, perPage, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds);
+            posts = await Client4.getPosts(channelId, page, perPage, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds, showBotMessages);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -735,14 +737,15 @@ export function getPostsUnread(channelId: string, fetchThreads = true, collapsed
         const shouldLoadRecent = getUnreadScrollPositionPreference(state) === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST;
         const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
         const userId = getCurrentUserId(state);
+        const showBotMessages = get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, channelId, 'true') === 'true';
 
         let posts;
         let recentPosts;
         try {
-            posts = await Client4.getPostsUnread(channelId, userId, DEFAULT_LIMIT_BEFORE, DEFAULT_LIMIT_AFTER, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds);
+            posts = await Client4.getPostsUnread(channelId, userId, DEFAULT_LIMIT_BEFORE, DEFAULT_LIMIT_AFTER, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds, showBotMessages);
 
             if (posts.next_post_id && shouldLoadRecent) {
-                recentPosts = await Client4.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds);
+                recentPosts = await Client4.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds, showBotMessages);
             }
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
@@ -775,8 +778,10 @@ export function getPostsSince(channelId: string, since: number, fetchThreads = t
     return async (dispatch, getState) => {
         let posts;
         try {
-            const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
-            posts = await Client4.getPostsSince(channelId, since, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds);
+            const state = getState();
+            const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
+            const showBotMessages = get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, channelId, 'true') === 'true';
+            posts = await Client4.getPostsSince(channelId, since, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds, showBotMessages);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -797,8 +802,10 @@ export function getPostsBefore(channelId: string, postId: string, page = 0, perP
     return async (dispatch, getState) => {
         let posts;
         try {
-            const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
-            posts = await Client4.getPostsBefore(channelId, postId, page, perPage, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds);
+            const state = getState();
+            const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
+            const showBotMessages = get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, channelId, 'true') === 'true';
+            posts = await Client4.getPostsBefore(channelId, postId, page, perPage, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds, showBotMessages);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -819,8 +826,10 @@ export function getPostsAfter(channelId: string, postId: string, page = 0, perPa
     return async (dispatch, getState) => {
         let posts;
         try {
-            const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
-            posts = await Client4.getPostsAfter(channelId, postId, page, perPage, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds);
+            const state = getState();
+            const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
+            const showBotMessages = get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, channelId, 'true') === 'true';
+            posts = await Client4.getPostsAfter(channelId, postId, page, perPage, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds, showBotMessages);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -844,11 +853,13 @@ export function getPostsAround(channelId: string, postId: string, perPage = Post
         let before;
 
         try {
-            const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
+            const state = getState();
+            const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
+            const showBotMessages = get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, channelId, 'true') === 'true';
             [after, thread, before] = await Promise.all([
-                Client4.getPostsAfter(channelId, postId, 0, perPage, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds),
-                Client4.getPostThread(postId, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended),
-                Client4.getPostsBefore(channelId, postId, 0, perPage, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds),
+                Client4.getPostsAfter(channelId, postId, 0, perPage, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds, showBotMessages),
+                Client4.getPostThread(postId, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, showBotMessages),
+                Client4.getPostsBefore(channelId, postId, 0, perPage, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended, filterUserIds, showBotMessages),
             ]);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);

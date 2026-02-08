@@ -17,6 +17,7 @@ import ChannelHeaderPlug from 'plugins/channel_header_plug';
 import {
     Constants,
     NotificationLevels,
+    Preferences,
     RHSStates,
 } from 'utils/constants';
 import {isEmptyObject} from 'utils/utils';
@@ -76,6 +77,26 @@ class ChannelHeader extends React.PureComponent<Props> {
 
         const options = {mark_unread: NotificationLevels.ALL};
         actions.updateChannelNotifyProps(currentUser.id, channel.id, options);
+    };
+
+    toggleBotMessages = async () => {
+        const {actions, channel, currentUser, showBotMessages} = this.props;
+
+        if (!channel || !currentUser) {
+            return;
+        }
+
+        const newValue = showBotMessages === 'true' ? 'false' : 'true';
+
+        await actions.savePreferences(currentUser.id, [{
+            user_id: currentUser.id,
+            category: Preferences.CATEGORY_CHANNEL_BOT_MESSAGES,
+            name: channel.id,
+            value: newValue,
+        }]);
+
+        // Reload posts with the new filter applied
+        actions.loadLatestPosts(channel.id);
     };
 
     showPinnedPosts = (e: MouseEvent<HTMLButtonElement>) => {
@@ -225,6 +246,15 @@ class ChannelHeader extends React.PureComponent<Props> {
             'channel-header__icon--active': rhsState === RHSStates.CHANNEL_FILES,
         });
         const channelFilesIcon = <i className='icon icon-file-text-outline'/>;
+
+        const isBotMessagesVisible = this.props.showBotMessages === 'true';
+        const botMessagesIconClass = classNames('channel-header__icon channel-header__icon--left btn btn-icon btn-xs', {
+            'channel-header__icon--active': !isBotMessagesVisible,
+        });
+        const hideBotMessagesLabel = this.props.intl.formatMessage({id: 'channel_header.hideBotMessages', defaultMessage: 'Hide bot messages'});
+        const showBotMessagesLabel = this.props.intl.formatMessage({id: 'channel_header.showBotMessages', defaultMessage: 'Show bot messages'});
+        const botMessagesTooltip = isBotMessagesVisible ? hideBotMessagesLabel : showBotMessagesLabel;
+
         const pinnedIconClass = classNames('channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs', {
             'channel-header__icon--active': rhsState === RHSStates.PIN,
         });
@@ -372,6 +402,19 @@ class ChannelHeader extends React.PureComponent<Props> {
                                             {channelFilesIcon}
                                         </HeaderIconWrapper>
                                     }
+                                    <HeaderIconWrapper
+                                        buttonClass={botMessagesIconClass}
+                                        buttonId={'channelHeaderBotMessagesButton'}
+                                        onClick={this.toggleBotMessages}
+                                        tooltip={botMessagesTooltip}
+                                    >
+                                        <span
+                                            aria-hidden='true'
+                                            style={{fontSize: '16px', lineHeight: '20px'}}
+                                        >
+                                            {isBotMessagesVisible ? '🤖' : '🚫'}
+                                        </span>
+                                    </HeaderIconWrapper>
                                 </div>
                                 <div
                                     id='channelHeaderDescription'
