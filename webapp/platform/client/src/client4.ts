@@ -2323,9 +2323,9 @@ export default class Client4 {
         );
     };
 
-    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, showBotMessages = true) => {
         // this is to ensure we have backwards compatibility for `getPostThread`
-        return this.getPaginatedPostThread(postId, {fetchThreads, collapsedThreads, collapsedThreadsExtended});
+        return this.getPaginatedPostThread(postId, {fetchThreads, collapsedThreads, collapsedThreadsExtended, showBotMessages});
     };
 
     getPaginatedPostThread = async (postId: string, options: FetchPaginatedThreadOptions): Promise<PaginatedPostList> => {
@@ -2346,8 +2346,8 @@ export default class Client4 {
         );
     };
 
-    getPosts = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[]) => {
-        const queryParams: Record<string, any> = {page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended};
+    getPosts = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[], showBotMessages = true) => {
+        const queryParams: Record<string, any> = {page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, showBotMessages};
         if (filterUserIds && filterUserIds.length > 0) {
             queryParams.filterUserIds = filterUserIds.join(',');
         }
@@ -2357,8 +2357,8 @@ export default class Client4 {
         );
     };
 
-    getPostsUnread = (channelId: string, userId: string, limitAfter = DEFAULT_LIMIT_AFTER, limitBefore = DEFAULT_LIMIT_BEFORE, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[]) => {
-        const queryParams: Record<string, any> = {limit_after: limitAfter, limit_before: limitBefore, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended};
+    getPostsUnread = (channelId: string, userId: string, limitAfter = DEFAULT_LIMIT_AFTER, limitBefore = DEFAULT_LIMIT_BEFORE, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[], showBotMessages = true) => {
+        const queryParams: Record<string, any> = {limit_after: limitAfter, limit_before: limitBefore, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, showBotMessages};
         if (filterUserIds && filterUserIds.length > 0) {
             queryParams.filterUserIds = filterUserIds.join(',');
         }
@@ -2368,8 +2368,8 @@ export default class Client4 {
         );
     };
 
-    getPostsSince = (channelId: string, since: number, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[]) => {
-        const queryParams: Record<string, any> = {since, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended};
+    getPostsSince = (channelId: string, since: number, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[], showBotMessages = true) => {
+        const queryParams: Record<string, any> = {since, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, showBotMessages};
         if (filterUserIds && filterUserIds.length > 0) {
             queryParams.filterUserIds = filterUserIds.join(',');
         }
@@ -2379,8 +2379,8 @@ export default class Client4 {
         );
     };
 
-    getPostsBefore = (channelId: string, postId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[]) => {
-        const queryParams: Record<string, any> = {before: postId, page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended};
+    getPostsBefore = (channelId: string, postId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[], showBotMessages = true) => {
+        const queryParams: Record<string, any> = {before: postId, page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, showBotMessages};
         if (filterUserIds && filterUserIds.length > 0) {
             queryParams.filterUserIds = filterUserIds.join(',');
         }
@@ -2390,8 +2390,8 @@ export default class Client4 {
         );
     };
 
-    getPostsAfter = (channelId: string, postId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[]) => {
-        const queryParams: Record<string, any> = {after: postId, page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended};
+    getPostsAfter = (channelId: string, postId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, filterUserIds?: string[], showBotMessages = true) => {
+        const queryParams: Record<string, any> = {after: postId, page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, showBotMessages};
         if (filterUserIds && filterUserIds.length > 0) {
             queryParams.filterUserIds = filterUserIds.join(',');
         }
