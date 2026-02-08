@@ -10,8 +10,9 @@ import {
     updateChannelNotifyProps,
 } from 'mattermost-redux/actions/channels';
 import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {fetchChannelRemotes} from 'mattermost-redux/actions/shared_channels';
-import {General} from 'mattermost-redux/constants';
+import {General, Preferences} from 'mattermost-redux/constants';
 import {
     getCurrentChannel,
     getMyCurrentChannelMembership,
@@ -19,6 +20,7 @@ import {
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getRemoteNamesForChannel} from 'mattermost-redux/selectors/entities/shared_channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -31,6 +33,7 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
+import {loadLatestPosts} from 'actions/views/channel';
 import {
     showPinnedPosts,
     showChannelFiles,
@@ -106,6 +109,7 @@ function makeMapStateToProps() {
             timestampUnits,
             hideGuestTags: config.HideGuestTags === 'true',
             sharedChannelsPluginsEnabled,
+            showBotMessages: channel ? get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, channel.id, 'true') : 'true',
         };
     };
 }
@@ -119,6 +123,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         updateChannelNotifyProps,
         showChannelMembers,
         fetchChannelRemotes,
+        savePreferences,
+        loadLatestPosts,
     }, dispatch),
 });
 
