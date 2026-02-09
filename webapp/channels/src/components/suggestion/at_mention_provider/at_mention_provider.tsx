@@ -457,7 +457,7 @@ export function membersGroup(items: CreatedProfile[]) {
         key: 'members',
         label: defineMessage({id: 'suggestion.mention.members', defaultMessage: 'Channel Members'}),
         items,
-        terms: items.map((profile) => '@' + (profile.nickname || profile.username)),
+        terms: items.map((profile) => '@' + profile.username),
         component: AtMentionSuggestion,
     };
 }
@@ -487,7 +487,7 @@ export function nonMembersGroup(items: CreatedProfile[]) {
         key: 'nonMembers',
         label: defineMessage({id: 'suggestion.mention.nonmembers', defaultMessage: 'Not in Channel'}),
         items,
-        terms: items.map((item) => '@' + (item.nickname || item.username)),
+        terms: items.map((item) => '@' + item.username),
         component: AtMentionSuggestion,
     };
 }
