@@ -6,8 +6,10 @@ import {bindActionCreators} from 'redux';
 import type {Dispatch} from 'redux';
 
 import {markChannelAsRead} from 'mattermost-redux/actions/channels';
-import {RequestStatus} from 'mattermost-redux/constants';
+import {RequestStatus, Preferences} from 'mattermost-redux/constants';
 import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost, isPostsChunkIncludingUnreadsPosts, getLimitedViews, getAllPosts} from 'mattermost-redux/selectors/entities/posts';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
@@ -83,6 +85,26 @@ function makeMapStateToProps() {
                 postIds = postIds.filter((postId) => {
                     const post = allPostsMap[postId];
                     return post && filterUserIds.includes(post.user_id);
+                });
+            }
+
+            // 봇 메시지 필터: showBotMessages가 false이면 봇/웹훅/시스템 메시지 숨김
+            const showBotMessages = get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, channelId, 'true');
+            if (showBotMessages === 'false' && postIds) {
+                const users = getUsers(state);
+                postIds = postIds.filter((postId) => {
+                    const post = allPostsMap[postId];
+                    if (!post) {
+                        return true;
+                    }
+                    const isWebhook = post.props?.from_webhook === 'true';
+                    const isSystemMessage = post.type?.startsWith('system_') || false;
+                    const user = users[post.user_id];
+                    const isBot = user?.is_bot === true;
+                    if (isWebhook || isSystemMessage || isBot) {
+                        return false;
+                    }
+                    return true;
                 });
             }
         }

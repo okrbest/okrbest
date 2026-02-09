@@ -94,9 +94,6 @@ class ChannelHeader extends React.PureComponent<Props> {
             name: channel.id,
             value: newValue,
         }]);
-
-        // Reload posts with the new filter applied
-        actions.loadLatestPosts(channel.id);
     };
 
     showPinnedPosts = (e: MouseEvent<HTMLButtonElement>) => {
