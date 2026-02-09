@@ -33,7 +33,6 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
-import {loadLatestPosts} from 'actions/views/channel';
 import {
     showPinnedPosts,
     showChannelFiles,
@@ -124,7 +123,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         showChannelMembers,
         fetchChannelRemotes,
         savePreferences,
-        loadLatestPosts,
     }, dispatch),
 });
 
