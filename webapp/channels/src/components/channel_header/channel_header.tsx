@@ -245,12 +245,6 @@ class ChannelHeader extends React.PureComponent<Props> {
         const channelFilesIcon = <i className='icon icon-file-text-outline'/>;
 
         const isBotMessagesVisible = this.props.showBotMessages === 'true';
-        const botMessagesIconClass = classNames('channel-header__icon channel-header__icon--left btn btn-icon btn-xs', {
-            'channel-header__icon--active': !isBotMessagesVisible,
-        });
-        const hideBotMessagesLabel = this.props.intl.formatMessage({id: 'channel_header.hideBotMessages', defaultMessage: 'Hide bot messages'});
-        const showBotMessagesLabel = this.props.intl.formatMessage({id: 'channel_header.showBotMessages', defaultMessage: 'Show bot messages'});
-        const botMessagesTooltip = isBotMessagesVisible ? hideBotMessagesLabel : showBotMessagesLabel;
 
         const pinnedIconClass = classNames('channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs', {
             'channel-header__icon--active': rhsState === RHSStates.PIN,
@@ -399,19 +393,26 @@ class ChannelHeader extends React.PureComponent<Props> {
                                             {channelFilesIcon}
                                         </HeaderIconWrapper>
                                     }
-                                    <HeaderIconWrapper
-                                        buttonClass={botMessagesIconClass}
-                                        buttonId={'channelHeaderBotMessagesButton'}
-                                        onClick={this.toggleBotMessages}
-                                        tooltip={botMessagesTooltip}
+                                    <div
+                                        className='channel-header__bot-filter'
+                                        style={{display: 'flex', alignItems: 'center', gap: '4px', marginLeft: '8px'}}
                                     >
-                                        <span
-                                            aria-hidden='true'
-                                            style={{fontSize: '16px', lineHeight: '20px'}}
+                                        <input
+                                            type='checkbox'
+                                            id='channelHeaderBotMessagesCheckbox'
+                                            checked={isBotMessagesVisible}
+                                            onChange={this.toggleBotMessages}
+                                        />
+                                        <label
+                                            htmlFor='channelHeaderBotMessagesCheckbox'
+                                            style={{margin: 0, cursor: 'pointer', fontSize: '12px'}}
                                         >
-                                            {isBotMessagesVisible ? '🤖' : '🚫'}
-                                        </span>
-                                    </HeaderIconWrapper>
+                                            <FormattedMessage
+                                                id='channel_header.botMessages'
+                                                defaultMessage='봇 메세지'
+                                            />
+                                        </label>
+                                    </div>
                                 </div>
                                 <div
                                     id='channelHeaderDescription'
