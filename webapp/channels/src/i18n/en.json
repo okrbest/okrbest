@@ -3657,6 +3657,7 @@
   "channel_bookmarks.open": "Open",
   "channel_groups": "{channel} Groups",
   "channel_header.back": "Back to channel",
+  "channel_header.botMessages": "Bot messages",
   "channel_header.channel_settings": "Channel Settings",
   "channel_header.channelFiles": "Channel files",
   "channel_header.channelHasGuests": "Channel has guests",

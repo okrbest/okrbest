@@ -3557,6 +3557,7 @@
   "channel_bookmarks.open": "열기",
   "channel_groups": "{channel} 그룹",
   "channel_header.back": "채널로 돌아가기",
+  "channel_header.botMessages": "봇 메세지",
   "channel_header.channelFiles": "채널 파일",
   "channel_header.channelHasGuests": "이 채널에는 게스트가 있습니다.",
   "channel_header.channelMembers": "구성원",
