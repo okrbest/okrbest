@@ -7,6 +7,7 @@ import type {Dispatch} from 'redux';
 
 import {markChannelAsRead} from 'mattermost-redux/actions/channels';
 import {RequestStatus, Preferences} from 'mattermost-redux/constants';
+import {isChannelAutotranslated} from 'mattermost-redux/selectors/entities/channels';
 import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost, isPostsChunkIncludingUnreadsPosts, getLimitedViews, getAllPosts} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
@@ -136,6 +137,7 @@ function makeMapStateToProps() {
             isMobileView: getIsMobileView(state),
             hasInaccessiblePosts,
             filterUserIds,
+            isChannelAutotranslated: isChannelAutotranslated(state, channelId),
         };
     };
 }
