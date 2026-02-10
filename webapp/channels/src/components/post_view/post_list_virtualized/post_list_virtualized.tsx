@@ -96,6 +96,8 @@ type Props = {
 
     shouldStartFromBottomWhenUnread: boolean;
 
+    isChannelAutotranslated: boolean;
+
     actions: {
 
         /*
@@ -457,6 +459,7 @@ export default class PostList extends React.PureComponent<Props, State> {
                     loadingNewerPosts={this.props.loadingNewerPosts}
                     loadingOlderPosts={this.props.loadingOlderPosts}
                     channelId={this.props.channelId}
+                    isChannelAutotranslated={this.props.isChannelAutotranslated}
                 />
             </div>
         );
@@ -789,7 +792,10 @@ export default class PostList extends React.PureComponent<Props, State> {
                             id='postListContent'
                             className='post-list__content'
                         >
-                            <LatestPostReader postIds={this.props.postListIds}/>
+                            <LatestPostReader
+                                postIds={this.props.postListIds}
+                                autotranslated={this.props.isChannelAutotranslated}
+                            />
                             <AutoSizer>
                                 {({height, width}) => (
                                     <>

@@ -127,6 +127,8 @@ export interface Props {
 
     dispatch: DispatchFunc;
 
+    isChannelAutotranslated: boolean;
+
     actions: {
 
         /*
@@ -452,6 +454,7 @@ export default class PostList extends React.PureComponent<Props, State> {
                             isMobileView={this.props.isMobileView}
                             lastViewedAt={this.props.lastViewedAt}
                             dispatch={this.props.dispatch}
+                            isChannelAutotranslated={this.props.isChannelAutotranslated}
                         />
                     </div>
                 </div>

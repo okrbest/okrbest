@@ -18,6 +18,7 @@ import {
     getMyCurrentChannelMembership,
     isCurrentChannelMuted,
     getCurrentChannelStats,
+    getMyChannelAutotranslation,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
@@ -109,6 +110,7 @@ function makeMapStateToProps() {
             hideGuestTags: config.HideGuestTags === 'true',
             sharedChannelsPluginsEnabled,
             showBotMessages: channel ? get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, channel.id, 'true') : 'true',
+            isChannelAutotranslated: channel ? getMyChannelAutotranslation(state, channel.id) : false,
         };
     };
 }
