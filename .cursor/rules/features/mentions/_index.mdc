@@ -1,0 +1,278 @@
+---
+description: 멘션 (@ mentions) 기능 관련 규칙 - displayname 표시 및 username 변환
+globs: ["webapp/channels/src/components/suggestion/at_mention_provider/**", "webapp/channels/src/components/textbox/**", "webapp/channels/src/components/advanced_text_editor/**", "webapp/channels/src/actions/views/create_comment.tsx"]
+---
+
+# 멘션 (Mentions) 도메인
+
+## 개요
+
+멘션은 채팅창에서 `@` 기호를 사용하여 특정 사용자를 언급하는 기능입니다.
+OKR.BEST에서는 **채팅창에 `@displayname`으로 표시**하고, **백엔드에는 `@username`으로 전송**하는 방식을 사용합니다.
+
+## 핵심 개념
+
+| 용어 | 설명 | 예시 |
+|------|------|------|
+| `username` | 사용자의 고유 ID (영문, 숫자) | `john.doe` |
+| `displayname` | 화면에 표시되는 이름 | `홍길동`, `John Doe` |
+| `teammateNameDisplay` | 팀원 이름 표시 설정 | `username`, `nickname_full_name`, `full_name` |
+
+## 관련 파일
+
+| 영역 | 파일 | 설명 |
+|------|------|------|
+| 타입 정의 | `webapp/channels/src/types/store/draft.ts` | `MentionMapping` 타입 |
+| 멘션 제안 | `webapp/channels/src/components/suggestion/at_mention_provider/` | @ 자동완성 |
+| 텍스트 입력 | `webapp/channels/src/components/textbox/textbox.tsx` | 멘션 선택 콜백 |
+| 에디터 | `webapp/channels/src/components/advanced_text_editor/` | 멘션 매핑 저장 |
+| 메시지 전송 | `webapp/channels/src/actions/views/create_comment.tsx` | displayname → username 변환 |
+
+## 데이터 구조
+
+### MentionMapping 타입
+
+```typescript
+// webapp/channels/src/types/store/draft.ts
+export type MentionMapping = {
+    userId: string;      // 사용자 ID
+    username: string;    // 고유 username (백엔드 전송용)
+    displayName: string; // 화면 표시용 이름
+};
+
+export type PostDraft = {
+    message: string;
+    // ... 기타 필드 ...
+    // 멘션 매핑: displayname을 키로 사용하여 username 저장
+    mentionMappings?: Record<string, MentionMapping>;
+};
+```
+
+## 동작 흐름
+
+### 1. 멘션 선택 시 (채팅창 입력)
+
+```
+사용자 입력: "@홍" 
+    ↓
+AtMentionProvider: 자동완성 목록 표시 (displayname 기준)
+    ↓
+사용자 선택: "홍길동" 클릭
+    ↓
+Textbox.handleItemSelected(): MentionItem 전달
+    ↓
+AdvancedTextEditor.handleMentionSelected(): mentionMappings에 저장
+    - key: "홍길동" (displayname)
+    - value: { userId, username: "hong", displayName: "홍길동" }
+    ↓
+채팅창 표시: "@홍길동"
+```
+
+### 2. 메시지 전송 시
+
+```
+전송 버튼 클릭
+    ↓
+submitPost() 또는 submitCommand() 호출
+    ↓
+convertDisplayNamesToUsernames(): @displayname → @username 변환
+    - 입력: "@홍길동 안녕하세요"
+    - 출력: "@hong 안녕하세요"
+    ↓
+백엔드 API 호출 (message: "@hong 안녕하세요")
+```
+
+## 주요 구현
+
+### AtMentionProvider - 멘션 자동완성
+
+```typescript
+// webapp/channels/src/components/suggestion/at_mention_provider/at_mention_provider.tsx
+
+export function membersGroup(items: CreatedProfile[]) {
+    const state = store.getState();
+    const teammateNameDisplay = getTeammateNameDisplaySetting(state);
+
+    return {
+        key: 'members',
+        label: defineMessage({id: 'suggestion.mention.members', defaultMessage: 'Channel Members'}),
+        items,
+        // displayname을 term으로 사용하여 채팅창에 displayname이 보이도록 함
+        terms: items.map((profile) => '@' + displayUsername(profile, teammateNameDisplay)),
+        component: AtMentionSuggestion,
+    };
+}
+```
+
+### Textbox - 멘션 선택 콜백
+
+```typescript
+// webapp/channels/src/components/textbox/textbox.tsx
+
+export type MentionItem = UserProfile | Group | {username: string};
+
+export type Props = {
+    // ... 기타 props ...
+    onMentionSelected?: (item: MentionItem) => void;
+};
+
+// 멘션 아이템이 선택되었을 때 호출
+handleItemSelected = (item: MentionItem) => {
+    if (this.props.onMentionSelected && item && 'id' in item && 'username' in item) {
+        this.props.onMentionSelected(item);
+    }
+};
+```
+
+### AdvancedTextEditor - 멘션 매핑 저장
+
+```typescript
+// webapp/channels/src/components/advanced_text_editor/advanced_text_editor.tsx
+
+const handleMentionSelected = useCallback((item: MentionItem) => {
+    if (!item || !('id' in item) || !('username' in item)) {
+        return;
+    }
+
+    const userItem = item as {id: string; username: string; ...};
+    const userDisplayName = displayUsername(userItem, teammateNameDisplay);
+
+    // draftRef.current를 사용하여 항상 최신 draft 상태에서 매핑을 가져옴
+    const currentDraft = draftRef.current;
+    const currentMappings = currentDraft.mentionMappings || {};
+
+    const newMappings = {
+        ...currentMappings,
+        [userDisplayName]: {
+            userId: userItem.id,
+            username: userItem.username,
+            displayName: userDisplayName,
+        },
+    };
+
+    handleDraftChange({
+        ...currentDraft,
+        mentionMappings: newMappings,
+    });
+}, [handleDraftChange, teammateNameDisplay]);
+```
+
+### convertDisplayNamesToUsernames - 변환 함수
+
+```typescript
+// webapp/channels/src/actions/views/create_comment.tsx
+
+function convertDisplayNamesToUsernames(
+    message: string, 
+    mentionMappings?: Record<string, MentionMapping>
+): string {
+    if (!mentionMappings || Object.keys(mentionMappings).length === 0) {
+        return message;
+    }
+
+    // 메시지 끝에 있는 멘션을 처리하기 위해 임시 공백 추가
+    let convertedMessage = message + ' ';
+
+    // displayname이 긴 것부터 먼저 변환 (부분 매칭 방지)
+    const sortedMappings = Object.entries(mentionMappings).sort(
+        ([a], [b]) => b.length - a.length,
+    );
+
+    for (const [displayName, mapping] of sortedMappings) {
+        const escapedDisplayName = displayName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        // @ 앞에 문자열 시작 또는 공백이 있어야 함 (이메일 주소 등에서 잘못 변환 방지)
+        const pattern = new RegExp(
+            `(^|\\s)@${escapedDisplayName}(?=\\s|[.,!?;:'"\\)\\]}>])`, 
+            'gm'
+        );
+        // 콜백 함수로 특수 대체 패턴 문자($&, $' 등) 안전 처리
+        convertedMessage = convertedMessage.replace(
+            pattern, 
+            (_match, prefix) => `${prefix}@${mapping.username}`
+        );
+    }
+
+    return convertedMessage.slice(0, -1);
+}
+```
+
+## 정규식 패턴 설명
+
+```
+(^|\\s)@${escapedDisplayName}(?=\\s|[.,!?;:'"\\)\\]}>])
+```
+
+| 부분 | 설명 |
+|------|------|
+| `(^|\\s)` | 문자열 시작 또는 공백 (이메일 주소 방지) |
+| `@` | 멘션 기호 |
+| `${escapedDisplayName}` | 이스케이프된 displayname |
+| `(?=\\s|[.,!?;:'"\\)\\]}>])` | 뒤에 공백이나 구두점이 와야 함 (lookahead) |
+
+### 이스케이프가 필요한 이유
+
+displayname에 정규식 특수문자(`.*+?^${}()|[]\\`)가 포함될 수 있으므로 반드시 이스케이프해야 합니다.
+
+## 주의사항
+
+### 1. draftRef 사용 이유
+
+연속으로 멘션을 선택할 때 React의 상태 업데이트가 비동기적으로 처리되어 이전 매핑이 사라질 수 있습니다. `draftRef.current`를 사용하여 항상 최신 상태를 참조합니다.
+
+```typescript
+// ❌ 잘못된 방식 - 상태가 오래됨
+const currentMappings = draft.mentionMappings || {};
+
+// ✅ 올바른 방식 - 항상 최신 상태
+const currentDraft = draftRef.current;
+const currentMappings = currentDraft.mentionMappings || {};
+```
+
+### 2. replace() 콜백 함수 사용
+
+username에 `$&`, `$'` 등의 특수 대체 패턴 문자가 포함될 경우를 대비하여 콜백 함수를 사용합니다.
+
+```typescript
+// ❌ 위험 - username에 $& 포함 시 오작동
+convertedMessage.replace(pattern, `${prefix}@${mapping.username}`);
+
+// ✅ 안전 - 콜백으로 리터럴 처리
+convertedMessage.replace(pattern, (_match, prefix) => `${prefix}@${mapping.username}`);
+```
+
+### 3. 메시지 끝 멘션 처리
+
+정규식 lookahead가 메시지 끝의 멘션을 인식하지 못할 수 있으므로 임시 공백을 추가합니다.
+
+```typescript
+let convertedMessage = message + ' ';  // 임시 공백 추가
+// ... 변환 로직 ...
+return convertedMessage.slice(0, -1);  // 임시 공백 제거
+```
+
+## 특수 멘션
+
+| 패턴 | 설명 | 변환 여부 |
+|------|------|----------|
+| `@channel` | 채널 전체 멘션 | 변환 안 함 |
+| `@all` | 채널 전체 멘션 | 변환 안 함 |
+| `@here` | 온라인 사용자 멘션 | 변환 안 함 |
+
+특수 멘션은 `specialMentionsGroup`에서 처리되며, `mentionMappings`에 저장되지 않습니다.
+
+## 테스트 케이스
+
+| 입력 메시지 | mentionMappings | 예상 출력 |
+|------------|-----------------|----------|
+| `@홍길동 안녕` | `{홍길동: {username: 'hong'}}` | `@hong 안녕` |
+| `@홍길동` | `{홍길동: {username: 'hong'}}` | `@hong` |
+| `@홍길동 @김철수` | `{홍길동: {...}, 김철수: {...}}` | `@hong @kim` |
+| `email@hong.com` | `{hong: {...}}` | `email@hong.com` (변환 안 함) |
+
+---
+
+## Q&A 목록
+
+| 질문 | 파일 |
+|------|------|
+| (새 질문이 생기면 여기에 추가) | |

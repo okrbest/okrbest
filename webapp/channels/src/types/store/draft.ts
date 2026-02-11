@@ -12,6 +12,13 @@ export type DraftInfo = {
     type: 'channel' | 'thread';
 }
 
+// 멘션 매핑 타입: displayname -> username 매핑
+export type MentionMapping = {
+    userId: string;
+    username: string;
+    displayName: string;
+};
+
 export type PostDraft = {
     message: string;
     message_source?: string;
@@ -34,6 +41,8 @@ export type PostDraft = {
         };
         files?: FileInfo[];
     };
+    // 멘션 매핑: displayname을 키로 사용하여 username 저장
+    mentionMappings?: Record<string, MentionMapping>;
 };
 
 export function isPostDraftEmpty(draft: PostDraft): boolean {

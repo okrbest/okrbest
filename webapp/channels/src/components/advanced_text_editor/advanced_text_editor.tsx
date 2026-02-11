@@ -15,7 +15,9 @@ import {getChannel, makeGetChannel, getDirectChannel} from 'mattermost-redux/sel
 import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {get, getBool, getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, isCurrentUserGuestUser, getStatusForUserId, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import * as GlobalActions from 'actions/global_actions';
 import type {CreatePostOptions} from 'actions/post_actions';
@@ -44,6 +46,7 @@ import SuggestionList from 'components/suggestion/suggestion_list';
 import Textbox from 'components/textbox';
 import type {TextboxElement} from 'components/textbox';
 import type TextboxClass from 'components/textbox/textbox';
+import type {MentionItem} from 'components/textbox/textbox';
 import {OnboardingTourSteps, OnboardingTourStepsForGuestUsers, TutorialTourName} from 'components/tours/constant';
 import {SendMessageTour} from 'components/tours/onboarding_tour';
 
@@ -182,6 +185,7 @@ const AdvancedTextEditor = ({
     const showDndWarning = useSelector((state: GlobalState) => (teammateId ? getStatusForUserId(state, teammateId) === UserStatuses.DND : false));
     const selectedPostFocussedAt = useSelector((state: GlobalState) => getSelectedPostFocussedAt(state));
     const aiRewriteEnabled = useGetAgentsBridgeEnabled();
+    const teammateNameDisplay = useSelector(getTeammateNameDisplaySetting);
 
     const canPost = useSelector((state: GlobalState) => {
         const channel = getChannel(state, channelId);
@@ -247,6 +251,9 @@ const AdvancedTextEditor = ({
 
         setDraft(draftToChange);
 
+        // draftRef도 즉시 업데이트하여 연속 멘션 선택 시에도 최신 상태를 참조하도록 함
+        draftRef.current = draftToChange;
+
         const saveDraft = () => {
             let prefix = StoragePrefixes.DRAFT;
             let suffix = draftToChange.channelId;
@@ -279,6 +286,37 @@ const AdvancedTextEditor = ({
 
         storedDrafts.current[draftToChange.rootId || draftToChange.channelId] = draftToChange;
     }, [dispatch]);
+
+    // 멘션이 선택될 때 displayname -> username 매핑 저장
+    const handleMentionSelected = useCallback((item: MentionItem) => {
+        // UserProfile 타입인지 확인 (id와 username이 있어야 함)
+        if (!item || !('id' in item) || !('username' in item)) {
+            return;
+        }
+
+        const userItem = item as {id: string; username: string; first_name?: string; last_name?: string; nickname?: string};
+        const userDisplayName = displayUsername(userItem, teammateNameDisplay);
+
+        // draftRef.current를 사용하여 항상 최신 draft 상태에서 매핑을 가져옴
+        // (연속으로 멘션을 선택할 때 이전 매핑이 사라지는 문제 방지)
+        const currentDraft = draftRef.current;
+        const currentMappings = currentDraft.mentionMappings || {};
+
+        // displayname을 키로 사용하여 매핑 저장
+        const newMappings = {
+            ...currentMappings,
+            [userDisplayName]: {
+                userId: userItem.id,
+                username: userItem.username,
+                displayName: userDisplayName,
+            },
+        };
+
+        handleDraftChange({
+            ...currentDraft,
+            mentionMappings: newMappings,
+        });
+    }, [handleDraftChange, teammateNameDisplay]);
 
     const applyMarkdown = useCallback((params: ApplyMarkdownOptions) => {
         if (showPreview) {
@@ -820,6 +858,7 @@ const AdvancedTextEditor = ({
                             rootId={rootId}
                             onWidthChange={handleWidthChange}
                             isInEditMode={isInEditMode}
+                            onMentionSelected={handleMentionSelected}
                         />
                         {attachmentPreview}
                         {!isDisabled && (showFormattingBar || showPreview) && (

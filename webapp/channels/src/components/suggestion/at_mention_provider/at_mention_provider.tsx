@@ -7,11 +7,12 @@ import type {Group} from '@mattermost/types/groups';
 import type {UserProfile} from '@mattermost/types/users';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import type {Filters} from 'mattermost-redux/selectors/entities/users';
 import {makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
 import type {ActionResult} from 'mattermost-redux/types/actions';
-import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
+import {displayUsername, getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
 
 import store from 'stores/redux_store';
 
@@ -453,11 +454,16 @@ export default class AtMentionProvider extends Provider {
 }
 
 export function membersGroup(items: CreatedProfile[]) {
+    const state = store.getState();
+    const teammateNameDisplay = getTeammateNameDisplaySetting(state);
+
     return {
         key: 'members',
         label: defineMessage({id: 'suggestion.mention.members', defaultMessage: 'Channel Members'}),
         items,
-        terms: items.map((profile) => '@' + profile.username),
+
+        // displayname을 term으로 사용하여 채팅창에 displayname이 보이도록 함
+        terms: items.map((profile) => '@' + displayUsername(profile, teammateNameDisplay)),
         component: AtMentionSuggestion,
     };
 }
@@ -483,11 +489,16 @@ export function specialMentionsGroup(items: Array<{username: string}>) {
 }
 
 export function nonMembersGroup(items: CreatedProfile[]) {
+    const state = store.getState();
+    const teammateNameDisplay = getTeammateNameDisplaySetting(state);
+
     return {
         key: 'nonMembers',
         label: defineMessage({id: 'suggestion.mention.nonmembers', defaultMessage: 'Not in Channel'}),
         items,
-        terms: items.map((item) => '@' + item.username),
+
+        // displayname을 term으로 사용하여 채팅창에 displayname이 보이도록 함
+        terms: items.map((item) => '@' + displayUsername(item, teammateNameDisplay)),
         component: AtMentionSuggestion,
     };
 }
