@@ -35,7 +35,39 @@ import {containsAtChannel, groupsMentionedInText} from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 
 import type {ActionFunc, ActionFuncAsync, GlobalState} from 'types/store';
-import type {PostDraft} from 'types/store/draft';
+import type {PostDraft, MentionMapping} from 'types/store/draft';
+
+/**
+ * 메시지 내의 @displayname을 @username으로 변환합니다.
+ * mentionMappings에 저장된 매핑 정보를 사용합니다.
+ */
+function convertDisplayNamesToUsernames(message: string, mentionMappings?: Record<string, MentionMapping>): string {
+    if (!mentionMappings || Object.keys(mentionMappings).length === 0) {
+        return message;
+    }
+
+    // 메시지 끝에 있는 멘션을 처리하기 위해 임시 공백 추가
+    let convertedMessage = message + ' ';
+
+    // displayname이 긴 것부터 먼저 변환 (부분 매칭 방지)
+    const sortedMappings = Object.entries(mentionMappings).sort(
+        ([a], [b]) => b.length - a.length,
+    );
+
+    for (const [displayName, mapping] of sortedMappings) {
+        // @displayname 패턴을 찾아서 @username으로 변환
+        // - (^|\\s): @ 앞에 문자열 시작 또는 공백이 있어야 함 (이메일 주소 등에서 잘못 변환되는 것 방지)
+        // - (?=\\s|...): @ 뒤에 공백이나 구두점이 있어야 함
+        const escapedDisplayName = displayName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const pattern = new RegExp(`(^|\\s)@${escapedDisplayName}(?=\\s|[.,!?;:'"\\)\\]}>])`, 'gm');
+
+        // 콜백 함수를 사용하여 특수 대체 패턴 문자($&, $' 등)가 username에 있어도 안전하게 처리
+        convertedMessage = convertedMessage.replace(pattern, (_match, prefix) => `${prefix}@${mapping.username}`);
+    }
+
+    // 임시로 추가한 공백 제거
+    return convertedMessage.slice(0, -1);
+}
 
 export function submitPost(
     channelId: string,
@@ -55,9 +87,12 @@ export function submitPost(
         const isBorEnabled = isBurnOnReadEnabled(state);
         const postType = (isBorEnabled && draft.type === PostTypes.BURN_ON_READ) ? PostTypes.BURN_ON_READ : undefined;
 
+        // 멘션 매핑을 이용해 @displayname을 @username으로 변환
+        const convertedMessage = convertDisplayNamesToUsernames(draft.message, draft.mentionMappings);
+
         let post = {
             file_ids: [],
-            message: draft.message,
+            message: convertedMessage,
             channel_id: channelId,
             root_id: rootId,
             pending_post_id: `${userId}:${time}`,
@@ -137,7 +172,9 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
             root_id: rootId,
         };
 
+        // 멘션 매핑을 이용해 @displayname을 @username으로 변환
         let {message} = draft;
+        message = convertDisplayNamesToUsernames(message, draft.mentionMappings);
 
         const hookResult = await dispatch(runSlashCommandWillBePostedHooks(message, args));
         if (hookResult.error) {
