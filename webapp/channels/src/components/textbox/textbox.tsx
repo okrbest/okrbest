@@ -28,6 +28,9 @@ import * as Utils from 'utils/utils';
 
 import type {TextboxElement} from './index';
 
+// 멘션 선택 시 전달되는 아이템 타입
+export type MentionItem = UserProfile | Group | {username: string};
+
 export type Props = {
     id: string;
     channelId: string;
@@ -72,6 +75,8 @@ export type Props = {
     hasLabels?: boolean;
     hasError?: boolean;
     isInEditMode?: boolean;
+    // 멘션 아이템이 선택될 때 호출되는 콜백
+    onMentionSelected?: (item: MentionItem) => void;
 };
 
 const VISIBLE = {visibility: 'visible'};
@@ -132,6 +137,14 @@ export default class Textbox extends React.PureComponent<Props> {
 
     handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.onChange(e);
+    };
+
+    // 멘션 아이템이 선택되었을 때 호출
+    handleItemSelected = (item: MentionItem) => {
+        // UserProfile 타입인 경우에만 onMentionSelected 호출 (실제 사용자 멘션)
+        if (this.props.onMentionSelected && item && 'id' in item && 'username' in item) {
+            this.props.onMentionSelected(item);
+        }
     };
 
     updateSuggestions(prevProps: Props) {
@@ -326,6 +339,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     contextId={this.props.channelId}
                     openWhenEmpty={this.props.openWhenEmpty}
                     alignWithTextbox={this.props.alignWithTextbox}
+                    onItemSelected={this.handleItemSelected}
                 />
             </div>
         );
