@@ -6,6 +6,7 @@ import React from 'react';
 import type {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import type {Agent} from '@mattermost/types/agents';
 import type {Channel} from '@mattermost/types/channels';
 import type {Group} from '@mattermost/types/groups';
 import type {UserProfile} from '@mattermost/types/users';
@@ -67,11 +68,13 @@ export type Props = {
         autocompleteUsersInChannel: (prefix: string, channelId: string) => Promise<ActionResult>;
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<ActionResult>;
         searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
+        fetchAgents: () => Promise<ActionResult>;
     };
     useChannelMentions: boolean;
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
     priorityProfiles?: UserProfile[];
+    defaultAgent?: Agent;
     hasLabels?: boolean;
     hasError?: boolean;
     // 멘션 아이템이 선택될 때 호출되는 콜백
@@ -115,6 +118,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 autocompleteGroups: this.props.autocompleteGroups,
                 searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
                 priorityProfiles: this.props.priorityProfiles,
+                defaultAgent: this.props.defaultAgent,
             }),
             new ChannelMentionProvider(props.actions.autocompleteChannels, props.delayChannelAutocomplete),
             new EmoticonProvider(),
@@ -132,6 +136,12 @@ export default class Textbox extends React.PureComponent<Props> {
         this.wrapper = React.createRef();
         this.message = React.createRef();
         this.preview = React.createRef();
+    }
+
+    componentDidMount() {
+        // Fetch agents once when the component mounts to populate Redux store
+        // This ensures defaultAgent is available for @ mention suggestions
+        this.props.actions.fetchAgents();
     }
 
     handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -152,7 +162,8 @@ export default class Textbox extends React.PureComponent<Props> {
             this.props.autocompleteGroups !== prevProps.autocompleteGroups ||
             this.props.useChannelMentions !== prevProps.useChannelMentions ||
             this.props.currentTeamId !== prevProps.currentTeamId ||
-            this.props.priorityProfiles !== prevProps.priorityProfiles) {
+            this.props.priorityProfiles !== prevProps.priorityProfiles ||
+            this.props.defaultAgent !== prevProps.defaultAgent) {
             // Update channel id for AtMentionProvider.
             for (const provider of this.suggestionProviders) {
                 if (provider instanceof AtMentionProvider) {
@@ -164,6 +175,7 @@ export default class Textbox extends React.PureComponent<Props> {
                         autocompleteGroups: this.props.autocompleteGroups,
                         searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
                         priorityProfiles: this.props.priorityProfiles,
+                        defaultAgent: this.props.defaultAgent,
                     });
                 }
             }
