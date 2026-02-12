@@ -164,6 +164,7 @@ docker-compose.override.yaml
 **/CLAUDE.local.md
 CLAUDE.md
 .cursorrules
+.cursor/
 
 # spec-kit workflow — committed (exceptions to the ignore rules above)
 !/CLAUDE.md
