@@ -98,6 +98,7 @@ type Store interface {
 	AutoTranslation() AutoTranslationStore
 	GetSchemaDefinition() (*model.SupportPacketDatabaseSchema, error)
 	ContentFlagging() ContentFlaggingStore
+	NotificationHistory() NotificationHistoryStore
 	ReadReceipt() ReadReceiptStore
 	TemporaryPost() TemporaryPostStore
 }
@@ -1290,4 +1291,30 @@ type ThreadMembershipImportData struct {
 	LastViewed int64
 	// UnreadMentions is the number of unread mentions to set the UnreadMentions field to.
 	UnreadMentions int64
+}
+
+// NotificationHistoryStore는 알림 히스토리 저장 및 조회를 위한 인터페이스입니다.
+type NotificationHistoryStore interface {
+	// Save는 새 알림을 저장합니다.
+	Save(notification *model.NotificationHistory) (*model.NotificationHistory, error)
+	// SaveBatch는 여러 알림을 한 번에 저장합니다.
+	SaveBatch(notifications []*model.NotificationHistory) error
+	// Get은 알림 ID로 알림을 조회합니다.
+	Get(id string) (*model.NotificationHistory, error)
+	// GetForUser는 사용자의 알림 목록을 조회합니다.
+	GetForUser(userId string, opts model.GetNotificationHistoryOptions) (*model.NotificationHistoryList, error)
+	// GetCountsForUser는 사용자의 알림 개수를 조회합니다.
+	GetCountsForUser(userId string) (*model.NotificationHistoryCounts, error)
+	// MarkAsRead는 알림을 읽음 처리합니다.
+	MarkAsRead(notificationId string) error
+	// MarkAllAsReadForUser는 사용자의 모든 알림을 읽음 처리합니다.
+	MarkAllAsReadForUser(userId string) error
+	// MarkAsReadByChannel는 특정 채널의 알림을 읽음 처리합니다.
+	MarkAsReadByChannel(userId string, channelId string) error
+	// Delete는 알림을 삭제합니다.
+	Delete(id string) error
+	// DeleteOlderThan는 특정 시간 이전의 알림을 삭제합니다.
+	DeleteOlderThan(timestamp int64) (int64, error)
+	// DeleteForUser는 사용자의 모든 알림을 삭제합니다.
+	DeleteForUser(userId string) error
 }
