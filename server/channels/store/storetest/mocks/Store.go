@@ -307,6 +307,26 @@ func (_m *Store) ContentFlagging() store.ContentFlaggingStore {
 	return r0
 }
 
+// NotificationHistory provides a mock function with no fields
+func (_m *Store) NotificationHistory() store.NotificationHistoryStore {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for NotificationHistory")
+	}
+
+	var r0 store.NotificationHistoryStore
+	if rf, ok := ret.Get(0).(func() store.NotificationHistoryStore); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(store.NotificationHistoryStore)
+		}
+	}
+
+	return r0
+}
+
 // DesktopTokens provides a mock function with no fields
 func (_m *Store) DesktopTokens() store.DesktopTokensStore {
 	ret := _m.Called()

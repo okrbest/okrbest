@@ -57,9 +57,10 @@ function convertDisplayNamesToUsernames(message: string, mentionMappings?: Recor
     for (const [displayName, mapping] of sortedMappings) {
         // @displayname 패턴을 찾아서 @username으로 변환
         // - (^|\\s): @ 앞에 문자열 시작 또는 공백이 있어야 함 (이메일 주소 등에서 잘못 변환되는 것 방지)
-        // - (?=\\s|...): @ 뒤에 공백이나 구두점이 있어야 함
+        // - (?![a-zA-Z0-9_]): 멘션 뒤에 영문/숫자/밑줄이 아닌 문자가 와야 함 (negative lookahead)
+        //   → 이모지, 공백, 구두점, 한글 등 모두 허용됨
         const escapedDisplayName = displayName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const pattern = new RegExp(`(^|\\s)@${escapedDisplayName}(?=\\s|[.,!?;:'"\\)\\]}>])`, 'gm');
+        const pattern = new RegExp(`(^|\\s)@${escapedDisplayName}(?![a-zA-Z0-9_])`, 'gm');
 
         // 콜백 함수를 사용하여 특수 대체 패턴 문자($&, $' 등)가 username에 있어도 안전하게 처리
         convertedMessage = convertedMessage.replace(pattern, (_match, prefix) => `${prefix}@${mapping.username}`);
