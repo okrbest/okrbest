@@ -370,6 +370,7 @@ func Init(srv *app.Server) (*API, error) {
 	api.InitAuditLogging()
 	api.InitAccessControlPolicy()
 	api.InitContentFlagging()
+	api.InitNotificationHistory()
 	api.InitAgents()
 
 	// If we allow testing then listen for manual testing URL hits
