@@ -9,3 +9,5 @@
 /server/channels/db/migrations @okrbest/okrbest
 /server/boards/services/store/sqlstore/migrations @okrbest/okrbest
 /server/playbooks/server/sqlstore/migrations @okrbest/okrbest
+/server/channels/app/authentication.go @okrbest/okrbest
+/server/channels/app/authorization.go @okrbest/okrbest
