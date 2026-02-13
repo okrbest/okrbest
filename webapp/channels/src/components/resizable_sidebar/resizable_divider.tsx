@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import type {MouseEventHandler, RefObject} from 'react';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useLayoutEffect, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import styled, {createGlobalStyle, css} from 'styled-components';
 
@@ -142,7 +142,7 @@ function ResizableDivider({
         document.body.classList.add('layout-changing');
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!isActive || disabled) {
             reset();
             return undefined;
@@ -220,9 +220,16 @@ function ResizableDivider({
             }
 
             containerRef.current?.style.removeProperty(cssVarKey);
-            document.body.classList.remove('layout-changing');
             reset();
             setIsActive(false);
+
+            // Delay removing layout-changing until after React re-renders
+            // and updates :root CSS var via ResizableDividerGlobalStyle.
+            // Without this, removing inline styles causes elements to snap
+            // to CSS default width, and enabled transitions animate the snap.
+            requestAnimationFrame(() => {
+                document.body.classList.remove('layout-changing');
+            });
         };
 
         window.addEventListener('mousemove', onMouseMove);
