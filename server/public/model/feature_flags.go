@@ -131,7 +131,8 @@ func (f *FeatureFlags) SetDefaults() {
 
 	f.MobileSSOCodeExchange = true
 
-	// FEATURE_FLAG_REMOVAL: AutoTranslation - Remove this default when MVP is to be released
+	// okrbest: 실제 번역 로직은 Mattermost 비공개 저장소(github.com/mattermost/enterprise/autotranslation)에만
+	// 있어 자체 모듈을 개발하기 전까지는 기본값을 false로 유지한다.
 	f.AutoTranslation = false
 
 	f.BurnOnRead = true
