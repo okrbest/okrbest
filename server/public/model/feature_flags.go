@@ -78,7 +78,9 @@ type FeatureFlags struct {
 
 	EnableMattermostEntry bool
 
-	// Enable mobile SSO SAML code-exchange flow (no tokens in deep links)
+	// DEPRECATED: Mobile SSO SAML code-exchange flow - disabled by default
+	// This feature is deprecated and will be removed in a future release.
+	// Mobile clients should use the direct SSO callback flow with srv parameter verification.
 	MobileSSOCodeExchange bool
 
 	// FEATURE_FLAG_REMOVAL: AutoTranslation - Remove this when MVP is to be released
@@ -129,7 +131,8 @@ func (f *FeatureFlags) SetDefaults() {
 	f.InteractiveDialogAppsForm = true
 	f.EnableMattermostEntry = true
 
-	f.MobileSSOCodeExchange = true
+	// DEPRECATED: Disabled by default - mobile clients use direct SSO callback flow
+	f.MobileSSOCodeExchange = false
 
 	// okrbest: 실제 번역 로직은 Mattermost 비공개 저장소(github.com/mattermost/enterprise/autotranslation)에만
 	// 있어 자체 모듈을 개발하기 전까지는 기본값을 false로 유지한다.
