@@ -209,6 +209,7 @@ function TeamSettingsMenuItem(props: Menu.FirstMenuItemProps) {
             modalId: ModalIdentifiers.TEAM_SETTINGS,
             dialogType: TeamSettingsModal,
             dialogProps: {
+                isOpen: true,
                 focusOriginElement: 'sidebarTeamMenuButton',
             },
         }));
