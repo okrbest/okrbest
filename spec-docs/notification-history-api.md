@@ -79,13 +79,24 @@ case model.ChannelTypeGroup:
         }
     }
 default:
-    // 일반 채널: 멘션된 사용자에게만 알림
-    if post.RootId != "" {
+    // 일반 채널
+    if post.RootId != "" && isCRTAllowed {
+        // 스레드 답글 (CRT 활성화): 스레드 팔로워에게 알림
         notificationType = model.NotificationHistoryTypeThreadReply
+        for id := range followers {
+            if id != sender.Id {
+                notificationRecipients = append(notificationRecipients, id)
+            }
+        }
+    } else if post.RootId != "" {
+        // 스레드 답글 (CRT 비활성화): 멘션된 사용자에게만 알림
+        notificationType = model.NotificationHistoryTypeThreadReply
+        notificationRecipients = mentionedUsersList
     } else {
+        // 일반 포스트: 멘션된 사용자에게만 알림
         notificationType = model.NotificationHistoryTypeMention
+        notificationRecipients = mentionedUsersList
     }
-    notificationRecipients = mentionedUsersList
 }
 ```
 

@@ -339,44 +339,6 @@ func (a *App) SendNotifications(rctx request.CTX, post *model.Post, team *model.
 		mentionedUsersList = append(mentionedUsersList, id)
 	}
 
-	// 알림 히스토리 저장 (알림 센터용)
-	// DM/그룹 메시지는 멘션 여부와 관계없이 채널 멤버에게 알림 저장
-	var notificationRecipients []string
-	var notificationType string
-
-	switch channel.Type {
-	case model.ChannelTypeDirect:
-		notificationType = model.NotificationHistoryTypeDirectMessage
-		// DM: 상대방에게 알림 (발신자 제외한 채널 멤버)
-		for id := range profileMap {
-			if id != sender.Id {
-				notificationRecipients = append(notificationRecipients, id)
-			}
-		}
-	case model.ChannelTypeGroup:
-		notificationType = model.NotificationHistoryTypeGroupMessage
-		// 그룹: 모든 멤버에게 알림 (발신자 제외)
-		for id := range profileMap {
-			if id != sender.Id {
-				notificationRecipients = append(notificationRecipients, id)
-			}
-		}
-	default:
-		// 일반 채널: 멘션된 사용자에게만 알림
-		if post.RootId != "" {
-			notificationType = model.NotificationHistoryTypeThreadReply
-		} else {
-			notificationType = model.NotificationHistoryTypeMention
-		}
-		notificationRecipients = mentionedUsersList
-	}
-
-	if len(notificationRecipients) > 0 {
-		a.Srv().Go(func() {
-			a.SaveNotificationHistory(rctx, post, channel, sender, notificationRecipients, notificationType)
-		})
-	}
-
 	nErr := a.Srv().Store().Channel().IncrementMentionCount(post.ChannelId, mentionedUsersList, post.RootId == "", post.IsUrgent())
 
 	if nErr != nil {
@@ -403,6 +365,59 @@ func (a *App) SendNotifications(rctx request.CTX, post *model.Post, team *model.
 				mlog.Err(err),
 			)
 		}
+	}
+
+	// 알림 히스토리 저장 (알림 센터용)
+	// DM/그룹 메시지는 멘션 여부와 관계없이 채널 멤버에게 알림 저장
+	// 스레드 답글은 스레드 팔로워에게 알림 저장
+	var notificationRecipients []string
+	var notificationType string
+
+	switch channel.Type {
+	case model.ChannelTypeDirect:
+		notificationType = model.NotificationHistoryTypeDirectMessage
+		// DM: 상대방에게 알림 (발신자 제외한 채널 멤버)
+		for id := range profileMap {
+			if id != sender.Id {
+				notificationRecipients = append(notificationRecipients, id)
+			}
+		}
+	case model.ChannelTypeGroup:
+		notificationType = model.NotificationHistoryTypeGroupMessage
+		// 그룹: 모든 멤버에게 알림 (발신자 제외)
+		for id := range profileMap {
+			if id != sender.Id {
+				notificationRecipients = append(notificationRecipients, id)
+			}
+		}
+	default:
+		// 일반 채널
+		if post.RootId != "" && isCRTAllowed {
+			// 스레드 답글 (CRT 활성화): 스레드 팔로워에게 알림
+			notificationType = model.NotificationHistoryTypeThreadReply
+			// followers를 안전하게 읽기 위해 mutex 사용
+			followersMutex.Lock()
+			for id := range followers {
+				if id != sender.Id {
+					notificationRecipients = append(notificationRecipients, id)
+				}
+			}
+			followersMutex.Unlock()
+		} else if post.RootId != "" {
+			// 스레드 답글 (CRT 비활성화): 멘션된 사용자에게만 알림
+			notificationType = model.NotificationHistoryTypeThreadReply
+			notificationRecipients = mentionedUsersList
+		} else {
+			// 일반 포스트: 멘션된 사용자에게만 알림
+			notificationType = model.NotificationHistoryTypeMention
+			notificationRecipients = mentionedUsersList
+		}
+	}
+
+	if len(notificationRecipients) > 0 {
+		a.Srv().Go(func() {
+			a.SaveNotificationHistory(rctx, post, channel, sender, notificationRecipients, notificationType)
+		})
 	}
 
 	notificationsForCRT := &CRTNotifiers{}
