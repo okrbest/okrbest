@@ -2476,6 +2476,47 @@ export default class Client4 {
         );
     };
 
+    // Notification History
+
+    getNotificationHistoryRoute() {
+        return `${this.getUserRoute('me')}/notifications`;
+    }
+
+    getNotificationHistory = (params: {page?: number; per_page?: number; unread_only?: boolean; types?: string; team_id?: string; since?: number} = {}) => {
+        return this.doFetch<{notifications: any[]; total_count: number; unread_count: number; has_more: boolean}>(
+            `${this.getNotificationHistoryRoute()}${buildQueryString(params)}`,
+            {method: 'get'},
+        );
+    };
+
+    getNotificationCounts = () => {
+        return this.doFetch<{total_count: number; unread_count: number; mention_count: number; dm_count: number; thread_count: number; urgent_count: number}>(
+            `${this.getNotificationHistoryRoute()}/counts`,
+            {method: 'get'},
+        );
+    };
+
+    markNotificationAsRead = (notificationId: string) => {
+        return this.doFetch<StatusOK>(
+            `${this.getNotificationHistoryRoute()}/${notificationId}/read`,
+            {method: 'post'},
+        );
+    };
+
+    markAllNotificationsAsRead = () => {
+        return this.doFetch<StatusOK>(
+            `${this.getNotificationHistoryRoute()}/read_all`,
+            {method: 'post'},
+        );
+    };
+
+    deleteNotification = (notificationId: string) => {
+        return this.doFetch<StatusOK>(
+            `${this.getNotificationHistoryRoute()}/${notificationId}`,
+            {method: 'delete'},
+        );
+    };
+
     getPinnedPosts = (channelId: string) => {
         return this.doFetch<PostList>(
             `${this.getChannelRoute(channelId)}/pinned`,
