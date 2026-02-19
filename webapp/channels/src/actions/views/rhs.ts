@@ -476,6 +476,16 @@ export function showMentions(): ActionFunc<boolean> {
     };
 }
 
+export function showNotificationHistory(): ActionFunc<boolean> {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            state: RHSStates.NOTIFICATION_HISTORY,
+        });
+        return {data: true};
+    };
+}
+
 export function showChannelInfo(channelId: string) {
     return {
         type: ActionTypes.UPDATE_RHS_STATE,

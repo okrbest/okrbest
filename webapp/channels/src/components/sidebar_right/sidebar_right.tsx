@@ -13,6 +13,7 @@ import ChannelMembersRhs from 'components/channel_members_rhs';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import {DropOverlayIdRHS} from 'components/file_upload_overlay/file_upload_overlay';
 import LoadingScreen from 'components/loading_screen';
+import NotificationHistoryPanel from 'components/notification_history_panel';
 import PostEditHistory from 'components/post_edit_history';
 import ResizableRhs from 'components/resizable_sidebar/resizable_rhs';
 import RhsCard from 'components/rhs_card';
@@ -44,6 +45,7 @@ export type Props = {
     isChannelMembers: boolean;
     isPluginView: boolean;
     isPostEditHistory: boolean;
+    isNotificationHistory: boolean;
     previousRhsState: RhsState;
     rhsChannel?: Channel;
     selectedPostId: string;
@@ -151,6 +153,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             (this.props.isChannelInfo !== prevProps.isChannelInfo) ||
             (this.props.isChannelMembers !== prevProps.isChannelMembers) ||
             (this.props.isPostEditHistory !== prevProps.isPostEditHistory) ||
+            (this.props.isNotificationHistory !== prevProps.isNotificationHistory) ||
             (this.props.rhsChannel?.id !== prevProps.rhsChannel?.id) ||
             (this.props.teamId !== prevProps.teamId)
         );
@@ -274,6 +277,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             isChannelMembers,
             isExpanded,
             isPostEditHistory,
+            isNotificationHistory,
         } = this.props;
 
         if (!isOpen) {
@@ -308,6 +312,8 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             content = <ChannelMembersRhs/>;
         } else if (isPostEditHistory) {
             content = <PostEditHistory/>;
+        } else if (isNotificationHistory) {
+            content = <NotificationHistoryPanel/>;
         }
 
         const isRHSLoading = Boolean(
@@ -318,7 +324,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
 
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
 
-        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible || isPostEditHistory) && isExpanded;
+        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible || isPostEditHistory || isNotificationHistory) && isExpanded;
         const containerClassName = classNames('sidebar--right', 'move--left is-open', {
             'sidebar--right--expanded expanded': isSidebarRightExpanded,
         });

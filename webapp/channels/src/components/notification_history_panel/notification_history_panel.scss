@@ -1,0 +1,252 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+.notification-history-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .notification-history-panel__header-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+    }
+
+    .notification-history-panel__badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 6px;
+        border-radius: 10px;
+        background-color: var(--button-bg);
+        color: var(--button-color);
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .notification-history-panel__filter-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 16px;
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+    }
+
+    .notification-history-panel__filters {
+        display: flex;
+        gap: 4px;
+    }
+
+    .notification-history-panel__filter-btn {
+        padding: 4px 12px;
+        border: none;
+        border-radius: 12px;
+        background: transparent;
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 0.15s ease;
+
+        &:hover {
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.88);
+        }
+
+        &.active {
+            background: rgba(var(--button-bg-rgb), 0.08);
+            color: var(--button-bg);
+        }
+    }
+
+    .notification-history-panel__mark-all-read {
+        padding: 4px 12px;
+        border: none;
+        background: transparent;
+        color: var(--button-bg);
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .notification-history-panel__list {
+        padding: 0;
+    }
+
+    .notification-history-panel__loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 40px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 13px;
+
+        .fa {
+            font-size: 20px;
+        }
+    }
+
+    .notification-history-panel__loading-more {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+    }
+}
+
+.notification-history-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+        background-color: rgba(var(--center-channel-color-rgb), 0.04);
+
+        .notification-history-item__actions {
+            opacity: 1;
+        }
+    }
+
+    &--unread {
+        background-color: rgba(var(--button-bg-rgb), 0.04);
+
+        .notification-history-item__title {
+            font-weight: 600;
+        }
+
+        .notification-history-item__message {
+            color: rgba(var(--center-channel-color-rgb), 0.88);
+        }
+    }
+
+    &--urgent {
+        border-left: 3px solid var(--error-text);
+    }
+}
+
+.notification-history-item__icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(var(--center-channel-color-rgb), 0.08);
+    color: rgba(var(--center-channel-color-rgb), 0.64);
+    font-size: 16px;
+
+    .notification-history-item--unread & {
+        background-color: rgba(var(--button-bg-rgb), 0.12);
+        color: var(--button-bg);
+    }
+}
+
+.notification-history-item__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.notification-history-item__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.notification-history-item__title {
+    overflow: hidden;
+    color: var(--center-channel-color);
+    font-size: 13px;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.notification-history-item__time {
+    flex-shrink: 0;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    font-size: 11px;
+}
+
+.notification-history-item__message {
+    overflow: hidden;
+    color: rgba(var(--center-channel-color-rgb), 0.64);
+    font-size: 12px;
+    line-height: 1.4;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.notification-history-item__meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+}
+
+.notification-history-item__type-badge {
+    padding: 1px 6px;
+    border-radius: 8px;
+    background-color: rgba(var(--center-channel-color-rgb), 0.08);
+    color: rgba(var(--center-channel-color-rgb), 0.64);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.notification-history-item__urgent-badge {
+    padding: 1px 6px;
+    border-radius: 8px;
+    background-color: rgba(var(--error-text-color-rgb, 210, 75, 78), 0.12);
+    color: var(--error-text);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.notification-history-item__actions {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.notification-history-item__action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.88);
+    }
+}
