@@ -330,12 +330,24 @@ export default class PostList extends React.PureComponent<Props, State> {
 
         const target = e.target as HTMLElement;
 
+        // 1차: 직접 <a> 태그를 클릭한 경우
+        let href: string | null = null;
         const link = target.closest('a');
-        if (!link) {
-            return;
+        if (link) {
+            href = link.getAttribute('href');
         }
 
-        const href = link.getAttribute('href');
+        // 2차: attachment 영역 클릭 시 내부에서 보드 링크 탐색
+        if (!href) {
+            const attachmentContainer = target.closest('.attachment__content, .attachment__container, .attachment');
+            if (attachmentContainer) {
+                const boardLink = attachmentContainer.querySelector('a[href*="/boards/team/"]');
+                if (boardLink) {
+                    href = boardLink.getAttribute('href');
+                }
+            }
+        }
+
         if (!href) {
             return;
         }
