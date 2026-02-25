@@ -3,20 +3,13 @@
 
 import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
 
 import {
     PlusIcon,
     AccountPlusOutlineIcon,
     FolderPlusOutlineIcon,
-    AccountMultiplePlusOutlineIcon,
     GlobeIcon,
-    AccountOutlineIcon,
 } from '@mattermost/compass-icons/components';
-
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-
-import {getSidebarBrowseOrAddChannelMenuPluginComponents} from 'selectors/plugins';
 
 import * as Menu from 'components/menu';
 import {OnboardingTourSteps} from 'components/tours';
@@ -40,99 +33,9 @@ type Props = {
 
 export default function SidebarBrowserOrAddChannelMenu(props: Props) {
     const {formatMessage} = useIntl();
-    const currentTeamId = useSelector(getCurrentTeamId);
-    const pluginMenuItems = useSelector(getSidebarBrowseOrAddChannelMenuPluginComponents);
 
     const showCreateAndJoinChannelsTutorialTip = useShowOnboardingTutorialStep(OnboardingTourSteps.CREATE_AND_JOIN_CHANNELS);
     const showInvitePeopleTutorialTip = useShowOnboardingTutorialStep(OnboardingTourSteps.INVITE_PEOPLE);
-
-    let createNewChannelMenuItem: JSX.Element | null = null;
-    if (props.canCreateChannel) {
-        createNewChannelMenuItem = (
-            <Menu.Item
-                id='createNewChannelMenuItem'
-                onClick={props.onCreateNewChannelClick}
-                leadingElement={<PlusIcon size={18}/>}
-                labels={(
-                    <FormattedMessage
-                        id='sidebarLeft.browserOrCreateChannelMenu.createNewChannelMenuItem.primaryLabel'
-                        defaultMessage='Create new channel'
-                    />
-                )}
-                trailingElements={showCreateAndJoinChannelsTutorialTip && <CreateAndJoinChannelsTour/>}
-                aria-haspopup='true'
-            />
-        );
-    }
-
-    let browseChannelsMenuItem: JSX.Element | null = null;
-    if (props.canJoinPublicChannel) {
-        browseChannelsMenuItem = (
-            <Menu.Item
-                id='browseChannelsMenuItem'
-                onClick={props.onBrowseChannelClick}
-                leadingElement={<GlobeIcon size={18}/>}
-                labels={(
-                    <FormattedMessage
-                        id='sidebarLeft.browserOrCreateChannelMenu.browseChannelsMenuItem.primaryLabel'
-                        defaultMessage='Browse channels'
-                    />
-                )}
-                aria-haspopup='true'
-            />
-        );
-    }
-
-    const createDirectMessageMenuItem = (
-        <Menu.Item
-            id='openDirectMessageMenuItem'
-            onClick={props.onOpenDirectMessageClick}
-            leadingElement={<AccountOutlineIcon size={18}/>}
-            labels={(
-                <FormattedMessage
-                    id='sidebarLeft.browserOrCreateChannelMenu.openDirectMessageMenuItem.primaryLabel'
-                    defaultMessage='Open a direct message'
-                />
-            )}
-            aria-haspopup='true'
-        />
-    );
-
-    let createUserGroupMenuItem: JSX.Element | null = null;
-    if (props.canCreateCustomGroups) {
-        createUserGroupMenuItem = (
-            <Menu.Item
-                id='createUserGroupMenuItem'
-                onClick={props.onCreateNewUserGroupClick}
-                leadingElement={<AccountMultiplePlusOutlineIcon size={18}/>}
-                labels={(
-                    <FormattedMessage
-                        id='sidebarLeft.browserOrCreateChannelMenu.createUserGroupMenuItem.primaryLabel'
-                        defaultMessage='Create new user group'
-                    />
-                )}
-                aria-haspopup='true'
-            />
-        );
-    }
-
-    let createNewCategoryMenuItem: JSX.Element | null = null;
-    if (!props.unreadFilterEnabled) {
-        createNewCategoryMenuItem = (
-            <Menu.Item
-                id='createCategoryMenuItem'
-                onClick={props.onCreateNewCategoryClick}
-                leadingElement={<FolderPlusOutlineIcon size={18}/>}
-                labels={(
-                    <FormattedMessage
-                        id='sidebarLeft.browserOrCreateChannelMenu.createCategoryMenuItem.primaryLabel'
-                        defaultMessage='Create new category'
-                    />
-                )}
-                aria-haspopup='true'
-            />
-        );
-    }
 
     const invitePeopleMenuItem = (
         <Menu.Item
@@ -156,25 +59,77 @@ export default function SidebarBrowserOrAddChannelMenu(props: Props) {
         />
     );
 
-    let pluggableMenuItems: JSX.Element[] = [];
-    if (pluginMenuItems) {
-        pluggableMenuItems = pluginMenuItems.map((item) => {
-            const handlePluginItemClick = () => {
-                if (item.action) {
-                    item.action(currentTeamId);
-                }
-            };
+    let createNewChannelMenuItem: JSX.Element | null = null;
+    if (props.canCreateChannel) {
+        createNewChannelMenuItem = (
+            <Menu.Item
+                id='createNewChannelMenuItem'
+                onClick={props.onCreateNewChannelClick}
+                leadingElement={<PlusIcon size={18}/>}
+                labels={(
+                    <>
+                        <FormattedMessage
+                            id='sidebarLeft.browserOrCreateChannelMenu.createNewChannelMenuItem.primaryLabel'
+                            defaultMessage='Create new channel'
+                        />
+                        <FormattedMessage
+                            id='sidebarLeft.browserOrCreateChannelMenu.createNewChannelMenuItem.secondaryLabel'
+                            defaultMessage='Create a new channel for conversation'
+                        />
+                    </>
+                )}
+                trailingElements={showCreateAndJoinChannelsTutorialTip && <CreateAndJoinChannelsTour/>}
+                aria-haspopup='true'
+            />
+        );
+    }
 
-            return (
-                <Menu.Item
-                    id={item.id + '_pluginmenuitem'}
-                    key={item.id + '_pluginmenuitem'}
-                    onClick={handlePluginItemClick}
-                    leadingElement={item.icon}
-                    labels={<span>{item.text}</span>}
-                />
-            );
-        });
+    let browseChannelsMenuItem: JSX.Element | null = null;
+    if (props.canJoinPublicChannel) {
+        browseChannelsMenuItem = (
+            <Menu.Item
+                id='browseChannelsMenuItem'
+                onClick={props.onBrowseChannelClick}
+                leadingElement={<GlobeIcon size={18}/>}
+                labels={(
+                    <>
+                        <FormattedMessage
+                            id='sidebarLeft.browserOrCreateChannelMenu.browseChannelsMenuItem.primaryLabel'
+                            defaultMessage='Browse channels'
+                        />
+                        <FormattedMessage
+                            id='sidebarLeft.browserOrCreateChannelMenu.browseChannelsMenuItem.secondaryLabel'
+                            defaultMessage='Explore other channels'
+                        />
+                    </>
+                )}
+                aria-haspopup='true'
+            />
+        );
+    }
+
+    let createNewCategoryMenuItem: JSX.Element | null = null;
+    if (!props.unreadFilterEnabled) {
+        createNewCategoryMenuItem = (
+            <Menu.Item
+                id='createCategoryMenuItem'
+                onClick={props.onCreateNewCategoryClick}
+                leadingElement={<FolderPlusOutlineIcon size={18}/>}
+                labels={(
+                    <>
+                        <FormattedMessage
+                            id='sidebarLeft.browserOrCreateChannelMenu.createCategoryMenuItem.primaryLabel'
+                            defaultMessage='Create new category'
+                        />
+                        <FormattedMessage
+                            id='sidebarLeft.browserOrCreateChannelMenu.createCategoryMenuItem.secondaryLabel'
+                            defaultMessage='Create folders to organize channels'
+                        />
+                    </>
+                )}
+                aria-haspopup='true'
+            />
+        );
     }
 
     return (
@@ -196,17 +151,34 @@ export default function SidebarBrowserOrAddChannelMenu(props: Props) {
                 'aria-labelledby': ELEMENT_ID_FOR_BROWSE_OR_ADD_CHANNEL_MENU_BUTTON,
             }}
         >
+            <Menu.Title>
+                <FormattedMessage
+                    id='sidebarLeft.browserOrCreateChannelMenu.section.collaboration'
+                    defaultMessage='Collaboration'
+                />
+            </Menu.Title>
+            {invitePeopleMenuItem}
+            <Menu.Separator/>
+            <Menu.Title>
+                <FormattedMessage
+                    id='sidebarLeft.browserOrCreateChannelMenu.section.channelsAndExplore'
+                    defaultMessage='Channels & explore'
+                />
+            </Menu.Title>
             {createNewChannelMenuItem}
             {browseChannelsMenuItem}
-            {createDirectMessageMenuItem}
-            {createUserGroupMenuItem}
-            {pluggableMenuItems}
-            {Boolean(createNewCategoryMenuItem) &&
-                <Menu.Separator/>
-            }
-            {createNewCategoryMenuItem}
-            <Menu.Separator/>
-            {invitePeopleMenuItem}
+            {Boolean(createNewCategoryMenuItem) && (
+                <>
+                    <Menu.Separator/>
+                    <Menu.Title>
+                        <FormattedMessage
+                            id='sidebarLeft.browserOrCreateChannelMenu.section.organizeAndClassify'
+                            defaultMessage='Organize & classify'
+                        />
+                    </Menu.Title>
+                    {createNewCategoryMenuItem}
+                </>
+            )}
         </Menu.Container>
     );
 }
