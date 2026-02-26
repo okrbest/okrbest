@@ -9,6 +9,8 @@ import {getSelectedPostId, getIsRhsOpen} from 'selectors/rhs';
 import AdvancedTextEditor from 'components/advanced_text_editor/advanced_text_editor';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
+import EmojiPickerTabs from 'components/emoji_picker/emoji_picker_tabs';
+import RenderEmoji from 'components/emoji/render_emoji';
 import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import StartTrialFormModal from 'components/start_trial_form_modal';
@@ -85,6 +87,8 @@ interface WindowWithLibraries {
         ThreadViewer: typeof ThreadViewer;
         PostMessagePreview: typeof PostMessagePreview;
         AdvancedTextEditor: typeof AdvancedTextEditor;
+        EmojiPickerTabs: typeof EmojiPickerTabs;
+        RenderEmoji: typeof RenderEmoji;
     };
     ProductApi: {
         useWebSocket: typeof useWebSocket;
@@ -168,6 +172,8 @@ window.Components = {
     ThreadViewer,
     PostMessagePreview,
     AdvancedTextEditor,
+    EmojiPickerTabs,
+    RenderEmoji,
 };
 
 // This is a prototype of the Product API for use by internal plugins only while we transition to the proper architecture
