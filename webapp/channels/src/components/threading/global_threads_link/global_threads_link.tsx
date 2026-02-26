@@ -12,11 +12,10 @@ import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/pre
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 
 import {closeRightHandSide} from 'actions/views/rhs';
-import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+import {getIsRhsOpen} from 'selectors/rhs';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
 
-import {RHSStates} from 'utils/constants';
 import {Mark} from 'utils/performance_telemetry';
 
 import ThreadsIcon from './threads_icon';
@@ -38,16 +37,15 @@ const GlobalThreadsLink = () => {
     const counts = useSelector(getThreadCountsInCurrentTeam);
     const someUnreadThreads = counts?.total_unread_threads;
     const rhsOpen = useSelector(getIsRhsOpen);
-    const rhsState = useSelector(getRhsState);
     const openThreads = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
 
         performance.mark(Mark.GlobalThreadsLinkClicked);
 
-        if (rhsOpen && rhsState === RHSStates.EDIT_HISTORY) {
+        if (rhsOpen) {
             dispatch(closeRightHandSide());
         }
-    }, [rhsOpen, rhsState]);
+    }, [rhsOpen, dispatch]);
 
     useEffect(() => {
         // load counts if necessary
