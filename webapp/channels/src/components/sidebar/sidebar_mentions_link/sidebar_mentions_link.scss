@@ -1,0 +1,11 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+#SidebarContainer .SidebarDrafts {
+    button.SidebarLink {
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-align: left;
+    }
+}
