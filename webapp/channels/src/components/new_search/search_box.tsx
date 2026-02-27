@@ -14,6 +14,7 @@ import * as Keyboard from 'utils/keyboard';
 import {escapeRegex} from 'utils/text_formatting';
 
 import {useSearchSuggestions, useSearchSuggestionSelection} from './hooks';
+import RecentSearches from './recent_searches';
 import SearchBoxHints from './search_box_hints';
 import SearchInput from './search_box_input';
 import SearchSuggestions from './search_box_suggestions';
@@ -255,6 +256,16 @@ const SearchBox = forwardRef(
             }
         }, [searchType]);
 
+        const handleRecentSearchClick = useCallback((term: string) => {
+            setSearchTerms(term);
+            setTimeout(() => {
+                if (inputRef.current) {
+                    inputRef.current.focus();
+                    inputRef.current.setSelectionRange(term.length, term.length);
+                }
+            }, 0);
+        }, []);
+
         return (
             <SearchBoxContainer
                 ref={ref}
@@ -306,6 +317,11 @@ const SearchBox = forwardRef(
                     setSelectedTerm={setSelectedTerm}
                     onSearch={onSearch}
                     onSuggestionSelected={updateSearchValue}
+                />
+                <RecentSearches
+                    searchTerms={searchTerms}
+                    searchType={searchType}
+                    onSearchClick={handleRecentSearchClick}
                 />
                 <SearchBoxHints
                     searchTerms={searchTerms}
