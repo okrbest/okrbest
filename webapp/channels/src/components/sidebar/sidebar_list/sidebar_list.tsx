@@ -30,6 +30,8 @@ import type {StaticPage} from 'types/store/lhs';
 
 const DraftsLink = makeAsyncComponent('DraftsLink', lazy(() => import('components/drafts/drafts_link/drafts_link')));
 const GlobalThreadsLink = makeAsyncComponent('GlobalThreadsLink', lazy(() => import('components/threading/global_threads_link')));
+const SidebarMentionsLink = makeAsyncComponent('SidebarMentionsLink', lazy(() => import('components/sidebar/sidebar_mentions_link/sidebar_mentions_link')));
+const SidebarSavedPostsLink = makeAsyncComponent('SidebarSavedPostsLink', lazy(() => import('components/sidebar/sidebar_saved_posts_link/sidebar_saved_posts_link')));
 const UnreadChannelIndicator = makeAsyncComponent('UnreadChannelIndicator', lazy(() => import('../unread_channel_indicator')));
 const UnreadChannels = makeAsyncComponent('UnreadChannels', lazy(() => import('../unread_channels')));
 
@@ -495,6 +497,8 @@ export class SidebarList extends React.PureComponent<Props, State> {
             <>
                 <GlobalThreadsLink/>
                 <DraftsLink/>
+                <SidebarMentionsLink/>
+                <SidebarSavedPostsLink/>
                 <div
                     id='sidebar-left'
                     role='application'
