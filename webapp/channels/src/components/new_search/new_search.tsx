@@ -29,6 +29,7 @@ import a11yController from 'utils/a11y_controller_instance';
 import {focusElement} from 'utils/a11y_utils';
 import {RootHtmlPortalId, Constants} from 'utils/constants';
 import * as Keyboard from 'utils/keyboard';
+import {addRecentSearch} from 'utils/recent_searches';
 import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
 import {isDesktopApp, getDesktopVersion, isMacApp} from 'utils/user_agent';
 
@@ -241,6 +242,12 @@ const NewSearch = (): JSX.Element => {
             dispatch(updateSearchType(searchType));
             dispatch(updateSearchTerms(searchTerms));
             dispatch(updateSearchTeam(searchTeam));
+
+            // 최근 검색어에 추가 (검색어가 있을 때만)
+            if (searchTerms.trim()) {
+                const type = searchType === '' ? 'messages' : searchType;
+                addRecentSearch(searchTerms, type);
+            }
 
             if (searchType === '' || searchType === 'messages' || searchType === 'files') {
                 dispatch(showSearchResults(false));
