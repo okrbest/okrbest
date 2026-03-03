@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import React, {useCallback, useState, memo, useMemo, useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
+import styled from 'styled-components';
 
 import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 import type {PostPriorityMetadata} from '@mattermost/types/posts';
@@ -23,6 +24,18 @@ import * as Keyboard from 'utils/keyboard';
 import {Header, MenuItem, StyledCheckIcon, ToggleItem, StandardIcon, ImportantIcon, UrgentIcon, AcknowledgementIcon, PersistentNotificationsIcon, Footer} from './post_priority_picker_item';
 
 import './post_priority_picker.scss';
+
+const PriorityButtonWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+`;
+
+const PriorityLabel = styled.span`
+    font-size: 12px;
+    font-weight: 500;
+    color: currentColor;
+`;
 
 type Props = {
     settings?: PostPriorityMetadata;
@@ -50,6 +63,16 @@ function PostPriorityPicker({
     const interval = useSelector(getPersistentNotificationIntervalMinutes);
 
     const messagePriority = formatMessage({id: 'shortcuts.msgs.formatting_bar.post_priority', defaultMessage: 'Message priority'});
+
+    const getPriorityLabel = useCallback(() => {
+        if (priority === PostPriority.URGENT) {
+            return formatMessage({id: 'post_priority.priority.urgent', defaultMessage: 'Urgent'});
+        }
+        if (priority === PostPriority.IMPORTANT) {
+            return formatMessage({id: 'post_priority.priority.important', defaultMessage: 'Important'});
+        }
+        return formatMessage({id: 'post_priority.priority.standard', defaultMessage: 'Standard'});
+    }, [priority, formatMessage]);
 
     const handleClose = useCallback(() => {
         setPickerOpen(false);
@@ -240,18 +263,21 @@ function PostPriorityPicker({
                 id: 'messagePriority',
                 as: 'div',
                 children: (
-                    <IconContainer
-                        id='messagePriority'
-                        className={classNames({control: true, active: pickerOpen})}
-                        disabled={disabled}
-                        type='button'
-                        aria-label={messagePriority}
-                    >
-                        <AlertCircleOutlineIcon
-                            size={18}
-                            color='currentColor'
-                        />
-                    </IconContainer>),
+                    <PriorityButtonWrapper>
+                        <IconContainer
+                            id='messagePriority'
+                            className={classNames({control: true, active: pickerOpen})}
+                            disabled={disabled}
+                            type='button'
+                            aria-label={messagePriority}
+                        >
+                            <AlertCircleOutlineIcon
+                                size={18}
+                                color='currentColor'
+                            />
+                        </IconContainer>
+                        <PriorityLabel>{getPriorityLabel()}</PriorityLabel>
+                    </PriorityButtonWrapper>),
             }}
             menu={{
                 id: 'post.priority.dropdown',
