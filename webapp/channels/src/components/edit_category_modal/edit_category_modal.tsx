@@ -146,6 +146,9 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                 handleCancel={this.handleCancel}
                 isConfirmDisabled={this.isConfirmDisabled()}
             >
+                {Boolean(helpText) && <span className='edit-category__helpText'>
+                    {helpText}
+                </span>}
                 <QuickInput
                     inputComponent={MaxLengthInput}
                     autoFocus={true}
@@ -158,9 +161,6 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                     onChange={this.handleChange}
                     maxLength={MAX_LENGTH}
                 />
-                {Boolean(helpText) && <span className='edit-category__helpText'>
-                    {helpText}
-                </span>}
             </GenericModal>
         );
     }
