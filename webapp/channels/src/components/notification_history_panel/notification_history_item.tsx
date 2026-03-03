@@ -106,11 +106,6 @@ const NotificationHistoryItemComponent: React.FC<Props> = ({
 
     const navigateToPost = useCallback(() => {
         if (!notification.post_id) {
-            // eslint-disable-next-line no-console
-            console.log('[NotificationHistory] navigateToPost: No post_id', {
-                notificationId: notification.id,
-                notification,
-            });
             return;
         }
 
@@ -121,19 +116,6 @@ const NotificationHistoryItemComponent: React.FC<Props> = ({
         // Navigate to post using permalink URL (same as mention navigation logic)
         // Same logic as PostComponent: team?.name || currentTeam?.name
         const teamName = team?.name || currentTeam?.name || '';
-
-        // eslint-disable-next-line no-console
-        console.log('[NotificationHistory] navigateToPost: Navigation attempt', {
-            notificationId: notification.id,
-            postId: notification.post_id,
-            teamName: team?.name,
-            currentTeamName: currentTeam?.name,
-            currentTeamId: currentTeam?.id,
-            teamId: team?.id,
-            notificationTeamId: notification.team_id,
-            finalTeamName: teamName,
-            channelId: notification.channel_id,
-        });
 
         // Same as mention: getHistory().push(`/${teamName}/pl/${post.id}`)
         getHistory().push(`/${teamName}/pl/${notification.post_id}`);
