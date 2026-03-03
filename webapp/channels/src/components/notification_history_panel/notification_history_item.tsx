@@ -4,12 +4,10 @@
 import classNames from 'classnames';
 import React, {useCallback} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom';
-
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import WithTooltip from 'components/with_tooltip';
+
+import {getHistory} from 'utils/browser_history';
 
 import type {NotificationHistoryItem} from 'types/notification_history';
 
@@ -25,8 +23,6 @@ const NotificationHistoryItemComponent: React.FC<Props> = ({
     onDelete,
 }) => {
     const intl = useIntl();
-    const history = useHistory();
-    const currentTeam = useSelector(getCurrentTeam);
 
     const getNotificationIcon = () => {
         switch (notification.type) {
@@ -95,17 +91,25 @@ const NotificationHistoryItemComponent: React.FC<Props> = ({
         return intl.formatMessage({id: 'notification_history.time.just_now', defaultMessage: 'Just now'});
     };
 
-    const handleClick = useCallback(() => {
+    const navigateToPost = useCallback(() => {
+        if (!notification.post_id) {
+            return;
+        }
+
         if (!notification.is_read) {
             onMarkAsRead(notification.id);
         }
 
-        // Navigate to the relevant post/channel
-        if (notification.post_id && notification.channel_id && currentTeam) {
-            const teamName = notification.team_name || currentTeam.name;
-            history.push(`/${teamName}/pl/${notification.post_id}`);
-        }
-    }, [notification, onMarkAsRead, currentTeam, history]);
+        // Navigate to post using permalink URL (same as 바로가기 menu)
+        const teamName = notification.team_name || '';
+        getHistory().push(`/${teamName}/pl/${notification.post_id}`);
+    }, [notification, onMarkAsRead]);
+
+    const handleClick = useCallback((e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateToPost();
+    }, [navigateToPost]);
 
     const handleMarkAsRead = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
@@ -122,9 +126,9 @@ const NotificationHistoryItemComponent: React.FC<Props> = ({
     const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            handleClick();
+            navigateToPost();
         }
-    }, [handleClick]);
+    }, [navigateToPost]);
 
     return (
         <div
