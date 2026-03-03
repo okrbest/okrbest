@@ -4,12 +4,16 @@
 import classNames from 'classnames';
 import React, {useCallback} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
+
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import WithTooltip from 'components/with_tooltip';
 
 import {getHistory} from 'utils/browser_history';
 
 import type {NotificationHistoryItem} from 'types/notification_history';
+import type {GlobalState} from 'types/store';
 
 type Props = {
     notification: NotificationHistoryItem;
@@ -23,6 +27,7 @@ const NotificationHistoryItemComponent: React.FC<Props> = ({
     onDelete,
 }) => {
     const intl = useIntl();
+    const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
 
     const getNotificationIcon = () => {
         switch (notification.type) {
@@ -93,6 +98,11 @@ const NotificationHistoryItemComponent: React.FC<Props> = ({
 
     const navigateToPost = useCallback(() => {
         if (!notification.post_id) {
+            // eslint-disable-next-line no-console
+            console.log('[NotificationHistory] navigateToPost: No post_id', {
+                notificationId: notification.id,
+                notification,
+            });
             return;
         }
 
@@ -101,9 +111,44 @@ const NotificationHistoryItemComponent: React.FC<Props> = ({
         }
 
         // Navigate to post using permalink URL (same as 바로가기 menu)
-        const teamName = notification.team_name || '';
-        getHistory().push(`/${teamName}/pl/${notification.post_id}`);
-    }, [notification, onMarkAsRead]);
+        // Use team_name from notification if available, otherwise fallback to current team
+        // This ensures it works in deployment where team_name might not be set
+        const teamName = notification.team_name || currentTeam?.name || '';
+
+        // eslint-disable-next-line no-console
+        console.log('[NotificationHistory] navigateToPost: Navigation attempt', {
+            notificationId: notification.id,
+            postId: notification.post_id,
+            notificationTeamName: notification.team_name,
+            currentTeamName: currentTeam?.name,
+            currentTeamId: currentTeam?.id,
+            finalTeamName: teamName,
+            teamId: notification.team_id,
+            channelId: notification.channel_id,
+        });
+
+        if (!teamName) {
+            // If no team name is available, we can't navigate
+            // eslint-disable-next-line no-console
+            console.error('[NotificationHistory] navigateToPost: No team name available', {
+                notificationId: notification.id,
+                postId: notification.post_id,
+                notificationTeamName: notification.team_name,
+                currentTeam,
+            });
+            return;
+        }
+
+        const permalinkUrl = `/${teamName}/pl/${notification.post_id}`;
+        // eslint-disable-next-line no-console
+        console.log('[NotificationHistory] navigateToPost: Navigating to', {
+            url: permalinkUrl,
+            notificationId: notification.id,
+            postId: notification.post_id,
+        });
+
+        getHistory().push(permalinkUrl);
+    }, [notification, onMarkAsRead, currentTeam]);
 
     const handleClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
