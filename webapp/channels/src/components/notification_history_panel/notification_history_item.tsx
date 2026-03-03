@@ -4,12 +4,16 @@
 import classNames from 'classnames';
 import React, {useCallback} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
+
+import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import WithTooltip from 'components/with_tooltip';
 
 import {getHistory} from 'utils/browser_history';
 
 import type {NotificationHistoryItem} from 'types/notification_history';
+import type {GlobalState} from 'types/store';
 
 type Props = {
     notification: NotificationHistoryItem;
@@ -23,6 +27,15 @@ const NotificationHistoryItemComponent: React.FC<Props> = ({
     onDelete,
 }) => {
     const intl = useIntl();
+    const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
+
+    // Same logic as mention: get team from team_id, use team?.name || currentTeam?.name
+    const team = useSelector((state: GlobalState) => {
+        if (notification.team_id) {
+            return getTeam(state, notification.team_id);
+        }
+        return null;
+    });
 
     const getNotificationIcon = () => {
         switch (notification.type) {
@@ -100,10 +113,13 @@ const NotificationHistoryItemComponent: React.FC<Props> = ({
             onMarkAsRead(notification.id);
         }
 
-        // Navigate to post using permalink URL (same as 바로가기 menu)
-        const teamName = notification.team_name || '';
+        // Navigate to post using permalink URL (same as mention navigation logic)
+        // Same logic as PostComponent: team?.name || currentTeam?.name
+        const teamName = team?.name || currentTeam?.name || '';
+
+        // Same as mention: getHistory().push(`/${teamName}/pl/${post.id}`)
         getHistory().push(`/${teamName}/pl/${notification.post_id}`);
-    }, [notification, onMarkAsRead]);
+    }, [notification, onMarkAsRead, currentTeam, team]);
 
     const handleClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
