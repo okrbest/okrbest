@@ -32,7 +32,7 @@ interface Props {
     onToggleFilter?: (userId: string, checked: boolean) => void;
     actions: {
         openDirectMessage: (user: UserProfile) => void;
-        fetchRemoteClusterInfo: (remoteId: string, forceRefresh?: boolean) => void;
+        fetchRemoteClusterInfo: (remoteId: string, includeDeleted?: boolean, forceRefresh?: boolean) => void;
     };
 }
 
@@ -42,7 +42,7 @@ const Member = ({channel, member, index, totalUsers, editing, isFilterable, isCh
     // Fetch remote info when component mounts for remote users
     useEffect(() => {
         if (member.user.remote_id) {
-            actions.fetchRemoteClusterInfo(member.user.remote_id);
+            actions.fetchRemoteClusterInfo(member.user.remote_id, true);
         }
     }, [member.user.remote_id]);
 

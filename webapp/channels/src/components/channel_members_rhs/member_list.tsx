@@ -40,7 +40,7 @@ export interface Props {
     filterUserIds?: string[];
     onToggleMemberFilter?: (userId: string, checked: boolean) => void;
     openDirectMessage: (user: UserProfile) => void;
-    fetchRemoteClusterInfo: (remoteId: string, forceRefresh?: boolean) => void;
+    fetchRemoteClusterInfo: (remoteId: string, includeDeleted?: boolean, forceRefresh?: boolean) => void;
     loadMore: () => void;
 }
 
