@@ -256,7 +256,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             const postlistScrollHeight = this.postListRef.current.scrollHeight;
             const postsAddedAtTop = presentPostsCount !== prevPostsCount && (this.props.postListIds || [])[0] === (prevProps.postListIds || [])[0];
             const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
-            if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom && snapshot) {
+            if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom && snapshot && !this.props.focusedPostId) {
                 const scrollValue = snapshot.previousScrollTop + (postlistScrollHeight - snapshot.previousScrollHeight);
                 if (scrollValue !== 0 && (scrollValue - snapshot.previousScrollTop) !== 0) {
                     //true as third param so chrome can use animationFrame when correcting scroll
@@ -364,7 +364,6 @@ export default class PostList extends React.PureComponent<Props, State> {
 
         // 보드 링크인지 확인 (경로 패턴: /boards/team/{teamId}/{boardId}/...)
         const boardsPathRegex = /^\/boards\/team\/[^/]+\/[^/]+/;
-        console.log('boards link clicked:', href, 'pathname:', pathname);
         if (boardsPathRegex.test(pathname)) {
             // 기본 동작 방지 및 모달에서 보드 열기
             e.preventDefault();
@@ -799,7 +798,7 @@ export default class PostList extends React.PureComponent<Props, State> {
                                             innerListStyle={postListStyle}
                                             initRangeToRender={this.initRangeToRender}
                                             loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
-                                            correctScrollToBottom={this.props.atLatestPost}
+                                            correctScrollToBottom={this.props.atLatestPost && !this.props.focusedPostId}
                                             onItemsRendered={this.onItemsRendered}
                                             scrollToFailed={this.scrollToFailed}
                                         >
