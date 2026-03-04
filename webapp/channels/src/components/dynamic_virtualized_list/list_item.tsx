@@ -95,6 +95,7 @@ const ListItem = (props: Props) => {
             ref={rowRef}
             role='listitem'
             className='item_measurer'
+            data-item-id={props.itemId}
         >
             {props.item}
         </div>

@@ -27,6 +27,8 @@ export class DynamicVirtualizedList extends PureComponent {
     _keepScrollToBottom = false;
     _mountingCorrections = 0;
     _correctedInstances = 0;
+    _initScrollWasCentered = false;
+    _initScrollCenteredIndex = -1;
 
     static defaultProps = {
         innerTagName: 'div',
@@ -315,13 +317,37 @@ export class DynamicVirtualizedList extends PureComponent {
             this.setState({
                 scrolledToInitIndex: true,
             });
+            this._initScrollWasCentered = position === 'center';
+            this._initScrollCenteredIndex = this._initScrollWasCentered ? index : -1;
 
             if (index === 0) {
                 this._keepScrollToBottom = true;
-            } else {
+            } else if (position !== 'center') {
                 this._keepScrollPosition = true;
             }
         }
+    };
+
+    _getCenteredItemViewportCenter = () => {
+        if (!this._outerRef || !this._initScrollWasCentered || this._initScrollCenteredIndex < 0) {
+            return null;
+        }
+
+        const centeredItemId = this.props.itemData[this._initScrollCenteredIndex];
+        if (!centeredItemId) {
+            return null;
+        }
+
+        const measuredNodes = this._outerRef.getElementsByClassName('item_measurer');
+        for (let i = 0; i < measuredNodes.length; i++) {
+            const node = measuredNodes[i];
+            if (node.dataset && node.dataset.itemId === centeredItemId) {
+                const rect = node.getBoundingClientRect();
+                return rect.top + (rect.height / 2);
+            }
+        }
+
+        return null;
     };
 
     // This method is called when data changes
@@ -333,6 +359,10 @@ export class DynamicVirtualizedList extends PureComponent {
     };
 
     _heightChange = (prevHeight, prevOffset) => {
+        if (this._initScrollWasCentered) {
+            return;
+        }
+
         const wasAtBottom =
             prevOffset + prevHeight >=
             this._listMetaData.totalMeasuredSize - atBottomMargin;
@@ -343,6 +373,10 @@ export class DynamicVirtualizedList extends PureComponent {
     };
 
     _widthChange = (prevHeight, prevOffset) => {
+        if (this._initScrollWasCentered) {
+            return;
+        }
+
         const wasAtBottom =
             prevOffset + prevHeight >=
             this._listMetaData.totalMeasuredSize - atBottomMargin;
@@ -463,6 +497,7 @@ export class DynamicVirtualizedList extends PureComponent {
         const {itemSizeMap} = this._listMetaData;
         const {itemData} = this.props;
         const index = itemData.findIndex((item) => item === key);
+        const centeredBefore = this._getCenteredItemViewportCenter();
 
         // In some browsers (e.g. Firefox) fast scrolling may skip rows.
         // In this case, our assumptions about last measured indices may be incorrect.
@@ -477,6 +512,20 @@ export class DynamicVirtualizedList extends PureComponent {
 
         if (!this.state.scrolledToInitIndex) {
             this._generateOffsetMeasurements();
+            return;
+        }
+
+        if (this._initScrollWasCentered) {
+            this._generateOffsetMeasurements();
+
+            const centeredAfter = this._getCenteredItemViewportCenter();
+            if (centeredBefore !== null && centeredAfter !== null) {
+                const centerDelta = centeredAfter - centeredBefore;
+                if (Math.abs(centerDelta) >= 1) {
+                    const currentOffset = this._outerRef ? this._outerRef.scrollTop : this.state.scrollOffset;
+                    this.scrollTo(currentOffset + centerDelta);
+                }
+            }
             return;
         }
 
@@ -552,7 +601,7 @@ export class DynamicVirtualizedList extends PureComponent {
 
             this._generateOffsetMeasurements();
 
-            if (atBottom) {
+            if (atBottom && !this._initScrollWasCentered) {
                 this.scrollToItem(0, 'end');
             }
 
