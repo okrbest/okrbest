@@ -8,7 +8,8 @@ import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
 import {MarkdownShortcutPlugin} from '@lexical/react/LexicalMarkdownShortcutPlugin';
 import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$convertFromMarkdownString} from '@lexical/markdown';
+import {$convertFromMarkdownString, $convertToMarkdownString} from '@lexical/markdown';
+import {$createParagraphNode, $getRoot} from 'lexical';
 import {HeadingNode, QuoteNode} from '@lexical/rich-text';
 import {ListNode, ListItemNode} from '@lexical/list';
 import {CodeNode, CodeHighlightNode} from '@lexical/code';
@@ -57,18 +58,33 @@ export type LexicalTextEditorHandle = {
     focus: () => void;
 };
 
-// 에디터 초기값 설정용 내부 플러그인
-function InitialValuePlugin({value}: {value: string}) {
+// 에디터 값 동기화 플러그인 (초기값 설정 + 외부에서 빈 값으로 리셋 시 클리어)
+function ValueSyncPlugin({value}: {value: string}) {
     const [editor] = useLexicalComposerContext();
     const isInitialized = useRef(false);
+    const lastExternalValue = useRef(value);
 
     useEffect(() => {
-        if (!isInitialized.current && value) {
-            isInitialized.current = true;
-            editor.update(() => {
-                $convertFromMarkdownString(value, CHANNELS_TRANSFORMERS);
-            });
+        if (!isInitialized.current) {
+            if (value) {
+                isInitialized.current = true;
+                editor.update(() => {
+                    $convertFromMarkdownString(value, CHANNELS_TRANSFORMERS);
+                });
+            }
+            return;
         }
+
+        // 외부에서 값이 비워졌을 때 (전송 후 등) 에디터 클리어
+        if (!value && lastExternalValue.current !== value) {
+            editor.update(() => {
+                const root = $getRoot();
+                root.clear();
+                root.append($createParagraphNode());
+            }, {tag: 'history-merge'});
+        }
+
+        lastExternalValue.current = value;
     }, [editor, value]);
 
     return null;
@@ -169,7 +185,7 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
                 <TablePlugin />
                 <TabIndentationPlugin />
                 <OnChangeMarkdownPlugin onChange={onChange} />
-                <InitialValuePlugin value={value} />
+                <ValueSyncPlugin value={value} />
                 <EditablePlugin disabled={disabled} />
                 <EditorRefPlugin editorRef={editorRef} />
                 {onSubmit && (
