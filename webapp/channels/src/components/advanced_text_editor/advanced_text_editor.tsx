@@ -560,8 +560,8 @@ const AdvancedTextEditor = ({
         const input = textboxRef.current?.getInputBox();
 
         return {
-            start: input.selectionStart,
-            end: input.selectionEnd,
+            start: input?.selectionStart ?? 0,
+            end: input?.selectionEnd ?? 0,
         };
     }, [textboxRef]);
 
