@@ -43,6 +43,7 @@ import {
 } from 'components/file_upload_overlay/file_upload_overlay';
 import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
 import SuggestionList from 'components/suggestion/suggestion_list';
+import LexicalTextEditor from 'components/lexical_editor/lexical_text_editor';
 import Textbox from 'components/textbox';
 import type {TextboxElement} from 'components/textbox';
 import type TextboxClass from 'components/textbox/textbox';
@@ -234,11 +235,15 @@ const AdvancedTextEditor = ({
     const hasDraftMessage = Boolean(draft.message);
     const showFormattingBar = !isFormattingBarHidden && !readOnlyChannel;
     const enableSharedChannelsDMs = useSelector((state: GlobalState) => getFeatureFlagValue(state, 'EnableSharedChannelsDMs') === 'true');
+    const useLexicalEditor = useSelector((state: GlobalState) => getFeatureFlagValue(state, 'EnableLexicalEditor') === 'true');
     const isDMOrGMRemote = isChannelShared && (channelType === Constants.DM_CHANNEL || channelType === Constants.GM_CHANNEL);
 
     const handleShowPreview = useCallback(() => {
-        setShowPreview((prev) => !prev);
-    }, []);
+        if (!useLexicalEditor) {
+            setShowPreview((prev) => !prev);
+        }
+        // Lexical 모드에서는 Preview 불필요
+    }, [useLexicalEditor]);
 
     const emitTypingEvent = useCallback(() => {
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
@@ -659,7 +664,7 @@ const AdvancedTextEditor = ({
         />
     );
 
-    const showFormatJSX = disableSendButton ? null : (
+    const showFormatJSX = disableSendButton || useLexicalEditor ? null : (
         <ShowFormat
             onClick={handleShowPreview}
             active={showPreview}
@@ -833,33 +838,53 @@ const AdvancedTextEditor = ({
                                 />
                             </div>
                         )}
-                        <Textbox
-                            hasLabels={isInEditMode ? false : Boolean(priorityLabels || burnOnReadLabels)}
-                            suggestionList={location === Locations.RHS_COMMENT ? RhsSuggestionList : SuggestionList}
-                            onChange={handleChange}
-                            onKeyPress={postMsgKeyPress}
-                            onKeyDown={handleKeyDown}
-                            onComposition={emitTypingEvent}
-                            onHeightChange={handleHeightChange}
-                            handlePostError={handlePostError}
-                            value={messageValue}
-                            onBlur={handleBlur}
-                            onFocus={handleFocus}
-                            emojiEnabled={enableEmojiPicker}
-                            createMessage={createMessage}
-                            channelId={channelId}
-                            id={textboxId}
-                            ref={textboxRef!}
-                            disabled={isDisabled && !rewriteIsProcessing}
-                            characterLimit={maxPostSize}
-                            preview={showPreview}
-                            badConnection={badConnection}
-                            useChannelMentions={useChannelMentions}
-                            rootId={rootId}
-                            onWidthChange={handleWidthChange}
-                            isInEditMode={isInEditMode}
-                            onMentionSelected={handleMentionSelected}
-                        />
+                        {useLexicalEditor ? (
+                            <LexicalTextEditor
+                                id={textboxId}
+                                value={messageValue}
+                                channelId={channelId}
+                                characterLimit={maxPostSize}
+                                createMessage={createMessage}
+                                disabled={isDisabled && !rewriteIsProcessing}
+                                onChange={(markdown: string) => {
+                                    handleDraftChange({
+                                        ...draft,
+                                        message: markdown,
+                                    });
+                                }}
+                                onSubmit={handleSubmitWrapper}
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
+                            />
+                        ) : (
+                            <Textbox
+                                hasLabels={isInEditMode ? false : Boolean(priorityLabels || burnOnReadLabels)}
+                                suggestionList={location === Locations.RHS_COMMENT ? RhsSuggestionList : SuggestionList}
+                                onChange={handleChange}
+                                onKeyPress={postMsgKeyPress}
+                                onKeyDown={handleKeyDown}
+                                onComposition={emitTypingEvent}
+                                onHeightChange={handleHeightChange}
+                                handlePostError={handlePostError}
+                                value={messageValue}
+                                onBlur={handleBlur}
+                                onFocus={handleFocus}
+                                emojiEnabled={enableEmojiPicker}
+                                createMessage={createMessage}
+                                channelId={channelId}
+                                id={textboxId}
+                                ref={textboxRef!}
+                                disabled={isDisabled && !rewriteIsProcessing}
+                                characterLimit={maxPostSize}
+                                preview={showPreview}
+                                badConnection={badConnection}
+                                useChannelMentions={useChannelMentions}
+                                rootId={rootId}
+                                onWidthChange={handleWidthChange}
+                                isInEditMode={isInEditMode}
+                                onMentionSelected={handleMentionSelected}
+                            />
+                        )}
                         {attachmentPreview}
                         {!isDisabled && (showFormattingBar || showPreview) && (
                             <TexteditorActions
