@@ -38,6 +38,8 @@ export type LexicalTextEditorProps = {
     id: string;
     value: string;
     channelId: string;
+    teamId?: string;
+    rootId?: string;
     characterLimit: number;
     createMessage: string;
     disabled?: boolean;
@@ -154,6 +156,8 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
     id,
     value,
     channelId,
+    teamId,
+    rootId,
     characterLimit,
     createMessage,
     disabled = false,
@@ -258,7 +262,13 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
                     />
                 )}
                 <EmojiPlugin />
-                {supportsCommands && <SlashCommandPlugin />}
+                {supportsCommands && teamId && (
+                    <SlashCommandPlugin
+                        teamId={teamId}
+                        channelId={channelId}
+                        rootId={rootId}
+                    />
+                )}
             </LexicalComposer>
         </div>
     );

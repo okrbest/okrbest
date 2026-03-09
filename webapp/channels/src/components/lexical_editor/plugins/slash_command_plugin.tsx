@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
     $getSelection,
@@ -7,19 +7,18 @@ import {
     TextNode,
 } from 'lexical';
 
+import {Client4} from 'mattermost-redux/client';
+import type {AutocompleteSuggestion, CommandArgs} from '@mattermost/types/integrations';
+
 import SuggestionList, {type SuggestionItem} from '../utils/suggestion_list';
 
-type CommandResult = {
-    trigger: string;
-    display_name: string;
-    description: string;
-};
-
 type Props = {
-    searchCommands?: (term: string) => Promise<CommandResult[]>;
+    teamId: string;
+    channelId: string;
+    rootId?: string;
 };
 
-export default function SlashCommandPlugin({searchCommands}: Props) {
+export default function SlashCommandPlugin({teamId, channelId, rootId}: Props) {
     const [editor] = useLexicalComposerContext();
     const [queryString, setQueryString] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
@@ -51,10 +50,10 @@ export default function SlashCommandPlugin({searchCommands}: Props) {
                 }
 
                 const text = anchorNode.getTextContent().slice(0, anchor.offset);
-                const slashMatch = text.match(/^\/(\w*)$/);
+                const slashMatch = text.match(/^\/(\S*)$/);
 
                 if (slashMatch) {
-                    setQueryString(slashMatch[1]);
+                    setQueryString(slashMatch[0]); // 전체 "/command" 문자열
                 } else {
                     setQueryString(null);
                 }
@@ -62,32 +61,58 @@ export default function SlashCommandPlugin({searchCommands}: Props) {
         });
     }, [editor]);
 
-    // 검색 (debounce + cancellation)
+    // API에서 자동완성 제안 가져오기
+    const teamIdRef = useRef(teamId);
+    teamIdRef.current = teamId;
+    const channelIdRef = useRef(channelId);
+    channelIdRef.current = channelId;
+    const rootIdRef = useRef(rootId);
+    rootIdRef.current = rootId;
+
     useEffect(() => {
-        if (queryString === null || !searchCommands) {
+        if (queryString === null) {
+            setSuggestions([]);
             return;
         }
 
         let cancelled = false;
         const timer = setTimeout(() => {
-            searchCommands(queryString).then((commands) => {
+            const command = queryString.toLowerCase();
+            const args: CommandArgs = {
+                team_id: teamIdRef.current,
+                channel_id: channelIdRef.current,
+                root_id: rootIdRef.current,
+            };
+
+            Client4.getCommandAutocompleteSuggestionsList(command, teamIdRef.current, args).then(
+                (data: AutocompleteSuggestion[]) => {
+                    if (cancelled) {
+                        return;
+                    }
+
+                    const items: SuggestionItem[] = data.
+                        filter((s) => s.Suggestion).
+                        sort((a, b) => a.Suggestion.localeCompare(b.Suggestion)).
+                        map((s) => ({
+                            id: s.Complete || s.Suggestion,
+                            display: '/' + s.Suggestion,
+                            description: s.Description,
+                        }));
+
+                    setSuggestions(items);
+                },
+            ).catch(() => {
                 if (!cancelled) {
-                    setSuggestions(
-                        commands.map((cmd) => ({
-                            id: cmd.trigger,
-                            display: `/${cmd.trigger}`,
-                            description: cmd.description,
-                        })),
-                    );
+                    setSuggestions([]);
                 }
             });
-        }, 300);
+        }, 150);
 
         return () => {
             cancelled = true;
             clearTimeout(timer);
         };
-    }, [queryString, searchCommands]);
+    }, [queryString]);
 
     const handleSelect = useCallback((item: SuggestionItem) => {
         editor.update(() => {

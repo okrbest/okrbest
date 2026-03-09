@@ -15,6 +15,7 @@ import {getChannel, makeGetChannel, getDirectChannel} from 'mattermost-redux/sel
 import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {get, getBool, getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, isCurrentUserGuestUser, getStatusForUserId, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 
 import * as GlobalActions from 'actions/global_actions';
@@ -170,6 +171,7 @@ const AdvancedTextEditor = ({
         const preferenceName = getFormattingBarPreferenceName();
         return getBool(state, Preferences.ADVANCED_TEXT_EDITOR, preferenceName);
     });
+    const currentTeamId = useSelector(getCurrentTeamId);
     const teammateId = useSelector((state: GlobalState) => getDirectChannel(state, channelId)?.teammate_id || '');
     const teammateDisplayName = useSelector((state: GlobalState) => (teammateId ? getDisplayName(state, teammateId) : ''));
     const showDndWarning = useSelector((state: GlobalState) => (teammateId ? getStatusForUserId(state, teammateId) === UserStatuses.DND : false));
@@ -731,6 +733,8 @@ const AdvancedTextEditor = ({
                             id={textboxId}
                             value={messageValue}
                             channelId={channelId}
+                            teamId={currentTeamId}
+                            rootId={rootId}
                             characterLimit={maxPostSize}
                             createMessage={createMessage}
                             disabled={isDisabled && !rewriteIsProcessing}
@@ -740,6 +744,7 @@ const AdvancedTextEditor = ({
                             onBlur={handleBlur}
                             searchUsers={handleSearchUsers}
                             searchChannels={handleSearchChannels}
+                            supportsCommands={true}
                         />
                         {attachmentPreview}
                         {!isDisabled && (
