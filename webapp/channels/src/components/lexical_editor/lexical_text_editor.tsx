@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useMemo, useImperativeHandle, forwardRef} from 'react';
+import React, {useEffect, useRef, useMemo, useImperativeHandle, forwardRef} from 'react';
 import type {LexicalEditor} from 'lexical';
 import classNames from 'classnames';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
@@ -88,11 +88,7 @@ function EditablePlugin({disabled}: {disabled: boolean}) {
 // editor 인스턴스를 외부 ref에 노출
 function EditorRefPlugin({editorRef}: {editorRef: React.MutableRefObject<LexicalEditor | null>}) {
     const [editor] = useLexicalComposerContext();
-
-    useEffect(() => {
-        editorRef.current = editor;
-    }, [editor, editorRef]);
-
+    editorRef.current = editor;
     return null;
 }
 
@@ -145,16 +141,8 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
         onError: (error: Error) => {
             console.error('LexicalTextEditor error:', error);
         },
-        editable: !disabled,
-    }), [id, disabled]);
-
-    const handleChange = useCallback((markdown: string) => {
-        onChange(markdown);
-    }, [onChange]);
-
-    const handleSubmit = useCallback(() => {
-        onSubmit?.();
-    }, [onSubmit]);
+        editable: true,
+    }), [id]);
 
     return (
         <div
@@ -180,13 +168,13 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
                 <ListPlugin />
                 <TablePlugin />
                 <TabIndentationPlugin />
-                <OnChangeMarkdownPlugin onChange={handleChange} />
+                <OnChangeMarkdownPlugin onChange={onChange} />
                 <InitialValuePlugin value={value} />
                 <EditablePlugin disabled={disabled} />
                 <EditorRefPlugin editorRef={editorRef} />
                 {onSubmit && (
                     <KeyboardPlugin
-                        onSubmit={handleSubmit}
+                        onSubmit={onSubmit}
                         onEscape={onEscape}
                     />
                 )}

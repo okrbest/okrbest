@@ -25,6 +25,9 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
         setSelectedIndex(0);
     }, [items]);
 
+    const selectedIndexRef = useRef(0);
+    selectedIndexRef.current = selectedIndex;
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             switch (e.key) {
@@ -39,8 +42,8 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
             case 'Enter':
             case 'Tab':
                 e.preventDefault();
-                if (items[selectedIndex]) {
-                    onSelect(items[selectedIndex]);
+                if (items[selectedIndexRef.current]) {
+                    onSelect(items[selectedIndexRef.current]);
                 }
                 break;
             case 'Escape':
@@ -52,7 +55,7 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
 
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [items, selectedIndex, onSelect, onClose]);
+    }, [items, onSelect, onClose]);
 
     if (items.length === 0 && !loading) {
         return null;

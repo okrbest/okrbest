@@ -23,7 +23,6 @@ export default function SlashCommandPlugin({searchCommands}: Props) {
     const [editor] = useLexicalComposerContext();
     const [queryString, setQueryString] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
-    const [isOpen, setIsOpen] = useState(false);
 
     // / 입력 감지 (줄 시작에서만)
     useEffect(() => {
@@ -38,7 +37,7 @@ export default function SlashCommandPlugin({searchCommands}: Props) {
                 const anchorNode = anchor.getNode();
 
                 if (!(anchorNode instanceof TextNode)) {
-                    setIsOpen(false);
+                    setQueryString(null);
                     return;
                 }
 
@@ -47,7 +46,7 @@ export default function SlashCommandPlugin({searchCommands}: Props) {
                 const root = $getRoot();
                 const firstChild = root.getFirstChild();
                 if (parent !== firstChild) {
-                    setIsOpen(false);
+                    setQueryString(null);
                     return;
                 }
 
@@ -56,30 +55,38 @@ export default function SlashCommandPlugin({searchCommands}: Props) {
 
                 if (slashMatch) {
                     setQueryString(slashMatch[1]);
-                    setIsOpen(true);
                 } else {
-                    setIsOpen(false);
                     setQueryString(null);
                 }
             });
         });
     }, [editor]);
 
-    // 검색
+    // 검색 (debounce + cancellation)
     useEffect(() => {
         if (queryString === null || !searchCommands) {
             return;
         }
 
-        searchCommands(queryString).then((commands) => {
-            setSuggestions(
-                commands.map((cmd) => ({
-                    id: cmd.trigger,
-                    display: `/${cmd.trigger}`,
-                    description: cmd.description,
-                })),
-            );
-        });
+        let cancelled = false;
+        const timer = setTimeout(() => {
+            searchCommands(queryString).then((commands) => {
+                if (!cancelled) {
+                    setSuggestions(
+                        commands.map((cmd) => ({
+                            id: cmd.trigger,
+                            display: `/${cmd.trigger}`,
+                            description: cmd.description,
+                        })),
+                    );
+                }
+            });
+        }, 300);
+
+        return () => {
+            cancelled = true;
+            clearTimeout(timer);
+        };
     }, [queryString, searchCommands]);
 
     const handleSelect = useCallback((item: SuggestionItem) => {
@@ -101,16 +108,14 @@ export default function SlashCommandPlugin({searchCommands}: Props) {
             anchorNode.selectEnd();
         });
 
-        setIsOpen(false);
         setQueryString(null);
     }, [editor]);
 
     const handleClose = useCallback(() => {
-        setIsOpen(false);
         setQueryString(null);
     }, []);
 
-    if (!isOpen) {
+    if (queryString === null) {
         return null;
     }
 

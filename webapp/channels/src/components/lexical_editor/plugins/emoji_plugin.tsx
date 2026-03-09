@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
+    $createTextNode,
     $getSelection,
     $isRangeSelection,
     TextNode,
@@ -24,7 +25,6 @@ export default function EmojiPlugin({searchEmojis}: Props) {
     const [editor] = useLexicalComposerContext();
     const [queryString, setQueryString] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
-    const [isOpen, setIsOpen] = useState(false);
 
     // : 입력 감지
     useEffect(() => {
@@ -39,7 +39,7 @@ export default function EmojiPlugin({searchEmojis}: Props) {
                 const anchorNode = anchor.getNode();
 
                 if (!(anchorNode instanceof TextNode)) {
-                    setIsOpen(false);
+                    setQueryString(null);
                     return;
                 }
 
@@ -48,9 +48,7 @@ export default function EmojiPlugin({searchEmojis}: Props) {
 
                 if (emojiMatch && emojiMatch[1].length >= MIN_QUERY_LENGTH) {
                     setQueryString(emojiMatch[1]);
-                    setIsOpen(true);
                 } else {
-                    setIsOpen(false);
                     setQueryString(null);
                 }
             });
@@ -102,26 +100,24 @@ export default function EmojiPlugin({searchEmojis}: Props) {
                 anchorNode.insertAfter(emojiNode);
 
                 if (afterText) {
-                    const textNode = new TextNode(afterText);
+                    const textNode = $createTextNode(afterText);
                     emojiNode.insertAfter(textNode);
                 } else {
-                    const spaceNode = new TextNode(' ');
+                    const spaceNode = $createTextNode(' ');
                     emojiNode.insertAfter(spaceNode);
                     spaceNode.select();
                 }
             }
         });
 
-        setIsOpen(false);
         setQueryString(null);
     }, [editor]);
 
     const handleClose = useCallback(() => {
-        setIsOpen(false);
         setQueryString(null);
     }, []);
 
-    if (!isOpen) {
+    if (queryString === null) {
         return null;
     }
 

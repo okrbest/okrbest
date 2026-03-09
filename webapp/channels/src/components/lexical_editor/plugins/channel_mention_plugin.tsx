@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
+    $createTextNode,
     $getSelection,
     $isRangeSelection,
     TextNode,
@@ -17,7 +18,6 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
     const [editor] = useLexicalComposerContext();
     const [queryString, setQueryString] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
-    const [isOpen, setIsOpen] = useState(false);
 
     // ~ 입력 감지
     useEffect(() => {
@@ -32,7 +32,7 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
                 const anchorNode = anchor.getNode();
 
                 if (!(anchorNode instanceof TextNode)) {
-                    setIsOpen(false);
+                    setQueryString(null);
                     return;
                 }
 
@@ -41,30 +41,38 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
 
                 if (channelMatch) {
                     setQueryString(channelMatch[1]);
-                    setIsOpen(true);
                 } else {
-                    setIsOpen(false);
                     setQueryString(null);
                 }
             });
         });
     }, [editor]);
 
-    // 검색
+    // 검색 (debounce + cancellation)
     useEffect(() => {
         if (queryString === null) {
             return;
         }
 
-        searchChannels(queryString).then((channels) => {
-            setSuggestions(
-                channels.map((channel) => ({
-                    id: channel.id,
-                    display: channel.name,
-                    description: channel.display_name,
-                })),
-            );
-        });
+        let cancelled = false;
+        const timer = setTimeout(() => {
+            searchChannels(queryString).then((channels) => {
+                if (!cancelled) {
+                    setSuggestions(
+                        channels.map((channel) => ({
+                            id: channel.id,
+                            display: channel.name,
+                            description: channel.display_name,
+                        })),
+                    );
+                }
+            });
+        }, 300);
+
+        return () => {
+            cancelled = true;
+            clearTimeout(timer);
+        };
     }, [queryString, searchChannels]);
 
     const handleSelect = useCallback((item: SuggestionItem) => {
@@ -95,26 +103,24 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
                 anchorNode.insertAfter(channelNode);
 
                 if (afterText) {
-                    const textNode = new TextNode(afterText);
+                    const textNode = $createTextNode(afterText);
                     channelNode.insertAfter(textNode);
                 } else {
-                    const spaceNode = new TextNode(' ');
+                    const spaceNode = $createTextNode(' ');
                     channelNode.insertAfter(spaceNode);
                     spaceNode.select();
                 }
             }
         });
 
-        setIsOpen(false);
         setQueryString(null);
     }, [editor]);
 
     const handleClose = useCallback(() => {
-        setIsOpen(false);
         setQueryString(null);
     }, []);
 
-    if (!isOpen) {
+    if (queryString === null) {
         return null;
     }
 

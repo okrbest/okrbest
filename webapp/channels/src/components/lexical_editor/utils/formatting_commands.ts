@@ -53,10 +53,8 @@ export function applyLexicalFormatting(editor: LexicalEditor, mode: MarkdownMode
         editor.update(() => {
             const selection = $getSelection();
             if ($isRangeSelection(selection)) {
-                const url = prompt('Enter URL:');
-                if (url) {
-                    $toggleLink(url);
-                }
+                // 선택된 텍스트가 이미 링크인 경우 토글 해제, 아니면 placeholder URL 삽입
+                $toggleLink('https://');
             }
         });
         break;

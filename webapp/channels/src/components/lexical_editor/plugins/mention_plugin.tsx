@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
+    $createTextNode,
     $getSelection,
     $isRangeSelection,
     TextNode,
@@ -19,7 +20,6 @@ export default function MentionPlugin({channelId, onMentionSelected, searchUsers
     const [editor] = useLexicalComposerContext();
     const [queryString, setQueryString] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
-    const [isOpen, setIsOpen] = useState(false);
 
     // @ 입력 감지
     useEffect(() => {
@@ -34,7 +34,7 @@ export default function MentionPlugin({channelId, onMentionSelected, searchUsers
                 const anchorNode = anchor.getNode();
 
                 if (!(anchorNode instanceof TextNode)) {
-                    setIsOpen(false);
+                    setQueryString(null);
                     return;
                 }
 
@@ -43,31 +43,38 @@ export default function MentionPlugin({channelId, onMentionSelected, searchUsers
 
                 if (atMatch) {
                     setQueryString(atMatch[1]);
-                    setIsOpen(true);
                 } else {
-                    setIsOpen(false);
                     setQueryString(null);
                 }
             });
         });
     }, [editor]);
 
-    // 검색
+    // 검색 (debounce + cancellation)
     useEffect(() => {
         if (queryString === null) {
             return;
         }
 
-        const searchTerm = queryString;
-        searchUsers(searchTerm).then((users) => {
-            setSuggestions(
-                users.map((user) => ({
-                    id: user.id,
-                    display: user.username,
-                    description: `${user.first_name} ${user.last_name}`.trim(),
-                })),
-            );
-        });
+        let cancelled = false;
+        const timer = setTimeout(() => {
+            searchUsers(queryString).then((users) => {
+                if (!cancelled) {
+                    setSuggestions(
+                        users.map((user) => ({
+                            id: user.id,
+                            display: user.username,
+                            description: `${user.first_name} ${user.last_name}`.trim(),
+                        })),
+                    );
+                }
+            });
+        }, 300);
+
+        return () => {
+            cancelled = true;
+            clearTimeout(timer);
+        };
     }, [queryString, searchUsers]);
 
     const handleSelect = useCallback((item: SuggestionItem) => {
@@ -84,7 +91,6 @@ export default function MentionPlugin({channelId, onMentionSelected, searchUsers
                 return;
             }
 
-            // @query 부분을 MentionNode로 교체
             const text = anchorNode.getTextContent();
             const offset = anchor.offset;
             const atIndex = text.lastIndexOf('@', offset - 1);
@@ -99,11 +105,10 @@ export default function MentionPlugin({channelId, onMentionSelected, searchUsers
                 anchorNode.insertAfter(mentionNode);
 
                 if (afterText) {
-                    const textNode = new TextNode(afterText);
+                    const textNode = $createTextNode(afterText);
                     mentionNode.insertAfter(textNode);
                 } else {
-                    // 멘션 뒤에 스페이스 삽입
-                    const spaceNode = new TextNode(' ');
+                    const spaceNode = $createTextNode(' ');
                     mentionNode.insertAfter(spaceNode);
                     spaceNode.select();
                 }
@@ -111,16 +116,14 @@ export default function MentionPlugin({channelId, onMentionSelected, searchUsers
         });
 
         onMentionSelected?.({id: item.id, username: item.display});
-        setIsOpen(false);
         setQueryString(null);
     }, [editor, onMentionSelected]);
 
     const handleClose = useCallback(() => {
-        setIsOpen(false);
         setQueryString(null);
     }, []);
 
-    if (!isOpen) {
+    if (queryString === null) {
         return null;
     }
 

@@ -466,6 +466,13 @@ const AdvancedTextEditor = ({
         focusTextbox();
     }, [draft, handleDraftChange, focusTextbox]);
 
+    const handleLexicalChange = useCallback((markdown: string) => {
+        handleDraftChange({
+            ...draft,
+            message: markdown,
+        });
+    }, [draft, handleDraftChange]);
+
     const handleSubmitWrapper = useCallback(() => {
         const isEmptyPost = isPostDraftEmpty(draft);
 
@@ -858,12 +865,7 @@ const AdvancedTextEditor = ({
                                 characterLimit={maxPostSize}
                                 createMessage={createMessage}
                                 disabled={isDisabled && !rewriteIsProcessing}
-                                onChange={(markdown: string) => {
-                                    handleDraftChange({
-                                        ...draft,
-                                        message: markdown,
-                                    });
-                                }}
+                                onChange={handleLexicalChange}
                                 onSubmit={handleSubmitWrapper}
                                 onFocus={handleFocus}
                                 onBlur={handleBlur}
