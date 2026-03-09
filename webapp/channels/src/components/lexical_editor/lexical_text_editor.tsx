@@ -19,9 +19,16 @@ import {TablePlugin} from '@lexical/react/LexicalTablePlugin';
 
 import editorTheme from './config/editor_theme';
 import {CHANNELS_TRANSFORMERS} from './config/markdown_transformers';
+import {MentionNode} from './nodes/mention_node';
+import {ChannelMentionNode} from './nodes/channel_mention_node';
+import {EmojiNode} from './nodes/emoji_node';
 import OnChangeMarkdownPlugin from './plugins/on_change_plugin';
 import KeyboardPlugin from './plugins/keyboard_plugin';
 import FocusPlugin from './plugins/focus_plugin';
+import MentionPlugin from './plugins/mention_plugin';
+import ChannelMentionPlugin from './plugins/channel_mention_plugin';
+import EmojiPlugin from './plugins/emoji_plugin';
+import SlashCommandPlugin from './plugins/slash_command_plugin';
 
 import './lexical_text_editor.scss';
 
@@ -38,6 +45,10 @@ export type LexicalTextEditorProps = {
     onFocus?: () => void;
     onBlur?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
+    onMentionSelected?: (item: {id: string; username: string}) => void;
+    searchUsers?: (term: string) => Promise<Array<{id: string; username: string; first_name: string; last_name: string}>>;
+    searchChannels?: (term: string) => Promise<Array<{id: string; name: string; display_name: string}>>;
+    supportsCommands?: boolean;
 };
 
 // 에디터 초기값 설정용 내부 플러그인
@@ -81,6 +92,10 @@ export default function LexicalTextEditor({
     onFocus,
     onBlur,
     onHeightChange,
+    onMentionSelected,
+    searchUsers,
+    searchChannels,
+    supportsCommands,
 }: LexicalTextEditorProps) {
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -98,6 +113,9 @@ export default function LexicalTextEditor({
             TableNode,
             TableCellNode,
             TableRowNode,
+            MentionNode,
+            ChannelMentionNode,
+            EmojiNode,
         ],
         onError: (error: Error) => {
             console.error('LexicalTextEditor error:', error);
@@ -147,6 +165,20 @@ export default function LexicalTextEditor({
                     />
                 )}
                 <FocusPlugin onFocus={onFocus} onBlur={onBlur} />
+                {searchUsers && (
+                    <MentionPlugin
+                        channelId={channelId}
+                        onMentionSelected={onMentionSelected}
+                        searchUsers={searchUsers}
+                    />
+                )}
+                {searchChannels && (
+                    <ChannelMentionPlugin
+                        searchChannels={searchChannels}
+                    />
+                )}
+                <EmojiPlugin />
+                {supportsCommands && <SlashCommandPlugin />}
             </LexicalComposer>
         </div>
     );
