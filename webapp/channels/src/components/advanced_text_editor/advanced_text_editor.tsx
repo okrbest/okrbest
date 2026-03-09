@@ -857,77 +857,99 @@ const AdvancedTextEditor = ({
                             </div>
                         )}
                         {useLexicalEditor ? (
-                            <LexicalTextEditor
-                                ref={lexicalEditorRef}
-                                id={textboxId}
-                                value={messageValue}
-                                channelId={channelId}
-                                characterLimit={maxPostSize}
-                                createMessage={createMessage}
-                                disabled={isDisabled && !rewriteIsProcessing}
-                                onChange={handleLexicalChange}
-                                onSubmit={handleSubmitWrapper}
-                                onFocus={handleFocus}
-                                onBlur={handleBlur}
-                            />
-                        ) : (
-                            <Textbox
-                                hasLabels={isInEditMode ? false : Boolean(priorityLabels || burnOnReadLabels)}
-                                suggestionList={location === Locations.RHS_COMMENT ? RhsSuggestionList : SuggestionList}
-                                onChange={handleChange}
-                                onKeyPress={postMsgKeyPress}
-                                onKeyDown={handleKeyDown}
-                                onComposition={emitTypingEvent}
-                                onHeightChange={handleHeightChange}
-                                handlePostError={handlePostError}
-                                value={messageValue}
-                                onBlur={handleBlur}
-                                onFocus={handleFocus}
-                                emojiEnabled={enableEmojiPicker}
-                                createMessage={createMessage}
-                                channelId={channelId}
-                                id={textboxId}
-                                ref={textboxRef!}
-                                disabled={isDisabled && !rewriteIsProcessing}
-                                characterLimit={maxPostSize}
-                                preview={showPreview}
-                                badConnection={badConnection}
-                                useChannelMentions={useChannelMentions}
-                                rootId={rootId}
-                                onWidthChange={handleWidthChange}
-                                isInEditMode={isInEditMode}
-                                onMentionSelected={handleMentionSelected}
-                            />
-                        )}
-                        {attachmentPreview}
-                        {!isDisabled && (showFormattingBar || showPreview) && (
-                            <TexteditorActions
-                                placement='top'
-                                isScrollbarRendered={renderScrollbar}
-                            >
-                                {showFormatJSX}
-                            </TexteditorActions>
-                        )}
-                        {showFormattingSpacer ? (
-                            <FormattingBarSpacer>
-                                {formattingBar}
-                            </FormattingBarSpacer>
-                        ) : formattingBar}
-                        {!isDisabled && (
-                            <TexteditorActions
-                                ref={editorActionsRef}
-                                placement='bottom'
-                            >
-                                <ToggleFormattingBar
-                                    onClick={toggleAdvanceTextEditor}
-                                    active={showFormattingBar}
-                                    disabled={showPreview}
+                            <>
+                                {showFormattingBar && formattingBar}
+                                <LexicalTextEditor
+                                    ref={lexicalEditorRef}
+                                    id={textboxId}
+                                    value={messageValue}
+                                    channelId={channelId}
+                                    characterLimit={maxPostSize}
+                                    createMessage={createMessage}
+                                    disabled={isDisabled && !rewriteIsProcessing}
+                                    onChange={handleLexicalChange}
+                                    onSubmit={handleSubmitWrapper}
+                                    onFocus={handleFocus}
+                                    onBlur={handleBlur}
                                 />
-                                <Separator/>
-                                {fileUploadJSX}
-                                {emojiPicker}
-                                {sendButton}
-                            </TexteditorActions>
+                                {attachmentPreview}
+                                {!isDisabled && (
+                                    <TexteditorActions
+                                        ref={editorActionsRef}
+                                        placement='bottom'
+                                    >
+                                        <ToggleFormattingBar
+                                            onClick={toggleAdvanceTextEditor}
+                                            active={showFormattingBar}
+                                            disabled={showPreview}
+                                        />
+                                        <Separator/>
+                                        {fileUploadJSX}
+                                        {emojiPicker}
+                                        {sendButton}
+                                    </TexteditorActions>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                <Textbox
+                                    hasLabels={isInEditMode ? false : Boolean(priorityLabels || burnOnReadLabels)}
+                                    suggestionList={location === Locations.RHS_COMMENT ? RhsSuggestionList : SuggestionList}
+                                    onChange={handleChange}
+                                    onKeyPress={postMsgKeyPress}
+                                    onKeyDown={handleKeyDown}
+                                    onComposition={emitTypingEvent}
+                                    onHeightChange={handleHeightChange}
+                                    handlePostError={handlePostError}
+                                    value={messageValue}
+                                    onBlur={handleBlur}
+                                    onFocus={handleFocus}
+                                    emojiEnabled={enableEmojiPicker}
+                                    createMessage={createMessage}
+                                    channelId={channelId}
+                                    id={textboxId}
+                                    ref={textboxRef!}
+                                    disabled={isDisabled && !rewriteIsProcessing}
+                                    characterLimit={maxPostSize}
+                                    preview={showPreview}
+                                    badConnection={badConnection}
+                                    useChannelMentions={useChannelMentions}
+                                    rootId={rootId}
+                                    onWidthChange={handleWidthChange}
+                                    isInEditMode={isInEditMode}
+                                    onMentionSelected={handleMentionSelected}
+                                />
+                                {attachmentPreview}
+                                {!isDisabled && (showFormattingBar || showPreview) && (
+                                    <TexteditorActions
+                                        placement='top'
+                                        isScrollbarRendered={renderScrollbar}
+                                    >
+                                        {showFormatJSX}
+                                    </TexteditorActions>
+                                )}
+                                {showFormattingSpacer ? (
+                                    <FormattingBarSpacer>
+                                        {formattingBar}
+                                    </FormattingBarSpacer>
+                                ) : formattingBar}
+                                {!isDisabled && (
+                                    <TexteditorActions
+                                        ref={editorActionsRef}
+                                        placement='bottom'
+                                    >
+                                        <ToggleFormattingBar
+                                            onClick={toggleAdvanceTextEditor}
+                                            active={showFormattingBar}
+                                            disabled={showPreview}
+                                        />
+                                        <Separator/>
+                                        {fileUploadJSX}
+                                        {emojiPicker}
+                                        {sendButton}
+                                    </TexteditorActions>
+                                )}
+                            </>
                         )}
                     </div>
                     {showSendTutorialTip && (
