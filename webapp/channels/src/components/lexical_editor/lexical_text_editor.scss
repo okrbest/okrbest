@@ -120,26 +120,54 @@
         }
 
         // ── Lists ──
+        // 글로벌 _markdown.scss의 display:table/table-row/::before counter 리셋
         .markdown__list {
+            display: block;
             padding-left: 24px;
             margin: 4px 0;
+            counter-reset: none;
         }
 
         .markdown__list--ul {
             list-style-type: disc;
+
+            .markdown__list--ul {
+                list-style-type: circle;
+
+                .markdown__list--ul {
+                    list-style-type: square;
+                }
+            }
         }
 
         .markdown__list--ol {
             list-style-type: decimal;
+
+            .markdown__list--ol {
+                list-style-type: lower-alpha;
+
+                .markdown__list--ol {
+                    list-style-type: lower-roman;
+                }
+            }
         }
 
         .markdown__list-item {
+            display: list-item;
             padding: 1px 0;
             line-height: 22px;
+
+            &::before {
+                display: none;
+            }
         }
 
         .markdown__nested-list-item {
-            list-style-type: circle;
+            list-style-type: none;
+
+            > .markdown__list {
+                margin: 0;
+            }
         }
 
         // ── Link ──

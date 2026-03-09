@@ -3,8 +3,11 @@ import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
     KEY_ENTER_COMMAND,
     KEY_ESCAPE_COMMAND,
+    KEY_TAB_COMMAND,
     COMMAND_PRIORITY_HIGH,
     INSERT_PARAGRAPH_COMMAND,
+    INDENT_CONTENT_COMMAND,
+    OUTDENT_CONTENT_COMMAND,
 } from 'lexical';
 
 type Props = {
@@ -50,9 +53,24 @@ export default function KeyboardPlugin({onSubmit, onEscape}: Props): null {
             COMMAND_PRIORITY_HIGH,
         );
 
+        // Tab/Shift+Tab = 리스트 들여쓰기/내어쓰기
+        const removeTabListener = editor.registerCommand(
+            KEY_TAB_COMMAND,
+            (event: KeyboardEvent) => {
+                event.preventDefault();
+                editor.dispatchCommand(
+                    event.shiftKey ? OUTDENT_CONTENT_COMMAND : INDENT_CONTENT_COMMAND,
+                    undefined,
+                );
+                return true;
+            },
+            COMMAND_PRIORITY_HIGH,
+        );
+
         return () => {
             removeEnterListener();
             removeEscapeListener();
+            removeTabListener();
         };
     }, [editor, onSubmit, onEscape]);
 

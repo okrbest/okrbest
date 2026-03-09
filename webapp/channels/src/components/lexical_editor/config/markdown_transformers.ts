@@ -1,4 +1,7 @@
 import {
+    ELEMENT_TRANSFORMERS,
+    TEXT_FORMAT_TRANSFORMERS,
+    TEXT_MATCH_TRANSFORMERS,
     TRANSFORMERS,
 } from '@lexical/markdown';
 import type {Transformer} from '@lexical/markdown';
@@ -21,9 +24,9 @@ const TABLE_TRANSFORMER: Transformer = {
 
         const lines: string[] = [];
 
-        rows.forEach((row, rowIndex) => {
+        rows.forEach((row: any, rowIndex: number) => {
             const cells = row.getChildren();
-            const cellTexts = cells.map((cell) => {
+            const cellTexts = cells.map((cell: any) => {
                 const text = cell.getTextContent().trim();
                 return text || ' ';
             });
@@ -50,7 +53,25 @@ const TABLE_TRANSFORMER: Transformer = {
     type: 'element',
 };
 
-// 모든 기본 Transformer + 테이블 Transformer
+// 리스트 transformer를 제외한 element transformers (heading, code, quote만)
+// 리스트는 MarkdownShortcutPlugin의 element transformer와 ListPlugin의 indent/outdent가 충돌하므로 제외
+const ELEMENT_TRANSFORMERS_WITHOUT_LIST = ELEMENT_TRANSFORMERS.filter(
+    (t) => {
+        // UNORDERED_LIST와 ORDERED_LIST의 regExp 패턴으로 식별
+        const regStr = t.regExp?.toString() || '';
+        return !regStr.includes('[-*+]') && !regStr.includes('\\d');
+    },
+);
+
+// MarkdownShortcutPlugin용: 리스트 transformer 제외
+// (리스트는 ListShortcutPlugin에서 별도 처리)
+export const CHANNELS_SHORTCUT_TRANSFORMERS: Transformer[] = [
+    ...ELEMENT_TRANSFORMERS_WITHOUT_LIST,
+    ...TEXT_FORMAT_TRANSFORMERS,
+    ...TEXT_MATCH_TRANSFORMERS,
+];
+
+// 마크다운 <-> 에디터 변환용 (전체 transformer 포함)
 export const CHANNELS_TRANSFORMERS: Transformer[] = [
     TABLE_TRANSFORMER,
     ...TRANSFORMERS,
