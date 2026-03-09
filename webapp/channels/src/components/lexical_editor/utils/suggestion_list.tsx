@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import './suggestion_list.scss';
 
@@ -28,34 +28,53 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
     const selectedIndexRef = useRef(0);
     selectedIndexRef.current = selectedIndex;
 
+    const itemsRef = useRef(items);
+    itemsRef.current = items;
+
+    const onSelectRef = useRef(onSelect);
+    onSelectRef.current = onSelect;
+
+    const onCloseRef = useRef(onClose);
+    onCloseRef.current = onClose;
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
+            const currentItems = itemsRef.current;
+            if (currentItems.length === 0) {
+                return;
+            }
+
             switch (e.key) {
             case 'ArrowDown':
                 e.preventDefault();
-                setSelectedIndex((prev) => (prev + 1) % items.length);
+                e.stopImmediatePropagation();
+                setSelectedIndex((prev) => (prev + 1) % currentItems.length);
                 break;
             case 'ArrowUp':
                 e.preventDefault();
-                setSelectedIndex((prev) => (prev - 1 + items.length) % items.length);
+                e.stopImmediatePropagation();
+                setSelectedIndex((prev) => (prev - 1 + currentItems.length) % currentItems.length);
                 break;
             case 'Enter':
             case 'Tab':
                 e.preventDefault();
-                if (items[selectedIndexRef.current]) {
-                    onSelect(items[selectedIndexRef.current]);
+                e.stopImmediatePropagation();
+                if (currentItems[selectedIndexRef.current]) {
+                    onSelectRef.current(currentItems[selectedIndexRef.current]);
                 }
                 break;
             case 'Escape':
                 e.preventDefault();
-                onClose();
+                e.stopImmediatePropagation();
+                onCloseRef.current();
                 break;
             }
         };
 
-        document.addEventListener('keydown', handleKeyDown);
-        return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [items, onSelect, onClose]);
+        // capture 단계에서 처리하여 Lexical 커맨드보다 먼저 키 이벤트를 가로챔
+        document.addEventListener('keydown', handleKeyDown, true);
+        return () => document.removeEventListener('keydown', handleKeyDown, true);
+    }, []);
 
     if (items.length === 0 && !loading) {
         return null;

@@ -1,6 +1,8 @@
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
+    $getSelection,
+    $isRangeSelection,
     KEY_ENTER_COMMAND,
     KEY_ESCAPE_COMMAND,
     KEY_TAB_COMMAND,
@@ -9,6 +11,8 @@ import {
     INDENT_CONTENT_COMMAND,
     OUTDENT_CONTENT_COMMAND,
 } from 'lexical';
+import {ListItemNode} from '@lexical/list';
+import {$getNearestNodeOfType} from '@lexical/utils';
 
 type Props = {
     onSubmit: () => void;
@@ -17,6 +21,12 @@ type Props = {
 
 export default function KeyboardPlugin({onSubmit, onEscape}: Props): null {
     const [editor] = useLexicalComposerContext();
+
+    const onSubmitRef = useRef(onSubmit);
+    onSubmitRef.current = onSubmit;
+
+    const onEscapeRef = useRef(onEscape);
+    onEscapeRef.current = onEscape;
 
     useEffect(() => {
         const removeEnterListener = editor.registerCommand(
@@ -33,9 +43,19 @@ export default function KeyboardPlugin({onSubmit, onEscape}: Props): null {
                     return true;
                 }
 
+                // 리스트 안에서 Enter = 새 항목 추가 (Lexical 기본 동작에 위임)
+                const selection = $getSelection();
+                if ($isRangeSelection(selection)) {
+                    const anchorNode = selection.anchor.getNode();
+                    const listItem = $getNearestNodeOfType(anchorNode, ListItemNode);
+                    if (listItem) {
+                        return false;
+                    }
+                }
+
                 // Enter = 메시지 전송
                 event.preventDefault();
-                onSubmit();
+                onSubmitRef.current();
                 return true;
             },
             COMMAND_PRIORITY_HIGH,
@@ -44,8 +64,8 @@ export default function KeyboardPlugin({onSubmit, onEscape}: Props): null {
         const removeEscapeListener = editor.registerCommand(
             KEY_ESCAPE_COMMAND,
             () => {
-                if (onEscape) {
-                    onEscape();
+                if (onEscapeRef.current) {
+                    onEscapeRef.current();
                     return true;
                 }
                 return false;
@@ -72,7 +92,7 @@ export default function KeyboardPlugin({onSubmit, onEscape}: Props): null {
             removeEscapeListener();
             removeTabListener();
         };
-    }, [editor, onSubmit, onEscape]);
+    }, [editor]);
 
     return null;
 }

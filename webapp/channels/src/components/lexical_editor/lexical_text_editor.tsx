@@ -11,7 +11,7 @@ import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {$convertFromMarkdownString, $convertToMarkdownString} from '@lexical/markdown';
 import {$createParagraphNode, $getRoot} from 'lexical';
 import {HeadingNode, QuoteNode} from '@lexical/rich-text';
-import {ListNode, ListItemNode} from '@lexical/list';
+import {$isListNode, ListNode, ListItemNode} from '@lexical/list';
 import {CodeNode, CodeHighlightNode} from '@lexical/code';
 import {LinkNode} from '@lexical/link';
 import {TableNode, TableCellNode, TableRowNode} from '@lexical/table';
@@ -68,8 +68,8 @@ function ValueSyncPlugin({value}: {value: string}) {
 
     useEffect(() => {
         if (!isInitialized.current) {
+            isInitialized.current = true;
             if (value) {
-                isInitialized.current = true;
                 editor.update(() => {
                     $convertFromMarkdownString(value, CHANNELS_TRANSFORMERS);
                 });
@@ -88,6 +88,46 @@ function ValueSyncPlugin({value}: {value: string}) {
 
         lastExternalValue.current = value;
     }, [editor, value]);
+
+    return null;
+}
+
+// 빈 리스트 노드 정규화 플러그인
+// Cmd+A → Backspace 시 빈 리스트가 남는 것을 방지
+function EmptyBlockNormalizerPlugin(): null {
+    const [editor] = useLexicalComposerContext();
+
+    useEffect(() => {
+        return editor.registerUpdateListener(({editorState, prevEditorState, tags}) => {
+            if (tags.has('history-merge')) {
+                return;
+            }
+
+            editorState.read(() => {
+                const root = $getRoot();
+                const children = root.getChildren();
+
+                // 단일 빈 리스트 감지: 리스트 아이템이 1개이고 텍스트가 없는 경우
+                const listNode = children[0];
+                if (children.length === 1 && $isListNode(listNode) && listNode.getChildrenSize() === 1 && !listNode.getFirstChild()?.getTextContent()) {
+                    // 이전 상태가 paragraph였으면 새 리스트 생성 → 무시
+                    const wasCreatedFromParagraph = prevEditorState.read(() => {
+                        const prevChildren = $getRoot().getChildren();
+                        return prevChildren.length === 1 && !$isListNode(prevChildren[0]);
+                    });
+                    if (wasCreatedFromParagraph) {
+                        return;
+                    }
+
+                    editor.update(() => {
+                        const root = $getRoot();
+                        root.clear();
+                        root.append($createParagraphNode());
+                    }, {tag: 'history-merge'});
+                }
+            });
+        });
+    }, [editor]);
 
     return null;
 }
@@ -196,6 +236,7 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
                 <OnChangeMarkdownPlugin onChange={onChange} />
                 <ValueSyncPlugin value={value} />
                 <EditablePlugin disabled={disabled} />
+                <EmptyBlockNormalizerPlugin />
                 <EditorRefPlugin editorRef={editorRef} />
                 {onSubmit && (
                     <KeyboardPlugin
