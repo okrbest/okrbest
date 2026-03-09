@@ -1,4 +1,5 @@
-import React, {useCallback, useEffect, useRef, useMemo} from 'react';
+import React, {useCallback, useEffect, useRef, useMemo, useImperativeHandle, forwardRef} from 'react';
+import type {LexicalEditor} from 'lexical';
 import classNames from 'classnames';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
@@ -51,6 +52,11 @@ export type LexicalTextEditorProps = {
     supportsCommands?: boolean;
 };
 
+export type LexicalTextEditorHandle = {
+    getEditor: () => LexicalEditor | null;
+    focus: () => void;
+};
+
 // 에디터 초기값 설정용 내부 플러그인
 function InitialValuePlugin({value}: {value: string}) {
     const [editor] = useLexicalComposerContext();
@@ -79,7 +85,18 @@ function EditablePlugin({disabled}: {disabled: boolean}) {
     return null;
 }
 
-export default function LexicalTextEditor({
+// editor 인스턴스를 외부 ref에 노출
+function EditorRefPlugin({editorRef}: {editorRef: React.MutableRefObject<LexicalEditor | null>}) {
+    const [editor] = useLexicalComposerContext();
+
+    useEffect(() => {
+        editorRef.current = editor;
+    }, [editor, editorRef]);
+
+    return null;
+}
+
+const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorProps>(function LexicalTextEditor({
     id,
     value,
     channelId,
@@ -96,8 +113,16 @@ export default function LexicalTextEditor({
     searchUsers,
     searchChannels,
     supportsCommands,
-}: LexicalTextEditorProps) {
+}, ref) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const editorRef = useRef<LexicalEditor | null>(null);
+
+    useImperativeHandle(ref, () => ({
+        getEditor: () => editorRef.current,
+        focus: () => {
+            editorRef.current?.focus();
+        },
+    }), []);
 
     const initialConfig = useMemo(() => ({
         namespace: `channels-editor-${id}`,
@@ -158,6 +183,7 @@ export default function LexicalTextEditor({
                 <OnChangeMarkdownPlugin onChange={handleChange} />
                 <InitialValuePlugin value={value} />
                 <EditablePlugin disabled={disabled} />
+                <EditorRefPlugin editorRef={editorRef} />
                 {onSubmit && (
                     <KeyboardPlugin
                         onSubmit={handleSubmit}
@@ -182,4 +208,6 @@ export default function LexicalTextEditor({
             </LexicalComposer>
         </div>
     );
-}
+});
+
+export default LexicalTextEditor;

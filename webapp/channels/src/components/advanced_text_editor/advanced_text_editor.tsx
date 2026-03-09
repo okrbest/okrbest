@@ -44,6 +44,8 @@ import {
 import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
 import SuggestionList from 'components/suggestion/suggestion_list';
 import LexicalTextEditor from 'components/lexical_editor/lexical_text_editor';
+import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_text_editor';
+import {applyLexicalFormatting} from 'components/lexical_editor/utils/formatting_commands';
 import Textbox from 'components/textbox';
 import type {TextboxElement} from 'components/textbox';
 import type TextboxClass from 'components/textbox/textbox';
@@ -216,6 +218,7 @@ const AdvancedTextEditor = ({
     const editorActionsRef = useRef<HTMLDivElement>(null);
     const editorBodyRef = useRef<HTMLDivElement>(null);
     const textboxRef = useRef<TextboxClass>(null);
+    const lexicalEditorRef = useRef<LexicalTextEditorHandle>(null);
     const loggedInAriaLabelTimeout = useRef<NodeJS.Timeout>();
     const saveDraftFrame = useRef<NodeJS.Timeout>();
     const draftRef = useRef(draftFromStore);
@@ -324,6 +327,14 @@ const AdvancedTextEditor = ({
     }, [handleDraftChange, teammateNameDisplay]);
 
     const applyMarkdown = useCallback((params: ApplyMarkdownOptions) => {
+        if (useLexicalEditor) {
+            const editor = lexicalEditorRef.current?.getEditor();
+            if (editor) {
+                applyLexicalFormatting(editor, params.markdownMode);
+            }
+            return;
+        }
+
         if (showPreview) {
             return;
         }
@@ -339,7 +350,7 @@ const AdvancedTextEditor = ({
             const textbox = textboxRef.current?.getInputBox();
             Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
         });
-    }, [showPreview, handleDraftChange, draft]);
+    }, [useLexicalEditor, showPreview, handleDraftChange, draft]);
 
     const toggleAdvanceTextEditor = useCallback(() => {
         dispatch(savePreferences(currentUserId, [{
@@ -840,6 +851,7 @@ const AdvancedTextEditor = ({
                         )}
                         {useLexicalEditor ? (
                             <LexicalTextEditor
+                                ref={lexicalEditorRef}
                                 id={textboxId}
                                 value={messageValue}
                                 channelId={channelId}
