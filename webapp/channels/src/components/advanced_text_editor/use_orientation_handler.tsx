@@ -3,12 +3,12 @@
 
 import {useCallback, useEffect, useRef} from 'react';
 
-import type TextboxClass from 'components/textbox/textbox';
+import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_text_editor';
 
 import * as UserAgent from 'utils/user_agent';
 
 const useOrientationHandler = (
-    textboxRef: React.RefObject<TextboxClass>,
+    editorRef: React.RefObject<LexicalTextEditorHandle>,
     postId: string,
 ) => {
     const lastOrientation = useRef('');
@@ -33,11 +33,11 @@ const useOrientationHandler = (
             orientation !== lastOrientation.current &&
             (document.activeElement || {}).id === 'post_textbox'
         ) {
-            textboxRef.current?.blur();
+            editorRef.current?.blur();
         }
 
         lastOrientation.current = orientation;
-    }, [textboxRef]);
+    }, [editorRef]);
 
     useEffect(() => {
         if (!postId && UserAgent.isIosWeb()) {

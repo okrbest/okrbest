@@ -15,9 +15,7 @@ import {getChannel, makeGetChannel, getDirectChannel} from 'mattermost-redux/sel
 import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {get, getBool, getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, isCurrentUserGuestUser, getStatusForUserId, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import * as GlobalActions from 'actions/global_actions';
 import type {CreatePostOptions} from 'actions/post_actions';
@@ -27,13 +25,11 @@ import {removeDraft, updateDraft} from 'actions/views/drafts';
 import {openModal} from 'actions/views/modals';
 import {makeGetDraft} from 'selectors/drafts';
 import {getSelectedPostFocussedAt} from 'selectors/rhs';
-import {connectionErrorCount} from 'selectors/views/system';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import PostBoxIndicator from 'components/advanced_text_editor/post_box_indicator/post_box_indicator';
 import {makeAsyncComponent} from 'components/async_load';
 import AutoHeightSwitcher from 'components/common/auto_height_switcher';
-import useDidUpdate from 'components/common/hooks/useDidUpdate';
 import useGetAgentsBridgeEnabled from 'components/common/hooks/useGetAgentsBridgeEnabled';
 import DeletePostModal from 'components/delete_post_modal';
 import {
@@ -41,15 +37,9 @@ import {
     DropOverlayIdCreatePost,
     DropOverlayIdEditPost, FileUploadOverlay,
 } from 'components/file_upload_overlay/file_upload_overlay';
-import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
-import SuggestionList from 'components/suggestion/suggestion_list';
 import LexicalTextEditor from 'components/lexical_editor/lexical_text_editor';
 import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_text_editor';
 import {applyLexicalFormatting} from 'components/lexical_editor/utils/formatting_commands';
-import Textbox from 'components/textbox';
-import type {TextboxElement} from 'components/textbox';
-import type TextboxClass from 'components/textbox/textbox';
-import type {MentionItem} from 'components/textbox/textbox';
 import {OnboardingTourSteps, OnboardingTourStepsForGuestUsers, TutorialTourName} from 'components/tours/constant';
 import {SendMessageTour} from 'components/tours/onboarding_tour';
 
@@ -64,10 +54,7 @@ import Constants, {
 } from 'utils/constants';
 import {canUploadFiles as canUploadFilesAccordingToConfig} from 'utils/file_utils';
 import type {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
-import {applyMarkdown as applyMarkdownUtil} from 'utils/markdown/apply_markdown';
-import {isErrorInvalidSlashCommand} from 'utils/post_utils';
 import {allAtMentions} from 'utils/text_formatting';
-import * as Utils from 'utils/utils';
 
 import type {GlobalState} from 'types/store';
 import type {PostDraft} from 'types/store/draft';
@@ -77,10 +64,9 @@ import DoNotDisturbWarning from './do_not_disturb_warning';
 import EditPostFooter from './edit_post_footer';
 import Footer from './footer';
 import FormattingBar from './formatting_bar';
-import {FormattingBarSpacer, Separator} from './formatting_bar/formatting_bar';
+import {Separator} from './formatting_bar/formatting_bar';
 import MessageWithMentionsFooter from './message_with_mentions_footer';
 import SendButton from './send_button';
-import ShowFormat from './show_formatting';
 import TexteditorActions from './texteditor_actions';
 import ToggleFormattingBar from './toggle_formatting_bar';
 import UnifiedLabelsWrapper from './unified_labels_wrapper';
@@ -175,7 +161,6 @@ const AdvancedTextEditor = ({
     const channelType = channel?.type || '';
     const isChannelShared = channel?.shared;
     const draftFromStore = useSelector((state: GlobalState) => getDraftSelector(state, channelId, rootId, storageKey));
-    const badConnection = useSelector((state: GlobalState) => connectionErrorCount(state) > 1);
     const maxPostSize = useSelector((state: GlobalState) => parseInt(getConfig(state).MaxPostSize || '', 10) || Constants.DEFAULT_CHARACTER_LIMIT);
     const canUploadFiles = useSelector((state: GlobalState) => canUploadFilesAccordingToConfig(getConfig(state)));
     const fullWidthTextBox = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN);
@@ -188,15 +173,10 @@ const AdvancedTextEditor = ({
     const showDndWarning = useSelector((state: GlobalState) => (teammateId ? getStatusForUserId(state, teammateId) === UserStatuses.DND : false));
     const selectedPostFocussedAt = useSelector((state: GlobalState) => getSelectedPostFocussedAt(state));
     const aiRewriteEnabled = useGetAgentsBridgeEnabled();
-    const teammateNameDisplay = useSelector(getTeammateNameDisplaySetting);
 
     const canPost = useSelector((state: GlobalState) => {
         const channel = getChannel(state, channelId);
         return channel ? haveIChannelPermission(state, channel.team_id, channel.id, Permissions.CREATE_POST) : false;
-    });
-    const useChannelMentions = useSelector((state: GlobalState) => {
-        const channel = getChannel(state, channelId);
-        return channel ? haveIChannelPermission(state, channel.team_id, channel.id, Permissions.USE_CHANNEL_MENTIONS) : false;
     });
     const showSendTutorialTip = useSelector((state: GlobalState) => {
         // We don't show the tutorial tip neither on RHS nor Thread view
@@ -217,7 +197,6 @@ const AdvancedTextEditor = ({
 
     const editorActionsRef = useRef<HTMLDivElement>(null);
     const editorBodyRef = useRef<HTMLDivElement>(null);
-    const textboxRef = useRef<TextboxClass>(null);
     const lexicalEditorRef = useRef<LexicalTextEditorHandle>(null);
     const loggedInAriaLabelTimeout = useRef<NodeJS.Timeout>();
     const saveDraftFrame = useRef<NodeJS.Timeout>();
@@ -229,24 +208,13 @@ const AdvancedTextEditor = ({
     const [draft, setDraft] = useState(draftFromStore);
     const [serverError, setServerError] = useState<(ServerError & { submittedMessage?: string }) | null>(null);
     const [postError, setPostError] = useState<React.ReactNode>(null);
-    const [showPreview, setShowPreview] = useState(false);
-    const [isMessageLong, setIsMessageLong] = useState(false);
-    const [renderScrollbar, setRenderScrollbar] = useState(false);
     const [keepEditorInFocus, setKeepEditorInFocus] = useState(false);
 
     const readOnlyChannel = !canPost;
     const hasDraftMessage = Boolean(draft.message);
     const showFormattingBar = !isFormattingBarHidden && !readOnlyChannel;
     const enableSharedChannelsDMs = useSelector((state: GlobalState) => getFeatureFlagValue(state, 'EnableSharedChannelsDMs') === 'true');
-    const useLexicalEditor = useSelector((state: GlobalState) => getFeatureFlagValue(state, 'EnableLexicalEditor') === 'true');
     const isDMOrGMRemote = isChannelShared && (channelType === Constants.DM_CHANNEL || channelType === Constants.GM_CHANNEL);
-
-    const handleShowPreview = useCallback(() => {
-        if (!useLexicalEditor) {
-            setShowPreview((prev) => !prev);
-        }
-        // Lexical 모드에서는 Preview 불필요
-    }, [useLexicalEditor]);
 
     const emitTypingEvent = useCallback(() => {
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
@@ -295,62 +263,12 @@ const AdvancedTextEditor = ({
         storedDrafts.current[draftToChange.rootId || draftToChange.channelId] = draftToChange;
     }, [dispatch]);
 
-    // 멘션이 선택될 때 displayname -> username 매핑 저장
-    const handleMentionSelected = useCallback((item: MentionItem) => {
-        // UserProfile 타입인지 확인 (id와 username이 있어야 함)
-        if (!item || !('id' in item) || !('username' in item)) {
-            return;
-        }
-
-        const userItem = item as {id: string; username: string; first_name?: string; last_name?: string; nickname?: string};
-        const userDisplayName = displayUsername(userItem, teammateNameDisplay);
-
-        // draftRef.current를 사용하여 항상 최신 draft 상태에서 매핑을 가져옴
-        // (연속으로 멘션을 선택할 때 이전 매핑이 사라지는 문제 방지)
-        const currentDraft = draftRef.current;
-        const currentMappings = currentDraft.mentionMappings || {};
-
-        // displayname을 키로 사용하여 매핑 저장
-        const newMappings = {
-            ...currentMappings,
-            [userDisplayName]: {
-                userId: userItem.id,
-                username: userItem.username,
-                displayName: userDisplayName,
-            },
-        };
-
-        handleDraftChange({
-            ...currentDraft,
-            mentionMappings: newMappings,
-        });
-    }, [handleDraftChange, teammateNameDisplay]);
-
     const applyMarkdown = useCallback((params: ApplyMarkdownOptions) => {
-        if (useLexicalEditor) {
-            const editor = lexicalEditorRef.current?.getEditor();
-            if (editor) {
-                applyLexicalFormatting(editor, params.markdownMode);
-            }
-            return;
+        const editor = lexicalEditorRef.current?.getEditor();
+        if (editor) {
+            applyLexicalFormatting(editor, params.markdownMode);
         }
-
-        if (showPreview) {
-            return;
-        }
-
-        const res = applyMarkdownUtil(params);
-
-        handleDraftChange({
-            ...draft,
-            message: res.message,
-        });
-
-        setTimeout(() => {
-            const textbox = textboxRef.current?.getInputBox();
-            Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
-        });
-    }, [useLexicalEditor, showPreview, handleDraftChange, draft]);
+    }, []);
 
     const toggleAdvanceTextEditor = useCallback(() => {
         dispatch(savePreferences(currentUserId, [{
@@ -363,13 +281,13 @@ const AdvancedTextEditor = ({
         }]));
     }, [dispatch, currentUserId, getFormattingBarPreferenceName, isFormattingBarHidden]);
 
-    useOrientationHandler(textboxRef, rootId);
-    const pluginItems = usePluginItems(draft, textboxRef, handleDraftChange, channelId);
-    const focusTextbox = useTextboxFocus(textboxRef, channelId, isRHS, canPost);
+    useOrientationHandler(lexicalEditorRef, rootId);
+    const pluginItems = usePluginItems(draft, lexicalEditorRef, handleDraftChange, channelId);
+    const focusTextbox = useTextboxFocus(lexicalEditorRef, channelId, isRHS, canPost);
     const {
         additionalControl: aiRewriteAdditionalControl,
         isProcessing: rewriteIsProcessing,
-    } = useRewrite(draft, handleDraftChange, textboxRef, focusTextbox, setServerError);
+    } = useRewrite(draft, handleDraftChange, lexicalEditorRef, focusTextbox, setServerError);
     const isDisabled = Boolean(readOnlyChannel || (!enableSharedChannelsDMs && isDMOrGMRemote) || rewriteIsProcessing);
 
     const [attachmentPreview, fileUploadJSX] = useUploadFiles(
@@ -379,7 +297,7 @@ const AdvancedTextEditor = ({
         isThreadView,
         storedDrafts,
         isDisabled,
-        textboxRef,
+        lexicalEditorRef,
         handleDraftChange,
         focusTextbox,
         setServerError,
@@ -393,18 +311,18 @@ const AdvancedTextEditor = ({
     } = useEditorEmojiPicker(
         textboxId,
         isDisabled,
-        showPreview,
+        false,
     );
     const {
         labels: priorityLabels,
         additionalControl: priorityAdditionalControl,
         isValidPersistentNotifications,
         onSubmitCheck: prioritySubmitCheck,
-    } = usePriority(draft, handleDraftChange, focusTextbox, showPreview, false);
+    } = usePriority(draft, handleDraftChange, focusTextbox, false, false);
     const {
         labels: burnOnReadLabels,
         additionalControl: burnOnReadAdditionalControl,
-    } = useBurnOnRead(draft, handleDraftChange, focusTextbox, showPreview, false);
+    } = useBurnOnRead(draft, handleDraftChange, focusTextbox, false, false);
     const [handleSubmit, errorClass] = useSubmit(
         draft,
         postError,
@@ -414,7 +332,7 @@ const AdvancedTextEditor = ({
         lastBlurAt,
         focusTextbox,
         setServerError,
-        setShowPreview,
+        () => {},
         handleDraftChange,
         prioritySubmitCheck,
         undefined,
@@ -493,20 +411,20 @@ const AdvancedTextEditor = ({
         handleSubmitWithErrorHandling();
     }, [dispatch, draft, handleSubmitWithErrorHandling, isInEditMode, isRHS]);
 
-    const [handleKeyDown, postMsgKeyPress] = useKeyHandler(
+    useKeyHandler(
         draft,
         channelId,
         rootId,
         isValidPersistentNotifications,
         location,
-        textboxRef,
+        lexicalEditorRef,
         showFormattingBar,
         focusTextbox,
         applyMarkdown,
         handleDraftChange,
         handleSubmitWrapper,
         emitTypingEvent,
-        handleShowPreview,
+        () => {},
         toggleAdvanceTextEditor,
         toggleEmojiPicker,
         isInEditMode,
@@ -518,14 +436,6 @@ const AdvancedTextEditor = ({
         handleSubmitWithErrorHandling();
     }, [handleSubmitWithErrorHandling]);
 
-    const handlePostError = useCallback((err: React.ReactNode) => {
-        setPostError(err);
-    }, []);
-
-    const handleHeightChange = useCallback((height: number, maxHeight: number) => {
-        setRenderScrollbar(height > maxHeight);
-    }, []);
-
     const handleBlur = useCallback(() => {
         lastBlurAt.current = Date.now();
         setKeepEditorInFocus(false);
@@ -535,86 +445,27 @@ const AdvancedTextEditor = ({
         setKeepEditorInFocus(true);
     }, []);
 
-    const handleChange = useCallback((e: React.ChangeEvent<TextboxElement>) => {
-        const message = e.target.value;
-
-        if (!isErrorInvalidSlashCommand(serverError)) {
-            setServerError(null);
-        }
-
-        handleDraftChange({
-            ...draft,
-            message,
-        });
-    }, [draft, handleDraftChange, serverError]);
-
-    /**
-     * by getting the value directly from the textbox we eliminate all unnecessary
-     * re-renders for the FormattingBar component. The previous method of always passing
-     * down the current message value that came from the parents state was not optimal,
-     * although still working as expected
-     */
-    const getCurrentValue = useCallback(() => textboxRef.current?.getInputBox().value, [textboxRef]);
+    const getCurrentValue = useCallback(() => draft.message, [draft.message]);
 
     const getCurrentSelection = useCallback(() => {
-        const input = textboxRef.current?.getInputBox();
-
         return {
-            start: input?.selectionStart ?? 0,
-            end: input?.selectionEnd ?? 0,
+            start: 0,
+            end: 0,
         };
-    }, [textboxRef]);
-
-    const handleWidthChange = useCallback((width: number) => {
-        const input = textboxRef.current?.getInputBox();
-        if (!editorBodyRef.current || !editorActionsRef.current || !input) {
-            return;
-        }
-
-        const maxWidth = editorBodyRef.current.offsetWidth - editorActionsRef.current.offsetWidth;
-
-        if (!hasDraftMessage) {
-            // if we do not have a message we can just render the default state
-            setIsMessageLong(false);
-            return;
-        }
-
-        if (width >= maxWidth) {
-            setIsMessageLong(true);
-        } else {
-            setIsMessageLong(false);
-        }
-    }, [hasDraftMessage]);
+    }, []);
 
     const prefillMessage = useCallback((message: string) => {
         handleDraftChange({
             ...draft,
             message,
         });
-
-        const inputBox = textboxRef.current?.getInputBox();
-        inputBox?.click();
         focusTextbox(true);
-    }, [handleDraftChange, focusTextbox, draft, textboxRef]);
-
-    // Handle width change when there is no message.
-    useEffect(() => {
-        if (!hasDraftMessage) {
-            handleWidthChange(0);
-        }
-    }, [hasDraftMessage, handleWidthChange]);
+    }, [handleDraftChange, focusTextbox, draft]);
 
     // Clear timeout on unmount
     useEffect(() => {
         return () => loggedInAriaLabelTimeout.current && clearTimeout(loggedInAriaLabelTimeout.current);
     }, []);
-
-    // Focus textbox when we stop showing the preview
-    useDidUpdate(() => {
-        if (!showPreview) {
-            focusTextbox();
-        }
-    }, [showPreview]);
 
     // Focus textbox when selectedPostFocussedAt changes
     useEffect(() => {
@@ -624,9 +475,8 @@ const AdvancedTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedPostFocussedAt]);
 
-    // Remove show preview when we switch channels or posts
+    // Reset server error when we switch channels or posts
     useEffect(() => {
-        setShowPreview(false);
         setServerError(null);
     }, [channelId, rootId]);
 
@@ -679,13 +529,6 @@ const AdvancedTextEditor = ({
             disabled={disableSendButton}
             handleSubmit={handleSubmitPostAndScheduledMessage}
             channelId={channelId}
-        />
-    );
-
-    const showFormatJSX = disableSendButton || useLexicalEditor ? null : (
-        <ShowFormat
-            onClick={handleShowPreview}
-            active={showPreview}
         />
     );
 
@@ -760,7 +603,7 @@ const AdvancedTextEditor = ({
                     applyMarkdown={applyMarkdown}
                     getCurrentMessage={getCurrentValue}
                     getCurrentSelection={getCurrentSelection}
-                    disableControls={showPreview}
+                    disableControls={false}
                     additionalControls={additionalControls}
                     location={location}
                 />
@@ -791,8 +634,6 @@ const AdvancedTextEditor = ({
         );
     }, [isInEditMode, isRHS]);
 
-    const showFormattingSpacer = isMessageLong || showPreview || attachmentPreview || isRHS || isThreadView;
-
     const containsAtMentionsInMessage = allAtMentions(draft?.message)?.length > 0;
 
     return (
@@ -817,7 +658,6 @@ const AdvancedTextEditor = ({
             <div
                 className={classNames('AdvancedTextEditor', {
                     'AdvancedTextEditor__attachment-disabled': !canUploadFiles,
-                    scroll: renderScrollbar,
                     'formatting-bar': showFormattingBar,
                 })}
             >
@@ -852,104 +692,40 @@ const AdvancedTextEditor = ({
                                     priorityLabels={priorityLabels}
                                     burnOnReadLabels={burnOnReadLabels}
                                     onRemoveAll={handleRemoveAllLabels}
-                                    canRemove={!showPreview}
+                                    canRemove={true}
                                 />
                             </div>
                         )}
-                        {useLexicalEditor ? (
-                            <>
-                                {showFormattingBar && formattingBar}
-                                <LexicalTextEditor
-                                    ref={lexicalEditorRef}
-                                    id={textboxId}
-                                    value={messageValue}
-                                    channelId={channelId}
-                                    characterLimit={maxPostSize}
-                                    createMessage={createMessage}
-                                    disabled={isDisabled && !rewriteIsProcessing}
-                                    onChange={handleLexicalChange}
-                                    onSubmit={handleSubmitWrapper}
-                                    onFocus={handleFocus}
-                                    onBlur={handleBlur}
+                        {showFormattingBar && formattingBar}
+                        <LexicalTextEditor
+                            ref={lexicalEditorRef}
+                            id={textboxId}
+                            value={messageValue}
+                            channelId={channelId}
+                            characterLimit={maxPostSize}
+                            createMessage={createMessage}
+                            disabled={isDisabled && !rewriteIsProcessing}
+                            onChange={handleLexicalChange}
+                            onSubmit={handleSubmitWrapper}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                        />
+                        {attachmentPreview}
+                        {!isDisabled && (
+                            <TexteditorActions
+                                ref={editorActionsRef}
+                                placement='bottom'
+                            >
+                                <ToggleFormattingBar
+                                    onClick={toggleAdvanceTextEditor}
+                                    active={showFormattingBar}
+                                    disabled={false}
                                 />
-                                {attachmentPreview}
-                                {!isDisabled && (
-                                    <TexteditorActions
-                                        ref={editorActionsRef}
-                                        placement='bottom'
-                                    >
-                                        <ToggleFormattingBar
-                                            onClick={toggleAdvanceTextEditor}
-                                            active={showFormattingBar}
-                                            disabled={showPreview}
-                                        />
-                                        <Separator/>
-                                        {fileUploadJSX}
-                                        {emojiPicker}
-                                        {sendButton}
-                                    </TexteditorActions>
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                <Textbox
-                                    hasLabels={isInEditMode ? false : Boolean(priorityLabels || burnOnReadLabels)}
-                                    suggestionList={location === Locations.RHS_COMMENT ? RhsSuggestionList : SuggestionList}
-                                    onChange={handleChange}
-                                    onKeyPress={postMsgKeyPress}
-                                    onKeyDown={handleKeyDown}
-                                    onComposition={emitTypingEvent}
-                                    onHeightChange={handleHeightChange}
-                                    handlePostError={handlePostError}
-                                    value={messageValue}
-                                    onBlur={handleBlur}
-                                    onFocus={handleFocus}
-                                    emojiEnabled={enableEmojiPicker}
-                                    createMessage={createMessage}
-                                    channelId={channelId}
-                                    id={textboxId}
-                                    ref={textboxRef!}
-                                    disabled={isDisabled && !rewriteIsProcessing}
-                                    characterLimit={maxPostSize}
-                                    preview={showPreview}
-                                    badConnection={badConnection}
-                                    useChannelMentions={useChannelMentions}
-                                    rootId={rootId}
-                                    onWidthChange={handleWidthChange}
-                                    isInEditMode={isInEditMode}
-                                    onMentionSelected={handleMentionSelected}
-                                />
-                                {attachmentPreview}
-                                {!isDisabled && (showFormattingBar || showPreview) && (
-                                    <TexteditorActions
-                                        placement='top'
-                                        isScrollbarRendered={renderScrollbar}
-                                    >
-                                        {showFormatJSX}
-                                    </TexteditorActions>
-                                )}
-                                {showFormattingSpacer ? (
-                                    <FormattingBarSpacer>
-                                        {formattingBar}
-                                    </FormattingBarSpacer>
-                                ) : formattingBar}
-                                {!isDisabled && (
-                                    <TexteditorActions
-                                        ref={editorActionsRef}
-                                        placement='bottom'
-                                    >
-                                        <ToggleFormattingBar
-                                            onClick={toggleAdvanceTextEditor}
-                                            active={showFormattingBar}
-                                            disabled={showPreview}
-                                        />
-                                        <Separator/>
-                                        {fileUploadJSX}
-                                        {emojiPicker}
-                                        {sendButton}
-                                    </TexteditorActions>
-                                )}
-                            </>
+                                <Separator/>
+                                {fileUploadJSX}
+                                {emojiPicker}
+                                {sendButton}
+                            </TexteditorActions>
                         )}
                     </div>
                     {showSendTutorialTip && (

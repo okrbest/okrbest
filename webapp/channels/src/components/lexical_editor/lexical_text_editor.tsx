@@ -56,6 +56,8 @@ export type LexicalTextEditorProps = {
 export type LexicalTextEditorHandle = {
     getEditor: () => LexicalEditor | null;
     focus: () => void;
+    blur: () => void;
+    getInputBox: () => HTMLElement | null;
 };
 
 // 에디터 값 동기화 플러그인 (초기값 설정 + 외부에서 빈 값으로 리셋 시 클리어)
@@ -133,6 +135,13 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
         getEditor: () => editorRef.current,
         focus: () => {
             editorRef.current?.focus();
+        },
+        blur: () => {
+            const rootElement = editorRef.current?.getRootElement();
+            rootElement?.blur();
+        },
+        getInputBox: () => {
+            return editorRef.current?.getRootElement() ?? null;
         },
     }), []);
 

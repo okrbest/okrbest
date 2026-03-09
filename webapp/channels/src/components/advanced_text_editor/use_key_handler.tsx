@@ -14,8 +14,7 @@ import {editLatestPost} from 'actions/views/create_comment';
 import {replyToLatestPostInChannel} from 'actions/views/rhs';
 import {getIsRhsExpanded} from 'selectors/rhs';
 
-import type {TextboxElement} from 'components/textbox';
-import type TextboxClass from 'components/textbox/textbox';
+import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_text_editor';
 
 import Constants, {A11yClassNames, Locations, Preferences} from 'utils/constants';
 import * as Keyboard from 'utils/keyboard';
@@ -36,7 +35,7 @@ const useKeyHandler = (
     postId: string,
     isValidPersistentNotifications: boolean,
     location: string,
-    textboxRef: React.RefObject<TextboxClass>,
+    editorRef: React.RefObject<LexicalTextEditorHandle>,
     showFormattingBar: boolean,
     focusTextbox: (forceFocus?: boolean) => void,
     applyMarkdown: (params: ApplyMarkdownOptions) => void,
@@ -49,8 +48,8 @@ const useKeyHandler = (
     isInEditMode?: boolean,
     onCancel?: () => void,
 ): [
-        (e: React.KeyboardEvent<TextboxElement>) => void,
-        (e: React.KeyboardEvent<TextboxElement>) => void,
+        (e: React.KeyboardEvent<HTMLElement>) => void,
+        (e: React.KeyboardEvent<HTMLElement>) => void,
     ] => {
     const dispatch = useDispatch();
 
@@ -110,7 +109,8 @@ const useKeyHandler = (
         });
     }, [draft, handleDraftChange, messageHistory]);
 
-    const postMsgKeyPress = useCallback((e: React.KeyboardEvent<TextboxElement>) => {
+    const postMsgKeyPress = useCallback((e: React.KeyboardEvent<HTMLElement>) => {
+        const inputBox = editorRef.current?.getInputBox() as HTMLTextAreaElement | null;
         const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(
             e,
             draft.message,
@@ -118,7 +118,7 @@ const useKeyHandler = (
             codeBlockOnCtrlEnter,
             postId ? 0 : Date.now(),
             postId ? 0 : lastChannelSwitchAt.current,
-            textboxRef.current?.getInputBox()?.selectionStart,
+            inputBox?.selectionStart,
         );
 
         if (ignoreKeyPress) {
@@ -134,9 +134,9 @@ const useKeyHandler = (
         }
 
         emitTypingEvent();
-    }, [draft, ctrlSend, codeBlockOnCtrlEnter, postId, emitTypingEvent, handleSubmit, isValidPersistentNotifications, textboxRef]);
+    }, [draft, ctrlSend, codeBlockOnCtrlEnter, postId, emitTypingEvent, handleSubmit, isValidPersistentNotifications, editorRef]);
 
-    const handleKeyDown = useCallback((e: React.KeyboardEvent<TextboxElement>) => {
+    const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLElement>) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const ctrlEnterKeyCombo = (ctrlSend || codeBlockOnCtrlEnter) &&
             Keyboard.isKeyPressed(e, KeyCodes.ENTER) &&
@@ -182,7 +182,7 @@ const useKeyHandler = (
         }
 
         if (Keyboard.isKeyPressed(e, KeyCodes.ESCAPE)) {
-            textboxRef.current?.blur();
+            editorRef.current?.blur();
             if (isInEditMode) {
                 onCancel?.();
                 dispatch(unsetEditingPost());
@@ -198,8 +198,8 @@ const useKeyHandler = (
 
         if (upKeyOnly && messageIsEmpty) {
             e.preventDefault();
-            if (textboxRef.current) {
-                textboxRef.current.blur();
+            if (editorRef.current) {
+                editorRef.current.blur();
             }
 
             onEditLatestPost(e);
@@ -209,7 +209,7 @@ const useKeyHandler = (
             selectionStart,
             selectionEnd,
             value,
-        } = e.target as TextboxElement;
+        } = e.target as HTMLTextAreaElement;
 
         if (ctrlKeyCombo && !caretIsWithinCodeBlock) {
             if (allowHistoryNavigation && Keyboard.isKeyPressed(e, KeyCodes.UP)) {
@@ -360,7 +360,7 @@ const useKeyHandler = (
         postId,
         postMsgKeyPress,
         replyToLastPost,
-        textboxRef,
+        editorRef,
         toggleAdvanceTextEditor,
         toggleEmojiPicker,
         toggleShowPreview,
