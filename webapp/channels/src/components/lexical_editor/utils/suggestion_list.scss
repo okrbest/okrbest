@@ -1,0 +1,62 @@
+.lexical-suggestion-list {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--center-channel-bg);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+    z-index: 100;
+
+    .suggestion-list__header {
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        text-transform: uppercase;
+    }
+
+    .suggestion-list__loading {
+        padding: 8px 12px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+    }
+
+    .suggestion-list__item {
+        display: flex;
+        align-items: center;
+        padding: 6px 12px;
+        cursor: pointer;
+        gap: 8px;
+
+        &--selected {
+            background: rgba(var(--button-bg-rgb), 0.08);
+        }
+
+        &:hover {
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+        }
+    }
+
+    .suggestion-list__icon {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .suggestion-list__display {
+        font-weight: 600;
+        color: var(--center-channel-color);
+    }
+
+    .suggestion-list__description {
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 12px;
+        margin-left: auto;
+    }
+}
