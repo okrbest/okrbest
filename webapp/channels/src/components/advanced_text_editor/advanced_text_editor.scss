@@ -93,7 +93,7 @@
         position: relative;
         max-width: 100%;
         flex: 1;
-        border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         border-radius: 4px;
         background-color: var(--center-channel-bg);
 
@@ -101,13 +101,13 @@
         &:focus-within,
         &:focus-visible:hover,
         &:focus-within:hover {
-            border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.32);
             outline: none;
             outline-offset: 0;
         }
 
         &:hover {
-            border: 2px solid rgba(var(--center-channel-color-rgb), 0.24);
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
         }
     }
 
