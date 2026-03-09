@@ -4,6 +4,7 @@ import {
     KEY_ENTER_COMMAND,
     KEY_ESCAPE_COMMAND,
     COMMAND_PRIORITY_HIGH,
+    INSERT_PARAGRAPH_COMMAND,
 } from 'lexical';
 
 type Props = {
@@ -22,9 +23,11 @@ export default function KeyboardPlugin({onSubmit, onEscape}: Props): null {
                     return false;
                 }
 
-                // Shift+Enter = 줄바꿈 (기본 동작)
+                // Shift+Enter = 새 paragraph 삽입 (마크다운 숏컷이 동작하도록)
                 if (event.shiftKey) {
-                    return false;
+                    event.preventDefault();
+                    editor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, undefined);
+                    return true;
                 }
 
                 // Enter = 메시지 전송
