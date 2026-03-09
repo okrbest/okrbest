@@ -312,6 +312,7 @@ const AdvancedTextEditor = ({
         textboxId,
         isDisabled,
         false,
+        lexicalEditorRef,
     );
     const {
         labels: priorityLabels,
