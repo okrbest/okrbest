@@ -18,9 +18,11 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {getCurrentUserId, isCurrentUserGuestUser, getStatusForUserId, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 
 import * as GlobalActions from 'actions/global_actions';
+import {autocompleteChannels} from 'actions/channel_actions';
 import type {CreatePostOptions} from 'actions/post_actions';
 import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import type {SubmitPostReturnType} from 'actions/views/create_comment';
+import {autocompleteUsersInChannel} from 'actions/views/channel';
 import {removeDraft, updateDraft} from 'actions/views/drafts';
 import {openModal} from 'actions/views/modals';
 import {makeGetDraft} from 'selectors/drafts';
@@ -392,6 +394,32 @@ const AdvancedTextEditor = ({
         });
     }, [draft, handleDraftChange]);
 
+    const handleSearchUsers = useCallback(async (term: string) => {
+        const result = await dispatch(autocompleteUsersInChannel(term, channelId));
+        if (result.data) {
+            const {users = [], out_of_channel: outOfChannel = []} = result.data;
+            return [...users, ...outOfChannel].map((u) => ({
+                id: u.id,
+                username: u.username,
+                first_name: u.first_name,
+                last_name: u.last_name,
+            }));
+        }
+        return [];
+    }, [dispatch, channelId]);
+
+    const handleSearchChannels = useCallback(async (term: string) => {
+        return new Promise<Array<{id: string; name: string; display_name: string}>>((resolve) => {
+            dispatch(autocompleteChannels(term, (channels) => {
+                resolve(channels.map((c) => ({
+                    id: c.id,
+                    name: c.name,
+                    display_name: c.display_name,
+                })));
+            }));
+        });
+    }, [dispatch]);
+
     const handleSubmitWrapper = useCallback(() => {
         const isEmptyPost = isPostDraftEmpty(draft);
 
@@ -710,6 +738,8 @@ const AdvancedTextEditor = ({
                             onSubmit={handleSubmitWrapper}
                             onFocus={handleFocus}
                             onBlur={handleBlur}
+                            searchUsers={handleSearchUsers}
+                            searchChannels={handleSearchChannels}
                         />
                         {attachmentPreview}
                         {!isDisabled && (
