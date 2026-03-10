@@ -100,7 +100,7 @@ export default function SlashCommandPlugin({teamId, channelId, rootId}: Props) {
                             if (s.IconData && !s.IconData.startsWith('__')) {
                                 icon = <img src={s.IconData} alt='' width={20} height={20} style={{borderRadius: 4}}/>;
                             } else {
-                                icon = <span style={{fontWeight: 700, fontSize: 16}}>{'/'}</span>;
+                                icon = <span className='suggestion-list__slash-icon'>{'/'}</span>;
                             }
                             return {
                                 id: s.Complete || s.Suggestion,
