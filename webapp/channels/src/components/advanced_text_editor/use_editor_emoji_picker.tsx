@@ -20,16 +20,13 @@ import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_te
 import {$createEmojiNode} from 'components/lexical_editor/nodes/emoji_node';
 import WithTooltip from 'components/with_tooltip';
 
+import {unifiedToUnicode} from 'utils/emoji_utils';
 import {focusAndInsertText} from 'utils/exec_commands';
 import {horizontallyWithin} from 'utils/floating';
 
 import type {GlobalState} from 'types/store';
 
 import {IconContainer} from './formatting_bar/formatting_icon';
-
-function unifiedToUnicode(unified: string): string {
-    return unified.split('-').map((hex) => String.fromCodePoint(parseInt(hex, 16))).join('');
-}
 
 const useEditorEmojiPicker = (
     textboxId: string,
@@ -84,9 +81,10 @@ const useEditorEmojiPicker = (
                     spaceNode.select();
                 }
             });
+        } else if (isSystemEmoji(emoji)) {
+            insertTextAtCaret(unifiedToUnicode((emoji as SystemEmoji).unified));
         } else {
-            // 폴백: 텍스트로 삽입
-            insertTextAtCaret(`:${emojiAlias}: `);
+            insertTextAtCaret(`:${emojiAlias}:`);
         }
 
         setShowEmojiPicker(false);
