@@ -397,12 +397,13 @@ const AdvancedTextEditor = ({
 
 
     const handleSearchChannels = useCallback(async (term: string) => {
-        return new Promise<Array<{id: string; name: string; display_name: string}>>((resolve) => {
+        return new Promise<Array<{id: string; name: string; display_name: string; type?: string}>>((resolve) => {
             dispatch(autocompleteChannels(term, (channels) => {
                 resolve(channels.map((c) => ({
                     id: c.id,
                     name: c.name,
                     display_name: c.display_name,
+                    type: c.type,
                 })));
             }));
         });

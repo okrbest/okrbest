@@ -95,11 +95,20 @@ export default function SlashCommandPlugin({teamId, channelId, rootId}: Props) {
                     const items: SuggestionItem[] = data.
                         filter((s) => s.Suggestion).
                         sort((a, b) => a.Suggestion.localeCompare(b.Suggestion)).
-                        map((s) => ({
-                            id: s.Complete || s.Suggestion,
-                            display: '/' + s.Suggestion,
-                            description: s.Description,
-                        }));
+                        map((s) => {
+                            let icon: React.ReactNode;
+                            if (s.IconData && !s.IconData.startsWith('__')) {
+                                icon = <img src={s.IconData} alt='' width={20} height={20} style={{borderRadius: 4}}/>;
+                            } else {
+                                icon = <span style={{fontWeight: 700, fontSize: 16}}>{'/'}</span>;
+                            }
+                            return {
+                                id: s.Complete || s.Suggestion,
+                                display: '/' + s.Suggestion,
+                                description: s.Description,
+                                icon,
+                            };
+                        });
 
                     setSuggestions(items);
                 },

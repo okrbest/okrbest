@@ -62,6 +62,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 18px;
+
+        .Avatar {
+            width: 24px;
+            height: 24px;
+        }
+
+        img {
+            border-radius: 50%;
+        }
     }
 
     .suggestion-list__display {

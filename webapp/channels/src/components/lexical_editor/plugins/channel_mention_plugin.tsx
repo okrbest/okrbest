@@ -8,12 +8,28 @@ import {
     TextNode,
 } from 'lexical';
 
+import {Constants} from 'utils/constants';
+
 import {$createChannelMentionNode} from '../nodes/channel_mention_node';
 import SuggestionList, {type SuggestionItem} from '../utils/suggestion_list';
 
-type Props = {
-    searchChannels: (term: string) => Promise<Array<{id: string; name: string; display_name: string}>>;
+type ChannelResult = {
+    id: string;
+    name: string;
+    display_name: string;
+    type?: string;
 };
+
+type Props = {
+    searchChannels: (term: string) => Promise<ChannelResult[]>;
+};
+
+function getChannelIcon(type?: string) {
+    if (type === Constants.PRIVATE_CHANNEL) {
+        return <i className='icon icon-lock-outline'/>;
+    }
+    return <i className='icon icon-globe'/>;
+}
 
 export default function ChannelMentionPlugin({searchChannels}: Props) {
     const [editor] = useLexicalComposerContext();
@@ -65,6 +81,7 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
                             id: channel.id,
                             display: channel.name,
                             description: channel.display_name,
+                            icon: getChannelIcon(channel.type),
                         })),
                     );
                 }

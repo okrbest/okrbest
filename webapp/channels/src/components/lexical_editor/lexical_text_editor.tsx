@@ -51,7 +51,7 @@ export type LexicalTextEditorProps = {
     onHeightChange?: (height: number, maxHeight: number) => void;
     onMentionSelected?: (item: {id: string; username: string}) => void;
     searchUsers?: (term: string) => Promise<Array<{id: string; username: string; first_name: string; last_name: string}>>;
-    searchChannels?: (term: string) => Promise<Array<{id: string; name: string; display_name: string}>>;
+    searchChannels?: (term: string) => Promise<Array<{id: string; name: string; display_name: string; type?: string}>>;
     supportsCommands?: boolean;
 };
 

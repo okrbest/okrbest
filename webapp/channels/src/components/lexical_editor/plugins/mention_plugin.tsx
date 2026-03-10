@@ -20,7 +20,10 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {autocompleteUsersInChannel} from 'actions/views/channel';
 import {searchAssociatedGroupsForReference} from 'actions/views/group';
 
+import Avatar from 'components/widgets/users/avatar';
+
 import {Constants} from 'utils/constants';
+import {imageURLForUser} from 'utils/utils';
 
 import type {GlobalState} from 'types/store';
 
@@ -110,6 +113,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                             id: `special-${name}`,
                             display: name,
                             description: name === 'here' ? 'Notifies everyone online' : name === 'channel' ? 'Notifies everyone in the channel' : 'Notifies everyone in the channel',
+                            icon: <i className='icon icon-account-multiple-outline'/>,
                             group: formatMessage(groupLabels.special),
                         });
                     });
@@ -135,6 +139,13 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                             id: user.id,
                             display: name,
                             description: isCurrentUser ? '(you)' : `@${user.username}`,
+                            icon: (
+                                <Avatar
+                                    size='sm'
+                                    username={user.username}
+                                    url={imageURLForUser(user.id, user.last_picture_update)}
+                                />
+                            ),
                             group: formatMessage(groupLabels.members),
                         });
                     });
@@ -147,6 +158,13 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                                 id: user.id,
                                 display: name,
                                 description: `@${user.username}`,
+                                icon: (
+                                    <Avatar
+                                        size='sm'
+                                        username={user.username}
+                                        url={imageURLForUser(user.id, user.last_picture_update)}
+                                    />
+                                ),
                                 group: formatMessage(groupLabels.nonMembers),
                             });
                         });
@@ -167,6 +185,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                                     id: `group-${g.id}`,
                                     display: g.name,
                                     description: `${g.display_name} (${g.member_count || 0})`,
+                                    icon: <i className='icon icon-account-multiple-outline'/>,
                                     group: formatMessage(groupLabels.groups),
                                 }));
                         }
