@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {defineMessages, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
@@ -26,6 +27,13 @@ import type {GlobalState} from 'types/store';
 import {$createMentionNode} from '../nodes/mention_node';
 import SuggestionList, {type SuggestionItem} from '../utils/suggestion_list';
 
+const groupLabels = defineMessages({
+    members: {id: 'suggestion.mention.members', defaultMessage: 'Channel Members'},
+    groups: {id: 'suggestion.search.group', defaultMessage: 'Group Mentions'},
+    special: {id: 'suggestion.mention.special', defaultMessage: 'Special Mentions'},
+    nonMembers: {id: 'suggestion.mention.nonmembers', defaultMessage: 'Not in Channel'},
+});
+
 type Props = {
     channelId: string;
     teamId?: string;
@@ -37,6 +45,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
     const [editor] = useLexicalComposerContext();
     const [queryString, setQueryString] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
+    const {formatMessage} = useIntl();
 
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
@@ -101,7 +110,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                             id: `special-${name}`,
                             display: name,
                             description: name === 'here' ? 'Notifies everyone online' : name === 'channel' ? 'Notifies everyone in the channel' : 'Notifies everyone in the channel',
-                            group: 'Special Mentions',
+                            group: formatMessage(groupLabels.special),
                         });
                     });
             }
@@ -126,7 +135,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                             id: user.id,
                             display: name,
                             description: isCurrentUser ? '(you)' : `@${user.username}`,
-                            group: 'Channel Members',
+                            group: formatMessage(groupLabels.members),
                         });
                     });
 
@@ -138,7 +147,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                                 id: user.id,
                                 display: name,
                                 description: `@${user.username}`,
-                                group: 'Not in Channel',
+                                group: formatMessage(groupLabels.nonMembers),
                             });
                         });
                     }
@@ -158,7 +167,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                                     id: `group-${g.id}`,
                                     display: g.name,
                                     description: `${g.display_name} (${g.member_count || 0})`,
-                                    group: 'Group Mentions',
+                                    group: formatMessage(groupLabels.groups),
                                 }));
                         }
                     } catch {
@@ -180,7 +189,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
             cancelled = true;
             clearTimeout(timer);
         };
-    }, [queryString, dispatch, currentUserId, teammateNameDisplay, isDMorGM, useChannelMentions]);
+    }, [queryString, dispatch, currentUserId, teammateNameDisplay, isDMorGM, useChannelMentions, formatMessage]);
 
     const handleSelect = useCallback((item: SuggestionItem) => {
         // 실제 username 추출 (display는 displayName일 수 있음)

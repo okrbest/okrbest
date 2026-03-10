@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
     $createTextNode,
@@ -23,6 +24,7 @@ type Props = {
 
 export default function EmojiPlugin({searchEmojis}: Props) {
     const [editor] = useLexicalComposerContext();
+    const {formatMessage} = useIntl();
     const [queryString, setQueryString] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
 
@@ -126,7 +128,7 @@ export default function EmojiPlugin({searchEmojis}: Props) {
             items={suggestions}
             onSelect={handleSelect}
             onClose={handleClose}
-            header="Emoji"
+            header={formatMessage({id: 'suggestion.emoji', defaultMessage: 'Emoji'})}
         />
     );
 }

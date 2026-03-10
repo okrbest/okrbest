@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
     $getSelection,
@@ -20,6 +21,7 @@ type Props = {
 
 export default function SlashCommandPlugin({teamId, channelId, rootId}: Props) {
     const [editor] = useLexicalComposerContext();
+    const {formatMessage} = useIntl();
     const [queryString, setQueryString] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
 
@@ -149,7 +151,7 @@ export default function SlashCommandPlugin({teamId, channelId, rootId}: Props) {
             items={suggestions}
             onSelect={handleSelect}
             onClose={handleClose}
-            header="Commands"
+            header={formatMessage({id: 'suggestion.commands', defaultMessage: 'Commands'})}
         />
     );
 }

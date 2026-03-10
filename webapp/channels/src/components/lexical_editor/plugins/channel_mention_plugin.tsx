@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
     $createTextNode,
@@ -16,6 +17,7 @@ type Props = {
 
 export default function ChannelMentionPlugin({searchChannels}: Props) {
     const [editor] = useLexicalComposerContext();
+    const {formatMessage} = useIntl();
     const [queryString, setQueryString] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
 
@@ -129,7 +131,7 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
             items={suggestions}
             onSelect={handleSelect}
             onClose={handleClose}
-            header="Channels"
+            header={formatMessage({id: 'suggestion.channels', defaultMessage: 'Channels'})}
         />
     );
 }

@@ -21,10 +21,19 @@ type Props = {
 export default function SuggestionList({items, onSelect, onClose, loading, header}: Props) {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const listRef = useRef<HTMLDivElement>(null);
+    const itemRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
     useEffect(() => {
         setSelectedIndex(0);
     }, [items]);
+
+    // 키보드 이동 시 선택된 아이템으로 스크롤
+    useEffect(() => {
+        const el = itemRefs.current.get(selectedIndex);
+        if (el && listRef.current) {
+            el.scrollIntoView({block: 'nearest'});
+        }
+    }, [selectedIndex]);
 
     const selectedIndexRef = useRef(0);
     selectedIndexRef.current = selectedIndex;
@@ -97,9 +106,16 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
                 return (
                     <React.Fragment key={item.id}>
                         {showGroupHeader && (
-                            <div className="suggestion-list__header">{item.group}</div>
+                            <div className="suggestion-list__group-header">{item.group}</div>
                         )}
                         <div
+                            ref={(el) => {
+                                if (el) {
+                                    itemRefs.current.set(index, el);
+                                } else {
+                                    itemRefs.current.delete(index);
+                                }
+                            }}
                             className={classNames('suggestion-list__item', {
                                 'suggestion-list__item--selected': index === selectedIndex,
                             })}
