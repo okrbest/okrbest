@@ -249,13 +249,11 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
                     />
                 )}
                 <FocusPlugin onFocus={onFocus} onBlur={onBlur} />
-                {searchUsers && (
-                    <MentionPlugin
-                        channelId={channelId}
-                        onMentionSelected={onMentionSelected}
-                        searchUsers={searchUsers}
-                    />
-                )}
+                <MentionPlugin
+                    channelId={channelId}
+                    teamId={teamId}
+                    onMentionSelected={onMentionSelected}
+                />
                 {searchChannels && (
                     <ChannelMentionPlugin
                         searchChannels={searchChannels}

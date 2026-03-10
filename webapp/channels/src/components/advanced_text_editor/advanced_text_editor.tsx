@@ -23,7 +23,6 @@ import {autocompleteChannels} from 'actions/channel_actions';
 import type {CreatePostOptions} from 'actions/post_actions';
 import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import type {SubmitPostReturnType} from 'actions/views/create_comment';
-import {autocompleteUsersInChannel} from 'actions/views/channel';
 import {removeDraft, updateDraft} from 'actions/views/drafts';
 import {openModal} from 'actions/views/modals';
 import {makeGetDraft} from 'selectors/drafts';
@@ -396,19 +395,6 @@ const AdvancedTextEditor = ({
         });
     }, [draft, handleDraftChange]);
 
-    const handleSearchUsers = useCallback(async (term: string) => {
-        const result = await dispatch(autocompleteUsersInChannel(term, channelId));
-        if (result.data) {
-            const {users = [], out_of_channel: outOfChannel = []} = result.data;
-            return [...users, ...outOfChannel].map((u) => ({
-                id: u.id,
-                username: u.username,
-                first_name: u.first_name,
-                last_name: u.last_name,
-            }));
-        }
-        return [];
-    }, [dispatch, channelId]);
 
     const handleSearchChannels = useCallback(async (term: string) => {
         return new Promise<Array<{id: string; name: string; display_name: string}>>((resolve) => {
@@ -742,7 +728,6 @@ const AdvancedTextEditor = ({
                             onSubmit={handleSubmitWrapper}
                             onFocus={handleFocus}
                             onBlur={handleBlur}
-                            searchUsers={handleSearchUsers}
                             searchChannels={handleSearchChannels}
                             supportsCommands={true}
                         />

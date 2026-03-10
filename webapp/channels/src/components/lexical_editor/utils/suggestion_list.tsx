@@ -7,6 +7,7 @@ export type SuggestionItem = {
     display: string;
     description?: string;
     icon?: React.ReactNode;
+    group?: string;
 };
 
 type Props = {
@@ -80,31 +81,45 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
         return null;
     }
 
+    // 그룹별로 아이템 렌더링 (group 필드가 있는 경우 그룹 헤더 표시)
+    let lastGroup: string | undefined;
+
     return (
         <div ref={listRef} className="lexical-suggestion-list" role="listbox">
-            {header && <div className="suggestion-list__header">{header}</div>}
+            {header && !items.some((item) => item.group) && (
+                <div className="suggestion-list__header">{header}</div>
+            )}
             {loading && <div className="suggestion-list__loading">{'Loading...'}</div>}
-            {items.map((item, index) => (
-                <div
-                    key={item.id}
-                    className={classNames('suggestion-list__item', {
-                        'suggestion-list__item--selected': index === selectedIndex,
-                    })}
-                    role="option"
-                    aria-selected={index === selectedIndex}
-                    onMouseDown={(e) => {
-                        e.preventDefault();
-                        onSelect(item);
-                    }}
-                    onMouseEnter={() => setSelectedIndex(index)}
-                >
-                    {item.icon && <span className="suggestion-list__icon">{item.icon}</span>}
-                    <span className="suggestion-list__display">{item.display}</span>
-                    {item.description && (
-                        <span className="suggestion-list__description">{item.description}</span>
-                    )}
-                </div>
-            ))}
+            {items.map((item, index) => {
+                const showGroupHeader = item.group && item.group !== lastGroup;
+                lastGroup = item.group;
+
+                return (
+                    <React.Fragment key={item.id}>
+                        {showGroupHeader && (
+                            <div className="suggestion-list__header">{item.group}</div>
+                        )}
+                        <div
+                            className={classNames('suggestion-list__item', {
+                                'suggestion-list__item--selected': index === selectedIndex,
+                            })}
+                            role="option"
+                            aria-selected={index === selectedIndex}
+                            onMouseDown={(e) => {
+                                e.preventDefault();
+                                onSelect(item);
+                            }}
+                            onMouseEnter={() => setSelectedIndex(index)}
+                        >
+                            {item.icon && <span className="suggestion-list__icon">{item.icon}</span>}
+                            <span className="suggestion-list__display">{item.display}</span>
+                            {item.description && (
+                                <span className="suggestion-list__description">{item.description}</span>
+                            )}
+                        </div>
+                    </React.Fragment>
+                );
+            })}
         </div>
     );
 }
