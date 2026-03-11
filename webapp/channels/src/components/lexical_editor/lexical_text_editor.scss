@@ -1,0 +1,221 @@
+.lexical-text-editor {
+    position: relative;
+    width: 100%;
+
+    .lexical-editor-container {
+        position: relative;
+        min-height: 48px;
+        max-height: 280px;
+        overflow-y: auto;
+        resize: none;
+
+        // 스크롤바 스타일
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 3px;
+            background: rgba(var(--center-channel-color-rgb), 0.16);
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+    }
+
+    .lexical-content-editable {
+        min-height: 48px;
+        padding: 12px 16px;
+        outline: none;
+        font-size: 14px;
+        line-height: 22px;
+        color: var(--center-channel-color);
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        caret-color: var(--button-bg);
+
+        &:empty::before {
+            content: attr(data-placeholder);
+            color: rgba(var(--center-channel-color-rgb), 0.48);
+            pointer-events: none;
+            position: absolute;
+            font-weight: 400;
+        }
+
+        // ── Headings ──
+        .markdown__heading {
+            margin: 4px 0 2px;
+            line-height: 1.4;
+        }
+
+        .markdown__heading--h1 {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .markdown__heading--h2 {
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .markdown__heading--h3 {
+            font-size: 1.15em;
+            font-weight: 600;
+        }
+
+        // ── Inline text ──
+        .markdown__bold {
+            font-weight: 700;
+        }
+
+        .markdown__italic {
+            font-style: italic;
+            color: rgba(var(--center-channel-color-rgb), 0.85);
+        }
+
+        .markdown__underline {
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .markdown__strikethrough {
+            text-decoration: line-through;
+            opacity: 0.65;
+        }
+
+        .markdown__code {
+            padding: 2px 6px;
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+            border-radius: 4px;
+            background: rgba(var(--center-channel-color-rgb), 0.06);
+            font-family: 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', monospace;
+            font-size: 12.5px;
+            color: #d63384;
+        }
+
+        // ── Blockquote ──
+        .markdown__quote {
+            position: relative;
+            border-left: 3px solid rgba(var(--center-channel-color-rgb), 0.4);
+            margin: 6px 0;
+            padding: 4px 0 4px 14px;
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+            font-style: italic;
+        }
+
+        // ── Code block ──
+        .markdown__code-block {
+            display: block;
+            padding: 12px 14px;
+            margin: 8px 0;
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.1);
+            border-radius: 8px;
+            background: rgba(var(--center-channel-color-rgb), 0.04);
+            font-family: 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', monospace;
+            font-size: 12.5px;
+            line-height: 1.6;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        // ── Lists ──
+        // 글로벌 _markdown.scss의 display:table/table-row/::before counter 리셋
+        .markdown__list {
+            display: block;
+            padding-left: 24px;
+            margin: 4px 0;
+            counter-reset: none;
+        }
+
+        .markdown__list--ul {
+            list-style-type: disc;
+
+            .markdown__list--ul {
+                list-style-type: circle;
+
+                .markdown__list--ul {
+                    list-style-type: square;
+                }
+            }
+        }
+
+        .markdown__list--ol {
+            list-style-type: decimal;
+
+            .markdown__list--ol {
+                list-style-type: lower-alpha;
+
+                .markdown__list--ol {
+                    list-style-type: lower-roman;
+                }
+            }
+        }
+
+        .markdown__list-item {
+            display: list-item;
+            padding: 1px 0;
+            line-height: 22px;
+
+            &::before {
+                display: none;
+            }
+        }
+
+        .markdown__nested-list-item {
+            list-style-type: none;
+
+            > .markdown__list {
+                margin: 0;
+            }
+        }
+
+        // ── Link ──
+        .markdown__link {
+            color: var(--link-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.15s ease;
+
+            &:hover {
+                border-bottom-color: var(--link-color);
+            }
+        }
+
+        // ── Table ──
+        .markdown__table {
+            border-collapse: collapse;
+            width: auto;
+            margin: 8px 0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .markdown__table-cell,
+        .markdown__table-cell-header {
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+            padding: 6px 12px;
+            min-width: 48px;
+            font-size: 13px;
+        }
+
+        .markdown__table-cell-header {
+            font-weight: 600;
+            background: rgba(var(--center-channel-color-rgb), 0.06);
+        }
+    }
+
+    &.disabled .lexical-content-editable {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.lexical-paragraph {
+    margin: 0;
+    padding: 0;
+
+    & + .lexical-paragraph {
+        margin-top: 4px;
+    }
+}

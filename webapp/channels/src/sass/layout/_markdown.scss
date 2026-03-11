@@ -383,6 +383,31 @@ ol.markdown__list {
             }
         }
     }
+
+    // 중첩된 ordered list: 2뎁스 = lower-alpha, 3뎁스 = lower-roman
+    ol.markdown__list {
+        counter-reset: list-alpha;
+
+        >li {
+            counter-increment: list-alpha;
+
+            &::before {
+                content: counter(list-alpha, lower-alpha) ".";
+            }
+        }
+
+        ol.markdown__list {
+            counter-reset: list-roman;
+
+            >li {
+                counter-increment: list-roman;
+
+                &::before {
+                    content: counter(list-roman, lower-roman) ".";
+                }
+            }
+        }
+    }
 }
 
 blockquote {
