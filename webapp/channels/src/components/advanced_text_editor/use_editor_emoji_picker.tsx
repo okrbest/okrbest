@@ -6,15 +6,18 @@ import classNames from 'classnames';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
+import {$getSelection, $isRangeSelection, $createTextNode} from 'lexical';
 
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
-import type {Emoji} from '@mattermost/types/emojis';
+import type {Emoji, SystemEmoji} from '@mattermost/types/emojis';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getEmojiName} from 'mattermost-redux/utils/emoji_utils';
+import {getEmojiName, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import useEmojiPicker, {useEmojiPickerOffset} from 'components/emoji_picker/use_emoji_picker';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_text_editor';
+import {$createEmojiNode} from 'components/lexical_editor/nodes/emoji_node';
 import WithTooltip from 'components/with_tooltip';
 
 import {focusAndInsertText} from 'utils/exec_commands';
@@ -24,10 +27,15 @@ import type {GlobalState} from 'types/store';
 
 import {IconContainer} from './formatting_bar/formatting_icon';
 
+function unifiedToUnicode(unified: string): string {
+    return unified.split('-').map((hex) => String.fromCodePoint(parseInt(hex, 16))).join('');
+}
+
 const useEditorEmojiPicker = (
     textboxId: string,
     isDisabled: boolean,
     shouldShowPreview: boolean,
+    editorRef?: React.RefObject<LexicalTextEditorHandle>,
 ) => {
     const intl = useIntl();
 
@@ -42,31 +50,52 @@ const useEditorEmojiPicker = (
     }, []);
 
     const insertTextAtCaret = useCallback((text: string) => {
-        const textbox = document.getElementById(textboxId) as HTMLTextAreaElement | undefined;
+        const textbox = document.getElementById(textboxId);
         if (!textbox) {
             return;
         }
-
-        // Only add a space before the inserted text if we're not at the start of the textarea and there's not already
-        // a space there, but always add a space after the inserted text
-        const needsSpaceBefore = textbox.selectionStart !== 0 && !(/\s/).test(textbox.value[textbox.selectionStart - 1]);
-        const textToBeAdded = needsSpaceBefore ? ` ${text} ` : `${text} `;
-
-        focusAndInsertText(textbox, textToBeAdded);
+        focusAndInsertText(textbox, text);
     }, [textboxId]);
 
     const handleEmojiClick = useCallback((emoji: Emoji) => {
         const emojiAlias = getEmojiName(emoji);
 
         if (!emojiAlias) {
-            //Oops.. There went something wrong
             return;
         }
 
-        insertTextAtCaret(`:${emojiAlias}:`);
+        const editor = editorRef?.current?.getEditor();
+        if (editor) {
+            // Lexical 모드: EmojiNode로 삽입
+            let emojiUnicode = '';
+            if (isSystemEmoji(emoji)) {
+                emojiUnicode = unifiedToUnicode((emoji as SystemEmoji).unified);
+            }
+
+            if (emojiUnicode) {
+                // 시스템 이모지: 유니코드 문자로 렌더링
+                editor.update(() => {
+                    const selection = $getSelection();
+                    if ($isRangeSelection(selection)) {
+                        const emojiNode = $createEmojiNode(emojiAlias, emojiUnicode);
+                        selection.insertNodes([emojiNode]);
+                        // 이모지 뒤에 공백 삽입
+                        const spaceNode = $createTextNode(' ');
+                        emojiNode.insertAfter(spaceNode);
+                        spaceNode.select();
+                    }
+                });
+            } else {
+                // 커스텀 이모지: 텍스트로 삽입
+                insertTextAtCaret(`:${emojiAlias}: `);
+            }
+        } else {
+            // 폴백: 텍스트로 삽입
+            insertTextAtCaret(`:${emojiAlias}: `);
+        }
 
         setShowEmojiPicker(false);
-    }, [insertTextAtCaret]);
+    }, [insertTextAtCaret, editorRef]);
 
     const handleGifClick = useCallback((gif: string) => {
         insertTextAtCaret(gif);

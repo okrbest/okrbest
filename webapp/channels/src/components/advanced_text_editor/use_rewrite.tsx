@@ -10,7 +10,7 @@ import {getAgents as getAgentsAction} from 'mattermost-redux/actions/agents';
 import {Client4} from 'mattermost-redux/client';
 import {getAgents} from 'mattermost-redux/selectors/entities/agents';
 
-import type TextboxClass from 'components/textbox/textbox';
+import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_text_editor';
 
 import type {PostDraft} from 'types/store/draft';
 
@@ -20,7 +20,7 @@ import RewriteMenu from './rewrite_menu';
 const useRewrite = (
     draft: PostDraft,
     handleDraftChange: ((draft: PostDraft, options: {instant?: boolean; show?: boolean}) => void),
-    textboxRef: React.RefObject<TextboxClass>,
+    editorRef: React.RefObject<LexicalTextEditorHandle>,
     focusTextbox: (keepFocus?: boolean) => void,
     setServerError: React.Dispatch<React.SetStateAction<(ServerError & {
         submittedMessage?: string;
@@ -154,16 +154,14 @@ const useRewrite = (
         }
     }, [draft.message]);
 
-    // This adds an overlay to the textbox to
+    // This adds an overlay to the editor to
     // indicate that the AI is rewriting the message.
-    // It might belong in the text editor - but since
-    // it's only used here, it's simpler to keep it here.
     useEffect(() => {
-        if (!isProcessing || !textboxRef.current) {
+        if (!isProcessing || !editorRef.current) {
             return undefined;
         }
 
-        const inputBox = textboxRef.current.getInputBox();
+        const inputBox = editorRef.current.getInputBox();
         const wrapper = inputBox?.parentElement;
         if (!wrapper) {
             return undefined;
@@ -178,7 +176,7 @@ const useRewrite = (
                 wrapper.removeChild(overlay);
             }
         };
-    }, [isProcessing, textboxRef]);
+    }, [isProcessing, editorRef]);
 
     useEffect(() => {
         if (isProcessing || draft.message.trim()) {

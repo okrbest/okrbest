@@ -37,7 +37,7 @@ const FormattingBarContainer = styled.div`
     display: flex;
     height: 48px;
     padding-left: 7px;
-    background: transparent;
+    background: rgba(var(--center-channel-color-rgb), 0.04);
     align-items: center;
     gap: 2px;
     transform-origin: top;

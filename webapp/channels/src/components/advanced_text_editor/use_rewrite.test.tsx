@@ -9,7 +9,7 @@ import type {DeepPartial} from '@mattermost/types/utilities';
 import {getAgents as getAgentsAction} from 'mattermost-redux/actions/agents';
 import {Client4} from 'mattermost-redux/client';
 
-import type TextboxClass from 'components/textbox/textbox';
+import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_text_editor';
 
 import {render, renderHookWithContext, waitFor} from 'tests/react_testing_utils';
 
@@ -71,32 +71,38 @@ describe('useRewrite', () => {
     const mockHandleDraftChange = jest.fn();
     const mockFocusTextbox = jest.fn();
     const mockSetServerError = jest.fn();
-    const mockTextboxRef = React.createRef<TextboxClass>();
+    const mockEditorRef = React.createRef<LexicalTextEditorHandle>();
     const mockGetInputBox = jest.fn(() => {
-        const input = document.createElement('textarea');
+        const input = document.createElement('div');
         const wrapper = document.createElement('div');
         document.body.appendChild(wrapper);
         wrapper.appendChild(input);
         return input;
     });
 
-    const mockTextbox: Partial<TextboxClass> = {
+    const mockEditorHandle: Partial<LexicalTextEditorHandle> = {
         getInputBox: mockGetInputBox,
+        getEditor: () => null,
+        focus: jest.fn(),
+        blur: jest.fn(),
     };
 
     beforeEach(() => {
         jest.clearAllMocks();
         MockedRewriteMenu.mockClear();
-        document.body.innerHTML = '';
+        // Clear DOM
+        while (document.body.firstChild) {
+            document.body.removeChild(document.body.firstChild);
+        }
         try {
-            Object.defineProperty(mockTextboxRef, 'current', {
-                value: mockTextbox as TextboxClass,
+            Object.defineProperty(mockEditorRef, 'current', {
+                value: mockEditorHandle as LexicalTextEditorHandle,
                 writable: true,
                 configurable: true,
             });
         } catch {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (mockTextboxRef as any).current = mockTextbox as TextboxClass;
+            (mockEditorRef as any).current = mockEditorHandle as LexicalTextEditorHandle;
         }
         (getAgentsAction as jest.Mock).mockReturnValue({type: 'GET_AGENTS'});
         (Client4.getAIRewrittenMessage as jest.Mock).mockResolvedValue('Rewritten message');
@@ -121,7 +127,7 @@ describe('useRewrite', () => {
             () => useRewrite(
                 {...draft, ...overrides},
                 mockHandleDraftChange,
-                mockTextboxRef,
+                mockEditorRef,
                 mockFocusTextbox,
                 mockSetServerError,
             ),

@@ -5,14 +5,14 @@ import React, {useCallback, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 
 import {usePluginVisibilityInSharedChannel} from 'components/common/hooks/usePluginVisibilityInSharedChannel';
-import type TextboxClass from 'components/textbox/textbox';
+import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_text_editor';
 
 import type {GlobalState} from 'types/store';
 import type {PostDraft} from 'types/store/draft';
 
 const usePluginItems = (
     draft: PostDraft,
-    textboxRef: React.RefObject<TextboxClass>,
+    editorRef: React.RefObject<LexicalTextEditorHandle>,
     handleDraftChange: (draft: PostDraft) => void,
     channelId?: string,
 ) => {
@@ -20,21 +20,17 @@ const usePluginItems = (
     const pluginItemsVisible = usePluginVisibilityInSharedChannel(channelId);
 
     const getSelectedText = useCallback(() => {
-        const input = textboxRef.current?.getInputBox();
-
         return {
-            start: input?.selectionStart,
-            end: input?.selectionEnd,
+            start: 0,
+            end: 0,
         };
-    }, [textboxRef]);
+    }, []);
 
     const updateText = useCallback((message: string) => {
         handleDraftChange({
             ...draft,
             message,
         });
-
-        // Missing setting the state eventually?
     }, [handleDraftChange, draft]);
 
     const items = useMemo(() => {

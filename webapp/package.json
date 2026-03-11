@@ -20,7 +20,19 @@
     "gen-lang-imports": "node scripts/gen_lang_imports.mjs"
   },
   "dependencies": {
+    "@lexical/code": "0.40.0",
+    "@lexical/headless": "0.40.0",
+    "@lexical/history": "0.40.0",
+    "@lexical/link": "0.40.0",
+    "@lexical/list": "0.40.0",
+    "@lexical/markdown": "0.40.0",
+    "@lexical/react": "0.40.0",
+    "@lexical/rich-text": "0.40.0",
+    "@lexical/selection": "0.40.0",
+    "@lexical/table": "0.40.0",
+    "@lexical/utils": "0.40.0",
     "@mattermost/compass-icons": "0.1.52",
+    "lexical": "0.40.0",
     "typescript": "5.6.3"
   },
   "devDependencies": {
