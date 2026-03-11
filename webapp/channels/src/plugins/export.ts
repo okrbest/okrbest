@@ -26,7 +26,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import DesktopApp from 'utils/desktop_api';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as NotificationSounds from 'utils/notification_sounds';
-import {sendToParent, onMessageFromParent, isPopoutWindow, canPopout} from 'utils/popouts/popout_windows';
+import {sendToParent, onMessageFromParent, isPopoutWindow, canPopout, popoutRhsPlugin} from 'utils/popouts/popout_windows';
 import {formatText} from 'utils/text_formatting';
 import {useWebSocket, useWebSocketClient, WebSocketContext} from 'utils/use_websocket';
 import {imageURLForUser} from 'utils/utils';
@@ -74,6 +74,7 @@ interface WindowWithLibraries {
             onMessageFromParent: typeof onMessageFromParent;
             isPopoutWindow: typeof isPopoutWindow;
             canPopout: typeof canPopout;
+            popoutRhsPlugin: typeof popoutRhsPlugin;
         };
     };
     loadSharedDependency(request: string): unknown;
@@ -154,6 +155,7 @@ window.WebappUtils = {
         onMessageFromParent,
         isPopoutWindow,
         canPopout,
+        popoutRhsPlugin,
     },
 };
 window.loadSharedDependency = loadSharedDependency;
