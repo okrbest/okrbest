@@ -2999,10 +2999,6 @@
     "translation": "원격 채널에서 초대를 제거할 수 없습니다."
   },
   {
-    "id": "api.slackimport.slack_add_bot_user.email_pwd",
-    "translation": "이메일 {{.Email}}, 비밀번호 {{.Password}}를 사용하는 슬랙 봇 계정이 추가되었습니다.\n"
-  },
-  {
     "id": "api.slackimport.slack_add_bot_user.unable_import",
     "translation": "{{.Username}} 슬랙 봇 계정을 추가할 수 없습니다.\n"
   },
@@ -3025,10 +3021,6 @@
   {
     "id": "api.slackimport.slack_add_users.created",
     "translation": "\n사용자가 생성되었습니다:\n"
-  },
-  {
-    "id": "api.slackimport.slack_add_users.email_pwd",
-    "translation": "이메일 {{.Email}}, 비밀번호 {{.Password}}를 사용하는 슬랙 사용자가 추가되었습니다.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing",
