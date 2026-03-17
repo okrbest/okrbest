@@ -5822,6 +5822,7 @@
   "suggestion.channels": "채널",
   "suggestion.commands": "명령어",
   "suggestion.emoji": "이모지",
+  "suggestion.loading": "로딩 중...",
   "suggestion.group.members": "{member_count}명의 {member_count, plural, one {멤버} other {멤버}}",
   "suggestion.group_channel": "그룹 채널",
   "suggestion.mention.all": "이 채널의 모든 사용자들에게 알림을 보냅니다",

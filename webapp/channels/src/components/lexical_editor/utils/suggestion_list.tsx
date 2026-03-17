@@ -1,11 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
+import React, {useEffect, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
+
 import './suggestion_list.scss';
 
 export type SuggestionItem = {
     id: string;
     display: string;
     description?: string;
+
+    /** 사용자 멘션의 경우 실제 username (본인 멘션 시 description이 '(you)'이므로 별도 필드 필요) */
+    username?: string;
     icon?: React.ReactNode;
     group?: string;
 };
@@ -19,6 +24,7 @@ type Props = {
 };
 
 export default function SuggestionList({items, onSelect, onClose, loading, header}: Props) {
+    const {formatMessage} = useIntl();
     const [selectedIndex, setSelectedIndex] = useState(0);
     const listRef = useRef<HTMLDivElement>(null);
     const itemRefs = useRef<Map<number, HTMLDivElement>>(new Map());
@@ -63,7 +69,7 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
             case 'ArrowUp':
                 e.preventDefault();
                 e.stopImmediatePropagation();
-                setSelectedIndex((prev) => (prev - 1 + currentItems.length) % currentItems.length);
+                setSelectedIndex((prev) => ((prev - 1) + currentItems.length) % currentItems.length);
                 break;
             case 'Enter':
             case 'Tab':
@@ -94,11 +100,19 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
     let lastGroup: string | undefined;
 
     return (
-        <div ref={listRef} className="lexical-suggestion-list" role="listbox">
+        <div
+            ref={listRef}
+            className='lexical-suggestion-list'
+            role='listbox'
+        >
             {header && !items.some((item) => item.group) && (
-                <div className="suggestion-list__header">{header}</div>
+                <div className='suggestion-list__header'>{header}</div>
             )}
-            {loading && <div className="suggestion-list__loading">{'Loading...'}</div>}
+            {loading && (
+                <div className='suggestion-list__loading'>
+                    {formatMessage({id: 'suggestion.loading', defaultMessage: 'Loading...'})}
+                </div>
+            )}
             {items.map((item, index) => {
                 const showGroupHeader = item.group && item.group !== lastGroup;
                 lastGroup = item.group;
@@ -106,7 +120,7 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
                 return (
                     <React.Fragment key={item.id}>
                         {showGroupHeader && (
-                            <div className="suggestion-list__group-header">{item.group}</div>
+                            <div className='suggestion-list__group-header'>{item.group}</div>
                         )}
                         <div
                             ref={(el) => {
@@ -119,7 +133,8 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
                             className={classNames('suggestion-list__item', {
                                 'suggestion-list__item--selected': index === selectedIndex,
                             })}
-                            role="option"
+                            role='option'
+                            tabIndex={index === selectedIndex ? 0 : -1}
                             aria-selected={index === selectedIndex}
                             onMouseDown={(e) => {
                                 e.preventDefault();
@@ -127,10 +142,10 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
                             }}
                             onMouseEnter={() => setSelectedIndex(index)}
                         >
-                            {item.icon && <span className="suggestion-list__icon">{item.icon}</span>}
-                            <span className="suggestion-list__display">{item.display}</span>
+                            {item.icon && <span className='suggestion-list__icon'>{item.icon}</span>}
+                            <span className='suggestion-list__display'>{item.display}</span>
                             {item.description && (
-                                <span className="suggestion-list__description">{item.description}</span>
+                                <span className='suggestion-list__description'>{item.description}</span>
                             )}
                         </div>
                     </React.Fragment>

@@ -390,10 +390,10 @@ const AdvancedTextEditor = ({
 
     const handleLexicalChange = useCallback((markdown: string) => {
         handleDraftChange({
-            ...draft,
+            ...draftRef.current,
             message: markdown,
         });
-    }, [draft, handleDraftChange]);
+    }, [handleDraftChange]);
 
 
     const handleSearchChannels = useCallback(async (term: string) => {
@@ -408,6 +408,31 @@ const AdvancedTextEditor = ({
             }));
         });
     }, [dispatch]);
+
+    const handleMentionSelected = useCallback((item: {id: string; username: string; displayName?: string}) => {
+        if (!item?.id || !item?.username) {
+            return;
+        }
+        // 특수 멘션(@channel, @all, @here) 및 그룹 멘션은 mentionMappings에 저장하지 않음
+        if (item.id.startsWith('special-') || item.id.startsWith('group-')) {
+            return;
+        }
+        const displayName = item.displayName || item.username;
+        const currentDraft = draftRef.current;
+        const currentMappings = currentDraft.mentionMappings || {};
+        const newMappings = {
+            ...currentMappings,
+            [displayName]: {
+                userId: item.id,
+                username: item.username,
+                displayName,
+            },
+        };
+        handleDraftChange({
+            ...currentDraft,
+            mentionMappings: newMappings,
+        }, {instant: true});
+    }, [handleDraftChange]);
 
     const handleSubmitWrapper = useCallback(() => {
         const isEmptyPost = isPostDraftEmpty(draft);
@@ -729,6 +754,7 @@ const AdvancedTextEditor = ({
                             onSubmit={handleSubmitWrapper}
                             onFocus={handleFocus}
                             onBlur={handleBlur}
+                            onMentionSelected={handleMentionSelected}
                             searchChannels={handleSearchChannels}
                             supportsCommands={true}
                         />

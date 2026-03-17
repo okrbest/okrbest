@@ -49,7 +49,7 @@ export type LexicalTextEditorProps = {
     onFocus?: () => void;
     onBlur?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
-    onMentionSelected?: (item: {id: string; username: string}) => void;
+    onMentionSelected?: (item: {id: string; username: string; displayName?: string}) => void;
     searchUsers?: (term: string) => Promise<Array<{id: string; username: string; first_name: string; last_name: string}>>;
     searchChannels?: (term: string) => Promise<Array<{id: string; name: string; display_name: string; type?: string}>>;
     supportsCommands?: boolean;
