@@ -35,13 +35,17 @@ const groupLabels = defineMessages({
     groups: {id: 'suggestion.search.group', defaultMessage: 'Group Mentions'},
     special: {id: 'suggestion.mention.special', defaultMessage: 'Special Mentions'},
     nonMembers: {id: 'suggestion.mention.nonmembers', defaultMessage: 'Not in Channel'},
+    specialHere: {id: 'suggestion.mention.here', defaultMessage: 'Notifies everyone online in this channel'},
+    specialChannel: {id: 'suggestion.mention.channel', defaultMessage: 'Notifies everyone in this channel'},
+    specialAll: {id: 'suggestion.mention.all', defaultMessage: 'Notifies everyone in this channel'},
+    you: {id: 'suggestion.user.isCurrent', defaultMessage: '(you)'},
 });
 
 type Props = {
     channelId: string;
     teamId?: string;
     useChannelMentions?: boolean;
-    onMentionSelected?: (item: {id: string; username: string}) => void;
+    onMentionSelected?: (item: {id: string; username: string; displayName?: string}) => void;
 };
 
 export default function MentionPlugin({channelId, teamId, useChannelMentions = true, onMentionSelected}: Props) {
@@ -109,10 +113,11 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                 ['here', 'channel', 'all'].
                     filter((name) => name.startsWith(prefix.toLowerCase())).
                     forEach((name) => {
+                        const descriptionKey = name === 'here' ? groupLabels.specialHere : name === 'channel' ? groupLabels.specialChannel : groupLabels.specialAll;
                         specialMentions.push({
                             id: `special-${name}`,
                             display: name,
-                            description: name === 'here' ? 'Notifies everyone online' : name === 'channel' ? 'Notifies everyone in the channel' : 'Notifies everyone in the channel',
+                            description: formatMessage(descriptionKey),
                             icon: <i className='icon icon-account-multiple-outline'/>,
                             group: formatMessage(groupLabels.special),
                         });
@@ -138,7 +143,8 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                         members.push({
                             id: user.id,
                             display: name,
-                            description: isCurrentUser ? '(you)' : `@${user.username}`,
+                            description: isCurrentUser ? formatMessage(groupLabels.you) : `@${user.username}`,
+                            username: user.username,
                             icon: (
                                 <Avatar
                                     size='sm'
@@ -158,6 +164,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                                 id: user.id,
                                 display: name,
                                 description: `@${user.username}`,
+                                username: user.username,
                                 icon: (
                                     <Avatar
                                         size='sm'
@@ -211,8 +218,10 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
     }, [queryString, dispatch, currentUserId, teammateNameDisplay, isDMorGM, useChannelMentions, formatMessage]);
 
     const handleSelect = useCallback((item: SuggestionItem) => {
-        // 실제 username 추출 (display는 displayName일 수 있음)
         const mentionText = item.display;
+        // item.username이 있으면 사용 (본인 멘션 시 description이 '(you)'여서 필요)
+        const usernameMatch = item.description?.match(/^@(\S+)$/);
+        const username = item.username ?? (usernameMatch ? usernameMatch[1] : mentionText);
 
         editor.update(() => {
             const selection = $getSelection();
@@ -262,7 +271,8 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                     }
                     textNode.selectEnd();
                 } else {
-                    const mentionNode = $createMentionNode(item.id, mentionText);
+                    // MentionNode는 (username, displayName) 순서로 생성
+                    const mentionNode = $createMentionNode(username, mentionText);
                     if (beforeText) {
                         anchorNode.insertAfter(mentionNode);
                     } else {
@@ -281,10 +291,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
             }
         });
 
-        // description에서 @username 추출
-        const usernameMatch = item.description?.match(/^@(\S+)$/);
-        const username = usernameMatch ? usernameMatch[1] : mentionText;
-        onMentionSelected?.({id: item.id, username});
+        onMentionSelected?.({id: item.id, username, displayName: mentionText});
         setQueryString(null);
     }, [editor, onMentionSelected]);
 
