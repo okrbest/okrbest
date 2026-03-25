@@ -7,8 +7,10 @@ import type {MouseEvent, ReactNode, RefObject} from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import type {WrappedComponentProps} from 'react-intl';
 
+import {getPopoutChannelTitle} from 'components/channel_popout/channel_popout';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusText from 'components/custom_status/custom_status_text';
+import PopoutButton from 'components/popout_button';
 import Timestamp from 'components/timestamp';
 import Tag from 'components/widgets/tag/tag';
 import WithTooltip from 'components/with_tooltip';
@@ -16,12 +18,14 @@ import WithTooltip from 'components/with_tooltip';
 import CallButton from 'plugins/call_button';
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
 import Pluggable from 'plugins/pluggable';
+import {getChannelRoutePathAndIdentifier} from 'utils/channel_utils';
 import {
     Constants,
     NotificationLevels,
     Preferences,
     RHSStates,
 } from 'utils/constants';
+import {canPopout, isChannelPopoutWindow, popoutChannel} from 'utils/popouts/popout_windows';
 import {isEmptyObject} from 'utils/utils';
 
 import ChannelHeaderText from './channel_header_text';
@@ -115,6 +119,14 @@ class ChannelHeader extends React.PureComponent<Props> {
         }
     };
 
+    popoutChannelView = () => {
+        const {channel, team, dmUser, intl} = this.props;
+        if (channel && team) {
+            const {path, identifier} = getChannelRoutePathAndIdentifier(channel, dmUser?.username);
+            popoutChannel(intl.formatMessage(getPopoutChannelTitle(channel.type)), team.name, path, identifier);
+        }
+    };
+
     toggleChannelMembersRHS = () => {
         if (this.props.rhsState === RHSStates.CHANNEL_MEMBERS) {
             this.props.actions.closeRightHandSide();
@@ -150,7 +162,7 @@ class ChannelHeader extends React.PureComponent<Props> {
 
     render() {
         const {
-            teamId,
+            team,
             currentUser,
             gmMembers,
             channel,
@@ -451,7 +463,7 @@ class ChannelHeader extends React.PureComponent<Props> {
                                     {hasGuestsText}
                                     {autotranslationMessage}
                                     <ChannelHeaderText
-                                        teamId={teamId}
+                                        teamId={team?.id}
                                         channel={channel}
                                         dmUser={dmUser}
                                     />
@@ -467,6 +479,12 @@ class ChannelHeader extends React.PureComponent<Props> {
                             />
                             <CallButton/>
                         </>
+                    )}
+                    {canPopout() && !isChannelPopoutWindow() && (
+                        <PopoutButton
+                            className='channel-header__icon'
+                            onClick={this.popoutChannelView}
+                        />
                     )}
                     <ChannelInfoButton channel={channel}/>
                 </div>
