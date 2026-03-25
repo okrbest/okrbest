@@ -312,6 +312,10 @@ exports[`components/ChannelHeader should match snapshot with last active display
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -625,6 +629,10 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -863,6 +871,10 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -1100,6 +1112,10 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -1337,6 +1353,10 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -1574,6 +1594,10 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -1811,6 +1835,10 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -2068,6 +2096,10 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -2305,6 +2337,10 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -2638,6 +2674,10 @@ exports[`components/ChannelHeader should render properly when custom status is e
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -2990,6 +3030,10 @@ exports[`components/ChannelHeader should render properly when custom status is s
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -3228,6 +3272,10 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -3465,6 +3513,10 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -3723,6 +3775,10 @@ exports[`components/ChannelHeader should render properly when populated with cha
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -3923,6 +3979,10 @@ exports[`components/ChannelHeader should render shared view 1`] = `
         </div>
       </div>
     </div>
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
@@ -4178,6 +4238,10 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
       }
     />
     <Connect(CallButton) />
+    <PopoutButton
+      className="channel-header__icon"
+      onClick={[Function]}
+    />
     <ChannelInfoButton
       channel={
         Object {
