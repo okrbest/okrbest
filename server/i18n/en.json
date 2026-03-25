@@ -5043,6 +5043,10 @@
     "translation": "Unable to add the user as a member of the channel."
   },
   {
+    "id": "app.channel.add_user.to.channel.rejected_by_plugin",
+    "translation": "Adding channel member rejected by plugin: {{.Reason}}"
+  },
+  {
     "id": "app.channel.analytics_type_count.app_error",
     "translation": "Unable to get channel type counts."
   },
@@ -5113,6 +5117,10 @@
   {
     "id": "app.channel.delete.app_error",
     "translation": "Unable to delete the channel."
+  },
+  {
+    "id": "app.channel.delete_channel.rejected_by_plugin",
+    "translation": "Channel archive rejected by plugin: {{.Reason}}"
   },
   {
     "id": "app.channel.get.app_error",
@@ -8055,6 +8063,10 @@
   {
     "id": "app.team.join_user_to_team.max_accounts.app_error",
     "translation": "This team has reached the maximum number of allowed accounts. Contact your System Administrator to set a higher limit."
+  },
+  {
+    "id": "app.team.join_user_to_team.rejected_by_plugin",
+    "translation": "Adding team member rejected by plugin: {{.Reason}}"
   },
   {
     "id": "app.team.join_user_to_team.save_member.app_error",
