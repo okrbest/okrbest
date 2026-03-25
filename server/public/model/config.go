@@ -2360,7 +2360,7 @@ func (s *AnnouncementSettings) SetDefaults() {
 	}
 
 	if s.AdminNoticesEnabled == nil {
-		s.AdminNoticesEnabled = NewPointer(true)
+		s.AdminNoticesEnabled = NewPointer(false)
 	}
 
 	if s.UserNoticesEnabled == nil {
