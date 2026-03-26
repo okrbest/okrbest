@@ -183,3 +183,8 @@ docs/superpowers/
 
 .analysis
 .worktrees
+
+# CI 테스트 샤딩 타이밍 캐시·작업 파일 (upstream 51232b58)
+server/prev-report.xml
+server/prev-gotestsum.json
+server/shard-*.txt
