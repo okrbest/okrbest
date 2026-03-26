@@ -19,7 +19,7 @@ import {ListPlugin} from '@lexical/react/LexicalListPlugin';
 import {TablePlugin} from '@lexical/react/LexicalTablePlugin';
 
 import editorTheme from './config/editor_theme';
-import {CHANNELS_TRANSFORMERS, CHANNELS_SHORTCUT_TRANSFORMERS} from './config/markdown_transformers';
+import {CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE, CHANNELS_TRANSFORMERS, CHANNELS_SHORTCUT_TRANSFORMERS} from './config/markdown_transformers';
 import {MentionNode} from './nodes/mention_node';
 import {ChannelMentionNode} from './nodes/channel_mention_node';
 import {EmojiNode} from './nodes/emoji_node';
@@ -31,6 +31,9 @@ import ChannelMentionPlugin from './plugins/channel_mention_plugin';
 import EmojiPlugin from './plugins/emoji_plugin';
 import SlashCommandPlugin from './plugins/slash_command_plugin';
 import ListShortcutPlugin from './plugins/list_shortcut_plugin';
+import MarkdownPastePlugin from './plugins/markdown_paste_plugin';
+import {getPlainTextOffsetsFromContentEditable} from './utils/plain_text_selection_offsets';
+import {readChannelsMarkdownForSubmit} from './utils/read_channels_markdown_for_submit';
 
 import './lexical_text_editor.scss';
 
@@ -60,6 +63,9 @@ export type LexicalTextEditorHandle = {
     focus: () => void;
     blur: () => void;
     getInputBox: () => HTMLElement | null;
+    getPlainTextSelectionOffsets: () => {start: number; end: number} | null;
+    /** Enter 전송 직전 draft 와 동기화용 (OnChange 가 아직 반영되지 않은 경우 대비) */
+    readMarkdownForSubmit: () => string | null;
 };
 
 // 에디터 값 동기화 플러그인 (초기값 설정 + 외부에서 빈 값으로 리셋 시 클리어)
@@ -73,7 +79,7 @@ function ValueSyncPlugin({value}: {value: string}) {
             isInitialized.current = true;
             if (value) {
                 editor.update(() => {
-                    $convertFromMarkdownString(value, CHANNELS_TRANSFORMERS);
+                    $convertFromMarkdownString(value, CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE);
                 });
             }
             return;
@@ -187,6 +193,16 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
         getInputBox: () => {
             return editorRef.current?.getRootElement() ?? null;
         },
+        getPlainTextSelectionOffsets: () => {
+            return getPlainTextOffsetsFromContentEditable(editorRef.current?.getRootElement() ?? null);
+        },
+        readMarkdownForSubmit: () => {
+            const ed = editorRef.current;
+            if (!ed) {
+                return null;
+            }
+            return readChannelsMarkdownForSubmit(ed);
+        },
     }), []);
 
     const initialConfig = useMemo(() => ({
@@ -233,6 +249,7 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
                     />
                 </div>
                 <MarkdownShortcutPlugin transformers={CHANNELS_SHORTCUT_TRANSFORMERS} />
+                <MarkdownPastePlugin />
                 <ListShortcutPlugin />
                 <HistoryPlugin />
                 <ListPlugin />

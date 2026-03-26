@@ -347,7 +347,10 @@ const AdvancedTextEditor = ({
     );
 
     const handleSubmitWithErrorHandling = useCallback((submittingDraft?: PostDraft, schedulingInfo?: SchedulingInfo, options?: CreatePostOptions) => {
-        handleSubmit(submittingDraft, schedulingInfo, options);
+        const base = submittingDraft ?? draftRef.current;
+        const freshMessage = lexicalEditorRef.current?.readMarkdownForSubmit?.();
+        const merged: PostDraft = freshMessage != null ? {...base, message: freshMessage} : base;
+        handleSubmit(merged, schedulingInfo, options);
         if (!errorClass) {
             const messageStatusElement = messageStatusRef.current;
             const messageStatusInnerText = messageStatusElement?.textContent;
@@ -491,10 +494,11 @@ const AdvancedTextEditor = ({
     const getCurrentValue = useCallback(() => draft.message, [draft.message]);
 
     const getCurrentSelection = useCallback(() => {
-        return {
-            start: 0,
-            end: 0,
-        };
+        const offsets = lexicalEditorRef.current?.getPlainTextSelectionOffsets();
+        if (!offsets) {
+            return {start: null, end: null};
+        }
+        return offsets;
     }, []);
 
     const prefillMessage = useCallback((message: string) => {
@@ -727,7 +731,9 @@ const AdvancedTextEditor = ({
                         data-a11y-sort-order='2'
                         aria-label={ariaLabel}
                         tabIndex={-1}
-                        className='AdvancedTextEditor__cell a11y__region'
+                        className={classNames('AdvancedTextEditor__cell a11y__region', {
+                            'AdvancedTextEditor__cell--no-editor-actions': isDisabled,
+                        })}
                     >
                         {!isInEditMode && (priorityLabels || burnOnReadLabels) && (
                             <div className='AdvancedTextEditor__labels'>

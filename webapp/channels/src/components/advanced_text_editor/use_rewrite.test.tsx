@@ -85,6 +85,8 @@ describe('useRewrite', () => {
         getEditor: () => null,
         focus: jest.fn(),
         blur: jest.fn(),
+        getPlainTextSelectionOffsets: () => null,
+        readMarkdownForSubmit: () => null,
     };
 
     beforeEach(() => {
