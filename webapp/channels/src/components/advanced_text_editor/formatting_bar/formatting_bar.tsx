@@ -108,7 +108,7 @@ interface FormattingBarProps {
      *       range we should probably refactor this and only pass down the
      *       selectionStart and selectionEnd values
      */
-    getCurrentSelection: () => {start: number; end: number};
+    getCurrentSelection: () => {start: number | null; end: number | null};
 
     /**
      * the handler function that applies the markdown to the value

@@ -491,10 +491,11 @@ const AdvancedTextEditor = ({
     const getCurrentValue = useCallback(() => draft.message, [draft.message]);
 
     const getCurrentSelection = useCallback(() => {
-        return {
-            start: 0,
-            end: 0,
-        };
+        const offsets = lexicalEditorRef.current?.getPlainTextSelectionOffsets();
+        if (!offsets) {
+            return {start: null, end: null};
+        }
+        return offsets;
     }, []);
 
     const prefillMessage = useCallback((message: string) => {

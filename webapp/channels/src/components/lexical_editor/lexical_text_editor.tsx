@@ -31,6 +31,8 @@ import ChannelMentionPlugin from './plugins/channel_mention_plugin';
 import EmojiPlugin from './plugins/emoji_plugin';
 import SlashCommandPlugin from './plugins/slash_command_plugin';
 import ListShortcutPlugin from './plugins/list_shortcut_plugin';
+import MarkdownPastePlugin from './plugins/markdown_paste_plugin';
+import {getPlainTextOffsetsFromContentEditable} from './utils/plain_text_selection_offsets';
 
 import './lexical_text_editor.scss';
 
@@ -60,6 +62,7 @@ export type LexicalTextEditorHandle = {
     focus: () => void;
     blur: () => void;
     getInputBox: () => HTMLElement | null;
+    getPlainTextSelectionOffsets: () => {start: number; end: number} | null;
 };
 
 // 에디터 값 동기화 플러그인 (초기값 설정 + 외부에서 빈 값으로 리셋 시 클리어)
@@ -187,6 +190,9 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
         getInputBox: () => {
             return editorRef.current?.getRootElement() ?? null;
         },
+        getPlainTextSelectionOffsets: () => {
+            return getPlainTextOffsetsFromContentEditable(editorRef.current?.getRootElement() ?? null);
+        },
     }), []);
 
     const initialConfig = useMemo(() => ({
@@ -233,6 +239,7 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
                     />
                 </div>
                 <MarkdownShortcutPlugin transformers={CHANNELS_SHORTCUT_TRANSFORMERS} />
+                <MarkdownPastePlugin />
                 <ListShortcutPlugin />
                 <HistoryPlugin />
                 <ListPlugin />
