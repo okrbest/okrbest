@@ -32,7 +32,7 @@ import PostDeletedModal from 'components/post_deleted_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
-import {normalizeGfmTablesInMarkdown} from 'utils/markdown_normalize';
+import {normalizeGfmTablesInMarkdown, unescapeUnderscoresInMarkdownUrls} from 'utils/markdown_normalize';
 import {isErrorInvalidSlashCommand, isServerError, specialMentionsInText} from 'utils/post_utils';
 
 import type {GlobalState} from 'types/store';
@@ -196,7 +196,9 @@ const useSubmit = (
 
         const draftForApi: PostDraft = {
             ...submittingDraft,
-            message: normalizeGfmTablesInMarkdown(submittingDraft.message),
+            message: unescapeUnderscoresInMarkdownUrls(
+                normalizeGfmTablesInMarkdown(submittingDraft.message),
+            ),
         };
 
         try {

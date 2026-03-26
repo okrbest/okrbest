@@ -7,6 +7,7 @@ import {$getRoot} from 'lexical';
 import {useEffect} from 'react';
 
 import {CHANNELS_TRANSFORMERS} from '../config/markdown_transformers';
+import {unescapeUnderscoresInMarkdownUrls} from 'utils/markdown_normalize';
 
 type Props = {
     onChange: (markdown: string) => void;
@@ -36,7 +37,7 @@ export default function OnChangeMarkdownPlugin({onChange}: Props): null {
                         onChange(visibleText);
                         return;
                     }
-                    onChange(markdown);
+                    onChange(unescapeUnderscoresInMarkdownUrls(markdown));
                 });
             },
         );

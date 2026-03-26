@@ -29,3 +29,44 @@ export function normalizeGfmTablesInMarkdown(markdown: string): string {
     }
     return out.join('\n');
 }
+
+/**
+ * Lexical $convertToMarkdownString 은 텍스트의 _ 를 마크다운 이스케이프(\_)로 내보냄.
+ * http(s) 본문·마크다운 링크 URL·각괄호 URL 안의 \_ 는 실제 주소로 쓰여야 하므로 _ 로 복원한다.
+ */
+export function unescapeUnderscoresInMarkdownUrls(markdown: string): string {
+    if (!markdown.includes('\\_')) {
+        return markdown;
+    }
+    let out = markdown;
+
+    out = out.replace(/\]\((https?:\/\/[^)\s]+)\)/gi, (full, url: string) => {
+        if (!url.includes('\\_')) {
+            return full;
+        }
+        return `](${url.replace(/\\_/g, '_')})`;
+    });
+
+    out = out.replace(/<(https?:\/\/[^>\s]+)>/gi, (full, url: string) => {
+        if (!url.includes('\\_')) {
+            return full;
+        }
+        return `<${url.replace(/\\_/g, '_')}>`;
+    });
+
+    out = out.replace(/\bhttps?:\/\/\S+/gi, (raw) => {
+        if (!raw.includes('\\_')) {
+            return raw;
+        }
+        let body = raw;
+        let suffix = '';
+        if (body.endsWith(')') && !body.includes('(')) {
+            body = body.slice(0, -1);
+            suffix = ')';
+        }
+        body = body.replace(/\\_/g, '_');
+        return body + suffix;
+    });
+
+    return out;
+}
