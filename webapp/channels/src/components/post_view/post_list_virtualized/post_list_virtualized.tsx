@@ -357,7 +357,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             try {
                 const url = new URL(href);
                 pathname = url.pathname;
-            } catch (e) {
+            } catch {
                 pathname = href;
             }
         }

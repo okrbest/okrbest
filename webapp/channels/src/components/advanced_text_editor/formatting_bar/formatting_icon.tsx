@@ -131,6 +131,10 @@ const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
         <IconContainer
             type='button'
             id={props.id || `FormattingControl_${mode}`}
+            onMouseDown={(e) => {
+                // 포맷 버튼 클릭 시 contenteditable 포커스가 빠지지 않게 해야 Lexical 선택이 유지된다.
+                e.preventDefault();
+            }}
             onClick={onClick}
             aria-label={buttonAriaLabel}
             {...otherProps}
