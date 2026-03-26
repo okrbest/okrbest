@@ -32,6 +32,7 @@ import PostDeletedModal from 'components/post_deleted_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
+import {normalizeGfmTablesInMarkdown} from 'utils/markdown_normalize';
 import {isErrorInvalidSlashCommand, isServerError, specialMentionsInText} from 'utils/post_utils';
 
 import type {GlobalState} from 'types/store';
@@ -193,13 +194,18 @@ const useSubmit = (
             keepDraft: createPostOptions?.keepDraft,
         };
 
+        const draftForApi: PostDraft = {
+            ...submittingDraft,
+            message: normalizeGfmTablesInMarkdown(submittingDraft.message),
+        };
+
         try {
             let response;
             if (isInEditMode) {
-                response = await dispatch(editPost(submittingDraft));
+                response = await dispatch(editPost(draftForApi));
                 handleFileChange(submittingDraft);
             } else {
-                response = await dispatch(onSubmit(submittingDraft, options, schedulingInfo));
+                response = await dispatch(onSubmit(draftForApi, options, schedulingInfo));
             }
             if (response?.error) {
                 throw response.error;

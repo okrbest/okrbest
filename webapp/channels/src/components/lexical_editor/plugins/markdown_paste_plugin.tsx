@@ -24,7 +24,7 @@ import {
 import type {LexicalEditor, LexicalNode, SerializedLexicalNode} from 'lexical';
 import {useEffect, useRef, type MutableRefObject} from 'react';
 
-import {CHANNELS_TRANSFORMERS} from '../config/markdown_transformers';
+import {CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE} from '../config/markdown_transformers';
 import {ChannelMentionNode} from '../nodes/channel_mention_node';
 import {EmojiNode} from '../nodes/emoji_node';
 import {MentionNode} from '../nodes/mention_node';
@@ -120,7 +120,7 @@ export default function MarkdownPastePlugin(): null {
                 // (재사용 headless에서 두 번째 붙여넣기 시 빈/이전 결과) — 같은 update 안에서 직렬화한다.
                 let serializedChildren: SerializedLexicalNode[] = [];
                 staging.update(() => {
-                    $convertFromMarkdownString(plain, CHANNELS_TRANSFORMERS, undefined, true);
+                    $convertFromMarkdownString(plain, CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE, undefined, true);
                     serializedChildren = $getRoot().getChildren().map(deepSerializeLexicalNode);
                 });
 

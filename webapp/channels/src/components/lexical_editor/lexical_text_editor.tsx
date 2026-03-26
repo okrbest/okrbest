@@ -19,7 +19,7 @@ import {ListPlugin} from '@lexical/react/LexicalListPlugin';
 import {TablePlugin} from '@lexical/react/LexicalTablePlugin';
 
 import editorTheme from './config/editor_theme';
-import {CHANNELS_TRANSFORMERS, CHANNELS_SHORTCUT_TRANSFORMERS} from './config/markdown_transformers';
+import {CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE, CHANNELS_TRANSFORMERS, CHANNELS_SHORTCUT_TRANSFORMERS} from './config/markdown_transformers';
 import {MentionNode} from './nodes/mention_node';
 import {ChannelMentionNode} from './nodes/channel_mention_node';
 import {EmojiNode} from './nodes/emoji_node';
@@ -76,7 +76,7 @@ function ValueSyncPlugin({value}: {value: string}) {
             isInitialized.current = true;
             if (value) {
                 editor.update(() => {
-                    $convertFromMarkdownString(value, CHANNELS_TRANSFORMERS);
+                    $convertFromMarkdownString(value, CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE);
                 });
             }
             return;

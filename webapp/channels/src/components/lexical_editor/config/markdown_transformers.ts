@@ -22,8 +22,8 @@ import type {LexicalNode} from 'lexical';
 import {$createParagraphNode, $createTextNode, $isElementNode} from 'lexical';
 
 // @lexical/markdown 내부와 동일한 GFM 테이블 행 판별
-const TABLE_ROW_REG_EXP = /^(?:\|)(.+)(?:\|)\s?$/;
-const TABLE_ROW_DIVIDER_REG_EXP = /^(\| ?:?-*:? ?)+\|\s?$/;
+export const TABLE_ROW_REG_EXP = /^(?:\|)(.+)(?:\|)\s?$/;
+export const TABLE_ROW_DIVIDER_REG_EXP = /^(\| ?:?-*:? ?)+\|\s?$/;
 
 function splitMarkdownTableRow(line: string): string[] {
     let s = line.trim();
@@ -40,6 +40,63 @@ function appendTableCellParagraph(cell: TableCellNode, text: string): void {
     const paragraph = $createParagraphNode();
     paragraph.append($createTextNode(text));
     cell.append(paragraph);
+}
+
+/**
+ * 마크다운 줄 배열에서 GFM 테이블(헤더+구분선+선택 본문 행)을 Lexical TableNode로 만든다.
+ * 붙여넣기 import와 타이핑 자동 변환에서 공통 사용.
+ */
+export function $createGfmTableFromMarkdownLines(
+    lines: string[],
+    startLineIndex: number,
+): {table: TableNode; endLineIndex: number} | null {
+    const headerLine = lines[startLineIndex]?.replace(/\r$/, '') ?? '';
+    if (!TABLE_ROW_REG_EXP.test(headerLine)) {
+        return null;
+    }
+    const dividerIndex = startLineIndex + 1;
+    if (dividerIndex >= lines.length) {
+        return null;
+    }
+    const dividerLine = lines[dividerIndex].replace(/\r$/, '');
+    if (!TABLE_ROW_DIVIDER_REG_EXP.test(dividerLine)) {
+        return null;
+    }
+
+    const headerCells = splitMarkdownTableRow(headerLine);
+    const colCount = headerCells.length;
+    if (colCount === 0) {
+        return null;
+    }
+
+    const tableNode = $createTableNode();
+
+    const headerRowNode = $createTableRowNode();
+    for (let c = 0; c < colCount; c++) {
+        const cell = $createTableCellNode(TableCellHeaderStates.ROW);
+        appendTableCellParagraph(cell, headerCells[c] ?? '');
+        headerRowNode.append(cell);
+    }
+    tableNode.append(headerRowNode);
+
+    let i = dividerIndex + 1;
+    while (i < lines.length) {
+        const line = lines[i].replace(/\r$/, '');
+        if (!TABLE_ROW_REG_EXP.test(line)) {
+            break;
+        }
+        const cells = splitMarkdownTableRow(line);
+        const bodyRow = $createTableRowNode();
+        for (let c = 0; c < colCount; c++) {
+            const cell = $createTableCellNode();
+            appendTableCellParagraph(cell, cells[c] ?? '');
+            bodyRow.append(cell);
+        }
+        tableNode.append(bodyRow);
+        i++;
+    }
+
+    return {table: tableNode, endLineIndex: i - 1};
 }
 
 // GFM 테이블 → Lexical TableNode (multiline import)
@@ -78,54 +135,12 @@ const TABLE_TRANSFORMER: Transformer = {
         return lines.join('\n');
     },
     handleImportAfterStartMatch: ({lines, rootNode, startLineIndex}) => {
-        const headerLine = lines[startLineIndex]?.replace(/\r$/, '') ?? '';
-        if (!TABLE_ROW_REG_EXP.test(headerLine)) {
+        const created = $createGfmTableFromMarkdownLines(lines, startLineIndex);
+        if (!created) {
             return null;
         }
-        const dividerIndex = startLineIndex + 1;
-        if (dividerIndex >= lines.length) {
-            return null;
-        }
-        const dividerLine = lines[dividerIndex].replace(/\r$/, '');
-        if (!TABLE_ROW_DIVIDER_REG_EXP.test(dividerLine)) {
-            return null;
-        }
-
-        const headerCells = splitMarkdownTableRow(headerLine);
-        const colCount = headerCells.length;
-        if (colCount === 0) {
-            return null;
-        }
-
-        const tableNode = $createTableNode();
-
-        const headerRowNode = $createTableRowNode();
-        for (let c = 0; c < colCount; c++) {
-            const cell = $createTableCellNode(TableCellHeaderStates.ROW);
-            appendTableCellParagraph(cell, headerCells[c] ?? '');
-            headerRowNode.append(cell);
-        }
-        tableNode.append(headerRowNode);
-
-        let i = dividerIndex + 1;
-        while (i < lines.length) {
-            const line = lines[i].replace(/\r$/, '');
-            if (!TABLE_ROW_REG_EXP.test(line)) {
-                break;
-            }
-            const cells = splitMarkdownTableRow(line);
-            const bodyRow = $createTableRowNode();
-            for (let c = 0; c < colCount; c++) {
-                const cell = $createTableCellNode();
-                appendTableCellParagraph(cell, cells[c] ?? '');
-                bodyRow.append(cell);
-            }
-            tableNode.append(bodyRow);
-            i++;
-        }
-
-        rootNode.append(tableNode);
-        return [true, i - 1];
+        rootNode.append(created.table);
+        return [true, created.endLineIndex];
     },
     regExpStart: TABLE_ROW_REG_EXP,
     replace: () => {
@@ -153,5 +168,8 @@ export const CHANNELS_TRANSFORMERS: Transformer[] = [
     TABLE_TRANSFORMER,
     ...TRANSFORMERS,
 ];
+
+/** 에디터에 Lexical TableNode를 만들지 않고 평문 줄로 유지할 때(import·붙여넣기) 사용 */
+export const CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE: Transformer[] = [...TRANSFORMERS];
 
 export {TRANSFORMERS};
