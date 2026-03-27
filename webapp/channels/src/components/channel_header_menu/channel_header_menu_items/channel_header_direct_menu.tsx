@@ -60,7 +60,7 @@ const ChannelHeaderDirectMenu = ({channel, user, isMuted, isMobile, isFavorite, 
                 channel={channel}
             />
             <Menu.Separator/>
-            {!isGuest(user.roles) && isChannelBookmarksEnabled && (
+            {!isGuest(user.roles) && (
                 <MenuItemChannelBookmarks
                     channel={channel}
                 />
