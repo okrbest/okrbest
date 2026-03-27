@@ -74,11 +74,9 @@ const ChannelHeaderPublicMenu = ({channel, user, isMuted, isDefault, isMobile, i
                     <MenuItemChannelSettings
                         channel={channel}
                     />
-                    {isChannelBookmarksEnabled && (
-                        <MenuItemChannelBookmarks
-                            channel={channel}
-                        />
-                    )}
+                    <MenuItemChannelBookmarks
+                        channel={channel}
+                    />
                 </>
             )}
             <Menu.Separator/>
