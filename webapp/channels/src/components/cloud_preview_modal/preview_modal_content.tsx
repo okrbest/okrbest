@@ -4,7 +4,7 @@
 import React, {useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 
-import MattermostLogo from 'components/widgets/icons/mattermost_logo';
+import OkrBestLogo from 'components/widgets/icons/okrbest_logo';
 
 import type {PreviewModalContentData} from './preview_modal_content_data';
 
@@ -116,7 +116,7 @@ const PreviewModalContent: React.FC<Props> = ({content}) => {
         <div className='preview-modal-content'>
             {content.skuLabel && content.skuLabel.defaultMessage && (
                 <div className='preview-modal-content__sku-label'>
-                    <MattermostLogo className='preview-modal-content__sku-label-logo'/>
+                    <OkrBestLogo className='preview-modal-content__sku-label-logo'/>
                     <span>{intl.formatMessage(content.skuLabel)}</span>
                 </div>
             )}
