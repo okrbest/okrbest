@@ -85,7 +85,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Se pare că e-mailul tau Mattermost este setat corect!"
+    "translation": "Se pare că e-mailul tau OKR.BEST este setat corect!"
   },
   {
     "id": "api.admin.test_email.missing_server",
@@ -97,7 +97,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - Testarea setărilor de e-mail"
+    "translation": "OKR.BEST - Testarea setărilor de e-mail"
   },
   {
     "id": "api.admin.test_s3.missing_s3_bucket",
@@ -341,7 +341,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Trimite un e-mail de a invita în echipa ta de Mattermost"
+    "translation": "Trimite un e-mail de a invita în echipa ta de OKR.BEST"
   },
   {
     "id": "api.command.invite_people.email_invitations_off",
@@ -617,7 +617,7 @@
   },
   {
     "id": "api.command_help.desc",
-    "translation": "Deschideți pagina de ajutor Mattermost"
+    "translation": "Deschideți pagina de ajutor OKR.BEST"
   },
   {
     "id": "api.command_help.name",
@@ -629,7 +629,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "Canalul nu a putut fi găsit {{.Channel}}. Utilizați [mânerul canalului](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) pentru a identifica canalele."
+    "translation": "Canalul nu a putut fi găsit {{.Channel}}. Utilizați [mânerul canalului](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) pentru a identifica canalele."
   },
   {
     "id": "api.command_invite.desc",
@@ -721,7 +721,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Radierea Mattermost"
+    "translation": "Radierea OKR.BEST"
   },
   {
     "id": "api.command_logout.name",
@@ -773,7 +773,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "Canalul nu a putut fi găsit {{.Channel}}. Utilizați [mânerul canalului](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) pentru a identifica canalele."
+    "translation": "Canalul nu a putut fi găsit {{.Channel}}. Utilizați [mânerul canalului](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) pentru a identifica canalele."
   },
   {
     "id": "api.command_mute.hint",
@@ -785,7 +785,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "Canalul specificat nu a putut găsi. Vă rugăm să folosiţi [mâner canal](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) pentru a identifica canalele."
+    "translation": "Canalul specificat nu a putut găsi. Vă rugăm să folosiţi [mâner canal](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) pentru a identifica canalele."
   },
   {
     "id": "api.command_mute.not_member.error",
@@ -1505,7 +1505,7 @@
   },
   {
     "id": "api.slackimport.slack_add_channels.merge",
-    "translation": "Canalul Slack {{.DisplayName}} există deja ca un canal Mattermost activ. Ambele canale au fost îmbinate.\r\n"
+    "translation": "Canalul Slack {{.DisplayName}} există deja ca un canal OKR.BEST activ. Ambele canale au fost îmbinate.\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.created",
@@ -1517,11 +1517,11 @@
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing",
-    "translation": "Utilizatorul Slack a fuzionat cu un utilizator Mattermost existent cu e-mail {{.Email}} și nume de utilizator {{.Username}}.\r\n"
+    "translation": "Utilizatorul Slack a fuzionat cu un utilizator OKR.BEST existent cu e-mail {{.Email}} și nume de utilizator {{.Username}}.\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing_failed",
-    "translation": "Utilizator moale a fuzionat cu un utilizator existent Mattermost cu potrivire e-mail {{.Email}} şi nume de utilizator {{.Username}}, dar a fost imposibil de adăugat utilizatorul echipei lor.\r\n"
+    "translation": "Utilizator moale a fuzionat cu un utilizator existent OKR.BEST cu potrivire e-mail {{.Email}} şi nume de utilizator {{.Username}}, dar a fost imposibil de adăugat utilizatorul echipei lor.\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.missing_email_address",
@@ -1533,7 +1533,7 @@
   },
   {
     "id": "api.slackimport.slack_import.log",
-    "translation": "Importează Logul Mattermost Slack\r\n"
+    "translation": "Importează Logul OKR.BEST Slack\r\n"
   },
   {
     "id": "api.slackimport.slack_import.note1",
@@ -1901,7 +1901,7 @@
   },
   {
     "id": "api.templates.verify_body.info",
-    "translation": "Această adresă de e-mail a fost utilizată pentru a crea un cont cu Mattermost."
+    "translation": "Această adresă de e-mail a fost utilizată pentru a crea un cont cu OKR.BEST."
   },
   {
     "id": "api.templates.verify_body.title",
@@ -1921,7 +1921,7 @@
   },
   {
     "id": "api.templates.welcome_body.info",
-    "translation": "Această adresă de e-mail a fost utilizată pentru a crea un cont cu Mattermost."
+    "translation": "Această adresă de e-mail a fost utilizată pentru a crea un cont cu OKR.BEST."
   },
   {
     "id": "api.templates.welcome_body.title",
@@ -3109,7 +3109,7 @@
   },
   {
     "id": "ent.ldap.do_login.user_filtered.app_error",
-    "translation": "Contul AD/LDAP nu are permisiunea de a utiliza acest server Mattermost. Vă rugăm să cereţi administratorului de sistem pentru a verifica filtrul de utilizator AD/LDAP."
+    "translation": "Contul AD/LDAP nu are permisiunea de a utiliza acest server OKR.BEST. Vă rugăm să cereţi administratorului de sistem pentru a verifica filtrul de utilizator AD/LDAP."
   },
   {
     "id": "ent.ldap.do_login.user_not_registered.app_error",
@@ -3129,7 +3129,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure.app_error",
-    "translation": "Căutarea utilizatorilor în AD/LDAP nu a reușit. Testaţi dacă serverul Mattermost poate conecta la serverul de anunţuri/LDAP și încercați din nou."
+    "translation": "Căutarea utilizatorilor în AD/LDAP nu a reușit. Testaţi dacă serverul OKR.BEST poate conecta la serverul de anunţuri/LDAP și încercați din nou."
   },
   {
     "id": "ent.ldap.validate_filter.app_error",
@@ -3173,7 +3173,7 @@
   },
   {
     "id": "ent.migration.migratetosaml.username_already_used_by_other_user",
-    "translation": "Numele de utilizator deja folosit de alt utilizator de Mattermost."
+    "translation": "Numele de utilizator deja folosit de alt utilizator de OKR.BEST."
   },
   {
     "id": "ent.saml.attribute.app_error",
@@ -3257,7 +3257,7 @@
   },
   {
     "id": "mattermost.bulletin.subject",
-    "translation": "Buletin de securitate Mattermost"
+    "translation": "Buletin de securitate OKR.BEST"
   },
   {
     "id": "mfa.activate.bad_token.app_error",
@@ -4397,7 +4397,7 @@
   },
   {
     "id": "oauth.gitlab.tos.error",
-    "translation": "Termenii și condițiile GitLab au fost actualizați. Te rog du-te la gitlab.com pentru a le accepta și apoi încercați să vă conectați din nou la Mattermost."
+    "translation": "Termenii și condițiile GitLab au fost actualizați. Te rog du-te la gitlab.com pentru a le accepta și apoi încercați să vă conectați din nou la OKR.BEST."
   },
   {
     "id": "plugin.api.update_user_status.bad_status",
@@ -4561,11 +4561,11 @@
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support_version",
-    "translation": "Această versiune a browserului nu mai este suportată de Mattermost"
+    "translation": "Această versiune a browserului nu mai este suportată de OKR.BEST"
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support",
-    "translation": "Acest browser nu mai este suportat de Mattermost"
+    "translation": "Acest browser nu mai este suportat de OKR.BEST"
   },
   {
     "id": "web.error.unsupported_browser.min_os_version.windows",
@@ -4609,7 +4609,7 @@
   },
   {
     "id": "web.error.unsupported_browser.download_app_or_upgrade_browser",
-    "translation": "Descărcați aplicația Mattermost sau utilizați un browser acceptat pentru o experiență mai bună."
+    "translation": "Descărcați aplicația OKR.BEST sau utilizați un browser acceptat pentru o experiență mai bună."
   },
   {
     "id": "web.error.unsupported_browser.download",
@@ -4781,7 +4781,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure_size_exceeded.app_error",
-    "translation": "Limita de dimensiune a fost depășită. Încercați să verificați [mărimea paginii maximă] (https://docs.mattermost.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded)."
+    "translation": "Limita de dimensiune a fost depășită. Încercați să verificați [mărimea paginii maximă] (https://docs.okrbest.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded)."
   },
   {
     "id": "ent.id_loaded.license_disable.app_error",
@@ -5137,7 +5137,7 @@
   },
   {
     "id": "app.bot.get_disable_bot_sysadmin_message",
-    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} a fost dezactivat. Au gestionat următoarele conturi bot care acum au fost dezactivate.\n\n{{.BotNames}}{{else}}{{.UserName}} a fost dezactivat. Au gestionat {{.NumBots}} conturi bot care acum au fost dezactivate, inclusiv următoarele:\n\n{{.BotNames}}{{end}} Puteți deține proprietatea fiecărui bot activându-l la **Integrări > Conturi bot** și crearea de noi jetoane pentru bot.\n\nPentru mai multe informații, consultați [documentația](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} a fost dezactivat. Au gestionat următoarele conturi bot care sunt încă activate.\n\n{{.BotNames}}\n{{else}}{{.UserName}} a fost dezactivat. Au gestionat {{.NumBots}} conturi de bot care sunt încă activate, inclusiv următoarele:\n\n{{.BotNames}}{{end}}Vă recomandăm cu tărie să luați proprietatea fiecărui bot reactivându-l la **Integrări > Conturi bot** și crearea de noi jetoane pentru bot.\n\nPentru mai multe informații, consultați [documentația](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nDacă doriți ca conturile bot să se dezactiveze automat după dezactivarea utilizatorului, setați “Dezactivați conturile bot după dezactivarea utilizatorului” în **Consola de sistem > Integrări > Conturi bot** la adevărat.{{end}}"
+    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} a fost dezactivat. Au gestionat următoarele conturi bot care acum au fost dezactivate.\n\n{{.BotNames}}{{else}}{{.UserName}} a fost dezactivat. Au gestionat {{.NumBots}} conturi bot care acum au fost dezactivate, inclusiv următoarele:\n\n{{.BotNames}}{{end}} Puteți deține proprietatea fiecărui bot activându-l la **Integrări > Conturi bot** și crearea de noi jetoane pentru bot.\n\nPentru mai multe informații, consultați [documentația](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} a fost dezactivat. Au gestionat următoarele conturi bot care sunt încă activate.\n\n{{.BotNames}}\n{{else}}{{.UserName}} a fost dezactivat. Au gestionat {{.NumBots}} conturi de bot care sunt încă activate, inclusiv următoarele:\n\n{{.BotNames}}{{end}}Vă recomandăm cu tărie să luați proprietatea fiecărui bot reactivându-l la **Integrări > Conturi bot** și crearea de noi jetoane pentru bot.\n\nPentru mai multe informații, consultați [documentația](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nDacă doriți ca conturile bot să se dezactiveze automat după dezactivarea utilizatorului, setați “Dezactivați conturile bot după dezactivarea utilizatorului” în **Consola de sistem > Integrări > Conturi bot** la adevărat.{{end}}"
   },
   {
     "id": "app.bot.createbot.internal_error",
@@ -5229,7 +5229,7 @@
   },
   {
     "id": "api.templates.remove_expired_license.subject",
-    "translation": "Licența Mattermost Enterprise a fost dezactivată."
+    "translation": "Licența OKR.BEST Enterprise a fost dezactivată."
   },
   {
     "id": "api.templates.remove_expired_license.body.title",
@@ -5453,7 +5453,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Adăugați-mă la echipele și canalele pe care doriți să interacționați. Pentru a face acest lucru, utilizați browserul sau aplicația Mattermost Desktop."
+    "translation": "Adăugați-mă la echipele și canalele pe care doriți să interacționați. Pentru a face acest lucru, utilizați browserul sau aplicația OKR.BEST Desktop."
   },
   {
     "id": "api.bot.create_disabled",
@@ -5597,7 +5597,7 @@
   },
   {
     "id": "api.license.request_trial_license.app_error",
-    "translation": "Nu se poate obține o licență de încercare, încercați din nou sau contactați la adresa support@mattermost.com."
+    "translation": "Nu se poate obține o licență de încercare, încercați din nou sau contactați la adresa support@okr.best."
   },
   {
     "id": "api.license.request-trial.bad-request.terms-not-accepted",
@@ -6457,43 +6457,43 @@
   },
   {
     "id": "api.upgrade_to_enterprise_status.signature.app_error",
-    "translation": "Mattermost nu a reușit să facă upgrade la Enterprise Edition. Semnătura digitală a fișierului binar descărcat nu a putut fi verificată."
+    "translation": "OKR.BEST nu a reușit să facă upgrade la Enterprise Edition. Semnătura digitală a fișierului binar descărcat nu a putut fi verificată."
   },
   {
     "id": "api.upgrade_to_enterprise_status.app_error",
-    "translation": "Mattermost nu a reușit să facă upgrade la Enterprise Edition."
+    "translation": "OKR.BEST nu a reușit să facă upgrade la Enterprise Edition."
   },
   {
     "id": "api.upgrade_to_enterprise.system_not_supported.app_error",
-    "translation": "Mattermost nu a reușit să facă upgrade la Enterprise Edition. Această caracteristică va funcționa numai pe sistemele Linux cu arhitectură x86-64."
+    "translation": "OKR.BEST nu a reușit să facă upgrade la Enterprise Edition. Această caracteristică va funcționa numai pe sistemele Linux cu arhitectură x86-64."
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user.app_error",
-    "translation": "Mattermost nu a reușit să facă upgrade la Enterprise Edition. Utilizatorul sistemului Mattermost {{.MattermostUsername}} nu are acces la scriere la fișierul binar necesar. Un administrator de sistem poate actualiza permisiunile fișierului executând următoarea comandă pe serverul pe care este instalat Mattermost:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\n```\n\nDupă modificarea permisiunilor fișierului, încercați să faceți upgrade Mattermost din nou. După ce ați făcut upgrade și reporniți, nu uitați să restaurați permisiunile originale ale fișierului binar:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
+    "translation": "OKR.BEST nu a reușit să facă upgrade la Enterprise Edition. Utilizatorul sistemului OKR.BEST {{.OKR.BESTUsername}} nu are acces la scriere la fișierul binar necesar. Un administrator de sistem poate actualiza permisiunile fișierului executând următoarea comandă pe serverul pe care este instalat OKR.BEST:\n\n```\nchown {{.OKR.BESTUsername}} \"{{.Path}}\"\n```\n\nDupă modificarea permisiunilor fișierului, încercați să faceți upgrade OKR.BEST din nou. După ce ați făcut upgrade și reporniți, nu uitați să restaurați permisiunile originale ale fișierului binar:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user-and-permission.app_error",
-    "translation": "Mattermost nu a reușit să facă upgrade la Enterprise Edition. Utilizatorul sistemului Mattermost {{.MattermostUsername}} nu are acces la scriere la fișierul binar necesar. Un administrator de sistem poate actualiza permisiunile fișierului executând următoarea comandă pe serverul pe care este instalat Mattermost:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nDupă modificarea permisiunilor fișierului, încercați să faceți upgrade Mattermost din nou. După ce ați făcut upgrade și reporniți, nu uitați să restaurați permisiunile originale ale fișierului binar:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```"
+    "translation": "OKR.BEST nu a reușit să facă upgrade la Enterprise Edition. Utilizatorul sistemului OKR.BEST {{.OKR.BESTUsername}} nu are acces la scriere la fișierul binar necesar. Un administrator de sistem poate actualiza permisiunile fișierului executând următoarea comandă pe serverul pe care este instalat OKR.BEST:\n\n```\nchown {{.OKR.BESTUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nDupă modificarea permisiunilor fișierului, încercați să faceți upgrade OKR.BEST din nou. După ce ați făcut upgrade și reporniți, nu uitați să restaurați permisiunile originale ale fișierului binar:\n\n```\nchown {{.OKR.BESTUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-permission.app_error",
-    "translation": "Mattermost nu a reușit să facă upgrade la Enterprise Edition. Utilizatorul sistemului Mattermost {{.MattermostUsername}} nu are acces la scriere la fișierul binar necesar. Un administrator de sistem poate actualiza permisiunile fișierului executând următoarea comandă pe serverul pe care este instalat Mattermost:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nDupă modificarea permisiunilor fișierului, încercați să faceți upgrade Mattermost din nou. După ce ați făcut upgrade și reporniți, nu uitați să restaurați permisiunile originale ale fișierului binar:\n\n```\nchmod +w \"{{.Path}}\"\n```"
+    "translation": "OKR.BEST nu a reușit să facă upgrade la Enterprise Edition. Utilizatorul sistemului OKR.BEST {{.OKR.BESTUsername}} nu are acces la scriere la fișierul binar necesar. Un administrator de sistem poate actualiza permisiunile fișierului executând următoarea comandă pe serverul pe care este instalat OKR.BEST:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nDupă modificarea permisiunilor fișierului, încercați să faceți upgrade OKR.BEST din nou. După ce ați făcut upgrade și reporniți, nu uitați să restaurați permisiunile originale ale fișierului binar:\n\n```\nchmod +w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.generic_error.app_error",
-    "translation": "Mattermost nu a reușit să facă upgrade la Enterprise Edition."
+    "translation": "OKR.BEST nu a reușit să facă upgrade la Enterprise Edition."
   },
   {
     "id": "api.upgrade_to_enterprise.app_error",
-    "translation": "Un upgrade la Mattermost Enterprise Edition rulează deja."
+    "translation": "Un upgrade la OKR.BEST Enterprise Edition rulează deja."
   },
   {
     "id": "api.upgrade_to_enterprise.already-enterprise.app_error",
-    "translation": "Nu puteți face upgrade deoarece rulați deja Mattermost Enterprise Edition."
+    "translation": "Nu puteți face upgrade deoarece rulați deja OKR.BEST Enterprise Edition."
   },
   {
     "id": "api.upgrade_to_enterprise.already-done.app_error",
-    "translation": "Ați trecut deja la Mattermost Enterprise Edition. Reporniți serverul pentru a finaliza actualizarea."
+    "translation": "Ați trecut deja la OKR.BEST Enterprise Edition. Reporniți serverul pentru a finaliza actualizarea."
   },
   {
     "id": "ent.elasticsearch.index_channels_batch.error",
@@ -7313,7 +7313,7 @@
   },
   {
     "id": "api.templates.email_footer_v2",
-    "translation": "© 2020 Mattermost, Inc. 855 El Camino Real, 13A-168, Palo Alto, CA, 94301"
+    "translation": "© 2020 OKR.BEST, Inc. 855 El Camino Real, 13A-168, Palo Alto, CA, 94301"
   },
   {
     "id": "api.post.search_files.invalid_body.app_error",
@@ -7385,7 +7385,7 @@
   },
   {
     "id": "api.command_remote.desc",
-    "translation": "Invitați clustere Mattermost la distanță pentru comunicarea inter-cluster."
+    "translation": "Invitați clustere OKR.BEST la distanță pentru comunicarea inter-cluster."
   },
   {
     "id": "api.command_remote.decode_invitation.error",
@@ -7461,7 +7461,7 @@
   },
   {
     "id": "api.templates.invite_body_footer.title",
-    "translation": "Ce este Mattermost?"
+    "translation": "Ce este OKR.BEST?"
   },
   {
     "id": "api.templates.invite_body_footer.learn_more",
@@ -7469,11 +7469,11 @@
   },
   {
     "id": "api.templates.invite_body_footer.info",
-    "translation": "Mattermost este o platformă de mesagerie flexibilă, open source, care permite colaborarea securizată în echipă."
+    "translation": "OKR.BEST este o platformă de mesagerie flexibilă, open source, care permite colaborarea securizată în echipă."
   },
   {
     "id": "api.templates.invite_body.subTitle",
-    "translation": "Începeți să colaborați cu echipa dvs. pe Mattermost"
+    "translation": "Începeți să colaborați cu echipa dvs. pe OKR.BEST"
   },
   {
     "id": "api.templates.cloud_welcome_email.title",
@@ -7525,11 +7525,11 @@
   },
   {
     "id": "api.templates.cloud_welcome_email.download_mm_info",
-    "translation": "Descărcați aplicația Mattermost"
+    "translation": "Descărcați aplicația OKR.BEST"
   },
   {
     "id": "api.templates.cloud_welcome_email.button",
-    "translation": "Deschideți Mattermost"
+    "translation": "Deschideți OKR.BEST"
   },
   {
     "id": "api.templates.cloud_welcome_email.app_market_place",
@@ -7733,7 +7733,7 @@
   },
   {
     "id": "api.command_share.desc",
-    "translation": "Partajează canalul curent cu o instanță Mattermost de la distanță."
+    "translation": "Partajează canalul curent cu o instanță OKR.BEST de la distanță."
   },
   {
     "id": "api.command_share.could_not_uninvite.error",

@@ -161,7 +161,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Parece que o seu e-mail Mattermost está configurado corretamente!"
+    "translation": "Parece que o seu e-mail OKR.BEST está configurado corretamente!"
   },
   {
     "id": "api.back_to_app",
@@ -297,7 +297,7 @@
   },
   {
     "id": "api.command_help.desc",
-    "translation": "Mostrar a mensagem da ajuda de Mattermost"
+    "translation": "Mostrar a mensagem da ajuda de OKR.BEST"
   },
   {
     "id": "api.command_groupmsg.permission.app_error",
@@ -309,7 +309,7 @@
   },
   {
     "id": "api.command_help.success",
-    "translation": "Mattermost é uma plataforma de código aberto para uma comunicação segura, colaboração, e orquestração do trabalho entre ferramentas e equipas.\nMattermost contém duas ferramentas chave:\n\n**Canais** - Mantenha-se ligado com a sua equipa através de 1:1 e mensagem de grupo.\n**[Manuais](/playbooks)** - Crie e configure processos repetíveis para alcançar resultados específicos e previsíveis.\n\n[Veja a documentação e guias]({{.HelpLink}})"
+    "translation": "OKR.BEST é uma plataforma de código aberto para uma comunicação segura, colaboração, e orquestração do trabalho entre ferramentas e equipas.\nOKR.BEST contém duas ferramentas chave:\n\n**Canais** - Mantenha-se ligado com a sua equipa através de 1:1 e mensagem de grupo.\n**[Manuais](/playbooks)** - Crie e configure processos repetíveis para alcançar resultados específicos e previsíveis.\n\n[Veja a documentação e guias]({{.HelpLink}})"
   },
   {
     "id": "api.command_invite.permission.app_error",
@@ -397,7 +397,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Terminar Sessão do Mattermost"
+    "translation": "Terminar Sessão do OKR.BEST"
   },
   {
     "id": "api.command_search.hint",
@@ -585,7 +585,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - Testar Definições de E-mail"
+    "translation": "OKR.BEST - Testar Definições de E-mail"
   },
   {
     "id": "api.admin.upload_brand_image.no_file.app_error",
@@ -605,7 +605,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Por favor, adicione-me às equipas e canais nos quais deseja que eu interaja. Para fazer isto, utilize o navegador ou Mattermost Desktop App."
+    "translation": "Por favor, adicione-me às equipas e canais nos quais deseja que eu interaja. Para fazer isto, utilize o navegador ou OKR.BEST Desktop App."
   },
   {
     "id": "api.channel.add_guest.added",

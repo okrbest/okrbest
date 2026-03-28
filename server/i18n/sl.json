@@ -153,7 +153,7 @@
   },
   {
     "id": "oauth.gitlab.tos.error",
-    "translation": "Pogoji storitve GitLab so posodobljeni. Prosimo, pojdite na gitlab.com, da jih sprejmete in se nato poskusite znova prijaviti v Mattermost."
+    "translation": "Pogoji storitve GitLab so posodobljeni. Prosimo, pojdite na gitlab.com, da jih sprejmete in se nato poskusite znova prijaviti v OKR.BEST."
   },
   {
     "id": "model.websocket_client.connect_fail.app_error",
@@ -661,7 +661,7 @@
   },
   {
     "id": "mattermost.bulletin.subject",
-    "translation": "Mattermost varnostni bilten"
+    "translation": "OKR.BEST varnostni bilten"
   },
   {
     "id": "manaultesting.test_autolink.unable.app_error",
@@ -749,7 +749,7 @@
   },
   {
     "id": "ent.migration.migratetosaml.username_already_used_by_other_user",
-    "translation": "Uporabniško ime že uporablja drug Mattermost uporabnik."
+    "translation": "Uporabniško ime že uporablja drug OKR.BEST uporabnik."
   },
   {
     "id": "ent.migration.migratetosaml.user_not_found_in_users_mapping_file",
@@ -801,7 +801,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure.app_error",
-    "translation": "Iskanje uporabnikov v AD / LDAP ni uspelo. Preverite, ali se strežnik Mattermost lahko poveže z vašim strežnikom AD / LDAP in poskusite znova."
+    "translation": "Iskanje uporabnikov v AD / LDAP ni uspelo. Preverite, ali se strežnik OKR.BEST lahko poveže z vašim strežnikom AD / LDAP in poskusite znova."
   },
   {
     "id": "ent.ldap.syncronize.get_all_groups.app_error",
@@ -817,7 +817,7 @@
   },
   {
     "id": "ent.ldap.do_login.user_filtered.app_error",
-    "translation": "Vaš račun AD/LDAP nima dovoljenja za uporabo tega strežnika Mattermost. Prosite skrbnika sistema, da preveri filter uporabnikov AD/LDAP."
+    "translation": "Vaš račun AD/LDAP nima dovoljenja za uporabo tega strežnika OKR.BEST. Prosite skrbnika sistema, da preveri filter uporabnikov AD/LDAP."
   },
   {
     "id": "ent.ldap.do_login.unable_to_connect.app_error",
@@ -2581,7 +2581,7 @@
   },
   {
     "id": "api.slackimport.slack_import.log",
-    "translation": "Mattermost Slack dnevnik uvoza\r\n"
+    "translation": "OKR.BEST Slack dnevnik uvoza\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.unable_import",
@@ -2593,11 +2593,11 @@
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing_failed",
-    "translation": "Slack uporabnik je združen z obstoječim Mattermost uporabnikom z ujemajočo e-pošto {{.Email}} in uporabniškim imenom {{.Username}}, vendar ni bilo možno dodati uporabnika v njegovo ekipo.\r\n"
+    "translation": "Slack uporabnik je združen z obstoječim OKR.BEST uporabnikom z ujemajočo e-pošto {{.Email}} in uporabniškim imenom {{.Username}}, vendar ni bilo možno dodati uporabnika v njegovo ekipo.\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing",
-    "translation": "Slack uporabnik je združen z obstoječim Mattermost uporabnikom z ujemajočo e-pošto {{.Email}} in uporabniškim imenom {{.Username}}.\r\n"
+    "translation": "Slack uporabnik je združen z obstoječim OKR.BEST uporabnikom z ujemajočo e-pošto {{.Email}} in uporabniškim imenom {{.Username}}.\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.email_pwd",
@@ -2609,7 +2609,7 @@
   },
   {
     "id": "api.slackimport.slack_add_channels.merge",
-    "translation": "Slack kanal {{.DisplayName}} že obstaja kot aktiven Mattermost kanal. Oba kanala sta sedaj združena.\r\n"
+    "translation": "Slack kanal {{.DisplayName}} že obstaja kot aktiven OKR.BEST kanal. Oba kanala sta sedaj združena.\r\n"
   },
   {
     "id": "api.slackimport.slack_add_channels.import_failed",
@@ -3596,7 +3596,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "Podanega kanala ni bilo mogoče najti. Prosim uporabite [channel handle](https://about.mattermost.com/default-channel-handle-documentation) za identifikacijo kanalov."
+    "translation": "Podanega kanala ni bilo mogoče najti. Prosim uporabite [channel handle](https://about.okr.best/default-channel-handle-documentation) za identifikacijo kanalov."
   },
   {
     "id": "api.command_mute.name",
@@ -3608,7 +3608,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "{{.Channel}} ni možno najti. Prosim uporabite [channel handle](https://about.mattermost.com/default-channel-handle-documentation) za identifikacijo kanalov."
+    "translation": "{{.Channel}} ni možno najti. Prosim uporabite [channel handle](https://about.okr.best/default-channel-handle-documentation) za identifikacijo kanalov."
   },
   {
     "id": "api.command_mute.desc",
@@ -3660,7 +3660,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Odjava iz Mattermost-a"
+    "translation": "Odjava iz OKR.BEST-a"
   },
   {
     "id": "api.command_leave.name",
@@ -3756,7 +3756,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "{{.Channel}} ni možno najti. Prosim uporabite [channel handle](https://about.mattermost.com/default-channel-handle-documentation) za identifikacijo kanalov."
+    "translation": "{{.Channel}} ni možno najti. Prosim uporabite [channel handle](https://about.okr.best/default-channel-handle-documentation) za identifikacijo kanalov."
   },
   {
     "id": "api.command_invite.channel.app_error",
@@ -3768,7 +3768,7 @@
   },
   {
     "id": "api.command_help.desc",
-    "translation": "Odpri Mattermost pomoč"
+    "translation": "Odpri OKR.BEST pomoč"
   },
   {
     "id": "api.command_groupmsg.permission.app_error",
@@ -4045,7 +4045,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Pošlji vabilo tvoji Mattermost ekipi"
+    "translation": "Pošlji vabilo tvoji OKR.BEST ekipi"
   },
   {
     "id": "api.command.execute_command.start.app_error",
@@ -4341,7 +4341,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Prosim dodajte me ekipam in kanalom, v katerih želite da sodelujem. Če želite to narediti, uporabite brskalnik ali Mattermost Desktop App."
+    "translation": "Prosim dodajte me ekipam in kanalom, v katerih želite da sodelujem. Če želite to narediti, uporabite brskalnik ali OKR.BEST Desktop App."
   },
   {
     "id": "api.bot.create_disabled",
@@ -4373,7 +4373,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - Preizkus nastavitve Email"
+    "translation": "OKR.BEST - Preizkus nastavitve Email"
   },
   {
     "id": "api.admin.test_email.reenter_password",

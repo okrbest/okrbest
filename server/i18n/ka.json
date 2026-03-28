@@ -353,7 +353,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "გთხოვ დამამატო გუნდებში და არხებში, რომელშიც გინდა მონაწილეობა მივიღო. ამისთვის გამოიყენე ბრაუზერი ან Mattermost-ის სამაგიდო აპლიკაცია."
+    "translation": "გთხოვ დამამატო გუნდებში და არხებში, რომელშიც გინდა მონაწილეობა მივიღო. ამისთვის გამოიყენე ბრაუზერი ან OKR.BEST-ის სამაგიდო აპლიკაცია."
   },
   {
     "id": "api.bot.create_disabled",
@@ -381,7 +381,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - ელ-ფოსტის პარამეტრების ტესტირება"
+    "translation": "OKR.BEST - ელ-ფოსტის პარამეტრების ტესტირება"
   },
   {
     "id": "api.admin.test_email.reenter_password",

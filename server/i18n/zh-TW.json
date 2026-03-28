@@ -85,7 +85,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "看起來您的 Mattermost 電子郵件設定正確！"
+    "translation": "看起來您的 OKR.BEST 電子郵件設定正確！"
   },
   {
     "id": "api.admin.test_email.missing_server",
@@ -97,7 +97,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - 測試電子郵件設定"
+    "translation": "OKR.BEST - 測試電子郵件設定"
   },
   {
     "id": "api.admin.test_s3.missing_s3_bucket",
@@ -341,7 +341,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "寄送邀請函給您的 Mattermost 團隊"
+    "translation": "寄送邀請函給您的 OKR.BEST 團隊"
   },
   {
     "id": "api.command.invite_people.email_invitations_off",
@@ -615,7 +615,7 @@
   },
   {
     "id": "api.command_help.desc",
-    "translation": "顯示 Mattermost 說明頁面"
+    "translation": "顯示 OKR.BEST 說明頁面"
   },
   {
     "id": "api.command_help.name",
@@ -627,7 +627,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "找不到頻道 {{.Channel}}。請用[頻道代號](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel)以分辨頻道。"
+    "translation": "找不到頻道 {{.Channel}}。請用[頻道代號](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel)以分辨頻道。"
   },
   {
     "id": "api.command_invite.desc",
@@ -663,7 +663,7 @@
   },
   {
     "id": "api.command_invite.private_channel.app_error",
-    "translation": "找不到頻道 {{.Channel}}。請用[頻道代號](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel)以分辨頻道。"
+    "translation": "找不到頻道 {{.Channel}}。請用[頻道代號](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel)以分辨頻道。"
   },
   {
     "id": "api.command_invite.success",
@@ -719,7 +719,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "登出 Mattermost"
+    "translation": "登出 OKR.BEST"
   },
   {
     "id": "api.command_logout.name",
@@ -771,7 +771,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "找不到頻道 {{.Channel}}。請用[頻道代號](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel)以分辨頻道。"
+    "translation": "找不到頻道 {{.Channel}}。請用[頻道代號](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel)以分辨頻道。"
   },
   {
     "id": "api.command_mute.hint",
@@ -783,7 +783,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "找不到指定的頻道。請用[頻道代號](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel)找出頻道。"
+    "translation": "找不到指定的頻道。請用[頻道代號](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel)找出頻道。"
   },
   {
     "id": "api.command_mute.not_member.error",
@@ -1497,7 +1497,7 @@
   },
   {
     "id": "api.slackimport.slack_add_channels.merge",
-    "translation": "Slack 頻道 {{.DisplayName}} 已存在於現行 Mattermost 中。已合併兩邊的頻道。\n"
+    "translation": "Slack 頻道 {{.DisplayName}} 已存在於現行 OKR.BEST 中。已合併兩邊的頻道。\n"
   },
   {
     "id": "api.slackimport.slack_add_users.created",
@@ -1509,11 +1509,11 @@
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing",
-    "translation": "由於有相同的電子郵件地址 {{.Email}} 與使用者名稱 {{.Username}}，Slack 帳號與現有 Mattermost 帳號已合併。\n"
+    "translation": "由於有相同的電子郵件地址 {{.Email}} 與使用者名稱 {{.Username}}，Slack 帳號與現有 OKR.BEST 帳號已合併。\n"
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing_failed",
-    "translation": "由於有相同的電子郵件地址 {{.Email}} 與使用者名稱 {{.Username}}，Slack 帳號與現有 Mattermost 帳號已合併，但無法新增使用者至對應團隊。\n"
+    "translation": "由於有相同的電子郵件地址 {{.Email}} 與使用者名稱 {{.Username}}，Slack 帳號與現有 OKR.BEST 帳號已合併，但無法新增使用者至對應團隊。\n"
   },
   {
     "id": "api.slackimport.slack_add_users.missing_email_address",
@@ -1525,7 +1525,7 @@
   },
   {
     "id": "api.slackimport.slack_import.log",
-    "translation": "Mattermost Slack 匯入記錄\n"
+    "translation": "OKR.BEST Slack 匯入記錄\n"
   },
   {
     "id": "api.slackimport.slack_import.note1",
@@ -1833,7 +1833,7 @@
   },
   {
     "id": "api.templates.post_body.button",
-    "translation": "在 Mattermost 中回覆"
+    "translation": "在 OKR.BEST 中回覆"
   },
   {
     "id": "api.templates.reset_body.button",
@@ -1893,7 +1893,7 @@
   },
   {
     "id": "api.templates.verify_body.info",
-    "translation": "此電子郵件地址被用來建立了一個 Mattermost 帳號。"
+    "translation": "此電子郵件地址被用來建立了一個 OKR.BEST 帳號。"
   },
   {
     "id": "api.templates.verify_body.title",
@@ -1913,7 +1913,7 @@
   },
   {
     "id": "api.templates.welcome_body.info",
-    "translation": "此電子郵件地址被用來建立了一個 Mattermost 帳號。"
+    "translation": "此電子郵件地址被用來建立了一個 OKR.BEST 帳號。"
   },
   {
     "id": "api.templates.welcome_body.title",
@@ -3101,7 +3101,7 @@
   },
   {
     "id": "ent.ldap.do_login.user_filtered.app_error",
-    "translation": "您的 AD/LDAP 帳號沒有使用此 Mattermost 伺服器的權限。請向系統管理員詢問確認 AD/LDAP 使用者過濾條件。"
+    "translation": "您的 AD/LDAP 帳號沒有使用此 OKR.BEST 伺服器的權限。請向系統管理員詢問確認 AD/LDAP 使用者過濾條件。"
   },
   {
     "id": "ent.ldap.do_login.user_not_registered.app_error",
@@ -3121,7 +3121,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure.app_error",
-    "translation": "無法用 AD/LDAP 搜尋使用者。請測試 Mattermost 是否能連線至 AD/LDAP 伺服器並重新嘗試。"
+    "translation": "無法用 AD/LDAP 搜尋使用者。請測試 OKR.BEST 是否能連線至 AD/LDAP 伺服器並重新嘗試。"
   },
   {
     "id": "ent.ldap.validate_filter.app_error",
@@ -3165,7 +3165,7 @@
   },
   {
     "id": "ent.migration.migratetosaml.username_already_used_by_other_user",
-    "translation": "使用者名稱已被其他 Mattermost 使用者使用。"
+    "translation": "使用者名稱已被其他 OKR.BEST 使用者使用。"
   },
   {
     "id": "ent.saml.attribute.app_error",
@@ -3249,7 +3249,7 @@
   },
   {
     "id": "mattermost.bulletin.subject",
-    "translation": "Mattermost 安全性公告"
+    "translation": "OKR.BEST 安全性公告"
   },
   {
     "id": "mfa.activate.bad_token.app_error",
@@ -4389,7 +4389,7 @@
   },
   {
     "id": "oauth.gitlab.tos.error",
-    "translation": "GitLab 的服務使用條款有更新。請前往 {{.URL}} 接受新條款後重新嘗試登入 Mattermost。"
+    "translation": "GitLab 的服務使用條款有更新。請前往 {{.URL}} 接受新條款後重新嘗試登入 OKR.BEST。"
   },
   {
     "id": "plugin.api.update_user_status.bad_status",
@@ -4553,11 +4553,11 @@
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support_version",
-    "translation": "Mattermost 不再支援您瀏覽器的這個版本"
+    "translation": "OKR.BEST 不再支援您瀏覽器的這個版本"
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support",
-    "translation": "Mattermost 不再支援此瀏覽器"
+    "translation": "OKR.BEST 不再支援此瀏覽器"
   },
   {
     "id": "web.error.unsupported_browser.min_os_version.windows",
@@ -4601,7 +4601,7 @@
   },
   {
     "id": "web.error.unsupported_browser.download_app_or_upgrade_browser",
-    "translation": "下載 Mattermost 應用程式或只用支援的瀏覽器以獲得更好的體驗。"
+    "translation": "下載 OKR.BEST 應用程式或只用支援的瀏覽器以獲得更好的體驗。"
   },
   {
     "id": "web.error.unsupported_browser.download",
@@ -4773,7 +4773,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure_size_exceeded.app_error",
-    "translation": "超過大小限制。請檢查[最大分頁大小](https://docs.mattermost.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded)。"
+    "translation": "超過大小限制。請檢查[最大分頁大小](https://docs.okrbest.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded)。"
   },
   {
     "id": "ent.id_loaded.license_disable.app_error",
@@ -5129,7 +5129,7 @@
   },
   {
     "id": "app.bot.get_disable_bot_sysadmin_message",
-    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} 已被停用。下列由他們管理的機器人帳號已被停用。\n\n{{.BotNames}}{{else}}{{.UserName}} 已被停用。他們管理的 {{.NumBots}} 個機器人帳號已被停用，包括：\n\n{{.BotNames}}{{end}}可以在**「外部整合 > 機器人帳號」**對個別啟用以獲得所有權，並為其建立新的代符。\n\n詳情請參閱[文件](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled)。{{else}}{{if .printAllBots}}{{.UserName}} 已被停權。下列由他們管理的機器人帳號還在運作：\n\n{{.BotNames}}\n{{else}}{{.UserName}} 已被停權。他們管理的 {{.NumBots}} 個機器人帳號還在運作，包括：\n\n{{.BotNames}}{{end}}在此強烈建議前往**「外部整合 > 機器人帳號」**重新啟用各個機器人以獲得所有權，並為其建立新的代符。\n\n詳情請參閱 [文件](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled)。\n\n如果想要在停用使用者帳號同時自動停用機器人帳號，請前往**「系統主控台 > 外部整合 > 機器人帳號」**啟用「停權使用者時停用機器人帳號」。{{end}}"
+    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} 已被停用。下列由他們管理的機器人帳號已被停用。\n\n{{.BotNames}}{{else}}{{.UserName}} 已被停用。他們管理的 {{.NumBots}} 個機器人帳號已被停用，包括：\n\n{{.BotNames}}{{end}}可以在**「外部整合 > 機器人帳號」**對個別啟用以獲得所有權，並為其建立新的代符。\n\n詳情請參閱[文件](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled)。{{else}}{{if .printAllBots}}{{.UserName}} 已被停權。下列由他們管理的機器人帳號還在運作：\n\n{{.BotNames}}\n{{else}}{{.UserName}} 已被停權。他們管理的 {{.NumBots}} 個機器人帳號還在運作，包括：\n\n{{.BotNames}}{{end}}在此強烈建議前往**「外部整合 > 機器人帳號」**重新啟用各個機器人以獲得所有權，並為其建立新的代符。\n\n詳情請參閱 [文件](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled)。\n\n如果想要在停用使用者帳號同時自動停用機器人帳號，請前往**「系統主控台 > 外部整合 > 機器人帳號」**啟用「停權使用者時停用機器人帳號」。{{end}}"
   },
   {
     "id": "app.bot.createbot.internal_error",
@@ -5221,7 +5221,7 @@
   },
   {
     "id": "api.templates.remove_expired_license.subject",
-    "translation": "Mattermost 企業授權已被停用。"
+    "translation": "OKR.BEST 企業授權已被停用。"
   },
   {
     "id": "api.templates.remove_expired_license.body.title",
@@ -5645,11 +5645,11 @@
   },
   {
     "id": "api.license.request_trial_license.app_error",
-    "translation": "無法取得試用授權，請再嘗試一次或聯絡 support@mattermost.com。"
+    "translation": "無法取得試用授權，請再嘗試一次或聯絡 support@okr.best。"
   },
   {
     "id": "api.license.request-trial.bad-request.terms-not-accepted",
-    "translation": "要求授權前必須接受 Mattermost Software Evaluation Agreement 跟隱私權政策。"
+    "translation": "要求授權前必須接受 OKR.BEST Software Evaluation Agreement 跟隱私權政策。"
   },
   {
     "id": "api.license.request-trial.bad-request",
@@ -6569,15 +6569,15 @@
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user.app_error",
-    "translation": "無法升級至企業版。Mattermost 系統使用者 {{.MattermostUsername}} 沒有必要執行檔的寫入權限。系統管理員可以在 Mattermost 伺服器上執行下列命令以更新檔案權限：\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\n```\n\n變更檔案權限後，請重新嘗試升級。當完成升級並重新啟動後，記得還原執行檔權限：\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
+    "translation": "無法升級至企業版。OKR.BEST 系統使用者 {{.OKR.BESTUsername}} 沒有必要執行檔的寫入權限。系統管理員可以在 OKR.BEST 伺服器上執行下列命令以更新檔案權限：\n\n```\nchown {{.OKR.BESTUsername}} \"{{.Path}}\"\n```\n\n變更檔案權限後，請重新嘗試升級。當完成升級並重新啟動後，記得還原執行檔權限：\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user-and-permission.app_error",
-    "translation": "無法升級至企業版。Mattermost 系統使用者 {{.MattermostUsername}} 沒有必要執行檔的寫入權限。系統管理員可以在 Mattermost 伺服器上執行下列命令以更新檔案權限：\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\n變更檔案權限後，請重新嘗試升級。當完成升級並重新啟動後，記得還原執行檔權限：\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "無法升級至企業版。OKR.BEST 系統使用者 {{.OKR.BESTUsername}} 沒有必要執行檔的寫入權限。系統管理員可以在 OKR.BEST 伺服器上執行下列命令以更新檔案權限：\n\n```\nchown {{.OKR.BESTUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\n變更檔案權限後，請重新嘗試升級。當完成升級並重新啟動後，記得還原執行檔權限：\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-permission.app_error",
-    "translation": "無法升級至企業版。Mattermost 系統使用者 {{.MattermostUsername}} 沒有必要執行檔的寫入權限。系統管理員可以在 Mattermost 伺服器上執行下列命令以更新檔案權限：\n\n```\nchmod +w \"{{.Path}}\"\n```\n\n變更檔案權限後，請重新嘗試升級。當完成升級並重新啟動後，記得還原執行檔權限：\n\n```\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "無法升級至企業版。OKR.BEST 系統使用者 {{.OKR.BESTUsername}} 沒有必要執行檔的寫入權限。系統管理員可以在 OKR.BEST 伺服器上執行下列命令以更新檔案權限：\n\n```\nchmod +w \"{{.Path}}\"\n```\n\n變更檔案權限後，請重新嘗試升級。當完成升級並重新啟動後，記得還原執行檔權限：\n\n```\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.generic_error.app_error",
@@ -6585,15 +6585,15 @@
   },
   {
     "id": "api.upgrade_to_enterprise.app_error",
-    "translation": "正在升級至 Mattermost 企業版。"
+    "translation": "正在升級至 OKR.BEST 企業版。"
   },
   {
     "id": "api.upgrade_to_enterprise.already-enterprise.app_error",
-    "translation": "因為目前執行的已是 Mattermost 企業版，所以無法升級。"
+    "translation": "因為目前執行的已是 OKR.BEST 企業版，所以無法升級。"
   },
   {
     "id": "api.upgrade_to_enterprise.already-done.app_error",
-    "translation": "已升級至 Mattermost 企業版。請重新啟動伺服器以完成升級。"
+    "translation": "已升級至 OKR.BEST 企業版。請重新啟動伺服器以完成升級。"
   },
   {
     "id": "api.migrate_to_saml.error",
@@ -6877,7 +6877,7 @@
   },
   {
     "id": "api.command_help.success",
-    "translation": "Mattermost 是一款開放源碼的平台，提供跨工具及團隊的安全通訊、協作及工作規劃。\nMattermost 包含兩大核心工具：\n\n**頻道**- 透過一對一及群組訊息，隨時與您的團隊保持聯繫。\n**[Playbooks](/playbooks)** - 建立並設定可重複使用的流程，以達成特定、可預測的結果。\n\n[檢視文件及指引]({{.HelpLink}})"
+    "translation": "OKR.BEST 是一款開放源碼的平台，提供跨工具及團隊的安全通訊、協作及工作規劃。\nOKR.BEST 包含兩大核心工具：\n\n**頻道**- 透過一對一及群組訊息，隨時與您的團隊保持聯繫。\n**[Playbooks](/playbooks)** - 建立並設定可重複使用的流程，以達成特定、可預測的結果。\n\n[檢視文件及指引]({{.HelpLink}})"
   },
   {
     "id": "api.command_invite.user_not_in_team.messageOverflow",
@@ -6909,11 +6909,11 @@
   },
   {
     "id": "api.command_share.desc",
-    "translation": "與外部的 Mattermost 個體共享目前頻道。"
+    "translation": "與外部的 OKR.BEST 個體共享目前頻道。"
   },
   {
     "id": "api.command_share.invite_remote.help",
-    "translation": "邀請外部的 Mattermost 個體至目前的共享頻道"
+    "translation": "邀請外部的 OKR.BEST 個體至目前的共享頻道"
   },
   {
     "id": "api.command_share.missing_action",
@@ -7025,7 +7025,7 @@
   },
   {
     "id": "api.templates.license_up_for_renewal_subtitle",
-    "translation": "親愛的 {{.UserName}}，您的訂閱將在 {{.Days}} 天後到期。我們希望您體驗著 Mattermost 帶來的彈性且安全的團隊協作。請儘速續訂以確保您的團隊可以繼續享受這些好處。"
+    "translation": "親愛的 {{.UserName}}，您的訂閱將在 {{.Days}} 天後到期。我們希望您體驗著 OKR.BEST 帶來的彈性且安全的團隊協作。請儘速續訂以確保您的團隊可以繼續享受這些好處。"
   },
   {
     "id": "api.upload.create.upload_too_large.app_error",
@@ -7217,7 +7217,7 @@
   },
   {
     "id": "model.oauth.is_valid.mattermost_app_id.app_error",
-    "translation": "MattermostAppID 的最大長度為 32 個字元。"
+    "translation": "OKR.BESTAppID 的最大長度為 32 個字元。"
   },
   {
     "id": "model.outgoing_oauth_connection.is_valid.client_id.error",
@@ -7357,7 +7357,7 @@
   },
   {
     "id": "api.file.cloud_upload.app_error",
-    "translation": "不支援從 mmctl 上傳至雲端個體。請查閱文件：https://docs.mattermost.com/manage/cloud-data-export.html。"
+    "translation": "不支援從 mmctl 上傳至雲端個體。請查閱文件：https://docs.okrbest.com/manage/cloud-data-export.html。"
   },
   {
     "id": "api.file.file_exists.app_error",
@@ -7389,7 +7389,7 @@
   },
   {
     "id": "api.templates.email_footer_v2",
-    "translation": "© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301"
+    "translation": "© 2022 OKR.BEST, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301"
   },
   {
     "id": "api.templates.verify_body.info1",
@@ -7757,7 +7757,7 @@
   },
   {
     "id": "api.command_remote.accept.help",
-    "translation": "從外部的 Mattermost 個體接受邀請"
+    "translation": "從外部的 OKR.BEST 個體接受邀請"
   },
   {
     "id": "api.command_remote.accept_invitation",
@@ -7765,7 +7765,7 @@
   },
   {
     "id": "api.command_remote.desc",
-    "translation": "邀請不同 Mattermost 個體間通訊的安全連線。"
+    "translation": "邀請不同 OKR.BEST 個體間通訊的安全連線。"
   },
   {
     "id": "api.command_remote.invitation.hint",
@@ -7893,7 +7893,7 @@
   },
   {
     "id": "api.email_batching.send_batched_email_notification.button",
-    "translation": "開啟 Mattermost"
+    "translation": "開啟 OKR.BEST"
   },
   {
     "id": "api.error_no_organization_name_provided_for_self_hosted_onboarding",
@@ -7985,7 +7985,7 @@
   },
   {
     "id": "api.license.request-trial.can-start-trial.not-allowed",
-    "translation": "無法套用新的試用授權。您先前已在此 Mattermost 個體套用過試用授權…若您想延長試用期，請[洽我們的銷售團隊](https://mattermost.com/contact-us/)。"
+    "translation": "無法套用新的試用授權。您先前已在此 OKR.BEST 個體套用過試用授權…若您想延長試用期，請[洽我們的銷售團隊](https://okr.best/contact-us/)。"
   },
   {
     "id": "api.license_error",
@@ -8013,7 +8013,7 @@
   },
   {
     "id": "api.command_remote.invite_summary",
-    "translation": "將以下透過 AES 256 位元加密的邀請函連同密碼傳送給外部的 Mattermost 系統管理員。他們可使用 `{{.Command}}` 斜線命令來接受邀請。\n\n```\n{{.Invitation}}\n```\n\n**請確認安全連線能透過 ** {{.SiteURL}} ** 存取您的 Mattermost 主機**"
+    "translation": "將以下透過 AES 256 位元加密的邀請函連同密碼傳送給外部的 OKR.BEST 系統管理員。他們可使用 `{{.Command}}` 斜線命令來接受邀請。\n\n```\n{{.Invitation}}\n```\n\n**請確認安全連線能透過 ** {{.SiteURL}} ** 存取您的 OKR.BEST 主機**"
   },
   {
     "id": "api.command_remote.missing_empty",
@@ -8125,11 +8125,11 @@
   },
   {
     "id": "api.templates.cloud_welcome_email.button",
-    "translation": "開啟 Mattermost"
+    "translation": "開啟 OKR.BEST"
   },
   {
     "id": "api.templates.cloud_welcome_email.download_mm_info",
-    "translation": "下載 Mattermost 應用程式"
+    "translation": "下載 OKR.BEST 應用程式"
   },
   {
     "id": "api.templates.cloud_welcome_email.info",
@@ -8165,7 +8165,7 @@
   },
   {
     "id": "api.templates.invite_body.subTitle",
-    "translation": "開始在 Mattermost 上與您的團隊協作"
+    "translation": "開始在 OKR.BEST 上與您的團隊協作"
   },
   {
     "id": "api.templates.invite_team_and_channel_body.title",
@@ -8333,7 +8333,7 @@
   },
   {
     "id": "app.notification.footer.infoLogin",
-    "translation": "登入 Mattermost"
+    "translation": "登入 OKR.BEST"
   },
   {
     "id": "app.notification.footer.title",
@@ -8925,7 +8925,7 @@
   },
   {
     "id": "api.templates.invite_body_footer.info",
-    "translation": "Mattermost 是一款彈性、開放源碼的傳訊平台，使安全的團隊協作成真。"
+    "translation": "OKR.BEST 是一款彈性、開放源碼的傳訊平台，使安全的團隊協作成真。"
   },
   {
     "id": "api.templates.ip_filters_changed_footer.send_an_email_to",
@@ -8933,7 +8933,7 @@
   },
   {
     "id": "api.templates.license_up_for_renewal_title",
-    "translation": "您的 Mattermost 訂閱即將續訂"
+    "translation": "您的 OKR.BEST 訂閱即將續訂"
   },
   {
     "id": "api.templates.welcome_body.serverURL",
@@ -9069,7 +9069,7 @@
   },
   {
     "id": "api.license.request_trial_license.embargoed",
-    "translation": "我們無法為受禁令限制的國家處理請求。[請參閱文件以了解詳情](https://mattermost.com/pl/limitations-for-embargoed-countries)，或透過 legal@mattermost.com 詢問關於出口限制的問題。"
+    "translation": "我們無法為受禁令限制的國家處理請求。[請參閱文件以了解詳情](https://okr.best/pl/limitations-for-embargoed-countries)，或透過 legal@okr.best 詢問關於出口限制的問題。"
   },
   {
     "id": "api.server.cws.health_check.app_error",
@@ -9089,7 +9089,7 @@
   },
   {
     "id": "api.server.cws.needs_enterprise_edition",
-    "translation": "服務僅在 Mattermost 企業版中可供使用"
+    "translation": "服務僅在 OKR.BEST 企業版中可供使用"
   },
   {
     "id": "api.system.logs.invalidFilter",
@@ -9121,7 +9121,7 @@
   },
   {
     "id": "api.templates.invite_body_footer.title",
-    "translation": "Mattermost 是什麼？"
+    "translation": "OKR.BEST 是什麼？"
   },
   {
     "id": "api.templates.invite_body_guest.subTitle",
@@ -9677,11 +9677,11 @@
   },
   {
     "id": "api.config.update.elasticsearch.autocomplete_cannot_be_enabled_error",
-    "translation": "頻道索引結構已經過期，頻道自動完成無法啟用。建議重新產生您的頻道引。詳細資訊請見 Mattermost 更新日誌"
+    "translation": "頻道索引結構已經過期，頻道自動完成無法啟用。建議重新產生您的頻道引。詳細資訊請見 OKR.BEST 更新日誌"
   },
   {
     "id": "api.server.cws.disabled",
-    "translation": "與 Mattermost 客戶入口網站的互動功能已被系統管理員停用。"
+    "translation": "與 OKR.BEST 客戶入口網站的互動功能已被系統管理員停用。"
   },
   {
     "id": "app.channel.bookmark.save.app_error",

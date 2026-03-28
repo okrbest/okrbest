@@ -85,7 +85,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "La configurazione email di Mattermost è corretta!"
+    "translation": "La configurazione email di OKR.BEST è corretta!"
   },
   {
     "id": "api.admin.test_email.missing_server",
@@ -97,7 +97,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - Test delle impostazioni Email"
+    "translation": "OKR.BEST - Test delle impostazioni Email"
   },
   {
     "id": "api.admin.test_s3.missing_s3_bucket",
@@ -341,7 +341,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Manda un email di invito al tuo gruppo Mattermost"
+    "translation": "Manda un email di invito al tuo gruppo OKR.BEST"
   },
   {
     "id": "api.command.invite_people.email_invitations_off",
@@ -617,7 +617,7 @@
   },
   {
     "id": "api.command_help.desc",
-    "translation": "Vai alla pagina di aiuto di Mattermost"
+    "translation": "Vai alla pagina di aiuto di OKR.BEST"
   },
   {
     "id": "api.command_help.name",
@@ -629,7 +629,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "Impossibile trovare il canale {{.Channel}}. Usare [channel handle](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) per identificare i canali."
+    "translation": "Impossibile trovare il canale {{.Channel}}. Usare [channel handle](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) per identificare i canali."
   },
   {
     "id": "api.command_invite.desc",
@@ -721,7 +721,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Logout da Mattermost"
+    "translation": "Logout da OKR.BEST"
   },
   {
     "id": "api.command_logout.name",
@@ -773,7 +773,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "Impossibile trovare il canale {{.Channel}}. Usare [channel handle](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) per identificare i canali."
+    "translation": "Impossibile trovare il canale {{.Channel}}. Usare [channel handle](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) per identificare i canali."
   },
   {
     "id": "api.command_mute.hint",
@@ -785,7 +785,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "Impossibile trovare il canale specificato. Usare [channel handle](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) per identificare i canali."
+    "translation": "Impossibile trovare il canale specificato. Usare [channel handle](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) per identificare i canali."
   },
   {
     "id": "api.command_mute.not_member.error",
@@ -1505,7 +1505,7 @@
   },
   {
     "id": "api.slackimport.slack_add_channels.merge",
-    "translation": "Il canale Slack {{.DisplayName}} è già esistente come canale Mattermost. Entrambi i canali sono stati uniti.\r\n"
+    "translation": "Il canale Slack {{.DisplayName}} è già esistente come canale OKR.BEST. Entrambi i canali sono stati uniti.\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.created",
@@ -1517,11 +1517,11 @@
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing",
-    "translation": "L'utente Slack è stato unito ad un utente Mattermost con email {{.Email}} e nome-utente {{.Username}}.\r\n"
+    "translation": "L'utente Slack è stato unito ad un utente OKR.BEST con email {{.Email}} e nome-utente {{.Username}}.\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing_failed",
-    "translation": "L'utente Slack è stato unito ad un utente Mattermost con email {{.Email}} e nome-utente {{.Username}}, ma non è stato possibile aggiungere l'utente al team.\r\n"
+    "translation": "L'utente Slack è stato unito ad un utente OKR.BEST con email {{.Email}} e nome-utente {{.Username}}, ma non è stato possibile aggiungere l'utente al team.\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.missing_email_address",
@@ -3129,7 +3129,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure.app_error",
-    "translation": "Impossibile trovare gli utenti AD/LDAP. Controllare se il server Mattermost riesce a collegarsi al server AD/LDAP e riprovare."
+    "translation": "Impossibile trovare gli utenti AD/LDAP. Controllare se il server OKR.BEST riesce a collegarsi al server AD/LDAP e riprovare."
   },
   {
     "id": "ent.ldap.validate_filter.app_error",
@@ -3173,7 +3173,7 @@
   },
   {
     "id": "ent.migration.migratetosaml.username_already_used_by_other_user",
-    "translation": "Nome utente in uso da un altro utente Mattermost."
+    "translation": "Nome utente in uso da un altro utente OKR.BEST."
   },
   {
     "id": "ent.saml.attribute.app_error",
@@ -3257,7 +3257,7 @@
   },
   {
     "id": "mattermost.bulletin.subject",
-    "translation": "Bollettino di Sicurezza di Mattermost"
+    "translation": "Bollettino di Sicurezza di OKR.BEST"
   },
   {
     "id": "mfa.activate.bad_token.app_error",
@@ -4397,7 +4397,7 @@
   },
   {
     "id": "oauth.gitlab.tos.error",
-    "translation": "I Termini del Servizio di GitLab sono stati aggiornati. Per favore visita gitlab.com per accettarli e poi eseguire il login su Mattermost."
+    "translation": "I Termini del Servizio di GitLab sono stati aggiornati. Per favore visita gitlab.com per accettarli e poi eseguire il login su OKR.BEST."
   },
   {
     "id": "plugin.api.update_user_status.bad_status",
@@ -4845,7 +4845,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Per favore aggiungimi alle squadre e ai canali con cui vuoi che interagisca. Per farlo utilizza il browser oppure l'app desktop di Mattermost."
+    "translation": "Per favore aggiungimi alle squadre e ai canali con cui vuoi che interagisca. Per farlo utilizza il browser oppure l'app desktop di OKR.BEST."
   },
   {
     "id": "api.channel.get_channel_moderations.license.error",
@@ -4981,7 +4981,7 @@
   },
   {
     "id": "app.bot.get_disable_bot_sysadmin_message",
-    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} disattivato. Hanno gestito questi account bot che adesso sono disattivati.\n\n{{.BotNames}}{{else}}{{.UserName}} disattivato. Hanno gestito {{.NumBots}} account bot che sono stati disattivati, inclusi i seguenti:\n\n{{.BotNames}}{{end}}Puoi impossessarti di ciascuno di questi bot attivandoli in **Integrazioni > Account Bot** e creando nuovi token per il bot.\n\nPer ulteriori informazioni, vedere la [documentazione](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} disattivato. Hanno gestito i sequenti account bot che sono ancora attivi.\n\n{{.BotNames}}\n{{else}}{{.UserName}} disattivato. Hanno gestito {{.NumBots}} account bot che sono ancora attivi, inclusi i seguenti:\n\n{{.BotNames}}{{end}} Si raccomanda caldamente di impossessarsi di ciascuno di questi bot riattivandoli in **Integrazioni > Account Bot** e creando nuovi token per i bot.\n\nPer ulteriori informazioni, vedere la [documentazione](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nSe desideri che gli account bot siano disattivati automaticamente dopo la disattivazione dell'utente, impostare “Disattiva gli account bot dopo la disattivazione dell'utente” nella *Console di Sistema > Integrazioni > Account Bot** a vero.{{end}}"
+    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} disattivato. Hanno gestito questi account bot che adesso sono disattivati.\n\n{{.BotNames}}{{else}}{{.UserName}} disattivato. Hanno gestito {{.NumBots}} account bot che sono stati disattivati, inclusi i seguenti:\n\n{{.BotNames}}{{end}}Puoi impossessarti di ciascuno di questi bot attivandoli in **Integrazioni > Account Bot** e creando nuovi token per il bot.\n\nPer ulteriori informazioni, vedere la [documentazione](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} disattivato. Hanno gestito i sequenti account bot che sono ancora attivi.\n\n{{.BotNames}}\n{{else}}{{.UserName}} disattivato. Hanno gestito {{.NumBots}} account bot che sono ancora attivi, inclusi i seguenti:\n\n{{.BotNames}}{{end}} Si raccomanda caldamente di impossessarsi di ciascuno di questi bot riattivandoli in **Integrazioni > Account Bot** e creando nuovi token per i bot.\n\nPer ulteriori informazioni, vedere la [documentazione](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nSe desideri che gli account bot siano disattivati automaticamente dopo la disattivazione dell'utente, impostare “Disattiva gli account bot dopo la disattivazione dell'utente” nella *Console di Sistema > Integrazioni > Account Bot** a vero.{{end}}"
   },
   {
     "id": "app.channel.get_channels.not_found.app_error",
@@ -5081,7 +5081,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure_size_exceeded.app_error",
-    "translation": "Limite Dimensione Superato. Controllare [dimensione massima pagina](https://docs.mattermost.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded)."
+    "translation": "Limite Dimensione Superato. Controllare [dimensione massima pagina](https://docs.okrbest.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded)."
   },
   {
     "id": "group_not_associated_to_synced_team",
@@ -5153,7 +5153,7 @@
   },
   {
     "id": "web.error.unsupported_browser.download_app_or_upgrade_browser",
-    "translation": "Scarica l'app Mattermost oppure utilizza un browser supportato per un'esperienza migliore."
+    "translation": "Scarica l'app OKR.BEST oppure utilizza un browser supportato per un'esperienza migliore."
   },
   {
     "id": "api.license.request-trial.bad-request",
@@ -5161,7 +5161,7 @@
   },
   {
     "id": "api.license.request_trial_license.app_error",
-    "translation": "Impossibile ottenere una licenza di prova, per favore riprovare o contattare support@mattermost.com."
+    "translation": "Impossibile ottenere una licenza di prova, per favore riprovare o contattare support@okr.best."
   },
   {
     "id": "api.team.import_team.unknown_import_from.app_error",
@@ -5333,7 +5333,7 @@
   },
   {
     "id": "api.templates.remove_expired_license.subject",
-    "translation": "Licenza Mattermost Enteprise disabilitata."
+    "translation": "Licenza OKR.BEST Enteprise disabilitata."
   },
   {
     "id": "api.user.create_user.guest_accounts.disabled.app_error",
@@ -5525,11 +5525,11 @@
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support",
-    "translation": "Questo browser non è più supportato da Mattermost"
+    "translation": "Questo browser non è più supportato da OKR.BEST"
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support_version",
-    "translation": "La versione del tuo browser non è più supportata da Mattermost"
+    "translation": "La versione del tuo browser non è più supportata da OKR.BEST"
   },
   {
     "id": "web.error.unsupported_browser.open_system_browser.edge",
@@ -5673,7 +5673,7 @@
   },
   {
     "id": "api.license.request-trial.bad-request.terms-not-accepted",
-    "translation": "Devi accettare l'Accordo di Valutazione Software Mattermost e la Politica sulla Privacy per richiedere una licenza."
+    "translation": "Devi accettare l'Accordo di Valutazione Software OKR.BEST e la Politica sulla Privacy per richiedere una licenza."
   },
   {
     "id": "api.invalid_channel",

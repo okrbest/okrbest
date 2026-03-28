@@ -29,7 +29,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Mesedez gehitu nazazu parte hartzea nahi duzun talde eta kanaletan. Hau egiteko, erabil nabigatzailea edo Mattermost mahaigaineko aplikazioa."
+    "translation": "Mesedez gehitu nazazu parte hartzea nahi duzun talde eta kanaletan. Hau egiteko, erabil nabigatzailea edo OKR.BEST mahaigaineko aplikazioa."
   },
   {
     "id": "api.bot.create_disabled",
@@ -49,7 +49,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - E-posta ezarpenak probatzen"
+    "translation": "OKR.BEST - E-posta ezarpenak probatzen"
   },
   {
     "id": "api.admin.test_email.reenter_password",
@@ -61,7 +61,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Badirudi zure Mattermost e-posta zuzen konfiguratuta dagoela!"
+    "translation": "Badirudi zure OKR.BEST e-posta zuzen konfiguratuta dagoela!"
   },
   {
     "id": "api.admin.saml.set_certificate_from_metadata.missing_content_type.app_error",

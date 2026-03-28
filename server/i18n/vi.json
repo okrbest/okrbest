@@ -535,7 +535,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "Không thể tìm thấy kênh chỉ định. Vui lòng sử dụng [xử lý kênh] (https://about.mattermost.com/default-channel-handle-documentation) để xác định các kênh."
+    "translation": "Không thể tìm thấy kênh chỉ định. Vui lòng sử dụng [xử lý kênh] (https://about.okr.best/default-channel-handle-documentation) để xác định các kênh."
   },
   {
     "id": "api.user.upload_profile_user.storage.app_error",
@@ -747,7 +747,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Thông tin email tài khoản Mattermost của bạn đã được cấu hình chính xác!"
+    "translation": "Thông tin email tài khoản OKR.BEST của bạn đã được cấu hình chính xác!"
   },
   {
     "id": "api.channel.post_update_channel_displayname_message_and_forget.create_post.error",
@@ -861,7 +861,7 @@
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support",
-    "translation": "Trình duyệt này không còn được Mattermost hỗ trợ"
+    "translation": "Trình duyệt này không còn được OKR.BEST hỗ trợ"
   },
   {
     "id": "api.user.update_active.not_enable.app_error",
@@ -1105,7 +1105,7 @@
   },
   {
     "id": "ent.ldap.do_login.user_filtered.app_error",
-    "translation": "Tài khoản AD / LDAP của bạn không có quyền sử dụng máy chủ Mattermost sever này. Vui lòng yêu cầu Quản trị viên hệ thống của bạn kiểm tra bộ lọc người dùng AD / LDAP."
+    "translation": "Tài khoản AD / LDAP của bạn không có quyền sử dụng máy chủ OKR.BEST sever này. Vui lòng yêu cầu Quản trị viên hệ thống của bạn kiểm tra bộ lọc người dùng AD / LDAP."
   },
   {
     "id": "api.status.user_not_found.app_error",
@@ -2735,7 +2735,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - Kiểm tra Cài đặt Email"
+    "translation": "OKR.BEST - Kiểm tra Cài đặt Email"
   },
   {
     "id": "api.channel.join_channel.post_and_forget",
@@ -3139,7 +3139,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure_size_exceeded.app_error",
-    "translation": "Vượt quá giới hạn kích thước. Hãy thử kiểm tra [kích thước trang tối đa] của bạn (https://docs.mattermost.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded)."
+    "translation": "Vượt quá giới hạn kích thước. Hãy thử kiểm tra [kích thước trang tối đa] của bạn (https://docs.okrbest.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded)."
   },
   {
     "id": "app.import.validate_channel_import_data.display_name_length.error",
@@ -3211,7 +3211,7 @@
   },
   {
     "id": "api.command_help.desc",
-    "translation": "Mở trang trợ giúp Mattermost"
+    "translation": "Mở trang trợ giúp OKR.BEST"
   },
   {
     "id": "api.team.set_team_icon.write_file.app_error",
@@ -3411,7 +3411,7 @@
   },
   {
     "id": "api.slackimport.slack_import.log",
-    "translation": "Nhật ký nhập Mattermost Slack\n"
+    "translation": "Nhật ký nhập OKR.BEST Slack\n"
   },
   {
     "id": "ent.account_migration.get_all_failed",
@@ -3947,7 +3947,7 @@
   },
   {
     "id": "web.error.unsupported_browser.download_app_or_upgrade_browser",
-    "translation": "Tải xuống Mattermost app hoặc dùng trình duyệt được hỗ trợ để có trải nghiệm tốt nhất."
+    "translation": "Tải xuống OKR.BEST app hoặc dùng trình duyệt được hỗ trợ để có trải nghiệm tốt nhất."
   },
   {
     "id": "model.cluster.is_valid.last_ping_at.app_error",
@@ -4355,7 +4355,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "Không thể tìm thấy kênh {{.Channel}}. Vui lòng sử dụng [xử lý kênh](https://about.mattermost.com/default-channel-handle-documentation) để xác định các kênh."
+    "translation": "Không thể tìm thấy kênh {{.Channel}}. Vui lòng sử dụng [xử lý kênh](https://about.okr.best/default-channel-handle-documentation) để xác định các kênh."
   },
   {
     "id": "api.user.demote_user_to_guest.already_guest.app_error",
@@ -4399,7 +4399,7 @@
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support_version",
-    "translation": "Phiên bản hiện tại của trình duyệt không còn được Mattermost hỗ trợ"
+    "translation": "Phiên bản hiện tại của trình duyệt không còn được OKR.BEST hỗ trợ"
   },
   {
     "id": "api.command_join.desc",
@@ -4481,7 +4481,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "Không thể tìm thấy kênh {{.Channel}}. Vui lòng sử dụng [xử lý kênh] (https://about.mattermost.com/default-channel-handle-documentation) để xác định các kênh."
+    "translation": "Không thể tìm thấy kênh {{.Channel}}. Vui lòng sử dụng [xử lý kênh] (https://about.okr.best/default-channel-handle-documentation) để xác định các kênh."
   },
   {
     "id": "api.user.ldap_to_email.not_ldap_account.app_error",
@@ -4529,7 +4529,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure.app_error",
-    "translation": "Không thể tìm kiếm người dùng trong AD / LDAP. Kiểm tra xem máy chủ Mattermost có thể kết nối với máy chủ AD / LDAP của bạn không và thử lại."
+    "translation": "Không thể tìm kiếm người dùng trong AD / LDAP. Kiểm tra xem máy chủ OKR.BEST có thể kết nối với máy chủ AD / LDAP của bạn không và thử lại."
   },
   {
     "id": "model.authorize.is_valid.expires.app_error",
@@ -5059,7 +5059,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Gửi một email mời nhóm Mattermost của bạn"
+    "translation": "Gửi một email mời nhóm OKR.BEST của bạn"
   },
   {
     "id": "api.admin.ldap.not_available.app_error",
@@ -5239,7 +5239,7 @@
   },
   {
     "id": "ent.migration.migratetosaml.username_already_used_by_other_user",
-    "translation": "Tên người dùng đã được sử dụng bởi một người dùng Mattermost khác."
+    "translation": "Tên người dùng đã được sử dụng bởi một người dùng OKR.BEST khác."
   },
   {
     "id": "app.channel.create_direct_channel.internal_error",
@@ -5575,7 +5575,7 @@
   },
   {
     "id": "api.command_help.success",
-    "translation": "Matter Extreme là một nền tảng nguồn mở để liên lạc, cộng tác và điều phối công việc một cách an toàn giữa các công cụ và nhóm.\nMattermost chứa ba công cụ chính:\n\n**Kênh** - Luôn kết nối với nhóm của bạn thông qua nhắn tin 1:1 và nhóm.\n**[Playbooks](/playbooks)** - Xây dựng và định cấu hình các quy trình có thể lặp lại để đạt được kết quả cụ thể và có thể dự đoán được.\n**[Boards](/boards)** - Quản lý các dự án và nhiệm vụ theo cấu trúc bảng Kanban để giúp nhóm của bạn đạt được các cột mốc quan trọng.\n\n[Xem tài liệu và hướng dẫn]({{.HelpLink}})"
+    "translation": "Matter Extreme là một nền tảng nguồn mở để liên lạc, cộng tác và điều phối công việc một cách an toàn giữa các công cụ và nhóm.\nOKR.BEST chứa ba công cụ chính:\n\n**Kênh** - Luôn kết nối với nhóm của bạn thông qua nhắn tin 1:1 và nhóm.\n**[Playbooks](/playbooks)** - Xây dựng và định cấu hình các quy trình có thể lặp lại để đạt được kết quả cụ thể và có thể dự đoán được.\n**[Boards](/boards)** - Quản lý các dự án và nhiệm vụ theo cấu trúc bảng Kanban để giúp nhóm của bạn đạt được các cột mốc quan trọng.\n\n[Xem tài liệu và hướng dẫn]({{.HelpLink}})"
   },
   {
     "id": "api.command_exportlink.driver.app_error",
@@ -5651,7 +5651,7 @@
   },
   {
     "id": "api.command_remote.accept.help",
-    "translation": "Đông ý lời mời từ máy của Mattermost bên ngoài"
+    "translation": "Đông ý lời mời từ máy của OKR.BEST bên ngoài"
   },
   {
     "id": "api.command_remote.invitation.help",
@@ -5907,11 +5907,11 @@
   },
   {
     "id": "api.templates.cloud_welcome_email.button",
-    "translation": "Mở Mattermost"
+    "translation": "Mở OKR.BEST"
   },
   {
     "id": "api.templates.cloud_welcome_email.download_mm_info",
-    "translation": "Tải ứng dụng Mattermost"
+    "translation": "Tải ứng dụng OKR.BEST"
   },
   {
     "id": "api.templates.cloud_welcome_email.info",
@@ -5967,7 +5967,7 @@
   },
   {
     "id": "api.templates.invite_body.subTitle",
-    "translation": "Bắt đầu cộng tác với nhóm của bạn trên Mattermost"
+    "translation": "Bắt đầu cộng tác với nhóm của bạn trên OKR.BEST"
   },
   {
     "id": "api.templates.invite_body_guest.subTitle",
@@ -5979,11 +5979,11 @@
   },
   {
     "id": "api.templates.invite_body_footer.info",
-    "translation": "Mattermost là một nền tảng nhắn tin mã nguồn mở, linh hoạt cho phép cộng tác nhóm một cách an toàn."
+    "translation": "OKR.BEST là một nền tảng nhắn tin mã nguồn mở, linh hoạt cho phép cộng tác nhóm một cách an toàn."
   },
   {
     "id": "api.templates.invite_body_footer.title",
-    "translation": "Mattermost là gì?"
+    "translation": "OKR.BEST là gì?"
   },
   {
     "id": "api.templates.invite_team_and_channel_body.title",
@@ -6003,7 +6003,7 @@
   },
   {
     "id": "api.templates.license_up_for_renewal_title",
-    "translation": "Đăng ký Mattermost của bạn sắp được gia hạn"
+    "translation": "Đăng ký OKR.BEST của bạn sắp được gia hạn"
   },
   {
     "id": "api.templates.questions_footer.info",
@@ -6015,7 +6015,7 @@
   },
   {
     "id": "api.templates.remove_expired_license.subject",
-    "translation": "Giấy phép Mattermost Enterprise đã bị vô hiệu hóa."
+    "translation": "Giấy phép OKR.BEST Enterprise đã bị vô hiệu hóa."
   },
   {
     "id": "api.templates.reset_body.info",
@@ -6055,7 +6055,7 @@
   },
   {
     "id": "api.templates.email_footer_v2",
-    "translation": "© 2022 Mattermost, Inc. 530 Đại lộ Lytton, Tầng hai, Palo Alto, CA, 94301"
+    "translation": "© 2022 OKR.BEST, Inc. 530 Đại lộ Lytton, Tầng hai, Palo Alto, CA, 94301"
   },
   {
     "id": "api.templates.invite_team_and_channels_body.title",
@@ -6063,7 +6063,7 @@
   },
   {
     "id": "api.templates.license_up_for_renewal_subtitle",
-    "translation": "{{.UserName}}, đăng ký của bạn sẽ hết hạn sau {{.Days}} ngày. Chúng tôi hy vọng bạn đang trải nghiệm sự cộng tác nhóm linh hoạt và an toàn mà Mattermost mang lại. Hãy sớm gia hạn để đảm bảo nhóm của bạn có thể tiếp tục tận hưởng những lợi ích này."
+    "translation": "{{.UserName}}, đăng ký của bạn sẽ hết hạn sau {{.Days}} ngày. Chúng tôi hy vọng bạn đang trải nghiệm sự cộng tác nhóm linh hoạt và an toàn mà OKR.BEST mang lại. Hãy sớm gia hạn để đảm bảo nhóm của bạn có thể tiếp tục tận hưởng những lợi ích này."
   },
   {
     "id": "api.system.id_loaded.not_available.app_error",
@@ -6119,7 +6119,7 @@
   },
   {
     "id": "app.notification.footer.infoLogin",
-    "translation": "Đăng nhập vào Mattermost"
+    "translation": "Đăng nhập vào OKR.BEST"
   },
   {
     "id": "app.notification.footer.title",
@@ -6991,7 +6991,7 @@
   },
   {
     "id": "api.file.cloud_upload.app_error",
-    "translation": "Tải lên qua mmctl lên phiên bản Đám mây không được hỗ trợ. Vui lòng kiểm tra tài liệu tại đây: https://docs.mattermost.com/manage/cloud-data-export.html."
+    "translation": "Tải lên qua mmctl lên phiên bản Đám mây không được hỗ trợ. Vui lòng kiểm tra tài liệu tại đây: https://docs.okrbest.com/manage/cloud-data-export.html."
   },
   {
     "id": "api.file.file_exists.app_error",
@@ -7123,15 +7123,15 @@
   },
   {
     "id": "api.license.request-trial.can-start-trial.not-allowed",
-    "translation": "Không thể áp dụng giấy phép dùng thử mới. Trước đây, bạn đã đăng ký giấy phép dùng thử cho phiên bản Matter Extreme này. Nếu bạn muốn kéo dài thời gian dùng thử, vui lòng [liên hệ với nhóm bán hàng của chúng tôi](https://mattermost.com/contact-us/)."
+    "translation": "Không thể áp dụng giấy phép dùng thử mới. Trước đây, bạn đã đăng ký giấy phép dùng thử cho phiên bản Matter Extreme này. Nếu bạn muốn kéo dài thời gian dùng thử, vui lòng [liên hệ với nhóm bán hàng của chúng tôi](https://okr.best/contact-us/)."
   },
   {
     "id": "api.license.request_trial_license.app_error",
-    "translation": "Không thể nhận được giấy phép dùng thử, vui lòng thử lại hoặc liên hệ với support@mattermost.com."
+    "translation": "Không thể nhận được giấy phép dùng thử, vui lòng thử lại hoặc liên hệ với support@okr.best."
   },
   {
     "id": "api.license.request_trial_license.embargoed",
-    "translation": "Chúng tôi không thể xử lý yêu cầu do những hạn chế đối với các quốc gia bị cấm vận. [Tìm hiểu thêm trong tài liệu của chúng tôi](https://mattermost.com/pl/limitations-for-embargoed-countries) hoặc liên hệ với legal@mattermost.com nếu có câu hỏi xung quanh các hạn chế xuất khẩu."
+    "translation": "Chúng tôi không thể xử lý yêu cầu do những hạn chế đối với các quốc gia bị cấm vận. [Tìm hiểu thêm trong tài liệu của chúng tôi](https://okr.best/pl/limitations-for-embargoed-countries) hoặc liên hệ với legal@okr.best nếu có câu hỏi xung quanh các hạn chế xuất khẩu."
   },
   {
     "id": "api.migrate_to_saml.error",
@@ -8011,7 +8011,7 @@
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user.app_error",
-    "translation": "Matter Extreme không thể nâng cấp lên Phiên bản doanh nghiệp. Người dùng hệ thống Matter Extreme {{.MattermostUsername}} không có quyền ghi vào tệp nhị phân cần thiết. Quản trị viên hệ thống có thể cập nhật quyền của tệp bằng cách thực hiện lệnh sau trên máy chủ nơi Matter Extreme được cài đặt:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\n```\n\nSau khi thay đổi quyền truy cập tệp, hãy thử nâng cấp lại Matter Extreme. Khi bạn đã nâng cấp và khởi động lại, hãy nhớ khôi phục quyền truy cập tệp nhị phân ban đầu:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\""
+    "translation": "Matter Extreme không thể nâng cấp lên Phiên bản doanh nghiệp. Người dùng hệ thống Matter Extreme {{.OKR.BESTUsername}} không có quyền ghi vào tệp nhị phân cần thiết. Quản trị viên hệ thống có thể cập nhật quyền của tệp bằng cách thực hiện lệnh sau trên máy chủ nơi Matter Extreme được cài đặt:\n\n```\nchown {{.OKR.BESTUsername}} \"{{.Path}}\"\n```\n\nSau khi thay đổi quyền truy cập tệp, hãy thử nâng cấp lại Matter Extreme. Khi bạn đã nâng cấp và khởi động lại, hãy nhớ khôi phục quyền truy cập tệp nhị phân ban đầu:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\""
   },
   {
     "id": "model.plugin_command_error.error.app_error",
@@ -8027,7 +8027,7 @@
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user-and-permission.app_error",
-    "translation": "Matter Extreme không thể nâng cấp lên Phiên bản doanh nghiệp. Người dùng hệ thống Matter Extreme {{.MattermostUsername}} không có quyền ghi vào tệp nhị phân cần thiết. Quản trị viên hệ thống có thể cập nhật quyền của tệp bằng cách thực hiện lệnh sau trên máy chủ nơi Matter Extreme được cài đặt:"
+    "translation": "Matter Extreme không thể nâng cấp lên Phiên bản doanh nghiệp. Người dùng hệ thống Matter Extreme {{.OKR.BESTUsername}} không có quyền ghi vào tệp nhị phân cần thiết. Quản trị viên hệ thống có thể cập nhật quyền của tệp bằng cách thực hiện lệnh sau trên máy chủ nơi Matter Extreme được cài đặt:"
   },
   {
     "id": "api.user.autocomplete_users.missing_team_id.app_error",
@@ -8079,7 +8079,7 @@
   },
   {
     "id": "model.oauth.is_valid.mattermost_app_id.app_error",
-    "translation": "Độ dài tối đa của MattermostAppID là 32 ký tự."
+    "translation": "Độ dài tối đa của OKR.BESTAppID là 32 ký tự."
   },
   {
     "id": "api.user.delete_channel.not_enabled.app_error",
@@ -8319,7 +8319,7 @@
   },
   {
     "id": "app.bot.get_disable_bot_sysadmin_message",
-    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} đã bị vô hiệu hóa. Họ quản lý các tài khoản bot sau đây hiện đã bị vô hiệu hóa.\n\n{{.BotNames}}{{else}}{{.UserName}} đã bị vô hiệu hóa. Họ quản lý các tài khoản bot {{.NumBots}} hiện đã bị vô hiệu hóa, bao gồm:\n\n{{.BotNames}}{{end}}Bạn có thể sở hữu từng bot bằng cách bật nó tại **Tích hợp > Tài khoản Bot** và tạo mã thông báo mới cho bot.\n\nĐể biết thêm thông tin, hãy xem [tài liệu](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled) của chúng tôi .{{else}}{{if .printAllBots}}{{.UserName}} đã bị vô hiệu hóa. Họ đã quản lý các tài khoản bot sau vẫn được kích hoạt.\n\n{{.BotNames}}\n{{else}}{{.UserName}} đã bị vô hiệu hóa. Họ đã quản lý các tài khoản bot {{.NumBots}} vẫn được kích hoạt, bao gồm những tài khoản sau:\n\n{{.BotNames}}{{end}}Chúng tôi đặc biệt khuyên bạn nên sở hữu từng bot bằng cách bật lại bot đó tại **Tích hợp > Tài khoản Bot** và tạo mã thông báo mới cho bot.\n\nĐể biết thêm thông tin, hãy xem [tài liệu](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled) của chúng tôi .\n\nNếu bạn muốn tài khoản bot tự động vô hiệu hóa sau khi chủ sở hữu vô hiệu hóa, hãy đặt “Vô hiệu hóa tài khoản bot khi chủ sở hữu bị vô hiệu hóa” trong **Bảng điều khiển hệ thống > Tích hợp > Tài khoản Bot** thành đúng.{{end}}"
+    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} đã bị vô hiệu hóa. Họ quản lý các tài khoản bot sau đây hiện đã bị vô hiệu hóa.\n\n{{.BotNames}}{{else}}{{.UserName}} đã bị vô hiệu hóa. Họ quản lý các tài khoản bot {{.NumBots}} hiện đã bị vô hiệu hóa, bao gồm:\n\n{{.BotNames}}{{end}}Bạn có thể sở hữu từng bot bằng cách bật nó tại **Tích hợp > Tài khoản Bot** và tạo mã thông báo mới cho bot.\n\nĐể biết thêm thông tin, hãy xem [tài liệu](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled) của chúng tôi .{{else}}{{if .printAllBots}}{{.UserName}} đã bị vô hiệu hóa. Họ đã quản lý các tài khoản bot sau vẫn được kích hoạt.\n\n{{.BotNames}}\n{{else}}{{.UserName}} đã bị vô hiệu hóa. Họ đã quản lý các tài khoản bot {{.NumBots}} vẫn được kích hoạt, bao gồm những tài khoản sau:\n\n{{.BotNames}}{{end}}Chúng tôi đặc biệt khuyên bạn nên sở hữu từng bot bằng cách bật lại bot đó tại **Tích hợp > Tài khoản Bot** và tạo mã thông báo mới cho bot.\n\nĐể biết thêm thông tin, hãy xem [tài liệu](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled) của chúng tôi .\n\nNếu bạn muốn tài khoản bot tự động vô hiệu hóa sau khi chủ sở hữu vô hiệu hóa, hãy đặt “Vô hiệu hóa tài khoản bot khi chủ sở hữu bị vô hiệu hóa” trong **Bảng điều khiển hệ thống > Tích hợp > Tài khoản Bot** thành đúng.{{end}}"
   },
   {
     "id": "app.user.get_by_auth.missing_account.app_error",
@@ -8407,7 +8407,7 @@
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-permission.app_error",
-    "translation": "Matter Extreme không thể nâng cấp lên Phiên bản doanh nghiệp. Người dùng hệ thống Matter Extreme {{.MattermostUsername}} không có quyền ghi vào tệp nhị phân cần thiết. Quản trị viên hệ thống có thể cập nhật quyền của tệp bằng cách thực hiện lệnh sau trên máy chủ nơi Matter Extreme được cài đặt:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nSau khi thay đổi quyền truy cập tệp, hãy thử nâng cấp lại Matter Extreme. Khi bạn đã nâng cấp và khởi động lại, hãy nhớ khôi phục quyền truy cập tệp nhị phân ban đầu:\n\n```\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "Matter Extreme không thể nâng cấp lên Phiên bản doanh nghiệp. Người dùng hệ thống Matter Extreme {{.OKR.BESTUsername}} không có quyền ghi vào tệp nhị phân cần thiết. Quản trị viên hệ thống có thể cập nhật quyền của tệp bằng cách thực hiện lệnh sau trên máy chủ nơi Matter Extreme được cài đặt:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nSau khi thay đổi quyền truy cập tệp, hãy thử nâng cấp lại Matter Extreme. Khi bạn đã nâng cấp và khởi động lại, hãy nhớ khôi phục quyền truy cập tệp nhị phân ban đầu:\n\n```\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "app.admin.saml.failure_read_response_body_from_idp.app_error",

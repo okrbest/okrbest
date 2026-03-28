@@ -109,7 +109,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost – Testiranje postavki e-pošte"
+    "translation": "OKR.BEST – Testiranje postavki e-pošte"
   },
   {
     "id": "api.admin.test_email.reenter_password",
@@ -121,7 +121,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Čini se da je tvoja Mattermost e-pošta pravilno postavljena!"
+    "translation": "Čini se da je tvoja OKR.BEST e-pošta pravilno postavljena!"
   },
   {
     "id": "api.admin.saml.not_available.app_error",
@@ -205,7 +205,7 @@
   },
   {
     "id": "api.templates.cloud_welcome_email.button",
-    "translation": "Otvori Mattermost"
+    "translation": "Otvori OKR.BEST"
   },
   {
     "id": "api.templates.cloud_welcome_email.app_market_place",
@@ -461,7 +461,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Pošalji e-mail pozivnicu tvom Mattermost timu"
+    "translation": "Pošalji e-mail pozivnicu tvom OKR.BEST timu"
   },
   {
     "id": "api.channel.remove_member.removed",
@@ -605,7 +605,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Dodaj me timovima i kanalima u kojima želiš da interagiram. Za to koristi preglednik ili aplikaciju Mattermost Desktop."
+    "translation": "Dodaj me timovima i kanalima u kojima želiš da interagiram. Za to koristi preglednik ili aplikaciju OKR.BEST Desktop."
   },
   {
     "id": "api.channel.create_channel.direct_channel.app_error",
@@ -741,7 +741,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Odjava s Mattermosta"
+    "translation": "Odjava s OKR.BESTa"
   },
   {
     "id": "api.command_invite.user_not_in_team.app_error",
@@ -821,7 +821,7 @@
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support",
-    "translation": "Mattermost više ne podržava ovaj preglednik"
+    "translation": "OKR.BEST više ne podržava ovaj preglednik"
   },
   {
     "id": "system.message.name",

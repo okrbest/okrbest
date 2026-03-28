@@ -233,7 +233,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - Test af E-Mail indstillinger"
+    "translation": "OKR.BEST - Test af E-Mail indstillinger"
   },
   {
     "id": "api.admin.test_email.reenter_password",
@@ -245,7 +245,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Det ser ud til at din Mattermost e-mail er sat korrekt op!"
+    "translation": "Det ser ud til at din OKR.BEST e-mail er sat korrekt op!"
   },
   {
     "id": "api.admin.saml.not_available.app_error",
@@ -413,7 +413,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Tilføj mig til hold og kanaler, som jeg skal interagere med. For at opnå dette, brug browser eller Mattermost skrivebordsapplikation."
+    "translation": "Tilføj mig til hold og kanaler, som jeg skal interagere med. For at opnå dette, brug browser eller OKR.BEST skrivebordsapplikation."
   },
   {
     "id": "api.bot.create_disabled",
@@ -897,7 +897,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Send en e-mailinvitation til dit Mattermost-team"
+    "translation": "Send en e-mailinvitation til dit OKR.BEST-team"
   },
   {
     "id": "api.command_away.name",

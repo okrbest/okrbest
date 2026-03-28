@@ -753,7 +753,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "ചാനൽ {{.Channel}} കണ്ടെത്താൻ കഴിഞ്ഞില്ല. ചാനലുകൾ തിരിച്ചറിയാൻ ദയവായി [ചാനൽ ഹാൻഡിൽ](https://about.mattermost.com/default-channel-handle-documentation) ഉപയോഗിക്കുക."
+    "translation": "ചാനൽ {{.Channel}} കണ്ടെത്താൻ കഴിഞ്ഞില്ല. ചാനലുകൾ തിരിച്ചറിയാൻ ദയവായി [ചാനൽ ഹാൻഡിൽ](https://about.okr.best/default-channel-handle-documentation) ഉപയോഗിക്കുക."
   },
   {
     "id": "api.command_invite.channel.app_error",
@@ -1000,7 +1000,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "നിർദ്ദിഷ്ട ചാനൽ കണ്ടെത്താൻ കഴിഞ്ഞില്ല. ചാനലുകൾ തിരിച്ചറിയാൻ ദയവായി [ചാനൽ ഹാൻഡിൽ](https://about.mattermost.com/default-channel-handle-documentation) ഉപയോഗിക്കുക."
+    "translation": "നിർദ്ദിഷ്ട ചാനൽ കണ്ടെത്താൻ കഴിഞ്ഞില്ല. ചാനലുകൾ തിരിച്ചറിയാൻ ദയവായി [ചാനൽ ഹാൻഡിൽ](https://about.okr.best/default-channel-handle-documentation) ഉപയോഗിക്കുക."
   },
   {
     "id": "api.command_msg.hint",
@@ -1028,7 +1028,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "ചാനൽ {{.Channel}} കണ്ടെത്താൻ കഴിഞ്ഞില്ല. ചാനലുകൾ തിരിച്ചറിയാൻ ദയവായി [ചാനൽ ഹാൻഡിൽ](https://about.mattermost.com/default-channel-handle-documentation) ഉപയോഗിക്കുക."
+    "translation": "ചാനൽ {{.Channel}} കണ്ടെത്താൻ കഴിഞ്ഞില്ല. ചാനലുകൾ തിരിച്ചറിയാൻ ദയവായി [ചാനൽ ഹാൻഡിൽ](https://about.okr.best/default-channel-handle-documentation) ഉപയോഗിക്കുക."
   },
   {
     "id": "api.command_mute.desc",

@@ -405,7 +405,7 @@
   },
   {
     "id": "oauth.gitlab.tos.error",
-    "translation": "GitLab की सेवा की शर्तें अपडेट हो गई हैं। कृपया उन्हें स्वीकार करने के लिए gitlab.com पर जाएं और फिर Mattermost में फिर से लॉग इन करने का प्रयास करें।"
+    "translation": "GitLab की सेवा की शर्तें अपडेट हो गई हैं। कृपया उन्हें स्वीकार करने के लिए gitlab.com पर जाएं और फिर OKR.BEST में फिर से लॉग इन करने का प्रयास करें।"
   },
   {
     "id": "model.websocket_client.connect_fail.app_error",
@@ -2109,7 +2109,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "निर्दिष्ट चैनल नहीं मिल सका। चैनलों की पहचान करने के लिए कृपया [चैनल हैंडल](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) का उपयोग करें।"
+    "translation": "निर्दिष्ट चैनल नहीं मिल सका। चैनलों की पहचान करने के लिए कृपया [चैनल हैंडल](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) का उपयोग करें।"
   },
   {
     "id": "api.command_mute.name",
@@ -2121,7 +2121,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "चैनल {{.Channel}} ढूंढा नहीं जा सका। चैनलों की पहचान करने के लिए कृपया [चैनल हैंडल](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) का उपयोग करें।"
+    "translation": "चैनल {{.Channel}} ढूंढा नहीं जा सका। चैनलों की पहचान करने के लिए कृपया [चैनल हैंडल](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) का उपयोग करें।"
   },
   {
     "id": "api.command_mute.desc",
@@ -3293,11 +3293,11 @@
   },
   {
     "id": "api.license.request_trial_license.app_error",
-    "translation": "परीक्षण लाइसेंस प्राप्त करने में असमर्थ, कृपया पुनः प्रयास करें या support@mattermost.com से संपर्क करें।"
+    "translation": "परीक्षण लाइसेंस प्राप्त करने में असमर्थ, कृपया पुनः प्रयास करें या support@okr.best से संपर्क करें।"
   },
   {
     "id": "api.license.request-trial.can-start-trial.not-allowed",
-    "translation": "मैटरमॉस्ट एंटरप्राइज संस्करण के लिए यह परीक्षण लाइसेंस कुंजी समाप्त हो गई है और अब मान्य नहीं है। यदि आप अपनी परीक्षण अवधि बढ़ाना चाहते हैं तो कृपया [हमारी सेल्स टीम से संपर्क करें](https://mattermost.com/contact-us/)।"
+    "translation": "मैटरमॉस्ट एंटरप्राइज संस्करण के लिए यह परीक्षण लाइसेंस कुंजी समाप्त हो गई है और अब मान्य नहीं है। यदि आप अपनी परीक्षण अवधि बढ़ाना चाहते हैं तो कृपया [हमारी सेल्स टीम से संपर्क करें](https://okr.best/contact-us/)।"
   },
   {
     "id": "api.license.request-trial.can-start-trial.error",
@@ -3667,15 +3667,15 @@
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user.app_error",
-    "translation": "मैटरमॉस्ट एंटरप्राइज़ संस्करण में अपग्रेड करने में असमर्थ था। मैटरमोस्ट सिस्टम उपयोगकर्ता {{.MattermostUsername}} के पास आवश्यक बाइनरी फ़ाइल तक लेखन पहुंच नहीं है। एक सिस्टम व्यवस्थापक सर्वर पर निम्न आदेश निष्पादित करके फ़ाइल अनुमतियों को अद्यतन कर सकता है जहां मैटरमॉस्ट स्थापित है:\n\n```\nचुना हुआ {{.MattermostUsername}} \"{{.Path}}\"\n```\n\nफ़ाइल अनुमतियों को बदलने के बाद, मैटरमोस्ट को फिर से अपग्रेड करने का प्रयास करें। जब आपने अपग्रेड और पुनरारंभ किया है, तो मूल बाइनरी फ़ाइल अनुमतियों को पुनर्स्थापित करना याद रखें:\n\n```\nचुना हुआ {{.FileUsername}} \"{{.Path}}\"\n```"
+    "translation": "मैटरमॉस्ट एंटरप्राइज़ संस्करण में अपग्रेड करने में असमर्थ था। मैटरमोस्ट सिस्टम उपयोगकर्ता {{.OKR.BESTUsername}} के पास आवश्यक बाइनरी फ़ाइल तक लेखन पहुंच नहीं है। एक सिस्टम व्यवस्थापक सर्वर पर निम्न आदेश निष्पादित करके फ़ाइल अनुमतियों को अद्यतन कर सकता है जहां मैटरमॉस्ट स्थापित है:\n\n```\nचुना हुआ {{.OKR.BESTUsername}} \"{{.Path}}\"\n```\n\nफ़ाइल अनुमतियों को बदलने के बाद, मैटरमोस्ट को फिर से अपग्रेड करने का प्रयास करें। जब आपने अपग्रेड और पुनरारंभ किया है, तो मूल बाइनरी फ़ाइल अनुमतियों को पुनर्स्थापित करना याद रखें:\n\n```\nचुना हुआ {{.FileUsername}} \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user-and-permission.app_error",
-    "translation": "मैटरमॉस्ट एंटरप्राइज़ संस्करण में अपग्रेड करने में असमर्थ था। मैटरमोस्ट सिस्टम उपयोगकर्ता {{.MattermostUsername}} के पास आवश्यक बाइनरी फ़ाइल तक लेखन पहुंच नहीं है। एक सिस्टम व्यवस्थापक सर्वर पर निम्न आदेश निष्पादित करके फ़ाइल अनुमतियों को अद्यतन कर सकता है जहां मैटरमॉस्ट स्थापित है:\n\n```\nचुना हुआ {{.MattermostUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nफ़ाइल अनुमतियों को बदलने के बाद, मैटरमोस्ट को फिर से अपग्रेड करने का प्रयास करें। जब आपने अपग्रेड और पुनरारंभ किया है, तो मूल बाइनरी फ़ाइल अनुमतियों को पुनर्स्थापित करना याद रखें:\n\n```\nचुना हुआ {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "मैटरमॉस्ट एंटरप्राइज़ संस्करण में अपग्रेड करने में असमर्थ था। मैटरमोस्ट सिस्टम उपयोगकर्ता {{.OKR.BESTUsername}} के पास आवश्यक बाइनरी फ़ाइल तक लेखन पहुंच नहीं है। एक सिस्टम व्यवस्थापक सर्वर पर निम्न आदेश निष्पादित करके फ़ाइल अनुमतियों को अद्यतन कर सकता है जहां मैटरमॉस्ट स्थापित है:\n\n```\nचुना हुआ {{.OKR.BESTUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nफ़ाइल अनुमतियों को बदलने के बाद, मैटरमोस्ट को फिर से अपग्रेड करने का प्रयास करें। जब आपने अपग्रेड और पुनरारंभ किया है, तो मूल बाइनरी फ़ाइल अनुमतियों को पुनर्स्थापित करना याद रखें:\n\n```\nचुना हुआ {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-permission.app_error",
-    "translation": "मैटरमॉस्ट एंटरप्राइज़ संस्करण में अपग्रेड करने में असमर्थ था। मैटरमोस्ट सिस्टम उपयोगकर्ता {{.MattermostUsername}} के पास आवश्यक बाइनरी फ़ाइल तक लेखन पहुंच नहीं है। एक सिस्टम व्यवस्थापक सर्वर पर निम्न आदेश निष्पादित करके फ़ाइल अनुमतियों को अद्यतन कर सकता है जहां मैटरमॉस्ट स्थापित है:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nफ़ाइल अनुमतियों को बदलने के बाद, मैटरमोस्ट को फिर से अपग्रेड करने का प्रयास करें। जब आपने अपग्रेड और पुनरारंभ किया है, तो मूल बाइनरी फ़ाइल अनुमतियों को पुनर्स्थापित करना याद रखें:\n\n```\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "मैटरमॉस्ट एंटरप्राइज़ संस्करण में अपग्रेड करने में असमर्थ था। मैटरमोस्ट सिस्टम उपयोगकर्ता {{.OKR.BESTUsername}} के पास आवश्यक बाइनरी फ़ाइल तक लेखन पहुंच नहीं है। एक सिस्टम व्यवस्थापक सर्वर पर निम्न आदेश निष्पादित करके फ़ाइल अनुमतियों को अद्यतन कर सकता है जहां मैटरमॉस्ट स्थापित है:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nफ़ाइल अनुमतियों को बदलने के बाद, मैटरमोस्ट को फिर से अपग्रेड करने का प्रयास करें। जब आपने अपग्रेड और पुनरारंभ किया है, तो मूल बाइनरी फ़ाइल अनुमतियों को पुनर्स्थापित करना याद रखें:\n\n```\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.generic_error.app_error",
@@ -3855,7 +3855,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "चैनल {{.Channel}} नहीं मिला। चैनलों की पहचान करने के लिए कृपया [चैनल हैंडल](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) का उपयोग करें।"
+    "translation": "चैनल {{.Channel}} नहीं मिला। चैनलों की पहचान करने के लिए कृपया [चैनल हैंडल](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) का उपयोग करें।"
   },
   {
     "id": "api.command_invite.channel.app_error",
@@ -6358,7 +6358,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure_size_exceeded.app_error",
-    "translation": "आकार सीमा पार हो गई। अपने [अधिकतम पृष्ठ आकार](https://docs.mattermost.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded) की जाँच करके देखें।"
+    "translation": "आकार सीमा पार हो गई। अपने [अधिकतम पृष्ठ आकार](https://docs.okrbest.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded) की जाँच करके देखें।"
   },
   {
     "id": "ent.ldap.syncronize.search_failure.app_error",

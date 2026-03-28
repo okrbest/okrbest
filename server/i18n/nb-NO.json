@@ -309,7 +309,7 @@
   },
   {
     "id": "api.templates.invite_body_footer.title",
-    "translation": "Hva er Mattermost?"
+    "translation": "Hva er OKR.BEST?"
   },
   {
     "id": "api.templates.invite_body_guest.subTitle",
@@ -393,7 +393,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Logg av Mattermost"
+    "translation": "Logg av OKR.BEST"
   },
   {
     "id": "api.command_leave.name",
@@ -478,7 +478,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - Testing av e-postinnstillinger"
+    "translation": "OKR.BEST - Testing av e-postinnstillinger"
   },
   {
     "id": "api.channel.channel_member_counts_by_group.license.error",
@@ -534,7 +534,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Det ser ut til at Mattermost e-posten din er riktig konfigurert!"
+    "translation": "Det ser ut til at OKR.BEST e-posten din er riktig konfigurert!"
   },
   {
     "id": "api.admin.test_email.reenter_password",
@@ -554,7 +554,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Legg meg til i teamene og kanalene du vil at jeg skal samhandle i. Bruk nettleseren eller Mattermost Desktop-appen for å gjøre dette."
+    "translation": "Legg meg til i teamene og kanalene du vil at jeg skal samhandle i. Bruk nettleseren eller OKR.BEST Desktop-appen for å gjøre dette."
   },
   {
     "id": "api.command.invite_people.sent",

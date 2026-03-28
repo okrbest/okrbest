@@ -53,11 +53,11 @@
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support_version",
-    "translation": "Тази версия на вашия браузър вече не се поддържа от Mattermost"
+    "translation": "Тази версия на вашия браузър вече не се поддържа от OKR.BEST"
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support",
-    "translation": "Този браузър вече не се поддържа от Mattermost"
+    "translation": "Този браузър вече не се поддържа от OKR.BEST"
   },
   {
     "id": "web.error.unsupported_browser.min_os_version.windows",
@@ -101,7 +101,7 @@
   },
   {
     "id": "web.error.unsupported_browser.download_app_or_upgrade_browser",
-    "translation": "Изтеглете приложението Mattermost или използвайте поддържан браузър за по-добро изживяване."
+    "translation": "Изтеглете приложението OKR.BEST или използвайте поддържан браузър за по-добро изживяване."
   },
   {
     "id": "web.error.unsupported_browser.download",
@@ -237,7 +237,7 @@
   },
   {
     "id": "oauth.gitlab.tos.error",
-    "translation": "Общите условия на GitLab са актуализирани. Моля, отидете на gitlab.com, за да ги приемете и след това опитайте да влезете в Mattermost отново."
+    "translation": "Общите условия на GitLab са актуализирани. Моля, отидете на gitlab.com, за да ги приемете и след това опитайте да влезете в OKR.BEST отново."
   },
   {
     "id": "model.websocket_client.connect_fail.app_error",
@@ -1269,7 +1269,7 @@
   },
   {
     "id": "ent.migration.migratetosaml.username_already_used_by_other_user",
-    "translation": "Потребителско име вече се използва от друг потребител на Mattermost."
+    "translation": "Потребителско име вече се използва от друг потребител на OKR.BEST."
   },
   {
     "id": "ent.migration.migratetosaml.user_not_found_in_users_mapping_file",
@@ -1685,11 +1685,11 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure_size_exceeded.app_error",
-    "translation": "Превишено е ограничението на размера. Опитайте да проверите Вашия [максимален размер на страницата](https://docs.mattermost.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded )."
+    "translation": "Превишено е ограничението на размера. Опитайте да проверите Вашия [максимален размер на страницата](https://docs.okrbest.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded )."
   },
   {
     "id": "ent.ldap.syncronize.search_failure.app_error",
-    "translation": "Неуспешно търсене на потребители в AD/LDAP. Проверете дали Mattermost сървъра може да се свърже с вашия AD/LDAP сървър и опитайте отново."
+    "translation": "Неуспешно търсене на потребители в AD/LDAP. Проверете дали OKR.BEST сървъра може да се свърже с вашия AD/LDAP сървър и опитайте отново."
   },
   {
     "id": "ent.ldap.syncronize.populate_syncables",
@@ -1725,7 +1725,7 @@
   },
   {
     "id": "ent.ldap.do_login.user_filtered.app_error",
-    "translation": "Вашият AD/LDAP профил няма разрешение за използване на този Mattermost сървър. Моля, помолете вашия системен администратор да провери AD/LDAP потребителския филтър."
+    "translation": "Вашият AD/LDAP профил няма разрешение за използване на този OKR.BEST сървър. Моля, помолете вашия системен администратор да провери AD/LDAP потребителския филтър."
   },
   {
     "id": "ent.ldap.do_login.unable_to_connect.app_error",
@@ -2161,7 +2161,7 @@
   },
   {
     "id": "mattermost.bulletin.subject",
-    "translation": "Mattermost бюлетин за сигурност"
+    "translation": "OKR.BEST бюлетин за сигурност"
   },
   {
     "id": "manaultesting.test_autolink.unable.app_error",
@@ -2977,39 +2977,39 @@
   },
   {
     "id": "api.upgrade_to_enterprise_status.signature.app_error",
-    "translation": "Mattermost не можа да надстрои до корпоративна версия. Цифровия подпис на сваления двоичен файл не може да се провери."
+    "translation": "OKR.BEST не можа да надстрои до корпоративна версия. Цифровия подпис на сваления двоичен файл не може да се провери."
   },
   {
     "id": "api.upgrade_to_enterprise_status.app_error",
-    "translation": "Mattermost не може да се надстрои до корпоративна версия."
+    "translation": "OKR.BEST не може да се надстрои до корпоративна версия."
   },
   {
     "id": "api.upgrade_to_enterprise.system_not_supported.app_error",
-    "translation": "Mattermost не можа да надстрои до корпоративна версия. Тази функция ще работи само в Linux системи с x86-64 архитектура."
+    "translation": "OKR.BEST не можа да надстрои до корпоративна версия. Тази функция ще работи само в Linux системи с x86-64 архитектура."
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user.app_error",
-    "translation": "Mattermost не можа да надстрои до корпоративна версия. Системния потребител Mattermost {{.MattermostUsername}} няма права за запис до необходимия двоичен файл. Системният администратор може да актуализира правата за файлове, като изпълни следната команда на сървъра, където е инсталиран Mattermost:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\n```\n\nСлед като промените правата за файлове, опитайте да надстроите отново Mattermost. След като надстроите и рестартирате, не забравяйте да възстановите оригиналните права на двоичния файл:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
+    "translation": "OKR.BEST не можа да надстрои до корпоративна версия. Системния потребител OKR.BEST {{.OKR.BESTUsername}} няма права за запис до необходимия двоичен файл. Системният администратор може да актуализира правата за файлове, като изпълни следната команда на сървъра, където е инсталиран OKR.BEST:\n\n```\nchown {{.OKR.BESTUsername}} \"{{.Path}}\"\n```\n\nСлед като промените правата за файлове, опитайте да надстроите отново OKR.BEST. След като надстроите и рестартирате, не забравяйте да възстановите оригиналните права на двоичния файл:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user-and-permission.app_error",
-    "translation": "Mattermost не можа да надстрои до корпоративна версия. Системния потребител Mattermost {{.MattermostUsername}} няма права за запис до необходимия двоичен файл. Системният администратор може да актуализира правата за файлове, като изпълни следната команда на сървъра, където е инсталиран Mattermost:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nСлед като промените правата за файлове, опитайте да надстроите отново Mattermost. След като надстроите и рестартирате, не забравяйте да възстановите оригиналните права на двоичния файл:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "OKR.BEST не можа да надстрои до корпоративна версия. Системния потребител OKR.BEST {{.OKR.BESTUsername}} няма права за запис до необходимия двоичен файл. Системният администратор може да актуализира правата за файлове, като изпълни следната команда на сървъра, където е инсталиран OKR.BEST:\n\n```\nchown {{.OKR.BESTUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nСлед като промените правата за файлове, опитайте да надстроите отново OKR.BEST. След като надстроите и рестартирате, не забравяйте да възстановите оригиналните права на двоичния файл:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-permission.app_error",
-    "translation": "Mattermost не можа да надстрои до корпоративна версия. Системния потребител Mattermost {{.MattermostUsername}} няма права за запис до необходимия двоичен файл. Системният администратор може да актуализира разрешенията за файлове, като изпълни следната команда на сървъра, където е инсталиран Mattermost:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nСлед като промените правата за файлове, опитайте да надстроите отново Mattermost. След като надстроите и рестартирате, не забравяйте да възстановите оригиналните права на двоичния файл:\n\n```\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "OKR.BEST не можа да надстрои до корпоративна версия. Системния потребител OKR.BEST {{.OKR.BESTUsername}} няма права за запис до необходимия двоичен файл. Системният администратор може да актуализира разрешенията за файлове, като изпълни следната команда на сървъра, където е инсталиран OKR.BEST:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nСлед като промените правата за файлове, опитайте да надстроите отново OKR.BEST. След като надстроите и рестартирате, не забравяйте да възстановите оригиналните права на двоичния файл:\n\n```\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.generic_error.app_error",
-    "translation": "Mattermost не може да се надстрои до корпоративна версия."
+    "translation": "OKR.BEST не може да се надстрои до корпоративна версия."
   },
   {
     "id": "api.upgrade_to_enterprise.app_error",
-    "translation": "Надстройката до Mattermost корпоративна версия е вече пусната."
+    "translation": "Надстройката до OKR.BEST корпоративна версия е вече пусната."
   },
   {
     "id": "api.upgrade_to_enterprise.already-enterprise.app_error",
-    "translation": "Не можете да надстроите, защото вече използвате Mattermost корпоративна версия."
+    "translation": "Не можете да надстроите, защото вече използвате OKR.BEST корпоративна версия."
   },
   {
     "id": "app.webhooks.get_outgoing.app_error",
@@ -3457,7 +3457,7 @@
   },
   {
     "id": "api.upgrade_to_enterprise.already-done.app_error",
-    "translation": "Вече надградихте до Mattermost корпоративна версия. Моля, рестартирайте сървъра, за да завършите надстройката."
+    "translation": "Вече надградихте до OKR.BEST корпоративна версия. Моля, рестартирайте сървъра, за да завършите надстройката."
   },
   {
     "id": "api.templates.welcome_subject",
@@ -3469,7 +3469,7 @@
   },
   {
     "id": "api.templates.welcome_body.info",
-    "translation": "Този адрес на ел.поща е използван за създаване на профил в Mattermost."
+    "translation": "Този адрес на ел.поща е използван за създаване на профил в OKR.BEST."
   },
   {
     "id": "api.templates.welcome_body.button",
@@ -3489,7 +3489,7 @@
   },
   {
     "id": "api.templates.verify_body.info",
-    "translation": "Този адрес на ел.поща е използван за създаване на профил в Mattermost."
+    "translation": "Този адрес на ел.поща е използван за създаване на профил в OKR.BEST."
   },
   {
     "id": "api.templates.verify_body.button",
@@ -3549,7 +3549,7 @@
   },
   {
     "id": "api.templates.remove_expired_license.subject",
-    "translation": "Лицензът за Mattermost корпоративна е деактивиран."
+    "translation": "Лицензът за OKR.BEST корпоративна е деактивиран."
   },
   {
     "id": "api.templates.remove_expired_license.body.title",
@@ -4339,7 +4339,7 @@
   },
   {
     "id": "app.bot.get_disable_bot_sysadmin_message",
-    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} е деактивиран. Те управляваха следните бот акаунти, които вече са деактивирани.\n\n{{.BotNames}}{{else}}{{.UserName}} е деактивиран. Те управляват {{.NumBots}} бот акаунти, които вече са деактивирани, включително следното:\n\n{{.BotNames}}{{end}}Можете да вземете собственост върху всеки бот, като го активирате на **Интеграции> Бот профили** и създадете на нови маркери за бота.\n\nЗа повече информация вижте нашата [документация](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} са деактивирани. Те управляваха следните бот акаунти, които все още са активирани.\n\n{{.BotNames}}\n{{else}}{{.UserName}} е деактивиран. Те управляваха {{.NumBots}} бот профили, които все още са активирани, включително следното:\n\n{{.BotNames}}{{end}}Силно ви препоръчваме да поемете собственост върху всеки бот, като го активирате отново на **Интеграции> Бот профили** и създадете на нови маркери за бота.\n\nЗа повече информация вижте нашата [документация](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nАко искате бот профили да се деактивират автоматично след деактивиране на собственика, задайте „Деактивиране на бот профили, когато собственикът е деактивиран“ в **Системна конзола > Интеграции > Бот профили** на true.{{end}}"
+    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} е деактивиран. Те управляваха следните бот акаунти, които вече са деактивирани.\n\n{{.BotNames}}{{else}}{{.UserName}} е деактивиран. Те управляват {{.NumBots}} бот акаунти, които вече са деактивирани, включително следното:\n\n{{.BotNames}}{{end}}Можете да вземете собственост върху всеки бот, като го активирате на **Интеграции> Бот профили** и създадете на нови маркери за бота.\n\nЗа повече информация вижте нашата [документация](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} са деактивирани. Те управляваха следните бот акаунти, които все още са активирани.\n\n{{.BotNames}}\n{{else}}{{.UserName}} е деактивиран. Те управляваха {{.NumBots}} бот профили, които все още са активирани, включително следното:\n\n{{.BotNames}}{{end}}Силно ви препоръчваме да поемете собственост върху всеки бот, като го активирате отново на **Интеграции> Бот профили** и създадете на нови маркери за бота.\n\nЗа повече информация вижте нашата [документация](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nАко искате бот профили да се деактивират автоматично след деактивиране на собственика, задайте „Деактивиране на бот профили, когато собственикът е деактивиран“ в **Системна конзола > Интеграции > Бот профили** на true.{{end}}"
   },
   {
     "id": "app.bot.createbot.internal_error",
@@ -4863,11 +4863,11 @@
   },
   {
     "id": "api.license.request_trial_license.app_error",
-    "translation": "Не можете да получите пробен лиценз, моля опитайте отново или се свържете със support@mattermost.com."
+    "translation": "Не можете да получите пробен лиценз, моля опитайте отново или се свържете със support@okr.best."
   },
   {
     "id": "api.license.request-trial.bad-request.terms-not-accepted",
-    "translation": "Трябва да приемете Mattermost споразумение за оценка на софтуера и политиката за поверителност, за да поискате лиценз."
+    "translation": "Трябва да приемете OKR.BEST споразумение за оценка на софтуера и политиката за поверителност, за да поискате лиценз."
   },
   {
     "id": "api.license.request-trial.bad-request",
@@ -5366,7 +5366,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "Не е намерен зададения канал. Моля, използвайте [адреса на канала](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) за да определяте канали."
+    "translation": "Не е намерен зададения канал. Моля, използвайте [адреса на канала](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) за да определяте канали."
   },
   {
     "id": "api.command_mute.name",
@@ -5378,7 +5378,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "Не е намерен канала {{.Channel}}. Моля, използвайте [адреса на канала](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) за да определяте канали."
+    "translation": "Не е намерен канала {{.Channel}}. Моля, използвайте [адреса на канала](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) за да определяте канали."
   },
   {
     "id": "api.command_mute.desc",
@@ -5430,7 +5430,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Излез от Mattermost"
+    "translation": "Излез от OKR.BEST"
   },
   {
     "id": "api.command_leave.name",
@@ -5526,7 +5526,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "Не е намерен канала {{.Channel}}. Моля, използвайте [адреса на канала](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) за да определяте канали."
+    "translation": "Не е намерен канала {{.Channel}}. Моля, използвайте [адреса на канала](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) за да определяте канали."
   },
   {
     "id": "api.command_invite.channel.app_error",
@@ -5538,7 +5538,7 @@
   },
   {
     "id": "api.command_help.desc",
-    "translation": "Отвори помощната страница на Mattermost"
+    "translation": "Отвори помощната страница на OKR.BEST"
   },
   {
     "id": "api.command_groupmsg.permission.app_error",
@@ -6117,7 +6117,7 @@
   },
   {
     "id": "api.slackimport.slack_import.log",
-    "translation": "Mattermost Slack импорт дневник\n"
+    "translation": "OKR.BEST Slack импорт дневник\n"
   },
   {
     "id": "api.slackimport.slack_add_users.unable_import",
@@ -6129,11 +6129,11 @@
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing_failed",
-    "translation": "Slack потребител е обединен с Mattermost потребител поради съвпадащи ел.поща {{.Email}} и потребителско име {{.Username}}., но потребителя не може да бъде добавен към екипа.\n"
+    "translation": "Slack потребител е обединен с OKR.BEST потребител поради съвпадащи ел.поща {{.Email}} и потребителско име {{.Username}}., но потребителя не може да бъде добавен към екипа.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing",
-    "translation": "Slack потребител е обединен с Mattermost поради съвпадащи ел.поща {{.Email}} и потребителско име {{.Username}}.\n"
+    "translation": "Slack потребител е обединен с OKR.BEST поради съвпадащи ел.поща {{.Email}} и потребителско име {{.Username}}.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.email_pwd",
@@ -6145,7 +6145,7 @@
   },
   {
     "id": "api.slackimport.slack_add_channels.merge",
-    "translation": "Slack канала {{.DisplayName}} вече съществува като активен Mattermost канал. Двата канала са обединени.\n"
+    "translation": "Slack канала {{.DisplayName}} вече съществува като активен OKR.BEST канал. Двата канала са обединени.\n"
   },
   {
     "id": "api.slackimport.slack_add_channels.import_failed",
@@ -6581,7 +6581,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Изпратете ел.поща с покана във вашия екип на Mattermost"
+    "translation": "Изпратете ел.поща с покана във вашия екип на OKR.BEST"
   },
   {
     "id": "api.command.execute_command.start.app_error",
@@ -6889,7 +6889,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Моля, добавете ме към екипи и канали, в които искате да взаимодействам. За целта използвайте браузър или Mattermost настолното приложение."
+    "translation": "Моля, добавете ме към екипи и канали, в които искате да взаимодействам. За целта използвайте браузър или OKR.BEST настолното приложение."
   },
   {
     "id": "api.bot.create_disabled",
@@ -6921,7 +6921,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - Тестване на настройките за ел.поща"
+    "translation": "OKR.BEST - Тестване на настройките за ел.поща"
   },
   {
     "id": "api.admin.test_email.reenter_password",
@@ -6933,7 +6933,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Изглежда вашата Mattermost ел.поща е настроена правилно!"
+    "translation": "Изглежда вашата OKR.BEST ел.поща е настроена правилно!"
   },
   {
     "id": "api.admin.saml.set_certificate_from_metadata.missing_content_type.app_error",
@@ -7265,7 +7265,7 @@
   },
   {
     "id": "api.templates.email_footer_v2",
-    "translation": "© 2021 Mattermost, Inc. 530 Lytton Avenue, втори етаж, Пало Алто, Калифорния, 94301"
+    "translation": "© 2021 OKR.BEST, Inc. 530 Lytton Avenue, втори етаж, Пало Алто, Калифорния, 94301"
   },
   {
     "id": "api.post.search_files.invalid_body.app_error",
@@ -7337,7 +7337,7 @@
   },
   {
     "id": "api.templates.invite_body_footer.title",
-    "translation": "Какво е Mattermost?"
+    "translation": "Какво е OKR.BEST?"
   },
   {
     "id": "api.templates.invite_body_footer.learn_more",
@@ -7345,11 +7345,11 @@
   },
   {
     "id": "api.templates.invite_body_footer.info",
-    "translation": "Mattermost е гъвкава платформа за съобщения с отворен код, която позволява сигурна работа в екип."
+    "translation": "OKR.BEST е гъвкава платформа за съобщения с отворен код, която позволява сигурна работа в екип."
   },
   {
     "id": "api.templates.invite_body.subTitle",
-    "translation": "Започнете да сътрудничите с екипа си в Mattermost"
+    "translation": "Започнете да сътрудничите с екипа си в OKR.BEST"
   },
   {
     "id": "api.templates.cloud_welcome_email.title",
@@ -7401,11 +7401,11 @@
   },
   {
     "id": "api.templates.cloud_welcome_email.download_mm_info",
-    "translation": "Изтеглете приложението Mattermost"
+    "translation": "Изтеглете приложението OKR.BEST"
   },
   {
     "id": "api.templates.cloud_welcome_email.button",
-    "translation": "Отворете Mattermost"
+    "translation": "Отворете OKR.BEST"
   },
   {
     "id": "api.templates.cloud_welcome_email.app_market_place",
@@ -7437,7 +7437,7 @@
   },
   {
     "id": "api.command_remote.accept.help",
-    "translation": "Приемане на покана от външна инстанция на Mattermost"
+    "translation": "Приемане на покана от външна инстанция на OKR.BEST"
   },
   {
     "id": "api.channel.patch_channel_moderations.cache_invalidation.error",
@@ -7445,7 +7445,7 @@
   },
   {
     "id": "api.command_share.desc",
-    "translation": "Споделя текущия канал с външна инстанция на Mattermost."
+    "translation": "Споделя текущия канал с външна инстанция на OKR.BEST."
   },
   {
     "id": "api.command_share.could_not_uninvite.error",
@@ -7553,7 +7553,7 @@
   },
   {
     "id": "api.command_remote.invite_summary",
-    "translation": "Изпратете следната AES 256-битова криптирана покана на външния системен администратор на Mattermost заедно с паролата. Те ще използват командата с наклонена черта `{{.Command}}` , за да приемат поканата.\n\n```\n{{.Invitation}}\n```\n\n**Осигурете достъп на защитената връзка до вашата инстанция на Mattermost чрез** {{.SiteURL}}"
+    "translation": "Изпратете следната AES 256-битова криптирана покана на външния системен администратор на OKR.BEST заедно с паролата. Те ще използват командата с наклонена черта `{{.Command}}` , за да приемат поканата.\n\n```\n{{.Invitation}}\n```\n\n**Осигурете достъп на защитената връзка до вашата инстанция на OKR.BEST чрез** {{.SiteURL}}"
   },
   {
     "id": "api.command_remote.invite_password.hint",
@@ -7601,7 +7601,7 @@
   },
   {
     "id": "api.command_remote.desc",
-    "translation": "Покана за защитени връзки за комуникация между инстанциите на Mattermost."
+    "translation": "Покана за защитени връзки за комуникация между инстанциите на OKR.BEST."
   },
   {
     "id": "api.command_remote.decode_invitation.error",
@@ -7657,7 +7657,7 @@
   },
   {
     "id": "app.notification.footer.infoLogin",
-    "translation": "Влезте в Mattermost"
+    "translation": "Влезте в OKR.BEST"
   },
   {
     "id": "app.notification.footer.info",
@@ -7785,7 +7785,7 @@
   },
   {
     "id": "api.email_batching.send_batched_email_notification.button",
-    "translation": "Отворете Mattermost"
+    "translation": "Отворете OKR.BEST"
   },
   {
     "id": "api.context.remote_id_missing.app_error",
@@ -7905,7 +7905,7 @@
   },
   {
     "id": "api.command_share.invite_remote.help",
-    "translation": "Покани външна инстанция на Mattermost към текущия споделен канал"
+    "translation": "Покани външна инстанция на OKR.BEST към текущия споделен канал"
   },
   {
     "id": "api.command_share.invitation_sent",
@@ -7965,7 +7965,7 @@
   },
   {
     "id": "api.license.request-trial.can-start-trial.not-allowed",
-    "translation": "Този лицензен ключ за пробен период на Mattermost Enterprise Edition е изтекъл и вече не е валиден. Ако желаете да удължите пробния си период, моля [свържете се с нашия екип по продажбите](https://mattermost.com/contact-us/)."
+    "translation": "Този лицензен ключ за пробен период на OKR.BEST Enterprise Edition е изтекъл и вече не е валиден. Ако желаете да удължите пробния си период, моля [свържете се с нашия екип по продажбите](https://okr.best/contact-us/)."
   },
   {
     "id": "api.license.request-trial.can-start-trial.error",
@@ -7977,11 +7977,11 @@
   },
   {
     "id": "api.templates.license_up_for_renewal_title",
-    "translation": "Вашият абонамент за Mattermost подлежи на подновяване"
+    "translation": "Вашият абонамент за OKR.BEST подлежи на подновяване"
   },
   {
     "id": "api.templates.license_up_for_renewal_subtitle",
-    "translation": "{{.UserName}}, абонаментът Ви изтича след {{.Days}} дни. Надяваме се, че ще се насладите на гъвкавото и сигурно екипно сътрудничество, което Mattermost позволява. Подновете абонамента си скоро, за да гарантирате, че екипът Ви ще продължи да се възползва от тези предимства."
+    "translation": "{{.UserName}}, абонаментът Ви изтича след {{.Days}} дни. Надяваме се, че ще се насладите на гъвкавото и сигурно екипно сътрудничество, което OKR.BEST позволява. Подновете абонамента си скоро, за да гарантирате, че екипът Ви ще продължи да се възползва от тези предимства."
   },
   {
     "id": "api.templates.license_up_for_renewal_subject",
@@ -8173,7 +8173,7 @@
   },
   {
     "id": "api.command_help.success",
-    "translation": "Mattermost е платформа с отворен код за сигурна комуникация, сътрудничество и организиране на работата между инструменти и екипи.\nMattermost съдържа два основни инструмента:\n\n**Канали** - поддържайте връзка с екипа си чрез 1:1 и групови съобщения.\n**[Playbooks](/playbooks)** - Изграждайте и конфигурирайте повтарящи се процеси за постигане на конкретни и предвидими резултати.\n\n[Преглед на документация и ръководства]({{.HelpLink}})"
+    "translation": "OKR.BEST е платформа с отворен код за сигурна комуникация, сътрудничество и организиране на работата между инструменти и екипи.\nOKR.BEST съдържа два основни инструмента:\n\n**Канали** - поддържайте връзка с екипа си чрез 1:1 и групови съобщения.\n**[Playbooks](/playbooks)** - Изграждайте и конфигурирайте повтарящи се процеси за постигане на конкретни и предвидими резултати.\n\n[Преглед на документация и ръководства]({{.HelpLink}})"
   },
   {
     "id": "api.command_invite.successOverflow",
@@ -8245,7 +8245,7 @@
   },
   {
     "id": "api.config.update.elasticsearch.autocomplete_cannot_be_enabled_error",
-    "translation": "Не може да се активира функцията за автоматично попълване за канала, тъй като схемата на индекса на каналите е остаряла. Препоръчително е да регенерирате индекса на канала. За повече информация вижте списъка с промените в Mattermost"
+    "translation": "Не може да се активира функцията за автоматично попълване за канала, тъй като схемата на индекса на каналите е остаряла. Препоръчително е да регенерирате индекса на канала. За повече информация вижте списъка с промените в OKR.BEST"
   },
   {
     "id": "api.context.outgoing_oauth_connection.list_connections.app_error",

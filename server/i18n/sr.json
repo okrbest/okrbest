@@ -297,7 +297,7 @@
   },
   {
     "id": "api.slackimport.slack_add_channels.merge",
-    "translation": "Slack канал {{.DisplayName}} већ постоји као активни Mattermost канал. Оба канала су спојена.\r\n"
+    "translation": "Slack канал {{.DisplayName}} већ постоји као активни OKR.BEST канал. Оба канала су спојена.\r\n"
   },
   {
     "id": "api.slackimport.slack_add_channels.import_failed",
@@ -621,7 +621,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Одјави се са Mattermost-а"
+    "translation": "Одјави се са OKR.BEST-а"
   },
   {
     "id": "api.command_leave.name",
@@ -829,7 +829,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Пошаљите мејл позивницу вашем Mattermost тиму"
+    "translation": "Пошаљите мејл позивницу вашем OKR.BEST тиму"
   },
   {
     "id": "api.command.execute_command.not_found.app_error",
@@ -977,7 +977,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - испробавам подешавања мејлова"
+    "translation": "OKR.BEST - испробавам подешавања мејлова"
   },
   {
     "id": "api.admin.test_email.reenter_password",
@@ -989,7 +989,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Изгледа да су мејлови у Mattermost-у подешени исправно!"
+    "translation": "Изгледа да су мејлови у OKR.BEST-у подешени исправно!"
   },
   {
     "id": "api.admin.saml.not_available.app_error",

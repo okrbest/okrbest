@@ -97,7 +97,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - 電子メール設定のテスト"
+    "translation": "OKR.BEST - 電子メール設定のテスト"
   },
   {
     "id": "api.admin.test_s3.missing_s3_bucket",
@@ -341,7 +341,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "あなたのMattermostチームへ招待する電子メールを送る"
+    "translation": "あなたのOKR.BESTチームへ招待する電子メールを送る"
   },
   {
     "id": "api.command.invite_people.email_invitations_off",
@@ -615,7 +615,7 @@
   },
   {
     "id": "api.command_help.desc",
-    "translation": "Mattermostヘルプメッセージを表示"
+    "translation": "OKR.BESTヘルプメッセージを表示"
   },
   {
     "id": "api.command_help.name",
@@ -627,7 +627,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "チャンネル {{.Channel}} が見つかりませんでした。チャンネルの指定には[チャンネルのハンドル名](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel)を使用してください。"
+    "translation": "チャンネル {{.Channel}} が見つかりませんでした。チャンネルの指定には[チャンネルのハンドル名](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel)を使用してください。"
   },
   {
     "id": "api.command_invite.desc",
@@ -663,7 +663,7 @@
   },
   {
     "id": "api.command_invite.private_channel.app_error",
-    "translation": "チャンネル {{.Channel}} が見つかりませんでした。チャンネルの指定には[チャンネルのハンドル名](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel)を使用してください。"
+    "translation": "チャンネル {{.Channel}} が見つかりませんでした。チャンネルの指定には[チャンネルのハンドル名](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel)を使用してください。"
   },
   {
     "id": "api.command_invite.success",
@@ -721,7 +721,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Mattermostからログアウトする"
+    "translation": "OKR.BESTからログアウトする"
   },
   {
     "id": "api.command_logout.name",
@@ -773,7 +773,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "チャンネル {{.Channel}} が見つかりませんでした。チャンネルの指定には[チャンネルのハンドル名](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel)を使用してください。"
+    "translation": "チャンネル {{.Channel}} が見つかりませんでした。チャンネルの指定には[チャンネルのハンドル名](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel)を使用してください。"
   },
   {
     "id": "api.command_mute.hint",
@@ -785,7 +785,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "指定したチャンネルが見つかりませんでした。チャンネルの指定には[チャンネルのハンドル名](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel)を使用してください。"
+    "translation": "指定したチャンネルが見つかりませんでした。チャンネルの指定には[チャンネルのハンドル名](https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel)を使用してください。"
   },
   {
     "id": "api.command_mute.not_member.error",
@@ -1499,7 +1499,7 @@
   },
   {
     "id": "api.slackimport.slack_add_channels.merge",
-    "translation": "Slackチャンネル {{.DisplayName}} は有効なMattermostのチャンネルとして既に存在しています。両方のチャンネルがマージされます。\r\n"
+    "translation": "Slackチャンネル {{.DisplayName}} は有効なOKR.BESTのチャンネルとして既に存在しています。両方のチャンネルがマージされます。\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.created",
@@ -1511,11 +1511,11 @@
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing",
-    "translation": "電子メールアドレス {{.Email}} とユーザー名 {{.Username}} を持つ既存のMattermostユーザーとSlackユーザーをマージしました。\r\n"
+    "translation": "電子メールアドレス {{.Email}} とユーザー名 {{.Username}} を持つ既存のOKR.BESTユーザーとSlackユーザーをマージしました。\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing_failed",
-    "translation": "電子メールアドレス {{.Email}} とユーザー名 {{.Username}} を持つ既存のMattermostユーザーとSlackユーザーをマージしましたが、そのユーザーをチームに追加できませんでした。\r\n"
+    "translation": "電子メールアドレス {{.Email}} とユーザー名 {{.Username}} を持つ既存のOKR.BESTユーザーとSlackユーザーをマージしましたが、そのユーザーをチームに追加できませんでした。\r\n"
   },
   {
     "id": "api.slackimport.slack_add_users.missing_email_address",
@@ -1527,7 +1527,7 @@
   },
   {
     "id": "api.slackimport.slack_import.log",
-    "translation": "Mattermost Slackインポートログ\r\n"
+    "translation": "OKR.BEST Slackインポートログ\r\n"
   },
   {
     "id": "api.slackimport.slack_import.note1",
@@ -1835,7 +1835,7 @@
   },
   {
     "id": "api.templates.post_body.button",
-    "translation": "Mattermostで返信する"
+    "translation": "OKR.BESTで返信する"
   },
   {
     "id": "api.templates.reset_body.button",
@@ -1895,7 +1895,7 @@
   },
   {
     "id": "api.templates.verify_body.info",
-    "translation": "この電子メールアドレスがMattermostアカウントの作成に使用されました。"
+    "translation": "この電子メールアドレスがOKR.BESTアカウントの作成に使用されました。"
   },
   {
     "id": "api.templates.verify_body.title",
@@ -1915,7 +1915,7 @@
   },
   {
     "id": "api.templates.welcome_body.info",
-    "translation": "この電子メールアドレスがMattermostアカウントの作成に使用されました。"
+    "translation": "この電子メールアドレスがOKR.BESTアカウントの作成に使用されました。"
   },
   {
     "id": "api.templates.welcome_body.title",
@@ -3059,7 +3059,7 @@
   },
   {
     "id": "ent.elasticsearch.test_config.license.error",
-    "translation": "あなたのMattermostライセンスはインデックス検索をサポートしていません。"
+    "translation": "あなたのOKR.BESTライセンスはインデックス検索をサポートしていません。"
   },
   {
     "id": "ent.elasticsearch.test_config.reenter_password",
@@ -3103,7 +3103,7 @@
   },
   {
     "id": "ent.ldap.do_login.user_filtered.app_error",
-    "translation": "あなたのAD/LDAPアカウントにはMattermostサーバを利用する権限がありません。システム管理者にAD/LDAPのユーザーフィルターをチェックするよう依頼してください。"
+    "translation": "あなたのAD/LDAPアカウントにはOKR.BESTサーバを利用する権限がありません。システム管理者にAD/LDAPのユーザーフィルターをチェックするよう依頼してください。"
   },
   {
     "id": "ent.ldap.do_login.user_not_registered.app_error",
@@ -3123,7 +3123,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure.app_error",
-    "translation": "AD/LDAPでのユーザー検索に失敗しました。MattermostサーバーがAD/LDAPサーバーに接続できることを確認し、再度実行してください。"
+    "translation": "AD/LDAPでのユーザー検索に失敗しました。OKR.BESTサーバーがAD/LDAPサーバーに接続できることを確認し、再度実行してください。"
   },
   {
     "id": "ent.ldap.validate_filter.app_error",
@@ -3167,7 +3167,7 @@
   },
   {
     "id": "ent.migration.migratetosaml.username_already_used_by_other_user",
-    "translation": "ユーザー名は既に別のMattermostユーザーによって使用されています。"
+    "translation": "ユーザー名は既に別のOKR.BESTユーザーによって使用されています。"
   },
   {
     "id": "ent.saml.attribute.app_error",
@@ -3251,7 +3251,7 @@
   },
   {
     "id": "mattermost.bulletin.subject",
-    "translation": "Mattermostセキュリティー通知"
+    "translation": "OKR.BESTセキュリティー通知"
   },
   {
     "id": "mfa.activate.bad_token.app_error",
@@ -4391,7 +4391,7 @@
   },
   {
     "id": "oauth.gitlab.tos.error",
-    "translation": "GitLabの利用規約が更新されました。{{.URL}}で新しい利用規約に同意してから、もう一度Mattermostへログインしてみてください。"
+    "translation": "GitLabの利用規約が更新されました。{{.URL}}で新しい利用規約に同意してから、もう一度OKR.BESTへログインしてみてください。"
   },
   {
     "id": "plugin.api.update_user_status.bad_status",
@@ -4555,11 +4555,11 @@
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support_version",
-    "translation": "あなたのブラウザのバージョンはMattermostではサポートされていません"
+    "translation": "あなたのブラウザのバージョンはOKR.BESTではサポートされていません"
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support",
-    "translation": "このブラウザはMattermostではサポートされていません"
+    "translation": "このブラウザはOKR.BESTではサポートされていません"
   },
   {
     "id": "web.error.unsupported_browser.min_os_version.windows",
@@ -4603,7 +4603,7 @@
   },
   {
     "id": "web.error.unsupported_browser.download_app_or_upgrade_browser",
-    "translation": "より良い体験のために、Mattermostアプリかサポートされたブラウザをダウンロードしてください。"
+    "translation": "より良い体験のために、OKR.BESTアプリかサポートされたブラウザをダウンロードしてください。"
   },
   {
     "id": "web.error.unsupported_browser.download",
@@ -4775,7 +4775,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure_size_exceeded.app_error",
-    "translation": "サイズ制限超過。最大ページサイズ設定を大きくしてください。詳しくは https://docs.mattermost.com/onboard/ad-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded を確認してください。"
+    "translation": "サイズ制限超過。最大ページサイズ設定を大きくしてください。詳しくは https://docs.okrbest.com/onboard/ad-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded を確認してください。"
   },
   {
     "id": "ent.id_loaded.license_disable.app_error",
@@ -5131,7 +5131,7 @@
   },
   {
     "id": "app.bot.get_disable_bot_sysadmin_message",
-    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} は無効化されています。現在無効化されている以下の Bot アカウントを管理していました。\n\n{{.BotNames}}{{else}}{{.UserName}} は無効化されています。 現在無効化されている以下の Bot アカウントを含む {{.NumBots}} 個の Bot アカウントを管理していました: \n\n{{.BotNames}}{{end}} **統合機能 > Botアカウント** からBotを有効にし、Bot用のトークンを新たに作成することで、これらのBotを引き継ぐことができます。\n\n詳しくは[説明文書](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled)を参照してください。{{else}}{{if .printAllBots}}{{.UserName}} は無効化されています。現在も有効化されている以下の Bot アカウントを管理していました。\n\n{{.BotNames}}\n{{else}}{{.UserName}} は無効化されています。以下を含む現在も有効な {{.NumBots}} 個の Bot アカウントを管理していました:\n\n{{.BotNames}}{{end}}**統合機能 > Botアカウント** から各Botを再度有効化し、Bot用のトークンを新たに生成してBotを引き継ぐことを強く推奨します。\n\n詳しくは[説明文書](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled)を参照してください。\n\nユーザーが無効化された際に自動でBotも無効化したい場合、**システムコンソール > 統合機能 > Botアカウント** の \"所有者が無効化された際にBotアカウントを無効化する\" を true にしてください。{{end}}"
+    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} は無効化されています。現在無効化されている以下の Bot アカウントを管理していました。\n\n{{.BotNames}}{{else}}{{.UserName}} は無効化されています。 現在無効化されている以下の Bot アカウントを含む {{.NumBots}} 個の Bot アカウントを管理していました: \n\n{{.BotNames}}{{end}} **統合機能 > Botアカウント** からBotを有効にし、Bot用のトークンを新たに作成することで、これらのBotを引き継ぐことができます。\n\n詳しくは[説明文書](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled)を参照してください。{{else}}{{if .printAllBots}}{{.UserName}} は無効化されています。現在も有効化されている以下の Bot アカウントを管理していました。\n\n{{.BotNames}}\n{{else}}{{.UserName}} は無効化されています。以下を含む現在も有効な {{.NumBots}} 個の Bot アカウントを管理していました:\n\n{{.BotNames}}{{end}}**統合機能 > Botアカウント** から各Botを再度有効化し、Bot用のトークンを新たに生成してBotを引き継ぐことを強く推奨します。\n\n詳しくは[説明文書](https://docs.okrbest.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled)を参照してください。\n\nユーザーが無効化された際に自動でBotも無効化したい場合、**システムコンソール > 統合機能 > Botアカウント** の \"所有者が無効化された際にBotアカウントを無効化する\" を true にしてください。{{end}}"
   },
   {
     "id": "app.bot.createbot.internal_error",
@@ -5223,7 +5223,7 @@
   },
   {
     "id": "api.templates.remove_expired_license.subject",
-    "translation": "Mattermostエンタープライズライセンスは無効になっています。"
+    "translation": "OKR.BESTエンタープライズライセンスは無効になっています。"
   },
   {
     "id": "api.templates.remove_expired_license.body.title",
@@ -5447,7 +5447,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "ブラウザ、もしくはMattermostデスクトップアプリから、Botをチーム・チャンネルに追加してください。"
+    "translation": "ブラウザ、もしくはOKR.BESTデスクトップアプリから、Botをチーム・チャンネルに追加してください。"
   },
   {
     "id": "api.bot.create_disabled",
@@ -5591,11 +5591,11 @@
   },
   {
     "id": "api.license.request_trial_license.app_error",
-    "translation": "トライアルライセンスを取得できませんでした。再度試してみるか、support@mattermost.com に連絡してください。"
+    "translation": "トライアルライセンスを取得できませんでした。再度試してみるか、support@okr.best に連絡してください。"
   },
   {
     "id": "api.license.request-trial.bad-request.terms-not-accepted",
-    "translation": "ライセンスをリクエストするには、Mattermost Software Evaluation Agreement と プライバシーポリシーに同意しなくてはなりません。"
+    "translation": "ライセンスをリクエストするには、OKR.BEST Software Evaluation Agreement と プライバシーポリシーに同意しなくてはなりません。"
   },
   {
     "id": "api.license.request-trial.bad-request",
@@ -6307,31 +6307,31 @@
   },
   {
     "id": "api.upgrade_to_enterprise_status.signature.app_error",
-    "translation": "MattermostをEnterprise Editionにアップグレードできませんでした。ダウンロードされたバイナリファイルのデジタル署名を検証できませんでした。"
+    "translation": "OKR.BESTをEnterprise Editionにアップグレードできませんでした。ダウンロードされたバイナリファイルのデジタル署名を検証できませんでした。"
   },
   {
     "id": "api.upgrade_to_enterprise.system_not_supported.app_error",
-    "translation": "MattermostをEnterprise Editionにアップグレードできませんでした。この機能はx86-64アーキテクチャのLinux上でのみ動作します。"
+    "translation": "OKR.BESTをEnterprise Editionにアップグレードできませんでした。この機能はx86-64アーキテクチャのLinux上でのみ動作します。"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user.app_error",
-    "translation": "MattermostをEnterprise Editionにアップグレードできませんでした。Mattermostシステムユーザー {{.MattermostUsername}} がバイナリファイルへの書き込み権限を持っていません。システム管理者がMattermostがインストールされたサーバーで下記のコマンドを実行することにより、ファイルに対する権限を更新することができます。\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\n```\n\nファイルの権限を変更した後、Mattermostのアップグレードを再度試してみてください。アップグレードが完了し再起動を行うことができた場合、バイナリファイルの権限を元に戻すことを忘れないでください。\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
+    "translation": "OKR.BESTをEnterprise Editionにアップグレードできませんでした。OKR.BESTシステムユーザー {{.OKR.BESTUsername}} がバイナリファイルへの書き込み権限を持っていません。システム管理者がOKR.BESTがインストールされたサーバーで下記のコマンドを実行することにより、ファイルに対する権限を更新することができます。\n\n```\nchown {{.OKR.BESTUsername}} \"{{.Path}}\"\n```\n\nファイルの権限を変更した後、OKR.BESTのアップグレードを再度試してみてください。アップグレードが完了し再起動を行うことができた場合、バイナリファイルの権限を元に戻すことを忘れないでください。\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user-and-permission.app_error",
-    "translation": "MattermostをEnterprise Editionにアップグレードできませんでした。Mattermostシステムユーザー {{.MattermostUsername}} がバイナリファイルへの書き込み権限を持っていません。システム管理者がMattermostがインストールされたサーバーで下記のコマンドを実行することにより、ファイルに対する権限を更新することができます。\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nファイルの権限を変更した後、Mattermostのアップグレードを再度試してみてください。アップグレードが完了し再起動を行うことができた場合、バイナリファイルの権限を元に戻すことを忘れないでください。\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "OKR.BESTをEnterprise Editionにアップグレードできませんでした。OKR.BESTシステムユーザー {{.OKR.BESTUsername}} がバイナリファイルへの書き込み権限を持っていません。システム管理者がOKR.BESTがインストールされたサーバーで下記のコマンドを実行することにより、ファイルに対する権限を更新することができます。\n\n```\nchown {{.OKR.BESTUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nファイルの権限を変更した後、OKR.BESTのアップグレードを再度試してみてください。アップグレードが完了し再起動を行うことができた場合、バイナリファイルの権限を元に戻すことを忘れないでください。\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-permission.app_error",
-    "translation": "MattermostをEnterprise Editionにアップグレードできませんでした。Mattermostシステムユーザー {{.MattermostUsername}} がバイナリファイルへの書き込み権限を持っていません。システム管理者がMattermostがインストールされたサーバーで下記のコマンドを実行することにより、ファイルに対する権限を更新することができます。\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nファイルの権限を変更した後、Mattermostのアップグレードを再度試してみてください。アップグレードが完了し再起動を行うことができた場合、バイナリファイルの権限を元に戻すことを忘れないでください。\n\n```\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "OKR.BESTをEnterprise Editionにアップグレードできませんでした。OKR.BESTシステムユーザー {{.OKR.BESTUsername}} がバイナリファイルへの書き込み権限を持っていません。システム管理者がOKR.BESTがインストールされたサーバーで下記のコマンドを実行することにより、ファイルに対する権限を更新することができます。\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nファイルの権限を変更した後、OKR.BESTのアップグレードを再度試してみてください。アップグレードが完了し再起動を行うことができた場合、バイナリファイルの権限を元に戻すことを忘れないでください。\n\n```\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.generic_error.app_error",
-    "translation": "MattermostをEnterprise Editionにアップグレードできませんでした。"
+    "translation": "OKR.BESTをEnterprise Editionにアップグレードできませんでした。"
   },
   {
     "id": "api.upgrade_to_enterprise.already-enterprise.app_error",
-    "translation": "すでにMattermost Enterprise Editionが起動しているため、アップグレードできません。"
+    "translation": "すでにOKR.BEST Enterprise Editionが起動しているため、アップグレードできません。"
   },
   {
     "id": "app.upload.upload_data.first_part_too_small.app_error",
@@ -6523,15 +6523,15 @@
   },
   {
     "id": "api.upgrade_to_enterprise_status.app_error",
-    "translation": "MattermostをEnterprise Editionにアップグレードできませんでした。"
+    "translation": "OKR.BESTをEnterprise Editionにアップグレードできませんでした。"
   },
   {
     "id": "api.upgrade_to_enterprise.app_error",
-    "translation": "Mattermost Enterprise Editionへのアップグレードはすでに開始されています。"
+    "translation": "OKR.BEST Enterprise Editionへのアップグレードはすでに開始されています。"
   },
   {
     "id": "api.upgrade_to_enterprise.already-done.app_error",
-    "translation": "すでにMattermost Enterprise Editionにアップグレードされています。アップグレードを完了するにはサーバーを再起動してください。"
+    "translation": "すでにOKR.BEST Enterprise Editionにアップグレードされています。アップグレードを完了するにはサーバーを再起動してください。"
   },
   {
     "id": "api.post.search_posts.invalid_body.app_error",
@@ -7259,7 +7259,7 @@
   },
   {
     "id": "api.templates.email_footer_v2",
-    "translation": "© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301"
+    "translation": "© 2022 OKR.BEST, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301"
   },
   {
     "id": "store.sql_file_info.search.disabled",
@@ -7367,7 +7367,7 @@
   },
   {
     "id": "api.templates.invite_body_footer.title",
-    "translation": "Mattermostとは?"
+    "translation": "OKR.BESTとは?"
   },
   {
     "id": "api.templates.invite_body_footer.learn_more",
@@ -7375,11 +7375,11 @@
   },
   {
     "id": "api.templates.invite_body_footer.info",
-    "translation": "Mattermostは、セキュアなチームコラボレーションを可能にする、柔軟なオープンソースのメッセージングプラットフォームです。"
+    "translation": "OKR.BESTは、セキュアなチームコラボレーションを可能にする、柔軟なオープンソースのメッセージングプラットフォームです。"
   },
   {
     "id": "api.templates.invite_body.subTitle",
-    "translation": "Mattermostでチームとの共同作業を始める"
+    "translation": "OKR.BESTでチームとの共同作業を始める"
   },
   {
     "id": "api.templates.cloud_welcome_email.title",
@@ -7431,7 +7431,7 @@
   },
   {
     "id": "api.templates.cloud_welcome_email.download_mm_info",
-    "translation": "Mattermostアプリをダウンロードする"
+    "translation": "OKR.BESTアプリをダウンロードする"
   },
   {
     "id": "api.templates.cloud_welcome_email.app_market_place",
@@ -7443,7 +7443,7 @@
   },
   {
     "id": "api.templates.cloud_welcome_email.button",
-    "translation": "Mattermostを開く"
+    "translation": "OKR.BESTを開く"
   },
   {
     "id": "api.templates.cloud_welcome_email.add_apps_info",
@@ -7615,7 +7615,7 @@
   },
   {
     "id": "api.command_share.invite_remote.help",
-    "translation": "現在の共有チャンネルに外部Mattermostインスタンスを招待する"
+    "translation": "現在の共有チャンネルに外部OKR.BESTインスタンスを招待する"
   },
   {
     "id": "api.command_share.invitation_sent",
@@ -7639,7 +7639,7 @@
   },
   {
     "id": "api.command_share.desc",
-    "translation": "現在のチャンネルを外部Mattermostインスタンスへ共有します。"
+    "translation": "現在のチャンネルを外部OKR.BESTインスタンスへ共有します。"
   },
   {
     "id": "api.command_share.check_channel_exist.error",
@@ -7743,7 +7743,7 @@
   },
   {
     "id": "api.command_remote.invite_summary",
-    "translation": "以下の AES-256bit で暗号化されたデータを、パスワードと共に外部Mattermostのシステム管理者に送信します。彼らは `{{.Command}}` のスラッシュコマンドを使って招待を受け付けます。\n\n```\n{{.Invitation}}\n```\n\n**安全な接続により、あなたのMattermostインスタンスに次のURLでアクセスできるようにします** {{.SiteURL}}"
+    "translation": "以下の AES-256bit で暗号化されたデータを、パスワードと共に外部OKR.BESTのシステム管理者に送信します。彼らは `{{.Command}}` のスラッシュコマンドを使って招待を受け付けます。\n\n```\n{{.Invitation}}\n```\n\n**安全な接続により、あなたのOKR.BESTインスタンスに次のURLでアクセスできるようにします** {{.SiteURL}}"
   },
   {
     "id": "api.command_remote.invite_password.hint",
@@ -7783,7 +7783,7 @@
   },
   {
     "id": "api.command_remote.desc",
-    "translation": "Mattermostインスタンス間のコミュニケーションのために、安全な接続を構築します。"
+    "translation": "OKR.BESTインスタンス間のコミュニケーションのために、安全な接続を構築します。"
   },
   {
     "id": "api.command_remote.decode_invitation.error",
@@ -7807,7 +7807,7 @@
   },
   {
     "id": "api.command_remote.accept.help",
-    "translation": "外部のMattermostインスタンスからの招待を受け付ける"
+    "translation": "外部のOKR.BESTインスタンスからの招待を受け付ける"
   },
   {
     "id": "api.cloud.cws_webhook_event_missing_error",
@@ -7863,7 +7863,7 @@
   },
   {
     "id": "app.notification.footer.infoLogin",
-    "translation": "Mattermostへログインし"
+    "translation": "OKR.BESTへログインし"
   },
   {
     "id": "app.notification.footer.info",
@@ -7919,7 +7919,7 @@
   },
   {
     "id": "api.email_batching.send_batched_email_notification.button",
-    "translation": "Mattermostを開く"
+    "translation": "OKR.BESTを開く"
   },
   {
     "id": "api.channel.create_channel.direct_channel.team_restricted_error",
@@ -7971,7 +7971,7 @@
   },
   {
     "id": "api.license.request-trial.can-start-trial.not-allowed",
-    "translation": "すでにワークスペースにトライアルライセンスが適用されているため、新しいトライアルライセンスを適用できませんでした。トライアル期間の延長をご希望の場合は[営業までご連絡ください](https://mattermost.com/contact-us/)。"
+    "translation": "すでにワークスペースにトライアルライセンスが適用されているため、新しいトライアルライセンスを適用できませんでした。トライアル期間の延長をご希望の場合は[営業までご連絡ください](https://okr.best/contact-us/)。"
   },
   {
     "id": "api.license.request-trial.can-start-trial.error",
@@ -7979,7 +7979,7 @@
   },
   {
     "id": "api.templates.license_up_for_renewal_subtitle",
-    "translation": "{{.UserName}}さん、あなたのサブスクリプションは{{.Days}}日で期限切れになるように設定されています。Mattermostが可能にする柔軟で安全なチームコラボレーションを体験していただければ幸いです。チームがこれらのメリットを引き続き享受できるように、今すぐ更新してください。"
+    "translation": "{{.UserName}}さん、あなたのサブスクリプションは{{.Days}}日で期限切れになるように設定されています。OKR.BESTが可能にする柔軟で安全なチームコラボレーションを体験していただければ幸いです。チームがこれらのメリットを引き続き享受できるように、今すぐ更新してください。"
   },
   {
     "id": "api.templates.license_up_for_renewal_subject",
@@ -7999,7 +7999,7 @@
   },
   {
     "id": "api.templates.license_up_for_renewal_title",
-    "translation": "あなたのMattermostのサブスクリプションは更新が必要です"
+    "translation": "あなたのOKR.BESTのサブスクリプションは更新が必要です"
   },
   {
     "id": "api.user.invalidate_verify_email_tokens.error",
@@ -8211,7 +8211,7 @@
   },
   {
     "id": "model.oauth.is_valid.mattermost_app_id.app_error",
-    "translation": "MattermostAppIDの最大文字数は32文字です。"
+    "translation": "OKR.BESTAppIDの最大文字数は32文字です。"
   },
   {
     "id": "model.config.is_valid.elastic_search.bulk_indexing_batch_size.app_error",
@@ -8259,7 +8259,7 @@
   },
   {
     "id": "api.license.request_trial_license.embargoed",
-    "translation": "禁輸国に対する制限のため、リクエストを処理することができませんでした。輸出制限に関するご質問は、[説明文書を参照するか](https://mattermost.com/pl/limitations-for-embargoed-countries)、legal@mattermost.com までお問い合わせください。"
+    "translation": "禁輸国に対する制限のため、リクエストを処理することができませんでした。輸出制限に関するご質問は、[説明文書を参照するか](https://okr.best/pl/limitations-for-embargoed-countries)、legal@okr.best までお問い合わせください。"
   },
   {
     "id": "api.getThreadsForUser.bad_only_params",
@@ -8279,7 +8279,7 @@
   },
   {
     "id": "api.file.cloud_upload.app_error",
-    "translation": "クラウドインスタンスへのmmctlによるアップロードはサポートされていません。こちらのドキュメントを確認してください：https://docs.mattermost.com/manage/cloud-data-export.html。"
+    "translation": "クラウドインスタンスへのmmctlによるアップロードはサポートされていません。こちらのドキュメントを確認してください：https://docs.okrbest.com/manage/cloud-data-export.html。"
   },
   {
     "id": "model.config.is_valid.image_decoder_concurrency.app_error",
@@ -8351,7 +8351,7 @@
   },
   {
     "id": "api.command_help.success",
-    "translation": "Mattermost は、ツールやチームをまたがるセキュアなコミュニケーション、コラボレーション、オーケストレーションのためのオープンソースプラットフォームです。\nMattermostには、2つの主要なツールが含まれています:\n\n**Channels** - 1対1もしくはグループとのメッセージングによりチームを常に繋がった状態にします\n**[Playbooks](/playbooks)** - 繰り返し行われる作業をプロセス化し、予測可能な結果を残せるようにします\n\n[ドキュメントとガイドを見る]({{.HelpLink}})"
+    "translation": "OKR.BEST は、ツールやチームをまたがるセキュアなコミュニケーション、コラボレーション、オーケストレーションのためのオープンソースプラットフォームです。\nOKR.BESTには、2つの主要なツールが含まれています:\n\n**Channels** - 1対1もしくはグループとのメッセージングによりチームを常に繋がった状態にします\n**[Playbooks](/playbooks)** - 繰り返し行われる作業をプロセス化し、予測可能な結果を残せるようにします\n\n[ドキュメントとガイドを見る]({{.HelpLink}})"
   },
   {
     "id": "ent.saml.configure.certificate_parse_error.app_error",
@@ -8579,7 +8579,7 @@
   },
   {
     "id": "api.server.cws.needs_enterprise_edition",
-    "translation": "Mattermost Enterprise Editionでのみ利用可能なサービスです"
+    "translation": "OKR.BEST Enterprise Editionでのみ利用可能なサービスです"
   },
   {
     "id": "app.oauth.remove_auth_data_by_client_id.app_error",
@@ -9507,7 +9507,7 @@
   },
   {
     "id": "api.server.cws.disabled",
-    "translation": "Mattermostカスタマーポータルとのやり取りはシステム管理者によって無効化されています。"
+    "translation": "OKR.BESTカスタマーポータルとのやり取りはシステム管理者によって無効化されています。"
   },
   {
     "id": "basic_security_check.url.too_long_error",
@@ -9515,7 +9515,7 @@
   },
   {
     "id": "api.config.update.elasticsearch.autocomplete_cannot_be_enabled_error",
-    "translation": "チャンネルインデックススキーマが古いため、チャンネル自動補完を有効にできません。チャンネルインデックスを再生成してください。詳しくはMattermost changelogを参照してください"
+    "translation": "チャンネルインデックススキーマが古いため、チャンネル自動補完を有効にできません。チャンネルインデックスを再生成してください。詳しくはOKR.BEST changelogを参照してください"
   },
   {
     "id": "api.channel.update_channel_member_roles.guest.app_error",

@@ -749,7 +749,7 @@
   },
   {
     "id": "mattermost.bulletin.subject",
-    "translation": "Buletin Keamanan Mattermost"
+    "translation": "Buletin Keamanan OKR.BEST"
   },
   {
     "id": "manaultesting.test_autolink.unable.app_error",
@@ -821,7 +821,7 @@
   },
   {
     "id": "ent.ldap.do_login.user_filtered.app_error",
-    "translation": "Akun LDAP Anda tidak memiliki hak akses untuk menggunakan server Mattermost ini. Silakan hubungi Administrator Sistem untuk memeriksa filter LDAP pengguna."
+    "translation": "Akun LDAP Anda tidak memiliki hak akses untuk menggunakan server OKR.BEST ini. Silakan hubungi Administrator Sistem untuk memeriksa filter LDAP pengguna."
   },
   {
     "id": "ent.ldap.do_login.unable_to_connect.app_error",
@@ -1919,7 +1919,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Keluar dari Mattermost"
+    "translation": "Keluar dari OKR.BEST"
   },
   {
     "id": "api.command_leave.name",
@@ -1967,7 +1967,7 @@
   },
   {
     "id": "api.command_help.desc",
-    "translation": "Buka halaman bantuan Mattermost"
+    "translation": "Buka halaman bantuan OKR.BEST"
   },
   {
     "id": "api.command_groupmsg.name",
@@ -2195,7 +2195,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Kirimkan email undangan ke tim Mattermost anda"
+    "translation": "Kirimkan email undangan ke tim OKR.BEST anda"
   },
   {
     "id": "api.command.execute_command.start.app_error",
@@ -2715,7 +2715,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Tolong tambahkan (add) saya ke tim dan channel yang anda ingin saya interaksi di. Untuk mengatifkan fitur ini, tolong pakai browser atau Mattermost Desktop App."
+    "translation": "Tolong tambahkan (add) saya ke tim dan channel yang anda ingin saya interaksi di. Untuk mengatifkan fitur ini, tolong pakai browser atau OKR.BEST Desktop App."
   },
   {
     "id": "api.admin.upload_brand_image.too_large.app_error",
@@ -2739,7 +2739,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - Pengaturan Tes Email"
+    "translation": "OKR.BEST - Pengaturan Tes Email"
   },
   {
     "id": "api.admin.test_email.reenter_password",
@@ -2751,7 +2751,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Sepertinya pengaturan email Mattermost Anda telah benar!"
+    "translation": "Sepertinya pengaturan email OKR.BEST Anda telah benar!"
   },
   {
     "id": "api.admin.saml.set_certificate_from_metadata.invalid_body.app_error",
@@ -2957,7 +2957,7 @@
   },
   {
     "id": "api.command_invite.private_channel.app_error",
-    "translation": "Tidak dapat menemukan saluran {{.Channel}}. Silakan gunakan [pegangan saluran] (https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) untuk mengidentifikasi saluran."
+    "translation": "Tidak dapat menemukan saluran {{.Channel}}. Silakan gunakan [pegangan saluran] (https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) untuk mengidentifikasi saluran."
   },
   {
     "id": "api.command_mute.desc",
@@ -2965,7 +2965,7 @@
   },
   {
     "id": "api.command_help.success",
-    "translation": "Mattermost adalah platform sumber terbuka untuk komunikasi, kolaborasi, dan orkestrasi pekerjaan yang aman di seluruh alat dan tim.\nMattermost berisi tiga alat utama:\n\n**Channels** - Tetap terhubung dengan tim Anda melalui pesan 1:1 dan grup.\n**[Playbooks](/playbooks)** - Membangun dan mengonfigurasi proses yang dapat diulang untuk mencapai hasil yang spesifik dan dapat diprediksi.\n**[Boards](/boards)** - Kelola proyek dan tugas dalam struktur papan Kanban untuk membantu tim Anda mencapai pencapaian penting.\n\n[Lihat dokumentasi dan panduan]({{.HelpLink}})"
+    "translation": "OKR.BEST adalah platform sumber terbuka untuk komunikasi, kolaborasi, dan orkestrasi pekerjaan yang aman di seluruh alat dan tim.\nOKR.BEST berisi tiga alat utama:\n\n**Channels** - Tetap terhubung dengan tim Anda melalui pesan 1:1 dan grup.\n**[Playbooks](/playbooks)** - Membangun dan mengonfigurasi proses yang dapat diulang untuk mencapai hasil yang spesifik dan dapat diprediksi.\n**[Boards](/boards)** - Kelola proyek dan tugas dalam struktur papan Kanban untuk membantu tim Anda mencapai pencapaian penting.\n\n[Lihat dokumentasi dan panduan]({{.HelpLink}})"
   },
   {
     "id": "api.command_marketplace.desc",
@@ -2973,7 +2973,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "Tidak dapat menemukan saluran {{.Channel}}. Silakan gunakan [pegangan saluran] (https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) untuk mengidentifikasi saluran."
+    "translation": "Tidak dapat menemukan saluran {{.Channel}}. Silakan gunakan [pegangan saluran] (https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) untuk mengidentifikasi saluran."
   },
   {
     "id": "api.command_invite.user_not_in_team.messageOverflow",
@@ -3137,7 +3137,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "Tidak dapat menemukan saluran {{.Channel}}. Silakan gunakan [pegangan saluran] (https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) untuk mengidentifikasi saluran."
+    "translation": "Tidak dapat menemukan saluran {{.Channel}}. Silakan gunakan [pegangan saluran] (https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) untuk mengidentifikasi saluran."
   },
   {
     "id": "api.command_invite.channel_constrained_user_denied",
@@ -3223,7 +3223,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "Tidak dapat menemukan saluran yang ditentukan. Silakan gunakan [pegangan saluran] (https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) untuk mengidentifikasi saluran."
+    "translation": "Tidak dapat menemukan saluran yang ditentukan. Silakan gunakan [pegangan saluran] (https://docs.okrbest.com/messaging/managing-channels.html#naming-a-channel) untuk mengidentifikasi saluran."
   },
   {
     "id": "api.command_mute.not_member.error",
@@ -3243,7 +3243,7 @@
   },
   {
     "id": "api.command_remote.invite_summary",
-    "translation": "Kirimkan undangan terenkripsi AES 256-bit berikut ini ke Admin Sistem Mattermost eksternal bersama dengan kata sandi. Mereka akan menggunakan perintah garis miring `{{.Command}}` untuk menerima undangan.\n\n```\n{{.Undangan}}\n```\n\n**Pastikan koneksi aman dapat mengakses instance Mattermost Anda melalui** {{.SiteURL}}"
+    "translation": "Kirimkan undangan terenkripsi AES 256-bit berikut ini ke Admin Sistem OKR.BEST eksternal bersama dengan kata sandi. Mereka akan menggunakan perintah garis miring `{{.Command}}` untuk menerima undangan.\n\n```\n{{.Undangan}}\n```\n\n**Pastikan koneksi aman dapat mengakses instance OKR.BEST Anda melalui** {{.SiteURL}}"
   },
   {
     "id": "api.command_remote.remove_remote.error",
@@ -3271,7 +3271,7 @@
   },
   {
     "id": "api.command_share.invite_remote.help",
-    "translation": "Mengundang instance eksternal Mattermost ke saluran bersama saat ini"
+    "translation": "Mengundang instance eksternal OKR.BEST ke saluran bersama saat ini"
   },
   {
     "id": "api.command_share.not_shared_channel_unshare",
@@ -3307,7 +3307,7 @@
   },
   {
     "id": "api.command_remote.accept.help",
-    "translation": "Terima undangan dari instance Mattermost eksternal"
+    "translation": "Terima undangan dari instance OKR.BEST eksternal"
   },
   {
     "id": "api.command_remote.accept_invitation",
@@ -3327,7 +3327,7 @@
   },
   {
     "id": "api.command_remote.desc",
-    "translation": "Undang koneksi yang aman untuk komunikasi di seluruh instance Mattermost."
+    "translation": "Undang koneksi yang aman untuk komunikasi di seluruh instance OKR.BEST."
   },
   {
     "id": "api.command_remote.displayname.help",
@@ -3475,7 +3475,7 @@
   },
   {
     "id": "api.command_share.desc",
-    "translation": "Berbagi saluran saat ini dengan instance eksternal Mattermost."
+    "translation": "Berbagi saluran saat ini dengan instance eksternal OKR.BEST."
   },
   {
     "id": "api.command_share.fetch_remote_status.error",
