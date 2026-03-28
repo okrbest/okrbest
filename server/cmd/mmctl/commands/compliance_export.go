@@ -15,7 +15,6 @@ import (
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
 	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
-	"github.com/mattermost/mattermost/server/v8/enterprise/message_export/shared"
 	"github.com/spf13/cobra"
 )
 
@@ -191,16 +190,16 @@ func complianceExportCreateCmdF(c client.Client, command *cobra.Command, args []
 	// If start and end are 0, we need to not set those keys in the job data.
 	// This will make the job like a manual job (it will pick up where the previous job left off).
 	data := model.StringMap{
-		shared.JobDataInitiatedBy:  "mmctl",
-		shared.JobDataExportType:   exportType,
-		shared.JobDataBatchStartId: "",
-		shared.JobDataJobStartId:   "",
+		"initiated_by":   "mmctl",
+		"export_type":    exportType,
+		"batch_start_id": "",
+		"job_start_id":   "",
 	}
 	if startTimestamp != 0 && endTimestamp != 0 {
-		data[shared.JobDataBatchStartTime] = startTime
-		data[shared.JobDataJobStartTime] = startTime
-		data[shared.JobDataJobEndTime] = endTime
-		data[shared.JobDataExportDir] = exportDir
+		data["batch_start_time"] = startTime
+		data["job_start_time"] = startTime
+		data["job_end_time"] = endTime
+		data["export_dir"] = exportDir
 	}
 
 	job := &model.Job{

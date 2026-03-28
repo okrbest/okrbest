@@ -12,8 +12,6 @@ import (
 	// Plugins
 	_ "github.com/mattermost/mattermost/server/v8/channels/app/oauthproviders/gitlab"
 
-	// Enterprise Imports
-	_ "github.com/mattermost/mattermost/server/v8/enterprise"
 )
 
 func main() {
