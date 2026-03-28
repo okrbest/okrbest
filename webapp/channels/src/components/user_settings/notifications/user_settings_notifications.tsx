@@ -20,7 +20,7 @@ import SettingItem from 'components/setting_item';
 import SettingItemMax from 'components/setting_item_max';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
-import Constants, {NotificationLevels, MattermostFeatures, LicenseSkus, UserSettingsNotificationSections} from 'utils/constants';
+import Constants, {NotificationLevels, OkrBestFeatures, LicenseSkus, UserSettingsNotificationSections} from 'utils/constants';
 import {notificationSoundKeys, stopTryNotificationRing} from 'utils/notification_sounds';
 import {a11yFocus} from 'utils/utils';
 
@@ -744,7 +744,7 @@ class NotificationsTab extends React.PureComponent<Props, State> {
         const collapsedEditButtonWhenDisabled = (
             <RestrictedIndicator
                 blocked={this.props.isEnterpriseOrCloudOrSKUStarterFree && this.props.isEnterpriseReady}
-                feature={MattermostFeatures.HIGHLIGHT_WITHOUT_NOTIFICATION}
+                feature={OkrBestFeatures.HIGHLIGHT_WITHOUT_NOTIFICATION}
                 minimumPlanRequiredForFeature={LicenseSkus.Professional}
                 tooltipTitle={this.props.intl.formatMessage({
                     id: 'user.settings.notifications.keywordsWithHighlight.disabledTooltipTitle',

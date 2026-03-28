@@ -28,7 +28,7 @@ import Menu from 'components/widgets/menu/menu';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
-import {LicenseSkus, ModalIdentifiers, MattermostFeatures} from 'utils/constants';
+import {LicenseSkus, ModalIdentifiers, OkrBestFeatures} from 'utils/constants';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 
@@ -157,7 +157,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                     sibling={(isAdmin && (isStarterFree || isFreeTrial)) && (
                         <RestrictedIndicator
                             blocked={isStarterFree}
-                            feature={MattermostFeatures.CUSTOM_USER_GROUPS}
+                            feature={OkrBestFeatures.CUSTOM_USER_GROUPS}
                             minimumPlanRequiredForFeature={LicenseSkus.Professional}
                             tooltipMessage={formatMessage({
                                 id: 'navbar_dropdown.userGroups.tooltip.cloudFreeTrial',

@@ -9,7 +9,7 @@ import type {LimitSummary} from 'components/common/hooks/useGetHighestThresholdC
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 
-import {MattermostFeatures, LicenseSkus} from 'utils/constants';
+import {OkrBestFeatures, LicenseSkus} from 'utils/constants';
 import {limitThresholds, asGBString, inK, LimitTypes} from 'utils/limits';
 
 interface Words {
@@ -60,10 +60,10 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
     let featureToNotifyOn = '';
     switch (highestLimit.id) {
     case LimitTypes.messageHistory:
-        featureToNotifyOn = MattermostFeatures.UNLIMITED_MESSAGES;
+        featureToNotifyOn = OkrBestFeatures.UNLIMITED_MESSAGES;
         break;
     case LimitTypes.fileStorage:
-        featureToNotifyOn = MattermostFeatures.UNLIMITED_FILE_STORAGE;
+        featureToNotifyOn = OkrBestFeatures.UNLIMITED_FILE_STORAGE;
         break;
     default:
         break;

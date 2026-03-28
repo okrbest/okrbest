@@ -6,14 +6,14 @@ import {FormattedMessage} from 'react-intl';
 
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 
-import {MattermostLink, ModalIdentifiers} from 'utils/constants';
+import {OkrBestLink, ModalIdentifiers} from 'utils/constants';
 
 import ResultModal from './result_modal';
 import './success_modal.scss';
 
 export default function DeleteWorkspaceSuccessModal() {
     const handleButtonClick = () => {
-        window.open(MattermostLink, '_blank');
+        window.open(OkrBestLink, '_blank');
     };
 
     const title = (

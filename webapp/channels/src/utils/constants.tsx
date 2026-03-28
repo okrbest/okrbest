@@ -537,7 +537,7 @@ export const SelfHostedProducts = {
     ENTERPRISE: 'enterprise',
 };
 
-export const MattermostFeatures = {
+export const OkrBestFeatures = {
     GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
     CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',
     CREATE_MULTIPLE_TEAMS: 'mattermost.feature.create_multiple_teams',
@@ -878,7 +878,7 @@ export const StoragePrefixes = {
 };
 
 export const LandingPreferenceTypes = {
-    MATTERMOSTAPP: 'mattermostapp',
+    OKRBESTAPP: 'okrbestapp',
     BROWSER: 'browser',
 };
 
@@ -966,7 +966,7 @@ defineMessages({
     },
     socketError: {
         id: 'channel_loader.socketError',
-        defaultMessage: 'Please check connection, Mattermost unreachable. If issue persists, ask administrator to [check WebSocket port](!https://docs.mattermost.com/install/troubleshooting.html#please-check-connection-mattermost-unreachable-if-issue-persists-ask-administrator-to-check-websocket-port).',
+        defaultMessage: 'Please check connection, OKR.BEST unreachable. If issue persists, ask administrator to [check WebSocket port](!https://docs.okrbest.com/install/troubleshooting.html#please-check-connection-unreachable-if-issue-persists-ask-administrator-to-check-websocket-port).',
     },
     trialLicenseExpiring: {
         id: 'announcement_bar.error.trial_license_expiring',
@@ -992,7 +992,7 @@ export const FileTypes = {
     PATCH: 'patch',
     SVG: 'svg',
     OTHER: 'other',
-    LICENSE_EXTENSION: '.mattermost-license',
+    LICENSE_EXTENSION: '.okrbest-license',
 };
 
 export const NotificationLevels = {
@@ -1088,7 +1088,7 @@ export const AboutLinks = {
 export const CloudLinks = {
     BILLING_DOCS: 'https://docs.okrbest.com/pl/cloud-billing',
     PRICING: 'https://okr.best/pl/pricing/',
-    PRORATED_PAYMENT: 'https://okr.best/pl/mattermost-cloud-prorate-documentation',
+    PRORATED_PAYMENT: 'https://okr.best/pl/cloud-prorate-documentation',
     DEPLOYMENT_OPTIONS: 'https://okr.best/deploy/',
     DOWNLOAD_UPDATE: 'https://okr.best/deploy/',
     CLOUD_SIGNUP_PAGE: 'https://okr.best/sign-up/',
@@ -1140,7 +1140,7 @@ export const DocLinks = {
     SSL_CERTIFICATE: 'https://okr.best/pl/setup-ssl-client-certificate',
     TRUE_UP_REVIEW: 'https://okr.best/pl/true-up-documentation',
     TRUSTED_CONNECTION: 'https://okr.best/pl/default-allow-untrusted-internal-connections',
-    UPGRADE_SERVER: 'https://okr.best/pl/upgrade-mattermost',
+    UPGRADE_SERVER: 'https://okr.best/pl/upgrade-server',
 };
 
 export const DeveloperLinks = {
@@ -1161,16 +1161,16 @@ export const DeveloperLinks = {
 
 export const LicenseLinks = {
     CONTACT_SALES: 'https://okr.best/contact-sales/',
-    ENTRY_LIMITS_INFO: 'https://okr.best/pl/mattermost-entry-limits',
+    ENTRY_LIMITS_INFO: 'https://okr.best/pl/entry-limits',
     TRIAL_INFO_LINK: 'https://okr.best/trial',
     EMBARGOED_COUNTRIES: 'https://okr.best/pl/limitations-for-embargoed-countries',
     SOFTWARE_SERVICES_LICENSE_AGREEMENT: 'https://okr.best/pl/software-and-services-license-agreement',
     SOFTWARE_SERVICES_LICENSE_AGREEMENT_TEXT: 'Software Services and License Agreement',
     UNSUPPORTED: 'https://okr.best/pricing/',
-    UNSUPPORTED_UPGRADE_LINK: 'https://docs.okrbest.com/administration-guide/upgrade/enterprise-install-upgrade.html#upgrading-to-enterprise-edition-from-mattermost-team-edition',
+    UNSUPPORTED_UPGRADE_LINK: 'https://docs.okrbest.com/administration-guide/upgrade/enterprise-install-upgrade.html',
 };
 
-export const MattermostLink = 'https://okr.best/';
+export const OkrBestLink = 'https://okr.best/';
 
 export const BillingSchemes = {
     FLAT_FEE: 'flat_fee',
@@ -2057,13 +2057,13 @@ export const Constants = {
     EMOJI_PATH: '/static/emoji',
     RECENT_EMOJI_KEY: 'recentEmojis',
     DEFAULT_WEBHOOK_LOGO: logoWebhook,
-    MHPNS_LEGACY_US: 'https://push.mattermost.com',
-    MHPNS_LEGACY_DE: 'https://hpns-de.mattermost.com',
-    MHPNS_GLOBAL: 'https://global.push.mattermost.com',
-    MHPNS_US: 'https://us.push.mattermost.com',
-    MHPNS_DE: 'https://eu.push.mattermost.com',
-    MHPNS_JP: 'https://ap.push.mattermost.com',
-    MTPNS: 'https://push-test.mattermost.com',
+    MHPNS_LEGACY_US: '',
+    MHPNS_LEGACY_DE: '',
+    MHPNS_GLOBAL: '',
+    MHPNS_US: '',
+    MHPNS_DE: '',
+    MHPNS_JP: '',
+    MTPNS: '',
     MAX_PREV_MSGS: 100,
     POST_COLLAPSE_TIMEOUT: 1000 * 60 * 5, // five minutes
     SAVE_DRAFT_TIMEOUT: 500,

@@ -85,7 +85,7 @@ class BrowserStoreClass {
     }
 
     setLandingPreferenceToMattermostApp(siteUrl?: string) {
-        localStorage.setItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl), LandingPreferenceTypes.MATTERMOSTAPP);
+        localStorage.setItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl), LandingPreferenceTypes.OKRBESTAPP);
     }
 
     setLandingPreferenceToBrowser(siteUrl?: string) {

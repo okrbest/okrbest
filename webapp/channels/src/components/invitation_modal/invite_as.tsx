@@ -17,7 +17,7 @@ import InvitationModal from 'components/invitation_modal';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
-import {CloudProducts, LicenseSkus, ModalIdentifiers, MattermostFeatures} from 'utils/constants';
+import {CloudProducts, LicenseSkus, ModalIdentifiers, OkrBestFeatures} from 'utils/constants';
 
 import type {GlobalState} from 'types/store';
 
@@ -88,7 +88,7 @@ export default function InviteAs(props: Props) {
         const restrictedIndicator = (
             <RestrictedIndicator
                 blocked={!isFreeTrial}
-                feature={MattermostFeatures.GUEST_ACCOUNTS}
+                feature={OkrBestFeatures.GUEST_ACCOUNTS}
                 minimumPlanRequiredForFeature={LicenseSkus.Professional}
                 titleAdminPreTrial={formatMessage({
                     id: 'invite_modal.restricted_invite_guest.pre_trial_title',

@@ -40,7 +40,7 @@ import TeamSettingsModal from 'components/team_settings_modal';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
-import {LicenseSkus, ModalIdentifiers, MattermostFeatures, CloudProducts} from 'utils/constants';
+import {LicenseSkus, ModalIdentifiers, OkrBestFeatures, CloudProducts} from 'utils/constants';
 import {isCloudLicense} from 'utils/license_utils';
 
 import type {GlobalState} from 'types/store';
@@ -418,7 +418,7 @@ function RestrictedIndicatorForCreateTeam({isFreeTrial}: {isFreeTrial: boolean})
 
     return (
         <RestrictedIndicator
-            feature={MattermostFeatures.CREATE_MULTIPLE_TEAMS}
+            feature={OkrBestFeatures.CREATE_MULTIPLE_TEAMS}
             minimumPlanRequiredForFeature={LicenseSkus.Professional}
             blocked={!isFreeTrial}
             tooltipMessage={formatMessage({

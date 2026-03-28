@@ -128,7 +128,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
 
     checkLandingPreferenceApp = () => {
         const landingPreference = BrowserStore.getLandingPreference(this.props.siteUrl);
-        return landingPreference && landingPreference === LandingPreferenceTypes.MATTERMOSTAPP;
+        return landingPreference && landingPreference === LandingPreferenceTypes.OKRBESTAPP;
     };
 
     handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,7 +149,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         }
 
         switch (pref) {
-        case LandingPreferenceTypes.MATTERMOSTAPP:
+        case LandingPreferenceTypes.OKRBESTAPP:
             BrowserStore.setLandingPreferenceToMattermostApp(this.props.siteUrl);
             break;
         case LandingPreferenceTypes.BROWSER:
@@ -161,7 +161,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     };
 
     openMattermostApp = () => {
-        this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP);
+        this.setPreference(LandingPreferenceTypes.OKRBESTAPP);
         this.setState({redirectPage: true});
         window.location.href = this.state.nativeLocation;
     };
@@ -196,10 +196,10 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             <a
                 href={UserAgent.isMobile() ? '#' : this.state.nativeLocation}
                 onMouseDown={() => {
-                    this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP, true);
+                    this.setPreference(LandingPreferenceTypes.OKRBESTAPP, true);
                 }}
                 onClick={() => {
-                    this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP, true);
+                    this.setPreference(LandingPreferenceTypes.OKRBESTAPP, true);
                     this.setState({redirectPage: true, navigating: true});
                     if (UserAgent.isMobile()) {
                         if (UserAgent.isAndroidWeb()) {
