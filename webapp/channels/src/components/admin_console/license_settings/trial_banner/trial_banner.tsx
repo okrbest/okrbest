@@ -44,7 +44,7 @@ export const EmbargoedEntityTrialError = () => {
     return (
         <FormattedMessage
             id='admin.license.trial-request.embargoed'
-            defaultMessage='We were unable to process the request due to limitations for embargoed countries. <link>Learn more in our documentation</link>, or reach out to legal@mattermost.com for questions around export limitations.'
+            defaultMessage='We were unable to process the request due to limitations for embargoed countries. <link>Learn more in our documentation</link>, or reach out to legal@okr.best for questions around export limitations.'
             values={{
                 link: (text) => (
                     <ExternalLink
@@ -111,7 +111,7 @@ const TrialBanner = ({
             return formatMessage<ReactNode>(
                 {
                     id: 'admin.license.trial-request.embargoed',
-                    defaultMessage: 'We were unable to process the request due to limitations for embargoed countries. <link>Learn more in our documentation</link>, or reach out to legal@mattermost.com for questions around export limitations.',
+                    defaultMessage: 'We were unable to process the request due to limitations for embargoed countries. <link>Learn more in our documentation</link>, or reach out to legal@okr.best for questions around export limitations.',
                 },
                 {
                     link: (text) => (
@@ -239,11 +239,11 @@ const TrialBanner = ({
             <>
                 <FormattedMessage
                     id='admin.license.trial-request.title'
-                    defaultMessage='Experience all that Mattermost Enterprise Advanced has to offer with a free trial for the next 30 days. No obligation to buy and no credit card required. '
+                    defaultMessage='Experience all that OKR.BEST Enterprise Advanced has to offer with a free trial for the next 30 days. No obligation to buy and no credit card required. '
                 />
                 <FormattedMessage
                     id='admin.license.trial-request.accept-terms'
-                    defaultMessage='By clicking <strong>Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
+                    defaultMessage='By clicking <strong>Start trial</strong>, I agree to the <linkEvaluation>OKR.BEST Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                     values={{
                         strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                         linkEvaluation: (msg: React.ReactNode) => (
@@ -399,7 +399,7 @@ const TrialBanner = ({
             title={
                 <FormattedMessage
                     id='licensingPage.infoBanner.startTrialTitle'
-                    defaultMessage='Start a free 30-day trial of Mattermost Enterprise Advanced'
+                    defaultMessage='Start a free 30-day trial of OKR.BEST Enterprise Advanced'
                 />
             }
             message={
