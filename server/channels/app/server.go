@@ -150,6 +150,8 @@ type Server struct {
 	PushProxy               einterfaces.PushProxyInterface
 	AutoTranslation         einterfaces.AutoTranslationInterface
 
+	agentsBridgeOverride AgentsBridge
+
 	ch *Channels
 }
 
