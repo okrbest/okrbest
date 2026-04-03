@@ -104,6 +104,7 @@ const (
 	WebsocketEventBurnOnReadAllRevealed               WebsocketEventType = "burn_on_read_all_revealed"
 	WebsocketEventFileDownloadRejected                WebsocketEventType = "file_download_rejected"
 	WebsocketEventShowToast                           WebsocketEventType = "show_toast"
+	WebsocketEventSharedChannelRemoteUpdated          WebsocketEventType = "shared_channel_remote_updated"
 
 	WebSocketMsgTypeResponse = "response"
 	WebSocketMsgTypeEvent    = "event"
