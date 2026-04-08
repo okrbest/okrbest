@@ -3674,7 +3674,7 @@
   "channel_members_rhs.policy_enforced_restrictions": "채널 접근이 사용자 속성으로 제한됩니다",
   "channel_members_rhs.search_bar.aria.cancel_search_button": "멤버 검색 취소",
   "channel_members_rhs.search_bar.placeholder": "멤버 검색",
-  "channel_menu.bookmarks": "북마크 바",
+  "channel_menu.bookmarks": "채널 링크",
   "channel_menu.bookmarks.addFile": "파일 첨부하기",
   "channel_menu.bookmarks.addLink": "링크 추가하기",
   "channel_modal.alreadyExist": "해당 URL을 가진 채널이 이미 존재합니다",
