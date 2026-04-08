@@ -39,7 +39,7 @@ export type Props = {
     tabIndex?: number;
     value: string;
     onChange: (e: ChangeEvent<TextboxElement>) => void;
-    onKeyPress: (e: KeyboardEvent<any>) => void;
+    onKeyPress: (e: KeyboardEvent<TextboxElement>) => void;
     onComposition?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
     onWidthChange?: (width: number) => void;
@@ -48,7 +48,7 @@ export type Props = {
     onMouseUp?: (e: React.MouseEvent<TextboxElement>) => void;
     onKeyUp?: (e: React.KeyboardEvent<TextboxElement>) => void;
     onBlur?: (e: FocusEvent<TextboxElement>) => void;
-    onFocus?: (e: FocusEvent<TextboxElement>) => void;
+    onFocus?: () => void;
     supportsCommands?: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
     onPaste?: (e: ClipboardEvent) => void;
@@ -81,8 +81,8 @@ export type Props = {
     onMentionSelected?: (item: MentionItem) => void;
 };
 
-const VISIBLE = {visibility: 'visible'};
-const HIDDEN = {visibility: 'hidden'};
+const VISIBLE = {visibility: 'visible'} as const;
+const HIDDEN = {visibility: 'hidden'} as const;
 
 export default class Textbox extends React.PureComponent<Props> {
     private readonly suggestionProviders: Provider[];
@@ -144,7 +144,7 @@ export default class Textbox extends React.PureComponent<Props> {
         this.props.actions.fetchAgents();
     }
 
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         this.props.onChange(e);
     };
 
@@ -250,6 +250,11 @@ export default class Textbox extends React.PureComponent<Props> {
         this.props.onKeyDown?.(e as KeyboardEvent<TextboxElement>);
     };
 
+    // adding in the HTMLDivElement to support event handling in preview state
+    handleKeyPress = (e: KeyboardEvent<TextboxElement | HTMLDivElement>) => {
+        this.props.onKeyPress(e as KeyboardEvent<TextboxElement>);
+    };
+
     handleMouseUp = (e: MouseEvent<TextboxElement>) => this.props.onMouseUp?.(e);
 
     handleKeyUp = (e: KeyboardEvent<TextboxElement>) => this.props.onKeyUp?.(e);
@@ -311,7 +316,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     tabIndex={this.props.tabIndex}
                     ref={this.preview}
                     className={classNames('form-control custom-textarea textbox-preview-area', {'textarea--has-labels': this.props.hasLabels})}
-                    onKeyPress={this.props.onKeyPress}
+                    onKeyPress={this.handleKeyPress}
                     onKeyDown={this.handleKeyDown}
                     onBlur={this.handleBlur}
                 >
@@ -330,7 +335,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     spellCheck='true'
                     placeholder={this.props.createMessage}
                     onChange={this.handleChange}
-                    onKeyPress={this.props.onKeyPress}
+                    onKeyPress={this.handleKeyPress}
                     onKeyDown={this.handleKeyDown}
                     onMouseUp={this.handleMouseUp}
                     onKeyUp={this.handleKeyUp}
