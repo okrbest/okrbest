@@ -5197,8 +5197,6 @@
   "login.cardtitle": "로그인",
   "login.cardtitle.external": "다음 중 하나로 로그인:",
   "login.changed": "로그인 방법이 성공적으로 변경되었습니다",
-  "login.contact_admin.detail": "워크스페이스에 접근하려면 워크스페이스 관리자에게 문의하세요. 이미 초대를 받으셨다면 이메일함에서 OKR.BEST 워크스페이스 초대장을 확인하세요.",
-  "login.contact_admin.title": "워크스페이스 관리자에게 문의하세요",
   "login.createTeam": "팀 만들기",
   "login.deactivatedUser": "계정이 비활성화되었습니다.",
   "login.defaultError": "로그인할 수 없습니다. 정보를 입력한 후 다시 시도하세요.",
