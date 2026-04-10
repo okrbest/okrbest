@@ -32,6 +32,7 @@ import UnreadsStatusHandler from 'components/unreads_status_handler';
 
 import {getHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
+import usePopoutFocus from 'utils/popouts/use_popout_focus';
 import usePopoutTitle from 'utils/popouts/use_popout_title';
 import {isDesktopApp} from 'utils/user_agent';
 
@@ -117,6 +118,8 @@ export default function ThreadPopout() {
             fetchPostThread();
         }
     }, [postId, dispatch, currentUserId, teamId]);
+
+    usePopoutFocus(channelId, postId);
 
     useEffect(() => {
         function handleFocus() {
