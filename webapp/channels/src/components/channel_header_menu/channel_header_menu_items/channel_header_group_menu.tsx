@@ -102,7 +102,7 @@ const ChannelHeaderGroupMenu = ({channel, user, isMuted, isMobile, isFavorite, p
                     />
                 </Menu.SubMenu>
             )}
-            {!isArchived && !isGuest(user.roles) && isChannelBookmarksEnabled && (
+            {!isArchived && !isGuest(user.roles) && (
                 <MenuItemChannelBookmarks
                     channel={channel}
                 />
