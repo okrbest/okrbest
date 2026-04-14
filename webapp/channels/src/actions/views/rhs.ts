@@ -21,6 +21,7 @@ import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut, getChannel 
 import {getLatestInteractablePostId, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {getAllUserMentionKeys} from 'mattermost-redux/selectors/entities/search';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 
 import {
@@ -39,8 +40,9 @@ import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import {Mark, Measure, measureAndReport} from 'utils/performance_telemetry';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 
+import type {GlobalState} from 'types/store';
 import type {ActionFunc, ActionFuncAsync, ThunkActionFunc} from 'types/store';
-import type {RhsState} from 'types/store/rhs';
+import type {MentionFilter, RhsState} from 'types/store/rhs';
 
 function selectPostWithPreviousState(post: Post, previousRhsState?: RhsState): ActionFunc<boolean> {
     return (dispatch, getState) => {
@@ -452,13 +454,36 @@ export function showChannelFiles(channelId: string): ActionFuncAsync<boolean> {
     };
 }
 
-export function showMentions(): ActionFunc<boolean> {
-    return (dispatch, getState) => {
-        const termKeys = getCurrentUserMentionKeys(getState()).filter(({key}) => {
+export function updateMentionFilter(filter: MentionFilter) {
+    return {
+        type: ActionTypes.UPDATE_RHS_MENTION_FILTER,
+        filter,
+    };
+}
+
+function getMentionSearchTerms(state: GlobalState, filter: MentionFilter): string {
+    if (filter === 'personal_only') {
+        const termKeys = getCurrentUserMentionKeys(state).filter(({key}) => {
             return key !== '@channel' && key !== '@all' && key !== '@here';
         });
+        return termKeys.map(({key}) => key).join(' ').trim() + ' ';
+    }
 
-        const terms = termKeys.map(({key}) => key).join(' ').trim() + ' ';
+    const allKeys = getAllUserMentionKeys(state);
+    const keySet = new Set(allKeys.map(({key}) => key));
+
+    keySet.add('@channel');
+    keySet.add('@all');
+    keySet.add('@here');
+
+    return Array.from(keySet).join(' ').trim() + ' ';
+}
+
+export function showMentions(filter: MentionFilter = 'include_groups'): ActionFunc<boolean> {
+    return (dispatch, getState) => {
+        dispatch(updateMentionFilter(filter));
+
+        const terms = getMentionSearchTerms(getState(), filter);
 
         dispatch(performSearch(terms, '', true));
         dispatch(batchActions([

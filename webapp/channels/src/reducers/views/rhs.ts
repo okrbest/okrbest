@@ -15,7 +15,7 @@ import {SidebarSize} from 'components/resizable_sidebar/constants';
 import {ActionTypes, RHSStates, Threads} from 'utils/constants';
 
 import type {MMAction} from 'types/store';
-import type {RhsState} from 'types/store/rhs';
+import type {MentionFilter, RhsState} from 'types/store/rhs';
 
 function selectedPostId(state = '', action: MMAction) {
     switch (action.type) {
@@ -454,6 +454,22 @@ function memberFilterUserIds(state: Record<string, string[]> = {}, action: MMAct
     }
 }
 
+function mentionFilter(state: MentionFilter = 'include_groups', action: MMAction): MentionFilter {
+    switch (action.type) {
+    case ActionTypes.UPDATE_RHS_MENTION_FILTER:
+        return action.filter;
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (!action.state) {
+            return 'include_groups';
+        }
+        return state;
+    case UserTypes.LOGOUT_SUCCESS:
+        return 'include_groups';
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     selectedPostId,
     selectedPostFocussedAt,
@@ -478,4 +494,5 @@ export default combineReducers({
     editChannelMembers,
     shouldFocusRHS,
     memberFilterUserIds,
+    mentionFilter,
 });

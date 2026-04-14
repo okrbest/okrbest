@@ -16,10 +16,8 @@ describe('components/SearchResults', () => {
             somearray: [1, 2, 3],
             results,
             fileResults,
+            mentionFilter: 'include_groups',
         };
-
-        // Using a lot of anys here since the function is only used by SearchResults so the parameters are bound to its props
-        // But the tests are written using arbitrary props
 
         test('should not render', () => {
             expect(arePropsEqual(props as any, {...props} as any)).toBeTruthy();
@@ -34,6 +32,13 @@ describe('components/SearchResults', () => {
             expect(!arePropsEqual(props as any, {...props, fileResults: [fileResult2, fileResult1]} as any)).toBeTruthy();
             expect(!arePropsEqual(props as any, {...props, fileResults: [fileResult1, fileResult2, {test: 'test'}]} as any)).toBeTruthy();
             expect(!arePropsEqual(props as any, {...props, somearray: [1, 2, 3]} as any)).toBeTruthy();
+        });
+
+        test('should rerender when mentionFilter changes', () => {
+            expect(!arePropsEqual(
+                props as any,
+                {...props, mentionFilter: 'personal_only'} as any,
+            )).toBeTruthy();
         });
     });
 });

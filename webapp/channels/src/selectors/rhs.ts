@@ -18,7 +18,7 @@ import {localizeMessage} from 'utils/utils';
 
 import type {GlobalState} from 'types/store';
 import type {PostDraft} from 'types/store/draft';
-import type {RhsState, FakePost, SearchType} from 'types/store/rhs';
+import type {MentionFilter, RhsState, FakePost, SearchType} from 'types/store/rhs';
 
 export function getSelectedPostId(state: GlobalState): Post['id'] {
     return state.views.rhs.selectedPostId;
@@ -251,4 +251,8 @@ export function getMemberFilterUserIds(state: GlobalState, channelId: string): s
 export function hasMemberFilter(state: GlobalState, channelId: string): boolean {
     const filterUserIds = getMemberFilterUserIds(state, channelId);
     return filterUserIds && filterUserIds.length > 0;
+}
+
+export function getMentionFilter(state: GlobalState): MentionFilter {
+    return state.views.rhs.mentionFilter;
 }

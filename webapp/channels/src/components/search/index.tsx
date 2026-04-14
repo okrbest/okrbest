@@ -19,6 +19,7 @@ import {
     updateSearchTeam,
     updateSearchTermsForShortcut,
     showSearchResults,
+    showMentions,
     showChannelFiles,
     closeRightHandSide,
     updateRhsState,
@@ -27,7 +28,7 @@ import {
     filterFilesSearchByExt,
     updateSearchType,
 } from 'actions/views/rhs';
-import {getRhsState, getSearchTeam, getSearchTerms, getSearchType, getIsSearchingTerm, getIsRhsOpen, getIsRhsExpanded} from 'selectors/rhs';
+import {getRhsState, getSearchTeam, getSearchTerms, getSearchType, getIsSearchingTerm, getIsRhsOpen, getIsRhsExpanded, getMentionFilter} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 
 import {RHSStates} from 'utils/constants';
@@ -64,6 +65,7 @@ function mapStateToProps(state: GlobalState) {
         isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
         isMobileView,
         crossTeamSearchEnabled,
+        mentionFilter: getMentionFilter(state),
     };
 }
 
@@ -89,6 +91,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             openRHSSearch,
             getMoreFilesForSearch,
             filterFilesSearchByExt,
+            showMentions,
         }, dispatch),
     };
 }

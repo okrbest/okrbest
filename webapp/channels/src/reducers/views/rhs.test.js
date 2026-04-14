@@ -31,6 +31,8 @@ describe('Reducers.RHS', () => {
         editChannelMembers: false,
         shouldFocusRHS: false,
         searchTeam: null,
+        memberFilterUserIds: {},
+        mentionFilter: 'include_groups',
     };
 
     test('Initial state', () => {
@@ -621,6 +623,46 @@ describe('Reducers.RHS', () => {
         expect(nextState).toEqual(initialState);
     });
 
+    describe('mentionFilter', () => {
+        test('default value is include_groups', () => {
+            const nextState = rhsReducer({}, {});
+            expect(nextState.mentionFilter).toEqual('include_groups');
+        });
+
+        test('should update on UPDATE_RHS_MENTION_FILTER', () => {
+            const nextState = rhsReducer(
+                {},
+                {
+                    type: ActionTypes.UPDATE_RHS_MENTION_FILTER,
+                    filter: 'personal_only',
+                },
+            );
+            expect(nextState.mentionFilter).toEqual('personal_only');
+        });
+
+        test('should reset to default when RHS closes', () => {
+            const nextState = rhsReducer(
+                {mentionFilter: 'personal_only'},
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: null,
+                },
+            );
+            expect(nextState.mentionFilter).toEqual('include_groups');
+        });
+
+        test('should keep value when RHS state changes to a truthy value', () => {
+            const nextState = rhsReducer(
+                {mentionFilter: 'personal_only'},
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: RHSStates.MENTION,
+                },
+            );
+            expect(nextState.mentionFilter).toEqual('personal_only');
+        });
+    });
+
     test('SUPPRESS_RHS', () => {
         const state = {
             filesSearchExtFilter: ['png'],
@@ -645,6 +687,8 @@ describe('Reducers.RHS', () => {
             editChannelMembers: false,
             shouldFocusRHS: false,
             searchTeam: null,
+            memberFilterUserIds: {},
+            mentionFilter: 'include_groups',
         };
 
         const nextState = rhsReducer(state, {type: ActionTypes.SUPPRESS_RHS});
