@@ -88,6 +88,7 @@ const Search = ({
         openRHSSearch,
         setRhsExpanded,
         showChannelFiles,
+        showMentions,
         showSearchResults,
         updateRhsState,
         updateSearchTeam,
@@ -116,6 +117,7 @@ const Search = ({
     hideSearchBar,
     isSideBarRight = false,
     isSideBarRightOpen,
+    mentionFilter,
 }: Props): JSX.Element => {
     const intl = useIntl();
     const currentChannelName = useSelector(getCurrentChannelNameForSearchShortcut);
@@ -561,6 +563,8 @@ const Search = ({
                     setSearchType={(value: SearchType) => updateSearchType(value)}
                     searchType={searchType || 'messages'}
                     crossTeamSearchEnabled={crossTeamSearchEnabled}
+                    mentionFilter={mentionFilter}
+                    onMentionFilterChange={(filter) => showMentions(filter)}
                 />
             ) : children}
         </div>

@@ -201,6 +201,7 @@ export const ActionTypes = keyMirror({
     UPDATE_RHS_SEARCH_TYPE: null,
     UPDATE_RHS_SEARCH_RESULTS_TERMS: null,
     UPDATE_RHS_SEARCH_RESULTS_TYPE: null,
+    UPDATE_RHS_MENTION_FILTER: null,
 
     SET_RHS_SIZE: null,
 

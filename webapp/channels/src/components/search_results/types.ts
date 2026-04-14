@@ -9,7 +9,7 @@ import type {Post} from '@mattermost/types/posts';
 
 import type {SearchFilterType} from 'components/search/types';
 
-import type {SearchType} from 'types/store/rhs';
+import type {MentionFilter, SearchType} from 'types/store/rhs';
 
 export type OwnProps = {
     [key: string]: any;
@@ -31,6 +31,8 @@ export type OwnProps = {
     setSearchFilterType: (filterType: SearchFilterType) => void;
     updateSearchTeam: (teamId: string) => void;
     crossTeamSearchEnabled: boolean;
+    mentionFilter: MentionFilter;
+    onMentionFilterChange: (filter: MentionFilter) => void;
 };
 
 export type StateProps = {

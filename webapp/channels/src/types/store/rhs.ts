@@ -12,6 +12,8 @@ import type {RHSStates} from 'utils/constants';
 
 export type SearchType = '' | 'files' | 'messages';
 
+export type MentionFilter = 'personal_only' | 'include_groups';
+
 export type FakePost = {
     id: Post['id'];
     exists: boolean;
@@ -46,6 +48,7 @@ export type RhsViewState = {
     size: SidebarSize;
     shouldFocusRHS: boolean;
     memberFilterUserIds: Record<string, string[]>;
+    mentionFilter: MentionFilter;
 };
 
 export type RhsState = typeof RHSStates[keyof typeof RHSStates] | null;

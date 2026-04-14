@@ -26,4 +26,34 @@
     .channel-files-container {
         padding-top: 0;
     }
+
+    .mention-filter {
+        display: flex;
+        gap: 4px;
+        padding: 8px 16px;
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+
+        &__btn {
+            flex: 1;
+            padding: 6px 12px;
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+            border-radius: 4px;
+            background: transparent;
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.15s ease;
+
+            &:hover {
+                background: rgba(var(--center-channel-color-rgb), 0.04);
+            }
+
+            &.active {
+                border-color: var(--button-bg);
+                background: rgba(var(--button-bg-rgb), 0.08);
+                color: var(--button-bg);
+            }
+        }
+    }
 }
