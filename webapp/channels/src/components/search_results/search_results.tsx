@@ -136,6 +136,8 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         handleSearchHintSelection,
         searchFilterType,
         setSearchFilterType,
+        mentionFilter,
+        onMentionFilterChange,
     } = props;
 
     const noResults = (!results || !Array.isArray(results) || results.length === 0);
@@ -347,6 +349,28 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 </h2>
                 {props.channelDisplayName && <div className='sidebar--right__title__channel'>{props.channelDisplayName}</div>}
             </SearchResultsHeader>
+            {isMentionSearch && (
+                <div className='mention-filter'>
+                    <button
+                        className={classNames('mention-filter__btn', {active: mentionFilter === 'personal_only'})}
+                        onClick={() => onMentionFilterChange('personal_only')}
+                    >
+                        <FormattedMessage
+                            id='search_results.mention_filter.personal_only'
+                            defaultMessage='개인 멘션만'
+                        />
+                    </button>
+                    <button
+                        className={classNames('mention-filter__btn', {active: mentionFilter === 'include_groups'})}
+                        onClick={() => onMentionFilterChange('include_groups')}
+                    >
+                        <FormattedMessage
+                            id='search_results.mention_filter.include_groups'
+                            defaultMessage='그룹 멘션 포함'
+                        />
+                    </button>
+                </div>
+            )}
             {isMessagesSearch &&
                 <MessageOrFileSelector
                     selected={searchType}

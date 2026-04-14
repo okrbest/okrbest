@@ -2420,6 +2420,27 @@ func (a *App) AutocompleteUsersInChannel(rctx request.CTX, teamID string, channe
 		return nil, model.NewAppError("AutocompleteUsersInChannel", "app.user.search.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
 	}
 
+	if teamID != "" && len(autocomplete.OutOfChannel) > 0 {
+		userIDs := make([]string, len(autocomplete.OutOfChannel))
+		for i, user := range autocomplete.OutOfChannel {
+			userIDs[i] = user.Id
+		}
+		teamMembers, tmErr := a.Srv().Store().Team().GetMembersByIds(teamID, userIDs, options.ViewRestrictions)
+		if tmErr == nil {
+			teamMemberMap := make(map[string]bool, len(teamMembers))
+			for _, tm := range teamMembers {
+				teamMemberMap[tm.UserId] = true
+			}
+			filtered := make([]*model.User, 0, len(autocomplete.OutOfChannel))
+			for _, user := range autocomplete.OutOfChannel {
+				if teamMemberMap[user.Id] {
+					filtered = append(filtered, user)
+				}
+			}
+			autocomplete.OutOfChannel = filtered
+		}
+	}
+
 	for _, user := range autocomplete.InChannel {
 		a.SanitizeProfile(user, options.IsAdmin)
 	}

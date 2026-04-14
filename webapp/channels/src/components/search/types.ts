@@ -8,7 +8,7 @@ import type {UserAutocomplete} from '@mattermost/types/autocomplete';
 import type {Channel} from '@mattermost/types/channels';
 import type {ServerError} from '@mattermost/types/errors';
 
-import type {SearchType} from 'types/store/rhs';
+import type {MentionFilter, SearchType} from 'types/store/rhs';
 
 export type SearchFilterType = 'all' | 'documents' | 'spreadsheets' | 'presentations' | 'code' | 'images' | 'audio' | 'video';
 
@@ -37,6 +37,7 @@ export type StateProps = {
     currentChannel?: Channel;
     isMobileView: boolean;
     crossTeamSearchEnabled: boolean;
+    mentionFilter: MentionFilter;
 }
 
 export type DispatchProps = {
@@ -56,6 +57,7 @@ export type DispatchProps = {
         openRHSSearch: () => void;
         getMoreFilesForSearch: (teamId: string) => void;
         filterFilesSearchByExt: (extensions: string[]) => void;
+        showMentions: (filter?: MentionFilter) => void;
     };
 }
 
