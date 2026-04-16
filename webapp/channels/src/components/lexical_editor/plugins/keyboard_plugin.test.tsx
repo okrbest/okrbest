@@ -6,11 +6,13 @@ import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
 
-import {isMobile} from 'utils/user_agent';
+import {isMobile} from '@mattermost/shared/utils/user_agent';
 
 import KeyboardPlugin from './keyboard_plugin';
 
-jest.mock('utils/user_agent');
+jest.mock('@mattermost/shared/utils/user_agent', () => ({
+    isMobile: jest.fn(),
+}));
 
 const TestEditor = ({onSubmit, onEscape}: {onSubmit: jest.Mock; onEscape?: jest.Mock}) => (
     <LexicalComposer initialConfig={{namespace: 'test', onError: jest.fn(), theme: {}}}>
