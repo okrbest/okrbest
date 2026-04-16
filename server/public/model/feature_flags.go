@@ -69,6 +69,10 @@ type FeatureFlags struct {
 
 	AttributeBasedAccessControl bool
 
+	// Enable permission policies (file upload/download ABAC policies).
+	// Requires AttributeBasedAccessControl to also be enabled.
+	PermissionPolicies bool
+
 	ContentFlagging bool
 
 	EnableOrgRoleManagement bool
@@ -126,6 +130,7 @@ func (f *FeatureFlags) SetDefaults() {
 	f.ExperimentalAuditSettingsSystemConsoleUI = true
 	f.CustomProfileAttributes = true
 	f.AttributeBasedAccessControl = true
+	f.PermissionPolicies = false
 	f.ContentFlagging = true
 	f.EnableOrgRoleManagement = true
 	f.InteractiveDialogAppsForm = true
