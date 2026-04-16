@@ -14,7 +14,7 @@ import {
 import {ListItemNode} from '@lexical/list';
 import {$getNearestNodeOfType} from '@lexical/utils';
 
-import {isMobile} from 'utils/user_agent';
+import {isMobile} from '@mattermost/shared/utils/user_agent';
 
 type Props = {
     onSubmit: () => void;
