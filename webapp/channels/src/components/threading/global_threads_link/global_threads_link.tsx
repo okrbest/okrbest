@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import React, {useCallback, useEffect} from 'react';
-import {useIntl} from 'react-intl';
+import {defineMessages, useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 import {Link, useRouteMatch, useLocation, matchPath} from 'react-router-dom';
 
@@ -23,6 +23,13 @@ import ThreadsIcon from './threads_icon';
 import {useThreadRouting} from '../hooks';
 
 import './global_threads_link.scss';
+
+const tooltipMessages = defineMessages({
+    urgentMention: {
+        id: 'channel_mention_badge.urgent_tooltip',
+        defaultMessage: 'You have an urgent mention',
+    },
+});
 
 const GlobalThreadsLink = () => {
     const {formatMessage} = useIntl();
@@ -92,6 +99,7 @@ const GlobalThreadsLink = () => {
                         <ChannelMentionBadge
                             unreadMentions={unreadThreadCount}
                             hasUrgent={Boolean(counts?.total_unread_urgent_mentions)}
+                            tooltip={counts?.total_unread_urgent_mentions ? tooltipMessages.urgentMention : undefined}
                         />
                     )}
                 </Link>
