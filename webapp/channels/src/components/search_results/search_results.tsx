@@ -376,7 +376,10 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     selected={searchType}
                     selectedFilter={searchFilterType}
                     isFileAttachmentsEnabled={isFileAttachmentsEnabled(config)}
-                    messagesCounter={isSearchAtEnd || props.searchPage === 0 ? `${results.length}` : `${results.length}+`}
+                    messagesCounter={(() => {
+                        const postCount = results.filter((item) => typeof item !== 'string' || !isDateLine(item)).length;
+                        return isSearchAtEnd || props.searchPage === 0 ? `${postCount}` : `${postCount}+`;
+                    })()}
                     filesCounter={isSearchFilesAtEnd || props.searchPage === 0 ? `${fileResults.length}` : `${fileResults.length}+`}
                     onChange={setSearchType}
                     onFilter={setSearchFilterType}
