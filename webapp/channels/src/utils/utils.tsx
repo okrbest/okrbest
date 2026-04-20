@@ -1291,9 +1291,14 @@ function isChannelOrPermalink(link: string) {
 }
 
 export async function handleFormattedTextClick(e: React.UIEvent, currentRelativeTeamUrl = '') {
-    const hashtagAttribute = (e.target as any).getAttributeNode('data-hashtag');
-    const linkAttribute = (e.target as any).getAttributeNode('data-link');
-    const channelMentionAttribute = (e.target as any).getAttributeNode('data-channel-mention');
+    const target = e.target as HTMLElement;
+    const hashtagElement = target.closest?.('[data-hashtag]') as HTMLElement | null;
+    const linkElement = target.closest?.('[data-link]') as HTMLElement | null;
+    const channelMentionElement = target.closest?.('[data-channel-mention]') as HTMLElement | null;
+
+    const hashtagAttribute = hashtagElement?.getAttributeNode('data-hashtag') ?? null;
+    const linkAttribute = linkElement?.getAttributeNode('data-link') ?? null;
+    const channelMentionAttribute = channelMentionElement?.getAttributeNode('data-channel-mention') ?? null;
 
     if (hashtagAttribute) {
         e.preventDefault();
