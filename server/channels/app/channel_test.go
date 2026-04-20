@@ -711,7 +711,6 @@ func TestGetDirectChannelCreatesChannelMemberHistoryRecord(t *testing.T) {
 }
 
 func TestAddUserToChannelCreatesChannelMemberHistoryRecord(t *testing.T) {
-	t.Skip("MM-67041")
 	mainHelper.Parallel(t)
 	th := Setup(t).InitBasic(t).DeleteBots(t)
 
@@ -726,11 +725,13 @@ func TestAddUserToChannelCreatesChannelMemberHistoryRecord(t *testing.T) {
 
 	channel := th.createChannel(t, th.BasicTeam, model.ChannelTypeOpen)
 
+	startTime := model.GetMillis()
 	_, appErr = th.App.AddUserToChannel(th.Context, user, channel, false)
 	require.Nil(t, appErr, "Failed to add user to channel.")
 
 	// there should be a ChannelMemberHistory record for the user
-	histories, nErr := th.App.Srv().Store().ChannelMemberHistory().GetUsersInChannelDuring(model.GetMillis()-100, model.GetMillis()+100, []string{channel.Id})
+	// Use a wide time window (±10s) to avoid flaky failures under CI load (MM-67041)
+	histories, nErr := th.App.Srv().Store().ChannelMemberHistory().GetUsersInChannelDuring(startTime-10000, model.GetMillis()+10000, []string{channel.Id})
 	require.NoError(t, nErr)
 	assert.Len(t, histories, 2)
 	channelMemberHistoryUserIds := make([]string, 0)
@@ -971,6 +972,10 @@ func TestLeaveLastChannel(t *testing.T) {
 }
 
 func TestAddChannelMemberNoUserRequestor(t *testing.T) {
+	// okrbest: upstream(5b810f91)이 시간 창을 ±10s로 넓혀 재활성화했으나 순서
+	// 비결정성은 남아 있다. GetUsersInChannelDuring은 ORDER BY JoinTime ASC뿐인데
+	// JoinTime이 밀리초라 두 가입이 같은 ms에 떨어지면 동률이 되고, 아래 단언은
+	// 순서를 고정으로 기대한다. 로컬 5회 중 3회 실패해 skip을 유지한다.
 	t.Skip("MM-67037")
 	mainHelper.Parallel(t)
 	th := Setup(t).InitBasic(t)
@@ -986,11 +991,13 @@ func TestAddChannelMemberNoUserRequestor(t *testing.T) {
 
 	channel := th.createChannel(t, th.BasicTeam, model.ChannelTypeOpen)
 
+	startTime := model.GetMillis()
 	_, appErr = th.App.AddChannelMember(th.Context, user.Id, channel, ChannelMemberOpts{})
 	require.Nil(t, appErr, "Failed to add user to channel.")
 
 	// there should be a ChannelMemberHistory record for the user
-	histories, nErr := th.App.Srv().Store().ChannelMemberHistory().GetUsersInChannelDuring(model.GetMillis()-100, model.GetMillis()+100, []string{channel.Id})
+	// Use a wide time window (±10s) to avoid flaky failures under CI load (MM-67037)
+	histories, nErr := th.App.Srv().Store().ChannelMemberHistory().GetUsersInChannelDuring(startTime-10000, model.GetMillis()+10000, []string{channel.Id})
 	require.NoError(t, nErr)
 	assert.Len(t, histories, 2)
 	channelMemberHistoryUserIds := make([]string, 0)
