@@ -1855,7 +1855,10 @@ func TestAutocompleteUsersInChannel(t *testing.T) {
 	})
 
 	t.Run("Check OutOfChannel results with/without VIEW_MEMBERS permissions", func(t *testing.T) {
-		t.Skip("https://mattermost.atlassian.net/browse/MM-61041")
+		// MM-61041: Re-enabled to collect failure data (17mo, "Broken Test").
+		// This subtest is fragile by design — shares th.Client with the parent,
+		// mutates global permissions/license/config. If it still fails, rewrite
+		// as focused app-layer unit tests rather than fixing shared state.
 
 		th.App.UpdateConfig(func(cfg *model.Config) { *cfg.GuestAccountsSettings.Enable = true })
 		th.App.Srv().SetLicense(model.NewTestLicense())
@@ -3910,8 +3913,10 @@ func TestUpdateUserHashedPassword(t *testing.T) {
 }
 
 func TestResetPassword(t *testing.T) {
+	// okrbest: upstream(5b810f91)이 재활성화했으나 로컬 2/2 실패해 skip을 유지한다.
+	// Inbucket은 정상 구동 중이고 메일에서 64자 토큰도 추출되는데 Token().GetByToken()이
+	// 못 찾는다 — 메일함 [0]번이 기대한 재설정 메일이 아닌 것으로 보인다.
 	t.Skip("test disabled during old build server changes, should be investigated")
-
 	th := Setup(t).InitBasic(t)
 	_, err := th.Client.Logout(context.Background())
 	require.NoError(t, err)
