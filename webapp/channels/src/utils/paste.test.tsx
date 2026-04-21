@@ -12,7 +12,9 @@ import {
     isTextUrl,
     hasPlainText,
     createFileFromClipboardDataItem,
-    pasteHandler, isKnownTargetForPaste,
+    pasteHandler,
+    isKnownTargetForPaste,
+    stripHashtagLinks,
 } from './paste';
 
 const validClipboardData: any = {
@@ -47,6 +49,33 @@ describe('getHtmlTable', () => {
 
     test('returns table from valid clipboard data', () => {
         expect(getHtmlTable(validClipboardData)).toEqual(validTable);
+    });
+});
+
+describe('stripHashtagLinks', () => {
+    test('should strip hashtag link with data-hashtag attribute', () => {
+        const html = '<a class="mention-link" href="#" data-hashtag="#홈피방문분석">#홈피방문분석</a>';
+        expect(stripHashtagLinks(html)).toBe('#홈피방문분석');
+    });
+
+    test('should strip hashtag link when browser resolves href to absolute URL', () => {
+        const html = '<a class="mention-link" href="http://localhost:8065/aaa/channels/off-topic#" data-hashtag="#홈피방문분석" style="box-sizing: border-box;">#홈피방문분석</a>';
+        expect(stripHashtagLinks(html)).toBe('#홈피방문분석');
+    });
+
+    test('should not strip regular links without data-hashtag', () => {
+        const html = '<a href="https://example.com">link text</a>';
+        expect(stripHashtagLinks(html)).toBe(html);
+    });
+
+    test('should strip multiple hashtag links in mixed content', () => {
+        const html = '텍스트 <a data-hashtag="#프로젝트" href="#">#프로젝트</a> 중간 <a data-hashtag="#진행중" href="#">#진행중</a> 끝';
+        expect(stripHashtagLinks(html)).toBe('텍스트 #프로젝트 중간 #진행중 끝');
+    });
+
+    test('should strip hashtag link when href appears before class', () => {
+        const html = '<a href="http://localhost:8065/channels/town-square#" class="mention-link">#프로젝트</a>';
+        expect(stripHashtagLinks(html)).toBe('#프로젝트');
     });
 });
 
@@ -98,6 +127,42 @@ describe('formatMarkdownMessage', () => {
         const markdownLink = '[link text](https://test.domain)';
 
         expect(formatMarkdownMessage(linkClipboardData).formattedMessage).toBe(markdownLink);
+    });
+
+    test('returns plain hashtag text when hashtag link is pasted', () => {
+        const hashtagClipboardData: any = {
+            items: [1],
+            types: ['text/html'],
+            getData: () => {
+                return '<a class="mention-link" href="#" data-hashtag="#홈피방문분석">#홈피방문분석</a>';
+            },
+        };
+
+        expect(formatMarkdownMessage(hashtagClipboardData).formattedMessage).toBe('#홈피방문분석');
+    });
+
+    test('returns plain hashtag text when browser resolves href to absolute URL', () => {
+        const hashtagClipboardData: any = {
+            items: [1],
+            types: ['text/html'],
+            getData: () => {
+                return '<a class="mention-link" href="http://localhost:8065/aaa/channels/off-topic#">#홈피방문분석</a>';
+            },
+        };
+
+        expect(formatMarkdownMessage(hashtagClipboardData).formattedMessage).toBe('#홈피방문분석');
+    });
+
+    test('returns plain hashtag with surrounding text when hashtag link is within content', () => {
+        const mixedClipboardData: any = {
+            items: [1],
+            types: ['text/html'],
+            getData: () => {
+                return '텍스트 <a class="mention-link" href="#" data-hashtag="#프로젝트">#프로젝트</a> 내용';
+            },
+        };
+
+        expect(formatMarkdownMessage(mixedClipboardData).formattedMessage).toBe('텍스트 #프로젝트 내용');
     });
 });
 
@@ -272,6 +337,28 @@ describe('pasteHandler', () => {
                 },
             },
             expectedMarkdown: '[link text](https://test.domain)',
+        },
+        {
+            testName: 'should paste hashtag as plain text instead of markdown link (with data-hashtag)',
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<a class="mention-link" href="#" data-hashtag="#홈피방문분석">#홈피방문분석</a>';
+                },
+            },
+            expectedMarkdown: '#홈피방문분석',
+        },
+        {
+            testName: 'should paste hashtag as plain text when browser resolves href to absolute URL',
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<a class="mention-link" href="http://localhost:8065/aaa/channels/off-topic#">#홈피방문분석</a>';
+                },
+            },
+            expectedMarkdown: '#홈피방문분석',
         },
         {
             testName: 'should be able to format a github codeblock (pasted as a table)',

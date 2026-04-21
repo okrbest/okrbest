@@ -71,8 +71,14 @@ function isTableWithoutHeaderRow(table: HTMLTableElement): boolean {
  * @property {string} formattedMessage - The formatted message, including the formatted Markdown.
  * @property {string} formattedMarkdown - The resulting Markdown from the HTML clipboard data.
  */
+export function stripHashtagLinks(html: string): string {
+    return html.
+        replace(/<a\s[^>]*data-hashtag="([^"]*)"[^>]*>[^<]*<\/a>/gi, '$1').
+        replace(/<a\s(?=[^>]*class="[^"]*mention-link[^"]*")(?=[^>]*href="[^"]*#")[^>]*>(#[^<]*)<\/a>/gi, '$1');
+}
+
 export function formatMarkdownMessage(clipboardData: DataTransfer, message?: string, caretPosition?: number): {formattedMessage: string; formattedMarkdown: string} {
-    const html = clipboardData.getData('text/html');
+    const html = stripHashtagLinks(clipboardData.getData('text/html'));
 
     let formattedMarkdown = turndownService.turndown(html).trim();
 

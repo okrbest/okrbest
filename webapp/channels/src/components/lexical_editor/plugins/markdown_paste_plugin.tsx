@@ -24,6 +24,9 @@ import {
 import type {LexicalEditor, LexicalNode, SerializedLexicalNode} from 'lexical';
 import {useEffect, useRef, type MutableRefObject} from 'react';
 
+import {stripHashtagLinks} from 'utils/paste';
+import turndownService from 'utils/turndown';
+
 import {CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE} from '../config/markdown_transformers';
 import {ChannelMentionNode} from '../nodes/channel_mention_node';
 import {EmojiNode} from '../nodes/emoji_node';
@@ -106,10 +109,37 @@ export default function MarkdownPastePlugin(): null {
                     return false;
                 }
 
+                const html = data.getData('text/html');
+                const strippedHtml = html ? stripHashtagLinks(html) : html;
+                const hasHashtagLink = html && strippedHtml !== html;
+
                 const plainRaw = data.getData('text/plain');
                 const plain = sanitizePlainForMarkdown(plainRaw);
-                if (!plain || !plainTextLooksLikeMarkdown(plain)) {
+                if (!hasHashtagLink && (!plain || !plainTextLooksLikeMarkdown(plain))) {
                     return false;
+                }
+
+                if (hasHashtagLink) {
+                    const hashtagText = turndownService.turndown(strippedHtml).trim();
+                    if (!hashtagText) {
+                        return false;
+                    }
+                    event.preventDefault();
+                    editor.update(
+                        () => {
+                            const selection = $getSelection();
+                            if ($isRangeSelection(selection)) {
+                                selection.insertText(hashtagText);
+                            } else {
+                                const root = $getRoot();
+                                const p = $createParagraphNode();
+                                p.append($createTextNode(hashtagText));
+                                root.append(p);
+                            }
+                        },
+                        {tag: PASTE_TAG},
+                    );
+                    return true;
                 }
 
                 event.preventDefault();
