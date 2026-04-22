@@ -102,6 +102,9 @@ type FeatureFlags struct {
 
 	// FEATURE_FLAG_REMOVAL: EnableAIRecaps - Remove this when GA is released
 	EnableAIRecaps bool
+
+	// Collect plugin metrics and serve them on the /metrics endpoint
+	AggregatePluginMetrics bool
 }
 
 func (f *FeatureFlags) SetDefaults() {
@@ -151,6 +154,8 @@ func (f *FeatureFlags) SetDefaults() {
 	f.EnableLexicalEditor = false
 
 	f.EnableAIRecaps = false
+
+	f.AggregatePluginMetrics = false
 }
 
 // ToMap returns the feature flags as a map[string]string
