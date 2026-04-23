@@ -120,6 +120,11 @@ const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
      * properties like aria-label, etc. get added to the DOM
      */
     const {mode, onClick, ...otherProps} = props;
+    const handleMouseDown = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+        // Keep the editor focused so formatting clicks do not disturb the textarea selection or scroll position.
+        // okrbest: Lexical contenteditable의 선택이 유지되는 것도 같은 이유다.
+        e.preventDefault();
+    }, []);
 
     /* get the correct Icon from the IconMap */
     const Icon = MAP_MARKDOWN_MODE_TO_ICON[mode];
@@ -131,11 +136,8 @@ const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
         <IconContainer
             type='button'
             id={props.id || `FormattingControl_${mode}`}
-            onMouseDown={(e) => {
-                // 포맷 버튼 클릭 시 contenteditable 포커스가 빠지지 않게 해야 Lexical 선택이 유지된다.
-                e.preventDefault();
-            }}
             onClick={onClick}
+            onMouseDown={handleMouseDown}
             aria-label={buttonAriaLabel}
             {...otherProps}
         >
