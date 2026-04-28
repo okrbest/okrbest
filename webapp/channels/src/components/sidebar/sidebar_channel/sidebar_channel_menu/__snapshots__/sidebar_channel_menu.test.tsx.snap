@@ -32,62 +32,14 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <div
     aria-hidden="true"
     id="root-portal"
-  >
-    <div
-      data-floating-ui-portal=""
-      id=":r3:"
-    >
-      <div
-        class="tooltipContainer hidden-xs"
-        role="tooltip"
-        style="position: absolute; left: 0px; top: 0px; opacity: 0; transform: translate(-8px, 0px); transition-property: opacity; transition-duration: 150ms;"
-        tabindex="-1"
-      >
-        <div
-          class="tooltipContent"
-        >
-          <span
-            class="tooltipContentTitleContainer"
-          >
-            <span
-              class="tooltipContentTitle"
-            >
-              Channel options
-            </span>
-          </span>
-        </div>
-        <svg
-          aria-hidden="true"
-          height="10"
-          style="position: absolute; pointer-events: none; top: 0px; left: calc(100% - 0px); transform: rotate(-90deg);"
-          viewBox="0 0 10 10"
-          width="10"
-        >
-          <path
-            d="M0,0 H10 L5,6 Q5,6 5,6 Z"
-            stroke="none"
-          />
-          <clippath
-            id=":r4:"
-          >
-            <rect
-              height="10"
-              width="10"
-              x="0"
-              y="0"
-            />
-          </clippath>
-        </svg>
-      </div>
-    </div>
-  </div>
+  />
   <div
-    class="MuiModal-root-jIscme ljbrzK MuiPopover-root-kLIimo MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
+    class="MuiModal-root-jIkgkT RTvUA MuiPopover-root-kMgVQh MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-eddran ljsZwq MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kyBuqW kaXbXK MuiModal-backdrop"
+      class="MuiBackdrop-root-edlnby bKKkeP MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kzahUP leuFnJ MuiModal-backdrop"
       id="backdropForMenuComponent"
       style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
@@ -96,19 +48,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       tabindex="0"
     />
     <div
-      class="MuiPaper-root-jrNovL xmIEL MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-mFrfA diqnhj MuiPopover-paper"
+      class="MuiPaper-root-jrVkwW iTkKlE MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-neeJt dhYXvw MuiPopover-paper"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 0px; left: 0px; transform-origin: 0px 0px;"
       tabindex="-1"
     >
       <ul
         aria-label="Edit channel menu"
-        class="MuiList-root-fLixwv kPjBep MuiList-root MuiList-padding"
+        class="MuiList-root-fKJJSC gDElgH MuiList-root MuiList-padding"
         id="SidebarChannelMenu-MenuList-channel_id"
         role="menu"
         tabindex="-1"
       >
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="channelOpenInNewWindow"
           role="menuitem"
           tabindex="0"
@@ -137,10 +89,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="markAsUnread-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -168,7 +120,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="favorite-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -200,7 +152,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="mute-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -229,14 +181,14 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="copyLink-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -265,7 +217,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <li
           aria-haspopup="true"
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="addMembers-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -301,10 +253,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY fMgZOu"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR chOaEk"
           id="leave-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -348,55 +300,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <div
     aria-hidden="true"
     id="root-portal"
-  >
-    <div
-      data-floating-ui-portal=""
-      id=":r1g:"
-    >
-      <div
-        class="tooltipContainer hidden-xs"
-        role="tooltip"
-        style="position: absolute; left: 0px; top: 0px; opacity: 0; transform: translate(-8px, 0px); transition-property: opacity; transition-duration: 150ms;"
-        tabindex="-1"
-      >
-        <div
-          class="tooltipContent"
-        >
-          <span
-            class="tooltipContentTitleContainer"
-          >
-            <span
-              class="tooltipContentTitle"
-            >
-              Channel options
-            </span>
-          </span>
-        </div>
-        <svg
-          aria-hidden="true"
-          height="10"
-          style="position: absolute; pointer-events: none; top: 0px; left: calc(100% - 0px); transform: rotate(-90deg);"
-          viewBox="0 0 10 10"
-          width="10"
-        >
-          <path
-            d="M0,0 H10 L5,6 Q5,6 5,6 Z"
-            stroke="none"
-          />
-          <clippath
-            id=":r1h:"
-          >
-            <rect
-              height="10"
-              width="10"
-              x="0"
-              y="0"
-            />
-          </clippath>
-        </svg>
-      </div>
-    </div>
-  </div>
+  />
   <div
     aria-hidden="true"
   >
@@ -423,12 +327,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     </button>
   </div>
   <div
-    class="MuiModal-root-jIscme ljbrzK MuiPopover-root-kLIimo MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
+    class="MuiModal-root-jIkgkT RTvUA MuiPopover-root-kMgVQh MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-eddran ljsZwq MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kyBuqW kaXbXK MuiModal-backdrop"
+      class="MuiBackdrop-root-edlnby bKKkeP MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kzahUP leuFnJ MuiModal-backdrop"
       id="backdropForMenuComponent"
       style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
@@ -437,19 +341,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       tabindex="0"
     />
     <div
-      class="MuiPaper-root-jrNovL xmIEL MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-mFrfA diqnhj MuiPopover-paper"
+      class="MuiPaper-root-jrVkwW iTkKlE MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-neeJt dhYXvw MuiPopover-paper"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 0px; left: 0px; transform-origin: 0px 0px;"
       tabindex="-1"
     >
       <ul
         aria-label="Edit channel menu"
-        class="MuiList-root-fLixwv kPjBep MuiList-root MuiList-padding"
+        class="MuiList-root-fKJJSC gDElgH MuiList-root MuiList-padding"
         id="SidebarChannelMenu-MenuList-channel_id"
         role="menu"
         tabindex="-1"
       >
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="channelOpenInNewWindow"
           role="menuitem"
           tabindex="0"
@@ -478,10 +382,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="markAsUnread-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -509,7 +413,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="favorite-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -541,7 +445,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="mute-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -570,14 +474,14 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="copyLink-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -606,7 +510,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <li
           aria-haspopup="true"
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="addMembers-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -642,10 +546,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY fMgZOu"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR chOaEk"
           id="leave-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -689,55 +593,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <div
     aria-hidden="true"
     id="root-portal"
-  >
-    <div
-      data-floating-ui-portal=""
-      id=":r1b:"
-    >
-      <div
-        class="tooltipContainer hidden-xs"
-        role="tooltip"
-        style="position: absolute; left: 0px; top: 0px; opacity: 0; transform: translate(-8px, 0px); transition-property: opacity; transition-duration: 150ms;"
-        tabindex="-1"
-      >
-        <div
-          class="tooltipContent"
-        >
-          <span
-            class="tooltipContentTitleContainer"
-          >
-            <span
-              class="tooltipContentTitle"
-            >
-              Channel options
-            </span>
-          </span>
-        </div>
-        <svg
-          aria-hidden="true"
-          height="10"
-          style="position: absolute; pointer-events: none; top: 0px; left: calc(100% - 0px); transform: rotate(-90deg);"
-          viewBox="0 0 10 10"
-          width="10"
-        >
-          <path
-            d="M0,0 H10 L5,6 Q5,6 5,6 Z"
-            stroke="none"
-          />
-          <clippath
-            id=":r1c:"
-          >
-            <rect
-              height="10"
-              width="10"
-              x="0"
-              y="0"
-            />
-          </clippath>
-        </svg>
-      </div>
-    </div>
-  </div>
+  />
   <div
     aria-hidden="true"
   >
@@ -764,12 +620,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     </button>
   </div>
   <div
-    class="MuiModal-root-jIscme ljbrzK MuiPopover-root-kLIimo MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
+    class="MuiModal-root-jIkgkT RTvUA MuiPopover-root-kMgVQh MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-eddran ljsZwq MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kyBuqW kaXbXK MuiModal-backdrop"
+      class="MuiBackdrop-root-edlnby bKKkeP MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kzahUP leuFnJ MuiModal-backdrop"
       id="backdropForMenuComponent"
       style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
@@ -778,19 +634,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       tabindex="0"
     />
     <div
-      class="MuiPaper-root-jrNovL xmIEL MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-mFrfA diqnhj MuiPopover-paper"
+      class="MuiPaper-root-jrVkwW iTkKlE MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-neeJt dhYXvw MuiPopover-paper"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 0px; left: 0px; transform-origin: 0px 0px;"
       tabindex="-1"
     >
       <ul
         aria-label="Edit channel menu"
-        class="MuiList-root-fLixwv kPjBep MuiList-root MuiList-padding"
+        class="MuiList-root-fKJJSC gDElgH MuiList-root MuiList-padding"
         id="SidebarChannelMenu-MenuList-channel_id"
         role="menu"
         tabindex="-1"
       >
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="channelOpenInNewWindow"
           role="menuitem"
           tabindex="0"
@@ -819,10 +675,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="markAsUnread-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -850,7 +706,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="favorite-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -882,7 +738,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="mute-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -911,14 +767,14 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="copyLink-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -947,7 +803,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <li
           aria-haspopup="true"
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="addMembers-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -983,10 +839,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY fMgZOu"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR chOaEk"
           id="leave-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1030,55 +886,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   <div
     aria-hidden="true"
     id="root-portal"
-  >
-    <div
-      data-floating-ui-portal=""
-      id=":r11:"
-    >
-      <div
-        class="tooltipContainer hidden-xs"
-        role="tooltip"
-        style="position: absolute; left: 0px; top: 0px; opacity: 0; transform: translate(-8px, 0px); transition-property: opacity; transition-duration: 150ms;"
-        tabindex="-1"
-      >
-        <div
-          class="tooltipContent"
-        >
-          <span
-            class="tooltipContentTitleContainer"
-          >
-            <span
-              class="tooltipContentTitle"
-            >
-              Channel options
-            </span>
-          </span>
-        </div>
-        <svg
-          aria-hidden="true"
-          height="10"
-          style="position: absolute; pointer-events: none; top: 0px; left: calc(100% - 0px); transform: rotate(-90deg);"
-          viewBox="0 0 10 10"
-          width="10"
-        >
-          <path
-            d="M0,0 H10 L5,6 Q5,6 5,6 Z"
-            stroke="none"
-          />
-          <clippath
-            id=":r12:"
-          >
-            <rect
-              height="10"
-              width="10"
-              x="0"
-              y="0"
-            />
-          </clippath>
-        </svg>
-      </div>
-    </div>
-  </div>
+  />
   <div
     aria-hidden="true"
   >
@@ -1105,12 +913,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     </button>
   </div>
   <div
-    class="MuiModal-root-jIscme ljbrzK MuiPopover-root-kLIimo MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
+    class="MuiModal-root-jIkgkT RTvUA MuiPopover-root-kMgVQh MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-eddran ljsZwq MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kyBuqW kaXbXK MuiModal-backdrop"
+      class="MuiBackdrop-root-edlnby bKKkeP MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kzahUP leuFnJ MuiModal-backdrop"
       id="backdropForMenuComponent"
       style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
@@ -1119,19 +927,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       tabindex="0"
     />
     <div
-      class="MuiPaper-root-jrNovL xmIEL MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-mFrfA diqnhj MuiPopover-paper"
+      class="MuiPaper-root-jrVkwW iTkKlE MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-neeJt dhYXvw MuiPopover-paper"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 0px; left: 0px; transform-origin: 0px 0px;"
       tabindex="-1"
     >
       <ul
         aria-label="Edit channel menu"
-        class="MuiList-root-fLixwv kPjBep MuiList-root MuiList-padding"
+        class="MuiList-root-fKJJSC gDElgH MuiList-root MuiList-padding"
         id="SidebarChannelMenu-MenuList-channel_id"
         role="menu"
         tabindex="-1"
       >
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="channelOpenInNewWindow"
           role="menuitem"
           tabindex="0"
@@ -1160,10 +968,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="markAsUnread-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1191,7 +999,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="favorite-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1223,7 +1031,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="mute-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1252,14 +1060,14 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY fMgZOu"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR chOaEk"
           id="leave-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1303,55 +1111,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   <div
     aria-hidden="true"
     id="root-portal"
-  >
-    <div
-      data-floating-ui-portal=""
-      id=":r16:"
-    >
-      <div
-        class="tooltipContainer hidden-xs"
-        role="tooltip"
-        style="position: absolute; left: 0px; top: 0px; opacity: 0; transform: translate(-8px, 0px); transition-property: opacity; transition-duration: 150ms;"
-        tabindex="-1"
-      >
-        <div
-          class="tooltipContent"
-        >
-          <span
-            class="tooltipContentTitleContainer"
-          >
-            <span
-              class="tooltipContentTitle"
-            >
-              Channel options
-            </span>
-          </span>
-        </div>
-        <svg
-          aria-hidden="true"
-          height="10"
-          style="position: absolute; pointer-events: none; top: 0px; left: calc(100% - 0px); transform: rotate(-90deg);"
-          viewBox="0 0 10 10"
-          width="10"
-        >
-          <path
-            d="M0,0 H10 L5,6 Q5,6 5,6 Z"
-            stroke="none"
-          />
-          <clippath
-            id=":r17:"
-          >
-            <rect
-              height="10"
-              width="10"
-              x="0"
-              y="0"
-            />
-          </clippath>
-        </svg>
-      </div>
-    </div>
-  </div>
+  />
   <div
     aria-hidden="true"
   >
@@ -1378,12 +1138,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     </button>
   </div>
   <div
-    class="MuiModal-root-jIscme ljbrzK MuiPopover-root-kLIimo MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
+    class="MuiModal-root-jIkgkT RTvUA MuiPopover-root-kMgVQh MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-eddran ljsZwq MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kyBuqW kaXbXK MuiModal-backdrop"
+      class="MuiBackdrop-root-edlnby bKKkeP MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kzahUP leuFnJ MuiModal-backdrop"
       id="backdropForMenuComponent"
       style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
@@ -1392,19 +1152,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       tabindex="0"
     />
     <div
-      class="MuiPaper-root-jrNovL xmIEL MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-mFrfA diqnhj MuiPopover-paper"
+      class="MuiPaper-root-jrVkwW iTkKlE MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-neeJt dhYXvw MuiPopover-paper"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 0px; left: 0px; transform-origin: 0px 0px;"
       tabindex="-1"
     >
       <ul
         aria-label="Edit channel menu"
-        class="MuiList-root-fLixwv kPjBep MuiList-root MuiList-padding"
+        class="MuiList-root-fKJJSC gDElgH MuiList-root MuiList-padding"
         id="SidebarChannelMenu-MenuList-channel_id"
         role="menu"
         tabindex="-1"
       >
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="channelOpenInNewWindow"
           role="menuitem"
           tabindex="0"
@@ -1433,10 +1193,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="markAsUnread-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1464,7 +1224,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="favorite-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1496,7 +1256,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="mute-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1525,14 +1285,14 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="copyLink-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1561,7 +1321,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <li
           aria-haspopup="true"
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="addMembers-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1612,55 +1372,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   <div
     aria-hidden="true"
     id="root-portal"
-  >
-    <div
-      data-floating-ui-portal=""
-      id=":ri:"
-    >
-      <div
-        class="tooltipContainer hidden-xs"
-        role="tooltip"
-        style="position: absolute; left: 0px; top: 0px; opacity: 0; transform: translate(-8px, 0px); transition-property: opacity; transition-duration: 150ms;"
-        tabindex="-1"
-      >
-        <div
-          class="tooltipContent"
-        >
-          <span
-            class="tooltipContentTitleContainer"
-          >
-            <span
-              class="tooltipContentTitle"
-            >
-              Channel options
-            </span>
-          </span>
-        </div>
-        <svg
-          aria-hidden="true"
-          height="10"
-          style="position: absolute; pointer-events: none; top: 0px; left: calc(100% - 0px); transform: rotate(-90deg);"
-          viewBox="0 0 10 10"
-          width="10"
-        >
-          <path
-            d="M0,0 H10 L5,6 Q5,6 5,6 Z"
-            stroke="none"
-          />
-          <clippath
-            id=":rj:"
-          >
-            <rect
-              height="10"
-              width="10"
-              x="0"
-              y="0"
-            />
-          </clippath>
-        </svg>
-      </div>
-    </div>
-  </div>
+  />
   <div
     aria-hidden="true"
   >
@@ -1687,12 +1399,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     </button>
   </div>
   <div
-    class="MuiModal-root-jIscme ljbrzK MuiPopover-root-kLIimo MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
+    class="MuiModal-root-jIkgkT RTvUA MuiPopover-root-kMgVQh MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-eddran ljsZwq MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kyBuqW kaXbXK MuiModal-backdrop"
+      class="MuiBackdrop-root-edlnby bKKkeP MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kzahUP leuFnJ MuiModal-backdrop"
       id="backdropForMenuComponent"
       style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
@@ -1701,19 +1413,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       tabindex="0"
     />
     <div
-      class="MuiPaper-root-jrNovL xmIEL MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-mFrfA diqnhj MuiPopover-paper"
+      class="MuiPaper-root-jrVkwW iTkKlE MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-neeJt dhYXvw MuiPopover-paper"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 0px; left: 0px; transform-origin: 0px 0px;"
       tabindex="-1"
     >
       <ul
         aria-label="Edit channel menu"
-        class="MuiList-root-fLixwv kPjBep MuiList-root MuiList-padding"
+        class="MuiList-root-fKJJSC gDElgH MuiList-root MuiList-padding"
         id="SidebarChannelMenu-MenuList-channel_id"
         role="menu"
         tabindex="-1"
       >
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="channelOpenInNewWindow"
           role="menuitem"
           tabindex="0"
@@ -1742,10 +1454,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="markAsUnread-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1773,7 +1485,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="unfavorite-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1802,7 +1514,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="mute-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1831,14 +1543,14 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="copyLink-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1867,7 +1579,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <li
           aria-haspopup="true"
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="addMembers-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1903,10 +1615,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY fMgZOu"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR chOaEk"
           id="leave-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -1950,55 +1662,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   <div
     aria-hidden="true"
     id="root-portal"
-  >
-    <div
-      data-floating-ui-portal=""
-      id=":rn:"
-    >
-      <div
-        class="tooltipContainer hidden-xs"
-        role="tooltip"
-        style="position: absolute; left: 0px; top: 0px; opacity: 0; transform: translate(-8px, 0px); transition-property: opacity; transition-duration: 150ms;"
-        tabindex="-1"
-      >
-        <div
-          class="tooltipContent"
-        >
-          <span
-            class="tooltipContentTitleContainer"
-          >
-            <span
-              class="tooltipContentTitle"
-            >
-              Channel options
-            </span>
-          </span>
-        </div>
-        <svg
-          aria-hidden="true"
-          height="10"
-          style="position: absolute; pointer-events: none; top: 0px; left: calc(100% - 0px); transform: rotate(-90deg);"
-          viewBox="0 0 10 10"
-          width="10"
-        >
-          <path
-            d="M0,0 H10 L5,6 Q5,6 5,6 Z"
-            stroke="none"
-          />
-          <clippath
-            id=":ro:"
-          >
-            <rect
-              height="10"
-              width="10"
-              x="0"
-              y="0"
-            />
-          </clippath>
-        </svg>
-      </div>
-    </div>
-  </div>
+  />
   <div
     aria-hidden="true"
   >
@@ -2025,12 +1689,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     </button>
   </div>
   <div
-    class="MuiModal-root-jIscme ljbrzK MuiPopover-root-kLIimo MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
+    class="MuiModal-root-jIkgkT RTvUA MuiPopover-root-kMgVQh MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-eddran ljsZwq MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kyBuqW kaXbXK MuiModal-backdrop"
+      class="MuiBackdrop-root-edlnby bKKkeP MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kzahUP leuFnJ MuiModal-backdrop"
       id="backdropForMenuComponent"
       style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
@@ -2039,19 +1703,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       tabindex="0"
     />
     <div
-      class="MuiPaper-root-jrNovL xmIEL MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-mFrfA diqnhj MuiPopover-paper"
+      class="MuiPaper-root-jrVkwW iTkKlE MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-neeJt dhYXvw MuiPopover-paper"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 0px; left: 0px; transform-origin: 0px 0px;"
       tabindex="-1"
     >
       <ul
         aria-label="Edit channel menu"
-        class="MuiList-root-fLixwv kPjBep MuiList-root MuiList-padding"
+        class="MuiList-root-fKJJSC gDElgH MuiList-root MuiList-padding"
         id="SidebarChannelMenu-MenuList-channel_id"
         role="menu"
         tabindex="-1"
       >
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="channelOpenInNewWindow"
           role="menuitem"
           tabindex="0"
@@ -2080,10 +1744,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="markAsUnread-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2111,7 +1775,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="favorite-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2143,7 +1807,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="unmute-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2172,14 +1836,14 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="copyLink-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2208,7 +1872,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <li
           aria-haspopup="true"
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="addMembers-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2244,10 +1908,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY fMgZOu"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR chOaEk"
           id="leave-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2291,55 +1955,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   <div
     aria-hidden="true"
     id="root-portal"
-  >
-    <div
-      data-floating-ui-portal=""
-      id=":rs:"
-    >
-      <div
-        class="tooltipContainer hidden-xs"
-        role="tooltip"
-        style="position: absolute; left: 0px; top: 0px; opacity: 0; transform: translate(-8px, 0px); transition-property: opacity; transition-duration: 150ms;"
-        tabindex="-1"
-      >
-        <div
-          class="tooltipContent"
-        >
-          <span
-            class="tooltipContentTitleContainer"
-          >
-            <span
-              class="tooltipContentTitle"
-            >
-              Channel options
-            </span>
-          </span>
-        </div>
-        <svg
-          aria-hidden="true"
-          height="10"
-          style="position: absolute; pointer-events: none; top: 0px; left: calc(100% - 0px); transform: rotate(-90deg);"
-          viewBox="0 0 10 10"
-          width="10"
-        >
-          <path
-            d="M0,0 H10 L5,6 Q5,6 5,6 Z"
-            stroke="none"
-          />
-          <clippath
-            id=":rt:"
-          >
-            <rect
-              height="10"
-              width="10"
-              x="0"
-              y="0"
-            />
-          </clippath>
-        </svg>
-      </div>
-    </div>
-  </div>
+  />
   <div
     aria-hidden="true"
   >
@@ -2366,12 +1982,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     </button>
   </div>
   <div
-    class="MuiModal-root-jIscme ljbrzK MuiPopover-root-kLIimo MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
+    class="MuiModal-root-jIkgkT RTvUA MuiPopover-root-kMgVQh MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-eddran ljsZwq MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kyBuqW kaXbXK MuiModal-backdrop"
+      class="MuiBackdrop-root-edlnby bKKkeP MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kzahUP leuFnJ MuiModal-backdrop"
       id="backdropForMenuComponent"
       style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
@@ -2380,19 +1996,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       tabindex="0"
     />
     <div
-      class="MuiPaper-root-jrNovL xmIEL MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-mFrfA diqnhj MuiPopover-paper"
+      class="MuiPaper-root-jrVkwW iTkKlE MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-neeJt dhYXvw MuiPopover-paper"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 0px; left: 0px; transform-origin: 0px 0px;"
       tabindex="-1"
     >
       <ul
         aria-label="Edit channel menu"
-        class="MuiList-root-fLixwv kPjBep MuiList-root MuiList-padding"
+        class="MuiList-root-fKJJSC gDElgH MuiList-root MuiList-padding"
         id="SidebarChannelMenu-MenuList-channel_id"
         role="menu"
         tabindex="-1"
       >
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="channelOpenInNewWindow"
           role="menuitem"
           tabindex="0"
@@ -2421,10 +2037,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="markAsUnread-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2452,7 +2068,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="favorite-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2484,7 +2100,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="mute-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2513,14 +2129,14 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="copyLink-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2549,7 +2165,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <li
           aria-haspopup="true"
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="addMembers-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2585,10 +2201,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY fMgZOu"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR chOaEk"
           id="leave-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2632,55 +2248,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   <div
     aria-hidden="true"
     id="root-portal"
-  >
-    <div
-      data-floating-ui-portal=""
-      id=":rd:"
-    >
-      <div
-        class="tooltipContainer hidden-xs"
-        role="tooltip"
-        style="position: absolute; left: 0px; top: 0px; opacity: 0; transform: translate(-8px, 0px); transition-property: opacity; transition-duration: 150ms;"
-        tabindex="-1"
-      >
-        <div
-          class="tooltipContent"
-        >
-          <span
-            class="tooltipContentTitleContainer"
-          >
-            <span
-              class="tooltipContentTitle"
-            >
-              Channel options
-            </span>
-          </span>
-        </div>
-        <svg
-          aria-hidden="true"
-          height="10"
-          style="position: absolute; pointer-events: none; top: 0px; left: calc(100% - 0px); transform: rotate(-90deg);"
-          viewBox="0 0 10 10"
-          width="10"
-        >
-          <path
-            d="M0,0 H10 L5,6 Q5,6 5,6 Z"
-            stroke="none"
-          />
-          <clippath
-            id=":re:"
-          >
-            <rect
-              height="10"
-              width="10"
-              x="0"
-              y="0"
-            />
-          </clippath>
-        </svg>
-      </div>
-    </div>
-  </div>
+  />
   <div
     aria-hidden="true"
   >
@@ -2707,12 +2275,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     </button>
   </div>
   <div
-    class="MuiModal-root-jIscme ljbrzK MuiPopover-root-kLIimo MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
+    class="MuiModal-root-jIkgkT RTvUA MuiPopover-root-kMgVQh MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-eddran ljsZwq MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kyBuqW kaXbXK MuiModal-backdrop"
+      class="MuiBackdrop-root-edlnby bKKkeP MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kzahUP leuFnJ MuiModal-backdrop"
       id="backdropForMenuComponent"
       style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
@@ -2721,19 +2289,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       tabindex="0"
     />
     <div
-      class="MuiPaper-root-jrNovL xmIEL MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-mFrfA diqnhj MuiPopover-paper"
+      class="MuiPaper-root-jrVkwW iTkKlE MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-neeJt dhYXvw MuiPopover-paper"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 0px; left: 0px; transform-origin: 0px 0px;"
       tabindex="-1"
     >
       <ul
         aria-label="Edit channel menu"
-        class="MuiList-root-fLixwv kPjBep MuiList-root MuiList-padding"
+        class="MuiList-root-fKJJSC gDElgH MuiList-root MuiList-padding"
         id="SidebarChannelMenu-MenuList-channel_id"
         role="menu"
         tabindex="-1"
       >
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="channelOpenInNewWindow"
           role="menuitem"
           tabindex="0"
@@ -2762,10 +2330,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="markAsUnread-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2793,7 +2361,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="favorite-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2825,7 +2393,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="mute-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2854,14 +2422,14 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="copyLink-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2890,7 +2458,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <li
           aria-haspopup="true"
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="addMembers-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2926,10 +2494,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY fMgZOu"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR chOaEk"
           id="leave-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -2973,55 +2541,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   <div
     aria-hidden="true"
     id="root-portal"
-  >
-    <div
-      data-floating-ui-portal=""
-      id=":r8:"
-    >
-      <div
-        class="tooltipContainer hidden-xs"
-        role="tooltip"
-        style="position: absolute; left: 0px; top: 0px; opacity: 0; transform: translate(-8px, 0px); transition-property: opacity; transition-duration: 150ms;"
-        tabindex="-1"
-      >
-        <div
-          class="tooltipContent"
-        >
-          <span
-            class="tooltipContentTitleContainer"
-          >
-            <span
-              class="tooltipContentTitle"
-            >
-              Channel options
-            </span>
-          </span>
-        </div>
-        <svg
-          aria-hidden="true"
-          height="10"
-          style="position: absolute; pointer-events: none; top: 0px; left: calc(100% - 0px); transform: rotate(-90deg);"
-          viewBox="0 0 10 10"
-          width="10"
-        >
-          <path
-            d="M0,0 H10 L5,6 Q5,6 5,6 Z"
-            stroke="none"
-          />
-          <clippath
-            id=":r9:"
-          >
-            <rect
-              height="10"
-              width="10"
-              x="0"
-              y="0"
-            />
-          </clippath>
-        </svg>
-      </div>
-    </div>
-  </div>
+  />
   <div
     aria-hidden="true"
   >
@@ -3048,12 +2568,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     </button>
   </div>
   <div
-    class="MuiModal-root-jIscme ljbrzK MuiPopover-root-kLIimo MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
+    class="MuiModal-root-jIkgkT RTvUA MuiPopover-root-kMgVQh MuiPopover-root a11y__popup menu_menuStyled MuiModal-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-eddran ljsZwq MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kyBuqW kaXbXK MuiModal-backdrop"
+      class="MuiBackdrop-root-edlnby bKKkeP MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop-kzahUP leuFnJ MuiModal-backdrop"
       id="backdropForMenuComponent"
       style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
@@ -3062,19 +2582,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       tabindex="0"
     />
     <div
-      class="MuiPaper-root-jrNovL xmIEL MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-mFrfA diqnhj MuiPopover-paper"
+      class="MuiPaper-root-jrVkwW iTkKlE MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper-neeJt dhYXvw MuiPopover-paper"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 0px; left: 0px; transform-origin: 0px 0px;"
       tabindex="-1"
     >
       <ul
         aria-label="Edit channel menu"
-        class="MuiList-root-fLixwv kPjBep MuiList-root MuiList-padding"
+        class="MuiList-root-fKJJSC gDElgH MuiList-root MuiList-padding"
         id="SidebarChannelMenu-MenuList-channel_id"
         role="menu"
         tabindex="-1"
       >
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="channelOpenInNewWindow"
           role="menuitem"
           tabindex="0"
@@ -3103,10 +2623,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="markAsRead-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -3134,7 +2654,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="favorite-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -3166,7 +2686,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
           </div>
         </li>
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="mute-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -3195,14 +2715,14 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="copyLink-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -3231,7 +2751,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <li
           aria-haspopup="true"
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY jmUrfe"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR koIPww"
           id="addMembers-channel_id"
           role="menuitem"
           tabindex="-1"
@@ -3267,10 +2787,10 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         </li>
         <hr
           aria-orientation="vertical"
-          class="MuiDivider-root-ermPAM jKcMpH MuiDivider-root MuiDivider-fullWidth"
+          class="MuiDivider-root-erLDeF cViEdA MuiDivider-root MuiDivider-fullWidth"
         />
         <li
-          class="MuiButtonBase-root-JDVeC cxEgXn MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXjcMb iLWjgG MuiMenuItem-root MuiMenuItem-gutters sc-grYavY fMgZOu"
+          class="MuiButtonBase-root-JvZdr dKFJFs MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root-dXqYNm kIRdVO MuiMenuItem-root MuiMenuItem-gutters sc-gswNZR chOaEk"
           id="leave-channel_id"
           role="menuitem"
           tabindex="-1"
