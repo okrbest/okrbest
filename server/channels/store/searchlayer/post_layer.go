@@ -205,3 +205,7 @@ func (s SearchPostStore) SearchPostsForUser(rctx request.CTX, paramsList []*mode
 
 	return s.PostStore.SearchPostsForUser(rctx, paramsList, userId, teamId, page, perPage)
 }
+
+func (s SearchPostStore) SearchRecentMentions(rctx request.CTX, userID string, mentionTerms []string, page, perPage int) (*model.PostSearchResults, error) {
+	return s.PostStore.SearchRecentMentions(rctx, userID, mentionTerms, page, perPage)
+}
