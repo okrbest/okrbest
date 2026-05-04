@@ -1,10 +1,10 @@
 # upstream-master 미반영 커밋 목록
 
-`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-21 10:25
-- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 갱신일: 2026-08-21 10:34
+- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 724개
 
 **마지막 반영 커밋:** `1b7b15b1` | [MM-67931: Prepackage the FIPS flavour of Playbooks v2.8.1 (#36387) (#36391)](https://github.com/mattermost/mattermost/commit/1b7b15b1212b89b5e66ff6b3b2e9a5afd28d8222) | 2026-05-04
