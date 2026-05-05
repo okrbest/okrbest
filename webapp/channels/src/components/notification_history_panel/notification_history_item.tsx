@@ -6,9 +6,9 @@ import React, {useCallback} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {WithTooltip} from '@mattermost/shared/components/tooltip';
 
-import WithTooltip from 'components/with_tooltip';
+import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {getHistory} from 'utils/browser_history';
 
