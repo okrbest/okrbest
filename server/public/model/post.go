@@ -60,6 +60,9 @@ const (
 	PostCustomTypePrefix          = "custom_"
 	PostTypeReminder              = "reminder"
 	PostTypeBurnOnRead            = "burn_on_read"
+	// PostTypeSharedChannelState is a system post for share/unshare events; the client translates using props.
+	// Name must fit Posts.Type varchar(26) (see store migrations).
+	PostTypeSharedChannelState = "system_shared_chan_state"
 
 	PostFileidsMaxRunes   = 300
 	PostFilenamesMaxRunes = 4000
@@ -101,6 +104,9 @@ const (
 	PostPropsAIGeneratedByUsername    = "ai_generated_by_username"
 	PostPropsExpireAt                 = "expire_at"
 	PostPropsReadDurationSeconds      = "read_duration"
+	// Shared-channel state posts (PostTypeSharedChannelState): props for client-side i18n.
+	PostPropsSharedChannelState         = "shared_channel_state"
+	PostPropsSharedChannelWorkspaceName = "workspace_name"
 
 	PostPriorityUrgent = "urgent"
 
@@ -108,6 +114,12 @@ const (
 	DefaultReadDurationSeconds = 10 * 60          // 10 minutes
 
 	PostContextKeyIsScheduledPost PostContextKey = "isScheduledPost"
+)
+
+// Values for PostPropsSharedChannelState on posts with Type PostTypeSharedChannelState.
+const (
+	SharedChannelStatePostValueShared   = "shared"
+	SharedChannelStatePostValueUnshared = "unshared"
 )
 
 type Post struct {
@@ -533,7 +545,8 @@ func (o *Post) IsValid(maxPostSize int) *AppError {
 		PostTypeWrangler,
 		PostTypeGMConvertedToChannel,
 		PostTypeAutotranslationChange,
-		PostTypeBurnOnRead:
+		PostTypeBurnOnRead,
+		PostTypeSharedChannelState:
 	default:
 		if !strings.HasPrefix(o.Type, PostCustomTypePrefix) {
 			return NewAppError("Post.IsValid", "model.post.is_valid.type.app_error", nil, "id="+o.Type, http.StatusBadRequest)
