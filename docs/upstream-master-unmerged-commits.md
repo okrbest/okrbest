@@ -1,13 +1,13 @@
 # upstream-master 미반영 커밋 목록
 
-`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-21 12:21
-- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 716개
+- 갱신일: 2026-08-21 13:37
+- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 715개
 
-**마지막 반영 커밋:** `8f9b08f0` | [MM-56762: Bookmarks overflow menu with drag-and-drop reordering (#35118)](https://github.com/mattermost/mattermost/commit/8f9b08f07b23420d58f675f59ddbd56258a81d83) | 2026-05-04
+**마지막 반영 커밋:** `e4360876` | [docs: clarify PR template rules in AGENTS.md (#36422)](https://github.com/mattermost/mattermost/commit/e43608762d4e781fbadbc88d1f7b35d89c1c3d06) | 2026-05-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
@@ -19,7 +19,6 @@
 | ebc066e7 | [\[MM-68273\] Add system messages for share / unshare events (#36032)](https://github.com/mattermost/mattermost/commit/ebc066e7fdbcf6fd4409b51a8fd307de51947e43) | 2026-05-05 |
 | 0502d6b3 | [\[MM-68655\] Surface RPC errors from plugin hooks (#36414)](https://github.com/mattermost/mattermost/commit/0502d6b3c59ede0e625a718f338b28e46245d275) | 2026-05-05 |
 | dd9d1612 | [MM-68149: upgrade mattermost-server-build images to Go 1.26.2 (#36419)](https://github.com/mattermost/mattermost/commit/dd9d16128cbf77fb009de92b17b6f941aa255054) | 2026-05-05 |
-| e4360876 | [docs: clarify PR template rules in AGENTS.md (#36422)](https://github.com/mattermost/mattermost/commit/e43608762d4e781fbadbc88d1f7b35d89c1c3d06) | 2026-05-05 |
 | c787d065 | [MM-68494 Directly import WithTooltip/ShortcutKey from shared package (#36270)](https://github.com/mattermost/mattermost/commit/c787d06506ee3771a5903563b1f5f478211278ac) | 2026-05-05 |
 | 2b753c49 | [Remove unused GetChannelCounts store and app methods (#36351)](https://github.com/mattermost/mattermost/commit/2b753c49f2297ecc0144442f9aa6e932d5b3f8cd) | 2026-05-05 |
 | 71fb5b1e | [fix: tolerate concurrent update conflicts in content flagging migration (#36421)](https://github.com/mattermost/mattermost/commit/71fb5b1e549e8dd099822f1fb3c7a10f9ceea484) | 2026-05-05 |
@@ -836,6 +835,8 @@
 | 2b7b398a | [\[MM-68102\] Add Classification Markings admin console page (#35934)](https://github.com/mattermost/mattermost/commit/2b7b398a2225d166cfe6eb7b6796d037c0dcef87) | 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2 위에 얹힌 신규 기능이라 반영할 토대가 없음 — 006f1027·3cb00848·01219efb·3fa87760·7627784a·9d33d87e·9c684e63·5b4efbd2에 이은 48f2fd08 계보 10번째. 시스템 콘솔에 분류 표시(Classification Markings) 관리 페이지를 신설해 보안 등급을 이름·색상·프리셋으로 관리하는 기능인데, 등급 데이터를 PropertyField/PropertyValue로 저장하므로 property 시스템 v2가 전제다. 필요한 선행 요소가 전부 부재 — (1) 핵심 파일 server/channels/api4/properties.go와 properties_test.go가 우리 트리에 아예 없음(ls 실패, merge-tree modify/delete CONFLICT 2건), (2) 이 커밋의 서버 변경 2줄이 property CRUD 라우트 게이트를 FeatureFlags.IntegratedBoards → IntegratedBoards \|\| ClassificationMarkings로 넓히는 것인데 우리에겐 그 라우트 자체가 없음, (3) 우리 webapp PropertyField 타입은 id/group_id/name/type/attrs/target_id/target_type/create_at/update_at/delete_at 10필드뿐이라 upstream이 쓰는 object_type이 없고 이 커밋이 추가하는 linked_field_id는 제외한 3fa87760(Linked Properties) 소산, (4) 커밋이 호출하는 client4의 createPropertyField/patchPropertyField/deletePropertyField가 전부 objectType 인자를 받는 v2 시그니처라 client4.ts content CONFLICT. 규모도 32파일 +2845/-10에 i18n 신규 키 28개, 신규 feature flag ClassificationMarkings 포함. 강행 시 서버는 없는 파일 수정 실패, 웹앱은 object_type 미정의로 타입 체크 실패, 런타임엔 없는 엔드포인트 404. upstream 기준으로도 ClassificationMarkings 플래그 뒤에 숨어 기본 비활성이라 당장의 제품 공백 아님. 우리 Boards는 focalboard 기반 자체 플러그인(okrbest-plugin-boards, BlockProp 모델)이 담당하고 Mattermost property API를 호출하지 않는다. 분류 표시 기능이 필요해지면 48f2fd08의 property 절반(api4/properties.go, PropertyField.object_type, 마이그레이션 000160~000165) 분할 반영을 선행 과제로 두고 그때 spec으로 여는 것이 맞다. |
 
 | 6c0e0fee | [\[MM-68464\] Introduce system object type for property fields and values (#36250)](https://github.com/mattermost/mattermost/commit/6c0e0fee4a337902c75b7c3dfe98f93654a59cc1) | 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2 위에 얹힌 변경이라 반영할 토대가 없음 — 006f1027·3cb00848·01219efb·3fa87760·7627784a·9d33d87e·9c684e63·5b4efbd2·2b7b398a에 이은 48f2fd08 계보 11번째이자, 직전에 제외한 2b7b398a([MM-68102] Classification Markings 관리 콘솔)의 직접 후속. property 시스템에 system object type을 도입해 사용자·채널·게시물이 아닌 Mattermost 인스턴스 자체에 붙는 속성을 표현하는 작업(PropertyFieldObjectTypeSystem 상수, PropertyValueTargetTypeSystem과 센티널 PropertyValueSystemTargetID='system', isValidPropertyValueTargetID 예외 처리, api4 system 라우트, client4 메서드, OpenAPI 스펙)인데, 필요한 선행 요소가 전부 부재 — (1) server/channels/api4/properties.go(+121)와 properties_test.go(+274)가 우리 트리에 아예 없음(ls 확인, merge-tree modify/delete), (2) api/v4/source/properties.yaml(+103) 부재, (3) server/channels/app/property_value_test.go 부재, (4) 핵심 변경인 PropertyField.IsValid()의 system 검증이 참조하는 model.PropertyField.ObjectType이 grep 0건, (5) PropertyFieldObjectTypeTemplate·PropertyFieldTargetLevelSystem·IsPSAv1() 부재 — 전부 48f2fd08 소산, (6) 이 커밋이 수정하는 e2e classification_markings.spec.ts는 제외한 2b7b398a 소산이라 부재. 강행 시 pf.ObjectType == PropertyFieldObjectTypeSystem에서 Go 컴파일 실패하고, 통과해도 존재하지 않는 라우트 호출. server/i18n/en.json +8은 신규 검증 오류 메시지용인데 그 검증 자체를 반영할 수 없다. 규모 14파일 +671/-26. 우리 Boards는 focalboard 기반 자체 플러그인(okrbest-plugin-boards, BlockProp 모델)이 담당하고 Mattermost property API를 호출하지 않는다. 향후 48f2fd08의 property 절반(api4/properties.go, PropertyField.ObjectType, 마이그레이션 000160~000165)을 분할 반영하게 되면 2b7b398a와 함께 재검토 대상. |
+
+| e4360876 | [docs: clarify PR template rules in AGENTS.md (#36422)](https://github.com/mattermost/mattermost/commit/e43608762d4e781fbadbc88d1f7b35d89c1c3d06) | okrbest는 AGENTS.md를 16dba65747에서 spec-kit + superpowers 워크플로 문서로 전면 교체해 upstream 원문(## Pull Requests 4줄)이 존재하지 않는다. 또한 upstream이 요구하는 영문 '#### Release Note' + release-note 펜스 블록은 한국어로 리브랜드된 .github/PULL_REQUEST_TEMPLATE.md(#### 릴리스 노트)와 맞지 않는다. PR 형식은 speckit-sync 스킬이 별도로 규정한다. |
 
 ## spec 전환 커밋
 
