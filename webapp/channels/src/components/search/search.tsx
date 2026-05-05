@@ -102,6 +102,7 @@ const Search = ({
     isMobileView,
     isPinnedPosts,
     isRhsExpanded,
+    isSearch,
     isSearchingTerm,
     searchTerms = '',
     searchType,
@@ -171,10 +172,10 @@ const Search = ({
     }, [hideSearchBar, currentChannelName]);
 
     useEffect((): void => {
-        if (isMobileView && isSideBarRight) {
+        if (isMobileView && isSideBarRight && isSearch) {
             handleFocus();
         }
-    }, [isMobileView, isSideBarRight]);
+    }, [isMobileView, isSideBarRight, isSearch]);
 
     useEffect((): void => {
         if (!isMobileView) {
