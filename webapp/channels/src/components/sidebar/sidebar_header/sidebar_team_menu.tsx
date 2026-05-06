@@ -18,6 +18,7 @@ import {
     MonitorAccountIcon,
     SitemapIcon,
 } from '@mattermost/compass-icons/components';
+import {buttonClassNames} from '@mattermost/shared/components/button';
 import type {Team} from '@mattermost/types/teams';
 
 import {Permissions} from 'mattermost-redux/constants';
@@ -75,7 +76,7 @@ export default function SidebarTeamMenu(props: Props) {
         <Menu.Container
             menuButton={{
                 id: 'sidebarTeamMenuButton',
-                class: 'btn btn-sm btn-quaternary btn-inverted',
+                class: buttonClassNames({emphasis: 'quaternary', size: 'sm'}, 'btn-inverted'),
                 children: (
                     <>
                         <span>{props.currentTeam.display_name}</span>
