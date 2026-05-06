@@ -2100,7 +2100,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                             )}
                         </div>
                     }
-                    confirmButtonClass='btn btn-danger'
+                    confirmButtonVariant='destructive'
                     confirmButtonText={
                         isDeleteConfirming ? (
                             <FormattedMessage
