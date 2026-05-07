@@ -948,6 +948,11 @@ func getRecentMentionsForUser(c *Context, w http.ResponseWriter, r *http.Request
 		return
 	}
 
+	if c.Params.Page < 0 {
+		c.SetInvalidURLParam("page")
+		return
+	}
+
 	results, err := c.App.GetRecentMentionsForUser(c.AppContext, c.Params.UserId, filter, c.Params.Page, c.Params.PerPage)
 	if err != nil {
 		c.Err = err
