@@ -326,10 +326,10 @@ func (a *App) getEmbedForPost(rctx request.CTX, post *model.Post, firstLink stri
 		}, nil
 	}
 
-	if _, ok := post.GetProps()["boards"]; ok {
+	if boardsData, ok := post.GetProps()["boards"]; ok && boardsData != nil && boardsData != "" {
 		return &model.PostEmbed{
 			Type: model.PostEmbedBoards,
-			Data: post.GetProps()["boards"],
+			Data: boardsData,
 		}, nil
 	}
 
