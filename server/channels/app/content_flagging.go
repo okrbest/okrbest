@@ -596,6 +596,11 @@ func (a *App) PermanentDeleteFlaggedPost(rctx request.CTX, actionRequest *model.
 		return appErr
 	}
 
+	existingComment, appErr := a.GetPostContentFlaggingPropertyValue(flaggedPost.Id, contentFlaggingPropertyNameActorComment)
+	if appErr != nil && appErr.StatusCode != http.StatusNotFound {
+		return appErr
+	}
+
 	propertyValues := []*model.PropertyValue{
 		{
 			TargetID:   flaggedPost.Id,
@@ -608,16 +613,18 @@ func (a *App) PermanentDeleteFlaggedPost(rctx request.CTX, actionRequest *model.
 			TargetID:   flaggedPost.Id,
 			TargetType: model.PropertyValueTargetTypePost,
 			GroupID:    groupId,
-			FieldID:    mappedFields[contentFlaggingPropertyNameActorComment].ID,
-			Value:      commentJsonValue,
-		},
-		{
-			TargetID:   flaggedPost.Id,
-			TargetType: model.PropertyValueTargetTypePost,
-			GroupID:    groupId,
 			FieldID:    mappedFields[contentFlaggingPropertyNameActionTime].ID,
 			Value:      json.RawMessage(fmt.Sprintf("%d", model.GetMillis())),
 		},
+	}
+	if existingComment == nil {
+		propertyValues = append(propertyValues, &model.PropertyValue{
+			TargetID:   flaggedPost.Id,
+			TargetType: model.PropertyValueTargetTypePost,
+			GroupID:    groupId,
+			FieldID:    mappedFields[contentFlaggingPropertyNameActorComment].ID,
+			Value:      commentJsonValue,
+		})
 	}
 
 	_, appErr = a.CreatePropertyValues(rctx, propertyValues)
@@ -896,6 +903,11 @@ func (a *App) KeepFlaggedPost(rctx request.CTX, actionRequest *model.FlagContent
 	// generating unsafe JSON values
 	commentJsonValue := json.RawMessage(commentBytes)
 
+	existingComment, appErr := a.GetPostContentFlaggingPropertyValue(flaggedPost.Id, contentFlaggingPropertyNameActorComment)
+	if appErr != nil && appErr.StatusCode != http.StatusNotFound {
+		return appErr
+	}
+
 	propertyValues := []*model.PropertyValue{
 		{
 			TargetID:   flaggedPost.Id,
@@ -908,16 +920,18 @@ func (a *App) KeepFlaggedPost(rctx request.CTX, actionRequest *model.FlagContent
 			TargetID:   flaggedPost.Id,
 			TargetType: model.PropertyValueTargetTypePost,
 			GroupID:    groupId,
-			FieldID:    mappedFields[contentFlaggingPropertyNameActorComment].ID,
-			Value:      commentJsonValue,
-		},
-		{
-			TargetID:   flaggedPost.Id,
-			TargetType: model.PropertyValueTargetTypePost,
-			GroupID:    groupId,
 			FieldID:    mappedFields[contentFlaggingPropertyNameActionTime].ID,
 			Value:      json.RawMessage(fmt.Sprintf("%d", model.GetMillis())),
 		},
+	}
+	if existingComment == nil {
+		propertyValues = append(propertyValues, &model.PropertyValue{
+			TargetID:   flaggedPost.Id,
+			TargetType: model.PropertyValueTargetTypePost,
+			GroupID:    groupId,
+			FieldID:    mappedFields[contentFlaggingPropertyNameActorComment].ID,
+			Value:      commentJsonValue,
+		})
 	}
 
 	_, appErr = a.CreatePropertyValues(nil, propertyValues)
