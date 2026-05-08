@@ -326,11 +326,15 @@ func (a *App) getEmbedForPost(rctx request.CTX, post *model.Post, firstLink stri
 		}, nil
 	}
 
-	if _, ok := post.GetProps()["boards"]; ok {
-		return &model.PostEmbed{
-			Type: model.PostEmbedBoards,
-			Data: post.GetProps()["boards"],
-		}, nil
+	if boardsData, ok := post.GetProps()["boards"]; ok && boardsData != nil {
+		if boardsStr, isStr := boardsData.(string); isStr && boardsStr == "" {
+			// skip empty string boards data
+		} else {
+			return &model.PostEmbed{
+				Type: model.PostEmbedBoards,
+				Data: boardsData,
+			}, nil
+		}
 	}
 
 	if firstLink == "" {

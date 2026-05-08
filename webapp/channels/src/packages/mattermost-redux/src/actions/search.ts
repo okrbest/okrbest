@@ -144,6 +144,10 @@ export function getMorePostsForSearch(teamId: string): ActionFuncAsync {
     return async (dispatch, getState) => {
         const {params, isEnd} = getState().entities.search.current[teamId || 'ALL_TEAMS'];
         if (!isEnd) {
+            if (params?.is_recent_mentions) {
+                const nextPage = (params.page || 0) + 1;
+                return dispatch(fetchRecentMentions(params.mention_filter || 'include_groups', nextPage, params.per_page || 20));
+            }
             const newParams = Object.assign({}, params);
             newParams.page += 1;
             return dispatch(searchPostsWithParams(teamId, newParams));
@@ -218,6 +222,9 @@ export function searchFilesWithParams(teamId: string, params: SearchParameter): 
 export function getMoreFilesForSearch(teamId: string): ActionFuncAsync {
     return async (dispatch, getState) => {
         const {params, isFilesEnd} = getState().entities.search.current[teamId || 'ALL_TEAMS'];
+        if (params?.is_recent_mentions) {
+            return {data: true};
+        }
         if (!isFilesEnd) {
             const newParams = Object.assign({}, params);
             newParams.page += 1;
@@ -294,6 +301,53 @@ export function getPinnedPosts(channelId: string): ActionFuncAsync {
         ], 'SEARCH_PINNED_POSTS_BATCH'));
 
         return {data: result};
+    };
+}
+
+export function fetchRecentMentions(filter = 'include_groups', page = 0, perPage = 20): ActionFuncAsync<PostSearchResults> {
+    return async (dispatch, getState) => {
+        const isGettingMore = page > 0;
+        dispatch({
+            type: SearchTypes.SEARCH_POSTS_REQUEST,
+            isGettingMore,
+        });
+
+        let posts;
+
+        try {
+            posts = await Client4.getRecentMentions(filter, page, perPage);
+
+            const profilesAndStatuses = getMentionsAndStatusesForPosts(posts.posts, dispatch, getState);
+            const missingChannels = dispatch(getMissingChannelsFromPosts(posts.posts));
+            await Promise.all([profilesAndStatuses, missingChannels]);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch(batchActions([
+            {
+                type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                data: posts,
+                isGettingMore,
+            },
+            receivedPosts(posts),
+            {
+                type: SearchTypes.RECEIVED_SEARCH_TERM,
+                data: {
+                    teamId: '',
+                    params: {terms: '', is_or_search: true, page, per_page: perPage, is_recent_mentions: true, mention_filter: filter},
+                    isEnd: posts.order.length < perPage,
+                    isFilesEnd: true,
+                },
+            },
+            {
+                type: SearchTypes.SEARCH_POSTS_SUCCESS,
+            },
+        ], 'SEARCH_RECENT_MENTIONS_BATCH'));
+
+        return {data: posts};
     };
 }
 

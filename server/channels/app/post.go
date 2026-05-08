@@ -1943,6 +1943,75 @@ func (a *App) SearchPostsForUser(rctx request.CTX, terms string, userID string, 
 	return postSearchResults, nil
 }
 
+func (a *App) GetRecentMentionsForUser(rctx request.CTX, userID string, filter string, page, perPage int) (*model.PostSearchResults, *model.AppError) {
+	user, appErr := a.GetUser(userID)
+	if appErr != nil {
+		return nil, appErr
+	}
+
+	mentionTerms := []string{}
+
+	mentionTerms = append(mentionTerms, "@"+strings.ToLower(user.Username))
+
+	for _, key := range user.GetMentionKeys() {
+		lowerKey := strings.ToLower(key)
+		if lowerKey != "" && lowerKey != "@channel" && lowerKey != "@all" && lowerKey != "@here" {
+			mentionTerms = append(mentionTerms, lowerKey)
+		}
+	}
+
+	if user.NotifyProps[model.FirstNameNotifyProp] == "true" && user.FirstName != "" {
+		mentionTerms = append(mentionTerms, strings.ToLower(user.FirstName))
+	}
+
+	if filter == "include_groups" {
+		mentionTerms = append(mentionTerms, "@channel", "@all", "@here")
+
+		groups, err := a.Srv().Store().Group().GetByUser(userID, model.GroupSearchOpts{
+			FilterAllowReference: true,
+			IncludeArchived:      false,
+		})
+		if err == nil {
+			for _, group := range groups {
+				if group.Name != nil && *group.Name != "" {
+					mentionTerms = append(mentionTerms, "@"+strings.ToLower(*group.Name))
+				}
+			}
+		}
+	}
+
+	seen := make(map[string]bool)
+	uniqueTerms := []string{}
+	for _, t := range mentionTerms {
+		lower := strings.ToLower(t)
+		if !seen[lower] {
+			seen[lower] = true
+			uniqueTerms = append(uniqueTerms, lower)
+		}
+	}
+
+	results, err := a.Srv().Store().Post().SearchRecentMentions(rctx, userID, uniqueTerms, page, perPage)
+	if err != nil {
+		var appError *model.AppError
+		switch {
+		case errors.As(err, &appError):
+			return nil, appError
+		default:
+			return nil, model.NewAppError("GetRecentMentionsForUser", "app.post.recent_mentions.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+		}
+	}
+
+	if appErr := a.filterInaccessiblePosts(results.PostList, filterPostOptions{assumeSortedCreatedAt: true}); appErr != nil {
+		return nil, appErr
+	}
+
+	if appErr := a.filterBurnOnReadPosts(results.PostList); appErr != nil {
+		return nil, appErr
+	}
+
+	return results, nil
+}
+
 func (a *App) GetFileInfosForPostWithMigration(rctx request.CTX, postID string, includeDeleted bool) ([]*model.FileInfo, *model.AppError) {
 	pchan := make(chan store.StoreResult[*model.Post], 1)
 	go func() {

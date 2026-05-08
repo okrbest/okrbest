@@ -1399,6 +1399,36 @@ func (_m *PostStore) SearchPostsForUser(rctx request.CTX, paramsList []*model.Se
 	return r0, r1
 }
 
+// SearchRecentMentions provides a mock function with given fields: rctx, userID, mentionTerms, page, perPage
+func (_m *PostStore) SearchRecentMentions(rctx request.CTX, userID string, mentionTerms []string, page int, perPage int) (*model.PostSearchResults, error) {
+	ret := _m.Called(rctx, userID, mentionTerms, page, perPage)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SearchRecentMentions")
+	}
+
+	var r0 *model.PostSearchResults
+	var r1 error
+	if rf, ok := ret.Get(0).(func(request.CTX, string, []string, int, int) (*model.PostSearchResults, error)); ok {
+		return rf(rctx, userID, mentionTerms, page, perPage)
+	}
+	if rf, ok := ret.Get(0).(func(request.CTX, string, []string, int, int) *model.PostSearchResults); ok {
+		r0 = rf(rctx, userID, mentionTerms, page, perPage)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*model.PostSearchResults)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(request.CTX, string, []string, int, int) error); ok {
+		r1 = rf(rctx, userID, mentionTerms, page, perPage)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // SetPostReminder provides a mock function with given fields: reminder
 func (_m *PostStore) SetPostReminder(reminder *model.PostReminder) error {
 	ret := _m.Called(reminder)

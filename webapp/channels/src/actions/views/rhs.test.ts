@@ -84,6 +84,7 @@ jest.mock('mattermost-redux/actions/search', () => ({
     clearSearch: (...args: any) => ({type: 'MOCK_CLEAR_SEARCH', args}),
     getFlaggedPosts: jest.fn(),
     getPinnedPosts: jest.fn(),
+    fetchRecentMentions: (...args: any) => ({type: 'MOCK_FETCH_RECENT_MENTIONS', args}),
 }));
 
 describe('rhs view actions', () => {
@@ -260,9 +261,9 @@ describe('rhs view actions', () => {
             const terms = `@here test search ${currentUsername} @${currentUsername} ${currentUserFirstName} custom-hyphenated-term`;
             store.dispatch(performSearch(terms, '', true));
 
-            const mentionsQuotedTerms = `"@here" "test" "search" "${currentUsername}" "@${currentUsername}" "${currentUserFirstName}" "custom-hyphenated-term"`;
+            const trimmedTerms = terms.trim();
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(SearchActions.searchPostsWithParams('', {include_deleted_channels: true, terms: mentionsQuotedTerms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
+            compareStore.dispatch(SearchActions.searchPostsWithParams('', {include_deleted_channels: true, terms: trimmedTerms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
             compareStore.dispatch(SearchActions.searchFilesWithParams('', {include_deleted_channels: true, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
@@ -474,79 +475,76 @@ describe('rhs view actions', () => {
     });
 
     describe('showMentions', () => {
-        test('default call (include_groups) dispatches with all mention keys', () => {
+        test('default call (include_groups) dispatches fetchRecentMentions and updates RHS state', () => {
             store.dispatch(showMentions());
 
-            const expectedTerms = '@here @mattermost @channel @all @devteam ';
-            const compareStore = mockStore(initialState);
-
-            compareStore.dispatch({
+            const actions = store.getActions();
+            expect(actions[0]).toEqual({
                 type: ActionTypes.UPDATE_RHS_MENTION_FILTER,
                 filter: 'include_groups',
             });
-            compareStore.dispatch(performSearch(expectedTerms, '', true));
-            compareStore.dispatch(batchActions([
+            expect(actions[1]).toEqual({
+                type: 'MOCK_FETCH_RECENT_MENTIONS',
+                args: ['include_groups'],
+            });
+            expect(actions[2]).toEqual(batchActions([
                 {
                     type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                    terms: expectedTerms,
+                    terms: '',
                 },
                 {
                     type: ActionTypes.UPDATE_RHS_STATE,
                     state: RHSStates.MENTION,
                 },
             ]));
-
-            expect(store.getActions()).toEqual(compareStore.getActions());
         });
 
-        test('personal_only dispatches with user mention keys only', () => {
+        test('personal_only dispatches fetchRecentMentions with personal_only filter', () => {
             store.dispatch(showMentions('personal_only'));
 
-            const expectedTerms = '@mattermost ';
-            const compareStore = mockStore(initialState);
-
-            compareStore.dispatch({
+            const actions = store.getActions();
+            expect(actions[0]).toEqual({
                 type: ActionTypes.UPDATE_RHS_MENTION_FILTER,
                 filter: 'personal_only',
             });
-            compareStore.dispatch(performSearch(expectedTerms, '', true));
-            compareStore.dispatch(batchActions([
+            expect(actions[1]).toEqual({
+                type: 'MOCK_FETCH_RECENT_MENTIONS',
+                args: ['personal_only'],
+            });
+            expect(actions[2]).toEqual(batchActions([
                 {
                     type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                    terms: expectedTerms,
+                    terms: '',
                 },
                 {
                     type: ActionTypes.UPDATE_RHS_STATE,
                     state: RHSStates.MENTION,
                 },
             ]));
-
-            expect(store.getActions()).toEqual(compareStore.getActions());
         });
 
-        test('include_groups dispatches with user + group + special mention keys', () => {
+        test('include_groups dispatches fetchRecentMentions with include_groups filter', () => {
             store.dispatch(showMentions('include_groups'));
 
-            const expectedTerms = '@here @mattermost @channel @all @devteam ';
-            const compareStore = mockStore(initialState);
-
-            compareStore.dispatch({
+            const actions = store.getActions();
+            expect(actions[0]).toEqual({
                 type: ActionTypes.UPDATE_RHS_MENTION_FILTER,
                 filter: 'include_groups',
             });
-            compareStore.dispatch(performSearch(expectedTerms, '', true));
-            compareStore.dispatch(batchActions([
+            expect(actions[1]).toEqual({
+                type: 'MOCK_FETCH_RECENT_MENTIONS',
+                args: ['include_groups'],
+            });
+            expect(actions[2]).toEqual(batchActions([
                 {
                     type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                    terms: expectedTerms,
+                    terms: '',
                 },
                 {
                     type: ActionTypes.UPDATE_RHS_STATE,
                     state: RHSStates.MENTION,
                 },
             ]));
-
-            expect(store.getActions()).toEqual(compareStore.getActions());
         });
 
         test('dispatches UPDATE_RHS_MENTION_FILTER action', () => {
@@ -584,6 +582,10 @@ describe('rhs view actions', () => {
                         channelId: '',
                         timestamp: 0,
                     },
+                    {
+                        type: 'CLEAR_MEMBER_FILTER_USER_IDS',
+                        channelId: undefined,
+                    },
                 ],
             }];
 
@@ -613,6 +615,10 @@ describe('rhs view actions', () => {
                         channelId: '',
                         timestamp: 0,
                     },
+                    {
+                        type: 'CLEAR_MEMBER_FILTER_USER_IDS',
+                        channelId: undefined,
+                    },
                 ],
             }];
 
@@ -641,6 +647,10 @@ describe('rhs view actions', () => {
                         postId: '',
                         channelId: '',
                         timestamp: 0,
+                    },
+                    {
+                        type: 'CLEAR_MEMBER_FILTER_USER_IDS',
+                        channelId: undefined,
                     },
                 ],
             }];
@@ -808,26 +818,26 @@ describe('rhs view actions', () => {
 
         it('opens a mention search', () => {
             store.dispatch(openAtPrevious({isMentionSearch: true}));
-            const compareStore = mockStore(initialState);
 
-            const expectedTerms = '@here @mattermost @channel @all @devteam ';
-            compareStore.dispatch({
+            const actions = store.getActions();
+            expect(actions[0]).toEqual({
                 type: ActionTypes.UPDATE_RHS_MENTION_FILTER,
                 filter: 'include_groups',
             });
-            compareStore.dispatch(performSearch(expectedTerms, '', true));
-            compareStore.dispatch(batchActions([
+            expect(actions[1]).toEqual({
+                type: 'MOCK_FETCH_RECENT_MENTIONS',
+                args: ['include_groups'],
+            });
+            expect(actions[2]).toEqual(batchActions([
                 {
                     type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                    terms: expectedTerms,
+                    terms: '',
                 },
                 {
                     type: ActionTypes.UPDATE_RHS_STATE,
                     state: RHSStates.MENTION,
                 },
             ]));
-
-            expect(store.getActions()).toEqual(compareStore.getActions());
         });
 
         it('opens pinned posts', async () => {

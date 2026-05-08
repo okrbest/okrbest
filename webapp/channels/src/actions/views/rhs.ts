@@ -16,13 +16,12 @@ import {
     getPinnedPosts,
     searchPostsWithParams,
     searchFilesWithParams,
+    fetchRecentMentions,
 } from 'mattermost-redux/actions/search';
 import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut, getChannel as getChannelSelector} from 'mattermost-redux/selectors/entities/channels';
 import {getLatestInteractablePostId, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentTimezone} from 'mattermost-redux/selectors/entities/timezone';
-import {getAllUserMentionKeys} from 'mattermost-redux/selectors/entities/search';
-import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 
 import {
     getSearchType,
@@ -40,7 +39,6 @@ import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import {Mark, Measure, measureAndReport} from 'utils/performance_telemetry';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 
-import type {GlobalState} from 'types/store';
 import type {ActionFunc, ActionFuncAsync, ThunkActionFunc} from 'types/store';
 import type {MentionFilter, RhsState} from 'types/store/rhs';
 
@@ -461,35 +459,15 @@ export function updateMentionFilter(filter: MentionFilter) {
     };
 }
 
-function getMentionSearchTerms(state: GlobalState, filter: MentionFilter): string {
-    if (filter === 'personal_only') {
-        const termKeys = getCurrentUserMentionKeys(state).filter(({key}) => {
-            return key !== '@channel' && key !== '@all' && key !== '@here';
-        });
-        return termKeys.map(({key}) => key).join(' ').trim() + ' ';
-    }
-
-    const allKeys = getAllUserMentionKeys(state);
-    const keySet = new Set(allKeys.map(({key}) => key));
-
-    keySet.add('@channel');
-    keySet.add('@all');
-    keySet.add('@here');
-
-    return Array.from(keySet).join(' ').trim() + ' ';
-}
-
 export function showMentions(filter: MentionFilter = 'include_groups'): ActionFunc<boolean> {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch(updateMentionFilter(filter));
 
-        const terms = getMentionSearchTerms(getState(), filter);
-
-        dispatch(performSearch(terms, '', true));
+        dispatch(fetchRecentMentions(filter));
         dispatch(batchActions([
             {
                 type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                terms,
+                terms: '',
             },
             {
                 type: ActionTypes.UPDATE_RHS_STATE,

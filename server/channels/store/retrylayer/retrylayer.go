@@ -8779,6 +8779,27 @@ func (s *RetryLayerPostStore) SearchPostsForUser(rctx request.CTX, paramsList []
 
 }
 
+func (s *RetryLayerPostStore) SearchRecentMentions(rctx request.CTX, userID string, mentionTerms []string, page int, perPage int) (*model.PostSearchResults, error) {
+
+	tries := 0
+	for {
+		result, err := s.PostStore.SearchRecentMentions(rctx, userID, mentionTerms, page, perPage)
+		if err == nil {
+			return result, nil
+		}
+		if !isRepeatableError(err) {
+			return result, err
+		}
+		tries++
+		if tries >= 3 {
+			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
+			return result, err
+		}
+		timepkg.Sleep(100 * timepkg.Millisecond)
+	}
+
+}
+
 func (s *RetryLayerPostStore) SetPostReminder(reminder *model.PostReminder) error {
 
 	tries := 0

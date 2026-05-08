@@ -7129,6 +7129,22 @@ func (s *TimerLayerPostStore) SearchPostsForUser(rctx request.CTX, paramsList []
 	return result, err
 }
 
+func (s *TimerLayerPostStore) SearchRecentMentions(rctx request.CTX, userID string, mentionTerms []string, page int, perPage int) (*model.PostSearchResults, error) {
+	start := time.Now()
+
+	result, err := s.PostStore.SearchRecentMentions(rctx, userID, mentionTerms, page, perPage)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("PostStore.SearchRecentMentions", success, elapsed)
+	}
+	return result, err
+}
+
 func (s *TimerLayerPostStore) SetPostReminder(reminder *model.PostReminder) error {
 	start := time.Now()
 
