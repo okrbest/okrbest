@@ -3085,6 +3085,55 @@ func (s *SqlPostStore) SearchPostsForUser(rctx request.CTX, paramsList []*model.
 	return model.MakePostSearchResults(posts, nil), nil
 }
 
+func (s *SqlPostStore) SearchRecentMentions(rctx request.CTX, userID string, mentionTerms []string, page, perPage int) (*model.PostSearchResults, error) {
+	if len(mentionTerms) == 0 {
+		return model.MakePostSearchResults(model.NewPostList(), nil), nil
+	}
+
+	offset := page * perPage
+
+	baseQuery := s.getQueryBuilder().Select(
+		"p.*",
+		"(SELECT COUNT(*) FROM Posts WHERE Posts.RootId = (CASE WHEN p.RootId = '' THEN p.Id ELSE p.RootId END) AND Posts.DeleteAt = 0) as ReplyCount",
+	).From("Posts p").
+		Join("ChannelMembers cm ON cm.ChannelId = p.ChannelId AND cm.UserId = ?", userID).
+		Where("p.DeleteAt = 0").
+		Where(fmt.Sprintf("p.Type NOT LIKE '%s%%'", model.PostSystemMessagePrefix)).
+		OrderByClause("p.CreateAt DESC").
+		Limit(uint64(perPage)).
+		Offset(uint64(offset))
+
+	orConditions := sq.Or{}
+	for _, term := range mentionTerms {
+		escapedTerm := regexp.QuoteMeta(term)
+		pattern := fmt.Sprintf(`(^|[^[:alnum:]_])%s([^[:alnum:]_]|$)`, escapedTerm)
+		if s.DriverName() == model.DatabaseDriverPostgres {
+			orConditions = append(orConditions, sq.Expr("p.Message ~* ?", pattern))
+		} else {
+			orConditions = append(orConditions, sq.Expr("LOWER(p.Message) REGEXP ?", pattern))
+		}
+	}
+	baseQuery = baseQuery.Where(orConditions)
+
+	queryString, args, err := baseQuery.ToSql()
+	if err != nil {
+		return nil, errors.Wrap(err, "search_recent_mentions_tosql")
+	}
+
+	var posts []*model.Post
+	if err := s.GetReplica().Select(&posts, queryString, args...); err != nil {
+		return nil, errors.Wrap(err, "failed to search recent mentions")
+	}
+
+	list := model.NewPostList()
+	for _, p := range posts {
+		list.AddPost(p)
+		list.AddOrder(p.Id)
+	}
+
+	return model.MakePostSearchResults(list, nil), nil
+}
+
 func (s *SqlPostStore) GetOldestEntityCreationTime() (int64, error) {
 	query := s.getQueryBuilder().Select("MIN(min_createat) min_createat").
 		Suffix(`FROM (

@@ -2610,6 +2610,13 @@ export default class Client4 {
         return this.searchPostsWithParams(teamId, {terms, is_or_search: isOrSearch});
     };
 
+    getRecentMentions = (filter = 'include_groups', page = 0, perPage = 20) => {
+        return this.doFetch<PostSearchResults>(
+            `${this.getUserRoute('me')}/recentmentions${buildQueryString({filter, page, per_page: perPage})}`,
+            {method: 'get'},
+        );
+    };
+
     searchFilesWithParams = (teamId: string, params: any) => {
         let route = `${this.getFilesRoute()}/search`;
         if (teamId) {

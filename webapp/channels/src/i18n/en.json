@@ -5637,6 +5637,8 @@
   "search_list_option.on": "Messages on a date",
   "search_list_option.phrases": "Messages with phrases",
   "search_results.channel-files-header": "Recent files",
+  "search_results.mention_filter.personal_only": "Personal mentions only",
+  "search_results.mention_filter.include_groups": "Include group mentions",
   "search_teams_selector.all_teams": "All Teams",
   "search_teams_selector.search_teams": "Search teams",
   "search_teams_selector.your_teams": "Your teams",

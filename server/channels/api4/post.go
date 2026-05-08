@@ -33,6 +33,7 @@ func (api *API) InitPost() {
 	api.BaseRoutes.Post.Handle("/files/info", api.APISessionRequired(getFileInfosForPost)).Methods(http.MethodGet)
 	api.BaseRoutes.PostsForChannel.Handle("", api.APISessionRequired(getPostsForChannel)).Methods(http.MethodGet)
 	api.BaseRoutes.PostsForUser.Handle("/flagged", api.APISessionRequired(getFlaggedPostsForUser)).Methods(http.MethodGet)
+	api.BaseRoutes.User.Handle("/recentmentions", api.APISessionRequired(getRecentMentionsForUser)).Methods(http.MethodGet)
 
 	api.BaseRoutes.ChannelForUser.Handle("/posts/unread", api.APISessionRequired(getPostsForChannelAroundLastUnread)).Methods(http.MethodGet)
 
@@ -924,6 +925,52 @@ func searchPosts(c *Context, w http.ResponseWriter, r *http.Request, teamId stri
 	w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 	if err := results.EncodeJSON(w); err != nil {
 		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func getRecentMentionsForUser(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireUserId()
+	if c.Err != nil {
+		return
+	}
+
+	if !c.App.SessionHasPermissionToUser(*c.AppContext.Session(), c.Params.UserId) {
+		c.SetPermissionError(model.PermissionEditOtherUsers)
+		return
+	}
+
+	filter := r.URL.Query().Get("filter")
+	if filter == "" {
+		filter = "include_groups"
+	}
+	if filter != "personal_only" && filter != "include_groups" {
+		c.SetInvalidURLParam("filter")
+		return
+	}
+
+	if c.Params.Page < 0 {
+		c.SetInvalidURLParam("page")
+		return
+	}
+
+	results, err := c.App.GetRecentMentionsForUser(c.AppContext, c.Params.UserId, filter, c.Params.Page, c.Params.PerPage)
+	if err != nil {
+		c.Err = err
+		return
+	}
+
+	clientPostList := c.App.PreparePostListForClient(c.AppContext, results.PostList)
+	clientPostList, err = c.App.SanitizePostListMetadataForUser(c.AppContext, clientPostList, c.AppContext.Session().UserId)
+	if err != nil {
+		c.Err = err
+		return
+	}
+
+	results = model.MakePostSearchResults(clientPostList, results.Matches)
+
+	w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+	if encErr := results.EncodeJSON(w); encErr != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(encErr))
 	}
 }
 

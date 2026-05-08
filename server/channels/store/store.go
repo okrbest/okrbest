@@ -425,6 +425,7 @@ type PostStore interface {
 	// RefreshPostStats refreshes the various materialized views for admin console post stats.
 	RefreshPostStats() error
 	RestoreContentFlaggedPost(post *model.Post, statusFieldId, contentFlaggingManagedFieldId string) error
+	SearchRecentMentions(rctx request.CTX, userID string, mentionTerms []string, page, perPage int) (*model.PostSearchResults, error)
 }
 
 type UserStore interface {

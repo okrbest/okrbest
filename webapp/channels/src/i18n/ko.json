@@ -5493,6 +5493,8 @@
   "search_list_option.on": "특정 날짜의 메시지",
   "search_list_option.phrases": "특정 문구가 포함된 메시지",
   "search_results.channel-files-header": "최근 파일",
+  "search_results.mention_filter.personal_only": "개인 멘션만",
+  "search_results.mention_filter.include_groups": "그룹 멘션 포함",
   "search_teams_selector.all_teams": "모든 팀",
   "search_teams_selector.search_teams": "팀 검색",
   "search_teams_selector.your_teams": "내 팀",

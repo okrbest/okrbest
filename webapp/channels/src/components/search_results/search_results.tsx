@@ -307,7 +307,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     <PostSearchResultsItem
                         key={post.id}
                         post={post}
-                        matches={props.matches[post.id]}
+                        matches={props.matches[post.id] || []}
                         searchTerm={searchTerms}
                         isFlaggedPosts={props.isFlaggedPosts}
                         isMentionSearch={props.isMentionSearch}
