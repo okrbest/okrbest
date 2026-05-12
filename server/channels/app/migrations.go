@@ -380,7 +380,7 @@ func (s *Server) doContentExtractionConfigDefaultTrueMigration() error {
 	}
 
 	s.platform.UpdateConfig(func(config *model.Config) {
-		config.FileSettings.ExtractContent = model.NewPointer(true)
+		config.FileSettings.ExtractContent = new(true)
 	})
 
 	system := model.System{
@@ -604,7 +604,7 @@ func (s *Server) doPostPriorityConfigDefaultTrueMigration() error {
 	}
 
 	s.platform.UpdateConfig(func(config *model.Config) {
-		config.ServiceSettings.PostPriority = model.NewPointer(true)
+		config.ServiceSettings.PostPriority = new(true)
 	})
 
 	system := model.System{
