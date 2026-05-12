@@ -89,6 +89,29 @@ func TestIsPropertyFieldProtected(t *testing.T) {
 	})
 }
 
+func TestPropertyFieldGetAccessMode(t *testing.T) {
+	t.Run("nil attrs returns public", func(t *testing.T) {
+		f := &PropertyField{Attrs: nil}
+		require.Equal(t, PropertyAccessModePublic, f.GetAccessMode())
+	})
+	t.Run("missing access_mode returns public", func(t *testing.T) {
+		f := &PropertyField{Attrs: StringInterface{}}
+		require.Equal(t, PropertyAccessModePublic, f.GetAccessMode())
+	})
+	t.Run("non-string access_mode returns public", func(t *testing.T) {
+		f := &PropertyField{Attrs: StringInterface{PropertyAttrsAccessMode: 123}}
+		require.Equal(t, PropertyAccessModePublic, f.GetAccessMode())
+	})
+	t.Run("shared_only returned as-is", func(t *testing.T) {
+		f := &PropertyField{Attrs: StringInterface{PropertyAttrsAccessMode: PropertyAccessModeSharedOnly}}
+		require.Equal(t, PropertyAccessModeSharedOnly, f.GetAccessMode())
+	})
+	t.Run("source_only returned as-is", func(t *testing.T) {
+		f := &PropertyField{Attrs: StringInterface{PropertyAttrsAccessMode: PropertyAccessModeSourceOnly}}
+		require.Equal(t, PropertyAccessModeSourceOnly, f.GetAccessMode())
+	})
+}
+
 func TestValidatePropertyFieldAccessMode(t *testing.T) {
 	tests := []struct {
 		name        string
@@ -161,7 +184,7 @@ func TestValidatePropertyFieldAccessMode(t *testing.T) {
 			expectError: true,
 		},
 		{
-			name: "invalid shared_only access mode with text field",
+			name: "valid shared_only access mode with text field and protected",
 			field: &PropertyField{
 				Type: PropertyFieldTypeText,
 				Attrs: StringInterface{
@@ -169,10 +192,10 @@ func TestValidatePropertyFieldAccessMode(t *testing.T) {
 					PropertyAttrsProtected:  true,
 				},
 			},
-			expectError: true,
+			expectError: false,
 		},
 		{
-			name: "invalid shared_only access mode with date field",
+			name: "valid shared_only access mode with date field and protected",
 			field: &PropertyField{
 				Type: PropertyFieldTypeDate,
 				Attrs: StringInterface{
@@ -180,16 +203,24 @@ func TestValidatePropertyFieldAccessMode(t *testing.T) {
 					PropertyAttrsProtected:  true,
 				},
 			},
-			expectError: true,
+			expectError: false,
 		},
 		{
-			name: "invalid shared_only access mode with user field",
+			name: "valid shared_only access mode with user field and protected",
 			field: &PropertyField{
 				Type: PropertyFieldTypeUser,
 				Attrs: StringInterface{
 					PropertyAttrsAccessMode: PropertyAccessModeSharedOnly,
 					PropertyAttrsProtected:  true,
 				},
+			},
+			expectError: false,
+		},
+		{
+			name: "shared_only access mode with text field requires protected",
+			field: &PropertyField{
+				Type:  PropertyFieldTypeText,
+				Attrs: StringInterface{PropertyAttrsAccessMode: PropertyAccessModeSharedOnly},
 			},
 			expectError: true,
 		},
