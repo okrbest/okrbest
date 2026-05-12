@@ -606,7 +606,7 @@ func TestIsBinaryParamEnabled(t *testing.T) {
 			store: SqlStore{
 				settings: &model.SqlSettings{
 					DriverName: model.NewPointer(model.DatabaseDriverPostgres),
-					DataSource: model.NewPointer("postgres://mmuser:mostest@localhost/loadtest?sslmode=disable\u0026binary_parameters=yes"),
+					DataSource: new("postgres://mmuser:mostest@localhost/loadtest?sslmode=disable\u0026binary_parameters=yes"),
 				},
 			},
 			expected: true,
@@ -615,7 +615,7 @@ func TestIsBinaryParamEnabled(t *testing.T) {
 			store: SqlStore{
 				settings: &model.SqlSettings{
 					DriverName: model.NewPointer(model.DatabaseDriverPostgres),
-					DataSource: model.NewPointer("postgres://mmuser:mostest@localhost/loadtest?sslmode=disable&binary_parameters=yes"),
+					DataSource: new("postgres://mmuser:mostest@localhost/loadtest?sslmode=disable&binary_parameters=yes"),
 				},
 			},
 			expected: true,
@@ -624,7 +624,7 @@ func TestIsBinaryParamEnabled(t *testing.T) {
 			store: SqlStore{
 				settings: &model.SqlSettings{
 					DriverName: model.NewPointer(model.DatabaseDriverPostgres),
-					DataSource: model.NewPointer("postgres://mmuser:mostest@localhost/loadtest?sslmode=disable"),
+					DataSource: new("postgres://mmuser:mostest@localhost/loadtest?sslmode=disable"),
 				},
 			},
 			expected: false,
@@ -810,9 +810,9 @@ func TestReplicaLagQuery(t *testing.T) {
 			}
 
 			settings.ReplicaLagSettings = []*model.ReplicaLagSettings{{
-				DataSource:       model.NewPointer(*settings.DataSource),
-				QueryAbsoluteLag: model.NewPointer(query),
-				QueryTimeLag:     model.NewPointer(query),
+				DataSource:       new(*settings.DataSource),
+				QueryAbsoluteLag: new(query),
+				QueryTimeLag:     new(query),
 			}}
 
 			// Disable connection pool cleanup goroutines to prevent DATA RACE
@@ -821,8 +821,8 @@ func TestReplicaLagQuery(t *testing.T) {
 			// fields while testify's mock.Called() → Arguments.Diff() reads
 			// them via fmt.Sprintf("%v", *sql.DB). Setting lifetime/idle to 0
 			// prevents the cleaner goroutine from starting at all.
-			settings.ConnMaxLifetimeMilliseconds = model.NewPointer(0)
-			settings.ConnMaxIdleTimeMilliseconds = model.NewPointer(0)
+			settings.ConnMaxLifetimeMilliseconds = new(0)
+			settings.ConnMaxIdleTimeMilliseconds = new(0)
 
 			mockMetrics := &mocks.MetricsInterface{}
 			mockMetrics.On("SetReplicaLagAbsolute", tableName, float64(1))
@@ -875,14 +875,14 @@ func TestInvalidReplicaLagDataSource(t *testing.T) {
 
 			// Set an invalid DataSource that will fail to connect
 			settings.ReplicaLagSettings = []*model.ReplicaLagSettings{{
-				DataSource:       model.NewPointer("invalid://connection/string"),
-				QueryAbsoluteLag: model.NewPointer("SELECT 1"),
-				QueryTimeLag:     model.NewPointer("SELECT 1"),
+				DataSource:       new("invalid://connection/string"),
+				QueryAbsoluteLag: new("SELECT 1"),
+				QueryTimeLag:     new("SELECT 1"),
 			}}
 
 			// Disable connection pool cleanup goroutines (see TestReplicaLagQuery).
-			settings.ConnMaxLifetimeMilliseconds = model.NewPointer(0)
-			settings.ConnMaxIdleTimeMilliseconds = model.NewPointer(0)
+			settings.ConnMaxLifetimeMilliseconds = new(0)
+			settings.ConnMaxIdleTimeMilliseconds = new(0)
 
 			mockMetrics := &mocks.MetricsInterface{}
 			mockMetrics.On("RegisterDBCollector", mock.AnythingOfType("*sql.DB"), "master")

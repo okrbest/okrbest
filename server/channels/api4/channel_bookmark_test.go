@@ -370,8 +370,8 @@ func TestEditChannelBookmark(t *testing.T) {
 				require.NotNil(t, cb)
 
 				patch := &model.ChannelBookmarkPatch{
-					DisplayName: model.NewPointer("Edited bookmark test"),
-					LinkUrl:     model.NewPointer("http://edited.url"),
+					DisplayName: new("Edited bookmark test"),
+					LinkUrl:     new("http://edited.url"),
 				}
 
 				ucb, resp, err := tc.userClient.UpdateChannelBookmark(context.Background(), cb.ChannelId, cb.Id, patch)
@@ -411,8 +411,8 @@ func TestEditChannelBookmark(t *testing.T) {
 
 		// try to patch the channel bookmark
 		patch := &model.ChannelBookmarkPatch{
-			DisplayName: model.NewPointer("Edited bookmark test"),
-			LinkUrl:     model.NewPointer("http://edited.url"),
+			DisplayName: new("Edited bookmark test"),
+			LinkUrl:     new("http://edited.url"),
 		}
 
 		ucb, resp, err := th.Client.UpdateChannelBookmark(context.Background(), cb.ChannelId, cb.Id, patch)
@@ -441,8 +441,8 @@ func TestEditChannelBookmark(t *testing.T) {
 
 		// try to patch the channel bookmark
 		patch := &model.ChannelBookmarkPatch{
-			DisplayName: model.NewPointer("Edited bookmark test"),
-			LinkUrl:     model.NewPointer("http://edited.url"),
+			DisplayName: new("Edited bookmark test"),
+			LinkUrl:     new("http://edited.url"),
 		}
 
 		ucb, resp, err := th.Client.UpdateChannelBookmark(context.Background(), cb.ChannelId, cb.Id, patch)
@@ -453,8 +453,8 @@ func TestEditChannelBookmark(t *testing.T) {
 
 	t.Run("trying to edit a nonexistent bookmark should fail", func(t *testing.T) {
 		patch := &model.ChannelBookmarkPatch{
-			DisplayName: model.NewPointer("Edited bookmark test"),
-			LinkUrl:     model.NewPointer("http://edited.url"),
+			DisplayName: new("Edited bookmark test"),
+			LinkUrl:     new("http://edited.url"),
 		}
 
 		ucb, resp, err := th.Client.UpdateChannelBookmark(context.Background(), th.BasicChannel.Id, model.NewId(), patch)
@@ -481,8 +481,8 @@ func TestEditChannelBookmark(t *testing.T) {
 		require.Nil(t, appErr)
 
 		patch := &model.ChannelBookmarkPatch{
-			DisplayName: model.NewPointer("Edited bookmark test"),
-			LinkUrl:     model.NewPointer("http://edited.url"),
+			DisplayName: new("Edited bookmark test"),
+			LinkUrl:     new("http://edited.url"),
 		}
 
 		ucb, resp, err := th.Client.UpdateChannelBookmark(context.Background(), cb.ChannelId, cb.Id, patch)
@@ -518,8 +518,8 @@ func TestEditChannelBookmark(t *testing.T) {
 		require.NotNil(t, cb)
 
 		patch := &model.ChannelBookmarkPatch{
-			DisplayName: model.NewPointer("Edited bookmark test"),
-			LinkUrl:     model.NewPointer("http://edited.url"),
+			DisplayName: new("Edited bookmark test"),
+			LinkUrl:     new("http://edited.url"),
 		}
 
 		ucb, resp, err := th.Client.UpdateChannelBookmark(context.Background(), cb.ChannelId, cb.Id, patch)
@@ -568,8 +568,8 @@ func TestEditChannelBookmark(t *testing.T) {
 		require.NotNil(t, cb)
 
 		patch := &model.ChannelBookmarkPatch{
-			DisplayName: model.NewPointer("Edited bookmark test"),
-			LinkUrl:     model.NewPointer("http://edited.url"),
+			DisplayName: new("Edited bookmark test"),
+			LinkUrl:     new("http://edited.url"),
 		}
 
 		ucb, resp, err := guestClient.UpdateChannelBookmark(context.Background(), cb.ChannelId, cb.Id, patch)
@@ -608,8 +608,8 @@ func TestEditChannelBookmark(t *testing.T) {
 		require.NotNil(t, cb)
 
 		patch := &model.ChannelBookmarkPatch{
-			DisplayName: model.NewPointer("Edited bookmark test"),
-			LinkUrl:     model.NewPointer("http://edited.url"),
+			DisplayName: new("Edited bookmark test"),
+			LinkUrl:     new("http://edited.url"),
 		}
 
 		// create a client for basic user 2
@@ -654,7 +654,7 @@ func TestEditChannelBookmark(t *testing.T) {
 		require.Nil(t, appErr)
 		require.NotNil(t, cb)
 
-		patch := &model.ChannelBookmarkPatch{DisplayName: model.NewPointer("Edited bookmark test")}
+		patch := &model.ChannelBookmarkPatch{DisplayName: new("Edited bookmark test")}
 		_, resp, err := th.Client.UpdateChannelBookmark(context.Background(), cb.ChannelId, cb.Id, patch)
 		require.NoError(t, err)
 		CheckOKStatus(t, resp)

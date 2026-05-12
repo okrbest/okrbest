@@ -33,12 +33,12 @@ upstream `e3fbf871`은 버전 핀·표기 변환·픽스처·CI 잡을 **하나�
 
 **목적**: 기준선 확보와 선행 조건 확인. 헌법 원칙 I이 요구하는 **실패 목록 diff 판정**의 기준을 여기서 만든다.
 
-- [ ] T001 작업 트리 클린 확인 후 `010-go-1-26-upgrade` 브랜치에서 작업 중인지 확인 — `git status --short`가 비어 있고 `git branch --show-current`가 해당 브랜치일 것
-- [ ] T002 [P] 툴체인 가용성 확인 — `go version`이 `go1.26.2` 이상일 것. 아니면 설치 후 진행
-- [ ] T003 [P] 병행 변경 정리 확인 — `gh pr list --repo okrbest/okrbest --state open`으로 Go 파일을 건드리는 열린 PR이 없는지 본다. 있으면 병합·정리 후 착수 (거의 모든 Go 파일을 건드리므로 충돌 비용이 크다)
-- [ ] T004 테스트 기준선 저장 — `cd server && go test ./... -count=1 2>&1 | grep -E '^(ok|FAIL|---)' | sort -u > /tmp/baseline_tests.txt`. 이 파일이 T028의 판정 기준이다
-- [ ] T005 [P] 린트 기준선 저장 — `cd server && make check-style > /tmp/baseline_style.txt 2>&1`. 착수 전 `0 issues.`임을 확인
-- [ ] T006 [P] 변환 대상 실측 기록 — `cd server && grep -rc 'NewPointer(' --include='*.go' . | awk -F: '{s+=$2} END{print s}'` 등으로 `NewPointer` 4678, `bToP` 37, `boolPtr` 4, `reflect.Ptr` 19를 기록해 둔다. Phase 5의 잔여 판정에 쓴다
+- [X] T001 작업 트리 클린 확인 후 `010-go-1-26-upgrade` 브랜치에서 작업 중인지 확인 — `git status --short`가 비어 있고 `git branch --show-current`가 해당 브랜치일 것 — 트리 클린, 브랜치 `010-go-1-26-upgrade` 확인
+- [X] T002 [P] 툴체인 가용성 확인 — `go version`이 `go1.26.2` 이상일 것. 아니면 설치 후 진행 — `go version go1.26.2 darwin/arm64` 확인
+- [X] T003 [P] 병행 변경 정리 확인 — `gh pr list --repo okrbest/okrbest --state open`으로 Go 파일을 건드리는 열린 PR이 없는지 본다. 있으면 병합·정리 후 착수 (거의 모든 Go 파일을 건드리므로 충돌 비용이 크다) — 열린 PR은 #322 하나이며 Go 파일 **0개** 접촉. 병행 위험 없음
+- [X] T004 테스트 기준선 저장 — `cd server && go test ./... -count=1 2>&1 | grep -E '^(ok|FAIL|---)' | sort -u > /tmp/baseline_tests.txt`. 이 파일이 T028의 판정 기준이다 — `/tmp/baseline_tests.txt` 183줄 확보 (ok 46 / FAIL 12 / no-test 82). **`TestGenerateMiniPreviewImage`가 기준선 실패에 포함** — 원칙 III의 구현 전 실패 출력
+- [X] T005 [P] 린트 기준선 저장 — `cd server && make check-style > /tmp/baseline_style.txt 2>&1`. 착수 전 `0 issues.`임을 확인 — `0 issues.` (`/tmp/baseline_style.txt`)
+- [X] T006 [P] 변환 대상 실측 기록 — `cd server && grep -rc 'NewPointer(' --include='*.go' . | awk -F: '{s+=$2} END{print s}'` 등으로 `NewPointer` 4678, `bToP` 37, `boolPtr` 4, `reflect.Ptr` 19를 기록해 둔다. Phase 5의 잔여 판정에 쓴다 — NewPointer **4678** / bToP **37** / boolPtr **4** / reflect.Ptr **19** / .go-version **1.25.9**
 
 **Checkpoint**: 기준선 3종(테스트·린트·수치) 확보. 이게 없으면 회귀를 판정할 수 없다.
 
