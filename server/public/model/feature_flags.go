@@ -91,6 +91,9 @@ type FeatureFlags struct {
 	// Mobile clients should use the direct SSO callback flow with srv parameter verification.
 	MobileSSOCodeExchange bool
 
+	// Enable the SHIFT+ESC combo to mark _all_ chats, messages, and channels as read
+	EnableShiftEscapeToMarkAllRead bool
+
 	// FEATURE_FLAG_REMOVAL: AutoTranslation - Remove this when MVP is to be released
 	// Enable auto-translation feature for messages in channels
 	AutoTranslation bool
@@ -146,6 +149,7 @@ func (f *FeatureFlags) SetDefaults() {
 
 	// DEPRECATED: Disabled by default - mobile clients use direct SSO callback flow
 	f.MobileSSOCodeExchange = false
+	f.EnableShiftEscapeToMarkAllRead = false
 
 	// okrbest: 실제 번역 로직은 Mattermost 비공개 저장소(github.com/mattermost/enterprise/autotranslation)에만
 	// 있어 자체 모듈을 개발하기 전까지는 기본값을 false로 유지한다.
