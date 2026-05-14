@@ -76,7 +76,6 @@ describe('components/MoreDirectChannels', () => {
             searchGroupChannels: jest.fn().mockResolvedValue({data: true}),
             setModalSearchTerm: jest.fn().mockResolvedValue({data: true}),
             loadStatusesForProfilesList: jest.fn().mockResolvedValue({data: true}),
-            loadProfilesForGroupChannels: jest.fn().mockResolvedValue({data: true}),
             openDirectChannelToUserId: jest.fn().mockResolvedValue({data: {name: 'dm'}}),
             openGroupChannelToUserIds: jest.fn().mockResolvedValue({data: {name: 'group'}}),
             addUsersToGroupMessage: jest.fn().mockResolvedValue({data: {id: 'gm_channel_id', name: 'group'}}),
