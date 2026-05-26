@@ -137,6 +137,9 @@ export {it};
 const FILE_STORAGE_DRIVER_LOCAL = 'local';
 const FILE_STORAGE_DRIVER_S3 = 'amazons3';
 const FILE_STORAGE_DRIVER_AZURE = 'azureblob';
+const AZURE_CLOUD_COMMERCIAL = 'commercial';
+const AZURE_CLOUD_GOVERNMENT = 'government';
+const AZURE_CLOUD_CUSTOM = 'custom';
 const MEBIBYTE = Math.pow(1024, 2);
 
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA1 = 'RSAwithSHA1';
@@ -1222,6 +1225,7 @@ const AdminDefinition: AdminDefinitionType = {
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                             ),
+                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         },
                         {
                             type: 'text',
@@ -1233,6 +1237,7 @@ const AdminDefinition: AdminDefinitionType = {
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                             ),
+                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         },
                         {
                             type: 'text',
@@ -1244,6 +1249,7 @@ const AdminDefinition: AdminDefinitionType = {
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                             ),
+                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         },
                         {
                             type: 'text',
@@ -1266,6 +1272,7 @@ const AdminDefinition: AdminDefinitionType = {
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                             ),
+                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         },
                         {
                             type: 'text',
@@ -1277,6 +1284,7 @@ const AdminDefinition: AdminDefinitionType = {
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                             ),
+                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         },
                         {
                             type: 'text',
@@ -1288,6 +1296,7 @@ const AdminDefinition: AdminDefinitionType = {
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                             ),
+                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         },
                         {
                             type: 'bool',
@@ -1298,6 +1307,7 @@ const AdminDefinition: AdminDefinitionType = {
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                             ),
+                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         },
                         {
                             type: 'bool',
@@ -1315,7 +1325,10 @@ const AdminDefinition: AdminDefinitionType = {
                                 ),
                             },
                             help_text_markdown: false,
-                            isHidden: it.not(it.licensedForFeature('Compliance')),
+                            isHidden: it.any(
+                                it.not(it.licensedForFeature('Compliance')),
+                                it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                            ),
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
@@ -1330,6 +1343,7 @@ const AdminDefinition: AdminDefinitionType = {
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                             ),
+                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         },
                         {
                             type: 'text',
@@ -1341,6 +1355,32 @@ const AdminDefinition: AdminDefinitionType = {
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                             ),
+                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        },
+                        {
+                            type: 'dropdown',
+                            key: 'FileSettings.AzureCloud',
+                            label: defineMessage({id: 'admin.image.azureCloudTitle', defaultMessage: 'Azure Cloud:'}),
+                            help_text: defineMessage({id: 'admin.image.azureCloudDescription', defaultMessage: 'The Azure cloud to connect to. Choose "Azure Commercial" or "Azure Government" to use the well-known endpoint for that cloud; only the storage account name is required. Choose "Custom Endpoint" to point at an arbitrary host such as Azurite, a reverse proxy, or any other Azure cloud (for example Azure China).'}),
+                            options: [
+                                {
+                                    value: AZURE_CLOUD_COMMERCIAL,
+                                    display_name: defineMessage({id: 'admin.image.azureCloudCommercial', defaultMessage: 'Azure Commercial'}),
+                                },
+                                {
+                                    value: AZURE_CLOUD_GOVERNMENT,
+                                    display_name: defineMessage({id: 'admin.image.azureCloudGovernment', defaultMessage: 'Azure Government'}),
+                                },
+                                {
+                                    value: AZURE_CLOUD_CUSTOM,
+                                    display_name: defineMessage({id: 'admin.image.azureCloudCustom', defaultMessage: 'Custom Endpoint'}),
+                                },
+                            ],
+                            isDisabled: it.any(
+                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
+                                it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_AZURE)),
+                            ),
+                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_AZURE)),
                         },
                         {
                             type: 'text',
@@ -1393,25 +1433,33 @@ const AdminDefinition: AdminDefinitionType = {
                         {
                             type: 'text',
                             key: 'FileSettings.AzureEndpoint',
-                            label: defineMessage({id: 'admin.image.azureEndpointTitle', defaultMessage: 'Azure Endpoint:'}),
-                            help_text: defineMessage({id: 'admin.image.azureEndpointDescription', defaultMessage: 'Optional host[:port] override for non-default endpoints such as Azurite, Azure Government, or other sovereign clouds. Leave empty to use the default "\'{account}\'.blob.core.windows.net" host.'}),
-                            placeholder: defineMessage({id: 'admin.image.azureEndpointExample', defaultMessage: 'E.g.: "azurite:10000" or leave empty'}),
+                            label: defineMessage({id: 'admin.image.azureEndpointTitle', defaultMessage: 'Custom Azure Endpoint:'}),
+                            help_text: defineMessage({id: 'admin.image.azureEndpointDescription', defaultMessage: 'Full Blob service URL, including scheme and storage account. Mattermost does not modify this URL, so the storage account must already be embedded in the hostname (vhost-style, e.g. "https://acmemattermost.blob.core.chinacloudapi.cn/") or in the path (path-style, e.g. "http://localhost:10000/devstoreaccount1/"). Shared-key auth signs against the host this URL points at, so make sure it actually serves the storage account named above.'}),
+                            placeholder: defineMessage({id: 'admin.image.azureEndpointExample', defaultMessage: 'E.g.: "http://localhost:10000/devstoreaccount1/"'}),
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_AZURE)),
+                                it.not(it.stateEquals('FileSettings.AzureCloud', AZURE_CLOUD_CUSTOM)),
                             ),
-                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_AZURE)),
+                            isHidden: it.any(
+                                it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_AZURE)),
+                                it.not(it.stateEquals('FileSettings.AzureCloud', AZURE_CLOUD_CUSTOM)),
+                            ),
                         },
                         {
                             type: 'bool',
                             key: 'FileSettings.AzureSSL',
                             label: defineMessage({id: 'admin.image.azureSSLTitle', defaultMessage: 'Enable Secure Azure Blob Storage Connections:'}),
-                            help_text: defineMessage({id: 'admin.image.azureSSLDescription', defaultMessage: 'When false, allow insecure connections to Azure Blob Storage. Defaults to secure connections only.'}),
+                            help_text: defineMessage({id: 'admin.image.azureSSLDescription', defaultMessage: 'When false, allow insecure connections to Azure Blob Storage. Defaults to secure connections only. Ignored for the Custom Endpoint cloud (the scheme is part of the endpoint URL).'}),
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_AZURE)),
+                                it.stateEquals('FileSettings.AzureCloud', AZURE_CLOUD_CUSTOM),
                             ),
-                            isHidden: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_AZURE)),
+                            isHidden: it.any(
+                                it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_AZURE)),
+                                it.stateEquals('FileSettings.AzureCloud', AZURE_CLOUD_CUSTOM),
+                            ),
                         },
                         {
                             type: 'number',
@@ -1629,6 +1677,31 @@ const AdminDefinition: AdminDefinitionType = {
                             isHidden: it.any(it.not(it.stateEquals('FileSettings.ExportDriverName', FILE_STORAGE_DRIVER_S3)), it.stateEquals('FileSettings.DedicatedExportStore', false)),
                         },
                         {
+                            type: 'dropdown',
+                            key: 'FileSettings.ExportAzureCloud',
+                            label: defineMessage({id: 'admin.image.azureCloudTitle', defaultMessage: 'Azure Cloud:'}),
+                            help_text: defineMessage({id: 'admin.image.azureCloudDescription', defaultMessage: 'The Azure cloud to connect to. Choose "Azure Commercial" or "Azure Government" to use the well-known endpoint for that cloud; only the storage account name is required. Choose "Custom Endpoint" to point at an arbitrary host such as Azurite, a reverse proxy, or any other Azure cloud (for example Azure China).'}),
+                            options: [
+                                {
+                                    value: AZURE_CLOUD_COMMERCIAL,
+                                    display_name: defineMessage({id: 'admin.image.azureCloudCommercial', defaultMessage: 'Azure Commercial'}),
+                                },
+                                {
+                                    value: AZURE_CLOUD_GOVERNMENT,
+                                    display_name: defineMessage({id: 'admin.image.azureCloudGovernment', defaultMessage: 'Azure Government'}),
+                                },
+                                {
+                                    value: AZURE_CLOUD_CUSTOM,
+                                    display_name: defineMessage({id: 'admin.image.azureCloudCustom', defaultMessage: 'Custom Endpoint'}),
+                                },
+                            ],
+                            isDisabled: it.any(
+                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
+                                it.stateEquals('FileSettings.DedicatedExportStore', false),
+                            ),
+                            isHidden: it.any(it.not(it.stateEquals('FileSettings.ExportDriverName', FILE_STORAGE_DRIVER_AZURE)), it.stateEquals('FileSettings.DedicatedExportStore', false)),
+                        },
+                        {
                             type: 'text',
                             key: 'FileSettings.ExportAzureStorageAccount',
                             label: defineMessage({id: 'admin.image.azureStorageAccountTitle', defaultMessage: 'Azure Storage Account:'}),
@@ -1679,25 +1752,35 @@ const AdminDefinition: AdminDefinitionType = {
                         {
                             type: 'text',
                             key: 'FileSettings.ExportAzureEndpoint',
-                            label: defineMessage({id: 'admin.image.azureEndpointTitle', defaultMessage: 'Azure Endpoint:'}),
-                            help_text: defineMessage({id: 'admin.image.azureEndpointDescription', defaultMessage: 'Optional host[:port] override for non-default endpoints such as Azurite, Azure Government, or other sovereign clouds. Leave empty to use the default "\'{account}\'.blob.core.windows.net" host.'}),
-                            placeholder: defineMessage({id: 'admin.image.azureEndpointExample', defaultMessage: 'E.g.: "azurite:10000" or leave empty'}),
+                            label: defineMessage({id: 'admin.image.azureEndpointTitle', defaultMessage: 'Custom Azure Endpoint:'}),
+                            help_text: defineMessage({id: 'admin.image.azureEndpointDescription', defaultMessage: 'Full Blob service URL, including scheme and storage account. Mattermost does not modify this URL, so the storage account must already be embedded in the hostname (vhost-style, e.g. "https://acmemattermost.blob.core.chinacloudapi.cn/") or in the path (path-style, e.g. "http://localhost:10000/devstoreaccount1/"). Shared-key auth signs against the host this URL points at, so make sure it actually serves the storage account named above.'}),
+                            placeholder: defineMessage({id: 'admin.image.azureEndpointExample', defaultMessage: 'E.g.: "http://localhost:10000/devstoreaccount1/"'}),
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.stateEquals('FileSettings.DedicatedExportStore', false),
+                                it.not(it.stateEquals('FileSettings.ExportAzureCloud', AZURE_CLOUD_CUSTOM)),
                             ),
-                            isHidden: it.any(it.not(it.stateEquals('FileSettings.ExportDriverName', FILE_STORAGE_DRIVER_AZURE)), it.stateEquals('FileSettings.DedicatedExportStore', false)),
+                            isHidden: it.any(
+                                it.not(it.stateEquals('FileSettings.ExportDriverName', FILE_STORAGE_DRIVER_AZURE)),
+                                it.stateEquals('FileSettings.DedicatedExportStore', false),
+                                it.not(it.stateEquals('FileSettings.ExportAzureCloud', AZURE_CLOUD_CUSTOM)),
+                            ),
                         },
                         {
                             type: 'bool',
                             key: 'FileSettings.ExportAzureSSL',
                             label: defineMessage({id: 'admin.image.azureSSLTitle', defaultMessage: 'Enable Secure Azure Blob Storage Connections:'}),
-                            help_text: defineMessage({id: 'admin.image.azureSSLDescription', defaultMessage: 'When false, allow insecure connections to Azure Blob Storage. Defaults to secure connections only.'}),
+                            help_text: defineMessage({id: 'admin.image.azureSSLDescription', defaultMessage: 'When false, allow insecure connections to Azure Blob Storage. Defaults to secure connections only. Ignored for the Custom Endpoint cloud (the scheme is part of the endpoint URL).'}),
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.stateEquals('FileSettings.DedicatedExportStore', false),
+                                it.stateEquals('FileSettings.ExportAzureCloud', AZURE_CLOUD_CUSTOM),
                             ),
-                            isHidden: it.any(it.not(it.stateEquals('FileSettings.ExportDriverName', FILE_STORAGE_DRIVER_AZURE)), it.stateEquals('FileSettings.DedicatedExportStore', false)),
+                            isHidden: it.any(
+                                it.not(it.stateEquals('FileSettings.ExportDriverName', FILE_STORAGE_DRIVER_AZURE)),
+                                it.stateEquals('FileSettings.DedicatedExportStore', false),
+                                it.stateEquals('FileSettings.ExportAzureCloud', AZURE_CLOUD_CUSTOM),
+                            ),
                         },
                         {
                             type: 'number',
