@@ -132,6 +132,9 @@ type FeatureFlags struct {
 	// Collect plugin metrics and serve them on the /metrics endpoint
 	AggregatePluginMetrics bool
 
+	// Enable collection of request-provided session attributes (user agent, IP address, etc.).
+	SessionAttributes bool
+
 	// FEATURE_FLAG_REMOVAL: DiscoverableChannels - Remove this when the feature is GA.
 	// Gates the per-channel Discoverable toggle and the channel-join-request flow that lets
 	// non-members find a private channel in Browse Channels and request to join it.
@@ -193,6 +196,8 @@ func (f *FeatureFlags) SetDefaults() {
 	f.EnableAIRecaps = false
 
 	f.AggregatePluginMetrics = false
+
+	f.SessionAttributes = false
 
 	f.DiscoverableChannels = false
 
