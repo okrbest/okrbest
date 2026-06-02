@@ -1857,6 +1857,7 @@ type FileSettings struct {
 	ExportAzureEndpoint                      *string `access:"environment_file_storage,write_restrictable"` // telemetry: none
 	ExportAzureSSL                           *bool   `access:"environment_file_storage,write_restrictable"`
 	ExportAzureRequestTimeoutMilliseconds    *int64  `access:"environment_file_storage,write_restrictable"` // telemetry: none
+	ExportAzurePresignExpiresSeconds         *int64  `access:"environment_file_storage,write_restrictable"` // telemetry: none
 }
 
 func (s *FileSettings) SetDefaults(isUpdate bool) {
@@ -2113,6 +2114,10 @@ func (s *FileSettings) SetDefaults(isUpdate bool) {
 
 	if s.ExportAzureRequestTimeoutMilliseconds == nil {
 		s.ExportAzureRequestTimeoutMilliseconds = NewPointer(int64(30000))
+	}
+
+	if s.ExportAzurePresignExpiresSeconds == nil {
+		s.ExportAzurePresignExpiresSeconds = NewPointer(int64(21600)) // 6h
 	}
 }
 
