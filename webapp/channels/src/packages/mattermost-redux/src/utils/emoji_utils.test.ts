@@ -93,6 +93,36 @@ describe('EmojiUtils', () => {
         });
     });
 
+    describe('getEmojiName', () => {
+        test('returns short_name for built-in mattermost emoji', () => {
+            const mattermostEmoji = TestHelper.getCustomEmojiMock({
+                id: 'mattermost',
+                name: 'Mattermost',
+                category: 'custom',
+            });
+
+            expect(EmojiUtils.getEmojiName(mattermostEmoji)).toBe('mattermost');
+        });
+
+        test('returns name for regular custom emojis', () => {
+            const customEmoji = TestHelper.getCustomEmojiMock({
+                id: 'custom_emoji',
+                name: 'my_custom_emoji',
+                category: 'custom',
+            });
+
+            expect(EmojiUtils.getEmojiName(customEmoji)).toBe('my_custom_emoji');
+        });
+
+        test('returns short_name for system emojis', () => {
+            const systemEmoji = TestHelper.getSystemEmojiMock({
+                short_name: 'thumbsup',
+            });
+
+            expect(EmojiUtils.getEmojiName(systemEmoji)).toBe('thumbsup');
+        });
+    });
+
     describe('getEmojiImageUrl', () => {
         test('returns correct url for system emojis', () => {
             expect(EmojiUtils.getEmojiImageUrl(TestHelper.getSystemEmojiMock({unified: 'system_emoji'}))).toBe('/static/emoji/system_emoji.png');

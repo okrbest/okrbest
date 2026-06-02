@@ -525,6 +525,10 @@ export function addReaction(postId: string, emojiName: string): ActionFuncAsync<
             return {error};
         }
 
+        if (!systemEmojis.has(emojiName)) {
+            await dispatch(getCustomEmojiForReaction(emojiName));
+        }
+
         dispatch({
             type: PostTypes.RECEIVED_REACTION,
             data: reaction,
@@ -560,7 +564,7 @@ export function getCustomEmojiForReaction(name: string): ActionFuncAsync {
         const nonExistentEmoji = getState().entities.emojis.nonExistentEmoji;
         const customEmojisByName = selectCustomEmojisByName(getState());
 
-        if (systemEmojis.has(name)) {
+        if (systemEmojis.has(name) || systemEmojis.has(name.toLowerCase())) {
             return {data: true};
         }
 

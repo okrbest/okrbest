@@ -12,7 +12,7 @@ import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 import type {Emoji, SystemEmoji} from '@mattermost/types/emojis';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getEmojiName, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
+import {getEmojiImageUrl, getEmojiName, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import useEmojiPicker, {useEmojiPickerOffset} from 'components/emoji_picker/use_emoji_picker';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
@@ -66,29 +66,24 @@ const useEditorEmojiPicker = (
 
         const editor = editorRef?.current?.getEditor();
         if (editor) {
-            // Lexical 모드: EmojiNode로 삽입
             let emojiUnicode = '';
+            let emojiImageUrl = '';
             if (isSystemEmoji(emoji)) {
                 emojiUnicode = unifiedToUnicode((emoji as SystemEmoji).unified);
+            } else {
+                emojiImageUrl = getEmojiImageUrl(emoji);
             }
 
-            if (emojiUnicode) {
-                // 시스템 이모지: 유니코드 문자로 렌더링
-                editor.update(() => {
-                    const selection = $getSelection();
-                    if ($isRangeSelection(selection)) {
-                        const emojiNode = $createEmojiNode(emojiAlias, emojiUnicode);
-                        selection.insertNodes([emojiNode]);
-                        // 이모지 뒤에 공백 삽입
-                        const spaceNode = $createTextNode(' ');
-                        emojiNode.insertAfter(spaceNode);
-                        spaceNode.select();
-                    }
-                });
-            } else {
-                // 커스텀 이모지: 텍스트로 삽입
-                insertTextAtCaret(`:${emojiAlias}: `);
-            }
+            editor.update(() => {
+                const selection = $getSelection();
+                if ($isRangeSelection(selection)) {
+                    const emojiNode = $createEmojiNode(emojiAlias, emojiUnicode, emojiImageUrl);
+                    selection.insertNodes([emojiNode]);
+                    const spaceNode = $createTextNode(' ');
+                    emojiNode.insertAfter(spaceNode);
+                    spaceNode.select();
+                }
+            });
         } else {
             // 폴백: 텍스트로 삽입
             insertTextAtCaret(`:${emojiAlias}: `);
