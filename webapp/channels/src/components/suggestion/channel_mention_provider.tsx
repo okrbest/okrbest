@@ -15,6 +15,7 @@ import store from 'stores/redux_store';
 import usePrefixedIds from 'components/common/hooks/usePrefixedIds';
 
 import {Constants} from 'utils/constants';
+import {channelMatchesMentionPrefix} from 'utils/channel_mention_filter';
 
 import Provider from './provider';
 import type {ResultsCallback} from './provider';
@@ -171,32 +172,13 @@ export default class ChannelMentionProvider extends Provider {
 
         this.startNewRequest(prefix);
 
-        const words = prefix.toLowerCase().split(/\s+/);
         const myChannelIds: Record<string, boolean> = {};
         let myChannels: Channel[] = [];
         getMyChannels(store.getState()).forEach((item) => {
             if (item.type !== 'O' || item.delete_at > 0) {
                 return;
             }
-            const nameWords = item.name.toLowerCase().split(/\s+/).concat(item.display_name.toLowerCase().split(/\s+/));
-            let matched = true;
-            for (let j = 0; matched && j < words.length; j++) {
-                if (!words[j]) {
-                    continue;
-                }
-                let wordMatched = false;
-                for (let i = 0; i < nameWords.length; i++) {
-                    if (nameWords[i].startsWith(words[j])) {
-                        wordMatched = true;
-                        break;
-                    }
-                }
-                if (!wordMatched) {
-                    matched = false;
-                    break;
-                }
-            }
-            if (!matched) {
+            if (!channelMatchesMentionPrefix(item, prefix)) {
                 return;
             }
             myChannelIds[item.id] = true;

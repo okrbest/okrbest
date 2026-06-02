@@ -11,6 +11,9 @@ export type SuggestionItem = {
 
     /** 사용자 멘션의 경우 실제 username (본인 멘션 시 description이 '(you)'이므로 별도 필드 필요) */
     username?: string;
+
+    /** 채널 멘션의 경우 실제 channel slug (표시는 display_name, 전송은 ~name) */
+    channelName?: string;
     icon?: React.ReactNode;
     group?: string;
 };

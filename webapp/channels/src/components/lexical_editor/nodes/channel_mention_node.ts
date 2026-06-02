@@ -42,7 +42,7 @@ export class ChannelMentionNode extends DecoratorNode<React.ReactElement> {
     }
 
     getTextContent(): string {
-        return `~${this.__displayName}`;
+        return `~${this.__channelName}`;
     }
 
     createDOM(): HTMLElement {

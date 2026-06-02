@@ -1,5 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
     $createTextNode,
@@ -8,7 +12,16 @@ import {
     TextNode,
 } from 'lexical';
 
+import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+
+import {MIN_CHANNEL_LINK_LENGTH} from 'components/suggestion/channel_mention_provider';
+
+import {filterChannelsForMentionPrefix} from 'utils/channel_mention_filter';
 import {Constants} from 'utils/constants';
+
+import type {GlobalState} from 'types/store';
 
 import {$createChannelMentionNode} from '../nodes/channel_mention_node';
 import SuggestionList, {type SuggestionItem} from '../utils/suggestion_list';
@@ -31,11 +44,39 @@ function getChannelIcon(type?: string) {
     return <i className='icon icon-globe'/>;
 }
 
+function channelsToSuggestionItems(channels: ChannelResult[]): SuggestionItem[] {
+    return channels.map((channel) => ({
+        id: channel.id,
+        display: channel.display_name,
+        description: `~${channel.name}`,
+        channelName: channel.name,
+        icon: getChannelIcon(channel.type),
+    }));
+}
+
+function mergeChannelResults(primary: ChannelResult[], additional: ChannelResult[]): ChannelResult[] {
+    const seen = new Set(primary.map((c) => c.id));
+    const merged = [...primary];
+    additional.forEach((channel) => {
+        if (!seen.has(channel.id)) {
+            seen.add(channel.id);
+            merged.push(channel);
+        }
+    });
+    return merged;
+}
+
 export default function ChannelMentionPlugin({searchChannels}: Props) {
     const [editor] = useLexicalComposerContext();
     const {formatMessage} = useIntl();
     const [queryString, setQueryString] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
+    const searchRequestIdRef = useRef(0);
+
+    const delayChannelAutocomplete = useSelector(
+        (state: GlobalState) => getConfig(state).DelayChannelAutocomplete === 'true',
+    );
+    const myChannels = useSelector(getMyChannels);
 
     // ~ 입력 감지
     useEffect(() => {
@@ -55,44 +96,59 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
                 }
 
                 const text = anchorNode.getTextContent().slice(0, anchor.offset);
-                const channelMatch = text.match(/~(\w*)$/);
+                const channelMatch = text.match(/\B~([^~\r\n]*)$/i);
 
-                if (channelMatch) {
-                    setQueryString(channelMatch[1]);
-                } else {
+                if (!channelMatch) {
                     setQueryString(null);
+                    return;
                 }
+
+                const prefix = channelMatch[1];
+                if (delayChannelAutocomplete && prefix.length < MIN_CHANNEL_LINK_LENGTH) {
+                    setQueryString(null);
+                    return;
+                }
+
+                setQueryString(prefix);
             });
         });
-    }, [editor]);
+    }, [editor, delayChannelAutocomplete]);
 
-    // 검색 (debounce + cancellation)
+    // 검색 (동기 내 채널 필터 + debounced API)
     useEffect(() => {
         if (queryString === null) {
-            return;
+            setSuggestions([]);
+            return undefined;
         }
 
-        let cancelled = false;
+        const requestId = ++searchRequestIdRef.current;
+        const prefix = queryString;
+
+        const filteredMyChannels = filterChannelsForMentionPrefix(
+            myChannels.filter(
+                (channel) => channel.type === Constants.OPEN_CHANNEL && channel.delete_at === 0,
+            ),
+            prefix,
+        ).sort((a, b) => sortChannelsByTypeAndDisplayName('en', a, b));
+
+        setSuggestions(channelsToSuggestionItems(filteredMyChannels));
+
         const timer = setTimeout(() => {
-            searchChannels(queryString).then((channels) => {
-                if (!cancelled) {
-                    setSuggestions(
-                        channels.map((channel) => ({
-                            id: channel.id,
-                            display: channel.name,
-                            description: channel.display_name,
-                            icon: getChannelIcon(channel.type),
-                        })),
-                    );
+            searchChannels(prefix).then((channels) => {
+                if (requestId !== searchRequestIdRef.current) {
+                    return;
                 }
+
+                const filteredApi = filterChannelsForMentionPrefix(channels, prefix);
+                const merged = mergeChannelResults(filteredMyChannels, filteredApi);
+                setSuggestions(channelsToSuggestionItems(merged));
             });
         }, 300);
 
         return () => {
-            cancelled = true;
             clearTimeout(timer);
         };
-    }, [queryString, searchChannels]);
+    }, [queryString, searchChannels, myChannels]);
 
     const handleSelect = useCallback((item: SuggestionItem) => {
         editor.update(() => {
@@ -118,7 +174,12 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
 
                 anchorNode.setTextContent(beforeText);
 
-                const channelNode = $createChannelMentionNode(item.id, item.display);
+                const channelSlug = item.channelName ?? item.description?.replace(/^~/, '');
+                if (!channelSlug) {
+                    return;
+                }
+
+                const channelNode = $createChannelMentionNode(channelSlug, item.display);
                 anchorNode.insertAfter(channelNode);
 
                 if (afterText) {
