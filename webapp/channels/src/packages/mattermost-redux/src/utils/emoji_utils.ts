@@ -30,6 +30,9 @@ export function getEmojiImageUrl(emoji: Emoji): string {
 }
 
 export function getEmojiName(emoji: Emoji): string {
+    if (!isSystemEmoji(emoji) && 'id' in emoji && emoji.id === 'mattermost') {
+        return 'mattermost';
+    }
     return isSystemEmoji(emoji) ? emoji.short_name : emoji.name;
 }
 

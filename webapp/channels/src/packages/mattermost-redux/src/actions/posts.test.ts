@@ -1269,6 +1269,46 @@ describe('Actions.Posts', () => {
         expect(reactions[TestHelper.basicUser!.id + '-' + emojiName]).toBeTruthy();
     });
 
+    it('addReaction loads custom emoji before storing reaction', async () => {
+        const {dispatch, getState} = store;
+
+        TestHelper.mockLogin();
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMe());
+
+        const customEmoji = {
+            id: TestHelper.generateId(),
+            create_at: 1507918415696,
+            update_at: 1507918415696,
+            delete_at: 0,
+            creator_id: TestHelper.basicUser!.id,
+            name: TestHelper.generateId(),
+        };
+
+        nock(Client4.getBaseRoute()).
+            post('/posts').
+            reply(201, TestHelper.fakePostWithId(TestHelper.basicChannel!.id));
+        const post1 = await Client4.createPost(
+            TestHelper.fakePost(TestHelper.basicChannel!.id),
+        );
+
+        nock(Client4.getEmojisRoute()).
+            get(`/name/${customEmoji.name}`).
+            reply(200, customEmoji);
+
+        nock(Client4.getBaseRoute()).
+            post('/reactions').
+            reply(201, {user_id: TestHelper.basicUser!.id, post_id: post1.id, emoji_name: customEmoji.name, create_at: 1508168444721});
+
+        await dispatch(Actions.addReaction(post1.id, customEmoji.name));
+
+        const state = getState();
+        expect(state.entities.emojis.customEmoji[customEmoji.id]).toBeTruthy();
+        expect(state.entities.posts.reactions[post1.id][TestHelper.basicUser!.id + '-' + customEmoji.name]).toBeTruthy();
+    });
+
     it('removeReaction', async () => {
         const {dispatch, getState} = store;
 
