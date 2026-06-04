@@ -14,8 +14,12 @@ concurrency:
   group: ${{ github.event_name == 'pull_request' && format('{0}-{1}', github.workflow, github.ref) || github.run_id }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+permissions: {}
+
 jobs:
   check-lint:
+    permissions:
+      contents: read
     runs-on: ubuntu-24.04
     defaults:
       run:
@@ -32,6 +36,8 @@ jobs:
           npm run check
 
   check-i18n:
+    permissions:
+      contents: read
     needs: check-lint
     runs-on: ubuntu-24.04
     defaults:
@@ -54,6 +60,8 @@ jobs:
           npm run i18n-check-empty
 
   check-external-links:
+    permissions:
+      contents: read
     needs: check-lint
     runs-on: ubuntu-24.04
     timeout-minutes: 15
@@ -73,6 +81,8 @@ jobs:
           npm run check-external-links -- --markdown | tee -a $GITHUB_STEP_SUMMARY
 
   check-types:
+    permissions:
+      contents: read
     needs: check-lint
     runs-on: ubuntu-24.04
     defaults:
@@ -94,6 +104,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
+      contents: read
+      actions: write
       checks: write
       pull-requests: write
     name: test (platform)
@@ -127,6 +139,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
+      contents: read
+      actions: write
       checks: write
       pull-requests: write
     name: test (mattermost-redux)
@@ -157,6 +171,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
+      contents: read
+      actions: write
       checks: write
       pull-requests: write
     strategy:
@@ -187,6 +203,9 @@ jobs:
           retention-days: 1
 
   upload-coverage:
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-24.04
     needs: [test-platform, test-mattermost-redux, test-channels]
     if: ${{ github.event_name != 'pull_request' || !startsWith(github.event.pull_request.base.ref, 'release-') }}
@@ -246,6 +265,8 @@ jobs:
           flags: webapp
 
   build:
+    permissions:
+      contents: read
     needs: check-lint
     runs-on: ubuntu-24.04
     defaults:
