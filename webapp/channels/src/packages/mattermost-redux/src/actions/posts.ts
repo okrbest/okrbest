@@ -15,7 +15,7 @@ import type {UserProfile} from '@mattermost/types/users';
 
 import {PostTypes, ChannelTypes, FileTypes, IntegrationTypes} from 'mattermost-redux/action_types';
 import {selectChannel} from 'mattermost-redux/actions/channels';
-import {systemEmojis, getCustomEmojiByName} from 'mattermost-redux/actions/emojis';
+import {getCustomEmojiByName, isSystemEmojiName} from 'mattermost-redux/actions/emojis';
 import {getGroupsByNames} from 'mattermost-redux/actions/groups';
 import {bindClientFunc, forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 import {
@@ -525,7 +525,7 @@ export function addReaction(postId: string, emojiName: string): ActionFuncAsync<
             return {error};
         }
 
-        if (!systemEmojis.has(emojiName)) {
+        if (!isSystemEmojiName(emojiName)) {
             await dispatch(getCustomEmojiForReaction(emojiName));
         }
 
@@ -564,7 +564,7 @@ export function getCustomEmojiForReaction(name: string): ActionFuncAsync {
         const nonExistentEmoji = getState().entities.emojis.nonExistentEmoji;
         const customEmojisByName = selectCustomEmojisByName(getState());
 
-        if (systemEmojis.has(name) || systemEmojis.has(name.toLowerCase())) {
+        if (isSystemEmojiName(name)) {
             return {data: true};
         }
 
