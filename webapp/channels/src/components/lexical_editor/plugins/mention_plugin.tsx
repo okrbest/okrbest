@@ -28,7 +28,11 @@ import {imageURLForUser} from 'utils/utils';
 import type {GlobalState} from 'types/store';
 
 import {$createMentionNode} from '../nodes/mention_node';
+import {applyMentionReplacement} from '../utils/apply_mention_replacement';
+import type {PendingMentionMatch} from '../utils/mention_replace';
 import SuggestionList, {type SuggestionItem} from '../utils/suggestion_list';
+
+const MENTION_PREFIX_PATTERN = /^[\p{L}\d\-_. ]*/u;
 
 const groupLabels = defineMessages({
     members: {id: 'suggestion.mention.members', defaultMessage: 'Channel Members'},
@@ -59,6 +63,14 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
     const teammateNameDisplay = useSelector(getTeammateNameDisplaySetting);
     const channel = useSelector((state: GlobalState) => getChannel(state, channelId));
     const isDMorGM = channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL);
+    const pendingMatchRef = useRef<PendingMentionMatch | null>(null);
+
+    const scheduleSelect = useCallback((run: () => void) => {
+        editor.focus();
+        requestAnimationFrame(() => {
+            requestAnimationFrame(run);
+        });
+    }, [editor]);
 
     // @ 입력 감지
     useEffect(() => {
@@ -81,8 +93,16 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                 const atMatch = text.match(/(?:^|\s)@([\p{L}\d\-_. ]*)$/iu);
 
                 if (atMatch) {
-                    setQueryString(atMatch[1]);
+                    const prefix = atMatch[1];
+                    const triggerOffset = text.lastIndexOf('@');
+                    pendingMatchRef.current = {
+                        triggerKey: anchorNode.getKey(),
+                        triggerOffset,
+                        prefix,
+                    };
+                    setQueryString(prefix);
                 } else {
+                    pendingMatchRef.current = null;
                     setQueryString(null);
                 }
             });
@@ -219,83 +239,40 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
 
     const handleSelect = useCallback((item: SuggestionItem) => {
         const mentionText = item.display;
+        const pendingMatch = pendingMatchRef.current;
         // item.username이 있으면 사용 (본인 멘션 시 description이 '(you)'여서 필요)
         const usernameMatch = item.description?.match(/^@(\S+)$/);
         const username = item.username ?? (usernameMatch ? usernameMatch[1] : mentionText);
 
+        const isSpecial = item.id.startsWith('special-');
+        const isGroup = item.id.startsWith('group-');
+
         editor.update(() => {
-            const selection = $getSelection();
-            if (!$isRangeSelection(selection)) {
-                return;
-            }
-
-            const anchor = selection.anchor;
-            const anchorNode = anchor.getNode();
-
-            if (!(anchorNode instanceof TextNode)) {
-                return;
-            }
-
-            const text = anchorNode.getTextContent();
-            const offset = anchor.offset;
-
-            // @ 위치 찾기 (공백 뒤 또는 줄 시작)
-            let atIndex = -1;
-            for (let i = offset - 1; i >= 0; i--) {
-                if (text[i] === '@') {
-                    atIndex = i;
-                    break;
-                }
-            }
-
-            if (atIndex >= 0) {
-                const beforeText = text.slice(0, atIndex);
-                const afterText = text.slice(offset);
-
-                anchorNode.setTextContent(beforeText);
-
-                // 특별 멘션은 MentionNode 대신 텍스트로 삽입
-                const isSpecial = item.id.startsWith('special-');
-                const isGroup = item.id.startsWith('group-');
-
-                if (isSpecial || isGroup) {
-                    const textNode = $createTextNode(`@${mentionText} `);
-                    if (beforeText) {
-                        anchorNode.insertAfter(textNode);
-                    } else {
-                        anchorNode.replace(textNode);
+            applyMentionReplacement({
+                pendingMatch,
+                fallbackQueryPrefix: queryString ?? '',
+                prefixCharPattern: MENTION_PREFIX_PATTERN,
+                triggerChar: '@',
+                createNodesToInsert: (afterText) => {
+                    if (isSpecial || isGroup) {
+                        const textNode = $createTextNode(`@${mentionText} `);
+                        return afterText ? [textNode, $createTextNode(afterText)] : [textNode];
                     }
-                    if (afterText) {
-                        const afterNode = $createTextNode(afterText);
-                        textNode.insertAfter(afterNode);
-                    }
-                    textNode.selectEnd();
-                } else {
-                    // MentionNode는 (username, displayName) 순서로 생성
                     const mentionNode = $createMentionNode(username, mentionText);
-                    if (beforeText) {
-                        anchorNode.insertAfter(mentionNode);
-                    } else {
-                        anchorNode.replace(mentionNode);
-                    }
-
-                    if (afterText) {
-                        const textNode = $createTextNode(afterText);
-                        mentionNode.insertAfter(textNode);
-                    } else {
-                        const spaceNode = $createTextNode(' ');
-                        mentionNode.insertAfter(spaceNode);
-                        spaceNode.select();
-                    }
-                }
-            }
+                    return afterText ?
+                        [mentionNode, $createTextNode(afterText)] :
+                        [mentionNode, $createTextNode(' ')];
+                },
+            });
         });
 
+        pendingMatchRef.current = null;
         onMentionSelected?.({id: item.id, username, displayName: mentionText});
         setQueryString(null);
-    }, [editor, onMentionSelected]);
+    }, [editor, onMentionSelected, queryString]);
 
     const handleClose = useCallback(() => {
+        pendingMatchRef.current = null;
         setQueryString(null);
     }, []);
 
@@ -308,6 +285,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
             items={suggestions}
             onSelect={handleSelect}
             onClose={handleClose}
+            scheduleSelect={scheduleSelect}
         />
     );
 }

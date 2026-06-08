@@ -24,9 +24,12 @@ type Props = {
     onClose: () => void;
     loading?: boolean;
     header?: string;
+
+    /** IME/마우스 선택 전 editor focus 및 Lexical 동기화 (double rAF) */
+    scheduleSelect?: (run: () => void) => void;
 };
 
-export default function SuggestionList({items, onSelect, onClose, loading, header}: Props) {
+export default function SuggestionList({items, onSelect, onClose, loading, header, scheduleSelect}: Props) {
     const {formatMessage} = useIntl();
     const [selectedIndex, setSelectedIndex] = useState(0);
     const listRef = useRef<HTMLDivElement>(null);
@@ -56,6 +59,18 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
     const onCloseRef = useRef(onClose);
     onCloseRef.current = onClose;
 
+    const scheduleSelectRef = useRef(scheduleSelect);
+    scheduleSelectRef.current = scheduleSelect;
+
+    const invokeSelect = (item: SuggestionItem) => {
+        const run = () => onSelectRef.current(item);
+        if (scheduleSelectRef.current) {
+            scheduleSelectRef.current(run);
+        } else {
+            run();
+        }
+    };
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             const currentItems = itemsRef.current;
@@ -75,13 +90,40 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
                 setSelectedIndex((prev) => ((prev - 1) + currentItems.length) % currentItems.length);
                 break;
             case 'Enter':
-            case 'Tab':
+            case 'Tab': {
                 e.preventDefault();
                 e.stopImmediatePropagation();
-                if (currentItems[selectedIndexRef.current]) {
-                    onSelectRef.current(currentItems[selectedIndexRef.current]);
+                const item = currentItems[selectedIndexRef.current];
+                if (!item) {
+                    break;
                 }
+
+                if (e.isComposing) {
+                    let didRun = false;
+                    const runSelect = () => {
+                        if (didRun) {
+                            return;
+                        }
+                        didRun = true;
+                        invokeSelect(item);
+                    };
+
+                    const onCompositionEnd = () => {
+                        document.removeEventListener('compositionend', onCompositionEnd, true);
+                        requestAnimationFrame(runSelect);
+                    };
+                    document.addEventListener('compositionend', onCompositionEnd, true);
+                    window.setTimeout(() => {
+                        if (!didRun) {
+                            runSelect();
+                        }
+                    }, 50);
+                    break;
+                }
+
+                invokeSelect(item);
                 break;
+            }
             case 'Escape':
                 e.preventDefault();
                 e.stopImmediatePropagation();
@@ -141,7 +183,7 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
                             aria-selected={index === selectedIndex}
                             onMouseDown={(e) => {
                                 e.preventDefault();
-                                onSelect(item);
+                                invokeSelect(item);
                             }}
                             onMouseEnter={() => setSelectedIndex(index)}
                         >

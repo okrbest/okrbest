@@ -24,7 +24,11 @@ import {Constants} from 'utils/constants';
 import type {GlobalState} from 'types/store';
 
 import {$createChannelMentionNode} from '../nodes/channel_mention_node';
+import {applyMentionReplacement} from '../utils/apply_mention_replacement';
+import type {PendingMentionMatch} from '../utils/mention_replace';
 import SuggestionList, {type SuggestionItem} from '../utils/suggestion_list';
+
+const CHANNEL_PREFIX_PATTERN = /^[^~\r\n]*/;
 
 type ChannelResult = {
     id: string;
@@ -72,11 +76,19 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
     const [queryString, setQueryString] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
     const searchRequestIdRef = useRef(0);
+    const pendingMatchRef = useRef<PendingMentionMatch | null>(null);
 
     const delayChannelAutocomplete = useSelector(
         (state: GlobalState) => getConfig(state).DelayChannelAutocomplete === 'true',
     );
     const myChannels = useSelector(getMyChannels);
+
+    const scheduleSelect = useCallback((run: () => void) => {
+        editor.focus();
+        requestAnimationFrame(() => {
+            requestAnimationFrame(run);
+        });
+    }, [editor]);
 
     // ~ 입력 감지
     useEffect(() => {
@@ -99,16 +111,24 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
                 const channelMatch = text.match(/\B~([^~\r\n]*)$/i);
 
                 if (!channelMatch) {
+                    pendingMatchRef.current = null;
                     setQueryString(null);
                     return;
                 }
 
                 const prefix = channelMatch[1];
                 if (delayChannelAutocomplete && prefix.length < MIN_CHANNEL_LINK_LENGTH) {
+                    pendingMatchRef.current = null;
                     setQueryString(null);
                     return;
                 }
 
+                const tildeIndex = text.lastIndexOf('~');
+                pendingMatchRef.current = {
+                    triggerKey: anchorNode.getKey(),
+                    triggerOffset: tildeIndex,
+                    prefix,
+                };
                 setQueryString(prefix);
             });
         });
@@ -151,52 +171,32 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
     }, [queryString, searchChannels, myChannels]);
 
     const handleSelect = useCallback((item: SuggestionItem) => {
+        const pendingMatch = pendingMatchRef.current;
+
         editor.update(() => {
-            const selection = $getSelection();
-            if (!$isRangeSelection(selection)) {
+            const channelSlug = item.channelName ?? item.description?.replace(/^~/, '');
+            if (!channelSlug) {
                 return;
             }
 
-            const anchor = selection.anchor;
-            const anchorNode = anchor.getNode();
-
-            if (!(anchorNode instanceof TextNode)) {
-                return;
-            }
-
-            const text = anchorNode.getTextContent();
-            const offset = anchor.offset;
-            const tildeIndex = text.lastIndexOf('~', offset - 1);
-
-            if (tildeIndex >= 0) {
-                const beforeText = text.slice(0, tildeIndex);
-                const afterText = text.slice(offset);
-
-                anchorNode.setTextContent(beforeText);
-
-                const channelSlug = item.channelName ?? item.description?.replace(/^~/, '');
-                if (!channelSlug) {
-                    return;
-                }
-
-                const channelNode = $createChannelMentionNode(channelSlug, item.display);
-                anchorNode.insertAfter(channelNode);
-
-                if (afterText) {
-                    const textNode = $createTextNode(afterText);
-                    channelNode.insertAfter(textNode);
-                } else {
-                    const spaceNode = $createTextNode(' ');
-                    channelNode.insertAfter(spaceNode);
-                    spaceNode.select();
-                }
-            }
+            applyMentionReplacement({
+                pendingMatch,
+                fallbackQueryPrefix: queryString ?? '',
+                prefixCharPattern: CHANNEL_PREFIX_PATTERN,
+                triggerChar: '~',
+                createNodesToInsert: (afterText) => {
+                    const channelNode = $createChannelMentionNode(channelSlug, item.display);
+                    return afterText ? [channelNode, $createTextNode(afterText)] : [channelNode, $createTextNode(' ')];
+                },
+            });
         });
 
+        pendingMatchRef.current = null;
         setQueryString(null);
-    }, [editor]);
+    }, [editor, queryString]);
 
     const handleClose = useCallback(() => {
+        pendingMatchRef.current = null;
         setQueryString(null);
     }, []);
 
@@ -209,6 +209,7 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
             items={suggestions}
             onSelect={handleSelect}
             onClose={handleClose}
+            scheduleSelect={scheduleSelect}
             header={formatMessage({id: 'suggestion.channels', defaultMessage: 'Channels'})}
         />
     );

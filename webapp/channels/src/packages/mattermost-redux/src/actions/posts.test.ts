@@ -10,7 +10,7 @@ import type {GlobalState} from '@mattermost/types/store';
 
 import {PostTypes, UserTypes} from 'mattermost-redux/action_types';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
-import {createCustomEmoji} from 'mattermost-redux/actions/emojis';
+import {createCustomEmoji, setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import * as Actions from 'mattermost-redux/actions/posts';
 import {loadMe} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
@@ -1267,6 +1267,39 @@ describe('Actions.Posts', () => {
         const reactions = state.entities.posts.reactions[post1.id];
         expect(reactions).toBeTruthy();
         expect(reactions[TestHelper.basicUser!.id + '-' + emojiName]).toBeTruthy();
+    });
+
+    it('addReaction does not fetch custom emoji for system emoji with different case', async () => {
+        const {dispatch, getState} = store;
+
+        TestHelper.mockLogin();
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMe());
+
+        setSystemEmojis(new Set(['thumbsup']));
+
+        nock(Client4.getBaseRoute()).
+            post('/posts').
+            reply(201, TestHelper.fakePostWithId(TestHelper.basicChannel!.id));
+        const post1 = await Client4.createPost(
+            TestHelper.fakePost(TestHelper.basicChannel!.id),
+        );
+
+        const emojiName = 'Thumbsup';
+
+        nock(Client4.getBaseRoute()).
+            post('/reactions').
+            reply(201, {user_id: TestHelper.basicUser!.id, post_id: post1.id, emoji_name: emojiName, create_at: 1508168444721});
+
+        await dispatch(Actions.addReaction(post1.id, emojiName));
+
+        const state = getState();
+        const reactions = state.entities.posts.reactions[post1.id];
+        expect(reactions).toBeTruthy();
+        expect(reactions[TestHelper.basicUser!.id + '-' + emojiName]).toBeTruthy();
+        expect(Object.keys(state.entities.emojis.customEmoji)).toHaveLength(0);
     });
 
     it('addReaction loads custom emoji before storing reaction', async () => {

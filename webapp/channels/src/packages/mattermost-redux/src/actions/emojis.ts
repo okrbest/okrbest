@@ -24,6 +24,10 @@ export function setSystemEmojis(emojis: Set<string>) {
     systemEmojis = emojis;
 }
 
+export function isSystemEmojiName(name: string): boolean {
+    return systemEmojis.has(name) || systemEmojis.has(name.toLowerCase());
+}
+
 export function createCustomEmoji(emoji: any, image: any) {
     return bindClientFunc({
         clientFunc: Client4.createCustomEmoji,
@@ -131,7 +135,7 @@ function filterNeededCustomEmojis(state: GlobalState, names: string[]) {
     const customEmojisByName = selectCustomEmojisByName(state);
 
     return names.filter((name) => {
-        return !systemEmojis.has(name) && !nonExistentEmoji.has(name) && !customEmojisByName.has(name);
+        return !isSystemEmojiName(name) && !nonExistentEmoji.has(name) && !customEmojisByName.has(name);
     });
 }
 
