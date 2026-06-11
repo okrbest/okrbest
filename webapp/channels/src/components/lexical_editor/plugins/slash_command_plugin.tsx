@@ -1,5 +1,6 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useIntl} from 'react-intl';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
     $getSelection,
@@ -7,9 +8,12 @@ import {
     $getRoot,
     TextNode,
 } from 'lexical';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
+
+import type {AutocompleteSuggestion, CommandArgs} from '@mattermost/types/integrations';
 
 import {Client4} from 'mattermost-redux/client';
-import type {AutocompleteSuggestion, CommandArgs} from '@mattermost/types/integrations';
 
 import SuggestionList, {type SuggestionItem} from '../utils/suggestion_list';
 
@@ -98,7 +102,13 @@ export default function SlashCommandPlugin({teamId, channelId, rootId}: Props) {
                         map((s) => {
                             let icon: React.ReactNode;
                             if (s.IconData && !s.IconData.startsWith('__')) {
-                                icon = <img src={s.IconData} alt='' width={20} height={20} style={{borderRadius: 4}}/>;
+                                icon = (<img
+                                    src={s.IconData}
+                                    alt=''
+                                    width={20}
+                                    height={20}
+                                    style={{borderRadius: 4}}
+                                />);
                             } else {
                                 icon = <span className='suggestion-list__slash-icon'>{'/'}</span>;
                             }

@@ -17,7 +17,7 @@ type Props = {
     user: UserProfile;
     fullname: string;
     currentTeamId: string;
-}
+};
 const ProfilePopoverName = ({
     user,
     haveOverrideProp,

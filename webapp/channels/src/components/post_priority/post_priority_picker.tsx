@@ -42,7 +42,7 @@ type Props = {
     onClose: () => void;
     onApply: (props: PostPriorityMetadata) => void;
     disabled: boolean;
-}
+};
 
 function PostPriorityPicker({
     onApply,

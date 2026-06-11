@@ -3,10 +3,10 @@
 
 import {flip, offset, shift} from '@floating-ui/react';
 import classNames from 'classnames';
+import {$getSelection, $isRangeSelection, $createTextNode} from 'lexical';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
-import {$getSelection, $isRangeSelection, $createTextNode} from 'lexical';
 
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 import {WithTooltip} from '@mattermost/shared/components/tooltip';

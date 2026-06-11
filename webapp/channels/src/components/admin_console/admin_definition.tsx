@@ -510,6 +510,7 @@ const AdminDefinition: AdminDefinitionType = {
             org_roles: {
                 url: 'user_management/org_roles',
                 title: defineMessage({id: 'admin.sidebar.org_roles', defaultMessage: '조직/직위 관리'}),
+
                 // Superseded by the team menu's "부서/직위 관리" entry (team-scoped,
                 // team_admin accessible). Route/component kept for backward compatibility.
                 // Must stay in function form: admin_sidebar's visibleSections() calls
@@ -4953,7 +4954,7 @@ const AdminDefinition: AdminDefinitionType = {
                     id: 'OAuthSettings',
                     name: defineMessage({id: 'admin.authentication.oauth', defaultMessage: 'OAuth 2.0'}),
                     onConfigLoad: (config) => {
-                        const newState: { oauthType?: string; 'GitLabSettings.Url'?: string } = {};
+                        const newState: {oauthType?: string; 'GitLabSettings.Url'?: string} = {};
                         if (config.GitLabSettings?.Enable) {
                             newState.oauthType = Constants.GITLAB_SERVICE;
                         }
@@ -5277,7 +5278,7 @@ const AdminDefinition: AdminDefinitionType = {
                     id: 'OpenIdSettings',
                     name: defineMessage({id: 'admin.authentication.openid', defaultMessage: 'OpenID Connect'}),
                     onConfigLoad: (config) => {
-                        const newState: { openidType?: string; 'GitLabSettings.Url'?: string } = {};
+                        const newState: {openidType?: string; 'GitLabSettings.Url'?: string} = {};
                         if (config.Office365Settings?.Enable) {
                             newState.openidType = Constants.OFFICE365_SERVICE;
                         }

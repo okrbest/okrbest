@@ -1,37 +1,40 @@
-import React, {useEffect, useRef, useMemo, useImperativeHandle, forwardRef} from 'react';
-import type {LexicalEditor} from 'lexical';
-import classNames from 'classnames';
-import {LexicalComposer} from '@lexical/react/LexicalComposer';
-import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
-import {ContentEditable} from '@lexical/react/LexicalContentEditable';
-import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
-import {MarkdownShortcutPlugin} from '@lexical/react/LexicalMarkdownShortcutPlugin';
-import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {$convertFromMarkdownString, $convertToMarkdownString} from '@lexical/markdown';
 import {$createParagraphNode, $getRoot} from 'lexical';
 import {HeadingNode, QuoteNode} from '@lexical/rich-text';
 import {$isListNode, ListNode, ListItemNode} from '@lexical/list';
 import {CodeNode, CodeHighlightNode} from '@lexical/code';
 import {LinkNode} from '@lexical/link';
-import {TableNode, TableCellNode, TableRowNode} from '@lexical/table';
+import {LexicalComposer} from '@lexical/react/LexicalComposer';
+import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import {ContentEditable} from '@lexical/react/LexicalContentEditable';
+import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
+import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
 import {ListPlugin} from '@lexical/react/LexicalListPlugin';
+import {MarkdownShortcutPlugin} from '@lexical/react/LexicalMarkdownShortcutPlugin';
+import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
 import {TablePlugin} from '@lexical/react/LexicalTablePlugin';
+import {TableNode, TableCellNode, TableRowNode} from '@lexical/table';
+import classNames from 'classnames';
+import type {LexicalEditor} from 'lexical';
+import React, {useEffect, useRef, useMemo, useImperativeHandle, forwardRef} from 'react';
 
 import editorTheme from './config/editor_theme';
 import {CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE, CHANNELS_TRANSFORMERS, CHANNELS_SHORTCUT_TRANSFORMERS} from './config/markdown_transformers';
-import {MentionNode} from './nodes/mention_node';
 import {ChannelMentionNode} from './nodes/channel_mention_node';
 import {EmojiNode} from './nodes/emoji_node';
-import OnChangeMarkdownPlugin from './plugins/on_change_plugin';
-import KeyboardPlugin from './plugins/keyboard_plugin';
-import FocusPlugin from './plugins/focus_plugin';
-import MentionPlugin from './plugins/mention_plugin';
+import {MentionNode} from './nodes/mention_node';
 import ChannelMentionPlugin from './plugins/channel_mention_plugin';
 import EmojiPlugin from './plugins/emoji_plugin';
-import SlashCommandPlugin from './plugins/slash_command_plugin';
+import FocusPlugin from './plugins/focus_plugin';
+import KeyboardPlugin from './plugins/keyboard_plugin';
 import ListShortcutPlugin from './plugins/list_shortcut_plugin';
 import MarkdownPastePlugin from './plugins/markdown_paste_plugin';
+import MentionPlugin from './plugins/mention_plugin';
+import OnChangeMarkdownPlugin from './plugins/on_change_plugin';
+import SlashCommandPlugin from './plugins/slash_command_plugin';
 import {getPlainTextOffsetsFromContentEditable} from './utils/plain_text_selection_offsets';
 import {readChannelsMarkdownForSubmit} from './utils/read_channels_markdown_for_submit';
 
@@ -64,6 +67,7 @@ export type LexicalTextEditorHandle = {
     blur: () => void;
     getInputBox: () => HTMLElement | null;
     getPlainTextSelectionOffsets: () => {start: number; end: number} | null;
+
     /** Enter 전송 직전 draft 와 동기화용 (OnChange 가 아직 반영되지 않은 경우 대비) */
     readMarkdownForSubmit: () => string | null;
 };
@@ -158,7 +162,7 @@ function EditorRefPlugin({editorRef}: {editorRef: React.MutableRefObject<Lexical
     return null;
 }
 
-const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorProps>(function LexicalTextEditor({
+const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorProps>(({
     id,
     value,
     channelId,
@@ -177,7 +181,7 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
     searchUsers,
     searchChannels,
     supportsCommands,
-}, ref) {
+}, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const editorRef = useRef<LexicalEditor | null>(null);
 
@@ -235,11 +239,11 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
             className={classNames('lexical-text-editor', {disabled})}
         >
             <LexicalComposer initialConfig={initialConfig}>
-                <div className="lexical-editor-container">
+                <div className='lexical-editor-container'>
                     <RichTextPlugin
                         contentEditable={
                             <ContentEditable
-                                className="lexical-content-editable"
+                                className='lexical-content-editable'
                                 id={id}
                                 data-placeholder={createMessage}
                             />
@@ -248,24 +252,27 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
                         ErrorBoundary={LexicalErrorBoundary}
                     />
                 </div>
-                <MarkdownShortcutPlugin transformers={CHANNELS_SHORTCUT_TRANSFORMERS} />
-                <MarkdownPastePlugin />
-                <ListShortcutPlugin />
-                <HistoryPlugin />
-                <ListPlugin />
-                <TablePlugin />
-                <OnChangeMarkdownPlugin onChange={onChange} />
-                <ValueSyncPlugin value={value} />
-                <EditablePlugin disabled={disabled} />
-                <EmptyBlockNormalizerPlugin />
-                <EditorRefPlugin editorRef={editorRef} />
+                <MarkdownShortcutPlugin transformers={CHANNELS_SHORTCUT_TRANSFORMERS}/>
+                <MarkdownPastePlugin/>
+                <ListShortcutPlugin/>
+                <HistoryPlugin/>
+                <ListPlugin/>
+                <TablePlugin/>
+                <OnChangeMarkdownPlugin onChange={onChange}/>
+                <ValueSyncPlugin value={value}/>
+                <EditablePlugin disabled={disabled}/>
+                <EmptyBlockNormalizerPlugin/>
+                <EditorRefPlugin editorRef={editorRef}/>
                 {onSubmit && (
                     <KeyboardPlugin
                         onSubmit={onSubmit}
                         onEscape={onEscape}
                     />
                 )}
-                <FocusPlugin onFocus={onFocus} onBlur={onBlur} />
+                <FocusPlugin
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                />
                 <MentionPlugin
                     channelId={channelId}
                     teamId={teamId}
@@ -276,7 +283,7 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
                         searchChannels={searchChannels}
                     />
                 )}
-                <EmojiPlugin />
+                <EmojiPlugin/>
                 {supportsCommands && teamId && (
                     <SlashCommandPlugin
                         teamId={teamId}

@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {$createChannelMentionNode, $isChannelMentionNode, ChannelMentionNode} from './channel_mention_node';
 import {createEditor} from 'lexical';
+
+import {$createChannelMentionNode, $isChannelMentionNode, ChannelMentionNode} from './channel_mention_node';
 
 describe('ChannelMentionNode', () => {
     it('should use channel slug for text content and display name for decoration', () => {

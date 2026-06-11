@@ -10,7 +10,7 @@ import {PostTypes} from 'utils/constants';
 export type DraftInfo = {
     id: string;
     type: 'channel' | 'thread';
-}
+};
 
 // 멘션 매핑 타입: displayname -> username 매핑
 export type MentionMapping = {
@@ -35,12 +35,13 @@ export type PostDraft = {
     type?: PostType;
     metadata?: {
         priority?: {
-            priority: PostPriority|'';
+            priority: PostPriority | '';
             requested_ack?: boolean;
             persistent_notifications?: boolean;
         };
         files?: FileInfo[];
     };
+
     // 멘션 매핑: displayname을 키로 사용하여 username 저장
     mentionMappings?: Record<string, MentionMapping>;
 };

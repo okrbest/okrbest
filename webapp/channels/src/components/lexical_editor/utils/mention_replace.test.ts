@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createEditor} from 'lexical';
-import {$getRoot, $createParagraphNode, $createTextNode} from 'lexical';
+import {createEditor, $getRoot, $createParagraphNode, $createTextNode} from 'lexical';
 
 import {
     computeMentionRangeEnd,

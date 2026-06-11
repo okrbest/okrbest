@@ -1,6 +1,9 @@
-import {useEffect} from 'react';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {BLUR_COMMAND, FOCUS_COMMAND, COMMAND_PRIORITY_LOW} from 'lexical';
+import {useEffect} from 'react';
 
 type Props = {
     onFocus?: () => void;

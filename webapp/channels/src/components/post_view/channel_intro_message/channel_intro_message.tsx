@@ -54,7 +54,7 @@ type Props = {
         favoriteChannel: (channelId: string) => any;
         unfavoriteChannel: (channelId: string) => any;
     };
-}
+};
 
 export default class ChannelIntroMessage extends React.PureComponent<Props> {
     toggleFavorite = () => {

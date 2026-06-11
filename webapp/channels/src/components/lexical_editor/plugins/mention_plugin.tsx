@@ -1,6 +1,6 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {defineMessages, useIntl} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
     $createTextNode,
@@ -8,13 +8,16 @@ import {
     $isRangeSelection,
     TextNode,
 } from 'lexical';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {defineMessages, useIntl} from 'react-intl';
+import {useDispatch, useSelector} from 'react-redux';
 
-import type {UserProfile} from '@mattermost/types/users';
 import type {Group} from '@mattermost/types/groups';
+import type {UserProfile} from '@mattermost/types/users';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {autocompleteUsersInChannel} from 'actions/views/channel';
@@ -241,6 +244,7 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
     const handleSelect = useCallback((item: SuggestionItem) => {
         const mentionText = item.display;
         const pendingMatch = pendingMatchRef.current;
+
         // item.username이 있으면 사용 (본인 멘션 시 description이 '(you)'여서 필요)
         const usernameMatch = item.description?.match(/^@(\S+)$/);
         const username = item.username ?? (usernameMatch ? usernameMatch[1] : mentionText);

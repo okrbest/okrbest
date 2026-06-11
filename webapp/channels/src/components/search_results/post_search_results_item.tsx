@@ -22,7 +22,7 @@ type Props = {
     matches: string[];
     post: Post;
     searchTerm: string;
-}
+};
 
 export default function PostSearchResultsItem(props: Props) {
     const autotranslated = useSelector((state: GlobalState) => isChannelAutotranslated(state, props.post.channel_id));

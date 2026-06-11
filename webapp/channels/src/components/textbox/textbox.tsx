@@ -67,7 +67,7 @@ export type Props = {
     actions: {
         autocompleteUsersInChannel: (prefix: string, channelId: string) => Promise<ActionResult>;
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<ActionResult>;
-        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
+        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{data: any}>;
         fetchAgents: () => Promise<ActionResult>;
     };
     useChannelMentions: boolean;
@@ -77,6 +77,7 @@ export type Props = {
     defaultAgent?: Agent;
     hasLabels?: boolean;
     hasError?: boolean;
+
     // 멘션 아이템이 선택될 때 호출되는 콜백
     onMentionSelected?: (item: MentionItem) => void;
 };

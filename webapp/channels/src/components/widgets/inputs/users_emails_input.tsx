@@ -53,17 +53,17 @@ type Props = {
 
     // Custom display name formatter (e.g., displayUsername). When provided, it replaces default name parts rendering
     formatDisplayName?: (user: UserProfile) => React.ReactNode;
-}
+};
 
 export type EmailInvite = {
     value: string;
     label: string;
-}
+};
 
 type State = {
     options: UserProfile[];
     prevValue: string;
-}
+};
 
 const typedInputDelimiter = /[,;]+/;
 const pasteDelimiter = /[\n\r,;]+/;

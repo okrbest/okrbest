@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createEditor} from 'lexical';
-import {
+import {createEditor,
     $getRoot,
     $createParagraphNode,
     $createTextNode,
@@ -12,6 +11,7 @@ import {
 
 import {applyMentionReplacement} from './apply_mention_replacement';
 import {getTextAfterReplaceEnd} from './mention_replace';
+
 import {$createMentionNode, $isMentionNode} from '../nodes/mention_node';
 
 const CHANNEL_PREFIX_PATTERN = /^[^~\r\n]*/;

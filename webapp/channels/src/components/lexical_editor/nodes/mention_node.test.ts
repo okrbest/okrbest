@@ -1,5 +1,9 @@
-import {$createMentionNode, $isMentionNode, MentionNode} from './mention_node';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {$getRoot, $createParagraphNode, createEditor} from 'lexical';
+
+import {$createMentionNode, $isMentionNode, MentionNode} from './mention_node';
 
 describe('MentionNode', () => {
     it('should create a mention node with username', () => {

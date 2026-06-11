@@ -179,7 +179,7 @@ export type Props = {
     ldapPictureAttributeSet?: boolean;
     enableCustomProfileAttributes: boolean;
     currentTeamId: string;
-}
+};
 
 type State = {
     username: string;
@@ -200,7 +200,7 @@ type State = {
     serverError?: string;
     emailError?: string;
     customAttributeValues: Record<string, string | string[]>;
-}
+};
 
 // Private component to get plugin display name
 type PluginDisplayNameProps = {
@@ -872,7 +872,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
             );
         }
 
-        let describe: JSX.Element|string = '';
+        let describe: JSX.Element | string = '';
         if (this.props.user.auth_service === '') {
             describe = this.props.user.email;
         } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
@@ -1076,7 +1076,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
             );
         }
 
-        let describe: JSX.Element|string = '';
+        let describe: JSX.Element | string = '';
 
         if (user.first_name && user.last_name) {
             describe = user.first_name + ' ' + user.last_name;
@@ -1135,7 +1135,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
                     </span>
                 );
             } else {
-                let nicknameLabel: JSX.Element|string = (
+                let nicknameLabel: JSX.Element | string = (
                     <FormattedMessage
                         id='user.settings.general.nickname'
                         defaultMessage='Nickname'
@@ -1192,7 +1192,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
             );
         }
 
-        let describe: JSX.Element|string = '';
+        let describe: JSX.Element | string = '';
         if (user.nickname) {
             describe = user.nickname;
         } else {
@@ -1477,7 +1477,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
 
             if (active) {
                 const inputs = [];
-                let extraInfo: JSX.Element|string = '';
+                let extraInfo: JSX.Element | string = '';
                 let submit = null;
 
                 const validate = () => {
@@ -1631,7 +1631,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
                     />
                 );
             }
-            let describe: JSX.Element|string = '';
+            let describe: JSX.Element | string = '';
             if (this.props.user.custom_profile_attributes?.[attribute.id]) {
                 const attributeValue = getDisplayValue(this.props.user.custom_profile_attributes?.[attribute.id]);
                 if (attributeValue) {
@@ -1737,7 +1737,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
             );
         }
 
-        let minMessage: JSX.Element|string = formatMessage(holders.uploadImage);
+        let minMessage: JSX.Element | string = formatMessage(holders.uploadImage);
         if (this.props.isMobileView) {
             minMessage = formatMessage(holders.uploadImageMobile);
         }

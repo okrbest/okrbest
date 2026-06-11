@@ -1,5 +1,8 @@
-import React from 'react';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {render, screen, act} from '@testing-library/react';
+import React from 'react';
 
 import LexicalTextEditor from './lexical_text_editor';
 
@@ -27,7 +30,10 @@ describe('LexicalTextEditor markdown compatibility', () => {
     testCases.forEach(({input, expected}) => {
         it(`should render markdown: ${input.slice(0, 30)}`, async () => {
             await act(async () => {
-                render(<LexicalTextEditor {...baseProps} value={input} />);
+                render(<LexicalTextEditor
+                    {...baseProps}
+                    value={input}
+                />);
             });
 
             // InitialValuePlugin이 비동기로 마크다운을 파싱하므로 act 후 확인
@@ -39,7 +45,11 @@ describe('LexicalTextEditor markdown compatibility', () => {
     it('should export valid markdown on change', async () => {
         const onChange = jest.fn();
         await act(async () => {
-            render(<LexicalTextEditor {...baseProps} value="**bold**" onChange={onChange} />);
+            render(<LexicalTextEditor
+                {...baseProps}
+                value='**bold**'
+                onChange={onChange}
+            />);
         });
 
         if (onChange.mock.calls.length > 0) {

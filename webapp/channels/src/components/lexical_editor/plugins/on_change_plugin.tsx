@@ -6,8 +6,9 @@ import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {$getRoot} from 'lexical';
 import {useEffect} from 'react';
 
-import {CHANNELS_TRANSFORMERS} from '../config/markdown_transformers';
 import {unescapeUnderscoresInMarkdownUrls} from 'utils/markdown_normalize';
+
+import {CHANNELS_TRANSFORMERS} from '../config/markdown_transformers';
 
 type Props = {
     onChange: (markdown: string) => void;

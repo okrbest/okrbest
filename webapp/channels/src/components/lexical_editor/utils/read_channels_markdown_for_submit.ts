@@ -5,8 +5,9 @@ import {$convertToMarkdownString} from '@lexical/markdown';
 import type {LexicalEditor} from 'lexical';
 import {$getRoot} from 'lexical';
 
-import {CHANNELS_TRANSFORMERS} from '../config/markdown_transformers';
 import {unescapeUnderscoresInMarkdownUrls} from 'utils/markdown_normalize';
+
+import {CHANNELS_TRANSFORMERS} from '../config/markdown_transformers';
 
 /**
  * 전송 직전 등 OnChange 반영 전에 호출해 에디터 상태와 draft.message 를 맞춘다.

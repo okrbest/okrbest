@@ -1,23 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {act} from '@testing-library/react';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
-import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
+import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
+import {act} from '@testing-library/react';
 import {$getRoot, $createParagraphNode, $createTextNode, $nodesOfType, type LexicalEditor} from 'lexical';
+import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
 
 import {renderWithContext, userEvent, screen} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
-import {MentionNode, $isMentionNode} from '../nodes/mention_node';
-
 import MentionPlugin from './mention_plugin';
+
+import {MentionNode, $isMentionNode} from '../nodes/mention_node';
 
 // jsdom에는 레이아웃 엔진이 없어 Range/Element의 getBoundingClientRect가 없음.
 // Lexical이 커서 위치를 계산할 때 이걸 호출하므로 폴리필이 필요함.
@@ -49,12 +49,15 @@ const TestEditor = () => (
         }}
     >
         <RichTextPlugin
-            contentEditable={<ContentEditable data-testid='editor' />}
+            contentEditable={<ContentEditable data-testid='editor'/>}
             placeholder={null}
             ErrorBoundary={LexicalErrorBoundary}
         />
-        <MentionPlugin channelId='channel-1' teamId='team-1' />
-        <EditorCapture />
+        <MentionPlugin
+            channelId='channel-1'
+            teamId='team-1'
+        />
+        <EditorCapture/>
     </LexicalComposer>
 );
 
@@ -134,7 +137,7 @@ describe('MentionPlugin integration', () => {
     });
 
     it('트리거 직후 커서(빈 검색어) 상태에서 키보드로 선택해도 뒤 텍스트를 보존한다', async () => {
-        renderWithContext(<TestEditor />, initialState);
+        renderWithContext(<TestEditor/>, initialState);
         await setUpTriggerWithTrailingText();
 
         await act(async () => {
@@ -148,7 +151,7 @@ describe('MentionPlugin integration', () => {
     });
 
     it('트리거 직후 커서(빈 검색어) 상태에서 마우스 클릭으로 선택해도 뒤 텍스트를 보존한다', async () => {
-        renderWithContext(<TestEditor />, initialState);
+        renderWithContext(<TestEditor/>, initialState);
         const option = await setUpTriggerWithTrailingText();
 
         await act(async () => {
@@ -162,7 +165,7 @@ describe('MentionPlugin integration', () => {
     });
 
     it('문장 시작 영문 @멘션을 Enter로 선택하면 멘션 노드가 적용된다', async () => {
-        renderWithContext(<TestEditor />, initialState);
+        renderWithContext(<TestEditor/>, initialState);
         await setUpTriggerAtStartWithTail('rest');
 
         await act(async () => {
@@ -177,7 +180,7 @@ describe('MentionPlugin integration', () => {
     });
 
     it('문장 시작 영문 @멘션을 클릭으로 선택해도 멘션 노드가 적용된다', async () => {
-        renderWithContext(<TestEditor />, initialState);
+        renderWithContext(<TestEditor/>, initialState);
         const option = await setUpTriggerAtStartWithTail('rest');
 
         await act(async () => {
@@ -192,7 +195,7 @@ describe('MentionPlugin integration', () => {
     });
 
     it('문장 시작 영문 tail(ddd) 앞에 멘션을 선택하면 경계 공백이 삽입된다 (Enter)', async () => {
-        renderWithContext(<TestEditor />, initialState);
+        renderWithContext(<TestEditor/>, initialState);
         await setUpTriggerAtStartWithTail('ddd');
 
         await act(async () => {
@@ -207,7 +210,7 @@ describe('MentionPlugin integration', () => {
     });
 
     it('문장 시작 영문 tail(ddd) 앞에 멘션을 선택하면 경계 공백이 삽입된다 (클릭)', async () => {
-        renderWithContext(<TestEditor />, initialState);
+        renderWithContext(<TestEditor/>, initialState);
         const option = await setUpTriggerAtStartWithTail('ddd');
 
         await act(async () => {
@@ -222,7 +225,7 @@ describe('MentionPlugin integration', () => {
     });
 
     it('문장 시작 한글 tail(ㅇㅇㅇ) 앞에 멘션을 선택하면 경계 공백이 삽입된다 (Enter)', async () => {
-        renderWithContext(<TestEditor />, initialState);
+        renderWithContext(<TestEditor/>, initialState);
         await setUpTriggerAtStartWithTail('ㅇㅇㅇ');
 
         await act(async () => {
@@ -237,7 +240,7 @@ describe('MentionPlugin integration', () => {
     });
 
     it('문장 시작 한글 tail(ㅇㅇㅇ) 앞에 멘션을 선택하면 경계 공백이 삽입된다 (클릭)', async () => {
-        renderWithContext(<TestEditor />, initialState);
+        renderWithContext(<TestEditor/>, initialState);
         const option = await setUpTriggerAtStartWithTail('ㅇㅇㅇ');
 
         await act(async () => {

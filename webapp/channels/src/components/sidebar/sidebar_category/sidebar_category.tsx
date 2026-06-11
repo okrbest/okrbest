@@ -51,7 +51,7 @@ type Props = {
 
 type State = {
     isMenuOpen: boolean;
-}
+};
 
 export default class SidebarCategory extends React.PureComponent<Props, State> {
     categoryTitleRef: React.RefObject<HTMLButtonElement>;

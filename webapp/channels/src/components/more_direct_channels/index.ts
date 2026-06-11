@@ -15,8 +15,8 @@ import {
     searchProfiles,
     canUserDirectMessage,
 } from 'mattermost-redux/actions/users';
-import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUserId,
@@ -38,7 +38,7 @@ import MoreDirectChannels from './more_direct_channels';
 
 type OwnProps = {
     isExistingChannel: boolean;
-}
+};
 
 export const makeMapStateToProps = () => {
     const searchProfilesStartingWithTerm = makeSearchProfilesStartingWithTerm();

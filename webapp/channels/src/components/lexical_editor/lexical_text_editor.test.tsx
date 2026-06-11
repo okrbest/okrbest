@@ -1,5 +1,8 @@
-import React from 'react';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {render, screen} from '@testing-library/react';
+import React from 'react';
 
 import LexicalTextEditor from './lexical_text_editor';
 
@@ -14,17 +17,23 @@ describe('LexicalTextEditor', () => {
     };
 
     it('should render without crashing', () => {
-        render(<LexicalTextEditor {...baseProps} />);
+        render(<LexicalTextEditor {...baseProps}/>);
         expect(screen.getByRole('textbox')).toBeInTheDocument();
     });
 
     it('should render with initial markdown value', () => {
-        render(<LexicalTextEditor {...baseProps} value="**bold text**" />);
+        render(<LexicalTextEditor
+            {...baseProps}
+            value='**bold text**'
+               />);
         expect(screen.getByRole('textbox')).toBeInTheDocument();
     });
 
     it('should be disabled when disabled prop is true', () => {
-        render(<LexicalTextEditor {...baseProps} disabled={true} />);
+        render(<LexicalTextEditor
+            {...baseProps}
+            disabled={true}
+        />);
         expect(screen.getByRole('textbox')).toHaveAttribute('contenteditable', 'false');
     });
 });

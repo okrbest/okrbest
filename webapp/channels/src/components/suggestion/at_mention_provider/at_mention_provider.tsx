@@ -43,7 +43,7 @@ type CreatedProfile = UserProfile & {
 
 type SpecialMention = {
     username: string;
-}
+};
 
 export type Props = {
     currentUserId: string;
@@ -54,7 +54,7 @@ export type Props = {
     searchAssociatedGroupsForReference: (prefix: string) => Promise<{data: Group[]}>;
     priorityProfiles: UserProfile[] | undefined;
     defaultAgent?: Agent;
-}
+};
 
 // Data structure returned by autocomplete API
 type AutocompleteData = {

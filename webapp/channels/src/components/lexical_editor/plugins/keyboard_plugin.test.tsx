@@ -1,10 +1,13 @@
-import React from 'react';
-import {render, screen} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
-import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
+import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
+import {render, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
 
 import {isMobile} from '@mattermost/shared/utils/user_agent';
 
@@ -17,11 +20,14 @@ jest.mock('@mattermost/shared/utils/user_agent', () => ({
 const TestEditor = ({onSubmit, onEscape}: {onSubmit: jest.Mock; onEscape?: jest.Mock}) => (
     <LexicalComposer initialConfig={{namespace: 'test', onError: jest.fn(), theme: {}}}>
         <RichTextPlugin
-            contentEditable={<ContentEditable data-testid="editor" />}
+            contentEditable={<ContentEditable data-testid='editor'/>}
             placeholder={null}
             ErrorBoundary={LexicalErrorBoundary}
         />
-        <KeyboardPlugin onSubmit={onSubmit} onEscape={onEscape} />
+        <KeyboardPlugin
+            onSubmit={onSubmit}
+            onEscape={onEscape}
+        />
     </LexicalComposer>
 );
 
@@ -32,7 +38,7 @@ describe('KeyboardPlugin', () => {
 
     it('should call onSubmit when Enter is pressed', async () => {
         const onSubmit = jest.fn();
-        render(<TestEditor onSubmit={onSubmit} />);
+        render(<TestEditor onSubmit={onSubmit}/>);
 
         const editor = screen.getByTestId('editor');
         await userEvent.click(editor);
@@ -43,7 +49,7 @@ describe('KeyboardPlugin', () => {
 
     it('should not call onSubmit when Shift+Enter is pressed', async () => {
         const onSubmit = jest.fn();
-        render(<TestEditor onSubmit={onSubmit} />);
+        render(<TestEditor onSubmit={onSubmit}/>);
 
         const editor = screen.getByTestId('editor');
         await userEvent.click(editor);
@@ -55,7 +61,7 @@ describe('KeyboardPlugin', () => {
     it('should not call onSubmit on mobile when Enter is pressed', async () => {
         (isMobile as jest.Mock).mockReturnValue(true);
         const onSubmit = jest.fn();
-        render(<TestEditor onSubmit={onSubmit} />);
+        render(<TestEditor onSubmit={onSubmit}/>);
 
         const editor = screen.getByTestId('editor');
         await userEvent.click(editor);
@@ -66,7 +72,10 @@ describe('KeyboardPlugin', () => {
 
     it('should call onEscape when Escape is pressed', async () => {
         const onEscape = jest.fn();
-        render(<TestEditor onSubmit={jest.fn()} onEscape={onEscape} />);
+        render(<TestEditor
+            onSubmit={jest.fn()}
+            onEscape={onEscape}
+        />);
 
         const editor = screen.getByTestId('editor');
         await userEvent.click(editor);
