@@ -1,16 +1,20 @@
-import {
-    FORMAT_TEXT_COMMAND,
-    $getSelection,
-    $isRangeSelection,
-} from 'lexical';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import {$toggleLink} from '@lexical/link';
 import {
     INSERT_ORDERED_LIST_COMMAND,
     INSERT_UNORDERED_LIST_COMMAND,
 } from '@lexical/list';
 import {$createHeadingNode, $createQuoteNode} from '@lexical/rich-text';
 import {$setBlocksType} from '@lexical/selection';
-import {$toggleLink} from '@lexical/link';
+import {
+    FORMAT_TEXT_COMMAND,
+    $getSelection,
+    $isRangeSelection,
+} from 'lexical';
 import type {LexicalEditor} from 'lexical';
+
 import type {MarkdownMode} from 'utils/markdown/apply_markdown';
 
 export function applyLexicalFormatting(editor: LexicalEditor, mode: MarkdownMode): void {

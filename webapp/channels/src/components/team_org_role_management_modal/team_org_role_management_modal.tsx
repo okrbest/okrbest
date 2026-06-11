@@ -17,11 +17,11 @@ type Props = {
     currentTeam?: Team;
     onExited: () => void;
     focusOriginElement?: string;
-}
+};
 
 type State = {
     show: boolean;
-}
+};
 
 export default class TeamOrgRoleManagementModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {

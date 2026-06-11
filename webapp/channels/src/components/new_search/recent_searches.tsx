@@ -106,6 +106,7 @@ const RecentSearches = ({searchTerms, searchType, onSearchClick}: Props): JSX.El
 
     useEffect(() => {
         const searches = getRecentSearches();
+
         // 현재 searchType과 일치하는 검색어만 필터링
         const filtered = searches.filter((search) => {
             // searchType이 비어있거나 'messages'일 때는 'messages' 타입만 표시

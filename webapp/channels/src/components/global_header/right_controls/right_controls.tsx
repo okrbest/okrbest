@@ -47,7 +47,7 @@ const StyledCustomizeYourExperienceTour = styled.div`
 
 export type Props = {
     productId?: ProductIdentifier;
-}
+};
 
 const RightControls = ({productId = null}: Props): JSX.Element => {
     // guest validation to see which point the messaging tour tip starts

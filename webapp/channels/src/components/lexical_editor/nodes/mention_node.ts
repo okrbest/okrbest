@@ -1,4 +1,6 @@
-import React from 'react';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {
     DecoratorNode,
     type DOMConversionMap,
@@ -9,6 +11,7 @@ import {
     type SerializedLexicalNode,
     type Spread,
 } from 'lexical';
+import React from 'react';
 
 export type SerializedMentionNode = Spread<
     {username: string; displayName: string},

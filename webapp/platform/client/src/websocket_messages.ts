@@ -409,7 +409,7 @@ export type FirstAdminVisitMarketplaceStatusReceived =
 export type HostedCustomerSignupProgressUpdated =
     BaseWebSocketMessage<WebSocketEvents.HostedCustomerSignupProgressUpdated, {
         progress: string;
-    }>
+    }>;
 
 // Custom properties messages
 

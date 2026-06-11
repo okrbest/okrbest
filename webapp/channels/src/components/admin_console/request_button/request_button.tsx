@@ -124,7 +124,7 @@ type State = {
     busy: boolean;
     fail: string;
     success: boolean;
-}
+};
 
 export default class RequestButton extends React.PureComponent<Props, State> {
     static defaultProps: Partial<Props> = {

@@ -43,7 +43,7 @@ type ExtraProps = {
     patchConfig: (config: DeepPartial<AdminConfig>) => Promise<ActionResult>;
     cloud: CloudState;
     isCurrentUserSystemAdmin: boolean;
-}
+};
 
 /**
  * Focus or scroll to a provided hash for the given {@link Location}.

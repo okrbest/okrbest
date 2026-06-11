@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
     $createTextNode,
@@ -11,6 +8,9 @@ import {
     $isRangeSelection,
     TextNode,
 } from 'lexical';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
 
 import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';

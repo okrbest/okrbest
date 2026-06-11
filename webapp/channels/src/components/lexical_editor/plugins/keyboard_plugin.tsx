@@ -1,5 +1,9 @@
-import {useEffect, useRef} from 'react';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import {ListItemNode} from '@lexical/list';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import {$getNearestNodeOfType} from '@lexical/utils';
 import {
     $getSelection,
     $isRangeSelection,
@@ -11,8 +15,7 @@ import {
     INDENT_CONTENT_COMMAND,
     OUTDENT_CONTENT_COMMAND,
 } from 'lexical';
-import {ListItemNode} from '@lexical/list';
-import {$getNearestNodeOfType} from '@lexical/utils';
+import {useEffect, useRef} from 'react';
 
 import {isMobile} from '@mattermost/shared/utils/user_agent';
 

@@ -1,4 +1,10 @@
-import {useEffect} from 'react';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import {
+    INSERT_UNORDERED_LIST_COMMAND,
+    INSERT_ORDERED_LIST_COMMAND,
+} from '@lexical/list';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {
     $getSelection,
@@ -8,10 +14,7 @@ import {
     COMMAND_PRIORITY_HIGH,
     KEY_SPACE_COMMAND,
 } from 'lexical';
-import {
-    INSERT_UNORDERED_LIST_COMMAND,
-    INSERT_ORDERED_LIST_COMMAND,
-} from '@lexical/list';
+import {useEffect} from 'react';
 
 /**
  * `- `, `* `, `+ ` → unordered list
@@ -52,8 +55,9 @@ export default function ListShortcutPlugin(): null {
                 const textBeforeCursor = anchorNode.getTextContent().slice(0, anchor.offset);
 
                 // `- `, `* `, `+ ` → unordered list
-                if (/^[-*+]$/.test(textBeforeCursor)) {
+                if ((/^[-*+]$/).test(textBeforeCursor)) {
                     event.preventDefault();
+
                     // 트리거 문자 제거
                     anchorNode.setTextContent(anchorNode.getTextContent().slice(anchor.offset));
                     if (!anchorNode.getTextContent()) {
@@ -64,7 +68,7 @@ export default function ListShortcutPlugin(): null {
                 }
 
                 // `1.`, `2.` 등 → ordered list
-                if (/^\d+\.$/.test(textBeforeCursor)) {
+                if ((/^\d+\.$/).test(textBeforeCursor)) {
                     event.preventDefault();
                     anchorNode.setTextContent(anchorNode.getTextContent().slice(anchor.offset));
                     if (!anchorNode.getTextContent()) {

@@ -18,8 +18,8 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, isCurrentUserGuestUser, getStatusForUserId, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 
-import * as GlobalActions from 'actions/global_actions';
 import {autocompleteChannels} from 'actions/channel_actions';
+import * as GlobalActions from 'actions/global_actions';
 import type {CreatePostOptions} from 'actions/post_actions';
 import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import type {SubmitPostReturnType} from 'actions/views/create_comment';
@@ -111,7 +111,7 @@ export type Props = {
      * Used by plugins to act after the post is made
      */
     afterSubmit?: (response: SubmitPostReturnType) => void;
-}
+};
 
 const AdvancedTextEditor = ({
     location,
@@ -211,7 +211,7 @@ const AdvancedTextEditor = ({
     const messageStatusRef = useRef<HTMLDivElement | null>(null);
 
     const [draft, setDraft] = useState(draftFromStore);
-    const [serverError, setServerError] = useState<(ServerError & { submittedMessage?: string }) | null>(null);
+    const [serverError, setServerError] = useState<(ServerError & {submittedMessage?: string}) | null>(null);
     const [postError, setPostError] = useState<React.ReactNode>(null);
     const [keepEditorInFocus, setKeepEditorInFocus] = useState(false);
 
@@ -401,7 +401,6 @@ const AdvancedTextEditor = ({
         });
     }, [handleDraftChange]);
 
-
     const handleSearchChannels = useCallback(async (term: string) => {
         return new Promise<Array<{id: string; name: string; display_name: string; type?: string}>>((resolve) => {
             dispatch(autocompleteChannels(term, (channels) => {
@@ -419,6 +418,7 @@ const AdvancedTextEditor = ({
         if (!item?.id || !item?.username) {
             return;
         }
+
         // 특수 멘션(@channel, @all, @here) 및 그룹 멘션은 mentionMappings에 저장하지 않음
         if (item.id.startsWith('special-') || item.id.startsWith('group-')) {
             return;

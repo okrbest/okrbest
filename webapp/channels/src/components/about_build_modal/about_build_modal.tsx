@@ -23,7 +23,7 @@ import AboutBuildModalCloud from './about_build_modal_cloud/about_build_modal_cl
 type SocketStatus = {
     connected: boolean;
     serverHostname: string | undefined;
-}
+};
 
 type Props = {
 
@@ -98,20 +98,20 @@ export default function AboutBuildModal(props: Props) {
         />
     );
 
-        let learnMore = (
-            <div>
-                <FormattedMessage
-                    id='about.teamEditionLearn'
-                    defaultMessage='Join the OKR.BEST community at '
-                />
-                <ExternalLink
-                    location='about_build_modal'
-                    href='https://okr.best/community/'
-                >
-                    {'okr.best/community/'}
-                </ExternalLink>
-            </div>
-        );
+    let learnMore = (
+        <div>
+            <FormattedMessage
+                id='about.teamEditionLearn'
+                defaultMessage='Join the OKR.BEST community at '
+            />
+            <ExternalLink
+                location='about_build_modal'
+                href='https://okr.best/community/'
+            >
+                {'okr.best/community/'}
+            </ExternalLink>
+        </div>
+    );
 
     let licensee;
     if (config.BuildEnterpriseReady === 'true') {

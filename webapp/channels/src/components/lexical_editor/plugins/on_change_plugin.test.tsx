@@ -1,15 +1,18 @@
-import React from 'react';
-import {render, screen, act} from '@testing-library/react';
-import {LexicalComposer} from '@lexical/react/LexicalComposer';
-import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
-import {ContentEditable} from '@lexical/react/LexicalContentEditable';
-import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
-import {HeadingNode, QuoteNode} from '@lexical/rich-text';
-import {ListNode, ListItemNode} from '@lexical/list';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {CodeNode, CodeHighlightNode} from '@lexical/code';
 import {LinkNode} from '@lexical/link';
-import {$getRoot, $createParagraphNode, $createTextNode, type LexicalEditor} from 'lexical';
+import {ListNode, ListItemNode} from '@lexical/list';
+import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import {ContentEditable} from '@lexical/react/LexicalContentEditable';
+import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
+import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
+import {HeadingNode, QuoteNode} from '@lexical/rich-text';
+import {render, screen, act} from '@testing-library/react';
+import {$getRoot, $createParagraphNode, $createTextNode, type LexicalEditor} from 'lexical';
+import React from 'react';
 
 import OnChangeMarkdownPlugin from './on_change_plugin';
 
@@ -31,12 +34,12 @@ const TestEditor = ({onChange}: {onChange: jest.Mock}) => (
         }}
     >
         <RichTextPlugin
-            contentEditable={<ContentEditable data-testid="editor" />}
+            contentEditable={<ContentEditable data-testid='editor'/>}
             placeholder={null}
             ErrorBoundary={LexicalErrorBoundary}
         />
-        <OnChangeMarkdownPlugin onChange={onChange} />
-        <EditorCapture />
+        <OnChangeMarkdownPlugin onChange={onChange}/>
+        <EditorCapture/>
     </LexicalComposer>
 );
 
@@ -47,7 +50,7 @@ describe('OnChangeMarkdownPlugin', () => {
 
     it('should call onChange with markdown string when editor content changes', async () => {
         const onChange = jest.fn();
-        render(<TestEditor onChange={onChange} />);
+        render(<TestEditor onChange={onChange}/>);
 
         // 에디터에 직접 텍스트 삽입
         await act(async () => {
@@ -68,7 +71,7 @@ describe('OnChangeMarkdownPlugin', () => {
 
     it('should export string type from onChange', async () => {
         const onChange = jest.fn();
-        render(<TestEditor onChange={onChange} />);
+        render(<TestEditor onChange={onChange}/>);
 
         // 에디터 변경을 트리거하여 onChange 호출 확인
         await act(async () => {

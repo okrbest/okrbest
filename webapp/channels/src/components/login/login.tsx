@@ -77,7 +77,7 @@ const noLoginIdMessages = defineMessages({
 
 type LoginProps = {
     onCustomizeHeader?: CustomizeHeaderType;
-}
+};
 
 const Login = ({onCustomizeHeader}: LoginProps) => {
     const {formatMessage} = useIntl();

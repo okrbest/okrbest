@@ -38,7 +38,7 @@ export type PropertyValue<T> = {
     create_at: number;
     update_at: number;
     delete_at: number;
-}
+};
 
 export type UserPropertyFieldType = 'text' | 'select' | 'multiselect';
 
@@ -72,7 +72,7 @@ export type PropertyFieldOption = {
     id: string;
     name: string;
     color?: string;
-}
+};
 
 export type UserPropertyField = PropertyField & {
     group_id: UserPropertyFieldGroupID;
@@ -96,7 +96,7 @@ export type SelectPropertyField = PropertyField & {
         editable?: boolean;
         options?: PropertyFieldOption[];
     };
-}
+};
 
 export const supportsOptions = (field: UserPropertyField) => {
     return field.type === 'select' || field.type === 'multiselect';

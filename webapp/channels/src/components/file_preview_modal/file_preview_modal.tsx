@@ -60,7 +60,7 @@ export type Props = {
      * The index number of starting image
      **/
     startIndex: number;
-}
+};
 
 type State = {
     show: boolean;
@@ -76,7 +76,7 @@ type State = {
     panOffset: Record<number, PanOffset>;
     fileIdentities: string[];
     content: string;
-}
+};
 
 export type PanOffset = {x: number; y: number};
 

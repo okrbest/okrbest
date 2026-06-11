@@ -14,14 +14,14 @@ type Props = {
     teamId: string;
     userId: string;
     isBot?: boolean;
-}
+};
 
 type Summary = {
     divisionName: string | null;
     departmentName: string | null;
     dutyName: string | null;
     positionName: string | null;
-}
+};
 
 // Shows the admin-assigned department/position for a teammate, replacing the
 // old free-text user.position display (FR-004). Deliberately fetches via
