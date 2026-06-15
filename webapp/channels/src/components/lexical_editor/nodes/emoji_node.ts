@@ -69,7 +69,7 @@ function LexicalCustomEmojiDecorator({emojiName, emojiImageUrl}: {emojiName: str
 
     return React.createElement(
         'span',
-        {className: 'emoji-node', 'data-emoticon': emojiName},
+        {className: 'emoticon', 'data-emoticon': emojiName},
         `:${emojiName}:`,
     );
 }
