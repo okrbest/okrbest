@@ -14,6 +14,8 @@ import {
 import {ListItemNode} from '@lexical/list';
 import {$getNearestNodeOfType} from '@lexical/utils';
 
+import {isMobile} from 'utils/user_agent';
+
 type Props = {
     onSubmit: () => void;
     onEscape?: () => void;
@@ -33,6 +35,11 @@ export default function KeyboardPlugin({onSubmit, onEscape}: Props): null {
             KEY_ENTER_COMMAND,
             (event: KeyboardEvent | null) => {
                 if (event === null) {
+                    return false;
+                }
+
+                // 모바일 Enter는 전송하지 않고 기본 줄바꿈 동작에 위임
+                if (isMobile()) {
                     return false;
                 }
 
