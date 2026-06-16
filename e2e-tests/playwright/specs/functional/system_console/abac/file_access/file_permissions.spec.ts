@@ -101,7 +101,22 @@ test.describe('ABAC Permission Policies - Download File Enforcement', () => {
             celExpression: 'false',
             permissions: ['Download Files'],
         });
-        await systemConsolePage.page.waitForTimeout(1000);
+
+        // Re-apply ABAC guard: a concurrent initSetup() may have reset
+        // AccessControlSettings.EnableAttributeBasedAccessControl to false between
+        // enableABAC() above and the denied user's login, preventing enforcement.
+        await adminClient.patchConfig({
+            AccessControlSettings: {EnableAttributeBasedAccessControl: true},
+        } as any);
+        await expect
+            .poll(
+                async () => {
+                    const cfg = await adminClient.getConfig();
+                    return cfg.AccessControlSettings?.EnableAttributeBasedAccessControl === true;
+                },
+                {timeout: 15000, intervals: [500, 1000, 2000]},
+            )
+            .toBe(true);
 
         const {channelsPage: deniedChannelsPage, page: deniedPage} = await pw.testBrowser.login(deniedUser);
         await deniedChannelsPage.goto(team.name, channelName);
@@ -245,7 +260,22 @@ test.describe('ABAC Permission Policies - Combined File Enforcement', () => {
             celExpression: 'false',
             permissions: ['Download Files', 'Upload Files'],
         });
-        await systemConsolePage.page.waitForTimeout(1000);
+
+        // Re-apply ABAC guard: a concurrent initSetup() may have reset
+        // AccessControlSettings.EnableAttributeBasedAccessControl to false between
+        // enableABAC() above and the denied user's login, preventing enforcement.
+        await adminClient.patchConfig({
+            AccessControlSettings: {EnableAttributeBasedAccessControl: true},
+        } as any);
+        await expect
+            .poll(
+                async () => {
+                    const cfg = await adminClient.getConfig();
+                    return cfg.AccessControlSettings?.EnableAttributeBasedAccessControl === true;
+                },
+                {timeout: 15000, intervals: [500, 1000, 2000]},
+            )
+            .toBe(true);
 
         const {channelsPage: deniedChannelsPage, page: deniedPage} = await pw.testBrowser.login(deniedUser);
         await deniedChannelsPage.goto(team.name, channelName);
@@ -408,7 +438,22 @@ test.describe('ABAC Permission Policies - BOR and Permalink', () => {
             celExpression: 'false',
             permissions: ['Download Files'],
         });
-        await systemConsolePage.page.waitForTimeout(1000);
+
+        // Re-apply ABAC guard: a concurrent initSetup() may have reset
+        // AccessControlSettings.EnableAttributeBasedAccessControl to false between
+        // enableABAC() above and the denied user's login, preventing enforcement.
+        await adminClient.patchConfig({
+            AccessControlSettings: {EnableAttributeBasedAccessControl: true},
+        } as any);
+        await expect
+            .poll(
+                async () => {
+                    const cfg = await adminClient.getConfig();
+                    return cfg.AccessControlSettings?.EnableAttributeBasedAccessControl === true;
+                },
+                {timeout: 15000, intervals: [500, 1000, 2000]},
+            )
+            .toBe(true);
 
         // # Denied user navigates to channel and reveals the BOR message
         const {channelsPage: deniedChannelsPage, page: deniedPage} = await pw.testBrowser.login(deniedUser);
@@ -464,7 +509,22 @@ test.describe('ABAC Permission Policies - BOR and Permalink', () => {
             celExpression: 'false',
             permissions: ['Download Files'],
         });
-        await systemConsolePage.page.waitForTimeout(1000);
+
+        // Re-apply ABAC guard: a concurrent initSetup() may have reset
+        // AccessControlSettings.EnableAttributeBasedAccessControl to false between
+        // enableABAC() above and the denied user's login, preventing enforcement.
+        await adminClient.patchConfig({
+            AccessControlSettings: {EnableAttributeBasedAccessControl: true},
+        } as any);
+        await expect
+            .poll(
+                async () => {
+                    const cfg = await adminClient.getConfig();
+                    return cfg.AccessControlSettings?.EnableAttributeBasedAccessControl === true;
+                },
+                {timeout: 15000, intervals: [500, 1000, 2000]},
+            )
+            .toBe(true);
 
         // # Denied user loads the channel
         const {channelsPage: deniedChannelsPage, page: deniedPage} = await pw.testBrowser.login(deniedUser);
