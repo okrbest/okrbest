@@ -112,6 +112,7 @@ export type ClientConfig = {
     EnableTutorial: string;
     EnableOnboardingFlow: string;
     EnableUserAccessTokens: string;
+    MaximumPersonalAccessTokenLifetimeDays: string;
     EnableUserCreation: string;
     EnableUserDeactivation: string;
     EnableUserTypingMessages: string;
@@ -364,6 +365,7 @@ export type ServiceSettings = {
     EnableMultifactorAuthentication: boolean;
     EnforceMultifactorAuthentication: boolean;
     EnableUserAccessTokens: boolean;
+    MaximumPersonalAccessTokenLifetimeDays: number;
     AllowCorsFrom: string;
     CorsExposedHeaders: string;
     CorsAllowCredentials: boolean;
