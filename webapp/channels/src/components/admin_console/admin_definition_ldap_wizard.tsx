@@ -36,8 +36,8 @@ export const ldapWizardAdminDefinition: LDAPAdminDefinitionConfigSchemaSettings 
     name: defineMessage({id: 'admin.authentication.ldap.wizard', defaultMessage: 'AD/LDAP Wizard'}),
     sections: [{
         key: 'admin.authentication.ldap.connection',
-        title: 'Connection Settings',
-        subtitle: 'Connection and security level to your AD/LDAP server.',
+        title: defineMessage({id: 'admin.authentication.ldap.connection.title', defaultMessage: 'Connection Settings'}),
+        subtitle: defineMessage({id: 'admin.authentication.ldap.connection.subtitle', defaultMessage: 'Connection and security level to your AD/LDAP server.'}),
         settings: [
             {
                 type: 'bool',
@@ -254,8 +254,8 @@ export const ldapWizardAdminDefinition: LDAPAdminDefinitionConfigSchemaSettings 
     },
     {
         key: 'admin.authentication.ldap.dn_and_filters',
-        title: 'User Filters',
-        subtitle: 'Tell Mattermost how to identify your users within LDAP',
+        title: defineMessage({id: 'admin.authentication.ldap.dn_and_filters.title', defaultMessage: 'User Filters'}),
+        subtitle: defineMessage({id: 'admin.authentication.ldap.dn_and_filters.subtitle', defaultMessage: 'Tell Mattermost how to identify your users within LDAP'}),
         settings: [
             {
                 type: 'text',
@@ -375,8 +375,8 @@ export const ldapWizardAdminDefinition: LDAPAdminDefinitionConfigSchemaSettings 
     },
     {
         key: 'admin.authentication.ldap.account_synchronization',
-        title: 'Synchronise user account properties',
-        sectionTitle: 'Account sync',
+        title: defineMessage({id: 'admin.authentication.ldap.account_synchronization.title', defaultMessage: 'Synchronise user account properties'}),
+        sectionTitle: defineMessage({id: 'admin.authentication.ldap.account_synchronization.section_title', defaultMessage: 'Account sync'}),
         settings: [
             {
                 type: 'text',
@@ -553,7 +553,7 @@ export const ldapWizardAdminDefinition: LDAPAdminDefinitionConfigSchemaSettings 
     },
     {
         key: 'admin.authentication.ldap.group_synchronization',
-        title: 'Group Synchronization',
+        title: defineMessage({id: 'admin.authentication.ldap.group_synchronization.title', defaultMessage: 'Group Synchronization'}),
         settings: [
             {
                 type: 'text',
@@ -602,8 +602,8 @@ export const ldapWizardAdminDefinition: LDAPAdminDefinitionConfigSchemaSettings 
     },
     {
         key: 'admin.authentication.ldap.synchronization_performance',
-        title: 'Synchronization Performance',
-        sectionTitle: 'Sync Performance',
+        title: defineMessage({id: 'admin.authentication.ldap.synchronization_performance.title', defaultMessage: 'Synchronization Performance'}),
+        sectionTitle: defineMessage({id: 'admin.authentication.ldap.synchronization_performance.section_title', defaultMessage: 'Sync Performance'}),
         settings: [
             {
                 type: 'number',
@@ -650,9 +650,9 @@ export const ldapWizardAdminDefinition: LDAPAdminDefinitionConfigSchemaSettings 
     },
     {
         key: 'admin.authentication.ldap.synchronization_history',
-        title: 'Synchronize users to the system',
-        subtitle: 'See the table below for the status of each synchronization',
-        sectionTitle: 'Sync History',
+        title: defineMessage({id: 'admin.authentication.ldap.synchronization_history.title', defaultMessage: 'Synchronize users to the system'}),
+        subtitle: defineMessage({id: 'admin.authentication.ldap.synchronization_history.subtitle', defaultMessage: 'See the table below for the status of each synchronization'}),
+        sectionTitle: defineMessage({id: 'admin.authentication.ldap.synchronization_history.section_title', defaultMessage: 'Sync History'}),
         settings: [
             {
                 type: 'jobstable',
