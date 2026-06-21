@@ -1882,6 +1882,13 @@ export default class Client4 {
         );
     };
 
+    addToGroupChannel = (userIds: string[], channelId: string) => {
+        return this.doFetch<ServerChannel>(
+            `${this.getChannelRoute(channelId)}/members/group`,
+            {method: 'post', body: JSON.stringify({user_ids: userIds})},
+        );
+    };
+
     addToChannel = (userId: string, channelId: string, postRootId = '') => {
         const member = {user_id: userId, channel_id: channelId, post_root_id: postRootId};
         return this.doFetch<ChannelMembership>(

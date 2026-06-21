@@ -111,9 +111,9 @@ describe('Multi-user group messages', () => {
         cy.uiOpenChannelMenu('Members');
         cy.uiGetButton('Add').click();
 
-        // * Verify message says: "This will start a new conversation. If you're adding a lot of people, consider creating a private channel instead."
+        // * Verify message says that newly added members can view existing history
         cy.get('#moreDmModal').should('be.visible');
-        const warnMessage = 'This will start a new conversation. If you\'re adding a lot of people, consider creating a private channel instead.';
+        const warnMessage = 'Newly added members will be able to view the existing conversation history. If you\'re adding a lot of people, consider creating a private channel instead.';
         cy.contains(warnMessage).should('be.visible');
 
         // * Verify users are listed in the GM box
@@ -134,10 +134,8 @@ describe('Multi-user group messages', () => {
         cy.get('#moreDmModal').should('not.exist');
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        // * Original messages does not exist
-        cy.contains('.post-message__text', 'historical').should('not.exist');
-
-        cy.contains('p.channel-intro__text', 'This is the start of your group message history with');
+        // * Original messages remain visible in the same GM
+        cy.contains('.post-message__text', 'historical').should('be.visible');
 
         // * New user is added to the GM
         cy.uiGetRHS().contains(testUser.username).should('be.visible');

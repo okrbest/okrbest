@@ -4973,7 +4973,7 @@
   "more_direct_channels.directchannel.deactivated": "{displayname} - 비활성화됨",
   "more_direct_channels.directchannel.you": "{displayname} (당신)",
   "more_direct_channels.new_convo_add.label": "{label} 옵션 추가",
-  "more_direct_channels.new_convo_note": "새로운 대화가 시작됩니다. 많은 사람을 추가해야 하는 경우, 비공개 채널을 만드는 것이 좋습니다.",
+  "more_direct_channels.new_convo_note": "새로 추가된 참여자는 기존 대화 이력을 볼 수 있습니다. 많은 사람을 추가해야 하는 경우, 비공개 채널을 만드는 것이 좋습니다.",
   "more_direct_channels.new_convo_note.full": "이 대화에 참여할 수 있는 최대 인원에 도달했습니다. 대신 비공개 채널을 만드는 것을 고려해 보세요.",
   "more_direct_channels.title": "개인 메시지",
   "move_thread_modal.button.cancel": "취소",

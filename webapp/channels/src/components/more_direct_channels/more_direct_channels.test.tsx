@@ -18,6 +18,8 @@ describe('components/MoreDirectChannels', () => {
     const baseProps: ComponentProps<typeof MoreDirectChannels> = {
         focusOriginElement: 'anyId',
         currentUserId: 'current_user_id',
+        currentChannelId: 'gm_channel_id',
+        currentChannelType: 'G',
         currentTeamId: 'team_id',
         currentTeamName: 'team_name',
         searchTerm: '',
@@ -68,6 +70,7 @@ describe('components/MoreDirectChannels', () => {
             loadProfilesForGroupChannels: jest.fn().mockResolvedValue({data: true}),
             openDirectChannelToUserId: jest.fn().mockResolvedValue({data: {name: 'dm'}}),
             openGroupChannelToUserIds: jest.fn().mockResolvedValue({data: {name: 'group'}}),
+            addUsersToGroupMessage: jest.fn().mockResolvedValue({data: {id: 'gm_channel_id', name: 'group'}}),
             getTotalUsersStats: jest.fn().mockImplementation(() => {
                 return ((resolve: () => any) => {
                     process.nextTick(() => resolve());
@@ -220,6 +223,70 @@ describe('components/MoreDirectChannels', () => {
             expect(wrapper.state('saving')).toEqual(false);
             expect(handleHide).toHaveBeenCalled();
             expect(wrapper.instance().exitToChannel).toEqual(`/${baseProps.currentTeamName}/channels/group`);
+            done();
+        });
+    });
+
+    test('should add members to existing GM without redirect', (done) => {
+        jest.useFakeTimers({legacyFakeTimers: true});
+        const props = {
+            ...baseProps,
+            isExistingChannel: true,
+            currentChannelType: 'G',
+            currentChannelMembers: [
+                {
+                    ...mockedUser,
+                    id: 'current_user_id',
+                },
+                {
+                    ...mockedUser,
+                    id: 'user_id_1',
+                },
+                {
+                    ...mockedUser,
+                    id: 'user_id_2',
+                },
+            ],
+            actions: {
+                ...baseProps.actions,
+                addUsersToGroupMessage: jest.fn().mockResolvedValue({data: {id: 'gm_channel_id', name: 'group'}}),
+            },
+        };
+
+        const wrapper = shallow<MoreDirectChannels>(<MoreDirectChannels {...props}/>);
+        const handleHide = jest.fn();
+        wrapper.instance().handleHide = handleHide;
+
+        wrapper.setState({
+            values: [
+                {
+                    ...mockedUser,
+                    id: 'user_id_1',
+                    label: 'user_id_1',
+                    value: 'user_id_1',
+                },
+                {
+                    ...mockedUser,
+                    id: 'user_id_2',
+                    label: 'user_id_2',
+                    value: 'user_id_2',
+                },
+                {
+                    ...mockedUser,
+                    id: 'user_id_3',
+                    label: 'user_id_3',
+                    value: 'user_id_3',
+                },
+            ],
+        });
+
+        wrapper.instance().handleSubmit();
+        expect(props.actions.addUsersToGroupMessage).toHaveBeenCalledTimes(1);
+        expect(props.actions.addUsersToGroupMessage).toHaveBeenCalledWith('gm_channel_id', ['user_id_3']);
+        process.nextTick(() => {
+            expect(wrapper.state('saving')).toEqual(false);
+            expect(handleHide).toHaveBeenCalled();
+            expect(wrapper.instance().exitToChannel).toBeUndefined();
             done();
         });
     });

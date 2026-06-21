@@ -1600,6 +1600,41 @@ func TestCreateGroupChannelAsGuest(t *testing.T) {
 	})
 }
 
+func TestAddGroupChannelMembers(t *testing.T) {
+	mainHelper.Parallel(t)
+	th := Setup(t).InitBasic(t)
+
+	requester := th.BasicUser
+	existingUser := th.BasicUser2
+	thirdUser := th.CreateUser(t)
+	newUser := th.CreateUser(t)
+
+	th.LinkUserToTeam(t, thirdUser, th.BasicTeam)
+	th.AddUserToChannel(t, thirdUser, th.BasicChannel)
+	th.LinkUserToTeam(t, newUser, th.BasicTeam)
+	th.AddUserToChannel(t, newUser, th.BasicChannel)
+
+	groupChannel, _, err := th.Client.CreateGroupChannel(context.Background(), []string{requester.Id, existingUser.Id, thirdUser.Id})
+	require.NoError(t, err)
+
+	post, _, err := th.Client.CreatePost(context.Background(), &model.Post{ChannelId: groupChannel.Id, Message: "historical"})
+	require.NoError(t, err)
+
+	updatedChannel, resp, err := th.Client.AddGroupChannelMembers(context.Background(), groupChannel.Id, []string{newUser.Id})
+	require.NoError(t, err)
+	CheckOKStatus(t, resp)
+	require.Equal(t, groupChannel.Id, updatedChannel.Id)
+	require.NotEqual(t, groupChannel.Name, updatedChannel.Name)
+
+	newUserClient := th.CreateClient()
+	_, _, err = newUserClient.Login(context.Background(), newUser.Email, newUser.Password)
+	require.NoError(t, err)
+
+	posts, _, err := newUserClient.GetPostsForChannel(context.Background(), updatedChannel.Id, 0, 60, "", false, false)
+	require.NoError(t, err)
+	require.Contains(t, posts.Posts, post.Id)
+}
+
 func TestDeleteGroupChannel(t *testing.T) {
 	mainHelper.Parallel(t)
 	th := Setup(t).InitBasic(t)

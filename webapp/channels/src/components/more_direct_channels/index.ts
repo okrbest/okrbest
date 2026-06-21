@@ -16,6 +16,7 @@ import {
     canUserDirectMessage,
 } from 'mattermost-redux/actions/users';
 import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUserId,
@@ -27,7 +28,7 @@ import {
     getTotalUsersStats as getTotalUsersStatsSelector,
 } from 'mattermost-redux/selectors/entities/users';
 
-import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
+import {addUsersToGroupMessage, openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
 import {loadStatusesForProfilesList, loadProfilesMissingStatus} from 'actions/status_actions';
 import {loadProfilesForGroupChannels} from 'actions/user_actions';
 import {setModalSearchTerm} from 'actions/views/search';
@@ -75,6 +76,7 @@ export const makeMapStateToProps = () => {
         }
 
         const team = getCurrentTeam(state);
+        const currentChannel = getCurrentChannel(state);
         const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 
         return {
@@ -84,6 +86,8 @@ export const makeMapStateToProps = () => {
             users,
             currentChannelMembers,
             currentUserId,
+            currentChannelId: currentChannel?.id,
+            currentChannelType: currentChannel?.type,
             restrictDirectMessage,
             totalCount: stats.total_users_count ?? 0,
         };
@@ -101,6 +105,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             loadProfilesForGroupChannels,
             openDirectChannelToUserId,
             openGroupChannelToUserIds,
+            addUsersToGroupMessage,
             searchProfiles,
             searchGroupChannels,
             setModalSearchTerm,

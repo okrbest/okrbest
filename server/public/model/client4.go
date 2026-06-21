@@ -3111,6 +3111,17 @@ func (c *Client4) AddChannelMembers(ctx context.Context, channelId, postRootId s
 	return DecodeJSONFromResponse[[]*ChannelMember](r)
 }
 
+// AddGroupChannelMembers adds users to an existing group message channel and returns the updated channel.
+func (c *Client4) AddGroupChannelMembers(ctx context.Context, channelId string, userIds []string) (*Channel, *Response, error) {
+	requestBody := map[string]any{"user_ids": userIds}
+	r, err := c.DoAPIPostJSON(ctx, c.channelRoute(channelId)+"/members/group", requestBody)
+	if err != nil {
+		return nil, BuildResponse(r), err
+	}
+	defer closeBody(r)
+	return DecodeJSONFromResponse[*Channel](r)
+}
+
 // AddChannelMemberWithRootId adds user to channel and return a channel member. Post add to channel message has the postRootId.
 func (c *Client4) AddChannelMemberWithRootId(ctx context.Context, channelId, userId, postRootId string) (*ChannelMember, *Response, error) {
 	requestBody := map[string]string{"user_id": userId, "post_root_id": postRootId}
