@@ -178,6 +178,12 @@ export function addUsersToChannel(channelId: Channel['id'], userIds: Array<UserP
     };
 }
 
+export function addUsersToGroupMessage(channelId: Channel['id'], userIds: Array<UserProfile['id']>): ActionFuncAsync<Channel> {
+    return async (dispatch) => {
+        return dispatch(ChannelActions.addGroupChannelMembers(channelId, userIds));
+    };
+}
+
 export function unmuteChannel(userId: UserProfile['id'], channelId: Channel['id']) {
     return ChannelActions.updateChannelNotifyProps(userId, channelId, {
         mark_unread: NotificationLevels.ALL,

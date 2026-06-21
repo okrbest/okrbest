@@ -5042,7 +5042,7 @@
   "more_direct_channels.directchannel.deactivated": "{displayname} - Deactivated",
   "more_direct_channels.directchannel.you": "{displayname} (you)",
   "more_direct_channels.new_convo_add.label": "Add option {label}",
-  "more_direct_channels.new_convo_note": "This will start a new conversation. If you're adding a lot of people, consider creating a private channel instead.",
+  "more_direct_channels.new_convo_note": "Newly added members will be able to view the existing conversation history. If you're adding a lot of people, consider creating a private channel instead.",
   "more_direct_channels.new_convo_note.full": "You've reached the maximum number of people for this conversation. Consider creating a private channel instead.",
   "more_direct_channels.title": "Direct Messages",
   "more.details": "More details",

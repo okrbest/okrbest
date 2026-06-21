@@ -62,6 +62,7 @@ func (api *API) InitChannel() {
 	api.BaseRoutes.Channel.Handle("/member_counts_by_group", api.APISessionRequired(channelMemberCountsByGroup)).Methods(http.MethodGet)
 	api.BaseRoutes.Channel.Handle("/common_teams", api.APISessionRequired(getDirectOrGroupMessageMembersCommonTeams)).Methods(http.MethodGet)
 	api.BaseRoutes.Channel.Handle("/convert_to_channel", api.APISessionRequired(convertGroupMessageToChannel)).Methods(http.MethodPost)
+	api.BaseRoutes.Channel.Handle("/members/group", api.APISessionRequired(addGroupChannelMembers)).Methods(http.MethodPost)
 	api.BaseRoutes.Channel.Handle("/access_control/attributes", api.APISessionRequired(getChannelAccessControlAttributes)).Methods(http.MethodGet)
 
 	api.BaseRoutes.ChannelForUser.Handle("/unread", api.APISessionRequired(getChannelUnread)).Methods(http.MethodGet)
@@ -2049,6 +2050,76 @@ func addChannelMember(c *Context, w http.ResponseWriter, r *http.Request) {
 		if err := json.NewEncoder(w).Encode(newChannelMembers); err != nil {
 			c.Logger.Warn("Error while writing response", mlog.Err(err))
 		}
+	}
+}
+
+func addGroupChannelMembers(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireChannelId()
+	if c.Err != nil {
+		return
+	}
+
+	props := model.StringInterfaceFromJSON(r.Body)
+	interfaceIds, ok := props["user_ids"].([]any)
+	if !ok || len(interfaceIds) == 0 || len(interfaceIds) > maxListSize {
+		c.SetInvalidParam("user_ids")
+		return
+	}
+
+	userIDs := make([]string, 0, len(interfaceIds))
+	for _, userID := range interfaceIds {
+		uid, isString := userID.(string)
+		if !isString || !model.IsValidId(uid) {
+			c.SetInvalidParam("user_id in user_ids")
+			return
+		}
+		userIDs = append(userIDs, uid)
+	}
+
+	channel, appErr := c.App.GetChannel(c.AppContext, c.Params.ChannelId)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	if channel.Type != model.ChannelTypeGroup {
+		c.Err = model.NewAppError("addGroupChannelMembers", "api.channel.add_user_to_channel.type.app_error", nil, "", http.StatusBadRequest)
+		return
+	}
+
+	for _, userID := range userIDs {
+		if c.AppContext.Session().UserId == userID {
+			continue
+		}
+
+		canSee, err := c.App.UserCanSeeOtherUser(c.AppContext, c.AppContext.Session().UserId, userID)
+		if err != nil {
+			c.Err = err
+			return
+		}
+		if !canSee {
+			c.SetPermissionError(model.PermissionViewMembers)
+			return
+		}
+	}
+
+	auditRec := c.MakeAuditRecord(model.AuditEventAddChannelMember, model.AuditStatusFail)
+	defer c.LogAuditRec(auditRec)
+	model.AddEventParameterToAuditRec(auditRec, "channel_id", c.Params.ChannelId)
+	model.AddEventParameterToAuditRec(auditRec, "user_ids", userIDs)
+
+	updatedChannel, appErr := c.App.AddUsersToGroupChannel(c.AppContext, channel, userIDs, c.AppContext.Session().UserId)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	auditRec.Success()
+	auditRec.AddEventObjectType("channel")
+	auditRec.AddEventResultState(updatedChannel)
+
+	if err := json.NewEncoder(w).Encode(updatedChannel); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
 	}
 }
 

@@ -1065,6 +1065,26 @@ export function addChannelMembers(channelId: string, userIds: string[], postRoot
     };
 }
 
+export function addGroupChannelMembers(channelId: string, userIds: string[]): ActionFuncAsync<Channel> {
+    return async (dispatch, getState) => {
+        let updatedChannel;
+        try {
+            updatedChannel = await Client4.addToGroupChannel(userIds, channelId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: ChannelTypes.RECEIVED_CHANNEL,
+            data: updatedChannel,
+        });
+
+        return {data: updatedChannel};
+    };
+}
+
 export function removeChannelMember(channelId: string, userId: string): ActionFuncAsync {
     return async (dispatch, getState) => {
         try {

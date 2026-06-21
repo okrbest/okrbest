@@ -89,7 +89,7 @@ const List = React.forwardRef((props: Props, ref?: React.Ref<MultiSelect<OptionV
             note = (
                 <FormattedMessage
                     id='more_direct_channels.new_convo_note'
-                    defaultMessage={'This will start a new conversation. If you\'re adding a lot of people, consider creating a private channel instead.'}
+                    defaultMessage={'Newly added members will be able to view the existing conversation history. If you\'re adding a lot of people, consider creating a private channel instead.'}
                 />
             );
         }

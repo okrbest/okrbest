@@ -24,6 +24,8 @@ import type {OptionValue} from './types';
 
 export type Props = {
     currentUserId: string;
+    currentChannelId?: string;
+    currentChannelType?: string;
     currentTeamId?: string;
     currentTeamName?: string;
     searchTerm: string;
@@ -55,6 +57,7 @@ export type Props = {
         loadProfilesForGroupChannels: (groupChannels: Channel[]) => void;
         openDirectChannelToUserId: (userId: string) => Promise<ActionResult>;
         openGroupChannelToUserIds: (userIds: string[]) => Promise<ActionResult>;
+        addUsersToGroupMessage: (channelId: string, userIds: string[]) => Promise<ActionResult<Channel>>;
         searchProfiles: (term: string, options: any) => Promise<ActionResult<UserProfile[]>>;
         searchGroupChannels: (term: string) => Promise<ActionResult<Channel[]>>;
         setModalSearchTerm: (term: string) => void;
@@ -208,7 +211,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     };
 
     handleSubmit = (values = this.state.values) => {
-        const {actions} = this.props;
+        const {actions, currentChannelId, currentChannelMembers, currentChannelType, currentUserId, isExistingChannel} = this.props;
 
         if (this.state.saving) {
             return;
@@ -221,17 +224,32 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
 
         this.setState({saving: true});
 
-        const done = (result: any) => {
+        const done = (result: any, shouldRedirect = true) => {
             const {data, error} = result;
             this.setState({saving: false});
 
             if (!error) {
-                this.exitToChannel = '/' + this.props.currentTeamName + '/channels/' + data.name;
+                if (shouldRedirect) {
+                    this.exitToChannel = '/' + this.props.currentTeamName + '/channels/' + data.name;
+                }
                 this.handleHide();
             }
         };
 
-        if (userIds.length === 1) {
+        if (isExistingChannel && currentChannelType === Constants.GM_CHANNEL && currentChannelId) {
+            const existingMemberIds = new Set((currentChannelMembers || []).
+                filter((member) => member.id !== currentUserId).
+                map((member) => member.id));
+            const newUserIds = userIds.filter((id) => !existingMemberIds.has(id));
+
+            if (newUserIds.length === 0) {
+                this.setState({saving: false});
+                this.handleHide();
+                return;
+            }
+
+            actions.addUsersToGroupMessage(currentChannelId, newUserIds).then((result) => done(result, false));
+        } else if (userIds.length === 1) {
             actions.openDirectChannelToUserId(userIds[0]).then(done);
         } else {
             actions.openGroupChannelToUserIds(userIds).then(done);

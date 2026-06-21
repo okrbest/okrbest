@@ -711,6 +711,147 @@ func (a *App) GetGroupChannel(rctx request.CTX, userIDs []string) (*model.Channe
 	return channel, nil
 }
 
+func (a *App) AddUsersToGroupChannel(rctx request.CTX, channel *model.Channel, userIDs []string, requesterID string) (*model.Channel, *model.AppError) {
+	if channel.Type != model.ChannelTypeGroup {
+		return nil, model.NewAppError("AddUsersToGroupChannel", "api.channel.add_user_to_channel.type.app_error", nil, "", http.StatusBadRequest)
+	}
+
+	if _, appErr := a.GetChannelMember(rctx, channel.Id, requesterID); appErr != nil {
+		if appErr.Id == MissingChannelMemberError {
+			return nil, model.NewAppError("AddUsersToGroupChannel", "api.channel.add_members.add.self.app_error", nil, "", http.StatusForbidden)
+		}
+		return nil, appErr
+	}
+
+	currentMembers, appErr := a.GetChannelMembersPage(rctx, channel.Id, 0, model.ChannelGroupMaxUsers)
+	if appErr != nil {
+		return nil, appErr
+	}
+
+	memberIDSet := make(map[string]struct{}, len(currentMembers))
+	memberIDs := make([]string, 0, len(currentMembers))
+	for _, member := range currentMembers {
+		memberIDSet[member.UserId] = struct{}{}
+		memberIDs = append(memberIDs, member.UserId)
+	}
+
+	usersToAdd := make([]string, 0, len(userIDs))
+	for _, userID := range userIDs {
+		if _, exists := memberIDSet[userID]; exists {
+			continue
+		}
+		memberIDSet[userID] = struct{}{}
+		usersToAdd = append(usersToAdd, userID)
+		memberIDs = append(memberIDs, userID)
+	}
+
+	if len(memberIDs) > model.ChannelGroupMaxUsers {
+		return nil, model.NewAppError("AddUsersToGroupChannel", "api.channel.create_group.bad_size.app_error", nil, "", http.StatusBadRequest)
+	}
+
+	if len(usersToAdd) > 0 {
+		users, err := a.Srv().Store().User().GetProfileByIds(sqlstore.RequestContextWithMaster(rctx), usersToAdd, nil, false)
+		if err != nil {
+			return nil, model.NewAppError("AddUsersToGroupChannel", "app.user.get_profiles.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+		}
+
+		if len(users) != len(usersToAdd) {
+			return nil, model.NewAppError("AddUsersToGroupChannel", "api.channel.create_group.bad_user.app_error", nil, "user_ids="+model.ArrayToJSON(usersToAdd), http.StatusBadRequest)
+		}
+
+		if !a.Config().FeatureFlags.EnableSharedChannelsDMs {
+			for _, user := range users {
+				if user.IsRemote() {
+					return nil, model.NewAppError("AddUsersToGroupChannel", "api.channel.create_group.remote_restricted.app_error", nil, "", http.StatusForbidden)
+				}
+			}
+		}
+
+		for _, user := range users {
+			newMember := &model.ChannelMember{
+				ChannelId:   channel.Id,
+				UserId:      user.Id,
+				NotifyProps: model.GetDefaultChannelNotifyProps(),
+				SchemeGuest: user.IsGuest(),
+				SchemeUser:  !user.IsGuest(),
+			}
+
+			if _, nErr := a.Srv().Store().Channel().SaveMember(rctx, newMember); nErr != nil {
+				var appErr *model.AppError
+				var cErr *store.ErrConflict
+				switch {
+				case errors.As(nErr, &cErr):
+					switch cErr.Resource {
+					case "ChannelMembers":
+						continue
+					}
+				case errors.As(nErr, &appErr):
+					return nil, appErr
+				default:
+					return nil, model.NewAppError("AddUsersToGroupChannel", "api.channel.add_user.to.channel.failed.app_error", nil, "", http.StatusInternalServerError).Wrap(nErr)
+				}
+			}
+
+			if err := a.Srv().Store().ChannelMemberHistory().LogJoinEvent(user.Id, channel.Id, model.GetMillis()); err != nil {
+				return nil, model.NewAppError("AddUsersToGroupChannel", "app.channel_member_history.log_join_event.internal_error", nil, "", http.StatusInternalServerError).Wrap(err)
+			}
+
+			a.Srv().Platform().InvalidateChannelCacheForUser(user.Id)
+			a.addChannelToDefaultCategory(rctx, user.Id, channel)
+
+			if channel.IsShared() {
+				if scs := a.Srv().Platform().GetSharedChannelService(); scs != nil {
+					scs.HandleMembershipChange(channel.Id, user.Id, true, user.GetRemoteID())
+				}
+			}
+
+			message := model.NewWebSocketEvent(model.WebsocketEventUserAdded, "", channel.Id, "", map[string]bool{user.Id: true}, "")
+			message.Add("user_id", user.Id)
+			message.Add("team_id", channel.TeamId)
+			a.Publish(message)
+
+			userMessage := model.NewWebSocketEvent(model.WebsocketEventUserAdded, "", channel.Id, user.Id, nil, "")
+			userMessage.Add("user_id", user.Id)
+			userMessage.Add("team_id", channel.TeamId)
+			a.Publish(userMessage)
+		}
+
+		a.invalidateCacheForChannelMembers(channel.Id)
+	}
+
+	groupUsers, err := a.Srv().Store().User().GetProfileByIds(sqlstore.RequestContextWithMaster(rctx), memberIDs, nil, false)
+	if err != nil {
+		return nil, model.NewAppError("AddUsersToGroupChannel", "app.user.get_profiles.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+	}
+
+	if len(groupUsers) != len(memberIDs) {
+		return nil, model.NewAppError("AddUsersToGroupChannel", "api.channel.create_group.bad_user.app_error", nil, "", http.StatusBadRequest)
+	}
+
+	nextName := model.GetGroupNameFromUserIds(append([]string{}, memberIDs...))
+	nextDisplayName := model.GetGroupDisplayNameFromUsers(groupUsers, true)
+	if channel.Name == nextName && channel.DisplayName == nextDisplayName {
+		return channel, nil
+	}
+
+	updated := channel.DeepCopy()
+	updated.Name = nextName
+	updated.DisplayName = nextDisplayName
+
+	updated, appErr = a.UpdateChannel(rctx, updated)
+	if appErr != nil {
+		if appErr.Id == store.ChannelExistsError {
+			existingChannel, getErr := a.GetChannelByName(rctx, nextName, "", true)
+			if getErr == nil && existingChannel.Id != channel.Id && existingChannel.Type == model.ChannelTypeGroup {
+				return nil, model.NewAppError("AddUsersToGroupChannel", "app.channel.group_message.add_members.existing_group_channel", nil, "", http.StatusConflict)
+			}
+		}
+		return nil, appErr
+	}
+
+	return updated, nil
+}
+
 // UpdateChannel updates a given channel by its Id. It also publishes the CHANNEL_UPDATED event.
 func (a *App) UpdateChannel(rctx request.CTX, channel *model.Channel) (*model.Channel, *model.AppError) {
 	ok, appErr := a.ChannelAccessControlled(rctx, channel.Id)
