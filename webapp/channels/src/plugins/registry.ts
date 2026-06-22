@@ -1085,6 +1085,7 @@ export default class PluginRegistry {
      * Accepts the following:
      * - component - A react component to display in the Right-Hand Sidebar.
      * - title - A string or JSX element to display as a title for the RHS.
+     * - showPopout - Optional boolean (default: true). Set to false to hide the "Open in new window" button in the RHS header.
      * Returns:
      * - id: a unique identifier
      * - showRHSPlugin: the action to dispatch that will open the RHS.
@@ -1094,12 +1095,15 @@ export default class PluginRegistry {
     registerRightHandSidebarComponent = reArg([
         'component',
         'title',
+        'showPopout',
     ], ({
         component,
         title,
+        showPopout = true,
     }: {
         component: RightHandSidebarComponent['component'];
         title: ReactResolvable;
+        showPopout?: boolean;
     }) => {
         const id = generateId();
 
@@ -1108,6 +1112,7 @@ export default class PluginRegistry {
             pluginId: this.id,
             component,
             title: resolveReactElement(title),
+            showPopout,
         });
 
         return {id, showRHSPlugin: showRHSPlugin(id), hideRHSPlugin: hideRHSPlugin(id), toggleRHSPlugin: toggleRHSPlugin(id)};
