@@ -654,7 +654,7 @@ describe('PostComponent', () => {
             expect(screen.queryByLabelText(/AI-generated|Message posted by/)).not.toBeInTheDocument();
         });
 
-        test('should not show AI-generated indicator for consecutive posts', () => {
+        test('should show AI-generated indicator for consecutive AI posts', () => {
             const props = {
                 ...baseProps,
                 post: aiGeneratedPost,
@@ -663,7 +663,7 @@ describe('PostComponent', () => {
             };
             renderWithContext(<PostComponent {...props}/>);
 
-            expect(screen.queryByLabelText(/AI-generated|Message posted by/)).not.toBeInTheDocument();
+            expect(screen.getByLabelText('Message posted by @aibot')).toBeInTheDocument();
         });
 
         test('should show AI-generated indicator in PostUserProfile for compact mode in CENTER', () => {
@@ -681,7 +681,7 @@ describe('PostComponent', () => {
             expect(indicators.length).toBe(1);
         });
 
-        test('should hide AI-generated indicator for consecutive posts in threads', () => {
+        test('should show AI-generated indicator for consecutive AI posts in threads', () => {
             const threadPost = TestHelper.getPostMock({
                 channel_id: channel.id,
                 root_id: 'root_post_id',
@@ -699,7 +699,7 @@ describe('PostComponent', () => {
             };
             renderWithContext(<PostComponent {...props}/>);
 
-            expect(screen.queryByLabelText(/AI-generated|Message posted by/)).not.toBeInTheDocument();
+            expect(screen.getByLabelText('Message posted by @aibot')).toBeInTheDocument();
         });
 
         test('should show AI-generated indicator for non-consecutive posts in threads', () => {
