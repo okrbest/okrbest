@@ -3377,7 +3377,7 @@
   "admin.team.maxNotificationsPerChannelDescription": "성능상의 이유로 채널의 총 사용자 수가 최대값을 초과하면 메시지 입력, @all, @here, @channel이 더 이상 알림을 보내지 않습니다.",
   "admin.team.maxNotificationsPerChannelExample": "예시: \"1000\"",
   "admin.team.maxNotificationsPerChannelTitle": "채널당 최대 알림:",
-  "admin.team.maxUsersDescription": "팀당 최대 총 사용자 수(활성 및 비활성 사용자 모두 포함)입니다.",
+  "admin.team.maxUsersDescription": "팀당 최대 활성 사용자 수입니다. 비활성화된 사용자는 이 한도에 포함되지 않습니다.",
   "admin.team.maxUsersExample": "예시 \"25\"",
   "admin.team.maxUsersTitle": "팀 최대 인원:",
   "admin.team.noBrandImage": "브랜드 이미지가 업로드되지 않았습니다.",
