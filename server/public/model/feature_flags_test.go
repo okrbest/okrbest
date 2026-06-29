@@ -9,6 +9,16 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestFeatureFlagsSetDefaults(t *testing.T) {
+	f := &FeatureFlags{}
+	f.SetDefaults()
+
+	t.Run("MmBlocksEnabled defaults to true", func(t *testing.T) {
+		require.True(t, f.MmBlocksEnabled)
+		require.Equal(t, "true", f.ToMap()["MmBlocksEnabled"])
+	})
+}
+
 func TestFeatureFlagsToMap(t *testing.T) {
 	for name, tc := range map[string]struct {
 		Flags            FeatureFlags

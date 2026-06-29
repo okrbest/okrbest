@@ -137,6 +137,9 @@ type FeatureFlags struct {
 
 	// Requires AttributeBasedAccessControl to also be enabled.
 	TeamMembershipAccessControl bool
+
+	// Enable the new mm_blocks Interactive Messages framework
+	MmBlocksEnabled bool
 }
 
 func (f *FeatureFlags) SetDefaults() {
@@ -194,6 +197,8 @@ func (f *FeatureFlags) SetDefaults() {
 	f.DiscoverableChannels = false
 
 	f.MobileEphemeralMode = false
+
+	f.MmBlocksEnabled = true
 }
 
 // IsChannelPermissionPoliciesEnabled reports whether channel-scope
