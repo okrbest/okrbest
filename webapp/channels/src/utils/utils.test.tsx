@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import type React from 'react';
+
 import * as i18nSelectors from 'selectors/i18n';
 
 import {FileTypes} from './constants';
-import {getFileType, getSuggestionBoxAlgn, localizeMessage} from './utils';
+import {getFileType, getSuggestionBoxAlgn, localizeMessage, makeIsEligibleForClick} from './utils';
 
 describe('Utils.localizeMessage', () => {
     jest.spyOn(i18nSelectors, 'getCurrentLocale').mockReturnValue('en');
@@ -395,5 +397,31 @@ describe('Utils.getSuggestionBoxAlgn', () => {
             lineHeight: 24,
             placementShift: true,
         });
+    });
+});
+
+describe('Utils.makeIsEligibleForClick', () => {
+    const isEligibleForClick = makeIsEligibleForClick('.select-suggestion-container, .post-attachment-dropdown, .mm-blocks-select');
+
+    test('returns false when clicking inside an autocomplete selector container', () => {
+        const post = document.createElement('div');
+        const select = document.createElement('div');
+        const inputWrapper = document.createElement('div');
+        const input = document.createElement('input');
+
+        select.className = 'select-suggestion-container';
+        post.appendChild(select);
+        select.appendChild(inputWrapper);
+        inputWrapper.appendChild(input);
+        document.body.appendChild(post);
+
+        const event = {
+            currentTarget: post,
+            target: inputWrapper,
+        } as unknown as React.MouseEvent;
+
+        expect(isEligibleForClick(event)).toBe(false);
+
+        document.body.removeChild(post);
     });
 });
