@@ -287,7 +287,7 @@ const AdvancedTextEditor = ({
     }, [dispatch, currentUserId, getFormattingBarPreferenceName, isFormattingBarHidden]);
 
     useOrientationHandler(lexicalEditorRef, rootId);
-    const pluginItems = usePluginItems(draft, lexicalEditorRef, handleDraftChange, channelId);
+    const pluginItems = usePluginItems(draft, lexicalEditorRef, handleDraftChange);
     const focusTextbox = useTextboxFocus(lexicalEditorRef, channelId, isRHS, canPost);
     const {
         rewriteMenuProps,
