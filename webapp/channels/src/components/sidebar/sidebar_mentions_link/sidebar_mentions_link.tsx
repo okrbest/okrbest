@@ -7,6 +7,10 @@ import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHistory, useLocation, matchPath} from 'react-router-dom';
 
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentTeamMembership} from 'mattermost-redux/selectors/entities/teams';
+import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
+
 import {closeRightHandSide, showMentions} from 'actions/views/rhs';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 
@@ -23,7 +27,13 @@ function SidebarMentionsLink() {
     const {pathname} = useLocation();
     const rhsState = useSelector((state: GlobalState) => getRhsState(state));
     const rhsOpen = useSelector(getIsRhsOpen);
+    const currentTeamMembership = useSelector(getCurrentTeamMembership);
+    const collapsedThreads = useSelector(isCollapsedThreadsEnabled);
+    const threadCounts = useSelector(getThreadCountsInCurrentTeam);
     const isActive = rhsOpen && rhsState === RHSStates.MENTION;
+    const channelMentionCount = currentTeamMembership ? (collapsedThreads ? currentTeamMembership.mention_count_root : currentTeamMembership.mention_count) ?? 0 : 0;
+    const threadMentionCount = threadCounts?.total_unread_mentions ?? 0;
+    const hasMentions = channelMentionCount > 0 || threadMentionCount > 0;
 
     const inThreadsOrDrafts = matchPath(pathname, {path: '/:team/(threads|drafts)'}) != null;
 
@@ -45,7 +55,10 @@ function SidebarMentionsLink() {
     return (
         <ul className='SidebarDrafts NavGroupContent nav nav-pills__container'>
             <li
-                className={classNames('SidebarChannel', {active: isActive})}
+                className={classNames('SidebarChannel', {
+                    active: isActive,
+                    unread: hasMentions,
+                })}
                 tabIndex={-1}
                 id='sidebar-mentions-button'
             >
@@ -53,7 +66,10 @@ function SidebarMentionsLink() {
                     onClick={handleClick}
                     id='sidebarItem_mentions'
                     draggable='false'
-                    className={classNames('SidebarLink sidebar-item', {active: isActive})}
+                    className={classNames('SidebarLink sidebar-item', {
+                        active: isActive,
+                        'unread-title': hasMentions,
+                    })}
                     tabIndex={0}
                     aria-label={formatMessage({id: 'channel_header.recentMentions', defaultMessage: 'Recent mentions'})}
                 >
@@ -63,6 +79,12 @@ function SidebarMentionsLink() {
                             {formatMessage({id: 'channel_header.recentMentions', defaultMessage: 'Recent mentions'})}
                         </span>
                     </div>
+                    {hasMentions && (
+                        <span
+                            className='SidebarMentionsDot'
+                            aria-hidden='true'
+                        />
+                    )}
                 </button>
             </li>
         </ul>

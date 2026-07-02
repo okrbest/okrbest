@@ -35,7 +35,8 @@ const GlobalThreadsLink = () => {
     const {currentTeamId, currentUserId} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
-    const someUnreadThreads = counts?.total_unread_threads;
+    const unreadThreadCount = counts?.total_unread_threads ?? 0;
+    const hasUnreadThreads = unreadThreadCount > 0;
     const rhsOpen = useSelector(getIsRhsOpen);
     const openThreads = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
@@ -65,7 +66,7 @@ const GlobalThreadsLink = () => {
                 id={'sidebar-threads-button'}
                 className={classNames('SidebarChannel', {
                     active: inGlobalThreads,
-                    unread: someUnreadThreads,
+                    unread: hasUnreadThreads,
                 })}
                 tabIndex={-1}
             >
@@ -75,7 +76,7 @@ const GlobalThreadsLink = () => {
                     id='sidebarItem_threads'
                     draggable='false'
                     className={classNames('SidebarLink sidebar-item', {
-                        'unread-title': Boolean(someUnreadThreads),
+                        'unread-title': hasUnreadThreads,
                     })}
                     tabIndex={0}
                 >
@@ -87,9 +88,9 @@ const GlobalThreadsLink = () => {
                             {formatMessage({id: 'globalThreads.sidebarLink', defaultMessage: 'Threads'})}
                         </span>
                     </div>
-                    {counts?.total_unread_mentions > 0 && (
+                    {hasUnreadThreads && (
                         <ChannelMentionBadge
-                            unreadMentions={counts.total_unread_mentions}
+                            unreadMentions={unreadThreadCount}
                             hasUrgent={Boolean(counts?.total_unread_urgent_mentions)}
                         />
                     )}

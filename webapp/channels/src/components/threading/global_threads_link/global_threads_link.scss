@@ -26,6 +26,13 @@
             }
         }
 
+        &.unread-title,
+        &:hover.unread-title {
+            .icon svg {
+                fill: var(--sidebar-unread-text);
+            }
+        }
+
         &:hover {
             padding-right: 16px;
 
