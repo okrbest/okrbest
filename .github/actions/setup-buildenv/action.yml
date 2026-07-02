@@ -1,0 +1,111 @@
+name: Setup build environment
+description: >
+  Builds the mattermost-build-server images if they don't yet exist on Docker
+  Hub (e.g. during a Go version bump), and uploads them as artifacts for
+  downstream jobs. Run once per workflow before any build or test jobs.
+
+inputs:
+  go-version:
+    description: "Go version (e.g. 1.26.3)"
+    required: true
+  dockerfile:
+    description: "Path to Dockerfile.buildenv (relative to workspace root)"
+    required: false
+    default: "server/build/Dockerfile.buildenv"
+  dockerfile-fips:
+    description: "Path to Dockerfile.buildenv-fips (relative to workspace root)"
+    required: false
+    default: "server/build/Dockerfile.buildenv-fips"
+
+runs:
+  using: composite
+  steps:
+    - name: Set constants
+      shell: bash
+      run: |
+        echo "BUILDENV_IMAGE=mattermost/mattermost-build-server" >> "${GITHUB_ENV}"
+        echo "BUILDENV_ARTIFACT=buildenv-image" >> "${GITHUB_ENV}"
+        echo "BUILDENV_DOCKERFILE=${{ inputs.dockerfile }}" >> "${GITHUB_ENV}"
+        echo "BUILDENV_FIPS_IMAGE=mattermost/mattermost-build-server-fips" >> "${GITHUB_ENV}"
+        echo "BUILDENV_FIPS_ARTIFACT=buildenv-fips-image" >> "${GITHUB_ENV}"
+        echo "BUILDENV_FIPS_DOCKERFILE=${{ inputs.dockerfile-fips }}" >> "${GITHUB_ENV}"
+        echo "BUILDENV_TMPDIR=/tmp/buildenv-save" >> "${GITHUB_ENV}"
+    # ── Regular ────────────────────────────────────────────────────────
+    - name: Resolve regular image
+      id: resolve
+      shell: bash
+      env:
+        GO_VERSION: ${{ inputs.go-version }}
+      run: |
+        docker manifest inspect "${BUILDENV_IMAGE}:${GO_VERSION}" > /dev/null 2>&1 || \
+          echo "needs-build=true" >> "${GITHUB_OUTPUT}"
+    - name: Build regular image
+      if: ${{ steps.resolve.outputs.needs-build == 'true' }}
+      shell: bash
+      env:
+        GO_VERSION: ${{ inputs.go-version }}
+      run: docker build -t "${BUILDENV_IMAGE}:${GO_VERSION}" - < "${BUILDENV_DOCKERFILE}"
+    - name: Save and upload regular image
+      if: ${{ steps.resolve.outputs.needs-build == 'true' }}
+      shell: bash
+      env:
+        GO_VERSION: ${{ inputs.go-version }}
+      run: |
+        mkdir -p "${BUILDENV_TMPDIR}"
+        docker save "${BUILDENV_IMAGE}:${GO_VERSION}" | gzip > "${BUILDENV_TMPDIR}/image.tar.gz"
+    - name: Upload regular image artifact
+      if: ${{ steps.resolve.outputs.needs-build == 'true' }}
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      with:
+        name: ${{ env.BUILDENV_ARTIFACT }}
+        path: ${{ env.BUILDENV_TMPDIR }}/image.tar.gz
+        retention-days: 1
+    # ── FIPS (skipped on fork PRs) ─────────────────────────────────────
+    # okrbest: DOCKERHUB_USERNAME이 비어 있으면 FIPS 블록 전체를 건너뛴다.
+    # upstream은 동일 저장소 PR이면 시크릿이 있다고 전제하지만, 우리 저장소에는
+    # Mattermost 소유의 DOCKERHUB_USERNAME/TOKEN과 Chainguard 아이덴티티가 없어
+    # docker/login-action이 "Username and password required"로 실패한다. 이 액션은
+    # Compute Go Version 잡에서 실행되고 그 잡은 Server CI 전체의 관문이라, 실패하면
+    # 하위 잡 30여 개가 통째로 skip된다. 아래 Build/Save/Upload FIPS 스텝은
+    # resolve-fips 출력에 의존하므로 함께 자동으로 건너뛴다.
+    - name: Docker Hub login
+      if: ${{ env.DOCKERHUB_USERNAME != '' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+      uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+      with:
+        username: ${{ env.DOCKERHUB_USERNAME }}
+        password: ${{ env.DOCKERHUB_TOKEN }}
+    - name: Setup Chainctl
+      if: ${{ env.DOCKERHUB_USERNAME != '' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+      uses: chainguard-dev/setup-chainctl@c125f765e82b09a42af3185f3214465314d75c5d # v0.5.0
+      with:
+        identity: ${{ env.CHAINCTL_IDENTITY }}
+    - name: Resolve FIPS image
+      id: resolve-fips
+      if: ${{ env.DOCKERHUB_USERNAME != '' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+      shell: bash
+      env:
+        GO_VERSION: ${{ inputs.go-version }}
+      run: |
+        docker manifest inspect "${BUILDENV_FIPS_IMAGE}:${GO_VERSION}" > /dev/null 2>&1 || \
+          echo "needs-build=true" >> "${GITHUB_OUTPUT}"
+    - name: Build FIPS image
+      if: ${{ steps.resolve-fips.outputs.needs-build == 'true' }}
+      shell: bash
+      env:
+        GO_VERSION: ${{ inputs.go-version }}
+      run: docker build -t "${BUILDENV_FIPS_IMAGE}:${GO_VERSION}" - < "${BUILDENV_FIPS_DOCKERFILE}"
+    - name: Save and upload FIPS image
+      if: ${{ steps.resolve-fips.outputs.needs-build == 'true' }}
+      shell: bash
+      env:
+        GO_VERSION: ${{ inputs.go-version }}
+      run: |
+        mkdir -p "${BUILDENV_TMPDIR}"
+        docker save "${BUILDENV_FIPS_IMAGE}:${GO_VERSION}" | gzip > "${BUILDENV_TMPDIR}/image-fips.tar.gz"
+    - name: Upload FIPS image artifact
+      if: ${{ steps.resolve-fips.outputs.needs-build == 'true' }}
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      with:
+        name: ${{ env.BUILDENV_FIPS_ARTIFACT }}
+        path: ${{ env.BUILDENV_TMPDIR }}/image-fips.tar.gz
+        retention-days: 1
