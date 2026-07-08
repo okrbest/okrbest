@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS OrgRoleAuditLogs;
+DROP TABLE IF EXISTS UserOrgProfiles;
+DROP TABLE IF EXISTS OrgUnits;
+DROP TABLE IF EXISTS PositionDefinitions;

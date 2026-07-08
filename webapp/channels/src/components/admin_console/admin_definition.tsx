@@ -101,6 +101,7 @@ import AutoTranslation, {searchableStrings as autoTranslationSearchableStrings} 
 import Localization, {searchableStrings as localizationSearchableStrings} from './localization/localization';
 import MessageExportSettings, {searchableStrings as messageExportSearchableStrings} from './message_export_settings';
 import OpenIdConvert from './openid_convert';
+import OrgRoleManagement from './org_role_management';
 import PasswordSettings, {searchableStrings as passwordSearchableStrings} from './password_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import {searchableStrings as PermissionSchemeSearchableStrings} from './permission_schemes_settings/permission_schemes_settings';
@@ -473,6 +474,18 @@ const AdminDefinition: AdminDefinitionType = {
                 schema: {
                     id: 'Teams',
                     component: TeamSettings,
+                },
+            },
+            org_roles: {
+                url: 'user_management/org_roles',
+                title: defineMessage({id: 'admin.sidebar.org_roles', defaultMessage: '조직/직위 관리'}),
+                isHidden: it.any(
+                    it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
+                ),
+                isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
+                schema: {
+                    id: 'OrgRoles',
+                    component: OrgRoleManagement,
                 },
             },
             channel_detail: {

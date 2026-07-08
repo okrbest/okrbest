@@ -556,6 +556,10 @@ func (ps *PlatformService) CacheProvider() cache.Provider {
 	return ps.cacheProvider
 }
 
+func (ps *PlatformService) SQLStore() *sqlstore.SqlStore {
+	return ps.sqlStore
+}
+
 // SetSqlStore is used for plugin testing
 func (ps *PlatformService) SetSqlStore(s *sqlstore.SqlStore) {
 	ps.sqlStore = s
