@@ -129,6 +129,8 @@ type FeatureFlags struct {
 
 	// Enable the new mm_blocks Interactive Messages framework
 	MmBlocksEnabled bool
+
+	ChannelBookmarks bool
 }
 
 func (f *FeatureFlags) SetDefaults() {
@@ -184,6 +186,8 @@ func (f *FeatureFlags) SetDefaults() {
 	f.MobileEphemeralMode = false
 
 	f.MmBlocksEnabled = true
+
+	f.ChannelBookmarks = true
 }
 
 // IsChannelPermissionPoliciesEnabled reports whether channel-scope
