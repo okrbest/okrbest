@@ -38,8 +38,6 @@ type FeatureFlags struct {
 
 	CloudDedicatedExportUI bool
 
-	WebSocketEventScope bool
-
 	ExperimentalAuditSettingsSystemConsoleUI bool
 
 	CustomProfileAttributes bool
@@ -141,7 +139,6 @@ func (f *FeatureFlags) SetDefaults() {
 	f.EnableExportDirectDownload = false
 	f.MoveThreadsEnabled = false
 	f.CloudDedicatedExportUI = false
-	f.WebSocketEventScope = true
 	f.ExperimentalAuditSettingsSystemConsoleUI = true
 	f.CustomProfileAttributes = true
 	f.AttributeBasedAccessControl = true
