@@ -793,7 +793,7 @@ const defaultServerConfig: AdminConfig = {
         EnableExportDirectDownload: false,
         MoveThreadsEnabled: false,
         CloudDedicatedExportUI: false,
-        WebSocketEventScope: true,
+        NotificationMonitoring: true,
         ExperimentalAuditSettingsSystemConsoleUI: true,
         CustomProfileAttributes: true,
         AttributeBasedAccessControl: true,
