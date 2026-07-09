@@ -2272,6 +2272,13 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 	if terms == "" && excludedTerms == "" {
 		// we've already confirmed that we have a channel or user to search for
 	} else {
+		// Preserve internal hyphens (e.g. "t-shirt") so they stay a single ILIKE
+		// term instead of being split into loose ones, while neutralizing
+		// malformed hyphen usage (leading/trailing/standalone/repeated) that
+		// would otherwise become a '%-%' pattern matching every hyphenated post.
+		terms = neutralizeNonWordHyphens(terms)
+		excludedTerms = neutralizeNonWordHyphens(excludedTerms)
+
 		// Use LIKE search for better CJK (Korean, Chinese, Japanese) language support
 		termList := strings.Fields(terms)
 		excludedTermList := strings.Fields(excludedTerms)
