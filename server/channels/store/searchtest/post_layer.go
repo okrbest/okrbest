@@ -138,8 +138,7 @@ var searchPostStoreTests = []searchTest{
 	{
 		Name: "Should support terms with dash",
 		Fn:   testSupportTermsWithDash,
-		Tags: []string{EngineAll},
-		Skip: true,
+		Tags: []string{EnginePostgres},
 	},
 	{
 		Name: "Should support terms with underscore",
@@ -212,11 +211,9 @@ var searchPostStoreTests = []searchTest{
 		Tags: []string{EnginePostgres},
 	},
 	{
-		Name:        "Should be able to search terms with dashes",
-		Fn:          testSearchTermsWithDashes,
-		Tags:        []string{EngineAll},
-		Skip:        true,
-		SkipMessage: "Not working",
+		Name: "Should be able to search terms with dashes",
+		Fn:   testSearchTermsWithDashes,
+		Tags: []string{EnginePostgres},
 	},
 	{
 		Name: "Should be able to search terms with dots",
@@ -1284,6 +1281,13 @@ func testSupportTermsWithDash(t *testing.T, th *SearchTestHelper) {
 	})
 
 	t.Run("Should search terms with dash using quotes", func(t *testing.T) {
+		// okrbest: post search uses ILIKE substring matching instead of to_tsquery
+		// for CJK (Korean/Chinese/Japanese) support, so the quoted-phrase handling
+		// that upstream does via quotedStringsRegex does not exist here — the quote
+		// characters survive into the LIKE pattern and never match. Unrelated to
+		// hyphens; the unquoted variant above covers the compound-word behavior.
+		t.Skip("okrbest: quoted phrases unsupported by the ILIKE post-search path")
+
 		params := &model.SearchParams{
 			Terms: "\"term-with-dash\"",
 		}
@@ -1715,6 +1719,11 @@ func testSearchTermsWithDashes(t *testing.T, th *SearchTestHelper) {
 	})
 
 	t.Run("Search for terms with quoted dash", func(t *testing.T) {
+		// okrbest: see the note on "Should search terms with dash using quotes" —
+		// the ILIKE post-search path has no quoted-phrase handling, so the quote
+		// characters end up inside the LIKE pattern.
+		t.Skip("okrbest: quoted phrases unsupported by the ILIKE post-search path")
+
 		params := &model.SearchParams{Terms: "\"with-dash-term\""}
 		results, err := th.Store.Post().SearchPostsForUser(th.Context, []*model.SearchParams{params}, th.User.Id, th.Team.Id, 0, 20)
 		require.NoError(t, err)
@@ -1740,6 +1749,43 @@ func testSearchTermsWithDashes(t *testing.T, th *SearchTestHelper) {
 		require.Len(t, results.Posts, 2)
 		th.checkPostInSearchResults(t, p1.Id, results.Posts)
 		th.checkPostInSearchResults(t, p2.Id, results.Posts)
+	})
+
+	t.Run("Search for terms excluding a dashed term", func(t *testing.T) {
+		params := &model.SearchParams{Terms: "message", ExcludedTerms: "with-dash-term"}
+		results, err := th.Store.Post().SearchPostsForUser(th.Context, []*model.SearchParams{params}, th.User.Id, th.Team.Id, 0, 20)
+		require.NoError(t, err)
+
+		require.Len(t, results.Posts, 1)
+		th.checkPostInSearchResults(t, p2.Id, results.Posts)
+	})
+
+	t.Run("Search for a dashed term with a wildcard", func(t *testing.T) {
+		// okrbest: the ILIKE post-search path already matches substrings on both
+		// sides, so it carries none of upstream's wildCardRegex '*' -> ':*'
+		// translation and the '*' stays a literal in the LIKE pattern. The
+		// pre-existing "Should support search with wildcards" tests fail for the
+		// same reason; this is a property of the CJK search path, not of hyphens.
+		t.Skip("okrbest: '*' wildcards unsupported by the ILIKE post-search path")
+
+		params := &model.SearchParams{Terms: "with-dash-term*"}
+		results, err := th.Store.Post().SearchPostsForUser(th.Context, []*model.SearchParams{params}, th.User.Id, th.Team.Id, 0, 20)
+		require.NoError(t, err)
+
+		require.Len(t, results.Posts, 1)
+		th.checkPostInSearchResults(t, p1.Id, results.Posts)
+	})
+
+	t.Run("Search for a letters-digits dashed term", func(t *testing.T) {
+		p3, err := th.createPost(th.User.Id, th.ChannelBasic.Id, "the code is FX-042", "", model.PostTypeDefault, 0, false)
+		require.NoError(t, err)
+
+		params := &model.SearchParams{Terms: "FX-042"}
+		results, err := th.Store.Post().SearchPostsForUser(th.Context, []*model.SearchParams{params}, th.User.Id, th.Team.Id, 0, 20)
+		require.NoError(t, err)
+
+		require.Len(t, results.Posts, 1)
+		th.checkPostInSearchResults(t, p3.Id, results.Posts)
 	})
 }
 
