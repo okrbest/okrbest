@@ -795,7 +795,6 @@ const defaultServerConfig: AdminConfig = {
         CloudDedicatedExportUI: false,
         NotificationMonitoring: true,
         CustomProfileAttributes: true,
-        AttributeBasedAccessControl: true,
         PermissionPolicies: true,
         ContentFlagging: true,
         EnableMattermostEntry: true,

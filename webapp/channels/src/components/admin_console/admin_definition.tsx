@@ -684,7 +684,6 @@ const AdminDefinition: AdminDefinitionType = {
                 isHidden: it.any(
                     it.not(it.minLicenseTier(LicenseSkus.EnterpriseAdvanced)),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
-                    it.configIsFalse('FeatureFlags', 'AttributeBasedAccessControl'),
                 ),
                 isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
                 schema: {
@@ -720,10 +719,7 @@ const AdminDefinition: AdminDefinitionType = {
                 url: 'system_attributes/attribute_based_access_control',
                 isDiscovery: true,
                 title: defineMessage({id: 'admin.sidebar.attributeBasedAccessControl', defaultMessage: 'Attribute-Based Access'}),
-                isHidden: it.any(
-                    it.minLicenseTier(LicenseSkus.EnterpriseAdvanced),
-                    it.configIsFalse('FeatureFlags', 'AttributeBasedAccessControl'),
-                ),
+                isHidden: it.minLicenseTier(LicenseSkus.EnterpriseAdvanced),
                 schema: {
                     id: 'AttributeBasedAccessControl',
                     name: defineMessage({id: 'admin.accesscontrol.titleBeta', defaultMessage: 'Attribute-Based Access (Beta)'}),
@@ -744,12 +740,8 @@ const AdminDefinition: AdminDefinitionType = {
                     it.configIsFalse('AccessControlSettings', 'EnableAttributeBasedAccessControl'),
                     it.not(it.minLicenseTier(LicenseSkus.EnterpriseAdvanced)),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
-                    it.configIsFalse('FeatureFlags', 'AttributeBasedAccessControl'),
                 ),
-                isDisabled: it.any(
-                    it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
-                    it.configIsFalse('FeatureFlags', 'AttributeBasedAccessControl'),
-                ),
+                isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
                 schema: {
                     id: 'AccessControlPolicy',
                     component: PolicyDetails,
@@ -761,7 +753,6 @@ const AdminDefinition: AdminDefinitionType = {
                     it.configIsFalse('AccessControlSettings', 'EnableAttributeBasedAccessControl'),
                     it.not(it.minLicenseTier(LicenseSkus.EnterpriseAdvanced)),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
-                    it.configIsFalse('FeatureFlags', 'AttributeBasedAccessControl'),
                 ),
                 isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
                 schema: {
@@ -775,7 +766,6 @@ const AdminDefinition: AdminDefinitionType = {
                 isHidden: it.any(
                     it.not(it.minLicenseTier(LicenseSkus.EnterpriseAdvanced)),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
-                    it.configIsFalse('FeatureFlags', 'AttributeBasedAccessControl'),
                     it.configIsFalse('AccessControlSettings', 'EnableAttributeBasedAccessControl'),
                 ),
                 isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
@@ -813,12 +803,10 @@ const AdminDefinition: AdminDefinitionType = {
                     it.configIsFalse('AccessControlSettings', 'EnableAttributeBasedAccessControl'),
                     it.not(it.minLicenseTier(LicenseSkus.EnterpriseAdvanced)),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
-                    it.configIsFalse('FeatureFlags', 'AttributeBasedAccessControl'),
                     it.configIsFalse('FeatureFlags', 'PermissionPolicies'),
                 ),
                 isDisabled: it.any(
                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
-                    it.configIsFalse('FeatureFlags', 'AttributeBasedAccessControl'),
                     it.configIsFalse('FeatureFlags', 'PermissionPolicies'),
                 ),
                 schema: {
@@ -832,7 +820,6 @@ const AdminDefinition: AdminDefinitionType = {
                     it.configIsFalse('AccessControlSettings', 'EnableAttributeBasedAccessControl'),
                     it.not(it.minLicenseTier(LicenseSkus.EnterpriseAdvanced)),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
-                    it.configIsFalse('FeatureFlags', 'AttributeBasedAccessControl'),
                     it.configIsFalse('FeatureFlags', 'PermissionPolicies'),
                 ),
                 isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
@@ -847,7 +834,6 @@ const AdminDefinition: AdminDefinitionType = {
                 isHidden: it.any(
                     it.not(it.minLicenseTier(LicenseSkus.EnterpriseAdvanced)),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
-                    it.configIsFalse('FeatureFlags', 'AttributeBasedAccessControl'),
                     it.configIsFalse('FeatureFlags', 'PermissionPolicies'),
                     it.configIsFalse('AccessControlSettings', 'EnableAttributeBasedAccessControl'),
                 ),
