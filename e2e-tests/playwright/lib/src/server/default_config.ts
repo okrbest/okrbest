@@ -794,7 +794,6 @@ const defaultServerConfig: AdminConfig = {
         MoveThreadsEnabled: false,
         CloudDedicatedExportUI: false,
         NotificationMonitoring: true,
-        ExperimentalAuditSettingsSystemConsoleUI: true,
         CustomProfileAttributes: true,
         AttributeBasedAccessControl: true,
         PermissionPolicies: true,
