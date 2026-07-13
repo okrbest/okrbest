@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS PositionDefinitions (
     Name varchar(128) NOT NULL,
     Rank int NOT NULL DEFAULT 0,
     Active boolean NOT NULL DEFAULT true,
+    FullVisibility boolean NOT NULL DEFAULT false,
     CreateAt bigint NOT NULL,
     UpdateAt bigint NOT NULL,
     UNIQUE KEY idx_positiondefinitions_teamid_code (TeamID, Code)

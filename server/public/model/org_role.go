@@ -6,14 +6,15 @@ package model
 import "strings"
 
 type PositionDefinition struct {
-	ID       string `json:"id"`
-	TeamID   string `json:"team_id"`
-	Code     string `json:"code"`
-	Name     string `json:"name"`
-	Rank     int    `json:"rank"`
-	Active   bool   `json:"active"`
-	CreateAt int64  `json:"create_at"`
-	UpdateAt int64  `json:"update_at"`
+	ID             string `json:"id"`
+	TeamID         string `json:"team_id"`
+	Code           string `json:"code"`
+	Name           string `json:"name"`
+	Rank           int    `json:"rank"`
+	Active         bool   `json:"active"`
+	FullVisibility bool   `json:"full_visibility"`
+	CreateAt       int64  `json:"create_at"`
+	UpdateAt       int64  `json:"update_at"`
 }
 
 type OrgUnit struct {

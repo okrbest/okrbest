@@ -15,7 +15,7 @@ import (
 
 func (ss *SqlStore) ListPositionDefinitions(teamID string, includeInactive bool) ([]*model.PositionDefinition, error) {
 	query := ss.getQueryBuilder().
-		Select("ID", "TeamID", "Code", "Name", "Rank", "Active", "CreateAt", "UpdateAt").
+		Select("ID", "TeamID", "Code", "Name", "Rank", "Active", "FullVisibility", "CreateAt", "UpdateAt").
 		From("PositionDefinitions").
 		Where(sq.Eq{"TeamID": teamID}).
 		OrderBy("Rank ASC", "Name ASC")
@@ -47,10 +47,10 @@ func (ss *SqlStore) CreatePositionDefinition(position *model.PositionDefinition)
 
 	if _, err := ss.GetMaster().Exec(
 		`INSERT INTO PositionDefinitions
-			(ID, TeamID, Code, Name, Rank, Active, CreateAt, UpdateAt)
+			(ID, TeamID, Code, Name, Rank, Active, FullVisibility, CreateAt, UpdateAt)
 		 VALUES
-			($1, $2, $3, $4, $5, $6, $7, $8)`,
-		position.ID, position.TeamID, position.Code, position.Name, position.Rank, position.Active, position.CreateAt, position.UpdateAt,
+			($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+		position.ID, position.TeamID, position.Code, position.Name, position.Rank, position.Active, position.FullVisibility, position.CreateAt, position.UpdateAt,
 	); err != nil {
 		return nil, err
 	}
@@ -62,9 +62,9 @@ func (ss *SqlStore) UpdatePositionDefinition(position *model.PositionDefinition)
 	position.UpdateAt = model.GetMillis()
 	res, err := ss.GetMaster().Exec(
 		`UPDATE PositionDefinitions
-		    SET Code = $1, Name = $2, Rank = $3, Active = $4, UpdateAt = $5
-		  WHERE ID = $6 AND TeamID = $7`,
-		position.Code, position.Name, position.Rank, position.Active, position.UpdateAt, position.ID, position.TeamID,
+		    SET Code = $1, Name = $2, Rank = $3, Active = $4, FullVisibility = $5, UpdateAt = $6
+		  WHERE ID = $7 AND TeamID = $8`,
+		position.Code, position.Name, position.Rank, position.Active, position.FullVisibility, position.UpdateAt, position.ID, position.TeamID,
 	)
 	if err != nil {
 		return nil, err

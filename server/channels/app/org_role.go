@@ -12,7 +12,19 @@ import (
 	"strings"
 
 	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
 	"github.com/mattermost/mattermost/server/v8/channels/store/sqlstore"
+)
+
+// Props keys read by the boards plugin's board-ACL evaluator
+// (server/services/permissions/mmpermissions/mmpermissions.go resolveOrgContext)
+// and by its webapp (store/users.ts getMyOrgContext). Keep these literal
+// strings in sync with okrbest-plugin-newboards/server/model/board_permissions.go.
+const (
+	userPropOrgUnitIDs    = "org_unit_ids"
+	userPropPositionCodes = "position_codes"
+	userPropIsCEO         = "is_ceo"
 )
 
 const (
@@ -305,7 +317,7 @@ func (a *App) GetUserOrgProfile(teamID, userID string) (*model.UserOrgProfile, *
 	return item, nil
 }
 
-func (a *App) UpsertUserOrgProfile(actorUserID string, input *model.UserOrgProfile) (*model.UserOrgProfile, *model.AppError) {
+func (a *App) UpsertUserOrgProfile(rctx request.CTX, actorUserID string, input *model.UserOrgProfile) (*model.UserOrgProfile, *model.AppError) {
 	if !input.IsValid() {
 		return nil, model.NewAppError("UpsertUserOrgProfile", "app.org_role.invalid_user_org_profile.app_error", nil, "", http.StatusBadRequest)
 	}
@@ -320,6 +332,8 @@ func (a *App) UpsertUserOrgProfile(actorUserID string, input *model.UserOrgProfi
 		return nil, model.NewAppError("UpsertUserOrgProfile", "app.org_role.upsert_user_org_profile.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
 	}
 
+	isCEO := a.syncUserOrgProfileToProps(rctx, item)
+
 	_ = ss.SaveOrgRoleAuditLog(&model.OrgRoleAuditLog{
 		TeamID:      item.TeamID,
 		ActorUserID: actorUserID,
@@ -329,10 +343,109 @@ func (a *App) UpsertUserOrgProfile(actorUserID string, input *model.UserOrgProfi
 		AfterState: model.StringMap{
 			"primary_position_id": item.PrimaryPositionID,
 			"primary_org_unit_id": item.PrimaryOrgUnitID,
+			"is_ceo":              fmt.Sprintf("%t", isCEO),
 		},
 	})
 
 	return item, nil
+}
+
+// syncUserOrgProfileToProps mirrors the assigned org unit/position onto the
+// Mattermost user's Props map, since the boards plugin has no direct access
+// to the UserOrgProfiles/PositionDefinitions tables and instead reads its org
+// context from Props (see the userProp* constants above). "CEO" full-visibility
+// is not a per-user flag: it is derived from whether any of the user's assigned
+// positions (primary or extra) has FullVisibility set, so assigning e.g. the
+// "ceo" position automatically grants it. A failure here is logged rather than
+// surfaced as a request error: the UserOrgProfiles row is the source of truth,
+// and a subsequent save will retry the sync. Returns the computed CEO flag for
+// the audit log.
+func (a *App) syncUserOrgProfileToProps(rctx request.CTX, item *model.UserOrgProfile) bool {
+	rctx.Logger().Debug("syncUserOrgProfileToProps started",
+		mlog.String("team_id", item.TeamID),
+		mlog.String("user_id", item.UserID),
+		mlog.String("primary_org_unit_id", item.PrimaryOrgUnitID),
+		mlog.String("primary_position_id", item.PrimaryPositionID),
+		mlog.String("extra_positions", strings.Join(item.ExtraPositions, ",")),
+	)
+
+	user, appErr := a.GetUser(item.UserID)
+	if appErr != nil {
+		rctx.Logger().Warn("failed to load user to sync org profile props",
+			mlog.String("user_id", item.UserID),
+			mlog.Err(appErr),
+		)
+		return false
+	}
+
+	orgUnitIDs := []string{}
+	if item.PrimaryOrgUnitID != "" {
+		orgUnitIDs = append(orgUnitIDs, item.PrimaryOrgUnitID)
+	}
+
+	positionCodes := []string{}
+	seenPositions := map[string]struct{}{}
+	for _, positionID := range append([]string{item.PrimaryPositionID}, item.ExtraPositions...) {
+		if positionID == "" {
+			continue
+		}
+		if _, ok := seenPositions[positionID]; ok {
+			continue
+		}
+		seenPositions[positionID] = struct{}{}
+		positionCodes = append(positionCodes, positionID)
+	}
+
+	isCEO := false
+	positions, positionsAppErr := a.ListPositionDefinitions(item.TeamID, true)
+	if positionsAppErr != nil {
+		rctx.Logger().Warn("failed to load team positions to resolve full-visibility flag",
+			mlog.String("team_id", item.TeamID),
+			mlog.Err(positionsAppErr),
+		)
+	} else {
+		fullVisibilityPositionIDs := map[string]struct{}{}
+		for _, position := range positions {
+			if position.FullVisibility {
+				fullVisibilityPositionIDs[position.ID] = struct{}{}
+			}
+		}
+		for positionID := range seenPositions {
+			if _, ok := fullVisibilityPositionIDs[positionID]; ok {
+				isCEO = true
+				break
+			}
+		}
+	}
+
+	newProps := model.StringMap{}
+	for k, v := range user.Props {
+		newProps[k] = v
+	}
+	newProps[userPropOrgUnitIDs] = strings.Join(orgUnitIDs, ",")
+	newProps[userPropPositionCodes] = strings.Join(positionCodes, ",")
+	newProps[userPropIsCEO] = fmt.Sprintf("%t", isCEO)
+
+	if _, appErr := a.PatchUser(rctx, item.UserID, &model.UserPatch{Props: newProps}, true); appErr != nil {
+		rctx.Logger().Warn("failed to sync org profile props to user",
+			mlog.String("team_id", item.TeamID),
+			mlog.String("user_id", item.UserID),
+			mlog.String("org_unit_ids", strings.Join(orgUnitIDs, ",")),
+			mlog.String("position_codes", strings.Join(positionCodes, ",")),
+			mlog.Bool("is_ceo", isCEO),
+			mlog.Err(appErr),
+		)
+	} else {
+		rctx.Logger().Debug("syncUserOrgProfileToProps completed",
+			mlog.String("team_id", item.TeamID),
+			mlog.String("user_id", item.UserID),
+			mlog.String("org_unit_ids", strings.Join(orgUnitIDs, ",")),
+			mlog.String("position_codes", strings.Join(positionCodes, ",")),
+			mlog.Bool("is_ceo", isCEO),
+		)
+	}
+
+	return isCEO
 }
 
 func (a *App) ListOrgRoleAuditLogs(teamID string, page, perPage int) ([]*model.OrgRoleAuditLog, *model.AppError) {

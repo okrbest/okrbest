@@ -20,6 +20,7 @@ type PositionDefinition = {
     name: string;
     rank: number;
     active: boolean;
+    full_visibility: boolean;
 };
 
 type OrgUnit = {
@@ -47,12 +48,18 @@ type AssignmentState = {
     primary_org_unit_id: string;
 };
 
+const emptyAssignmentState: AssignmentState = {
+    primary_position_id: '',
+    primary_org_unit_id: '',
+};
+
 type PositionEditor = {
     id: string;
     code: string;
     name: string;
     rank: number;
     active: boolean;
+    full_visibility: boolean;
 };
 
 type DepartmentEditor = {
@@ -145,7 +152,7 @@ const OrgRoleManagement = () => {
 
     const [showPositionForm, setShowPositionForm] = useState(false);
     const [showDepartmentForm, setShowDepartmentForm] = useState(false);
-    const [positionForm, setPositionForm] = useState({name: '', rank: 0});
+    const [positionForm, setPositionForm] = useState({name: '', rank: 0, full_visibility: false});
     const [departmentForm, setDepartmentForm] = useState({name: ''});
     const [positionSearchKeyword, setPositionSearchKeyword] = useState('');
     const [departmentSearchKeyword, setDepartmentSearchKeyword] = useState('');
@@ -328,8 +335,9 @@ const OrgRoleManagement = () => {
             await request(`/api/v4/teams/${selectedTeamId}/positions`, 'POST', {
                 name: positionForm.name,
                 rank: positionForm.rank,
+                full_visibility: positionForm.full_visibility,
             });
-            setPositionForm({name: '', rank: 0});
+            setPositionForm({name: '', rank: 0, full_visibility: false});
             setShowPositionForm(false);
             await loadTeamData(selectedTeamId);
             setError('');
@@ -366,11 +374,11 @@ const OrgRoleManagement = () => {
         }
     };
 
-    const updateAssignmentField = (userId: string, key: keyof AssignmentState, value: string) => {
+    const updateAssignmentField = (userId: string, key: 'primary_position_id' | 'primary_org_unit_id', value: string) => {
         setAssignments((prev) => ({
             ...prev,
             [userId]: {
-                ...(prev[userId] || {primary_position_id: '', primary_org_unit_id: ''}),
+                ...(prev[userId] || emptyAssignmentState),
                 [key]: value,
             },
         }));
@@ -428,6 +436,7 @@ const OrgRoleManagement = () => {
             name: position.name,
             rank: position.rank,
             active: position.active,
+            full_visibility: position.full_visibility,
         });
     };
 
@@ -443,6 +452,7 @@ const OrgRoleManagement = () => {
                 name: editingPosition.name,
                 rank: editingPosition.rank,
                 active: editingPosition.active,
+                full_visibility: editingPosition.full_visibility,
             });
             setEditingPosition(null);
             await loadTeamData(selectedTeamId);
@@ -465,6 +475,7 @@ const OrgRoleManagement = () => {
                 name: position.name,
                 rank: position.rank,
                 active: false,
+                full_visibility: position.full_visibility,
             });
             if (editingPosition?.id === position.id) {
                 setEditingPosition(null);
@@ -710,6 +721,14 @@ const OrgRoleManagement = () => {
                                     value={positionForm.rank}
                                     onChange={(e) => setPositionForm({...positionForm, rank: Number(e.target.value)})}
                                 />
+                                <label>
+                                    <input
+                                        type='checkbox'
+                                        checked={positionForm.full_visibility}
+                                        onChange={(e) => setPositionForm({...positionForm, full_visibility: e.target.checked})}
+                                    />
+                                    {' 보드 전체보기 권한'}
+                                </label>
                                 <button
                                     className='btn btn-primary'
                                     onClick={createPosition}
@@ -827,6 +846,7 @@ const OrgRoleManagement = () => {
                                         <th>{'직위명'}</th>
                                         <th>{'정렬순서'}</th>
                                         <th>{'상태'}</th>
+                                        <th title='체크된 직위를 가진 사용자는 부서/직위 구분 없이 모든 보드를 봅니다'>{'보드 전체보기'}</th>
                                         <th>{'관리'}</th>
                                     </tr>
                                 </thead>
@@ -862,6 +882,21 @@ const OrgRoleManagement = () => {
                                                     )}
                                                 </td>
                                                 <td>{position.active ? '활성' : '비활성'}</td>
+                                                <td>
+                                                    {isEditing ? (
+                                                        <input
+                                                            type='checkbox'
+                                                            checked={editingPosition?.full_visibility || false}
+                                                            onChange={(e) => setEditingPosition({...editingPosition!, full_visibility: e.target.checked})}
+                                                        />
+                                                    ) : (
+                                                        <input
+                                                            type='checkbox'
+                                                            checked={position.full_visibility}
+                                                            disabled={true}
+                                                        />
+                                                    )}
+                                                </td>
                                                 <td className='orgRoleManagement__actionCell'>
                                                     {isEditing ? (
                                                         <div className='orgRoleManagement__actionButtons'>
@@ -903,7 +938,7 @@ const OrgRoleManagement = () => {
                                     })}
                                     {filteredPositionList.length === 0 && (
                                         <tr>
-                                            <td colSpan={4}>
+                                            <td colSpan={5}>
                                                 <div className='help-text'>{'검색 조건에 해당하는 직위가 없습니다.'}</div>
                                             </td>
                                         </tr>
@@ -978,7 +1013,7 @@ const OrgRoleManagement = () => {
                                 </thead>
                                 <tbody>
                                     {filteredUsers.map((user) => {
-                                        const assignment = assignments[user.id] || {primary_position_id: '', primary_org_unit_id: ''};
+                                        const assignment = assignments[user.id] || emptyAssignmentState;
                                         const displayName = getOrgRoleUserDisplayName(user);
                                         return (
                                             <tr key={user.id}>

@@ -2191,7 +2191,7 @@ func updateUserOrgProfile(c *Context, w http.ResponseWriter, r *http.Request) {
 	profile.TeamID = c.Params.TeamId
 	profile.UserID = c.Params.UserId
 
-	saved, appErr := c.App.UpsertUserOrgProfile(c.AppContext.Session().UserId, &profile)
+	saved, appErr := c.App.UpsertUserOrgProfile(c.AppContext, c.AppContext.Session().UserId, &profile)
 	if appErr != nil {
 		c.Err = appErr
 		return
