@@ -65,6 +65,7 @@ import (
 	"github.com/mattermost/mattermost/server/v8/channels/jobs/resend_invitation_email"
 	"github.com/mattermost/mattermost/server/v8/channels/jobs/s3_path_migration"
 	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/v8/channels/store/sqlstore"
 	"github.com/mattermost/mattermost/server/v8/channels/utils"
 	"github.com/mattermost/mattermost/server/v8/config"
 	"github.com/mattermost/mattermost/server/v8/einterfaces"
@@ -162,6 +163,14 @@ func (s *Server) SetStore(st store.Store) {
 	if s.platform != nil {
 		s.platform.Store = st
 	}
+}
+
+func (s *Server) SQLStore() *sqlstore.SqlStore {
+	if s.platform != nil {
+		return s.platform.SQLStore()
+	}
+
+	return nil
 }
 
 func NewServer(options ...Option) (*Server, error) {

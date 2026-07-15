@@ -14,6 +14,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/gorilla/mux"
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
@@ -69,6 +70,15 @@ func (api *API) InitTeam() {
 	api.BaseRoutes.Team.Handle("/import", api.APISessionRequired(importTeam)).Methods(http.MethodPost)
 	api.BaseRoutes.Team.Handle("/invite/email", api.APISessionRequired(inviteUsersToTeam)).Methods(http.MethodPost)
 	api.BaseRoutes.Team.Handle("/invite-guests/email", api.APISessionRequired(inviteGuestsToChannels)).Methods(http.MethodPost)
+	api.BaseRoutes.Team.Handle("/positions", api.APISessionRequired(getTeamPositions)).Methods(http.MethodGet)
+	api.BaseRoutes.Team.Handle("/positions", api.APISessionRequired(createTeamPosition)).Methods(http.MethodPost)
+	api.BaseRoutes.Team.Handle("/positions/{position_id:[A-Za-z0-9]+}", api.APISessionRequired(updateTeamPosition)).Methods(http.MethodPut)
+	api.BaseRoutes.Team.Handle("/org-units", api.APISessionRequired(getTeamOrgUnits)).Methods(http.MethodGet)
+	api.BaseRoutes.Team.Handle("/org-units", api.APISessionRequired(createTeamOrgUnit)).Methods(http.MethodPost)
+	api.BaseRoutes.Team.Handle("/org-units/{org_unit_id:[A-Za-z0-9]+}", api.APISessionRequired(updateTeamOrgUnit)).Methods(http.MethodPut)
+	api.BaseRoutes.Team.Handle("/users/{user_id:[A-Za-z0-9]+}/org-profile", api.APISessionRequired(getUserOrgProfile)).Methods(http.MethodGet)
+	api.BaseRoutes.Team.Handle("/users/{user_id:[A-Za-z0-9]+}/org-profile", api.APISessionRequired(updateUserOrgProfile)).Methods(http.MethodPut)
+	api.BaseRoutes.Team.Handle("/org-role-audit", api.APISessionRequired(getTeamOrgRoleAuditLogs)).Methods(http.MethodGet)
 	api.BaseRoutes.Teams.Handle("/invites/email", api.APISessionRequired(invalidateAllEmailInvites)).Methods(http.MethodDelete)
 	api.BaseRoutes.Teams.Handle("/invite/{invite_id:[A-Za-z0-9]+}", api.APIHandler(getInviteInfo)).Methods(http.MethodGet)
 
@@ -1981,6 +1991,232 @@ func teamMembersMinusGroupMembers(c *Context, w http.ResponseWriter, r *http.Req
 	}
 
 	if _, err := w.Write(b); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func requireOrgRoleManagement(c *Context) bool {
+	if !c.App.SessionHasPermissionTo(*c.AppContext.Session(), model.PermissionSysconsoleReadUserManagementTeams) {
+		c.SetPermissionError(model.PermissionSysconsoleReadUserManagementTeams)
+		return false
+	}
+
+	return true
+}
+
+func requireOrgRoleWrite(c *Context) bool {
+	if !c.App.SessionHasPermissionTo(*c.AppContext.Session(), model.PermissionSysconsoleWriteUserManagementTeams) {
+		c.SetPermissionError(model.PermissionSysconsoleWriteUserManagementTeams)
+		return false
+	}
+	return true
+}
+
+func getTeamPositions(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId()
+	if c.Err != nil || !requireOrgRoleManagement(c) {
+		return
+	}
+
+	includeInactive, _ := strconv.ParseBool(r.URL.Query().Get("include_inactive"))
+	positions, appErr := c.App.ListPositionDefinitions(c.Params.TeamId, includeInactive)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(positions); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func createTeamPosition(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId()
+	if c.Err != nil || !requireOrgRoleManagement(c) || !requireOrgRoleWrite(c) {
+		return
+	}
+
+	var position model.PositionDefinition
+	if err := json.NewDecoder(r.Body).Decode(&position); err != nil {
+		c.SetInvalidParamWithErr("position", err)
+		return
+	}
+	position.TeamID = c.Params.TeamId
+
+	saved, appErr := c.App.CreatePositionDefinition(c.AppContext.Session().UserId, &position)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	if err := json.NewEncoder(w).Encode(saved); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func updateTeamPosition(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId()
+	if c.Err != nil || !requireOrgRoleManagement(c) || !requireOrgRoleWrite(c) {
+		return
+	}
+
+	positionID := mux.Vars(r)["position_id"]
+	if !model.IsValidId(positionID) {
+		c.SetInvalidParam("position_id")
+		return
+	}
+
+	var position model.PositionDefinition
+	if err := json.NewDecoder(r.Body).Decode(&position); err != nil {
+		c.SetInvalidParamWithErr("position", err)
+		return
+	}
+	position.ID = positionID
+	position.TeamID = c.Params.TeamId
+
+	saved, appErr := c.App.UpdatePositionDefinition(c.AppContext.Session().UserId, &position)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(saved); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func getTeamOrgUnits(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId()
+	if c.Err != nil || !requireOrgRoleManagement(c) {
+		return
+	}
+
+	includeInactive, _ := strconv.ParseBool(r.URL.Query().Get("include_inactive"))
+	items, appErr := c.App.ListOrgUnits(c.Params.TeamId, includeInactive)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(items); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func createTeamOrgUnit(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId()
+	if c.Err != nil || !requireOrgRoleManagement(c) || !requireOrgRoleWrite(c) {
+		return
+	}
+
+	var orgUnit model.OrgUnit
+	if err := json.NewDecoder(r.Body).Decode(&orgUnit); err != nil {
+		c.SetInvalidParamWithErr("org_unit", err)
+		return
+	}
+	orgUnit.TeamID = c.Params.TeamId
+
+	saved, appErr := c.App.CreateOrgUnit(c.AppContext.Session().UserId, &orgUnit)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	if err := json.NewEncoder(w).Encode(saved); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func updateTeamOrgUnit(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId()
+	if c.Err != nil || !requireOrgRoleManagement(c) || !requireOrgRoleWrite(c) {
+		return
+	}
+
+	orgUnitID := mux.Vars(r)["org_unit_id"]
+	if !model.IsValidId(orgUnitID) {
+		c.SetInvalidParam("org_unit_id")
+		return
+	}
+
+	var orgUnit model.OrgUnit
+	if err := json.NewDecoder(r.Body).Decode(&orgUnit); err != nil {
+		c.SetInvalidParamWithErr("org_unit", err)
+		return
+	}
+	orgUnit.ID = orgUnitID
+	orgUnit.TeamID = c.Params.TeamId
+
+	saved, appErr := c.App.UpdateOrgUnit(c.AppContext.Session().UserId, &orgUnit)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(saved); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func getUserOrgProfile(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId().RequireUserId()
+	if c.Err != nil || !requireOrgRoleManagement(c) {
+		return
+	}
+
+	profile, appErr := c.App.GetUserOrgProfile(c.Params.TeamId, c.Params.UserId)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(profile); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func updateUserOrgProfile(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId().RequireUserId()
+	if c.Err != nil || !requireOrgRoleManagement(c) || !requireOrgRoleWrite(c) {
+		return
+	}
+
+	var profile model.UserOrgProfile
+	if err := json.NewDecoder(r.Body).Decode(&profile); err != nil {
+		c.SetInvalidParamWithErr("org_profile", err)
+		return
+	}
+	profile.TeamID = c.Params.TeamId
+	profile.UserID = c.Params.UserId
+
+	saved, appErr := c.App.UpsertUserOrgProfile(c.AppContext, c.AppContext.Session().UserId, &profile)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(saved); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func getTeamOrgRoleAuditLogs(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId()
+	if c.Err != nil || !requireOrgRoleManagement(c) {
+		return
+	}
+
+	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+	perPage, _ := strconv.Atoi(r.URL.Query().Get("per_page"))
+	logs, appErr := c.App.ListOrgRoleAuditLogs(c.Params.TeamId, page, perPage)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(logs); err != nil {
 		c.Logger.Warn("Error while writing response", mlog.Err(err))
 	}
 }
