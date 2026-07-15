@@ -71,6 +71,8 @@ type FeatureFlags struct {
 
 	ContentFlagging bool
 
+	EnableOrgRoleManagement bool
+
 	// Enable AppsForm for Interactive Dialogs instead of legacy dialog implementation
 	InteractiveDialogAppsForm bool
 
@@ -120,6 +122,7 @@ func (f *FeatureFlags) SetDefaults() {
 	f.CustomProfileAttributes = true
 	f.AttributeBasedAccessControl = true
 	f.ContentFlagging = true
+	f.EnableOrgRoleManagement = true
 	f.InteractiveDialogAppsForm = true
 	f.EnableMattermostEntry = true
 
