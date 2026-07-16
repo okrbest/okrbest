@@ -17,6 +17,7 @@ import Notifications from '@/ui/components/system_console/sections/site_configur
 import UsersAndTeams from '@/ui/components/system_console/sections/site_configuration/users_and_teams';
 import SystemProperties from '@/ui/components/system_console/sections/system_attributes/system_properties';
 import FeatureDiscovery from '@/ui/components/system_console/sections/system_users/feature_discovery';
+import PluginManagement from '@/ui/components/system_console/sections/plugins/plugin_management';
 
 export default class SystemConsolePage {
     readonly page: Page;
@@ -50,6 +51,9 @@ export default class SystemConsolePage {
 
     // Feature Discovery (license-gated features)
     readonly featureDiscovery: FeatureDiscovery;
+
+    // Plugins
+    readonly pluginManagement: PluginManagement;
 
     constructor(page: Page) {
         this.page = page;
@@ -85,6 +89,9 @@ export default class SystemConsolePage {
 
         // Feature Discovery
         this.featureDiscovery = new FeatureDiscovery(adminConsoleWrapper);
+
+        // Plugins
+        this.pluginManagement = new PluginManagement(adminConsoleWrapper);
     }
 
     async toBeVisible() {
@@ -95,5 +102,10 @@ export default class SystemConsolePage {
 
     async goto() {
         await this.page.goto('/admin_console');
+    }
+
+    async gotoPluginManagement() {
+        await this.page.goto('/admin_console/plugins/plugin_management');
+        await this.page.waitForLoadState('networkidle');
     }
 }
