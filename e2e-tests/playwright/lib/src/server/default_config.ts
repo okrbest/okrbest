@@ -245,6 +245,7 @@ const defaultServerConfig: AdminConfig = {
         TeammateNameDisplay: 'nickname_full_name',
         ExperimentalEnableAutomaticReplies: false,
         LockTeammateNameDisplay: false,
+        LockProfileFieldsForEmailUsers: 'none',
         ExperimentalPrimaryTeam: '',
         ExperimentalDefaultChannels: [],
     },
