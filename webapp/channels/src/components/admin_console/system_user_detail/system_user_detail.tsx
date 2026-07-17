@@ -126,6 +126,8 @@ export type State = {
     user?: UserProfile;
     usernameField: string;
     usernameError: string | null;
+    firstNameField: string;
+    lastNameField: string;
     emailField: string;
     emailError: string | null;
     authDataField: string;
@@ -154,6 +156,8 @@ export class SystemUserDetail extends PureComponent<Props, State> {
         this.state = {
             usernameField: '',
             usernameError: null,
+            firstNameField: '',
+            lastNameField: '',
             emailField: '',
             emailError: null,
             authDataField: '',
@@ -192,6 +196,8 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                     user: userResult.data,
                     emailField: userResult.data.email, // Set emailField to the email of the user for editing purposes
                     usernameField: userResult.data.username,
+                    firstNameField: userResult.data.first_name,
+                    lastNameField: userResult.data.last_name,
                     authDataField: userResult.data.auth_data || '',
                     customProfileAttributeValues: cpaValues,
                     originalCpaValues: {...cpaValues}, // Deep copy for change tracking
@@ -265,10 +271,18 @@ export class SystemUserDetail extends PureComponent<Props, State> {
 
         const emailChanged = state.emailField !== state.user.email;
         const usernameChanged = state.usernameField !== state.user.username;
+        const nameChanged = this.hasNameChanges(state);
         const authDataChanged = state.authDataField !== (state.user.auth_data || '');
         const cpaChanged = this.hasCpaChanges(state);
 
-        return emailChanged || usernameChanged || authDataChanged || cpaChanged;
+        return emailChanged || usernameChanged || nameChanged || authDataChanged || cpaChanged;
+    };
+
+    private hasNameChanges = (state: State = this.state): boolean => {
+        if (!state.user) {
+            return false;
+        }
+        return state.firstNameField !== state.user.first_name || state.lastNameField !== state.user.last_name;
     };
 
     private hasCpaChanges = (state: State = this.state): boolean => {
@@ -305,10 +319,17 @@ export class SystemUserDetail extends PureComponent<Props, State> {
         return currentValue !== originalValue;
     };
 
+    private formatEmptyValue = (): string => {
+        return this.props.intl.formatMessage({
+            id: 'admin.userDetail.saveChangesModal.empty',
+            defaultMessage: '(empty)',
+        });
+    };
+
     // Resolves option IDs to display names for select/multiselect CPA fields.
     private resolveOptionNames = (field: UserPropertyField, value: string | string[] | undefined): string => {
         if (!value) {
-            return '(empty)';
+            return this.formatEmptyValue();
         }
 
         const options = field.attrs?.options || [];
@@ -321,7 +342,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
 
             // Multiselect: resolve each ID to its name
             if (value.length === 0) {
-                return '(empty)';
+                return this.formatEmptyValue();
             }
 
             const names = value.map((id) => {
@@ -495,6 +516,28 @@ export class SystemUserDetail extends PureComponent<Props, State> {
         this.setState({
             usernameField: value,
             usernameError,
+        });
+    };
+
+    handleFirstNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!this.state.user) {
+            return;
+        }
+
+        this.setState({
+            firstNameField: event.target.value,
+            error: null, // Clear any errors when user starts editing
+        });
+    };
+
+    handleLastNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!this.state.user) {
+            return;
+        }
+
+        this.setState({
+            lastNameField: event.target.value,
+            error: null, // Clear any errors when user starts editing
         });
     };
 
@@ -796,6 +839,73 @@ export class SystemUserDetail extends PureComponent<Props, State> {
             </label>,
         );
 
+        const nameField = (fieldKey: 'firstNameField' | 'lastNameField', label: React.ReactNode, onChange: (event: ChangeEvent<HTMLInputElement>) => void, placeholder: string, maxLength: number) => (
+            <label key={fieldKey}>
+                {label}
+                {this.state.user?.auth_service ? (
+                    <WithTooltip
+                        title={this.props.intl.formatMessage({
+                            id: 'admin.userManagement.userDetail.managedByProvider.title',
+                            defaultMessage: 'Managed by login provider',
+                        })}
+                        hint={this.props.intl.formatMessage({
+                            id: 'admin.userManagement.userDetail.managedByProvider.name',
+                            defaultMessage: 'This name is managed by the {authService} login provider and cannot be changed here.',
+                        }, {
+                            authService: this.state.user.auth_service.toUpperCase(),
+                        })}
+                    >
+                        <input
+                            className='form-control'
+                            type='text'
+                            value={this.state[fieldKey]}
+                            disabled={true}
+                            readOnly={true}
+                            placeholder={placeholder}
+                        />
+                    </WithTooltip>
+                ) : (
+                    <input
+                        className='form-control'
+                        type='text'
+                        value={this.state[fieldKey]}
+                        onChange={onChange}
+                        disabled={this.state.isSaving}
+                        maxLength={maxLength}
+                        placeholder={placeholder}
+                    />
+                )}
+            </label>
+        );
+
+        fields.push(nameField(
+            'firstNameField',
+            <FormattedMessage
+                id='admin.userManagement.userDetail.firstName'
+                defaultMessage='First Name'
+            />,
+            this.handleFirstNameChange,
+            this.props.intl.formatMessage({
+                id: 'admin.userManagement.userDetail.firstName.input',
+                defaultMessage: 'Enter first name',
+            }),
+            Constants.MAX_FIRSTNAME_LENGTH,
+        ));
+
+        fields.push(nameField(
+            'lastNameField',
+            <FormattedMessage
+                id='admin.userManagement.userDetail.lastName'
+                defaultMessage='Last Name'
+            />,
+            this.handleLastNameChange,
+            this.props.intl.formatMessage({
+                id: 'admin.userManagement.userDetail.lastName.input',
+                defaultMessage: 'Enter last name',
+            }),
+            Constants.MAX_LASTNAME_LENGTH,
+        ));
+
         fields.push(
             <label key='authMethod'>
                 <FormattedMessage
@@ -961,14 +1071,40 @@ export class SystemUserDetail extends PureComponent<Props, State> {
             );
         }
 
+        if (this.state.user && this.state.firstNameField !== this.state.user.first_name) {
+            fields.push(
+                <FormattedMessage
+                    id='admin.userDetail.saveChangesModal.firstNameChange'
+                    defaultMessage='First Name: {oldFirstName} → {newFirstName}'
+                    values={{
+                        oldFirstName: this.state.user.first_name || this.formatEmptyValue(),
+                        newFirstName: this.state.firstNameField || this.formatEmptyValue(),
+                    }}
+                />,
+            );
+        }
+
+        if (this.state.user && this.state.lastNameField !== this.state.user.last_name) {
+            fields.push(
+                <FormattedMessage
+                    id='admin.userDetail.saveChangesModal.lastNameChange'
+                    defaultMessage='Last Name: {oldLastName} → {newLastName}'
+                    values={{
+                        oldLastName: this.state.user.last_name || this.formatEmptyValue(),
+                        newLastName: this.state.lastNameField || this.formatEmptyValue(),
+                    }}
+                />,
+            );
+        }
+
         if (this.state.user && this.state.authDataField !== (this.state.user.auth_data || '')) {
             fields.push(
                 <FormattedMessage
                     id='admin.userDetail.saveChangesModal.authDataChange'
                     defaultMessage='Auth Data: {oldAuthData} → {newAuthData}'
                     values={{
-                        oldAuthData: this.state.user.auth_data || '(empty)',
-                        newAuthData: this.state.authDataField || '(empty)',
+                        oldAuthData: this.state.user.auth_data || this.formatEmptyValue(),
+                        newAuthData: this.state.authDataField || this.formatEmptyValue(),
                     }}
                 />,
             );
@@ -1071,6 +1207,8 @@ export class SystemUserDetail extends PureComponent<Props, State> {
         this.setState({
             usernameField: this.state?.user?.username || '',
             usernameError: null,
+            firstNameField: this.state.user?.first_name || '',
+            lastNameField: this.state.user?.last_name || '',
             emailField: this.state.user?.email || '',
             emailError: null,
             authDataField: this.state.user?.auth_data || '',
@@ -1126,17 +1264,23 @@ export class SystemUserDetail extends PureComponent<Props, State> {
             // Track what changes are being made
             const emailChanged = !this.state.user.auth_service && this.state.emailField !== this.state.user.email;
             const usernameChanged = !this.state.user.auth_service && this.state.usernameField !== this.state.user.username;
+            const nameChanged = !this.state.user.auth_service && this.hasNameChanges();
             const authDataChanged = this.state.authDataField !== (this.state.user.auth_data || '');
             const cpaChanged = this.hasCpaChanges();
 
-            // Update user profile if email or username changed
-            if (usernameChanged || emailChanged) {
+            // Update user profile if email, username or name changed
+            if (usernameChanged || emailChanged || nameChanged) {
                 if (emailChanged) {
                     updatedUser.email = this.state.emailField.trim().toLowerCase();
                 }
 
                 if (usernameChanged) {
                     updatedUser.username = this.state.usernameField.trim();
+                }
+
+                if (nameChanged) {
+                    updatedUser.first_name = this.state.firstNameField.trim();
+                    updatedUser.last_name = this.state.lastNameField.trim();
                 }
 
                 // If editing own email, include password for verification
@@ -1177,8 +1321,8 @@ export class SystemUserDetail extends PureComponent<Props, State> {
             // Handle results
             let resultIndex = 0;
 
-            // Handle user update result if email or username changed
-            if (emailChanged || usernameChanged) {
+            // Handle user update result if email, username or name changed
+            if (emailChanged || usernameChanged || nameChanged) {
                 const userResult = results[resultIndex] as ActionResult<UserProfile, ServerError>;
                 if (userResult.data) {
                     updatedUser = userResult.data;
@@ -1239,6 +1383,8 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                 user: updatedUser,
                 usernameField: updatedUser.username,
                 usernameError: null,
+                firstNameField: updatedUser.first_name,
+                lastNameField: updatedUser.last_name,
                 emailField: updatedUser.email,
                 emailError: null,
                 authDataField: updatedUser.auth_data || '',
