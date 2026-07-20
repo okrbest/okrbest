@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS UserOrgProfiles (
     UserID varchar(26) NOT NULL,
     PrimaryPositionID varchar(26) NOT NULL DEFAULT '',
     PrimaryOrgUnitID varchar(26) NOT NULL DEFAULT '',
-    ExtraPositions json NOT NULL,
+    ExtraPositions json NOT NULL DEFAULT ('[]'),
     EffectiveFrom bigint NOT NULL DEFAULT 0,
     EffectiveTo bigint NOT NULL DEFAULT 0,
     CreateAt bigint NOT NULL,

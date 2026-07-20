@@ -74,21 +74,37 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             const currentItems = itemsRef.current;
+
+            // Arrow/Escape must always be swallowed here while the suggestion list is
+            // mounted (even while items are still loading or empty), otherwise they leak
+            // to global handlers such as the thread list's arrow-key thread switcher.
+            switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                if (currentItems.length > 0) {
+                    setSelectedIndex((prev) => (prev + 1) % currentItems.length);
+                }
+                return;
+            case 'ArrowUp':
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                if (currentItems.length > 0) {
+                    setSelectedIndex((prev) => ((prev - 1) + currentItems.length) % currentItems.length);
+                }
+                return;
+            case 'Escape':
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                onCloseRef.current();
+                return;
+            }
+
             if (currentItems.length === 0) {
                 return;
             }
 
             switch (e.key) {
-            case 'ArrowDown':
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                setSelectedIndex((prev) => (prev + 1) % currentItems.length);
-                break;
-            case 'ArrowUp':
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                setSelectedIndex((prev) => ((prev - 1) + currentItems.length) % currentItems.length);
-                break;
             case 'Enter':
             case 'Tab': {
                 e.preventDefault();
@@ -124,11 +140,6 @@ export default function SuggestionList({items, onSelect, onClose, loading, heade
                 invokeSelect(item);
                 break;
             }
-            case 'Escape':
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                onCloseRef.current();
-                break;
             }
         };
 

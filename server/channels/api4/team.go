@@ -1996,6 +1996,11 @@ func teamMembersMinusGroupMembers(c *Context, w http.ResponseWriter, r *http.Req
 }
 
 func requireOrgRoleManagement(c *Context) bool {
+	if !c.App.Config().FeatureFlags.EnableOrgRoleManagement {
+		c.Err = model.NewAppError("requireOrgRoleManagement", "api.team.org_roles.feature_disabled.app_error", nil, "", http.StatusNotImplemented)
+		return false
+	}
+
 	if !c.App.SessionHasPermissionTo(*c.AppContext.Session(), model.PermissionSysconsoleReadUserManagementTeams) {
 		c.SetPermissionError(model.PermissionSysconsoleReadUserManagementTeams)
 		return false

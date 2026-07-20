@@ -229,10 +229,10 @@ const OrgRoleManagement = () => {
     const loadTeams = useCallback(async () => {
         const list = ensureArray<Team>(await request<unknown>('/api/v4/teams?page=0&per_page=200'));
         setTeams(list);
-        if (list.length > 0 && !selectedTeamId) {
-            setSelectedTeamId(list[0].id);
+        if (list.length > 0) {
+            setSelectedTeamId((currentTeamId) => currentTeamId || list[0].id);
         }
-    }, [selectedTeamId]);
+    }, []);
 
     const loadTeamData = useCallback(async (teamId: string) => {
         if (!teamId) {
