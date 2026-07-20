@@ -106,6 +106,9 @@ function isImeOrphanText(content: string, prefix: string): boolean {
         return false;
     }
     const trimmed = content.trim();
+    if (!trimmed) {
+        return false;
+    }
     if (trimmed === prefix) {
         return true;
     }

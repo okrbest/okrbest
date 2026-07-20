@@ -64,23 +64,27 @@ function resolveTrigger(
     return {node: trigger.node, offset: trigger.triggerOffset};
 }
 
+/**
+ * pendingMatch가 객체로 존재하면(prefix가 빈 문자열이어도) 그 값을 신뢰합니다.
+ * pendingMatch.prefix는 항상 커서 위치까지만 읽은 값이라 커서 우측의 기존 텍스트를
+ * 포함할 수 없기 때문입니다. pendingMatch가 없을 때만(예: 조합 문자가 분리된
+ * 형제 노드로 붙는 IME 케이스) fallbackQueryPrefix, 그 다음 트리 훑기(fromTree, 커서
+ * 위치를 모르므로 우측 텍스트까지 집어삼킬 수 있음)로 폴백합니다.
+ */
 function resolvePrefix(
     triggerNode: TextNode,
     triggerOffset: number,
     prefixCharPattern: RegExp,
-    pendingPrefix: string,
+    pendingMatch: PendingMentionMatch | null,
     fallbackQueryPrefix: string,
 ): string {
-    const fromTree = readPrefixFromTrigger(triggerNode, triggerOffset, prefixCharPattern);
-    const pending = pendingPrefix || fallbackQueryPrefix;
-
-    if (!pending) {
-        return fromTree;
+    if (pendingMatch) {
+        return pendingMatch.prefix;
     }
-    if (!fromTree) {
-        return pending;
+    if (fallbackQueryPrefix) {
+        return fallbackQueryPrefix;
     }
-    return fromTree.length >= pending.length ? fromTree : pending;
+    return readPrefixFromTrigger(triggerNode, triggerOffset, prefixCharPattern);
 }
 
 function isSearchTextInSingleNode(
@@ -153,12 +157,11 @@ export function applyMentionReplacement(
     }
 
     const {node: triggerNode, offset: triggerOffset} = trigger;
-    const pendingPrefix = pendingMatch?.prefix ?? '';
     const prefix = resolvePrefix(
         triggerNode,
         triggerOffset,
         prefixCharPattern,
-        pendingPrefix,
+        pendingMatch,
         fallbackQueryPrefix,
     );
 
@@ -187,8 +190,7 @@ export function applyMentionReplacement(
         };
     }
 
-    const rangePrefix = readPrefixFromTrigger(triggerNode, triggerOffset, prefixCharPattern);
-    const effectivePrefix = rangePrefix.length >= prefix.length ? rangePrefix : prefix;
+    const effectivePrefix = prefix;
     const effectiveReplaceCount = 1 + effectivePrefix.length;
 
     const afterText = getTextAfterReplaceEnd(
@@ -197,11 +199,15 @@ export function applyMentionReplacement(
         effectiveReplaceCount,
     );
 
+    // afterText는 createNodesToInsert가 수동으로 다시 삽입하므로, 실제 치환 범위는
+    // afterText 길이만큼 더 넓혀서 잡아야 한다. 그렇지 않으면 insertNodes가 선택 범위
+    // 밖의 afterText를 그대로 남겨두어(자체적으로 노드를 분리해 보존) 같은 텍스트가
+    // 원본 잔여분 + 수동 재삽입분으로 중복된다.
     const nodesToInsert = createNodesToInsert(afterText);
     const insertedNode = insertMentionViaRangeSelection(
         triggerNode,
         triggerOffset,
-        effectiveReplaceCount,
+        effectiveReplaceCount + afterText.length,
         nodesToInsert,
     );
 
