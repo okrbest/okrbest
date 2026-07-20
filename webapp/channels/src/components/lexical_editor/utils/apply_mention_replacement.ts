@@ -175,7 +175,15 @@ export function applyMentionReplacement(
         );
     }
 
-    if (prefix.length > 0 && isSearchTextInSingleNode(triggerNode, triggerOffset, prefix)) {
+    // 문장 시작(@가 offset 0)에서는 단순 replace 경로보다 RangeSelection 경로가
+    // 멘션 노드 삽입을 더 안정적으로 보장한다.
+    const canUseSimplePath = (
+        prefix.length > 0 &&
+        triggerOffset > 0 &&
+        isSearchTextInSingleNode(triggerNode, triggerOffset, prefix)
+    );
+
+    if (canUseSimplePath) {
         const {insertedNode, afterText} = applySimpleMentionReplacement(
             triggerNode,
             triggerOffset,

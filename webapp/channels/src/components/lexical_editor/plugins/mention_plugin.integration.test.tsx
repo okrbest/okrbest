@@ -8,14 +8,14 @@ import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$getRoot, $createParagraphNode, $createTextNode, type LexicalEditor} from 'lexical';
+import {$getRoot, $createParagraphNode, $createTextNode, $nodesOfType, type LexicalEditor} from 'lexical';
 
 import {Client4} from 'mattermost-redux/client';
 
 import {renderWithContext, userEvent, screen} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
-import {MentionNode} from '../nodes/mention_node';
+import {MentionNode, $isMentionNode} from '../nodes/mention_node';
 
 import MentionPlugin from './mention_plugin';
 
@@ -102,6 +102,28 @@ function readFinalText() {
     return testEditor!.getEditorState().read(() => $getRoot().getTextContent());
 }
 
+function hasMentionNodeInRoot() {
+    return testEditor!.getEditorState().read(() => {
+        return $nodesOfType(MentionNode).some((node) => $isMentionNode(node));
+    });
+}
+
+async function setUpTriggerAtStartWithTail(tailText: string) {
+    await act(async () => {
+        testEditor!.update(() => {
+            const root = $getRoot();
+            root.clear();
+            const p = $createParagraphNode();
+            const node = $createTextNode(`@sam${tailText}`);
+            p.append(node);
+            root.append(p);
+            node.select(4, 4);
+        });
+    });
+
+    return screen.findByRole('option', {name: /sample1/}, {timeout: 3000});
+}
+
 describe('MentionPlugin integration', () => {
     beforeEach(() => {
         testEditor = null;
@@ -137,5 +159,95 @@ describe('MentionPlugin integration', () => {
         });
 
         expect(readFinalText()).toContain('하는 중 확인');
+    });
+
+    it('문장 시작 영문 @멘션을 Enter로 선택하면 멘션 노드가 적용된다', async () => {
+        renderWithContext(<TestEditor />, initialState);
+        await setUpTriggerAtStartWithTail('rest');
+
+        await act(async () => {
+            await userEvent.keyboard('{Enter}');
+        });
+        await act(async () => {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+        });
+
+        expect(readFinalText()).toContain('@sample1 rest');
+        expect(hasMentionNodeInRoot()).toBe(true);
+    });
+
+    it('문장 시작 영문 @멘션을 클릭으로 선택해도 멘션 노드가 적용된다', async () => {
+        renderWithContext(<TestEditor />, initialState);
+        const option = await setUpTriggerAtStartWithTail('rest');
+
+        await act(async () => {
+            await userEvent.click(option);
+        });
+        await act(async () => {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+        });
+
+        expect(readFinalText()).toContain('@sample1 rest');
+        expect(hasMentionNodeInRoot()).toBe(true);
+    });
+
+    it('문장 시작 영문 tail(ddd) 앞에 멘션을 선택하면 경계 공백이 삽입된다 (Enter)', async () => {
+        renderWithContext(<TestEditor />, initialState);
+        await setUpTriggerAtStartWithTail('ddd');
+
+        await act(async () => {
+            await userEvent.keyboard('{Enter}');
+        });
+        await act(async () => {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+        });
+
+        expect(readFinalText()).toContain('@sample1 ddd');
+        expect(hasMentionNodeInRoot()).toBe(true);
+    });
+
+    it('문장 시작 영문 tail(ddd) 앞에 멘션을 선택하면 경계 공백이 삽입된다 (클릭)', async () => {
+        renderWithContext(<TestEditor />, initialState);
+        const option = await setUpTriggerAtStartWithTail('ddd');
+
+        await act(async () => {
+            await userEvent.click(option);
+        });
+        await act(async () => {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+        });
+
+        expect(readFinalText()).toContain('@sample1 ddd');
+        expect(hasMentionNodeInRoot()).toBe(true);
+    });
+
+    it('문장 시작 한글 tail(ㅇㅇㅇ) 앞에 멘션을 선택하면 경계 공백이 삽입된다 (Enter)', async () => {
+        renderWithContext(<TestEditor />, initialState);
+        await setUpTriggerAtStartWithTail('ㅇㅇㅇ');
+
+        await act(async () => {
+            await userEvent.keyboard('{Enter}');
+        });
+        await act(async () => {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+        });
+
+        expect(readFinalText()).toContain('@sample1 ㅇㅇㅇ');
+        expect(hasMentionNodeInRoot()).toBe(true);
+    });
+
+    it('문장 시작 한글 tail(ㅇㅇㅇ) 앞에 멘션을 선택하면 경계 공백이 삽입된다 (클릭)', async () => {
+        renderWithContext(<TestEditor />, initialState);
+        const option = await setUpTriggerAtStartWithTail('ㅇㅇㅇ');
+
+        await act(async () => {
+            await userEvent.click(option);
+        });
+        await act(async () => {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+        });
+
+        expect(readFinalText()).toContain('@sample1 ㅇㅇㅇ');
+        expect(hasMentionNodeInRoot()).toBe(true);
     });
 });

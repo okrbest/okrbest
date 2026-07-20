@@ -25,6 +25,7 @@ import type {GlobalState} from 'types/store';
 
 import {$createChannelMentionNode} from '../nodes/channel_mention_node';
 import {applyMentionReplacement} from '../utils/apply_mention_replacement';
+import {addMentionBoundarySpace} from '../utils/mention_boundary';
 import type {PendingMentionMatch} from '../utils/mention_replace';
 import SuggestionList, {type SuggestionItem} from '../utils/suggestion_list';
 
@@ -186,7 +187,8 @@ export default function ChannelMentionPlugin({searchChannels}: Props) {
                 triggerChar: '~',
                 createNodesToInsert: (afterText) => {
                     const channelNode = $createChannelMentionNode(channelSlug, item.display);
-                    return afterText ? [channelNode, $createTextNode(afterText)] : [channelNode, $createTextNode(' ')];
+                    const normalizedAfterText = addMentionBoundarySpace(afterText);
+                    return normalizedAfterText ? [channelNode, $createTextNode(normalizedAfterText)] : [channelNode, $createTextNode(' ')];
                 },
             });
         });

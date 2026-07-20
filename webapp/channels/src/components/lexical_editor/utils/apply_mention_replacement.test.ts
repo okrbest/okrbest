@@ -12,6 +12,7 @@ import {
 
 import {applyMentionReplacement} from './apply_mention_replacement';
 import {getTextAfterReplaceEnd} from './mention_replace';
+import {$createMentionNode, $isMentionNode} from '../nodes/mention_node';
 
 const CHANNEL_PREFIX_PATTERN = /^[^~\r\n]*/;
 const MENTION_PREFIX_PATTERN = /^[\p{L}\d\-_. ]*/u;
@@ -216,6 +217,66 @@ describe('apply_mention_replacement', () => {
 
                 expect(result?.usedRangePath).toBe(true);
                 expect(p.getTextContent()).toBe('~channel ');
+            });
+        });
+
+        test('영문 @멘션을 문장 시작에서 선택하면 멘션 노드로 치환된다', () => {
+            const editor = createEditor();
+            editor.update(() => {
+                const root = $getRoot();
+                const p = $createParagraphNode();
+                const node = $createTextNode('@sam');
+                p.append(node);
+                root.append(p);
+
+                const result = applyMentionReplacement({
+                    pendingMatch: {
+                        triggerKey: node.getKey(),
+                        triggerOffset: 0,
+                        prefix: 'sam',
+                    },
+                    fallbackQueryPrefix: 'sam',
+                    prefixCharPattern: MENTION_PREFIX_PATTERN,
+                    triggerChar: '@',
+                    createNodesToInsert: (afterText) => {
+                        const mention = $createMentionNode('sample1', 'sample1');
+                        return afterText ? [mention, $createTextNode(afterText)] : [mention, $createTextNode(' ')];
+                    },
+                });
+
+                expect(result?.usedRangePath).toBe(true);
+                expect($isMentionNode(p.getFirstChild())).toBe(true);
+                expect(p.getTextContent()).toBe('@sample1 ');
+            });
+        });
+
+        test('문장 시작 영문 @멘션 치환 시 뒤 텍스트를 보존한다', () => {
+            const editor = createEditor();
+            editor.update(() => {
+                const root = $getRoot();
+                const p = $createParagraphNode();
+                const node = $createTextNode('@sam rest');
+                p.append(node);
+                root.append(p);
+
+                const result = applyMentionReplacement({
+                    pendingMatch: {
+                        triggerKey: node.getKey(),
+                        triggerOffset: 0,
+                        prefix: 'sam',
+                    },
+                    fallbackQueryPrefix: 'sam',
+                    prefixCharPattern: MENTION_PREFIX_PATTERN,
+                    triggerChar: '@',
+                    createNodesToInsert: (afterText) => {
+                        const mention = $createMentionNode('sample1', 'sample1');
+                        return afterText ? [mention, $createTextNode(afterText)] : [mention, $createTextNode(' ')];
+                    },
+                });
+
+                expect(result?.usedRangePath).toBe(true);
+                expect($isMentionNode(p.getFirstChild())).toBe(true);
+                expect(p.getTextContent()).toBe('@sample1 rest');
             });
         });
     });

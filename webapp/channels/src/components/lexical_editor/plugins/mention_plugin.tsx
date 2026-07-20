@@ -29,6 +29,7 @@ import type {GlobalState} from 'types/store';
 
 import {$createMentionNode} from '../nodes/mention_node';
 import {applyMentionReplacement} from '../utils/apply_mention_replacement';
+import {addMentionBoundarySpace} from '../utils/mention_boundary';
 import type {PendingMentionMatch} from '../utils/mention_replace';
 import SuggestionList, {type SuggestionItem} from '../utils/suggestion_list';
 
@@ -254,13 +255,14 @@ export default function MentionPlugin({channelId, teamId, useChannelMentions = t
                 prefixCharPattern: MENTION_PREFIX_PATTERN,
                 triggerChar: '@',
                 createNodesToInsert: (afterText) => {
+                    const normalizedAfterText = addMentionBoundarySpace(afterText);
                     if (isSpecial || isGroup) {
                         const textNode = $createTextNode(`@${mentionText} `);
-                        return afterText ? [textNode, $createTextNode(afterText)] : [textNode];
+                        return normalizedAfterText ? [textNode, $createTextNode(normalizedAfterText)] : [textNode];
                     }
                     const mentionNode = $createMentionNode(username, mentionText);
-                    return afterText ?
-                        [mentionNode, $createTextNode(afterText)] :
+                    return normalizedAfterText ?
+                        [mentionNode, $createTextNode(normalizedAfterText)] :
                         [mentionNode, $createTextNode(' ')];
                 },
             });
