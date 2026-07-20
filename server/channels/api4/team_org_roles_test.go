@@ -16,24 +16,35 @@ import (
 )
 
 func TestTeamOrgRolesFeatureFlag(t *testing.T) {
-	th := Setup(t).InitBasic(t)
+	t.Run("feature flag off returns feature disabled", func(t *testing.T) {
+		t.Setenv("MM_FEATUREFLAGS_ENABLEORGROLEMANAGEMENT", "false")
+		th := Setup(t).InitBasic(t)
 
-	route := "/teams/" + th.BasicTeam.Id + "/positions"
-
-	resp, err := th.SystemAdminClient.DoAPIGet(context.Background(), route, "")
-	if err != nil {
+		route := "/teams/" + th.BasicTeam.Id + "/positions"
+		resp, err := th.SystemAdminClient.DoAPIGet(context.Background(), route, "")
+		require.Error(t, err)
 		appErr, ok := err.(*model.AppError)
 		require.True(t, ok)
-		require.NotEqual(t, "api.team.org_roles.feature_disabled.app_error", appErr.Id)
-	} else {
-		require.Equal(t, http.StatusOK, resp.StatusCode)
-	}
-	closeBody(resp)
+		require.Equal(t, "api.team.org_roles.feature_disabled.app_error", appErr.Id)
+		require.Equal(t, http.StatusNotImplemented, resp.StatusCode)
+		closeBody(resp)
+	})
 
-	resp, err = th.Client.DoAPIGet(context.Background(), route, "")
-	require.Error(t, err)
-	require.Equal(t, http.StatusForbidden, resp.StatusCode)
-	closeBody(resp)
+	t.Run("feature flag on enforces permission checks", func(t *testing.T) {
+		t.Setenv("MM_FEATUREFLAGS_ENABLEORGROLEMANAGEMENT", "true")
+		th := Setup(t).InitBasic(t)
+
+		route := "/teams/" + th.BasicTeam.Id + "/positions"
+		resp, err := th.SystemAdminClient.DoAPIGet(context.Background(), route, "")
+		require.NoError(t, err)
+		require.Equal(t, http.StatusOK, resp.StatusCode)
+		closeBody(resp)
+
+		resp, err = th.Client.DoAPIGet(context.Background(), route, "")
+		require.Error(t, err)
+		require.Equal(t, http.StatusForbidden, resp.StatusCode)
+		closeBody(resp)
+	})
 }
 
 func TestTeamOrgRolesCreateAutoCode(t *testing.T) {
@@ -85,8 +96,12 @@ func TestTeamOrgRolesCreateAutoCode(t *testing.T) {
 
 // TestUpdateUserOrgProfileSyncsUserProps verifies the bridge between a
 // UserOrgProfile assignment and the Mattermost User.Props keys
-// (org_unit_ids/position_codes/is_ceo) that the boards plugin's board-ACL
-// evaluator and webapp org-context filter read from. "CEO" full visibility is
+// (org_unit_ids/position_codes/is_ceo) that the boards plugin webapp's
+// org-context card-property filter reads from. position_codes stores
+// PositionDefinition.Code (not ID) values, since the boards webapp matches
+// them against human-readable card-property options; boards' own board-ACL
+// evaluator does not read this prop at all, and instead re-resolves a user's
+// positions by ID directly from UserOrgProfiles. "CEO" full visibility is
 // derived from whether the assigned position has FullVisibility set, not from
 // a per-user flag.
 func TestUpdateUserOrgProfileSyncsUserProps(t *testing.T) {
@@ -131,7 +146,7 @@ func TestUpdateUserOrgProfileSyncsUserProps(t *testing.T) {
 	user, _, err := th.SystemAdminClient.GetUser(context.Background(), th.BasicUser.Id, "")
 	require.NoError(t, err)
 	require.Equal(t, orgUnit.ID, user.Props["org_unit_ids"])
-	require.Equal(t, regularPosition.ID, user.Props["position_codes"])
+	require.Equal(t, regularPosition.Code, user.Props["position_codes"])
 	require.Equal(t, "false", user.Props["is_ceo"])
 
 	assignCEOPayload := `{"primary_position_id":"` + ceoPosition.ID + `","primary_org_unit_id":"` + orgUnit.ID + `"}`
@@ -142,7 +157,20 @@ func TestUpdateUserOrgProfileSyncsUserProps(t *testing.T) {
 
 	user, _, err = th.SystemAdminClient.GetUser(context.Background(), th.BasicUser.Id, "")
 	require.NoError(t, err)
-	require.Equal(t, ceoPosition.ID, user.Props["position_codes"])
+	require.Equal(t, ceoPosition.Code, user.Props["position_codes"])
+	require.Equal(t, "true", user.Props["is_ceo"])
+
+	// Primary + Extra positions: position_codes must serialize both Codes,
+	// primary first, in the same order UserOrgProfile stores them.
+	assignMultiPayload := `{"primary_position_id":"` + regularPosition.ID + `","primary_org_unit_id":"` + orgUnit.ID + `","extra_positions":["` + ceoPosition.ID + `"]}`
+	resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), profileRoute, assignMultiPayload)
+	require.NoError(t, err)
+	require.Equal(t, http.StatusOK, resp.StatusCode)
+	closeBody(resp)
+
+	user, _, err = th.SystemAdminClient.GetUser(context.Background(), th.BasicUser.Id, "")
+	require.NoError(t, err)
+	require.Equal(t, regularPosition.Code+","+ceoPosition.Code, user.Props["position_codes"])
 	require.Equal(t, "true", user.Props["is_ceo"])
 
 	clearPayload := `{"primary_position_id":"","primary_org_unit_id":""}`

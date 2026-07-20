@@ -479,9 +479,7 @@ const AdminDefinition: AdminDefinitionType = {
             org_roles: {
                 url: 'user_management/org_roles',
                 title: defineMessage({id: 'admin.sidebar.org_roles', defaultMessage: '조직/직위 관리'}),
-                isHidden: it.any(
-                    it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
-                ),
+                isHidden: true,
                 isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
                 schema: {
                     id: 'OrgRoles',

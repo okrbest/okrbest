@@ -3403,6 +3403,10 @@
     "translation": "Error invalidating email invites."
   },
   {
+    "id": "api.team.org_roles.feature_disabled.app_error",
+    "translation": "org role management feature is disabled"
+  },
+  {
     "id": "api.team.invite_guests.channel_in_invalid_team.app_error",
     "translation": "The channels of the invite must be part of the team of the invite."
   },

@@ -353,13 +353,18 @@ func (a *App) UpsertUserOrgProfile(rctx request.CTX, actorUserID string, input *
 // syncUserOrgProfileToProps mirrors the assigned org unit/position onto the
 // Mattermost user's Props map, since the boards plugin has no direct access
 // to the UserOrgProfiles/PositionDefinitions tables and instead reads its org
-// context from Props (see the userProp* constants above). "CEO" full-visibility
-// is not a per-user flag: it is derived from whether any of the user's assigned
-// positions (primary or extra) has FullVisibility set, so assigning e.g. the
-// "ceo" position automatically grants it. A failure here is logged rather than
-// surfaced as a request error: the UserOrgProfiles row is the source of truth,
-// and a subsequent save will retry the sync. Returns the computed CEO flag for
-// the audit log.
+// context from Props (see the userProp* constants above). userPropPositionCodes
+// specifically feeds the boards webapp's card-property default filter, which
+// matches against human-readable PositionDefinition.Code values (not IDs) —
+// boards' own ACL permission evaluation does not read this prop at all; it
+// re-resolves a user's positions directly from UserOrgProfiles by ID whenever
+// a team-scoped profile row exists, so this prop's format has no effect there.
+// "CEO" full-visibility is not a per-user flag: it is derived from whether any
+// of the user's assigned positions (primary or extra) has FullVisibility set,
+// so assigning e.g. the "ceo" position automatically grants it. A failure here
+// is logged rather than surfaced as a request error: the UserOrgProfiles row
+// is the source of truth, and a subsequent save will retry the sync. Returns
+// the computed CEO flag for the audit log.
 func (a *App) syncUserOrgProfileToProps(rctx request.CTX, item *model.UserOrgProfile) bool {
 	rctx.Logger().Debug("syncUserOrgProfileToProps started",
 		mlog.String("team_id", item.TeamID),
@@ -383,8 +388,8 @@ func (a *App) syncUserOrgProfileToProps(rctx request.CTX, item *model.UserOrgPro
 		orgUnitIDs = append(orgUnitIDs, item.PrimaryOrgUnitID)
 	}
 
-	positionCodes := []string{}
 	seenPositions := map[string]struct{}{}
+	positionIDs := []string{}
 	for _, positionID := range append([]string{item.PrimaryPositionID}, item.ExtraPositions...) {
 		if positionID == "" {
 			continue
@@ -393,21 +398,29 @@ func (a *App) syncUserOrgProfileToProps(rctx request.CTX, item *model.UserOrgPro
 			continue
 		}
 		seenPositions[positionID] = struct{}{}
-		positionCodes = append(positionCodes, positionID)
+		positionIDs = append(positionIDs, positionID)
 	}
 
 	isCEO := false
+	positionCodes := []string{}
 	positions, positionsAppErr := a.ListPositionDefinitions(item.TeamID, true)
 	if positionsAppErr != nil {
-		rctx.Logger().Warn("failed to load team positions to resolve full-visibility flag",
+		rctx.Logger().Warn("failed to load team positions to resolve position codes and full-visibility flag",
 			mlog.String("team_id", item.TeamID),
 			mlog.Err(positionsAppErr),
 		)
 	} else {
+		codeByPositionID := map[string]string{}
 		fullVisibilityPositionIDs := map[string]struct{}{}
 		for _, position := range positions {
+			codeByPositionID[position.ID] = position.Code
 			if position.FullVisibility {
 				fullVisibilityPositionIDs[position.ID] = struct{}{}
+			}
+		}
+		for _, positionID := range positionIDs {
+			if code, ok := codeByPositionID[positionID]; ok {
+				positionCodes = append(positionCodes, code)
 			}
 		}
 		for positionID := range seenPositions {
