@@ -75,6 +75,13 @@ const ThreadList = ({
         if (tagName === 'input' || tagName === 'textarea' || tagName === 'select') {
             return;
         }
+
+        // Ensure that arrow keys navigation is not triggered if a contenteditable
+        // editor (e.g. the Lexical-based reply/post textbox) is focused
+        const activeElement = document.activeElement as HTMLElement | null;
+        if (activeElement?.closest('[contenteditable="true"]') || target?.closest?.('[contenteditable="true"]')) {
+            return;
+        }
         const comboKeyPressed = e.altKey || e.metaKey || e.shiftKey || e.ctrlKey;
         if (comboKeyPressed || (!Keyboard.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Keyboard.isKeyPressed(e, Constants.KeyCodes.UP))) {
             return;
