@@ -353,6 +353,7 @@ export const ModalIdentifiers = {
     CHANNEL_MEMBERS: 'channel_members',
     CHANNEL_SETTINGS: 'channel_settings',
     TEAM_MEMBERS: 'team_members',
+    TEAM_ORG_ROLE_MANAGEMENT: 'team_org_role_management',
     TEST_RESULTS: 'test_results',
     ADD_USER_TO_CHANNEL: 'add_user_to_channel',
     ADD_USER_TO_ROLE: 'add_user_to_role',

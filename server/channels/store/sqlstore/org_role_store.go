@@ -161,6 +161,25 @@ func (ss *SqlStore) GetUserOrgProfile(teamID, userID string) (*model.UserOrgProf
 	return &profile, nil
 }
 
+func (ss *SqlStore) ListUserOrgProfiles(teamID string) ([]*model.UserOrgProfile, error) {
+	query := ss.getQueryBuilder().
+		Select("TeamID", "UserID", "PrimaryPositionID", "PrimaryOrgUnitID", "ExtraPositions", "EffectiveFrom", "EffectiveTo", "CreateAt", "UpdateAt").
+		From("UserOrgProfiles").
+		Where(sq.Eq{"TeamID": teamID})
+
+	sqlQuery, args, err := query.ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	var result []*model.UserOrgProfile
+	if err := ss.GetReplica().Select(&result, sqlQuery, args...); err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
 func (ss *SqlStore) UpsertUserOrgProfile(profile *model.UserOrgProfile) (*model.UserOrgProfile, error) {
 	now := model.GetMillis()
 	if profile.CreateAt == 0 {

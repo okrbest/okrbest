@@ -47,6 +47,60 @@ func TestTeamOrgRolesFeatureFlag(t *testing.T) {
 	})
 }
 
+func TestTeamOrgRolesTeamAdminPermission(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+
+	route := "/teams/" + th.BasicTeam.Id + "/positions"
+
+	t.Run("regular team member without MANAGE_TEAM_ROLES is forbidden", func(t *testing.T) {
+		resp, err := th.Client.DoAPIGet(context.Background(), route, "")
+		require.Error(t, err)
+		require.Equal(t, http.StatusForbidden, resp.StatusCode)
+		closeBody(resp)
+	})
+
+	t.Run("team_admin (MANAGE_TEAM_ROLES) can read team org roles", func(t *testing.T) {
+		th.UpdateUserToTeamAdmin(t, th.BasicUser, th.BasicTeam)
+		appErr := th.App.Srv().InvalidateAllCaches()
+		require.Nil(t, appErr)
+		th.LoginBasic(t)
+
+		resp, err := th.Client.DoAPIGet(context.Background(), route, "")
+		require.NoError(t, err)
+		require.Equal(t, http.StatusOK, resp.StatusCode)
+		closeBody(resp)
+	})
+
+	t.Run("team_admin can create team org roles", func(t *testing.T) {
+		resp, err := th.Client.DoAPIPost(context.Background(), route, `{"name":"QA Lead","rank":1}`)
+		if err != nil {
+			if appErr, ok := err.(*model.AppError); ok && appErr.Id == "app.org_role.unsupported_store.app_error" {
+				closeBody(resp)
+				t.Skip("org role create API requires SQLStore in this test setup")
+			}
+		}
+		require.NoError(t, err)
+		require.Equal(t, http.StatusCreated, resp.StatusCode)
+		closeBody(resp)
+	})
+
+	t.Run("team_admin of a different team is forbidden on this team's org roles", func(t *testing.T) {
+		otherTeam := th.CreateTeamWithClient(t, th.SystemAdminClient)
+		th.LinkUserToTeam(t, th.BasicUser2, otherTeam)
+		th.UpdateUserToTeamAdmin(t, th.BasicUser2, otherTeam)
+		appErr := th.App.Srv().InvalidateAllCaches()
+		require.Nil(t, appErr)
+
+		client2 := th.CreateClient()
+		th.LoginBasic2WithClient(t, client2)
+
+		resp, err := client2.DoAPIGet(context.Background(), route, "")
+		require.Error(t, err)
+		require.Equal(t, http.StatusForbidden, resp.StatusCode)
+		closeBody(resp)
+	})
+}
+
 func TestTeamOrgRolesCreateAutoCode(t *testing.T) {
 	th := Setup(t).InitBasic(t)
 

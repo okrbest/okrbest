@@ -479,6 +479,8 @@ const AdminDefinition: AdminDefinitionType = {
             org_roles: {
                 url: 'user_management/org_roles',
                 title: defineMessage({id: 'admin.sidebar.org_roles', defaultMessage: '조직/직위 관리'}),
+                // Superseded by the team menu's "부서/직위 관리" entry (team-scoped,
+                // team_admin accessible). Route/component kept for backward compatibility.
                 isHidden: true,
                 isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
                 schema: {

@@ -91,6 +91,10 @@ describe('components/admin_console/org_role_management', () => {
                 return Promise.resolve(buildResponse([user]));
             }
 
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
+            }
+
             if (url.includes('/org-profile')) {
                 return Promise.resolve(buildResponse({
                     team_id: team.id,
@@ -187,6 +191,10 @@ describe('components/admin_console/org_role_management', () => {
                 return Promise.resolve(buildResponse([user]));
             }
 
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
+            }
+
             if (url.includes('/org-profile')) {
                 return Promise.resolve(buildResponse({
                     team_id: team.id,
@@ -253,6 +261,10 @@ describe('components/admin_console/org_role_management', () => {
 
             if (url.includes('/api/v4/users?in_team=')) {
                 return Promise.resolve(buildResponse([user]));
+            }
+
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
             }
 
             if (url.includes('/org-profile')) {
@@ -371,6 +383,10 @@ describe('components/admin_console/org_role_management', () => {
                 return Promise.resolve(buildResponse([user]));
             }
 
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
+            }
+
             if (url.includes('/org-profile')) {
                 return Promise.resolve(buildResponse({
                     team_id: team.id,
@@ -467,6 +483,10 @@ describe('components/admin_console/org_role_management', () => {
                 }));
             }
 
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
+            }
+
             if (url.includes('/org-profile')) {
                 return Promise.resolve(buildResponse({
                     team_id: team.id,
@@ -532,6 +552,10 @@ describe('components/admin_console/org_role_management', () => {
 
             if (url.includes('/api/v4/users?in_team=')) {
                 return Promise.resolve(buildResponse([user]));
+            }
+
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
             }
 
             if (url.includes('/org-profile')) {
@@ -609,6 +633,10 @@ describe('components/admin_console/org_role_management', () => {
                 return Promise.resolve(buildResponse([user]));
             }
 
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
+            }
+
             if (url.includes('/org-profile')) {
                 return Promise.resolve(buildResponse({
                     team_id: team.id,
@@ -671,6 +699,10 @@ describe('components/admin_console/org_role_management', () => {
 
             if (url.includes('/api/v4/users?in_team=')) {
                 return Promise.resolve(buildResponse([user]));
+            }
+
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
             }
 
             if (url.includes('/org-profile')) {
@@ -741,6 +773,10 @@ describe('components/admin_console/org_role_management', () => {
                 return Promise.resolve(buildResponse([user]));
             }
 
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
+            }
+
             if (url.includes('/org-profile')) {
                 return Promise.resolve(buildResponse({
                     team_id: team.id,
@@ -806,19 +842,8 @@ describe('components/admin_console/org_role_management', () => {
                 return Promise.resolve(buildResponse([user, secondUser]));
             }
 
-            if (url.includes('/org-profile')) {
-                const userId = url.split('/users/')[1].split('/')[0];
-                return Promise.resolve(buildResponse({
-                    team_id: team.id,
-                    user_id: userId,
-                    primary_position_id: '',
-                    primary_org_unit_id: '',
-                    extra_positions: [],
-                    effective_from: 0,
-                    effective_to: 0,
-                    create_at: 0,
-                    update_at: 0,
-                }));
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
             }
 
             return Promise.resolve(buildResponse({}));

@@ -78,6 +78,7 @@ func (api *API) InitTeam() {
 	api.BaseRoutes.Team.Handle("/org-units/{org_unit_id:[A-Za-z0-9]+}", api.APISessionRequired(updateTeamOrgUnit)).Methods(http.MethodPut)
 	api.BaseRoutes.Team.Handle("/users/{user_id:[A-Za-z0-9]+}/org-profile", api.APISessionRequired(getUserOrgProfile)).Methods(http.MethodGet)
 	api.BaseRoutes.Team.Handle("/users/{user_id:[A-Za-z0-9]+}/org-profile", api.APISessionRequired(updateUserOrgProfile)).Methods(http.MethodPut)
+	api.BaseRoutes.Team.Handle("/org-profiles", api.APISessionRequired(getTeamOrgProfiles)).Methods(http.MethodGet)
 	api.BaseRoutes.Team.Handle("/org-role-audit", api.APISessionRequired(getTeamOrgRoleAuditLogs)).Methods(http.MethodGet)
 	api.BaseRoutes.Teams.Handle("/invites/email", api.APISessionRequired(invalidateAllEmailInvites)).Methods(http.MethodDelete)
 	api.BaseRoutes.Teams.Handle("/invite/{invite_id:[A-Za-z0-9]+}", api.APIHandler(getInviteInfo)).Methods(http.MethodGet)
@@ -2001,8 +2002,10 @@ func requireOrgRoleManagement(c *Context) bool {
 		return false
 	}
 
-	if !c.App.SessionHasPermissionTo(*c.AppContext.Session(), model.PermissionSysconsoleReadUserManagementTeams) {
-		c.SetPermissionError(model.PermissionSysconsoleReadUserManagementTeams)
+	hasSystemPermission := c.App.SessionHasPermissionTo(*c.AppContext.Session(), model.PermissionSysconsoleReadUserManagementTeams)
+	hasTeamPermission := c.App.SessionHasPermissionToTeam(*c.AppContext.Session(), c.Params.TeamId, model.PermissionManageTeamRoles)
+	if !hasSystemPermission && !hasTeamPermission {
+		c.SetPermissionError(model.PermissionSysconsoleReadUserManagementTeams, model.PermissionManageTeamRoles)
 		return false
 	}
 
@@ -2010,8 +2013,10 @@ func requireOrgRoleManagement(c *Context) bool {
 }
 
 func requireOrgRoleWrite(c *Context) bool {
-	if !c.App.SessionHasPermissionTo(*c.AppContext.Session(), model.PermissionSysconsoleWriteUserManagementTeams) {
-		c.SetPermissionError(model.PermissionSysconsoleWriteUserManagementTeams)
+	hasSystemPermission := c.App.SessionHasPermissionTo(*c.AppContext.Session(), model.PermissionSysconsoleWriteUserManagementTeams)
+	hasTeamPermission := c.App.SessionHasPermissionToTeam(*c.AppContext.Session(), c.Params.TeamId, model.PermissionManageTeamRoles)
+	if !hasSystemPermission && !hasTeamPermission {
+		c.SetPermissionError(model.PermissionSysconsoleWriteUserManagementTeams, model.PermissionManageTeamRoles)
 		return false
 	}
 	return true
@@ -2178,6 +2183,23 @@ func getUserOrgProfile(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewEncoder(w).Encode(profile); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func getTeamOrgProfiles(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId()
+	if c.Err != nil || !requireOrgRoleManagement(c) {
+		return
+	}
+
+	items, appErr := c.App.ListUserOrgProfiles(c.Params.TeamId)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(items); err != nil {
 		c.Logger.Warn("Error while writing response", mlog.Err(err))
 	}
 }
