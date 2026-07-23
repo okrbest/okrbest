@@ -160,11 +160,19 @@ docker-compose.override.yaml
 .aider*
 .env
 
-.claude
+.claude/*
 **/CLAUDE.local.md
 CLAUDE.md
 CLAUDE*md
 .cursorrules
+
+# spec-kit workflow — committed (exceptions to the ignore rules above)
+!/CLAUDE.md
+!/AGENTS.md
+!.claude/skills/
+
+# superpowers (local scratch; spec-kit specs/ is canonical)
+docs/superpowers/
 
 .analysis
 .worktrees
