@@ -168,6 +168,7 @@ specify version   # 설치 확인
 | `/speckit-implement` | 구현 실행 | 필수 |
 | `/speckit-checklist` | 품질 체크리스트 생성 | 필요 시 |
 | `/speckit-constitution` | 프로젝트 원칙 편집 | 원칙 변경 시에만 |
+| `/speckit-sync` | upstream 커밋 선별 반영 (okrbest 전용, Claude Code만) | upstream 동기화 세션 |
 
 명령 뒤에 자연어를 붙이면 그대로 입력으로 전달됩니다. Codex는 `/` 대신 `$`.
 

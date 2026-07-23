@@ -1,10 +1,11 @@
 # upstream-master 미반영 커밋 목록
 
 `master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 생성일: 2026-07-23
-- 기준: `git log master..upstream-master` (분기점: `338cf4a5`)
-- 총 1179개 커밋 (upstream 최신: `f06971b6`)
+- 갱신일: 2026-07-24
+- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 1181개
 
 **마지막 반영 커밋:** `338cf4a5` | [Add docs re Shared Channels APIs calls and data flow (#34682)](https://github.com/mattermost/mattermost/commit/338cf4a5a0dcb57b49bca724801833d0c90b3ef3) | 2025-12-21
 
@@ -1189,3 +1190,15 @@
 | a8f55e53 | [\[MM-69885\] Allow integrations to update mm_blocks_actions on their own posts (#37583)](https://github.com/mattermost/mattermost/commit/a8f55e5327638269d53ba0d56b2865b49b36d4a9) | 2026-07-22 |
 | 38b66d22 | [\[MM-69845\] Add Global Attributes access gate to System Console (#37580)](https://github.com/mattermost/mattermost/commit/38b66d2262d904e8ef28588d5fa8f830b4743f41) | 2026-07-22 |
 | f06971b6 | [Fix two Session Attribute issues (#37620)](https://github.com/mattermost/mattermost/commit/f06971b657de292ae8482175d7aebf846ce101f5) | 2026-07-22 |
+| 06ddf503 | [docs: mark scale partial pages as unlisted with proper titles (#37628)](https://github.com/mattermost/mattermost/commit/06ddf5032375e40b0bb606ec8d204109f62265cf) | 2026-07-23 |
+| 12018e56 | [Mm 69829 -  fix team policy management qa (#37568)](https://github.com/mattermost/mattermost/commit/12018e56cde4eb9b7ff6b24bcc0a9c1740a6eacf) | 2026-07-23 |
+
+## 제외된 커밋
+
+| 커밋 해시 | 커밋 제목 | 사유 |
+|---|---|---|
+
+## spec 전환 커밋
+
+| 커밋 해시 | 커밋 제목 | spec |
+|---|---|---|
