@@ -34,8 +34,8 @@
 터미널에서 실행합니다. 준비물: [uv](https://docs.astral.sh/uv/), Python 3.11+.
 
 ```bash
-uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v0.10.3
-specify version   # 확인 (이 저장소 기준 0.10.3)
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v0.11.1
+specify version   # 확인 (이 저장소 기준 0.11.1)
 ```
 
 버전 확인·업그레이드 용도의 전역 CLI입니다. `/speckit-*` 스킬 자체는 저장소에
@@ -106,7 +106,7 @@ specify version   # 확인 (이 저장소 기준 0.10.3)
 ### 3. 기술 계획 — plan
 
 ```
-/speckit-plan Next.js 14 + TypeScript + Yarn 스택에 맞춰 작성
+/speckit-plan server는 Go 1.24 + Makefile, webapp은 React + TypeScript + npm workspaces 스택에 맞춰 작성
 ```
 
 → `plan.md`와 설계 문서 생성. [Constitution](.specify/memory/constitution.md) 제약이 자동 반영됩니다.
@@ -190,9 +190,12 @@ specify version   # 확인 (이 저장소 기준 0.10.3)
 파일 경로, FR/SC 식별자, BDD 키워드(Given/When/Then)는 원형 유지.
 (상세: [CLAUDE.md](CLAUDE.md))
 
-**프로젝트 규칙 (Constitution 요약):** ① Yarn 전용 ② 커밋 전 `yarn pre-commit`
-통과 ③ 동작 변경 시 테스트 동반 ④ `docs/`·`docs-ko/` 이중 문서 동기화
-⑤ 작업당 브랜치 + Conventional Commits. 전문: [constitution.md](.specify/memory/constitution.md)
+**프로젝트 규칙 (Constitution 요약):** ① 패키지별 품질 게이트 (server:
+`make check-style` + `make test-server`, webapp: `npm run check` +
+`npm run check-types` + `npm run test`) ② webapp은 npm workspaces 전용
+③ 동작 변경 시 테스트 동반 ④ 라이선스·리브랜드 충실성 (`spec-docs/rebrand.md`)
+⑤ i18n `en.json`+`ko.json` 동기화 ⑥ 작업당 브랜치 + Conventional Commits + PR.
+전문: [constitution.md](.specify/memory/constitution.md)
 
 ---
 
@@ -205,7 +208,7 @@ specify version   # 확인 (이 저장소 기준 0.10.3)
 | brainstorming 초안이 커밋되려 함 | `docs/superpowers/`는 임시 작업 폴더(.gitignore). 공식 기준 문서는 `specs/<NNN>/spec.md` — 커밋 대상에서 제외 지시 |
 | spec에 `[NEEDS CLARIFICATION]`이 남음 | `/speckit-clarify` 실행 |
 | Codex에서 명령이 안 먹음 | 접두사 `$` 확인 (`$speckit-specify`) |
-| Spec Kit 버전 확인 | `specify version` (현재 0.10.3) |
+| Spec Kit 버전 확인 | `specify version` (현재 0.11.1) |
 | Spec Kit 업그레이드 | ⚠️ `specify init . --force` 재실행 시 `constitution.md`가 템플릿으로 **덮어써짐**. 반드시 백업 후 진행 |
 
 - 원본 도구 로컬 경로: Spec Kit `/home/sdh/dev-tools/spec-kit`, Superpowers `/home/sdh/dev-tools/superpowers`
