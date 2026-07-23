@@ -17,6 +17,7 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 import TeamMembersModal from 'components/team_members_modal';
+import TeamOrgRoleManagementModal from 'components/team_org_role_management_modal';
 import TeamSettingsModal from 'components/team_settings_modal';
 import UserSettingsModal from 'components/user_settings/modal';
 import LeaveTeamIcon from 'components/widgets/icons/leave_team_icon';
@@ -194,6 +195,18 @@ export class MobileSidebarRightItems extends React.PureComponent<Props> {
                             dialogType={TeamGroupsManageModal}
                             text={formatMessage({id: 'navbar_dropdown.manageGroups', defaultMessage: 'Manage Groups'})}
                             icon={<i className='fa fa-user-plus'/>}
+                        />
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.MANAGE_TEAM_ROLES]}
+                    >
+                        <Menu.ItemToggleModalRedux
+                            id='orgRoleManagement'
+                            modalId={ModalIdentifiers.TEAM_ORG_ROLE_MANAGEMENT}
+                            dialogType={TeamOrgRoleManagementModal}
+                            text={formatMessage({id: 'navbar_dropdown.orgRoleManagement', defaultMessage: '부서/직위 관리'})}
+                            icon={<i className='fa fa-sitemap'/>}
                         />
                     </TeamPermissionGate>
                     <TeamPermissionGate

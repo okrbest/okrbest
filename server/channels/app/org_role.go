@@ -317,6 +317,20 @@ func (a *App) GetUserOrgProfile(teamID, userID string) (*model.UserOrgProfile, *
 	return item, nil
 }
 
+func (a *App) ListUserOrgProfiles(teamID string) ([]*model.UserOrgProfile, *model.AppError) {
+	ss, appErr := a.orgRoleSQLStore()
+	if appErr != nil {
+		return nil, appErr
+	}
+
+	items, err := ss.ListUserOrgProfiles(teamID)
+	if err != nil {
+		return nil, model.NewAppError("ListUserOrgProfiles", "app.org_role.list_user_org_profiles.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+	}
+
+	return items, nil
+}
+
 func (a *App) UpsertUserOrgProfile(rctx request.CTX, actorUserID string, input *model.UserOrgProfile) (*model.UserOrgProfile, *model.AppError) {
 	if !input.IsValid() {
 		return nil, model.NewAppError("UpsertUserOrgProfile", "app.org_role.invalid_user_org_profile.app_error", nil, "", http.StatusBadRequest)
