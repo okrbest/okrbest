@@ -84,7 +84,7 @@ specify version   # 설치 확인
 > ① `/speckit-specify`로 진행 ② 더 다듬기 ③ 중단/보류
 
 ①을 고르면 정리된 설계가 명세로 넘어갑니다. (에이전트가 선택지 없이 멋대로
-다음 단계로 가면 → 7절 문제 해결 참고)
+다음 단계로 가면 → 8절 문제 해결 참고)
 
 ### 1. 명세 작성 — specify
 
@@ -168,13 +168,94 @@ specify version   # 설치 확인
 | `/speckit-implement` | 구현 실행 | 필수 |
 | `/speckit-checklist` | 품질 체크리스트 생성 | 필요 시 |
 | `/speckit-constitution` | 프로젝트 원칙 편집 | 원칙 변경 시에만 |
-| `/speckit-sync` | upstream 커밋 선별 반영 (okrbest 전용, Claude Code만) | upstream 동기화 세션 |
+| `/speckit-sync` | upstream 커밋 선별 반영 (okrbest 전용, Claude Code만 — 상세: 6절) | upstream 동기화 세션 |
 
 명령 뒤에 자연어를 붙이면 그대로 입력으로 전달됩니다. Codex는 `/` 대신 `$`.
 
 ---
 
-## 6. 결과물과 커밋 정책
+## 6. upstream 동기화 — `/speckit-sync`
+
+okrbest는 mattermost/mattermost의 **heavily-diverged 포크**라 원본 커밋을
+그대로 merge/cherry-pick할 수 없습니다. `/speckit-sync`는 upstream 개선을
+"우리 프로젝트의 개선·신규 기능" 개념으로 **오래된 순서대로 한 커밋씩 선별
+반영**하고, 어디까지 반영했는지 추적하는 okrbest 전용 스킬입니다.
+
+### 6-1. 준비 조건
+
+- git remote `upstream` = `https://github.com/mattermost/mattermost.git`
+- 로컬 브랜치 `upstream-master` (upstream/master 추적)
+- 미반영 목록(ledger): [docs/upstream-master-unmerged-commits.md](docs/upstream-master-unmerged-commits.md)
+
+### 6-2. 사용법
+
+```
+/speckit-sync
+```
+
+옵션 없이 실행하면 목록을 갱신하고 가장 오래된 미반영 커밋부터 처리를
+시작합니다. "5개만 처리하자" 같은 자연어 힌트를 붙일 수 있습니다.
+
+### 6-3. 커밋별 처리 분기
+
+각 upstream 커밋은 **LLM 정밀 분석**(커밋 의도 파악 + 우리 포크의 자체 변경
+이력 대조 + 의미 충돌 검토)을 거쳐 넷 중 하나로 처리됩니다:
+
+| 처리 | 조건 | 결과 |
+|---|---|---|
+| **cherry-pick** | 충돌 없음 + 의미 충돌 없음 | `git cherry-pick -x`로 그대로 반영 |
+| **adapt** | 충돌 있으나 간단 (≤5 파일·≤150라인 가이드) | Superpowers 규율로 프로젝트에 맞게 수정 후 새 커밋 |
+| **exclude** | 우리가 자체 커밋으로 해당 기능을 변경/제거함 | ledger 부록에 사유 기록, 코드 변경 없음 |
+| **spec** | 대규모·큰 영향 (>15 파일, >500라인, DB 마이그레이션, enterprise 등) | 3절의 spec-kit 파이프라인으로 신규 기능처럼 개발 |
+
+**모든 커밋은 처리 전에 분석 요약·권고·근거가 제시되고 사용자가 승인해야
+합니다** — 자동 대량 처리는 하지 않습니다.
+
+### 6-4. 세션 워크플로
+
+```
+1. 준비    master 최신화 → sync/upstream-YYYYMMDD 브랜치 생성 → 목록 갱신·요약
+2. 루프    오래된 순으로 한 커밋씩: 신호 수집 → LLM 분석 → 권고 제시
+           → 사용자 승인 → 실행(cherry-pick/adapt/exclude/spec) → 목록 갱신
+3. 마감    변경 패키지 품질 게이트(make check-style / npm run check 등)
+           → ledger 커밋 → master에 선형 병합(ff) → sync 브랜치 삭제
+```
+
+sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플로 자체가 커밋 단위).
+
+### 6-5. 추적 원리 — 별도 상태 파일 없음
+
+- **반영 기록 = 커밋 본문**: cherry-pick/adapt 커밋 본문의
+  `(cherry picked from commit <hash>)` / `Upstream: <GitHub 링크>` 참조가 기록.
+- **제외/spec 기록 = ledger 부록**: 문서 하단 "제외된 커밋"·"spec 전환 커밋" 표.
+- 목록 갱신 시 `git log master..upstream-master`에서 위 기록들을 **차감**해
+  미반영 목록을 재생성 — 반영하면 목록에서 자동으로 사라지고 헤더의
+  "마지막 반영 커밋"이 전진합니다.
+
+### 6-6. 도우미 스크립트 (직접 실행 가능)
+
+`.claude/skills/speckit-sync/scripts/upstream-sync.sh`:
+
+| 서브커맨드 | 용도 |
+|---|---|
+| `update` | fetch + 차감 규칙으로 미반영 목록 재생성 |
+| `status` | 남은 개수·마지막 반영 커밋·부록 집계 |
+| `next [n]` | 오래된 순 앞 n개 출력 (기본 1) |
+| `signals <hash>` | 판단 재료: 충돌 예측(merge-tree)·규모·부재 경로·보호 경로·포크 자체 변경 이력 |
+| `exclude <hash> <사유>` | 제외 부록 기록 후 목록 갱신 |
+| `to-spec <hash> <specID>` | spec 전환 부록 기록 후 목록 갱신 |
+
+### 6-7. 주의
+
+- 오래된 순서를 건너뛰고 최신 커밋을 먼저 반영하지 않습니다 (의존성 붕괴).
+- Translations(Weblate) 커밋은 우리 `ko.json` 변경과 상시 충돌 — adapt 시
+  우리 문자열 보존.
+- 리브랜드(OKR.BEST) 문자열과 Mattermost copyright 헤더는 보존
+  (constitution 원칙 IV).
+
+---
+
+## 7. 결과물과 커밋 정책
 
 | 경로 | 용도 | git |
 |---|---|---|
@@ -201,7 +282,7 @@ specify version   # 설치 확인
 
 ---
 
-## 7. 문제 해결
+## 8. 문제 해결
 
 | 증상 | 해결 |
 |---|---|
