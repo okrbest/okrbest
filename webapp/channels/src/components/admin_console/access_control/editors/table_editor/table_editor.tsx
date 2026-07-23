@@ -311,28 +311,24 @@ function TableEditor({
             return;
         }
 
-        setRows((currentRows) => {
-            const newRow: TableRow = {
-                attribute: firstAvailableAttribute.name,
-                operator: firstAvailableAttribute.type === 'multiselect' ? OperatorLabel.HAS_ANY_OF : OperatorLabel.IS,
-                values: [],
-                attribute_type: firstAvailableAttribute.type || '',
-                hasMaskedValues: false,
-            };
-            const newRows = [...currentRows, newRow];
-            updateExpression(newRows); // Ensure expression is updated immediately
-            setAutoOpenAttributeMenuForRow(newRows.length - 1); // Set for the new row
-            return newRows;
-        });
-    }, [userAttributes, updateExpression, findFirstAvailableAttribute]);
+        const newRow: TableRow = {
+            attribute: firstAvailableAttribute.name,
+            operator: firstAvailableAttribute.type === 'multiselect' ? OperatorLabel.HAS_ANY_OF : OperatorLabel.IS,
+            values: [],
+            attribute_type: firstAvailableAttribute.type || '',
+            hasMaskedValues: false,
+        };
+        const newRows = [...rows, newRow];
+        setRows(newRows);
+        setAutoOpenAttributeMenuForRow(newRows.length - 1);
+        updateExpression(newRows);
+    }, [userAttributes, updateExpression, findFirstAvailableAttribute, rows]);
 
     const removeRow = useCallback((index: number) => {
-        setRows((currentRows) => {
-            const newRows = currentRows.toSpliced(index, 1);
-            updateExpression(newRows);
-            return newRows;
-        });
-    }, [updateExpression]);
+        const newRows = rows.toSpliced(index, 1);
+        setRows(newRows);
+        updateExpression(newRows);
+    }, [rows, updateExpression]);
 
     const requestRemoveRow = useCallback((index: number) => {
         // Masked rows have their remove button disabled — the row is read-only
@@ -341,73 +337,68 @@ function TableEditor({
     }, [removeRow]);
 
     const updateRowAttribute = useCallback((index: number, attribute: string) => {
-        setRows((currentRows) => {
-            const newRows = [...currentRows];
-            const oldAttribute = newRows[index].attribute;
-            newRows[index] = {...newRows[index], attribute};
+        const newRows = [...rows];
+        const oldAttribute = newRows[index].attribute;
+        newRows[index] = {...newRows[index], attribute};
 
-            if (oldAttribute !== attribute) {
-                newRows[index].values = [];
+        if (oldAttribute !== attribute) {
+            newRows[index].values = [];
 
-                const newAttributeObj = userAttributes.find((attr) => attr.name === attribute);
-                newRows[index].attribute_type = newAttributeObj?.type || '';
+            const newAttributeObj = userAttributes.find((attr) => attr.name === attribute);
+            newRows[index].attribute_type = newAttributeObj?.type || '';
 
-                const isMultiselect = newAttributeObj?.type === 'multiselect';
-                const wasMultiselect = currentRows[index].attribute_type === 'multiselect';
-                if (isMultiselect && !wasMultiselect) {
-                    newRows[index].operator = OperatorLabel.HAS_ANY_OF;
-                } else if (!isMultiselect && wasMultiselect) {
-                    newRows[index].operator = OperatorLabel.IS;
-                }
-
-                // Values were cleared — row is in an intermediate editing state.
-                // Don't regenerate the expression now; it will be updated when
-                // the user selects new values via updateRowValues.
-                return newRows;
+            const isMultiselect = newAttributeObj?.type === 'multiselect';
+            const wasMultiselect = rows[index].attribute_type === 'multiselect';
+            if (isMultiselect && !wasMultiselect) {
+                newRows[index].operator = OperatorLabel.HAS_ANY_OF;
+            } else if (!isMultiselect && wasMultiselect) {
+                newRows[index].operator = OperatorLabel.IS;
             }
-            updateExpression(newRows);
-            return newRows;
-        });
-    }, [updateExpression, userAttributes]);
+
+            // Values were cleared — row is in an intermediate editing state.
+            // Don't regenerate the expression now; it will be updated when
+            // the user selects new values via updateRowValues.
+            setRows(newRows);
+            return;
+        }
+        setRows(newRows);
+        updateExpression(newRows);
+    }, [updateExpression, userAttributes, rows]);
 
     const updateRowOperator = useCallback((index: number, newOperator: string) => {
-        setRows((currentRows) => {
-            const oldOperator = currentRows[index].operator;
-            let newValues = [...currentRows[index].values];
+        const oldOperator = rows[index].operator;
+        let newValues = [...rows[index].values];
 
-            const wasMulti = isMultiValueOperator(oldOperator);
-            const isMulti = isMultiValueOperator(newOperator);
+        const wasMulti = isMultiValueOperator(oldOperator);
+        const isMulti = isMultiValueOperator(newOperator);
 
-            if (isMulti && !wasMulti) {
-                // Transitioning TO a multi-value operator FROM a single-value operator:
-                newValues = newValues.map((v) => v.trim()).filter((v) => v !== '');
-            } else if (!isMulti && wasMulti) {
-                // Transitioning TO a single-value operator FROM a multi-value operator:
-                if (newValues.length > 1) {
-                    newValues = [newValues[0]];
-                }
+        if (isMulti && !wasMulti) {
+            // Transitioning TO a multi-value operator FROM a single-value operator:
+            newValues = newValues.map((v) => v.trim()).filter((v) => v !== '');
+        } else if (!isMulti && wasMulti) {
+            // Transitioning TO a single-value operator FROM a multi-value operator:
+            if (newValues.length > 1) {
+                newValues = [newValues[0]];
             }
+        }
 
-            const newRows = [...currentRows];
-            newRows[index] = {
-                ...currentRows[index],
-                operator: newOperator,
-                values: newValues,
-            };
+        const newRows = [...rows];
+        newRows[index] = {
+            ...rows[index],
+            operator: newOperator,
+            values: newValues,
+        };
 
-            updateExpression(newRows);
-            return newRows;
-        });
-    }, [updateExpression]);
+        setRows(newRows);
+        updateExpression(newRows);
+    }, [updateExpression, rows]);
 
     const updateRowValues = useCallback((index: number, values: string[]) => {
-        setRows((currentRows) => {
-            const newRows = [...currentRows];
-            newRows[index] = {...newRows[index], values};
-            updateExpression(newRows);
-            return newRows;
-        });
-    }, [updateExpression]);
+        const newRows = [...rows];
+        newRows[index] = {...newRows[index], values};
+        setRows(newRows);
+        updateExpression(newRows);
+    }, [updateExpression, rows]);
 
     return (
         <div
