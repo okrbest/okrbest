@@ -150,7 +150,7 @@ cmd_next() {
     while IFS=$'\x1f' read -r full subj date; do
         grep -qx "$full" <<<"$processed" && continue
         printf '%s\t%s\t%s\n' "$full" "$date" "$subj"
-    done | head -n "$n"
+    done | awk -v n="$n" 'NR<=n'   # head는 SIGPIPE+pipefail로 비정상 종료 유발
 }
 
 # ---------- signals ----------
@@ -171,7 +171,7 @@ cmd_signals() {
     else
         echo "CONFLICT"
         # --name-only 출력부에서 충돌 파일 추출
-        sed -n '2,$p' /tmp/mt.$$ | grep -E '^[^ ]' | head -20 || true
+        sed -n '2,$p' /tmp/mt.$$ | grep -E '^[^ ]' | awk "NR<=20" || true
     fi
     rm -f /tmp/mt.$$
 
@@ -181,10 +181,10 @@ cmd_signals() {
     echo "=== MISSING PATHS (HEAD에 없는 터치 경로) ==="
     while IFS= read -r p; do
         git cat-file -e "$BASE_BRANCH:$p" 2>/dev/null || echo "$p"
-    done <<<"$paths" | head -20
+    done <<<"$paths" | awk "NR<=20"
 
     echo "=== PROTECTED PATHS (CODEOWNERS 보호 경로 접촉) ==="
-    grep -E '^(server/channels/db/migrations/|server/boards/services/store/sqlstore/migrations/|server/playbooks/server/sqlstore/migrations/|server/enterprise/|\.github/workflows/)' <<<"$paths" | head -20 || echo "(없음)"
+    grep -E '^(server/channels/db/migrations/|server/boards/services/store/sqlstore/migrations/|server/playbooks/server/sqlstore/migrations/|server/enterprise/|\.github/workflows/)' <<<"$paths" | awk "NR<=20" || echo "(없음)"
 
     echo "=== FORK HISTORY (터치 경로의 우리 자체 커밋 — 우리가 이 영역을 바꿨는가) ==="
     # 포크 자체 커밋 = master에만 있는 커밋 (upstream에 없는 것)

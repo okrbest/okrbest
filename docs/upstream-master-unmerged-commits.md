@@ -5,7 +5,7 @@
 
 - 갱신일: 2026-07-24
 - 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1181개
+- 남은 커밋: 1183개
 
 **마지막 반영 커밋:** `338cf4a5` | [Add docs re Shared Channels APIs calls and data flow (#34682)](https://github.com/mattermost/mattermost/commit/338cf4a5a0dcb57b49bca724801833d0c90b3ef3) | 2025-12-21
 
@@ -1192,6 +1192,8 @@
 | f06971b6 | [Fix two Session Attribute issues (#37620)](https://github.com/mattermost/mattermost/commit/f06971b657de292ae8482175d7aebf846ce101f5) | 2026-07-22 |
 | 06ddf503 | [docs: mark scale partial pages as unlisted with proper titles (#37628)](https://github.com/mattermost/mattermost/commit/06ddf5032375e40b0bb606ec8d204109f62265cf) | 2026-07-23 |
 | 12018e56 | [Mm 69829 -  fix team policy management qa (#37568)](https://github.com/mattermost/mattermost/commit/12018e56cde4eb9b7ff6b24bcc0a9c1740a6eacf) | 2026-07-23 |
+| 5afa3b8c | [ci: run yamllint on ubuntu-24.04 (#37641)](https://github.com/mattermost/mattermost/commit/5afa3b8cbf402c370fa675bba43d48b1900eab66) | 2026-07-23 |
+| bc3ad86a | [Update Playbooks plugin to v2.11.1 (incl. FIPS) (#37631)](https://github.com/mattermost/mattermost/commit/bc3ad86a236431364a13ab03942902eb84daaf9f) | 2026-07-23 |
 
 ## 제외된 커밋
 

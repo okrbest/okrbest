@@ -3,8 +3,10 @@
 **대상 독자:** 이 저장소를 clone해서 기능 개발에 참여하는 팀원.
 이 워크플로를 **다른 프로젝트에 이식**하려면 → [WORKFLOW_PORTING_GUIDE.md](WORKFLOW_PORTING_GUIDE.md)
 
-> 예시는 Claude Code(`/speckit-*`) 기준입니다. Codex CLI는 **접두사만 `$`로**
-> 바꾸면 전부 동일합니다 (`$speckit-specify …`).
+> 예시는 Claude Code(`/speckit-*`) 기준입니다. **Codex CLI**는 접두사만 `$`로
+> 바꾸면 전부 동일합니다 (`$speckit-specify …`). **Cursor IDE Agent**는
+> `.cursor/skills/`의 동일 스킬을 사용합니다 — 채팅에서 "speckit-specify로
+> 명세 작성해줘"처럼 스킬 이름을 언급하면 됩니다.
 
 ---
 
@@ -26,8 +28,13 @@
 ## 2. 시작하기 — clone 후 각자 1회씩 두 가지 설치
 
 **Spec Kit 기본 구성 파일(스캐폴딩)은 이미 저장소에 커밋되어 있습니다** (`.specify/`,
-`.claude/skills/`, `.agents/skills/`, `CLAUDE.md`, `AGENTS.md`) — 프로젝트
-쪽 준비는 끝난 상태. 각자 개인 환경에 아래 **두 가지만 1회씩** 설치하면 됩니다.
+`.claude/skills/`, `.agents/skills/`, `.cursor/skills/`, `CLAUDE.md`,
+`AGENTS.md`, `.cursor/rules/`) — 프로젝트 쪽 준비는 끝난 상태. 각자 개인
+환경에 아래 **두 가지만 1회씩** 설치하면 됩니다.
+
+> **Cursor IDE Agent만 쓰는 경우**: 추가 설치 없음. Superpowers 플러그인은
+> Claude Code·Codex 전용이며, Cursor에서는 같은 구현 규율(TDD·검증·근본 원인
+> 디버깅)이 `.cursor/rules/okrbest-workflow.mdc`로 적용됩니다.
 
 ### 2-1. `specify` CLI (Spec Kit) — 각자 1회
 
@@ -168,7 +175,7 @@ specify version   # 설치 확인
 | `/speckit-implement` | 구현 실행 | 필수 |
 | `/speckit-checklist` | 품질 체크리스트 생성 | 필요 시 |
 | `/speckit-constitution` | 프로젝트 원칙 편집 | 원칙 변경 시에만 |
-| `/speckit-sync` | upstream 커밋 선별 반영 (okrbest 전용, Claude Code만 — 상세: 6절) | upstream 동기화 세션 |
+| `/speckit-sync` | upstream 커밋 선별 반영 (okrbest 전용 — 상세: 6절) | upstream 동기화 세션 |
 
 명령 뒤에 자연어를 붙이면 그대로 입력으로 전달됩니다. Codex는 `/` 대신 `$`.
 
@@ -180,6 +187,10 @@ okrbest는 mattermost/mattermost의 **heavily-diverged 포크**라 원본 커밋
 그대로 merge/cherry-pick할 수 없습니다. `/speckit-sync`는 upstream 개선을
 "우리 프로젝트의 개선·신규 기능" 개념으로 **오래된 순서대로 한 커밋씩 선별
 반영**하고, 어디까지 반영했는지 추적하는 okrbest 전용 스킬입니다.
+
+세 에이전트 모두 지원: Claude Code `/speckit-sync`, Codex `$speckit-sync`,
+Cursor는 채팅에서 "speckit-sync 스킬로 upstream 동기화하자" 등으로 호출
+(스킬 정의: `.claude/skills/` · `.agents/skills/` · `.cursor/skills/`).
 
 ### 6-1. 준비 조건
 
@@ -234,7 +245,7 @@ sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플
 
 ### 6-6. 도우미 스크립트 (직접 실행 가능)
 
-`.claude/skills/speckit-sync/scripts/upstream-sync.sh`:
+`.specify/scripts/bash/upstream-sync.sh`:
 
 | 서브커맨드 | 용도 |
 |---|---|

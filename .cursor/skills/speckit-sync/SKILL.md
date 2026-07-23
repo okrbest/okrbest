@@ -1,12 +1,9 @@
 ---
 name: "speckit-sync"
 description: "upstream(mattermost/mattermost) 커밋을 오래된 순으로 LLM 정밀 분석하여 cherry-pick/adapt/exclude/spec으로 선별 반영하고, docs/upstream-master-unmerged-commits.md 목록을 갱신한다."
-argument-hint: "옵션 없이 실행하거나 처리할 커밋 수 힌트를 자연어로 전달"
-compatibility: "Requires git remote 'upstream' (mattermost/mattermost), local branch 'upstream-master', spec-kit project structure"
+compatibility: "Requires git remote 'upstream' (mattermost/mattermost), local branch 'upstream-master', spec-kit project structure (Cursor IDE Agent)"
 metadata:
   author: "okrbest"
-user-invocable: true
-disable-model-invocation: false
 ---
 
 ## User Input
@@ -59,7 +56,7 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
 3. **의미 충돌 검토**: merge-tree가 CLEAN이어도 리브랜드 문자열(Mattermost→OKR.BEST), 우리가 제거한 기능 참조, 플러그인/버전 의존을 확인한다. 텍스트가 안 겹쳐도 의미가 깨질 수 있다.
 4. 근거와 함께 **권고 결정**: cherry-pick / adapt / exclude / spec.
 
-#### 2-3. 사용자 승인 (커밋마다, AskUserQuestion 필수)
+#### 2-3. 사용자 승인 (커밋마다, 반드시 선택지를 제시하고 사용자 응답을 기다린다)
 
 분석 요약 + 권고 + 근거를 제시하고 선택지를 준다:
 ① 권고대로 진행 ② exclude ③ spec 전환 ④ 건너뜀(목록에 남김, 다음에 재검토) ⑤ 세션 종료
@@ -86,7 +83,7 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
   Upstream: https://github.com/mattermost/mattermost/commit/<full-hash>
   ```
 - **exclude**: `$SYNC exclude <hash> "<사유>"` — 사유는 우리 쪽 근거 커밋/문서를 포함해 구체적으로.
-- **spec**: `$SYNC to-spec <hash> "<가칭 또는 specs/NNN-이름>"` 기록. 그 후 사용자에게 `/speckit-specify` 착수 여부를 **명시적으로 질문**한다 (CLAUDE.md 핸드오프 규칙 — 자동 진입 금지). spec 구현 완료 커밋 본문에 `Upstream: <링크>`를 넣어야 목록에서 자동 차감됨을 안내.
+- **spec**: `$SYNC to-spec <hash> "<가칭 또는 specs/NNN-이름>"` 기록. 그 후 사용자에게 `speckit-specify` 스킬 착수 여부를 **명시적으로 질문**한다 (.cursor/rules/okrbest-workflow.mdc 핸드오프 규칙 — 자동 진입 금지). spec 구현 완료 커밋 본문에 `Upstream: <링크>`를 넣어야 목록에서 자동 차감됨을 안내.
 - **건너뜀**: 아무것도 하지 않음 (목록 유지).
 
 #### 2-5. 목록 갱신

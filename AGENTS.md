@@ -13,9 +13,8 @@ root-cause debugging. See [SPEC_KIT_GUIDE.md](SPEC_KIT_GUIDE.md) for the role
 split and combined workflow. Project rules live in
 `.specify/memory/constitution.md`.
 
-Upstream(mattermost/mattermost) 커밋 선별 반영은 `speckit-sync` 스킬(Claude
-Code `/speckit-sync`)을 사용한다. 미반영 목록(ledger)은
-`docs/upstream-master-unmerged-commits.md`.
+Upstream(mattermost/mattermost) 커밋 선별 반영은 `$speckit-sync`를 사용한다.
+미반영 목록(ledger)은 `docs/upstream-master-unmerged-commits.md`.
 
 ## Brainstorming → $speckit-specify 핸드오프
 
