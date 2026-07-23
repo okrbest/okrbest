@@ -16,6 +16,7 @@ import {
     MessagePlusOutlineIcon,
     PlusIcon,
     MonitorAccountIcon,
+    SitemapIcon,
 } from '@mattermost/compass-icons/components';
 import type {Team} from '@mattermost/types/teams';
 
@@ -36,6 +37,7 @@ import LeaveTeamModal from 'components/leave_team_modal';
 import * as Menu from 'components/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 import TeamMembersModal from 'components/team_members_modal';
+import TeamOrgRoleManagementModal from 'components/team_org_role_management_modal';
 import TeamSettingsModal from 'components/team_settings_modal';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
@@ -55,6 +57,7 @@ export default function SidebarTeamMenu(props: Props) {
 
     const havePermissionToCreateTeam = useSelector((state: GlobalState) => haveISystemPermission(state, {permission: Permissions.CREATE_TEAM}));
     const havePermissionToManageTeam = useSelector((state: GlobalState) => haveICurrentTeamPermission(state, Permissions.MANAGE_TEAM));
+    const havePermissionToManageTeamRoles = useSelector((state: GlobalState) => haveICurrentTeamPermission(state, Permissions.MANAGE_TEAM_ROLES));
     const havePermissionToAddUserToTeam = useSelector((state: GlobalState) => haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM));
     const havePermissionToInviteGuest = useSelector((state: GlobalState) => haveICurrentTeamPermission(state, Permissions.INVITE_GUEST));
     const isCloud = isCloudLicense(license);
@@ -95,6 +98,9 @@ export default function SidebarTeamMenu(props: Props) {
             )}
             {havePermissionToManageTeam && (
                 <TeamSettingsMenuItem/>
+            )}
+            {havePermissionToManageTeamRoles && (
+                <TeamOrgRoleManagementMenuItem/>
             )}
             <ManageViewMembersMenuItem/>
             {(isTeamGroupConstrained && isLicensedForLDAPGroups && havePermissionToManageTeam) && (
@@ -221,6 +227,40 @@ function TeamSettingsMenuItem(props: Menu.FirstMenuItemProps) {
                 <FormattedMessage
                     id='sidebarLeft.teamMenu.teamSettingsMenuItem.primaryLabel'
                     defaultMessage='Team settings'
+                />
+            )}
+            aria-haspopup='dialog'
+            {...props}
+        />
+    );
+}
+
+function TeamOrgRoleManagementMenuItem(props: Menu.FirstMenuItemProps) {
+    const dispatch = useDispatch();
+
+    const handleClick = useCallback(() => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.TEAM_ORG_ROLE_MANAGEMENT,
+            dialogType: TeamOrgRoleManagementModal,
+            dialogProps: {
+                focusOriginElement: 'sidebarTeamMenuButton',
+            },
+        }));
+    }, [dispatch]);
+
+    return (
+        <Menu.Item
+            leadingElement={(
+                <SitemapIcon
+                    size={18}
+                    aria-hidden='true'
+                />
+            )}
+            onClick={handleClick}
+            labels={(
+                <FormattedMessage
+                    id='sidebarLeft.teamMenu.orgRoleManagementMenuItem.primaryLabel'
+                    defaultMessage='부서/직위 관리'
                 />
             )}
             aria-haspopup='dialog'

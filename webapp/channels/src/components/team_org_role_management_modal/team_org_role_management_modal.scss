@@ -1,0 +1,16 @@
+#teamOrgRoleManagementModal {
+    .GenericModal__header {
+        display: flex;
+        justify-content: center;
+    }
+
+    .GenericModal__body {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .modal-dialog {
+        width: 900px;
+        max-width: 95vw;
+    }
+}
