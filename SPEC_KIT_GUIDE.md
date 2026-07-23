@@ -34,13 +34,14 @@
 터미널에서 실행합니다. 준비물: [uv](https://docs.astral.sh/uv/), Python 3.11+.
 
 ```bash
-uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v0.11.1
-specify version   # 확인 (이 저장소 기준 0.11.1)
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+specify version   # 설치 확인
 ```
 
 버전 확인·업그레이드 용도의 전역 CLI입니다. `/speckit-*` 스킬 자체는 저장소에
-커밋된 스크립트로 동작하므로, CLI가 없어도 일상 명령은 대부분 돌아갑니다 —
-그래도 팀 표준 버전을 맞춰 설치해 두세요.
+커밋된 스크립트로 동작하므로, CLI가 없어도 일상 명령은 대부분 돌아갑니다.
+스캐폴딩 버전 변경(업그레이드·재init)은 관리자가 관리합니다 — 개인이 임의로
+`specify init --force`를 실행하지 마세요.
 
 ### 2-2. Superpowers 플러그인 — 각자 1회
 
@@ -208,8 +209,8 @@ specify version   # 확인 (이 저장소 기준 0.11.1)
 | brainstorming 초안이 커밋되려 함 | `docs/superpowers/`는 임시 작업 폴더(.gitignore). 공식 기준 문서는 `specs/<NNN>/spec.md` — 커밋 대상에서 제외 지시 |
 | spec에 `[NEEDS CLARIFICATION]`이 남음 | `/speckit-clarify` 실행 |
 | Codex에서 명령이 안 먹음 | 접두사 `$` 확인 (`$speckit-specify`) |
-| Spec Kit 버전 확인 | `specify version` (현재 0.11.1) |
-| Spec Kit 업그레이드 | ⚠️ `specify init . --force` 재실행 시 `constitution.md`가 템플릿으로 **덮어써짐**. 반드시 백업 후 진행 |
+| Spec Kit 버전 확인 | `specify version` |
+| Spec Kit 업그레이드 | 관리자가 수행. ⚠️ `specify init . --force` 재실행 시 `constitution.md`가 템플릿으로 **덮어써짐**. 반드시 백업 후 진행 |
 
 - 원본 도구 로컬 경로: Spec Kit `/home/sdh/dev-tools/spec-kit`, Superpowers `/home/sdh/dev-tools/superpowers`
 - 처음부터 설치·다른 프로젝트 적용: [WORKFLOW_PORTING_GUIDE.md](WORKFLOW_PORTING_GUIDE.md)
