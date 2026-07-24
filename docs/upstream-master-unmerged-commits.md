@@ -5,14 +5,12 @@
 
 - 갱신일: 2026-07-24
 - 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1183개
+- 남은 커밋: 1181개
 
-**마지막 반영 커밋:** `338cf4a5` | [Add docs re Shared Channels APIs calls and data flow (#34682)](https://github.com/mattermost/mattermost/commit/338cf4a5a0dcb57b49bca724801833d0c90b3ef3) | 2025-12-21
+**마지막 반영 커밋:** `3a288a4b` | [Bor post disable flagging (#34759)](https://github.com/mattermost/mattermost/commit/3a288a4b4ffab1a76372c58f7edbaf6074504c44) | 2025-12-22
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 1a16a7bd | [\[MM-67033\] invite input padding (#34811)](https://github.com/mattermost/mattermost/commit/1a16a7bd7f3e9b749f1dc16a9d70c91b0d22b0d3) | 2025-12-21 |
-| 3a288a4b | [Bor post disable flagging (#34759)](https://github.com/mattermost/mattermost/commit/3a288a4b4ffab1a76372c58f7edbaf6074504c44) | 2025-12-22 |
 | 62f71d11 | [Removing Alpha Label (#34806)](https://github.com/mattermost/mattermost/commit/62f71d1134f4eb931cd21a99c0ace9947339d593) | 2025-12-22 |
 | 6e14959d | [Translations update from Mattermost Weblate (#34827)](https://github.com/mattermost/mattermost/commit/6e14959d28296e74cdd66719a7e6d06073809e12) | 2025-12-22 |
 | 732ddaea | [ MM-66924 - MarkAllThreadsAsReadModal to use ConfirmModal (#34732)](https://github.com/mattermost/mattermost/commit/732ddaeae4b62d6201bf8f1d614854cae0d4bd2c) | 2025-12-22 |
