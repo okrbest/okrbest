@@ -1,10 +1,10 @@
 # upstream-master 미반영 커밋 목록
 
-`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-24
-- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 갱신일: 2026-07-24 12:53
+- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 1179개
 
 **마지막 반영 커밋:** `6e14959d` | [Translations update from Mattermost Weblate (#34827)](https://github.com/mattermost/mattermost/commit/6e14959d28296e74cdd66719a7e6d06073809e12) | 2025-12-22

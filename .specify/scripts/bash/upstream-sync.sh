@@ -111,7 +111,7 @@ cmd_update() {
         echo "\`$BASE_BRANCH\`에 반영되지 않은 \`$UPSTREAM_BRANCH\`(mattermost/mattermost) 커밋 목록 (오래된 순)."
         echo "\`/speckit-sync\` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다."
         echo
-        echo "- 갱신일: $(date +%Y-%m-%d)"
+        echo "- 갱신일: $(date '+%Y-%m-%d %H:%M')"
         echo "- 기준: \`git log $BASE_BRANCH..$UPSTREAM_BRANCH\` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)"
         echo "- 남은 커밋: ${total}개"
         echo
