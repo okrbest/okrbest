@@ -1,17 +1,16 @@
 # upstream-master 미반영 커밋 목록
 
-`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
 - 갱신일: 2026-07-24
-- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1180개
+- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 1179개
 
-**마지막 반영 커밋:** `62f71d11` | [Removing Alpha Label (#34806)](https://github.com/mattermost/mattermost/commit/62f71d1134f4eb931cd21a99c0ace9947339d593) | 2025-12-22
+**마지막 반영 커밋:** `6e14959d` | [Translations update from Mattermost Weblate (#34827)](https://github.com/mattermost/mattermost/commit/6e14959d28296e74cdd66719a7e6d06073809e12) | 2025-12-22
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 6e14959d | [Translations update from Mattermost Weblate (#34827)](https://github.com/mattermost/mattermost/commit/6e14959d28296e74cdd66719a7e6d06073809e12) | 2025-12-22 |
 | 732ddaea | [ MM-66924 - MarkAllThreadsAsReadModal to use ConfirmModal (#34732)](https://github.com/mattermost/mattermost/commit/732ddaeae4b62d6201bf8f1d614854cae0d4bd2c) | 2025-12-22 |
 | b94c037f | [MM-66910 - Fix isPostInteractable to exclude burn-on-read posts (#34764)](https://github.com/mattermost/mattermost/commit/b94c037f2821cb213c363a6239f791f882c3c40b) | 2025-12-23 |
 | 96f159c2 | [Translations update from Mattermost Weblate (#34835)](https://github.com/mattermost/mattermost/commit/96f159c25115602f490c8d3f29c5eea4762c8377) | 2025-12-29 |
