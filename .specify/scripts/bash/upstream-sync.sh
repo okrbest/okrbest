@@ -168,6 +168,15 @@ cmd_signals() {
     echo "=== MERGE-TREE (cherry-pick 충돌 예측) ==="
     if git merge-tree --write-tree --merge-base="$hash^" "$BASE_BRANCH" "$hash" >/tmp/mt.$$ 2>&1; then
         echo "CLEAN"
+    elif grep -q '^usage: git merge-tree' /tmp/mt.$$; then
+        # git < 2.38: --write-tree 미지원 → 구식 merge-tree로 충돌 마커 검사
+        git merge-tree "$hash^" "$BASE_BRANCH" "$hash" >/tmp/mt.$$ 2>/dev/null || true
+        if grep -q '^+<<<<<<<' /tmp/mt.$$; then
+            echo "CONFLICT (legacy merge-tree)"
+            grep -B6 '^+<<<<<<<' /tmp/mt.$$ | awk '$1=="our"{print $NF}' | sort -u | awk "NR<=20"
+        else
+            echo "CLEAN (legacy merge-tree)"
+        fi
     else
         echo "CONFLICT"
         # --name-only 출력부에서 충돌 파일 추출
