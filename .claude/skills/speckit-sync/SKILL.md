@@ -106,25 +106,42 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
 
 `$SYNC update` 재실행 → 남은 개수·마지막 반영 커밋 갱신 확인.
 
+주의: 기본 `update`는 master 기준 계산이라 sync 브랜치의 새 커밋은 차감되지 않아 남은 개수가 즉시 줄지 않는다. 브랜치 커밋까지 포함한 정확한 개수는 `SYNC_BASE_BRANCH=HEAD $SYNC update`로 확인한다.
+
 ### 3. 세션 마감
 
 1. **품질 게이트** (constitution 원칙 I — 변경된 패키지만):
    - `server/` 변경 시: `cd server && make check-style` (+ 영향 패키지 `go test`)
    - `webapp/` 변경 시: `cd webapp && npm run check && npm run check-types` (+ 관련 `npm run test`)
    - 통과 증거를 보인 후에만 완료 선언 (verification-before-completion).
-2. ledger 커밋: `docs: upstream sync 진행 (picked N, adapted M, excluded K)`
-3. **선형 병합** (사용자 확인 후):
+2. **ledger 커밋 (sync 브랜치 위에서)**:
    ```bash
-   git switch master
-   git merge --ff-only sync/upstream-YYYYMMDD
-   git branch -d sync/upstream-YYYYMMDD
+   SYNC_BASE_BRANCH=HEAD .specify/scripts/bash/upstream-sync.sh update
+   git add docs/upstream-master-unmerged-commits.md
+   git commit -m "docs: upstream sync 진행 (picked N, adapted M, excluded K)"
    ```
-   ff 불가 시(작업 중 master 전진): sync 브랜치를 `git rebase master` 후 재시도.
-4. 요약 보고: 처리 커밋 수(분기별), 남은 pending, 다음 대상.
+   `SYNC_BASE_BRANCH=HEAD`로 sync 브랜치 커밋까지 차감 계산해 남은 개수 감소를 병합 전에 검증한다.
+3. **PR 병합** (사용자 확인 후) — master는 ruleset이 직접 push를 차단하므로 반드시 gh CLI PR 경유:
+   ```bash
+   git push -u origin "$(git branch --show-current)"
+   # 커밋 1개면 --fill(커밋 제목·본문 그대로 PR에 사용)
+   gh pr create --base master --fill
+   # 커밋 여러 개면 제목 요약 + 본문에 커밋 목록:
+   #   gh pr create --base master \
+   #     --title "upstream sync YYYY-MM-DD (picked N, adapted M)" \
+   #     --body "$(git log master..HEAD --reverse --pretty='- %s')"
+   gh pr merge --rebase --delete-branch
+   git switch master && git pull --ff-only
+   ```
+   - 병합 방식은 **rebase merge 고정**. squash는 커밋 본문이 합쳐져 `Upstream:` 참조가 소실되고 ledger 차감 grep이 깨진다. rebase merge는 SHA만 바뀌고 커밋별 제목·본문이 보존된다.
+   - CODEOWNERS 보호 경로를 건드린 세션은 code owner 리뷰 요건으로 즉시 merge가 거부될 수 있다 → PR을 열어둔 채 사용자에게 알린다.
+   - `--delete-branch`가 원격·로컬 브랜치를 정리한다. rebase merge로 SHA가 바뀌므로 로컬 sync 브랜치를 재사용하지 않는다.
+4. 요약 보고: 처리 커밋 수(분기별), 남은 pending, 다음 대상, PR URL.
 
 ## 주의
 
-- 절대 master에서 직접 작업하지 않는다 (sync 브랜치에서만).
+- 절대 master에서 직접 작업하지 않는다 (sync 브랜치에서만). master 직접 push는 ruleset이 차단한다 — 병합은 반드시 PR 경유.
+- PR 병합은 항상 `gh pr merge --rebase`. squash·merge commit 금지 (`Upstream:` 참조 보존 목적).
 - 오래된 순서를 건너뛰어 최신 커밋을 먼저 반영하지 않는다 (의존성 붕괴). "건너뜀"은 예외적·일시적이어야 한다.
 - 대량 자동 처리 금지 — 커밋마다 분석·승인. 시간이 걸려도 정밀 분석이 우선.
 - Translations update(Weblate) 커밋은 우리 i18n 변경(ko.json)과 상시 충돌 — adapt 시 우리 ko.json 문자열을 보존한다 (constitution 원칙 V).
