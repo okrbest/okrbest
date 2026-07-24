@@ -40,6 +40,7 @@ import {formatText} from 'utils/text_formatting';
 import {useWebSocket, useWebSocketClient, WebSocketContext} from 'utils/use_websocket';
 import {imageURLForUser} from 'utils/utils';
 
+import {AccessControlCELEditor, AccessControlTableEditor} from './access_control_editors';
 import {openInteractiveDialog} from './interactive_dialog'; // This import has intentional side effects. Do not remove without research.
 import {canOpenPublishedModal, openPublishedModal} from './published_modals';
 import {loadSharedDependency} from './shared_dependencies';
@@ -113,6 +114,8 @@ interface WindowWithLibraries {
         DatePicker: typeof DatePicker;
         MenuItem: typeof Menu.Item;
         MenuSeparator: typeof Menu.Separator;
+        AccessControlTableEditor: typeof AccessControlTableEditor;
+        AccessControlCELEditor: typeof AccessControlCELEditor;
     };
     ProductApi: {
         useWebSocket: typeof useWebSocket;
@@ -208,6 +211,8 @@ window.Components = {
     DatePicker,
     MenuItem: Menu.Item,
     MenuSeparator: Menu.Separator,
+    AccessControlTableEditor,
+    AccessControlCELEditor,
 };
 
 // This is a prototype of the Product API for use by internal plugins only while we transition to the proper architecture
@@ -224,4 +229,3 @@ window.ProductApi = {
 
 // Desktop App module containing the app info and a series of helpers to work with legacy code
 window.DesktopApp = DesktopApp;
-
