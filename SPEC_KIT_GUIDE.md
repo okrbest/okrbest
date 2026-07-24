@@ -231,7 +231,7 @@ Cursor는 채팅에서 "speckit-sync 스킬로 upstream 동기화하자" 등으�
 2. 루프    오래된 순으로 한 커밋씩: 신호 수집 → LLM 분석 → 권고 제시
            → 사용자 승인 → 실행(cherry-pick/adapt/exclude/spec) → 목록 갱신
 3. 마감    변경 패키지 품질 게이트(make check-style / npm run check 등)
-           → ledger 커밋 → master에 선형 병합(ff) → sync 브랜치 삭제
+           → ledger 커밋(SYNC_BASE_BRANCH=HEAD) → gh pr create → gh pr merge --rebase
 ```
 
 sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플로 자체가 커밋 단위).
