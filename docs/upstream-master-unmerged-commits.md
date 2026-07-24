@@ -5,13 +5,12 @@
 
 - 갱신일: 2026-07-24
 - 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1181개
+- 남은 커밋: 1180개
 
-**마지막 반영 커밋:** `3a288a4b` | [Bor post disable flagging (#34759)](https://github.com/mattermost/mattermost/commit/3a288a4b4ffab1a76372c58f7edbaf6074504c44) | 2025-12-22
+**마지막 반영 커밋:** `62f71d11` | [Removing Alpha Label (#34806)](https://github.com/mattermost/mattermost/commit/62f71d1134f4eb931cd21a99c0ace9947339d593) | 2025-12-22
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 62f71d11 | [Removing Alpha Label (#34806)](https://github.com/mattermost/mattermost/commit/62f71d1134f4eb931cd21a99c0ace9947339d593) | 2025-12-22 |
 | 6e14959d | [Translations update from Mattermost Weblate (#34827)](https://github.com/mattermost/mattermost/commit/6e14959d28296e74cdd66719a7e6d06073809e12) | 2025-12-22 |
 | 732ddaea | [ MM-66924 - MarkAllThreadsAsReadModal to use ConfirmModal (#34732)](https://github.com/mattermost/mattermost/commit/732ddaeae4b62d6201bf8f1d614854cae0d4bd2c) | 2025-12-22 |
 | b94c037f | [MM-66910 - Fix isPostInteractable to exclude burn-on-read posts (#34764)](https://github.com/mattermost/mattermost/commit/b94c037f2821cb213c363a6239f791f882c3c40b) | 2025-12-23 |
