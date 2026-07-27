@@ -239,3 +239,103 @@ func TestUpdateUserOrgProfileSyncsUserProps(t *testing.T) {
 	require.Equal(t, "", user.Props["position_codes"])
 	require.Equal(t, "false", user.Props["is_ceo"])
 }
+
+// TestGetUserOrgProfileSummary covers the read-only org-profile-summary
+// endpoint that lets any member of a team look up a teammate's
+// department/position names (as assigned via the admin-only org-profile
+// write path), without requiring PermissionManageTeamRoles.
+func TestGetUserOrgProfileSummary(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+
+	positionRoute := "/teams/" + th.BasicTeam.Id + "/positions"
+	resp, err := th.SystemAdminClient.DoAPIPost(context.Background(), positionRoute, `{"name":"Team Lead","rank":1}`)
+	if err != nil {
+		if appErr, ok := err.(*model.AppError); ok && appErr.Id == "app.org_role.unsupported_store.app_error" {
+			closeBody(resp)
+			t.Skip("org role API requires SQLStore in this test setup")
+		}
+	}
+	require.NoError(t, err)
+	require.Equal(t, http.StatusCreated, resp.StatusCode)
+	var position model.PositionDefinition
+	require.NoError(t, json.NewDecoder(resp.Body).Decode(&position))
+	closeBody(resp)
+
+	orgUnitRoute := "/teams/" + th.BasicTeam.Id + "/org-units"
+	resp, err = th.SystemAdminClient.DoAPIPost(context.Background(), orgUnitRoute, `{"name":"Engineering","type":"department","parent_id":""}`)
+	require.NoError(t, err)
+	require.Equal(t, http.StatusCreated, resp.StatusCode)
+	var orgUnit model.OrgUnit
+	require.NoError(t, json.NewDecoder(resp.Body).Decode(&orgUnit))
+	closeBody(resp)
+
+	profileRoute := "/teams/" + th.BasicTeam.Id + "/users/" + th.BasicUser2.Id + "/org-profile"
+	assignPayload := `{"primary_position_id":"` + position.ID + `","primary_org_unit_id":"` + orgUnit.ID + `"}`
+	resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), profileRoute, assignPayload)
+	require.NoError(t, err)
+	require.Equal(t, http.StatusOK, resp.StatusCode)
+	closeBody(resp)
+
+	summaryRouteForUser2 := "/teams/" + th.BasicTeam.Id + "/users/" + th.BasicUser2.Id + "/org-profile-summary"
+
+	t.Run("same team regular member can read a teammate's resolved names", func(t *testing.T) {
+		resp, err := th.Client.DoAPIGet(context.Background(), summaryRouteForUser2, "")
+		require.NoError(t, err)
+		require.Equal(t, http.StatusOK, resp.StatusCode)
+		var summary model.UserOrgProfileSummary
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&summary))
+		closeBody(resp)
+		require.NotNil(t, summary.DepartmentName)
+		require.Equal(t, "Engineering", *summary.DepartmentName)
+		require.NotNil(t, summary.PositionName)
+		require.Equal(t, "Team Lead", *summary.PositionName)
+	})
+
+	t.Run("unassigned teammate resolves to null names", func(t *testing.T) {
+		route := "/teams/" + th.BasicTeam.Id + "/users/" + th.BasicUser.Id + "/org-profile-summary"
+		resp, err := th.Client.DoAPIGet(context.Background(), route, "")
+		require.NoError(t, err)
+		require.Equal(t, http.StatusOK, resp.StatusCode)
+		var summary model.UserOrgProfileSummary
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&summary))
+		closeBody(resp)
+		require.Nil(t, summary.DepartmentName)
+		require.Nil(t, summary.PositionName)
+	})
+
+	t.Run("requester who is not a member of the team is forbidden", func(t *testing.T) {
+		outsider := th.CreateUser(t)
+		outsiderClient := th.CreateClient()
+		_, _, loginErr := outsiderClient.Login(context.Background(), outsider.Email, outsider.Password)
+		require.NoError(t, loginErr)
+
+		resp, err := outsiderClient.DoAPIGet(context.Background(), summaryRouteForUser2, "")
+		require.Error(t, err)
+		require.Equal(t, http.StatusForbidden, resp.StatusCode)
+		closeBody(resp)
+	})
+
+	t.Run("target user who is not a member of the team is not found", func(t *testing.T) {
+		outsider := th.CreateUser(t)
+
+		route := "/teams/" + th.BasicTeam.Id + "/users/" + outsider.Id + "/org-profile-summary"
+		resp, err := th.Client.DoAPIGet(context.Background(), route, "")
+		require.Error(t, err)
+		require.Equal(t, http.StatusNotFound, resp.StatusCode)
+		closeBody(resp)
+	})
+
+	t.Run("feature flag off returns feature disabled", func(t *testing.T) {
+		t.Setenv("MM_FEATUREFLAGS_ENABLEORGROLEMANAGEMENT", "false")
+		th2 := Setup(t).InitBasic(t)
+
+		route := "/teams/" + th2.BasicTeam.Id + "/users/" + th2.BasicUser.Id + "/org-profile-summary"
+		resp, err := th2.SystemAdminClient.DoAPIGet(context.Background(), route, "")
+		require.Error(t, err)
+		appErr, ok := err.(*model.AppError)
+		require.True(t, ok)
+		require.Equal(t, "api.team.org_roles.feature_disabled.app_error", appErr.Id)
+		require.Equal(t, http.StatusNotImplemented, resp.StatusCode)
+		closeBody(resp)
+	})
+}

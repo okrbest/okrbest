@@ -181,6 +181,7 @@ const ProfilePopover = ({
                     user={user}
                     haveOverrideProp={haveOverrideProp}
                     fullname={fullname}
+                    currentTeamId={currentTeamId}
                 />
                 <hr/>
                 <ProfilePopoverEmail

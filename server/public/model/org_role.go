@@ -41,6 +41,19 @@ type UserOrgProfile struct {
 	UpdateAt          int64       `json:"update_at"`
 }
 
+// UserOrgProfileSummary is a read-only, non-persisted view of a user's
+// primary department/position names within a team, resolved from
+// UserOrgProfile's PrimaryOrgUnitID/PrimaryPositionID. It powers the
+// team-member-readable org-profile-summary endpoint, kept separate from the
+// admin-only UserOrgProfile response (which exposes raw IDs and extra
+// positions) so the two audiences' contracts can evolve independently.
+type UserOrgProfileSummary struct {
+	TeamID         string  `json:"team_id"`
+	UserID         string  `json:"user_id"`
+	DepartmentName *string `json:"department_name"`
+	PositionName   *string `json:"position_name"`
+}
+
 type OrgRoleAuditLog struct {
 	ID          string    `json:"id"`
 	TeamID      string    `json:"team_id"`

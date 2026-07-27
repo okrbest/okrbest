@@ -78,6 +78,7 @@ func (api *API) InitTeam() {
 	api.BaseRoutes.Team.Handle("/org-units/{org_unit_id:[A-Za-z0-9]+}", api.APISessionRequired(updateTeamOrgUnit)).Methods(http.MethodPut)
 	api.BaseRoutes.Team.Handle("/users/{user_id:[A-Za-z0-9]+}/org-profile", api.APISessionRequired(getUserOrgProfile)).Methods(http.MethodGet)
 	api.BaseRoutes.Team.Handle("/users/{user_id:[A-Za-z0-9]+}/org-profile", api.APISessionRequired(updateUserOrgProfile)).Methods(http.MethodPut)
+	api.BaseRoutes.Team.Handle("/users/{user_id:[A-Za-z0-9]+}/org-profile-summary", api.APISessionRequired(getUserOrgProfileSummary)).Methods(http.MethodGet)
 	api.BaseRoutes.Team.Handle("/org-profiles", api.APISessionRequired(getTeamOrgProfiles)).Methods(http.MethodGet)
 	api.BaseRoutes.Team.Handle("/org-role-audit", api.APISessionRequired(getTeamOrgRoleAuditLogs)).Methods(http.MethodGet)
 	api.BaseRoutes.Teams.Handle("/invites/email", api.APISessionRequired(invalidateAllEmailInvites)).Methods(http.MethodDelete)
@@ -2183,6 +2184,53 @@ func getUserOrgProfile(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewEncoder(w).Encode(profile); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+// getUserOrgProfileSummary is the team-member-readable counterpart to
+// getUserOrgProfile: it requires only PermissionViewTeam (not
+// PermissionManageTeamRoles) so any teammate can look up a colleague's
+// admin-assigned department/position names, mirroring the permission
+// checks getTeamMember already applies for reading a peer's membership.
+func getUserOrgProfileSummary(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId().RequireUserId()
+	if c.Err != nil {
+		return
+	}
+
+	if !c.App.Config().FeatureFlags.EnableOrgRoleManagement {
+		c.Err = model.NewAppError("getUserOrgProfileSummary", "api.team.org_roles.feature_disabled.app_error", nil, "", http.StatusNotImplemented)
+		return
+	}
+
+	if !c.App.SessionHasPermissionToTeam(*c.AppContext.Session(), c.Params.TeamId, model.PermissionViewTeam) {
+		c.SetPermissionError(model.PermissionViewTeam)
+		return
+	}
+
+	canSee, appErr := c.App.UserCanSeeOtherUser(c.AppContext, c.AppContext.Session().UserId, c.Params.UserId)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+	if !canSee {
+		c.SetPermissionError(model.PermissionViewMembers)
+		return
+	}
+
+	if _, appErr = c.App.GetTeamMember(c.AppContext, c.Params.TeamId, c.Params.UserId); appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	summary, appErr := c.App.GetUserOrgProfileSummary(c.Params.TeamId, c.Params.UserId)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(summary); err != nil {
 		c.Logger.Warn("Error while writing response", mlog.Err(err))
 	}
 }

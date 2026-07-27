@@ -317,6 +317,52 @@ func (a *App) GetUserOrgProfile(teamID, userID string) (*model.UserOrgProfile, *
 	return item, nil
 }
 
+// GetUserOrgProfileSummary resolves a user's primary org unit/position IDs
+// into display names for the team-member-readable summary endpoint. Includes
+// inactive definitions so a since-deactivated department/position assigned in
+// the past still resolves to a name instead of silently disappearing.
+func (a *App) GetUserOrgProfileSummary(teamID, userID string) (*model.UserOrgProfileSummary, *model.AppError) {
+	profile, appErr := a.GetUserOrgProfile(teamID, userID)
+	if appErr != nil {
+		return nil, appErr
+	}
+
+	summary := &model.UserOrgProfileSummary{
+		TeamID: teamID,
+		UserID: userID,
+	}
+
+	if profile.PrimaryOrgUnitID != "" {
+		orgUnits, appErr := a.ListOrgUnits(teamID, true)
+		if appErr != nil {
+			return nil, appErr
+		}
+		for _, orgUnit := range orgUnits {
+			if orgUnit.ID == profile.PrimaryOrgUnitID {
+				name := orgUnit.Name
+				summary.DepartmentName = &name
+				break
+			}
+		}
+	}
+
+	if profile.PrimaryPositionID != "" {
+		positions, appErr := a.ListPositionDefinitions(teamID, true)
+		if appErr != nil {
+			return nil, appErr
+		}
+		for _, position := range positions {
+			if position.ID == profile.PrimaryPositionID {
+				name := position.Name
+				summary.PositionName = &name
+				break
+			}
+		}
+	}
+
+	return summary, nil
+}
+
 func (a *App) ListUserOrgProfiles(teamID string) ([]*model.UserOrgProfile, *model.AppError) {
 	ss, appErr := a.orgRoleSQLStore()
 	if appErr != nil {
