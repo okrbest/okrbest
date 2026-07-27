@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-27 12:39
+- 갱신일: 2026-07-27 13:40
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1181개
+- 남은 커밋: 1180개
 
-**마지막 반영 커밋:** `96f159c2` | [Translations update from Mattermost Weblate (#34835)](https://github.com/mattermost/mattermost/commit/96f159c25115602f490c8d3f29c5eea4762c8377) | 2025-12-29
+**마지막 반영 커밋:** `2e377f6c` | [chore: Update NOTICE.txt file with updated dependencies (#34825)](https://github.com/mattermost/mattermost/commit/2e377f6c910f6f533cb74bfe9f79db309e8b185f) | 2026-01-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 2e377f6c | [chore: Update NOTICE.txt file with updated dependencies (#34825)](https://github.com/mattermost/mattermost/commit/2e377f6c910f6f533cb74bfe9f79db309e8b185f) | 2026-01-05 |
 | 10ef0525 | [Returning pending post ID for post creator for BoR post (#34758)](https://github.com/mattermost/mattermost/commit/10ef05252daeb1b3427ebb90bf79f51be203fe1d) | 2026-01-05 |
 | a4f34739 | [chore: Update NOTICE.txt file with updated dependencies (#34843)](https://github.com/mattermost/mattermost/commit/a4f3473952489eed2a8d7821f87c08016cd78f3f) | 2026-01-05 |
 | 346bc3f5 | [Translations update from Mattermost Weblate (#34844)](https://github.com/mattermost/mattermost/commit/346bc3f561f80a6b02687c3bb5eb68040e423770) | 2026-01-05 |
