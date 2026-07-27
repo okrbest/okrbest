@@ -15,12 +15,23 @@ describe('components/admin_console/org_role_management', () => {
         display_name: 'Test Team',
         name: 'test-team',
     });
+    const team2 = TestHelper.getTeamMock({
+        id: 'teamid29999999999999999999',
+        display_name: 'Second Team',
+        name: 'second-team',
+    });
     const user = TestHelper.getUserMock({
         id: 'userid12345678901234567890',
         username: 'test_user',
         email: 'test@example.com',
         first_name: 'User',
         last_name: 'One',
+    });
+    const secondUser = TestHelper.getUserMock({
+        id: 'userid22345678901234567890',
+        username: 'blue_sky',
+        email: 'blue@example.com',
+        nickname: '푸른하늘',
     });
     const position = {
         id: 'positionid1234567890123456ab',
@@ -29,6 +40,13 @@ describe('components/admin_console/org_role_management', () => {
         name: '개발자',
         rank: 1,
         active: true,
+        full_visibility: false,
+    };
+    const secondPosition = {
+        ...position,
+        id: 'positionid5555555555555555cd',
+        code: 'manager',
+        name: '매니저',
     };
     const inactivePosition = {
         ...position,
@@ -59,8 +77,21 @@ describe('components/admin_console/org_role_management', () => {
             ok,
             statusText: ok ? 'OK' : 'Bad Request',
             text: () => Promise.resolve(typeof data === 'string' ? data : JSON.stringify(data)),
+            json: () => Promise.resolve(typeof data === 'string' ? JSON.parse(data) : data),
         } as Response;
     };
+
+    const emptyProfile = (forUser: {id: string}) => ({
+        team_id: team.id,
+        user_id: forUser.id,
+        primary_position_id: '',
+        primary_org_unit_id: '',
+        extra_positions: [],
+        effective_from: 0,
+        effective_to: 0,
+        create_at: 0,
+        update_at: 0,
+    });
 
     const defaultFetchMock = () => {
         return jest.fn((input: RequestInfo | URL, init?: RequestInit) => {
@@ -95,18 +126,21 @@ describe('components/admin_console/org_role_management', () => {
                 return Promise.resolve(buildResponse([]));
             }
 
-            if (url.includes('/org-profile')) {
+            if (url.includes('/org-profile') && method === 'PUT') {
+                const body = JSON.parse((init?.body as string) || '{}');
                 return Promise.resolve(buildResponse({
+                    ...body,
                     team_id: team.id,
-                    user_id: user.id,
-                    primary_position_id: '',
-                    primary_org_unit_id: '',
                     extra_positions: [],
                     effective_from: 0,
                     effective_to: 0,
                     create_at: 0,
                     update_at: 0,
                 }));
+            }
+
+            if (url.includes('/org-profile')) {
+                return Promise.resolve(buildResponse(emptyProfile(user)));
             }
 
             return Promise.resolve(buildResponse({}));
@@ -122,8 +156,59 @@ describe('components/admin_console/org_role_management', () => {
         jest.useRealTimers();
     });
 
-    test('renders management header', async () => {
+    const getUserRow = (text: string) => screen.getByText(text).closest('tr') as HTMLTableRowElement;
+
+    const renderAndWaitForBody = async () => {
         renderWithContext(<OrgRoleManagement/>);
+        await waitFor(() => {
+            expect(screen.getByText('사용자 리스트')).toBeInTheDocument();
+        });
+    };
+
+    const twoUserFetchMock = (profiles: unknown[] = []) => {
+        return jest.fn((input: RequestInfo | URL, init?: RequestInit) => {
+            const url = String(input);
+            const method = init?.method || 'GET';
+
+            if (url.includes('/api/v4/teams?page=0&per_page=200')) {
+                return Promise.resolve(buildResponse([team]));
+            }
+
+            if (url.includes('/positions?include_inactive=true')) {
+                return Promise.resolve(buildResponse([position, secondPosition]));
+            }
+
+            if (url.includes('/org-units?include_inactive=true')) {
+                return Promise.resolve(buildResponse([department]));
+            }
+
+            if (url.includes('/api/v4/users?in_team=')) {
+                return Promise.resolve(buildResponse([user, secondUser]));
+            }
+
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse(profiles));
+            }
+
+            if (url.includes('/org-profile') && method === 'PUT') {
+                const body = JSON.parse((init?.body as string) || '{}');
+                return Promise.resolve(buildResponse({
+                    ...body,
+                    team_id: team.id,
+                    extra_positions: [],
+                    effective_from: 0,
+                    effective_to: 0,
+                    create_at: 0,
+                    update_at: 0,
+                }));
+            }
+
+            return Promise.resolve(buildResponse({}));
+        });
+    };
+
+    test('renders management header', async () => {
+        await renderAndWaitForBody();
 
         await waitFor(() => {
             expect(screen.getByText('조직/직위 배정')).toBeInTheDocument();
@@ -146,7 +231,7 @@ describe('components/admin_console/org_role_management', () => {
             return Promise.resolve(buildResponse({}));
         }) as typeof fetch;
 
-        renderWithContext(<OrgRoleManagement/>);
+        await renderAndWaitForBody();
 
         await waitFor(() => {
             expect(screen.getByText('조직/직위 배정')).toBeInTheDocument();
@@ -155,7 +240,7 @@ describe('components/admin_console/org_role_management', () => {
     });
 
     test('filters position list by keyword', async () => {
-        renderWithContext(<OrgRoleManagement/>);
+        await renderAndWaitForBody();
 
         const positionTable = screen.getAllByRole('table')[1];
         await waitFor(() => {
@@ -196,17 +281,7 @@ describe('components/admin_console/org_role_management', () => {
             }
 
             if (url.includes('/org-profile')) {
-                return Promise.resolve(buildResponse({
-                    team_id: team.id,
-                    user_id: user.id,
-                    primary_position_id: '',
-                    primary_org_unit_id: '',
-                    extra_positions: [],
-                    effective_from: 0,
-                    effective_to: 0,
-                    create_at: 0,
-                    update_at: 0,
-                }));
+                return Promise.resolve(buildResponse(emptyProfile(user)));
             }
 
             if (url.includes(`/positions/${position.id}`) && method === 'PUT') {
@@ -218,7 +293,7 @@ describe('components/admin_console/org_role_management', () => {
         });
         global.fetch = fetchMock as typeof fetch;
 
-        renderWithContext(<OrgRoleManagement/>);
+        await renderAndWaitForBody();
 
         const positionTable = screen.getAllByRole('table')[1];
         await waitFor(() => {
@@ -268,17 +343,7 @@ describe('components/admin_console/org_role_management', () => {
             }
 
             if (url.includes('/org-profile')) {
-                return Promise.resolve(buildResponse({
-                    team_id: team.id,
-                    user_id: user.id,
-                    primary_position_id: '',
-                    primary_org_unit_id: '',
-                    extra_positions: [],
-                    effective_from: 0,
-                    effective_to: 0,
-                    create_at: 0,
-                    update_at: 0,
-                }));
+                return Promise.resolve(buildResponse(emptyProfile(user)));
             }
 
             if (url.endsWith(`/api/v4/teams/${team.id}/positions`) && method === 'POST') {
@@ -299,7 +364,7 @@ describe('components/admin_console/org_role_management', () => {
         });
         global.fetch = fetchMock as typeof fetch;
 
-        renderWithContext(<OrgRoleManagement/>);
+        await renderAndWaitForBody();
 
         expect(screen.queryByPlaceholderText('직위 코드 (예: team_lead)')).not.toBeInTheDocument();
         expect(screen.queryByPlaceholderText('부서 코드 (예: rnd)')).not.toBeInTheDocument();
@@ -343,7 +408,7 @@ describe('components/admin_console/org_role_management', () => {
     });
 
     test('shows only one add form at a time', async () => {
-        renderWithContext(<OrgRoleManagement/>);
+        await renderAndWaitForBody();
 
         await waitFor(() => {
             expect(screen.getByText('조직/직위 배정')).toBeInTheDocument();
@@ -388,17 +453,7 @@ describe('components/admin_console/org_role_management', () => {
             }
 
             if (url.includes('/org-profile')) {
-                return Promise.resolve(buildResponse({
-                    team_id: team.id,
-                    user_id: user.id,
-                    primary_position_id: '',
-                    primary_org_unit_id: '',
-                    extra_positions: [],
-                    effective_from: 0,
-                    effective_to: 0,
-                    create_at: 0,
-                    update_at: 0,
-                }));
+                return Promise.resolve(buildResponse(emptyProfile(user)));
             }
 
             if (url.endsWith(`/api/v4/teams/${team.id}/positions`) && method === 'POST') {
@@ -419,7 +474,7 @@ describe('components/admin_console/org_role_management', () => {
         });
         global.fetch = fetchMock as typeof fetch;
 
-        renderWithContext(<OrgRoleManagement/>);
+        await renderAndWaitForBody();
 
         await waitFor(() => {
             expect(screen.getByText('조직/직위 배정')).toBeInTheDocument();
@@ -448,91 +503,6 @@ describe('components/admin_console/org_role_management', () => {
         expect(screen.queryByText('저장되었습니다')).not.toBeInTheDocument();
     });
 
-    test('shows success message when saving user assignment', async () => {
-        const fetchMock = jest.fn((input: RequestInfo | URL, init?: RequestInit) => {
-            const url = String(input);
-            const method = init?.method || 'GET';
-
-            if (url.includes('/api/v4/teams?page=0&per_page=200')) {
-                return Promise.resolve(buildResponse([team]));
-            }
-
-            if (url.includes('/positions?include_inactive=true')) {
-                return Promise.resolve(buildResponse([position]));
-            }
-
-            if (url.includes('/org-units?include_inactive=true')) {
-                return Promise.resolve(buildResponse([department]));
-            }
-
-            if (url.includes('/api/v4/users?in_team=')) {
-                return Promise.resolve(buildResponse([user]));
-            }
-
-            if (url.includes('/org-profile') && method === 'PUT') {
-                const body = JSON.parse((init?.body as string) || '{}');
-                return Promise.resolve(buildResponse({
-                    ...body,
-                    team_id: team.id,
-                    user_id: user.id,
-                    extra_positions: [],
-                    effective_from: 0,
-                    effective_to: 0,
-                    create_at: 0,
-                    update_at: 0,
-                }));
-            }
-
-            if (url.includes('/org-profiles')) {
-                return Promise.resolve(buildResponse([]));
-            }
-
-            if (url.includes('/org-profile')) {
-                return Promise.resolve(buildResponse({
-                    team_id: team.id,
-                    user_id: user.id,
-                    primary_position_id: '',
-                    primary_org_unit_id: '',
-                    extra_positions: [],
-                    effective_from: 0,
-                    effective_to: 0,
-                    create_at: 0,
-                    update_at: 0,
-                }));
-            }
-
-            return Promise.resolve(buildResponse({}));
-        });
-        global.fetch = fetchMock as typeof fetch;
-
-        renderWithContext(<OrgRoleManagement/>);
-
-        await waitFor(() => {
-            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
-        });
-
-        await userEvent.selectOptions(screen.getByDisplayValue('부서 미지정'), department.id);
-        await userEvent.selectOptions(screen.getByDisplayValue('직위 미지정'), position.id);
-        await userEvent.click(screen.getByRole('button', {name: '저장'}));
-
-        const userRow = screen.getByText('User One - test_user').closest('tr');
-        expect(userRow).not.toBeNull();
-
-        await waitFor(() => {
-            expect(within(userRow as HTMLTableRowElement).getByText('저장되었습니다')).toBeInTheDocument();
-            expect(screen.queryAllByText('저장되었습니다')).toHaveLength(1);
-        });
-        expect(document.querySelector('.orgRoleManagement__successInline')).not.toBeInTheDocument();
-
-        const updateCalls = fetchMock.mock.calls.filter(([input, init]) => {
-            return String(input).includes(`/api/v4/teams/${team.id}/users/${user.id}/org-profile`) && init?.method === 'PUT';
-        });
-        expect(updateCalls).toHaveLength(1);
-
-        await new Promise((resolve) => setTimeout(resolve, 2700));
-        expect(within(userRow as HTMLTableRowElement).queryByText('저장되었습니다')).not.toBeInTheDocument();
-    });
-
     test('deletes department only after confirmation', async () => {
         const fetchMock = jest.fn((input: RequestInfo | URL, init?: RequestInit) => {
             const url = String(input);
@@ -559,17 +529,7 @@ describe('components/admin_console/org_role_management', () => {
             }
 
             if (url.includes('/org-profile')) {
-                return Promise.resolve(buildResponse({
-                    team_id: team.id,
-                    user_id: user.id,
-                    primary_position_id: '',
-                    primary_org_unit_id: '',
-                    extra_positions: [],
-                    effective_from: 0,
-                    effective_to: 0,
-                    create_at: 0,
-                    update_at: 0,
-                }));
+                return Promise.resolve(buildResponse(emptyProfile(user)));
             }
 
             if (url.includes(`/org-units/${department.id}`) && method === 'PUT') {
@@ -581,7 +541,7 @@ describe('components/admin_console/org_role_management', () => {
         });
         global.fetch = fetchMock as typeof fetch;
 
-        renderWithContext(<OrgRoleManagement/>);
+        await renderAndWaitForBody();
 
         const departmentTable = screen.getAllByRole('table')[0];
         await waitFor(() => {
@@ -638,17 +598,7 @@ describe('components/admin_console/org_role_management', () => {
             }
 
             if (url.includes('/org-profile')) {
-                return Promise.resolve(buildResponse({
-                    team_id: team.id,
-                    user_id: user.id,
-                    primary_position_id: '',
-                    primary_org_unit_id: '',
-                    extra_positions: [],
-                    effective_from: 0,
-                    effective_to: 0,
-                    create_at: 0,
-                    update_at: 0,
-                }));
+                return Promise.resolve(buildResponse(emptyProfile(user)));
             }
 
             if (url.includes(`/org-units/${department.id}`) && method === 'PUT') {
@@ -659,7 +609,7 @@ describe('components/admin_console/org_role_management', () => {
         });
         global.fetch = fetchMock as typeof fetch;
 
-        renderWithContext(<OrgRoleManagement/>);
+        await renderAndWaitForBody();
 
         const departmentTable = screen.getAllByRole('table')[0];
         await waitFor(() => {
@@ -706,17 +656,7 @@ describe('components/admin_console/org_role_management', () => {
             }
 
             if (url.includes('/org-profile')) {
-                return Promise.resolve(buildResponse({
-                    team_id: team.id,
-                    user_id: user.id,
-                    primary_position_id: '',
-                    primary_org_unit_id: '',
-                    extra_positions: [],
-                    effective_from: 0,
-                    effective_to: 0,
-                    create_at: 0,
-                    update_at: 0,
-                }));
+                return Promise.resolve(buildResponse(emptyProfile(user)));
             }
 
             if (url.includes(`/positions/${position.id}`) && method === 'PUT') {
@@ -728,7 +668,7 @@ describe('components/admin_console/org_role_management', () => {
         });
         global.fetch = fetchMock as typeof fetch;
 
-        renderWithContext(<OrgRoleManagement/>);
+        await renderAndWaitForBody();
 
         const positionTable = screen.getAllByRole('table')[1];
         await waitFor(() => {
@@ -778,24 +718,14 @@ describe('components/admin_console/org_role_management', () => {
             }
 
             if (url.includes('/org-profile')) {
-                return Promise.resolve(buildResponse({
-                    team_id: team.id,
-                    user_id: user.id,
-                    primary_position_id: '',
-                    primary_org_unit_id: '',
-                    extra_positions: [],
-                    effective_from: 0,
-                    effective_to: 0,
-                    create_at: 0,
-                    update_at: 0,
-                }));
+                return Promise.resolve(buildResponse(emptyProfile(user)));
             }
 
             return Promise.resolve(buildResponse({}));
         });
         global.fetch = fetchMock as typeof fetch;
 
-        renderWithContext(<OrgRoleManagement/>);
+        await renderAndWaitForBody();
 
         const positionTable = screen.getAllByRole('table')[1];
         const departmentTable = screen.getAllByRole('table')[0];
@@ -816,13 +746,6 @@ describe('components/admin_console/org_role_management', () => {
     });
 
     test('filters users by display name and username', async () => {
-        const secondUser = TestHelper.getUserMock({
-            id: 'userid22345678901234567890',
-            username: 'blue_sky',
-            email: 'blue@example.com',
-            nickname: '푸른하늘',
-        });
-
         global.fetch = jest.fn((input: RequestInfo | URL) => {
             const url = String(input);
 
@@ -849,7 +772,7 @@ describe('components/admin_console/org_role_management', () => {
             return Promise.resolve(buildResponse({}));
         }) as typeof fetch;
 
-        renderWithContext(<OrgRoleManagement/>);
+        await renderAndWaitForBody();
 
         await waitFor(() => {
             expect(screen.getByText('User One - test_user')).toBeInTheDocument();
@@ -871,5 +794,602 @@ describe('components/admin_console/org_role_management', () => {
             expect(screen.queryByText('푸른하늘 - blue_sky')).not.toBeInTheDocument();
         });
     });
-});
 
+    // --- User Story 1: bulk selection, bulk apply, single save-all ---
+
+    test('T009: renders a checkbox per user row and toggles selection', async () => {
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+        });
+
+        const checkbox = within(getUserRow('User One - test_user')).getByRole('checkbox');
+        expect(checkbox).not.toBeChecked();
+        await userEvent.click(checkbox);
+        expect(checkbox).toBeChecked();
+        await userEvent.click(checkbox);
+        expect(checkbox).not.toBeChecked();
+    });
+
+    test('T010: bulk-applying only the department field leaves each user\'s existing position untouched, and fires no PUT yet', async () => {
+        const fetchMock = twoUserFetchMock([
+            {...emptyProfile(user), primary_position_id: position.id},
+            {...emptyProfile(secondUser), primary_position_id: secondPosition.id},
+        ]);
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+            expect(screen.getByText('푸른하늘 - blue_sky')).toBeInTheDocument();
+        });
+
+        await userEvent.click(within(getUserRow('User One - test_user')).getByRole('checkbox'));
+        await userEvent.click(within(getUserRow('푸른하늘 - blue_sky')).getByRole('checkbox'));
+
+        await userEvent.selectOptions(screen.getByDisplayValue('부서 변경 안 함'), department.id);
+        await userEvent.click(screen.getByRole('button', {name: '선택 적용'}));
+
+        const userRow = getUserRow('User One - test_user');
+        const secondUserRow = getUserRow('푸른하늘 - blue_sky');
+
+        expect(within(userRow).getByDisplayValue('R&D')).toBeInTheDocument();
+        expect(within(secondUserRow).getByDisplayValue('R&D')).toBeInTheDocument();
+        expect(within(userRow).getByDisplayValue('개발자')).toBeInTheDocument();
+        expect(within(secondUserRow).getByDisplayValue('매니저')).toBeInTheDocument();
+
+        const putCalls = fetchMock.mock.calls.filter(([input, init]) => {
+            return String(input).includes('/org-profile') && init?.method === 'PUT';
+        });
+        expect(putCalls).toHaveLength(0);
+    });
+
+    test('T011: bulk-apply does not affect unselected users, and fires no PUT yet', async () => {
+        const fetchMock = twoUserFetchMock();
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+            expect(screen.getByText('푸른하늘 - blue_sky')).toBeInTheDocument();
+        });
+
+        await userEvent.click(within(getUserRow('User One - test_user')).getByRole('checkbox'));
+        await userEvent.selectOptions(screen.getByDisplayValue('부서 변경 안 함'), department.id);
+        await userEvent.click(screen.getByRole('button', {name: '선택 적용'}));
+
+        const secondUserRow = getUserRow('푸른하늘 - blue_sky');
+        expect(within(secondUserRow).getByDisplayValue('부서 미지정')).toBeInTheDocument();
+
+        const putCalls = fetchMock.mock.calls.filter(([input, init]) => {
+            return String(input).includes('/org-profile') && init?.method === 'PUT';
+        });
+        expect(putCalls).toHaveLength(0);
+    });
+
+    test('T012: "선택 적용" is disabled unless a user is selected and a bulk field is set', async () => {
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+        });
+
+        const applyButton = screen.getByRole('button', {name: '선택 적용'});
+        expect(applyButton).toBeDisabled();
+
+        await userEvent.click(within(getUserRow('User One - test_user')).getByRole('checkbox'));
+        expect(applyButton).toBeDisabled();
+
+        await userEvent.selectOptions(screen.getByDisplayValue('부서 변경 안 함'), department.id);
+        expect(applyButton).not.toBeDisabled();
+    });
+
+    test('T013: bulk toolbar has no "unassign" option, only a "no change" default', async () => {
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+        });
+
+        expect(screen.getByDisplayValue('부서 변경 안 함')).toBeInTheDocument();
+        expect(screen.getByDisplayValue('직위 변경 안 함')).toBeInTheDocument();
+    });
+
+    test('T014: saving fires exactly one PUT per dirty user and skips untouched users', async () => {
+        const thirdUser = TestHelper.getUserMock({
+            id: 'userid33345678901234567890',
+            username: 'third_user',
+            email: 'third@example.com',
+        });
+        const fetchMock = jest.fn((input: RequestInfo | URL, init?: RequestInit) => {
+            const url = String(input);
+            const method = init?.method || 'GET';
+
+            if (url.includes('/api/v4/teams?page=0&per_page=200')) {
+                return Promise.resolve(buildResponse([team]));
+            }
+            if (url.includes('/positions?include_inactive=true')) {
+                return Promise.resolve(buildResponse([position, secondPosition]));
+            }
+            if (url.includes('/org-units?include_inactive=true')) {
+                return Promise.resolve(buildResponse([department]));
+            }
+            if (url.includes('/api/v4/users?in_team=')) {
+                return Promise.resolve(buildResponse([user, secondUser, thirdUser]));
+            }
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes('/org-profile') && method === 'PUT') {
+                const body = JSON.parse((init?.body as string) || '{}');
+                return Promise.resolve(buildResponse({...body, team_id: team.id, extra_positions: [], effective_from: 0, effective_to: 0, create_at: 0, update_at: 0}));
+            }
+            return Promise.resolve(buildResponse({}));
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+            expect(screen.getByText('푸른하늘 - blue_sky')).toBeInTheDocument();
+            expect(screen.getByText('third_user - third_user')).toBeInTheDocument();
+        });
+
+        await userEvent.selectOptions(within(getUserRow('User One - test_user')).getByDisplayValue('부서 미지정'), department.id);
+        await userEvent.selectOptions(within(getUserRow('푸른하늘 - blue_sky')).getByDisplayValue('직위 미지정'), position.id);
+
+        await userEvent.click(screen.getByRole('button', {name: '저장'}));
+
+        await waitFor(() => {
+            const putCalls = fetchMock.mock.calls.filter(([input, init]) => {
+                return String(input).includes('/org-profile') && init?.method === 'PUT';
+            });
+            expect(putCalls).toHaveLength(2);
+            const putUrls = putCalls.map(([input]) => String(input));
+            expect(putUrls.some((u) => u.includes(`/users/${user.id}/org-profile`))).toBe(true);
+            expect(putUrls.some((u) => u.includes(`/users/${secondUser.id}/org-profile`))).toBe(true);
+            expect(putUrls.some((u) => u.includes(`/users/${thirdUser.id}/org-profile`))).toBe(false);
+        });
+    });
+
+    test('T015: zero dirty users disables the save button', async () => {
+        const fetchMock = twoUserFetchMock();
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+        });
+
+        const saveButton = screen.getByRole('button', {name: '저장'});
+        expect(saveButton).toBeDisabled();
+
+        fireEvent.click(saveButton);
+
+        const putCalls = fetchMock.mock.calls.filter(([input, init]) => {
+            return String(input).includes('/org-profile') && init?.method === 'PUT';
+        });
+        expect(putCalls).toHaveLength(0);
+    });
+
+    test('T016: the save button stays disabled while a save is in flight, preventing a duplicate PUT round', async () => {
+        let resolvePut: (value: Response) => void = () => {};
+        const putPromise = new Promise<Response>((resolve) => {
+            resolvePut = resolve;
+        });
+
+        const fetchMock = jest.fn((input: RequestInfo | URL, init?: RequestInit) => {
+            const url = String(input);
+            const method = init?.method || 'GET';
+
+            if (url.includes('/api/v4/teams?page=0&per_page=200')) {
+                return Promise.resolve(buildResponse([team]));
+            }
+            if (url.includes('/positions?include_inactive=true')) {
+                return Promise.resolve(buildResponse([position]));
+            }
+            if (url.includes('/org-units?include_inactive=true')) {
+                return Promise.resolve(buildResponse([department]));
+            }
+            if (url.includes('/api/v4/users?in_team=')) {
+                return Promise.resolve(buildResponse([user]));
+            }
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes('/org-profile') && method === 'PUT') {
+                return putPromise;
+            }
+            return Promise.resolve(buildResponse({}));
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+        });
+
+        await userEvent.selectOptions(screen.getByDisplayValue('부서 미지정'), department.id);
+
+        const saveButton = screen.getByRole('button', {name: '저장'});
+        await userEvent.click(saveButton);
+
+        await waitFor(() => {
+            expect(screen.getByRole('button', {name: '저장 중...'})).toBeDisabled();
+        });
+
+        fireEvent.click(screen.getByRole('button', {name: '저장 중...'}));
+
+        resolvePut(buildResponse({
+            team_id: team.id,
+            user_id: user.id,
+            primary_position_id: '',
+            primary_org_unit_id: department.id,
+            extra_positions: [],
+            effective_from: 0,
+            effective_to: 0,
+            create_at: 0,
+            update_at: 0,
+        }));
+
+        await waitFor(() => {
+            // The button label reverts once the in-flight save settles. It is correctly
+            // disabled again here because the saved user is no longer dirty - not because
+            // a save is still in flight.
+            expect(screen.getByRole('button', {name: '저장'})).toBeInTheDocument();
+        });
+
+        const putCalls = fetchMock.mock.calls.filter(([input, init]) => {
+            return String(input).includes('/org-profile') && init?.method === 'PUT';
+        });
+        expect(putCalls).toHaveLength(1);
+    });
+
+    test('T017: saving a single dirtied user fires exactly one PUT and shows a success summary that auto-hides', async () => {
+        const fetchMock = jest.fn((input: RequestInfo | URL, init?: RequestInit) => {
+            const url = String(input);
+            const method = init?.method || 'GET';
+
+            if (url.includes('/api/v4/teams?page=0&per_page=200')) {
+                return Promise.resolve(buildResponse([team]));
+            }
+            if (url.includes('/positions?include_inactive=true')) {
+                return Promise.resolve(buildResponse([position]));
+            }
+            if (url.includes('/org-units?include_inactive=true')) {
+                return Promise.resolve(buildResponse([department]));
+            }
+            if (url.includes('/api/v4/users?in_team=')) {
+                return Promise.resolve(buildResponse([user]));
+            }
+            if (url.includes('/org-profile') && method === 'PUT') {
+                const body = JSON.parse((init?.body as string) || '{}');
+                return Promise.resolve(buildResponse({...body, team_id: team.id, user_id: user.id, extra_positions: [], effective_from: 0, effective_to: 0, create_at: 0, update_at: 0}));
+            }
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes('/org-profile')) {
+                return Promise.resolve(buildResponse(emptyProfile(user)));
+            }
+            return Promise.resolve(buildResponse({}));
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+        });
+
+        await userEvent.selectOptions(screen.getByDisplayValue('부서 미지정'), department.id);
+        await userEvent.selectOptions(screen.getByDisplayValue('직위 미지정'), position.id);
+        await userEvent.click(screen.getByRole('button', {name: '저장'}));
+
+        await waitFor(() => {
+            expect(screen.getByText('1명 저장되었습니다')).toBeInTheDocument();
+        });
+
+        const updateCalls = fetchMock.mock.calls.filter(([input, init]) => {
+            return String(input).includes(`/api/v4/teams/${team.id}/users/${user.id}/org-profile`) && init?.method === 'PUT';
+        });
+        expect(updateCalls).toHaveLength(1);
+
+        await new Promise((resolve) => setTimeout(resolve, 2700));
+        expect(screen.queryByText('1명 저장되었습니다')).not.toBeInTheDocument();
+    });
+
+    test('T018: a team switch mid-save discards the stale response instead of applying it to the new team\'s view', async () => {
+        let resolvePut: (value: Response) => void = () => {};
+        const putPromise = new Promise<Response>((resolve) => {
+            resolvePut = resolve;
+        });
+
+        const fetchMock = jest.fn((input: RequestInfo | URL, init?: RequestInit) => {
+            const url = String(input);
+            const method = init?.method || 'GET';
+
+            if (url.includes('/api/v4/teams?page=0&per_page=200')) {
+                return Promise.resolve(buildResponse([team, team2]));
+            }
+            if (url.includes(`/teams/${team.id}/positions?include_inactive=true`)) {
+                return Promise.resolve(buildResponse([position]));
+            }
+            if (url.includes(`/teams/${team.id}/org-units?include_inactive=true`)) {
+                return Promise.resolve(buildResponse([department]));
+            }
+            if (url.includes(`/api/v4/users?in_team=${team.id}`)) {
+                return Promise.resolve(buildResponse([user]));
+            }
+            if (url.includes(`/teams/${team.id}/org-profiles`)) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes(`/teams/${team.id}/users/${user.id}/org-profile`) && method === 'PUT') {
+                return putPromise;
+            }
+
+            if (url.includes(`/teams/${team2.id}/positions?include_inactive=true`)) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes(`/teams/${team2.id}/org-units?include_inactive=true`)) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes(`/api/v4/users?in_team=${team2.id}`)) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes(`/teams/${team2.id}/org-profiles`)) {
+                return Promise.resolve(buildResponse([]));
+            }
+
+            return Promise.resolve(buildResponse({}));
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+        });
+
+        await userEvent.selectOptions(screen.getByDisplayValue('부서 미지정'), department.id);
+        await userEvent.click(screen.getByRole('button', {name: '저장'}));
+
+        await waitFor(() => {
+            expect(screen.getByRole('button', {name: '저장 중...'})).toBeInTheDocument();
+        });
+
+        await userEvent.selectOptions(screen.getByLabelText('팀'), team2.id);
+
+        await waitFor(() => {
+            expect(screen.getByText('필터 조건에 해당하는 사용자가 없습니다.')).toBeInTheDocument();
+        });
+
+        resolvePut(buildResponse({
+            team_id: team.id,
+            user_id: user.id,
+            primary_position_id: '',
+            primary_org_unit_id: department.id,
+            extra_positions: [],
+            effective_from: 0,
+            effective_to: 0,
+            create_at: 0,
+            update_at: 0,
+        }));
+
+        await new Promise((resolve) => setTimeout(resolve, 50));
+
+        expect(screen.queryByText('1명 저장되었습니다')).not.toBeInTheDocument();
+        expect(screen.queryByText(/명 실패/)).not.toBeInTheDocument();
+    });
+
+    test('T019: switching teams resets selection and the bulk-apply toolbar', async () => {
+        const fetchMock = jest.fn((input: RequestInfo | URL) => {
+            const url = String(input);
+
+            if (url.includes('/api/v4/teams?page=0&per_page=200')) {
+                return Promise.resolve(buildResponse([team, team2]));
+            }
+            if (url.includes(`/teams/${team.id}/positions?include_inactive=true`)) {
+                return Promise.resolve(buildResponse([position]));
+            }
+            if (url.includes(`/teams/${team.id}/org-units?include_inactive=true`)) {
+                return Promise.resolve(buildResponse([department]));
+            }
+            if (url.includes(`/api/v4/users?in_team=${team.id}`)) {
+                return Promise.resolve(buildResponse([user]));
+            }
+            if (url.includes(`/teams/${team.id}/org-profiles`)) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes(`/teams/${team2.id}/positions?include_inactive=true`)) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes(`/teams/${team2.id}/org-units?include_inactive=true`)) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes(`/api/v4/users?in_team=${team2.id}`)) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes(`/teams/${team2.id}/org-profiles`)) {
+                return Promise.resolve(buildResponse([]));
+            }
+            return Promise.resolve(buildResponse({}));
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+        });
+
+        await userEvent.click(within(getUserRow('User One - test_user')).getByRole('checkbox'));
+        await userEvent.selectOptions(screen.getByDisplayValue('부서 변경 안 함'), department.id);
+
+        expect(screen.getByText('선택된 사용자: 1명')).toBeInTheDocument();
+
+        await userEvent.selectOptions(screen.getByLabelText('팀'), team2.id);
+
+        await waitFor(() => {
+            expect(screen.getByText('선택된 사용자: 0명')).toBeInTheDocument();
+        });
+        expect(screen.getByDisplayValue('부서 변경 안 함')).toBeInTheDocument();
+        expect(screen.getByDisplayValue('직위 변경 안 함')).toBeInTheDocument();
+    });
+
+    // --- User Story 2: select-all scoped to the current filter, selection persists across filter changes ---
+
+    test('T026: header "select all" checkbox selects and deselects every row when no filter is active', async () => {
+        const fetchMock = twoUserFetchMock();
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+            expect(screen.getByText('푸른하늘 - blue_sky')).toBeInTheDocument();
+        });
+
+        const headerCheckbox = screen.getByRole('checkbox', {name: '전체 선택'});
+        await userEvent.click(headerCheckbox);
+
+        expect(within(getUserRow('User One - test_user')).getByRole('checkbox')).toBeChecked();
+        expect(within(getUserRow('푸른하늘 - blue_sky')).getByRole('checkbox')).toBeChecked();
+
+        await userEvent.click(headerCheckbox);
+
+        expect(within(getUserRow('User One - test_user')).getByRole('checkbox')).not.toBeChecked();
+        expect(within(getUserRow('푸른하늘 - blue_sky')).getByRole('checkbox')).not.toBeChecked();
+    });
+
+    test('T027: header "select all" only selects the users currently visible under a search filter', async () => {
+        const fetchMock = twoUserFetchMock();
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+            expect(screen.getByText('푸른하늘 - blue_sky')).toBeInTheDocument();
+        });
+
+        await userEvent.type(screen.getByPlaceholderText('사용자 검색 (이름/username)'), 'test_user');
+        await waitFor(() => {
+            expect(screen.queryByText('푸른하늘 - blue_sky')).not.toBeInTheDocument();
+        });
+
+        await userEvent.click(screen.getByRole('checkbox', {name: '전체 선택'}));
+        expect(within(getUserRow('User One - test_user')).getByRole('checkbox')).toBeChecked();
+
+        await userEvent.clear(screen.getByPlaceholderText('사용자 검색 (이름/username)'));
+        await waitFor(() => {
+            expect(screen.getByText('푸른하늘 - blue_sky')).toBeInTheDocument();
+        });
+        expect(within(getUserRow('푸른하늘 - blue_sky')).getByRole('checkbox')).not.toBeChecked();
+    });
+
+    test('T028: selection is preserved when a filter hides the selected user, and restored when the filter is cleared', async () => {
+        const fetchMock = twoUserFetchMock();
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('푸른하늘 - blue_sky')).toBeInTheDocument();
+        });
+
+        await userEvent.click(within(getUserRow('푸른하늘 - blue_sky')).getByRole('checkbox'));
+
+        await userEvent.type(screen.getByPlaceholderText('사용자 검색 (이름/username)'), 'test_user');
+        await waitFor(() => {
+            expect(screen.queryByText('푸른하늘 - blue_sky')).not.toBeInTheDocument();
+        });
+
+        await userEvent.clear(screen.getByPlaceholderText('사용자 검색 (이름/username)'));
+        await waitFor(() => {
+            expect(screen.getByText('푸른하늘 - blue_sky')).toBeInTheDocument();
+        });
+        expect(within(getUserRow('푸른하늘 - blue_sky')).getByRole('checkbox')).toBeChecked();
+    });
+
+    // --- User Story 3: bulk save result summary (success/failure) ---
+
+    test('T031: a partial failure shows a summary with both counts and does not auto-hide', async () => {
+        const fetchMock = jest.fn((input: RequestInfo | URL, init?: RequestInit) => {
+            const url = String(input);
+            const method = init?.method || 'GET';
+
+            if (url.includes('/api/v4/teams?page=0&per_page=200')) {
+                return Promise.resolve(buildResponse([team]));
+            }
+            if (url.includes('/positions?include_inactive=true')) {
+                return Promise.resolve(buildResponse([position]));
+            }
+            if (url.includes('/org-units?include_inactive=true')) {
+                return Promise.resolve(buildResponse([department]));
+            }
+            if (url.includes('/api/v4/users?in_team=')) {
+                return Promise.resolve(buildResponse([user, secondUser]));
+            }
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
+            }
+            if (url.includes(`/users/${user.id}/org-profile`) && method === 'PUT') {
+                return Promise.resolve(buildResponse({message: '저장 실패'}, false));
+            }
+            if (url.includes(`/users/${secondUser.id}/org-profile`) && method === 'PUT') {
+                const body = JSON.parse((init?.body as string) || '{}');
+                return Promise.resolve(buildResponse({...body, team_id: team.id, extra_positions: [], effective_from: 0, effective_to: 0, create_at: 0, update_at: 0}));
+            }
+            return Promise.resolve(buildResponse({}));
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+            expect(screen.getByText('푸른하늘 - blue_sky')).toBeInTheDocument();
+        });
+
+        await userEvent.selectOptions(within(getUserRow('User One - test_user')).getByDisplayValue('부서 미지정'), department.id);
+        await userEvent.selectOptions(within(getUserRow('푸른하늘 - blue_sky')).getByDisplayValue('직위 미지정'), position.id);
+        await userEvent.click(screen.getByRole('button', {name: '저장'}));
+
+        await waitFor(() => {
+            expect(screen.getByText('1명 저장 완료, 1명 실패')).toBeInTheDocument();
+        });
+
+        await new Promise((resolve) => setTimeout(resolve, 2700));
+        expect(screen.getByText('1명 저장 완료, 1명 실패')).toBeInTheDocument();
+    });
+
+    test('T032: saving multiple dirty users that all succeed shows a success summary that auto-hides', async () => {
+        const fetchMock = twoUserFetchMock();
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('User One - test_user')).toBeInTheDocument();
+            expect(screen.getByText('푸른하늘 - blue_sky')).toBeInTheDocument();
+        });
+
+        await userEvent.selectOptions(within(getUserRow('User One - test_user')).getByDisplayValue('부서 미지정'), department.id);
+        await userEvent.selectOptions(within(getUserRow('푸른하늘 - blue_sky')).getByDisplayValue('직위 미지정'), position.id);
+        await userEvent.click(screen.getByRole('button', {name: '저장'}));
+
+        await waitFor(() => {
+            expect(screen.getByText('2명 저장되었습니다')).toBeInTheDocument();
+        });
+
+        await new Promise((resolve) => setTimeout(resolve, 2700));
+        expect(screen.queryByText('2명 저장되었습니다')).not.toBeInTheDocument();
+    });
+});
