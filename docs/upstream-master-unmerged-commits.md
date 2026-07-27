@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-27 16:52
+- 갱신일: 2026-07-27 22:11
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1173개
+- 남은 커밋: 1178개
 
-**마지막 반영 커밋:** `98124364` | [MM-66800 Migrate Add Channels menu to new menu component (#34757)](https://github.com/mattermost/mattermost/commit/98124364ea3078537027e36956cf2dce40fea250) | 2026-01-06
+**마지막 반영 커밋:** `2f409ba4` | [MM-65828 Add ThemeProvider and make app use Denim theme by default (#34755)](https://github.com/mattermost/mattermost/commit/2f409ba46b42f80efef62a4bcdd88c07db8e5a9d) | 2026-01-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 2f409ba4 | [MM-65828 Add ThemeProvider and make app use Denim theme by default (#34755)](https://github.com/mattermost/mattermost/commit/2f409ba46b42f80efef62a4bcdd88c07db8e5a9d) | 2026-01-06 |
 | 586adbd6 | [\[MM-62503\] Channel Title Description not Scrollable (#29827)](https://github.com/mattermost/mattermost/commit/586adbd6f04828ca4e66db66e579a1d7cd4fa508) | 2026-01-06 |
 | 0184153d | [changed api spec definition for userThread (#34819)](https://github.com/mattermost/mattermost/commit/0184153d16212ee1261bb6b058693560f88ed3e4) | 2026-01-07 |
 | 0481bd1f | [Fliter post in search api with no read content channel permission (#34620)](https://github.com/mattermost/mattermost/commit/0481bd1fb04584db97eca45fd58ebd06c8200df4) | 2026-01-07 |
@@ -1184,6 +1183,12 @@
 | 10b780cb | [E2E/Test: Stabilize flaky tests (#37614)](https://github.com/mattermost/mattermost/commit/10b780cb097b2ec94ab0f9df7ebcbd5b7850f13f) | 2026-07-25 |
 | f0de1f48 | [\[Docs Revamp Feedback\] Readability & accessibility fixes (#37665)](https://github.com/mattermost/mattermost/commit/f0de1f485bd0c3168b31767b37d388fb1a5fa8a4) | 2026-07-27 |
 | 8828e5a2 | [fix(docs-preview): set commit status via gh api for correct target_url (#37664)](https://github.com/mattermost/mattermost/commit/8828e5a2585e8272555253a20e0efdf5bbda795c) | 2026-07-27 |
+| 7a1c7e4b | [\[Docs Revamp Feedback\] Fix content rendering bugs (admonitions, broken images, table wrapping, oversized icons) (#37669)](https://github.com/mattermost/mattermost/commit/7a1c7e4b6b997a52213cc00a4614a7a94e745fd7) | 2026-07-27 |
+| 9ac8f227 | [docs: fix broken mm-ref:/mm-doc: placeholder links from RST migration (#37673)](https://github.com/mattermost/mattermost/commit/9ac8f2273c0d46895fc1aef17192609aef8354fa) | 2026-07-27 |
+| e5d490e6 | [Remove unreviewed IA-redesign content, restructure air-gapped docs from legacy source (#37674)](https://github.com/mattermost/mattermost/commit/e5d490e6808f4b21e7d1aeb47ea0da814970a5f8) | 2026-07-27 |
+| 0e7b8a2f | [\[Docs Revamp Feedback\] Remove/restyle "vibe coded" yellow left-border signal (#37666)](https://github.com/mattermost/mattermost/commit/0e7b8a2ff60a70a73dd7154ecb5e622e86b1072a) | 2026-07-27 |
+| 0fed2262 | [Fix editing a post creating a draft (MM-69928) (#37658)](https://github.com/mattermost/mattermost/commit/0fed2262813c57bec6f47088efcbfe9e4335b5c4) | 2026-07-27 |
+| d73adf5b | [Fix image preview opening when clicking outside the image in a post (#37642)](https://github.com/mattermost/mattermost/commit/d73adf5b24fc5ff7f9e4fa67030d81d5cd45d59e) | 2026-07-27 |
 
 ## 제외된 커밋
 
