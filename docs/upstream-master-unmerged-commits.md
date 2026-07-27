@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-27 14:10
+- 갱신일: 2026-07-27 14:19
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1177개
+- 남은 커밋: 1176개
 
-**마지막 반영 커밋:** `346bc3f5` | [Translations update from Mattermost Weblate (#34844)](https://github.com/mattermost/mattermost/commit/346bc3f561f80a6b02687c3bb5eb68040e423770) | 2026-01-05
+**마지막 반영 커밋:** `cc427af4` | [\[MM-66827\] Omit invite_id from team creation response based on permissions (#34693)](https://github.com/mattermost/mattermost/commit/cc427af41b2a8d3a552d8dc42978831dcfecc1d8) | 2026-01-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| cc427af4 | [\[MM-66827\] Omit invite_id from team creation response based on permissions (#34693)](https://github.com/mattermost/mattermost/commit/cc427af41b2a8d3a552d8dc42978831dcfecc1d8) | 2026-01-05 |
 | 08087a14 | [Update golang.org/x/crypto (#34838)](https://github.com/mattermost/mattermost/commit/08087a1420b0297bdfe6a5c43fc16605725bf773) | 2026-01-05 |
 | d8445304 | [Fix copyright date and address for email footers (#34813)](https://github.com/mattermost/mattermost/commit/d84453049611abb69839462120fe3145f744bebf) | 2026-01-05 |
 | 413cf4d6 | [\[MM-66918\] Return descriptive errors from IsValidWebAuthRedirectURL (#34712)](https://github.com/mattermost/mattermost/commit/413cf4d67cf2958bd1642666828a786e3bbeee9c) | 2026-01-06 |
