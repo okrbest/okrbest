@@ -57,7 +57,8 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
 1. **upstream 커밋의 의도** 파악: 무엇을 왜 바꾸는가 (버그픽스/기능/리팩터/문서/번역).
 2. **우리 포크의 자체 변경과 대조**: signals의 FORK HISTORY에 나온 커밋들을 `git show`로 확인하고, 필요시 `git log -p master -- <경로>`와 `spec-docs/`(특히 `rebrand.md`, `feat-plan/`)를 조사한다. 질문: *우리가 이 영역을 의도적으로 바꿨거나 제거했는가?*
 3. **의미 충돌 검토**: merge-tree가 CLEAN이어도 리브랜드 문자열(Mattermost→OKR.BEST), 우리가 제거한 기능 참조, 플러그인/버전 의존을 확인한다. 텍스트가 안 겹쳐도 의미가 깨질 수 있다.
-4. 근거와 함께 **권고 결정**: cherry-pick / adapt / exclude / spec.
+4. **미반영 의존 검토**: 이 커밋이 exclude·건너뜀·아직 미반영인 upstream 커밋(선행 리팩터, feature flag, config 기본값, DB 스키마)에 의존하는지 확인한다. ledger 부록과 `git log upstream-master`로 선행 커밋 문맥을 조사한다.
+5. 근거와 함께 **권고 결정**: cherry-pick / adapt / exclude / spec.
 
 #### 2-3. 대화형 승인 (커밋마다 필수)
 
@@ -102,6 +103,13 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
 - **spec**: `$SYNC to-spec <hash> "<가칭 또는 specs/NNN-이름>"` 기록. 그 후 사용자에게 `/speckit-specify` 착수 여부를 **명시적으로 질문**한다 (CLAUDE.md 핸드오프 규칙 — 자동 진입 금지). spec 구현 완료 커밋 본문에 `Upstream: <링크>`를 넣어야 목록에서 자동 차감됨을 안내.
 - **건너뜀**: 아무것도 하지 않음 (목록 유지).
 
+**커밋 직후 검증 (cherry-pick·adapt 공통, 코드 커밋만)**: 접촉 패키지 한정 테스트를 즉시 실행해 회귀를 커밋 단위로 귀속시킨다 (constitution 원칙 III 예외 조건).
+
+- server 접촉 시: `cd server && go test ./<접촉 패키지>...`
+- webapp 접촉 시: `cd webapp && npm run test -- <관련 경로>`
+- docs·i18n·주석만 건드린 커밋은 생략 가능.
+- 실패 시 즉시 해결(systematic-debugging) 또는 해당 커밋 revert 후 사용자 보고 — 실패를 안고 다음 커밋으로 넘어가지 않는다.
+
 #### 2-5. 목록 갱신
 
 `$SYNC update` 재실행 → 남은 개수·마지막 반영 커밋 갱신 확인.
@@ -145,4 +153,5 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
 - 오래된 순서를 건너뛰어 최신 커밋을 먼저 반영하지 않는다 (의존성 붕괴). "건너뜀"은 예외적·일시적이어야 한다.
 - 대량 자동 처리 금지 — 커밋마다 분석·승인. 시간이 걸려도 정밀 분석이 우선.
 - Translations update(Weblate) 커밋은 우리 i18n 변경(ko.json)과 상시 충돌 — adapt 시 우리 ko.json 문자열을 보존한다 (constitution 원칙 V).
+- upstream 커밋이 `en.json`에 문자열을 추가·변경하면 같은 세션에서 `ko.json` 번역을 동반한다 (constitution 원칙 V — cherry-pick이면 직후 adapt 커밋으로 보충 가능).
 - 라이선스·리브랜드 충실성 (constitution 원칙 IV): copyright 헤더·NOTICE.txt 관련 upstream 변경은 그대로 반영, 우리 리브랜드 문자열은 보존.
