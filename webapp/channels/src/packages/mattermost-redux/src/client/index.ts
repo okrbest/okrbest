@@ -6,6 +6,7 @@ import {
     DEFAULT_LIMIT_AFTER,
     DEFAULT_LIMIT_BEFORE,
 } from '@mattermost/client';
+import type {UserOrgProfileSummary} from '@mattermost/client';
 
 const Client4 = new ClientClass4();
 
@@ -14,3 +15,4 @@ export {
     DEFAULT_LIMIT_AFTER,
     DEFAULT_LIMIT_BEFORE,
 };
+export type {UserOrgProfileSummary};

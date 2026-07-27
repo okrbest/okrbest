@@ -7,7 +7,7 @@ import type {UserProfile} from '@mattermost/types/users';
 
 import BotDescription from 'components/profile_popover/profile_popover_bot_description';
 import FullName from 'components/profile_popover/profile_popover_full_name';
-import Position from 'components/profile_popover/profile_popover_position';
+import OrgRole from 'components/profile_popover/profile_popover_org_role';
 import UserName from 'components/profile_popover/profile_popover_user_name';
 
 import {getUsername} from 'utils/utils';
@@ -16,11 +16,13 @@ type Props = {
     haveOverrideProp: boolean;
     user: UserProfile;
     fullname: string;
+    currentTeamId: string;
 }
 const ProfilePopoverName = ({
     user,
     haveOverrideProp,
     fullname,
+    currentTeamId,
 }: Props) => {
     return (
         <>
@@ -38,9 +40,11 @@ const ProfilePopoverName = ({
                 hasFullName={Boolean(fullname)}
                 username={getUsername(user)}
             />
-            {(user.position && !haveOverrideProp) && (
-                <Position
-                    position={user.position}
+            {(!user.is_bot && !haveOverrideProp) && (
+                <OrgRole
+                    teamId={currentTeamId}
+                    userId={user.id}
+                    isBot={user.is_bot}
                 />
             )}
         </>

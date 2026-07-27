@@ -178,6 +178,16 @@ const PER_PAGE_DEFAULT = 60;
 export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
 
+// Read-only view of a user's team-scoped org-role assignment, resolved to
+// display names server-side. Kept local to this client rather than added to
+// @mattermost/types since no shared org-role types package exists yet.
+export type UserOrgProfileSummary = {
+    team_id: string;
+    user_id: string;
+    department_name: string | null;
+    position_name: string | null;
+};
+
 export default class Client4 {
     logToConsole = false;
     serverVersion = '';
@@ -1436,6 +1446,18 @@ export default class Client4 {
     getTeamMember = (teamId: string, userId: string) => {
         return this.doFetch<TeamMembership>(
             `${this.getTeamMemberRoute(teamId, userId)}`,
+            {method: 'get'},
+        );
+    };
+
+    // getUserOrgProfileSummary is the team-member-readable counterpart to the
+    // admin-only org-profile endpoints (org_role_management_body.tsx,
+    // team_org_role_management_modal.tsx use a local fetch() for those). This
+    // one goes through the standard doFetch pattern since any teammate — not
+    // just team admins — can call it.
+    getUserOrgProfileSummary = (teamId: string, userId: string) => {
+        return this.doFetch<UserOrgProfileSummary>(
+            `${this.getTeamRoute(teamId)}/users/${userId}/org-profile-summary`,
             {method: 'get'},
         );
     };

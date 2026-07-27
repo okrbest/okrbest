@@ -8,6 +8,8 @@ import {Provider} from 'react-redux';
 import type {UserPropertyField} from '@mattermost/types/properties';
 import type {UserProfile} from '@mattermost/types/users';
 
+import {Client4} from 'mattermost-redux/client';
+
 import configureStore from 'store';
 
 import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
@@ -21,8 +23,11 @@ jest.mock('@mattermost/client', () => ({
     ...jest.requireActual('@mattermost/client'),
     Client4: class MockClient4 extends jest.requireActual('@mattermost/client').Client4 {
         getUserCustomProfileAttributesValues = jest.fn();
+        getUserOrgProfileSummary = jest.fn().mockRejectedValue(new Error('not mocked'));
     },
 }));
+
+const mockedClient4 = jest.mocked(Client4);
 
 describe('components/user_settings/general/UserSettingsGeneral', () => {
     const user: UserProfile = TestHelper.getUserMock({
@@ -58,10 +63,9 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
             getCustomProfileAttributeValues: jest.fn(),
         },
         maxFileSize: 1024,
-        ldapPositionAttributeSet: false,
-        samlPositionAttributeSet: false,
         ldapPictureAttributeSet: false,
         enableCustomProfileAttributes: false,
+        currentTeamId: 'team_id',
     };
 
     const customProfileAttribute: UserPropertyField = {
@@ -82,6 +86,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
     let store: ReturnType<typeof configureStore>;
     beforeEach(() => {
         store = configureStore();
+        mockedClient4.getUserOrgProfileSummary.mockReset().mockRejectedValue(new Error('not mocked'));
     });
 
     test('submitUser() should have called updateMe', () => {
@@ -128,43 +133,72 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         expect(requiredProps.updateSection).toHaveBeenCalledWith('');
     });
 
-    test('should not show position input field when LDAP or SAML position attribute is set', () => {
-        const props = {...requiredProps};
-        props.user = {...user};
-        props.user.auth_service = 'ldap';
-        props.activeSection = 'position';
+    test('shows department/position as read-only rows with no input, once loaded', async () => {
+        mockedClient4.getUserOrgProfileSummary.mockResolvedValue({
+            team_id: 'team_id',
+            user_id: 'user_id',
+            department_name: '개발팀',
+            position_name: '팀장',
+        });
 
-        props.ldapPositionAttributeSet = false;
-        props.samlPositionAttributeSet = false;
+        renderWithContext(
+            <Provider store={store}>
+                <UserSettingsGeneral {...requiredProps}/>
+            </Provider>,
+        );
 
-        let wrapper = mountWithIntl(
+        expect(await screen.findByText('개발팀')).toBeInTheDocument();
+        expect(screen.getByText('팀장')).toBeInTheDocument();
+        expect(screen.queryByRole('textbox', {name: /position|department/i})).not.toBeInTheDocument();
+
+        // Clicking the rows must not open an edit form (FR-006).
+        await userEvent.click(screen.getByText('개발팀'));
+        expect(screen.queryByRole('textbox', {name: /department/i})).not.toBeInTheDocument();
+    });
+
+    test('shows "Not assigned" and the admin-managed note for an unassigned field', async () => {
+        mockedClient4.getUserOrgProfileSummary.mockResolvedValue({
+            team_id: 'team_id',
+            user_id: 'user_id',
+            department_name: null,
+            position_name: null,
+        });
+
+        renderWithContext(
+            <Provider store={store}>
+                <UserSettingsGeneral {...requiredProps}/>
+            </Provider>,
+        );
+
+        expect(await screen.findAllByText('Not assigned')).toHaveLength(2);
+        expect(screen.getAllByText('This value is managed by your team admin.')).toHaveLength(2);
+    });
+
+    test('hides department/position rows when there is no active team', async () => {
+        const props = {...requiredProps, currentTeamId: ''};
+
+        renderWithContext(
             <Provider store={store}>
                 <UserSettingsGeneral {...props}/>
             </Provider>,
         );
-        expect(wrapper.find('#position').length).toBe(2);
-        expect(wrapper.find('#position.Input').is('input')).toBeTruthy();
 
-        props.ldapPositionAttributeSet = true;
-        props.samlPositionAttributeSet = false;
+        await waitFor(() => expect(mockedClient4.getUserOrgProfileSummary).not.toHaveBeenCalled());
+        expect(screen.queryByText('Not assigned')).not.toBeInTheDocument();
+        expect(screen.queryByText('This value is managed by your team admin.')).not.toBeInTheDocument();
+    });
 
-        wrapper = mountWithIntl(
+    test('hides department/position rows when the org-role feature is disabled', async () => {
+        mockedClient4.getUserOrgProfileSummary.mockRejectedValue(new Error('feature disabled'));
+
+        renderWithContext(
             <Provider store={store}>
-                <UserSettingsGeneral {...props}/>
+                <UserSettingsGeneral {...requiredProps}/>
             </Provider>,
         );
-        expect(wrapper.find('#position').length).toBe(0);
 
-        props.user.auth_service = 'saml';
-        props.ldapPositionAttributeSet = false;
-        props.samlPositionAttributeSet = true;
-
-        wrapper = mountWithIntl(
-            <Provider store={store}>
-                <UserSettingsGeneral {...props}/>
-            </Provider>,
-        );
-        expect(wrapper.find('#position').length).toBe(0);
+        await waitFor(() => expect(mockedClient4.getUserOrgProfileSummary).toHaveBeenCalled());
+        expect(screen.queryByText('Not assigned')).not.toBeInTheDocument();
     });
 
     test('should not show image field when LDAP picture attribute is set', () => {

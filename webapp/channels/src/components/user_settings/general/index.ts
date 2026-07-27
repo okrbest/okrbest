@@ -15,6 +15,7 @@ import {
     getCustomProfileAttributeValues,
 } from 'mattermost-redux/actions/users';
 import {getConfig, getCustomProfileAttributes, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getIsMobileView} from 'selectors/views/browser';
 
@@ -36,8 +37,6 @@ function mapStateToProps(state: GlobalState) {
     const samlLastNameAttributeSet = config.SamlLastNameAttributeSet === 'true';
     const ldapNicknameAttributeSet = config.LdapNicknameAttributeSet === 'true';
     const samlNicknameAttributeSet = config.SamlNicknameAttributeSet === 'true';
-    const samlPositionAttributeSet = config.SamlPositionAttributeSet === 'true';
-    const ldapPositionAttributeSet = config.LdapPositionAttributeSet === 'true';
     const ldapPictureAttributeSet = config.LdapPictureAttributeSet === 'true';
 
     const license = getLicense(state);
@@ -55,10 +54,9 @@ function mapStateToProps(state: GlobalState) {
         samlLastNameAttributeSet,
         ldapNicknameAttributeSet,
         samlNicknameAttributeSet,
-        samlPositionAttributeSet,
-        ldapPositionAttributeSet,
         ldapPictureAttributeSet,
         enableCustomProfileAttributes,
+        currentTeamId: getCurrentTeamId(state),
     };
 }
 
