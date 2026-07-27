@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import type {Team} from '@mattermost/types/teams';
 
@@ -35,6 +35,7 @@ function ensureArray<T>(value: unknown): T[] {
 }
 
 const OrgRoleManagement = () => {
+    const intl = useIntl();
     const [teams, setTeams] = useState<Team[]>([]);
     const [selectedTeamId, setSelectedTeamId] = useState('');
 
@@ -81,7 +82,7 @@ const OrgRoleManagement = () => {
                                     value={selectedTeamId}
                                     onChange={(e) => setSelectedTeamId(e.target.value)}
                                 >
-                                    <option value=''>{'팀을 선택하세요'}</option>
+                                    <option value=''>{intl.formatMessage({id: 'admin.org_roles.select_team_placeholder', defaultMessage: '팀을 선택하세요'})}</option>
                                     {teams.map((team) => (
                                         <option
                                             key={team.id}
