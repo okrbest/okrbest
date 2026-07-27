@@ -38,8 +38,13 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
 ### 1. 준비
 
 1. 작업 트리 클린 확인 (`git status`). 더럽면 사용자에게 보고 후 중단.
-2. `git switch master && git pull` (origin 최신화).
-3. sync 브랜치 생성: `git switch -c sync/upstream-$(date +%Y%m%d)` (이미 있으면 이어서).
+2. 현재 브랜치 판별 (`git branch --show-current` + `git fetch origin`):
+   - **master**: `git pull --ff-only` 후 3으로.
+   - **sync/\* 브랜치**: `git cherry origin/master`로 반영 여부 판별 (patch-id 비교 — rebase merge로 해시가 바뀌어도 내용 동일이면 `-`).
+     - 전부 `-` → 스테일 브랜치 (내용은 이미 master에 반영됨). 재사용 금지: `git switch master && git pull --ff-only`, 스테일 브랜치 삭제 후 3으로.
+     - `+` 커밋 존재 → 미반영 작업이 남은 브랜치. 그 브랜치에서 이어서 작업, 3 생략.
+   - **그 외 브랜치**: 의도된 브랜치 전환일 수 있다. 새 브랜치를 만들거나 master로 전환하지 말고, 사용자에게 현재 브랜치와 상태를 보고한 뒤 지시를 기다린다.
+3. sync 브랜치 생성: `git switch -c sync/upstream-$(date +%Y%m%d)`.
 4. `$SYNC update` 실행 후 `$SYNC status` 요약 보고.
 
 ### 2. 커밋 루프 (사용자가 종료할 때까지 반복)
