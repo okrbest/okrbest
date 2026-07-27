@@ -1,9 +1,12 @@
 <!--
 Sync Impact Report
-- Version change: (template) → 1.0.0 (신규 제정)
-- Modified principles: 전체 신규 작성 (7개 원칙)
-- Added sections: Core Principles(I~VII), 기술·범위 제약, 개발 워크플로, Governance
-- Removed sections: 없음 (템플릿 슬롯 대체)
+- Version change: 1.0.0 → 1.1.0 (MINOR — upstream 선별 반영 예외 조항 추가)
+- Modified principles:
+  - III. 동작 변경 시 테스트 동반 — upstream 원본 cherry-pick 예외 + 접촉 패키지 검증 추가
+  - VI. 집중 브랜치 + Conventional Commits + PR — upstream 반영 커밋 제목·sync PR 묶음 예외 추가
+  - VII. Spec 주도 개발 워크플로 — upstream cherry-pick/adapt의 spec 파이프라인 예외 추가
+- Added sections: 없음
+- Removed sections: 없음
 - Templates requiring updates:
   - ✅ .specify/templates/plan-template.md (Constitution Check — 범용 게이트, 수정 불필요)
   - ✅ .specify/templates/spec-template.md (수정 불필요)
@@ -51,6 +54,11 @@ npm이 유일한 패키지 매니저다 (`webapp/package.json` workspaces: `chan
 버그 수정은 회귀 테스트를 포함한다. 통과를 위해 테스트를 약화·스킵·삭제하는 것을
 금지한다.
 
+예외: upstream 선별 반영(`/speckit-sync`)에서 원본 그대로 cherry-pick하는 커밋
+(`Upstream:` 참조 포함)은 테스트 동반 요건의 예외다. 대신 반영 직후 접촉 패키지
+테스트로 회귀를 검증해야 한다. adapt(프로젝트 맞춤 수정) 커밋은 예외가 아니며 본
+원칙을 그대로 따른다.
+
 ### IV. 라이선스·리브랜드 충실성 (NON-NEGOTIABLE)
 
 `spec-docs/rebrand.md`의 규칙을 따른다.
@@ -78,6 +86,11 @@ Conventional Commits 접두사(`feat:`, `fix:`, `docs:`, `refactor:`, `chore:`)�
 리팩터·설정 변경을 섞지 않는다. DB 마이그레이션 디렉터리와 CI 설정은 CODEOWNERS
 보호 경로(`@okrbest/okrbest`)이므로 변경 시 신중히 검토한다.
 
+예외: upstream 선별 반영 커밋(`Upstream:` 참조 포함)은 추적성 보존을 위해 원본
+커밋 제목을 유지할 수 있으며(Conventional Commits 접두사 면제), sync PR은 여러
+upstream 커밋을 묶을 수 있다. 이때 병합은 커밋별 제목·본문이 보존되는 rebase
+merge로 한정한다(squash 금지 — `Upstream:` 참조 소실 방지).
+
 ### VII. Spec 주도 개발 워크플로
 
 기능 작업은 Spec Kit 파이프라인을 따른다:
@@ -88,6 +101,10 @@ superpowers 플러그인이 런타임에 집행한다: 실패 테스트 우선
 (test-driven-development), 증거 기반 완료 선언(verification-before-completion),
 근본 원인 우선 디버깅(systematic-debugging). superpowers는 원칙 I·III을
 운영화하고, spec-kit은 spec/plan 산출물을 소유한다.
+
+예외: upstream 선별 반영(`/speckit-sync`)의 cherry-pick/adapt 커밋은 커밋별
+의도 분석·대화형 승인을 거치므로 spec 파이프라인 요건의 예외다. 대규모·큰 영향
+upstream 커밋은 spec 분기로 본 파이프라인에 합류한다.
 
 ## 기술·범위 제약
 
@@ -114,4 +131,4 @@ PATCH: 문구 명확화). 모든 PR·리뷰는 원칙 준수를 확인해야 하
 필요한 경우 그 근거를 plan의 Complexity Tracking에 문서화한다.
 `/speckit-plan`·`/speckit-analyze`가 Constitution Check 게이트로 자동 참조한다.
 
-**Version**: 1.0.0 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-07-23
+**Version**: 1.1.0 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-07-27
