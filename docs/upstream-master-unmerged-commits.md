@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-27 15:18
+- 갱신일: 2026-07-27 15:34
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1174개
+- 남은 커밋: 1173개
 
-**마지막 반영 커밋:** `d8445304` | [Fix copyright date and address for email footers (#34813)](https://github.com/mattermost/mattermost/commit/d84453049611abb69839462120fe3145f744bebf) | 2026-01-05
+**마지막 반영 커밋:** `413cf4d6` | [\[MM-66918\] Return descriptive errors from IsValidWebAuthRedirectURL (#34712)](https://github.com/mattermost/mattermost/commit/413cf4d67cf2958bd1642666828a786e3bbeee9c) | 2026-01-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 413cf4d6 | [\[MM-66918\] Return descriptive errors from IsValidWebAuthRedirectURL (#34712)](https://github.com/mattermost/mattermost/commit/413cf4d67cf2958bd1642666828a786e3bbeee9c) | 2026-01-06 |
 | 84e267e9 | [\[MM-66789\] Restrict ImportSettings.Directory changes via API and add validation (#34653)](https://github.com/mattermost/mattermost/commit/84e267e9e89a4d6c4087772362ffe8b89d678f3d) | 2026-01-06 |
 | 98124364 | [MM-66800 Migrate Add Channels menu to new menu component (#34757)](https://github.com/mattermost/mattermost/commit/98124364ea3078537027e36956cf2dce40fea250) | 2026-01-06 |
 | 2f409ba4 | [MM-65828 Add ThemeProvider and make app use Denim theme by default (#34755)](https://github.com/mattermost/mattermost/commit/2f409ba46b42f80efef62a4bcdd88c07db8e5a9d) | 2026-01-06 |
