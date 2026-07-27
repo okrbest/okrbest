@@ -14,6 +14,7 @@ import type {UserProfile} from '@mattermost/types/users';
 
 import type {LogErrorOptions} from 'mattermost-redux/actions/errors';
 import {LogErrorBarMode} from 'mattermost-redux/actions/errors';
+import {Client4} from 'mattermost-redux/client';
 import type {ActionResult} from 'mattermost-redux/types/actions';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -99,6 +100,10 @@ const holders = defineMessages({
         id: 'user.settings.general.close',
         defaultMessage: 'Close',
     },
+    department: {
+        id: 'user.settings.general.department',
+        defaultMessage: 'Department',
+    },
     position: {
         id: 'user.settings.general.position',
         defaultMessage: 'Position',
@@ -161,10 +166,9 @@ export type Props = {
     samlLastNameAttributeSet?: boolean;
     ldapNicknameAttributeSet?: boolean;
     samlNicknameAttributeSet?: boolean;
-    ldapPositionAttributeSet?: boolean;
-    samlPositionAttributeSet?: boolean;
     ldapPictureAttributeSet?: boolean;
     enableCustomProfileAttributes: boolean;
+    currentTeamId: string;
 }
 
 type State = {
@@ -172,7 +176,7 @@ type State = {
     firstName: string;
     lastName: string;
     nickname: string;
-    position: string;
+    orgRoleSummary: {departmentName: string | null; positionName: string | null} | null;
     originalEmail: string;
     email: string;
     confirmEmail: string;
@@ -199,6 +203,23 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
     componentDidMount() {
         if (this.props.enableCustomProfileAttributes && !this.props.user.custom_profile_attributes) {
             this.props.actions.getCustomProfileAttributeValues(this.props.user.id);
+        }
+
+        // Department/position are admin-assigned per team (org-role feature);
+        // with no active team there is nothing to resolve, and the rows stay
+        // hidden (FR-005a). Errors (e.g. feature disabled, 501) are swallowed
+        // the same way: the rows simply stay hidden (FR-009).
+        if (this.props.currentTeamId) {
+            Client4.getUserOrgProfileSummary(this.props.currentTeamId, this.props.user.id).then((result) => {
+                this.setState({
+                    orgRoleSummary: {
+                        departmentName: result.department_name,
+                        positionName: result.position_name,
+                    },
+                });
+            }).catch(() => {
+                // leave orgRoleSummary as null; rows stay hidden
+            });
         }
     }
 
@@ -400,23 +421,10 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
                 } else if (err) {
                     const state = this.setupInitialState(this.props);
                     state.serverError = err.message;
+                    state.orgRoleSummary = this.state.orgRoleSummary;
                     this.setState(state);
                 }
             });
-    };
-
-    submitPosition = () => {
-        const user = Object.assign({}, this.props.user);
-        const position = this.state.position.trim();
-
-        if (user.position === position) {
-            this.updateSection('');
-            return;
-        }
-
-        user.position = position;
-
-        this.submitUser(user, false);
     };
 
     submitAttribute = async (settings: string[]) => {
@@ -483,10 +491,6 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
         this.setState({nickname: e.target.value});
     };
 
-    updatePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({position: e.target.value});
-    };
-
     updateEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({email: e.target.value});
     };
@@ -539,19 +543,19 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
     };
 
     updateSection = (section: string) => {
-        this.setState(Object.assign({}, this.setupInitialState(this.props), {pictureError: '', serverError: '', emailError: '', sectionIsSaving: false}));
+        this.setState(Object.assign({}, this.setupInitialState(this.props), {pictureError: '', serverError: '', emailError: '', sectionIsSaving: false, orgRoleSummary: this.state.orgRoleSummary}));
         this.submitActive = false;
         this.props.updateSection(section);
     };
 
-    setupInitialState(props: Props) {
+    setupInitialState(props: Props): State {
         const user = props.user;
         return {
             username: user.username,
             firstName: user.first_name,
             lastName: user.last_name,
             nickname: user.nickname,
-            position: user.position,
+            orgRoleSummary: null,
             originalEmail: user.email,
             email: '',
             confirmEmail: '',
@@ -1306,114 +1310,70 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
         );
     };
 
-    createPositionSection = () => {
-        const user = this.props.user;
-        const {formatMessage} = this.props.intl;
-
-        const active = this.props.activeSection === 'position';
-        let max = null;
-        if (active) {
-            const inputs = [];
-
-            let extraInfo: JSX.Element|string;
-            let submit = null;
-            if ((this.props.user.auth_service === Constants.LDAP_SERVICE && this.props.ldapPositionAttributeSet) || (this.props.user.auth_service === Constants.SAML_SERVICE && this.props.samlPositionAttributeSet)) {
-                extraInfo = (
-                    <span>
-                        <FormattedMessage
-                            id='user.settings.general.field_handled_externally'
-                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
-                        />
-                    </span>
-                );
-            } else {
-                let positionLabel: JSX.Element | string = (
-                    <FormattedMessage
-                        id='user.settings.general.position'
-                        defaultMessage='Position'
-                    />
-                );
-                if (this.props.isMobileView) {
-                    positionLabel = '';
-                }
-
-                inputs.push(
-                    <div
-                        key='positionSetting'
-                        className='form-group'
-                    >
-                        <label className='col-sm-5 control-label'>{positionLabel}</label>
-                        <div className='col-sm-7'>
-                            <Input
-                                id='position'
-                                name='position'
-                                autoFocus={true}
-                                type='text'
-                                onChange={this.updatePosition}
-                                value={this.state.position}
-                                maxLength={Constants.MAX_POSITION_LENGTH}
-                                autoCapitalize='off'
-                                onFocus={Utils.moveCursorToEnd}
-                                aria-label={formatMessage({id: 'user.settings.general.position', defaultMessage: 'Position'})}
-                            />
-                        </div>
-                    </div>,
-                );
-
-                extraInfo = (
-                    <span>
-                        <FormattedMessage
-                            id='user.settings.general.positionExtra'
-                            defaultMessage='Use Position for your role or job title. This will be shown in your profile popover.'
-                        />
-                    </span>
-                );
-
-                submit = this.submitPosition;
-            }
-
-            max = (
-                <SettingItemMax
-                    title={formatMessage(holders.position)}
-                    inputs={inputs}
-                    submit={submit}
-                    saving={this.state.sectionIsSaving}
-                    serverError={this.state.serverError}
-                    updateSection={this.updateSection}
-                    extraInfo={extraInfo}
-                />
-            );
-        }
-
-        let describe: JSX.Element|string = '';
-        if (user.position) {
-            describe = user.position;
-        } else {
-            describe = (
+    // Department/position are no longer user-editable free text: they're
+    // assigned by the team admin via the org-role feature and shown here
+    // read-only (FR-005/FR-006). The rows stay hidden entirely until
+    // orgRoleSummary loads (no active team, or the org-role feature is
+    // disabled server-side) rather than showing an empty/loading state.
+    createOrgRoleManagedNote = () => {
+        return (
+            <span className='user-settings-general__org-role-managed-note'>
                 <FormattedMessage
-                    id='user.settings.general.emptyPosition'
-                    defaultMessage="Click 'Edit' to add your job title / position"
+                    id='user.settings.general.org_role.managed_by_admin'
+                    defaultMessage='This value is managed by your team admin.'
                 />
-            );
-            if (this.props.isMobileView) {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.general.mobile.emptyPosition'
-                        defaultMessage='Click to add your job title / position'
-                    />
-                );
-            }
+            </span>
+        );
+    };
+
+    createDepartmentSection = () => {
+        const {formatMessage} = this.props.intl;
+        const summary = this.state.orgRoleSummary;
+        if (!summary) {
+            return null;
         }
+
+        const describe = summary.departmentName || formatMessage({
+            id: 'user.settings.general.org_role.unassigned',
+            defaultMessage: 'Not assigned',
+        });
 
         return (
             <SettingItem
-                active={active}
+                active={false}
+                areAllSectionsInactive={this.props.activeSection === ''}
+                title={formatMessage(holders.department)}
+                describe={describe}
+                section={'department'}
+                updateSection={this.updateSection}
+                isDisabled={true}
+                collapsedEditButtonWhenDisabled={this.createOrgRoleManagedNote()}
+            />
+        );
+    };
+
+    createPositionSection = () => {
+        const {formatMessage} = this.props.intl;
+        const summary = this.state.orgRoleSummary;
+        if (!summary) {
+            return null;
+        }
+
+        const describe = summary.positionName || formatMessage({
+            id: 'user.settings.general.org_role.unassigned',
+            defaultMessage: 'Not assigned',
+        });
+
+        return (
+            <SettingItem
+                active={false}
                 areAllSectionsInactive={this.props.activeSection === ''}
                 title={formatMessage(holders.position)}
                 describe={describe}
                 section={'position'}
                 updateSection={this.updateSection}
-                max={max}
+                isDisabled={true}
+                collapsedEditButtonWhenDisabled={this.createOrgRoleManagedNote()}
             />
         );
     };
@@ -1777,6 +1737,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
         const nameSection = this.createNameSection();
         const nicknameSection = this.createNicknameSection();
         const usernameSection = this.createUsernameSection();
+        const departmentSection = this.createDepartmentSection();
         const positionSection = this.createPositionSection();
         const emailSection = this.createEmailSection();
         const customAttributeSection = this.createCustomAttributeSection();
@@ -1814,6 +1775,8 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
                     {usernameSection}
                     <div className='divider-light'/>
                     {nicknameSection}
+                    <div className='divider-light'/>
+                    {departmentSection}
                     <div className='divider-light'/>
                     {positionSection}
                     <div className='divider-light'/>
