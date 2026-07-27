@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-27 15:51
+- 갱신일: 2026-07-27 16:52
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1172개
+- 남은 커밋: 1173개
 
-**마지막 반영 커밋:** `84e267e9` | [\[MM-66789\] Restrict ImportSettings.Directory changes via API and add validation (#34653)](https://github.com/mattermost/mattermost/commit/84e267e9e89a4d6c4087772362ffe8b89d678f3d) | 2026-01-06
+**마지막 반영 커밋:** `98124364` | [MM-66800 Migrate Add Channels menu to new menu component (#34757)](https://github.com/mattermost/mattermost/commit/98124364ea3078537027e36956cf2dce40fea250) | 2026-01-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 98124364 | [MM-66800 Migrate Add Channels menu to new menu component (#34757)](https://github.com/mattermost/mattermost/commit/98124364ea3078537027e36956cf2dce40fea250) | 2026-01-06 |
 | 2f409ba4 | [MM-65828 Add ThemeProvider and make app use Denim theme by default (#34755)](https://github.com/mattermost/mattermost/commit/2f409ba46b42f80efef62a4bcdd88c07db8e5a9d) | 2026-01-06 |
 | 586adbd6 | [\[MM-62503\] Channel Title Description not Scrollable (#29827)](https://github.com/mattermost/mattermost/commit/586adbd6f04828ca4e66db66e579a1d7cd4fa508) | 2026-01-06 |
 | 0184153d | [changed api spec definition for userThread (#34819)](https://github.com/mattermost/mattermost/commit/0184153d16212ee1261bb6b058693560f88ed3e4) | 2026-01-07 |
@@ -1183,6 +1182,8 @@
 | 7bc3bbfd | [ABAC: share TableEditor/CELEditor with plugins via window.Components (#37510)](https://github.com/mattermost/mattermost/commit/7bc3bbfd0c94b2a9577f40815d4fb25955c8ea38) | 2026-07-24 |
 | 1dacc2d5 | [Mm 69830 abac membership messaging fixes (#37618)](https://github.com/mattermost/mattermost/commit/1dacc2d514a444a9f5e513e57415ae7dd4e51ba2) | 2026-07-25 |
 | 10b780cb | [E2E/Test: Stabilize flaky tests (#37614)](https://github.com/mattermost/mattermost/commit/10b780cb097b2ec94ab0f9df7ebcbd5b7850f13f) | 2026-07-25 |
+| f0de1f48 | [\[Docs Revamp Feedback\] Readability & accessibility fixes (#37665)](https://github.com/mattermost/mattermost/commit/f0de1f485bd0c3168b31767b37d388fb1a5fa8a4) | 2026-07-27 |
+| 8828e5a2 | [fix(docs-preview): set commit status via gh api for correct target_url (#37664)](https://github.com/mattermost/mattermost/commit/8828e5a2585e8272555253a20e0efdf5bbda795c) | 2026-07-27 |
 
 ## 제외된 커밋
 
