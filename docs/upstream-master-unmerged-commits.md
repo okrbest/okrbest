@@ -1,19 +1,16 @@
 # upstream-master 미반영 커밋 목록
 
-`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-24 12:53
-- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1179개
+- 갱신일: 2026-07-27 12:39
+- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 1181개
 
-**마지막 반영 커밋:** `6e14959d` | [Translations update from Mattermost Weblate (#34827)](https://github.com/mattermost/mattermost/commit/6e14959d28296e74cdd66719a7e6d06073809e12) | 2025-12-22
+**마지막 반영 커밋:** `96f159c2` | [Translations update from Mattermost Weblate (#34835)](https://github.com/mattermost/mattermost/commit/96f159c25115602f490c8d3f29c5eea4762c8377) | 2025-12-29
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 732ddaea | [ MM-66924 - MarkAllThreadsAsReadModal to use ConfirmModal (#34732)](https://github.com/mattermost/mattermost/commit/732ddaeae4b62d6201bf8f1d614854cae0d4bd2c) | 2025-12-22 |
-| b94c037f | [MM-66910 - Fix isPostInteractable to exclude burn-on-read posts (#34764)](https://github.com/mattermost/mattermost/commit/b94c037f2821cb213c363a6239f791f882c3c40b) | 2025-12-23 |
-| 96f159c2 | [Translations update from Mattermost Weblate (#34835)](https://github.com/mattermost/mattermost/commit/96f159c25115602f490c8d3f29c5eea4762c8377) | 2025-12-29 |
 | 2e377f6c | [chore: Update NOTICE.txt file with updated dependencies (#34825)](https://github.com/mattermost/mattermost/commit/2e377f6c910f6f533cb74bfe9f79db309e8b185f) | 2026-01-05 |
 | 10ef0525 | [Returning pending post ID for post creator for BoR post (#34758)](https://github.com/mattermost/mattermost/commit/10ef05252daeb1b3427ebb90bf79f51be203fe1d) | 2026-01-05 |
 | a4f34739 | [chore: Update NOTICE.txt file with updated dependencies (#34843)](https://github.com/mattermost/mattermost/commit/a4f3473952489eed2a8d7821f87c08016cd78f3f) | 2026-01-05 |
@@ -1190,6 +1187,11 @@
 | 12018e56 | [Mm 69829 -  fix team policy management qa (#37568)](https://github.com/mattermost/mattermost/commit/12018e56cde4eb9b7ff6b24bcc0a9c1740a6eacf) | 2026-07-23 |
 | 5afa3b8c | [ci: run yamllint on ubuntu-24.04 (#37641)](https://github.com/mattermost/mattermost/commit/5afa3b8cbf402c370fa675bba43d48b1900eab66) | 2026-07-23 |
 | bc3ad86a | [Update Playbooks plugin to v2.11.1 (incl. FIPS) (#37631)](https://github.com/mattermost/mattermost/commit/bc3ad86a236431364a13ab03942902eb84daaf9f) | 2026-07-23 |
+| 1cc20031 | [MM-69857 - Keep parent imports and team scope system-managed on the policy update endpoint (#37625)](https://github.com/mattermost/mattermost/commit/1cc20031fe883bba65214dd12aaae91ff82af3a7) | 2026-07-24 |
+| 5fbb2a32 | [docs: vendor and stage Mattermost Agents docs for Docusaurus build (#37627)](https://github.com/mattermost/mattermost/commit/5fbb2a32d618c3da6757ca0663f3ea043c2335fd) | 2026-07-24 |
+| 7bc3bbfd | [ABAC: share TableEditor/CELEditor with plugins via window.Components (#37510)](https://github.com/mattermost/mattermost/commit/7bc3bbfd0c94b2a9577f40815d4fb25955c8ea38) | 2026-07-24 |
+| 1dacc2d5 | [Mm 69830 abac membership messaging fixes (#37618)](https://github.com/mattermost/mattermost/commit/1dacc2d514a444a9f5e513e57415ae7dd4e51ba2) | 2026-07-25 |
+| 10b780cb | [E2E/Test: Stabilize flaky tests (#37614)](https://github.com/mattermost/mattermost/commit/10b780cb097b2ec94ab0f9df7ebcbd5b7850f13f) | 2026-07-25 |
 
 ## 제외된 커밋
 
