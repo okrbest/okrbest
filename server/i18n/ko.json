@@ -7069,6 +7069,10 @@
     "translation": "업데이트 오류"
   },
   {
+    "id": "app.update_scheduled_post.convert_to_post.error",
+    "translation": "예약된 게시물을 게시물 형식으로 변환할 수 없습니다."
+  },
+  {
     "id": "app.update_scheduled_post.existing_scheduled_post.not_exist",
     "translation": "예약된 게시물이 존재하지 않습니다."
   },
