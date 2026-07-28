@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-28 15:23
+- 갱신일: 2026-07-28 15:56
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1179개
+- 남은 커밋: 1177개
 
-**마지막 반영 커밋:** `9e305018` | [updates Dockerfile go version to 1.24.11 to generate new build containers (#34871)](https://github.com/mattermost/mattermost/commit/9e3050188584b602f5ac28f7151a2f0d56484163) | 2026-01-07
+**마지막 반영 커밋:** `0f432a1e` | [fixes registry used for mattermost-build-server image push and pull (#34882)](https://github.com/mattermost/mattermost/commit/0f432a1ee3f1082abdbdc069a79e45d4988df2bc) | 2026-01-08
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 4389116b | [Update latest minor version to 11.4.0 (#34874)](https://github.com/mattermost/mattermost/commit/4389116b19419d702a04b1576a74ccc3dcd5a63e) | 2026-01-08 |
-| 0f432a1e | [fixes registry used for mattermost-build-server image push and pull (#34882)](https://github.com/mattermost/mattermost/commit/0f432a1ee3f1082abdbdc069a79e45d4988df2bc) | 2026-01-08 |
 | 0b0658bd | [chore: upgrade playwright to 1.57 and its dependencies (#34769)](https://github.com/mattermost/mattermost/commit/0b0658bdd04ceaba9d76c76d488f39c992ad9ee8) | 2026-01-09 |
 | e45dd2cc | [Upgraded board version to v9.2.2 (#34884)](https://github.com/mattermost/mattermost/commit/e45dd2ccf322b11b42fef15623e936a29d180464) | 2026-01-09 |
 | 81dc5f88 | [bumps go version to 1.24.11 (#34876)](https://github.com/mattermost/mattermost/commit/81dc5f880186029884d47349f83d8dca7c5d14c2) | 2026-01-09 |
