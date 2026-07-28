@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-27 22:11
+- 갱신일: 2026-07-28 10:23
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1178개
+- 남은 커밋: 1181개
 
-**마지막 반영 커밋:** `2f409ba4` | [MM-65828 Add ThemeProvider and make app use Denim theme by default (#34755)](https://github.com/mattermost/mattermost/commit/2f409ba46b42f80efef62a4bcdd88c07db8e5a9d) | 2026-01-06
+**마지막 반영 커밋:** `586adbd6` | [\[MM-62503\] Channel Title Description not Scrollable (#29827)](https://github.com/mattermost/mattermost/commit/586adbd6f04828ca4e66db66e579a1d7cd4fa508) | 2026-01-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 586adbd6 | [\[MM-62503\] Channel Title Description not Scrollable (#29827)](https://github.com/mattermost/mattermost/commit/586adbd6f04828ca4e66db66e579a1d7cd4fa508) | 2026-01-06 |
 | 0184153d | [changed api spec definition for userThread (#34819)](https://github.com/mattermost/mattermost/commit/0184153d16212ee1261bb6b058693560f88ed3e4) | 2026-01-07 |
 | 0481bd1f | [Fliter post in search api with no read content channel permission (#34620)](https://github.com/mattermost/mattermost/commit/0481bd1fb04584db97eca45fd58ebd06c8200df4) | 2026-01-07 |
 | c7f6efdf | [Guest cannot add file to post without upload_file permission (#34538)](https://github.com/mattermost/mattermost/commit/c7f6efdfb035490f494b3177996ee5f4b278c988) | 2026-01-07 |
@@ -1189,6 +1188,10 @@
 | 0e7b8a2f | [\[Docs Revamp Feedback\] Remove/restyle "vibe coded" yellow left-border signal (#37666)](https://github.com/mattermost/mattermost/commit/0e7b8a2ff60a70a73dd7154ecb5e622e86b1072a) | 2026-07-27 |
 | 0fed2262 | [Fix editing a post creating a draft (MM-69928) (#37658)](https://github.com/mattermost/mattermost/commit/0fed2262813c57bec6f47088efcbfe9e4335b5c4) | 2026-07-27 |
 | d73adf5b | [Fix image preview opening when clicking outside the image in a post (#37642)](https://github.com/mattermost/mattermost/commit/d73adf5b24fc5ff7f9e4fa67030d81d5cd45d59e) | 2026-07-27 |
+| 99bc7bd8 | [Add discoverable private channels request-to-join UX (#37078)](https://github.com/mattermost/mattermost/commit/99bc7bd886c97d33149a839b29a59b8301242d7e) | 2026-07-27 |
+| 90df14fa | [\[Dead code\] Remove unused prop from virt-list component (#36871)](https://github.com/mattermost/mattermost/commit/90df14faecc5ac48f733e583f1d607226b1dae63) | 2026-07-27 |
+| a0475a69 | [docs(developers): fix broken Integrate & Extend link on developers landing page (#37690)](https://github.com/mattermost/mattermost/commit/a0475a696ce9f230b6cbfcb915712d9c59988413) | 2026-07-27 |
+| ef002933 | [MM-66940 Fix layout shift in ChannelView during loading (#37652)](https://github.com/mattermost/mattermost/commit/ef002933bf7ba4500cbc7602c5e67154cbe91a90) | 2026-07-27 |
 
 ## 제외된 커밋
 
