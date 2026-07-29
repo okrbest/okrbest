@@ -1,7 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-specs/002-org-role-profile-visibility/plan.md
+specs/003-i18n-formatjs-migration/plan.md
 <!-- SPECKIT END -->
 
 ## Workflow
