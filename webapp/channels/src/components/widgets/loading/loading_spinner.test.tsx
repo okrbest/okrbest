@@ -26,6 +26,7 @@ describe('components/widgets/loadingLoadingSpinner', () => {
         renderWithContext(
             <LoadingSpinner
                 text={
+                    // eslint-disable-next-line formatjs/enforce-default-message -- intentionally testing the mocked-catalog fallback with no defaultMessage
                     <FormattedMessage id={messageId}/>
                 }
             />,

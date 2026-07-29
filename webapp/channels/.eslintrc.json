@@ -35,9 +35,9 @@
     "react/style-prop-object": [2, {
       "allow": ["Timestamp"]
     }],
-    "formatjs/enforce-default-message": 1,
+    "formatjs/enforce-default-message": 2,
     "formatjs/enforce-id": 2,
-    "formatjs/enforce-placeholders": 1,
+    "formatjs/enforce-placeholders": 2,
     "formatjs/no-invalid-icu": 2,
     "formatjs/no-multiple-plurals": 1,
     "formatjs/no-multiple-whitespaces": 2,
@@ -56,8 +56,32 @@
     },
     {
       "files": [
+        "src/actions/invite_actions.ts",
+        "src/components/add_users_to_group_modal/add_users_to_group_modal.tsx",
         "src/components/admin_console/admin_definition.tsx",
-        "src/components/admin_console/admin_definition_ldap_wizard.tsx"
+        "src/components/admin_console/admin_definition_helpers.tsx",
+        "src/components/admin_console/admin_definition_ldap_wizard.tsx",
+        "src/components/admin_console/database_settings.tsx",
+        "src/components/admin_console/elasticsearch_settings.tsx",
+        "src/components/admin_console/feature_discovery/features/auto_translation.tsx",
+        "src/components/admin_console/group_settings/group_settings.tsx",
+        "src/components/admin_console/localization/auto_translation.tsx",
+        "src/components/admin_console/permission_schemes_settings/permission_schemes_settings.tsx",
+        "src/components/admin_console/request_button/request_button.tsx",
+        "src/components/advanced_create_post/prewritten_chips.tsx",
+        "src/components/cloud_usage_modal/lhs_nearing_limit_modal.tsx",
+        "src/components/common/hooks/useShowAdminLimitReached.ts",
+        "src/components/integrations/bots/bots.tsx",
+        "src/components/integrations/installed_commands/installed_commands.tsx",
+        "src/components/integrations/installed_incoming_webhooks/installed_incoming_webhooks.tsx",
+        "src/components/integrations/installed_oauth_apps/installed_oauth_apps.tsx",
+        "src/components/integrations/installed_outgoing_webhooks/installed_outgoing_webhooks.tsx",
+        "src/components/integrations/outgoing_oauth_connections/installed_outgoing_oauth_connections.tsx",
+        "src/components/rhs_plugin_popout/rhs_plugin_popout.tsx",
+        "src/components/thread_popout/thread_popout.tsx",
+        "src/components/widgets/menu/menu_items/useWords.tsx",
+        "src/packages/mattermost-redux/src/utils/integration_utils.ts",
+        "src/utils/utils.test.tsx"
       ],
       "rules": {
         "formatjs/enforce-placeholders": 0

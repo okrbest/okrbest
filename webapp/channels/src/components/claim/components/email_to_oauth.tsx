@@ -77,7 +77,7 @@ const EmailToOAuth = (props: Props) => {
             <LoginMfa
                 loginId={props.email}
                 password={password}
-                title={formatMessage({id: 'claim.email_to_oauth.title', defaultMessage: 'Switch Email/Password Account to {uiType}'})}
+                title={formatMessage({id: 'claim.email_to_oauth.title', defaultMessage: 'Switch Email/Password Account to {uiType}'}, {uiType})}
                 onSubmit={submit}
             />
         );

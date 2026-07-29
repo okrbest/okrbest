@@ -300,7 +300,6 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
         );
     } else if (type === Constants.Integrations.OUTGOING_OAUTH_CONNECTIONS && outgoingOAuthConnection) {
         const clientId = outgoingOAuthConnection.client_id;
-        const clientSecret = outgoingOAuthConnection.client_secret;
         const username = outgoingOAuthConnection.credentials_username;
         const password = outgoingOAuthConnection.credentials_password;
 
@@ -345,7 +344,6 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
                     id='add_outgoing_oauth_connection.clientSecret'
                     defaultMessage='<b>Client Secret</b>: \*\*\*\*\*\*\*\*'
                     values={{
-                        secret: clientSecret,
                         b: (chunks) => <b>{chunks}</b>,
                     }}
                 />
@@ -417,7 +415,7 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
             <p>
                 <FormattedMessage
                     id='bots.manage.created.text'
-                    defaultMessage='Your bot account **{botname}** has been created successfully. Please use the following access token to connect to the bot (see [documentation](https://mattermost.com/pl/default-bot-accounts) for further details).'
+                    defaultMessage='Your bot account <b>{botname}</b> has been created successfully. Please use the following access token to connect to the bot (see <link>documentation</link> for further details).'
                     values={{
                         botname: bot.display_name || bot.username,
                         b: (msg) => <b>{msg}</b>,
