@@ -199,6 +199,35 @@ MM_SQLSETTINGS_DRIVERNAME=mysql
 MM_SQLSETTINGS_DATASOURCE=mmuser:mostest@tcp(localhost:3306)/mattermost_test?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s
 ```
 
+### pgvector 이미지 사용
+
+기본 postgres 이미지(`postgres:14`)에는 [pgvector](https://github.com/pgvector/pgvector) 확장이 포함되어 있지 않습니다. vector 컬럼·임베딩 검색이 필요하거나 `CREATE EXTENSION vector` 구문이 포함된 덤프를 복원하려면 pgvector 지원 이미지로 전환합니다.
+
+`MM_USE_PGVECTOR=true`로 설정하면 `make start-docker` 시 Makefile이 `docker-compose.pgvector.yml` 오버라이드를 적용하여 `pgvector/pgvector:pg14` 이미지를 사용합니다(`server/Makefile`의 `MM_USE_PGVECTOR` 분기 참고).
+
+설정 방법은 두 가지입니다.
+
+**일회성** — 환경 변수로 지정:
+
+```sh
+MM_USE_PGVECTOR=true make start-docker
+```
+
+**영구 설정(권장)** — `server/config.override.mk`에 추가(git 추적 제외):
+
+```make
+MM_USE_PGVECTOR = true
+```
+
+주의 사항:
+
+- `make start-docker`, `make stop-docker`, `make update-docker` 등 docker compose를 사용하는 모든 make 타겟에 동일하게 적용해야 합니다. 환경 변수 방식이라면 매번 붙여야 하므로 `config.override.mk` 등록을 권장합니다.
+- 이미 일반 이미지로 생성된 컨테이너가 있는 상태에서 값만 바꾸면 이미지가 교체되면서 컨테이너가 재생성되고, postgres 데이터는 컨테이너 내부에 저장되므로 기존 DB 데이터가 삭제됩니다. 데이터 보존이 필요하면 전환 전에 `pg_dump`로 백업 후 [백업 DB 복원하여 개발하기](#백업-db-복원하여-개발하기) 절차로 복원하세요.
+- 확장은 이미지 전환만으로 활성화되지 않습니다. 복원할 덤프에 `CREATE EXTENSION` 구문이 없다면 직접 실행합니다:
+  ```sql
+  CREATE EXTENSION IF NOT EXISTS vector;
+  ```
+
 ### 이메일 테스트 (Inbucket)
 
 ```
@@ -208,6 +237,90 @@ MM_EMAILSETTINGS_SMTPPASSWORD=
 MM_EMAILSETTINGS_SMTPSERVER=localhost
 MM_EMAILSETTINGS_SMTPPORT=10025
 ```
+
+---
+
+## 백업 DB 복원하여 개발하기
+
+운영 서버 등에서 `pg_dump`로 백업한 SQL 파일을 로컬 개발 DB로 복원하는 절차입니다. 덤프 파일은 git이 추적하지 않는 `data/` 디렉토리에 둡니다(예: `data/mattermost_2026-07-28.sql`).
+
+> 덤프의 원본 DB명이 `mattermost_test`가 아니어도 무방합니다. `-C` 옵션 없이 만든 일반 덤프에는 DB명이 포함되지 않으므로 어떤 이름의 DB로도 복원할 수 있습니다. 단, 덤프에 `OWNER TO mmuser` 구문이 포함되므로 DB 유저명은 `mmuser`를 유지하는 것을 권장합니다.
+
+### 1. 접속 정보 파일 생성 (git 추적 제외)
+
+비밀번호를 저장소에 커밋하지 않도록 `server/.env` 파일을 생성합니다(`.gitignore`에 이미 등록됨):
+
+```sh
+# server/.env
+POSTGRES_USER=mmuser
+POSTGRES_PASSWORD=원하는비밀번호
+POSTGRES_DB=mattermost_test
+MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:원하는비밀번호@localhost:5432/mattermost_test?sslmode=disable&connect_timeout=10
+```
+
+기본값(`mmuser`/`mostest`)을 덮어쓰려면 `server/docker-compose.override.yaml`도 생성합니다(역시 git 추적 제외, Makefile이 자동 인식):
+
+```yaml
+services:
+  postgres:
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+```
+
+### 2. pgvector 이미지 사용 (선택)
+
+덤프에 `CREATE EXTENSION vector` 구문이 있는 경우 pgvector 지원 이미지를 사용합니다. 설정 방법과 주의 사항은 [pgvector 이미지 사용](#pgvector-이미지-사용)을 참고하세요. 실제 vector 컬럼이 없는 덤프라면 일반 이미지에서도 확장 생성 에러 1건만 남기고 복원은 정상 진행됩니다.
+
+### 3. postgres 컨테이너 재생성
+
+`POSTGRES_*` 환경 변수는 initdb 최초 실행 시에만 적용되므로, 접속 정보를 바꿨다면 컨테이너를 재생성해야 합니다.
+
+> **주의:** 아래 명령은 기존 로컬 DB 데이터를 삭제합니다.
+
+```sh
+cd server
+docker rm -f mattermost-postgres
+
+set -a; . ./.env; set +a
+make start-docker
+```
+
+### 4. DB 초기화 및 덤프 복원
+
+```sh
+docker exec -e PGPASSWORD="$POSTGRES_PASSWORD" mattermost-postgres \
+  psql -U "$POSTGRES_USER" -d postgres \
+  -c "DROP DATABASE IF EXISTS mattermost_test;" \
+  -c "CREATE DATABASE mattermost_test OWNER $POSTGRES_USER;"
+
+docker exec -i -e PGPASSWORD="$POSTGRES_PASSWORD" mattermost-postgres \
+  psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+  < ../data/mattermost_2026-07-28.sql
+```
+
+복원 확인:
+
+```sh
+docker exec -e PGPASSWORD="$POSTGRES_PASSWORD" mattermost-postgres \
+  psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+  -c "SELECT count(*) FROM users;"
+```
+
+### 5. 서버 실행
+
+서버가 `.env`의 `MM_SQLSETTINGS_DATASOURCE`로 접속하도록 같은 셸에서 실행합니다. 새 셸을 열었다면 env 로드부터 다시 합니다:
+
+```sh
+set -a; . ./.env; set +a
+make run-server
+```
+
+### 문제 해결
+
+- **`\restrict` 관련 에러**: 컨테이너의 psql 버전이 오래된 경우입니다. `docker rm -f mattermost-postgres && docker pull pgvector/pgvector:pg14` 후 3번부터 다시 진행합니다.
+- **첨부 파일이 보이지 않음**: SQL 덤프에는 DB만 포함됩니다. 업로드 파일은 원본 서버의 파일 저장소 디렉토리(`data/`)를 별도로 복사해야 합니다.
 
 ---
 
