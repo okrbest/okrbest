@@ -70,3 +70,12 @@
 - **발견**: T016(quickstart 시나리오 2 재현) 도중 `npm run i18n-extract:check`가 항상 `Duplicate message id` 오류로 죽는 것을 발견했다. `--throws`는 "id 없음"이 아니라 **첫 번째로 만나는 임의의 경고**를 치명적 오류로 바꾸는 옵션이며(T007에서 이미 확인한 것과 동일한 특성), okrbest 코드베이스에는 서로 다른 `defaultMessage`로 같은 id를 재사용하는 경우가 35건 있어 diff 비교 로직에 도달하기도 전에 항상 실패했다.
 - **조치**: `--throws`를 제거했다. 추출은 경고를 stderr에 남기되 완료되며, 이후 `diff` 비교가 실제 검증을 수행한다. 이는 upstream 스크립트를 그대로 이식하며 발견한 설계 결함을 이 저장소에 맞게 수정한 것으로, en.json/ko.json 데이터 자체를 바꾸는 정책적 결정이 아니라 스크립트 로직 수정이다.
 - **의미**: 이 수정 이후에도 `i18n-extract:check`는 연구 항목 #9(en.json↔소스 드리프트)로 인해 여전히 실패한다 — 이는 새 문제가 아니라 이미 이연하기로 확정된 사전 이슈의 자연스러운 결과다. 35건의 중복 id 자체를 해소하는 것은 별도 후속 작업이다(어떤 defaultMessage가 정답인지 제품 판단이 필요해 기계적으로 처리할 수 없음).
+
+## 구현 중 발견 사항 (T022, Polish — 전체 게이트 실행)
+
+### 12. formatjs 규칙 9종을 upstream과 동일하게 error로 켰더니 `enforce-placeholders` 134건·`enforce-default-message` 7건이 걸림
+
+- **발견**: T010에서 upstream 설정 그대로 9개 규칙을 추가했을 때는 `enforce-id`(목표 규칙)만 검증했고 나머지 8개 규칙의 실제 위반 건수는 확인하지 않았다. T022에서 `npm run check` 상당 작업을 처음 전체 실행하며, `enforce-placeholders`(ICU 플레이스홀더와 `values` 불일치) 134건, `enforce-default-message`(defaultMessage 누락) 7건이 error 레벨로 걸려 게이트가 막힌다는 것을 발견했다.
+- **조치**: `enforce-default-message` 7건 중 정적 id + en.json에 이미 존재하는 값이 명확한 2개 파일(`access_problem/index.tsx`, `cloud_invoice_preview/index.tsx`)은 en.json의 기존 값을 그대로 사용해 `defaultMessage`를 추가해 즉시 해결했다. 나머지 4건(동적 id 참조·pass-through prop 패턴·테스트 픽스처)과 `enforce-placeholders` 134건 전체는 사용자 확인에 따라 규칙을 `error`(2)에서 `warning`(1)으로 낮추고 후속 작업으로 이연했다 — 파일마다 실제 버그인지 규칙의 오탐(간접적으로 조합되는 값을 규칙이 못 보는 경우)인지 개별 판단이 필요해 이번 세션(Polish) 범위를 벗어난다.
+- **의미**: `formatjs/enforce-id`(이 마이그레이션의 핵심 목표)는 계속 error로 유지되며 영향받지 않는다. `no-invalid-icu`는 위반 0건이라 error 유지. `no-multiple-whitespaces`는 이번 마이그레이션 이전부터 이미 error였고 위반 2건은 사전 존재 이슈로 그대로 둔다(우리가 만든 문제가 아님).
+- **Alternatives considered**: upstream과 동일하게 전부 error 유지 — 134+7건이 즉시 `npm run check`를 막아 이 브랜치의 다른 모든 개선사항까지 머지를 막게 되므로 기각(사용자 판단).
