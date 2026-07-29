@@ -50,7 +50,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
         handleUpgrade(e);
     };
     const upgradeAdvantages = [
-        intl.formatMessage({id: 'admin.license.upgradeAdvantage.adLdapSync', defaultMessage: 'AD/LDAP Group Sync'}),
+        intl.formatMessage({id: 'admin.license.upgradeAdvantage.adLdapSync', defaultMessage: 'AD/LDAP Group sync'}),
         intl.formatMessage({id: 'admin.license.upgradeAdvantage.highAvailability', defaultMessage: 'High Availability'}),
         intl.formatMessage({id: 'admin.license.upgradeAdvantage.advancedCompliance', defaultMessage: 'Advanced compliance'}),
         intl.formatMessage({id: 'admin.license.upgradeAdvantage.andMore', defaultMessage: 'And more...'}),

@@ -37,7 +37,7 @@ const AttributeHelpText = memo(({attributeKey, attributeName, attributeType}: At
         )}
         {attributeKey === 'saml' && (
             <FormattedMessage
-                id='admin.customProfileAttribDesc'
+                id='admin.customProfileAttribDescSaml'
                 defaultMessage='(Optional) The attribute in the SAML Assertion that will be used to populate the {name} of users in Mattermost.'
                 values={{
                     name: attributeName,

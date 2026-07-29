@@ -119,7 +119,7 @@ export default function RewriteMenu({
         } else if (draftMessage.trim()) {
             placeholderText = formatMessage({
                 id: 'texteditor.rewrite.rewriting',
-                defaultMessage: 'Rewriting...',
+                defaultMessage: 'Rewriting',
             });
         }
     } else if (!draftMessage.trim()) {

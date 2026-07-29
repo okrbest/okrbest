@@ -65,7 +65,7 @@ export default class DeleteChannelModal extends React.PureComponent<Props, State
                     <div className='alert alert-danger'>
                         <p>
                             <FormattedMessage
-                                id='deleteChannelModal.canViewArchivedChannelsWarning'
+                                id='deleteChannelModal.archiveWarning'
                                 defaultMessage='This will archive the channel from the team. Channel contents will still be accessible by channel members.'
                             />
                         </p>

@@ -272,7 +272,7 @@ const TrialBanner = ({
             <>
                 <FormattedMessage
                     id='admin.license.upgrade-and-trial-request.title'
-                    defaultMessage='Upgrade to the Enterprise Edition to unlock a free 30-day trial of Mattermost Enterprise Advanced—our most powerful plan. No credit card required, no obligation to buy. '
+                    defaultMessage='Upgrade to the Enterprise Edition to unlock a free 30-day trial of OKR.BEST Enterprise Advanced—our most powerful plan. No credit card required, no obligation to buy. '
                 />
             </>
         );

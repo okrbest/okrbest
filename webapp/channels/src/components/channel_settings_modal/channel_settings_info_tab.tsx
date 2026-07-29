@@ -407,7 +407,7 @@ function ChannelSettingsInfoTab({
                 })}
                 hasError={channelPurpose.length > Constants.MAX_CHANNELPURPOSE_LENGTH}
                 errorMessage={channelPurpose.length > Constants.MAX_CHANNELPURPOSE_LENGTH ? formatMessage({
-                    id: 'channel_settings.error_purpose_length',
+                    id: 'channel_settings.error_purpose_max_length',
                     defaultMessage: 'The channel purpose exceeds the maximum character limit of {maxLength} characters.',
                 }, {
                     maxLength: Constants.MAX_CHANNELPURPOSE_LENGTH,
@@ -439,7 +439,7 @@ function ChannelSettingsInfoTab({
                 })}
                 hasError={channelHeader.length > HEADER_MAX_LENGTH}
                 errorMessage={channelHeader.length > HEADER_MAX_LENGTH ? formatMessage({
-                    id: 'edit_channel_header_modal.error',
+                    id: 'edit_channel_header_modal.error_max_length',
                     defaultMessage: 'The channel header exceeds the maximum character limit of {maxLength} characters.',
                 }, {
                     maxLength: HEADER_MAX_LENGTH,

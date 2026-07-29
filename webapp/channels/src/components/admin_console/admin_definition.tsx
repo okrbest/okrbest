@@ -749,7 +749,7 @@ const AdminDefinition: AdminDefinitionType = {
                 ),
                 schema: {
                     id: 'AttributeBasedAccessControl',
-                    name: defineMessage({id: 'admin.accesscontrol.title', defaultMessage: 'Attribute-Based Access (Beta)'}),
+                    name: defineMessage({id: 'admin.accesscontrol.titleBeta', defaultMessage: 'Attribute-Based Access (Beta)'}),
                     settings: [
                         {
                             type: 'custom',
@@ -1333,7 +1333,7 @@ const AdminDefinition: AdminDefinitionType = {
                             key: 'FileSettings.ExportAmazonS3Bucket',
                             label: defineMessage({id: 'admin.image.amazonS3BucketTitle', defaultMessage: 'Amazon S3 Bucket:'}),
                             help_text: defineMessage({id: 'admin.image.amazonS3BucketDescription', defaultMessage: 'Name you selected for your S3 bucket in AWS.'}),
-                            placeholder: defineMessage({id: 'admin.image.amazonS3BucketExample', defaultMessage: 'E.g.: "mattermost-export"'}),
+                            placeholder: defineMessage({id: 'admin.image.amazonS3BucketExample', defaultMessage: 'E.g.: "okrbest-media"'}),
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                                 it.stateEquals('FileSettings.DedicatedExportStore', false),
@@ -1760,7 +1760,7 @@ const AdminDefinition: AdminDefinitionType = {
                     settings: [
                         {
                             type: 'banner',
-                            label: defineMessage({id: 'admin.rate.noteDescription', defaultMessage: 'Changing properties other than Site URL in this section will require a server restart before taking effect.'}),
+                            label: defineMessage({id: 'admin.rate.noteDescriptionExcludingSiteUrl', defaultMessage: 'Changing properties other than Site URL in this section will require a server restart before taking effect.'}),
                             banner_type: 'info',
                         },
                         {
@@ -4848,7 +4848,7 @@ const AdminDefinition: AdminDefinitionType = {
                                 {
                                     value: Constants.GOOGLE_SERVICE,
                                     display_name: defineMessage({id: 'admin.openid.google', defaultMessage: 'Google Apps'}),
-                                    help_text: defineMessage({id: 'admin.google.EnableMarkdownDesc', defaultMessage: '1. <linkLogin>Log in</linkLogin> to your Google account.\n2. Go to <linkConsole>https://console.developers.google.com]</linkConsole>, click <strong>Credentials</strong> in the left hand side.\n 3. Under the <strong>Credentials</strong> header, click <strong>Create credentials</strong>, choose <strong>OAuth client ID</strong> and select <strong>Web Application</strong>.\n 4. Enter "Mattermost - your-company-name" as the <strong>Name</strong>.\n 5. Under <strong>Authorized redirect URIs</strong> enter <strong>"your-mattermost-url/signup/google/complete"</strong> (example: http://localhost:8065/signup/google/complete). Click <strong>Create</strong>.\n 6. Paste the <strong>Client ID</strong> and <strong>Client Secret</strong> to the fields below, then click <strong>Save</strong>.\n 7. Go to the <linkAPI>Google People API</linkAPI> and click <strong>Enable</strong>.'}),
+                                    help_text: defineMessage({id: 'admin.google.EnableMarkdownDescOpenId', defaultMessage: '1. <linkLogin>Log in</linkLogin> to your Google account.\n2. Go to <linkConsole>https://console.developers.google.com]</linkConsole>, click <strong>Credentials</strong> in the left hand side.\n 3. Under the <strong>Credentials</strong> header, click <strong>Create credentials</strong>, choose <strong>OAuth client ID</strong> and select <strong>Web Application</strong>.\n 4. Enter "Mattermost - your-company-name" as the <strong>Name</strong>.\n 5. Under <strong>Authorized redirect URIs</strong> enter <strong>"your-mattermost-url/signup/google/complete"</strong> (example: http://localhost:8065/signup/google/complete). Click <strong>Create</strong>.\n 6. Paste the <strong>Client ID</strong> and <strong>Client Secret</strong> to the fields below, then click <strong>Save</strong>.\n 7. Go to the <linkAPI>Google People API</linkAPI> and click <strong>Enable</strong>.'}),
                                     help_text_markdown: false,
                                     help_text_values: {
                                         linkLogin: (msg: string) => (
@@ -4958,7 +4958,7 @@ const AdminDefinition: AdminDefinitionType = {
                             key: 'GitLabSettings.Secret',
                             label: defineMessage({id: 'admin.openid.clientSecretTitle', defaultMessage: 'Client Secret:'}),
                             help_text: defineMessage({id: 'admin.openid.clientSecretDescription', defaultMessage: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation'}),
-                            placeholder: defineMessage({id: 'admin.gitlab.clientSecretExample', defaultMessage: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx442pnqMxQY"'}),
+                            placeholder: defineMessage({id: 'admin.gitlab.clientSecretExample', defaultMessage: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"'}),
                             isHidden: it.not(it.stateEquals('openidType', Constants.GITLAB_SERVICE)),
                             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                         },
@@ -5898,7 +5898,7 @@ const AdminDefinition: AdminDefinitionType = {
                             type: 'longtext',
                             key: 'ExperimentalAuditSettings.AdvancedLoggingJSON',
                             label: defineMessage({id: 'admin.log.AdvancedLoggingJSONTitle', defaultMessage: 'Advanced Logging:'}),
-                            help_text: defineMessage({id: 'admin.log.AdvancedLoggingJSONDescription', defaultMessage: 'The JSON configuration for Advanced Audit Logging. Please see <link>documentation</link> to learn more about Advanced Logging and the JSON format it uses.'}),
+                            help_text: defineMessage({id: 'admin.log.AdvancedAuditLoggingJSONDescription', defaultMessage: 'The JSON configuration for Advanced Audit Logging. Please see <link>documentation</link> to learn more about Advanced Logging and the JSON format it uses.'}),
                             help_text_markdown: false,
                             help_text_values: {
                                 link: (msg: string) => (
