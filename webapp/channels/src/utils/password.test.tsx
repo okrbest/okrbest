@@ -1,9 +1,44 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {isValidPassword} from './password';
+import type React from 'react';
+
+import {isValidPassword, passwordErrors} from './password';
 
 describe('isValidPassword', () => {
+    test('error message id matches the specific combination of unmet requirements', () => {
+        for (const data of [
+            {
+                password: 'short',
+                config: {minimumLength: 10, requireLowercase: false, requireUppercase: false, requireNumber: false, requireSymbol: false},
+                expectedKey: 'passwordError',
+            },
+            {
+                password: 'UPPERCASE',
+                config: {minimumLength: 5, requireLowercase: true, requireUppercase: false, requireNumber: false, requireSymbol: false},
+                expectedKey: 'passwordErrorLowercase',
+            },
+            {
+                password: 'nouppercaseornumbers',
+                config: {minimumLength: 5, requireLowercase: false, requireUppercase: true, requireNumber: true, requireSymbol: false},
+                expectedKey: 'passwordErrorUppercaseNumber',
+            },
+            {
+                password: 'nothingmet',
+                config: {minimumLength: 5, requireLowercase: false, requireUppercase: true, requireNumber: true, requireSymbol: true},
+                expectedKey: 'passwordErrorUppercaseNumberSymbol',
+            },
+        ] as const) {
+            const {valid, error} = isValidPassword(data.password, data.config);
+            expect(valid).toBe(false);
+            expect(typeof error).not.toBe('string');
+            const expected = passwordErrors[data.expectedKey as keyof typeof passwordErrors];
+            const element = error as React.ReactElement<{id: string; defaultMessage: string}>;
+            expect(element.props.id).toBe(expected.id);
+            expect(element.props.defaultMessage).toBe(expected.defaultMessage);
+        }
+    });
+
     test('Minimum length enforced', () => {
         for (const data of [
             {
