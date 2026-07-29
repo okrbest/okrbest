@@ -76,10 +76,10 @@ description: "Task list for i18n 추출 도구 마이그레이션 (mmjstool → 
 
 ### Implementation for User Story 2
 
-- [ ] T013 [US2] `.github/workflows/webapp-ci.yml`의 `check-i18n` 잡에서 mmjstool 기반 3단계 스크립트를 `npm run i18n-extract:check --workspace=channels` 호출로 교체한다(contracts/i18n-tooling-contract.md #3). 이 파일은 CODEOWNERS 보호 경로이므로 PR에 코드오너 리뷰가 필요함을 명시한다. (depends on T006)
-- [ ] T014 [US2] Weblate 빈 번역 정리 대체 스크립트를 작성한다(예: `webapp/channels/scripts/check-empty-translations.js`) — `ko.json`의 빈 문자열 값과 `en.json`에 없는 고아 키를 검출하고, `--check` 모드에서 비0 종료 코드를 반환하며, 검출 로직에 대한 Jest 단위 테스트를 동반한다(research.md #5, constitution 원칙 III). (depends on T006)
-- [ ] T015 [US2] `webapp/channels/package.json`에 T014 스크립트를 실행하는 `i18n-check-empty` npm 스크립트를 추가하고, `.github/workflows/webapp-ci.yml`의 `check-i18n` 잡에 해당 단계를 추가한다. (depends on T013, T014)
-- [ ] T016 [US2] quickstart.md 시나리오 2, 4를 로컬에서 실행해 CI와 동일한 결과가 재현되는지 확인하고 기록한다. (depends on T015)
+- [X] T013 [US2] `.github/workflows/webapp-ci.yml`의 `check-i18n` 잡에서 mmjstool 기반 3단계 스크립트를 `npm run i18n-extract:check`/`npm run i18n-check-empty` 호출로 교체했다(contracts/i18n-tooling-contract.md #3, CODEOWNERS 보호 경로 — 코드오너 리뷰 필요). (depends on T006)
+- [X] T014 [US2] `webapp/channels/scripts/check-empty-translations.js`를 작성했다 — `ko.json`의 빈 문자열 값과 `en.json`에 없는 고아 키를 검출, `--check` 모드에서 비0 종료. Jest 테스트 4건 추가(로직 검증, 실행 자체는 T008과 동일 사유로 미확인). 실행 결과 실제 고아 키 159개를 발견해 검토 후 제거했다(research.md #10). (depends on T006)
+- [X] T015 [US2] `webapp/channels/package.json`에 `i18n-check-empty` npm 스크립트를 추가하고 CI 단계로 연결했다. (depends on T013, T014)
+- [X] T016 [US2] quickstart.md 시나리오 2, 4를 실행하는 과정에서 `i18n-extract:check`의 `--throws`가 코드베이스의 중복 id 35건 때문에 항상 실패하는 설계 결함을 발견해 수정했다(research.md #11). 수정 후 시나리오 4(고아 키 검증)는 통과, 시나리오 2는 연구 항목 #9(en.json 드리프트, 이미 이연 확정)로 인해 예상대로 실패 상태다 — 새 문제가 아님. (depends on T015)
 
 **Checkpoint**: User Story 2 완료 — CI가 mmjstool 의존성 없이 새 도구 체인만으로 통과/실패를 판정한다.
 
