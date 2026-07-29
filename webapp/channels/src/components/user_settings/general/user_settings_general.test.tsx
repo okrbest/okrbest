@@ -137,6 +137,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         mockedClient4.getUserOrgProfileSummary.mockResolvedValue({
             team_id: 'team_id',
             user_id: 'user_id',
+            division_name: null,
             department_name: '개발팀',
             position_name: '팀장',
         });
@@ -160,6 +161,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         mockedClient4.getUserOrgProfileSummary.mockResolvedValue({
             team_id: 'team_id',
             user_id: 'user_id',
+            division_name: null,
             department_name: null,
             position_name: null,
         });
@@ -172,6 +174,42 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
 
         expect(await screen.findAllByText('Not assigned')).toHaveLength(2);
         expect(screen.getAllByText('This value is managed by your team admin.')).toHaveLength(2);
+    });
+
+    test('shows "division > department" hierarchy for a division-scoped department', async () => {
+        mockedClient4.getUserOrgProfileSummary.mockResolvedValue({
+            team_id: 'team_id',
+            user_id: 'user_id',
+            division_name: '경영지원본부',
+            department_name: '재무팀',
+            position_name: null,
+        });
+
+        renderWithContext(
+            <Provider store={store}>
+                <UserSettingsGeneral {...requiredProps}/>
+            </Provider>,
+        );
+
+        expect(await screen.findByText('경영지원본부 > 재무팀')).toBeInTheDocument();
+    });
+
+    test('shows only the division name for a direct division assignment', async () => {
+        mockedClient4.getUserOrgProfileSummary.mockResolvedValue({
+            team_id: 'team_id',
+            user_id: 'user_id',
+            division_name: '경영지원본부',
+            department_name: null,
+            position_name: null,
+        });
+
+        renderWithContext(
+            <Provider store={store}>
+                <UserSettingsGeneral {...requiredProps}/>
+            </Provider>,
+        );
+
+        expect(await screen.findByText('경영지원본부')).toBeInTheDocument();
     });
 
     test('hides department/position rows when there is no active team', async () => {

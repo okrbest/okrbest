@@ -25,7 +25,7 @@ type OrgUnit = {
     team_id: string;
     code: string;
     name: string;
-    type: 'department' | 'team';
+    type: 'department' | 'team' | 'division';
     parent_id: string;
     active: boolean;
 };
@@ -68,7 +68,7 @@ type DepartmentEditor = {
     id: string;
     code: string;
     name: string;
-    type: 'department' | 'team';
+    type: 'department' | 'team' | 'division';
     parent_id: string;
     active: boolean;
 };
@@ -158,8 +158,10 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
 
     const [showPositionForm, setShowPositionForm] = useState(false);
     const [showDepartmentForm, setShowDepartmentForm] = useState(false);
+    const [showDivisionForm, setShowDivisionForm] = useState(false);
     const [positionForm, setPositionForm] = useState({name: '', rank: 0, full_visibility: false});
-    const [departmentForm, setDepartmentForm] = useState({name: ''});
+    const [departmentForm, setDepartmentForm] = useState({name: '', parent_id: ''});
+    const [divisionForm, setDivisionForm] = useState({name: ''});
     const [positionSearchKeyword, setPositionSearchKeyword] = useState('');
     const [departmentSearchKeyword, setDepartmentSearchKeyword] = useState('');
     const [userSearchKeyword, setUserSearchKeyword] = useState('');
@@ -226,11 +228,19 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
     const toggleDepartmentForm = useCallback(() => {
         setShowDepartmentForm((prev) => !prev);
         setShowPositionForm(false);
+        setShowDivisionForm(false);
     }, []);
 
     const togglePositionForm = useCallback(() => {
         setShowPositionForm((prev) => !prev);
         setShowDepartmentForm(false);
+        setShowDivisionForm(false);
+    }, []);
+
+    const toggleDivisionForm = useCallback(() => {
+        setShowDivisionForm((prev) => !prev);
+        setShowDepartmentForm(false);
+        setShowPositionForm(false);
     }, []);
 
     const openDeleteConfirmForPosition = useCallback((position: PositionDefinition) => {
@@ -262,6 +272,13 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
             request<unknown>(`/api/v4/users?in_team=${currentTeamId}&page=0&per_page=200`),
             request<unknown>(`/api/v4/teams/${currentTeamId}/org-profiles`),
         ]);
+
+        if (teamIdRef.current !== currentTeamId) {
+            // The admin switched teams while these requests were in flight;
+            // applying them would populate the new team's view (division groups
+            // included) with stale data.
+            return;
+        }
 
         const safePositions = ensureArray<PositionDefinition>(positionsData);
         const safeOrgUnits = ensureArray<OrgUnit>(orgUnitsData);
@@ -373,9 +390,9 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
             await request(`/api/v4/teams/${teamId}/org-units`, 'POST', {
                 name: departmentForm.name,
                 type: 'department',
-                parent_id: '',
+                parent_id: departmentForm.parent_id,
             });
-            setDepartmentForm({name: ''});
+            setDepartmentForm({name: '', parent_id: ''});
             setShowDepartmentForm(false);
             await loadTeamData(teamId);
             setError('');
@@ -384,6 +401,55 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
             clearSuccessMessageTimer();
             setSuccessMessage('');
             setError(parseApiError(e));
+        }
+    };
+
+    const createDivision = async () => {
+        if (!teamId || !divisionForm.name) {
+            return;
+        }
+
+        try {
+            clearSuccessMessageTimer();
+            setSuccessMessage('');
+            await request(`/api/v4/teams/${teamId}/org-units`, 'POST', {
+                name: divisionForm.name,
+                type: 'division',
+                parent_id: '',
+            });
+            setDivisionForm({name: ''});
+            setShowDivisionForm(false);
+            await loadTeamData(teamId);
+            setError('');
+            showSuccessMessage(intl.formatMessage({id: 'admin.org_roles.saved', defaultMessage: '저장되었습니다'}));
+        } catch (e) {
+            clearSuccessMessageTimer();
+            setSuccessMessage('');
+            setError(parseApiError(e));
+        }
+    };
+
+    // 부서 행의 소속 본부 select에서 바로 이관한다. 배정은 서버가 그대로 유지한다.
+    const transferDepartment = async (department: OrgUnit, newParentId: string) => {
+        if (!teamId || department.parent_id === newParentId) {
+            return;
+        }
+
+        try {
+            setProcessingActionKey(`department-transfer-${department.id}`);
+            await request(`/api/v4/teams/${teamId}/org-units/${department.id}`, 'PUT', {
+                code: department.code,
+                name: department.name,
+                type: department.type,
+                parent_id: newParentId,
+                active: department.active,
+            });
+            await loadTeamData(teamId);
+            setError('');
+        } catch (e) {
+            setError(parseApiError(e));
+        } finally {
+            setProcessingActionKey('');
         }
     };
 
@@ -576,6 +642,15 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
     const activePositions = useMemo(() => ensureArray<PositionDefinition>(positions).filter((position) => position.active), [positions]);
     const activeOrgUnits = useMemo(() => ensureArray<OrgUnit>(orgUnits).filter((orgUnit) => orgUnit.active), [orgUnits]);
     const activeDepartments = useMemo(() => activeOrgUnits.filter((orgUnit) => orgUnit.type === 'department'), [activeOrgUnits]);
+    const activeDivisions = useMemo(() => activeOrgUnits.filter((orgUnit) => orgUnit.type === 'division'), [activeOrgUnits]);
+
+    const divisionNameById = useMemo(() => {
+        const map: Record<string, string> = {};
+        for (const division of activeDivisions) {
+            map[division.id] = division.name;
+        }
+        return map;
+    }, [activeDivisions]);
 
     const filteredPositionList = useMemo(() => {
         const keyword = positionSearchKeyword.trim().toLowerCase();
@@ -599,6 +674,36 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
         });
     }, [activeDepartments, departmentSearchKeyword]);
 
+    // 부서를 본부별 그룹으로 묶는다. 활성 본부에 속하지 않은 부서는 미소속 그룹.
+    const groupedDepartmentList = useMemo(() => {
+        const groups: Array<{divisionId: string; divisionName: string | null; departments: OrgUnit[]}> = [];
+        for (const division of activeDivisions) {
+            const members = filteredDepartmentList.filter((department) => department.parent_id === division.id);
+            groups.push({divisionId: division.id, divisionName: division.name, departments: members});
+        }
+
+        const unassigned = filteredDepartmentList.filter((department) => !divisionNameById[department.parent_id]);
+        groups.push({divisionId: '', divisionName: null, departments: unassigned});
+        return groups;
+    }, [activeDivisions, divisionNameById, filteredDepartmentList]);
+
+    // 필터에서 본부를 고르면 본부 직속 + 하위 부서 인원까지 묶어서 조회한다.
+    const filterOrgUnitIdSet = useMemo(() => {
+        if (!filterOrgUnitId) {
+            return null;
+        }
+
+        const ids = new Set<string>([filterOrgUnitId]);
+        if (divisionNameById[filterOrgUnitId]) {
+            for (const department of activeDepartments) {
+                if (department.parent_id === filterOrgUnitId) {
+                    ids.add(department.id);
+                }
+            }
+        }
+        return ids;
+    }, [activeDepartments, divisionNameById, filterOrgUnitId]);
+
     const filteredUsers = useMemo(() => {
         const keyword = userSearchKeyword.trim().toLowerCase();
 
@@ -615,11 +720,11 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                 return !filterOrgUnitId && !filterPositionId;
             }
 
-            const orgUnitMatched = !filterOrgUnitId || assignment.primary_org_unit_id === filterOrgUnitId;
+            const orgUnitMatched = !filterOrgUnitIdSet || filterOrgUnitIdSet.has(assignment.primary_org_unit_id);
             const positionMatched = !filterPositionId || assignment.primary_position_id === filterPositionId;
             return orgUnitMatched && positionMatched;
         });
-    }, [assignments, filterOrgUnitId, filterPositionId, teamUsers, userSearchKeyword]);
+    }, [assignments, filterOrgUnitId, filterOrgUnitIdSet, filterPositionId, teamUsers, userSearchKeyword]);
 
     const dirtyUserIds = useMemo(() => {
         const result = new Set<string>();
@@ -669,6 +774,34 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
     };
 
     const canApplyBulk = selectedUserIds.size > 0 && Boolean(bulkOrgUnitId || bulkPositionId);
+
+    // 소속 선택지: 본부(직속 배정)와 부서를 optgroup으로 구분해 렌더링
+    const renderOrgUnitGroupedOptions = () => (
+        <>
+            {activeDivisions.length > 0 && (
+                <optgroup label={intl.formatMessage({id: 'admin.org_roles.assign_division_group', defaultMessage: '본부 직속'})}>
+                    {activeDivisions.map((division) => (
+                        <option
+                            key={division.id}
+                            value={division.id}
+                        >
+                            {division.name}
+                        </option>
+                    ))}
+                </optgroup>
+            )}
+            <optgroup label={intl.formatMessage({id: 'admin.org_roles.assign_department_group', defaultMessage: '부서'})}>
+                {activeDepartments.map((department) => (
+                    <option
+                        key={department.id}
+                        value={department.id}
+                    >
+                        {department.name}
+                    </option>
+                ))}
+            </optgroup>
+        </>
+    );
 
     const applyBulkToSelection = () => {
         if (!canApplyBulk) {
@@ -739,6 +872,15 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                 <div className='form-group orgRoleManagement__buttonRow'>
                     <button
                         className='btn btn-primary'
+                        onClick={toggleDivisionForm}
+                    >
+                        <FormattedMessage
+                            id='admin.org_roles.add_division'
+                            defaultMessage='본부 추가'
+                        />
+                    </button>
+                    <button
+                        className='btn btn-primary'
                         onClick={toggleDepartmentForm}
                     >
                         <FormattedMessage
@@ -764,6 +906,26 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     </div>
                 )}
 
+                {showDivisionForm && (
+                    <div className='form-group orgRoleManagement__inlineForm'>
+                        <input
+                            className='form-control'
+                            placeholder={intl.formatMessage({id: 'admin.org_roles.division_name_placeholder', defaultMessage: '본부명'})}
+                            value={divisionForm.name}
+                            onChange={(e) => setDivisionForm({name: e.target.value})}
+                        />
+                        <button
+                            className='btn btn-primary'
+                            onClick={createDivision}
+                        >
+                            <FormattedMessage
+                                id='admin.org_roles.save_division'
+                                defaultMessage='본부 저장'
+                            />
+                        </button>
+                    </div>
+                )}
+
                 {showDepartmentForm && (
                     <div className='form-group orgRoleManagement__inlineForm'>
                         <input
@@ -772,6 +934,22 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                             value={departmentForm.name}
                             onChange={(e) => setDepartmentForm({...departmentForm, name: e.target.value})}
                         />
+                        <select
+                            className='form-control'
+                            aria-label={intl.formatMessage({id: 'admin.org_roles.department_parent_aria', defaultMessage: '소속 본부'})}
+                            value={departmentForm.parent_id}
+                            onChange={(e) => setDepartmentForm({...departmentForm, parent_id: e.target.value})}
+                        >
+                            <option value=''>{intl.formatMessage({id: 'admin.org_roles.division_none_option', defaultMessage: '소속 본부 없음'})}</option>
+                            {activeDivisions.map((division) => (
+                                <option
+                                    key={division.id}
+                                    value={division.id}
+                                >
+                                    {division.name}
+                                </option>
+                            ))}
+                        </select>
                         <button
                             className='btn btn-primary'
                             onClick={createDepartment}
@@ -824,28 +1002,20 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
 
                 <h4>
                     <FormattedMessage
-                        id='admin.org_roles.department_list_heading'
-                        defaultMessage='부서 리스트'
+                        id='admin.org_roles.division_list_heading'
+                        defaultMessage='본부 리스트'
                     />
                 </h4>
-                <div className='form-group'>
-                    <input
-                        className='form-control'
-                        placeholder={intl.formatMessage({id: 'admin.org_roles.department_search_placeholder', defaultMessage: '부서 검색 (이름)'})}
-                        value={departmentSearchKeyword}
-                        onChange={(e) => setDepartmentSearchKeyword(e.target.value)}
-                    />
-                </div>
                 <div className='orgRoleManagement__tableWrap'>
                     <table
-                        className='table table-striped orgRoleManagement__table orgRoleManagement__table--department'
+                        className='table table-striped orgRoleManagement__table orgRoleManagement__table--division'
                     >
                         <thead>
                             <tr>
                                 <th>
                                     <FormattedMessage
-                                        id='admin.org_roles.department_name_column'
-                                        defaultMessage='부서명'
+                                        id='admin.org_roles.division_name_column'
+                                        defaultMessage='본부명'
                                     />
                                 </th>
                                 <th>
@@ -863,13 +1033,13 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredDepartmentList.map((department) => {
-                                const isEditing = editingDepartment?.id === department.id;
-                                const isSaving = processingActionKey === `department-save-${department.id}`;
-                                const isDeactivating = processingActionKey === `department-deactivate-${department.id}`;
+                            {activeDivisions.map((division) => {
+                                const isEditing = editingDepartment?.id === division.id;
+                                const isSaving = processingActionKey === `department-save-${division.id}`;
+                                const isDeactivating = processingActionKey === `department-deactivate-${division.id}`;
 
                                 return (
-                                    <tr key={department.id}>
+                                    <tr key={division.id}>
                                         <td>
                                             {isEditing ? (
                                                 <input
@@ -878,11 +1048,11 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                     onChange={(e) => setEditingDepartment({...editingDepartment!, name: e.target.value})}
                                                 />
                                             ) : (
-                                                department.name
+                                                division.name
                                             )}
                                         </td>
                                         <td>
-                                            {department.active ? (
+                                            {division.active ? (
                                                 <FormattedMessage
                                                     id='admin.org_roles.status_active'
                                                     defaultMessage='활성'
@@ -928,7 +1098,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                 <div className='orgRoleManagement__actionButtons'>
                                                     <button
                                                         className='btn btn-tertiary btn-sm'
-                                                        onClick={() => startEditDepartment(department)}
+                                                        onClick={() => startEditDepartment(division)}
                                                         disabled={isDeactivating}
                                                     >
                                                         <FormattedMessage
@@ -938,7 +1108,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                     </button>
                                                     <button
                                                         className='btn btn-danger btn-sm'
-                                                        onClick={() => openDeleteConfirmForDepartment(department)}
+                                                        onClick={() => openDeleteConfirmForDepartment(division)}
                                                         disabled={isDeactivating}
                                                     >
                                                         {isDeactivating ? (
@@ -959,9 +1129,197 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                     </tr>
                                 );
                             })}
-                            {filteredDepartmentList.length === 0 && (
+                            {activeDivisions.length === 0 && (
                                 <tr>
                                     <td colSpan={3}>
+                                        <div className='help-text'>
+                                            <FormattedMessage
+                                                id='admin.org_roles.no_division_results'
+                                                defaultMessage='등록된 본부가 없습니다.'
+                                            />
+                                        </div>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>
+                    <FormattedMessage
+                        id='admin.org_roles.department_list_heading'
+                        defaultMessage='부서 리스트'
+                    />
+                </h4>
+                <div className='form-group'>
+                    <input
+                        className='form-control'
+                        placeholder={intl.formatMessage({id: 'admin.org_roles.department_search_placeholder', defaultMessage: '부서 검색 (이름)'})}
+                        value={departmentSearchKeyword}
+                        onChange={(e) => setDepartmentSearchKeyword(e.target.value)}
+                    />
+                </div>
+                <div className='orgRoleManagement__tableWrap'>
+                    <table
+                        className='table table-striped orgRoleManagement__table orgRoleManagement__table--department'
+                    >
+                        <thead>
+                            <tr>
+                                <th>
+                                    <FormattedMessage
+                                        id='admin.org_roles.department_name_column'
+                                        defaultMessage='부서명'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
+                                        id='admin.org_roles.division_column'
+                                        defaultMessage='소속 본부'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
+                                        id='admin.org_roles.status_column'
+                                        defaultMessage='상태'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
+                                        id='admin.org_roles.management_column'
+                                        defaultMessage='관리'
+                                    />
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {groupedDepartmentList.map((group) => (
+                                <React.Fragment key={group.divisionId || 'unassigned'}>
+                                    <tr className='orgRoleManagement__groupHeader'>
+                                        <td colSpan={4}>
+                                            {group.divisionName ?? intl.formatMessage({id: 'admin.org_roles.division_unassigned_group', defaultMessage: '미소속'})}
+                                        </td>
+                                    </tr>
+                                    {group.departments.map((department) => {
+                                        const isEditing = editingDepartment?.id === department.id;
+                                        const isSaving = processingActionKey === `department-save-${department.id}`;
+                                        const isDeactivating = processingActionKey === `department-deactivate-${department.id}`;
+                                        const isTransferring = processingActionKey === `department-transfer-${department.id}`;
+
+                                        return (
+                                            <tr key={department.id}>
+                                                <td>
+                                                    {isEditing ? (
+                                                        <input
+                                                            className='form-control'
+                                                            value={editingDepartment?.name || ''}
+                                                            onChange={(e) => setEditingDepartment({...editingDepartment!, name: e.target.value})}
+                                                        />
+                                                    ) : (
+                                                        department.name
+                                                    )}
+                                                </td>
+                                                <td>
+                                                    <select
+                                                        className='form-control'
+                                                        aria-label={intl.formatMessage({id: 'admin.org_roles.department_parent_aria', defaultMessage: '소속 본부'})}
+                                                        value={divisionNameById[department.parent_id] ? department.parent_id : ''}
+                                                        disabled={isTransferring}
+                                                        onChange={(e) => transferDepartment(department, e.target.value)}
+                                                    >
+                                                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.division_none_option', defaultMessage: '소속 본부 없음'})}</option>
+                                                        {activeDivisions.map((division) => (
+                                                            <option
+                                                                key={division.id}
+                                                                value={division.id}
+                                                            >
+                                                                {division.name}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    {department.active ? (
+                                                        <FormattedMessage
+                                                            id='admin.org_roles.status_active'
+                                                            defaultMessage='활성'
+                                                        />
+                                                    ) : (
+                                                        <FormattedMessage
+                                                            id='admin.org_roles.status_inactive'
+                                                            defaultMessage='비활성'
+                                                        />
+                                                    )}
+                                                </td>
+                                                <td className='orgRoleManagement__actionCell'>
+                                                    {isEditing ? (
+                                                        <div className='orgRoleManagement__actionButtons'>
+                                                            <button
+                                                                className='btn btn-primary btn-sm'
+                                                                onClick={saveEditedDepartment}
+                                                                disabled={isSaving}
+                                                            >
+                                                                {isSaving ? (
+                                                                    <FormattedMessage
+                                                                        id='admin.org_roles.saving'
+                                                                        defaultMessage='저장 중...'
+                                                                    />
+                                                                ) : (
+                                                                    <FormattedMessage
+                                                                        id='admin.org_roles.save'
+                                                                        defaultMessage='저장'
+                                                                    />
+                                                                )}
+                                                            </button>
+                                                            <button
+                                                                className='btn btn-tertiary btn-sm'
+                                                                onClick={() => setEditingDepartment(null)}
+                                                            >
+                                                                <FormattedMessage
+                                                                    id='admin.org_roles.cancel'
+                                                                    defaultMessage='취소'
+                                                                />
+                                                            </button>
+                                                        </div>
+                                                    ) : (
+                                                        <div className='orgRoleManagement__actionButtons'>
+                                                            <button
+                                                                className='btn btn-tertiary btn-sm'
+                                                                onClick={() => startEditDepartment(department)}
+                                                                disabled={isDeactivating}
+                                                            >
+                                                                <FormattedMessage
+                                                                    id='admin.org_roles.edit'
+                                                                    defaultMessage='수정'
+                                                                />
+                                                            </button>
+                                                            <button
+                                                                className='btn btn-danger btn-sm'
+                                                                onClick={() => openDeleteConfirmForDepartment(department)}
+                                                                disabled={isDeactivating}
+                                                            >
+                                                                {isDeactivating ? (
+                                                                    <FormattedMessage
+                                                                        id='admin.org_roles.deleting'
+                                                                        defaultMessage='삭제 중...'
+                                                                    />
+                                                                ) : (
+                                                                    <FormattedMessage
+                                                                        id='admin.org_roles.delete'
+                                                                        defaultMessage='삭제'
+                                                                    />
+                                                                )}
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </React.Fragment>
+                            ))}
+                            {filteredDepartmentList.length === 0 && (
+                                <tr>
+                                    <td colSpan={4}>
                                         <div className='help-text'>
                                             <FormattedMessage
                                                 id='admin.org_roles.no_department_results'
@@ -1180,14 +1538,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         onChange={(e) => setFilterOrgUnitId(e.target.value)}
                     >
                         <option value=''>{intl.formatMessage({id: 'admin.org_roles.filter_all_departments', defaultMessage: '전체 부서'})}</option>
-                        {activeDepartments.map((department) => (
-                            <option
-                                key={department.id}
-                                value={department.id}
-                            >
-                                {department.name}
-                            </option>
-                        ))}
+                        {renderOrgUnitGroupedOptions()}
                     </select>
                     <select
                         className='form-control'
@@ -1231,14 +1582,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         onChange={(e) => setBulkOrgUnitId(e.target.value)}
                     >
                         <option value=''>{intl.formatMessage({id: 'admin.org_roles.bulk_department_no_op', defaultMessage: '부서 변경 안 함'})}</option>
-                        {activeDepartments.map((department) => (
-                            <option
-                                key={department.id}
-                                value={department.id}
-                            >
-                                {department.name}
-                            </option>
-                        ))}
+                        {renderOrgUnitGroupedOptions()}
                     </select>
                     <select
                         className='form-control'
@@ -1387,14 +1731,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                 onChange={(e) => updateAssignmentField(user.id, 'primary_org_unit_id', e.target.value)}
                                             >
                                                 <option value=''>{intl.formatMessage({id: 'admin.org_roles.department_unassigned', defaultMessage: '부서 미지정'})}</option>
-                                                {activeDepartments.map((department) => (
-                                                    <option
-                                                        key={department.id}
-                                                        value={department.id}
-                                                    >
-                                                        {department.name}
-                                                    </option>
-                                                ))}
+                                                {renderOrgUnitGroupedOptions()}
                                             </select>
                                         </td>
                                         <td>

@@ -6807,6 +6807,26 @@
     "translation": "We encountered an error updating the app."
   },
   {
+    "id": "app.org_role.division_has_children.app_error",
+    "translation": "This division still has active departments. Transfer them to another division first."
+  },
+  {
+    "id": "app.org_role.division_has_members.app_error",
+    "translation": "Users are still assigned directly to this division. Transfer them first."
+  },
+  {
+    "id": "app.org_role.invalid_org_unit_assignment.app_error",
+    "translation": "The assigned organization must be an active division or department in the same team."
+  },
+  {
+    "id": "app.org_role.invalid_parent.app_error",
+    "translation": "The parent organization must be an active division in the same team."
+  },
+  {
+    "id": "app.org_role.type_change_not_allowed.app_error",
+    "translation": "Changing an organization unit between division and department is not supported."
+  },
+  {
     "id": "app.pap.access_control.channel_group_constrained",
     "translation": "Channel is group constrained and cannot have access control policies applied."
   },

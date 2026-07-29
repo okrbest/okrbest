@@ -8,6 +8,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 func TestGenerateOrgRoleCodeBase(t *testing.T) {
@@ -45,4 +47,245 @@ func TestOrgUnitCodePrefix(t *testing.T) {
 	require.Equal(t, orgRoleDepartmentPrefix, orgUnitCodePrefix("department"))
 	require.Equal(t, orgRoleTeamPrefix, orgUnitCodePrefix("team"))
 	require.Equal(t, orgRoleFallbackPrefix, orgUnitCodePrefix("unknown"))
+	require.Equal(t, orgRoleDivisionPrefix, orgUnitCodePrefix("division"))
+}
+
+func setupOrgRoleDBHelper(t *testing.T) *TestHelper {
+	th := Setup(t).InitBasic(t)
+	th.Server.Platform().SetSqlStore(th.GetSqlStore())
+	return th
+}
+
+func TestOrgUnitParentValidation(t *testing.T) {
+	th := setupOrgRoleDBHelper(t)
+	teamID := th.BasicTeam.Id
+	actorID := th.BasicUser.Id
+
+	division, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+		TeamID: teamID,
+		Name:   "경영지원본부",
+		Type:   model.OrgUnitTypeDivision,
+	})
+	require.Nil(t, appErr)
+	require.Equal(t, model.OrgUnitTypeDivision, division.Type)
+	require.True(t, strings.HasPrefix(division.Code, "div"))
+
+	t.Run("department under active division succeeds", func(t *testing.T) {
+		dept, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID:   teamID,
+			Name:     "인사팀",
+			Type:     model.OrgUnitTypeDepartment,
+			ParentID: division.ID,
+		})
+		require.Nil(t, appErr)
+		require.Equal(t, division.ID, dept.ParentID)
+	})
+
+	t.Run("department with nonexistent parent rejected", func(t *testing.T) {
+		_, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID:   teamID,
+			Name:     "유령팀",
+			Type:     model.OrgUnitTypeDepartment,
+			ParentID: model.NewId(),
+		})
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.invalid_parent.app_error", appErr.Id)
+	})
+
+	t.Run("department parent must be a division", func(t *testing.T) {
+		otherDept, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID: teamID,
+			Name:   "총무팀",
+			Type:   model.OrgUnitTypeDepartment,
+		})
+		require.Nil(t, appErr)
+
+		_, appErr = th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID:   teamID,
+			Name:     "총무하위팀",
+			Type:     model.OrgUnitTypeDepartment,
+			ParentID: otherDept.ID,
+		})
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.invalid_parent.app_error", appErr.Id)
+	})
+
+	t.Run("department parent must belong to same team", func(t *testing.T) {
+		otherTeam := th.CreateTeam(t)
+		otherDivision, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID: otherTeam.Id,
+			Name:   "타사본부",
+			Type:   model.OrgUnitTypeDivision,
+		})
+		require.Nil(t, appErr)
+
+		_, appErr = th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID:   teamID,
+			Name:     "월경팀",
+			Type:     model.OrgUnitTypeDepartment,
+			ParentID: otherDivision.ID,
+		})
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.invalid_parent.app_error", appErr.Id)
+	})
+
+	t.Run("department parent must be active", func(t *testing.T) {
+		idleDivision, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID: teamID,
+			Name:   "휴면본부",
+			Type:   model.OrgUnitTypeDivision,
+		})
+		require.Nil(t, appErr)
+
+		idleDivision.Active = false
+		_, appErr = th.App.UpdateOrgUnit(actorID, idleDivision)
+		require.Nil(t, appErr)
+
+		_, appErr = th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID:   teamID,
+			Name:     "휴면하위팀",
+			Type:     model.OrgUnitTypeDepartment,
+			ParentID: idleDivision.ID,
+		})
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.invalid_parent.app_error", appErr.Id)
+	})
+
+	t.Run("type change between department and division rejected", func(t *testing.T) {
+		dept, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID: teamID,
+			Name:   "고정팀",
+			Type:   model.OrgUnitTypeDepartment,
+		})
+		require.Nil(t, appErr)
+
+		dept.Type = model.OrgUnitTypeDivision
+		_, appErr = th.App.UpdateOrgUnit(actorID, dept)
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.type_change_not_allowed.app_error", appErr.Id)
+	})
+}
+
+func TestOrgUnitDivisionDeactivationGuard(t *testing.T) {
+	th := setupOrgRoleDBHelper(t)
+	teamID := th.BasicTeam.Id
+	actorID := th.BasicUser.Id
+
+	t.Run("blocked while an active child department exists", func(t *testing.T) {
+		division, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID: teamID,
+			Name:   "생산본부",
+			Type:   model.OrgUnitTypeDivision,
+		})
+		require.Nil(t, appErr)
+
+		child, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID:   teamID,
+			Name:     "생산1팀",
+			Type:     model.OrgUnitTypeDepartment,
+			ParentID: division.ID,
+		})
+		require.Nil(t, appErr)
+
+		division.Active = false
+		_, appErr = th.App.UpdateOrgUnit(actorID, division)
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.division_has_children.app_error", appErr.Id)
+
+		// 하위 부서를 무소속으로 이관하면 비활성화 가능
+		child.ParentID = ""
+		_, appErr = th.App.UpdateOrgUnit(actorID, child)
+		require.Nil(t, appErr)
+
+		division.Active = false
+		_, appErr = th.App.UpdateOrgUnit(actorID, division)
+		require.Nil(t, appErr)
+	})
+
+	t.Run("blocked while a user is assigned directly", func(t *testing.T) {
+		division, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID: teamID,
+			Name:   "영업본부",
+			Type:   model.OrgUnitTypeDivision,
+		})
+		require.Nil(t, appErr)
+
+		_, err := th.GetSqlStore().UpsertUserOrgProfile(&model.UserOrgProfile{
+			TeamID:           teamID,
+			UserID:           th.BasicUser2.Id,
+			PrimaryOrgUnitID: division.ID,
+		})
+		require.NoError(t, err)
+
+		division.Active = false
+		_, appErr = th.App.UpdateOrgUnit(actorID, division)
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.division_has_members.app_error", appErr.Id)
+
+		// 직속 배정 해제 후에는 비활성화 가능
+		_, err = th.GetSqlStore().UpsertUserOrgProfile(&model.UserOrgProfile{
+			TeamID:           teamID,
+			UserID:           th.BasicUser2.Id,
+			PrimaryOrgUnitID: "",
+		})
+		require.NoError(t, err)
+
+		division.Active = false
+		_, appErr = th.App.UpdateOrgUnit(actorID, division)
+		require.Nil(t, appErr)
+	})
+
+	t.Run("assignment to active division succeeds and inactive is rejected", func(t *testing.T) {
+		division, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID: teamID,
+			Name:   "연구본부",
+			Type:   model.OrgUnitTypeDivision,
+		})
+		require.Nil(t, appErr)
+
+		profile, appErr := th.App.UpsertUserOrgProfile(th.Context, actorID, &model.UserOrgProfile{
+			TeamID:           teamID,
+			UserID:           th.BasicUser.Id,
+			PrimaryOrgUnitID: division.ID,
+		})
+		require.Nil(t, appErr)
+		require.Equal(t, division.ID, profile.PrimaryOrgUnitID)
+
+		// 배정 해제 후 본부 비활성화
+		_, appErr = th.App.UpsertUserOrgProfile(th.Context, actorID, &model.UserOrgProfile{
+			TeamID: teamID,
+			UserID: th.BasicUser.Id,
+		})
+		require.Nil(t, appErr)
+
+		division.Active = false
+		_, appErr = th.App.UpdateOrgUnit(actorID, division)
+		require.Nil(t, appErr)
+
+		// 비활성 조직으로는 배정 불가
+		_, appErr = th.App.UpsertUserOrgProfile(th.Context, actorID, &model.UserOrgProfile{
+			TeamID:           teamID,
+			UserID:           th.BasicUser.Id,
+			PrimaryOrgUnitID: division.ID,
+		})
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.invalid_org_unit_assignment.app_error", appErr.Id)
+	})
+
+	t.Run("reactivation needs no guard", func(t *testing.T) {
+		division, appErr := th.App.CreateOrgUnit(actorID, &model.OrgUnit{
+			TeamID: teamID,
+			Name:   "재가동본부",
+			Type:   model.OrgUnitTypeDivision,
+		})
+		require.Nil(t, appErr)
+
+		division.Active = false
+		_, appErr = th.App.UpdateOrgUnit(actorID, division)
+		require.Nil(t, appErr)
+
+		division.Active = true
+		_, appErr = th.App.UpdateOrgUnit(actorID, division)
+		require.Nil(t, appErr)
+	})
 }

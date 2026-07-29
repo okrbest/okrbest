@@ -184,6 +184,10 @@ export const DEFAULT_LIMIT_AFTER = 30;
 export type UserOrgProfileSummary = {
     team_id: string;
     user_id: string;
+
+    // Parent division name for a department assignment, or the division's own
+    // name for a direct division assignment.
+    division_name: string | null;
     department_name: string | null;
     position_name: string | null;
 };

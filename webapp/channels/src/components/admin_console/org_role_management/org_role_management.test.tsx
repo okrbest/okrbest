@@ -242,7 +242,7 @@ describe('components/admin_console/org_role_management', () => {
     test('filters position list by keyword', async () => {
         await renderAndWaitForBody();
 
-        const positionTable = screen.getAllByRole('table')[1];
+        const positionTable = screen.getAllByRole('table')[2];
         await waitFor(() => {
             expect(within(positionTable).queryByText('검색 조건에 해당하는 직위가 없습니다.')).not.toBeInTheDocument();
         });
@@ -295,7 +295,7 @@ describe('components/admin_console/org_role_management', () => {
 
         await renderAndWaitForBody();
 
-        const positionTable = screen.getAllByRole('table')[1];
+        const positionTable = screen.getAllByRole('table')[2];
         await waitFor(() => {
             expect(within(positionTable).queryByText('검색 조건에 해당하는 직위가 없습니다.')).not.toBeInTheDocument();
         });
@@ -543,7 +543,7 @@ describe('components/admin_console/org_role_management', () => {
 
         await renderAndWaitForBody();
 
-        const departmentTable = screen.getAllByRole('table')[0];
+        const departmentTable = screen.getAllByRole('table')[1];
         await waitFor(() => {
             expect(within(departmentTable).queryByText('검색 조건에 해당하는 부서가 없습니다.')).not.toBeInTheDocument();
         });
@@ -611,7 +611,7 @@ describe('components/admin_console/org_role_management', () => {
 
         await renderAndWaitForBody();
 
-        const departmentTable = screen.getAllByRole('table')[0];
+        const departmentTable = screen.getAllByRole('table')[1];
         await waitFor(() => {
             expect(within(departmentTable).queryByText('검색 조건에 해당하는 부서가 없습니다.')).not.toBeInTheDocument();
         });
@@ -670,7 +670,7 @@ describe('components/admin_console/org_role_management', () => {
 
         await renderAndWaitForBody();
 
-        const positionTable = screen.getAllByRole('table')[1];
+        const positionTable = screen.getAllByRole('table')[2];
         await waitFor(() => {
             expect(within(positionTable).queryByText('검색 조건에 해당하는 직위가 없습니다.')).not.toBeInTheDocument();
         });
@@ -727,8 +727,8 @@ describe('components/admin_console/org_role_management', () => {
 
         await renderAndWaitForBody();
 
-        const positionTable = screen.getAllByRole('table')[1];
-        const departmentTable = screen.getAllByRole('table')[0];
+        const positionTable = screen.getAllByRole('table')[2];
+        const departmentTable = screen.getAllByRole('table')[1];
         await waitFor(() => {
             expect(within(positionTable).queryByText('검색 조건에 해당하는 직위가 없습니다.')).not.toBeInTheDocument();
             expect(within(departmentTable).queryByText('검색 조건에 해당하는 부서가 없습니다.')).not.toBeInTheDocument();
@@ -1391,5 +1391,256 @@ describe('components/admin_console/org_role_management', () => {
 
         await new Promise((resolve) => setTimeout(resolve, 2700));
         expect(screen.queryByText('2명 저장되었습니다')).not.toBeInTheDocument();
+    });
+
+    // === 본부-부서 계층 (specs/003-org-division-hierarchy) ===
+
+    const division = {
+        id: 'divisionid123456789012345aa',
+        team_id: team.id,
+        code: 'div-hq',
+        name: '경영지원본부',
+        type: 'division',
+        parent_id: '',
+        active: true,
+    };
+    const childDepartment = {
+        ...department,
+        id: 'departmentid7777777777777cd',
+        code: 'hr',
+        name: '인사팀',
+        parent_id: 'divisionid123456789012345aa',
+    };
+
+    const hierarchyFetchMock = (extraHandler?: (url: string, method: string, init?: RequestInit) => Response | undefined) => {
+        return jest.fn((input: RequestInfo | URL, init?: RequestInit) => {
+            const url = String(input);
+            const method = init?.method || 'GET';
+
+            const extra = extraHandler?.(url, method, init);
+            if (extra) {
+                return Promise.resolve(extra);
+            }
+
+            if (url.includes('/api/v4/teams?page=0&per_page=200')) {
+                return Promise.resolve(buildResponse([team]));
+            }
+
+            if (url.includes('/org-units?include_inactive=true')) {
+                return Promise.resolve(buildResponse([division, childDepartment, department]));
+            }
+
+            if (url.includes('/positions?include_inactive=true')) {
+                return Promise.resolve(buildResponse([position]));
+            }
+
+            if (url.includes('/api/v4/users?in_team=')) {
+                return Promise.resolve(buildResponse([user]));
+            }
+
+            if (url.includes('/org-profiles')) {
+                return Promise.resolve(buildResponse([]));
+            }
+
+            return Promise.resolve(buildResponse({}));
+        });
+    };
+
+    test('H001: renders division section with add button and division rows', async () => {
+        global.fetch = hierarchyFetchMock() as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        expect(screen.getByText('본부 리스트')).toBeInTheDocument();
+        expect(screen.getByText('본부 추가')).toBeInTheDocument();
+
+        await waitFor(() => {
+            const divisionTable = screen.getByText('본부 리스트').nextElementSibling as HTMLElement;
+            expect(within(divisionTable).getByText('경영지원본부')).toBeInTheDocument();
+        });
+    });
+
+    test('H002: groups departments under their division with an unassigned group', async () => {
+        global.fetch = hierarchyFetchMock() as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getAllByText('인사팀').length).toBeGreaterThan(0);
+            expect(screen.getAllByText('R&D').length).toBeGreaterThan(0);
+        });
+
+        const groupHeaders = document.querySelectorAll('.orgRoleManagement__groupHeader');
+        const headerTexts = Array.from(groupHeaders).map((el) => el.textContent);
+        expect(headerTexts.some((text) => text?.includes('경영지원본부'))).toBe(true);
+        expect(headerTexts.some((text) => text?.includes('미소속'))).toBe(true);
+    });
+
+    test('H003: creating a division posts type division', async () => {
+        const fetchMock = hierarchyFetchMock((url, method) => {
+            if (url.includes('/org-units') && method === 'POST') {
+                return buildResponse({...division, id: 'divisionid999999999999999zz'});
+            }
+            return undefined;
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        fireEvent.click(screen.getByText('본부 추가'));
+        const nameInput = screen.getByPlaceholderText('본부명');
+        await userEvent.type(nameInput, '신사업본부');
+        fireEvent.click(screen.getByText('본부 저장'));
+
+        await waitFor(() => {
+            const postCall = fetchMock.mock.calls.find(([callUrl, callInit]) => String(callUrl).includes('/org-units') && callInit?.method === 'POST');
+            expect(postCall).toBeTruthy();
+            const body = JSON.parse((postCall![1]?.body as string) || '{}');
+            expect(body.type).toBe('division');
+            expect(body.name).toBe('신사업본부');
+            expect(body.parent_id).toBe('');
+        });
+    });
+
+    test('H004: changing a department parent select fires a transfer PUT with the new division', async () => {
+        const fetchMock = hierarchyFetchMock((url, method) => {
+            if (url.includes(`/org-units/${department.id}`) && method === 'PUT') {
+                return buildResponse({...department, parent_id: division.id});
+            }
+            return undefined;
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getAllByText('R&D').length).toBeGreaterThan(0);
+        });
+
+        const departmentCell = screen.getAllByText('R&D').find((el) => el.tagName === 'TD');
+        const departmentRow = departmentCell!.closest('tr') as HTMLTableRowElement;
+        const parentSelect = within(departmentRow).getByRole('combobox');
+        fireEvent.change(parentSelect, {target: {value: division.id}});
+
+        await waitFor(() => {
+            const putCall = fetchMock.mock.calls.find(([callUrl, callInit]) => String(callUrl).includes(`/org-units/${department.id}`) && callInit?.method === 'PUT');
+            expect(putCall).toBeTruthy();
+            const body = JSON.parse((putCall![1]?.body as string) || '{}');
+            expect(body.parent_id).toBe(division.id);
+            expect(body.type).toBe('department');
+        });
+    });
+
+    test('H005: division deactivation conflict surfaces the transfer-first guidance', async () => {
+        const guardMessage = '이 본부에는 아직 활성 하위 부서가 있습니다. 하위 부서를 먼저 다른 본부로 이관해 주세요.';
+        const fetchMock = hierarchyFetchMock((url, method) => {
+            if (url.includes(`/org-units/${division.id}`) && method === 'PUT') {
+                return buildResponse(JSON.stringify({message: guardMessage}), false);
+            }
+            return undefined;
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            const table = screen.getByText('본부 리스트').nextElementSibling as HTMLElement;
+            expect(within(table).getByText('경영지원본부')).toBeInTheDocument();
+        });
+
+        const divisionTable = screen.getByText('본부 리스트').nextElementSibling as HTMLElement;
+        const divisionRow = within(divisionTable).getByText('경영지원본부').closest('tr') as HTMLTableRowElement;
+        fireEvent.click(within(divisionRow).getByText('삭제'));
+
+        await waitFor(() => {
+            expect(screen.getByText('삭제 확인')).toBeInTheDocument();
+        });
+        fireEvent.click(document.querySelector('#org-role-delete-confirm-modal .btn-danger') as HTMLElement);
+
+        await waitFor(() => {
+            expect(screen.getByText(guardMessage)).toBeInTheDocument();
+        });
+    });
+    test('H006: user assignment select groups divisions and departments into optgroups', async () => {
+        global.fetch = hierarchyFetchMock() as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('test_user', {exact: false})).toBeInTheDocument();
+        });
+
+        const userRow = screen.getByText('test_user', {exact: false}).closest('tr') as HTMLTableRowElement;
+        const orgUnitSelect = within(userRow).getAllByRole('combobox')[0];
+        const optgroups = orgUnitSelect.querySelectorAll('optgroup');
+        const labels = Array.from(optgroups).map((el) => el.getAttribute('label'));
+        expect(labels).toContain('본부 직속');
+        expect(labels).toContain('부서');
+
+        const divisionGroup = Array.from(optgroups).find((el) => el.getAttribute('label') === '본부 직속');
+        expect(within(divisionGroup as HTMLElement).getByText('경영지원본부')).toBeInTheDocument();
+    });
+
+    test('H007: division filter shows direct members plus child department members, department filter shows only its own', async () => {
+        const directProfile = {
+            team_id: team.id,
+            user_id: user.id,
+            primary_position_id: '',
+            primary_org_unit_id: division.id,
+            extra_positions: [],
+            effective_from: 0,
+            effective_to: 0,
+        };
+        const childProfile = {
+            team_id: team.id,
+            user_id: secondUser.id,
+            primary_position_id: '',
+            primary_org_unit_id: childDepartment.id,
+            extra_positions: [],
+            effective_from: 0,
+            effective_to: 0,
+        };
+        const unassignedUser = TestHelper.getUserMock({
+            id: 'userid33333333333333333333',
+            username: 'free_agent',
+            email: 'free@example.com',
+            nickname: '무소속',
+        });
+        const fetchMock = hierarchyFetchMock((url) => {
+            if (url.includes('/api/v4/users?in_team=')) {
+                return buildResponse([user, secondUser, unassignedUser]);
+            }
+            if (url.includes('/org-profiles')) {
+                return buildResponse([directProfile, childProfile]);
+            }
+            return undefined;
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('test_user', {exact: false})).toBeInTheDocument();
+            expect(screen.getByText('blue_sky', {exact: false})).toBeInTheDocument();
+            expect(screen.getByText('free_agent', {exact: false})).toBeInTheDocument();
+        });
+
+        const filterSelects = document.querySelectorAll('.orgRoleManagement__filterRow select');
+        const orgUnitFilter = filterSelects[0] as HTMLSelectElement;
+
+        // 본부 필터: 직속(user) + 하위 부서(secondUser)만 표시, 미배정 사용자는 제외
+        fireEvent.change(orgUnitFilter, {target: {value: division.id}});
+        await waitFor(() => {
+            expect(screen.queryByText('free_agent', {exact: false})).not.toBeInTheDocument();
+        });
+        expect(screen.getByText('test_user', {exact: false})).toBeInTheDocument();
+        expect(screen.getByText('blue_sky', {exact: false})).toBeInTheDocument();
+
+        // 부서 필터: 그 부서 인원만
+        fireEvent.change(orgUnitFilter, {target: {value: childDepartment.id}});
+        await waitFor(() => {
+            expect(screen.queryByText('test_user', {exact: false})).not.toBeInTheDocument();
+            expect(screen.getByText('blue_sky', {exact: false})).toBeInTheDocument();
+        });
     });
 });

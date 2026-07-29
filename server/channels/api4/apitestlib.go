@@ -165,6 +165,13 @@ func setupTestHelper(tb testing.TB, dbStore store.Store, sqlSettings *model.SqlS
 	s, err := app.NewServer(options...)
 	require.NoError(tb, err)
 
+	// StoreOverride bypasses platform store construction, leaving the raw
+	// *sqlstore.SqlStore handle unset. Org role APIs need that handle, so wire
+	// it from mainHelper for real-store (non-parallel) setups.
+	if sqlSettings != nil && !mainHelper.Options.RunParallel && mainHelper.SQLStore != nil {
+		s.Platform().SetSqlStore(mainHelper.SQLStore)
+	}
+
 	th := &TestHelper{
 		App:               app.New(app.ServerConnector(s.Channels())),
 		Server:            s,

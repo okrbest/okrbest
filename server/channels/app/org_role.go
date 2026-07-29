@@ -32,6 +32,7 @@ const (
 	orgRoleCodeRetryLimit   = 20
 	orgRolePositionPrefix   = "position"
 	orgRoleDepartmentPrefix = "department"
+	orgRoleDivisionPrefix   = "div"
 	orgRoleTeamPrefix       = "team"
 	orgRoleFallbackPrefix   = "orgunit"
 )
@@ -82,6 +83,8 @@ func orgUnitCodePrefix(orgUnitType string) string {
 	switch orgUnitType {
 	case "department":
 		return orgRoleDepartmentPrefix
+	case "division":
+		return orgRoleDivisionPrefix
 	case "team":
 		return orgRoleTeamPrefix
 	default:
@@ -210,6 +213,22 @@ func (a *App) ListOrgUnits(teamID string, includeInactive bool) ([]*model.OrgUni
 	return items, nil
 }
 
+// validateOrgUnitParent enforces the two-level hierarchy: a department may
+// reference an active division of the same team as its parent, or none at all.
+// (Divisions themselves are kept parentless by model validation.)
+func validateOrgUnitParent(ss *sqlstore.SqlStore, input *model.OrgUnit) *model.AppError {
+	if input.Type != model.OrgUnitTypeDepartment || input.ParentID == "" {
+		return nil
+	}
+
+	parent, err := ss.GetOrgUnit(input.TeamID, input.ParentID)
+	if err != nil || parent.Type != model.OrgUnitTypeDivision || !parent.Active {
+		return model.NewAppError("validateOrgUnitParent", "app.org_role.invalid_parent.app_error", nil, "", http.StatusBadRequest)
+	}
+
+	return nil
+}
+
 func (a *App) CreateOrgUnit(actorUserID string, input *model.OrgUnit) (*model.OrgUnit, *model.AppError) {
 	if !input.IsValidForCreate() {
 		return nil, model.NewAppError("CreateOrgUnit", "app.org_role.invalid_org_unit.app_error", nil, "", http.StatusBadRequest)
@@ -217,6 +236,10 @@ func (a *App) CreateOrgUnit(actorUserID string, input *model.OrgUnit) (*model.Or
 
 	ss, appErr := a.orgRoleSQLStore()
 	if appErr != nil {
+		return nil, appErr
+	}
+
+	if appErr := validateOrgUnitParent(ss, input); appErr != nil {
 		return nil, appErr
 	}
 
@@ -266,6 +289,41 @@ func (a *App) UpdateOrgUnit(actorUserID string, input *model.OrgUnit) (*model.Or
 	ss, appErr := a.orgRoleSQLStore()
 	if appErr != nil {
 		return nil, appErr
+	}
+
+	current, err := ss.GetOrgUnit(input.TeamID, input.ID)
+	if err != nil {
+		if ss.IsOrgRoleNotFound(err) {
+			return nil, model.NewAppError("UpdateOrgUnit", "app.org_role.org_unit_not_found.app_error", nil, "", http.StatusNotFound)
+		}
+		return nil, model.NewAppError("UpdateOrgUnit", "app.org_role.update_org_unit.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+	}
+
+	if current.Type != input.Type {
+		return nil, model.NewAppError("UpdateOrgUnit", "app.org_role.type_change_not_allowed.app_error", nil, "", http.StatusBadRequest)
+	}
+
+	if appErr := validateOrgUnitParent(ss, input); appErr != nil {
+		return nil, appErr
+	}
+
+	// 본부 비활성화 가드: 활성 하위 부서·직속 배정이 남아 있으면 이관이 먼저다.
+	if current.Type == model.OrgUnitTypeDivision && current.Active && !input.Active {
+		children, countErr := ss.CountActiveOrgUnitChildren(input.TeamID, input.ID)
+		if countErr != nil {
+			return nil, model.NewAppError("UpdateOrgUnit", "app.org_role.update_org_unit.app_error", nil, "", http.StatusInternalServerError).Wrap(countErr)
+		}
+		if children > 0 {
+			return nil, model.NewAppError("UpdateOrgUnit", "app.org_role.division_has_children.app_error", nil, "", http.StatusConflict)
+		}
+
+		members, countErr := ss.CountUserOrgProfilesByOrgUnit(input.TeamID, input.ID)
+		if countErr != nil {
+			return nil, model.NewAppError("UpdateOrgUnit", "app.org_role.update_org_unit.app_error", nil, "", http.StatusInternalServerError).Wrap(countErr)
+		}
+		if members > 0 {
+			return nil, model.NewAppError("UpdateOrgUnit", "app.org_role.division_has_members.app_error", nil, "", http.StatusConflict)
+		}
 	}
 
 	item, err := ss.UpdateOrgUnit(input)
@@ -337,11 +395,25 @@ func (a *App) GetUserOrgProfileSummary(teamID, userID string) (*model.UserOrgPro
 		if appErr != nil {
 			return nil, appErr
 		}
+
+		unitByID := make(map[string]*model.OrgUnit, len(orgUnits))
 		for _, orgUnit := range orgUnits {
-			if orgUnit.ID == profile.PrimaryOrgUnitID {
-				name := orgUnit.Name
+			unitByID[orgUnit.ID] = orgUnit
+		}
+
+		if assigned, ok := unitByID[profile.PrimaryOrgUnitID]; ok {
+			switch assigned.Type {
+			case model.OrgUnitTypeDivision:
+				// 본부 직속 배정: 본부명만 채운다.
+				name := assigned.Name
+				summary.DivisionName = &name
+			default:
+				name := assigned.Name
 				summary.DepartmentName = &name
-				break
+				if parent, ok := unitByID[assigned.ParentID]; ok && parent.Type == model.OrgUnitTypeDivision {
+					parentName := parent.Name
+					summary.DivisionName = &parentName
+				}
 			}
 		}
 	}
@@ -385,6 +457,14 @@ func (a *App) UpsertUserOrgProfile(rctx request.CTX, actorUserID string, input *
 	ss, appErr := a.orgRoleSQLStore()
 	if appErr != nil {
 		return nil, appErr
+	}
+
+	// 주 소속은 같은 팀의 활성 본부/부서만 허용한다.
+	if input.PrimaryOrgUnitID != "" {
+		unit, err := ss.GetOrgUnit(input.TeamID, input.PrimaryOrgUnitID)
+		if err != nil || !unit.Active || (unit.Type != model.OrgUnitTypeDivision && unit.Type != model.OrgUnitTypeDepartment) {
+			return nil, model.NewAppError("UpsertUserOrgProfile", "app.org_role.invalid_org_unit_assignment.app_error", nil, "", http.StatusBadRequest)
+		}
 	}
 
 	item, err := ss.UpsertUserOrgProfile(input)

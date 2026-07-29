@@ -303,6 +303,64 @@ func TestGetUserOrgProfileSummary(t *testing.T) {
 		require.Nil(t, summary.PositionName)
 	})
 
+	t.Run("department without division resolves null division name", func(t *testing.T) {
+		resp, err := th.Client.DoAPIGet(context.Background(), summaryRouteForUser2, "")
+		require.NoError(t, err)
+		var summary model.UserOrgProfileSummary
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&summary))
+		closeBody(resp)
+		require.Nil(t, summary.DivisionName)
+	})
+
+	t.Run("division hierarchy resolves division and department names", func(t *testing.T) {
+		resp, err := th.SystemAdminClient.DoAPIPost(context.Background(), orgUnitRoute, `{"name":"경영지원본부","type":"division","parent_id":""}`)
+		require.NoError(t, err)
+		var division model.OrgUnit
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&division))
+		closeBody(resp)
+
+		resp, err = th.SystemAdminClient.DoAPIPost(context.Background(), orgUnitRoute, `{"name":"재무팀","type":"department","parent_id":"`+division.ID+`"}`)
+		require.NoError(t, err)
+		var childDept model.OrgUnit
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&childDept))
+		closeBody(resp)
+
+		userProfileRoute := "/teams/" + th.BasicTeam.Id + "/users/" + th.BasicUser.Id + "/org-profile"
+		resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), userProfileRoute, `{"primary_position_id":"","primary_org_unit_id":"`+childDept.ID+`"}`)
+		require.NoError(t, err)
+		closeBody(resp)
+
+		summaryRoute := "/teams/" + th.BasicTeam.Id + "/users/" + th.BasicUser.Id + "/org-profile-summary"
+		resp, err = th.Client.DoAPIGet(context.Background(), summaryRoute, "")
+		require.NoError(t, err)
+		var summary model.UserOrgProfileSummary
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&summary))
+		closeBody(resp)
+		require.NotNil(t, summary.DivisionName)
+		require.Equal(t, "경영지원본부", *summary.DivisionName)
+		require.NotNil(t, summary.DepartmentName)
+		require.Equal(t, "재무팀", *summary.DepartmentName)
+
+		// 본부 직속 배정: division 이름만 채워지고 department는 null
+		resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), userProfileRoute, `{"primary_position_id":"","primary_org_unit_id":"`+division.ID+`"}`)
+		require.NoError(t, err)
+		closeBody(resp)
+
+		resp, err = th.Client.DoAPIGet(context.Background(), summaryRoute, "")
+		require.NoError(t, err)
+		var directSummary model.UserOrgProfileSummary
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&directSummary))
+		closeBody(resp)
+		require.NotNil(t, directSummary.DivisionName)
+		require.Equal(t, "경영지원본부", *directSummary.DivisionName)
+		require.Nil(t, directSummary.DepartmentName)
+
+		// 다음 서브테스트를 위해 배정 해제
+		resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), userProfileRoute, `{"primary_position_id":"","primary_org_unit_id":""}`)
+		require.NoError(t, err)
+		closeBody(resp)
+	})
+
 	t.Run("requester who is not a member of the team is forbidden", func(t *testing.T) {
 		outsider := th.CreateUser(t)
 		outsiderClient := th.CreateClient()
@@ -336,6 +394,105 @@ func TestGetUserOrgProfileSummary(t *testing.T) {
 		require.True(t, ok)
 		require.Equal(t, "api.team.org_roles.feature_disabled.app_error", appErr.Id)
 		require.Equal(t, http.StatusNotImplemented, resp.StatusCode)
+		closeBody(resp)
+	})
+}
+
+func TestTeamOrgUnitHierarchyAPI(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+
+	orgUnitRoute := "/teams/" + th.BasicTeam.Id + "/org-units"
+
+	createOrgUnit := func(t *testing.T, payload string) model.OrgUnit {
+		t.Helper()
+		resp, err := th.SystemAdminClient.DoAPIPost(context.Background(), orgUnitRoute, payload)
+		require.NoError(t, err)
+		require.Equal(t, http.StatusCreated, resp.StatusCode)
+		var unit model.OrgUnit
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&unit))
+		closeBody(resp)
+		return unit
+	}
+
+	division := createOrgUnit(t, `{"name":"경영지원본부","type":"division","parent_id":""}`)
+	require.Equal(t, model.OrgUnitTypeDivision, division.Type)
+	require.True(t, strings.HasPrefix(division.Code, "div"))
+
+	t.Run("team type creation rejected", func(t *testing.T) {
+		resp, err := th.SystemAdminClient.DoAPIPost(context.Background(), orgUnitRoute, `{"name":"고객사","type":"team"}`)
+		require.Error(t, err)
+		require.Equal(t, http.StatusBadRequest, resp.StatusCode)
+		closeBody(resp)
+	})
+
+	t.Run("division with parent rejected", func(t *testing.T) {
+		resp, err := th.SystemAdminClient.DoAPIPost(context.Background(), orgUnitRoute, `{"name":"하위본부","type":"division","parent_id":"`+division.ID+`"}`)
+		require.Error(t, err)
+		require.Equal(t, http.StatusBadRequest, resp.StatusCode)
+		closeBody(resp)
+	})
+
+	t.Run("department transfer keeps user assignment and writes audit logs", func(t *testing.T) {
+		dept := createOrgUnit(t, `{"name":"인사팀","type":"department","parent_id":""}`)
+
+		profileRoute := "/teams/" + th.BasicTeam.Id + "/users/" + th.BasicUser.Id + "/org-profile"
+		resp, err := th.SystemAdminClient.DoAPIPut(context.Background(), profileRoute, `{"primary_position_id":"","primary_org_unit_id":"`+dept.ID+`"}`)
+		require.NoError(t, err)
+		require.Equal(t, http.StatusOK, resp.StatusCode)
+		closeBody(resp)
+
+		transferPayload := `{"code":"` + dept.Code + `","name":"` + dept.Name + `","type":"department","parent_id":"` + division.ID + `","active":true}`
+		resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), orgUnitRoute+"/"+dept.ID, transferPayload)
+		require.NoError(t, err)
+		require.Equal(t, http.StatusOK, resp.StatusCode)
+		var transferred model.OrgUnit
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&transferred))
+		closeBody(resp)
+		require.Equal(t, division.ID, transferred.ParentID)
+
+		// 이관 후에도 배정 불변 (FR-004)
+		profile, appErr := th.App.GetUserOrgProfile(th.BasicTeam.Id, th.BasicUser.Id)
+		require.Nil(t, appErr)
+		require.Equal(t, dept.ID, profile.PrimaryOrgUnitID)
+
+		// 생성·이관이 감사 로그에 남는다 (FR-012)
+		logs, appErr := th.App.ListOrgRoleAuditLogs(th.BasicTeam.Id, 0, 50)
+		require.Nil(t, appErr)
+		var sawCreate, sawUpdate bool
+		for _, l := range logs {
+			if l.EntityID == dept.ID && l.Action == "org_unit.create" {
+				sawCreate = true
+			}
+			if l.EntityID == dept.ID && l.Action == "org_unit.update" {
+				sawUpdate = true
+			}
+		}
+		require.True(t, sawCreate, "create audit log missing")
+		require.True(t, sawUpdate, "update(transfer) audit log missing")
+	})
+
+	t.Run("division deactivation blocked with children then allowed after transfer", func(t *testing.T) {
+		blockedDivision := createOrgUnit(t, `{"name":"생산본부","type":"division","parent_id":""}`)
+		child := createOrgUnit(t, `{"name":"생산1팀","type":"department","parent_id":"`+blockedDivision.ID+`"}`)
+
+		deactivatePayload := `{"code":"` + blockedDivision.Code + `","name":"` + blockedDivision.Name + `","type":"division","parent_id":"","active":false}`
+		resp, err := th.SystemAdminClient.DoAPIPut(context.Background(), orgUnitRoute+"/"+blockedDivision.ID, deactivatePayload)
+		require.Error(t, err)
+		require.Equal(t, http.StatusConflict, resp.StatusCode)
+		appErr, ok := err.(*model.AppError)
+		require.True(t, ok)
+		require.Equal(t, "app.org_role.division_has_children.app_error", appErr.Id)
+		closeBody(resp)
+
+		detachPayload := `{"code":"` + child.Code + `","name":"` + child.Name + `","type":"department","parent_id":"","active":true}`
+		resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), orgUnitRoute+"/"+child.ID, detachPayload)
+		require.NoError(t, err)
+		require.Equal(t, http.StatusOK, resp.StatusCode)
+		closeBody(resp)
+
+		resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), orgUnitRoute+"/"+blockedDivision.ID, deactivatePayload)
+		require.NoError(t, err)
+		require.Equal(t, http.StatusOK, resp.StatusCode)
 		closeBody(resp)
 	})
 }

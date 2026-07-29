@@ -17,6 +17,7 @@ type Props = {
 }
 
 type Summary = {
+    divisionName: string | null;
     departmentName: string | null;
     positionName: string | null;
 }
@@ -51,6 +52,7 @@ const ProfilePopoverOrgRole = ({teamId, userId, isBot}: Props) => {
                 return;
             }
             setSummary({
+                divisionName: result.division_name,
                 departmentName: result.department_name,
                 positionName: result.position_name,
             });
@@ -68,10 +70,18 @@ const ProfilePopoverOrgRole = ({teamId, userId, isBot}: Props) => {
         return null;
     }
 
-    const departmentLabel = summary.departmentName || formatMessage({
-        id: 'profile_popover.org_role.department_unassigned',
-        defaultMessage: '부서 미지정',
-    });
+    // 계층 표기: 본부 소속 부서는 "본부 > 부서", 본부 직속은 "본부", 무소속 부서는 "부서"
+    let departmentLabel: string;
+    if (summary.divisionName && summary.departmentName) {
+        departmentLabel = `${summary.divisionName} > ${summary.departmentName}`;
+    } else if (summary.divisionName) {
+        departmentLabel = summary.divisionName;
+    } else {
+        departmentLabel = summary.departmentName || formatMessage({
+            id: 'profile_popover.org_role.department_unassigned',
+            defaultMessage: '부서 미지정',
+        });
+    }
     const positionLabel = summary.positionName || formatMessage({
         id: 'profile_popover.org_role.position_unassigned',
         defaultMessage: '직위 미지정',

@@ -105,6 +105,40 @@ func (ss *SqlStore) ListOrgUnits(teamID string, includeInactive bool) ([]*model.
 	return result, nil
 }
 
+func (ss *SqlStore) GetOrgUnit(teamID, id string) (*model.OrgUnit, error) {
+	var orgUnit model.OrgUnit
+	if err := ss.GetReplica().Get(&orgUnit,
+		`SELECT ID, TeamID, Code, Name, Type, ParentID, Active, CreateAt, UpdateAt
+		   FROM OrgUnits
+		  WHERE ID = $1 AND TeamID = $2`, id, teamID); err != nil {
+		return nil, err
+	}
+
+	return &orgUnit, nil
+}
+
+func (ss *SqlStore) CountActiveOrgUnitChildren(teamID, parentID string) (int64, error) {
+	var count int64
+	if err := ss.GetReplica().Get(&count,
+		`SELECT COUNT(*) FROM OrgUnits
+		  WHERE TeamID = $1 AND ParentID = $2 AND Active = true`, teamID, parentID); err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}
+
+func (ss *SqlStore) CountUserOrgProfilesByOrgUnit(teamID, orgUnitID string) (int64, error) {
+	var count int64
+	if err := ss.GetReplica().Get(&count,
+		`SELECT COUNT(*) FROM UserOrgProfiles
+		  WHERE TeamID = $1 AND PrimaryOrgUnitID = $2`, teamID, orgUnitID); err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}
+
 func (ss *SqlStore) CreateOrgUnit(orgUnit *model.OrgUnit) (*model.OrgUnit, error) {
 	if orgUnit.ID == "" {
 		orgUnit.ID = model.NewId()

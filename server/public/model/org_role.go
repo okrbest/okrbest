@@ -17,6 +17,11 @@ type PositionDefinition struct {
 	UpdateAt       int64  `json:"update_at"`
 }
 
+const (
+	OrgUnitTypeDivision   = "division"
+	OrgUnitTypeDepartment = "department"
+)
+
 type OrgUnit struct {
 	ID       string `json:"id"`
 	TeamID   string `json:"team_id"`
@@ -48,8 +53,13 @@ type UserOrgProfile struct {
 // admin-only UserOrgProfile response (which exposes raw IDs and extra
 // positions) so the two audiences' contracts can evolve independently.
 type UserOrgProfileSummary struct {
-	TeamID         string  `json:"team_id"`
-	UserID         string  `json:"user_id"`
+	TeamID string `json:"team_id"`
+	UserID string `json:"user_id"`
+
+	// DivisionName resolves the hierarchy for display: the parent division's
+	// name when the user is assigned to a department under a division, or the
+	// division's own name when the user is assigned directly to a division.
+	DivisionName   *string `json:"division_name"`
 	DepartmentName *string `json:"department_name"`
 	PositionName   *string `json:"position_name"`
 }
@@ -86,7 +96,12 @@ func (p *PositionDefinition) IsValid() bool {
 }
 
 func (o *OrgUnit) IsValidForCreate() bool {
-	validType := o.Type == "department" || o.Type == "team"
+	// 'team' 타입은 신규 생성 불가 — 고객사 구분은 Mattermost Team이 담당한다.
+	validType := o.Type == OrgUnitTypeDepartment || o.Type == OrgUnitTypeDivision
+	if o.Type == OrgUnitTypeDivision && o.ParentID != "" {
+		// 계층은 본부-부서 2단계 고정: 본부는 최상위만 허용
+		return false
+	}
 	return IsValidId(o.TeamID) && len(o.Name) > 0 && len(o.Name) <= 128 && validType
 }
 

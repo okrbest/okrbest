@@ -980,7 +980,7 @@
     "translation": {
       "one": "다음 사용자를 찾을 수 없습니다: {{.Users}}",
       "other": "사용자를 찾을 수 없습니다 : {{.Users}}사용자들을 찾을 수 없습니다 : {{.Users}}"
-      }
+    }
   },
   {
     "id": "api.command_groupmsg.max_users.app_error",
@@ -1071,7 +1071,7 @@
     "translation": {
       "one": "{{.FirstUser}}와 {{.Others}}가 {{.Channel}} 채널에 추가되었습니다.",
       "other": "{{.User}}는 이미 이 채널에 참여하고 있습니다."
-      }
+    }
   },
   {
     "id": "api.command_invite.user_already_in_channel.overflow",
@@ -1926,7 +1926,7 @@
     "translation": {
       "one": "[{{.SiteName}}] {{.Month}} {{.Day}}, {{.Year}} 에 새 알림이 왔습니다",
       "other": "[{{.SiteName}}] {{.Month}} {{.Day}}, {{.Year}} 에 새 알림들이 왔습니다"
-      }
+    }
   },
   {
     "id": "api.email_batching.send_batched_email_notification.time",
@@ -4476,7 +4476,7 @@
   },
   {
     "id": "app.admin.test_email.failure",
-      "translation": "연결 실패: {{.Error}}"
+    "translation": "연결 실패: {{.Error}}"
   },
   {
     "id": "app.admin.test_site_url.failure",
@@ -6147,6 +6147,26 @@
     "translation": "앱을 업데이트하는 중 오류가 발생했습니다."
   },
   {
+    "id": "app.org_role.division_has_children.app_error",
+    "translation": "이 본부에는 아직 활성 하위 부서가 있습니다. 하위 부서를 먼저 다른 본부로 이관해 주세요."
+  },
+  {
+    "id": "app.org_role.division_has_members.app_error",
+    "translation": "이 본부에 직속 배정된 사용자가 있습니다. 사용자를 먼저 이관해 주세요."
+  },
+  {
+    "id": "app.org_role.invalid_org_unit_assignment.app_error",
+    "translation": "배정할 조직은 같은 팀의 활성 본부 또는 부서여야 합니다."
+  },
+  {
+    "id": "app.org_role.invalid_parent.app_error",
+    "translation": "상위 조직은 같은 팀의 활성 본부여야 합니다."
+  },
+  {
+    "id": "app.org_role.type_change_not_allowed.app_error",
+    "translation": "조직 단위의 유형(본부↔부서) 변경은 지원하지 않습니다."
+  },
+  {
     "id": "app.plugin.cluster.save_config.app_error",
     "translation": "클러스터링이 활성화된 ReadOnlyConfig를 사용할 때는 config.json 파일의 플러그인 구성을 수동으로 업데이트해야 합니다."
   },
@@ -6739,14 +6759,14 @@
     "translation": {
       "one": "- {{.ChannelName}} 채널에서 {{.Count}}개. 사유: {{.ErrorReason}}",
       "other": "- {{.ChannelName}} 채널에서 {{.Count}}개. 사유: {{.ErrorReason}}"
-      }
+    }
   },
   {
     "id": "app.scheduled_post.failed_messages",
     "translation": {
       "one": "예약된 게시물 {{.Count}}개를 보내지 못했습니다.",
       "other": "예약된 게시물 {{.Count}}개를 보내지 못했습니다."
-      }
+    }
   },
   {
     "id": "app.scheduled_post.permanent_delete_by_user.app_error",
@@ -8297,8 +8317,8 @@
     "translation": "오류"
   },
   {
-    "id":"generic_modal.close",
-    "translation":"닫기"
+    "id": "generic_modal.close",
+    "translation": "닫기"
   },
   {
     "id": "group_not_associated_to_synced_team",

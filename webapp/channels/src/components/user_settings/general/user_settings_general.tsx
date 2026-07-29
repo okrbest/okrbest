@@ -176,7 +176,7 @@ type State = {
     firstName: string;
     lastName: string;
     nickname: string;
-    orgRoleSummary: {departmentName: string | null; positionName: string | null} | null;
+    orgRoleSummary: {divisionName: string | null; departmentName: string | null; positionName: string | null} | null;
     originalEmail: string;
     email: string;
     confirmEmail: string;
@@ -213,6 +213,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
             Client4.getUserOrgProfileSummary(this.props.currentTeamId, this.props.user.id).then((result) => {
                 this.setState({
                     orgRoleSummary: {
+                        divisionName: result.division_name,
                         departmentName: result.department_name,
                         positionName: result.position_name,
                     },
@@ -1333,10 +1334,18 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
             return null;
         }
 
-        const describe = summary.departmentName || formatMessage({
-            id: 'user.settings.general.org_role.unassigned',
-            defaultMessage: 'Not assigned',
-        });
+        // 계층 표기: 본부 소속 부서는 "본부 > 부서", 본부 직속은 "본부", 무소속 부서는 "부서"
+        let describe: string;
+        if (summary.divisionName && summary.departmentName) {
+            describe = `${summary.divisionName} > ${summary.departmentName}`;
+        } else if (summary.divisionName) {
+            describe = summary.divisionName;
+        } else {
+            describe = summary.departmentName || formatMessage({
+                id: 'user.settings.general.org_role.unassigned',
+                defaultMessage: 'Not assigned',
+            });
+        }
 
         return (
             <SettingItem

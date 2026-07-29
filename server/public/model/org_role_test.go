@@ -35,17 +35,17 @@ func TestPositionDefinitionIsValid(t *testing.T) {
 func TestOrgUnitIsValid(t *testing.T) {
 	createValid := &OrgUnit{
 		TeamID: NewId(),
-		Name:   "Team A",
-		Type:   "team",
+		Name:   "Dept A",
+		Type:   OrgUnitTypeDepartment,
 	}
 	require.True(t, createValid.IsValidForCreate())
 	require.False(t, createValid.IsValidForUpdate())
 
 	updateValid := &OrgUnit{
 		TeamID: NewId(),
-		Code:   "team_a",
-		Name:   "Team A",
-		Type:   "team",
+		Code:   "dept_a",
+		Name:   "Dept A",
+		Type:   OrgUnitTypeDepartment,
 	}
 	require.True(t, updateValid.IsValidForUpdate())
 
@@ -56,4 +56,35 @@ func TestOrgUnitIsValid(t *testing.T) {
 		Type:   "unknown",
 	}
 	require.False(t, invalid.IsValidForCreate())
+
+	division := &OrgUnit{
+		TeamID: NewId(),
+		Name:   "본부 A",
+		Type:   OrgUnitTypeDivision,
+	}
+	require.True(t, division.IsValidForCreate())
+
+	divisionWithParent := &OrgUnit{
+		TeamID:   NewId(),
+		Name:     "본부 B",
+		Type:     OrgUnitTypeDivision,
+		ParentID: NewId(),
+	}
+	require.False(t, divisionWithParent.IsValidForCreate())
+
+	departmentWithParent := &OrgUnit{
+		TeamID:   NewId(),
+		Name:     "부서 A",
+		Type:     OrgUnitTypeDepartment,
+		ParentID: NewId(),
+	}
+	require.True(t, departmentWithParent.IsValidForCreate())
+
+	// 고객사 구분은 Mattermost Team이 담당 — 'team' 타입 신규 생성 차단 (FR-011)
+	teamType := &OrgUnit{
+		TeamID: NewId(),
+		Name:   "Team A",
+		Type:   "team",
+	}
+	require.False(t, teamType.IsValidForCreate())
 }
