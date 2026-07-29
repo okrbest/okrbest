@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-28 15:56
+- 갱신일: 2026-07-29 09:42
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1177개
+- 남은 커밋: 1185개
 
-**마지막 반영 커밋:** `0f432a1e` | [fixes registry used for mattermost-build-server image push and pull (#34882)](https://github.com/mattermost/mattermost/commit/0f432a1ee3f1082abdbdc069a79e45d4988df2bc) | 2026-01-08
+**마지막 반영 커밋:** `81dc5f88` | [bumps go version to 1.24.11 (#34876)](https://github.com/mattermost/mattermost/commit/81dc5f880186029884d47349f83d8dca7c5d14c2) | 2026-01-09
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 0b0658bd | [chore: upgrade playwright to 1.57 and its dependencies (#34769)](https://github.com/mattermost/mattermost/commit/0b0658bdd04ceaba9d76c76d488f39c992ad9ee8) | 2026-01-09 |
-| e45dd2cc | [Upgraded board version to v9.2.2 (#34884)](https://github.com/mattermost/mattermost/commit/e45dd2ccf322b11b42fef15623e936a29d180464) | 2026-01-09 |
-| 81dc5f88 | [bumps go version to 1.24.11 (#34876)](https://github.com/mattermost/mattermost/commit/81dc5f880186029884d47349f83d8dca7c5d14c2) | 2026-01-09 |
 | 07ba32e8 | [MM-62151 avoid select * for post store (#34709)](https://github.com/mattermost/mattermost/commit/07ba32e849e11238392934888640787f853b3fda) | 2026-01-09 |
 | 43bab4d7 | [\[MM-67025\] Add new E2E for testing keyboard shortcut Shift+Up (#34793)](https://github.com/mattermost/mattermost/commit/43bab4d7c76c2bcb3ced334e9546106c970a34e2) | 2026-01-12 |
 | d9123c33 | [MM-67037 Skipping flaky test TestAddChannelMemberNoUserRequestor (#34805)](https://github.com/mattermost/mattermost/commit/d9123c33f16c64a73d53becfcc9669f78f61e78b) | 2026-01-12 |
@@ -1188,6 +1185,17 @@
 | 5c409049 | [Fix docs site homepage width, unreadable bold text, and deploy-k8s / icon UI bugs (#37681)](https://github.com/mattermost/mattermost/commit/5c409049b5c6732939655c91d6f99e7e894a0e68) | 2026-07-28 |
 | 3e6399cf | [Remove denim left-border accent from IME diagram intro panels (#37682)](https://github.com/mattermost/mattermost/commit/3e6399cf8895aab201f5f803f831af7e3bf6967c) | 2026-07-28 |
 | c77efb5a | [ci: update actions/test-system-io to latest with upload retries (#37612)](https://github.com/mattermost/mattermost/commit/c77efb5ab380d9816b5c93de18a64da614d061dd) | 2026-07-28 |
+| 044261a1 | [\[Docs Revamp Feedback\] Support three levels of TOC nesting (End-user Guide > Collaborate) (#37663)](https://github.com/mattermost/mattermost/commit/044261a1dafa326997367b14af187c2ccc829dd3) | 2026-07-28 |
+| a8c2307b | [E2E/Playwright: Add testcontainers to playwright-lib (#37570)](https://github.com/mattermost/mattermost/commit/a8c2307bee9bd60a3a0f72a658f32599b44cab0b) | 2026-07-28 |
+| e388d4dc | [Fix low-contrast mobile nav sidebar text in light mode (#37695)](https://github.com/mattermost/mattermost/commit/e388d4dcd981c87a1663883593c78e469344b588) | 2026-07-28 |
+| 4cd57370 | [ci: remove testcontainers teardown step from playwright e2e workflow (#37697)](https://github.com/mattermost/mattermost/commit/4cd57370aca697cfb636f9dc2374c7059abb320b) | 2026-07-28 |
+| e11843b0 | [docs(sidebar): regroup Administration Guide Onboard and Scale sections (#37630)](https://github.com/mattermost/mattermost/commit/e11843b08ef6547727d57bc8cc9fe0d9a9f53537) | 2026-07-28 |
+| dc41b72f | [Prepackage mattermost-plugin-agents v2.5.0-rc2. (#37691)](https://github.com/mattermost/mattermost/commit/dc41b72fdd62e935c80fc05c7ca3949476aa8858) | 2026-07-28 |
+| d33ad5a7 | [\[MM-69810\] Update golang.org/x/image dep (#37595)](https://github.com/mattermost/mattermost/commit/d33ad5a7e9fa374ceb18e43ab6fc413ff09d290c) | 2026-07-28 |
+| f6c1459e | [MM-69612: Add opt-in EnableAuditLogging setting for ABAC (#37322)](https://github.com/mattermost/mattermost/commit/f6c1459ebf597b2097d07e447eec4300121d1086) | 2026-07-28 |
+| 6fefcc80 | [MM-67336: Request structured JSON output for AI message rewrites (#37581)](https://github.com/mattermost/mattermost/commit/6fefcc80a402a73fd91576e51a0bf52d58838f21) | 2026-07-28 |
+| 9230eb6f | [MM-69725: Propagate context through Extractor.Extract using new mattermost/pdf fork (#37579)](https://github.com/mattermost/mattermost/commit/9230eb6f6a6395bd8dea6a7706f94b84e847ea05) | 2026-07-28 |
+| 75823b96 | [Update snapshot and try to fix flaky test (#37722)](https://github.com/mattermost/mattermost/commit/75823b96c3b160f473094059d3fd078eb190b148) | 2026-07-28 |
 
 ## 제외된 커밋
 
