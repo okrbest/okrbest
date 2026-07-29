@@ -15,7 +15,7 @@ import (
 
 func (ss *SqlStore) ListPositionDefinitions(teamID string, includeInactive bool) ([]*model.PositionDefinition, error) {
 	query := ss.getQueryBuilder().
-		Select("ID", "TeamID", "Code", "Name", "Rank", "Active", "FullVisibility", "CreateAt", "UpdateAt").
+		Select("ID", "TeamID", "Code", "Name", "Rank", "Active", "Kind", "FullVisibility", "CreateAt", "UpdateAt").
 		From("PositionDefinitions").
 		Where(sq.Eq{"TeamID": teamID}).
 		OrderBy("Rank ASC", "Name ASC")
@@ -47,15 +47,27 @@ func (ss *SqlStore) CreatePositionDefinition(position *model.PositionDefinition)
 
 	if _, err := ss.GetMaster().Exec(
 		`INSERT INTO PositionDefinitions
-			(ID, TeamID, Code, Name, Rank, Active, FullVisibility, CreateAt, UpdateAt)
+			(ID, TeamID, Code, Name, Rank, Active, Kind, FullVisibility, CreateAt, UpdateAt)
 		 VALUES
-			($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-		position.ID, position.TeamID, position.Code, position.Name, position.Rank, position.Active, position.FullVisibility, position.CreateAt, position.UpdateAt,
+			($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+		position.ID, position.TeamID, position.Code, position.Name, position.Rank, position.Active, position.Kind, position.FullVisibility, position.CreateAt, position.UpdateAt,
 	); err != nil {
 		return nil, err
 	}
 
 	return position, nil
+}
+
+func (ss *SqlStore) GetPositionDefinition(teamID, id string) (*model.PositionDefinition, error) {
+	var position model.PositionDefinition
+	if err := ss.GetReplica().Get(&position,
+		`SELECT ID, TeamID, Code, Name, Rank, Active, Kind, FullVisibility, CreateAt, UpdateAt
+		   FROM PositionDefinitions
+		  WHERE ID = $1 AND TeamID = $2`, id, teamID); err != nil {
+		return nil, err
+	}
+
+	return &position, nil
 }
 
 func (ss *SqlStore) UpdatePositionDefinition(position *model.PositionDefinition) (*model.PositionDefinition, error) {
@@ -186,7 +198,7 @@ func (ss *SqlStore) UpdateOrgUnit(orgUnit *model.OrgUnit) (*model.OrgUnit, error
 func (ss *SqlStore) GetUserOrgProfile(teamID, userID string) (*model.UserOrgProfile, error) {
 	var profile model.UserOrgProfile
 	if err := ss.GetReplica().Get(&profile,
-		`SELECT TeamID, UserID, PrimaryPositionID, PrimaryOrgUnitID, ExtraPositions, EffectiveFrom, EffectiveTo, CreateAt, UpdateAt
+		`SELECT TeamID, UserID, PrimaryPositionID, PrimaryDutyID, PrimaryOrgUnitID, ExtraPositions, EffectiveFrom, EffectiveTo, CreateAt, UpdateAt
 		   FROM UserOrgProfiles
 		  WHERE TeamID = $1 AND UserID = $2`, teamID, userID); err != nil {
 		return nil, err
@@ -197,7 +209,7 @@ func (ss *SqlStore) GetUserOrgProfile(teamID, userID string) (*model.UserOrgProf
 
 func (ss *SqlStore) ListUserOrgProfiles(teamID string) ([]*model.UserOrgProfile, error) {
 	query := ss.getQueryBuilder().
-		Select("TeamID", "UserID", "PrimaryPositionID", "PrimaryOrgUnitID", "ExtraPositions", "EffectiveFrom", "EffectiveTo", "CreateAt", "UpdateAt").
+		Select("TeamID", "UserID", "PrimaryPositionID", "PrimaryDutyID", "PrimaryOrgUnitID", "ExtraPositions", "EffectiveFrom", "EffectiveTo", "CreateAt", "UpdateAt").
 		From("UserOrgProfiles").
 		Where(sq.Eq{"TeamID": teamID})
 
@@ -228,17 +240,18 @@ func (ss *SqlStore) UpsertUserOrgProfile(profile *model.UserOrgProfile) (*model.
 
 	if _, err := ss.GetMaster().Exec(
 		`INSERT INTO UserOrgProfiles
-			(TeamID, UserID, PrimaryPositionID, PrimaryOrgUnitID, ExtraPositions, EffectiveFrom, EffectiveTo, CreateAt, UpdateAt)
+			(TeamID, UserID, PrimaryPositionID, PrimaryDutyID, PrimaryOrgUnitID, ExtraPositions, EffectiveFrom, EffectiveTo, CreateAt, UpdateAt)
 		 VALUES
-			($1, $2, $3, $4, $5, $6, $7, $8, $9)
+			($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 		 ON CONFLICT (TeamID, UserID) DO UPDATE
 		    SET PrimaryPositionID = EXCLUDED.PrimaryPositionID,
+		        PrimaryDutyID = EXCLUDED.PrimaryDutyID,
 		        PrimaryOrgUnitID = EXCLUDED.PrimaryOrgUnitID,
 		        ExtraPositions = EXCLUDED.ExtraPositions,
 		        EffectiveFrom = EXCLUDED.EffectiveFrom,
 		        EffectiveTo = EXCLUDED.EffectiveTo,
 		        UpdateAt = EXCLUDED.UpdateAt`,
-		profile.TeamID, profile.UserID, profile.PrimaryPositionID, profile.PrimaryOrgUnitID, string(extraPositions), profile.EffectiveFrom, profile.EffectiveTo, profile.CreateAt, profile.UpdateAt,
+		profile.TeamID, profile.UserID, profile.PrimaryPositionID, profile.PrimaryDutyID, profile.PrimaryOrgUnitID, string(extraPositions), profile.EffectiveFrom, profile.EffectiveTo, profile.CreateAt, profile.UpdateAt,
 	); err != nil {
 		return nil, err
 	}

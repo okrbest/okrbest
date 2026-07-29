@@ -31,6 +31,7 @@ const (
 	orgRoleCodeMaxLen       = 64
 	orgRoleCodeRetryLimit   = 20
 	orgRolePositionPrefix   = "position"
+	orgRoleDutyPrefix       = "duty"
 	orgRoleDepartmentPrefix = "department"
 	orgRoleDivisionPrefix   = "div"
 	orgRoleTeamPrefix       = "team"
@@ -125,7 +126,20 @@ func (a *App) CreatePositionDefinition(actorUserID string, input *model.Position
 		return nil, appErr
 	}
 
-	baseCode := generateOrgRoleCodeBase(input.Name, orgRolePositionPrefix)
+	// 구버전 클라이언트 호환: kind 미지정은 직위로 정규화한다.
+	if input.Kind == "" {
+		input.Kind = model.PositionKindPosition
+	}
+	if input.Kind == model.PositionKindPosition {
+		// 보드 전체보기 권한은 직책에서 관리한다 — 직위에선 강제 해제.
+		input.FullVisibility = false
+	}
+
+	codePrefix := orgRolePositionPrefix
+	if input.Kind == model.PositionKindDuty {
+		codePrefix = orgRoleDutyPrefix
+	}
+	baseCode := generateOrgRoleCodeBase(input.Name, codePrefix)
 	input.Active = true
 
 	var (
@@ -156,6 +170,7 @@ func (a *App) CreatePositionDefinition(actorUserID string, input *model.Position
 		AfterState: model.StringMap{
 			"code": item.Code,
 			"name": item.Name,
+			"kind": item.Kind,
 		},
 	})
 
@@ -170,6 +185,25 @@ func (a *App) UpdatePositionDefinition(actorUserID string, input *model.Position
 	ss, appErr := a.orgRoleSQLStore()
 	if appErr != nil {
 		return nil, appErr
+	}
+
+	current, err := ss.GetPositionDefinition(input.TeamID, input.ID)
+	if err != nil {
+		if ss.IsOrgRoleNotFound(err) {
+			return nil, model.NewAppError("UpdatePositionDefinition", "app.org_role.position_not_found.app_error", nil, "", http.StatusNotFound)
+		}
+		return nil, model.NewAppError("UpdatePositionDefinition", "app.org_role.update_position.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+	}
+
+	// 직위↔직책 전환은 배정 정합(교차 배정 규칙)을 깨므로 금지. kind 미지정은
+	// 변경 없음으로 취급한다(구버전 클라이언트 호환).
+	if input.Kind != "" && input.Kind != current.Kind {
+		return nil, model.NewAppError("UpdatePositionDefinition", "app.org_role.kind_change_not_allowed.app_error", nil, "", http.StatusBadRequest)
+	}
+	input.Kind = current.Kind
+	if input.Kind == model.PositionKindPosition {
+		// 보드 전체보기 권한은 직책에서 관리한다.
+		input.FullVisibility = false
 	}
 
 	item, err := ss.UpdatePositionDefinition(input)
@@ -192,6 +226,7 @@ func (a *App) UpdatePositionDefinition(actorUserID string, input *model.Position
 		AfterState: model.StringMap{
 			"code":   item.Code,
 			"name":   item.Name,
+			"kind":   item.Kind,
 			"active": fmt.Sprintf("%t", item.Active),
 		},
 	})
@@ -418,7 +453,7 @@ func (a *App) GetUserOrgProfileSummary(teamID, userID string) (*model.UserOrgPro
 		}
 	}
 
-	if profile.PrimaryPositionID != "" {
+	if profile.PrimaryPositionID != "" || profile.PrimaryDutyID != "" {
 		positions, appErr := a.ListPositionDefinitions(teamID, true)
 		if appErr != nil {
 			return nil, appErr
@@ -427,7 +462,10 @@ func (a *App) GetUserOrgProfileSummary(teamID, userID string) (*model.UserOrgPro
 			if position.ID == profile.PrimaryPositionID {
 				name := position.Name
 				summary.PositionName = &name
-				break
+			}
+			if position.ID == profile.PrimaryDutyID {
+				name := position.Name
+				summary.DutyName = &name
 			}
 		}
 	}
@@ -467,6 +505,20 @@ func (a *App) UpsertUserOrgProfile(rctx request.CTX, actorUserID string, input *
 		}
 	}
 
+	// 직위 자리엔 직위만, 직책 자리엔 직책만 — 활성인 것만 배정 가능하다.
+	if input.PrimaryPositionID != "" {
+		def, err := ss.GetPositionDefinition(input.TeamID, input.PrimaryPositionID)
+		if err != nil || !def.Active || def.Kind == model.PositionKindDuty {
+			return nil, model.NewAppError("UpsertUserOrgProfile", "app.org_role.invalid_position_assignment.app_error", nil, "", http.StatusBadRequest)
+		}
+	}
+	if input.PrimaryDutyID != "" {
+		def, err := ss.GetPositionDefinition(input.TeamID, input.PrimaryDutyID)
+		if err != nil || !def.Active || def.Kind != model.PositionKindDuty {
+			return nil, model.NewAppError("UpsertUserOrgProfile", "app.org_role.invalid_duty_assignment.app_error", nil, "", http.StatusBadRequest)
+		}
+	}
+
 	item, err := ss.UpsertUserOrgProfile(input)
 	if err != nil {
 		return nil, model.NewAppError("UpsertUserOrgProfile", "app.org_role.upsert_user_org_profile.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
@@ -482,6 +534,7 @@ func (a *App) UpsertUserOrgProfile(rctx request.CTX, actorUserID string, input *
 		EntityID:    item.UserID,
 		AfterState: model.StringMap{
 			"primary_position_id": item.PrimaryPositionID,
+			"primary_duty_id":     item.PrimaryDutyID,
 			"primary_org_unit_id": item.PrimaryOrgUnitID,
 			"is_ceo":              fmt.Sprintf("%t", isCEO),
 		},
@@ -539,6 +592,11 @@ func (a *App) syncUserOrgProfileToProps(rctx request.CTX, item *model.UserOrgPro
 		}
 		seenPositions[positionID] = struct{}{}
 		positionIDs = append(positionIDs, positionID)
+	}
+	// 보드 전체보기(isCEO) 판정에는 직책도 포함한다. position_codes에는 넣지
+	// 않아 보드 카드 필터 매칭은 직위 코드만 유지된다.
+	if item.PrimaryDutyID != "" {
+		seenPositions[item.PrimaryDutyID] = struct{}{}
 	}
 
 	isCEO := false

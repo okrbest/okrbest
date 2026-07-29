@@ -175,7 +175,7 @@ func TestUpdateUserOrgProfileSyncsUserProps(t *testing.T) {
 	require.NoError(t, json.NewDecoder(resp.Body).Decode(&regularPosition))
 	closeBody(resp)
 
-	resp, err = th.SystemAdminClient.DoAPIPost(context.Background(), positionRoute, `{"name":"CEO","rank":0,"full_visibility":true}`)
+	resp, err = th.SystemAdminClient.DoAPIPost(context.Background(), positionRoute, `{"name":"CEO","rank":0,"kind":"duty","full_visibility":true}`)
 	require.NoError(t, err)
 	require.Equal(t, http.StatusCreated, resp.StatusCode)
 	var ceoPosition model.PositionDefinition
@@ -203,7 +203,9 @@ func TestUpdateUserOrgProfileSyncsUserProps(t *testing.T) {
 	require.Equal(t, regularPosition.Code, user.Props["position_codes"])
 	require.Equal(t, "false", user.Props["is_ceo"])
 
-	assignCEOPayload := `{"primary_position_id":"` + ceoPosition.ID + `","primary_org_unit_id":"` + orgUnit.ID + `"}`
+	// 보드 전체보기 권한은 직책에서 관리 — CEO 직책 배정 시 is_ceo 부여,
+	// position_codes에는 직위 코드만 유지된다.
+	assignCEOPayload := `{"primary_position_id":"` + regularPosition.ID + `","primary_duty_id":"` + ceoPosition.ID + `","primary_org_unit_id":"` + orgUnit.ID + `"}`
 	resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), profileRoute, assignCEOPayload)
 	require.NoError(t, err)
 	require.Equal(t, http.StatusOK, resp.StatusCode)
@@ -211,23 +213,10 @@ func TestUpdateUserOrgProfileSyncsUserProps(t *testing.T) {
 
 	user, _, err = th.SystemAdminClient.GetUser(context.Background(), th.BasicUser.Id, "")
 	require.NoError(t, err)
-	require.Equal(t, ceoPosition.Code, user.Props["position_codes"])
+	require.Equal(t, regularPosition.Code, user.Props["position_codes"])
 	require.Equal(t, "true", user.Props["is_ceo"])
 
-	// Primary + Extra positions: position_codes must serialize both Codes,
-	// primary first, in the same order UserOrgProfile stores them.
-	assignMultiPayload := `{"primary_position_id":"` + regularPosition.ID + `","primary_org_unit_id":"` + orgUnit.ID + `","extra_positions":["` + ceoPosition.ID + `"]}`
-	resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), profileRoute, assignMultiPayload)
-	require.NoError(t, err)
-	require.Equal(t, http.StatusOK, resp.StatusCode)
-	closeBody(resp)
-
-	user, _, err = th.SystemAdminClient.GetUser(context.Background(), th.BasicUser.Id, "")
-	require.NoError(t, err)
-	require.Equal(t, regularPosition.Code+","+ceoPosition.Code, user.Props["position_codes"])
-	require.Equal(t, "true", user.Props["is_ceo"])
-
-	clearPayload := `{"primary_position_id":"","primary_org_unit_id":""}`
+	clearPayload := `{"primary_position_id":"","primary_duty_id":"","primary_org_unit_id":""}`
 	resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), profileRoute, clearPayload)
 	require.NoError(t, err)
 	require.Equal(t, http.StatusOK, resp.StatusCode)
@@ -357,6 +346,41 @@ func TestGetUserOrgProfileSummary(t *testing.T) {
 
 		// 다음 서브테스트를 위해 배정 해제
 		resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), userProfileRoute, `{"primary_position_id":"","primary_org_unit_id":""}`)
+		require.NoError(t, err)
+		closeBody(resp)
+	})
+
+	t.Run("duty assignment resolves duty_name and unassigned stays null", func(t *testing.T) {
+		resp, err := th.SystemAdminClient.DoAPIPost(context.Background(), positionRoute, `{"name":"팀장","rank":1,"kind":"duty"}`)
+		require.NoError(t, err)
+		var duty model.PositionDefinition
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&duty))
+		closeBody(resp)
+
+		userProfileRoute := "/teams/" + th.BasicTeam.Id + "/users/" + th.BasicUser.Id + "/org-profile"
+		resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), userProfileRoute, `{"primary_position_id":"","primary_duty_id":"`+duty.ID+`","primary_org_unit_id":""}`)
+		require.NoError(t, err)
+		closeBody(resp)
+
+		summaryRoute := "/teams/" + th.BasicTeam.Id + "/users/" + th.BasicUser.Id + "/org-profile-summary"
+		resp, err = th.Client.DoAPIGet(context.Background(), summaryRoute, "")
+		require.NoError(t, err)
+		var summary model.UserOrgProfileSummary
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&summary))
+		closeBody(resp)
+		require.NotNil(t, summary.DutyName)
+		require.Equal(t, "팀장", *summary.DutyName)
+
+		// 직책 미배정 사용자는 null (FR-008)
+		resp, err = th.Client.DoAPIGet(context.Background(), summaryRouteForUser2, "")
+		require.NoError(t, err)
+		var noDuty model.UserOrgProfileSummary
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&noDuty))
+		closeBody(resp)
+		require.Nil(t, noDuty.DutyName)
+
+		// 다음 서브테스트 정리
+		resp, err = th.SystemAdminClient.DoAPIPut(context.Background(), userProfileRoute, `{"primary_position_id":"","primary_duty_id":"","primary_org_unit_id":""}`)
 		require.NoError(t, err)
 		closeBody(resp)
 	})
@@ -494,5 +518,78 @@ func TestTeamOrgUnitHierarchyAPI(t *testing.T) {
 		require.NoError(t, err)
 		require.Equal(t, http.StatusOK, resp.StatusCode)
 		closeBody(resp)
+	})
+}
+
+func TestTeamDutyDefinitionAPI(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+
+	positionRoute := "/teams/" + th.BasicTeam.Id + "/positions"
+
+	createDefinition := func(t *testing.T, payload string) model.PositionDefinition {
+		t.Helper()
+		resp, err := th.SystemAdminClient.DoAPIPost(context.Background(), positionRoute, payload)
+		require.NoError(t, err)
+		require.Equal(t, http.StatusCreated, resp.StatusCode)
+		var item model.PositionDefinition
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&item))
+		closeBody(resp)
+		return item
+	}
+
+	duty := createDefinition(t, `{"name":"팀장","rank":1,"kind":"duty","full_visibility":true}`)
+	require.Equal(t, model.PositionKindDuty, duty.Kind)
+	require.True(t, duty.FullVisibility, "board full-visibility is managed on duties")
+	require.True(t, strings.HasPrefix(duty.Code, "duty"))
+
+	t.Run("position creation forces full_visibility off", func(t *testing.T) {
+		position := createDefinition(t, `{"name":"상무","rank":3,"kind":"position","full_visibility":true}`)
+		require.False(t, position.FullVisibility)
+	})
+
+	t.Run("omitted kind creates a position", func(t *testing.T) {
+		position := createDefinition(t, `{"name":"부장","rank":2}`)
+		require.Equal(t, model.PositionKindPosition, position.Kind)
+	})
+
+	t.Run("same name across kinds gets a distinct code suffix", func(t *testing.T) {
+		first := createDefinition(t, `{"name":"본부장","rank":0,"kind":"position"}`)
+		second := createDefinition(t, `{"name":"본부장","rank":0,"kind":"duty"}`)
+		require.NotEqual(t, first.Code, second.Code)
+	})
+
+	t.Run("kind change rejected", func(t *testing.T) {
+		payload := `{"code":"` + duty.Code + `","name":"` + duty.Name + `","rank":1,"active":true,"kind":"position"}`
+		resp, err := th.SystemAdminClient.DoAPIPut(context.Background(), positionRoute+"/"+duty.ID, payload)
+		require.Error(t, err)
+		require.Equal(t, http.StatusBadRequest, resp.StatusCode)
+		appErr, ok := err.(*model.AppError)
+		require.True(t, ok)
+		require.Equal(t, "app.org_role.kind_change_not_allowed.app_error", appErr.Id)
+		closeBody(resp)
+	})
+
+	t.Run("duty create and update write audit logs with kind", func(t *testing.T) {
+		renamePayload := `{"code":"` + duty.Code + `","name":"팀장(개명)","rank":1,"active":true,"kind":"duty"}`
+		resp, err := th.SystemAdminClient.DoAPIPut(context.Background(), positionRoute+"/"+duty.ID, renamePayload)
+		require.NoError(t, err)
+		closeBody(resp)
+
+		logs, appErr := th.App.ListOrgRoleAuditLogs(th.BasicTeam.Id, 0, 50)
+		require.Nil(t, appErr)
+		var sawCreate, sawUpdate bool
+		for _, l := range logs {
+			if l.EntityID != duty.ID {
+				continue
+			}
+			if l.Action == "position.create" && l.AfterState["kind"] == model.PositionKindDuty {
+				sawCreate = true
+			}
+			if l.Action == "position.update" && l.AfterState["kind"] == model.PositionKindDuty {
+				sawUpdate = true
+			}
+		}
+		require.True(t, sawCreate, "duty create audit log with kind missing")
+		require.True(t, sawUpdate, "duty update audit log with kind missing")
 	})
 }

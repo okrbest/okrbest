@@ -104,6 +104,10 @@ const holders = defineMessages({
         id: 'user.settings.general.department',
         defaultMessage: 'Department',
     },
+    duty: {
+        id: 'user.settings.general.duty',
+        defaultMessage: 'Duty',
+    },
     position: {
         id: 'user.settings.general.position',
         defaultMessage: 'Position',
@@ -176,7 +180,7 @@ type State = {
     firstName: string;
     lastName: string;
     nickname: string;
-    orgRoleSummary: {divisionName: string | null; departmentName: string | null; positionName: string | null} | null;
+    orgRoleSummary: {divisionName: string | null; departmentName: string | null; dutyName: string | null; positionName: string | null} | null;
     originalEmail: string;
     email: string;
     confirmEmail: string;
@@ -215,6 +219,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
                     orgRoleSummary: {
                         divisionName: result.division_name,
                         departmentName: result.department_name,
+                        dutyName: result.duty_name,
                         positionName: result.position_name,
                     },
                 });
@@ -1361,6 +1366,28 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
         );
     };
 
+    // 직책 행은 배정된 사용자에게만 보인다 — 미지정 라벨을 두지 않는다(FR-008).
+    createDutySection = () => {
+        const {formatMessage} = this.props.intl;
+        const summary = this.state.orgRoleSummary;
+        if (!summary?.dutyName) {
+            return null;
+        }
+
+        return (
+            <SettingItem
+                active={false}
+                areAllSectionsInactive={this.props.activeSection === ''}
+                title={formatMessage(holders.duty)}
+                describe={summary.dutyName}
+                section={'duty'}
+                updateSection={this.updateSection}
+                isDisabled={true}
+                collapsedEditButtonWhenDisabled={this.createOrgRoleManagedNote()}
+            />
+        );
+    };
+
     createPositionSection = () => {
         const {formatMessage} = this.props.intl;
         const summary = this.state.orgRoleSummary;
@@ -1747,6 +1774,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
         const nicknameSection = this.createNicknameSection();
         const usernameSection = this.createUsernameSection();
         const departmentSection = this.createDepartmentSection();
+        const dutySection = this.createDutySection();
         const positionSection = this.createPositionSection();
         const emailSection = this.createEmailSection();
         const customAttributeSection = this.createCustomAttributeSection();
@@ -1786,6 +1814,8 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
                     {nicknameSection}
                     <div className='divider-light'/>
                     {departmentSection}
+                    {dutySection && <div className='divider-light'/>}
+                    {dutySection}
                     <div className='divider-light'/>
                     {positionSection}
                     <div className='divider-light'/>

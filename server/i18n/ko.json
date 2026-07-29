@@ -6155,12 +6155,24 @@
     "translation": "이 본부에 직속 배정된 사용자가 있습니다. 사용자를 먼저 이관해 주세요."
   },
   {
+    "id": "app.org_role.invalid_duty_assignment.app_error",
+    "translation": "배정할 직책은 같은 팀의 활성 직책이어야 합니다."
+  },
+  {
     "id": "app.org_role.invalid_org_unit_assignment.app_error",
     "translation": "배정할 조직은 같은 팀의 활성 본부 또는 부서여야 합니다."
   },
   {
     "id": "app.org_role.invalid_parent.app_error",
     "translation": "상위 조직은 같은 팀의 활성 본부여야 합니다."
+  },
+  {
+    "id": "app.org_role.invalid_position_assignment.app_error",
+    "translation": "배정할 직위는 같은 팀의 활성 직위여야 합니다."
+  },
+  {
+    "id": "app.org_role.kind_change_not_allowed.app_error",
+    "translation": "직위와 직책 간 유형 변경은 지원하지 않습니다."
   },
   {
     "id": "app.org_role.type_change_not_allowed.app_error",

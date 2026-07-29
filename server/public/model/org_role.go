@@ -6,12 +6,17 @@ package model
 import "strings"
 
 type PositionDefinition struct {
-	ID             string `json:"id"`
-	TeamID         string `json:"team_id"`
-	Code           string `json:"code"`
-	Name           string `json:"name"`
-	Rank           int    `json:"rank"`
-	Active         bool   `json:"active"`
+	ID     string `json:"id"`
+	TeamID string `json:"team_id"`
+	Code   string `json:"code"`
+	Name   string `json:"name"`
+	Rank   int    `json:"rank"`
+	Active bool   `json:"active"`
+
+	// Kind separates the two masters sharing this table: 'position' (직위,
+	// rank/grade) and 'duty' (직책, appointment like 팀장). Empty means
+	// 'position' and is normalized at the app layer for legacy clients.
+	Kind           string `json:"kind"`
 	FullVisibility bool   `json:"full_visibility"`
 	CreateAt       int64  `json:"create_at"`
 	UpdateAt       int64  `json:"update_at"`
@@ -20,6 +25,10 @@ type PositionDefinition struct {
 const (
 	OrgUnitTypeDivision   = "division"
 	OrgUnitTypeDepartment = "department"
+
+	// PositionDefinition.Kind — 직위(직급)와 직책(보직)을 한 마스터에서 구분한다.
+	PositionKindPosition = "position"
+	PositionKindDuty     = "duty"
 )
 
 type OrgUnit struct {
@@ -38,6 +47,7 @@ type UserOrgProfile struct {
 	TeamID            string      `json:"team_id"`
 	UserID            string      `json:"user_id"`
 	PrimaryPositionID string      `json:"primary_position_id"`
+	PrimaryDutyID     string      `json:"primary_duty_id"`
 	PrimaryOrgUnitID  string      `json:"primary_org_unit_id"`
 	ExtraPositions    StringArray `json:"extra_positions"`
 	EffectiveFrom     int64       `json:"effective_from"`
@@ -61,7 +71,11 @@ type UserOrgProfileSummary struct {
 	// division's own name when the user is assigned directly to a division.
 	DivisionName   *string `json:"division_name"`
 	DepartmentName *string `json:"department_name"`
-	PositionName   *string `json:"position_name"`
+
+	// DutyName resolves the user's assigned duty (직책, e.g. 팀장); nil when
+	// unassigned — the UI omits the segment entirely in that case.
+	DutyName     *string `json:"duty_name"`
+	PositionName *string `json:"position_name"`
 }
 
 type OrgRoleAuditLog struct {
@@ -84,7 +98,8 @@ func isValidOrgRoleCode(code string) bool {
 }
 
 func (p *PositionDefinition) IsValidForCreate() bool {
-	return IsValidId(p.TeamID) && len(p.Name) > 0 && len(p.Name) <= 128
+	validKind := p.Kind == "" || p.Kind == PositionKindPosition || p.Kind == PositionKindDuty
+	return IsValidId(p.TeamID) && len(p.Name) > 0 && len(p.Name) <= 128 && validKind
 }
 
 func (p *PositionDefinition) IsValidForUpdate() bool {

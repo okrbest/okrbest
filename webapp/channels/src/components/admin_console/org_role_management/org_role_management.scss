@@ -87,33 +87,99 @@
 
         th,
         td {
+            padding: 8px 12px;
             vertical-align: middle;
         }
 
         td {
             word-break: break-word;
         }
+
+        // 테이블 안의 select는 행 높이를 키우지 않도록 컴팩트하게
+        td .form-control {
+            height: 32px;
+            padding: 4px 8px;
+            font-size: 13px;
+        }
+
+        // select·버튼 유무와 무관하게 데이터 행 높이 균등
+        tbody td {
+            height: 48px;
+        }
+    }
+
+    // 본부별 그룹 구분 행 — 데이터 행과 확실히 구분되는 밴드 스타일
+    .orgRoleManagement__groupHeader {
+        td {
+            height: auto;
+            padding: 6px 12px;
+            border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+            background: rgba(var(--center-channel-color-rgb), 0.06);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
     }
 
     .orgRoleManagement__table--department {
+        // 그룹 헤더 행이 끼면 nth-child 줄무늬가 어긋나므로 기본 striped를 끄고
+        // 그룹 내 로컬 인덱스 기반 교차색(__rowAlt)을 쓴다.
+        &.table-striped > tbody > tr:nth-of-type(odd) {
+            background: transparent;
+        }
+
+        &.table-striped > tbody > tr.orgRoleManagement__groupHeader {
+            background: rgba(var(--center-channel-color-rgb), 0.06);
+        }
+
+        &.table-striped > tbody > tr.orgRoleManagement__rowAlt {
+            background: rgba(var(--center-channel-color-rgb), 0.04);
+        }
+
         th:nth-child(1),
         td:nth-child(1) {
-            width: 46%;
+            width: 34%;
         }
 
         th:nth-child(2),
         td:nth-child(2) {
-            width: 18%;
+            width: 26%;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 12%;
+            white-space: nowrap;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 28%;
+        }
+    }
+
+    // 본부 테이블: 본부명·상태·관리 3컬럼
+    .orgRoleManagement__table--division {
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 52%;
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 16%;
             white-space: nowrap;
         }
 
         th:nth-child(3),
         td:nth-child(3) {
-            width: 36%;
+            width: 32%;
         }
     }
 
-    .orgRoleManagement__table--position {
+    // 직책 테이블: 직책명·정렬순서·상태·보드 전체보기·관리 5컬럼
+    .orgRoleManagement__table--duty {
         th:nth-child(1),
         td:nth-child(1) {
             width: 32%;
@@ -143,6 +209,31 @@
         }
     }
 
+    // 직위 테이블: 직위명·정렬순서·상태·관리 4컬럼 (보드 전체보기는 직책으로 이동)
+    .orgRoleManagement__table--position {
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 40%;
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 14%;
+            white-space: nowrap;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 14%;
+            white-space: nowrap;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 32%;
+        }
+    }
+
     .orgRoleManagement__actionCell {
         white-space: nowrap;
     }
@@ -161,6 +252,20 @@
         td:nth-child(1) {
             width: 40px;
             white-space: nowrap;
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 30%;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3),
+        th:nth-child(4),
+        td:nth-child(4),
+        th:nth-child(5),
+        td:nth-child(5) {
+            width: 22%;
         }
     }
 }

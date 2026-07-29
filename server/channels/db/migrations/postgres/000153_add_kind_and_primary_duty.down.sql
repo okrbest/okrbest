@@ -1,0 +1,2 @@
+ALTER TABLE PositionDefinitions DROP COLUMN IF EXISTS Kind;
+ALTER TABLE UserOrgProfiles DROP COLUMN IF EXISTS PrimaryDutyID;

@@ -242,7 +242,7 @@ describe('components/admin_console/org_role_management', () => {
     test('filters position list by keyword', async () => {
         await renderAndWaitForBody();
 
-        const positionTable = screen.getAllByRole('table')[2];
+        const positionTable = screen.getAllByRole('table')[3];
         await waitFor(() => {
             expect(within(positionTable).queryByText('검색 조건에 해당하는 직위가 없습니다.')).not.toBeInTheDocument();
         });
@@ -295,7 +295,7 @@ describe('components/admin_console/org_role_management', () => {
 
         await renderAndWaitForBody();
 
-        const positionTable = screen.getAllByRole('table')[2];
+        const positionTable = screen.getAllByRole('table')[3];
         await waitFor(() => {
             expect(within(positionTable).queryByText('검색 조건에 해당하는 직위가 없습니다.')).not.toBeInTheDocument();
         });
@@ -670,7 +670,7 @@ describe('components/admin_console/org_role_management', () => {
 
         await renderAndWaitForBody();
 
-        const positionTable = screen.getAllByRole('table')[2];
+        const positionTable = screen.getAllByRole('table')[3];
         await waitFor(() => {
             expect(within(positionTable).queryByText('검색 조건에 해당하는 직위가 없습니다.')).not.toBeInTheDocument();
         });
@@ -727,7 +727,7 @@ describe('components/admin_console/org_role_management', () => {
 
         await renderAndWaitForBody();
 
-        const positionTable = screen.getAllByRole('table')[2];
+        const positionTable = screen.getAllByRole('table')[3];
         const departmentTable = screen.getAllByRole('table')[1];
         await waitFor(() => {
             expect(within(positionTable).queryByText('검색 조건에 해당하는 직위가 없습니다.')).not.toBeInTheDocument();
@@ -1641,6 +1641,194 @@ describe('components/admin_console/org_role_management', () => {
         await waitFor(() => {
             expect(screen.queryByText('test_user', {exact: false})).not.toBeInTheDocument();
             expect(screen.getByText('blue_sky', {exact: false})).toBeInTheDocument();
+        });
+    });
+
+    // === 직책 관리 (specs/004-org-duty-management) ===
+
+    const dutyLeader = {
+        id: 'dutyid1234567890123456789aa',
+        team_id: team.id,
+        code: 'duty-teamlead',
+        name: '팀장',
+        rank: 1,
+        active: true,
+        full_visibility: false,
+        kind: 'duty',
+    };
+
+    const dutyFetchMock = (extraHandler?: (url: string, method: string, init?: RequestInit) => Response | undefined) => {
+        return hierarchyFetchMock((url, method, init) => {
+            const extra = extraHandler?.(url, method, init);
+            if (extra) {
+                return extra;
+            }
+            if (url.includes('/positions?include_inactive=true')) {
+                return buildResponse([{...position, kind: 'position'}, dutyLeader]);
+            }
+            return undefined;
+        });
+    };
+
+    test('U001: renders a separate duty section with its own add button', async () => {
+        global.fetch = dutyFetchMock() as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        expect(screen.getByText('직책 리스트')).toBeInTheDocument();
+        expect(screen.getByText('직책 추가')).toBeInTheDocument();
+
+        await waitFor(() => {
+            const dutyTable = screen.getByText('직책 리스트').nextElementSibling as HTMLElement;
+            expect(within(dutyTable).getByText('팀장')).toBeInTheDocument();
+            expect(within(dutyTable).getByText('보드 전체보기')).toBeInTheDocument();
+        });
+
+        // 직위 리스트에서는 보드 전체보기가 빠진다
+        const positionTable = screen.getByText('직위 리스트').nextElementSibling?.nextElementSibling as HTMLElement;
+        expect(within(positionTable).queryByText('보드 전체보기')).not.toBeInTheDocument();
+    });
+
+    test('U002: position list excludes duty rows and duty list excludes positions', async () => {
+        global.fetch = dutyFetchMock() as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            const positionTable = screen.getAllByRole('table')[3];
+            expect(within(positionTable).getByText('개발자')).toBeInTheDocument();
+            expect(within(positionTable).queryByText('팀장')).not.toBeInTheDocument();
+        });
+
+        const dutyTable = screen.getByText('직책 리스트').nextElementSibling as HTMLElement;
+        expect(within(dutyTable).queryByText('개발자')).not.toBeInTheDocument();
+    });
+
+    test('U003: creating a duty posts kind=duty without full_visibility control', async () => {
+        const fetchMock = dutyFetchMock((url, method) => {
+            if (url.includes('/positions') && method === 'POST') {
+                return buildResponse({...dutyLeader, id: 'dutyid9999999999999999999zz'});
+            }
+            return undefined;
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        fireEvent.click(screen.getByText('직책 추가'));
+        const nameInput = screen.getByPlaceholderText('직책명');
+        await userEvent.type(nameInput, '파트장');
+        const dutyForm = nameInput.closest('.orgRoleManagement__inlineForm') as HTMLElement;
+        fireEvent.click(within(dutyForm).getByRole('checkbox'));
+        fireEvent.click(screen.getByText('직책 저장'));
+
+        await waitFor(() => {
+            const postCall = fetchMock.mock.calls.find(([callUrl, callInit]) => String(callUrl).includes('/positions') && callInit?.method === 'POST');
+            expect(postCall).toBeTruthy();
+            const body = JSON.parse((postCall![1]?.body as string) || '{}');
+            expect(body.kind).toBe('duty');
+            expect(body.name).toBe('파트장');
+            expect(body.full_visibility).toBe(true);
+        });
+    });
+    test('U004: user row has an independent duty select and saving sends both position and duty', async () => {
+        const fetchMock = dutyFetchMock();
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('test_user', {exact: false})).toBeInTheDocument();
+        });
+
+        const userRow = screen.getByText('test_user', {exact: false}).closest('tr') as HTMLTableRowElement;
+        const selects = within(userRow).getAllByRole('combobox');
+        expect(selects).toHaveLength(3); // 소속, 직책, 직위
+
+        const dutySelect = selects[1];
+        expect(within(dutySelect as HTMLElement).getByText('팀장')).toBeInTheDocument();
+        expect(within(dutySelect as HTMLElement).queryByText('개발자')).not.toBeInTheDocument();
+
+        const positionSelect = selects[2];
+        fireEvent.change(positionSelect, {target: {value: position.id}});
+        fireEvent.change(dutySelect, {target: {value: dutyLeader.id}});
+        fireEvent.click(screen.getByText('저장'));
+
+        await waitFor(() => {
+            const putCall = fetchMock.mock.calls.find(([callUrl, callInit]) => String(callUrl).includes('/org-profile') && callInit?.method === 'PUT');
+            expect(putCall).toBeTruthy();
+            const body = JSON.parse((putCall![1]?.body as string) || '{}');
+            expect(body.primary_position_id).toBe(position.id);
+            expect(body.primary_duty_id).toBe(dutyLeader.id);
+        });
+    });
+
+    test('U005: duty filter shows only holders of the selected duty', async () => {
+        const holderProfile = {
+            team_id: team.id,
+            user_id: user.id,
+            primary_position_id: '',
+            primary_duty_id: dutyLeader.id,
+            primary_org_unit_id: '',
+            extra_positions: [],
+            effective_from: 0,
+            effective_to: 0,
+        };
+        const fetchMock = dutyFetchMock((url) => {
+            if (url.includes('/api/v4/users?in_team=')) {
+                return buildResponse([user, secondUser]);
+            }
+            if (url.includes('/org-profiles')) {
+                return buildResponse([holderProfile]);
+            }
+            return undefined;
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('blue_sky', {exact: false})).toBeInTheDocument();
+        });
+
+        const filterSelects = document.querySelectorAll('.orgRoleManagement__filterRow select');
+        expect(filterSelects).toHaveLength(3); // 소속, 직책, 직위
+        fireEvent.change(filterSelects[1] as HTMLSelectElement, {target: {value: dutyLeader.id}});
+
+        await waitFor(() => {
+            expect(screen.queryByText('blue_sky', {exact: false})).not.toBeInTheDocument();
+        });
+        expect(screen.getByText('test_user', {exact: false})).toBeInTheDocument();
+    });
+
+    test('U006: bulk-apply sets the duty for selected users and defaults to no-change', async () => {
+        const fetchMock = dutyFetchMock((url) => {
+            if (url.includes('/api/v4/users?in_team=')) {
+                return buildResponse([user, secondUser]);
+            }
+            return undefined;
+        });
+        global.fetch = fetchMock as typeof fetch;
+
+        await renderAndWaitForBody();
+
+        await waitFor(() => {
+            expect(screen.getByText('test_user', {exact: false})).toBeInTheDocument();
+        });
+
+        const bulkSelects = document.querySelectorAll('.orgRoleManagement__bulkApplyRow select');
+        expect(bulkSelects).toHaveLength(3); // 소속, 직책, 직위
+        expect(within(bulkSelects[1] as HTMLElement).getByText('직책 변경 안 함')).toBeInTheDocument();
+
+        const userRow = screen.getByText('test_user', {exact: false}).closest('tr') as HTMLTableRowElement;
+        fireEvent.click(within(userRow).getByRole('checkbox'));
+
+        fireEvent.change(bulkSelects[1] as HTMLSelectElement, {target: {value: dutyLeader.id}});
+        fireEvent.click(screen.getByText('선택 적용'));
+
+        const dutySelect = within(userRow).getAllByRole('combobox')[1] as HTMLSelectElement;
+        await waitFor(() => {
+            expect(dutySelect.value).toBe(dutyLeader.id);
         });
     });
 });

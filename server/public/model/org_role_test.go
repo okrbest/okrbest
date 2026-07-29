@@ -30,6 +30,23 @@ func TestPositionDefinitionIsValid(t *testing.T) {
 		Name:   "NoCode",
 	}
 	require.False(t, invalidCode.IsValidForUpdate())
+
+	// kind: ''(미지정, 앱에서 position 정규화)·position·duty만 유효
+	for _, kind := range []string{"", PositionKindPosition, PositionKindDuty} {
+		valid := &PositionDefinition{
+			TeamID: NewId(),
+			Name:   "직책후보",
+			Kind:   kind,
+		}
+		require.True(t, valid.IsValidForCreate(), "kind=%q should be valid", kind)
+	}
+
+	invalidKind := &PositionDefinition{
+		TeamID: NewId(),
+		Name:   "이상한종류",
+		Kind:   "rank",
+	}
+	require.False(t, invalidKind.IsValidForCreate())
 }
 
 func TestOrgUnitIsValid(t *testing.T) {

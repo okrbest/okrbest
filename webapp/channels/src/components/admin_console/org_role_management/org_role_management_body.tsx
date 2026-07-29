@@ -18,6 +18,7 @@ type PositionDefinition = {
     rank: number;
     active: boolean;
     full_visibility: boolean;
+    kind?: 'position' | 'duty';
 };
 
 type OrgUnit = {
@@ -34,6 +35,7 @@ type UserOrgProfile = {
     team_id: string;
     user_id: string;
     primary_position_id: string;
+    primary_duty_id: string;
     primary_org_unit_id: string;
     extra_positions: string[];
     effective_from: number;
@@ -42,11 +44,13 @@ type UserOrgProfile = {
 
 type AssignmentState = {
     primary_position_id: string;
+    primary_duty_id: string;
     primary_org_unit_id: string;
 };
 
 const emptyAssignmentState: AssignmentState = {
     primary_position_id: '',
+    primary_duty_id: '',
     primary_org_unit_id: '',
 };
 
@@ -159,9 +163,11 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
     const [showPositionForm, setShowPositionForm] = useState(false);
     const [showDepartmentForm, setShowDepartmentForm] = useState(false);
     const [showDivisionForm, setShowDivisionForm] = useState(false);
+    const [showDutyForm, setShowDutyForm] = useState(false);
     const [positionForm, setPositionForm] = useState({name: '', rank: 0, full_visibility: false});
     const [departmentForm, setDepartmentForm] = useState({name: '', parent_id: ''});
     const [divisionForm, setDivisionForm] = useState({name: ''});
+    const [dutyForm, setDutyForm] = useState({name: '', rank: 0, full_visibility: false});
     const [positionSearchKeyword, setPositionSearchKeyword] = useState('');
     const [departmentSearchKeyword, setDepartmentSearchKeyword] = useState('');
     const [userSearchKeyword, setUserSearchKeyword] = useState('');
@@ -169,6 +175,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
     const [editingDepartment, setEditingDepartment] = useState<DepartmentEditor | null>(null);
 
     const [filterOrgUnitId, setFilterOrgUnitId] = useState('');
+    const [filterDutyId, setFilterDutyId] = useState('');
     const [filterPositionId, setFilterPositionId] = useState('');
     const [processingActionKey, setProcessingActionKey] = useState('');
     const [deleteConfirmTarget, setDeleteConfirmTarget] = useState<DeleteConfirmTarget | null>(null);
@@ -180,6 +187,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
 
     const [selectedUserIds, setSelectedUserIds] = useState<Set<string>>(new Set());
     const [bulkOrgUnitId, setBulkOrgUnitId] = useState('');
+    const [bulkDutyId, setBulkDutyId] = useState('');
     const [bulkPositionId, setBulkPositionId] = useState('');
     const [isBulkSaving, setIsBulkSaving] = useState(false);
     const [bulkSaveSummary, setBulkSaveSummary] = useState<BulkSaveSummary | null>(null);
@@ -229,18 +237,28 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
         setShowDepartmentForm((prev) => !prev);
         setShowPositionForm(false);
         setShowDivisionForm(false);
+        setShowDutyForm(false);
     }, []);
 
     const togglePositionForm = useCallback(() => {
         setShowPositionForm((prev) => !prev);
         setShowDepartmentForm(false);
         setShowDivisionForm(false);
+        setShowDutyForm(false);
     }, []);
 
     const toggleDivisionForm = useCallback(() => {
         setShowDivisionForm((prev) => !prev);
         setShowDepartmentForm(false);
         setShowPositionForm(false);
+        setShowDutyForm(false);
+    }, []);
+
+    const toggleDutyForm = useCallback(() => {
+        setShowDutyForm((prev) => !prev);
+        setShowDepartmentForm(false);
+        setShowPositionForm(false);
+        setShowDivisionForm(false);
     }, []);
 
     const openDeleteConfirmForPosition = useCallback((position: PositionDefinition) => {
@@ -301,6 +319,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
             const profile = profileMap[user.id];
             assignmentMap[user.id] = {
                 primary_position_id: profile?.primary_position_id || '',
+                primary_duty_id: profile?.primary_duty_id || '',
                 primary_org_unit_id: profile?.primary_org_unit_id || '',
             };
         }
@@ -309,6 +328,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
 
         setSelectedUserIds(new Set());
         setBulkOrgUnitId('');
+        setBulkDutyId('');
         setBulkPositionId('');
         setIsBulkSaving(false);
         clearBulkSaveSummaryTimer();
@@ -341,6 +361,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
         setSuccessMessage('');
         setSelectedUserIds(new Set());
         setBulkOrgUnitId('');
+        setBulkDutyId('');
         setBulkPositionId('');
         setIsBulkSaving(false);
         clearBulkSaveSummaryTimer();
@@ -365,7 +386,6 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
             await request(`/api/v4/teams/${teamId}/positions`, 'POST', {
                 name: positionForm.name,
                 rank: positionForm.rank,
-                full_visibility: positionForm.full_visibility,
             });
             setPositionForm({name: '', rank: 0, full_visibility: false});
             setShowPositionForm(false);
@@ -429,6 +449,32 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
         }
     };
 
+    const createDuty = async () => {
+        if (!teamId || !dutyForm.name) {
+            return;
+        }
+
+        try {
+            clearSuccessMessageTimer();
+            setSuccessMessage('');
+            await request(`/api/v4/teams/${teamId}/positions`, 'POST', {
+                name: dutyForm.name,
+                rank: dutyForm.rank,
+                kind: 'duty',
+                full_visibility: dutyForm.full_visibility,
+            });
+            setDutyForm({name: '', rank: 0, full_visibility: false});
+            setShowDutyForm(false);
+            await loadTeamData(teamId);
+            setError('');
+            showSuccessMessage(intl.formatMessage({id: 'admin.org_roles.saved', defaultMessage: '저장되었습니다'}));
+        } catch (e) {
+            clearSuccessMessageTimer();
+            setSuccessMessage('');
+            setError(parseApiError(e));
+        }
+    };
+
     // 부서 행의 소속 본부 select에서 바로 이관한다. 배정은 서버가 그대로 유지한다.
     const transferDepartment = async (department: OrgUnit, newParentId: string) => {
         if (!teamId || department.parent_id === newParentId) {
@@ -453,7 +499,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
         }
     };
 
-    const updateAssignmentField = (userId: string, key: 'primary_position_id' | 'primary_org_unit_id', value: string) => {
+    const updateAssignmentField = (userId: string, key: 'primary_position_id' | 'primary_duty_id' | 'primary_org_unit_id', value: string) => {
         setAssignments((prev) => ({
             ...prev,
             [userId]: {
@@ -481,6 +527,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
         const payload = {
             ...current,
             primary_position_id: assignment.primary_position_id,
+            primary_duty_id: assignment.primary_duty_id,
             primary_org_unit_id: assignment.primary_org_unit_id,
         };
         const savedProfile = await request<UserOrgProfile>(`/api/v4/teams/${startedForTeamId}/users/${userId}/org-profile`, 'PUT', payload);
@@ -639,7 +686,9 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
         setDeleteConfirmTarget(null);
     };
 
-    const activePositions = useMemo(() => ensureArray<PositionDefinition>(positions).filter((position) => position.active), [positions]);
+    // 직위(kind 미지정 포함)와 직책을 분리 — 기존 데이터는 kind 없음 = 직위
+    const activePositions = useMemo(() => ensureArray<PositionDefinition>(positions).filter((position) => position.active && position.kind !== 'duty'), [positions]);
+    const activeDuties = useMemo(() => ensureArray<PositionDefinition>(positions).filter((position) => position.active && position.kind === 'duty'), [positions]);
     const activeOrgUnits = useMemo(() => ensureArray<OrgUnit>(orgUnits).filter((orgUnit) => orgUnit.active), [orgUnits]);
     const activeDepartments = useMemo(() => activeOrgUnits.filter((orgUnit) => orgUnit.type === 'department'), [activeOrgUnits]);
     const activeDivisions = useMemo(() => activeOrgUnits.filter((orgUnit) => orgUnit.type === 'division'), [activeOrgUnits]);
@@ -717,14 +766,15 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
 
             const assignment = assignments[user.id];
             if (!assignment) {
-                return !filterOrgUnitId && !filterPositionId;
+                return !filterOrgUnitId && !filterDutyId && !filterPositionId;
             }
 
             const orgUnitMatched = !filterOrgUnitIdSet || filterOrgUnitIdSet.has(assignment.primary_org_unit_id);
+            const dutyMatched = !filterDutyId || assignment.primary_duty_id === filterDutyId;
             const positionMatched = !filterPositionId || assignment.primary_position_id === filterPositionId;
-            return orgUnitMatched && positionMatched;
+            return orgUnitMatched && dutyMatched && positionMatched;
         });
-    }, [assignments, filterOrgUnitId, filterOrgUnitIdSet, filterPositionId, teamUsers, userSearchKeyword]);
+    }, [assignments, filterDutyId, filterOrgUnitId, filterOrgUnitIdSet, filterPositionId, teamUsers, userSearchKeyword]);
 
     const dirtyUserIds = useMemo(() => {
         const result = new Set<string>();
@@ -732,8 +782,9 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
             const current = assignments[user.id] || emptyAssignmentState;
             const saved = userProfiles[user.id];
             const savedPositionId = saved?.primary_position_id || '';
+            const savedDutyId = saved?.primary_duty_id || '';
             const savedOrgUnitId = saved?.primary_org_unit_id || '';
-            if (current.primary_position_id !== savedPositionId || current.primary_org_unit_id !== savedOrgUnitId) {
+            if (current.primary_position_id !== savedPositionId || current.primary_duty_id !== savedDutyId || current.primary_org_unit_id !== savedOrgUnitId) {
                 result.add(user.id);
             }
         }
@@ -773,7 +824,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
         });
     };
 
-    const canApplyBulk = selectedUserIds.size > 0 && Boolean(bulkOrgUnitId || bulkPositionId);
+    const canApplyBulk = selectedUserIds.size > 0 && Boolean(bulkOrgUnitId || bulkDutyId || bulkPositionId);
 
     // 소속 선택지: 본부(직속 배정)와 부서를 optgroup으로 구분해 렌더링
     const renderOrgUnitGroupedOptions = () => (
@@ -814,6 +865,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                 const current = next[userId] || emptyAssignmentState;
                 next[userId] = {
                     primary_org_unit_id: bulkOrgUnitId || current.primary_org_unit_id,
+                    primary_duty_id: bulkDutyId || current.primary_duty_id,
                     primary_position_id: bulkPositionId || current.primary_position_id,
                 };
             });
@@ -886,6 +938,15 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         <FormattedMessage
                             id='admin.org_roles.add_department'
                             defaultMessage='부서 추가'
+                        />
+                    </button>
+                    <button
+                        className='btn btn-primary'
+                        onClick={toggleDutyForm}
+                    >
+                        <FormattedMessage
+                            id='admin.org_roles.add_duty'
+                            defaultMessage='직책 추가'
                         />
                     </button>
                     <button
@@ -977,11 +1038,38 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                             value={positionForm.rank}
                             onChange={(e) => setPositionForm({...positionForm, rank: Number(e.target.value)})}
                         />
+                        <button
+                            className='btn btn-primary'
+                            onClick={createPosition}
+                        >
+                            <FormattedMessage
+                                id='admin.org_roles.save_position'
+                                defaultMessage='직위 저장'
+                            />
+                        </button>
+                    </div>
+                )}
+
+                {showDutyForm && (
+                    <div className='form-group orgRoleManagement__inlineForm'>
+                        <input
+                            className='form-control'
+                            placeholder={intl.formatMessage({id: 'admin.org_roles.duty_name_placeholder', defaultMessage: '직책명'})}
+                            value={dutyForm.name}
+                            onChange={(e) => setDutyForm({...dutyForm, name: e.target.value})}
+                        />
+                        <input
+                            className='form-control'
+                            type='number'
+                            placeholder={intl.formatMessage({id: 'admin.org_roles.rank_placeholder', defaultMessage: '정렬 순서(rank)'})}
+                            value={dutyForm.rank}
+                            onChange={(e) => setDutyForm({...dutyForm, rank: Number(e.target.value)})}
+                        />
                         <label>
                             <input
                                 type='checkbox'
-                                checked={positionForm.full_visibility}
-                                onChange={(e) => setPositionForm({...positionForm, full_visibility: e.target.checked})}
+                                checked={dutyForm.full_visibility}
+                                onChange={(e) => setDutyForm({...dutyForm, full_visibility: e.target.checked})}
                             />
                             <FormattedMessage
                                 id='admin.org_roles.full_visibility_label'
@@ -990,11 +1078,11 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         </label>
                         <button
                             className='btn btn-primary'
-                            onClick={createPosition}
+                            onClick={createDuty}
                         >
                             <FormattedMessage
-                                id='admin.org_roles.save_position'
-                                defaultMessage='직위 저장'
+                                id='admin.org_roles.save_duty'
+                                defaultMessage='직책 저장'
                             />
                         </button>
                     </div>
@@ -1199,14 +1287,17 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                             {group.divisionName ?? intl.formatMessage({id: 'admin.org_roles.division_unassigned_group', defaultMessage: '미소속'})}
                                         </td>
                                     </tr>
-                                    {group.departments.map((department) => {
+                                    {group.departments.map((department, departmentIndex) => {
                                         const isEditing = editingDepartment?.id === department.id;
                                         const isSaving = processingActionKey === `department-save-${department.id}`;
                                         const isDeactivating = processingActionKey === `department-deactivate-${department.id}`;
                                         const isTransferring = processingActionKey === `department-transfer-${department.id}`;
 
                                         return (
-                                            <tr key={department.id}>
+                                            <tr
+                                                key={department.id}
+                                                className={departmentIndex % 2 === 1 ? 'orgRoleManagement__rowAlt' : ''}
+                                            >
                                                 <td>
                                                     {isEditing ? (
                                                         <input
@@ -1335,6 +1426,190 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
 
                 <h4>
                     <FormattedMessage
+                        id='admin.org_roles.duty_list_heading'
+                        defaultMessage='직책 리스트'
+                    />
+                </h4>
+                <div className='orgRoleManagement__tableWrap'>
+                    <table
+                        className='table table-striped orgRoleManagement__table orgRoleManagement__table--duty'
+                    >
+                        <thead>
+                            <tr>
+                                <th>
+                                    <FormattedMessage
+                                        id='admin.org_roles.duty_name_column'
+                                        defaultMessage='직책명'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
+                                        id='admin.org_roles.rank_column'
+                                        defaultMessage='정렬순서'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
+                                        id='admin.org_roles.status_column'
+                                        defaultMessage='상태'
+                                    />
+                                </th>
+                                <th title={intl.formatMessage({id: 'admin.org_roles.full_visibility_column_title', defaultMessage: '체크된 직위를 가진 사용자는 부서/직위 구분 없이 모든 보드를 봅니다'})}>
+                                    <FormattedMessage
+                                        id='admin.org_roles.full_visibility_column'
+                                        defaultMessage='보드 전체보기'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
+                                        id='admin.org_roles.management_column'
+                                        defaultMessage='관리'
+                                    />
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {activeDuties.map((duty) => {
+                                const isEditing = editingPosition?.id === duty.id;
+                                const isSaving = processingActionKey === `position-save-${duty.id}`;
+                                const isDeactivating = processingActionKey === `position-deactivate-${duty.id}`;
+
+                                return (
+                                    <tr key={duty.id}>
+                                        <td>
+                                            {isEditing ? (
+                                                <input
+                                                    className='form-control'
+                                                    value={editingPosition?.name || ''}
+                                                    onChange={(e) => setEditingPosition({...editingPosition!, name: e.target.value})}
+                                                />
+                                            ) : (
+                                                duty.name
+                                            )}
+                                        </td>
+                                        <td>
+                                            {isEditing ? (
+                                                <input
+                                                    className='form-control'
+                                                    type='number'
+                                                    value={editingPosition?.rank || 0}
+                                                    onChange={(e) => setEditingPosition({...editingPosition!, rank: Number(e.target.value)})}
+                                                />
+                                            ) : (
+                                                duty.rank
+                                            )}
+                                        </td>
+                                        <td>
+                                            {duty.active ? (
+                                                <FormattedMessage
+                                                    id='admin.org_roles.status_active'
+                                                    defaultMessage='활성'
+                                                />
+                                            ) : (
+                                                <FormattedMessage
+                                                    id='admin.org_roles.status_inactive'
+                                                    defaultMessage='비활성'
+                                                />
+                                            )}
+                                        </td>
+                                        <td>
+                                            {isEditing ? (
+                                                <input
+                                                    type='checkbox'
+                                                    checked={editingPosition?.full_visibility || false}
+                                                    onChange={(e) => setEditingPosition({...editingPosition!, full_visibility: e.target.checked})}
+                                                />
+                                            ) : (
+                                                <input
+                                                    type='checkbox'
+                                                    checked={duty.full_visibility}
+                                                    disabled={true}
+                                                />
+                                            )}
+                                        </td>
+                                        <td className='orgRoleManagement__actionCell'>
+                                            {isEditing ? (
+                                                <div className='orgRoleManagement__actionButtons'>
+                                                    <button
+                                                        className='btn btn-primary btn-sm'
+                                                        onClick={saveEditedPosition}
+                                                        disabled={isSaving}
+                                                    >
+                                                        {isSaving ? (
+                                                            <FormattedMessage
+                                                                id='admin.org_roles.saving'
+                                                                defaultMessage='저장 중...'
+                                                            />
+                                                        ) : (
+                                                            <FormattedMessage
+                                                                id='admin.org_roles.save'
+                                                                defaultMessage='저장'
+                                                            />
+                                                        )}
+                                                    </button>
+                                                    <button
+                                                        className='btn btn-tertiary btn-sm'
+                                                        onClick={() => setEditingPosition(null)}
+                                                    >
+                                                        <FormattedMessage
+                                                            id='admin.org_roles.cancel'
+                                                            defaultMessage='취소'
+                                                        />
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div className='orgRoleManagement__actionButtons'>
+                                                    <button
+                                                        className='btn btn-tertiary btn-sm'
+                                                        onClick={() => startEditPosition(duty)}
+                                                        disabled={isDeactivating}
+                                                    >
+                                                        <FormattedMessage
+                                                            id='admin.org_roles.edit'
+                                                            defaultMessage='수정'
+                                                        />
+                                                    </button>
+                                                    <button
+                                                        className='btn btn-danger btn-sm'
+                                                        onClick={() => openDeleteConfirmForPosition(duty)}
+                                                        disabled={isDeactivating}
+                                                    >
+                                                        {isDeactivating ? (
+                                                            <FormattedMessage
+                                                                id='admin.org_roles.deleting'
+                                                                defaultMessage='삭제 중...'
+                                                            />
+                                                        ) : (
+                                                            <FormattedMessage
+                                                                id='admin.org_roles.delete'
+                                                                defaultMessage='삭제'
+                                                            />
+                                                        )}
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                            {activeDuties.length === 0 && (
+                                <tr>
+                                    <td colSpan={5}>
+                                        <div className='help-text'>
+                                            <FormattedMessage
+                                                id='admin.org_roles.no_duty_results'
+                                                defaultMessage='등록된 직책이 없습니다.'
+                                            />
+                                        </div>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>
+                    <FormattedMessage
                         id='admin.org_roles.position_list_heading'
                         defaultMessage='직위 리스트'
                     />
@@ -1369,12 +1644,6 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                     <FormattedMessage
                                         id='admin.org_roles.status_column'
                                         defaultMessage='상태'
-                                    />
-                                </th>
-                                <th title={intl.formatMessage({id: 'admin.org_roles.full_visibility_column_title', defaultMessage: '체크된 직위를 가진 사용자는 부서/직위 구분 없이 모든 보드를 봅니다'})}>
-                                    <FormattedMessage
-                                        id='admin.org_roles.full_visibility_column'
-                                        defaultMessage='보드 전체보기'
                                     />
                                 </th>
                                 <th>
@@ -1426,21 +1695,6 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                 <FormattedMessage
                                                     id='admin.org_roles.status_inactive'
                                                     defaultMessage='비활성'
-                                                />
-                                            )}
-                                        </td>
-                                        <td>
-                                            {isEditing ? (
-                                                <input
-                                                    type='checkbox'
-                                                    checked={editingPosition?.full_visibility || false}
-                                                    onChange={(e) => setEditingPosition({...editingPosition!, full_visibility: e.target.checked})}
-                                                />
-                                            ) : (
-                                                <input
-                                                    type='checkbox'
-                                                    checked={position.full_visibility}
-                                                    disabled={true}
                                                 />
                                             )}
                                         </td>
@@ -1511,7 +1765,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                             })}
                             {filteredPositionList.length === 0 && (
                                 <tr>
-                                    <td colSpan={5}>
+                                    <td colSpan={4}>
                                         <div className='help-text'>
                                             <FormattedMessage
                                                 id='admin.org_roles.no_position_results'
@@ -1542,6 +1796,21 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     </select>
                     <select
                         className='form-control'
+                        value={filterDutyId}
+                        onChange={(e) => setFilterDutyId(e.target.value)}
+                    >
+                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.filter_all_duties', defaultMessage: '전체 직책'})}</option>
+                        {activeDuties.map((duty) => (
+                            <option
+                                key={duty.id}
+                                value={duty.id}
+                            >
+                                {duty.name}
+                            </option>
+                        ))}
+                    </select>
+                    <select
+                        className='form-control'
                         value={filterPositionId}
                         onChange={(e) => setFilterPositionId(e.target.value)}
                     >
@@ -1559,6 +1828,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         className='btn btn-tertiary'
                         onClick={() => {
                             setFilterOrgUnitId('');
+                            setFilterDutyId('');
                             setFilterPositionId('');
                         }}
                     >
@@ -1583,6 +1853,21 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     >
                         <option value=''>{intl.formatMessage({id: 'admin.org_roles.bulk_department_no_op', defaultMessage: '부서 변경 안 함'})}</option>
                         {renderOrgUnitGroupedOptions()}
+                    </select>
+                    <select
+                        className='form-control'
+                        value={bulkDutyId}
+                        onChange={(e) => setBulkDutyId(e.target.value)}
+                    >
+                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.bulk_duty_no_op', defaultMessage: '직책 변경 안 함'})}</option>
+                        {activeDuties.map((duty) => (
+                            <option
+                                key={duty.id}
+                                value={duty.id}
+                            >
+                                {duty.name}
+                            </option>
+                        ))}
                     </select>
                     <select
                         className='form-control'
@@ -1700,6 +1985,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                 </th>
                                 <th>
                                     <FormattedMessage
+                                        id='admin.org_roles.duty_column'
+                                        defaultMessage='직책'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
                                         id='admin.org_roles.position_column'
                                         defaultMessage='직위'
                                     />
@@ -1737,6 +2028,23 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                         <td>
                                             <select
                                                 className='form-control'
+                                                value={assignment.primary_duty_id}
+                                                onChange={(e) => updateAssignmentField(user.id, 'primary_duty_id', e.target.value)}
+                                            >
+                                                <option value=''>{intl.formatMessage({id: 'admin.org_roles.duty_unassigned', defaultMessage: '직책 미지정'})}</option>
+                                                {activeDuties.map((duty) => (
+                                                    <option
+                                                        key={duty.id}
+                                                        value={duty.id}
+                                                    >
+                                                        {duty.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select
+                                                className='form-control'
                                                 value={assignment.primary_position_id}
                                                 onChange={(e) => updateAssignmentField(user.id, 'primary_position_id', e.target.value)}
                                             >
@@ -1756,7 +2064,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                             })}
                             {filteredUsers.length === 0 && (
                                 <tr>
-                                    <td colSpan={4}>
+                                    <td colSpan={5}>
                                         <div className='help-text'>
                                             <FormattedMessage
                                                 id='admin.org_roles.no_user_results'

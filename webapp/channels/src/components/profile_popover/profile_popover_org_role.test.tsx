@@ -43,6 +43,7 @@ describe('components/ProfilePopoverOrgRole', () => {
             team_id: teamId,
             user_id: userId,
             division_name: null,
+            duty_name: null,
             department_name: '개발팀',
             position_name: '팀장',
         });
@@ -65,6 +66,7 @@ describe('components/ProfilePopoverOrgRole', () => {
             team_id: teamId,
             user_id: userId,
             division_name: null,
+            duty_name: null,
             department_name: '개발팀',
             position_name: null,
         });
@@ -87,6 +89,7 @@ describe('components/ProfilePopoverOrgRole', () => {
             team_id: teamId,
             user_id: userId,
             division_name: null,
+            duty_name: null,
             department_name: null,
             position_name: null,
         });
@@ -109,6 +112,7 @@ describe('components/ProfilePopoverOrgRole', () => {
             team_id: teamId,
             user_id: userId,
             division_name: '경영지원본부',
+            duty_name: null,
             department_name: '재무팀',
             position_name: '팀장',
         });
@@ -131,6 +135,7 @@ describe('components/ProfilePopoverOrgRole', () => {
             team_id: teamId,
             user_id: userId,
             division_name: '경영지원본부',
+            duty_name: null,
             department_name: null,
             position_name: null,
         });
@@ -146,6 +151,52 @@ describe('components/ProfilePopoverOrgRole', () => {
         );
 
         expect(await screen.findByText('경영지원본부 · 직위 미지정')).toBeInTheDocument();
+    });
+
+    test('renders duty between department and position when assigned', async () => {
+        mockedClient4.getUserOrgProfileSummary.mockResolvedValue({
+            team_id: teamId,
+            user_id: userId,
+            division_name: '경영지원본부',
+            duty_name: '팀장',
+            department_name: '재무팀',
+            position_name: '부장',
+        });
+
+        const store = mockStore(baseState);
+        renderWithContext(
+            <Provider store={store}>
+                <ProfilePopoverOrgRole
+                    teamId={teamId}
+                    userId={userId}
+                />
+            </Provider>,
+        );
+
+        expect(await screen.findByText('경영지원본부 > 재무팀 · 팀장 · 부장')).toBeInTheDocument();
+    });
+
+    test('renders duty with the position-unassigned label when only the duty is assigned', async () => {
+        mockedClient4.getUserOrgProfileSummary.mockResolvedValue({
+            team_id: teamId,
+            user_id: userId,
+            division_name: null,
+            duty_name: '팀장',
+            department_name: '개발팀',
+            position_name: null,
+        });
+
+        const store = mockStore(baseState);
+        renderWithContext(
+            <Provider store={store}>
+                <ProfilePopoverOrgRole
+                    teamId={teamId}
+                    userId={userId}
+                />
+            </Provider>,
+        );
+
+        expect(await screen.findByText('개발팀 · 팀장 · 직위 미지정')).toBeInTheDocument();
     });
 
     test('renders nothing when the API errors (e.g. feature disabled)', async () => {

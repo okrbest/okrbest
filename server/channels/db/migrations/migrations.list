@@ -303,3 +303,5 @@ channels/db/migrations/postgres/000150_create_org_role_tables.down.sql
 channels/db/migrations/postgres/000150_create_org_role_tables.up.sql
 channels/db/migrations/postgres/000152_add_full_visibility_to_position_definitions.down.sql
 channels/db/migrations/postgres/000152_add_full_visibility_to_position_definitions.up.sql
+channels/db/migrations/postgres/000153_add_kind_and_primary_duty.down.sql
+channels/db/migrations/postgres/000153_add_kind_and_primary_duty.up.sql

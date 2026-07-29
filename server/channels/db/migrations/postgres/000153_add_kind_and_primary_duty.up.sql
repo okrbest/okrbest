@@ -1,0 +1,2 @@
+ALTER TABLE PositionDefinitions ADD COLUMN IF NOT EXISTS Kind varchar(32) NOT NULL DEFAULT 'position';
+ALTER TABLE UserOrgProfiles ADD COLUMN IF NOT EXISTS PrimaryDutyID varchar(26) NOT NULL DEFAULT '';

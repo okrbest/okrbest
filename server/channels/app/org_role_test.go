@@ -56,6 +56,90 @@ func setupOrgRoleDBHelper(t *testing.T) *TestHelper {
 	return th
 }
 
+func TestDutyDefinitionLifecycle(t *testing.T) {
+	th := setupOrgRoleDBHelper(t)
+	teamID := th.BasicTeam.Id
+	actorID := th.BasicUser.Id
+
+	t.Run("duty creation uses duty code prefix and keeps full_visibility", func(t *testing.T) {
+		duty, appErr := th.App.CreatePositionDefinition(actorID, &model.PositionDefinition{
+			TeamID:         teamID,
+			Name:           "팀장",
+			Kind:           model.PositionKindDuty,
+			FullVisibility: true, // 보드 전체보기 권한은 직책에서 관리한다
+		})
+		require.Nil(t, appErr)
+		require.Equal(t, model.PositionKindDuty, duty.Kind)
+		require.True(t, duty.FullVisibility)
+		require.True(t, strings.HasPrefix(duty.Code, "duty"))
+	})
+
+	t.Run("position creation forces full_visibility off", func(t *testing.T) {
+		position, appErr := th.App.CreatePositionDefinition(actorID, &model.PositionDefinition{
+			TeamID:         teamID,
+			Name:           "전무",
+			Kind:           model.PositionKindPosition,
+			FullVisibility: true, // 직위에선 강제 해제
+		})
+		require.Nil(t, appErr)
+		require.False(t, position.FullVisibility)
+	})
+
+	t.Run("full-visibility duty assignment marks the user as CEO-visibility", func(t *testing.T) {
+		duty, appErr := th.App.CreatePositionDefinition(actorID, &model.PositionDefinition{
+			TeamID:         teamID,
+			Name:           "총괄임원",
+			Kind:           model.PositionKindDuty,
+			FullVisibility: true,
+		})
+		require.Nil(t, appErr)
+
+		_, appErr = th.App.UpsertUserOrgProfile(th.Context, actorID, &model.UserOrgProfile{
+			TeamID:        teamID,
+			UserID:        th.BasicUser2.Id,
+			PrimaryDutyID: duty.ID,
+		})
+		require.Nil(t, appErr)
+
+		user, appErr := th.App.GetUser(th.BasicUser2.Id)
+		require.Nil(t, appErr)
+		require.Equal(t, "true", user.Props["is_ceo"])
+
+		// 해제하면 회수
+		_, appErr = th.App.UpsertUserOrgProfile(th.Context, actorID, &model.UserOrgProfile{
+			TeamID: teamID,
+			UserID: th.BasicUser2.Id,
+		})
+		require.Nil(t, appErr)
+		user, appErr = th.App.GetUser(th.BasicUser2.Id)
+		require.Nil(t, appErr)
+		require.Equal(t, "false", user.Props["is_ceo"])
+	})
+
+	t.Run("omitted kind is normalized to position", func(t *testing.T) {
+		position, appErr := th.App.CreatePositionDefinition(actorID, &model.PositionDefinition{
+			TeamID: teamID,
+			Name:   "차장",
+		})
+		require.Nil(t, appErr)
+		require.Equal(t, model.PositionKindPosition, position.Kind)
+	})
+
+	t.Run("kind change between position and duty rejected", func(t *testing.T) {
+		duty, appErr := th.App.CreatePositionDefinition(actorID, &model.PositionDefinition{
+			TeamID: teamID,
+			Name:   "파트장",
+			Kind:   model.PositionKindDuty,
+		})
+		require.Nil(t, appErr)
+
+		duty.Kind = model.PositionKindPosition
+		_, appErr = th.App.UpdatePositionDefinition(actorID, duty)
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.kind_change_not_allowed.app_error", appErr.Id)
+	})
+}
+
 func TestOrgUnitParentValidation(t *testing.T) {
 	th := setupOrgRoleDBHelper(t)
 	teamID := th.BasicTeam.Id
@@ -287,5 +371,89 @@ func TestOrgUnitDivisionDeactivationGuard(t *testing.T) {
 		division.Active = true
 		_, appErr = th.App.UpdateOrgUnit(actorID, division)
 		require.Nil(t, appErr)
+	})
+}
+
+func TestDutyAssignmentValidation(t *testing.T) {
+	th := setupOrgRoleDBHelper(t)
+	teamID := th.BasicTeam.Id
+	actorID := th.BasicUser.Id
+
+	duty, appErr := th.App.CreatePositionDefinition(actorID, &model.PositionDefinition{
+		TeamID: teamID,
+		Name:   "팀장",
+		Kind:   model.PositionKindDuty,
+	})
+	require.Nil(t, appErr)
+
+	position, appErr := th.App.CreatePositionDefinition(actorID, &model.PositionDefinition{
+		TeamID: teamID,
+		Name:   "부장",
+		Kind:   model.PositionKindPosition,
+	})
+	require.Nil(t, appErr)
+
+	t.Run("position and duty are assigned independently", func(t *testing.T) {
+		profile, appErr := th.App.UpsertUserOrgProfile(th.Context, actorID, &model.UserOrgProfile{
+			TeamID:            teamID,
+			UserID:            th.BasicUser.Id,
+			PrimaryPositionID: position.ID,
+			PrimaryDutyID:     duty.ID,
+		})
+		require.Nil(t, appErr)
+		require.Equal(t, position.ID, profile.PrimaryPositionID)
+		require.Equal(t, duty.ID, profile.PrimaryDutyID)
+
+		// 직책만 해제해도 직위는 유지
+		profile, appErr = th.App.UpsertUserOrgProfile(th.Context, actorID, &model.UserOrgProfile{
+			TeamID:            teamID,
+			UserID:            th.BasicUser.Id,
+			PrimaryPositionID: position.ID,
+			PrimaryDutyID:     "",
+		})
+		require.Nil(t, appErr)
+		require.Equal(t, position.ID, profile.PrimaryPositionID)
+		require.Empty(t, profile.PrimaryDutyID)
+	})
+
+	t.Run("position id in the duty slot rejected", func(t *testing.T) {
+		_, appErr := th.App.UpsertUserOrgProfile(th.Context, actorID, &model.UserOrgProfile{
+			TeamID:        teamID,
+			UserID:        th.BasicUser.Id,
+			PrimaryDutyID: position.ID,
+		})
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.invalid_duty_assignment.app_error", appErr.Id)
+	})
+
+	t.Run("duty id in the position slot rejected", func(t *testing.T) {
+		_, appErr := th.App.UpsertUserOrgProfile(th.Context, actorID, &model.UserOrgProfile{
+			TeamID:            teamID,
+			UserID:            th.BasicUser.Id,
+			PrimaryPositionID: duty.ID,
+		})
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.invalid_position_assignment.app_error", appErr.Id)
+	})
+
+	t.Run("inactive duty rejected", func(t *testing.T) {
+		idleDuty, appErr := th.App.CreatePositionDefinition(actorID, &model.PositionDefinition{
+			TeamID: teamID,
+			Name:   "휴면직책",
+			Kind:   model.PositionKindDuty,
+		})
+		require.Nil(t, appErr)
+
+		idleDuty.Active = false
+		_, appErr = th.App.UpdatePositionDefinition(actorID, idleDuty)
+		require.Nil(t, appErr)
+
+		_, appErr = th.App.UpsertUserOrgProfile(th.Context, actorID, &model.UserOrgProfile{
+			TeamID:        teamID,
+			UserID:        th.BasicUser.Id,
+			PrimaryDutyID: idleDuty.ID,
+		})
+		require.NotNil(t, appErr)
+		require.Equal(t, "app.org_role.invalid_duty_assignment.app_error", appErr.Id)
 	})
 }

@@ -138,6 +138,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
             team_id: 'team_id',
             user_id: 'user_id',
             division_name: null,
+            duty_name: null,
             department_name: '개발팀',
             position_name: '팀장',
         });
@@ -162,6 +163,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
             team_id: 'team_id',
             user_id: 'user_id',
             division_name: null,
+            duty_name: null,
             department_name: null,
             position_name: null,
         });
@@ -181,6 +183,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
             team_id: 'team_id',
             user_id: 'user_id',
             division_name: '경영지원본부',
+            duty_name: null,
             department_name: '재무팀',
             position_name: null,
         });
@@ -199,6 +202,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
             team_id: 'team_id',
             user_id: 'user_id',
             division_name: '경영지원본부',
+            duty_name: null,
             department_name: null,
             position_name: null,
         });
@@ -210,6 +214,46 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         );
 
         expect(await screen.findByText('경영지원본부')).toBeInTheDocument();
+    });
+
+    test('shows a read-only duty row only for users with an assigned duty', async () => {
+        mockedClient4.getUserOrgProfileSummary.mockResolvedValue({
+            team_id: 'team_id',
+            user_id: 'user_id',
+            division_name: null,
+            duty_name: '팀장',
+            department_name: '개발팀',
+            position_name: null,
+        });
+
+        renderWithContext(
+            <Provider store={store}>
+                <UserSettingsGeneral {...requiredProps}/>
+            </Provider>,
+        );
+
+        expect(await screen.findByText('팀장')).toBeInTheDocument();
+        expect(screen.getAllByText('This value is managed by your team admin.').length).toBeGreaterThanOrEqual(3);
+    });
+
+    test('omits the duty row entirely when no duty is assigned', async () => {
+        mockedClient4.getUserOrgProfileSummary.mockResolvedValue({
+            team_id: 'team_id',
+            user_id: 'user_id',
+            division_name: null,
+            duty_name: null,
+            department_name: '개발팀',
+            position_name: null,
+        });
+
+        renderWithContext(
+            <Provider store={store}>
+                <UserSettingsGeneral {...requiredProps}/>
+            </Provider>,
+        );
+
+        await screen.findByText('개발팀');
+        expect(screen.getAllByText('This value is managed by your team admin.')).toHaveLength(2);
     });
 
     test('hides department/position rows when there is no active team', async () => {

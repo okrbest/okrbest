@@ -189,6 +189,9 @@ export type UserOrgProfileSummary = {
     // name for a direct division assignment.
     division_name: string | null;
     department_name: string | null;
+
+    // Assigned duty (직책, e.g. 팀장); null omits the display segment entirely.
+    duty_name: string | null;
     position_name: string | null;
 };
 

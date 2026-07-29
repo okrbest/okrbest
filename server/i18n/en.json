@@ -6815,12 +6815,24 @@
     "translation": "Users are still assigned directly to this division. Transfer them first."
   },
   {
+    "id": "app.org_role.invalid_duty_assignment.app_error",
+    "translation": "The assigned duty must be an active duty definition in the same team."
+  },
+  {
     "id": "app.org_role.invalid_org_unit_assignment.app_error",
     "translation": "The assigned organization must be an active division or department in the same team."
   },
   {
     "id": "app.org_role.invalid_parent.app_error",
     "translation": "The parent organization must be an active division in the same team."
+  },
+  {
+    "id": "app.org_role.invalid_position_assignment.app_error",
+    "translation": "The assigned position must be an active position definition in the same team."
+  },
+  {
+    "id": "app.org_role.kind_change_not_allowed.app_error",
+    "translation": "Changing a definition between position and duty is not supported."
   },
   {
     "id": "app.org_role.type_change_not_allowed.app_error",

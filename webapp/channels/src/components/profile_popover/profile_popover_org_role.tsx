@@ -19,6 +19,7 @@ type Props = {
 type Summary = {
     divisionName: string | null;
     departmentName: string | null;
+    dutyName: string | null;
     positionName: string | null;
 }
 
@@ -54,6 +55,7 @@ const ProfilePopoverOrgRole = ({teamId, userId, isBot}: Props) => {
             setSummary({
                 divisionName: result.division_name,
                 departmentName: result.department_name,
+                dutyName: result.duty_name,
                 positionName: result.position_name,
             });
         }).catch(() => {
@@ -87,9 +89,16 @@ const ProfilePopoverOrgRole = ({teamId, userId, isBot}: Props) => {
         defaultMessage: '직위 미지정',
     });
 
+    // 직책은 배정된 경우에만 세그먼트를 끼워 넣는다(미지정 라벨 없음).
+    const segments = [departmentLabel];
+    if (summary.dutyName) {
+        segments.push(summary.dutyName);
+    }
+    segments.push(positionLabel);
+
     return (
         <p className='user-profile-popover__non-heading'>
-            {`${departmentLabel} · ${positionLabel}`}
+            {segments.join(' · ')}
         </p>
     );
 };
