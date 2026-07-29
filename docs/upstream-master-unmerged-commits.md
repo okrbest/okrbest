@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-29 09:42
+- 갱신일: 2026-07-29 11:31
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1185개
+- 남은 커밋: 1184개
 
-**마지막 반영 커밋:** `81dc5f88` | [bumps go version to 1.24.11 (#34876)](https://github.com/mattermost/mattermost/commit/81dc5f880186029884d47349f83d8dca7c5d14c2) | 2026-01-09
+**마지막 반영 커밋:** `07ba32e8` | [MM-62151 avoid select * for post store (#34709)](https://github.com/mattermost/mattermost/commit/07ba32e849e11238392934888640787f853b3fda) | 2026-01-09
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 07ba32e8 | [MM-62151 avoid select * for post store (#34709)](https://github.com/mattermost/mattermost/commit/07ba32e849e11238392934888640787f853b3fda) | 2026-01-09 |
 | 43bab4d7 | [\[MM-67025\] Add new E2E for testing keyboard shortcut Shift+Up (#34793)](https://github.com/mattermost/mattermost/commit/43bab4d7c76c2bcb3ced334e9546106c970a34e2) | 2026-01-12 |
 | d9123c33 | [MM-67037 Skipping flaky test TestAddChannelMemberNoUserRequestor (#34805)](https://github.com/mattermost/mattermost/commit/d9123c33f16c64a73d53becfcc9669f78f61e78b) | 2026-01-12 |
 | ec3ba68e | [Translations update from Mattermost Weblate (#34906)](https://github.com/mattermost/mattermost/commit/ec3ba68e328e91815e55a9ba166b2051d734a1d2) | 2026-01-12 |
