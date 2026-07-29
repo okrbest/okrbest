@@ -55,6 +55,15 @@
       }
     },
     {
+      "files": [
+        "src/components/admin_console/admin_definition.tsx",
+        "src/components/admin_console/admin_definition_ldap_wizard.tsx"
+      ],
+      "rules": {
+        "formatjs/enforce-placeholders": 0
+      }
+    },
+    {
       "files": ["*"],
       "excludedFiles": ["src/packages/mattermost-redux/**"],
       "rules": {
