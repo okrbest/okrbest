@@ -41,3 +41,18 @@
 - **Decision**: webapp 루트 `package.json`에 devDependency로 추가하고, `channels/package.json`의 `i18n-extract`/`i18n-extract:check`는 실제 추출 커맨드를 실행하는 스크립트로, 루트의 동명 스크립트는 `--workspaces --if-present`로 위임하는 패턴을 upstream과 동일하게 따른다.
 - **Rationale**: 이미 `babel-plugin-formatjs`·`eslint-plugin-formatjs`가 루트에 위치한 기존 관례와 일치하며, constitution 원칙 II(의존성 중복 지양)에 부합한다.
 - **Alternatives considered**: `channels`에 직접 설치 — 기존 관례와 불일치, 의존성 중복 우려로 기각.
+
+## 구현 중 발견 사항 (T001~T012 진행 중)
+
+### 8. npm 스크립트의 작은따옴표가 Windows(cmd.exe)에서 깨짐
+
+- **발견**: `i18n-extract`/`i18n-extract:check` 스크립트를 upstream 그대로(작은따옴표로 glob 보호) 이식했더니, 이 Windows 개발 환경에서 `npm run i18n-extract` 실행 시 `en.json`이 빈 카탈로그(`{}`)로 생성됐다. 원인은 npm이 Windows에서 스크립트를 `cmd.exe`로 실행하는데, `cmd.exe`는 작은따옴표를 문자열 구분자로 인식하지 않아 글롭 패턴이 리터럴 문자열(따옴표 문자 포함)로 전달되어 매치되는 파일이 0개가 됐기 때문이다. `npx`로 직접 실행(Git Bash)했을 때는 정상 동작해 재현이 늦어졌다.
+- **조치**: 두 스크립트의 작은따옴표를 큰따옴표로 교체했다. 큰따옴표는 `cmd.exe`와 bash 양쪽에서 모두 문자열 구분자로 인식되며, bash에서는 여전히 중괄호 확장(`{js,jsx,ts,tsx}`)을 억제한다(실측 확인).
+- **영향 범위**: 이후 US2/US3에서 추가하는 npm 스크립트(예: `check-empty-translations` 관련)도 동일하게 큰따옴표를 사용해야 한다.
+
+### 9. `en.json`이 소스 코드의 `defaultMessage`와 상당히 어긋나 있음 (기존 카탈로그 정체)
+
+- **발견**: 수정된 스크립트로 `en.json`을 재생성해 기존 파일과 비교한 결과, 약 6,858개 키 중 530여 개(≈8%)의 문구가 실제로 다르다. 이 중 약 77개는 리브랜드 문자열로, 소스 코드의 `defaultMessage`는 이미 "OKR.BEST"인데 커밋된 `en.json`은 여전히 "Mattermost"다(예: `about.copyright`, `about.notice`, `about.version`). 나머지는 리브랜드와 무관한 문구 개선(오타 수정, 도움말 텍스트 갱신 등)으로, 과거 upstream 반영 시점에 `en.json` 재추출이 누락되어 누적된 것으로 보인다.
+- **의미**: 이는 도구 교체(`mmjstool` → `@formatjs/cli`) 자체의 버그가 아니라 기존에 이미 존재하던 카탈로그 정체 문제다. 런타임에 카탈로그가 `defaultMessage`보다 우선 적용되므로, 영어 로케일 사용자가 실제로 "Mattermost" 문구를 보고 있을 가능성이 있다.
+- **결정**: 이번 세션(MVP: Setup+Foundational+US1)에서는 `en.json`을 재생성·커밋하지 않는다(사용자 확인). 이 드리프트의 해소(특히 리브랜드 77건)는 User Story 3 배치 작업 범위에 포함해 후속 세션에서 다룬다 — `batches.md`(T007)에 별도 항목으로 기록 필요.
+- **Alternatives considered**: 지금 전체 530건을 en.json에 반영 — ko.json 번역 정합성에 미치는 영향이 이번 세션 범위(MVP)를 크게 벗어나 기각. 리브랜드 77건만 즉시 반영 — 사용자가 US3로 이연하기로 결정.
