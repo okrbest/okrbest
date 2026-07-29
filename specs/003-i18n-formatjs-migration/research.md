@@ -81,3 +81,24 @@
 - **조치**: `enforce-default-message` 7건 중 정적 id + en.json에 이미 존재하는 값이 명확한 2개 파일(`access_problem/index.tsx`, `cloud_invoice_preview/index.tsx`)은 en.json의 기존 값을 그대로 사용해 `defaultMessage`를 추가해 즉시 해결했다. 나머지 4건(동적 id 참조·pass-through prop 패턴·테스트 픽스처)과 `enforce-placeholders` 134건 전체는 사용자 확인에 따라 규칙을 `error`(2)에서 `warning`(1)으로 낮추고 후속 작업으로 이연했다 — 파일마다 실제 버그인지 규칙의 오탐(간접적으로 조합되는 값을 규칙이 못 보는 경우)인지 개별 판단이 필요해 이번 세션(Polish) 범위를 벗어난다.
 - **의미**: `formatjs/enforce-id`(이 마이그레이션의 핵심 목표)는 계속 error로 유지되며 영향받지 않는다. `no-invalid-icu`는 위반 0건이라 error 유지. `no-multiple-whitespaces`는 이번 마이그레이션 이전부터 이미 error였고 위반 2건은 사전 존재 이슈로 그대로 둔다(우리가 만든 문제가 아님).
 - **Alternatives considered**: upstream과 동일하게 전부 error 유지 — 134+7건이 즉시 `npm run check`를 막아 이 브랜치의 다른 모든 개선사항까지 머지를 막게 되므로 기각(사용자 판단).
+
+## 구현 중 발견 사항 (후속 세션 — en.json 드리프트 해소, 연구 항목 #9 이어서)
+
+### 13. "only in en.json" 20개 키 중 12개는 추출 사각지대, 8개는 진짜 죽은 키
+
+- **발견**: 연구 항목 #9의 드리프트를 실제로 해소하려고 재추출본과 커밋된 `en.json`을 비교하니, `en.json`에만 있고 신선한 추출 결과에는 없는 키가 20개 있었다. 처음엔 전부 "미사용"으로 보였으나, 항목 #10에서 배운 교훈(고정 문자열 `grep -F`로 재검증)을 그대로 적용해 하나씩 확인한 결과 12개는 실제로 프로덕션 코드에서 여전히 쓰이고 있었고, `@formatjs/cli`가 정적으로 추출하지 못하는 4가지 서로 다른 패턴 때문에 빠진 것이었다:
+  - `login.tsx`의 `t('login.no...')` 7건 — upstream의 `t(id: string): string` 마커 함수 관행(런타임 id를 동적으로 계산하되 추출 시점엔 리터럴로 인식시키는 용도)인데, `@formatjs/cli`는 객체 디스크립터만 인식하고 이 "bare string" 마커는 `--additional-function-names`에 넣어도 인식하지 않는다. `defineMessages` 객체 + 문자열 키 조합으로 리팩터링해 해결.
+  - `org_role_management.tsx`의 `admin.org_roles.panel_title`/`panel_subtitle` 2건 — `AdminPanel`의 `title`/`subtitle` prop이 `MessageDescriptor` 타입인데 `defineMessage()`로 감싸지 않고 bare object literal(`{id, defaultMessage}`)을 그대로 넘겨서 정적 분석이 추출 지점으로 인식하지 못함. `defineMessage()`로 감싸 해결.
+  - `marketplace_item_plugin.tsx`의 `.message.intro`/`.message.current` 2건 — `defaultMessage`에 ICU 플레이스홀더 대신 JS 템플릿 리터럴(`` `...${name}...` ``)을 써서 이미 완성된 문자열을 넣고 있었다(옆에 있는 `values` prop은 사실상 죽은 코드였다). ICU 플레이스홀더(`{name}`)로 바꿔 해결 — 형제 케이스 `current_with_release_notes`와 동일한 패턴으로 통일.
+  - `notification_actions.tsx`의 `notification.crt` 1건 — `Utils.localizeAndFormatMessage()` 래퍼(내부적으로 `localizeMessage` 호출)를 쓰는데 `--additional-function-names`엔 `localizeMessage`만 등록돼 있었음. 코드베이스 전체에서 이 래퍼 사용처는 3곳뿐이고 그중 리터럴 `id`를 쓰는 건 이 1곳뿐이라(`app_command_parser_dependencies.ts`는 변수를 넘겨 애초에 정적 추출 불가) `--additional-function-names`에 `localizeAndFormatMessage` 추가로 해결.
+  - 나머지 8개(`channel_header.viewMembers`, `setting_picture.help.profile.example`, `sidebarLeft.browserOrCreateChannelMenu.{createUserGroupMenuItem,openDirectMessageMenuItem}.primaryLabel`, `someting.string`, `test.description`, `test1`, `test2`)는 `grep -F`로 전체 `src` 재확인 결과 프로덕션 코드 어디에도 없었다 — 6개는 `.test.tsx` 픽스처(추출 glob이 테스트 파일을 제외하므로 애초에 추출 대상이 아님)에서만 리터럴로 등장했고, `sidebarLeft.*` 2개는 테스트 파일에조차 없는 완전한 사문(死文)이었다. `en.json`/`ko.json`에서 제거.
+- **의미**: `@formatjs/cli`의 정적 추출은 "JSX의 `id=` 리터럴 속성" 또는 "`defineMessage(s)`/등록된 마커 함수의 객체 인자"만 인식하며, 그 외의 모든 간접 경로(bare object prop, 템플릿 리터럴 defaultMessage, 미등록 wrapper 함수, 문자열 전용 마커)는 조용히 스킵한다 — 에러도 경고도 없다. 이는 `enforce-id`(항목 #12)가 잡아내지 못하는 사각지대와 근본적으로 같은 종류의 문제로, "구조적으로 `id` prop이 있는가"만 보고 "그 값이 정적 리터럴인가"는 보지 않는다.
+- **Alternatives considered**: 20개를 en.json에서 일괄 유지(추출 결과 무시) — `i18n-extract:check`가 영원히 실패하게 되어 기각.
+
+### 14. `en.json` 484개 값 드리프트는 실제 upstream 문구 개선 + 리브랜드 누락이었음 — 재추출로 기계적 해소
+
+- **발견**: 항목 #13 해소 후 재추출하니 `en.json`과 완전히 동일한 키 집합에 대해 484개 값이 실제로 달랐다(연구 항목 #9의 "약 530여 개" 추정치와 합치). 표본 확인 결과 전부 다음 두 범주였다: (1) 항목 #9에서 이미 파악한 리브랜드 누락(`about.*` 등, "Mattermost" → "OKR.BEST"), (2) upstream이 그동안 문구를 개선한 것(오타 수정, 용량 단위 변경, 더 명확한 도움말 문구 등) — id 자체가 바뀐 경우는 없었다(해시 기반 id 사용처가 없어 id 안정성 문제는 없음).
+- **조치**: `en.json`이 "소스 코드에서 기계적으로 생성되는 파일"이라는 이 마이그레이션의 설계 원칙에 따라, 개별 문구를 수동으로 판단하지 않고 `npm run i18n-extract`를 그대로 실행해 덮어썼다. 이 과정에서 소스에는 있었지만 `en.json`에 없던 신규 키 5개(`advanced_create_post.doNotDisturbWarning` 등, okrbest 자체 기능)도 함께 추출돼 `ko.json`에 번역을 새로 추가했다.
+- **의미**: `npm run i18n-extract:check`가 이제 클린 상태에서 통과한다(`diff` 결과 없음). 이 리팩터링 과정에서 `ko.json`을 en.json의 새 영어 문구에 맞춰 재번역하지는 않았다 — 번역 키(`id`)만 일치하면 되고 문구 자체의 의미 동기화는 훨씬 큰 별도 콘텐츠 작업이라 범위 밖이다.
+- **부수 발견(범위 밖, 후속 과제로 기록)**: 이 검증 과정에서 `en.json`에는 있지만 `ko.json`에는 아예 없는 키가 213개 있다는 것을 추가로 발견했다(`burn_on_read.*`, `agent.*`, `admin.access_control.*`, `admin.site.localization.auto_translation.*` 등 — 전부 이번 세션 이전부터 upstream 반영으로 이미 존재하던 신규 기능들). 이는 오늘 작업으로 생긴 문제가 아니라 이전부터 누적된 미번역 백로그이며, `check-empty-translations.js`는 "빈 값"과 "고아 키"만 검사하고 "누락된 키"는 검사하지 않아 지금까지 드러나지 않았다. 실제 한국어 번역이 필요한 콘텐츠 작업이라 이번 드리프트-리싱크 브랜치 범위에서 제외하고 별도 후속 작업으로 남긴다.
+- **Alternatives considered**: 484건을 손으로 하나씩 검토해 "진짜 의도적 변경"과 "실수"를 구분 — en.json이 소스의 파생 산출물이라는 설계상 그 구분 자체가 무의미하므로(소스가 정답) 기각.
