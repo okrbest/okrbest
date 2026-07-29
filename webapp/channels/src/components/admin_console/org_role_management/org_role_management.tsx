@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {FormattedMessage, defineMessage, useIntl} from 'react-intl';
 
 import type {Team} from '@mattermost/types/teams';
 
@@ -65,8 +65,8 @@ const OrgRoleManagement = () => {
                 <div className='admin-console__content'>
                     <AdminPanel
                         id='org_roles'
-                        title={{id: 'admin.org_roles.panel_title', defaultMessage: '조직/직위 배정'}}
-                        subtitle={{id: 'admin.org_roles.panel_subtitle', defaultMessage: '직위/부서를 추가하고, 사용자에게 배정할 수 있습니다.'}}
+                        title={defineMessage({id: 'admin.org_roles.panel_title', defaultMessage: '조직/직위 배정'})}
+                        subtitle={defineMessage({id: 'admin.org_roles.panel_subtitle', defaultMessage: '직위/부서를 추가하고, 사용자에게 배정할 수 있습니다.'})}
                     >
                         <div className='orgRoleManagement__contentBody'>
                             <div className='form-group'>
