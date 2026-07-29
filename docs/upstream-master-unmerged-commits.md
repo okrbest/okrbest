@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-29 12:06
+- 갱신일: 2026-07-29 23:25
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1180개
+- 남은 커밋: 1176개
 
-**마지막 반영 커밋:** `c6a44406` | [\[MM-66898\] Adjust popout titles (#34768)](https://github.com/mattermost/mattermost/commit/c6a44406e0ba261229ba8d09d4816513f0d18c0f) | 2026-01-12
+**마지막 반영 커밋:** `9e1d4c20` | [Translations update from Mattermost Weblate (#34918)](https://github.com/mattermost/mattermost/commit/9e1d4c2072c08ec08828317a277427ecac71f136) | 2026-01-13
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| db55f9fa | [MM-66653: migrate i18n extraction from mmjstool to @formatjs/cli (#34498)](https://github.com/mattermost/mattermost/commit/db55f9fa43c00acbe2a43dd55032eb8598c807c8) | 2026-01-12 |
-| bf2535df | [refactor(audits): migrate Audits to a function component (#34528)](https://github.com/mattermost/mattermost/commit/bf2535df132f84dfaa218b06399919d1463989d3) | 2026-01-13 |
-| d61635fc | [Migrate FileUploadSetting to a function component (#34514)](https://github.com/mattermost/mattermost/commit/d61635fc4ad7bc58b2f091d471946c5af924a128) | 2026-01-13 |
-| 43bfdbfd | [\[MM-66840\] Add CPU cores and total memory to Support Packet (#34658)](https://github.com/mattermost/mattermost/commit/43bfdbfd1bacbef1f01b139847364c1c13268993) | 2026-01-13 |
-| 65d69b04 | [Use testify ElementsMatch instead of sorting slices before comparison (#34899)](https://github.com/mattermost/mattermost/commit/65d69b049881904c289a180784357f2f7d2ee0fa) | 2026-01-13 |
-| 9e1d4c20 | [Translations update from Mattermost Weblate (#34918)](https://github.com/mattermost/mattermost/commit/9e1d4c2072c08ec08828317a277427ecac71f136) | 2026-01-13 |
 | 8e4cadbc | [\[MM-66359\] Recaps MVP (#34337)](https://github.com/mattermost/mattermost/commit/8e4cadbc88ee2037f8122b25fd6fe341ab50d24d) | 2026-01-13 |
 | a18b80ba | [MM-67049: Fix unauthorized access to public channels in private teams (#34886)](https://github.com/mattermost/mattermost/commit/a18b80ba4c324b74b3d47951c33957305af4a099) | 2026-01-13 |
 | 7ea7b338 | [\[MM-67081\] \[MM-62584\] Updates to illustrations and loading screen (#34855)](https://github.com/mattermost/mattermost/commit/7ea7b3384fccc50fa1f8145fcdcc0a7cdea85012) | 2026-01-13 |
@@ -1191,6 +1185,8 @@
 | 6fefcc80 | [MM-67336: Request structured JSON output for AI message rewrites (#37581)](https://github.com/mattermost/mattermost/commit/6fefcc80a402a73fd91576e51a0bf52d58838f21) | 2026-07-28 |
 | 9230eb6f | [MM-69725: Propagate context through Extractor.Extract using new mattermost/pdf fork (#37579)](https://github.com/mattermost/mattermost/commit/9230eb6f6a6395bd8dea6a7706f94b84e847ea05) | 2026-07-28 |
 | 75823b96 | [Update snapshot and try to fix flaky test (#37722)](https://github.com/mattermost/mattermost/commit/75823b96c3b160f473094059d3fd078eb190b148) | 2026-07-28 |
+| 9de00278 | [\[MM-69982\] Fix intermittent remote cluster ping failures from stale keep-alive connection reuse (#37694)](https://github.com/mattermost/mattermost/commit/9de00278680adb7c87fce922a94e60c1f66b6774) | 2026-07-28 |
+| 90ee5da7 | [docs: fix dark-mode code block contrast issues (#37736)](https://github.com/mattermost/mattermost/commit/90ee5da701b1b2732afb70e689ffd6e1ce6a46af) | 2026-07-29 |
 
 ## 제외된 커밋
 
