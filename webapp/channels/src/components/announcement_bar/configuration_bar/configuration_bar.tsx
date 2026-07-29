@@ -17,7 +17,7 @@ import ExternalLink from 'components/external_link';
 
 import alertIcon from 'images/icons/round-white-info-icon.svg';
 import warningIcon from 'images/icons/warning-icon.svg';
-import {AnnouncementBarTypes, AnnouncementBarMessages, Preferences, ConfigurationBanners, Constants} from 'utils/constants';
+import {AnnouncementBarTypes, AnnouncementBarMessages, announcementBarMessageDescriptors, Preferences, ConfigurationBanners, Constants} from 'utils/constants';
 import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils';
 import {getSkuDisplayName} from 'utils/subscription';
 import {getViewportSize} from 'utils/utils';
@@ -220,8 +220,7 @@ const ConfigurationAnnouncementBar = (props: Props) => {
                                 src={warningIcon}
                             />
                             <FormattedMessage
-                                id={AnnouncementBarMessages.LICENSE_PAST_GRACE}
-                                defaultMessage='{licenseSku} license is expired and some features may be disabled. Please contact your System Administrator for details.'
+                                {...announcementBarMessageDescriptors.pastGrace}
                                 values={{
                                     licenseSku: getSkuDisplayName(props.license.SkuShortName, props.license.IsGovSku === 'true'),
                                 }}
@@ -236,10 +235,7 @@ const ConfigurationAnnouncementBar = (props: Props) => {
     if (props.config?.SendEmailNotifications !== 'true' &&
             props.config?.EnablePreviewModeBanner === 'true'
     ) {
-        const emailMessage = formatMessage({
-            id: AnnouncementBarMessages.PREVIEW_MODE,
-            defaultMessage: 'Preview Mode: Email notifications have not been configured',
-        });
+        const emailMessage = formatMessage(announcementBarMessageDescriptors.previewMode);
 
         return (
             <TextDismissableBar
