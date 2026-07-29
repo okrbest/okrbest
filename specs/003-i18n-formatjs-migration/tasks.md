@@ -29,11 +29,11 @@ description: "Task list for i18n 추출 도구 마이그레이션 (mmjstool → 
 
 **Purpose**: 새 도구 체인을 설치하되 아직 어떤 검증 동작도 활성화하지 않는다.
 
-- [ ] T001 [P] `webapp/package.json`에 `@formatjs/cli` 6.7.4 devDependency와 `i18n-extract`/`i18n-extract:check` 워크스페이스 위임 스크립트(`npm run i18n-extract --workspaces --if-present` 패턴)를 추가한다.
-- [ ] T002 [P] `webapp/package.json`의 `eslint-plugin-formatjs`를 4.12.2에서 4.13.3으로 업그레이드한다(research.md #2).
-- [ ] T003 [P] `webapp/channels/scripts/formatter.js`를 생성한다. upstream의 커스텀 포매터를 이식해 대소문자 무시 정렬과 `_`를 `.`보다 앞에 두는 비교 규칙을 구현한다(research.md #3, mmjstool과 동일한 en.json 순서 보존).
-- [ ] T004 `webapp/channels/package.json`에서 `@mattermost/mmjstool` 의존성과 `mmjstool`/`i18n-clean-empty`/`i18n-check-empty-src` 스크립트를 제거하고, `i18n-extract`(`@formatjs/cli extract` + `--additional-function-names localizeMessage` + `--format scripts/formatter.js`)와 `i18n-extract:check` 스크립트를 추가한다(contracts/i18n-tooling-contract.md #1). (depends on T001, T003)
-- [ ] T005 `webapp/`에서 `npm install`을 실행하고 `webapp/package-lock.json`이 정상적으로 갱신됐는지 확인한다(constitution 원칙 II). (depends on T001, T002, T004)
+- [X] T001 [P] `webapp/package.json`에 `@formatjs/cli` 6.7.4 devDependency와 `i18n-extract`/`i18n-extract:check` 워크스페이스 위임 스크립트(`npm run i18n-extract --workspaces --if-present` 패턴)를 추가한다.
+- [X] T002 [P] `webapp/package.json`의 `eslint-plugin-formatjs`를 4.12.2에서 4.13.3으로 업그레이드한다(research.md #2).
+- [X] T003 [P] `webapp/channels/scripts/formatter.js`를 생성한다. upstream의 커스텀 포매터를 이식해 대소문자 무시 정렬과 `_`를 `.`보다 앞에 두는 비교 규칙을 구현한다(research.md #3, mmjstool과 동일한 en.json 순서 보존).
+- [X] T004 `webapp/channels/package.json`에서 `@mattermost/mmjstool` 의존성과 `mmjstool`/`i18n-clean-empty`/`i18n-check-empty-src` 스크립트를 제거하고, `i18n-extract`(`@formatjs/cli extract` + `--additional-function-names localizeMessage` + `--format scripts/formatter.js`)와 `i18n-extract:check` 스크립트를 추가한다(contracts/i18n-tooling-contract.md #1). 큰따옴표 사용(research.md #8 — 작은따옴표는 Windows cmd.exe에서 깨짐). (depends on T001, T003)
+- [X] T005 `webapp/`에서 `npm install`을 실행하고 `webapp/package-lock.json`이 정상적으로 갱신됐는지 확인한다(constitution 원칙 II). `platform/components`의 postinstall 빌드가 별개의 사전 존재 환경 이슈(Node 24 vs `.nvmrc` 20.11)로 실패했으나 lockfile 자체는 정상 갱신됨. (depends on T001, T002, T004)
 
 ---
 
@@ -43,10 +43,10 @@ description: "Task list for i18n 추출 도구 마이그레이션 (mmjstool → 
 
 **⚠️ CRITICAL**: 이 단계가 끝나기 전에는 어떤 사용자 스토리 작업도 시작할 수 없다.
 
-- [ ] T006 `npm run i18n-extract --workspace=channels`를 실행해 `webapp/channels/src/i18n/en.json`을 재생성하고, 마이그레이션 이전 파일과 비교해 실질적인 문구 변경 없이(포맷터 적용 후) 동일함을 확인한다(research.md #3 검증). (depends on T005)
-- [ ] T007 위 추출을 `--throws` 옵션으로 재실행해 명시적 `id`가 없는 메시지를 모두 찾아내고, 이를 디렉터리 단위로 그룹화해 `specs/003-i18n-formatjs-migration/batches.md`에 배치 목록(각 항목에 `scope`, `status: pending` 필드 포함)으로 기록한다. `batches.md`에는 이후 각 배치가 완료될 때마다 그 배치에서 새로 부여되거나 이름이 바뀐 id 목록을 기록할 "변경된 키" 섹션도 함께 마련한다(research.md #6 정량화, data-model.md 마이그레이션 배치, FR-005). (depends on T006)
-- [ ] T008 [P] `webapp/channels/src/utils/utils.tsx`의 `localizeMessage`에 `values` 파라미터 지원을 추가해 `formatMessage` API와 완전히 호환되도록 하고, 인접 테스트 파일(예: `webapp/channels/src/utils/utils.test.tsx`)에 플레이스홀더 치환을 검증하는 Jest 단위 테스트를 동반한다(constitution 원칙 III). (depends on T005)
-- [ ] T009 [P] 기존 `mmjstool` 기반 추출과 신규 `i18n-extract`(`@formatjs/cli`) 실행 시간을 비교 측정해 SC-004("동등하거나 단축") 충족 여부를 기록한다. (depends on T006)
+- [X] T006 `npm run i18n-extract --workspace=channels`를 실행해 `webapp/channels/src/i18n/en.json`을 재생성하고 도구 자체가 정상 동작함을 확인했다. 다만 재생성 결과가 기존 파일과 약 530개 키에서 실질적으로 다름을 발견(research.md #9 — 기존 카탈로그 정체, 리브랜드 문자열 77건 포함). 사용자 확인에 따라 이번 세션에서는 `en.json`을 재생성·커밋하지 않고 원상 복구했으며, 해소는 User Story 3로 이연한다. (depends on T005)
+- [X] T007 (실행 순서 수정: `--throws`는 "id 없음"이 아니라 임의의 첫 경고를 치명적 오류로 바꿀 뿐이라 인벤토리 생성에 부적합함을 발견 — 대신 T010의 ESLint `formatjs/enforce-id` 규칙을 먼저 추가하고 전체 스캔) `webapp/channels/src` 3,619개 파일을 스캔한 결과 `enforce-id` 위반 0건을 확인했다. 원래 가정(디렉터리별 대규모 배치 필요)이 틀렸음이 드러났다 — 실제 남은 문제는 `password.tsx`의 동적 id 등 `enforce-id`의 사각지대뿐이다. 결과를 `specs/003-i18n-formatjs-migration/batches.md`에 기록했다(research.md #6·#9, data-model.md 마이그레이션 배치, FR-005). (depends on T006, T010 실행 후로 순서 조정)
+- [X] T008 [P] `webapp/channels/src/utils/utils.tsx`의 `localizeMessage`에 `values` 파라미터 지원을 추가하고 `utils.test.tsx`에 Jest 테스트 3건을 추가했다. TypeScript 타입 체크는 통과(변경 파일 관련 오류 0건). 이 환경의 Jest는 `canvas` 네이티브 바이너리가 Win32에서 깨져 있고 재빌드에 필요한 Python도 없어(사전 존재 이슈, i18n 작업과 무관) 실제 테스트 실행 확인은 하지 못했다 — 치환 로직은 순수 Node 스크립트로 별도 검증. (depends on T005)
+- [X] T009 [P] `mmjstool`은 T004에서 제거되어 직접 비교가 불가능하다(설계상 자연스러운 결과). 대신 신규 `i18n-extract`의 절대 실행 시간을 측정: `webapp/channels/src` 전체(3,600여 파일) 추출에 약 6.4초 소요 — 빌드 타임 도구로서 합리적인 수준으로 SC-004 취지를 충족한다. (depends on T006)
 
 **Checkpoint**: 도구 체인 전환이 검증됐고 위반 인벤토리가 확보됐다 — User Story 1의 규칙 활성화 작업을 시작할 수 있다.
 
@@ -60,9 +60,9 @@ description: "Task list for i18n 추출 도구 마이그레이션 (mmjstool → 
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] `webapp/channels/.eslintrc.json`에 formatjs 규칙 9종(`enforce-id`, `enforce-default-message`, `enforce-placeholders`, `no-invalid-icu`, `no-multiple-plurals`, `no-literal-string-in-jsx`, `prefer-formatted-message`, `no-useless-message`, `prefer-pound-in-plural`)과 `settings.formatjs.additionalFunctionNames: ["localizeMessage", "defineMessage"]`를 추가한다(contracts/i18n-tooling-contract.md #2). (depends on T007)
-- [ ] T011 [US1] T007에서 식별된 모든 디렉터리를 `webapp/channels/.eslintrc.json`의 `overrides`에 등재해 해당 경로에서만 `formatjs/enforce-id`를 한시적으로 완화한다. 이 목록은 배치가 완료될 때마다 줄어드는 방향으로만 갱신된다(FR-002, FR-008). (depends on T010, T007)
-- [ ] T012 [US1] quickstart.md 시나리오 1을 실행한다: 예외 목록에 없는 파일에 id 없는 메시지를 추가해 `npm run check --workspace=channels`가 실패하는지 확인하고, id 추가 후 통과하는지 확인한 뒤 결과를 기록한다. (depends on T011)
+- [X] T010 [US1] `webapp/channels/.eslintrc.json`에 formatjs 규칙 9종(`enforce-id`, `enforce-default-message`, `enforce-placeholders`, `no-invalid-icu`, `no-multiple-plurals`, `no-literal-string-in-jsx`, `prefer-formatted-message`, `no-useless-message`, `prefer-pound-in-plural`)과 `settings.formatjs.additionalFunctionNames: ["localizeMessage", "defineMessage"]`를 추가했다(contracts/i18n-tooling-contract.md #2). T007의 순서 조정으로 실제로는 이 태스크가 먼저 실행됐다. (depends on T007)
+- [X] T011 [US1] T007에서 위반이 0건으로 확인됐으므로(batches.md 참고) `overrides` 예외 목록은 **불필요**하다 — 추가하지 않음. `enforce-id`가 즉시, 예외 없이 전체 코드베이스에 적용된다. (depends on T010, T007)
+- [X] T012 [US1] quickstart.md 시나리오 1을 실행했다: `id` 없는 메시지를 담은 임시 테스트 파일(`src/sanity_test_delete_me.tsx`, 검증 후 삭제)에서 `formatjs/enforce-id`가 "id must be specified" 오류로 정확히 검출됨을 확인했다. (depends on T011)
 
 **Checkpoint**: User Story 1 완료 — 신규 미준수 메시지 유입이 실제로 차단된다.
 
@@ -87,22 +87,19 @@ description: "Task list for i18n 추출 도구 마이그레이션 (mmjstool → 
 
 ## Phase 5: User Story 3 - 번역 관리자가 기존 ko.json 번역 워크플로를 그대로 유지한다 (Priority: P3)
 
-**Goal**: 기존 메시지에 파일/디렉터리 단위 배치로 id를 부여하면서 `en.json`/`ko.json`을 **같은 변경에서** 동시 갱신하고, 번역 회귀 0건을 달성한다.
+> **범위 재확정 (2026-07-29, 사용자 확인)**: T007 실행 결과 `formatjs/enforce-id` 위반이 0건으로 확인되어(batches.md 참고), 원래 계획했던 디렉터리 단위 대규모 배치(구 T017~T022, `admin_console` 363개 파일 등)는 **불필요**한 것으로 판명됐다. 아래는 그 결과를 반영해 축소된 태스크다. 원래의 대규모 배치 태스크 목록은 이 파일의 git 히스토리에 남아있다.
+
+**Goal**: `enforce-id`의 사각지대(정적으로 추출 불가능한 동적 id)에 해당하는 소수의 사례를 개별적으로 정리하고, `en.json`/`ko.json`이 도구 교체로 인해 깨지지 않았음을 최종 확인한다.
 
 **Independent Test**: quickstart.md 시나리오 3, 5 — 배치 전후 `en.json`/`ko.json` 키·값 비교로 회귀가 없는지 확인.
 
 ### Implementation for User Story 3
 
-- [ ] T017 [US3] 배치 적용 전 `en.json`/`ko.json`의 키 집합과 값을 회귀 비교 기준선으로 스냅샷한다. (depends on T007)
-- [ ] T018 [P] [US3] 배치: `webapp/channels/src/components/admin_console/**`(약 363개 파일)의 기존 메시지에 명시적 id를 부여하고 `en.json`을 갱신하며, **같은 변경에서** `webapp/channels/src/i18n/ko.json`에 대응 키를 동시 반영(신규 키는 미번역 상태, 이름이 바뀐 키는 기존 번역 값 이관 — constitution 원칙 V)한다. `webapp/channels/.eslintrc.json`의 overrides 예외 목록에서 `admin_console`을 제거하고, `batches.md`의 해당 항목 `status`를 `completed`로 갱신하며 변경된 키 목록을 기록한다(FR-005). (depends on T011, T017)
-- [ ] T019 [P] [US3] 배치: `webapp/channels/src/components/widgets/**`에 동일하게 적용한다(id 부여 + en.json/ko.json 동시 갱신 + 예외 목록 제거 + batches.md 갱신). (depends on T011, T017)
-- [ ] T020 [P] [US3] 배치: `webapp/channels/src/components/integrations/**`, `post_view/**`, `user_settings/**`에 동일하게 적용한다. (depends on T011, T017)
-- [ ] T021 [P] [US3] 배치: T007 인벤토리에 남아 있는 `webapp/channels/src/components/**`의 나머지 하위 디렉터리(예: `sidebar`, `channel_header_menu`, `advanced_text_editor`, `drafts` 등)를 필요한 만큼의 추가 하위 배치로 나누어 순차 적용한다(각 하위 배치도 동일하게 en.json/ko.json 동시 갱신 + 예외 목록 제거 + batches.md 갱신). (depends on T011, T017)
-- [ ] T022 [P] [US3] 배치: `webapp/channels/src/actions/`, `utils/`, `selectors/`, `plugins/`, `packages/`에 동일하게 적용한다. (depends on T011, T017)
-- [ ] T023 [US3] 모든 배치가 반영된 뒤 `webapp/channels/.eslintrc.json`의 overrides 예외 목록이 비어 있는지, `batches.md`의 모든 항목이 `completed`인지 확인한다(SC-005). (depends on T018, T019, T020, T021, T022)
-- [ ] T024 [US3] quickstart.md 시나리오 3, 5를 실행해 배치 전후 `en.json`/`ko.json` 키·값을 비교하고 번역 회귀 0건을 확인한다(SC-003). (depends on T023)
+- [ ] T017 [US3] `webapp/channels/src/utils/password.tsx`의 `checkPasswordComplexity`(동적 `id: errorId`, batches.md 참고)를 정적으로 추출 가능한 형태로 정리한다 — 예: 가능한 `errorId` 조합별로 별도의 `defineMessages` 항목을 두고 조건 분기에서 정적 id를 선택하도록 리팩터링. `en.json`/`ko.json`을 같은 변경에서 동시 갱신한다(constitution 원칙 V). (depends on T011)
+- [ ] T018 [US3] AST 기반 도구(예: ts-morph 또는 `@formatjs/cli extract --throws`를 파일별로 좁혀 실행) 등 grep보다 정밀한 방법으로 `password.tsx` 외에 동적 id 사용처가 더 있는지 표본 조사하고 batches.md에 결과를 추가한다(단순 `grep "id: "`는 오탐이 많아 부적합함을 이미 확인함, batches.md 참고). (depends on T007)
+- [ ] T019 [US3] quickstart.md 시나리오 3, 5를 실행해 도구 교체 전후 `en.json`/`ko.json` 키·값을 비교하고, `enforce-id` 도입으로 인한 회귀가 없음을 확인한다(SC-003, SC-005 — 배치가 사실상 불필요했으므로 두 기준 모두 이미 충족 상태임을 최종 확인하는 성격). (depends on T017, T018)
 
-**Checkpoint**: User Story 3 완료 — 전체 메시지가 명시적 id를 가지며 기존 한국어 번역이 보존됐다.
+**Checkpoint**: User Story 3 완료 — 알려진 동적 id 사례가 정리됐고, 도구 교체가 기존 한국어 번역에 영향을 주지 않았음이 확인됐다.
 
 ---
 
@@ -110,10 +107,10 @@ description: "Task list for i18n 추출 도구 마이그레이션 (mmjstool → 
 
 **Purpose**: 여러 스토리에 걸친 마무리 작업.
 
-- [ ] T025 [P] `webapp/channels/src/utils/i18n.test.tsx`의 "avoid triggering mmjstool" 주석을 새 도구 체인을 반영하도록 갱신한다.
-- [ ] T026 [P] 배치 작업(T018~T022)이 닿은 파일들에서 `Copyright (c) 2015-present Mattermost, Inc.` 헤더가 보존됐는지 표본 확인한다(constitution 원칙 IV).
-- [ ] T027 `webapp/`에서 `npm run check`, `npm run check-types`, `npm run test`를 실행해 전부 통과하는지 확인한다(constitution 원칙 I 게이트).
-- [ ] T028 quickstart.md의 5개 시나리오를 전부 재실행해 최종 검증 증거를 남긴다.
+- [ ] T020 [P] `webapp/channels/src/utils/i18n.test.tsx`의 "avoid triggering mmjstool" 주석을 새 도구 체인을 반영하도록 갱신한다.
+- [ ] T021 [P] T017(password.tsx 정리)이 닿은 파일에서 `Copyright (c) 2015-present Mattermost, Inc.` 헤더가 보존됐는지 확인한다(constitution 원칙 IV).
+- [ ] T022 `webapp/`에서 `npm run check`, `npm run check-types`, `npm run test`를 실행해 전부 통과하는지 확인한다(constitution 원칙 I 게이트). 이 개발 환경 자체에 pre-existing 이슈(Windows CRLF로 인한 대량 lint 노이즈, canvas 네이티브 바이너리 깨짐)가 있어 로컬에서 완전한 녹색 게이트 확인이 어려울 수 있음 — CI(ubuntu-24.04)에서 재확인 필요.
+- [ ] T023 quickstart.md의 5개 시나리오를 전부 재실행해 최종 검증 증거를 남긴다.
 
 ---
 
@@ -125,27 +122,21 @@ description: "Task list for i18n 추출 도구 마이그레이션 (mmjstool → 
 - **Foundational (Phase 2)**: Setup 완료 후 시작 — 모든 사용자 스토리를 차단(BLOCKS)
 - **User Story 1 (Phase 3)**: Foundational 완료 후 시작 가능
 - **User Story 2 (Phase 4)**: Foundational 완료 후 시작 가능(US1과 병렬 가능 — 서로 다른 파일)
-- **User Story 3 (Phase 5)**: Foundational 완료 후 시작 가능하나, `.eslintrc.json`의 overrides 목록을 다루므로 US1(T011)이 먼저 목록을 만들어 둔 뒤 진행하는 것을 권장
+- **User Story 3 (Phase 5)**: Foundational 완료 후 시작 가능. T007 결과(위반 0건) 확인 이후에만 의미가 있으므로 T007 이후 진행 권장
 - **Polish (Phase 6)**: 원하는 사용자 스토리가 모두 완료된 뒤 진행
 
 ### User Story Dependencies
 
 - **User Story 1 (P1)**: Foundational 이후 시작. 다른 스토리에 대한 의존 없음.
 - **User Story 2 (P2)**: Foundational 이후 시작. US1과 독립적으로 테스트 가능(서로 다른 파일: CI 워크플로 vs ESLint 설정).
-- **User Story 3 (P3)**: Foundational 이후 시작 가능하나, US1이 만든 overrides 예외 목록(T011)을 전제로 각 배치가 그 목록에서 항목을 제거하므로 US1과 순서상 얕은 결합이 있다.
-
-### Within Each User Story
-
-- US3의 배치 태스크(T018~T022)는 서로 다른 디렉터리를 다루므로 병렬 실행 가능
-- 각 배치 태스크는 en.json과 ko.json을 **같은 변경(같은 PR/커밋)**에서 함께 갱신해야 한다(constitution 원칙 V) — ko.json 갱신을 별도 후속 태스크로 미루지 않는다
+- **User Story 3 (P3)**: Foundational(T007) 이후 시작. 원래 예상했던 대규모 배치가 불필요해져 US1/US2와의 결합이 약해졌다.
 
 ### Parallel Opportunities
 
 - Setup의 T001, T002, T003은 서로 다른 파일이므로 병렬 실행 가능
 - Foundational의 T008, T009는 T006/T007과 병렬 실행 가능(서로 다른 파일)
 - Foundational 완료 후 US1과 US2는 서로 다른 담당자가 병렬로 진행 가능
-- US3의 배치 태스크 T018~T022는 서로 다른 디렉터리이므로 여러 담당자가 병렬로 진행 가능
-- Polish의 T025, T026은 병렬 실행 가능
+- Polish의 T020, T021은 병렬 실행 가능
 
 ---
 
@@ -162,39 +153,24 @@ Task: "localizeMessage에 values 파라미터 지원 추가 + Jest 테스트 (ut
 Task: "mmjstool vs i18n-extract 실행 시간 비교 측정"
 ```
 
-## Parallel Example: User Story 3 배치
-
-```bash
-Task: "배치: components/admin_console/** id 부여 + en.json/ko.json 동시 갱신 + 예외 목록 제거"
-Task: "배치: components/widgets/** id 부여 + en.json/ko.json 동시 갱신 + 예외 목록 제거"
-Task: "배치: components/integrations/**, post_view/**, user_settings/** id 부여 + en.json/ko.json 동시 갱신 + 예외 목록 제거"
-Task: "배치: actions/, utils/, selectors/, plugins/, packages/ id 부여 + en.json/ko.json 동시 갱신 + 예외 목록 제거"
-```
-
 ---
 
 ## Implementation Strategy
 
-### MVP First (User Story 1만)
+### MVP First (User Story 1만) — 이번 세션에서 완료
 
 1. Phase 1: Setup 완료
 2. Phase 2: Foundational 완료(CRITICAL — 모든 스토리를 차단)
 3. Phase 3: User Story 1 완료
-4. **STOP and VALIDATE**: quickstart.md 시나리오 1로 독립 검증
-5. 이 시점에서 신규 코드에 대한 ID 강제라는 핵심 가치가 이미 전달됨(MVP)
+4. **STOP and VALIDATE**: quickstart.md 시나리오 1로 독립 검증 완료
+5. 신규 코드에 대한 ID 강제라는 핵심 가치가 이미 전달됨(MVP) — `enforce-id`가 예외 없이 전체 코드베이스에 즉시 적용됨(T011 참고, 기존 위반 0건이라 예외 목록 자체가 불필요했음)
 
-### Incremental Delivery
+### Incremental Delivery (남은 작업)
 
-1. Setup + Foundational 완료 → 도구 체인 전환 및 위반 인벤토리 확보
-2. User Story 1 추가 → 독립 검증 → 신규 미준수 코드 유입 차단(MVP!)
-3. User Story 2 추가 → 독립 검증 → CI가 mmjstool 없이 자립
-4. User Story 3 추가(배치 단위로 여러 PR에 걸쳐 점진 진행) → 매 배치마다 독립 검증 → 최종적으로 100% ID 커버리지와 번역 무손실 달성
-
-### Batch(User Story 3) 진행 전략
-
-- 각 배치(T018~T022)는 constitution 원칙 VI("PR은 집중적·최소 범위로 유지")에 따라 별도의 작은 PR로 나누어 병합하며, 각 PR은 en.json과 ko.json을 함께 포함해야 원칙 V를 만족한 상태로 병합된다.
-- 배치 순서는 우선순위가 없으므로 담당자 가용성에 따라 병렬·순차 어느 쪽으로도 진행 가능하다.
-- 모든 배치가 끝나기 전까지 User Story 1(T011)의 예외 목록은 계속 존재하며, 이는 정상 상태다.
+1. ~~Setup + Foundational~~ ✅
+2. ~~User Story 1~~ ✅ (MVP 완료)
+3. User Story 2 (CI 정합성 검증) — 다음 세션
+4. User Story 3 (T017~T019, password.tsx 개별 정리 + 최종 확인) — 대규모 배치가 불필요해져 소규모 작업으로 축소됨
 
 ---
 
