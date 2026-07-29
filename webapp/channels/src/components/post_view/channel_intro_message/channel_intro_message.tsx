@@ -210,7 +210,7 @@ function createGMIntroMessage(
                 </h2>
                 <p className='channel-intro__text'>
                     <FormattedMessage
-                        id='intro_messages.group_message'
+                        id='intro_messages.group_message_intro'
                         defaultMessage={'This is the start of your group message history with these teammates. '}
                     />
                     {getGMIntroMessageSpecificPart(currentUserProfile, channelMembership)}
@@ -762,7 +762,7 @@ function createNotificationPreferencesButton(channel: Channel, currentUser: User
         >
             <BellRingOutlineIcon size={24}/>
             <FormattedMessage
-                id='intro_messages.notificationPreferences'
+                id='intro_messages.notifications'
                 defaultMessage='Notifications'
             />
         </ToggleModalButton>

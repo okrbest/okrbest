@@ -57,7 +57,7 @@ export default function SystemProperties(props: Props) {
                         <hgroup>
                             <FormattedMessage
                                 tagName={SectionHeading}
-                                id='admin.system_properties.user_properties.title'
+                                id='admin.system_properties.user_properties.header'
                                 defaultMessage='Configure user attributes'
                             />
                             <FormattedMessage

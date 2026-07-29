@@ -607,7 +607,7 @@ const ChannelInviteModalComponent = (props: Props) => {
             buttonSubmitLoadingText={buttonSubmitLoadingText}
             saving={saving}
             loading={loadingUsers}
-            placeholderText={props.isGroupsEnabled ? defineMessage({id: 'multiselect.placeholder.peopleOrGroups', defaultMessage: 'Search for people or groups'}) : defineMessage({id: 'multiselect.placeholder', defaultMessage: 'Search for people'})}
+            placeholderText={props.isGroupsEnabled ? defineMessage({id: 'multiselect.placeholder.peopleOrGroups', defaultMessage: 'Search for people or groups'}) : defineMessage({id: 'multiselect.placeholderPeople', defaultMessage: 'Search for people'})}
             valueWithImage={true}
             backButtonText={defineMessage({id: 'multiselect.cancel', defaultMessage: 'Cancel'})}
             backButtonClick={closeMembersInviteModal}

@@ -103,7 +103,7 @@ const CallButton = ({
     }, {user: fullname || username},
     ) : formatMessage({
         id: 'webapp.mattermost.feature.start_call',
-        defaultMessage: 'Start Call',
+        defaultMessage: 'Start call',
     });
     const callButton = (
         <WithTooltip

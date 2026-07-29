@@ -179,7 +179,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         noResultsProps.variant = NoResultsVariant.PinnedPosts;
         noResultsProps.subtitleValues = {text: <strong>{
             intl.formatMessage({
-                id: 'post_info.pin',
+                id: 'post_info.pinToChannel',
                 defaultMessage: 'Pin to Channel',
             })}</strong>};
 

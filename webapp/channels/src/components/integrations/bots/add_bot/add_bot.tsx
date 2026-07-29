@@ -243,7 +243,7 @@ export default class AddBot extends React.PureComponent<Props, State> {
                     error: (
                         <FormattedMessage
                             id='user.settings.general.validImage'
-                            defaultMessage='Only BMP, JPG or PNG images may be used for profile pictures'
+                            defaultMessage='Only BMP, JPG, JPEG, or PNG images may be used for profile pictures'
                         />
                     ),
                 });
