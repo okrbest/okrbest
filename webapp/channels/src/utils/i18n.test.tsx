@@ -13,7 +13,7 @@ describe('i18n', () => {
 
     it('getIntl.formatMessage should resolve translated string', () => {
         const intl = getIntl();
-        const fm = intl.formatMessage; // avoid triggering mmjstool
+        const fm = intl.formatMessage; // avoid triggering the i18n extractor on these fake test ids
 
         const actual = fm({id: 'test_key', defaultMessage: 'not found'});
         expect(actual).toBe('expected value');
@@ -21,7 +21,7 @@ describe('i18n', () => {
 
     it('getIntl.formatMessage should resolve unknown string to default message', () => {
         const intl = getIntl();
-        const fm = intl.formatMessage; // avoid triggering mmjstool
+        const fm = intl.formatMessage; // avoid triggering the i18n extractor on these fake test ids
 
         const actual = fm({id: 'unknown_key', defaultMessage: 'not found'});
         expect(actual).toBe('not found');

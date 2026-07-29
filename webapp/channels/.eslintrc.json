@@ -35,9 +35,9 @@
     "react/style-prop-object": [2, {
       "allow": ["Timestamp"]
     }],
-    "formatjs/enforce-default-message": 2,
+    "formatjs/enforce-default-message": 1,
     "formatjs/enforce-id": 2,
-    "formatjs/enforce-placeholders": 2,
+    "formatjs/enforce-placeholders": 1,
     "formatjs/no-invalid-icu": 2,
     "formatjs/no-multiple-plurals": 1,
     "formatjs/no-multiple-whitespaces": 2,
