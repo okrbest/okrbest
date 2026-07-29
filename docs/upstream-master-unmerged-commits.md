@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-29 11:31
+- 갱신일: 2026-07-29 12:06
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1184개
+- 남은 커밋: 1180개
 
-**마지막 반영 커밋:** `07ba32e8` | [MM-62151 avoid select * for post store (#34709)](https://github.com/mattermost/mattermost/commit/07ba32e849e11238392934888640787f853b3fda) | 2026-01-09
+**마지막 반영 커밋:** `c6a44406` | [\[MM-66898\] Adjust popout titles (#34768)](https://github.com/mattermost/mattermost/commit/c6a44406e0ba261229ba8d09d4816513f0d18c0f) | 2026-01-12
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 43bab4d7 | [\[MM-67025\] Add new E2E for testing keyboard shortcut Shift+Up (#34793)](https://github.com/mattermost/mattermost/commit/43bab4d7c76c2bcb3ced334e9546106c970a34e2) | 2026-01-12 |
-| d9123c33 | [MM-67037 Skipping flaky test TestAddChannelMemberNoUserRequestor (#34805)](https://github.com/mattermost/mattermost/commit/d9123c33f16c64a73d53becfcc9669f78f61e78b) | 2026-01-12 |
-| ec3ba68e | [Translations update from Mattermost Weblate (#34906)](https://github.com/mattermost/mattermost/commit/ec3ba68e328e91815e55a9ba166b2051d734a1d2) | 2026-01-12 |
-| c6a44406 | [\[MM-66898\] Adjust popout titles (#34768)](https://github.com/mattermost/mattermost/commit/c6a44406e0ba261229ba8d09d4816513f0d18c0f) | 2026-01-12 |
 | db55f9fa | [MM-66653: migrate i18n extraction from mmjstool to @formatjs/cli (#34498)](https://github.com/mattermost/mattermost/commit/db55f9fa43c00acbe2a43dd55032eb8598c807c8) | 2026-01-12 |
 | bf2535df | [refactor(audits): migrate Audits to a function component (#34528)](https://github.com/mattermost/mattermost/commit/bf2535df132f84dfaa218b06399919d1463989d3) | 2026-01-13 |
 | d61635fc | [Migrate FileUploadSetting to a function component (#34514)](https://github.com/mattermost/mattermost/commit/d61635fc4ad7bc58b2f091d471946c5af924a128) | 2026-01-13 |
