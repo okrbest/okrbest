@@ -10,7 +10,7 @@ import type {PasswordConfig} from 'mattermost-redux/selectors/entities/general';
 import Constants from 'utils/constants';
 
 export function isValidPassword(password: string, passwordConfig: PasswordConfig, intl?: IntlShape) {
-    let errorId = passwordErrors.passwordError.id;
+    let errorKey = 'passwordError';
     let valid = true;
     const minimumLength = passwordConfig.minimumLength || Constants.MIN_PASSWORD_LENGTH;
 
@@ -23,7 +23,7 @@ export function isValidPassword(password: string, passwordConfig: PasswordConfig
             valid = false;
         }
 
-        errorId += 'Lowercase';
+        errorKey += 'Lowercase';
     }
 
     if (passwordConfig.requireUppercase) {
@@ -31,7 +31,7 @@ export function isValidPassword(password: string, passwordConfig: PasswordConfig
             valid = false;
         }
 
-        errorId += 'Uppercase';
+        errorKey += 'Uppercase';
     }
 
     if (passwordConfig.requireNumber) {
@@ -39,7 +39,7 @@ export function isValidPassword(password: string, passwordConfig: PasswordConfig
             valid = false;
         }
 
-        errorId += 'Number';
+        errorKey += 'Number';
     }
 
     if (passwordConfig.requireSymbol) {
@@ -47,17 +47,20 @@ export function isValidPassword(password: string, passwordConfig: PasswordConfig
             valid = false;
         }
 
-        errorId += 'Symbol';
+        errorKey += 'Symbol';
     }
 
     let error;
     if (!valid) {
+        // errorKey is always one of the statically-defined passwordErrors keys below
+        // (every combination of the four requirements is enumerated there), so this
+        // reuses the already-extracted, requirement-specific message descriptors
+        // instead of declaring a new dynamically-keyed one (which formatjs/@formatjs/cli
+        // cannot statically resolve an id for).
+        const descriptor = passwordErrors[errorKey as keyof typeof passwordErrors];
         error = intl ? (
             intl.formatMessage(
-                {
-                    id: errorId,
-                    defaultMessage: 'Must be {min}-{max} characters long.',
-                },
+                descriptor,
                 {
                     min: minimumLength,
                     max: Constants.MAX_PASSWORD_LENGTH,
@@ -65,8 +68,8 @@ export function isValidPassword(password: string, passwordConfig: PasswordConfig
             )
         ) : (
             <FormattedMessage
-                id={errorId}
-                defaultMessage='Must be {min}-{max} characters long.'
+                id={descriptor.id}
+                defaultMessage={descriptor.defaultMessage}
                 values={{
                     min: minimumLength,
                     max: Constants.MAX_PASSWORD_LENGTH,
