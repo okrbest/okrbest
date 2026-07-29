@@ -939,7 +939,7 @@ export const AnnouncementBarMessages = {
 };
 
 // These messages correspond to AnnouncementBarMessages above
-defineMessages({
+export const announcementBarMessageDescriptors = defineMessages({
     emailVerificationRequired: {
         id: 'announcement_bar.error.email_verification_required',
         defaultMessage: 'Check your email inbox to verify the address.',
