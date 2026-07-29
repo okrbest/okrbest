@@ -47,7 +47,7 @@
 - [ ] T006 [US1] `server/channels/app/org_role.go` `CreateOrgUnit`/`UpdateOrgUnit`에 parent 유효성 검사(같은 팀·division 타입·활성) + type 변경 거부 구현 → T005 통과. 에러 id `api.team.org_unit.invalid_parent`
 - [ ] T007 [US1] [실패 테스트] `server/channels/app/org_role_test.go`에 비활성화 가드 케이스 추가: 활성 하위 부서 존재 시 409, 직속 배정 존재 시 409, 하위·직속 없으면 성공, 재활성화는 무가드 — 실패 확인
 - [ ] T008 [US1] `server/channels/app/org_role.go` `UpdateOrgUnit`에 division 비활성화 가드 구현(활성 하위 부서 조회 + UserOrgProfiles 직속 배정 조회) → T007 통과. 에러 id `api.team.org_unit.division_has_children`/`division_has_members`
-- [ ] T009 [US1] `server/channels/api4/team_org_roles_test.go`에 API 레벨 테스트 추가: POST division 201, POST team 400, POST division+parent 400, PUT 이관 200, PUT 비활성화 가드 409 (contracts/org-division-api.md 표 그대로)
+- [ ] T009 [US1] `server/channels/api4/team_org_roles_test.go`에 API 레벨 테스트 추가: POST division 201, POST team 400, POST division+parent 400, PUT 이관 200 **+ 이관 후 해당 부서 배정 사용자의 primary_org_unit_id 불변 assert(FR-004)**, PUT 비활성화 가드 409, **각 변경에 OrgRoleAuditLogs 행 기록 assert(FR-012)** (contracts/org-division-api.md 표 그대로)
 - [ ] T010 [P] [US1] `server/i18n/en.json`·`server/i18n/ko.json`에 신규 에러 메시지 3종(invalid_parent, division_has_children, division_has_members) 동시 추가
 
 ### 웹앱
@@ -55,7 +55,7 @@
 - [ ] T011 [US1] [실패 테스트] `webapp/channels/src/components/admin_console/org_role_management/org_role_management.test.tsx`에 본부 리스트 섹션·"본부 추가" 버튼 렌더 테스트 추가 — 실패 확인
 - [ ] T012 [US1] `org_role_management.tsx`에 "본부 추가" 버튼 + 본부 리스트 섹션(검색·상태·관리 컬럼, 기존 부서 리스트 패턴 재사용) 구현 → T011 통과
 - [ ] T013 [US1] [실패 테스트] `org_role_management.test.tsx`에 부서 리스트 본부별 그룹핑(+"미소속" 그룹)·부서 행 소속 본부 select·이관 동작 테스트 추가 — 실패 확인
-- [ ] T014 [US1] `org_role_management_body.tsx`에 `departmentsByDivision` 파생 상태(data-model.md), 그룹 헤더 렌더, 부서 생성·수정 폼 소속 본부 select(비활성 본부 제외), 이관 시 배정 유지 확인 로직 구현 → T013 통과
+- [ ] T014 [US1] `org_role_management_body.tsx`에 `departmentsByDivision` 파생 상태(data-model.md), 그룹 헤더 렌더, 부서 생성·수정 폼 소속 본부 select(비활성 본부 제외), 이관 시 배정 유지 확인 로직 구현 → T013 통과. **본부 리스트·그룹 상태도 기존 팀 전환 가드(001 기능의 stale 응답 차단)에 포함되는지 회귀 테스트 추가(spec Edge Case)**
 - [ ] T015 [US1] 본부 비활성화 시도 409 응답의 이관 안내 표시(기존 삭제 확인 모달 재사용) 구현 in `org_role_management_body.tsx`
 - [ ] T016 [P] [US1] `webapp/channels/src/i18n/en.json`·`ko.json`에 US1 신규 문구(본부 추가, 본부 리스트, 미소속, 소속 본부, 이관 안내 등) FormattedMessage 키 동시 추가
 

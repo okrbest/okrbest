@@ -87,6 +87,7 @@ webapp/channels/src/
 │   ├── org_role_management_body.tsx         # 부서 그룹핑·이관 select·배정 optgroup·본부 필터
 │   └── org_role_management.test.tsx         # 컴포넌트 테스트
 ├── components/profile_popover_org_role/     # "본부 > 부서" 표시
+├── components/user_settings/general/        # 계정 설정 읽기 전용 소속 행 계층 표기 (FR-010)
 └── i18n/{en,ko}.json                        # 신규 문구
 ```
 

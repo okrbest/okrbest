@@ -1,6 +1,6 @@
 # Feature Specification: 본부-부서 계층 관리 (조직 계층 구조)
 
-**Feature Branch**: `003-org-division-hierarchy`
+**Feature Branch**: `feat/permission` (사용자 지정 — 이 기능 전용으로 운영 중인 브랜치)
 
 **Created**: 2026-07-29
 
