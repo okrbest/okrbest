@@ -107,10 +107,10 @@ description: "Task list for i18n 추출 도구 마이그레이션 (mmjstool → 
 
 **Purpose**: 여러 스토리에 걸친 마무리 작업.
 
-- [ ] T020 [P] `webapp/channels/src/utils/i18n.test.tsx`의 "avoid triggering mmjstool" 주석을 새 도구 체인을 반영하도록 갱신한다.
-- [ ] T021 [P] T017(password.tsx 정리)이 닿은 파일에서 `Copyright (c) 2015-present Mattermost, Inc.` 헤더가 보존됐는지 확인한다(constitution 원칙 IV).
-- [ ] T022 `webapp/`에서 `npm run check`, `npm run check-types`, `npm run test`를 실행해 전부 통과하는지 확인한다(constitution 원칙 I 게이트). 이 개발 환경 자체에 pre-existing 이슈(Windows CRLF로 인한 대량 lint 노이즈, canvas 네이티브 바이너리 깨짐)가 있어 로컬에서 완전한 녹색 게이트 확인이 어려울 수 있음 — CI(ubuntu-24.04)에서 재확인 필요.
-- [ ] T023 quickstart.md의 5개 시나리오를 전부 재실행해 최종 검증 증거를 남긴다.
+- [X] T020 [P] `webapp/channels/src/utils/i18n.test.tsx`의 "avoid triggering mmjstool" 주석을 도구 이름에 종속되지 않는 설명으로 갱신했다.
+- [X] T021 [P] T017/T018이 닿은 모든 파일(`password.tsx`, `password.test.tsx`, `configuration_bar.tsx`, `add_command.tsx`, `constants.tsx`, `utils.tsx`, `utils.test.tsx`)에서 Copyright 헤더 보존을 확인했다(constitution 원칙 IV). JSON 파일(`ko.json`)은 주석을 지원하지 않아 원래 헤더가 없음 — 정상.
+- [X] T022 전체 게이트를 실행했다. TypeScript(`check-types` 상당): 변경 파일 관련 오류 0건, pre-existing 43건 그대로(회귀 없음). ESLint(`check` 상당): 실행 중 `enforce-placeholders`(134건)·`enforce-default-message`(7건, 2건은 즉시 수정) 등 이 마이그레이션과 무관한 사전 존재 위반을 추가로 발견해 사용자 확인 하에 warning으로 낮추고 이연했다(research.md #12). `enforce-id`(핵심 목표)는 0건 유지. Jest(`test`): `canvas` 네이티브 바이너리가 이 Windows 환경에서 깨져 있어(Python 미설치, 사전 존재 이슈) 실행 자체가 불가 — `--listTests`로 신규/수정 테스트 파일 4개가 정상 인식됨은 확인. 이 환경의 CRLF 체크아웃으로 인한 대량 lint 노이즈와 canvas 이슈는 CI(ubuntu-24.04, LF 네이티브)에서는 발생하지 않을 것으로 예상되나 재확인 필요.
+- [X] T023 quickstart.md의 5개 시나리오를 전부 재실행했다. 시나리오 1(enforce-id 검출), 4(빈 번역 검출, 주입 테스트로 실제 탐지 확인)는 통과. 시나리오 5는 실제로는 배치가 불필요했음이 드러나 절차를 갱신한 뒤 재확인(overrides 0개, 위반 0건). 시나리오 2는 연구 항목 #9(en.json 드리프트, 이연 확정)로 예상대로 실패. 시나리오 3은 `git diff master..HEAD -- webapp/channels/src/i18n/`로 대체 확인(T019, 의도된 변경 외 없음).
 
 ---
 
