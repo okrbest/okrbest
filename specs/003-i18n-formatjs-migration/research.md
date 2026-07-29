@@ -120,3 +120,12 @@
 - **조치**: 오탐으로 확인된 각 파일은 `.eslintrc.json`의 기존 override 배열에 추가(파일 목록이 항목 #15의 2개에서 총 24개로 늘어남). 진짜 버그는 전부 직접 수정.
 - **의미**: 위반 137건(134+3) 전부 해소 후 재확인해 0건임을 확인하고 `formatjs/enforce-placeholders`·`formatjs/enforce-default-message`를 `warning`(1)에서 `error`(2)로 재승격했다 — 항목 #12에서 이연했던 작업이 완전히 마무리됨.
 - **Alternatives considered**: 오탐 20여 개 파일 각각에 파일 단위 override 대신 위반 라인마다 `eslint-disable-next-line` 인라인 주석을 다는 방안 — 같은 프레임워크 관용구가 파일 전체에 반복되는 경우(예: `admin_definition.tsx`의 63건)엔 override 한 줄이 인라인 주석 수십 개보다 명확하고 유지보수하기 쉬워 override를 선택했다. 다만 위반이 파일 전체가 아니라 한 곳뿐인 `loading_spinner.test.tsx`는 인라인 주석이 더 정밀해 그렇게 처리했다.
+
+## 구현 중 발견 사항 (후속 세션 — 연구 항목 #14 부수 발견 해소: 미번역 키 213개)
+
+### 17. `en.json`에만 있고 `ko.json`엔 없던 213개 키를 전부 번역해 추가, 겸사겸사 정렬 붕괴도 복구
+
+- **발견**: 항목 #14에서 범위 밖으로 남겨뒀던 213개 미번역 키(`burn_on_read.*` 18건, `admin.*` 62건, `channel_settings.*` 17건, `post.*`/`property_card.*`/`texteditor.rewrite.*` 각 15건, `keep_remove_flag_content_modal.*` 12건, `interactive_dialog.*` 10건 등)를 사용자 확인 후 일괄 번역했다. 삽입 후 전체 정렬 검증(`formatter.js`의 `compareMessages` 기준)을 돌려보니 213건과 무관하게 파일 앞부분에서 221곳의 순서 위반이 발견됐다 — 원인은 이전 세션의 스택 브랜치 rebase 충돌 해결(연구 항목 #15/#16 이전, PR 머지 작업 중) 때 두 브랜치의 삽입분을 정렬 위치 재계산 없이 단순 이어붙이기만 했기 때문.
+- **조치**: 213개 키를 기존 `ko.json` 번역 스타일(격식체, "매직 링크"/"액세스 제어" 등 기존 확립된 용어 재사용)에 맞춰 번역해 정확한 정렬 위치에 삽입한 뒤, 이 김에 `ko.json` 전체를 `compareMessages` 기준으로 재정렬해 정렬 붕괴도 함께 복구했다(diff가 966+/753-로 커진 이유 — 재정렬 자체의 부작용이며 내용 변경은 213건뿐).
+- **의미**: `en.json`/`ko.json` 키 집합이 이제 완전히 일치(6898/6898), `check-empty-translations.js` 클린 통과. 이 브랜치도 이전과 마찬가지로 `ko.json`을 직접 수정하므로 "Only PRs from weblate should modify non-English translation files" CI 게이트에는 걸리지만(연구 항목에는 없으나 PR 머지 로그에 기록된 이 저장소의 정책), branch protection이 없어 머지를 막지는 않으며 사용자가 이미 이 트레이드오프를 확인하고 진행을 지시했다.
+- **Alternatives considered**: 정렬 복구를 이번 커밋에서 분리해 별도 PR로 — 어차피 같은 파일을 큰 폭으로 건드리는 시점이라 diff를 두 번 나누는 것보다 한 번에 정리하는 편이 리뷰 부담이 적다고 판단해 기각.
