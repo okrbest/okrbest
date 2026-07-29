@@ -107,7 +107,6 @@ const TeamWarningBanner = (props: Props) => {
                             mentionName={firstName}
                         />
                     ),
-                    team: (<strong>{team?.display_name}</strong>),
                 },
             )
         );
