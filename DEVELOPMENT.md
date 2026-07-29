@@ -321,6 +321,14 @@ make run-server
 
 - **`\restrict` 관련 에러**: 컨테이너의 psql 버전이 오래된 경우입니다. `docker rm -f mattermost-postgres && docker pull pgvector/pgvector:pg14` 후 3번부터 다시 진행합니다.
 - **첨부 파일이 보이지 않음**: SQL 덤프에는 DB만 포함됩니다. 업로드 파일은 원본 서버의 파일 저장소 디렉토리(`data/`)를 별도로 복사해야 합니다.
+- **`invalid value for parameter "default_text_search_config": "pg_catalog.korean"` 로그 반복**: `server/build/docker/postgres.conf`가 한국어 텍스트 검색 설정을 기본값으로 지정하지만 공식 postgres/pgvector 이미지에는 해당 설정이 없어 접속마다 에러가 남습니다. init 스크립트(`server/build/docker/postgres_node_database.sql`)가 `simple` 복사본으로 `pg_catalog.korean`을 생성하므로 볼륨을 새로 만들면 자동 해결됩니다. 기존 볼륨이라면 수동 생성합니다:
+  ```sh
+  docker exec -e PGPASSWORD="$POSTGRES_PASSWORD" mattermost-postgres \
+    psql -U "$POSTGRES_USER" -d template1 \
+    -c "CREATE TEXT SEARCH CONFIGURATION pg_catalog.korean (COPY = pg_catalog.simple);"
+  ```
+  (`template1` 외에 사용 중인 DB에도 각각 실행. 이후 생성되는 DB는 `template1`에서 상속.)
+- **`.env` source 시 `[1]+ Done ...` 메시지**: `MM_SQLSETTINGS_DATASOURCE` 값의 `&`가 셸에서 백그라운드 실행으로 해석된 것입니다. 값 전체를 작은따옴표로 감싸세요.
 
 ---
 
