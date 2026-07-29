@@ -95,9 +95,9 @@ description: "Task list for i18n 추출 도구 마이그레이션 (mmjstool → 
 
 ### Implementation for User Story 3
 
-- [ ] T017 [US3] `webapp/channels/src/utils/password.tsx`의 `checkPasswordComplexity`(동적 `id: errorId`, batches.md 참고)를 정적으로 추출 가능한 형태로 정리한다 — 예: 가능한 `errorId` 조합별로 별도의 `defineMessages` 항목을 두고 조건 분기에서 정적 id를 선택하도록 리팩터링. `en.json`/`ko.json`을 같은 변경에서 동시 갱신한다(constitution 원칙 V). (depends on T011)
-- [ ] T018 [US3] AST 기반 도구(예: ts-morph 또는 `@formatjs/cli extract --throws`를 파일별로 좁혀 실행) 등 grep보다 정밀한 방법으로 `password.tsx` 외에 동적 id 사용처가 더 있는지 표본 조사하고 batches.md에 결과를 추가한다(단순 `grep "id: "`는 오탐이 많아 부적합함을 이미 확인함, batches.md 참고). (depends on T007)
-- [ ] T019 [US3] quickstart.md 시나리오 3, 5를 실행해 도구 교체 전후 `en.json`/`ko.json` 키·값을 비교하고, `enforce-id` 도입으로 인한 회귀가 없음을 확인한다(SC-003, SC-005 — 배치가 사실상 불필요했으므로 두 기준 모두 이미 충족 상태임을 최종 확인하는 성격). (depends on T017, T018)
+- [X] T017 [US3] `webapp/channels/src/utils/password.tsx`의 `isValidPassword`(동적 `id: errorId`)를 이미 존재하던 `passwordErrors`(defineMessages) 객체 조회로 정리했다. en.json/ko.json 변경 불필요(해당 16개 메시지는 이미 올바르게 추출·번역돼 있었음 — 문제는 소비 지점이 일반 문구로 override하던 것뿐). 부수 효과로 사용자에게 더 구체적인 오류 문구가 표시되도록 개선됨. (depends on T011)
+- [X] T018 [US3] `grep`보다 정밀한 방법(`@formatjs/cli extract --extract-source-location`으로 해시 id의 실제 소스 위치 역추적)으로 전체 코드베이스를 조사해 `password.tsx` 외 2개 파일(`configuration_bar.tsx`, `add_command.tsx`, 총 5개 메시지)을 추가로 발견해 정리했다(batches.md 참고). 전체 재스캔 결과 해시 기반 id 0건 확인. (depends on T007)
+- [X] T019 [US3] `git diff master..HEAD -- webapp/channels/src/i18n/`로 이번 브랜치의 카탈로그 변경이 T014의 의도된 고아 키 159개 삭제 외에는 없음을 확인했고(en.json 무변경, SC-003), `.eslintrc.json`에 formatjs 관련 overrides가 없는 상태로 전체 코드베이스의 `enforce-id` 위반이 0건임을 최종 재확인했다(SC-005). (depends on T017, T018)
 
 **Checkpoint**: User Story 3 완료 — 알려진 동적 id 사례가 정리됐고, 도구 교체가 기존 한국어 번역에 영향을 주지 않았음이 확인됐다.
 
