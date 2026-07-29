@@ -3,18 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-29 23:25
+- 갱신일: 2026-07-30 00:19
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1176개
+- 남은 커밋: 1174개
 
-**마지막 반영 커밋:** `9e1d4c20` | [Translations update from Mattermost Weblate (#34918)](https://github.com/mattermost/mattermost/commit/9e1d4c2072c08ec08828317a277427ecac71f136) | 2026-01-13
+**마지막 반영 커밋:** `92339d03` | [\[MM-67044\] Update connected workspaces empty state illustrations (#34820)](https://github.com/mattermost/mattermost/commit/92339d03aba98e08646a504bd461627cedfd0fb2) | 2026-01-13
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
 | 8e4cadbc | [\[MM-66359\] Recaps MVP (#34337)](https://github.com/mattermost/mattermost/commit/8e4cadbc88ee2037f8122b25fd6fe341ab50d24d) | 2026-01-13 |
-| a18b80ba | [MM-67049: Fix unauthorized access to public channels in private teams (#34886)](https://github.com/mattermost/mattermost/commit/a18b80ba4c324b74b3d47951c33957305af4a099) | 2026-01-13 |
-| 7ea7b338 | [\[MM-67081\] \[MM-62584\] Updates to illustrations and loading screen (#34855)](https://github.com/mattermost/mattermost/commit/7ea7b3384fccc50fa1f8145fcdcc0a7cdea85012) | 2026-01-13 |
-| 92339d03 | [\[MM-67044\] Update connected workspaces empty state illustrations (#34820)](https://github.com/mattermost/mattermost/commit/92339d03aba98e08646a504bd461627cedfd0fb2) | 2026-01-13 |
 | dab04576 | [MM-66972 Upgrade to node 24 and main dependencies with babel, webpack and jest (#34760)](https://github.com/mattermost/mattermost/commit/dab04576a12542ea86882ff024dbc8283f0d11e2) | 2026-01-14 |
 | cf1682a0 | [Add documentation for plugin RPC architecture (#34587)](https://github.com/mattermost/mattermost/commit/cf1682a0e7b66310b0248eac670f10f30f047b5c) | 2026-01-14 |
 | cc2b47bc | [MM-66561 Add distinct archive icon for private channels (#34736)](https://github.com/mattermost/mattermost/commit/cc2b47bc9bc15194e851e28d4857756b17a04d95) | 2026-01-14 |
@@ -1187,6 +1184,7 @@
 | 75823b96 | [Update snapshot and try to fix flaky test (#37722)](https://github.com/mattermost/mattermost/commit/75823b96c3b160f473094059d3fd078eb190b148) | 2026-07-28 |
 | 9de00278 | [\[MM-69982\] Fix intermittent remote cluster ping failures from stale keep-alive connection reuse (#37694)](https://github.com/mattermost/mattermost/commit/9de00278680adb7c87fce922a94e60c1f66b6774) | 2026-07-28 |
 | 90ee5da7 | [docs: fix dark-mode code block contrast issues (#37736)](https://github.com/mattermost/mattermost/commit/90ee5da701b1b2732afb70e689ffd6e1ce6a46af) | 2026-07-29 |
+| 638a1970 | [MM-69929: Fix clipped focus outline on multi-image gallery thumbnails (#37713)](https://github.com/mattermost/mattermost/commit/638a19702c7fdd597be79ff933f2cbd27aaae8bd) | 2026-07-29 |
 
 ## 제외된 커밋
 
