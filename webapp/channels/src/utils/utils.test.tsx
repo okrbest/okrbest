@@ -1,8 +1,52 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import * as i18nSelectors from 'selectors/i18n';
+
 import {FileTypes} from './constants';
-import {getFileType} from './utils';
+import {getFileType, localizeMessage} from './utils';
+
+describe('Utils.localizeMessage', () => {
+    jest.spyOn(i18nSelectors, 'getCurrentLocale').mockReturnValue('en');
+
+    afterEach(() => {
+        jest.spyOn(i18nSelectors, 'getTranslations').mockReset();
+    });
+
+    test('should substitute values into the translated string', () => {
+        jest.spyOn(i18nSelectors, 'getTranslations').mockReturnValue({
+            'test.min_max': 'Must be {min}-{max} characters long.',
+        });
+
+        const actual = localizeMessage({
+            id: 'test.min_max',
+            defaultMessage: 'fallback',
+            values: {min: 3, max: 22},
+        });
+
+        expect(actual).toBe('Must be 3-22 characters long.');
+    });
+
+    test('should substitute values into the default message when untranslated', () => {
+        jest.spyOn(i18nSelectors, 'getTranslations').mockReturnValue({});
+
+        const actual = localizeMessage({
+            id: 'test.unknown',
+            defaultMessage: 'Must be {min}-{max} characters long.',
+            values: {min: 3, max: 22},
+        });
+
+        expect(actual).toBe('Must be 3-22 characters long.');
+    });
+
+    test('should return the raw string unchanged when no values are given', () => {
+        jest.spyOn(i18nSelectors, 'getTranslations').mockReturnValue({
+            'test.plain': 'Plain text',
+        });
+
+        expect(localizeMessage({id: 'test.plain', defaultMessage: 'fallback'})).toBe('Plain text');
+    });
+});
 
 describe('Utils.getFileType', () => {
     test('should identify image files by extension', () => {

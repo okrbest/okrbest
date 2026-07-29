@@ -1235,17 +1235,22 @@ export function clearFileInput(elm: HTMLInputElement) {
 /**
  * @deprecated Use react-intl instead, only place its usage can be justified is in the redux actions
  */
-export function localizeMessage({id, defaultMessage}: {id: string; defaultMessage?: string}) {
+export function localizeMessage({id, defaultMessage, values}: {id: string; defaultMessage?: string; values?: Record<string, any>}) {
     const state = store.getState();
 
     const locale = getCurrentLocale(state);
     const translations = getTranslations(state, locale);
 
-    if (!translations || !(id in translations)) {
-        return defaultMessage || id;
+    const raw = (!translations || !(id in translations)) ? (defaultMessage || id) : translations[id];
+
+    if (!values) {
+        return raw;
     }
 
-    return translations[id];
+    return raw.replace(/{[\w]+}/g, (match: string) => {
+        const key = match.substr(1, match.length - 2);
+        return values[key] === undefined ? match : String(values[key]);
+    });
 }
 
 /**
