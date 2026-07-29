@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import throttle from 'lodash/throttle';
 import React, {useState, useEffect, useRef, useCallback, useMemo} from 'react';
 import type {FormEvent} from 'react';
-import {useIntl} from 'react-intl';
+import {defineMessages, useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 import {Link, useLocation, useHistory, Route} from 'react-router-dom';
 
@@ -48,7 +48,6 @@ import PasswordInput from 'components/widgets/inputs/password_input/password_inp
 import Constants from 'utils/constants';
 import DesktopApp from 'utils/desktop_api';
 import {isEmbedded} from 'utils/embed';
-import {t} from 'utils/i18n';
 import {DesktopNotificationSounds} from 'utils/notification_sounds';
 import {showNotification} from 'utils/notifications';
 import {isDesktopApp} from 'utils/user_agent';
@@ -62,6 +61,19 @@ import LoginMfa from './login_mfa';
 import './login.scss';
 
 const MOBILE_SCREEN_WIDTH = 1200;
+
+// Which of these applies depends on a combination of enableSignInWithEmail/enableSignInWithUsername/ldapEnabled,
+// computed dynamically below (noLoginIdMessages[msgId]). All combinations are enumerated here so the id is
+// statically extractable.
+const noLoginIdMessages = defineMessages({
+    noEmail: {id: 'login.noEmail', defaultMessage: 'Please enter your email'},
+    noEmailLdapUsername: {id: 'login.noEmailLdapUsername', defaultMessage: 'Please enter your email or {ldapUsername}'},
+    noEmailUsername: {id: 'login.noEmailUsername', defaultMessage: 'Please enter your email or username'},
+    noEmailUsernameLdapUsername: {id: 'login.noEmailUsernameLdapUsername', defaultMessage: 'Please enter your email, username or {ldapUsername}'},
+    noLdapUsername: {id: 'login.noLdapUsername', defaultMessage: 'Please enter your {ldapUsername}'},
+    noUsername: {id: 'login.noUsername', defaultMessage: 'Please enter your username'},
+    noUsernameLdapUsername: {id: 'login.noUsernameLdapUsername', defaultMessage: 'Please enter your username or {ldapUsername}'},
+});
 
 type LoginProps = {
     onCustomizeHeader?: CustomizeHeaderType;
@@ -610,30 +622,22 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         currentLoginId = currentLoginId.trim().toLowerCase();
 
         if (!currentLoginId) {
-            t('login.noEmail');
-            t('login.noEmailLdapUsername');
-            t('login.noEmailUsername');
-            t('login.noEmailUsernameLdapUsername');
-            t('login.noLdapUsername');
-            t('login.noUsername');
-            t('login.noUsernameLdapUsername');
-
-            // it's slightly weird to be constructing the message ID, but it's a bit nicer than triply nested if statements
-            let msgId = 'login.no';
+            // it's slightly weird to be constructing the message key, but it's a bit nicer than triply nested if statements
+            let msgKey = 'no';
             if (enableSignInWithEmail) {
-                msgId += 'Email';
+                msgKey += 'Email';
             }
             if (enableSignInWithUsername) {
-                msgId += 'Username';
+                msgKey += 'Username';
             }
             if (ldapEnabled) {
-                msgId += 'LdapUsername';
+                msgKey += 'LdapUsername';
             }
 
             setAlertBanner({
                 mode: 'danger',
                 title: formatMessage(
-                    {id: msgId},
+                    noLoginIdMessages[msgKey as keyof typeof noLoginIdMessages],
                     {ldapUsername: LdapLoginFieldName || formatMessage({id: 'login.ldapUsernameLower', defaultMessage: 'AD/LDAP username'})},
                 ),
             });
