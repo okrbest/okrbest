@@ -14,9 +14,9 @@ import store from 'stores/redux_store';
 
 import usePrefixedIds from 'components/common/hooks/usePrefixedIds';
 
+import {channelMatchesMentionPrefix} from 'utils/channel_mention_filter';
 import {getArchiveIconClassName} from 'utils/channel_utils';
 import {Constants} from 'utils/constants';
-import {channelMatchesMentionPrefix} from 'utils/channel_mention_filter';
 
 import Provider from './provider';
 import type {ResultsCallback} from './provider';
