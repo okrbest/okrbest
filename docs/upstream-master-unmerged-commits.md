@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-30 12:18
+- 갱신일: 2026-07-30 12:59
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1176개
+- 남은 커밋: 1173개
 
-**마지막 반영 커밋:** `dab04576` | [MM-66972 Upgrade to node 24 and main dependencies with babel, webpack and jest (#34760)](https://github.com/mattermost/mattermost/commit/dab04576a12542ea86882ff024dbc8283f0d11e2) | 2026-01-14
+**마지막 반영 커밋:** `0885f560` | [Add optional Claude.md orchestration for Webapp folder (#34668)](https://github.com/mattermost/mattermost/commit/0885f56010ac74f03c88cfee41c885a3e53249a8) | 2026-01-14
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| cf1682a0 | [Add documentation for plugin RPC architecture (#34587)](https://github.com/mattermost/mattermost/commit/cf1682a0e7b66310b0248eac670f10f30f047b5c) | 2026-01-14 |
-| cc2b47bc | [MM-66561 Add distinct archive icon for private channels (#34736)](https://github.com/mattermost/mattermost/commit/cc2b47bc9bc15194e851e28d4857756b17a04d95) | 2026-01-14 |
-| 0885f560 | [Add optional Claude.md orchestration for Webapp folder (#34668)](https://github.com/mattermost/mattermost/commit/0885f56010ac74f03c88cfee41c885a3e53249a8) | 2026-01-14 |
 | 52411cf6 | [Migrate UserList to a function component (#34511)](https://github.com/mattermost/mattermost/commit/52411cf613381fff286365b12faf6bc48f13042a) | 2026-01-15 |
 | 688e0c6c | [Update en.json (#34935)](https://github.com/mattermost/mattermost/commit/688e0c6c4e64a159e111d24648357a69e33e7f9f) | 2026-01-15 |
 | 38b413a2 | [MM-67077: Remove PSD file previews (#34898)](https://github.com/mattermost/mattermost/commit/38b413a27604e8721fbe008f8ec4b4e6c47ad4f0) | 2026-01-15 |
