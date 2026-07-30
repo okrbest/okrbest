@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-30 12:59
+- 갱신일: 2026-07-30 13:31
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1173개
+- 남은 커밋: 1170개
 
-**마지막 반영 커밋:** `0885f560` | [Add optional Claude.md orchestration for Webapp folder (#34668)](https://github.com/mattermost/mattermost/commit/0885f56010ac74f03c88cfee41c885a3e53249a8) | 2026-01-14
+**마지막 반영 커밋:** `38b413a2` | [MM-67077: Remove PSD file previews (#34898)](https://github.com/mattermost/mattermost/commit/38b413a27604e8721fbe008f8ec4b4e6c47ad4f0) | 2026-01-15
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 52411cf6 | [Migrate UserList to a function component (#34511)](https://github.com/mattermost/mattermost/commit/52411cf613381fff286365b12faf6bc48f13042a) | 2026-01-15 |
-| 688e0c6c | [Update en.json (#34935)](https://github.com/mattermost/mattermost/commit/688e0c6c4e64a159e111d24648357a69e33e7f9f) | 2026-01-15 |
-| 38b413a2 | [MM-67077: Remove PSD file previews (#34898)](https://github.com/mattermost/mattermost/commit/38b413a27604e8721fbe008f8ec4b4e6c47ad4f0) | 2026-01-15 |
 | 0a12ca2f | [E2E/Playwright: Reorganize user and team creation (#34912)](https://github.com/mattermost/mattermost/commit/0a12ca2f7d1ba87830d5b34942d3494893a29aa4) | 2026-01-16 |
 | 53975de0 | [MM-66671 Migrate tests to RTL, batches E1 and E2 (#34506)](https://github.com/mattermost/mattermost/commit/53975de036b331168497a65246982c399ad0b33b) | 2026-01-16 |
 | 9268d4b1 | [MM-66672 Migrate tests to RTL (#34508)](https://github.com/mattermost/mattermost/commit/9268d4b1d0065fa9b6d22231d1cf10f7c3fe4bf8) | 2026-01-16 |
