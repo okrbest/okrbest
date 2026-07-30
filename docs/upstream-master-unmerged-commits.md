@@ -3,7 +3,7 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-30 11:55
+- 갱신일: 2026-07-30 12:18
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 1176개
 
@@ -1197,4 +1197,3 @@
 
 | 커밋 해시 | 커밋 제목 | spec |
 |---|---|---|
-| 8e4cadbc | [\[MM-66359\] Recaps MVP (#34337)](https://github.com/mattermost/mattermost/commit/8e4cadbc88ee2037f8122b25fd6fe341ab50d24d) | AI 채널 리캡(recaps) - specs/미정 |
