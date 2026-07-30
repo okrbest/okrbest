@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-30 00:19
+- 갱신일: 2026-07-30 11:55
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1174개
+- 남은 커밋: 1176개
 
-**마지막 반영 커밋:** `92339d03` | [\[MM-67044\] Update connected workspaces empty state illustrations (#34820)](https://github.com/mattermost/mattermost/commit/92339d03aba98e08646a504bd461627cedfd0fb2) | 2026-01-13
+**마지막 반영 커밋:** `dab04576` | [MM-66972 Upgrade to node 24 and main dependencies with babel, webpack and jest (#34760)](https://github.com/mattermost/mattermost/commit/dab04576a12542ea86882ff024dbc8283f0d11e2) | 2026-01-14
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 8e4cadbc | [\[MM-66359\] Recaps MVP (#34337)](https://github.com/mattermost/mattermost/commit/8e4cadbc88ee2037f8122b25fd6fe341ab50d24d) | 2026-01-13 |
-| dab04576 | [MM-66972 Upgrade to node 24 and main dependencies with babel, webpack and jest (#34760)](https://github.com/mattermost/mattermost/commit/dab04576a12542ea86882ff024dbc8283f0d11e2) | 2026-01-14 |
 | cf1682a0 | [Add documentation for plugin RPC architecture (#34587)](https://github.com/mattermost/mattermost/commit/cf1682a0e7b66310b0248eac670f10f30f047b5c) | 2026-01-14 |
 | cc2b47bc | [MM-66561 Add distinct archive icon for private channels (#34736)](https://github.com/mattermost/mattermost/commit/cc2b47bc9bc15194e851e28d4857756b17a04d95) | 2026-01-14 |
 | 0885f560 | [Add optional Claude.md orchestration for Webapp folder (#34668)](https://github.com/mattermost/mattermost/commit/0885f56010ac74f03c88cfee41c885a3e53249a8) | 2026-01-14 |
@@ -1185,6 +1183,10 @@
 | 9de00278 | [\[MM-69982\] Fix intermittent remote cluster ping failures from stale keep-alive connection reuse (#37694)](https://github.com/mattermost/mattermost/commit/9de00278680adb7c87fce922a94e60c1f66b6774) | 2026-07-28 |
 | 90ee5da7 | [docs: fix dark-mode code block contrast issues (#37736)](https://github.com/mattermost/mattermost/commit/90ee5da701b1b2732afb70e689ffd6e1ce6a46af) | 2026-07-29 |
 | 638a1970 | [MM-69929: Fix clipped focus outline on multi-image gallery thumbnails (#37713)](https://github.com/mattermost/mattermost/commit/638a19702c7fdd597be79ff933f2cbd27aaae8bd) | 2026-07-29 |
+| 8f0ab3f2 | [Add owners fields to policies (#37655)](https://github.com/mattermost/mattermost/commit/8f0ab3f2088817f06d4f104d82840965500fe534) | 2026-07-29 |
+| a5739da6 | [Make options editable when a select field is owned (#37720)](https://github.com/mattermost/mattermost/commit/a5739da6923f3eeba883b2455206c95120ddedb1) | 2026-07-29 |
+| 10804f80 | [Prepackage mattermost-plugin-agents v2.5.1 (#37727)](https://github.com/mattermost/mattermost/commit/10804f80f5739898f854203833c1dbab5e37f059) | 2026-07-29 |
+| cdbc9263 | [Translations update from Mattermost Weblate (#37689)](https://github.com/mattermost/mattermost/commit/cdbc92639c51b64243cf7a0c8f622c720a312029) | 2026-07-30 |
 
 ## 제외된 커밋
 
@@ -1195,3 +1197,4 @@
 
 | 커밋 해시 | 커밋 제목 | spec |
 |---|---|---|
+| 8e4cadbc | [\[MM-66359\] Recaps MVP (#34337)](https://github.com/mattermost/mattermost/commit/8e4cadbc88ee2037f8122b25fd6fe341ab50d24d) | AI 채널 리캡(recaps) - specs/미정 |
