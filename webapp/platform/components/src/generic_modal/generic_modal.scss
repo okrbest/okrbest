@@ -6,11 +6,11 @@
 
     &__location--center {
         display: flex;
+        height: 100%;
         align-items: center;
         justify-content: center;
-        height: 100%;
-        margin-top: 0;
         padding-bottom: 24px;
+        margin-top: 0;
 
         .modal-content {
             flex: 1 1 auto;
