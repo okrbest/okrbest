@@ -307,7 +307,12 @@ export class MobileSidebarRightItems extends React.PureComponent<Props> {
                             modalId={ModalIdentifiers.TEAM_ORG_ROLE_MANAGEMENT}
                             dialogType={TeamOrgRoleManagementModal}
                             text={formatMessage({id: 'navbar_dropdown.orgRoleManagement', defaultMessage: '부서/직위 관리'})}
-                            icon={<i className='fa fa-sitemap'/>}
+                            icon={
+                                <i
+                                    className='icon icon-sitemap'
+                                    style={{color: 'var(--sidebar-text)'}}
+                                />
+                            }
                         />
                     </TeamPermissionGate>
                     <TeamPermissionGate
