@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-30 13:31
+- 갱신일: 2026-07-30 14:56
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1170개
+- 남은 커밋: 1163개
 
-**마지막 반영 커밋:** `38b413a2` | [MM-67077: Remove PSD file previews (#34898)](https://github.com/mattermost/mattermost/commit/38b413a27604e8721fbe008f8ec4b4e6c47ad4f0) | 2026-01-15
+**마지막 반영 커밋:** `f00dd11e` | [\[MM-67138\]\[MM-67139\] Update Audit/Activity logging for Desktop App external auth (#34928)](https://github.com/mattermost/mattermost/commit/f00dd11e340cda3c8b9d13cb869db1fcd085580c) | 2026-01-16
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 0a12ca2f | [E2E/Playwright: Reorganize user and team creation (#34912)](https://github.com/mattermost/mattermost/commit/0a12ca2f7d1ba87830d5b34942d3494893a29aa4) | 2026-01-16 |
-| 53975de0 | [MM-66671 Migrate tests to RTL, batches E1 and E2 (#34506)](https://github.com/mattermost/mattermost/commit/53975de036b331168497a65246982c399ad0b33b) | 2026-01-16 |
-| 9268d4b1 | [MM-66672 Migrate tests to RTL (#34508)](https://github.com/mattermost/mattermost/commit/9268d4b1d0065fa9b6d22231d1cf10f7c3fe4bf8) | 2026-01-16 |
-| 53feec3e | [MM-66674 - Updating alignment for GenericModal (#34861)](https://github.com/mattermost/mattermost/commit/53feec3e79845ec807d15c272ffe0a1def6321ca) | 2026-01-16 |
-| be3b5d4b | [MM-66092 - enhance user permissions data structure validations (#34654)](https://github.com/mattermost/mattermost/commit/be3b5d4b7cabf533d47855ce012c9d9b056d31ba) | 2026-01-16 |
-| b097098a | [MM-64942 - Fixing default error bookmarks bar (#34869)](https://github.com/mattermost/mattermost/commit/b097098af35f3c1099c81a7e7dca9e468698c4b1) | 2026-01-16 |
-| f00dd11e | [\[MM-67138\]\[MM-67139\] Update Audit/Activity logging for Desktop App external auth (#34928)](https://github.com/mattermost/mattermost/commit/f00dd11e340cda3c8b9d13cb869db1fcd085580c) | 2026-01-16 |
 | 4773d0fc | [MM-64655 - Updating mobile RHS (#34007)](https://github.com/mattermost/mattermost/commit/4773d0fc6fa321ad7bb3c1c2b64c5bd8ce114128) | 2026-01-17 |
 | 2a8b2069 | [chore: Update NOTICE.txt file with updated dependencies (#34969)](https://github.com/mattermost/mattermost/commit/2a8b2069f5d7c77b1f8f90fcfb405ed18d626681) | 2026-01-19 |
 | bb8c2660 | [Translations update from Mattermost Weblate (#34977)](https://github.com/mattermost/mattermost/commit/bb8c2660ed2e27c0ccf2edc1cf9f5f546bac66e4) | 2026-01-19 |
