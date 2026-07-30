@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-30 14:56
+- 갱신일: 2026-07-30 15:27
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1163개
+- 남은 커밋: 1162개
 
-**마지막 반영 커밋:** `f00dd11e` | [\[MM-67138\]\[MM-67139\] Update Audit/Activity logging for Desktop App external auth (#34928)](https://github.com/mattermost/mattermost/commit/f00dd11e340cda3c8b9d13cb869db1fcd085580c) | 2026-01-16
+**마지막 반영 커밋:** `4773d0fc` | [MM-64655 - Updating mobile RHS (#34007)](https://github.com/mattermost/mattermost/commit/4773d0fc6fa321ad7bb3c1c2b64c5bd8ce114128) | 2026-01-17
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 4773d0fc | [MM-64655 - Updating mobile RHS (#34007)](https://github.com/mattermost/mattermost/commit/4773d0fc6fa321ad7bb3c1c2b64c5bd8ce114128) | 2026-01-17 |
 | 2a8b2069 | [chore: Update NOTICE.txt file with updated dependencies (#34969)](https://github.com/mattermost/mattermost/commit/2a8b2069f5d7c77b1f8f90fcfb405ed18d626681) | 2026-01-19 |
 | bb8c2660 | [Translations update from Mattermost Weblate (#34977)](https://github.com/mattermost/mattermost/commit/bb8c2660ed2e27c0ccf2edc1cf9f5f546bac66e4) | 2026-01-19 |
 | b8c9f931 | [Update package-lock.json (#34958)](https://github.com/mattermost/mattermost/commit/b8c9f931bb22652c486bb82ee73f92d0e6249e0e) | 2026-01-19 |
