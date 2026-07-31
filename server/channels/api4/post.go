@@ -1085,7 +1085,7 @@ func getRecentMentionsForUser(c *Context, w http.ResponseWriter, r *http.Request
 	}
 
 	clientPostList := c.App.PreparePostListForClient(c.AppContext, results.PostList)
-	clientPostList, err = c.App.SanitizePostListMetadataForUser(c.AppContext, clientPostList, c.AppContext.Session().UserId)
+	clientPostList, _, err = c.App.SanitizePostListMetadataForUser(c.AppContext, clientPostList, c.AppContext.Session().UserId)
 	if err != nil {
 		c.Err = err
 		return
