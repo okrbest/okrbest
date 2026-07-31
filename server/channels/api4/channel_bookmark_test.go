@@ -6,7 +6,9 @@ package api4
 import (
 	"context"
 	"encoding/json"
+	"io"
 	"net/http"
+	"os"
 	"testing"
 	"time"
 
@@ -1695,5 +1697,65 @@ func TestListChannelBookmarksForChannel(t *testing.T) {
 		require.NoError(t, err)
 		CheckOKStatus(t, resp)
 		require.NotEmpty(t, bookmarks)
+	})
+}
+
+// TestListChannelBookmarksForChannelAuditsNonMemberAccess covers spec
+// specs/005-post-access-audit-logging User Story 4 (FR-004): listing a
+// channel's bookmarks while not a member of that channel must be audited
+// with the "non_channel_member_access" parameter, while a regular member's
+// access must not add that parameter.
+func TestListChannelBookmarksForChannelAuditsNonMemberAccess(t *testing.T) {
+	mainHelper.Parallel(t)
+
+	logFile, err := os.CreateTemp("", "channel_bookmark_audit.log")
+	require.NoError(t, err)
+	defer os.Remove(logFile.Name())
+
+	os.Setenv("MM_EXPERIMENTALAUDITSETTINGS_FILEENABLED", "true")
+	os.Setenv("MM_EXPERIMENTALAUDITSETTINGS_FILENAME", logFile.Name())
+	defer os.Unsetenv("MM_EXPERIMENTALAUDITSETTINGS_FILEENABLED")
+	defer os.Unsetenv("MM_EXPERIMENTALAUDITSETTINGS_FILENAME")
+
+	th := Setup(t).InitBasic(t)
+	th.App.Srv().SetLicense(model.NewTestLicense())
+	appErr := th.App.SetPhase2PermissionsMigrationStatus(true)
+	require.NoError(t, appErr)
+
+	bookmark := &model.ChannelBookmark{
+		ChannelId:   th.BasicChannel.Id,
+		DisplayName: "audit test bookmark",
+		Type:        model.ChannelBookmarkLink,
+		LinkUrl:     "https://sample.com",
+	}
+	_, cErr := th.App.CreateChannelBookmark(th.Context, bookmark, "")
+	require.Nil(t, cErr)
+
+	readAuditLog := func() string {
+		require.NoError(t, th.Server.Audit.Flush())
+		require.NoError(t, logFile.Sync())
+		_, seekErr := logFile.Seek(0, io.SeekStart)
+		require.NoError(t, seekErr)
+		data, readErr := io.ReadAll(logFile)
+		require.NoError(t, readErr)
+		return string(data)
+	}
+
+	t.Run("channel member is not flagged as non-member access", func(t *testing.T) {
+		bookmarks, resp, listErr := th.Client.ListChannelBookmarksForChannel(context.Background(), th.BasicChannel.Id, 0)
+		require.NoError(t, listErr)
+		CheckOKStatus(t, resp)
+		require.NotEmpty(t, bookmarks)
+
+		require.NotContains(t, readAuditLog(), `"non_channel_member_access":true`)
+	})
+
+	t.Run("system admin without channel membership is flagged as non-member access", func(t *testing.T) {
+		bookmarks, resp, listErr := th.SystemAdminClient.ListChannelBookmarksForChannel(context.Background(), th.BasicChannel.Id, 0)
+		require.NoError(t, listErr)
+		CheckOKStatus(t, resp)
+		require.NotEmpty(t, bookmarks)
+
+		require.Contains(t, readAuditLog(), `"non_channel_member_access":true`)
 	})
 }
