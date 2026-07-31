@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-31 10:48
+- 갱신일: 2026-07-31 14:00
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1169개
+- 남은 커밋: 1162개
 
-**마지막 반영 커밋:** `b5a816a6` | [Add audits for accessing posts without membership (#31266)](https://github.com/mattermost/mattermost/commit/b5a816a657d6f33a96d374b04212685e2b0df77d) | 2026-01-20
+**마지막 반영 커밋:** `fa399a5b` | [Remove most unused props (#34979)](https://github.com/mattermost/mattermost/commit/fa399a5b05d17ea89c20c40f5288cdf522763f87) | 2026-01-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 28bcb639 | [fix(webapp): bundle loading screen CSS with content hash (#34930)](https://github.com/mattermost/mattermost/commit/28bcb6394b17fe5eaa5144df694d40aa9ba6ff8b) | 2026-01-20 |
-| 3ebc90bd | [fix: E2E/Tests related to create account and invite people (#34953)](https://github.com/mattermost/mattermost/commit/3ebc90bde0de2ced2f94b6f3cf6986fffb259c4f) | 2026-01-20 |
-| 5e99f12c | [MM-67119: Remove unused Channel.Etag (#34951)](https://github.com/mattermost/mattermost/commit/5e99f12c3afae7707b39893ba690bf472dfb78eb) | 2026-01-20 |
-| fde43931 | [Update web app package versions to 11.4.0 (#35003)](https://github.com/mattermost/mattermost/commit/fde439314441868b81c8b3a1d742865136c19f09) | 2026-01-20 |
-| dcda5304 | [Suppress SiteURL log error when in CI or local_testing mode (#34982)](https://github.com/mattermost/mattermost/commit/dcda5304ff4881802357ad8a9d3ea114398e6429) | 2026-01-20 |
-| 41e5c728 | [Remove vestigial MySQL support (#34865)](https://github.com/mattermost/mattermost/commit/41e5c7286b33b285bca816018288a2dcf62af1cb) | 2026-01-20 |
-| 86024cb4 | [Update runtime chainguard image for fips (#34997)](https://github.com/mattermost/mattermost/commit/86024cb4cc42b8c15be1680728b2f2d215c4ec89) | 2026-01-20 |
-| fa399a5b | [Remove most unused props (#34979)](https://github.com/mattermost/mattermost/commit/fa399a5b05d17ea89c20c40f5288cdf522763f87) | 2026-01-20 |
 | ed3a7e85 | [Add trigger field to command execution logs (#34950)](https://github.com/mattermost/mattermost/commit/ed3a7e853943317d7d32d623d2c5d4ab8df5756c) | 2026-01-21 |
 | c01e9f79 | [\[MM-67189\] loading screen fixes - move measureAndReport, reduce minimum time, fix z-index issue (#34947)](https://github.com/mattermost/mattermost/commit/c01e9f791f8f37b7df107e461b0aeaa960e0a89f) | 2026-01-21 |
 | fcd3ebcb | [fix(scheduled): enhance timezone formatting by incorporating user loc… (#34305)](https://github.com/mattermost/mattermost/commit/fcd3ebcb314960cb176a10b57b0b306cdc32690a) | 2026-01-22 |
@@ -1180,6 +1172,7 @@
 | f5a7e403 | [Mm 69827 team abac job details ux (#37744)](https://github.com/mattermost/mattermost/commit/f5a7e40352089e6ec6fa16b44123dc792c831d38) | 2026-07-30 |
 | c6db95f3 | [Preserve relative redirect_to on root SiteURL (#37725)](https://github.com/mattermost/mattermost/commit/c6db95f35d25aa0cd3c3c226f75bb2becfa2c7c6) | 2026-07-30 |
 | 4ec0fe9c | [\[MM-69846\] List access_control/template attributes on the Manage Attributes page (#37608)](https://github.com/mattermost/mattermost/commit/4ec0fe9cc9dd35229c99260782ed011211f36e01) | 2026-07-30 |
+| 466b5bb7 | [redact logs (#37757)](https://github.com/mattermost/mattermost/commit/466b5bb783a814c173fc2ccf06ad3d4bebc1b3b3) | 2026-07-30 |
 
 ## 제외된 커밋
 
