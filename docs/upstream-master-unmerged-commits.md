@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-31 15:02
+- 갱신일: 2026-07-31 21:24
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1158개
+- 남은 커밋: 1152개
 
-**마지막 반영 커밋:** `d695a0db` | [MM-67111-Remove Cancel button on User Attributes page (#34945)](https://github.com/mattermost/mattermost/commit/d695a0db7aa9f6b1815f26875de8afd96335e030) | 2026-01-22
+**마지막 반영 커밋:** `86797c50` | [update mscfb and msoleps indirect dependencies to fix oom vuln. (#34910)](https://github.com/mattermost/mattermost/commit/86797c508c444e299b20889ce241fde505a402cc) | 2026-01-23
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 66e5ab4c | [E2E/Test Playwright upgrade (#35008)](https://github.com/mattermost/mattermost/commit/66e5ab4c5e06102a454a6d76ab60144a04d1e9b7) | 2026-01-23 |
-| 3a394b25 | [Bumping version of prepackaged Gitlab plugin to 1.12.0 (#35033)](https://github.com/mattermost/mattermost/commit/3a394b25e4356a20b066b4ea0087f806c85febba) | 2026-01-23 |
-| 09c4a61f | [\[MM-67030\] Remove newsletter signup and replace with terms/privacy agreement (#34801)](https://github.com/mattermost/mattermost/commit/09c4a61fed8580ceae5bd05e64aa4ac9615c4444) | 2026-01-23 |
-| 777867dc | [Define types for WebSocket messages and migrate WebSocket actions to TS (#34603)](https://github.com/mattermost/mattermost/commit/777867dc361a3abb33e280b33ad373c683cd2bc9) | 2026-01-23 |
-| 9efe617b | [MM-67055: Fix permalink embeds in WebSocket messages (#34893)](https://github.com/mattermost/mattermost/commit/9efe617be8b8f1d036e12721e8e73b69a543ed34) | 2026-01-23 |
-| 37ec26b8 | [MM-61383 - add back offline user help for messagging (#34756)](https://github.com/mattermost/mattermost/commit/37ec26b81a0d13c264ffd6afd6370bc83115307d) | 2026-01-23 |
-| 86797c50 | [update mscfb and msoleps indirect dependencies to fix oom vuln. (#34910)](https://github.com/mattermost/mattermost/commit/86797c508c444e299b20889ce241fde505a402cc) | 2026-01-23 |
 | 7bbf8c71 | [Add missing check (#35034)](https://github.com/mattermost/mattermost/commit/7bbf8c71a27b3007b7f90a3bc4069b8a94ec5b36) | 2026-01-24 |
 | b62727e0 | [\[MM-67290\] Document that Elasticsearch backend type change requires server restart (#35038)](https://github.com/mattermost/mattermost/commit/b62727e09133ce7a2729032e882b1123dbbc720a) | 2026-01-26 |
 | df001842 | [fix merge defect on server/channels/app/post_test.go (#35057)](https://github.com/mattermost/mattermost/commit/df0018425021695232de4bd81915291494955b67) | 2026-01-26 |
@@ -1169,6 +1162,7 @@
 | c6db95f3 | [Preserve relative redirect_to on root SiteURL (#37725)](https://github.com/mattermost/mattermost/commit/c6db95f35d25aa0cd3c3c226f75bb2becfa2c7c6) | 2026-07-30 |
 | 4ec0fe9c | [\[MM-69846\] List access_control/template attributes on the Manage Attributes page (#37608)](https://github.com/mattermost/mattermost/commit/4ec0fe9cc9dd35229c99260782ed011211f36e01) | 2026-07-30 |
 | 466b5bb7 | [redact logs (#37757)](https://github.com/mattermost/mattermost/commit/466b5bb783a814c173fc2ccf06ad3d4bebc1b3b3) | 2026-07-30 |
+| 20d3cdd6 | [\[MM-70023\] Consider attachment fields with no title for block translation (#37762)](https://github.com/mattermost/mattermost/commit/20d3cdd6f5774869be6ed100ced6d8b68568b514) | 2026-07-31 |
 
 ## 제외된 커밋
 
