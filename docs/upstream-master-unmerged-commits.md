@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-31 10:05
+- 갱신일: 2026-07-31 10:48
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1170개
+- 남은 커밋: 1169개
 
-**마지막 반영 커밋:** `b2f93dec` | [\[MM-67118\] Add Agents to @ mention autocomplete in channel (#34881)](https://github.com/mattermost/mattermost/commit/b2f93dec1a1a8b223e6d96a243d3ec9002b2bc86) | 2026-01-19
+**마지막 반영 커밋:** `b5a816a6` | [Add audits for accessing posts without membership (#31266)](https://github.com/mattermost/mattermost/commit/b5a816a657d6f33a96d374b04212685e2b0df77d) | 2026-01-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b5a816a6 | [Add audits for accessing posts without membership (#31266)](https://github.com/mattermost/mattermost/commit/b5a816a657d6f33a96d374b04212685e2b0df77d) | 2026-01-20 |
 | 28bcb639 | [fix(webapp): bundle loading screen CSS with content hash (#34930)](https://github.com/mattermost/mattermost/commit/28bcb6394b17fe5eaa5144df694d40aa9ba6ff8b) | 2026-01-20 |
 | 3ebc90bd | [fix: E2E/Tests related to create account and invite people (#34953)](https://github.com/mattermost/mattermost/commit/3ebc90bde0de2ced2f94b6f3cf6986fffb259c4f) | 2026-01-20 |
 | 5e99f12c | [MM-67119: Remove unused Channel.Etag (#34951)](https://github.com/mattermost/mattermost/commit/5e99f12c3afae7707b39893ba690bf472dfb78eb) | 2026-01-20 |
@@ -1193,3 +1192,4 @@
 
 | 커밋 해시 | 커밋 제목 | spec |
 |---|---|---|
+| b5a816a6 | [Add audits for accessing posts without membership (#31266)](https://github.com/mattermost/mattermost/commit/b5a816a657d6f33a96d374b04212685e2b0df77d) | specs/005-post-access-audit-logging |
