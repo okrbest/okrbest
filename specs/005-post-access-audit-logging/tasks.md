@@ -40,9 +40,9 @@ User Story별 "비멤버 접근 감사 플래그 부착" 로직은 스토리 단
 
 **Purpose**: 구현 전용 브랜치 준비 및 베이스라인 확인
 
-- [ ] T001 `master`에서 분기한 전용 feature 브랜치 `005-post-access-audit-logging` 생성/전환
+- [X] T001 `master`에서 분기한 전용 feature 브랜치 `005-post-access-audit-logging` 생성/전환
       (constitution 원칙 VI — `master` 직접 커밋 금지, 작업당 브랜치 1개)
-- [ ] T002 `cd server && go build ./...`로 리팩터 시작 전 현재 컴파일 상태 베이스라인 확인
+- [X] T002 `cd server && go build ./...`로 리팩터 시작 전 현재 컴파일 상태 베이스라인 확인
 
 ---
 
@@ -56,7 +56,14 @@ User Story별 "비멤버 접근 감사 플래그 부착" 로직은 스토리 단
 **⚠️ CRITICAL**: 이 단계를 완료하기 전에는 어떤 User Story 작업도 시작할 수 없다(Go는 정적
 타입이라 시그니처가 코드베이스 전체에서 일관되어야 컴파일된다).
 
-- [ ] T003 [P] `server/public/model/audit_events.go`에 upstream이 추가한 감사 이벤트 상수
+**실행 노트**: T003~T007은 개별 수작업 대신 `git cherry-pick -x b5a816a657d6f33a96d374b04212685e2b0df77d`로
+upstream diff 전체(89개 파일)를 한 번에 반영했다. 예측대로 `server/channels/api4/post.go`,
+`server/channels/app/post.go` 2개 파일만 충돌했고, 둘 다 의미적 충돌이 아니라 okrbest 자체
+기능(각각 `GetRecentMentionsForUser`/`FilterPostsByChannelPermissions` 삽입 지점 겹침,
+`FilterBotMessagesFromPostList` 봇 메시지 필터링 호출 순서)과의 라인 드리프트였다 — 두 기능
+모두 보존하며 수동 병합. 나머지 87개 파일은 자동 병합됨.
+
+- [X] T003 [P] `server/public/model/audit_events.go`에 upstream이 추가한 감사 이벤트 상수
       전체(게시물·파일·북마크·알림 관련: `AuditEventGetPinnedPosts`,
       `AuditEventListChannelBookmarksForChannel`, `AuditEventGetFileThumbnail`,
       `AuditEventGetFileInfosForPost`, `AuditEventGetFileInfo`, `AuditEventGetFilePreview`,
@@ -65,26 +72,33 @@ User Story별 "비멤버 접근 감사 플래그 부착" 로직은 스토리 단
       `AuditEventGetPostsForChannelAroundLastUnread`, `AuditEventGetPost`,
       `AuditEventGetPostThread`, `AuditEventGetPostsByIds`, `AuditEventGetThreadForUser`,
       `AuditEventNotificationAck`, `AuditEventWebsocketPost` 등) 추가
-- [ ] T004 `server/channels/app/authorization.go`의 `SessionHasPermissionToChannel`,
+- [X] T004 `server/channels/app/authorization.go`의 `SessionHasPermissionToChannel`,
       `HasPermissionToChannel`, `SessionHasPermissionToReadChannel`,
       `HasPermissionToReadChannel`을 `(hasPermission bool, isMember bool)` 반환으로 확장하고,
       신규 `SessionHasPermissionToReadPost` 헬퍼를 추가; `server/channels/app/authorization_test.go`의
       관련 테스트 케이스를 upstream 기준으로 adapt
-- [ ] T005 `server/channels/app/post.go`의 `CreatePostAsUser`, `CreatePostMissingChannel`,
+- [X] T005 `server/channels/app/post.go`의 `CreatePostAsUser`, `CreatePostMissingChannel`,
       `CreatePost`, `GetPostIfAuthorized`를 `isMember`/`isMemberForPreviews` bool을 포함한
       반환으로 확장; `server/channels/app/post_test.go`의 관련 테스트 케이스를 adapt
-- [ ] T006 `server/channels/app/post_metadata.go`의 `SanitizePostMetadataForUser`,
+- [X] T006 `server/channels/app/post_metadata.go`의 `SanitizePostMetadataForUser`,
       `SanitizePostListMetadataForUser`를 `isMemberForPreviews bool` 반환 포함으로 확장;
       `server/channels/app/post_metadata_test.go`의 관련 테스트 케이스를 adapt
-- [ ] T007 T004~T006에서 바뀐 시그니처를 사용하는 나머지 모든 호출부를 컴파일되도록 조정
+- [X] T007 T004~T006에서 바뀐 시그니처를 사용하는 나머지 모든 호출부를 컴파일되도록 조정
       (`server/channels/app/plugin_api.go`, `channel.go`, `user.go`, `webhook.go`, `command.go`,
       `integration_action.go`, `bot.go`, `job.go`, `notify_admin.go`,
       `platform/web_hub.go`, `platform/mocks/SuiteIFace.go`, `slashcommands/*.go`,
       `platform/services/sharedchannel/service.go`, `platform/services/sharedchannel/sync_recv.go`,
       `channels/wsapi/user.go`, `cmd/mmctl/commands/post_e2e_test.go`, 관련 `*_test.go` 헬퍼)
-      — 필요 시 `cd server && make mocks`로 mock 재생성
-- [ ] T008 `cd server && go build ./... && go vet ./...`로 컴파일 확인 후,
-      `go test ./channels/app/... ./channels/api4/...`로 기존 테스트가 아직 무회귀임을 확인
+      — 위 87개 파일은 cherry-pick으로 자동 반영. 추가로 upstream diff에 없던 okrbest 자체
+      엔드포인트 `getRecentMentionsForUser`(`server/channels/api4/post.go`)가
+      `SanitizePostListMetadataForUser`의 새 3-값 반환에 맞춰 컴파일되지 않아 별도로 수정
+      (반환값 `isMember`는 이 엔드포인트의 감사 범위 밖이라 `_`로 무시)
+- [X] T008 `cd server && go build ./... && go vet ./...`로 컴파일 확인 — 통과(신규 회귀 0건,
+      `go vet`에서 나온 이슈는 전부 `master`에 이미 존재하던 사전 이슈로 대조 확인:
+      `channels/jobs` 등의 `NotificationHistory` mock 누락은 이번 변경과 무관).
+      `go test ./channels/app/... ./channels/api4/...`는 이 환경에 로컬 Postgres/Docker가
+      없어(`dial tcp [::1]:5432: connectex` 오류) 실행 불가 — **미검증**, Docker 사용 가능한
+      환경에서 재실행 필요.
 
 **Checkpoint**: 이 시점부터 각 User Story는 독립적으로 구현·검증 가능하다.
 
@@ -100,10 +114,10 @@ User Story별 "비멤버 접근 감사 플래그 부착" 로직은 스토리 단
 
 ### Implementation for User Story 1
 
-- [ ] T009 [US1] `server/channels/api4/post.go`의 `getPost()`에서 `GetPostIfAuthorized`의
+- [X] T009 [US1] `server/channels/api4/post.go`의 `getPost()`에서 `GetPostIfAuthorized`의
       `isMember` 반환값을 사용해 `non_channel_member_access` 감사 파라미터를 부착
-- [ ] T010 [P] [US1] `server/channels/api4/post_test.go`의 `TestGetPost` 관련 케이스를
-      upstream 기준으로 adapt(비멤버 접근 시 감사 파라미터 검증 포함)
+- [X] T010 [P] [US1] `server/channels/api4/post_test.go`의 `TestGetPost` 관련 케이스를
+      upstream 기준으로 adapt(비멤버 접근 시 감사 파라미터 검증 포함) — cherry-pick으로 자동 반영
 
 **Checkpoint**: `cd server && go test ./channels/api4/... -run TestGetPost` 통과 — User Story 1
 독립적으로 완결.
@@ -121,20 +135,20 @@ User Story별 "비멤버 접근 감사 플래그 부착" 로직은 스토리 단
 
 ### Implementation for User Story 2
 
-- [ ] T011 [US2] `server/channels/api4/post.go`의 `getPostsForChannel()`,
+- [X] T011 [US2] `server/channels/api4/post.go`의 `getPostsForChannel()`,
       `getPostsForChannelAroundLastUnread()`에 `non_channel_member_access` /
       `non_channel_member_access_on_previews` 감사 파라미터 부착
-- [ ] T012 [US2] `server/channels/api4/post.go`의 `getPostThread()`, `getPostsByIds()`,
+- [X] T012 [US2] `server/channels/api4/post.go`의 `getPostThread()`, `getPostsByIds()`,
       `getFlaggedPostsForUser()`, `getEditHistoryForPost()`, `setPostUnread()`에 동일한 감사
       파라미터 부착
-- [ ] T013 [US2] `server/channels/api4/post.go`의 `searchPosts()` / `searchPostsInTeam()`에
+- [X] T013 [US2] `server/channels/api4/post.go`의 `searchPosts()` / `searchPostsInTeam()`에
       검색 결과 중 비멤버 채널 게시물 포함 시 감사 파라미터 부착
-- [ ] T014 [US2] `server/channels/api4/channel.go`의 `getPinnedPosts()`에 감사 파라미터 부착
-- [ ] T015 [US2] `server/channels/api4/user.go`의 `getThreadForUser()`, `getThreadsForUser()`,
+- [X] T014 [US2] `server/channels/api4/channel.go`의 `getPinnedPosts()`에 감사 파라미터 부착
+- [X] T015 [US2] `server/channels/api4/user.go`의 `getThreadForUser()`, `getThreadsForUser()`,
       `updateReadStateThreadByUser()`, `setUnreadThreadByPostId()`와
       `server/channels/api4/system.go`의 `pushNotificationAck()`에 감사 파라미터 부착
-- [ ] T016 [P] [US2] `server/channels/api4/post_test.go`, `server/channels/api4/user_test.go`의
-      관련 테스트 케이스를 upstream 기준으로 adapt
+- [X] T016 [P] [US2] `server/channels/api4/post_test.go`, `server/channels/api4/user_test.go`의
+      관련 테스트 케이스를 upstream 기준으로 adapt — cherry-pick으로 자동 반영
 
 **Checkpoint**: `cd server && go test ./channels/api4/...`(post·user·system 관련 서브셋) 통과 —
 User Story 1·2 모두 독립적으로 동작.
@@ -151,13 +165,13 @@ User Story 1·2 모두 독립적으로 동작.
 
 ### Implementation for User Story 3
 
-- [ ] T017 [US3] `server/channels/api4/file.go`의 `getFile()`, `getFileThumbnail()`,
+- [X] T017 [US3] `server/channels/api4/file.go`의 `getFile()`, `getFileThumbnail()`,
       `getFileLink()`, `getFilePreview()`, `getFileInfo()`, `getPublicFile()`에
       `non_channel_member_access` 감사 파라미터 부착
-- [ ] T018 [US3] `server/channels/api4/file.go`의 `searchFiles()`와
+- [X] T018 [US3] `server/channels/api4/file.go`의 `searchFiles()`와
       `server/channels/api4/post.go`의 `getFileInfosForPost()`에 동일한 감사 파라미터 부착
-- [ ] T019 [P] [US3] `server/channels/api4/file_test.go`의 관련 테스트 케이스를 upstream 기준으로
-      adapt
+- [X] T019 [P] [US3] `server/channels/api4/file_test.go`의 관련 테스트 케이스를 upstream 기준으로
+      adapt — cherry-pick으로 자동 반영
 
 **Checkpoint**: `cd server && go test ./channels/api4/... -run "TestGetFile|TestSearchFiles"`
 통과 — User Story 1~3 모두 독립적으로 동작.
@@ -173,14 +187,19 @@ User Story 1·2 모두 독립적으로 동작.
 
 ### Implementation for User Story 4
 
-- [ ] T020 [US4] `server/channels/api4/channel_bookmark.go`의 `updateChannelBookmark()`,
+- [X] T020 [US4] `server/channels/api4/channel_bookmark.go`의 `updateChannelBookmark()`,
       `updateChannelBookmarkSortOrder()`, `deleteChannelBookmark()`에
       `non_channel_member_access` 감사 파라미터 부착
-- [ ] T021 [US4] `server/channels/api4/channel_bookmark.go`의
+- [X] T021 [US4] `server/channels/api4/channel_bookmark.go`의
       `listChannelBookmarksForChannel()`에 신규 `AuditEventListChannelBookmarksForChannel`
       감사 레코드와 `non_channel_member_access` 파라미터 부착
-- [ ] T022 [P] [US4] `server/channels/api4/channel_bookmark_test.go`에 비멤버 접근 감사 케이스
-      추가(upstream에 대응 테스트가 없으면 신규 작성 — constitution 원칙 III)
+- [X] T022 [P] [US4] `server/channels/api4/channel_bookmark_test.go`에 비멤버 접근 감사 케이스
+      추가 — upstream diff에 대응 테스트가 없어 신규 작성함(`TestListChannelBookmarksForChannelAuditsNonMemberAccess`,
+      config_test.go의 `TestUpdateConfigDiffInAuditRecord` 패턴 재사용: 임시 감사 로그 파일 +
+      `th.Server.Audit.Flush()` 후 JSON 내용 검증). `go build`·`go test -c`(컴파일)까지 확인,
+      로컬 Postgres/Docker 부재로 **실행 검증은 미완료** — Docker 가능한 환경에서
+      `go test ./channels/api4/... -run TestListChannelBookmarksForChannelAuditsNonMemberAccess`
+      재실행 필요
 
 **Checkpoint**: `cd server && go test ./channels/api4/... -run TestChannelBookmark` 통과 —
 User Story 1~4 모두 독립적으로 동작.
@@ -198,19 +217,19 @@ User Story 1~4 모두 독립적으로 동작.
 
 ### Implementation for User Story 5
 
-- [ ] T023 [US5] `server/channels/api4/post.go`의 `createPost()`, `createEphemeralPost()`에서
+- [X] T023 [US5] `server/channels/api4/post.go`의 `createPost()`, `createEphemeralPost()`에서
       미리보기 관련 `isMemberForPreviews` 반환값을 사용해 `preview_post_id` +
       `non_channel_member_access` 감사 파라미터 부착
-- [ ] T024 [US5] `server/channels/api4/content_flagging.go`의 `getFlaggedPost()`에 동일한
+- [X] T024 [US5] `server/channels/api4/content_flagging.go`의 `getFlaggedPost()`에 동일한
       미리보기 감사 파라미터 부착
-- [ ] T025 [US5] `server/channels/app/notification.go`의 `SendNotifications()`,
+- [X] T025 [US5] `server/channels/app/notification.go`의 `SendNotifications()`,
       `RemoveNotifications()`가 비멤버 채널 게시물을 참조하는 경우를 감사 가능하도록 조정
-- [ ] T026 [US5] `server/channels/app/web_broadcast_hooks.go`의
+- [X] T026 [US5] `server/channels/app/web_broadcast_hooks.go`의
       `permalinkBroadcastHook.Process()`에서 웹소켓 퍼머링크 이벤트의 비멤버 채널 참조를
       `AuditEventWebsocketPost`로 감사
-- [ ] T027 [P] [US5] `server/channels/app/notification_test.go`,
+- [X] T027 [P] [US5] `server/channels/app/notification_test.go`,
       `server/channels/app/plugin_hooks_test.go`, 웹소켓 브로드캐스트 훅 관련 테스트를
-      upstream 기준으로 adapt
+      upstream 기준으로 adapt — cherry-pick으로 자동 반영
 
 **Checkpoint**: 전체 User Story(1~5)가 spec.md의 Acceptance Scenario를 모두 만족.
 
@@ -220,16 +239,37 @@ User Story 1~4 모두 독립적으로 동작.
 
 **Purpose**: 품질 게이트 통과 및 ledger 반영 마무리
 
-- [ ] T028 [P] `cd server && make check-style` 통과 확인(constitution 원칙 I)
+- [X] T028 [P] `cd server && make check-style` 통과 확인(constitution 원칙 I) — `plugin-checker`는
+      미실행(플러그인 변경 없음, 해당 사항 없음). `go vet ./...`, 변경된 9개 패키지에 대한
+      `golangci-lint run`을 실행: 총 144건 발견, 전수 조사 결과 **전부 사전 존재 이슈**로 확인
+      (gofmt 135건은 저장소 전역 CRLF 체크아웃 아티팩트 — 손대지 않은 `channels/store` 등에서도
+      동일 발생; govet shadow 4건·errcheck 2건·modernize 5건·revive 1건은 `git show master:...`로
+      대조해 병합 전 `master`에 이미 동일하게 존재함을 확인). 이번 변경이 새로 유발한 lint 이슈
+      **0건**.
 - [ ] T029 `cd server && make test-server`(또는 최소한 `channels/app`, `channels/api4`,
-      `channels/wsapi`, `platform/services/sharedchannel` 대상 `go test`) 전체 통과 확인
-- [ ] T030 [P] `cd server && make mocks && go mod tidy`로 생성 mock·모듈 상태가 클린한지 확인
-- [ ] T031 quickstart.md의 검증 1~5 및 "회귀 확인" 섹션을 수동으로 실행해 결과 기록
-- [ ] T032 구현 완료 커밋 생성 — 본문에
-      `Upstream: https://github.com/mattermost/mattermost/commit/b5a816a657d6f33a96d374b04212685e2b0df77d`
-      포함(constitution 원칙 VI, speckit-sync ledger 자동 차감 조건)
+      `channels/wsapi`, `platform/services/sharedchannel` 대상 `go test`) 전체 통과 확인 —
+      **미완료**: 이 작업 환경에 로컬 Postgres/Docker가 없어(`docker ps` 접속 실패,
+      `dial tcp [::1]:5432: connectex` 오류) DB 기반 통합 테스트를 실행할 수 없었다. `go build
+      ./...`와 `go test -c`(컴파일만) 는 전 패키지 통과. Docker가 있는 환경(로컬 또는 CI)에서
+      반드시 재실행해야 한다.
+- [ ] T030 [P] `cd server && make mocks && go mod tidy`로 생성 mock·모듈 상태가 클린한지 확인 —
+      **부분 완료**: 관련 mock(`platform/mocks/SuiteIFace.go`,
+      `platform/services/sharedchannel/mock_AppIface_test.go`)은 upstream 커밋 자체에 이미
+      재생성된 상태로 포함되어 있었고 `go build ./...`가 이를 통해 통과함을 확인. `go mod tidy`는
+      비공개 저장소 `github.com/mattermost/enterprise` 접근 권한이 이 환경에 없어(`git ls-remote`
+      실패) 실행 불가 — go.mod/go.sum은 변경되지 않았음(diff 없음). 사설 저장소 접근 가능한
+      환경에서 `make modules-tidy`로 재확인 필요.
+- [ ] T031 quickstart.md의 검증 1~5 및 "회귀 확인" 섹션을 수동으로 실행해 결과 기록 — **미완료**:
+      실행 중인 서버·DB가 필요해 이 환경에서는 수행하지 못함. Docker 가능한 환경에서 수행 필요.
+- [X] T032 구현 완료 커밋 생성 — `git cherry-pick -x`가 자동으로 남긴
+      `(cherry picked from commit b5a816a657d6f33a96d374b04212685e2b0df77d)` trailer가
+      ledger 스크립트의 인식 패턴을 충족(constitution 원칙 VI). 단, T029·T031의 실행 검증이
+      완료되지 않았으므로 **이 브랜치를 master로 병합하기 전에 반드시 Docker 가능한 환경에서
+      재검증**할 것.
 - [ ] T033 `SYNC_BASE_BRANCH=HEAD .specify/scripts/bash/upstream-sync.sh update` 실행해
-      `docs/upstream-master-unmerged-commits.md`에서 `b5a816a`가 정상 차감되는지 확인 후 커밋
+      `docs/upstream-master-unmerged-commits.md`에서 `b5a816a`가 정상 차감되는지 확인 후 커밋 —
+      **의도적으로 보류**: 이 브랜치가 아직 `master`에 병합되지 않았고 T029·T031 검증도
+      끝나지 않았으므로, 병합 직전(PR 리뷰 통과 후)에 수행한다.
 
 ---
 
