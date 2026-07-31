@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode/utf8"
 
 	"github.com/gorilla/mux"
 
@@ -56,6 +57,20 @@ func (api *API) InitPost() {
 	api.BaseRoutes.Posts.Handle("/rewrite", api.APISessionRequired(rewriteMessage)).Methods(http.MethodPost)
 	api.BaseRoutes.Post.Handle("/reveal", api.APISessionRequired(revealPost)).Methods(http.MethodGet)
 	api.BaseRoutes.Post.Handle("/burn", api.APISessionRequired(burnPost)).Methods(http.MethodDelete)
+}
+
+// rejectOversizedMessage sets c.Err and returns true if message is longer than the configured
+// MaxPostSize. It mirrors the check in model.Post.IsValid, but runs before any markdown processing
+// (e.g. PostWithProxyRemovedFromImageURLs) is applied to the raw message, so that oversized
+// messages are rejected before that processing pays for them.
+func rejectOversizedMessage(c *Context, where string, message string) bool {
+	maxPostSize := c.App.MaxPostSize()
+	if length := utf8.RuneCountInString(message); length > maxPostSize {
+		c.Err = model.NewAppError(where, "model.post.is_valid.message_length.app_error",
+			map[string]any{"Length": length, "MaxLength": maxPostSize}, "", http.StatusBadRequest)
+		return true
+	}
+	return false
 }
 
 func createPostChecks(where string, c *Context, post *model.Post) {
@@ -110,6 +125,10 @@ func createPost(c *Context, w http.ResponseWriter, r *http.Request) {
 
 	createPostChecks("Api4.createPost", c, &post)
 	if c.Err != nil {
+		return
+	}
+
+	if rejectOversizedMessage(c, "Api4.createPost", post.Message) {
 		return
 	}
 
@@ -1208,6 +1227,10 @@ func updatePost(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if rejectOversizedMessage(c, "Api4.updatePost", post.Message) {
+		return
+	}
+
 	if c.AppContext.Session().UserId != originalPost.UserId {
 		// We don't need to check the member here, since we already checked it above
 		if ok, _ := c.App.SessionHasPermissionToChannel(c.AppContext, *c.AppContext.Session(), originalPost.ChannelId, model.PermissionEditOthersPosts); !ok {
@@ -1268,6 +1291,10 @@ func patchPost(c *Context, w http.ResponseWriter, r *http.Request) {
 
 	isMember := postPatchChecks(c, auditRec, &post)
 	if c.Err != nil {
+		return
+	}
+
+	if post.Message != nil && rejectOversizedMessage(c, "Api4.patchPost", *post.Message) {
 		return
 	}
 
