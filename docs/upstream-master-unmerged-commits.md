@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-31 14:38
+- 갱신일: 2026-07-31 15:02
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1160개
+- 남은 커밋: 1158개
 
-**마지막 반영 커밋:** `c01e9f79` | [\[MM-67189\] loading screen fixes - move measureAndReport, reduce minimum time, fix z-index issue (#34947)](https://github.com/mattermost/mattermost/commit/c01e9f791f8f37b7df107e461b0aeaa960e0a89f) | 2026-01-21
+**마지막 반영 커밋:** `d695a0db` | [MM-67111-Remove Cancel button on User Attributes page (#34945)](https://github.com/mattermost/mattermost/commit/d695a0db7aa9f6b1815f26875de8afd96335e030) | 2026-01-22
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| fcd3ebcb | [fix(scheduled): enhance timezone formatting by incorporating user loc… (#34305)](https://github.com/mattermost/mattermost/commit/fcd3ebcb314960cb176a10b57b0b306cdc32690a) | 2026-01-22 |
-| d695a0db | [MM-67111-Remove Cancel button on User Attributes page (#34945)](https://github.com/mattermost/mattermost/commit/d695a0db7aa9f6b1815f26875de8afd96335e030) | 2026-01-22 |
 | 66e5ab4c | [E2E/Test Playwright upgrade (#35008)](https://github.com/mattermost/mattermost/commit/66e5ab4c5e06102a454a6d76ab60144a04d1e9b7) | 2026-01-23 |
 | 3a394b25 | [Bumping version of prepackaged Gitlab plugin to 1.12.0 (#35033)](https://github.com/mattermost/mattermost/commit/3a394b25e4356a20b066b4ea0087f806c85febba) | 2026-01-23 |
 | 09c4a61f | [\[MM-67030\] Remove newsletter signup and replace with terms/privacy agreement (#34801)](https://github.com/mattermost/mattermost/commit/09c4a61fed8580ceae5bd05e64aa4ac9615c4444) | 2026-01-23 |
