@@ -150,6 +150,13 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
    - CODEOWNERS 보호 경로를 건드린 세션은 code owner 리뷰 요건으로 즉시 merge가 거부될 수 있다 → PR을 열어둔 채 사용자에게 알린다.
    - `--delete-branch`가 원격·로컬 브랜치를 정리한다. rebase merge로 SHA가 바뀌므로 로컬 sync 브랜치를 재사용하지 않는다.
 4. 요약 보고: 처리 커밋 수(분기별), 남은 pending, 다음 대상, PR URL.
+5. **i18n 후속 필요 안내** (해당 항목이 있을 때만): 이번 세션에서 `en.json`만 변경돼 ko 반영이 밀린 항목을 커밋 해시·키·추가/제거 구분으로 나열해 사용자에게 보고한다. 여기서 ko.json을 직접 수정하지는 않는다 — 별도 작업 착수 여부는 사용자가 결정한다. 현재 상태 확인용 명령:
+   ```bash
+   # webapp·server 카탈로그 동시 점검. --since에 세션 base 커밋을 주면 영문 원문이 바뀐 키까지 나온다.
+   cd webapp/channels && npm run i18n-sync-report -- --since <세션 base 커밋>
+   # 전체 키 목록이 필요하면 --json 추가
+   ```
+   보고 항목: `orphaned`(en에서 삭제됨 → ko에서도 제거 필요, **CI 차단**), `missing`(en에만 있음 → 번역 필요), `changed`(영문 원문 변경 → 번역 재검토). orphaned가 있으면 PR 전에는 해소해야 한다 — `npm run i18n-check-empty`가 CI에서 실패한다.
 
 ## 주의
 
@@ -157,6 +164,6 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
 - PR 병합은 항상 `gh pr merge --rebase`. squash·merge commit 금지 (`Upstream:` 참조 보존 목적).
 - 오래된 순서를 건너뛰어 최신 커밋을 먼저 반영하지 않는다 (의존성 붕괴). "건너뜀"은 예외적·일시적이어야 한다.
 - 대량 자동 처리 금지 — 커밋마다 분석·승인. 시간이 걸려도 정밀 분석이 우선.
-- Translations update(Weblate) 커밋은 우리 i18n 변경(ko.json)과 상시 충돌 — adapt 시 우리 ko.json 문자열을 보존한다 (constitution 원칙 V).
-- upstream 커밋이 `en.json`에 문자열을 추가·변경하면 같은 세션에서 `ko.json` 번역을 동반한다 (constitution 원칙 V — cherry-pick이면 직후 adapt 커밋으로 보충 가능).
+- **i18n 파일이 커밋에 포함된 경우** (Translations update(Weblate) 커밋 등): 우리 ko.json과 상시 충돌한다 — 그 커밋을 처리하는 자리에서 해결하고, adapt 시 우리 ko.json 문자열을 보존한다 (constitution 원칙 V).
+- **i18n 파일이 커밋에 없는 경우** (upstream이 `en.json`만 변경해 ko 번역 추가·제거가 필요해진 경우 등): ko.json을 손대지 않고 sync를 계속 진행한다. 필요 항목만 기록해 두었다가 세션 마감 요약 보고에 "i18n 후속 필요" 목록으로 사용자에게 안내하고, 실제 반영은 별도 작업으로 넘긴다 (constitution 원칙 V의 sync 예외). 커밋마다 보정 커밋을 붙이지 않는다.
 - 라이선스·리브랜드 충실성 (constitution 원칙 IV): copyright 헤더·NOTICE.txt 관련 upstream 변경은 그대로 반영, 우리 리브랜드 문자열은 보존.

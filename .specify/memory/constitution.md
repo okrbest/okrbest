@@ -1,7 +1,9 @@
 <!--
 Sync Impact Report
-- Version change: 1.0.0 → 1.1.0 (MINOR — upstream 선별 반영 예외 조항 추가)
+- Version change: 1.1.0 → 1.2.0 (MINOR — 원칙 V에 upstream 선별 반영 예외 조항 추가)
 - Modified principles:
+  - V. i18n 동기화 — sync 중 en.json만 변경된 경우 ko.json 반영을 보고 후 별도 작업으로 미루는 예외 추가
+- 이전 개정(1.0.0 → 1.1.0)에서 변경된 원칙:
   - III. 동작 변경 시 테스트 동반 — upstream 원본 cherry-pick 예외 + 접촉 패키지 검증 추가
   - VI. 집중 브랜치 + Conventional Commits + PR — upstream 반영 커밋 제목·sync PR 묶음 예외 추가
   - VII. Spec 주도 개발 워크플로 — upstream cherry-pick/adapt의 spec 파이프라인 예외 추가
@@ -78,6 +80,14 @@ npm이 유일한 패키지 매니저다 (`webapp/package.json` workspaces: `chan
 동시 갱신한다 (server: `server/i18n/`, webapp: `webapp/channels/src/i18n/`).
 한국어는 이 포크의 1급 로케일이다. CI 집행: `.github/workflows/i18n-ci-pr.yml`.
 
+**upstream 선별 반영(sync) 예외**: upstream 커밋에 i18n 파일이 포함되어 충돌이
+발생하면 그 커밋을 처리하는 자리에서 해결한다(우리 `ko.json` 문자열 보존). 그
+밖에 i18n 동기화가 필요해지는 경우 — upstream이 `en.json`만 변경해 `ko.json`
+번역 추가·제거가 필요해진 경우 등 — 에는 sync 진행을 멈추지 않는다. 필요 사실을
+사용자에게 보고만 하고 다음 커밋으로 넘어가며, 실제 `ko.json` 반영은 별도 작업으로
+처리한다. 이 예외는 sync에만 적용되며, 포크 자체 기능 개발에는 위 원문이 그대로
+적용된다.
+
 ### VI. 집중 브랜치 + Conventional Commits + PR
 
 `master` 직접 커밋 금지. 작업당 브랜치 1개, PR 경유 머지. 커밋 메시지는
@@ -131,4 +141,4 @@ PATCH: 문구 명확화). 모든 PR·리뷰는 원칙 준수를 확인해야 하
 필요한 경우 그 근거를 plan의 Complexity Tracking에 문서화한다.
 `/speckit-plan`·`/speckit-analyze`가 Constitution Check 게이트로 자동 참조한다.
 
-**Version**: 1.1.0 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-07-27
+**Version**: 1.2.0 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-08-01
