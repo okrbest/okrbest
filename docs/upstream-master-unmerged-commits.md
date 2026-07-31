@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-30 15:27
+- 갱신일: 2026-07-31 10:05
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1162개
+- 남은 커밋: 1170개
 
-**마지막 반영 커밋:** `4773d0fc` | [MM-64655 - Updating mobile RHS (#34007)](https://github.com/mattermost/mattermost/commit/4773d0fc6fa321ad7bb3c1c2b64c5bd8ce114128) | 2026-01-17
+**마지막 반영 커밋:** `b2f93dec` | [\[MM-67118\] Add Agents to @ mention autocomplete in channel (#34881)](https://github.com/mattermost/mattermost/commit/b2f93dec1a1a8b223e6d96a243d3ec9002b2bc86) | 2026-01-19
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 2a8b2069 | [chore: Update NOTICE.txt file with updated dependencies (#34969)](https://github.com/mattermost/mattermost/commit/2a8b2069f5d7c77b1f8f90fcfb405ed18d626681) | 2026-01-19 |
-| bb8c2660 | [Translations update from Mattermost Weblate (#34977)](https://github.com/mattermost/mattermost/commit/bb8c2660ed2e27c0ccf2edc1cf9f5f546bac66e4) | 2026-01-19 |
-| b8c9f931 | [Update package-lock.json (#34958)](https://github.com/mattermost/mattermost/commit/b8c9f931bb22652c486bb82ee73f92d0e6249e0e) | 2026-01-19 |
-| 0ace6a45 | [Update prepackaged Jira plugin to v4.5.1 (#34978)](https://github.com/mattermost/mattermost/commit/0ace6a45cdebc9f3a56b515e8a23c15003688694) | 2026-01-19 |
-| c62d103d | [\[MM-67160\] Add audit logging for recap API endpoints (#34929)](https://github.com/mattermost/mattermost/commit/c62d103d760082d9d274af9e45d832647557be16) | 2026-01-19 |
-| b2f93dec | [\[MM-67118\] Add Agents to @ mention autocomplete in channel (#34881)](https://github.com/mattermost/mattermost/commit/b2f93dec1a1a8b223e6d96a243d3ec9002b2bc86) | 2026-01-19 |
 | b5a816a6 | [Add audits for accessing posts without membership (#31266)](https://github.com/mattermost/mattermost/commit/b5a816a657d6f33a96d374b04212685e2b0df77d) | 2026-01-20 |
 | 28bcb639 | [fix(webapp): bundle loading screen CSS with content hash (#34930)](https://github.com/mattermost/mattermost/commit/28bcb6394b17fe5eaa5144df694d40aa9ba6ff8b) | 2026-01-20 |
 | 3ebc90bd | [fix: E2E/Tests related to create account and invite people (#34953)](https://github.com/mattermost/mattermost/commit/3ebc90bde0de2ced2f94b6f3cf6986fffb259c4f) | 2026-01-20 |
@@ -1173,11 +1167,27 @@
 | a5739da6 | [Make options editable when a select field is owned (#37720)](https://github.com/mattermost/mattermost/commit/a5739da6923f3eeba883b2455206c95120ddedb1) | 2026-07-29 |
 | 10804f80 | [Prepackage mattermost-plugin-agents v2.5.1 (#37727)](https://github.com/mattermost/mattermost/commit/10804f80f5739898f854203833c1dbab5e37f059) | 2026-07-29 |
 | cdbc9263 | [Translations update from Mattermost Weblate (#37689)](https://github.com/mattermost/mattermost/commit/cdbc92639c51b64243cf7a0c8f622c720a312029) | 2026-07-30 |
+| 6b90bb30 | [Make server-ci.yml always trigger so required checks never get stuck pending (#37557)](https://github.com/mattermost/mattermost/commit/6b90bb306383fe1147376016294e9d3bd6ba34db) | 2026-07-30 |
+| 0b034ca9 | [Fix flaky TestExtractConcurrency (#37527)](https://github.com/mattermost/mattermost/commit/0b034ca9a79680cecf16956f57306791fd3bf4a5) | 2026-07-30 |
+| 9a8021b5 | [\[MM-69812\] webapp: document plugin-facing global surface governance (#37515)](https://github.com/mattermost/mattermost/commit/9a8021b5926b8e75b0458403a7719c88e1fde7eb) | 2026-07-30 |
+| 8a9aacb0 | [MM-69831 - Add configurable interval for the ABAC membership sync schedulers (#37623)](https://github.com/mattermost/mattermost/commit/8a9aacb0fb782504e3e4ed65afdd1f408319e9a9) | 2026-07-30 |
+| b021e5be | [\[MM-69734\] Add no session data, ensure session attributes are not leaked through evaluation trace to non sysadmins (#37600)](https://github.com/mattermost/mattermost/commit/b021e5be06e761fb7fccd4b0f3547cb4cb1fa7d6) | 2026-07-30 |
+| d4d216e9 | [Add ClusterInterface.Shutdown to surface skipped cluster sends (#37753)](https://github.com/mattermost/mattermost/commit/d4d216e93e492c3c7c2b3d481e966e22841b6825) | 2026-07-30 |
+| b9cea257 | [MM-69912: let plugins bring their own editor extensions and read structured content (#37678)](https://github.com/mattermost/mattermost/commit/b9cea25748f7f64a148e22ad51658a190378670c) | 2026-07-30 |
+| 5ef9e70d | [Mm 69832 abac review nits (#37640)](https://github.com/mattermost/mattermost/commit/5ef9e70d95d912d4bbe7b3f525b507e3e42ce3fd) | 2026-07-30 |
+| 348f869b | [Mm 69841 team aback ux enhancements (#37677)](https://github.com/mattermost/mattermost/commit/348f869b717ebc330e167508fe38087665d11aa3) | 2026-07-30 |
+| ae4b48d4 | [MM-69842 - Update Team Settings discoverability help text for Public/… (#37728)](https://github.com/mattermost/mattermost/commit/ae4b48d47d5a8a46733195edc5444afe4ebc0664) | 2026-07-30 |
+| a70e8751 | [Gate ci-report and ci-artifacts on relevant-changed to fix skipped-job failures (#37777)](https://github.com/mattermost/mattermost/commit/a70e8751d4c3cae6125ed95dfa925f78b37c95fc) | 2026-07-30 |
+| f5a7e403 | [Mm 69827 team abac job details ux (#37744)](https://github.com/mattermost/mattermost/commit/f5a7e40352089e6ec6fa16b44123dc792c831d38) | 2026-07-30 |
+| c6db95f3 | [Preserve relative redirect_to on root SiteURL (#37725)](https://github.com/mattermost/mattermost/commit/c6db95f35d25aa0cd3c3c226f75bb2becfa2c7c6) | 2026-07-30 |
+| 4ec0fe9c | [\[MM-69846\] List access_control/template attributes on the Manage Attributes page (#37608)](https://github.com/mattermost/mattermost/commit/4ec0fe9cc9dd35229c99260782ed011211f36e01) | 2026-07-30 |
 
 ## 제외된 커밋
 
 | 커밋 해시 | 커밋 제목 | 사유 |
 |---|---|---|
+
+| b8c9f931 | [Update package-lock.json (#34958)](https://github.com/mattermost/mattermost/commit/b8c9f931bb22652c486bb82ee73f92d0e6249e0e) | webapp/package-lock.json에서 고아 optional 패키지 6개(deep-extend, expand-template, github-from-package, mkdirp-classic, napi-build-utils, node-abi) 제거하는 lockfile 정리 커밋. 우리 자체 node24 업그레이드(343e40f3a4)와 peer 플래그 안정화(3ed114d934)로 lockfile이 이미 완전히 재생성되어 해당 6개 항목이 애초에 존재하지 않음(grep 0건) — 이미 동일한 결과 달성, 반영 실익 없음. |
 
 ## spec 전환 커밋
 
