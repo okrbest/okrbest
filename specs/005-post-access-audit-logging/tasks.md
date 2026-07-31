@@ -248,10 +248,14 @@ User Story 1~4 모두 독립적으로 동작.
       **0건**.
 - [ ] T029 `cd server && make test-server`(또는 최소한 `channels/app`, `channels/api4`,
       `channels/wsapi`, `platform/services/sharedchannel` 대상 `go test`) 전체 통과 확인 —
-      **미완료**: 이 작업 환경에 로컬 Postgres/Docker가 없어(`docker ps` 접속 실패,
-      `dial tcp [::1]:5432: connectex` 오류) DB 기반 통합 테스트를 실행할 수 없었다. `go build
-      ./...`와 `go test -c`(컴파일만) 는 전 패키지 통과. Docker가 있는 환경(로컬 또는 CI)에서
-      반드시 재실행해야 한다.
+      **후속 세션에서 재확인(2026-07-31)**: 이 환경에 이제 Docker/Postgres/Redis가 기동되어
+      있어(`docker ps` 확인됨) DB 접속 자체는 가능해졌다. `platform/services/sharedchannel`
+      패키지는 `go test`로 실행해 **통과 확인**(`wsapi`는 테스트 파일 없음). 다만
+      `channels/app`·`channels/api4`는 여전히 실행 불가 — Windows에서 개발자 모드가
+      꺼져 있어 `TestMain`의 플러그인 테스트 리소스 심볼릭 링크 생성이
+      `A required privilege is not held by the client` 오류로 실패한다(Docker 유무와
+      무관한 별개 원인, admin 권한 또는 개발자 모드 활성화 필요 — 이 세션에서 해결 불가).
+      `go build ./...`는 전 패키지 통과.
 - [ ] T030 [P] `cd server && make mocks && go mod tidy`로 생성 mock·모듈 상태가 클린한지 확인 —
       **부분 완료**: 관련 mock(`platform/mocks/SuiteIFace.go`,
       `platform/services/sharedchannel/mock_AppIface_test.go`)은 upstream 커밋 자체에 이미
@@ -263,13 +267,13 @@ User Story 1~4 모두 독립적으로 동작.
       실행 중인 서버·DB가 필요해 이 환경에서는 수행하지 못함. Docker 가능한 환경에서 수행 필요.
 - [X] T032 구현 완료 커밋 생성 — `git cherry-pick -x`가 자동으로 남긴
       `(cherry picked from commit b5a816a657d6f33a96d374b04212685e2b0df77d)` trailer가
-      ledger 스크립트의 인식 패턴을 충족(constitution 원칙 VI). 단, T029·T031의 실행 검증이
-      완료되지 않았으므로 **이 브랜치를 master로 병합하기 전에 반드시 Docker 가능한 환경에서
-      재검증**할 것.
-- [ ] T033 `SYNC_BASE_BRANCH=HEAD .specify/scripts/bash/upstream-sync.sh update` 실행해
+      ledger 스크립트의 인식 패턴을 충족(constitution 원칙 VI). 이 브랜치는 이후 `master`로
+      병합 완료됨(`bfefe629dc` 등). T029·T031(런타임 통합 검증)은 여전히 미완료 — 별도
+      세션에서 Windows 개발자 모드 활성화 또는 CI 환경에서 재검증 권장.
+- [X] T033 `SYNC_BASE_BRANCH=HEAD .specify/scripts/bash/upstream-sync.sh update` 실행해
       `docs/upstream-master-unmerged-commits.md`에서 `b5a816a`가 정상 차감되는지 확인 후 커밋 —
-      **의도적으로 보류**: 이 브랜치가 아직 `master`에 병합되지 않았고 T029·T031 검증도
-      끝나지 않았으므로, 병합 직전(PR 리뷰 통과 후)에 수행한다.
+      **완료(2026-07-31)**: 브랜치가 이미 `master`로 병합되어 실행. `b5a816a6`는 미반영
+      목록에서 제거되었고 "spec 전환 커밋" 부록에만 이력으로 남음(정상).
 
 ---
 
