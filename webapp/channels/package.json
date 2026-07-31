@@ -190,6 +190,7 @@
     "i18n-extract": "formatjs extract \"src/**/*.{js,jsx,ts,tsx}\" --additional-function-names localizeMessage,localizeAndFormatMessage --ignore \"src/**/*.d.ts\" --ignore \"src/**/*.test.{js,jsx,ts,tsx}\" --out-file src/i18n/en.json --format scripts/formatter.js --id-interpolation-pattern \"[sha512:contenthash:base64:6]\" --preserve-whitespace",
     "i18n-extract:check": "npm run i18n-extract -- --out-file .i18n-check.tmp.json && diff src/i18n/en.json .i18n-check.tmp.json && rm -f .i18n-check.tmp.json || (rm -f .i18n-check.tmp.json && echo \"en.json is out of sync with code. To update: npm run i18n-extract\" && exit 1)",
     "i18n-check-empty": "node scripts/check-empty-translations.js --check",
+    "i18n-sync-report": "node scripts/check-empty-translations.js --catalog=all",
     "check-types": "tsc -b",
     "make-emojis": "node --experimental-json-modules build/emoji/make_emojis.mjs"
   }
