@@ -4,8 +4,6 @@
 import React from 'react';
 import {defineMessage, FormattedMessage} from 'react-intl';
 
-import ExternalLink from 'components/external_link';
-
 import HelpLinks from './help_links';
 import useHelpPageTitle from './use_help_page_title';
 
@@ -146,7 +144,7 @@ const HelpFormatting = (): JSX.Element => {
                     <p>
                         <FormattedMessage
                             id='help.formatting.syntax.description'
-                            defaultMessage='To add syntax highlighting, type the language to be highlighted after the <code>```</code> at the beginning of the code block. Mattermost also offers four different code themes (GitHub, Solarized Dark, Solarized Light, Monokai) that can be changed in <b>Settings > Display > Theme > Custom Theme > Center Channel Styles > Code Theme</b>.'
+                            defaultMessage='To add syntax highlighting, type the language to be highlighted after the <code>```</code> at the beginning of the code block. OKR.BEST also offers four different code themes (GitHub, Solarized Dark, Solarized Light, Monokai) that can be changed in <b>Settings > Display > Theme > Custom Theme > Center Channel Styles > Code Theme</b>.'
                             values={{
                                 b: (chunks: React.ReactNode) => <b>{chunks}</b>,
                                 code: (chunks: React.ReactNode) => <code>{chunks}</code>,
@@ -284,8 +282,8 @@ const HelpFormatting = (): JSX.Element => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td><code>{'[Check out Mattermost!](https://mattermost.com/)'}</code></td>
-                                <td><a href='https://mattermost.com/'>{'Check out Mattermost!'}</a></td>
+                                <td><code>{'[Check out OKR.BEST!](https://example.com/)'}</code></td>
+                                <td><a href='https://example.com/'>{'Check out OKR.BEST!'}</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -301,17 +299,9 @@ const HelpFormatting = (): JSX.Element => {
                     <p>
                         <FormattedMessage
                             id='help.formatting.images.description'
-                            defaultMessage='Create in-line images using an <code>!</code> followed by the alt text in square brackets and the link in normal brackets. See the <link>product documentation</link> for details on working with in-line images.'
+                            defaultMessage='Create in-line images using an <code>!</code> followed by the alt text in square brackets and the link in normal brackets.'
                             values={{
                                 code: (chunks: React.ReactNode) => <code>{chunks}</code>,
-                                link: (chunks: React.ReactNode) => (
-                                    <ExternalLink
-                                        href='https://docs.mattermost.com/end-user-guide/collaborate/format-messages.html'
-                                        location='help_formatting'
-                                    >
-                                        {chunks}
-                                    </ExternalLink>
-                                ),
                             }}
                         />
                     </p>
@@ -340,11 +330,11 @@ const HelpFormatting = (): JSX.Element => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td><code>{'![Mattermost Logo](/static/images/logo_email_dark.png)'}</code></td>
+                                <td><code>{'![OKR.BEST Logo](/static/images/logo_email_dark.png)'}</code></td>
                                 <td>
                                     <img
                                         src='/static/images/logo_email_dark.png'
-                                        alt='Mattermost Logo'
+                                        alt='OKR.BEST Logo'
                                         className='Help__inline-image'
                                     />
                                 </td>
@@ -363,17 +353,10 @@ const HelpFormatting = (): JSX.Element => {
                     <p>
                         <FormattedMessage
                             id='help.formatting.emojis.description'
-                            defaultMessage={"Open the emoji autocomplete by typing <code>:</code>. A full list of emojis can be found online. It is also possible to create your own <link>Custom Emoji</link> if the emoji you want to use doesn't exist."}
+                            defaultMessage={"Open the emoji autocomplete by typing <code>:</code>. A full list of emojis can be found online. It is also possible to create your own <b>Custom Emoji</b> if the emoji you want to use doesn't exist."}
                             values={{
                                 code: (chunks: React.ReactNode) => <code>{chunks}</code>,
-                                link: (chunks: React.ReactNode) => (
-                                    <ExternalLink
-                                        href='https://docs.mattermost.com/end-user-guide/collaborate/react-with-emojis-gifs.html#upload-custom-emojis'
-                                        location='help_formatting'
-                                    >
-                                        {chunks}
-                                    </ExternalLink>
-                                ),
+                                b: (chunks: React.ReactNode) => <b>{chunks}</b>,
                             }}
                         />
                     </p>
