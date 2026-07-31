@@ -1,7 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-specs/005-post-access-audit-logging/plan.md
+specs/006-offline-help-pages/plan.md
 <!-- SPECKIT END -->
 
 ## Workflow
