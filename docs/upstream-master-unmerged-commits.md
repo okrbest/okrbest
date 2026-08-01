@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-01 22:07
+- 갱신일: 2026-08-02 00:18
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1150개
+- 남은 커밋: 1149개
 
 **마지막 반영 커밋:** `ace5810d` | [Update file_preview.js (#35028)](https://github.com/mattermost/mattermost/commit/ace5810d656d1ec83ed197f08abfd08f700a80c2) | 2026-01-26
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| a1c85007 | [Autotranslations MVP (#34696)](https://github.com/mattermost/mattermost/commit/a1c85007e156adee66583b0f13e88d5da6386dd4) | 2026-01-26 |
 | 7b1c32e3 | [MM-67725: (test) Migrate enzyme to RTL (#34966)](https://github.com/mattermost/mattermost/commit/7b1c32e34c8e5d812079fc1701862b8d79d50bff) | 2026-01-27 |
 | 3db7477e | [MM-67281: (test) Migrate Enzyme to RTL (#35029)](https://github.com/mattermost/mattermost/commit/3db7477e45dcd0aef6f168aba52d18307caaddba) | 2026-01-27 |
 | 8ff88242 | [chore: Update NOTICE.txt file with updated dependencies (#35053)](https://github.com/mattermost/mattermost/commit/8ff88242a96410dce1346704a212ecc56ca0aef0) | 2026-01-27 |
@@ -1170,6 +1169,8 @@
 | b8c9f931 | [Update package-lock.json (#34958)](https://github.com/mattermost/mattermost/commit/b8c9f931bb22652c486bb82ee73f92d0e6249e0e) | webapp/package-lock.json에서 고아 optional 패키지 6개(deep-extend, expand-template, github-from-package, mkdirp-classic, napi-build-utils, node-abi) 제거하는 lockfile 정리 커밋. 우리 자체 node24 업그레이드(343e40f3a4)와 peer 플래그 안정화(3ed114d934)로 lockfile이 이미 완전히 재생성되어 해당 6개 항목이 애초에 존재하지 않음(grep 0건) — 이미 동일한 결과 달성, 반영 실익 없음. |
 
 | df001842 | [fix merge defect on server/channels/app/post_test.go (#35057)](https://github.com/mattermost/mattermost/commit/df0018425021695232de4bd81915291494955b67) | 5d3de44c2a로 동일 내용 선반영 (post_test.go의 CreatePost/UpdatePost 3-값 시그니처 대응). 포크는 isMemberForPreviews 추가 반환으로 원래 3-값이라 원인은 다르나 최종 코드가 동일. |
+
+| a1c85007 | [Autotranslations MVP (#34696)](https://github.com/mattermost/mattermost/commit/a1c85007e156adee66583b0f13e88d5da6386dd4) | 59파일·+3029/-509줄, DB 마이그레이션·enterprise 인터페이스 접촉으로 처음엔 spec 전환을 검토했으나, 실제 번역 엔진 구현체(`github.com/mattermost/enterprise/autotranslation`)가 Mattermost, Inc.의 비공개 사설 Go 모듈이라 upstream 오픈소스에 반영 가능한 실체가 없음을 확인. `einterfaces/autotranslation.go`는 `RegisterAutoTranslationInterface()`로 등록되는 구현체를 요구하지만 그 구현은 어디에도 공개되어 있지 않아, 이걸 채택하려면 사실상 okrbest가 마스킹·제공자 연동을 처음부터 새로 만들어야 함 — 이는 upstream 반영이 아니라 신규 제품 개발이라 sync 범위 밖으로 판단, exclude 처리. 후속 시리즈 커밋(`1c7246da`, `4195b8bc` 등)은 각자 도달 시점에 개별 재검토한다. |
 
 ## spec 전환 커밋
 
