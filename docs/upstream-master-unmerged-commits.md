@@ -3,22 +3,17 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-07-31 21:37
+- 갱신일: 2026-08-01 22:07
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1152개
+- 남은 커밋: 1150개
 
-**마지막 반영 커밋:** `86797c50` | [update mscfb and msoleps indirect dependencies to fix oom vuln. (#34910)](https://github.com/mattermost/mattermost/commit/86797c508c444e299b20889ce241fde505a402cc) | 2026-01-23
+**마지막 반영 커밋:** `ace5810d` | [Update file_preview.js (#35028)](https://github.com/mattermost/mattermost/commit/ace5810d656d1ec83ed197f08abfd08f700a80c2) | 2026-01-26
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 7bbf8c71 | [Add missing check (#35034)](https://github.com/mattermost/mattermost/commit/7bbf8c71a27b3007b7f90a3bc4069b8a94ec5b36) | 2026-01-24 |
-| b62727e0 | [\[MM-67290\] Document that Elasticsearch backend type change requires server restart (#35038)](https://github.com/mattermost/mattermost/commit/b62727e09133ce7a2729032e882b1123dbbc720a) | 2026-01-26 |
-| df001842 | [fix merge defect on server/channels/app/post_test.go (#35057)](https://github.com/mattermost/mattermost/commit/df0018425021695232de4bd81915291494955b67) | 2026-01-26 |
 | a1c85007 | [Autotranslations MVP (#34696)](https://github.com/mattermost/mattermost/commit/a1c85007e156adee66583b0f13e88d5da6386dd4) | 2026-01-26 |
 | 7b1c32e3 | [MM-67725: (test) Migrate enzyme to RTL (#34966)](https://github.com/mattermost/mattermost/commit/7b1c32e34c8e5d812079fc1701862b8d79d50bff) | 2026-01-27 |
-| c537b88f | [MM-65023 Add tooltip to actions buttons, display error (#33773)](https://github.com/mattermost/mattermost/commit/c537b88f939636419c8850c6fdd6b79b5bfab108) | 2026-01-26 |
 | 3db7477e | [MM-67281: (test) Migrate Enzyme to RTL (#35029)](https://github.com/mattermost/mattermost/commit/3db7477e45dcd0aef6f168aba52d18307caaddba) | 2026-01-27 |
-| ace5810d | [Update file_preview.js (#35028)](https://github.com/mattermost/mattermost/commit/ace5810d656d1ec83ed197f08abfd08f700a80c2) | 2026-01-26 |
 | 8ff88242 | [chore: Update NOTICE.txt file with updated dependencies (#35053)](https://github.com/mattermost/mattermost/commit/8ff88242a96410dce1346704a212ecc56ca0aef0) | 2026-01-27 |
 | c6b205f0 | [Fixed WS payload for post burn event (#34936)](https://github.com/mattermost/mattermost/commit/c6b205f0d77080ef805783de0628b9526af7faec) | 2026-01-27 |
 | 4cd9a266 | [Update the FIPS flavour of Boards to v9.2.2 (#35064)](https://github.com/mattermost/mattermost/commit/4cd9a266f83262205eb9d5c504600f0ff505b910) | 2026-01-27 |
@@ -1163,6 +1158,9 @@
 | 4ec0fe9c | [\[MM-69846\] List access_control/template attributes on the Manage Attributes page (#37608)](https://github.com/mattermost/mattermost/commit/4ec0fe9cc9dd35229c99260782ed011211f36e01) | 2026-07-30 |
 | 466b5bb7 | [redact logs (#37757)](https://github.com/mattermost/mattermost/commit/466b5bb783a814c173fc2ccf06ad3d4bebc1b3b3) | 2026-07-30 |
 | 20d3cdd6 | [\[MM-70023\] Consider attachment fields with no title for block translation (#37762)](https://github.com/mattermost/mattermost/commit/20d3cdd6f5774869be6ed100ced6d8b68568b514) | 2026-07-31 |
+| 3019460a | [MM-69445: Markdown fixes (#37388)](https://github.com/mattermost/mattermost/commit/3019460ac55ff3d54c5f77363a0dde814fb13a39) | 2026-07-31 |
+| 5152df24 | [Mm 70056 missing info banner team abac team admin (#37790)](https://github.com/mattermost/mattermost/commit/5152df2418a9e86d0e0291f179301ed0993ea8fb) | 2026-07-31 |
+| d5d5b2ca | [Fix UI flash when closing the Decision details modal in permission policy simulation (#37141)](https://github.com/mattermost/mattermost/commit/d5d5b2ca2973ef92f3b3eaad182fe78816cf1481) | 2026-08-01 |
 
 ## 제외된 커밋
 
@@ -1170,6 +1168,8 @@
 |---|---|---|
 
 | b8c9f931 | [Update package-lock.json (#34958)](https://github.com/mattermost/mattermost/commit/b8c9f931bb22652c486bb82ee73f92d0e6249e0e) | webapp/package-lock.json에서 고아 optional 패키지 6개(deep-extend, expand-template, github-from-package, mkdirp-classic, napi-build-utils, node-abi) 제거하는 lockfile 정리 커밋. 우리 자체 node24 업그레이드(343e40f3a4)와 peer 플래그 안정화(3ed114d934)로 lockfile이 이미 완전히 재생성되어 해당 6개 항목이 애초에 존재하지 않음(grep 0건) — 이미 동일한 결과 달성, 반영 실익 없음. |
+
+| df001842 | [fix merge defect on server/channels/app/post_test.go (#35057)](https://github.com/mattermost/mattermost/commit/df0018425021695232de4bd81915291494955b67) | 5d3de44c2a로 동일 내용 선반영 (post_test.go의 CreatePost/UpdatePost 3-값 시그니처 대응). 포크는 isMemberForPreviews 추가 반환으로 원래 3-값이라 원인은 다르나 최종 코드가 동일. |
 
 ## spec 전환 커밋
 
