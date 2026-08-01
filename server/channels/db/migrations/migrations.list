@@ -307,3 +307,5 @@ channels/db/migrations/postgres/000153_add_kind_and_primary_duty.down.sql
 channels/db/migrations/postgres/000153_add_kind_and_primary_duty.up.sql
 channels/db/migrations/postgres/000154_create_recaps.down.sql
 channels/db/migrations/postgres/000154_create_recaps.up.sql
+channels/db/migrations/postgres/000155_add_translation_state.down.sql
+channels/db/migrations/postgres/000155_add_translation_state.up.sql
