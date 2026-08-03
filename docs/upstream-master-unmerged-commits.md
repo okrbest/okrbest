@@ -3,32 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-03 15:01
+- 갱신일: 2026-08-03 17:35
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1151개
+- 남은 커밋: 1133개
 
-**마지막 반영 커밋:** `a1c85007` | [Autotranslations MVP (#34696)](https://github.com/mattermost/mattermost/commit/a1c85007e156adee66583b0f13e88d5da6386dd4) | 2026-01-26
+**마지막 반영 커밋:** `b2eb45e6` | [Add missing auditRec.Success calls; fix missing return on error. (#34954)](https://github.com/mattermost/mattermost/commit/b2eb45e6159987b6f8c91d63bf4c6caa2eb45bbc) | 2026-01-27
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 7b1c32e3 | [MM-67725: (test) Migrate enzyme to RTL (#34966)](https://github.com/mattermost/mattermost/commit/7b1c32e34c8e5d812079fc1701862b8d79d50bff) | 2026-01-27 |
-| 3db7477e | [MM-67281: (test) Migrate Enzyme to RTL (#35029)](https://github.com/mattermost/mattermost/commit/3db7477e45dcd0aef6f168aba52d18307caaddba) | 2026-01-27 |
-| 8ff88242 | [chore: Update NOTICE.txt file with updated dependencies (#35053)](https://github.com/mattermost/mattermost/commit/8ff88242a96410dce1346704a212ecc56ca0aef0) | 2026-01-27 |
-| c6b205f0 | [Fixed WS payload for post burn event (#34936)](https://github.com/mattermost/mattermost/commit/c6b205f0d77080ef805783de0628b9526af7faec) | 2026-01-27 |
-| 4cd9a266 | [Update the FIPS flavour of Boards to v9.2.2 (#35064)](https://github.com/mattermost/mattermost/commit/4cd9a266f83262205eb9d5c504600f0ff505b910) | 2026-01-27 |
-| dfbe7887 | [\[MM-64365\] omit group constrained channels from the ch. selector for ABAC (#35010)](https://github.com/mattermost/mattermost/commit/dfbe788732881396d3c3b96e585f1be76039265f) | 2026-01-27 |
-| 8e7b3da7 | [Fixtures that allow install of a plugin from a target repo (#34520)](https://github.com/mattermost/mattermost/commit/8e7b3da702480f59533eb33b2be1a5f6bad92d18) | 2026-01-27 |
-| 89a29ce3 | [MM-66167 fix (#35061)](https://github.com/mattermost/mattermost/commit/89a29ce3c2b63f34220ecdf3c925f077f7f80858) | 2026-01-27 |
-| ced9a56e | [\[MM-67126\] Deprecate UpdateAccessControlPolicyActiveStatus API in favor of new one (#34940)](https://github.com/mattermost/mattermost/commit/ced9a56e3988fe9fd4559d45f9971dbd562e2218) | 2026-01-27 |
-| 3388093c | [updates opensearch library dependency and adds tests for caused_by error reason returned (#34826)](https://github.com/mattermost/mattermost/commit/3388093c00a0805e265a6821c4ecdec19dad61cd) | 2026-01-27 |
-| fbe5ad0e | [\[MM-66591\] Channel Summarization - header icon pluggable + citation support (#34687)](https://github.com/mattermost/mattermost/commit/fbe5ad0ea28429685f223e03ddb23107b92fb020) | 2026-01-27 |
-| fe305207 | [\[MM-67074\] Integration Action memory use fix (#34896)](https://github.com/mattermost/mattermost/commit/fe3052073dc67e3c920baf9fe7efd44ac1d8124c) | 2026-01-27 |
-| ea9333b2 | [Translations update from Mattermost Weblate (#35055)](https://github.com/mattermost/mattermost/commit/ea9333b2e8af865c78848b94d644378f6012c619) | 2026-01-27 |
-| eeaf9c8e | [Fix bad merge (#35079)](https://github.com/mattermost/mattermost/commit/eeaf9c8e3e860faaacf968da8cce9988919dd97f) | 2026-01-27 |
-| fb22f566 | [MM-67269 - Fix popout windows for subpath deployments (#35027)](https://github.com/mattermost/mattermost/commit/fb22f566355f19a3786d2f2192dec3f01d0dc530) | 2026-01-27 |
-| 320b3b41 | [adds detailed error message to ES test connection (#35009)](https://github.com/mattermost/mattermost/commit/320b3b411fad32a94e089e6c8fc0fb3bee3c8806) | 2026-01-27 |
-| 73d7e66e | [Bump playbooks to v2.6.2 (#35077)](https://github.com/mattermost/mattermost/commit/73d7e66e97edf6b2a69fd85e4e0e55e4e2d5b93e) | 2026-01-27 |
-| b2eb45e6 | [Add missing auditRec.Success calls; fix missing return on error. (#34954)](https://github.com/mattermost/mattermost/commit/b2eb45e6159987b6f8c91d63bf4c6caa2eb45bbc) | 2026-01-27 |
 | 67b8c895 | [MM-67130: Fix permalink preview permissions (#34909)](https://github.com/mattermost/mattermost/commit/67b8c89508a884e0aee33c2cfce4ecf305587834) | 2026-01-28 |
 | 7417d077 | [Test/RTL: Use userEvent as much as possible and remove unneeded jest.clearAllMocks() (#35070)](https://github.com/mattermost/mattermost/commit/7417d07733a56e8d11b39a80205c0f6237565c03) | 2026-01-29 |
 | 62df0b04 | [Update the FIPS flavour of Playbooks to v2.6.2 (#35096)](https://github.com/mattermost/mattermost/commit/62df0b0417544d7a8c7afe02dae788d4acfdb0e8) | 2026-01-29 |
@@ -1171,6 +1153,8 @@
 | b8c9f931 | [Update package-lock.json (#34958)](https://github.com/mattermost/mattermost/commit/b8c9f931bb22652c486bb82ee73f92d0e6249e0e) | webapp/package-lock.json에서 고아 optional 패키지 6개(deep-extend, expand-template, github-from-package, mkdirp-classic, napi-build-utils, node-abi) 제거하는 lockfile 정리 커밋. 우리 자체 node24 업그레이드(343e40f3a4)와 peer 플래그 안정화(3ed114d934)로 lockfile이 이미 완전히 재생성되어 해당 6개 항목이 애초에 존재하지 않음(grep 0건) — 이미 동일한 결과 달성, 반영 실익 없음. |
 
 | df001842 | [fix merge defect on server/channels/app/post_test.go (#35057)](https://github.com/mattermost/mattermost/commit/df0018425021695232de4bd81915291494955b67) | 5d3de44c2a로 동일 내용 선반영 (post_test.go의 CreatePost/UpdatePost 3-값 시그니처 대응). 포크는 isMemberForPreviews 추가 반환으로 원래 3-값이라 원인은 다르나 최종 코드가 동일. |
+
+| eeaf9c8e | [Fix bad merge (#35079)](https://github.com/mattermost/mattermost/commit/eeaf9c8e3e860faaacf968da8cce9988919dd97f) | fe305207(MM-67074) adapt 시 우리 fork의 CreatePostAsUser 3-value 반환 시그니처에 맞춰 integration_action_test.go의 동일한 두 줄(232, 275)에 이미 '_,' 보정을 적용함 — 이 커밋(upstream 자체 빌드 수정)은 완전히 동일한 변경이라 반영할 것이 없음 |
 
 ## spec 전환 커밋
 
