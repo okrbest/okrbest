@@ -10,8 +10,8 @@ import AdvancedTextEditor from 'components/advanced_text_editor/advanced_text_ed
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import DatePicker from 'components/date_picker/date_picker';
-import EmojiPickerTabs from 'components/emoji_picker/emoji_picker_tabs';
 import RenderEmoji from 'components/emoji/render_emoji';
+import EmojiPickerTabs from 'components/emoji_picker/emoji_picker_tabs';
 import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import StartTrialFormModal from 'components/start_trial_form_modal';
