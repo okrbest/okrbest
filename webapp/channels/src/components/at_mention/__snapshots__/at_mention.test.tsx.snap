@@ -151,7 +151,7 @@ exports[`components/AtMention should match snapshot when mentioning user with di
     <span
       class="mention-link"
     >
-      @user1
+      @user1 - Other User (Nick)
     </span>
   </button>
 </div>
