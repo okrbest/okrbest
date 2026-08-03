@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-03 17:53
+- 갱신일: 2026-08-04 01:09
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1132개
+- 남은 커밋: 1123개
 
-**마지막 반영 커밋:** `67b8c895` | [MM-67130: Fix permalink preview permissions (#34909)](https://github.com/mattermost/mattermost/commit/67b8c89508a884e0aee33c2cfce4ecf305587834) | 2026-01-28
+**마지막 반영 커밋:** `1c1a445a` | [MM-67380: COALESCE Drafts.Type to the empty string if NULL (#35109)](https://github.com/mattermost/mattermost/commit/1c1a445a3ed1cf692a5ea2594321ca99a7660707) | 2026-01-29
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 7417d077 | [Test/RTL: Use userEvent as much as possible and remove unneeded jest.clearAllMocks() (#35070)](https://github.com/mattermost/mattermost/commit/7417d07733a56e8d11b39a80205c0f6237565c03) | 2026-01-29 |
-| 62df0b04 | [Update the FIPS flavour of Playbooks to v2.6.2 (#35096)](https://github.com/mattermost/mattermost/commit/62df0b0417544d7a8c7afe02dae788d4acfdb0e8) | 2026-01-29 |
-| 4195b8bc | [Metrics for Autotranslations (#34900)](https://github.com/mattermost/mattermost/commit/4195b8bc5c1fd5063aa0d6385cbca891e68813b3) | 2026-01-29 |
-| 5d787969 | [MM-67268: Fix SSRF bypass via IPv4-mapped IPv6 literals (#35097)](https://github.com/mattermost/mattermost/commit/5d787969c2d5ab591a9dcd61b0810475eed7a646) | 2026-01-29 |
-| 2b075c9b | [MM-65970: New way to build routes in Client4 (#34499)](https://github.com/mattermost/mattermost/commit/2b075c9b74effbb56f3769f1bdec161eef4c6808) | 2026-01-29 |
-| 36173a49 | [Use one timeout config for requests to translation providers (#34957)](https://github.com/mattermost/mattermost/commit/36173a49488ebf1a96faaaba7cb287666f3615ce) | 2026-01-29 |
-| 168fb516 | [\[MM-67202\] Validate auth method in account switch (#34981)](https://github.com/mattermost/mattermost/commit/168fb51666e9f34081feae95f9ef6a7723a1b883) | 2026-01-29 |
-| 7201f42d | [MM-67277: Add check to legacy hasher (#35092)](https://github.com/mattermost/mattermost/commit/7201f42d955f1bc44719b862132546626b60a180) | 2026-01-29 |
-| 1346cf52 | [MM-67274: Fix panic in getBrowserVersion with empty User-Agent version (#35098)](https://github.com/mattermost/mattermost/commit/1346cf529aef0672c39a56ec10d1b8a9c8fb387d) | 2026-01-29 |
-| 7f6a98fd | [MM-66789 Restrict log downloads to a root path for support packets (#35014)](https://github.com/mattermost/mattermost/commit/7f6a98fd7a85ad923ea4fbb21855d1c9f579a47f) | 2026-01-29 |
-| 1c1a445a | [MM-67380: COALESCE Drafts.Type to the empty string if NULL (#35109)](https://github.com/mattermost/mattermost/commit/1c1a445a3ed1cf692a5ea2594321ca99a7660707) | 2026-01-29 |
 | fe410095 | [\[MM-66581\] Include some thread context in AI Rewrites prompt (#34931)](https://github.com/mattermost/mattermost/commit/fe4100956c419721cfd8bb5a14139be4f707f693) | 2026-01-30 |
 | 90bdd6ae | [MM-67141 Update AI rewrite prompt guidance (#35011)](https://github.com/mattermost/mattermost/commit/90bdd6ae54b344fff3724f7dccb3456102415e19) | 2026-01-30 |
 | 5bb5261c | [MM-67279: Fix private channel enumeration via /mute slash command (#35099)](https://github.com/mattermost/mattermost/commit/5bb5261c72faa476558a694c23581d24b734da41) | 2026-01-30 |
@@ -1143,6 +1132,8 @@
 | d5d5b2ca | [Fix UI flash when closing the Decision details modal in permission policy simulation (#37141)](https://github.com/mattermost/mattermost/commit/d5d5b2ca2973ef92f3b3eaad182fe78816cf1481) | 2026-08-01 |
 | 0785004b | [MM-65803 Add strict E2E tests for post list scrolling (#37653)](https://github.com/mattermost/mattermost/commit/0785004bcc78639b99a195c2f565d6ab903d723d) | 2026-08-01 |
 | c17064f7 | [Fix flaky TestImportValidateDirectPostImportData (#37795)](https://github.com/mattermost/mattermost/commit/c17064f72c97e6e7ac4ee2c9ad02f2239faa10f9) | 2026-08-02 |
+| acf883c8 | [chore: Update NOTICE.txt file with updated dependencies (#37814)](https://github.com/mattermost/mattermost/commit/acf883c825a6f59be1f6301c0f84c6f8f5df8ddc) | 2026-08-03 |
+| ae0bec4d | [Add MFI plugin signature public key behind feature flag (#37793)](https://github.com/mattermost/mattermost/commit/ae0bec4d6741cafea7eca7beafbac1929826e20b) | 2026-08-03 |
 
 ## 제외된 커밋
 
@@ -1165,3 +1156,4 @@
 | 커밋 해시 | 커밋 제목 | 비공개 모듈 · 비고 |
 |---|---|---|
 | a1c85007 | [Autotranslations MVP (#34696)](https://github.com/mattermost/mattermost/commit/a1c85007e156adee66583b0f13e88d5da6386dd4) | `github.com/mattermost/enterprise/autotranslation` (비공개). 인터페이스·DB 스키마·관리 콘솔 UI는 ac434e9812(adapt)로 반영했으나 실제 번역/마스킹 로직은 okrbest가 별도 구현해야 활성화됨 — `server/einterfaces/autotranslation.go`의 `AutoTranslationInterface`를 구현해 `RegisterAutoTranslationInterface()`로 등록. |
+| 4195b8bc | [Metrics for Autotranslations (#34900)](https://github.com/mattermost/mattermost/commit/4195b8bc5c1fd5063aa0d6385cbca891e68813b3) | Autotranslation 메트릭 인터페이스/Prometheus 등록만 추가. 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개 저장소)에 있어 okrbest에선 호출되지 않는 비활성(inert) 계측으로 남음. 향후 자체 autotranslation 기능 구현 시 재사용 가능. |
