@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-03 17:35
+- 갱신일: 2026-08-03 17:53
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1133개
+- 남은 커밋: 1132개
 
-**마지막 반영 커밋:** `b2eb45e6` | [Add missing auditRec.Success calls; fix missing return on error. (#34954)](https://github.com/mattermost/mattermost/commit/b2eb45e6159987b6f8c91d63bf4c6caa2eb45bbc) | 2026-01-27
+**마지막 반영 커밋:** `67b8c895` | [MM-67130: Fix permalink preview permissions (#34909)](https://github.com/mattermost/mattermost/commit/67b8c89508a884e0aee33c2cfce4ecf305587834) | 2026-01-28
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 67b8c895 | [MM-67130: Fix permalink preview permissions (#34909)](https://github.com/mattermost/mattermost/commit/67b8c89508a884e0aee33c2cfce4ecf305587834) | 2026-01-28 |
 | 7417d077 | [Test/RTL: Use userEvent as much as possible and remove unneeded jest.clearAllMocks() (#35070)](https://github.com/mattermost/mattermost/commit/7417d07733a56e8d11b39a80205c0f6237565c03) | 2026-01-29 |
 | 62df0b04 | [Update the FIPS flavour of Playbooks to v2.6.2 (#35096)](https://github.com/mattermost/mattermost/commit/62df0b0417544d7a8c7afe02dae788d4acfdb0e8) | 2026-01-29 |
 | 4195b8bc | [Metrics for Autotranslations (#34900)](https://github.com/mattermost/mattermost/commit/4195b8bc5c1fd5063aa0d6385cbca891e68813b3) | 2026-01-29 |
