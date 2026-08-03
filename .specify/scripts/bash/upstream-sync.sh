@@ -11,6 +11,10 @@
 #   upstream-sync.sh signals <hash>    LLM 판단 재료 출력
 #   upstream-sync.sh exclude <hash> <사유>     제외 부록에 기록 후 update
 #   upstream-sync.sh to-spec <hash> <specID>   spec 부록에 기록 후 update
+#   upstream-sync.sh private-module <hash> <설명>   비공개 사설 모듈 의존 부록에 기록 후 update
+#     (upstream 구현이 github.com/mattermost/enterprise/* 등 비공개 저장소에 있어
+#      인터페이스·스캐폼만 반영되고 실제 기능은 okrbest가 별도 개발해야 하는 경우.
+#      cherry-pick/adapt로 이미 반영한 커밋도, exclude한 커밋도 기록 가능 — 후속 개발 대상 추적용.)
 
 set -euo pipefail
 
@@ -34,9 +38,9 @@ processed_hashes() {
             --pretty=format:'%B' 2>/dev/null |
             grep -oE '(cherry picked from commit |Upstream: '"$UPSTREAM_URL"'/commit/)[0-9a-f]{40}' |
             grep -oE '[0-9a-f]{40}$' || true
-        # 2) excluded / spec: ledger 부록 섹션의 링크 URL 속 full hash
+        # 2) excluded / spec / private-module: ledger 부록 섹션의 링크 URL 속 full hash
         if [[ -f "$LEDGER" ]]; then
-            awk '/^## (제외된 커밋|spec 전환 커밋)/,0' "$LEDGER" |
+            awk '/^## (제외된 커밋|spec 전환 커밋|Mattermost 비공개 사설 모듈 커밋)/,0' "$LEDGER" |
                 grep -oE "$UPSTREAM_URL/commit/[0-9a-f]{40}" |
                 grep -oE '[0-9a-f]{40}' || true
         fi
@@ -101,9 +105,10 @@ cmd_update() {
     last_synced_line="$(git log -1 --date=format:%Y-%m-%d --pretty=tformat:'%H%x1f%s%x1f%ad' "$last_hash" | md_escape_row |
         sed 's/^| /**마지막 반영 커밋:** `/; s/ | \[/` | [/; s/ |$//')"
 
-    local excluded_sec spec_sec
+    local excluded_sec spec_sec private_module_sec
     excluded_sec="$(appendix_section "제외된 커밋" "사유")"
     spec_sec="$(appendix_section "spec 전환 커밋" "spec")"
+    private_module_sec="$(appendix_section "Mattermost 비공개 사설 모듈 커밋" "비공개 모듈 · 비고")"
 
     {
         echo "# upstream-master 미반영 커밋 목록"
@@ -124,6 +129,8 @@ cmd_update() {
         echo "$excluded_sec"
         echo
         echo "$spec_sec"
+        echo
+        echo "$private_module_sec"
     } >"$LEDGER"
 
     echo "updated: $LEDGER (남은 커밋 ${total}개)"
@@ -134,10 +141,11 @@ cmd_update() {
 cmd_status() {
     [[ -f "$LEDGER" ]] || { echo "ledger 없음 — 먼저 update 실행" >&2; exit 1; }
     grep -E '^- 남은 커밋|^\*\*마지막 반영 커밋' "$LEDGER"
-    local ex sp
+    local ex sp pm
     ex="$(awk '/^## 제외된 커밋/,/^## spec 전환 커밋/' "$LEDGER" | grep -c '^| [0-9a-f]' || true)"
-    sp="$(awk '/^## spec 전환 커밋/,0' "$LEDGER" | grep -c '^| [0-9a-f]' || true)"
-    echo "- 제외된 커밋: ${ex}개 / spec 전환: ${sp}개"
+    sp="$(awk '/^## spec 전환 커밋/,/^## Mattermost 비공개 사설 모듈 커밋/' "$LEDGER" | grep -c '^| [0-9a-f]' || true)"
+    pm="$(awk '/^## Mattermost 비공개 사설 모듈 커밋/,0' "$LEDGER" | grep -c '^| [0-9a-f]' || true)"
+    echo "- 제외된 커밋: ${ex}개 / spec 전환: ${sp}개 / 비공개 모듈 의존: ${pm}개"
 }
 
 # ---------- next ----------
@@ -207,32 +215,41 @@ cmd_signals() {
 # ---------- exclude / to-spec ----------
 
 append_appendix() {
-    local title="$1" hash="$2" info="$3"
+    local title="$1" hash="$2" info="$3" extra_col="${4:-비고}"
     local full subj
     full="$(git rev-parse "$hash^{commit}")"
     subj="$(git log -1 --pretty=format:'%s' "$full")"
     subj="${subj//|/\\|}"; subj="${subj//[/\\[}"; subj="${subj//]/\\]}"
     info="${info//|/\\|}"
-    # 섹션 마지막 표 행 뒤에 추가
-    python3 - "$LEDGER" "$title" "| ${full:0:8} | [$subj]($UPSTREAM_URL/commit/$full) | $info |" <<'EOF'
+    # 섹션 마지막 표 행 뒤에 추가. 섹션이 아직 없으면(신규 카테고리 최초 사용) 파일 끝에 새로 만든다.
+    # (Windows에서 python3가 미동작 App Execution Alias로 깨진 경우 python으로 폴백)
+    local py=python3
+    "$py" -c '' >/dev/null 2>&1 || py=python
+    "$py" - "$LEDGER" "$title" "$extra_col" "| ${full:0:8} | [$subj]($UPSTREAM_URL/commit/$full) | $info |" <<'EOF'
 import sys
-path, title, row = sys.argv[1], sys.argv[2], sys.argv[3]
-lines = open(path).read().splitlines()
+path, title, extra_col, row = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+lines = open(path, encoding="utf-8").read().splitlines()
 out, in_sec, inserted = [], False, False
-for i, l in enumerate(lines):
+for l in lines:
     if l.startswith("## "):
         if in_sec and not inserted:
             out.append(row); inserted = True
         in_sec = l == f"## {title}"
     out.append(l)
 if in_sec and not inserted:
-    out.append(row)
-open(path, "w").write("\n".join(out) + "\n")
+    out.append(row); inserted = True
+if not inserted:
+    # 섹션이 파일에 아예 없었던 경우 — 새 섹션을 끝에 생성
+    if out and out[-1] != "":
+        out.append("")
+    out += [f"## {title}", "", f"| 커밋 해시 | 커밋 제목 | {extra_col} |", "|---|---|---|", row]
+open(path, "w", encoding="utf-8").write("\n".join(out) + "\n")
 EOF
 }
 
-cmd_exclude() { append_appendix "제외된 커밋" "$1" "$2"; cmd_update; }
-cmd_tospec()  { append_appendix "spec 전환 커밋" "$1" "$2"; cmd_update; }
+cmd_exclude() { append_appendix "제외된 커밋" "$1" "$2" "사유"; cmd_update; }
+cmd_tospec()  { append_appendix "spec 전환 커밋" "$1" "$2" "spec"; cmd_update; }
+cmd_privatemodule() { append_appendix "Mattermost 비공개 사설 모듈 커밋" "$1" "$2" "비공개 모듈 · 비고"; cmd_update; }
 
 # ---------- 진입점 ----------
 
@@ -243,5 +260,6 @@ case "${1:-}" in
     signals) [[ $# -ge 2 ]] || { echo "signals <hash>" >&2; exit 1; }; cmd_signals "$2" ;;
     exclude) [[ $# -ge 3 ]] || { echo "exclude <hash> <사유>" >&2; exit 1; }; cmd_exclude "$2" "$3" ;;
     to-spec) [[ $# -ge 3 ]] || { echo "to-spec <hash> <specID>" >&2; exit 1; }; cmd_tospec "$2" "$3" ;;
-    *) sed -n '2,12p' "$0"; exit 1 ;;
+    private-module) [[ $# -ge 3 ]] || { echo "private-module <hash> <설명>" >&2; exit 1; }; cmd_privatemodule "$2" "$3" ;;
+    *) sed -n '2,17p' "$0"; exit 1 ;;
 esac

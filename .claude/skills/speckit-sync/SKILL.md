@@ -30,8 +30,10 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
 
 추적 원리: 반영 커밋 본문의 upstream 해시 참조(`cherry picked from commit <hash>` / `Upstream: <링크>`)와 ledger 부록(제외/spec)이 기록이며, `scripts/upstream-sync.sh update`가 이를 차감해 미반영 목록을 재생성한다. **별도 상태 파일 없음.**
 
+**비공개 사설 모듈 의존 표시(보조 태그)**: 분석 중 upstream 구현이 `github.com/mattermost/enterprise/*` 같은 Mattermost, Inc.의 비공개 저장소에만 있어(예: `server/enterprise/external_imports.go`의 신규 임포트가 okrbest에 존재하지 않는 모듈을 참조) 실제 기능 로직을 반영할 수 없는 경우, cherry-pick/adapt/exclude 판단과 **별개로** `$SYNC private-module <hash> "<설명>"`을 추가로 기록한다. adapt로 인터페이스·스캐폴딩만 반영해 기능이 비활성 상태로 남는 경우(자세한 사유는 커밋 메시지에 기록)와, 아예 반영할 실체가 없어 exclude한 경우 둘 다 해당될 수 있다 — ledger 하단 "Mattermost 비공개 사설 모듈 커밋" 표는 이런 커밋을 모아 향후 자체 구현 개발 대상으로 추적하기 위한 것이다.
+
 도우미 스크립트: `.specify/scripts/bash/upstream-sync.sh` (이하 `$SYNC`)
-`update` / `status` / `next [n]` / `signals <hash>` / `exclude <hash> <사유>` / `to-spec <hash> <specID>`
+`update` / `status` / `next [n]` / `signals <hash>` / `exclude <hash> <사유>` / `to-spec <hash> <specID>` / `private-module <hash> <설명>`
 
 ## 워크플로
 

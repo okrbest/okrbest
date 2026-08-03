@@ -3,9 +3,9 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-02 00:41
+- 갱신일: 2026-08-03 15:01
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1149개
+- 남은 커밋: 1151개
 
 **마지막 반영 커밋:** `a1c85007` | [Autotranslations MVP (#34696)](https://github.com/mattermost/mattermost/commit/a1c85007e156adee66583b0f13e88d5da6386dd4) | 2026-01-26
 
@@ -1160,6 +1160,8 @@
 | 3019460a | [MM-69445: Markdown fixes (#37388)](https://github.com/mattermost/mattermost/commit/3019460ac55ff3d54c5f77363a0dde814fb13a39) | 2026-07-31 |
 | 5152df24 | [Mm 70056 missing info banner team abac team admin (#37790)](https://github.com/mattermost/mattermost/commit/5152df2418a9e86d0e0291f179301ed0993ea8fb) | 2026-07-31 |
 | d5d5b2ca | [Fix UI flash when closing the Decision details modal in permission policy simulation (#37141)](https://github.com/mattermost/mattermost/commit/d5d5b2ca2973ef92f3b3eaad182fe78816cf1481) | 2026-08-01 |
+| 0785004b | [MM-65803 Add strict E2E tests for post list scrolling (#37653)](https://github.com/mattermost/mattermost/commit/0785004bcc78639b99a195c2f565d6ab903d723d) | 2026-08-01 |
+| c17064f7 | [Fix flaky TestImportValidateDirectPostImportData (#37795)](https://github.com/mattermost/mattermost/commit/c17064f72c97e6e7ac4ee2c9ad02f2239faa10f9) | 2026-08-02 |
 
 ## 제외된 커밋
 
@@ -1174,3 +1176,9 @@
 
 | 커밋 해시 | 커밋 제목 | spec |
 |---|---|---|
+
+## Mattermost 비공개 사설 모듈 커밋
+
+| 커밋 해시 | 커밋 제목 | 비공개 모듈 · 비고 |
+|---|---|---|
+| a1c85007 | [Autotranslations MVP (#34696)](https://github.com/mattermost/mattermost/commit/a1c85007e156adee66583b0f13e88d5da6386dd4) | `github.com/mattermost/enterprise/autotranslation` (비공개). 인터페이스·DB 스키마·관리 콘솔 UI는 ac434e9812(adapt)로 반영했으나 실제 번역/마스킹 로직은 okrbest가 별도 구현해야 활성화됨 — `server/einterfaces/autotranslation.go`의 `AutoTranslationInterface`를 구현해 `RegisterAutoTranslationInterface()`로 등록. |
