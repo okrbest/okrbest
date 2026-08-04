@@ -271,24 +271,8 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         expect(radioB).toBeChecked();
     });
 
-    // teammateNameDisplaySection is commented out in okrbest's render output (see user_settings_display.tsx), so the radios never mount.
-    test.skip('should update teammateNameDisplay state', async () => {
-        const props = {...requiredProps, activeSection: 'name_format'};
-        const {container} = renderWithContext(<UserSettingsDisplay {...props}/>);
-
-        const radioA = container.querySelector('#name_formatFormatA') as HTMLInputElement;
-        const radioB = container.querySelector('#name_formatFormatB') as HTMLInputElement;
-        const radioC = container.querySelector('#name_formatFormatC') as HTMLInputElement;
-
-        await userEvent.click(radioA);
-        expect(radioA).toBeChecked();
-
-        await userEvent.click(radioB);
-        expect(radioB).toBeChecked();
-
-        await userEvent.click(radioC);
-        expect(radioC).toBeChecked();
-    });
+    // No test for teammateNameDisplay radios: teammateNameDisplaySection is commented out in
+    // okrbest's render output (see user_settings_display.tsx), so the section never mounts.
 
     test('should update channelDisplayMode state', async () => {
         const props = {...requiredProps, activeSection: 'channel_display_mode'};
