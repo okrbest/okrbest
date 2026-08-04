@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-04 01:09
+- 갱신일: 2026-08-04 09:41
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1123개
+- 남은 커밋: 1118개
 
-**마지막 반영 커밋:** `1c1a445a` | [MM-67380: COALESCE Drafts.Type to the empty string if NULL (#35109)](https://github.com/mattermost/mattermost/commit/1c1a445a3ed1cf692a5ea2594321ca99a7660707) | 2026-01-29
+**마지막 반영 커밋:** `28881683` | [Bump playbooks to v2.7.0 (#35150)](https://github.com/mattermost/mattermost/commit/288816834d5519f12ac28f4fdb104f24eb2cf5aa) | 2026-01-30
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| fe410095 | [\[MM-66581\] Include some thread context in AI Rewrites prompt (#34931)](https://github.com/mattermost/mattermost/commit/fe4100956c419721cfd8bb5a14139be4f707f693) | 2026-01-30 |
-| 90bdd6ae | [MM-67141 Update AI rewrite prompt guidance (#35011)](https://github.com/mattermost/mattermost/commit/90bdd6ae54b344fff3724f7dccb3456102415e19) | 2026-01-30 |
-| 5bb5261c | [MM-67279: Fix private channel enumeration via /mute slash command (#35099)](https://github.com/mattermost/mattermost/commit/5bb5261c72faa476558a694c23581d24b734da41) | 2026-01-30 |
-| 3321db82 | [Bumping prepackaged version of MS Teams Meetings plugin to 2.4.0 (#35146)](https://github.com/mattermost/mattermost/commit/3321db82c3e71486f17014e077677e6bb9fc1a91) | 2026-01-30 |
-| 28881683 | [Bump playbooks to v2.7.0 (#35150)](https://github.com/mattermost/mattermost/commit/288816834d5519f12ac28f4fdb104f24eb2cf5aa) | 2026-01-30 |
 | 8db2ef6b | [MM-67365 - adjust bor icons and priority labels in compact mode (#35121)](https://github.com/mattermost/mattermost/commit/8db2ef6b9f9d55ceb958b36595c9753befe1afed) | 2026-01-31 |
 | 981ff0bc | [MM-66362 feat: run e2e full tests after successful smoke tests both in cypress and playwright (#34868)](https://github.com/mattermost/mattermost/commit/981ff0bc46f1b9445af4ad64ad4aa17d45c58cd6) | 2026-02-02 |
 | dc69319c | [Moved flag post option before delete post (#35019)](https://github.com/mattermost/mattermost/commit/dc69319c676083c6ad9a6288291ce248f4b4805b) | 2026-02-02 |
