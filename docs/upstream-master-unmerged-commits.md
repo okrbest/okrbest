@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-04 10:39
+- 갱신일: 2026-08-04 11:19
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1108개
+- 남은 커밋: 1105개
 
-**마지막 반영 커밋:** `36479bd7` | [Configurable workers and move sweeper job to job infra (#35007)](https://github.com/mattermost/mattermost/commit/36479bd721fe892371795844a16125dadb78cd3b) | 2026-02-02
+**마지막 반영 커밋:** `0263262e` | [MM-66577 Preserve locale in rewrite prompt (#35013)](https://github.com/mattermost/mattermost/commit/0263262ef41b2295ddbefc5be2a47015ce2bbdf1) | 2026-02-03
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f3c66027 | [Allow building the server on FreeBSD (#25838)](https://github.com/mattermost/mattermost/commit/f3c6602725219d21a383ff20ef404a75f0c1f98b) | 2026-02-03 |
-| aa5d5113 | [Register product icon change (#34883)](https://github.com/mattermost/mattermost/commit/aa5d51131da6f6e19cbb26a0e7e83f00f9d0ef0e) | 2026-02-03 |
-| 0263262e | [MM-66577 Preserve locale in rewrite prompt (#35013)](https://github.com/mattermost/mattermost/commit/0263262ef41b2295ddbefc5be2a47015ce2bbdf1) | 2026-02-03 |
 | 51e64312 | [MM-67328 Bulk migrate Enzyme to RTL (M2 to M6) (#35068)](https://github.com/mattermost/mattermost/commit/51e64312750724bca2614a57a81dc167b8db1e16) | 2026-02-04 |
 | e499dece | [(test): fix flaky and migrate to playwright (#35156)](https://github.com/mattermost/mattermost/commit/e499decea0a15d63b3e2ff37c0efe0a872d0a1a3) | 2026-02-04 |
 | 030a4e19 | [Update latest minor version to 11.5.0 (#35176)](https://github.com/mattermost/mattermost/commit/030a4e192155213d6767f0ee928f1efec403ab6b) | 2026-02-04 |
