@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-04 15:01
+- 갱신일: 2026-08-04 15:47
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1100개
+- 남은 커밋: 1094개
 
-**마지막 반영 커밋:** `4887c501` | [chore: Update zoom version to 1.12.0 (#35167)](https://github.com/mattermost/mattermost/commit/4887c501e187527223d5bf0f9d512dac150f8094) | 2026-02-04
+**마지막 반영 커밋:** `197fa160` | [\[MM-67126\] harden checks (#35171)](https://github.com/mattermost/mattermost/commit/197fa160b4a596f441942fbb233e3247611064b9) | 2026-02-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 5a408b75 | [(fix): verified by label and playwright rerun on failed specs (#35161)](https://github.com/mattermost/mattermost/commit/5a408b757c5e7990829cf63ffa73ad8b89a0926e) | 2026-02-05 |
-| 444ada72 | [Update en.json (#35160)](https://github.com/mattermost/mattermost/commit/444ada7251e87173f52d41485ce0a40daf888579) | 2026-02-05 |
-| a06d5065 | [apply view restrcitions while fetching group members (#35172)](https://github.com/mattermost/mattermost/commit/a06d5065e709e26baed531a528d4b9950f26e3ea) | 2026-02-05 |
-| 1273632d | [Add endpoint to update channel member autotranslations (#35072)](https://github.com/mattermost/mattermost/commit/1273632d1afd12c2bc84738e84f347361247c8d9) | 2026-02-05 |
-| 22e4e9c1 | [Improve mmctl output by filtering escape sequences (#35191)](https://github.com/mattermost/mattermost/commit/22e4e9c171dcf9b447a56c7d9a45e5714fb24536) | 2026-02-05 |
-| 9ac02ecf | [Update translation primary key to include objectType (#35040)](https://github.com/mattermost/mattermost/commit/9ac02ecfddbdd50125d84355558bc8392cbfda3c) | 2026-02-05 |
-| c31fe3f2 | [invalidate channel cache after deleting a channel access control policy (#35174)](https://github.com/mattermost/mattermost/commit/c31fe3f2440ed5161e79216bd0aeaae860b0126a) | 2026-02-05 |
-| 197fa160 | [\[MM-67126\] harden checks (#35171)](https://github.com/mattermost/mattermost/commit/197fa160b4a596f441942fbb233e3247611064b9) | 2026-02-05 |
 | f6574143 | [Document URL search in Postgres through tests (#35194)](https://github.com/mattermost/mattermost/commit/f6574143a8ec0f9a9735ce31f6bda80740e1746b) | 2026-02-06 |
 | 2bd29c03 | [Add the ability to patch channel autotranslations (#35078)](https://github.com/mattermost/mattermost/commit/2bd29c03593643821144d59ae57725c30db7a07a) | 2026-02-06 |
 | 9f40d051 | [\[MM-66942\] Ensure consistent option ID generation across all field creation paths (#34725)](https://github.com/mattermost/mattermost/commit/9f40d051eea34436741aa4d85d8855bfd0baf605) | 2026-02-06 |
@@ -1111,6 +1103,8 @@
 | c17064f7 | [Fix flaky TestImportValidateDirectPostImportData (#37795)](https://github.com/mattermost/mattermost/commit/c17064f72c97e6e7ac4ee2c9ad02f2239faa10f9) | 2026-08-02 |
 | acf883c8 | [chore: Update NOTICE.txt file with updated dependencies (#37814)](https://github.com/mattermost/mattermost/commit/acf883c825a6f59be1f6301c0f84c6f8f5df8ddc) | 2026-08-03 |
 | ae0bec4d | [Add MFI plugin signature public key behind feature flag (#37793)](https://github.com/mattermost/mattermost/commit/ae0bec4d6741cafea7eca7beafbac1929826e20b) | 2026-08-03 |
+| 7130ae59 | [MM-70054 - Enable Team Membership ABAC feature flag by default (#37781)](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8) | 2026-08-04 |
+| b4beed37 | [MM-69974: keep focus in the WYSIWYG composer and stop the Enter crash (#37815)](https://github.com/mattermost/mattermost/commit/b4beed37f88b15d6eb50d4dff0be082043077b55) | 2026-08-04 |
 
 ## 제외된 커밋
 
