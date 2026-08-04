@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-04 11:19
+- 갱신일: 2026-08-04 15:01
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1105개
+- 남은 커밋: 1100개
 
-**마지막 반영 커밋:** `0263262e` | [MM-66577 Preserve locale in rewrite prompt (#35013)](https://github.com/mattermost/mattermost/commit/0263262ef41b2295ddbefc5be2a47015ce2bbdf1) | 2026-02-03
+**마지막 반영 커밋:** `4887c501` | [chore: Update zoom version to 1.12.0 (#35167)](https://github.com/mattermost/mattermost/commit/4887c501e187527223d5bf0f9d512dac150f8094) | 2026-02-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 51e64312 | [MM-67328 Bulk migrate Enzyme to RTL (M2 to M6) (#35068)](https://github.com/mattermost/mattermost/commit/51e64312750724bca2614a57a81dc167b8db1e16) | 2026-02-04 |
-| e499dece | [(test): fix flaky and migrate to playwright (#35156)](https://github.com/mattermost/mattermost/commit/e499decea0a15d63b3e2ff37c0efe0a872d0a1a3) | 2026-02-04 |
-| 030a4e19 | [Update latest minor version to 11.5.0 (#35176)](https://github.com/mattermost/mattermost/commit/030a4e192155213d6767f0ee928f1efec403ab6b) | 2026-02-04 |
-| 67226f32 | [Avoid `simple` config when doing FTS in Postgres (#35063)](https://github.com/mattermost/mattermost/commit/67226f32a40fe3cc584920cd3064c2e5d4cb0b16) | 2026-02-04 |
-| 4887c501 | [chore: Update zoom version to 1.12.0 (#35167)](https://github.com/mattermost/mattermost/commit/4887c501e187527223d5bf0f9d512dac150f8094) | 2026-02-04 |
 | 5a408b75 | [(fix): verified by label and playwright rerun on failed specs (#35161)](https://github.com/mattermost/mattermost/commit/5a408b757c5e7990829cf63ffa73ad8b89a0926e) | 2026-02-05 |
 | 444ada72 | [Update en.json (#35160)](https://github.com/mattermost/mattermost/commit/444ada7251e87173f52d41485ce0a40daf888579) | 2026-02-05 |
 | a06d5065 | [apply view restrcitions while fetching group members (#35172)](https://github.com/mattermost/mattermost/commit/a06d5065e709e26baed531a528d4b9950f26e3ea) | 2026-02-05 |
@@ -1127,6 +1122,8 @@
 | df001842 | [fix merge defect on server/channels/app/post_test.go (#35057)](https://github.com/mattermost/mattermost/commit/df0018425021695232de4bd81915291494955b67) | 5d3de44c2a로 동일 내용 선반영 (post_test.go의 CreatePost/UpdatePost 3-값 시그니처 대응). 포크는 isMemberForPreviews 추가 반환으로 원래 3-값이라 원인은 다르나 최종 코드가 동일. |
 
 | eeaf9c8e | [Fix bad merge (#35079)](https://github.com/mattermost/mattermost/commit/eeaf9c8e3e860faaacf968da8cce9988919dd97f) | fe305207(MM-67074) adapt 시 우리 fork의 CreatePostAsUser 3-value 반환 시그니처에 맞춰 integration_action_test.go의 동일한 두 줄(232, 275)에 이미 '_,' 보정을 적용함 — 이 커밋(upstream 자체 빌드 수정)은 완전히 동일한 변경이라 반영할 것이 없음 |
+
+| 67226f32 | [Avoid `simple` config when doing FTS in Postgres (#35063)](https://github.com/mattermost/mattermost/commit/67226f32a40fe3cc584920cd3064c2e5d4cb0b16) | 우리 fork가 자체 커밋 6eecf5ee32(채널 검색을 Postgres FTS(to_tsvector/to_tsquery)에서 LIKE/ILIKE 기반으로 전면 교체, 한글 형태소 검색 오류 수정 목적)로 이 코드 영역을 완전히 재작성함. post_store.go에 simpleSearch/pgDefaultTextSearchConfig/to_tsvector/to_tsquery 참조가 전혀 남아있지 않아 upstream의 되돌리기(revert) 패치가 적용될 대상 코드가 존재하지 않음. |
 
 ## spec 전환 커밋
 
