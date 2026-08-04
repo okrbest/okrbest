@@ -48,6 +48,8 @@ const baseProps = {
     hasInaccessiblePosts: false,
     shouldStartFromBottomWhenUnread: false,
     isChannelAutotranslated: false,
+    filterUserIds: [],
+    dispatch: jest.fn(),
 };
 
 describe('components/post_view/post_list', () => {

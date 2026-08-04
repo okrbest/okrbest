@@ -44,6 +44,7 @@ describe('PostList', () => {
         shouldStartFromBottomWhenUnread: false,
         actions: baseActions,
         isChannelAutotranslated: false,
+        dispatch: jest.fn(),
     };
 
     const postListIdsForClassNames = [
