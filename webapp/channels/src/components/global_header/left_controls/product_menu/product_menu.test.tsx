@@ -72,30 +72,10 @@ describe('components/global/product_switcher', () => {
         expect(container).toMatchSnapshot();
     });
 
-    // okrbest's product_menu.tsx doesn't wire the free/team-edition branding switch yet (upstream commit
-    // 75c48eabfb "Refactor ProductBranding component to separate free and licensed editions" is not in our
-    // history) - ProductBranding always renders regardless of license, so free-edition scenarios below fail.
-    it.skip('should match snapshot without license', () => {
-        const state = {
-            ...baseState,
-            entities: {
-                ...baseState.entities,
-                general: {
-                    ...baseState.entities.general,
-                    license: {
-                        IsLicensed: 'false',
-                    },
-                },
-            },
-        };
-
-        const {container} = renderWithContext(
-            <ProductMenu/>,
-            state,
-        );
-
-        expect(container).toMatchSnapshot();
-    });
+    // No tests for the free/team-edition branding switch (Entry license, unlicensed): okrbest's
+    // product_menu.tsx doesn't wire it yet (upstream commit 75c48eabfb "Refactor ProductBranding
+    // component to separate free and licensed editions" is not in our history) - ProductBranding
+    // always renders regardless of license.
 
     it('should render once when there are no top level products available', () => {
         const state = {
@@ -192,53 +172,6 @@ describe('components/global/product_switcher', () => {
         expect(container).toMatchSnapshot();
     });
 
-    it.skip('should render ProductBrandingFreeEdition for Entry license', () => {
-        const state = {
-            ...baseState,
-            entities: {
-                ...baseState.entities,
-                general: {
-                    ...baseState.entities.general,
-                    license: {
-                        IsLicensed: 'true',
-                        SkuShortName: 'entry',
-                    },
-                },
-            },
-        };
-
-        renderWithContext(
-            <ProductMenu/>,
-            state,
-        );
-
-        expect(screen.getByTestId('product-branding-free-edition')).toBeInTheDocument();
-        expect(screen.queryByTestId('product-branding')).not.toBeInTheDocument();
-    });
-
-    it.skip('should render ProductBrandingFreeEdition for unlicensed', () => {
-        const state = {
-            ...baseState,
-            entities: {
-                ...baseState.entities,
-                general: {
-                    ...baseState.entities.general,
-                    license: {
-                        IsLicensed: 'false',
-                    },
-                },
-            },
-        };
-
-        renderWithContext(
-            <ProductMenu/>,
-            state,
-        );
-
-        expect(screen.getByTestId('product-branding-free-edition')).toBeInTheDocument();
-        expect(screen.queryByTestId('product-branding')).not.toBeInTheDocument();
-    });
-
     it('should render ProductBranding for Professional license', () => {
         const state = {
             ...baseState,
@@ -285,28 +218,5 @@ describe('components/global/product_switcher', () => {
 
         expect(screen.getByTestId('product-branding')).toBeInTheDocument();
         expect(screen.queryByTestId('product-branding-free-edition')).not.toBeInTheDocument();
-    });
-
-    it.skip('should match snapshot for Entry license', () => {
-        const state = {
-            ...baseState,
-            entities: {
-                ...baseState.entities,
-                general: {
-                    ...baseState.entities.general,
-                    license: {
-                        IsLicensed: 'true',
-                        SkuShortName: 'entry',
-                    },
-                },
-            },
-        };
-
-        const {container} = renderWithContext(
-            <ProductMenu/>,
-            state,
-        );
-
-        expect(container).toMatchSnapshot();
     });
 });
