@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-04 19:35
+- 갱신일: 2026-08-04 22:43
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1072개
+- 남은 커밋: 1068개
 
-**마지막 반영 커밋:** `1ac14a9d` | [\[MM-67140\] Added session validation on logout (#34959)](https://github.com/mattermost/mattermost/commit/1ac14a9dfbcc833d8fc6a3eaa7020dcfc85c6a03) | 2026-02-10
+**마지막 반영 커밋:** `61b7fc15` | [MM-66789: Include log viewer (system console) in log root path validation (#35221)](https://github.com/mattermost/mattermost/commit/61b7fc15949709df4128db10380d68effd0496ad) | 2026-02-11
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| a711b227 | [SEC-9513 feat: e2e tests on master and releases (#35205)](https://github.com/mattermost/mattermost/commit/a711b22717681bb696fb6ab57d1d9ba6479787d5) | 2026-02-11 |
-| 1a4de869 | [MM-67538 Add ability for plugins to load asynchronously (#35238)](https://github.com/mattermost/mattermost/commit/1a4de869b3e064180ad5a5de0a2b450e2a771ff5) | 2026-02-11 |
-| 3064b74f | [\[MM-64879\] Allow System Admins to view and update User AuthData and Username in System Console   (#33550)](https://github.com/mattermost/mattermost/commit/3064b74f81dbdd3a85f403842386727f7d592123) | 2026-02-11 |
-| 6cd2df33 | [MM-67335 Fix export files having mismatched permissions (#35182)](https://github.com/mattermost/mattermost/commit/6cd2df33ea12f9aeae4c68994b72656425168b67) | 2026-02-11 |
-| 61b7fc15 | [MM-66789: Include log viewer (system console) in log root path validation (#35221)](https://github.com/mattermost/mattermost/commit/61b7fc15949709df4128db10380d68effd0496ad) | 2026-02-11 |
 | d09ab717 | [MM-67498 Bulk migrate batches M13-20 from Enzyme to RTL (#35207)](https://github.com/mattermost/mattermost/commit/d09ab7173e18160764f2bb652a44be85d08ddfbf) | 2026-02-12 |
 | e4bd8398 | [(test): restructure system console page-object-model (#35185)](https://github.com/mattermost/mattermost/commit/e4bd8398ab8733df70aea55459feabbbbd6ffc93) | 2026-02-12 |
 | 4269ebf9 | [Add Default Agent Support and promote Agents to be part of suite (#35091)](https://github.com/mattermost/mattermost/commit/4269ebf9135d90f5a12aaa0bebf3cca0a0ffac43) | 2026-02-11 |
@@ -1083,6 +1078,7 @@
 | 7130ae59 | [MM-70054 - Enable Team Membership ABAC feature flag by default (#37781)](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8) | 2026-08-04 |
 | b4beed37 | [MM-69974: keep focus in the WYSIWYG composer and stop the Enter crash (#37815)](https://github.com/mattermost/mattermost/commit/b4beed37f88b15d6eb50d4dff0be082043077b55) | 2026-08-04 |
 | f4185af0 | [Update latest minor version to 11.11.0 (#37827)](https://github.com/mattermost/mattermost/commit/f4185af07a956c7bbbd41becd81293e8b87deff5) | 2026-08-04 |
+| cd920652 | [Bumping prepackaged github version to v2.8.0 (#37831)](https://github.com/mattermost/mattermost/commit/cd920652fb6fba828da217e070b879f1d495a2c8) | 2026-08-04 |
 
 ## 제외된 커밋
 
