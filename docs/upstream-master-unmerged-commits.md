@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-04 16:49
+- 갱신일: 2026-08-04 17:44
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1087개
+- 남은 커밋: 1079개
 
-**마지막 반영 커밋:** `892492a0` | [\[MM-66836\] Add ability to delete orphaned protected fields from uninstalled plugins (#34867)](https://github.com/mattermost/mattermost/commit/892492a0a8dda72ad6323c86540b4908b99a6a77) | 2026-02-06
+**마지막 반영 커밋:** `76b3528c` | [\[MM-67231\] Etag fixes for autotranslations (#35196)](https://github.com/mattermost/mattermost/commit/76b3528c2b61fe3f00a2ee41441b44fc500da079) | 2026-02-09
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 139ff4de | [Fix permissions in GetGroupsByNames (#35119)](https://github.com/mattermost/mattermost/commit/139ff4ded2750c17f8a68f5ff8cbe6e774ff1141) | 2026-02-09 |
-| bffe406e | [(chore): upgrade playwright and its dependencies (#35175)](https://github.com/mattermost/mattermost/commit/bffe406e9f718ba1de8d4cb0b65b59bec798d47c) | 2026-02-09 |
-| b947f1c3 | [Add fileSize limit to extractors (#35200)](https://github.com/mattermost/mattermost/commit/b947f1c38a675688c5fc9ade696d0f0f2bad430a) | 2026-02-09 |
-| 13a0d63b | [MM-67372: Improve link preview metadata handling and filtering (#35178)](https://github.com/mattermost/mattermost/commit/13a0d63b3cba90c35c4b5faca415e6ddc355c4ec) | 2026-02-09 |
-| bdbe2f13 | [Translations update from Mattermost Weblate (#35213)](https://github.com/mattermost/mattermost/commit/bdbe2f1374c15941d5120c15c580d864bfb0756b) | 2026-02-09 |
-| 3a68fb9e | [MM-67430 - Removing artificial spacing from modal (#35173)](https://github.com/mattermost/mattermost/commit/3a68fb9efc010a4603e9339fe15f6633e4de9015) | 2026-02-09 |
-| 74b5fb06 | [MM-67022 - Implement ExpireAt handling for BoR sender to persist countdown (#34796)](https://github.com/mattermost/mattermost/commit/74b5fb066cf14e211321bf8ce6926422c484e3b8) | 2026-02-09 |
-| 76b3528c | [\[MM-67231\] Etag fixes for autotranslations (#35196)](https://github.com/mattermost/mattermost/commit/76b3528c2b61fe3f00a2ee41441b44fc500da079) | 2026-02-09 |
 | 9e7cd648 | [\[MM-67502\] Sanitize secret plugin settings inside sections (#35214)](https://github.com/mattermost/mattermost/commit/9e7cd648006753bbb30bfb74abdb187b005fc9eb) | 2026-02-10 |
 | cbc94068 | [\[MM-67114\] Add mmctl license get command (#34878)](https://github.com/mattermost/mattermost/commit/cbc9406815e4672aae68252b0a075f018d17eccc) | 2026-02-10 |
 | 7d89d327 | [Bumping prepackaged version of GitHub plugin (#35223)](https://github.com/mattermost/mattermost/commit/7d89d327ece2c2d1ab7f8816ce0a015caba6d6b2) | 2026-02-10 |
