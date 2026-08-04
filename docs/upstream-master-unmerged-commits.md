@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-04 09:41
+- 갱신일: 2026-08-04 09:50
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1118개
+- 남은 커밋: 1117개
 
-**마지막 반영 커밋:** `28881683` | [Bump playbooks to v2.7.0 (#35150)](https://github.com/mattermost/mattermost/commit/288816834d5519f12ac28f4fdb104f24eb2cf5aa) | 2026-01-30
+**마지막 반영 커밋:** `8db2ef6b` | [MM-67365 - adjust bor icons and priority labels in compact mode (#35121)](https://github.com/mattermost/mattermost/commit/8db2ef6b9f9d55ceb958b36595c9753befe1afed) | 2026-01-31
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 8db2ef6b | [MM-67365 - adjust bor icons and priority labels in compact mode (#35121)](https://github.com/mattermost/mattermost/commit/8db2ef6b9f9d55ceb958b36595c9753befe1afed) | 2026-01-31 |
 | 981ff0bc | [MM-66362 feat: run e2e full tests after successful smoke tests both in cypress and playwright (#34868)](https://github.com/mattermost/mattermost/commit/981ff0bc46f1b9445af4ad64ad4aa17d45c58cd6) | 2026-02-02 |
 | dc69319c | [Moved flag post option before delete post (#35019)](https://github.com/mattermost/mattermost/commit/dc69319c676083c6ad9a6288291ce248f4b4805b) | 2026-02-02 |
 | 990e9b34 | [Removed initial BOR post reveal WS event for post author (#34939)](https://github.com/mattermost/mattermost/commit/990e9b34bf4f410ed286a077b97804e7a3a4d87c) | 2026-02-02 |
