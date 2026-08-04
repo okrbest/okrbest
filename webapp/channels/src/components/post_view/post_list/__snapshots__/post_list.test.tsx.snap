@@ -25,6 +25,7 @@ exports[`components/post_view/post_list snapshot for loading when there are no p
         atLatestPost={false}
         autoRetryEnable={true}
         channelId="fake-id"
+        dispatch={[MockFunction]}
         isChannelAutotranslated={false}
         isMobileView={false}
         lastViewedAt={1532345226632}
@@ -63,6 +64,7 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
         atLatestPost={false}
         autoRetryEnable={true}
         channelId="fake-id"
+        dispatch={[MockFunction]}
         isChannelAutotranslated={false}
         isMobileView={false}
         lastViewedAt={1532345226632}
