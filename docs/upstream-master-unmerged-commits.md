@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-04 15:47
+- 갱신일: 2026-08-04 16:49
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1094개
+- 남은 커밋: 1087개
 
-**마지막 반영 커밋:** `197fa160` | [\[MM-67126\] harden checks (#35171)](https://github.com/mattermost/mattermost/commit/197fa160b4a596f441942fbb233e3247611064b9) | 2026-02-05
+**마지막 반영 커밋:** `892492a0` | [\[MM-66836\] Add ability to delete orphaned protected fields from uninstalled plugins (#34867)](https://github.com/mattermost/mattermost/commit/892492a0a8dda72ad6323c86540b4908b99a6a77) | 2026-02-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f6574143 | [Document URL search in Postgres through tests (#35194)](https://github.com/mattermost/mattermost/commit/f6574143a8ec0f9a9735ce31f6bda80740e1746b) | 2026-02-06 |
-| 2bd29c03 | [Add the ability to patch channel autotranslations (#35078)](https://github.com/mattermost/mattermost/commit/2bd29c03593643821144d59ae57725c30db7a07a) | 2026-02-06 |
-| 9f40d051 | [\[MM-66942\] Ensure consistent option ID generation across all field creation paths (#34725)](https://github.com/mattermost/mattermost/commit/9f40d051eea34436741aa4d85d8855bfd0baf605) | 2026-02-06 |
-| 63c3c70f | [\[MM-66836\] Add some access control mechanisms with a wrapper around the property service (#34812)](https://github.com/mattermost/mattermost/commit/63c3c70fe946c958aea1598afd7ecf7c4b007656) | 2026-02-06 |
-| 1cfe3d92 | [\[MM-66836\] Integrate PropertyAccessService into API and app layers (#34818)](https://github.com/mattermost/mattermost/commit/1cfe3d92b614f7e0319e0b5dc627bb7709a69c14) | 2026-02-06 |
-| a9956824 | [\[MM-66836\] Add UI support for protected and source_only property fields (#34860)](https://github.com/mattermost/mattermost/commit/a9956824642dee87e22679066bd52039ad4de016) | 2026-02-06 |
-| 892492a0 | [\[MM-66836\] Add ability to delete orphaned protected fields from uninstalled plugins (#34867)](https://github.com/mattermost/mattermost/commit/892492a0a8dda72ad6323c86540b4908b99a6a77) | 2026-02-06 |
 | 139ff4de | [Fix permissions in GetGroupsByNames (#35119)](https://github.com/mattermost/mattermost/commit/139ff4ded2750c17f8a68f5ff8cbe6e774ff1141) | 2026-02-09 |
 | bffe406e | [(chore): upgrade playwright and its dependencies (#35175)](https://github.com/mattermost/mattermost/commit/bffe406e9f718ba1de8d4cb0b65b59bec798d47c) | 2026-02-09 |
 | b947f1c3 | [Add fileSize limit to extractors (#35200)](https://github.com/mattermost/mattermost/commit/b947f1c38a675688c5fc9ade696d0f0f2bad430a) | 2026-02-09 |
