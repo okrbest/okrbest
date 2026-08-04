@@ -424,8 +424,20 @@
     "translation": "사용 중인 라이선스는 채널 관리 기능을 지원하지 않습니다."
   },
   {
+    "id": "api.channel.patch_update_channel.auto_translation_restricted.app_error",
+    "translation": "이 채널에서는 자동 번역이 허용되지 않습니다."
+  },
+  {
+    "id": "api.channel.patch_update_channel.feature_not_available.app_error",
+    "translation": "자동 번역 기능을 사용할 수 없습니다."
+  },
+  {
     "id": "api.channel.patch_update_channel.forbidden.app_error",
     "translation": "채널을 갱신하지 못했습니다."
+  },
+  {
+    "id": "api.channel.patch_update_channel.no_changes.app_error",
+    "translation": "패치에 변경 사항이 없습니다."
   },
   {
     "id": "api.channel.patch_update_channel.update_direct_or_group_messages_not_allowed.app_error",
@@ -434,6 +446,22 @@
   {
     "id": "api.channel.post_channel_privacy_message.error",
     "translation": "채널 공개상태설정 업데이트 메시지 전달이 실패했습니다."
+  },
+  {
+    "id": "api.channel.post_update_channel_autotranslation_message.create_post.error",
+    "translation": "자동 번역 업데이트 메시지 등록에 실패했습니다."
+  },
+  {
+    "id": "api.channel.post_update_channel_autotranslation_message.disabled",
+    "translation": "@%s님이 이 채널의 자동 번역을 비활성화했습니다. 이제부터 새 메시지는 원문 그대로 표시됩니다."
+  },
+  {
+    "id": "api.channel.post_update_channel_autotranslation_message.enabled",
+    "translation": "@%s님이 이 채널의 자동 번역을 활성화했습니다. 이제부터 새 메시지는 선호하는 언어로 표시됩니다."
+  },
+  {
+    "id": "api.channel.post_update_channel_autotranslation_message.retrieve_user.error",
+    "translation": "자동 번역 상태를 갱신하는 중 사용자 정보를 가져오지 못했습니다."
   },
   {
     "id": "api.channel.post_update_channel_displayname_message_and_forget.create_post.error",
