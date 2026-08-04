@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-04 17:44
+- 갱신일: 2026-08-04 19:35
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1079개
+- 남은 커밋: 1072개
 
-**마지막 반영 커밋:** `76b3528c` | [\[MM-67231\] Etag fixes for autotranslations (#35196)](https://github.com/mattermost/mattermost/commit/76b3528c2b61fe3f00a2ee41441b44fc500da079) | 2026-02-09
+**마지막 반영 커밋:** `1ac14a9d` | [\[MM-67140\] Added session validation on logout (#34959)](https://github.com/mattermost/mattermost/commit/1ac14a9dfbcc833d8fc6a3eaa7020dcfc85c6a03) | 2026-02-10
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 9e7cd648 | [\[MM-67502\] Sanitize secret plugin settings inside sections (#35214)](https://github.com/mattermost/mattermost/commit/9e7cd648006753bbb30bfb74abdb187b005fc9eb) | 2026-02-10 |
-| cbc94068 | [\[MM-67114\] Add mmctl license get command (#34878)](https://github.com/mattermost/mattermost/commit/cbc9406815e4672aae68252b0a075f018d17eccc) | 2026-02-10 |
-| 7d89d327 | [Bumping prepackaged version of GitHub plugin (#35223)](https://github.com/mattermost/mattermost/commit/7d89d327ece2c2d1ab7f8816ce0a015caba6d6b2) | 2026-02-10 |
-| ecd16ec9 | [MM-67137 Fix references to window in client package  (#35195)](https://github.com/mattermost/mattermost/commit/ecd16ec9efbe08f33ef3885fcdeb8a1070e5ca85) | 2026-02-10 |
-| 24957f5e | [\[MM-63393\] Add support for preferred_username claims (#30852)](https://github.com/mattermost/mattermost/commit/24957f5e224edbfad7e8bbfc47dd8e20ab927bbb) | 2026-02-10 |
-| 1c7246da | [Autotranslation Frontend integration (#34717)](https://github.com/mattermost/mattermost/commit/1c7246da68193c7e843ac59e7650b05533aac7da) | 2026-02-10 |
-| 121b429b | [\[MM-65588\] Fix OAuth login with redirect_to URL (#34944)](https://github.com/mattermost/mattermost/commit/121b429b8e746c3de8824c1b0d3d8ec5264f5ae7) | 2026-02-10 |
-| 1ac14a9d | [\[MM-67140\] Added session validation on logout (#34959)](https://github.com/mattermost/mattermost/commit/1ac14a9dfbcc833d8fc6a3eaa7020dcfc85c6a03) | 2026-02-10 |
 | a711b227 | [SEC-9513 feat: e2e tests on master and releases (#35205)](https://github.com/mattermost/mattermost/commit/a711b22717681bb696fb6ab57d1d9ba6479787d5) | 2026-02-11 |
 | 1a4de869 | [MM-67538 Add ability for plugins to load asynchronously (#35238)](https://github.com/mattermost/mattermost/commit/1a4de869b3e064180ad5a5de0a2b450e2a771ff5) | 2026-02-11 |
 | 3064b74f | [\[MM-64879\] Allow System Admins to view and update User AuthData and Username in System Console   (#33550)](https://github.com/mattermost/mattermost/commit/3064b74f81dbdd3a85f403842386727f7d592123) | 2026-02-11 |
@@ -1090,6 +1082,7 @@
 | ae0bec4d | [Add MFI plugin signature public key behind feature flag (#37793)](https://github.com/mattermost/mattermost/commit/ae0bec4d6741cafea7eca7beafbac1929826e20b) | 2026-08-03 |
 | 7130ae59 | [MM-70054 - Enable Team Membership ABAC feature flag by default (#37781)](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8) | 2026-08-04 |
 | b4beed37 | [MM-69974: keep focus in the WYSIWYG composer and stop the Enter crash (#37815)](https://github.com/mattermost/mattermost/commit/b4beed37f88b15d6eb50d4dff0be082043077b55) | 2026-08-04 |
+| f4185af0 | [Update latest minor version to 11.11.0 (#37827)](https://github.com/mattermost/mattermost/commit/f4185af07a956c7bbbd41becd81293e8b87deff5) | 2026-08-04 |
 
 ## 제외된 커밋
 
