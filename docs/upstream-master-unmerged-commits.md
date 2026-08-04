@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-04 22:43
+- 갱신일: 2026-08-05 00:07
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1068개
+- 남은 커밋: 1059개
 
-**마지막 반영 커밋:** `61b7fc15` | [MM-66789: Include log viewer (system console) in log root path validation (#35221)](https://github.com/mattermost/mattermost/commit/61b7fc15949709df4128db10380d68effd0496ad) | 2026-02-11
+**마지막 반영 커밋:** `c3a9eaa8` | [DateTime Dropdown should respect user settings. (#34892)](https://github.com/mattermost/mattermost/commit/c3a9eaa8c67d45770b9ef17921601f7da2b1e2c5) | 2026-02-12
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| d09ab717 | [MM-67498 Bulk migrate batches M13-20 from Enzyme to RTL (#35207)](https://github.com/mattermost/mattermost/commit/d09ab7173e18160764f2bb652a44be85d08ddfbf) | 2026-02-12 |
-| e4bd8398 | [(test): restructure system console page-object-model (#35185)](https://github.com/mattermost/mattermost/commit/e4bd8398ab8733df70aea55459feabbbbd6ffc93) | 2026-02-12 |
-| 4269ebf9 | [Add Default Agent Support and promote Agents to be part of suite (#35091)](https://github.com/mattermost/mattermost/commit/4269ebf9135d90f5a12aaa0bebf3cca0a0ffac43) | 2026-02-11 |
-| 2bb605cb | [MM-66625 - Drop EnableChannelScopeAccessControl; use permission system only (#35232)](https://github.com/mattermost/mattermost/commit/2bb605cb566a5bed72c5d05e74d7e1a6e3aefeae) | 2026-02-12 |
-| 68c1c072 | [test: fix user details and attribute tests (#35257)](https://github.com/mattermost/mattermost/commit/68c1c072dd61d8e2ffe234922f82348ab73989c2) | 2026-02-12 |
-| 671e2b76 | [E2E/Playwright: Fix unclosed browser context around in Playwright (#35258)](https://github.com/mattermost/mattermost/commit/671e2b7640472343e564629e5d1505df798c190d) | 2026-02-12 |
-| feca30d8 | [support for Elastic(Open)search CJK analysis plugins (#34784)](https://github.com/mattermost/mattermost/commit/feca30d85f332df37d0b4674d2d87c6d7daff64c) | 2026-02-12 |
-| 9cb5f15c | [Changes for BoR post soft-deletion (#35100)](https://github.com/mattermost/mattermost/commit/9cb5f15c79ab5123f466f0f2c22739dd41b1ed09) | 2026-02-12 |
-| 152d8eb8 | [\[Snyk\] Security upgrade lodash from 4.17.21 to 4.17.23 (#35031)](https://github.com/mattermost/mattermost/commit/152d8eb845920aec83f396d54c3b3bd5256b8430) | 2026-02-12 |
-| e46bea67 | [MM-67312: Restrict Burn-on-Read for self DMs and bot users (#35116)](https://github.com/mattermost/mattermost/commit/e46bea673d6323b6e688d4bf3270b5df8fa1dfae) | 2026-02-12 |
-| c3a9eaa8 | [DateTime Dropdown should respect user settings. (#34892)](https://github.com/mattermost/mattermost/commit/c3a9eaa8c67d45770b9ef17921601f7da2b1e2c5) | 2026-02-12 |
 | 4fc04756 | [(test): bulk m7-12 enzyme to rtl migration (#35168)](https://github.com/mattermost/mattermost/commit/4fc04756e8c0fec10c02aac55fe368c9b11fbf65) | 2026-02-13 |
 | fa9759cb | [Update en.json (#35231)](https://github.com/mattermost/mattermost/commit/fa9759cb93171881e97a899358a92725f9251b4c) | 2026-02-13 |
 | d622ea33 | [Set ProdSec as authN/authZ codeowners (#35263)](https://github.com/mattermost/mattermost/commit/d622ea33b28f8f7929cb35869eed759c38ff89b5) | 2026-02-13 |
@@ -1079,6 +1068,8 @@
 | b4beed37 | [MM-69974: keep focus in the WYSIWYG composer and stop the Enter crash (#37815)](https://github.com/mattermost/mattermost/commit/b4beed37f88b15d6eb50d4dff0be082043077b55) | 2026-08-04 |
 | f4185af0 | [Update latest minor version to 11.11.0 (#37827)](https://github.com/mattermost/mattermost/commit/f4185af07a956c7bbbd41becd81293e8b87deff5) | 2026-08-04 |
 | cd920652 | [Bumping prepackaged github version to v2.8.0 (#37831)](https://github.com/mattermost/mattermost/commit/cd920652fb6fba828da217e070b879f1d495a2c8) | 2026-08-04 |
+| ddffe789 | [Fix: mobile menu backdrop fails to dismiss modal (#37430)](https://github.com/mattermost/mattermost/commit/ddffe7896ee03166281fff23d0296a0a24e9e742) | 2026-08-04 |
+| c7eff700 | [ABAC: plugin-keyed resource types, trusted plugin PAP/CEL APIs, and AuthZEN-style decision API (#37509)](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) | 2026-08-04 |
 
 ## 제외된 커밋
 
