@@ -3,23 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-04 09:50
+- 갱신일: 2026-08-04 10:39
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1117개
+- 남은 커밋: 1108개
 
-**마지막 반영 커밋:** `8db2ef6b` | [MM-67365 - adjust bor icons and priority labels in compact mode (#35121)](https://github.com/mattermost/mattermost/commit/8db2ef6b9f9d55ceb958b36595c9753befe1afed) | 2026-01-31
+**마지막 반영 커밋:** `36479bd7` | [Configurable workers and move sweeper job to job infra (#35007)](https://github.com/mattermost/mattermost/commit/36479bd721fe892371795844a16125dadb78cd3b) | 2026-02-02
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 981ff0bc | [MM-66362 feat: run e2e full tests after successful smoke tests both in cypress and playwright (#34868)](https://github.com/mattermost/mattermost/commit/981ff0bc46f1b9445af4ad64ad4aa17d45c58cd6) | 2026-02-02 |
-| dc69319c | [Moved flag post option before delete post (#35019)](https://github.com/mattermost/mattermost/commit/dc69319c676083c6ad9a6288291ce248f4b4805b) | 2026-02-02 |
-| 990e9b34 | [Removed initial BOR post reveal WS event for post author (#34939)](https://github.com/mattermost/mattermost/commit/990e9b34bf4f410ed286a077b97804e7a3a4d87c) | 2026-02-02 |
-| b74b5fe8 | [chore: Update NOTICE.txt file with updated dependencies (#35158)](https://github.com/mattermost/mattermost/commit/b74b5fe83f3b5e0ae23f629e0d89a7d8c90fa986) | 2026-02-02 |
-| 70a50edc | [\[MM-67021\] Fix 500 errors on check-cws-connection in non-Cloud environments (#34786)](https://github.com/mattermost/mattermost/commit/70a50edcf275d60d5370bedcb89ce4b55b633259) | 2026-02-02 |
-| 6f9b6f33 | [Translations update from Mattermost Weblate (#35159)](https://github.com/mattermost/mattermost/commit/6f9b6f336417ef5c1ba09254092999057785b9a3) | 2026-02-02 |
-| 40493001 | [Change moduleResolution to bundler for web app (#35081)](https://github.com/mattermost/mattermost/commit/40493001290f60a9738bf2f2bcfeca8b95e8c023) | 2026-02-02 |
-| 95ba2db4 | [\[MM-66862\] Channel Info RHS: add ability to rename and open channel settings (#34708)](https://github.com/mattermost/mattermost/commit/95ba2db4f0336b02f6434a50e4efcdc4480aaa71) | 2026-02-02 |
-| 36479bd7 | [Configurable workers and move sweeper job to job infra (#35007)](https://github.com/mattermost/mattermost/commit/36479bd721fe892371795844a16125dadb78cd3b) | 2026-02-02 |
 | f3c66027 | [Allow building the server on FreeBSD (#25838)](https://github.com/mattermost/mattermost/commit/f3c6602725219d21a383ff20ef404a75f0c1f98b) | 2026-02-03 |
 | aa5d5113 | [Register product icon change (#34883)](https://github.com/mattermost/mattermost/commit/aa5d51131da6f6e19cbb26a0e7e83f00f9d0ef0e) | 2026-02-03 |
 | 0263262e | [MM-66577 Preserve locale in rewrite prompt (#35013)](https://github.com/mattermost/mattermost/commit/0263262ef41b2295ddbefc5be2a47015ce2bbdf1) | 2026-02-03 |
@@ -1151,3 +1142,4 @@
 |---|---|---|
 | a1c85007 | [Autotranslations MVP (#34696)](https://github.com/mattermost/mattermost/commit/a1c85007e156adee66583b0f13e88d5da6386dd4) | `github.com/mattermost/enterprise/autotranslation` (비공개). 인터페이스·DB 스키마·관리 콘솔 UI는 ac434e9812(adapt)로 반영했으나 실제 번역/마스킹 로직은 okrbest가 별도 구현해야 활성화됨 — `server/einterfaces/autotranslation.go`의 `AutoTranslationInterface`를 구현해 `RegisterAutoTranslationInterface()`로 등록. |
 | 4195b8bc | [Metrics for Autotranslations (#34900)](https://github.com/mattermost/mattermost/commit/4195b8bc5c1fd5063aa0d6385cbca891e68813b3) | Autotranslation 메트릭 인터페이스/Prometheus 등록만 추가. 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개 저장소)에 있어 okrbest에선 호출되지 않는 비활성(inert) 계측으로 남음. 향후 자체 autotranslation 기능 구현 시 재사용 가능. |
+| 36479bd7 | [Configurable workers and move sweeper job to job infra (#35007)](https://github.com/mattermost/mattermost/commit/36479bd721fe892371795844a16125dadb78cd3b) | AutoTranslation Workers 설정 및 sweeper job 등록(interface만, 실제 로직은 비공개 모듈 github.com/mattermost/enterprise/autotranslation) |
