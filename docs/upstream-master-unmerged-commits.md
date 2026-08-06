@@ -3,26 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-06 11:08
+- 갱신일: 2026-08-06 12:39
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1055개
+- 남은 커밋: 1043개
 
-**마지막 반영 커밋:** `f3d73def` | [MM-66937 Fix broken IME handling in Find Channels modal (#35264)](https://github.com/mattermost/mattermost/commit/f3d73defcf6a010900d21414042eb5a0feb4082e) | 2026-02-15
+**마지막 반영 커밋:** `53aa05d8` | [Interactive Dialog - DateTime manual entry and timezone support (#34932)](https://github.com/mattermost/mattermost/commit/53aa05d8c69ea899c1d0e9699008633643a3fe43) | 2026-02-16
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 944c3456 | [Fix /share-channel slash command failing on non-leader HA nodes (#35292)](https://github.com/mattermost/mattermost/commit/944c345687abf60c53f48c80bc9533addd0dc97c) | 2026-02-16 |
-| c6d00615 | [Force membership sync on reconnect (#35299)](https://github.com/mattermost/mattermost/commit/c6d00615dde74591b98d6c63314f6e9d6080bd98) | 2026-02-16 |
-| d87527b3 | [\[MM-67488\] Set autotranslation feature flag default to true (#35288)](https://github.com/mattermost/mattermost/commit/d87527b374636ace6e5ef7bff2fcb8238a9d3385) | 2026-02-16 |
-| 65d42edf | [fix guest user import when guest user doesn't have any memberships (#30975)](https://github.com/mattermost/mattermost/commit/65d42edf75233b8721d081bb8de71cab12005fba) | 2026-02-16 |
-| 436f96f0 | [server: ignore tmp mattermost/shared in file (#35316)](https://github.com/mattermost/mattermost/commit/436f96f0e11c14feb516857ca4572a9a7e4978a5) | 2026-02-16 |
-| d5eeebae | [Translations update from Mattermost Weblate (#35315)](https://github.com/mattermost/mattermost/commit/d5eeebae82711c80d8d49fc9c75a2f5b7ce80e9e) | 2026-02-16 |
-| 8738f8c4 | [MM-67099 - Membership Sync fix (#35230)](https://github.com/mattermost/mattermost/commit/8738f8c4b3d42b2b687a6231e72f313357a2e891) | 2026-02-16 |
-| a8dc8baa | [\[MM-67235\] Add support for autotranslations on GM and DM (#35255)](https://github.com/mattermost/mattermost/commit/a8dc8baa905630d28c9d6966aca67c3ee01df16c) | 2026-02-16 |
-| 37a9a30f | [Mm 66813 sso callback metadata (#34955)](https://github.com/mattermost/mattermost/commit/37a9a30f4082291c3a8811ef0f43f4cd526909e9) | 2026-02-16 |
-| 1be8a68d | [feat: pluginapi: filewillbedownloaded / sendtoastmessage (#34596)](https://github.com/mattermost/mattermost/commit/1be8a68dd7f387bb24d0b2c80a048c84af93740a) | 2026-02-16 |
-| ad39398e | [Add support for channel mentions in webhook attachments (#34235)](https://github.com/mattermost/mattermost/commit/ad39398eee6f812b49fe5e06e0c0a7420465a808) | 2026-02-16 |
-| 53aa05d8 | [Interactive Dialog - DateTime manual entry and timezone support (#34932)](https://github.com/mattermost/mattermost/commit/53aa05d8c69ea899c1d0e9699008633643a3fe43) | 2026-02-16 |
 | 0ec4a474 | [E2E/Test: Increase parallel tests and removed smoke tests (#35271)](https://github.com/mattermost/mattermost/commit/0ec4a474d538ad10ca67565f4718a7d051ccacd7) | 2026-02-17 |
 | a69653ce | [Data spillage caching (#35016)](https://github.com/mattermost/mattermost/commit/a69653ce2e72294c6a6cdc5c55e207e8a54de65f) | 2026-02-17 |
 | 28406fbe | [Rename "Self-Deleting Messages" to "Burn-on-Read Messages" (#35318)](https://github.com/mattermost/mattermost/commit/28406fbe23ab4496aeefb588d910f1568529cee8) | 2026-02-17 |
@@ -1080,6 +1068,8 @@
 
 | 67226f32 | [Avoid `simple` config when doing FTS in Postgres (#35063)](https://github.com/mattermost/mattermost/commit/67226f32a40fe3cc584920cd3064c2e5d4cb0b16) | 우리 fork가 자체 커밋 6eecf5ee32(채널 검색을 Postgres FTS(to_tsvector/to_tsquery)에서 LIKE/ILIKE 기반으로 전면 교체, 한글 형태소 검색 오류 수정 목적)로 이 코드 영역을 완전히 재작성함. post_store.go에 simpleSearch/pgDefaultTextSearchConfig/to_tsvector/to_tsquery 참조가 전혀 남아있지 않아 upstream의 되돌리기(revert) 패치가 적용될 대상 코드가 존재하지 않음. |
 
+| a8dc8baa | [\[MM-67235\] Add support for autotranslations on GM and DM (#35255)](https://github.com/mattermost/mattermost/commit/a8dc8baa905630d28c9d6966aca67c3ee01df16c) | 자동번역(AutoTranslation)을 GM/DM으로 확장하는 프론트엔드 배선(selector 리네이밍 + 채널 헤더/설정 모달 UI). 실제 번역 실행 로직은 github.com/mattermost/enterprise/autotranslation(비공개 저장소)에만 있어 okrbest에서는 작동 불가. d87527b3(flag 비활성 유지)와 동일 계열. 또한 충돌 파일(channel_header/index.ts, channel_settings_info_tab.tsx, post_list/index.tsx)이 우리 자체 커스텀 기능(봇 메시지 필터 #164/#161, 멤버 필터링 #159/#156, 채널 북마크 메뉴 개편 #195)과 겹쳐 반영 비용 대비 실익 없음. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -1092,3 +1082,5 @@
 | a1c85007 | [Autotranslations MVP (#34696)](https://github.com/mattermost/mattermost/commit/a1c85007e156adee66583b0f13e88d5da6386dd4) | `github.com/mattermost/enterprise/autotranslation` (비공개). 인터페이스·DB 스키마·관리 콘솔 UI는 ac434e9812(adapt)로 반영했으나 실제 번역/마스킹 로직은 okrbest가 별도 구현해야 활성화됨 — `server/einterfaces/autotranslation.go`의 `AutoTranslationInterface`를 구현해 `RegisterAutoTranslationInterface()`로 등록. |
 | 4195b8bc | [Metrics for Autotranslations (#34900)](https://github.com/mattermost/mattermost/commit/4195b8bc5c1fd5063aa0d6385cbca891e68813b3) | Autotranslation 메트릭 인터페이스/Prometheus 등록만 추가. 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개 저장소)에 있어 okrbest에선 호출되지 않는 비활성(inert) 계측으로 남음. 향후 자체 autotranslation 기능 구현 시 재사용 가능. |
 | 36479bd7 | [Configurable workers and move sweeper job to job infra (#35007)](https://github.com/mattermost/mattermost/commit/36479bd721fe892371795844a16125dadb78cd3b) | AutoTranslation Workers 설정 및 sweeper job 등록(interface만, 실제 로직은 비공개 모듈 github.com/mattermost/enterprise/autotranslation) |
+| d87527b3 | [\[MM-67488\] Set autotranslation feature flag default to true (#35288)](https://github.com/mattermost/mattermost/commit/d87527b374636ace6e5ef7bff2fcb8238a9d3385) | AutoTranslation 실제 구현(번역 엔진 호출 로직)이 github.com/mattermost/enterprise/autotranslation 비공개 저장소에만 있음 - 자체 모듈(LibreTranslate 등) 개발 전까지 feature flag 비활성 유지 |
+| a8dc8baa | [\[MM-67235\] Add support for autotranslations on GM and DM (#35255)](https://github.com/mattermost/mattermost/commit/a8dc8baa905630d28c9d6966aca67c3ee01df16c) | GM/DM 자동번역 프론트엔드 배선(selector·UI). 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개)에 있어 okrbest에서 작동 불가 — exclude 처리(위 부록 참조). 자체 모듈 개발 시 UI 참고 가능. |
