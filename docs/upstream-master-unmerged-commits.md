@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-05 00:07
+- 갱신일: 2026-08-06 10:44
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1059개
+- 남은 커밋: 1056개
 
-**마지막 반영 커밋:** `c3a9eaa8` | [DateTime Dropdown should respect user settings. (#34892)](https://github.com/mattermost/mattermost/commit/c3a9eaa8c67d45770b9ef17921601f7da2b1e2c5) | 2026-02-12
+**마지막 반영 커밋:** `96899133` | [\[MM-67487\] Fix posts since endpoint for auto translations (#35198)](https://github.com/mattermost/mattermost/commit/96899133c0945b67555c12e2060764dfaff58043) | 2026-02-13
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 4fc04756 | [(test): bulk m7-12 enzyme to rtl migration (#35168)](https://github.com/mattermost/mattermost/commit/4fc04756e8c0fec10c02aac55fe368c9b11fbf65) | 2026-02-13 |
-| fa9759cb | [Update en.json (#35231)](https://github.com/mattermost/mattermost/commit/fa9759cb93171881e97a899358a92725f9251b4c) | 2026-02-13 |
-| d622ea33 | [Set ProdSec as authN/authZ codeowners (#35263)](https://github.com/mattermost/mattermost/commit/d622ea33b28f8f7929cb35869eed759c38ff89b5) | 2026-02-13 |
-| 51426954 | [Removes the experimental label from CPA endpoints (#35180)](https://github.com/mattermost/mattermost/commit/51426954cfda54da536e3cc8c8b64837c5de9b71) | 2026-02-13 |
-| cd8b22af | [\[MM-65979\] Add Prometheus metrics for plugin webapp performance (#35075)](https://github.com/mattermost/mattermost/commit/cd8b22af99cc096dba0702d9dea10dbb225c2976) | 2026-02-13 |
-| 8927e7e6 | [bumps base image version to build new mattermost-build-server images (#35281)](https://github.com/mattermost/mattermost/commit/8927e7e67e33b97bcac8b46b9982e13abcc2db64) | 2026-02-13 |
-| 568ab01e | [bumps go version to 1.24.13 (#35289)](https://github.com/mattermost/mattermost/commit/568ab01e75ee54f18574b685a8a457fba1af51b4) | 2026-02-13 |
-| aab258a9 | [MM-66886 Add rate limiting to login endpoint (#34943)](https://github.com/mattermost/mattermost/commit/aab258a9f0a23839a3b10726f6a8318bf952bbb0) | 2026-02-13 |
-| 1e982505 | [MM-66867/MM-67318 Add initial version of shared package (#35065)](https://github.com/mattermost/mattermost/commit/1e98250566ec3c0a3b86e8730219f645eef2b679) | 2026-02-13 |
-| 96899133 | [\[MM-67487\] Fix posts since endpoint for auto translations (#35198)](https://github.com/mattermost/mattermost/commit/96899133c0945b67555c12e2060764dfaff58043) | 2026-02-13 |
 | f3d73def | [MM-66937 Fix broken IME handling in Find Channels modal (#35264)](https://github.com/mattermost/mattermost/commit/f3d73defcf6a010900d21414042eb5a0feb4082e) | 2026-02-15 |
 | 944c3456 | [Fix /share-channel slash command failing on non-leader HA nodes (#35292)](https://github.com/mattermost/mattermost/commit/944c345687abf60c53f48c80bc9533addd0dc97c) | 2026-02-16 |
 | c6d00615 | [Force membership sync on reconnect (#35299)](https://github.com/mattermost/mattermost/commit/c6d00615dde74591b98d6c63314f6e9d6080bd98) | 2026-02-16 |
@@ -1070,6 +1060,13 @@
 | cd920652 | [Bumping prepackaged github version to v2.8.0 (#37831)](https://github.com/mattermost/mattermost/commit/cd920652fb6fba828da217e070b879f1d495a2c8) | 2026-08-04 |
 | ddffe789 | [Fix: mobile menu backdrop fails to dismiss modal (#37430)](https://github.com/mattermost/mattermost/commit/ddffe7896ee03166281fff23d0296a0a24e9e742) | 2026-08-04 |
 | c7eff700 | [ABAC: plugin-keyed resource types, trusted plugin PAP/CEL APIs, and AuthZEN-style decision API (#37509)](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) | 2026-08-04 |
+| 85acba42 | [Skip flaky TestExtractConcurrency (#37834)](https://github.com/mattermost/mattermost/commit/85acba42e1f9ae8a6bfb2f724bbf819b21a45c7a) | 2026-08-04 |
+| 61bc7f18 | [\[MM-69647\] Remove CloudDedicatedExportUI feature flag and dead code (#37836)](https://github.com/mattermost/mattermost/commit/61bc7f18e4459b3ad7cca27db26924845d0c966b) | 2026-08-04 |
+| 36af1ee5 | [Post attributes feature flag group (#37829)](https://github.com/mattermost/mattermost/commit/36af1ee5fc8f86ca671bf813e253806332eacf65) | 2026-08-05 |
+| 63077696 | [\[MM-69847\] Add Classification Markings read-only exception to Manage Attributes listing (#37633)](https://github.com/mattermost/mattermost/commit/6307769639d5ea135dcabafdca5e0628df25bea7) | 2026-08-05 |
+| f9227b1a | [Open Mattermost in the browser when the desktop landing page setting is disabled, with unit tests (#37833)](https://github.com/mattermost/mattermost/commit/f9227b1a2f644414e761b9ac513da1deab2c6b8a) | 2026-08-05 |
+| 4eac9292 | [\[MM-69587\] Remove CustomProfileAttributes feature flag (#37389)](https://github.com/mattermost/mattermost/commit/4eac9292c02363461423aee51333000ed0633fea) | 2026-08-05 |
+| 5b273440 | [\[MM-70113\] Gate Classification Markings behind Enterprise Advanced license (#37838)](https://github.com/mattermost/mattermost/commit/5b273440bf1b2f735429239960524e9e0854db43) | 2026-08-05 |
 
 ## 제외된 커밋
 
