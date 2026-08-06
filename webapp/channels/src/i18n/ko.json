@@ -4312,6 +4312,7 @@
   "date_separator.tomorrow": "내일",
   "date_separator.yesterday": "어제",
   "datetime.date": "날짜",
+  "datetime.select_date": "날짜 선택",
   "datetime.time": "시간",
   "datetime.today": "오늘",
   "datetime.yesterday": "어제",
