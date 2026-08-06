@@ -5851,6 +5851,10 @@
     "translation": "사용자 AuthData가 너무 깁니다."
   },
   {
+    "id": "app.import.validate_user_import_data.channel_guest_missing_system_guest_role.error",
+    "translation": "사용자가 채널 게스트 역할을 가지고 있지만 시스템 게스트가 아닙니다."
+  },
+  {
     "id": "app.import.validate_user_import_data.email_length.error",
     "translation": "사용자 이메일의 길이가 유효하지 않습니다."
   },
@@ -5861,10 +5865,6 @@
   {
     "id": "app.import.validate_user_import_data.first_name_length.error",
     "translation": "사용자 ID가 너무 깁니다."
-  },
-  {
-    "id": "app.import.validate_user_import_data.guest_roles_conflict.error",
-    "translation": "사용자 역할이 게스트 상태와 일치하지 않습니다."
   },
   {
     "id": "app.import.validate_user_import_data.last_name_length.error",
@@ -5917,6 +5917,18 @@
   {
     "id": "app.import.validate_user_import_data.roles_invalid.error",
     "translation": "사용자 역할이 유효하지 않습니다."
+  },
+  {
+    "id": "app.import.validate_user_import_data.system_guest_missing_channel_guest_roles.error",
+    "translation": "사용자가 시스템 게스트이지만 모든 채널에서 채널 게스트 역할을 가지고 있지 않습니다. 채널 게스트 수: {{.ChannelGuestCount}}, 전체 채널 수: {{.TotalChannels}}."
+  },
+  {
+    "id": "app.import.validate_user_import_data.system_guest_missing_team_guest_roles.error",
+    "translation": "사용자가 시스템 게스트이지만 모든 팀에서 팀 게스트 역할을 가지고 있지 않습니다. 팀 게스트 수: {{.TeamGuestCount}}, 전체 팀 수: {{.TotalTeams}}."
+  },
+  {
+    "id": "app.import.validate_user_import_data.team_guest_missing_system_guest_role.error",
+    "translation": "사용자가 팀 게스트 역할을 가지고 있지만 시스템 게스트가 아닙니다."
   },
   {
     "id": "app.import.validate_user_import_data.username_invalid.error",
