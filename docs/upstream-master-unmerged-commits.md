@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-06 10:44
+- 갱신일: 2026-08-06 11:08
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1056개
+- 남은 커밋: 1055개
 
-**마지막 반영 커밋:** `96899133` | [\[MM-67487\] Fix posts since endpoint for auto translations (#35198)](https://github.com/mattermost/mattermost/commit/96899133c0945b67555c12e2060764dfaff58043) | 2026-02-13
+**마지막 반영 커밋:** `f3d73def` | [MM-66937 Fix broken IME handling in Find Channels modal (#35264)](https://github.com/mattermost/mattermost/commit/f3d73defcf6a010900d21414042eb5a0feb4082e) | 2026-02-15
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f3d73def | [MM-66937 Fix broken IME handling in Find Channels modal (#35264)](https://github.com/mattermost/mattermost/commit/f3d73defcf6a010900d21414042eb5a0feb4082e) | 2026-02-15 |
 | 944c3456 | [Fix /share-channel slash command failing on non-leader HA nodes (#35292)](https://github.com/mattermost/mattermost/commit/944c345687abf60c53f48c80bc9533addd0dc97c) | 2026-02-16 |
 | c6d00615 | [Force membership sync on reconnect (#35299)](https://github.com/mattermost/mattermost/commit/c6d00615dde74591b98d6c63314f6e9d6080bd98) | 2026-02-16 |
 | d87527b3 | [\[MM-67488\] Set autotranslation feature flag default to true (#35288)](https://github.com/mattermost/mattermost/commit/d87527b374636ace6e5ef7bff2fcb8238a9d3385) | 2026-02-16 |
