@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-06 12:39
+- 갱신일: 2026-08-06 13:32
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1043개
+- 남은 커밋: 1035개
 
-**마지막 반영 커밋:** `53aa05d8` | [Interactive Dialog - DateTime manual entry and timezone support (#34932)](https://github.com/mattermost/mattermost/commit/53aa05d8c69ea899c1d0e9699008633643a3fe43) | 2026-02-16
+**마지막 반영 커밋:** `932086e2` | [separate websocket event for translations metrics (#35296)](https://github.com/mattermost/mattermost/commit/932086e29cf3e2574d69417ddd9140be76784d7a) | 2026-02-17
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 0ec4a474 | [E2E/Test: Increase parallel tests and removed smoke tests (#35271)](https://github.com/mattermost/mattermost/commit/0ec4a474d538ad10ca67565f4718a7d051ccacd7) | 2026-02-17 |
-| a69653ce | [Data spillage caching (#35016)](https://github.com/mattermost/mattermost/commit/a69653ce2e72294c6a6cdc5c55e207e8a54de65f) | 2026-02-17 |
-| 28406fbe | [Rename "Self-Deleting Messages" to "Burn-on-Read Messages" (#35318)](https://github.com/mattermost/mattermost/commit/28406fbe23ab4496aeefb588d910f1568529cee8) | 2026-02-17 |
-| 2da1e56e | [MM-67323 Add system for plugins to use shared package and allow plugins to load asynchronously (#35183)](https://github.com/mattermost/mattermost/commit/2da1e56e6cc3e613fe2dd42ce31994fe2827983b) | 2026-02-17 |
-| cef51348 | [Mm 65975 - migrate team modal to generic modal (#35256)](https://github.com/mattermost/mattermost/commit/cef51348657d6e10449373c22e5e2eb5286adb07) | 2026-02-17 |
-| 5efc41c1 | [MM-66442 - Add empty state message for ABAC channel modal (#34965)](https://github.com/mattermost/mattermost/commit/5efc41c1bbb1c503d36cc16e809d2a046e192d7b) | 2026-02-17 |
-| 71780f4e | [MM-66909 - Fix BoR sender not seeing priority label on new post (#34964)](https://github.com/mattermost/mattermost/commit/71780f4e0a0ccb7b6edb0271244a072ed0396067) | 2026-02-17 |
-| 932086e2 | [separate websocket event for translations metrics (#35296)](https://github.com/mattermost/mattermost/commit/932086e29cf3e2574d69417ddd9140be76784d7a) | 2026-02-17 |
 | 46e35cec | [Bumped prepackaged MS Calendar version to 1.6.0 (#35328)](https://github.com/mattermost/mattermost/commit/46e35cecb5edf91f3767f144aa525c54faa4e555) | 2026-02-18 |
 | dde32487 | [\[MM-67531\] Add beta label to auto translations feature (#35284)](https://github.com/mattermost/mattermost/commit/dde324873fa9a1e26f4125fab6ff33c7db319af8) | 2026-02-18 |
 | cca467ab | [\[MM-67530\] Only show autotranslation permissions to licensed users (#35283)](https://github.com/mattermost/mattermost/commit/cca467ab2f5b4603f28b06589bcd2fd962ce3255) | 2026-02-18 |
@@ -1084,3 +1076,4 @@
 | 36479bd7 | [Configurable workers and move sweeper job to job infra (#35007)](https://github.com/mattermost/mattermost/commit/36479bd721fe892371795844a16125dadb78cd3b) | AutoTranslation Workers 설정 및 sweeper job 등록(interface만, 실제 로직은 비공개 모듈 github.com/mattermost/enterprise/autotranslation) |
 | d87527b3 | [\[MM-67488\] Set autotranslation feature flag default to true (#35288)](https://github.com/mattermost/mattermost/commit/d87527b374636ace6e5ef7bff2fcb8238a9d3385) | AutoTranslation 실제 구현(번역 엔진 호출 로직)이 github.com/mattermost/enterprise/autotranslation 비공개 저장소에만 있음 - 자체 모듈(LibreTranslate 등) 개발 전까지 feature flag 비활성 유지 |
 | a8dc8baa | [\[MM-67235\] Add support for autotranslations on GM and DM (#35255)](https://github.com/mattermost/mattermost/commit/a8dc8baa905630d28c9d6966aca67c3ee01df16c) | GM/DM 자동번역 프론트엔드 배선(selector·UI). 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개)에 있어 okrbest에서 작동 불가 — exclude 처리(위 부록 참조). 자체 모듈 개발 시 UI 참고 가능. |
+| 932086e2 | [separate websocket event for translations metrics (#35296)](https://github.com/mattermost/mattermost/commit/932086e29cf3e2574d69417ddd9140be76784d7a) | AutoTranslation 관련 websocket 이벤트(post_translation_updated) 전용 Prometheus 카운터 등록만 추가. 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개 저장소)에 있어 okrbest에선 이 이벤트가 발생하지 않아 카운터는 항상 0으로 남는 비활성(inert) 계측. 향후 자체 autotranslation 기능 구현 시 재사용 가능. |
