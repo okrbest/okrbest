@@ -3,23 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-06 14:23
+- 갱신일: 2026-08-06 15:58
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1024개
+- 남은 커밋: 1015개
 
-**마지막 반영 커밋:** `5d3a0476` | [\[MM-67605\] Add DCR redirect URI allowlist for OAuth DCR (#35291)](https://github.com/mattermost/mattermost/commit/5d3a04760b83fae43abc9e4aabf7ef1de54c7770) | 2026-02-18
+**마지막 반영 커밋:** `7590aff7` | [MM-64490 - Add ABAC system console E2E tests (#35066)](https://github.com/mattermost/mattermost/commit/7590aff7abf5f34d26c154ad203b52adc03da929) | 2026-02-19
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 31ebadd0 | [MM-66410 - standardize abac suggestions (#34446)](https://github.com/mattermost/mattermost/commit/31ebadd0b7ea5240d5dd6d3c30441bfcd6cf769a) | 2026-02-19 |
-| 0fa5e235 | [Fix Permission Request for Docs Agent (#35373)](https://github.com/mattermost/mattermost/commit/0fa5e235bc061a089ecf17830c71b7c5fe8f7c4e) | 2026-02-19 |
-| 5f9ecb7e | [MM-67091 Fixing notification titles rendering encoded values as-is (#35001)](https://github.com/mattermost/mattermost/commit/5f9ecb7e550586d807a2197cadf50df4b23f43b7) | 2026-02-19 |
-| 7ccafd79 | [Fix PR Checkout (#35375)](https://github.com/mattermost/mattermost/commit/7ccafd79886ad26a2cf71f1f845e207793d19057) | 2026-02-19 |
-| 202334aa | [Allow GH Bash Invocations (#35376)](https://github.com/mattermost/mattermost/commit/202334aaa01fba88c11e3764b6b2568ebece2870) | 2026-02-19 |
-| 4e81e504 | [Fix E2E-only PRs and duplicate E2E test runs after PR merges (#35368)](https://github.com/mattermost/mattermost/commit/4e81e504c4086b4470731ef77c2a058f253aecd5) | 2026-02-19 |
-| c45ba961 | [\[MM-67565\] Prevent setting protected=true on fields without source_plugin_id (#35265)](https://github.com/mattermost/mattermost/commit/c45ba96139d661cbf807b0874e91ee19038f48dd) | 2026-02-19 |
-| 8309cb6a | [Fix: Channels header disappears in Find Channels dialog during search (#35202)](https://github.com/mattermost/mattermost/commit/8309cb6a075a7fc76106aedd26d559a1d71fca63) | 2026-02-19 |
-| 7590aff7 | [MM-64490 - Add ABAC system console E2E tests (#35066)](https://github.com/mattermost/mattermost/commit/7590aff7abf5f34d26c154ad203b52adc03da929) | 2026-02-19 |
 | e80dec22 | [GetAllForObject, use Master instead of replica (#35356)](https://github.com/mattermost/mattermost/commit/e80dec22600820bfbdb32178e313b6cd2388dcd9) | 2026-02-20 |
 | 392253a1 | [MM-67539 Fix 'Last login' column in System Console Users table never being populated (#35239)](https://github.com/mattermost/mattermost/commit/392253a168942d09603a908e75cdddf5e39cff88) | 2026-02-20 |
 | 100cde3a | [\[MM-67587\] Exclude system messages from autotranslation queue (#35267)](https://github.com/mattermost/mattermost/commit/100cde3a1aeee2faf5a537d1cb1a280b4c24f594) | 2026-02-20 |
@@ -1052,6 +1043,12 @@
 | a8dc8baa | [\[MM-67235\] Add support for autotranslations on GM and DM (#35255)](https://github.com/mattermost/mattermost/commit/a8dc8baa905630d28c9d6966aca67c3ee01df16c) | 자동번역(AutoTranslation)을 GM/DM으로 확장하는 프론트엔드 배선(selector 리네이밍 + 채널 헤더/설정 모달 UI). 실제 번역 실행 로직은 github.com/mattermost/enterprise/autotranslation(비공개 저장소)에만 있어 okrbest에서는 작동 불가. d87527b3(flag 비활성 유지)와 동일 계열. 또한 충돌 파일(channel_header/index.ts, channel_settings_info_tab.tsx, post_list/index.tsx)이 우리 자체 커스텀 기능(봇 메시지 필터 #164/#161, 멤버 필터링 #159/#156, 채널 북마크 메뉴 개편 #195)과 겹쳐 반영 비용 대비 실익 없음. |
 
 | 45f54a0e | [Implementation of Documentation Impact Review Workflow via GH Actions (#35358)](https://github.com/mattermost/mattermost/commit/45f54a0e3fbf1c1d92af52bb228a54f027d6b1c9) | PR 코멘트 /docs-review 트리거로 Mattermost, Inc. 소유의 mattermost/docs(공식 문서 사이트 docs.mattermost.com 소스) 저장소를 체크아웃해 문서 반영 필요 여부를 분석하는 GH Actions 워크플로. 프롬프트 전체가 'Mattermost project'/docs.mattermost.com 문맥에 하드코딩돼 있어 okrbest에 그대로 켜도 우리와 무관한 upstream 공개 문서를 분석하는 무의미한 결과만 생성(ANTHROPIC_API_KEY만 소모). okrbest는 대응하는 자체 공개 문서 저장소를 운영하지 않아 adapt 대상도 없음. |
+
+| 0fa5e235 | [Fix Permission Request for Docs Agent (#35373)](https://github.com/mattermost/mattermost/commit/0fa5e235bc061a089ecf17830c71b7c5fe8f7c4e) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 그 후속 권한 수정(id-token: write 추가)도 반영할 대상이 없음. |
+
+| 7ccafd79 | [Fix PR Checkout (#35375)](https://github.com/mattermost/mattermost/commit/7ccafd79886ad26a2cf71f1f845e207793d19057) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어 PR checkout 로직 수정(6줄)도 반영할 대상이 없음. |
+
+| 202334aa | [Allow GH Bash Invocations (#35376)](https://github.com/mattermost/mattermost/commit/202334aaa01fba88c11e3764b6b2568ebece2870) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어 GH Bash 실행 허용 수정도 반영할 대상이 없음. |
 
 ## spec 전환 커밋
 
