@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-06 15:58
+- 갱신일: 2026-08-06 16:44
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1015개
+- 남은 커밋: 1010개
 
-**마지막 반영 커밋:** `7590aff7` | [MM-64490 - Add ABAC system console E2E tests (#35066)](https://github.com/mattermost/mattermost/commit/7590aff7abf5f34d26c154ad203b52adc03da929) | 2026-02-19
+**마지막 반영 커밋:** `033867a3` | [MM-67522 Add tests for syncing user statuses (#35269)](https://github.com/mattermost/mattermost/commit/033867a3448875d84653c81026d31bddf3ce4c40) | 2026-02-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| e80dec22 | [GetAllForObject, use Master instead of replica (#35356)](https://github.com/mattermost/mattermost/commit/e80dec22600820bfbdb32178e313b6cd2388dcd9) | 2026-02-20 |
-| 392253a1 | [MM-67539 Fix 'Last login' column in System Console Users table never being populated (#35239)](https://github.com/mattermost/mattermost/commit/392253a168942d09603a908e75cdddf5e39cff88) | 2026-02-20 |
-| 100cde3a | [\[MM-67587\] Exclude system messages from autotranslation queue (#35267)](https://github.com/mattermost/mattermost/commit/100cde3a1aeee2faf5a537d1cb1a280b4c24f594) | 2026-02-20 |
-| 334c1bcb | [update default worker count for autotranslations (#35355)](https://github.com/mattermost/mattermost/commit/334c1bcbb768855991f52c83b0df3c2cae08e7a2) | 2026-02-20 |
-| 033867a3 | [MM-67522 Add tests for syncing user statuses (#35269)](https://github.com/mattermost/mattermost/commit/033867a3448875d84653c81026d31bddf3ce4c40) | 2026-02-20 |
 | b96f7c1a | [Content flagging actions implementation tests (#35035)](https://github.com/mattermost/mattermost/commit/b96f7c1a8da95e7caff2d948055c8dd02161f54a) | 2026-02-23 |
 | 8d511d77 | [Handled null column for scheduled post type in database (#35193)](https://github.com/mattermost/mattermost/commit/8d511d77a83878e0ab821c6717e7e93bef9d5fb6) | 2026-02-23 |
 | ec0ad9d1 | [Translations update from Mattermost Weblate (#35404)](https://github.com/mattermost/mattermost/commit/ec0ad9d1b14f900fd99edbbed2d327be3491f0df) | 2026-02-23 |
@@ -1065,3 +1060,4 @@
 | d87527b3 | [\[MM-67488\] Set autotranslation feature flag default to true (#35288)](https://github.com/mattermost/mattermost/commit/d87527b374636ace6e5ef7bff2fcb8238a9d3385) | AutoTranslation 실제 구현(번역 엔진 호출 로직)이 github.com/mattermost/enterprise/autotranslation 비공개 저장소에만 있음 - 자체 모듈(LibreTranslate 등) 개발 전까지 feature flag 비활성 유지 |
 | a8dc8baa | [\[MM-67235\] Add support for autotranslations on GM and DM (#35255)](https://github.com/mattermost/mattermost/commit/a8dc8baa905630d28c9d6966aca67c3ee01df16c) | GM/DM 자동번역 프론트엔드 배선(selector·UI). 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개)에 있어 okrbest에서 작동 불가 — exclude 처리(위 부록 참조). 자체 모듈 개발 시 UI 참고 가능. |
 | 932086e2 | [separate websocket event for translations metrics (#35296)](https://github.com/mattermost/mattermost/commit/932086e29cf3e2574d69417ddd9140be76784d7a) | AutoTranslation 관련 websocket 이벤트(post_translation_updated) 전용 Prometheus 카운터 등록만 추가. 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개 저장소)에 있어 okrbest에선 이 이벤트가 발생하지 않아 카운터는 항상 0으로 남는 비활성(inert) 계측. 향후 자체 autotranslation 기능 구현 시 재사용 가능. |
+| 100cde3a | [\[MM-67587\] Exclude system messages from autotranslation queue (#35267)](https://github.com/mattermost/mattermost/commit/100cde3a1aeee2faf5a537d1cb1a280b4c24f594) | 제목이 표방하는 '자동번역 큐에서 시스템 메시지 제외' 실제 로직은 github.com/mattermost/enterprise/autotranslation(비공개, //go:build enterprise 태그) 안에만 있음. 우리 저장소에는 RegisterAutoTranslationInterface()를 호출해 구현체를 등록하는 코드가 없고 go.mod/go.sum에도 참조 없음 — cherry-pick한 건 이 로직을 호출하는 post.go의 if/else→switch 스타일 리팩터뿐, 시스템 메시지 제외 기능 자체는 우리 쪽에서 비활성 상태. |
