@@ -6579,6 +6579,10 @@
     "translation": "게시물의 우선순위를 가져올 수 없습니다"
   },
   {
+    "id": "app.post_prority.get_for_post_with_context.app_error",
+    "translation": "컨텍스트를 사용해 게시물의 우선순위를 가져올 수 없습니다"
+  },
+  {
     "id": "app.post_reminder_dm",
     "translation": "안녕하세요, @{{.Username}}님의 메시지에 대한 알림입니다: {{.SiteURL}}/{{.TeamName}}/pl/{{.PostId}}"
   },
