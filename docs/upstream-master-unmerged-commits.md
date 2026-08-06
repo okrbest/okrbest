@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-06 13:32
+- 갱신일: 2026-08-06 14:23
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1035개
+- 남은 커밋: 1024개
 
-**마지막 반영 커밋:** `932086e2` | [separate websocket event for translations metrics (#35296)](https://github.com/mattermost/mattermost/commit/932086e29cf3e2574d69417ddd9140be76784d7a) | 2026-02-17
+**마지막 반영 커밋:** `5d3a0476` | [\[MM-67605\] Add DCR redirect URI allowlist for OAuth DCR (#35291)](https://github.com/mattermost/mattermost/commit/5d3a04760b83fae43abc9e4aabf7ef1de54c7770) | 2026-02-18
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 46e35cec | [Bumped prepackaged MS Calendar version to 1.6.0 (#35328)](https://github.com/mattermost/mattermost/commit/46e35cecb5edf91f3767f144aa525c54faa4e555) | 2026-02-18 |
-| dde32487 | [\[MM-67531\] Add beta label to auto translations feature (#35284)](https://github.com/mattermost/mattermost/commit/dde324873fa9a1e26f4125fab6ff33c7db319af8) | 2026-02-18 |
-| cca467ab | [\[MM-67530\] Only show autotranslation permissions to licensed users (#35283)](https://github.com/mattermost/mattermost/commit/cca467ab2f5b4603f28b06589bcd2fd962ce3255) | 2026-02-18 |
-| 6e284524 | [\[MM-67563\] Change websocket format for translation update events (#35268)](https://github.com/mattermost/mattermost/commit/6e28452434b56fecdf56738114b4e9b2368f94a4) | 2026-02-18 |
-| 324b4937 | [libre key fix (#35297)](https://github.com/mattermost/mattermost/commit/324b4937fd7a2aeb215d7976ef2110685edbee8d) | 2026-02-18 |
-| 5c8b9894 | [\[MM-67564\] Reduce channel banner height to 24px with 13px font (#35338)](https://github.com/mattermost/mattermost/commit/5c8b9894280a9ec1b64b9b25b1600a45a4bd3710) | 2026-02-18 |
-| 45f54a0e | [Implementation of Documentation Impact Review Workflow via GH Actions (#35358)](https://github.com/mattermost/mattermost/commit/45f54a0e3fbf1c1d92af52bb228a54f027d6b1c9) | 2026-02-18 |
-| d6ef403b | [New translation for autotranslations (#34894)](https://github.com/mattermost/mattermost/commit/d6ef403b8fa4affb43b2ff496017f68b177136c3) | 2026-02-18 |
-| 316ab57b | [fix(test): MM-T5523-1 column sort test to verify actual sort order (#35309)](https://github.com/mattermost/mattermost/commit/316ab57b0b1ed6f3aab51b6a8bc1e4b3143b729c) | 2026-02-19 |
-| 5318fc3f | [  MM-66830: Fix RHS panel snapping to minimum width on resize (#35236)](https://github.com/mattermost/mattermost/commit/5318fc3ff38229f9a6fabcf0dbe02ea8620e7d2e) | 2026-02-18 |
-| 5d3a0476 | [\[MM-67605\] Add DCR redirect URI allowlist for OAuth DCR (#35291)](https://github.com/mattermost/mattermost/commit/5d3a04760b83fae43abc9e4aabf7ef1de54c7770) | 2026-02-18 |
 | 31ebadd0 | [MM-66410 - standardize abac suggestions (#34446)](https://github.com/mattermost/mattermost/commit/31ebadd0b7ea5240d5dd6d3c30441bfcd6cf769a) | 2026-02-19 |
 | 0fa5e235 | [Fix Permission Request for Docs Agent (#35373)](https://github.com/mattermost/mattermost/commit/0fa5e235bc061a089ecf17830c71b7c5fe8f7c4e) | 2026-02-19 |
 | 5f9ecb7e | [MM-67091 Fixing notification titles rendering encoded values as-is (#35001)](https://github.com/mattermost/mattermost/commit/5f9ecb7e550586d807a2197cadf50df4b23f43b7) | 2026-02-19 |
@@ -1061,6 +1050,8 @@
 | 67226f32 | [Avoid `simple` config when doing FTS in Postgres (#35063)](https://github.com/mattermost/mattermost/commit/67226f32a40fe3cc584920cd3064c2e5d4cb0b16) | 우리 fork가 자체 커밋 6eecf5ee32(채널 검색을 Postgres FTS(to_tsvector/to_tsquery)에서 LIKE/ILIKE 기반으로 전면 교체, 한글 형태소 검색 오류 수정 목적)로 이 코드 영역을 완전히 재작성함. post_store.go에 simpleSearch/pgDefaultTextSearchConfig/to_tsvector/to_tsquery 참조가 전혀 남아있지 않아 upstream의 되돌리기(revert) 패치가 적용될 대상 코드가 존재하지 않음. |
 
 | a8dc8baa | [\[MM-67235\] Add support for autotranslations on GM and DM (#35255)](https://github.com/mattermost/mattermost/commit/a8dc8baa905630d28c9d6966aca67c3ee01df16c) | 자동번역(AutoTranslation)을 GM/DM으로 확장하는 프론트엔드 배선(selector 리네이밍 + 채널 헤더/설정 모달 UI). 실제 번역 실행 로직은 github.com/mattermost/enterprise/autotranslation(비공개 저장소)에만 있어 okrbest에서는 작동 불가. d87527b3(flag 비활성 유지)와 동일 계열. 또한 충돌 파일(channel_header/index.ts, channel_settings_info_tab.tsx, post_list/index.tsx)이 우리 자체 커스텀 기능(봇 메시지 필터 #164/#161, 멤버 필터링 #159/#156, 채널 북마크 메뉴 개편 #195)과 겹쳐 반영 비용 대비 실익 없음. |
+
+| 45f54a0e | [Implementation of Documentation Impact Review Workflow via GH Actions (#35358)](https://github.com/mattermost/mattermost/commit/45f54a0e3fbf1c1d92af52bb228a54f027d6b1c9) | PR 코멘트 /docs-review 트리거로 Mattermost, Inc. 소유의 mattermost/docs(공식 문서 사이트 docs.mattermost.com 소스) 저장소를 체크아웃해 문서 반영 필요 여부를 분석하는 GH Actions 워크플로. 프롬프트 전체가 'Mattermost project'/docs.mattermost.com 문맥에 하드코딩돼 있어 okrbest에 그대로 켜도 우리와 무관한 upstream 공개 문서를 분석하는 무의미한 결과만 생성(ANTHROPIC_API_KEY만 소모). okrbest는 대응하는 자체 공개 문서 저장소를 운영하지 않아 adapt 대상도 없음. |
 
 ## spec 전환 커밋
 
