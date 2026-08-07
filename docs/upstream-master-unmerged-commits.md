@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-07 09:58
+- 갱신일: 2026-08-07 10:25
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1008개
+- 남은 커밋: 1005개
 
-**마지막 반영 커밋:** `b831c18f` | [Increase minimum version of Node to 24 and NPM to 11 (#35413)](https://github.com/mattermost/mattermost/commit/b831c18f674a5a82d0df3f44d4c47ccea077ccdf) | 2026-02-24
+**마지막 반영 커밋:** `24d3fed7` | [Update filippo.io/edwards25519 (#35422)](https://github.com/mattermost/mattermost/commit/24d3fed77757dcc621deef5a92d2ec932fad4c4d) | 2026-02-25
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 7b5c3433 | [E2E/Test: Migrate flaky MM-T388 to playwright (#35369)](https://github.com/mattermost/mattermost/commit/7b5c34339d710231361f8c68453b25da5392cc15) | 2026-02-25 |
-| 60fbce7d | [\[MM-67671\] Add CJK Post search support for PostgreSQL (#35260)](https://github.com/mattermost/mattermost/commit/60fbce7d03f2bbe00238c4c988b9d86b3360a0bd) | 2026-02-25 |
-| 24d3fed7 | [Update filippo.io/edwards25519 (#35422)](https://github.com/mattermost/mattermost/commit/24d3fed77757dcc621deef5a92d2ec932fad4c4d) | 2026-02-25 |
 | 8069cae8 | [Update plugin-calls to v1.11.1 (#35427)](https://github.com/mattermost/mattermost/commit/8069cae8f8ce91a7659dedd41eef0095bd4ac546) | 2026-02-26 |
 | 96226a97 | [MM-67659 Fix marking threads as read over the WebSocket (#35384)](https://github.com/mattermost/mattermost/commit/96226a97616af55c1e638fde0adf1655f19222a1) | 2026-02-27 |
 | fa7668ae | [MM-67668: Replace Promtail with OpenTelemetry collector (#35381)](https://github.com/mattermost/mattermost/commit/fa7668ae0de74b02e6bb258d73d3a3f064252800) | 2026-02-27 |
@@ -1042,6 +1039,8 @@
 | 7ccafd79 | [Fix PR Checkout (#35375)](https://github.com/mattermost/mattermost/commit/7ccafd79886ad26a2cf71f1f845e207793d19057) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어 PR checkout 로직 수정(6줄)도 반영할 대상이 없음. |
 
 | 202334aa | [Allow GH Bash Invocations (#35376)](https://github.com/mattermost/mattermost/commit/202334aaa01fba88c11e3764b6b2568ebece2870) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어 GH Bash 실행 허용 수정도 반영할 대상이 없음. |
+
+| 60fbce7d | [\[MM-67671\] Add CJK Post search support for PostgreSQL (#35260)](https://github.com/mattermost/mattermost/commit/60fbce7d03f2bbe00238c4c988b9d86b3360a0bd) | 우리 포크가 이미 6eecf5ee32(채널 검색을 Postgres FTS에서 ILIKE 부분일치로 전면 교체, 한글 형태소 검색오류 수정목적)로 전체 언어에 대해 CJK를 포함한 부분일치 검색을 상시 지원 중 — upstream의 CJKSearch 피처플래그 기반 LIKE 폴백은 도달 불가능한 죽은 코드가 되며, 의존 심볼(quotedStringsRegex)이 6eecf5ee32에서 삭제되어 그대로 cherry-pick 시 컴파일 에러 발생 확인 |
 
 ## spec 전환 커밋
 
