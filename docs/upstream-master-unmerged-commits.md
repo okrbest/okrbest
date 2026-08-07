@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-06 16:44
+- 갱신일: 2026-08-07 09:26
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 1010개
 
-**마지막 반영 커밋:** `033867a3` | [MM-67522 Add tests for syncing user statuses (#35269)](https://github.com/mattermost/mattermost/commit/033867a3448875d84653c81026d31bddf3ce4c40) | 2026-02-20
+**마지막 반영 커밋:** `ec0ad9d1` | [Translations update from Mattermost Weblate (#35404)](https://github.com/mattermost/mattermost/commit/ec0ad9d1b14f900fd99edbbed2d327be3491f0df) | 2026-02-23
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b96f7c1a | [Content flagging actions implementation tests (#35035)](https://github.com/mattermost/mattermost/commit/b96f7c1a8da95e7caff2d948055c8dd02161f54a) | 2026-02-23 |
-| 8d511d77 | [Handled null column for scheduled post type in database (#35193)](https://github.com/mattermost/mattermost/commit/8d511d77a83878e0ab821c6717e7e93bef9d5fb6) | 2026-02-23 |
-| ec0ad9d1 | [Translations update from Mattermost Weblate (#35404)](https://github.com/mattermost/mattermost/commit/ec0ad9d1b14f900fd99edbbed2d327be3491f0df) | 2026-02-23 |
 | 8fd7aea6 | [update intune doc link (#35166)](https://github.com/mattermost/mattermost/commit/8fd7aea63c52f2c1c0016d4a60255d5ff77c4983) | 2026-02-24 |
 | 4b8ff4e6 | [fix: flaky MM-T5521-8 (#35385)](https://github.com/mattermost/mattermost/commit/4b8ff4e6a3fd82364709d07bade18afbcbb79d87) | 2026-02-24 |
 | b831c18f | [Increase minimum version of Node to 24 and NPM to 11 (#35413)](https://github.com/mattermost/mattermost/commit/b831c18f674a5a82d0df3f44d4c47ccea077ccdf) | 2026-02-24 |
@@ -1021,6 +1018,9 @@
 | f9227b1a | [Open Mattermost in the browser when the desktop landing page setting is disabled, with unit tests (#37833)](https://github.com/mattermost/mattermost/commit/f9227b1a2f644414e761b9ac513da1deab2c6b8a) | 2026-08-05 |
 | 4eac9292 | [\[MM-69587\] Remove CustomProfileAttributes feature flag (#37389)](https://github.com/mattermost/mattermost/commit/4eac9292c02363461423aee51333000ed0633fea) | 2026-08-05 |
 | 5b273440 | [\[MM-70113\] Gate Classification Markings behind Enterprise Advanced license (#37838)](https://github.com/mattermost/mattermost/commit/5b273440bf1b2f735429239960524e9e0854db43) | 2026-08-05 |
+| eed994d1 | [\[MM-70114\] Fix flaky channel guard broadcast test (#37847)](https://github.com/mattermost/mattermost/commit/eed994d1062da9305ec950ba10ddb5faf0d6396f) | 2026-08-06 |
+| 318fd812 | [Fix flaky TestComplianceStore/postgres/MessageExport_UntilUpdateAt (#37856)](https://github.com/mattermost/mattermost/commit/318fd81259c9c1b8859a3f6e357b26e9603d3e4a) | 2026-08-06 |
+| dce666b0 | [MM-69980 Fix edited posts being slightly taller than unedited ones (#37693)](https://github.com/mattermost/mattermost/commit/dce666b02d8ec1864ed7b368157cc6d8ab96e5b4) | 2026-08-06 |
 
 ## 제외된 커밋
 
