@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-07 10:25
+- 갱신일: 2026-08-07 10:32
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1005개
+- 남은 커밋: 1004개
 
-**마지막 반영 커밋:** `24d3fed7` | [Update filippo.io/edwards25519 (#35422)](https://github.com/mattermost/mattermost/commit/24d3fed77757dcc621deef5a92d2ec932fad4c4d) | 2026-02-25
+**마지막 반영 커밋:** `8069cae8` | [Update plugin-calls to v1.11.1 (#35427)](https://github.com/mattermost/mattermost/commit/8069cae8f8ce91a7659dedd41eef0095bd4ac546) | 2026-02-26
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 8069cae8 | [Update plugin-calls to v1.11.1 (#35427)](https://github.com/mattermost/mattermost/commit/8069cae8f8ce91a7659dedd41eef0095bd4ac546) | 2026-02-26 |
 | 96226a97 | [MM-67659 Fix marking threads as read over the WebSocket (#35384)](https://github.com/mattermost/mattermost/commit/96226a97616af55c1e638fde0adf1655f19222a1) | 2026-02-27 |
 | fa7668ae | [MM-67668: Replace Promtail with OpenTelemetry collector (#35381)](https://github.com/mattermost/mattermost/commit/fa7668ae0de74b02e6bb258d73d3a3f064252800) | 2026-02-27 |
 | e6cd18c9 | [Fix IntuneSettings config access tags to use correct permission ID (#35414)](https://github.com/mattermost/mattermost/commit/e6cd18c90be8638efb7f3b28268b50d0eb4f7a1e) | 2026-02-27 |
