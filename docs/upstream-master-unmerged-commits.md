@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-07 13:44
+- 갱신일: 2026-08-07 14:35
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 991개
+- 남은 커밋: 985개
 
-**마지막 반영 커밋:** `3726e87e` | [\[MM-67749\] Fix enter key issue for AI rewrite (#35449)](https://github.com/mattermost/mattermost/commit/3726e87ef236e4613de8c88c1274d3918fc4c965) | 2026-03-03
+**마지막 반영 커밋:** `e296a314` | [\[MM-67677\] Adjust max autotranslations workers to 64 (#35463)](https://github.com/mattermost/mattermost/commit/e296a314bb93a318b66aec81353776b7d95aa04a) | 2026-03-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 72460bff | [fix: datetime and edit specs (#35455)](https://github.com/mattermost/mattermost/commit/72460bff617b4c408a453b70da3546142ef003e8) | 2026-03-04 |
-| a9a3d3f8 | [\[MM-65587\] Remove unused audit log file rotation settings (#35170)](https://github.com/mattermost/mattermost/commit/a9a3d3f889af805d52f534f2228feb02df2be55f) | 2026-03-04 |
-| 014fee59 | [fix: webhook server connection error in cypress (#35471)](https://github.com/mattermost/mattermost/commit/014fee5950c0b10fa39677ad5bf01cd25fba4f48) | 2026-03-04 |
-| 062abe90 | [Includes deleted remote cluster infos to correctly show shared user information (#35192)](https://github.com/mattermost/mattermost/commit/062abe90bd19eeb6cf8cb0371f8facc9d9897145) | 2026-03-04 |
-| 885ebdd4 | [\[MM-67425\] Add an unsupported Desktop App setting and screen for users (#35382)](https://github.com/mattermost/mattermost/commit/885ebdd4f1610a79f14c558cf4c9f36e2aae4511) | 2026-03-04 |
-| e296a314 | [\[MM-67677\] Adjust max autotranslations workers to 64 (#35463)](https://github.com/mattermost/mattermost/commit/e296a314bb93a318b66aec81353776b7d95aa04a) | 2026-03-04 |
 | 7f0fa493 | [Update latest minor version to 11.6.0 (#35479)](https://github.com/mattermost/mattermost/commit/7f0fa4937d88f7fad0b6946d1f7fe6f5043b36b8) | 2026-03-05 |
 | 7e7a1b58 | [fix: only match root-level JSONL files when importing a zip (#35481)](https://github.com/mattermost/mattermost/commit/7e7a1b582f283e48f711574e8bc38dcde24cb0b4) | 2026-03-05 |
 | 5d6e6733 | [MM-45293 Index all attachment content fields in Elasticsearch (#35454)](https://github.com/mattermost/mattermost/commit/5d6e6733d594772e7cd289280462623b09acff47) | 2026-03-05 |
