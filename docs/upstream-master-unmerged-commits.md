@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-07 15:23
+- 갱신일: 2026-08-07 16:22
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 977개
+- 남은 커밋: 969개
 
-**마지막 반영 커밋:** `99d119cf` | [\[MM-66846\] Fix missing ES version and plugins in diagnostics (#35475)](https://github.com/mattermost/mattermost/commit/99d119cf85849242e312cbc9789f533a45ecac12) | 2026-03-05
+**마지막 반영 커밋:** `f1b9aa05` | [Rename Content Flagging to Data Spillage Handling (#35407)](https://github.com/mattermost/mattermost/commit/f1b9aa052e821701c9184e16337558f96b8755f4) | 2026-03-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| c513d04e | [chore: bump versions of actions (#35386)](https://github.com/mattermost/mattermost/commit/c513d04e7efa646b9ae31764916adc67f932c5f9) | 2026-03-06 |
-| cbe76698 | [chore: migrate flaky cypress test to playwright (#35468)](https://github.com/mattermost/mattermost/commit/cbe7669851f9b6697101b73bf52c2ab550858a15) | 2026-03-06 |
-| 56f51d7d | [Use standard session handler for updateUserAuth endpoint (#35488)](https://github.com/mattermost/mattermost/commit/56f51d7df254ef0dea727976ca3b4b2175ba2fab) | 2026-03-06 |
-| f542d7ca | [\[MM-67791\] Use atomic token consumption for guest magic links (#35489)](https://github.com/mattermost/mattermost/commit/f542d7ca18c818feeebecc8486062508cf076340) | 2026-03-06 |
-| f5fe8ded | [\[MM-67377\] Fix (#35336)](https://github.com/mattermost/mattermost/commit/f5fe8ded6b633db7804ae25b42ea12ce635d6ea6) | 2026-03-06 |
-| e31f4714 | [MM-67647 Add roles for shared channels management (#35354)](https://github.com/mattermost/mattermost/commit/e31f4714989637470df2cf069da77883cece6159) | 2026-03-06 |
-| 5ddd76ec | [Development environment setup (#35513)](https://github.com/mattermost/mattermost/commit/5ddd76ec39f94f177c7f8a21d6855d822346f421) | 2026-03-06 |
-| f1b9aa05 | [Rename Content Flagging to Data Spillage Handling (#35407)](https://github.com/mattermost/mattermost/commit/f1b9aa052e821701c9184e16337558f96b8755f4) | 2026-03-06 |
 | 1ffbac96 | [MM-67617 RTL migration, batches M21 to H1 (#35465)](https://github.com/mattermost/mattermost/commit/1ffbac96261a9ef6db218a8d7f3f88bea3961c7f) | 2026-03-07 |
 | 56953189 | [Bump the github-actions-updates group with 11 updates (#35500)](https://github.com/mattermost/mattermost/commit/56953189f362bff0bdbde0bc921d2d84296a654a) | 2026-03-07 |
 | 06d80685 | [docs(auth): Clarify Google SSO username/email sync behavior (#34475)](https://github.com/mattermost/mattermost/commit/06d806857345248ac203ad831d0cfc8b773299b4) | 2026-03-09 |
@@ -1013,6 +1005,10 @@
 | 202334aa | [Allow GH Bash Invocations (#35376)](https://github.com/mattermost/mattermost/commit/202334aaa01fba88c11e3764b6b2568ebece2870) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어 GH Bash 실행 허용 수정도 반영할 대상이 없음. |
 
 | 60fbce7d | [\[MM-67671\] Add CJK Post search support for PostgreSQL (#35260)](https://github.com/mattermost/mattermost/commit/60fbce7d03f2bbe00238c4c988b9d86b3360a0bd) | 우리 포크가 이미 6eecf5ee32(채널 검색을 Postgres FTS에서 ILIKE 부분일치로 전면 교체, 한글 형태소 검색오류 수정목적)로 전체 언어에 대해 CJK를 포함한 부분일치 검색을 상시 지원 중 — upstream의 CJKSearch 피처플래그 기반 LIKE 폴백은 도달 불가능한 죽은 코드가 되며, 의존 심볼(quotedStringsRegex)이 6eecf5ee32에서 삭제되어 그대로 cherry-pick 시 컴파일 에러 발생 확인 |
+
+| 5ddd76ec | [Development environment setup (#35513)](https://github.com/mattermost/mattermost/commit/5ddd76ec39f94f177c7f8a21d6855d822346f421) | Mattermost Inc. 내부 Cursor Cloud 전용 개발 환경 문서(AGENTS.CLOUD.md) — 비공개 mattermost/enterprise, mattermost-plugin-agents 저장소와 CURSOR_GH_TOKEN/TEST_LICENSE 등 내부 시크릿을 전제로 해 okrbest에 적용 불가. .gitignore에 AGENTS.md를 추가하려는 변경도 우리가 의도적으로 추적 중인 !/AGENTS.md 규칙(spec-kit/superpowers용)과 충돌. upstream도 후속 커밋 1af7d823(#36286, 2026-04-27)에서 이 파일을 스스로 제거함. |
+
+| f1b9aa05 | [Rename Content Flagging to Data Spillage Handling (#35407)](https://github.com/mattermost/mattermost/commit/f1b9aa052e821701c9184e16337558f96b8755f4) | Content Flagging 기능을 'Data Spillage Handling'/'Quarantine for Review'로 전면 개명하는 커밋. 기본 신고 사유를 'OPSEC concern', 'CUI violation', 'Need-to-know violation' 등 미국 국방·정보기관(DISC) 특화 용어로 교체 — okrbest는 일반 협업·OKR 툴로 리브랜드된 포크라 이 용어가 제품 성격과 맞지 않음(사용자 확인). 41개 파일 525줄 규모에 실제 conflict 2건(flag_post_modal.tsx, en.json) 발생. 커밋에 포함된 부수 수정(getContentReviewBot의 nil bot 방지, postContentReviewBotMessage 시그니처 리팩터, 아이콘 컴포넌트 교체)은 전부 이 rename 작업 자체가 만든 파생 버그/작업이라 용어를 유지하면 분리 반영할 실익도 없음. 현재 'Content Flagging'/'Flag message' 용어 유지. |
 
 ## spec 전환 커밋
 
