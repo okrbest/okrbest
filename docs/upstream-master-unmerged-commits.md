@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-07 10:32
+- 갱신일: 2026-08-07 10:48
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1004개
+- 남은 커밋: 1001개
 
-**마지막 반영 커밋:** `8069cae8` | [Update plugin-calls to v1.11.1 (#35427)](https://github.com/mattermost/mattermost/commit/8069cae8f8ce91a7659dedd41eef0095bd4ac546) | 2026-02-26
+**마지막 반영 커밋:** `e6cd18c9` | [Fix IntuneSettings config access tags to use correct permission ID (#35414)](https://github.com/mattermost/mattermost/commit/e6cd18c90be8638efb7f3b28268b50d0eb4f7a1e) | 2026-02-27
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 96226a97 | [MM-67659 Fix marking threads as read over the WebSocket (#35384)](https://github.com/mattermost/mattermost/commit/96226a97616af55c1e638fde0adf1655f19222a1) | 2026-02-27 |
-| fa7668ae | [MM-67668: Replace Promtail with OpenTelemetry collector (#35381)](https://github.com/mattermost/mattermost/commit/fa7668ae0de74b02e6bb258d73d3a3f064252800) | 2026-02-27 |
-| e6cd18c9 | [Fix IntuneSettings config access tags to use correct permission ID (#35414)](https://github.com/mattermost/mattermost/commit/e6cd18c90be8638efb7f3b28268b50d0eb4f7a1e) | 2026-02-27 |
 | 8a4632e3 | [Fix flaky unit tests for TestClientCreateOutgoingOAuthConnection (#35152)](https://github.com/mattermost/mattermost/commit/8a4632e330fa0049046b9e11991a98bcd6a74135) | 2026-03-01 |
 | 5fdec790 | [\[MM-67640\] Fix checks around autotranslations permission (#35351)](https://github.com/mattermost/mattermost/commit/5fdec79007aca474366c8cd81a7e994cbfde0fad) | 2026-03-02 |
 | 2edc2f2c | [Translations update from Mattermost Weblate (#35446)](https://github.com/mattermost/mattermost/commit/2edc2f2c0537ab0d8a8035e28377e330adac3728) | 2026-03-02 |
