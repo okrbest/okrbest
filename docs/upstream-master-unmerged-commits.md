@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-07 16:22
+- 갱신일: 2026-08-07 21:31
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 969개
+- 남은 커밋: 968개
 
-**마지막 반영 커밋:** `f1b9aa05` | [Rename Content Flagging to Data Spillage Handling (#35407)](https://github.com/mattermost/mattermost/commit/f1b9aa052e821701c9184e16337558f96b8755f4) | 2026-03-06
+**마지막 반영 커밋:** `56953189` | [Bump the github-actions-updates group with 11 updates (#35500)](https://github.com/mattermost/mattermost/commit/56953189f362bff0bdbde0bc921d2d84296a654a) | 2026-03-07
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 1ffbac96 | [MM-67617 RTL migration, batches M21 to H1 (#35465)](https://github.com/mattermost/mattermost/commit/1ffbac96261a9ef6db218a8d7f3f88bea3961c7f) | 2026-03-07 |
-| 56953189 | [Bump the github-actions-updates group with 11 updates (#35500)](https://github.com/mattermost/mattermost/commit/56953189f362bff0bdbde0bc921d2d84296a654a) | 2026-03-07 |
 | 06d80685 | [docs(auth): Clarify Google SSO username/email sync behavior (#34475)](https://github.com/mattermost/mattermost/commit/06d806857345248ac203ad831d0cfc8b773299b4) | 2026-03-09 |
 | 0c0d2eb3 | [fix: E2E-only PR image tag for release branches (#35472)](https://github.com/mattermost/mattermost/commit/0c0d2eb373b7241287e156d54b53c84a7af449f0) | 2026-03-09 |
 | 6b28864f | [E2E/Cypress: Upgrade cypress to 15.11 (#35466)](https://github.com/mattermost/mattermost/commit/6b28864fdcdd93c7fb78c8b3941c73dba0280103) | 2026-03-09 |
@@ -980,6 +978,7 @@
 | 318fd812 | [Fix flaky TestComplianceStore/postgres/MessageExport_UntilUpdateAt (#37856)](https://github.com/mattermost/mattermost/commit/318fd81259c9c1b8859a3f6e357b26e9603d3e4a) | 2026-08-06 |
 | dce666b0 | [MM-69980 Fix edited posts being slightly taller than unedited ones (#37693)](https://github.com/mattermost/mattermost/commit/dce666b02d8ec1864ed7b368157cc6d8ab96e5b4) | 2026-08-06 |
 | fbf8402d | [\[MM-65680\] Add new configuration 'AttributeRefreshIntervalSeconds' to Access Control (#37854)](https://github.com/mattermost/mattermost/commit/fbf8402d4bce027823d7788c8f48401d839f8b31) | 2026-08-06 |
+| 67496bd1 | [Bumping prepackaged Jira version to v4.8.0 (#37862)](https://github.com/mattermost/mattermost/commit/67496bd1575a0d4ad56355f9a5967b4395dfd642) | 2026-08-07 |
 
 ## 제외된 커밋
 
