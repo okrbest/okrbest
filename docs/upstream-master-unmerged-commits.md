@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-07 13:23
+- 갱신일: 2026-08-07 13:44
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 996개
+- 남은 커밋: 991개
 
-**마지막 반영 커밋:** `59240826` | [MM-67754 - Fix ABAC E2E tests flakiness in Enterprise CI environment (#35452)](https://github.com/mattermost/mattermost/commit/592408261e4324254efb214b47cbe4be824cb36c) | 2026-03-02
+**마지막 반영 커밋:** `3726e87e` | [\[MM-67749\] Fix enter key issue for AI rewrite (#35449)](https://github.com/mattermost/mattermost/commit/3726e87ef236e4613de8c88c1274d3918fc4c965) | 2026-03-03
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 8dbfb878 | [MM-29974 Adds e2e tests to the plugin list command (#34866)](https://github.com/mattermost/mattermost/commit/8dbfb87877307df75d6aa4efc717ee723aff5aae) | 2026-03-03 |
-| 27d054c4 | [Prepackage Playbooks FIPS v2.7.0 (#35450) (#35456)](https://github.com/mattermost/mattermost/commit/27d054c4d39cafeef2f3e67df683197c4f180ea1) | 2026-03-03 |
-| c4627201 | [\[MM-65822\] Add directory conflict checks for plugin and import uploads (#34681)](https://github.com/mattermost/mattermost/commit/c4627201869d6d3a75b260b9812069a6bb8b046a) | 2026-03-03 |
-| a7930cc7 | [fix: flaky flag-messages.spec (#35453)](https://github.com/mattermost/mattermost/commit/a7930cc782520120e84b4b310c64cfc8e488aeb4) | 2026-03-04 |
-| 3726e87e | [\[MM-67749\] Fix enter key issue for AI rewrite (#35449)](https://github.com/mattermost/mattermost/commit/3726e87ef236e4613de8c88c1274d3918fc4c965) | 2026-03-03 |
 | 72460bff | [fix: datetime and edit specs (#35455)](https://github.com/mattermost/mattermost/commit/72460bff617b4c408a453b70da3546142ef003e8) | 2026-03-04 |
 | a9a3d3f8 | [\[MM-65587\] Remove unused audit log file rotation settings (#35170)](https://github.com/mattermost/mattermost/commit/a9a3d3f889af805d52f534f2228feb02df2be55f) | 2026-03-04 |
 | 014fee59 | [fix: webhook server connection error in cypress (#35471)](https://github.com/mattermost/mattermost/commit/014fee5950c0b10fa39677ad5bf01cd25fba4f48) | 2026-03-04 |
