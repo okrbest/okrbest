@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-07 09:26
+- 갱신일: 2026-08-07 09:58
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1010개
+- 남은 커밋: 1008개
 
-**마지막 반영 커밋:** `ec0ad9d1` | [Translations update from Mattermost Weblate (#35404)](https://github.com/mattermost/mattermost/commit/ec0ad9d1b14f900fd99edbbed2d327be3491f0df) | 2026-02-23
+**마지막 반영 커밋:** `b831c18f` | [Increase minimum version of Node to 24 and NPM to 11 (#35413)](https://github.com/mattermost/mattermost/commit/b831c18f674a5a82d0df3f44d4c47ccea077ccdf) | 2026-02-24
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 8fd7aea6 | [update intune doc link (#35166)](https://github.com/mattermost/mattermost/commit/8fd7aea63c52f2c1c0016d4a60255d5ff77c4983) | 2026-02-24 |
-| 4b8ff4e6 | [fix: flaky MM-T5521-8 (#35385)](https://github.com/mattermost/mattermost/commit/4b8ff4e6a3fd82364709d07bade18afbcbb79d87) | 2026-02-24 |
-| b831c18f | [Increase minimum version of Node to 24 and NPM to 11 (#35413)](https://github.com/mattermost/mattermost/commit/b831c18f674a5a82d0df3f44d4c47ccea077ccdf) | 2026-02-24 |
 | 7b5c3433 | [E2E/Test: Migrate flaky MM-T388 to playwright (#35369)](https://github.com/mattermost/mattermost/commit/7b5c34339d710231361f8c68453b25da5392cc15) | 2026-02-25 |
 | 60fbce7d | [\[MM-67671\] Add CJK Post search support for PostgreSQL (#35260)](https://github.com/mattermost/mattermost/commit/60fbce7d03f2bbe00238c4c988b9d86b3360a0bd) | 2026-02-25 |
 | 24d3fed7 | [Update filippo.io/edwards25519 (#35422)](https://github.com/mattermost/mattermost/commit/24d3fed77757dcc621deef5a92d2ec932fad4c4d) | 2026-02-25 |
@@ -1021,6 +1018,7 @@
 | eed994d1 | [\[MM-70114\] Fix flaky channel guard broadcast test (#37847)](https://github.com/mattermost/mattermost/commit/eed994d1062da9305ec950ba10ddb5faf0d6396f) | 2026-08-06 |
 | 318fd812 | [Fix flaky TestComplianceStore/postgres/MessageExport_UntilUpdateAt (#37856)](https://github.com/mattermost/mattermost/commit/318fd81259c9c1b8859a3f6e357b26e9603d3e4a) | 2026-08-06 |
 | dce666b0 | [MM-69980 Fix edited posts being slightly taller than unedited ones (#37693)](https://github.com/mattermost/mattermost/commit/dce666b02d8ec1864ed7b368157cc6d8ab96e5b4) | 2026-08-06 |
+| fbf8402d | [\[MM-65680\] Add new configuration 'AttributeRefreshIntervalSeconds' to Access Control (#37854)](https://github.com/mattermost/mattermost/commit/fbf8402d4bce027823d7788c8f48401d839f8b31) | 2026-08-06 |
 
 ## 제외된 커밋
 
