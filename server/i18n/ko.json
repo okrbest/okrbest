@@ -2517,6 +2517,14 @@
     "translation": "페이로드를 파싱하는 중 오류가 발생했습니다."
   },
   {
+    "id": "api.plugin.install.check_directory.app_error",
+    "translation": "플러그인 디렉토리 설정을 확인하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "api.plugin.install.directory_conflict.app_error",
+    "translation": "플러그인을 설치할 수 없습니다: PluginSettings.Directory가 ImportSettings.Directory와 충돌합니다."
+  },
+  {
     "id": "api.plugin.install.download_failed.app_error",
     "translation": "플러그인 다운로드 중 오류가 발생했습니다."
   },
@@ -3853,6 +3861,14 @@
   {
     "id": "api.upgrade_to_enterprise_status.signature.app_error",
     "translation": "OKR.BEST Enterprise Edition으로 업그레이드하지 못했습니다. 다운로드한 이진 파일의 디지털 서명을 확인할 수 없습니다."
+  },
+  {
+    "id": "api.upload.create.check_directory.app_error",
+    "translation": "임포트 디렉토리 설정을 확인하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "api.upload.create.directory_conflict.app_error",
+    "translation": "임포트 업로드를 생성할 수 없습니다: ImportSettings.Directory가 PluginSettings.Directory와 충돌합니다."
   },
   {
     "id": "api.upload.create.upload_channel_not_shared_with_remote.app_error",
