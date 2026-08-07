@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-07 14:35
+- 갱신일: 2026-08-07 15:23
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 985개
+- 남은 커밋: 977개
 
-**마지막 반영 커밋:** `e296a314` | [\[MM-67677\] Adjust max autotranslations workers to 64 (#35463)](https://github.com/mattermost/mattermost/commit/e296a314bb93a318b66aec81353776b7d95aa04a) | 2026-03-04
+**마지막 반영 커밋:** `99d119cf` | [\[MM-66846\] Fix missing ES version and plugins in diagnostics (#35475)](https://github.com/mattermost/mattermost/commit/99d119cf85849242e312cbc9789f533a45ecac12) | 2026-03-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 7f0fa493 | [Update latest minor version to 11.6.0 (#35479)](https://github.com/mattermost/mattermost/commit/7f0fa4937d88f7fad0b6946d1f7fe6f5043b36b8) | 2026-03-05 |
-| 7e7a1b58 | [fix: only match root-level JSONL files when importing a zip (#35481)](https://github.com/mattermost/mattermost/commit/7e7a1b582f283e48f711574e8bc38dcde24cb0b4) | 2026-03-05 |
-| 5d6e6733 | [MM-45293 Index all attachment content fields in Elasticsearch (#35454)](https://github.com/mattermost/mattermost/commit/5d6e6733d594772e7cd289280462623b09acff47) | 2026-03-05 |
-| cbdf5536 | [Add structured JSON output for recap summarization (#35496)](https://github.com/mattermost/mattermost/commit/cbdf5536fd96dc5b0308967d4568af58c577570f) | 2026-03-05 |
-| b9bf1613 | [Add operationId to content_flagging endpoints (#34231)](https://github.com/mattermost/mattermost/commit/b9bf16135f2266f643f20a2a8d1bcbc21add23f7) | 2026-03-05 |
-| cd85c7e2 | [Consistent use of uppercase LDAP tag (#31292)](https://github.com/mattermost/mattermost/commit/cd85c7e2834464554ad27a456acab694c7df6b77) | 2026-03-05 |
-| 16408fd1 | [Update package-lock.json with updated engines field (#35484)](https://github.com/mattermost/mattermost/commit/16408fd186026421bcc007758bceba5dda80fc80) | 2026-03-05 |
-| 99d119cf | [\[MM-66846\] Fix missing ES version and plugins in diagnostics (#35475)](https://github.com/mattermost/mattermost/commit/99d119cf85849242e312cbc9789f533a45ecac12) | 2026-03-05 |
 | c513d04e | [chore: bump versions of actions (#35386)](https://github.com/mattermost/mattermost/commit/c513d04e7efa646b9ae31764916adc67f932c5f9) | 2026-03-06 |
 | cbe76698 | [chore: migrate flaky cypress test to playwright (#35468)](https://github.com/mattermost/mattermost/commit/cbe7669851f9b6697101b73bf52c2ab550858a15) | 2026-03-06 |
 | 56f51d7d | [Use standard session handler for updateUserAuth endpoint (#35488)](https://github.com/mattermost/mattermost/commit/56f51d7df254ef0dea727976ca3b4b2175ba2fab) | 2026-03-06 |
