@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-07 10:48
+- 갱신일: 2026-08-07 11:45
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1001개
+- 남은 커밋: 1000개
 
-**마지막 반영 커밋:** `e6cd18c9` | [Fix IntuneSettings config access tags to use correct permission ID (#35414)](https://github.com/mattermost/mattermost/commit/e6cd18c90be8638efb7f3b28268b50d0eb4f7a1e) | 2026-02-27
+**마지막 반영 커밋:** `8a4632e3` | [Fix flaky unit tests for TestClientCreateOutgoingOAuthConnection (#35152)](https://github.com/mattermost/mattermost/commit/8a4632e330fa0049046b9e11991a98bcd6a74135) | 2026-03-01
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 8a4632e3 | [Fix flaky unit tests for TestClientCreateOutgoingOAuthConnection (#35152)](https://github.com/mattermost/mattermost/commit/8a4632e330fa0049046b9e11991a98bcd6a74135) | 2026-03-01 |
 | 5fdec790 | [\[MM-67640\] Fix checks around autotranslations permission (#35351)](https://github.com/mattermost/mattermost/commit/5fdec79007aca474366c8cd81a7e994cbfde0fad) | 2026-03-02 |
 | 2edc2f2c | [Translations update from Mattermost Weblate (#35446)](https://github.com/mattermost/mattermost/commit/2edc2f2c0537ab0d8a8035e28377e330adac3728) | 2026-03-02 |
 | 7a0f83ba | [\[MM-67681\] Hit the right caches for Channels.GetMany and Channels.getByNames (#35399)](https://github.com/mattermost/mattermost/commit/7a0f83ba72442753fae0a1d850bfd2756330e222) | 2026-03-02 |
