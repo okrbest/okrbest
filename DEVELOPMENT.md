@@ -246,7 +246,26 @@ MM_EMAILSETTINGS_SMTPPORT=10025
 
 > 덤프의 원본 DB명이 `mattermost_test`가 아니어도 무방합니다. `-C` 옵션 없이 만든 일반 덤프에는 DB명이 포함되지 않으므로 어떤 이름의 DB로도 복원할 수 있습니다. 단, 덤프에 `OWNER TO mmuser` 구문이 포함되므로 DB 유저명은 `mmuser`를 유지하는 것을 권장합니다.
 
-### 1. 접속 정보 파일 생성 (git 추적 제외)
+### 1. 사전 확인
+
+**Docker 실행 확인** — Windows에서는 Docker Desktop이 실행 중이어야 합니다.
+
+```sh
+docker ps
+```
+
+**Node 버전 확인** — 저장소 루트의 `.nvmrc`에 지정된 버전을 사용합니다. `webapp/package.json`의 `engines`가 `node ^24`, `npm ^11`을 요구하므로 버전이 낮으면 웹앱 실행 단계에서 실패합니다.
+
+```sh
+cd /path/to/okrbest
+nvm use          # 루트 .nvmrc 기준. 해당 버전이 없으면 nvm install
+node -v          # v24.x
+npm -v           # 11.x
+```
+
+> `webapp/`에는 `.nvmrc`가 없습니다. `webapp` 디렉토리에서 `nvm use`를 실행해도 nvm이 상위 디렉토리로 올라가 루트 `.nvmrc`를 사용하므로 결과는 같습니다.
+
+### 2. 접속 정보 파일 생성 (git 추적 제외)
 
 비밀번호를 저장소에 커밋하지 않도록 `server/.env` 파일을 생성합니다(`.gitignore`에 이미 등록됨):
 
@@ -269,13 +288,23 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
 ```
 
-### 2. pgvector 이미지 사용 (선택)
+### 3. pgvector 이미지 사용 (선택)
 
 덤프에 `CREATE EXTENSION vector` 구문이 있는 경우 pgvector 지원 이미지를 사용합니다. 설정 방법과 주의 사항은 [pgvector 이미지 사용](#pgvector-이미지-사용)을 참고하세요. 실제 vector 컬럼이 없는 덤프라면 일반 이미지에서도 확장 생성 에러 1건만 남기고 복원은 정상 진행됩니다.
 
-### 3. postgres 컨테이너 재생성
+### 4. postgres 컨테이너 기동
 
-`POSTGRES_*` 환경 변수는 initdb 최초 실행 시에만 적용되므로, 접속 정보를 바꿨다면 컨테이너를 재생성해야 합니다.
+`.env`의 `MM_SQLSETTINGS_DATASOURCE` 값에는 `&`가 포함되어 있으므로 반드시 아래 방식으로 로드합니다. **새 셸을 열 때마다 다시 로드해야 합니다.**
+
+```sh
+cd server
+set -a; . ./.env; set +a
+make start-docker
+```
+
+`config.mk`의 `ENABLED_DOCKER_SERVICES` 기본값에 따라 postgres 외에 inbucket·redis·prometheus·grafana·loki·promtail이 함께 올라갑니다.
+
+**컨테이너 재생성이 필요한 경우** — `POSTGRES_*` 환경 변수는 initdb 최초 실행 시에만 적용됩니다. 접속 정보를 새로 바꿨거나 pgvector 이미지로 전환하는 경우에만 재생성합니다. 이미 같은 접속 정보로 쓰던 컨테이너가 있다면 재생성 없이 5번으로 넘어가면 됩니다(덤프 교체는 DB만 다시 만들면 되므로 컨테이너를 건드릴 필요가 없습니다).
 
 > **주의:** 아래 명령은 기존 로컬 DB 데이터를 삭제합니다.
 
@@ -287,7 +316,13 @@ set -a; . ./.env; set +a
 make start-docker
 ```
 
-### 4. DB 초기화 및 덤프 복원
+### 5. DB 초기화 및 덤프 복원
+
+서버가 실행 중이면 DB 접속이 남아 있어 `DROP DATABASE`가 실패합니다. 먼저 중지합니다.
+
+```sh
+make stop-server
+```
 
 ```sh
 docker exec -e PGPASSWORD="$POSTGRES_PASSWORD" mattermost-postgres \
@@ -308,18 +343,88 @@ docker exec -e PGPASSWORD="$POSTGRES_PASSWORD" mattermost-postgres \
   -c "SELECT count(*) FROM users;"
 ```
 
-### 5. 서버 실행
+### 6. 서버·웹앱 실행 (watcher 모드)
 
 서버가 `.env`의 `MM_SQLSETTINGS_DATASOURCE`로 접속하도록 같은 셸에서 실행합니다. 새 셸을 열었다면 env 로드부터 다시 합니다:
 
 ```sh
+cd server
+set -a; . ./.env; set +a
+make run
+```
+
+`make run`은 `run-server`와 `run-client`를 순서대로 실행합니다.
+
+- **`run-server`** — 의존 타겟으로 `start-docker`(docker 기동)와 `client`(`server/client` → `webapp/channels/dist` 심볼릭 링크 생성)를 먼저 처리한 뒤 서버를 띄웁니다. `config.mk`의 `RUN_SERVER_IN_BACKGROUND ?= true` 때문에 서버는 백그라운드로 빠지고 곧바로 다음 타겟으로 넘어갑니다.
+- **`run-client`** — `webapp`의 `make run` → `npm run run`. `concurrently`로 `channels`(`webpack --progress --watch`)와 `platform/{types,client,components,shared}` 서브패키지를 동시에 watch합니다. 이 프로세스는 포그라운드에 남으므로 터미널을 계속 열어둡니다.
+
+첫 실행이면 `webapp/node_modules` 설치와 webpack 초기 번들링에 수 분이 걸립니다.
+
+**watcher 동작 방식** — 소스를 수정하면 webpack이 `webapp/channels/dist`를 다시 빌드하고, 서버가 심볼릭 링크를 통해 그 결과물을 서빙합니다. HMR(Hot Module Replacement)이 아니므로 **리빌드가 끝난 뒤 브라우저를 수동으로 새로고침**해야 합니다.
+
+터미널을 나눠 쓰려면:
+
+```sh
+# 터미널 A — 서버
+cd server
 set -a; . ./.env; set +a
 make run-server
+
+# 터미널 B — 웹앱 watcher
+cd webapp
+make run
 ```
+
+자동 새로고침(HMR)이 필요하면 서버는 `make run-server`로 따로 띄우고 웹앱만 dev-server로 실행합니다:
+
+```sh
+cd webapp
+npm run dev-server      # webpack serve --mode development
+```
+
+watcher 없이 한 번만 빌드하려면:
+
+```sh
+cd webapp && npm run build      # NODE_ENV=production
+cd ../server && make run-server
+```
+
+### 7. 브라우저에서 확인
+
+서버 응답 확인:
+
+```sh
+curl http://localhost:8065/api/v4/system/ping
+```
+
+**webpack 초기 번들링이 끝나기 전에는 화면이 뜨지 않습니다.** 터미널에 webpack 완료 로그가 출력된 뒤 접속합니다.
+
+http://localhost:8065
+
+로그인은 복원한 덤프에 들어 있는 기존 계정으로 합니다. 새 관리자 계정이 필요하면:
+
+```sh
+cd server
+bin/mmctl user create --local --email ADMIN_EMAIL --username ADMIN_USERNAME --password ADMIN_PASSWORD --system-admin
+```
+
+이메일 발송 확인이 필요하면 Inbucket을 사용합니다: http://localhost:9001
+
+### 8. 중지
+
+```sh
+cd server
+make stop            # 서버 + 웹앱 + docker 일괄 중지
+```
+
+개별 중지는 `make stop-server`, `make stop-client`, `make stop-docker`를 사용합니다.
 
 ### 문제 해결
 
-- **`\restrict` 관련 에러**: 컨테이너의 psql 버전이 오래된 경우입니다. `docker rm -f mattermost-postgres && docker pull pgvector/pgvector:pg14` 후 3번부터 다시 진행합니다.
+- **`\restrict` 관련 에러**: 컨테이너의 psql 버전이 오래된 경우입니다. `\restrict`/`\unrestrict`는 PostgreSQL 14.19(2025-08 보안 릴리스) 이상의 psql만 인식합니다. `docker exec mattermost-postgres psql --version`으로 확인한 뒤, 낮으면 이미지를 갱신하고 4번(컨테이너 재생성)부터 다시 진행합니다.
+  ```sh
+  docker rm -f mattermost-postgres && docker pull pgvector/pgvector:pg14
+  ```
 - **첨부 파일이 보이지 않음**: SQL 덤프에는 DB만 포함됩니다. 업로드 파일은 원본 서버의 파일 저장소 디렉토리(`data/`)를 별도로 복사해야 합니다.
 - **`invalid value for parameter "default_text_search_config": "pg_catalog.korean"` 로그 반복**: `server/build/docker/postgres.conf`가 한국어 텍스트 검색 설정을 기본값으로 지정하지만 공식 postgres/pgvector 이미지에는 해당 설정이 없어 접속마다 에러가 남습니다. init 스크립트(`server/build/docker/postgres_node_database.sql`)가 `simple` 복사본으로 `pg_catalog.korean`을 생성하므로 볼륨을 새로 만들면 자동 해결됩니다. 기존 볼륨이라면 수동 생성합니다:
   ```sh
@@ -329,6 +434,16 @@ make run-server
   ```
   (`template1` 외에 사용 중인 DB에도 각각 실행. 이후 생성되는 DB는 `template1`에서 상속.)
 - **`.env` source 시 `[1]+ Done ...` 메시지**: `MM_SQLSETTINGS_DATASOURCE` 값의 `&`가 셸에서 백그라운드 실행으로 해석된 것입니다. 값 전체를 작은따옴표로 감싸세요.
+- **`DROP DATABASE` 실패 (`is being accessed by other users`)**: 서버가 아직 DB에 붙어 있습니다. `make stop-server`로 중지한 뒤 다시 시도합니다. 그래도 남아 있으면 접속을 강제로 끊습니다:
+  ```sh
+  docker exec -e PGPASSWORD="$POSTGRES_PASSWORD" mattermost-postgres \
+    psql -U "$POSTGRES_USER" -d postgres \
+    -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = 'mattermost_test';"
+  ```
+- **브라우저에서 화면이 뜨지 않음**: webpack 초기 번들링이 아직 끝나지 않은 경우입니다. `curl .../api/v4/system/ping`이 `status: OK`를 반환하는데 화면만 안 뜬다면 webpack 로그를 기다립니다.
+- **소스를 고쳤는데 화면에 반영되지 않음**: `make run`은 watcher이지 HMR이 아닙니다. webpack 리빌드 로그를 확인한 뒤 브라우저를 새로고침하세요. 자동 반영이 필요하면 `npm run dev-server`를 사용합니다.
+- **`engines` 관련 npm 에러 (`Unsupported engine`)**: `webapp/package.json`이 `node ^24`, `npm ^11`을 요구합니다. 저장소 루트에서 `nvm use`로 `.nvmrc` 버전을 적용한 뒤 다시 실행하세요.
+- **`docker` 명령이 응답하지 않음**: Windows에서 Docker Desktop이 실행 중인지 확인합니다.
 
 ---
 
