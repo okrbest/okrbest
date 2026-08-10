@@ -13,7 +13,7 @@
 ## 1. 두 도구를 왜 함께 쓰나
 
 - **[Spec Kit](https://github.com/github/spec-kit)** — *무엇을·왜* 만들지 정하는 **명세 파이프라인**. 바로 코딩하지 않고 `명세 → 계획 → 작업 → 구현` 순서로 진행. 산출물 `specs/<NNN>/`이 공식 기준 문서(source of truth).
-- **[Superpowers](https://github.com/obra/superpowers)** — *어떻게* 만들지 통제하는 **구현 규율**(TDD·검증·디버깅·리뷰). 코드를 짜는 순간 자동으로 작동.
+- **[Superpowers](https://github.com/obra/superpowers)** — *어떻게* 만들지 통제하는 **구현 규율**(TDD·검증·디버깅). 구현 단계에서 스킬을 호출해 건다.
 
 > **핵심 개념:** Spec Kit이 **설계도**를 그리고, Superpowers가 **시공 규칙**을 강제합니다. 둘은 겹치지 않고 보완합니다.
 
@@ -21,7 +21,13 @@
 |---|---|---|
 | 담당 | 무엇을·왜 (명세/계획) | 어떻게 (구현 규율) |
 | 형태 | 저장소에 커밋된 스킬 (clone하면 있음) | 사용자 전역 플러그인 (각자 설치) |
-| 호출 | 수동 `/speckit-*` | 자동 (SessionStart 훅) |
+| 호출 | 수동 `/speckit-*` | `/speckit-implement`의 3-bis 단계가 `Skill`로 호출 |
+
+> ⚠️ **규율은 저절로 걸리지 않습니다.** SessionStart 훅이 주입하는 것은
+> `using-superpowers` 하나뿐입니다. `test-driven-development` 같은 개별 스킬은
+> 호출해야 지침이 로드됩니다. 그래서 `/speckit-implement` 스킬에 호출 단계(3-bis)를
+> 넣어 두었습니다 — 세 surface 모두. 사실의 정본은
+> [constitution 원칙 VII](.specify/memory/constitution.md)입니다.
 
 ---
 
@@ -71,7 +77,7 @@ specify version   # 설치 확인
 
 ```
 아이디어 → (0.brainstorming) → 1.specify → 2.clarify → 3.plan → 4.tasks → 5.analyze → 6.implement
-              복잡할 때만                    권장                              권장      ← 여기서 Superpowers 작동
+              복잡할 때만                    권장                              권장      ← 여기서 구현 규율을 건다
 ```
 
 **시작 분기 — 아이디어가 얼마나 명확한가?**
@@ -141,25 +147,52 @@ specify version   # 설치 확인
 /speckit-implement
 ```
 
-→ `tasks.md`를 순서대로 구현. **이때부터 Superpowers 규율이 자동 작동합니다** (4절).
+→ `tasks.md`를 순서대로 구현. 스킬이 **구현 규율 로드(3-bis)** 단계에서 TDD·검증
+스킬을 부르고, 그때부터 모든 과제에 증거를 요구합니다 (4절).
 
 ---
 
-## 4. 구현 중 자동으로 지켜지는 규율
+## 4. 구현 중 무엇을 증거로 남기나
 
-`/speckit-implement` 동안 별도 호출 없이 아래 규율이 적용됩니다. 모두
-[Constitution](.specify/memory/constitution.md)의 규칙을 구현 중에 실제로 강제하는 장치입니다.
+`/speckit-implement`는 문서를 읽은 직후 **구현 규율 로드(3-bis)** 단계를 거칩니다.
+거기서 TDD·검증 스킬을 `Skill` 도구로 부르고, 읽은 문서를 아래 표대로 규율로 바꿉니다.
+**각 행의 증거가 없으면 그 과제는 완료가 아닙니다.**
 
-| Superpowers 스킬 | 하는 일 |
+| 문서 | 뽑는 것 | 남길 증거 |
+|---|---|---|
+| tasks.md 테스트 과제 | TDD 대상 | 구현 전 **실패 출력** |
+| tasks.md 구현 과제 | 위 실패가 통과로 바뀔 대상 | 같은 테스트의 통과 출력 |
+| plan.md Constitution Check | 단계별 게이트 | 게이트 출력 + **기준선 diff** |
+| spec.md SC-### | 종단 판정 기준 | 실측값 (추정 금지) |
+| quickstart.md | 종단 검증 절차 | 절별 통과·실패 기록 |
+| contracts/ | 계약 테스트 대상 | 응답·문턱마다 대응하는 테스트 |
+
+### 규율 스킬은 어디서 오나
+
+| 환경 | 규율의 출처 |
 |---|---|
-| `test-driven-development` | 실패하는 테스트를 **먼저** 작성 |
-| `verification-before-completion` | 검증 명령 **증거**를 보인 후에만 "완료" 선언 |
-| `systematic-debugging` | 땜질 수정 전에 **근본 원인** 조사 |
-| `using-git-worktrees` | 작업당 격리 브랜치/워크스페이스 |
-| `requesting`/`receiving-code-review` | 머지 전 리뷰, 리뷰 의견 맹목 수용 금지 |
+| Claude Code · Codex CLI | superpowers 플러그인. 3-bis에서 `test-driven-development`·`verification-before-completion`을 호출. 예상 밖 실패를 만나면 `systematic-debugging` |
+| Cursor IDE Agent | 플러그인이 없습니다. 3-bis가 [`.cursor/rules/okrbest-workflow.mdc`](.cursor/rules/okrbest-workflow.mdc)의 구현 규율 절을 다시 읽게 합니다 |
 
-에이전트가 이 규율을 건너뛰는 것처럼 보이면 그냥 지적하세요
-("테스트 먼저 작성해줘", "검증 증거 보여줘").
+어느 도구를 쓰든 **남겨야 하는 증거는 같습니다**. 도구가 다르다고 기준이 낮아지지
+않습니다.
+
+### 세 가지를 기억하세요
+
+- **기준선을 먼저 잰다** — 구현 전에 게이트를 돌려 실패 목록을 저장합니다. 회귀는
+  실패 *개수*가 아니라 *목록 diff*로 판정합니다. 이 저장소는 기준선이 깨끗하지 않아서
+  개수 비교가 무의미합니다.
+- **종단 검증은 게이트와 별개다** — 게이트를 다 통과해도 화면을 조작해야만 드러나는
+  결함은 남습니다. `quickstart.md`를 실제 환경에서 훑는 단계가 따로 있습니다.
+- **못 돌렸으면 `미실행`으로 적는다** — 환경이 없어 검증을 못 했으면 그렇게 적습니다.
+  통과로 적지 않습니다.
+
+에이전트가 이 규율을 건너뛰면 지적하세요 ("테스트 먼저 작성해줘", "기준선 diff
+보여줘"). 배선 자체가 빠졌는지는 아래로 확인합니다.
+
+```bash
+bash .specify/scripts/bash/check-workflow-wiring.sh
+```
 
 ---
 
@@ -274,23 +307,26 @@ sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플
 |---|---|---|
 | `specs/<NNN-기능>/` | spec·plan·tasks 등 명세 문서 (**공식 기준**) | 커밋 |
 | `.specify/` | constitution·템플릿·스크립트 | 커밋 |
-| `.claude/skills/speckit-*` · `.agents/skills/speckit-*` | Spec Kit 스킬 정의 | 커밋 |
-| `CLAUDE.md` / `AGENTS.md` | 에이전트 컨텍스트 | 커밋 |
+| `.claude/skills/speckit-*` · `.agents/skills/speckit-*` · `.cursor/skills/speckit-*` | Spec Kit 스킬 정의 (세 벌이 같아야 한다) | 커밋 |
+| `CLAUDE.md` / `AGENTS.md` / `.cursor/rules/*.mdc` | 에이전트 컨텍스트 | 커밋 |
 | `docs/superpowers/` | brainstorming 임시 초안 | .gitignore |
 | `.worktrees/` | 격리 워크스페이스 | .gitignore |
 | `.claude/settings.local.json` | 개인 권한 설정 | 커밋 안 함 |
 
 `.specify/`에 자격증명·비밀값 금지.
 
-**명세 문서 언어:** `specs/` 문서는 **한국어**로 작성합니다. 코드 식별자,
-파일 경로, FR/SC 식별자, BDD 키워드(Given/When/Then)는 원형 유지.
-(상세: [CLAUDE.md](CLAUDE.md))
+**명세 문서 언어와 문체:** `specs/` 문서는 **한국어**로 작성합니다. 코드 식별자,
+파일 경로, FR/SC 식별자, BDD 키워드(Given/When/Then)는 원형 유지. 언어만 정하면
+절반입니다 — 번역투·명사화·관형절 소제목을 막는 문체 규칙이 함께 걸립니다.
+정본: [constitution 원칙 VIII](.specify/memory/constitution.md).
 
-**프로젝트 규칙 (Constitution 요약):** ① 패키지별 품질 게이트 (server:
-`make check-style` + `make test-server`, webapp: `npm run check` +
-`npm run check-types` + `npm run test`) ② webapp은 npm workspaces 전용
-③ 동작 변경 시 테스트 동반 ④ 라이선스·리브랜드 충실성 (`spec-docs/rebrand.md`)
-⑤ i18n `en.json`+`ko.json` 동기화 ⑥ 작업당 브랜치 + Conventional Commits + PR.
+**프로젝트 규칙 (Constitution 요약):** ① 패키지별 품질 게이트 + **그 출력을 완료
+근거로 제시** (server: `make check-style` + `make test-server`, webapp:
+`npm run check` + `npm run check-types` + `npm run test`) ② webapp은 npm workspaces
+전용 ③ **실패를 본 테스트만 인정** ④ 라이선스·리브랜드 충실성
+(`spec-docs/rebrand.md`) ⑤ i18n `en.json`+`ko.json` 동기화 ⑥ 작업당 브랜치 +
+Conventional Commits + PR (rebase 전용) ⑦ Spec 주도 워크플로 — 구현 규율은 호출해야
+걸린다 ⑧ 명세 문서 언어와 문체.
 전문: [constitution.md](.specify/memory/constitution.md)
 
 ---
@@ -304,6 +340,10 @@ sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플
 | brainstorming 초안이 커밋되려 함 | `docs/superpowers/`는 임시 작업 폴더(.gitignore). 공식 기준 문서는 `specs/<NNN>/spec.md` — 커밋 대상에서 제외 지시 |
 | spec에 `[NEEDS CLARIFICATION]`이 남음 | `/speckit-clarify` 실행 |
 | Codex에서 명령이 안 먹음 | 접두사 `$` 확인 (`$speckit-specify`) |
+| implement 중 TDD·검증이 안 지켜짐 | 배선이 빠졌는지 먼저 봅니다. `bash .specify/scripts/bash/check-workflow-wiring.sh` |
+| 게이트를 통과했는데 결함이 남음 | 종단 검증을 건너뛴 것. `quickstart.md`를 실제 환경에서 훑습니다 (4절) |
+| 테스트를 썼는데 아무것도 못 잡음 | 구현 후에 써서 첫 실행부터 통과한 것. 되돌려 실패를 확인하거나 `미검증`으로 표시 |
+| 에이전트마다 SPECKIT 블록 내용이 다름 | `/speckit-plan`이 세 파일을 모두 갱신합니다. 안 맞으면 위 스크립트로 확인 |
 | Spec Kit 버전 확인 | `specify version` |
 | Spec Kit 업그레이드 | 관리자가 수행. ⚠️ `specify init . --force` 재실행 시 `constitution.md`가 템플릿으로 **덮어써짐**. 반드시 백업 후 진행 |
 
