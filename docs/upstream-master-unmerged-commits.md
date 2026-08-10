@@ -3,23 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-10 15:05
+- 갱신일: 2026-08-10 16:11
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 952개
+- 남은 커밋: 943개
 
-**마지막 반영 커밋:** `eddeb87e` | [Replace TextFormatting.escapeRegex with built-in RegExp.escape (#35538)](https://github.com/mattermost/mattermost/commit/eddeb87e76dd555fa6d731a2393ea105cfaaccc1) | 2026-03-10
+**마지막 반영 커밋:** `5aefff30` | [Add CI check for broken mattermost.com links in webapp (#35093)](https://github.com/mattermost/mattermost/commit/5aefff30cf04d12ad02ae619fe04b501092ef63a) | 2026-03-11
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f6a3c7d2 | [fix: Stabilize autotranslation E2E tests for real LibreTranslate service (#35443)](https://github.com/mattermost/mattermost/commit/f6a3c7d20c260ccf89501d648f300f58b8a1c193) | 2026-03-11 |
-| 3057ae7e | [MM-67646 slack import improvements (#35490)](https://github.com/mattermost/mattermost/commit/3057ae7e83e9c827ce7818d67c0f3a208f0d9709) | 2026-03-11 |
-| 560ee5c5 | [\[MM-67626\] Update Playbooks plugin to v2.8.0 (#35549)](https://github.com/mattermost/mattermost/commit/560ee5c59805865177b1957d8a30a68f8eba6b36) | 2026-03-11 |
-| bedb50f4 | [Clear channel selection when opening Recaps (#35552)](https://github.com/mattermost/mattermost/commit/bedb50f4eb4b3f798054c7c4101934a78775e22d) | 2026-03-11 |
-| 15384788 | [Expose popoutRhsPlugin via WebappUtils.popouts for plugin access (#35483)](https://github.com/mattermost/mattermost/commit/15384788f6832209fc34908e57cee0c259c0d028) | 2026-03-11 |
-| 67bf040b | [MM-67795 fix Recaps sidebar icon alignment (#35546)](https://github.com/mattermost/mattermost/commit/67bf040bde9a2a508203d926629f7b20c6da348a) | 2026-03-11 |
-| 162ed1ba | [MM-67684 Separate shared channel permissions from secure connection permissions (#35409)](https://github.com/mattermost/mattermost/commit/162ed1bacd32f2384cc4c5e91a95deceaf7426ef) | 2026-03-11 |
-| baf2bcb6 | [MM-67387 Prevent useExternalLink from erroring on certain invalid links (#35393)](https://github.com/mattermost/mattermost/commit/baf2bcb6f58d16cb3af551457b1c12eb10519ae2) | 2026-03-11 |
-| 5aefff30 | [Add CI check for broken mattermost.com links in webapp (#35093)](https://github.com/mattermost/mattermost/commit/5aefff30cf04d12ad02ae619fe04b501092ef63a) | 2026-03-11 |
 | 2bd143ce | [\[MM-65630\] Implement Search RHS popout, clean up and rework parts of search RHS (#35499)](https://github.com/mattermost/mattermost/commit/2bd143ced747794d40e17bae5654ebc837d085fa) | 2026-03-12 |
 | 608c009e | [Bumping prepackaged MS Teams Meetings plugin version to 2.4.1 (#35564)](https://github.com/mattermost/mattermost/commit/608c009e4f555c1b8579e24917c68418549530ab) | 2026-03-12 |
 | f6a29d82 | [\[MM-67895\] Fix Autotranslation e2e (#35563)](https://github.com/mattermost/mattermost/commit/f6a29d82edb9799ece9a674bac7cdf4748e73075) | 2026-03-12 |
