@@ -164,12 +164,18 @@ docker-compose.override.yaml
 **/CLAUDE.local.md
 CLAUDE.md
 .cursorrules
-.cursor/
+.cursor/*
 
 # spec-kit workflow — committed (exceptions to the ignore rules above)
+# 에이전트 surface 셋의 스킬·규칙은 저장소 정본이다. 셋이 갈라지지 않게 전부 커밋한다.
+# 검사: bash .specify/scripts/bash/check-workflow-wiring.sh
 !/CLAUDE.md
 !/AGENTS.md
 !.claude/skills/
+!.cursor/skills/
+!.cursor/rules/
+# Cursor가 만드는 스크래치 — 정본은 specs/<NNN>/
+.cursor/plans/
 
 # superpowers (local scratch; spec-kit specs/ is canonical)
 docs/superpowers/

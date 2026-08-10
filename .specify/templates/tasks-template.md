@@ -156,7 +156,17 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] TXXX Performance optimization across all stories
 - [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
 - [ ] TXXX Security hardening
-- [ ] TXXX Run quickstart.md validation
+
+### 완료 검증 (고정 — 지우지 않는다)
+
+증거를 남기는 과제다. 셋 다 없으면 게이트를 통과해도 결함이 남는다
+(근거: WORKFLOW_PORTING_GUIDE.md 4-3·4-4절).
+
+- [ ] TXXX 품질 게이트 — 접촉 패키지 게이트를 돌리고, 실패 목록이 구현 전 기준선과
+      같은지 **diff로 보인다**. 개수 비교로 대신하지 않는다
+- [ ] TXXX 종단 검증 — 빌드·배포 후 quickstart.md 시나리오를 **실제 환경에서** 훑고
+      절별 통과·실패를 기록한다. 환경이 없어 못 돌리면 `미실행`으로 적는다
+- [ ] TXXX SC 검증 — spec.md의 SC-### 각각을 **실측값**으로 확인한다 (추정 금지)
 
 ---
 
