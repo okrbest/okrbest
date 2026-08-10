@@ -100,7 +100,7 @@ description: "Task list for 검색 결과 RHS 팝아웃"
 ### Implementation for User Story 1
 
 - [x] T016 [US1] `search_results.tsx`에 `newWindowHandler` 구현 — 현재 모드(검색/멘션/저장됨/고정됨/채널파일)를 판별해 `popoutRhsSearch` 호출 — webapp/channels/src/components/search_results/search_results.tsx (depends on T015, T009)
-- [x] T017 [US1] `search_results.tsx`에 `handleChannelNameClick` 구현 — 검색 결과 채널명 클릭 시 원래 창을 해당 채널로 이동(FR-007) — depends on T015
+- [x] ~~T017~~ [US1] ~~`search_results.tsx`에 `handleChannelNameClick` 구현(FR-007)~~ — **2026-08-10 철회**: upstream이 `a744a758`("Fix an E2E test broken in #35499")에서 이 기능을 완전히 되돌려, `/speckit-sync` 세션에서 동일하게 cherry-pick 반영(코드·테스트 제거). spec.md FR-007도 철회 처리.
 - [x] T018 [P] [US1] `search_results/types.ts`에 팝아웃 관련 신규 props 타입 추가 — webapp/channels/src/components/search_results/types.ts (depends on T016)
 
 **Checkpoint**: User Story 1이 독립적으로 완전히 동작·검증 가능(quickstart.md 시나리오 1). 이 시점에 검색 팝아웃은 실사용 가능한 MVP다.
@@ -127,11 +127,11 @@ description: "Task list for 검색 결과 RHS 팝아웃"
 
 ## Phase 5: User Story 3 - 팝아웃 창에서 검색 결과 상호작용 (Priority: P3)
 
-**Goal**: 팝아웃 창 안에서도 검색어 수정·필터 전환·페이지네이션·채널 이동뿐 아니라, 결과 게시물의 댓글(스레드) 열기가 팝아웃 창 자체를 바꾸지 않고 별도 스레드 팝아웃으로 열린다.
+**Goal**: 팝아웃 창 안에서도 검색어 수정·필터 전환·페이지네이션뿐 아니라, 결과 게시물의 댓글(스레드) 열기가 팝아웃 창 자체를 바꾸지 않고 별도 스레드 팝아웃으로 열린다.
 
-**Independent Test**: quickstart.md 시나리오 3 — 팝아웃 창에서 검색어 변경, 추가 로드, 채널명 클릭, 댓글 열기(별도 스레드 팝아웃), 새로고침 후 상태 복원을 확인.
+**Independent Test**: quickstart.md 시나리오 3 — 팝아웃 창에서 검색어 변경, 추가 로드, 댓글 열기(별도 스레드 팝아웃), 새로고침 후 상태 복원을 확인.
 
-> **참고(`/speckit-analyze` C1 반영)**: spec.md의 User Story 3는 검색어 변경·팀 변경·필터 전환·추가 로드·채널명 클릭·댓글 열기를 함께 시나리오로 서술하지만, 이 중 검색어 변경·팀 변경·새로고침 복원(FR-005/SC-004)은 Foundational(T005), 추가 로드·필터 전환(FR-006)은 Foundational(T002), **채널명 클릭(FR-007)은 User Story 1(T015/T017)에서 이미 구현·검증된다** — `search_results.tsx`는 파일 하나라 US1에서 한 번에 작성됐기 때문이다. 이 Phase 5에서 **신규로 추가되는 것은 댓글 열기 → 별도 스레드 팝아웃 라우팅(FR-008)뿐**이며, 나머지는 이미 완료된 항목의 재확인이다.
+> **참고(`/speckit-analyze` C1 반영, 2026-08-10 갱신)**: spec.md의 User Story 3는 검색어 변경·팀 변경·필터 전환·추가 로드·댓글 열기를 함께 시나리오로 서술한다(채널명 클릭은 upstream `a744a758` 반영으로 철회됨 — T017 참고). 검색어 변경·팀 변경·새로고침 복원(FR-005/SC-004)은 Foundational(T005), 추가 로드·필터 전환(FR-006)은 Foundational(T002)에서 이미 구현·검증된다. 이 Phase 5에서 **신규로 추가되는 것은 댓글 열기 → 별도 스레드 팝아웃 라우팅(FR-008)뿐**이며, 나머지는 이미 완료된 항목의 재확인이다.
 
 ### Tests for User Story 3 ⚠️
 

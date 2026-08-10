@@ -83,7 +83,7 @@ webapp/channels/src/
 │   │   ├── search.tsx                           # 수정: 상동(현재 574줄 → 대폭 축소 예상)
 │   │   └── types.ts                             # 수정: 액션 타입이 훅으로 이동
 │   ├── search_results/
-│   │   ├── search_results.tsx                   # 수정: newWindowHandler 콜백 구현(popoutRhsSearch 호출), 채널명 클릭 핸들러
+│   │   ├── search_results.tsx                   # 수정: newWindowHandler 콜백 구현(popoutRhsSearch 호출). 채널명 클릭 핸들러는 upstream a744a758 반영으로 이후 제거됨(spec.md FR-007 참고)
 │   │   └── types.ts                             # 수정: 신규 props(팝아웃 관련)
 │   ├── post/
 │   │   ├── index.tsx                            # 수정: isPopoutWindow 기반 canReply 분기(007의 null 가드와 별개 라인)
