@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-07 21:31
+- 갱신일: 2026-08-10 10:28
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 968개
+- 남은 커밋: 963개
 
-**마지막 반영 커밋:** `56953189` | [Bump the github-actions-updates group with 11 updates (#35500)](https://github.com/mattermost/mattermost/commit/56953189f362bff0bdbde0bc921d2d84296a654a) | 2026-03-07
+**마지막 반영 커밋:** `c0c2ff2a` | [\[MM-67314\] Fix system bot DM restriction bypass (#35477)](https://github.com/mattermost/mattermost/commit/c0c2ff2ad9a7e98c8e97388652fae0c582b11c8d) | 2026-03-09
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 06d80685 | [docs(auth): Clarify Google SSO username/email sync behavior (#34475)](https://github.com/mattermost/mattermost/commit/06d806857345248ac203ad831d0cfc8b773299b4) | 2026-03-09 |
-| 0c0d2eb3 | [fix: E2E-only PR image tag for release branches (#35472)](https://github.com/mattermost/mattermost/commit/0c0d2eb373b7241287e156d54b53c84a7af449f0) | 2026-03-09 |
-| 6b28864f | [E2E/Cypress: Upgrade cypress to 15.11 (#35466)](https://github.com/mattermost/mattermost/commit/6b28864fdcdd93c7fb78c8b3941c73dba0280103) | 2026-03-09 |
-| dc035b8f | [Translations update from Mattermost Weblate (#35531)](https://github.com/mattermost/mattermost/commit/dc035b8f09dd554eb52b95d9df1fe8e9a87b647f) | 2026-03-09 |
-| dd08e0e6 | [SEC-9289 Port scripts/update-versions to a shell script (#35417)](https://github.com/mattermost/mattermost/commit/dd08e0e63db182703c88e41da3f923e3819cfa23) | 2026-03-09 |
-| 0c06c262 | [Fix multiselect dynamic data source default splitting (#35340)](https://github.com/mattermost/mattermost/commit/0c06c2628566ef120f481c8399f5c68639aa0ecd) | 2026-03-10 |
-| ac9d99bd | [Add agent-browser skill and update cloud agent docs (#35534)](https://github.com/mattermost/mattermost/commit/ac9d99bdd4657a78c9612444888d09fcda16db3e) | 2026-03-09 |
-| 79ee7d9e | [MM-67686: Elasticsearch indexing job progress estimation (#35433)](https://github.com/mattermost/mattermost/commit/79ee7d9e165dda19624c10f2c3bcb2c3ca140442) | 2026-03-09 |
-| 2ada8d76 | [MM-67540 - Allow searching public channel messages without channel membership (#35298)](https://github.com/mattermost/mattermost/commit/2ada8d7659a53815ea96c7917b6816706755dbaf) | 2026-03-09 |
-| c0c2ff2a | [\[MM-67314\] Fix system bot DM restriction bypass (#35477)](https://github.com/mattermost/mattermost/commit/c0c2ff2ad9a7e98c8e97388652fae0c582b11c8d) | 2026-03-09 |
 | 7e0af2de | [MM-67540 - Align Elasticsearch backfill throttle to 10k requests/sec (#35539)](https://github.com/mattermost/mattermost/commit/7e0af2de5793cbab39eae6a4a77a6064a95af95e) | 2026-03-09 |
 | 5a1ea950 | [encode special characters on some error pages (#35492)](https://github.com/mattermost/mattermost/commit/5a1ea95044dc2d1ca601bfe9a4c1bc17990f3872) | 2026-03-10 |
 | 24f726fa | [feat: pass unicode emojis from emoji picker to textare (#35419)](https://github.com/mattermost/mattermost/commit/24f726fa37e41766112c139786c4cd2f3935895d) | 2026-03-10 |
@@ -979,6 +969,11 @@
 | dce666b0 | [MM-69980 Fix edited posts being slightly taller than unedited ones (#37693)](https://github.com/mattermost/mattermost/commit/dce666b02d8ec1864ed7b368157cc6d8ab96e5b4) | 2026-08-06 |
 | fbf8402d | [\[MM-65680\] Add new configuration 'AttributeRefreshIntervalSeconds' to Access Control (#37854)](https://github.com/mattermost/mattermost/commit/fbf8402d4bce027823d7788c8f48401d839f8b31) | 2026-08-06 |
 | 67496bd1 | [Bumping prepackaged Jira version to v4.8.0 (#37862)](https://github.com/mattermost/mattermost/commit/67496bd1575a0d4ad56355f9a5967b4395dfd642) | 2026-08-07 |
+| 5ddb96d8 | [\[MM-69737\] Show a red warning callout in the System Console when settings are not recommended for production (#37407)](https://github.com/mattermost/mattermost/commit/5ddb96d8175435838580ca90f3dc69ab4178ac9e) | 2026-08-07 |
+| 04a0efba | [MM-70115: Update account type switch handling (#37861)](https://github.com/mattermost/mattermost/commit/04a0efba6fad655c7bf0b88b278111643c605037) | 2026-08-07 |
+| bf194bc9 | [MM-57390: Return error when inviting deactivated users to a team (#37096)](https://github.com/mattermost/mattermost/commit/bf194bc9d4e25eff93032897a2be1c3496a7d5b5) | 2026-08-07 |
+| 68535c13 | [\[MM-70130\] Add permanent banner for non-production developer license keys (#37846)](https://github.com/mattermost/mattermost/commit/68535c13bcaa0026ed3d0622e11aa2cea4f4ff4e) | 2026-08-07 |
+| 53373e37 | [Add Playwright E2E tests for demo plugin webapp components (#36560)](https://github.com/mattermost/mattermost/commit/53373e3752c6e8d7979b787f342fea4c56e68472) | 2026-08-07 |
 
 ## 제외된 커밋
 
@@ -1009,10 +1004,14 @@
 
 | f1b9aa05 | [Rename Content Flagging to Data Spillage Handling (#35407)](https://github.com/mattermost/mattermost/commit/f1b9aa052e821701c9184e16337558f96b8755f4) | Content Flagging 기능을 'Data Spillage Handling'/'Quarantine for Review'로 전면 개명하는 커밋. 기본 신고 사유를 'OPSEC concern', 'CUI violation', 'Need-to-know violation' 등 미국 국방·정보기관(DISC) 특화 용어로 교체 — okrbest는 일반 협업·OKR 툴로 리브랜드된 포크라 이 용어가 제품 성격과 맞지 않음(사용자 확인). 41개 파일 525줄 규모에 실제 conflict 2건(flag_post_modal.tsx, en.json) 발생. 커밋에 포함된 부수 수정(getContentReviewBot의 nil bot 방지, postContentReviewBotMessage 시그니처 리팩터, 아이콘 컴포넌트 교체)은 전부 이 rename 작업 자체가 만든 파생 버그/작업이라 용어를 유지하면 분리 반영할 실익도 없음. 현재 'Content Flagging'/'Flag message' 용어 유지. |
 
+| ac9d99bd | [Add agent-browser skill and update cloud agent docs (#35534)](https://github.com/mattermost/mattermost/commit/ac9d99bdd4657a78c9612444888d09fcda16db3e) | Mattermost 자체 Claude Code Cloud 에이전트용 실험적 도구(agent-browser 스킬, skills-lock.json, AGENTS.CLOUD.md). upstream 자신도 이후 b4fcb472012(#36930)에서 완전히 되돌림 — 우리는 AGENTS.CLOUD.md를 가진 적 없고 이 클라우드 에이전트 인프라를 쓰지 않음. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
 |---|---|---|
+
+| 2ada8d76 | [MM-67540 - Allow searching public channel messages without channel membership (#35298)](https://github.com/mattermost/mattermost/commit/2ada8d7659a53815ea96c7917b6816706755dbaf) | 공개채널 멤버십 없이 메시지 검색 허용 (ES/OpenSearch channel_type 인덱싱 + 백필 + 컴플라이언스 오버라이드) |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
