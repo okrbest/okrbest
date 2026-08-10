@@ -954,6 +954,8 @@
   "admin.elasticsearch.enableAutocompleteTitle": "Enable Elasticsearch for autocomplete queries:",
   "admin.elasticsearch.enableIndexingDescription": "When true, indexing of new posts occurs automatically. Search queries will use database search until \"Enable Elasticsearch for search queries\" is enabled. <link>Learn more about Elasticsearch in our documentation.</link>",
   "admin.elasticsearch.enableIndexingTitle": "Enable Elasticsearch Indexing:",
+  "admin.elasticsearch.enableSearchPublicChannelsWithoutMembershipDescription": "When enabled, users can find messages in public channels they have not joined. When enabled for the first time, existing posts will be updated in the background. This process is throttled to avoid impacting search performance. This setting has no effect when Compliance Mode is enabled.",
+  "admin.elasticsearch.enableSearchPublicChannelsWithoutMembershipTitle": "Allow searching public channels without membership:",
   "admin.elasticsearch.enableSearchingDescription": "Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used.",
   "admin.elasticsearch.enableSearchingTitle": "Enable Elasticsearch for search queries:",
   "admin.elasticsearch.ignoredPurgeIndexes": "Indexes to skip while purging:",
