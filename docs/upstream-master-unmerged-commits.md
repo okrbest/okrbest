@@ -3,26 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-10 10:28
+- 갱신일: 2026-08-10 15:05
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 963개
+- 남은 커밋: 952개
 
-**마지막 반영 커밋:** `c0c2ff2a` | [\[MM-67314\] Fix system bot DM restriction bypass (#35477)](https://github.com/mattermost/mattermost/commit/c0c2ff2ad9a7e98c8e97388652fae0c582b11c8d) | 2026-03-09
+**마지막 반영 커밋:** `eddeb87e` | [Replace TextFormatting.escapeRegex with built-in RegExp.escape (#35538)](https://github.com/mattermost/mattermost/commit/eddeb87e76dd555fa6d731a2393ea105cfaaccc1) | 2026-03-10
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 7e0af2de | [MM-67540 - Align Elasticsearch backfill throttle to 10k requests/sec (#35539)](https://github.com/mattermost/mattermost/commit/7e0af2de5793cbab39eae6a4a77a6064a95af95e) | 2026-03-09 |
-| 5a1ea950 | [encode special characters on some error pages (#35492)](https://github.com/mattermost/mattermost/commit/5a1ea95044dc2d1ca601bfe9a4c1bc17990f3872) | 2026-03-10 |
-| 24f726fa | [feat: pass unicode emojis from emoji picker to textare (#35419)](https://github.com/mattermost/mattermost/commit/24f726fa37e41766112c139786c4cd2f3935895d) | 2026-03-10 |
-| e5f4b982 | [Add operation tracking fields to bridge client calls (#35514)](https://github.com/mattermost/mattermost/commit/e5f4b982e5539d0124ace62d227010ae63c425ac) | 2026-03-10 |
-| 1e474363 | [Fix create recap channel checkbox selection (#35533)](https://github.com/mattermost/mattermost/commit/1e47436308cade18ae56cda0cb652e7a80945681) | 2026-03-10 |
-| a81c8c29 | [Show priority badges in permalink previews (#35532)](https://github.com/mattermost/mattermost/commit/a81c8c2993695f466a161e98bf6547df8bc6c09a) | 2026-03-10 |
-| 6397fd59 | [Update web app package versions to 11.6.0 (#35536)](https://github.com/mattermost/mattermost/commit/6397fd597156f3128e7340ddd6bf463963860b98) | 2026-03-10 |
-| 461db711 | [Add single-channel guest tracking and reporting (#35451)](https://github.com/mattermost/mattermost/commit/461db71178c4aa7c2c23b224076f7deabeaacb61) | 2026-03-10 |
-| ada82304 | [implement property field seatch within access control policies (#35494)](https://github.com/mattermost/mattermost/commit/ada82304b07ba3ec1f406c575743872214604474) | 2026-03-10 |
-| b6e52647 | [\[MM-67739\] Rename SlackAttachment to MessageAttachment across the codebase (#35445)](https://github.com/mattermost/mattermost/commit/b6e5264731a61763fe5a30f2bb9660123966927e) | 2026-03-10 |
-| 24cf7b6a | [Fix recap all-unreads modal copy (#35551)](https://github.com/mattermost/mattermost/commit/24cf7b6a8e8b373e04694b7e16fcd1560b433fe4) | 2026-03-10 |
-| eddeb87e | [Replace TextFormatting.escapeRegex with built-in RegExp.escape (#35538)](https://github.com/mattermost/mattermost/commit/eddeb87e76dd555fa6d731a2393ea105cfaaccc1) | 2026-03-10 |
 | f6a3c7d2 | [fix: Stabilize autotranslation E2E tests for real LibreTranslate service (#35443)](https://github.com/mattermost/mattermost/commit/f6a3c7d20c260ccf89501d648f300f58b8a1c193) | 2026-03-11 |
 | 3057ae7e | [MM-67646 slack import improvements (#35490)](https://github.com/mattermost/mattermost/commit/3057ae7e83e9c827ce7818d67c0f3a208f0d9709) | 2026-03-11 |
 | 560ee5c5 | [\[MM-67626\] Update Playbooks plugin to v2.8.0 (#35549)](https://github.com/mattermost/mattermost/commit/560ee5c59805865177b1957d8a30a68f8eba6b36) | 2026-03-11 |
@@ -974,6 +962,7 @@
 | bf194bc9 | [MM-57390: Return error when inviting deactivated users to a team (#37096)](https://github.com/mattermost/mattermost/commit/bf194bc9d4e25eff93032897a2be1c3496a7d5b5) | 2026-08-07 |
 | 68535c13 | [\[MM-70130\] Add permanent banner for non-production developer license keys (#37846)](https://github.com/mattermost/mattermost/commit/68535c13bcaa0026ed3d0622e11aa2cea4f4ff4e) | 2026-08-07 |
 | 53373e37 | [Add Playwright E2E tests for demo plugin webapp components (#36560)](https://github.com/mattermost/mattermost/commit/53373e3752c6e8d7979b787f342fea4c56e68472) | 2026-08-07 |
+| 351b4f96 | [Updated order of validation in getFile API (#37843)](https://github.com/mattermost/mattermost/commit/351b4f96865c44f0dedbd8a5243ad35f1f04154e) | 2026-08-10 |
 
 ## 제외된 커밋
 
