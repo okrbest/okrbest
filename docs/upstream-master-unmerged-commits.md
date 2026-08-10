@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-10 16:11
+- 갱신일: 2026-08-10 22:38
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 943개
+- 남은 커밋: 940개
 
-**마지막 반영 커밋:** `5aefff30` | [Add CI check for broken mattermost.com links in webapp (#35093)](https://github.com/mattermost/mattermost/commit/5aefff30cf04d12ad02ae619fe04b501092ef63a) | 2026-03-11
+**마지막 반영 커밋:** `c9a4092a` | [keeps plugin config on reenablement (#35545)](https://github.com/mattermost/mattermost/commit/c9a4092ac0a20351e3c2e0ac0cb593cc28b5bc0e) | 2026-03-12
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 2bd143ce | [\[MM-65630\] Implement Search RHS popout, clean up and rework parts of search RHS (#35499)](https://github.com/mattermost/mattermost/commit/2bd143ced747794d40e17bae5654ebc837d085fa) | 2026-03-12 |
-| 608c009e | [Bumping prepackaged MS Teams Meetings plugin version to 2.4.1 (#35564)](https://github.com/mattermost/mattermost/commit/608c009e4f555c1b8579e24917c68418549530ab) | 2026-03-12 |
-| f6a29d82 | [\[MM-67895\] Fix Autotranslation e2e (#35563)](https://github.com/mattermost/mattermost/commit/f6a29d82edb9799ece9a674bac7cdf4748e73075) | 2026-03-12 |
-| 52858082 | [Anonymous URLs (#35493)](https://github.com/mattermost/mattermost/commit/52858082fe5e941ca5a4f294713d3ed4ffbb99b1) | 2026-03-12 |
-| 5646f4aa | [Update plugin-calls to v1.11.4 (#35561)](https://github.com/mattermost/mattermost/commit/5646f4aa5c8c0829c22639f5202f59bf1673a8ab) | 2026-03-12 |
-| 2efee7ec | [Add single-channel guests filter and channel count column to System Console Users (#35517)](https://github.com/mattermost/mattermost/commit/2efee7ec283d2dbfd5549c7babff6d510a9cb0c3) | 2026-03-12 |
-| c9a4092a | [keeps plugin config on reenablement (#35545)](https://github.com/mattermost/mattermost/commit/c9a4092ac0a20351e3c2e0ac0cb593cc28b5bc0e) | 2026-03-12 |
 | ff2364b5 | [Multiple AI Recaps fixes (#35548)](https://github.com/mattermost/mattermost/commit/ff2364b56c6b7c9d48194eb80a1aeb1fbb6b3d87) | 2026-03-13 |
 | 742e0be9 | [Validate RefreshedToken differs from original invite token (#34864)](https://github.com/mattermost/mattermost/commit/742e0be9507454a7e662668e1d9ec1b94b636e9b) | 2026-03-13 |
 | e0fa9c78 | [Bumping prepackaged GitLab plugin version to v1.12.1 (#35595)](https://github.com/mattermost/mattermost/commit/e0fa9c78186fb83a84aeb4ce7dd3801bf8a214d3) | 2026-03-13 |
@@ -954,6 +947,10 @@
 | 68535c13 | [\[MM-70130\] Add permanent banner for non-production developer license keys (#37846)](https://github.com/mattermost/mattermost/commit/68535c13bcaa0026ed3d0622e11aa2cea4f4ff4e) | 2026-08-07 |
 | 53373e37 | [Add Playwright E2E tests for demo plugin webapp components (#36560)](https://github.com/mattermost/mattermost/commit/53373e3752c6e8d7979b787f342fea4c56e68472) | 2026-08-07 |
 | 351b4f96 | [Updated order of validation in getFile API (#37843)](https://github.com/mattermost/mattermost/commit/351b4f96865c44f0dedbd8a5243ad35f1f04154e) | 2026-08-10 |
+| a2a49032 | [\[MM-62445\] Allow changing a team's name (slug) via mmctl team rename (#37169)](https://github.com/mattermost/mattermost/commit/a2a4903293f2412e7aa6ad66833cde795a4031e7) | 2026-08-10 |
+| d04687af | [Fix flaky TestNewSyncsMarkdownMaxLenWithMaxPostSize (#37830)](https://github.com/mattermost/mattermost/commit/d04687af22172a6f915abd5c1999a19aae73e091) | 2026-08-10 |
+| e0202119 | [\[MM-70141\] Remove dead experimental SAML login button color settings (#37857)](https://github.com/mattermost/mattermost/commit/e02021193ae75278cc6fb79140746b0fcafa0b1a) | 2026-08-10 |
+| 6242bc3e | [\[MM-70140\] Remove experimental AD/LDAP login button color settings (#37855)](https://github.com/mattermost/mattermost/commit/6242bc3e2f4433d322e2f1a1087ed280ed9a5fb2) | 2026-08-10 |
 
 ## 제외된 커밋
 
@@ -992,6 +989,8 @@
 |---|---|---|
 
 | 2ada8d76 | [MM-67540 - Allow searching public channel messages without channel membership (#35298)](https://github.com/mattermost/mattermost/commit/2ada8d7659a53815ea96c7917b6816706755dbaf) | 공개채널 멤버십 없이 메시지 검색 허용 (ES/OpenSearch channel_type 인덱싱 + 백필 + 컴플라이언스 오버라이드) |
+
+| 2bd143ce | [\[MM-65630\] Implement Search RHS popout, clean up and rework parts of search RHS (#35499)](https://github.com/mattermost/mattermost/commit/2bd143ced747794d40e17bae5654ebc837d085fa) | 008-search-rhs-popout |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
