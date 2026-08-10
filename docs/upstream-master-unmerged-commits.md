@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-10 22:38
+- 갱신일: 2026-08-10 23:54
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 940개
+- 남은 커밋: 935개
 
-**마지막 반영 커밋:** `c9a4092a` | [keeps plugin config on reenablement (#35545)](https://github.com/mattermost/mattermost/commit/c9a4092ac0a20351e3c2e0ac0cb593cc28b5bc0e) | 2026-03-12
+**마지막 반영 커밋:** `0b9c7330` | [Validate membership change channel_id matches sync message channel_id before processing (#34862)](https://github.com/mattermost/mattermost/commit/0b9c733011e625629ae3d5db20c48a46716abb4c) | 2026-03-13
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| ff2364b5 | [Multiple AI Recaps fixes (#35548)](https://github.com/mattermost/mattermost/commit/ff2364b56c6b7c9d48194eb80a1aeb1fbb6b3d87) | 2026-03-13 |
-| 742e0be9 | [Validate RefreshedToken differs from original invite token (#34864)](https://github.com/mattermost/mattermost/commit/742e0be9507454a7e662668e1d9ec1b94b636e9b) | 2026-03-13 |
-| e0fa9c78 | [Bumping prepackaged GitLab plugin version to v1.12.1 (#35595)](https://github.com/mattermost/mattermost/commit/e0fa9c78186fb83a84aeb4ce7dd3801bf8a214d3) | 2026-03-13 |
-| a744a758 | [Fix an E2E test broken in #35499 (#35599)](https://github.com/mattermost/mattermost/commit/a744a758057e509b5268156adf4d3514928ff256) | 2026-03-13 |
-| 33437b7e | [\[MM-67883\] Add "Open in new tab" button to Product Switcher menu items (#35560)](https://github.com/mattermost/mattermost/commit/33437b7ef6e4510a07ca041b64e832556f05ec31) | 2026-03-13 |
-| 3e38cbc5 | [Add --workers flag to mmctl import process to control concurrency (#35582)](https://github.com/mattermost/mattermost/commit/3e38cbc5ca2230b513d12748d7def54075d5f3fc) | 2026-03-13 |
-| 0b9c7330 | [Validate membership change channel_id matches sync message channel_id before processing (#34862)](https://github.com/mattermost/mattermost/commit/0b9c733011e625629ae3d5db20c48a46716abb4c) | 2026-03-13 |
 | 0192d529 | [PermissionManageOauth removal impact (#35554)](https://github.com/mattermost/mattermost/commit/0192d529edbb95de3ad6d7a20b057ed33bc006c7) | 2026-03-15 |
 | 9e73b9bb | [Update docs-impact-review.yml (#35589)](https://github.com/mattermost/mattermost/commit/9e73b9bb0cb998c5c88b664cc087776d848fd14f) | 2026-03-16 |
 | 02b92666 | [Translations update from Mattermost Weblate (#35628)](https://github.com/mattermost/mattermost/commit/02b92666534086ce63c3b06387c9f51a712d286f) | 2026-03-16 |
@@ -951,6 +944,8 @@
 | d04687af | [Fix flaky TestNewSyncsMarkdownMaxLenWithMaxPostSize (#37830)](https://github.com/mattermost/mattermost/commit/d04687af22172a6f915abd5c1999a19aae73e091) | 2026-08-10 |
 | e0202119 | [\[MM-70141\] Remove dead experimental SAML login button color settings (#37857)](https://github.com/mattermost/mattermost/commit/e02021193ae75278cc6fb79140746b0fcafa0b1a) | 2026-08-10 |
 | 6242bc3e | [\[MM-70140\] Remove experimental AD/LDAP login button color settings (#37855)](https://github.com/mattermost/mattermost/commit/6242bc3e2f4433d322e2f1a1087ed280ed9a5fb2) | 2026-08-10 |
+| 5fe890b5 | [\[MM-70154\] Fix long attribute name overflow in Permissions Policy table editor (#37870)](https://github.com/mattermost/mattermost/commit/5fe890b5f515cd23321c74b13b0b268d55571c7b) | 2026-08-10 |
+| f1e13cf6 | [MM-70040: Tighten team search filter combination logic (#37749)](https://github.com/mattermost/mattermost/commit/f1e13cf62e913a1f5a1d99c2e7c9b96c4c6ea66d) | 2026-08-10 |
 
 ## 제외된 커밋
 
@@ -982,6 +977,8 @@
 | f1b9aa05 | [Rename Content Flagging to Data Spillage Handling (#35407)](https://github.com/mattermost/mattermost/commit/f1b9aa052e821701c9184e16337558f96b8755f4) | Content Flagging 기능을 'Data Spillage Handling'/'Quarantine for Review'로 전면 개명하는 커밋. 기본 신고 사유를 'OPSEC concern', 'CUI violation', 'Need-to-know violation' 등 미국 국방·정보기관(DISC) 특화 용어로 교체 — okrbest는 일반 협업·OKR 툴로 리브랜드된 포크라 이 용어가 제품 성격과 맞지 않음(사용자 확인). 41개 파일 525줄 규모에 실제 conflict 2건(flag_post_modal.tsx, en.json) 발생. 커밋에 포함된 부수 수정(getContentReviewBot의 nil bot 방지, postContentReviewBotMessage 시그니처 리팩터, 아이콘 컴포넌트 교체)은 전부 이 rename 작업 자체가 만든 파생 버그/작업이라 용어를 유지하면 분리 반영할 실익도 없음. 현재 'Content Flagging'/'Flag message' 용어 유지. |
 
 | ac9d99bd | [Add agent-browser skill and update cloud agent docs (#35534)](https://github.com/mattermost/mattermost/commit/ac9d99bdd4657a78c9612444888d09fcda16db3e) | Mattermost 자체 Claude Code Cloud 에이전트용 실험적 도구(agent-browser 스킬, skills-lock.json, AGENTS.CLOUD.md). upstream 자신도 이후 b4fcb472012(#36930)에서 완전히 되돌림 — 우리는 AGENTS.CLOUD.md를 가진 적 없고 이 클라우드 에이전트 인프라를 쓰지 않음. |
+
+| 0b9c7330 | [Validate membership change channel_id matches sync message channel_id before processing (#34862)](https://github.com/mattermost/mattermost/commit/0b9c733011e625629ae3d5db20c48a46716abb4c) | upstream 커밋 자체가 빈 커밋 — 부모 커밋(3e38cbc5)과 트리 해시가 완전히 동일(87a3be88d00...)해 실제 코드 diff가 없음. git show/git diff 둘 다 빈 결과. GitHub squash-merge 등으로 PR의 실제 변경사항이 이미 다른 형태로 대상 브랜치에 반영되어 병합 결과가 빈 커밋이 된 것으로 추정. cherry-pick/adapt 대상 자체가 없어 exclude 처리. |
 
 ## spec 전환 커밋
 
