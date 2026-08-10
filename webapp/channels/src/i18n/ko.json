@@ -949,6 +949,8 @@
   "admin.elasticsearch.enableAutocompleteTitle": "자동 완성 질의에 Elasticsearch 사용:",
   "admin.elasticsearch.enableIndexingDescription": "이 설정이 활성화되면, 신규 메시지를 자동으로 색인합니다. 검색 질의는 \"검색 질의에 Elasticsearch 활성화\" 설정이 활성화될 때 까지 데이터베이스 검색을 사용합니다. {documentationLink}",
   "admin.elasticsearch.enableIndexingTitle": "Elasticsearch 인덱싱:",
+  "admin.elasticsearch.enableSearchPublicChannelsWithoutMembershipDescription": "활성화하면 사용자가 가입하지 않은 공개 채널의 메시지도 검색할 수 있습니다. 처음 활성화하면 기존 게시물이 백그라운드에서 갱신되며, 이 작업은 검색 성능에 영향을 주지 않도록 처리 속도가 제한됩니다. 컴플라이언스 모드가 활성화된 경우 이 설정은 적용되지 않습니다.",
+  "admin.elasticsearch.enableSearchPublicChannelsWithoutMembershipTitle": "멤버십 없이 공개 채널 검색 허용:",
   "admin.elasticsearch.enableSearchingDescription": "Elasticsearch 서버에 성공적으로 연결되어야 합니다. 활성화 시, 모든 검색 질의에 Elasticsearch의 최근 색인을 사용합니다. 검색 결과는 기존 게시글 데이터베이스의 벌크 색인이 완료되기 전까지 불완전할 수도 있습니다. 비활성화 시, 색인을 거치지 않고 데이터베이스를 바로 검색합니다.",
   "admin.elasticsearch.enableSearchingTitle": "검색 쿼리에 Elasticsearch 사용:",
   "admin.elasticsearch.ignoredPurgeIndexes": "퍼지하는 동안 건너뛸 인덱스입니다:",
