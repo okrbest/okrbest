@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-10 23:54
+- 갱신일: 2026-08-11 10:13
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 935개
+- 남은 커밋: 942개
 
-**마지막 반영 커밋:** `0b9c7330` | [Validate membership change channel_id matches sync message channel_id before processing (#34862)](https://github.com/mattermost/mattermost/commit/0b9c733011e625629ae3d5db20c48a46716abb4c) | 2026-03-13
+**마지막 반영 커밋:** `0192d529` | [PermissionManageOauth removal impact (#35554)](https://github.com/mattermost/mattermost/commit/0192d529edbb95de3ad6d7a20b057ed33bc006c7) | 2026-03-15
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 0192d529 | [PermissionManageOauth removal impact (#35554)](https://github.com/mattermost/mattermost/commit/0192d529edbb95de3ad6d7a20b057ed33bc006c7) | 2026-03-15 |
 | 9e73b9bb | [Update docs-impact-review.yml (#35589)](https://github.com/mattermost/mattermost/commit/9e73b9bb0cb998c5c88b664cc087776d848fd14f) | 2026-03-16 |
 | 02b92666 | [Translations update from Mattermost Weblate (#35628)](https://github.com/mattermost/mattermost/commit/02b92666534086ce63c3b06387c9f51a712d286f) | 2026-03-16 |
 | 39f7f4fd | [\[MM-67135\] show premade themes when custom themes are disabled (#35540)](https://github.com/mattermost/mattermost/commit/39f7f4fddfcf04b46588c0c26066252e88390258) | 2026-03-16 |
@@ -946,6 +945,14 @@
 | 6242bc3e | [\[MM-70140\] Remove experimental AD/LDAP login button color settings (#37855)](https://github.com/mattermost/mattermost/commit/6242bc3e2f4433d322e2f1a1087ed280ed9a5fb2) | 2026-08-10 |
 | 5fe890b5 | [\[MM-70154\] Fix long attribute name overflow in Permissions Policy table editor (#37870)](https://github.com/mattermost/mattermost/commit/5fe890b5f515cd23321c74b13b0b268d55571c7b) | 2026-08-10 |
 | f1e13cf6 | [MM-70040: Tighten team search filter combination logic (#37749)](https://github.com/mattermost/mattermost/commit/f1e13cf62e913a1f5a1d99c2e7c9b96c4c6ea66d) | 2026-08-10 |
+| 12d20ad6 | [\[MM-70155\] Fix channel member sub-text overflow in permission policy editor (#37869)](https://github.com/mattermost/mattermost/commit/12d20ad6ec607688e71b0ab524d397f31f8fa5fc) | 2026-08-10 |
+| 144e1b46 | [fix: fix UI broken in message edit buttons in non-US locale (#37783)](https://github.com/mattermost/mattermost/commit/144e1b46a0adaffac2fc13a9677a26eb57900462) | 2026-08-11 |
+| 7e7ec9a6 | [\[MM-70142\] Fix unreachable buttons in the Simulate access session-attribute popover (#37900)](https://github.com/mattermost/mattermost/commit/7e7ec9a61cda622d12ca63e4469742b892f4b8d2) | 2026-08-10 |
+| 60c44fc4 | [\[MM-70153\] Fix error when deleting the only remaining channel permission rule (#37899)](https://github.com/mattermost/mattermost/commit/60c44fc48ae87042085beec3ffa5bbac3cc9e1bc) | 2026-08-10 |
+| 9cf617a1 | [MM-70072: Fix role validation for channel and team member updates (#37791)](https://github.com/mattermost/mattermost/commit/9cf617a14b5896981b70d1a43197fc4bf4043514) | 2026-08-10 |
+| a6d008c5 | [\[MM-70188\] Convert the os_platform session attribute to a select field (#37901)](https://github.com/mattermost/mattermost/commit/a6d008c5c2b13a6845a39bab0eaae13aacc1859d) | 2026-08-10 |
+| 4901a7fc | [\[MM-70186\] Add tooltips to platform icons in session attribute picker (#37898)](https://github.com/mattermost/mattermost/commit/4901a7fc2a9f075e2fef972498cfa5e4a74c1e9f) | 2026-08-10 |
+| 8ce3c54a | [MM-70016: Fix edge case in team invitation handling (#37741)](https://github.com/mattermost/mattermost/commit/8ce3c54a5ed76b2aa39a46cf8a1b517ea53ec0cc) | 2026-08-10 |
 
 ## 제외된 커밋
 
