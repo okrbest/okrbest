@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-11 10:13
+- 갱신일: 2026-08-11 11:08
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 942개
+- 남은 커밋: 934개
 
-**마지막 반영 커밋:** `0192d529` | [PermissionManageOauth removal impact (#35554)](https://github.com/mattermost/mattermost/commit/0192d529edbb95de3ad6d7a20b057ed33bc006c7) | 2026-03-15
+**마지막 반영 커밋:** `e39be2b7` | [Improves the Property System Architecture groups (#35395)](https://github.com/mattermost/mattermost/commit/e39be2b7e5210005804d0cdd177608ec4fc9ef93) | 2026-03-16
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 9e73b9bb | [Update docs-impact-review.yml (#35589)](https://github.com/mattermost/mattermost/commit/9e73b9bb0cb998c5c88b664cc087776d848fd14f) | 2026-03-16 |
-| 02b92666 | [Translations update from Mattermost Weblate (#35628)](https://github.com/mattermost/mattermost/commit/02b92666534086ce63c3b06387c9f51a712d286f) | 2026-03-16 |
-| 39f7f4fd | [\[MM-67135\] show premade themes when custom themes are disabled (#35540)](https://github.com/mattermost/mattermost/commit/39f7f4fddfcf04b46588c0c26066252e88390258) | 2026-03-16 |
-| 090408f0 | [\[MM-67809\] Check create post permission when editing posts (#35558)](https://github.com/mattermost/mattermost/commit/090408f09f53ffc9afc6c65c7c7c1fd3a8cd22f3) | 2026-03-16 |
-| 7425c681 | [\[MM-67741\] Scope role_updated WS events to affected team/channel (#35497)](https://github.com/mattermost/mattermost/commit/7425c6817bf244f976c729f8a73cecac8039a1e1) | 2026-03-16 |
-| 1db86973 | [\[MM-67514\] Fix crash when AppDownloadLink is set to a malformed URL (#35462)](https://github.com/mattermost/mattermost/commit/1db869731502cd7b42f71cd10df65a83f9e25118) | 2026-03-16 |
-| 3a2cc5e2 | [ES search: include footer and author name in indexed fields.  (#35603)](https://github.com/mattermost/mattermost/commit/3a2cc5e242344d41715c9024a2d5e5251b8cd0e0) | 2026-03-16 |
-| e39be2b7 | [Improves the Property System Architecture groups (#35395)](https://github.com/mattermost/mattermost/commit/e39be2b7e5210005804d0cdd177608ec4fc9ef93) | 2026-03-16 |
 | f165e082 | [Bumping prepackaged Jira version to 4.6.0 (#35637)](https://github.com/mattermost/mattermost/commit/f165e08246735699c79a34d31f20cc8e90004d55) | 2026-03-17 |
 | 17f2efd9 | [Translations update from Mattermost Weblate (#35645)](https://github.com/mattermost/mattermost/commit/17f2efd95c2027a08ce0b0729969a6e71c59d38e) | 2026-03-17 |
 | bd6fe81b | [MM-67506: Angle brackets display as HTML entities in inline code blocks (#35219)](https://github.com/mattermost/mattermost/commit/bd6fe81b815ea44c3ba11ba79d40766ba36f65f3) | 2026-03-17 |
@@ -987,6 +979,8 @@
 
 | 0b9c7330 | [Validate membership change channel_id matches sync message channel_id before processing (#34862)](https://github.com/mattermost/mattermost/commit/0b9c733011e625629ae3d5db20c48a46716abb4c) | upstream 커밋 자체가 빈 커밋 — 부모 커밋(3e38cbc5)과 트리 해시가 완전히 동일(87a3be88d00...)해 실제 코드 diff가 없음. git show/git diff 둘 다 빈 결과. GitHub squash-merge 등으로 PR의 실제 변경사항이 이미 다른 형태로 대상 브랜치에 반영되어 병합 결과가 빈 커밋이 된 것으로 추정. cherry-pick/adapt 대상 자체가 없어 exclude 처리. |
 
+| 9e73b9bb | [Update docs-impact-review.yml (#35589)](https://github.com/mattermost/mattermost/commit/9e73b9bb0cb998c5c88b664cc087776d848fd14f) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 프롬프트 문구 수정(feature flag/audit event/support packet/플러그인 버전 판정 기준 추가)도 반영할 대상이 없음. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -995,6 +989,8 @@
 | 2ada8d76 | [MM-67540 - Allow searching public channel messages without channel membership (#35298)](https://github.com/mattermost/mattermost/commit/2ada8d7659a53815ea96c7917b6816706755dbaf) | 공개채널 멤버십 없이 메시지 검색 허용 (ES/OpenSearch channel_type 인덱싱 + 백필 + 컴플라이언스 오버라이드) |
 
 | 2bd143ce | [\[MM-65630\] Implement Search RHS popout, clean up and rework parts of search RHS (#35499)](https://github.com/mattermost/mattermost/commit/2bd143ced747794d40e17bae5654ebc837d085fa) | 008-search-rhs-popout |
+
+| 7425c681 | [\[MM-67741\] Scope role_updated WS events to affected team/channel (#35497)](https://github.com/mattermost/mattermost/commit/7425c6817bf244f976c729f8a73cecac8039a1e1) | specs/009-scope-role-updated-ws |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
