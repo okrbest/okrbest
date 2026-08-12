@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-12 14:55
+- 갱신일: 2026-08-12 16:05
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 925개
+- 남은 커밋: 920개
 
-**마지막 반영 커밋:** `0085d149` | [MM-67518 Increase amount that the post list is considered to be at the bottom (#35680)](https://github.com/mattermost/mattermost/commit/0085d14979ae7241e3c9459d6e457b3222c938ff) | 2026-03-18
+**마지막 반영 커밋:** `d5fdc1f5` | [chore(i18n): add i18n-verify-translations script (#34917)](https://github.com/mattermost/mattermost/commit/d5fdc1f534ff01301a998116d14211901d9f9a80) | 2026-03-19
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| fee649d0 | [Run docs-impact-review as regular CI instead of slash command (#35620)](https://github.com/mattermost/mattermost/commit/fee649d06353948763d4fb09c6664fa942a82428) | 2026-03-19 |
-| aea8cbdc | [Fix typos in webapp: receivedStatus and separately (#35254)](https://github.com/mattermost/mattermost/commit/aea8cbdc7a970a3c5e647682b05d4cbd7925e77a) | 2026-03-19 |
-| b9aeb629 | [\[MM-67905\] Allow full Markdown rendering in message attachment footer (#35570)](https://github.com/mattermost/mattermost/commit/b9aeb629be642c2ba82d7992c7bfd769fa53700a) | 2026-03-19 |
-| 76b8e3f5 | [\[MM-66838\] Update throttled library to v2.15.0 with Go modules support (#34657)](https://github.com/mattermost/mattermost/commit/76b8e3f5f78f70574439123065c491b0b63d71bb) | 2026-03-19 |
-| ad03248c | [MM-67872 Fixing detection issue in image proxy (#35669)](https://github.com/mattermost/mattermost/commit/ad03248cd3fb2b2ce4568dbc49f2c6db10f0b520) | 2026-03-19 |
-| 92533c44 | [Fix EXIF profile picture orientation bug (#34275) (#35594)](https://github.com/mattermost/mattermost/commit/92533c44c1a6abb25ef1b79993ac09e1dc87f746) | 2026-03-19 |
-| d5fdc1f5 | [chore(i18n): add i18n-verify-translations script (#34917)](https://github.com/mattermost/mattermost/commit/d5fdc1f534ff01301a998116d14211901d9f9a80) | 2026-03-19 |
 | 5af5b6df | [\[MM-67744\] Add -buildvcs=false to default GOFLAGS (#35587)](https://github.com/mattermost/mattermost/commit/5af5b6dfacd71a2ffbb8d5636f9f41af2b19d3bb) | 2026-03-20 |
 | 8740152d | [MM-66944 Change PlatformService.IsLeader to always be true when license doesn't support clustering (#35577)](https://github.com/mattermost/mattermost/commit/8740152df7d95d88ce2079a1647819ad2621e65b) | 2026-03-20 |
 | a357d4f0 | [ci: skip server CI for docs-only changes (#35719)](https://github.com/mattermost/mattermost/commit/a357d4f024408b4726dd47e8a690a73669088632) | 2026-03-20 |
@@ -936,6 +929,8 @@
 | d3c26275 | [fix(mmctl): lengthen sampledata passwords to meet FIPS minimum (#37867)](https://github.com/mattermost/mattermost/commit/d3c26275b651b2e23b173c9c914b5fc99e7626b8) | 2026-08-11 |
 | 11cc766d | [\[MM-69726\] Fix Message actions menu displaying off screen in narrow display (#37396)](https://github.com/mattermost/mattermost/commit/11cc766dfaa1cbe2c08e8ae7994d8118bfdbffa7) | 2026-08-11 |
 | 1f08ac5b | [MM-69886: Refresh Channel Members RHS on websocket add and reconnect (#37584)](https://github.com/mattermost/mattermost/commit/1f08ac5bb04372421315c0ebe0e951fbecf3ebb6) | 2026-08-11 |
+| 265f1509 | [\[MM-70223\] Migrate GetAllProfilesInChannel to request context (#37637)](https://github.com/mattermost/mattermost/commit/265f1509fa0ea08464a007995c943b21d0530f9a) | 2026-08-12 |
+| 270a5030 | [\[MM-70225\] Migrate Store.GetDiagnostics to request.CTX (#37635)](https://github.com/mattermost/mattermost/commit/270a5030542305e1a9921f6df71bc7793245442c) | 2026-08-12 |
 
 ## 제외된 커밋
 
@@ -971,6 +966,8 @@
 | 0b9c7330 | [Validate membership change channel_id matches sync message channel_id before processing (#34862)](https://github.com/mattermost/mattermost/commit/0b9c733011e625629ae3d5db20c48a46716abb4c) | upstream 커밋 자체가 빈 커밋 — 부모 커밋(3e38cbc5)과 트리 해시가 완전히 동일(87a3be88d00...)해 실제 코드 diff가 없음. git show/git diff 둘 다 빈 결과. GitHub squash-merge 등으로 PR의 실제 변경사항이 이미 다른 형태로 대상 브랜치에 반영되어 병합 결과가 빈 커밋이 된 것으로 추정. cherry-pick/adapt 대상 자체가 없어 exclude 처리. |
 
 | 9e73b9bb | [Update docs-impact-review.yml (#35589)](https://github.com/mattermost/mattermost/commit/9e73b9bb0cb998c5c88b664cc087776d848fd14f) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 프롬프트 문구 수정(feature flag/audit event/support packet/플러그인 버전 판정 기준 추가)도 반영할 대상이 없음. |
+
+| fee649d0 | [Run docs-impact-review as regular CI instead of slash command (#35620)](https://github.com/mattermost/mattermost/commit/fee649d06353948763d4fb09c6664fa942a82428) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 슬래시 커맨드에서 일반 CI 실행으로 바꾸는 이번 수정(+43/-13)도 반영할 대상이 없음. 반영 시 mattermost/docs를 체크아웃하고 ANTHROPIC_API_KEY를 소모하는 무관한 워크플로가 PR마다 자동 실행됨. 0fa5e235·7ccafd79와 같은 계열. |
 
 ## spec 전환 커밋
 
