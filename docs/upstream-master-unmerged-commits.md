@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-12 16:05
+- 갱신일: 2026-08-12 16:32
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 920개
+- 남은 커밋: 915개
 
-**마지막 반영 커밋:** `d5fdc1f5` | [chore(i18n): add i18n-verify-translations script (#34917)](https://github.com/mattermost/mattermost/commit/d5fdc1f534ff01301a998116d14211901d9f9a80) | 2026-03-19
+**마지막 반영 커밋:** `5f8c77a3` | [MM-67953 Changed sorting of channels in some places to prioritize display name matches (#35679)](https://github.com/mattermost/mattermost/commit/5f8c77a3efcc31260cde2d8e800577a2c4a18d68) | 2026-03-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 5af5b6df | [\[MM-67744\] Add -buildvcs=false to default GOFLAGS (#35587)](https://github.com/mattermost/mattermost/commit/5af5b6dfacd71a2ffbb8d5636f9f41af2b19d3bb) | 2026-03-20 |
-| 8740152d | [MM-66944 Change PlatformService.IsLeader to always be true when license doesn't support clustering (#35577)](https://github.com/mattermost/mattermost/commit/8740152df7d95d88ce2079a1647819ad2621e65b) | 2026-03-20 |
-| a357d4f0 | [ci: skip server CI for docs-only changes (#35719)](https://github.com/mattermost/mattermost/commit/a357d4f024408b4726dd47e8a690a73669088632) | 2026-03-20 |
-| 4c25d03f | [Automate setup-go-work as a dependency for Make targets (#35476)](https://github.com/mattermost/mattermost/commit/4c25d03f67d851bb438e9585035267ba4e9815cf) | 2026-03-20 |
-| 5f8c77a3 | [MM-67953 Changed sorting of channels in some places to prioritize display name matches (#35679)](https://github.com/mattermost/mattermost/commit/5f8c77a3efcc31260cde2d8e800577a2c4a18d68) | 2026-03-20 |
 | e6b8e12f | [SEC-9862: Add CI check for test analysis (#35555)](https://github.com/mattermost/mattermost/commit/e6b8e12fb94e8d4ef45b3f0d765c00f8f7087fe7) | 2026-03-22 |
 | b4163449 | [ci: cache prepackaged plugins in mmctl tests (#35720)](https://github.com/mattermost/mattermost/commit/b4163449319c422f462a845294808084d0c6b332) | 2026-03-22 |
 | ae1691a3 | [fix(pr-analysis): on large diff and reduce gh pr calls (#35734)](https://github.com/mattermost/mattermost/commit/ae1691a3685d7ff4817593adab7741b4ce884784) | 2026-03-23 |
