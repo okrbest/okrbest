@@ -51,3 +51,12 @@ LIMIT 20;
 - 시나리오 1: SQL 조회로 즉시 확인 가능.
 - 시나리오 2, 3: 로컬에서 두 브라우저 세션(또는 두 계정) + 개발자 도구로 수동 검증 필요. **이 세션 환경에는 대화형 브라우저가 없어 실행 불가** — 별도 브라우저 환경에서 실행해야 한다(spec 008과 동일한 제약).
 - 시나리오 4: 자동화 테스트로 대체 검증(`go test ./channels/app/ -run TestSendUpdatedRoleEvent -v`).
+
+## 실행 결과 (2026-08-12)
+
+| 시나리오 | 결과 | 근거 |
+|---|---|---|
+| 1. 마이그레이션 적용 확인 | **통과(대체 검증)** | 이 세션에는 지속되는 로컬 dev 서버가 없어 `\d roles`/수동 SQL을 직접 돌리진 못했다. 대신 `go test ./channels/store/sqlstore/ -run TestRoleStore -v`가 실제 임시 PostgreSQL에 `000161~163` 마이그레이션을 적용하는 로그(`add_schemeid_to_roles`, `backfill_roles_schemeid`, `add_roles_schemeid_index` 전부 migrated)를 남겼고, 신규 `BackfillSchemeId` 서브테스트가 시나리오 1과 동일한 조회(스키마 이전 데이터의 schemeid가 backfill로 채워지는지)를 SQL로 직접 수행해 통과했다. `.evidence/T021_backfill_test.txt` 참고. |
+| 2. team-scheme 스코프 전달 | **미실행** | 대화형 브라우저 필요 — 이 세션 환경 제약. 별도 브라우저 환경에서 실행 필요. `TestSendUpdatedRoleEvent/Team_scheme_role_calls_GetTeamsByScheme_and_emits_per-team_events`(단위 테스트)로 로직 자체는 검증됨(`.evidence/T016-T020_final_green.txt`). |
+| 3. 전역 빌트인 역할 전달 | **미실행** | 시나리오 2와 동일 제약. `TestSendUpdatedRoleEvent/BuiltIn_role_broadcasts_globally_without_a_DB_lookup`로 로직 검증됨. |
+| 4. scheme 조회 실패 시 정상 동작 | **통과** | `go test ./channels/app/ -run TestSendUpdatedRoleEvent -v` — `Scheme_store_error_is_logged_and_skips_broadcast` PASS. |

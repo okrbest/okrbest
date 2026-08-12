@@ -28,6 +28,7 @@ func TestRoleStore(t *testing.T, rctx request.CTX, ss store.Store, s SqlStore) {
 	t.Run("ChannelHigherScopedPermissionsBlankTeamSchemeChannelGuest", func(t *testing.T) {
 		testRoleStoreChannelHigherScopedPermissionsBlankTeamSchemeChannelGuest(t, rctx, ss, s)
 	})
+	t.Run("BackfillSchemeId", func(t *testing.T) { testRoleStoreBackfillSchemeId(t, rctx, ss, s) })
 }
 
 func testRoleStoreSave(t *testing.T, rctx request.CTX, ss store.Store) {
@@ -456,39 +457,45 @@ func testRoleStoreLowerScopedChannelSchemeRoles(t *testing.T, rctx request.CTX, 
 			actualRoles, err := ss.Role().ChannelRolesUnderTeamRole(teamScheme1.DefaultChannelGuestRole)
 			require.NoError(t, err)
 
-			var actualRoleNames []string
+			roleByName := make(map[string]*model.Role, len(actualRoles))
 			for _, role := range actualRoles {
-				actualRoleNames = append(actualRoleNames, role.Name)
+				roleByName[role.Name] = role
 			}
 
-			require.Contains(t, actualRoleNames, channelScheme1.DefaultChannelGuestRole)
-			require.NotContains(t, actualRoleNames, channelScheme2.DefaultChannelGuestRole)
+			require.Contains(t, roleByName, channelScheme1.DefaultChannelGuestRole)
+			require.NotContains(t, roleByName, channelScheme2.DefaultChannelGuestRole)
+			require.NotNil(t, roleByName[channelScheme1.DefaultChannelGuestRole].SchemeId)
+			assert.Equal(t, channelScheme1.Id, *roleByName[channelScheme1.DefaultChannelGuestRole].SchemeId)
 		})
 
 		t.Run("user role for the right team's channels are returned", func(t *testing.T) {
 			actualRoles, err := ss.Role().ChannelRolesUnderTeamRole(teamScheme1.DefaultChannelUserRole)
 			require.NoError(t, err)
 
-			var actualRoleNames []string
+			roleByName := make(map[string]*model.Role, len(actualRoles))
 			for _, role := range actualRoles {
-				actualRoleNames = append(actualRoleNames, role.Name)
+				roleByName[role.Name] = role
 			}
 
-			require.Contains(t, actualRoleNames, channelScheme1.DefaultChannelUserRole)
-			require.NotContains(t, actualRoleNames, channelScheme2.DefaultChannelUserRole)
+			require.Contains(t, roleByName, channelScheme1.DefaultChannelUserRole)
+			require.NotContains(t, roleByName, channelScheme2.DefaultChannelUserRole)
+			require.NotNil(t, roleByName[channelScheme1.DefaultChannelUserRole].SchemeId)
+			assert.Equal(t, channelScheme1.Id, *roleByName[channelScheme1.DefaultChannelUserRole].SchemeId)
 		})
 
 		t.Run("admin role for the right team's channels are returned", func(t *testing.T) {
 			actualRoles, err := ss.Role().ChannelRolesUnderTeamRole(teamScheme1.DefaultChannelAdminRole)
 			require.NoError(t, err)
 
-			var actualRoleNames []string
+			roleByName := make(map[string]*model.Role, len(actualRoles))
 			for _, role := range actualRoles {
-				actualRoleNames = append(actualRoleNames, role.Name)
+				roleByName[role.Name] = role
 			}
 
-			require.Contains(t, actualRoleNames, channelScheme1.DefaultChannelAdminRole)
-			require.NotContains(t, actualRoleNames, channelScheme2.DefaultChannelAdminRole)
+			require.Contains(t, roleByName, channelScheme1.DefaultChannelAdminRole)
+			require.NotContains(t, roleByName, channelScheme2.DefaultChannelAdminRole)
+			require.NotNil(t, roleByName[channelScheme1.DefaultChannelAdminRole].SchemeId)
+			assert.Equal(t, channelScheme1.Id, *roleByName[channelScheme1.DefaultChannelAdminRole].SchemeId)
 		})
 	})
 
@@ -497,9 +504,9 @@ func testRoleStoreLowerScopedChannelSchemeRoles(t *testing.T, rctx request.CTX, 
 			actualRoles, err := ss.Role().AllChannelSchemeRoles()
 			require.NoError(t, err)
 
-			var actualRoleNames []string
+			roleByName := make(map[string]*model.Role, len(actualRoles))
 			for _, role := range actualRoles {
-				actualRoleNames = append(actualRoleNames, role.Name)
+				roleByName[role.Name] = role
 			}
 
 			allRoleNames := []string{
@@ -514,7 +521,27 @@ func testRoleStoreLowerScopedChannelSchemeRoles(t *testing.T, rctx request.CTX, 
 			}
 
 			for _, roleName := range allRoleNames {
-				require.Contains(t, actualRoleNames, roleName)
+				require.Contains(t, roleByName, roleName)
+			}
+
+			// Roles for channelScheme1 must carry channelScheme1's ID.
+			for _, roleName := range []string{
+				channelScheme1.DefaultChannelGuestRole,
+				channelScheme1.DefaultChannelUserRole,
+				channelScheme1.DefaultChannelAdminRole,
+			} {
+				require.NotNil(t, roleByName[roleName].SchemeId)
+				assert.Equal(t, channelScheme1.Id, *roleByName[roleName].SchemeId)
+			}
+
+			// Roles for channelScheme2 must carry channelScheme2's ID.
+			for _, roleName := range []string{
+				channelScheme2.DefaultChannelGuestRole,
+				channelScheme2.DefaultChannelUserRole,
+				channelScheme2.DefaultChannelAdminRole,
+			} {
+				require.NotNil(t, roleByName[roleName].SchemeId)
+				assert.Equal(t, channelScheme2.Id, *roleByName[roleName].SchemeId)
 			}
 		})
 	})
@@ -598,4 +625,59 @@ func testRoleStoreChannelHigherScopedPermissionsBlankTeamSchemeChannelGuest(t *t
 	require.NoError(t, err)
 
 	require.Equal(t, len(roleMapBefore), len(roleMapAfter))
+}
+
+// testRoleStoreBackfillSchemeId verifies the 000162_backfill_roles_schemeid
+// migration's UPDATE statement correctly restores SchemeId for roles that
+// predate the schemeid column (simulated by nulling it out after creation).
+func testRoleStoreBackfillSchemeId(t *testing.T, rctx request.CTX, ss store.Store, s SqlStore) {
+	scheme := &model.Scheme{
+		DisplayName: model.NewId(),
+		Name:        model.NewId(),
+		Description: model.NewId(),
+		Scope:       model.SchemeScopeTeam,
+	}
+	scheme, err := ss.Scheme().Save(scheme)
+	require.NoError(t, err)
+	defer ss.Scheme().Delete(scheme.Id)
+
+	// Simulate pre-migration data: null out schemeid as if the column had just been added.
+	_, sqlErr := s.GetMaster().Exec(fmt.Sprintf("UPDATE Roles SET SchemeId = NULL WHERE Name = '%s'", scheme.DefaultTeamAdminRole))
+	require.NoError(t, sqlErr)
+
+	roleBeforeBackfill, err := ss.Role().GetByName(context.Background(), scheme.DefaultTeamAdminRole)
+	require.NoError(t, err)
+	require.Nil(t, roleBeforeBackfill.SchemeId)
+
+	// Run the exact backfill query from 000162_backfill_roles_schemeid.up.sql.
+	_, sqlErr = s.GetMaster().Exec(`
+		UPDATE Roles
+		SET SchemeId = match.scheme_id
+		FROM (
+			SELECT DISTINCT ON (role_name) id AS scheme_id, role_name
+			FROM (
+				SELECT id, unnest(ARRAY[
+					DefaultTeamAdminRole,
+					DefaultTeamUserRole,
+					DefaultTeamGuestRole,
+					DefaultChannelAdminRole,
+					DefaultChannelUserRole,
+					DefaultChannelGuestRole,
+					DefaultPlaybookAdminRole,
+					DefaultPlaybookMemberRole,
+					DefaultRunAdminRole,
+					DefaultRunMemberRole
+				]) AS role_name
+				FROM Schemes
+			) expanded
+			WHERE role_name IS NOT NULL AND role_name <> ''
+			ORDER BY role_name, scheme_id
+		) match
+		WHERE Roles.Name = match.role_name`)
+	require.NoError(t, sqlErr)
+
+	roleAfterBackfill, err := ss.Role().GetByName(context.Background(), scheme.DefaultTeamAdminRole)
+	require.NoError(t, err)
+	require.NotNil(t, roleAfterBackfill.SchemeId)
+	assert.Equal(t, scheme.Id, *roleAfterBackfill.SchemeId)
 }
