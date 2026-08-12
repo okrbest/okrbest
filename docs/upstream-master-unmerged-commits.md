@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-12 16:48
+- 갱신일: 2026-08-12 17:15
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 914개
+- 남은 커밋: 908개
 
-**마지막 반영 커밋:** `b4163449` | [ci: cache prepackaged plugins in mmctl tests (#35720)](https://github.com/mattermost/mattermost/commit/b4163449319c422f462a845294808084d0c6b332) | 2026-03-22
+**마지막 반영 커밋:** `a3cdef8b` | [Fix docs-impact-review CI hitting max turns limit (#35744)](https://github.com/mattermost/mattermost/commit/a3cdef8b0f1b31c931895fbd5011a17fa6869afa) | 2026-03-23
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| ae1691a3 | [fix(pr-analysis): on large diff and reduce gh pr calls (#35734)](https://github.com/mattermost/mattermost/commit/ae1691a3685d7ff4817593adab7741b4ce884784) | 2026-03-23 |
-| 156bdc5f | [MM-67742 Fixing text color in marketplace banner (#35674)](https://github.com/mattermost/mattermost/commit/156bdc5fa64330b0e1b730b441941f1c07183e10) | 2026-03-23 |
-| f0b2a36d | [MM-67616: Refactor shared channel membership sync to use ChannelMemberHistory (#35619)](https://github.com/mattermost/mattermost/commit/f0b2a36dbc4a9e8a5e5f6232ba51a1940e90fddf) | 2026-03-23 |
-| 2ce50d7c | [MM-66742 - add BoR e2e tests (#34829)](https://github.com/mattermost/mattermost/commit/2ce50d7c8df2bfd137f91f18b881e79cc63ddd71) | 2026-03-23 |
-| f04c3f00 | [Fix nil pointer dereference in UpdateUser (MATTERMOST-SERVER-VF) (#35717)](https://github.com/mattermost/mattermost/commit/f04c3f0071ee26a7fe86934e0e173cf4fd3e139a) | 2026-03-23 |
-| a3cdef8b | [Fix docs-impact-review CI hitting max turns limit (#35744)](https://github.com/mattermost/mattermost/commit/a3cdef8b0f1b31c931895fbd5011a17fa6869afa) | 2026-03-23 |
 | 7d26b7f3 | [Fix datepicker calendar overflow in AppsForm modal (#35437)](https://github.com/mattermost/mattermost/commit/7d26b7f3174649868b05569505dd5eaf02f93415) | 2026-03-24 |
 | 43130d80 | [MM-67158 - fix overlap in post actions menu (#35415)](https://github.com/mattermost/mattermost/commit/43130d8085cdbb7ae098027b46b764ee22ae33e6) | 2026-03-24 |
 | 4b1b3cee | [refactor(pdf_preview): migrate PDFPreview to function component (#33648)](https://github.com/mattermost/mattermost/commit/4b1b3cee69cc7db260352450eb57da310651f7a9) | 2026-03-24 |
@@ -964,6 +958,10 @@
 | fee649d0 | [Run docs-impact-review as regular CI instead of slash command (#35620)](https://github.com/mattermost/mattermost/commit/fee649d06353948763d4fb09c6664fa942a82428) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 슬래시 커맨드에서 일반 CI 실행으로 바꾸는 이번 수정(+43/-13)도 반영할 대상이 없음. 반영 시 mattermost/docs를 체크아웃하고 ANTHROPIC_API_KEY를 소모하는 무관한 워크플로가 PR마다 자동 실행됨. 0fa5e235·7ccafd79와 같은 계열. |
 
 | e6b8e12f | [SEC-9862: Add CI check for test analysis (#35555)](https://github.com/mattermost/mattermost/commit/e6b8e12fb94e8d4ef45b3f0d765c00f8f7087fe7) | Mattermost 조직 전용 CI 워크플로 2개(pr-test-analysis.yml +464, pr-test-analysis-override.yml +117) 신설. 실행 가드가 head.repo.full_name == 'mattermost/mattermost'로 하드코딩돼 okrbest에 넣어도 job이 항상 skip되어 죽은 파일만 남음. adapt로 가드를 바꾸면 PR마다 secrets.ANTHROPIC_API_KEY로 Claude 호출 비용이 발생하고, 보고 대상 secrets.WEBHOOK_URL_TEST_PR_ANALYSIS_HUB는 Mattermost 내부 허브라 우리에게 대상이 없음. 도입 여부는 sync가 아닌 별도 의사결정 사안. 45f54a0e·fee649d0(docs-impact-review) 계열과 동일 사유. |
+
+| ae1691a3 | [fix(pr-analysis): on large diff and reduce gh pr calls (#35734)](https://github.com/mattermost/mattermost/commit/ae1691a3685d7ff4817593adab7741b4ce884784) | 부모 커밋 e6b8e12f(SEC-9862 테스트 분석 CI)와 동일 사유로 제외 — okrbest에 .github/workflows/pr-test-analysis.yml 자체가 없어(Mattermost 조직 전용, 실행 가드가 mattermost/mattermost로 하드코딩되고 ANTHROPIC_API_KEY·내부 웹훅 의존) 대용량 diff 처리와 gh pr 호출 감소 수정(+41/-20)도 반영할 대상이 없음. merge-tree modify/delete. |
+
+| a3cdef8b | [Fix docs-impact-review CI hitting max turns limit (#35744)](https://github.com/mattermost/mattermost/commit/a3cdef8b0f1b31c931895fbd5011a17fa6869afa) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) max turns 한계 수정(+4/-1)도 반영할 대상이 없음. 0fa5e235·7ccafd79·fee649d0와 같은 계열 5번째. merge-tree modify/delete. |
 
 ## spec 전환 커밋
 
