@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-12 17:15
+- 갱신일: 2026-08-12 22:42
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 908개
+- 남은 커밋: 906개
 
-**마지막 반영 커밋:** `a3cdef8b` | [Fix docs-impact-review CI hitting max turns limit (#35744)](https://github.com/mattermost/mattermost/commit/a3cdef8b0f1b31c931895fbd5011a17fa6869afa) | 2026-03-23
+**마지막 반영 커밋:** `cc66081f` | [Fix flaky test for makeGetProfilesInChannel (#35765)](https://github.com/mattermost/mattermost/commit/cc66081f6b6812a77158847d5270072313553287) | 2026-03-24
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 7d26b7f3 | [Fix datepicker calendar overflow in AppsForm modal (#35437)](https://github.com/mattermost/mattermost/commit/7d26b7f3174649868b05569505dd5eaf02f93415) | 2026-03-24 |
-| 43130d80 | [MM-67158 - fix overlap in post actions menu (#35415)](https://github.com/mattermost/mattermost/commit/43130d8085cdbb7ae098027b46b764ee22ae33e6) | 2026-03-24 |
-| 4b1b3cee | [refactor(pdf_preview): migrate PDFPreview to function component (#33648)](https://github.com/mattermost/mattermost/commit/4b1b3cee69cc7db260352450eb57da310651f7a9) | 2026-03-24 |
-| 8bfa1ff0 | [fix: allow substring matching when searching channel members (#35017)](https://github.com/mattermost/mattermost/commit/8bfa1ff09ff3d593cb7c98786d719d2bc42d3851) | 2026-03-25 |
-| cc66081f | [Fix flaky test for makeGetProfilesInChannel (#35765)](https://github.com/mattermost/mattermost/commit/cc66081f6b6812a77158847d5270072313553287) | 2026-03-24 |
 | 95e33dbc | [MM-63848: Enforce unique names for parent access control policies (#35676)](https://github.com/mattermost/mattermost/commit/95e33dbc7229a28d768ce1f5c4a14a673d0303a4) | 2026-03-25 |
 | 7d6d834f | [MM-68016, MM-68017, MM-68018 Add plugin pre-hooks for membership and channel archive (#35731)](https://github.com/mattermost/mattermost/commit/7d6d834f1f4feea8ecbf2eedf505cc76cbe62998) | 2026-03-25 |
 | 4f16a29c | [MM-67793: Remove dependency on blang/semver/v4 (#35742)](https://github.com/mattermost/mattermost/commit/4f16a29cb5e8bf4978763581602caa6012865091) | 2026-03-25 |
@@ -919,6 +914,9 @@
 | 265f1509 | [\[MM-70223\] Migrate GetAllProfilesInChannel to request context (#37637)](https://github.com/mattermost/mattermost/commit/265f1509fa0ea08464a007995c943b21d0530f9a) | 2026-08-12 |
 | 270a5030 | [\[MM-70225\] Migrate Store.GetDiagnostics to request.CTX (#37635)](https://github.com/mattermost/mattermost/commit/270a5030542305e1a9921f6df71bc7793245442c) | 2026-08-12 |
 | 9f0ae6a2 | [\[MM-70222\] Migrate UserStore Get to request context (#37646)](https://github.com/mattermost/mattermost/commit/9f0ae6a220f5da8f4303ee80f2237f395ff9bed4) | 2026-08-12 |
+| 523292f0 | [Remove unused context import left behind by UserStore.Get migration (#37921)](https://github.com/mattermost/mattermost/commit/523292f0816a3a5ebc5f836d323a4d9beecc5860) | 2026-08-12 |
+| 46102626 | [MM-70151/MM-70152: fix slash commands in the WYSIWYG composer (#37880)](https://github.com/mattermost/mattermost/commit/46102626dbad7473f461307b7be4c98cd387bf4f) | 2026-08-12 |
+| 0fc1ff17 | [\[MM-69557\] Fix post actions menu not closing on outside click in mobile view (#37394)](https://github.com/mattermost/mattermost/commit/0fc1ff17c8a92a00c2694a059214d0b823db2a83) | 2026-08-12 |
 
 ## 제외된 커밋
 
