@@ -8,7 +8,12 @@ jobs:
   check-files:
     name: Check only English translation files changed
     runs-on: ubuntu-22.04
-    if: github.event.pull_request.user.login != 'weblate' # Allow weblate to modify non-English
+    # Allow weblate to modify non-English. okrbest also allows upstream sync
+    # branches, which carry upstream's Weblate commits verbatim (those arrive as
+    # regular commits here, not as PRs authored by the weblate bot).
+    if: >-
+      github.event.pull_request.user.login != 'weblate' &&
+      !startsWith(github.head_ref, 'sync/upstream-')
     steps:
       - name: Checkout code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -22,6 +27,8 @@ jobs:
             webapp/channels/src/i18n/*.json
             !server/i18n/en.json
             !webapp/channels/src/i18n/en.json
+            !server/i18n/ko.json
+            !webapp/channels/src/i18n/ko.json
 
       - name: Check changed files
         if: steps.changed-files.outputs.any_changed == 'true'
