@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-12 13:46
+- 갱신일: 2026-08-12 14:55
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 935개
+- 남은 커밋: 925개
 
-**마지막 반영 커밋:** `37028a79` | [\[MM-677967\] Send updated title template for popouts when state changes (#35635)](https://github.com/mattermost/mattermost/commit/37028a794d579c119713536879963167b258488d) | 2026-03-17
+**마지막 반영 커밋:** `0085d149` | [MM-67518 Increase amount that the post list is considered to be at the bottom (#35680)](https://github.com/mattermost/mattermost/commit/0085d14979ae7241e3c9459d6e457b3222c938ff) | 2026-03-18
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b1034649 | [\[MM-67886\] Remove height cap on Feature Flags table in System Console (#35556)](https://github.com/mattermost/mattermost/commit/b10346496b4eb40ea06781ee2641c67ef7de198d) | 2026-03-18 |
-| 9dacec36 | [\[MM-29973\] Adds E2E tests for `mmctl plugin disable` (#35464)](https://github.com/mattermost/mattermost/commit/9dacec36723b2d88a5700274c191df4775f5cdcd) | 2026-03-18 |
-| 08f09274 | [mmctl: Add support for listing user roles through mmctl (#34064)](https://github.com/mattermost/mattermost/commit/08f09274e8d4d26caf09dc917e69268a6857a54b) | 2026-03-18 |
-| 0a21b88f | [MM-55536 Support Inline image when image proxy is enabled (#31020)](https://github.com/mattermost/mattermost/commit/0a21b88f948e2701680e8c394775883a9fcbb762) | 2026-03-18 |
-| 04baff8c | [Hyphenation (#30373)](https://github.com/mattermost/mattermost/commit/04baff8c8de8422285f5724f3d9b2a9b6297f273) | 2026-03-18 |
-| 314ed375 | [Fix import failures for Japanese filenames with dakuten on macOS (#35204)](https://github.com/mattermost/mattermost/commit/314ed3756aa04be0e985bd5bd3d36f8fe95bfbc1) | 2026-03-18 |
-| da62a280 | [Run i18n-extract (#35675)](https://github.com/mattermost/mattermost/commit/da62a280093e12004bd44eda4596cf2b9717ce32) | 2026-03-18 |
-| 1dea4b13 | [Add unit tests for ScheduledPost model (#35565)](https://github.com/mattermost/mattermost/commit/1dea4b13781e54e02509f5e600ea84309d93f423) | 2026-03-18 |
-| e9ae890a | [oauth check (#35553)](https://github.com/mattermost/mattermost/commit/e9ae890a013bb57989fcbdb548d8b7b86b240237) | 2026-03-18 |
-| 0085d149 | [MM-67518 Increase amount that the post list is considered to be at the bottom (#35680)](https://github.com/mattermost/mattermost/commit/0085d14979ae7241e3c9459d6e457b3222c938ff) | 2026-03-18 |
 | fee649d0 | [Run docs-impact-review as regular CI instead of slash command (#35620)](https://github.com/mattermost/mattermost/commit/fee649d06353948763d4fb09c6664fa942a82428) | 2026-03-19 |
 | aea8cbdc | [Fix typos in webapp: receivedStatus and separately (#35254)](https://github.com/mattermost/mattermost/commit/aea8cbdc7a970a3c5e647682b05d4cbd7925e77a) | 2026-03-19 |
 | b9aeb629 | [\[MM-67905\] Allow full Markdown rendering in message attachment footer (#35570)](https://github.com/mattermost/mattermost/commit/b9aeb629be642c2ba82d7992c7bfd769fa53700a) | 2026-03-19 |
