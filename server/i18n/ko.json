@@ -2429,6 +2429,10 @@
     "translation": "invalid_request: 잘못된 요청입니다."
   },
   {
+    "id": "api.oauth.get_access_token.client_id_mismatch.app_error",
+    "translation": "invalid_grant: 이 클라이언트에 발급된 토큰이 아닙니다."
+  },
+  {
     "id": "api.oauth.get_access_token.credentials.app_error",
     "translation": "invalid_client: 잘못된 클라이언트 인증 정보입니다."
   },
