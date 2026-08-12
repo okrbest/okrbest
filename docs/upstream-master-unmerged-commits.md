@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-12 22:42
+- 갱신일: 2026-08-13 00:04
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 906개
 
-**마지막 반영 커밋:** `cc66081f` | [Fix flaky test for makeGetProfilesInChannel (#35765)](https://github.com/mattermost/mattermost/commit/cc66081f6b6812a77158847d5270072313553287) | 2026-03-24
+**마지막 반영 커밋:** `4f16a29c` | [MM-67793: Remove dependency on blang/semver/v4 (#35742)](https://github.com/mattermost/mattermost/commit/4f16a29cb5e8bf4978763581602caa6012865091) | 2026-03-25
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 95e33dbc | [MM-63848: Enforce unique names for parent access control policies (#35676)](https://github.com/mattermost/mattermost/commit/95e33dbc7229a28d768ce1f5c4a14a673d0303a4) | 2026-03-25 |
-| 7d6d834f | [MM-68016, MM-68017, MM-68018 Add plugin pre-hooks for membership and channel archive (#35731)](https://github.com/mattermost/mattermost/commit/7d6d834f1f4feea8ecbf2eedf505cc76cbe62998) | 2026-03-25 |
-| 4f16a29c | [MM-67793: Remove dependency on blang/semver/v4 (#35742)](https://github.com/mattermost/mattermost/commit/4f16a29cb5e8bf4978763581602caa6012865091) | 2026-03-25 |
 | 8de0b366 | [ MM-63056 Migrate thread menu to new component and minor a11y tweaks (#33401)](https://github.com/mattermost/mattermost/commit/8de0b36639641e1459f21142380fe8deb2749c03) | 2026-03-25 |
 | b0c38bac | [Fix channel not found after creation on deployments with read replicas (#35728)](https://github.com/mattermost/mattermost/commit/b0c38bac0bab915a0b717c6dc356c9cd52b4f3b8) | 2026-03-25 |
 | 85dcb8b9 | [MM-67944: Add shared channel integration test tool  (#35639)](https://github.com/mattermost/mattermost/commit/85dcb8b9e7e89977584922709b74e597139d5f23) | 2026-03-25 |
@@ -917,6 +914,9 @@
 | 523292f0 | [Remove unused context import left behind by UserStore.Get migration (#37921)](https://github.com/mattermost/mattermost/commit/523292f0816a3a5ebc5f836d323a4d9beecc5860) | 2026-08-12 |
 | 46102626 | [MM-70151/MM-70152: fix slash commands in the WYSIWYG composer (#37880)](https://github.com/mattermost/mattermost/commit/46102626dbad7473f461307b7be4c98cd387bf4f) | 2026-08-12 |
 | 0fc1ff17 | [\[MM-69557\] Fix post actions menu not closing on outside click in mobile view (#37394)](https://github.com/mattermost/mattermost/commit/0fc1ff17c8a92a00c2694a059214d0b823db2a83) | 2026-08-12 |
+| 81d6d1ea | [Fix link preview image layout shift by using SizeAwareImage (#37357)](https://github.com/mattermost/mattermost/commit/81d6d1ea20c07d9394cb569e7dd4da546cfc56fe) | 2026-08-12 |
+| 929a2e9e | [\[MM-70106\] Prevent search startup bulk processor leaks (#37873)](https://github.com/mattermost/mattermost/commit/929a2e9e3f908c09b0582cea75433b2a482bc019) | 2026-08-12 |
+| 7a06c7ae | [\[MM-64357\] Fix ABAC policy editor unable to switch back to Simple Mode when a value contains an apostrophe (#37819)](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) | 2026-08-12 |
 
 ## 제외된 커밋
 
