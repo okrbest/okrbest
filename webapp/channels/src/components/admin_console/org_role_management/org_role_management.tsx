@@ -58,22 +58,22 @@ const OrgRoleManagement = () => {
             <AdminHeader>
                 <FormattedMessage
                     id='admin.org_roles.title'
-                    defaultMessage='조직/직위 관리'
+                    defaultMessage='Department/Position Management'
                 />
             </AdminHeader>
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
                     <AdminPanel
                         id='org_roles'
-                        title={defineMessage({id: 'admin.org_roles.panel_title', defaultMessage: '조직/직위 배정'})}
-                        subtitle={defineMessage({id: 'admin.org_roles.panel_subtitle', defaultMessage: '직위/부서를 추가하고, 사용자에게 배정할 수 있습니다.'})}
+                        title={defineMessage({id: 'admin.org_roles.panel_title', defaultMessage: 'Department/Position Assignment'})}
+                        subtitle={defineMessage({id: 'admin.org_roles.panel_subtitle', defaultMessage: 'Add positions and departments, and assign them to users.'})}
                     >
                         <div className='orgRoleManagement__contentBody'>
                             <div className='form-group'>
                                 <label htmlFor='org-role-team'>
                                     <FormattedMessage
                                         id='admin.org_roles.team'
-                                        defaultMessage='팀'
+                                        defaultMessage='Team'
                                     />
                                 </label>
                                 <select
@@ -82,7 +82,7 @@ const OrgRoleManagement = () => {
                                     value={selectedTeamId}
                                     onChange={(e) => setSelectedTeamId(e.target.value)}
                                 >
-                                    <option value=''>{intl.formatMessage({id: 'admin.org_roles.select_team_placeholder', defaultMessage: '팀을 선택하세요'})}</option>
+                                    <option value=''>{intl.formatMessage({id: 'admin.org_roles.select_team_placeholder', defaultMessage: 'Select a team'})}</option>
                                     {teams.map((team) => (
                                         <option
                                             key={team.id}
@@ -103,7 +103,7 @@ const OrgRoleManagement = () => {
                             <div className='orgRoleManagement__contentBody help-text'>
                                 <FormattedMessage
                                     id='admin.org_roles.selected_team'
-                                    defaultMessage='선택된 팀: {teamName}'
+                                    defaultMessage='Selected team: {teamName}'
                                     values={{teamName: selectedTeam.display_name}}
                                 />
                             </div>

@@ -391,7 +391,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
             setShowPositionForm(false);
             await loadTeamData(teamId);
             setError('');
-            showSuccessMessage(intl.formatMessage({id: 'admin.org_roles.saved', defaultMessage: '저장되었습니다'}));
+            showSuccessMessage(intl.formatMessage({id: 'admin.org_roles.saved', defaultMessage: 'Saved'}));
         } catch (e) {
             clearSuccessMessageTimer();
             setSuccessMessage('');
@@ -416,7 +416,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
             setShowDepartmentForm(false);
             await loadTeamData(teamId);
             setError('');
-            showSuccessMessage(intl.formatMessage({id: 'admin.org_roles.saved', defaultMessage: '저장되었습니다'}));
+            showSuccessMessage(intl.formatMessage({id: 'admin.org_roles.saved', defaultMessage: 'Saved'}));
         } catch (e) {
             clearSuccessMessageTimer();
             setSuccessMessage('');
@@ -441,7 +441,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
             setShowDivisionForm(false);
             await loadTeamData(teamId);
             setError('');
-            showSuccessMessage(intl.formatMessage({id: 'admin.org_roles.saved', defaultMessage: '저장되었습니다'}));
+            showSuccessMessage(intl.formatMessage({id: 'admin.org_roles.saved', defaultMessage: 'Saved'}));
         } catch (e) {
             clearSuccessMessageTimer();
             setSuccessMessage('');
@@ -467,7 +467,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
             setShowDutyForm(false);
             await loadTeamData(teamId);
             setError('');
-            showSuccessMessage(intl.formatMessage({id: 'admin.org_roles.saved', defaultMessage: '저장되었습니다'}));
+            showSuccessMessage(intl.formatMessage({id: 'admin.org_roles.saved', defaultMessage: 'Saved'}));
         } catch (e) {
             clearSuccessMessageTimer();
             setSuccessMessage('');
@@ -830,7 +830,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
     const renderOrgUnitGroupedOptions = () => (
         <>
             {activeDivisions.length > 0 && (
-                <optgroup label={intl.formatMessage({id: 'admin.org_roles.assign_division_group', defaultMessage: '본부 직속'})}>
+                <optgroup label={intl.formatMessage({id: 'admin.org_roles.assign_division_group', defaultMessage: 'Division (direct)'})}>
                     {activeDivisions.map((division) => (
                         <option
                             key={division.id}
@@ -841,7 +841,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     ))}
                 </optgroup>
             )}
-            <optgroup label={intl.formatMessage({id: 'admin.org_roles.assign_department_group', defaultMessage: '부서'})}>
+            <optgroup label={intl.formatMessage({id: 'admin.org_roles.assign_department_group', defaultMessage: 'Departments'})}>
                 {activeDepartments.map((department) => (
                     <option
                         key={department.id}
@@ -916,7 +916,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     <div className='form-group'>
                         <FormattedMessage
                             id='admin.org_roles.loading'
-                            defaultMessage='불러오는 중...'
+                            defaultMessage='Loading...'
                         />
                     </div>
                 )}
@@ -928,7 +928,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     >
                         <FormattedMessage
                             id='admin.org_roles.add_division'
-                            defaultMessage='본부 추가'
+                            defaultMessage='Add Division'
                         />
                     </button>
                     <button
@@ -937,7 +937,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     >
                         <FormattedMessage
                             id='admin.org_roles.add_department'
-                            defaultMessage='부서 추가'
+                            defaultMessage='Add Department'
                         />
                     </button>
                     <button
@@ -946,7 +946,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     >
                         <FormattedMessage
                             id='admin.org_roles.add_duty'
-                            defaultMessage='직책 추가'
+                            defaultMessage='Add Duty'
                         />
                     </button>
                     <button
@@ -955,7 +955,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     >
                         <FormattedMessage
                             id='admin.org_roles.add_position'
-                            defaultMessage='직위 추가'
+                            defaultMessage='Add Position'
                         />
                     </button>
                 </div>
@@ -971,7 +971,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     <div className='form-group orgRoleManagement__inlineForm'>
                         <input
                             className='form-control'
-                            placeholder={intl.formatMessage({id: 'admin.org_roles.division_name_placeholder', defaultMessage: '본부명'})}
+                            placeholder={intl.formatMessage({id: 'admin.org_roles.division_name_placeholder', defaultMessage: 'Division name'})}
                             value={divisionForm.name}
                             onChange={(e) => setDivisionForm({name: e.target.value})}
                         />
@@ -981,7 +981,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         >
                             <FormattedMessage
                                 id='admin.org_roles.save_division'
-                                defaultMessage='본부 저장'
+                                defaultMessage='Save Division'
                             />
                         </button>
                     </div>
@@ -991,17 +991,17 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     <div className='form-group orgRoleManagement__inlineForm'>
                         <input
                             className='form-control'
-                            placeholder={intl.formatMessage({id: 'admin.org_roles.department_name_placeholder', defaultMessage: '부서명'})}
+                            placeholder={intl.formatMessage({id: 'admin.org_roles.department_name_placeholder', defaultMessage: 'Department name'})}
                             value={departmentForm.name}
                             onChange={(e) => setDepartmentForm({...departmentForm, name: e.target.value})}
                         />
                         <select
                             className='form-control'
-                            aria-label={intl.formatMessage({id: 'admin.org_roles.department_parent_aria', defaultMessage: '소속 본부'})}
+                            aria-label={intl.formatMessage({id: 'admin.org_roles.department_parent_aria', defaultMessage: 'Division'})}
                             value={departmentForm.parent_id}
                             onChange={(e) => setDepartmentForm({...departmentForm, parent_id: e.target.value})}
                         >
-                            <option value=''>{intl.formatMessage({id: 'admin.org_roles.division_none_option', defaultMessage: '소속 본부 없음'})}</option>
+                            <option value=''>{intl.formatMessage({id: 'admin.org_roles.division_none_option', defaultMessage: 'No division'})}</option>
                             {activeDivisions.map((division) => (
                                 <option
                                     key={division.id}
@@ -1017,7 +1017,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         >
                             <FormattedMessage
                                 id='admin.org_roles.save_department'
-                                defaultMessage='부서 저장'
+                                defaultMessage='Save Department'
                             />
                         </button>
                     </div>
@@ -1027,14 +1027,14 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     <div className='form-group orgRoleManagement__inlineForm'>
                         <input
                             className='form-control'
-                            placeholder={intl.formatMessage({id: 'admin.org_roles.position_name_placeholder', defaultMessage: '직위명'})}
+                            placeholder={intl.formatMessage({id: 'admin.org_roles.position_name_placeholder', defaultMessage: 'Position name'})}
                             value={positionForm.name}
                             onChange={(e) => setPositionForm({...positionForm, name: e.target.value})}
                         />
                         <input
                             className='form-control'
                             type='number'
-                            placeholder={intl.formatMessage({id: 'admin.org_roles.rank_placeholder', defaultMessage: '정렬 순서(rank)'})}
+                            placeholder={intl.formatMessage({id: 'admin.org_roles.rank_placeholder', defaultMessage: 'Sort order (rank)'})}
                             value={positionForm.rank}
                             onChange={(e) => setPositionForm({...positionForm, rank: Number(e.target.value)})}
                         />
@@ -1044,7 +1044,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         >
                             <FormattedMessage
                                 id='admin.org_roles.save_position'
-                                defaultMessage='직위 저장'
+                                defaultMessage='Save Position'
                             />
                         </button>
                     </div>
@@ -1054,14 +1054,14 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     <div className='form-group orgRoleManagement__inlineForm'>
                         <input
                             className='form-control'
-                            placeholder={intl.formatMessage({id: 'admin.org_roles.duty_name_placeholder', defaultMessage: '직책명'})}
+                            placeholder={intl.formatMessage({id: 'admin.org_roles.duty_name_placeholder', defaultMessage: 'Duty name'})}
                             value={dutyForm.name}
                             onChange={(e) => setDutyForm({...dutyForm, name: e.target.value})}
                         />
                         <input
                             className='form-control'
                             type='number'
-                            placeholder={intl.formatMessage({id: 'admin.org_roles.rank_placeholder', defaultMessage: '정렬 순서(rank)'})}
+                            placeholder={intl.formatMessage({id: 'admin.org_roles.rank_placeholder', defaultMessage: 'Sort order (rank)'})}
                             value={dutyForm.rank}
                             onChange={(e) => setDutyForm({...dutyForm, rank: Number(e.target.value)})}
                         />
@@ -1073,7 +1073,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                             />
                             <FormattedMessage
                                 id='admin.org_roles.full_visibility_label'
-                                defaultMessage=' 보드 전체보기 권한'
+                                defaultMessage=' Full board visibility permission'
                             />
                         </label>
                         <button
@@ -1082,7 +1082,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         >
                             <FormattedMessage
                                 id='admin.org_roles.save_duty'
-                                defaultMessage='직책 저장'
+                                defaultMessage='Save Duty'
                             />
                         </button>
                     </div>
@@ -1091,7 +1091,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                 <h4>
                     <FormattedMessage
                         id='admin.org_roles.division_list_heading'
-                        defaultMessage='본부 리스트'
+                        defaultMessage='Division List'
                     />
                 </h4>
                 <div className='orgRoleManagement__tableWrap'>
@@ -1103,19 +1103,19 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.division_name_column'
-                                        defaultMessage='본부명'
+                                        defaultMessage='Division Name'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.status_column'
-                                        defaultMessage='상태'
+                                        defaultMessage='Status'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.management_column'
-                                        defaultMessage='관리'
+                                        defaultMessage='Actions'
                                     />
                                 </th>
                             </tr>
@@ -1143,12 +1143,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                             {division.active ? (
                                                 <FormattedMessage
                                                     id='admin.org_roles.status_active'
-                                                    defaultMessage='활성'
+                                                    defaultMessage='Active'
                                                 />
                                             ) : (
                                                 <FormattedMessage
                                                     id='admin.org_roles.status_inactive'
-                                                    defaultMessage='비활성'
+                                                    defaultMessage='Inactive'
                                                 />
                                             )}
                                         </td>
@@ -1163,12 +1163,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                         {isSaving ? (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.saving'
-                                                                defaultMessage='저장 중...'
+                                                                defaultMessage='Saving...'
                                                             />
                                                         ) : (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.save'
-                                                                defaultMessage='저장'
+                                                                defaultMessage='Save'
                                                             />
                                                         )}
                                                     </button>
@@ -1178,7 +1178,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                     >
                                                         <FormattedMessage
                                                             id='admin.org_roles.cancel'
-                                                            defaultMessage='취소'
+                                                            defaultMessage='Cancel'
                                                         />
                                                     </button>
                                                 </div>
@@ -1191,7 +1191,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                     >
                                                         <FormattedMessage
                                                             id='admin.org_roles.edit'
-                                                            defaultMessage='수정'
+                                                            defaultMessage='Edit'
                                                         />
                                                     </button>
                                                     <button
@@ -1202,12 +1202,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                         {isDeactivating ? (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.deleting'
-                                                                defaultMessage='삭제 중...'
+                                                                defaultMessage='Deleting...'
                                                             />
                                                         ) : (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.delete'
-                                                                defaultMessage='삭제'
+                                                                defaultMessage='Delete'
                                                             />
                                                         )}
                                                     </button>
@@ -1223,7 +1223,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                         <div className='help-text'>
                                             <FormattedMessage
                                                 id='admin.org_roles.no_division_results'
-                                                defaultMessage='등록된 본부가 없습니다.'
+                                                defaultMessage='No divisions registered.'
                                             />
                                         </div>
                                     </td>
@@ -1236,13 +1236,13 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                 <h4>
                     <FormattedMessage
                         id='admin.org_roles.department_list_heading'
-                        defaultMessage='부서 리스트'
+                        defaultMessage='Department List'
                     />
                 </h4>
                 <div className='form-group'>
                     <input
                         className='form-control'
-                        placeholder={intl.formatMessage({id: 'admin.org_roles.department_search_placeholder', defaultMessage: '부서 검색 (이름)'})}
+                        placeholder={intl.formatMessage({id: 'admin.org_roles.department_search_placeholder', defaultMessage: 'Search departments (name)'})}
                         value={departmentSearchKeyword}
                         onChange={(e) => setDepartmentSearchKeyword(e.target.value)}
                     />
@@ -1256,25 +1256,25 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.department_name_column'
-                                        defaultMessage='부서명'
+                                        defaultMessage='Department Name'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.division_column'
-                                        defaultMessage='소속 본부'
+                                        defaultMessage='Division'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.status_column'
-                                        defaultMessage='상태'
+                                        defaultMessage='Status'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.management_column'
-                                        defaultMessage='관리'
+                                        defaultMessage='Actions'
                                     />
                                 </th>
                             </tr>
@@ -1284,7 +1284,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                 <React.Fragment key={group.divisionId || 'unassigned'}>
                                     <tr className='orgRoleManagement__groupHeader'>
                                         <td colSpan={4}>
-                                            {group.divisionName ?? intl.formatMessage({id: 'admin.org_roles.division_unassigned_group', defaultMessage: '미소속'})}
+                                            {group.divisionName ?? intl.formatMessage({id: 'admin.org_roles.division_unassigned_group', defaultMessage: 'Unassigned'})}
                                         </td>
                                     </tr>
                                     {group.departments.map((department, departmentIndex) => {
@@ -1312,12 +1312,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                 <td>
                                                     <select
                                                         className='form-control'
-                                                        aria-label={intl.formatMessage({id: 'admin.org_roles.department_parent_aria', defaultMessage: '소속 본부'})}
+                                                        aria-label={intl.formatMessage({id: 'admin.org_roles.department_parent_aria', defaultMessage: 'Division'})}
                                                         value={divisionNameById[department.parent_id] ? department.parent_id : ''}
                                                         disabled={isTransferring}
                                                         onChange={(e) => transferDepartment(department, e.target.value)}
                                                     >
-                                                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.division_none_option', defaultMessage: '소속 본부 없음'})}</option>
+                                                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.division_none_option', defaultMessage: 'No division'})}</option>
                                                         {activeDivisions.map((division) => (
                                                             <option
                                                                 key={division.id}
@@ -1332,12 +1332,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                     {department.active ? (
                                                         <FormattedMessage
                                                             id='admin.org_roles.status_active'
-                                                            defaultMessage='활성'
+                                                            defaultMessage='Active'
                                                         />
                                                     ) : (
                                                         <FormattedMessage
                                                             id='admin.org_roles.status_inactive'
-                                                            defaultMessage='비활성'
+                                                            defaultMessage='Inactive'
                                                         />
                                                     )}
                                                 </td>
@@ -1352,12 +1352,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                                 {isSaving ? (
                                                                     <FormattedMessage
                                                                         id='admin.org_roles.saving'
-                                                                        defaultMessage='저장 중...'
+                                                                        defaultMessage='Saving...'
                                                                     />
                                                                 ) : (
                                                                     <FormattedMessage
                                                                         id='admin.org_roles.save'
-                                                                        defaultMessage='저장'
+                                                                        defaultMessage='Save'
                                                                     />
                                                                 )}
                                                             </button>
@@ -1367,7 +1367,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                             >
                                                                 <FormattedMessage
                                                                     id='admin.org_roles.cancel'
-                                                                    defaultMessage='취소'
+                                                                    defaultMessage='Cancel'
                                                                 />
                                                             </button>
                                                         </div>
@@ -1380,7 +1380,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                             >
                                                                 <FormattedMessage
                                                                     id='admin.org_roles.edit'
-                                                                    defaultMessage='수정'
+                                                                    defaultMessage='Edit'
                                                                 />
                                                             </button>
                                                             <button
@@ -1391,12 +1391,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                                 {isDeactivating ? (
                                                                     <FormattedMessage
                                                                         id='admin.org_roles.deleting'
-                                                                        defaultMessage='삭제 중...'
+                                                                        defaultMessage='Deleting...'
                                                                     />
                                                                 ) : (
                                                                     <FormattedMessage
                                                                         id='admin.org_roles.delete'
-                                                                        defaultMessage='삭제'
+                                                                        defaultMessage='Delete'
                                                                     />
                                                                 )}
                                                             </button>
@@ -1414,7 +1414,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                         <div className='help-text'>
                                             <FormattedMessage
                                                 id='admin.org_roles.no_department_results'
-                                                defaultMessage='검색 조건에 해당하는 부서가 없습니다.'
+                                                defaultMessage='No departments match the search.'
                                             />
                                         </div>
                                     </td>
@@ -1427,7 +1427,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                 <h4>
                     <FormattedMessage
                         id='admin.org_roles.duty_list_heading'
-                        defaultMessage='직책 리스트'
+                        defaultMessage='Duty List'
                     />
                 </h4>
                 <div className='orgRoleManagement__tableWrap'>
@@ -1439,31 +1439,31 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.duty_name_column'
-                                        defaultMessage='직책명'
+                                        defaultMessage='Duty Name'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.rank_column'
-                                        defaultMessage='정렬순서'
+                                        defaultMessage='Sort Order'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.status_column'
-                                        defaultMessage='상태'
+                                        defaultMessage='Status'
                                     />
                                 </th>
-                                <th title={intl.formatMessage({id: 'admin.org_roles.full_visibility_column_title', defaultMessage: '체크된 직위를 가진 사용자는 부서/직위 구분 없이 모든 보드를 봅니다'})}>
+                                <th title={intl.formatMessage({id: 'admin.org_roles.full_visibility_column_title', defaultMessage: 'Users with a checked position can view all boards regardless of department/position.'})}>
                                     <FormattedMessage
                                         id='admin.org_roles.full_visibility_column'
-                                        defaultMessage='보드 전체보기'
+                                        defaultMessage='Full Board Visibility'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.management_column'
-                                        defaultMessage='관리'
+                                        defaultMessage='Actions'
                                     />
                                 </th>
                             </tr>
@@ -1503,12 +1503,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                             {duty.active ? (
                                                 <FormattedMessage
                                                     id='admin.org_roles.status_active'
-                                                    defaultMessage='활성'
+                                                    defaultMessage='Active'
                                                 />
                                             ) : (
                                                 <FormattedMessage
                                                     id='admin.org_roles.status_inactive'
-                                                    defaultMessage='비활성'
+                                                    defaultMessage='Inactive'
                                                 />
                                             )}
                                         </td>
@@ -1538,12 +1538,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                         {isSaving ? (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.saving'
-                                                                defaultMessage='저장 중...'
+                                                                defaultMessage='Saving...'
                                                             />
                                                         ) : (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.save'
-                                                                defaultMessage='저장'
+                                                                defaultMessage='Save'
                                                             />
                                                         )}
                                                     </button>
@@ -1553,7 +1553,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                     >
                                                         <FormattedMessage
                                                             id='admin.org_roles.cancel'
-                                                            defaultMessage='취소'
+                                                            defaultMessage='Cancel'
                                                         />
                                                     </button>
                                                 </div>
@@ -1566,7 +1566,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                     >
                                                         <FormattedMessage
                                                             id='admin.org_roles.edit'
-                                                            defaultMessage='수정'
+                                                            defaultMessage='Edit'
                                                         />
                                                     </button>
                                                     <button
@@ -1577,12 +1577,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                         {isDeactivating ? (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.deleting'
-                                                                defaultMessage='삭제 중...'
+                                                                defaultMessage='Deleting...'
                                                             />
                                                         ) : (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.delete'
-                                                                defaultMessage='삭제'
+                                                                defaultMessage='Delete'
                                                             />
                                                         )}
                                                     </button>
@@ -1598,7 +1598,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                         <div className='help-text'>
                                             <FormattedMessage
                                                 id='admin.org_roles.no_duty_results'
-                                                defaultMessage='등록된 직책이 없습니다.'
+                                                defaultMessage='No duties registered.'
                                             />
                                         </div>
                                     </td>
@@ -1611,13 +1611,13 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                 <h4>
                     <FormattedMessage
                         id='admin.org_roles.position_list_heading'
-                        defaultMessage='직위 리스트'
+                        defaultMessage='Position List'
                     />
                 </h4>
                 <div className='form-group'>
                     <input
                         className='form-control'
-                        placeholder={intl.formatMessage({id: 'admin.org_roles.position_search_placeholder', defaultMessage: '직위 검색 (이름)'})}
+                        placeholder={intl.formatMessage({id: 'admin.org_roles.position_search_placeholder', defaultMessage: 'Search positions (name)'})}
                         value={positionSearchKeyword}
                         onChange={(e) => setPositionSearchKeyword(e.target.value)}
                     />
@@ -1631,25 +1631,25 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.position_name_column'
-                                        defaultMessage='직위명'
+                                        defaultMessage='Position Name'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.rank_column'
-                                        defaultMessage='정렬순서'
+                                        defaultMessage='Sort Order'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.status_column'
-                                        defaultMessage='상태'
+                                        defaultMessage='Status'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.management_column'
-                                        defaultMessage='관리'
+                                        defaultMessage='Actions'
                                     />
                                 </th>
                             </tr>
@@ -1689,12 +1689,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                             {position.active ? (
                                                 <FormattedMessage
                                                     id='admin.org_roles.status_active'
-                                                    defaultMessage='활성'
+                                                    defaultMessage='Active'
                                                 />
                                             ) : (
                                                 <FormattedMessage
                                                     id='admin.org_roles.status_inactive'
-                                                    defaultMessage='비활성'
+                                                    defaultMessage='Inactive'
                                                 />
                                             )}
                                         </td>
@@ -1709,12 +1709,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                         {isSaving ? (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.saving'
-                                                                defaultMessage='저장 중...'
+                                                                defaultMessage='Saving...'
                                                             />
                                                         ) : (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.save'
-                                                                defaultMessage='저장'
+                                                                defaultMessage='Save'
                                                             />
                                                         )}
                                                     </button>
@@ -1724,7 +1724,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                     >
                                                         <FormattedMessage
                                                             id='admin.org_roles.cancel'
-                                                            defaultMessage='취소'
+                                                            defaultMessage='Cancel'
                                                         />
                                                     </button>
                                                 </div>
@@ -1737,7 +1737,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                     >
                                                         <FormattedMessage
                                                             id='admin.org_roles.edit'
-                                                            defaultMessage='수정'
+                                                            defaultMessage='Edit'
                                                         />
                                                     </button>
                                                     <button
@@ -1748,12 +1748,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                         {isDeactivating ? (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.deleting'
-                                                                defaultMessage='삭제 중...'
+                                                                defaultMessage='Deleting...'
                                                             />
                                                         ) : (
                                                             <FormattedMessage
                                                                 id='admin.org_roles.delete'
-                                                                defaultMessage='삭제'
+                                                                defaultMessage='Delete'
                                                             />
                                                         )}
                                                     </button>
@@ -1769,7 +1769,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                         <div className='help-text'>
                                             <FormattedMessage
                                                 id='admin.org_roles.no_position_results'
-                                                defaultMessage='검색 조건에 해당하는 직위가 없습니다.'
+                                                defaultMessage='No positions match the search.'
                                             />
                                         </div>
                                     </td>
@@ -1782,7 +1782,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                 <h4>
                     <FormattedMessage
                         id='admin.org_roles.filter_heading'
-                        defaultMessage='필터'
+                        defaultMessage='Filter'
                     />
                 </h4>
                 <div className='form-group orgRoleManagement__filterRow'>
@@ -1791,7 +1791,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         value={filterOrgUnitId}
                         onChange={(e) => setFilterOrgUnitId(e.target.value)}
                     >
-                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.filter_all_departments', defaultMessage: '전체 부서'})}</option>
+                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.filter_all_departments', defaultMessage: 'All Departments'})}</option>
                         {renderOrgUnitGroupedOptions()}
                     </select>
                     <select
@@ -1799,7 +1799,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         value={filterDutyId}
                         onChange={(e) => setFilterDutyId(e.target.value)}
                     >
-                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.filter_all_duties', defaultMessage: '전체 직책'})}</option>
+                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.filter_all_duties', defaultMessage: 'All duties'})}</option>
                         {activeDuties.map((duty) => (
                             <option
                                 key={duty.id}
@@ -1814,7 +1814,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         value={filterPositionId}
                         onChange={(e) => setFilterPositionId(e.target.value)}
                     >
-                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.filter_all_positions', defaultMessage: '전체 직위'})}</option>
+                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.filter_all_positions', defaultMessage: 'All Positions'})}</option>
                         {activePositions.map((position) => (
                             <option
                                 key={position.id}
@@ -1834,7 +1834,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     >
                         <FormattedMessage
                             id='admin.org_roles.filter_reset'
-                            defaultMessage='초기화'
+                            defaultMessage='Reset'
                         />
                     </button>
                 </div>
@@ -1842,7 +1842,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                 <h4>
                     <FormattedMessage
                         id='admin.org_roles.bulk_heading'
-                        defaultMessage='일괄 지정'
+                        defaultMessage='Bulk Assignment'
                     />
                 </h4>
                 <div className='form-group orgRoleManagement__bulkApplyRow'>
@@ -1851,7 +1851,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         value={bulkOrgUnitId}
                         onChange={(e) => setBulkOrgUnitId(e.target.value)}
                     >
-                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.bulk_department_no_op', defaultMessage: '부서 변경 안 함'})}</option>
+                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.bulk_department_no_op', defaultMessage: "Don't change department"})}</option>
                         {renderOrgUnitGroupedOptions()}
                     </select>
                     <select
@@ -1859,7 +1859,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         value={bulkDutyId}
                         onChange={(e) => setBulkDutyId(e.target.value)}
                     >
-                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.bulk_duty_no_op', defaultMessage: '직책 변경 안 함'})}</option>
+                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.bulk_duty_no_op', defaultMessage: 'Keep duty unchanged'})}</option>
                         {activeDuties.map((duty) => (
                             <option
                                 key={duty.id}
@@ -1874,7 +1874,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         value={bulkPositionId}
                         onChange={(e) => setBulkPositionId(e.target.value)}
                     >
-                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.bulk_position_no_op', defaultMessage: '직위 변경 안 함'})}</option>
+                        <option value=''>{intl.formatMessage({id: 'admin.org_roles.bulk_position_no_op', defaultMessage: "Don't change position"})}</option>
                         {activePositions.map((position) => (
                             <option
                                 key={position.id}
@@ -1891,13 +1891,13 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     >
                         <FormattedMessage
                             id='admin.org_roles.bulk_apply'
-                            defaultMessage='선택 적용'
+                            defaultMessage='Apply to Selection'
                         />
                     </button>
                     <span className='help-text'>
                         <FormattedMessage
                             id='admin.org_roles.bulk_selected_count'
-                            defaultMessage='선택된 사용자: {count}명'
+                            defaultMessage='Selected users: {count}'
                             values={{count: selectedUserIds.size}}
                         />
                     </span>
@@ -1914,12 +1914,12 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         {isBulkSaving ? (
                             <FormattedMessage
                                 id='admin.org_roles.saving'
-                                defaultMessage='저장 중...'
+                                defaultMessage='Saving...'
                             />
                         ) : (
                             <FormattedMessage
                                 id='admin.org_roles.save'
-                                defaultMessage='저장'
+                                defaultMessage='Save'
                             />
                         )}
                     </button>
@@ -1928,13 +1928,13 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                             {bulkSaveSummary.failCount === 0 ? (
                                 <FormattedMessage
                                     id='admin.org_roles.save_summary_success'
-                                    defaultMessage='{count}명 저장되었습니다'
+                                    defaultMessage='{count} user(s) saved'
                                     values={{count: bulkSaveSummary.successCount}}
                                 />
                             ) : (
                                 <FormattedMessage
                                     id='admin.org_roles.save_summary_with_failures'
-                                    defaultMessage='{successCount}명 저장 완료, {failCount}명 실패'
+                                    defaultMessage='{successCount} succeeded, {failCount} failed'
                                     values={{successCount: bulkSaveSummary.successCount, failCount: bulkSaveSummary.failCount}}
                                 />
                             )}
@@ -1945,13 +1945,13 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                 <h4>
                     <FormattedMessage
                         id='admin.org_roles.user_list_heading'
-                        defaultMessage='사용자 리스트'
+                        defaultMessage='User List'
                     />
                 </h4>
                 <div className='form-group'>
                     <input
                         className='form-control'
-                        placeholder={intl.formatMessage({id: 'admin.org_roles.user_search_placeholder', defaultMessage: '사용자 검색 (이름/username)'})}
+                        placeholder={intl.formatMessage({id: 'admin.org_roles.user_search_placeholder', defaultMessage: 'Search users (name/username)'})}
                         value={userSearchKeyword}
                         onChange={(e) => setUserSearchKeyword(e.target.value)}
                     />
@@ -1966,7 +1966,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                     <input
                                         ref={headerCheckboxRef}
                                         type='checkbox'
-                                        aria-label={intl.formatMessage({id: 'admin.org_roles.select_all_aria', defaultMessage: '전체 선택'})}
+                                        aria-label={intl.formatMessage({id: 'admin.org_roles.select_all_aria', defaultMessage: 'Select all'})}
                                         checked={allVisibleSelected}
                                         onChange={toggleSelectAllVisible}
                                     />
@@ -1974,25 +1974,25 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.user_column'
-                                        defaultMessage='사용자'
+                                        defaultMessage='User'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.department_column'
-                                        defaultMessage='부서'
+                                        defaultMessage='Department'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.duty_column'
-                                        defaultMessage='직책'
+                                        defaultMessage='Duty'
                                     />
                                 </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.org_roles.position_column'
-                                        defaultMessage='직위'
+                                        defaultMessage='Position'
                                     />
                                 </th>
                             </tr>
@@ -2006,7 +2006,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                         <td>
                                             <input
                                                 type='checkbox'
-                                                aria-label={intl.formatMessage({id: 'admin.org_roles.select_user_aria', defaultMessage: '{name} 선택'}, {name: displayName})}
+                                                aria-label={intl.formatMessage({id: 'admin.org_roles.select_user_aria', defaultMessage: 'Select {name}'}, {name: displayName})}
                                                 checked={selectedUserIds.has(user.id)}
                                                 onChange={() => toggleUserSelected(user.id)}
                                             />
@@ -2021,7 +2021,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                 value={assignment.primary_org_unit_id}
                                                 onChange={(e) => updateAssignmentField(user.id, 'primary_org_unit_id', e.target.value)}
                                             >
-                                                <option value=''>{intl.formatMessage({id: 'admin.org_roles.department_unassigned', defaultMessage: '부서 미지정'})}</option>
+                                                <option value=''>{intl.formatMessage({id: 'admin.org_roles.department_unassigned', defaultMessage: 'No department'})}</option>
                                                 {renderOrgUnitGroupedOptions()}
                                             </select>
                                         </td>
@@ -2031,7 +2031,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                 value={assignment.primary_duty_id}
                                                 onChange={(e) => updateAssignmentField(user.id, 'primary_duty_id', e.target.value)}
                                             >
-                                                <option value=''>{intl.formatMessage({id: 'admin.org_roles.duty_unassigned', defaultMessage: '직책 미지정'})}</option>
+                                                <option value=''>{intl.formatMessage({id: 'admin.org_roles.duty_unassigned', defaultMessage: 'No duty'})}</option>
                                                 {activeDuties.map((duty) => (
                                                     <option
                                                         key={duty.id}
@@ -2048,7 +2048,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                                 value={assignment.primary_position_id}
                                                 onChange={(e) => updateAssignmentField(user.id, 'primary_position_id', e.target.value)}
                                             >
-                                                <option value=''>{intl.formatMessage({id: 'admin.org_roles.position_unassigned', defaultMessage: '직위 미지정'})}</option>
+                                                <option value=''>{intl.formatMessage({id: 'admin.org_roles.position_unassigned', defaultMessage: 'No position'})}</option>
                                                 {activePositions.map((position) => (
                                                     <option
                                                         key={position.id}
@@ -2068,7 +2068,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                         <div className='help-text'>
                                             <FormattedMessage
                                                 id='admin.org_roles.no_user_results'
-                                                defaultMessage='필터 조건에 해당하는 사용자가 없습니다.'
+                                                defaultMessage='No users match the filter.'
                                             />
                                         </div>
                                     </td>
@@ -2084,7 +2084,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                     title={
                         <FormattedMessage
                             id='admin.org_roles.delete_confirm_title'
-                            defaultMessage='삭제 확인'
+                            defaultMessage='Confirm Deletion'
                         />
                     }
                     message={
@@ -2093,7 +2093,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                                 <p>
                                     <FormattedMessage
                                         id='admin.org_roles.delete_confirm_message'
-                                        defaultMessage="''{name}'' 항목을 삭제하시겠습니까?"
+                                        defaultMessage="Are you sure you want to delete ''{name}''?"
                                         values={{name: deleteConfirmTarget.item.name}}
                                     />
                                 </p>
@@ -2105,19 +2105,19 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
                         isDeleteConfirming ? (
                             <FormattedMessage
                                 id='admin.org_roles.deleting'
-                                defaultMessage='삭제 중...'
+                                defaultMessage='Deleting...'
                             />
                         ) : (
                             <FormattedMessage
                                 id='admin.org_roles.delete'
-                                defaultMessage='삭제'
+                                defaultMessage='Delete'
                             />
                         )
                     }
                     cancelButtonText={
                         <FormattedMessage
                             id='admin.org_roles.cancel'
-                            defaultMessage='취소'
+                            defaultMessage='Cancel'
                         />
                     }
                     confirmDisabled={isDeleteConfirming}
