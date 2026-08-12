@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-11 11:08
+- 갱신일: 2026-08-12 13:46
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 934개
+- 남은 커밋: 935개
 
-**마지막 반영 커밋:** `e39be2b7` | [Improves the Property System Architecture groups (#35395)](https://github.com/mattermost/mattermost/commit/e39be2b7e5210005804d0cdd177608ec4fc9ef93) | 2026-03-16
+**마지막 반영 커밋:** `37028a79` | [\[MM-677967\] Send updated title template for popouts when state changes (#35635)](https://github.com/mattermost/mattermost/commit/37028a794d579c119713536879963167b258488d) | 2026-03-17
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f165e082 | [Bumping prepackaged Jira version to 4.6.0 (#35637)](https://github.com/mattermost/mattermost/commit/f165e08246735699c79a34d31f20cc8e90004d55) | 2026-03-17 |
-| 17f2efd9 | [Translations update from Mattermost Weblate (#35645)](https://github.com/mattermost/mattermost/commit/17f2efd95c2027a08ce0b0729969a6e71c59d38e) | 2026-03-17 |
-| bd6fe81b | [MM-67506: Angle brackets display as HTML entities in inline code blocks (#35219)](https://github.com/mattermost/mattermost/commit/bd6fe81b815ea44c3ba11ba79d40766ba36f65f3) | 2026-03-17 |
-| 37028a79 | [\[MM-677967\] Send updated title template for popouts when state changes (#35635)](https://github.com/mattermost/mattermost/commit/37028a794d579c119713536879963167b258488d) | 2026-03-17 |
 | b1034649 | [\[MM-67886\] Remove height cap on Feature Flags table in System Console (#35556)](https://github.com/mattermost/mattermost/commit/b10346496b4eb40ea06781ee2641c67ef7de198d) | 2026-03-18 |
 | 9dacec36 | [\[MM-29973\] Adds E2E tests for `mmctl plugin disable` (#35464)](https://github.com/mattermost/mattermost/commit/9dacec36723b2d88a5700274c191df4775f5cdcd) | 2026-03-18 |
 | 08f09274 | [mmctl: Add support for listing user roles through mmctl (#34064)](https://github.com/mattermost/mattermost/commit/08f09274e8d4d26caf09dc917e69268a6857a54b) | 2026-03-18 |
@@ -945,6 +941,11 @@
 | a6d008c5 | [\[MM-70188\] Convert the os_platform session attribute to a select field (#37901)](https://github.com/mattermost/mattermost/commit/a6d008c5c2b13a6845a39bab0eaae13aacc1859d) | 2026-08-10 |
 | 4901a7fc | [\[MM-70186\] Add tooltips to platform icons in session attribute picker (#37898)](https://github.com/mattermost/mattermost/commit/4901a7fc2a9f075e2fef972498cfa5e4a74c1e9f) | 2026-08-10 |
 | 8ce3c54a | [MM-70016: Fix edge case in team invitation handling (#37741)](https://github.com/mattermost/mattermost/commit/8ce3c54a5ed76b2aa39a46cf8a1b517ea53ec0cc) | 2026-08-10 |
+| 4a68234d | [\[MM-69601\] mmctl: support file attachments in `post create` (#37310)](https://github.com/mattermost/mattermost/commit/4a68234d7568462cecaae42f76c57526b5df7c6a) | 2026-08-11 |
+| 844d3370 | [\[MM-69849\]\[MM-69850\] Add New Attribute page: create Text/Select/Multiselect/Rank attributes with an options editor (#37726)](https://github.com/mattermost/mattermost/commit/844d3370b71f49ede1ef3a4bfbc22c80a8bd135f) | 2026-08-11 |
+| d3c26275 | [fix(mmctl): lengthen sampledata passwords to meet FIPS minimum (#37867)](https://github.com/mattermost/mattermost/commit/d3c26275b651b2e23b173c9c914b5fc99e7626b8) | 2026-08-11 |
+| 11cc766d | [\[MM-69726\] Fix Message actions menu displaying off screen in narrow display (#37396)](https://github.com/mattermost/mattermost/commit/11cc766dfaa1cbe2c08e8ae7994d8118bfdbffa7) | 2026-08-11 |
+| 1f08ac5b | [MM-69886: Refresh Channel Members RHS on websocket add and reconnect (#37584)](https://github.com/mattermost/mattermost/commit/1f08ac5bb04372421315c0ebe0e951fbecf3ebb6) | 2026-08-11 |
 
 ## 제외된 커밋
 
