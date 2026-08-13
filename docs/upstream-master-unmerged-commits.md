@@ -3,22 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-13 00:04
+- 갱신일: 2026-08-13 11:59
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 906개
+- 남은 커밋: 903개
 
-**마지막 반영 커밋:** `4f16a29c` | [MM-67793: Remove dependency on blang/semver/v4 (#35742)](https://github.com/mattermost/mattermost/commit/4f16a29cb5e8bf4978763581602caa6012865091) | 2026-03-25
+**마지막 반영 커밋:** `8a17f508` | [MM-68071 Upgrade core-js and update target browsers for @babel/preset-env (#35764)](https://github.com/mattermost/mattermost/commit/8a17f508bee13524b2691b1376b2752fb2f45785) | 2026-03-25
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 8de0b366 | [ MM-63056 Migrate thread menu to new component and minor a11y tweaks (#33401)](https://github.com/mattermost/mattermost/commit/8de0b36639641e1459f21142380fe8deb2749c03) | 2026-03-25 |
-| b0c38bac | [Fix channel not found after creation on deployments with read replicas (#35728)](https://github.com/mattermost/mattermost/commit/b0c38bac0bab915a0b717c6dc356c9cd52b4f3b8) | 2026-03-25 |
-| 85dcb8b9 | [MM-67944: Add shared channel integration test tool  (#35639)](https://github.com/mattermost/mattermost/commit/85dcb8b9e7e89977584922709b74e597139d5f23) | 2026-03-25 |
-| e738016c | [\[MM-67143\] Fix for custom slash command response URL (#34922)](https://github.com/mattermost/mattermost/commit/e738016c592045e14bf926eafaeda6f8521def6d) | 2026-03-25 |
 | 553e9948 | [Fix chevron toggle not working for edited post history title (#34797)](https://github.com/mattermost/mattermost/commit/553e9948f6c4500440c55e8c27a93ce9ebe52ad4) | 2026-03-26 |
-| fb11968f | [\[MM-65701\] Fix for docextractor archive handling (#34983)](https://github.com/mattermost/mattermost/commit/fb11968f8798925c7b75711025bc5f991124ba26) | 2026-03-25 |
-| 8f0f4239 | [\[MM-65627\] Add Channel popout window (#35596)](https://github.com/mattermost/mattermost/commit/8f0f4239eb60ca6024bb0c7ee7def5e41e618994) | 2026-03-25 |
-| 8a17f508 | [MM-68071 Upgrade core-js and update target browsers for @babel/preset-env (#35764)](https://github.com/mattermost/mattermost/commit/8a17f508bee13524b2691b1376b2752fb2f45785) | 2026-03-25 |
 | 58dd9e1b | [Add property system app layer architecture (#35157)](https://github.com/mattermost/mattermost/commit/58dd9e1bb415573e4ef4af5b4a4803df1f8ae367) | 2026-03-26 |
 | c0dcaf2c | [MM-68021 H10-17 Enzyme to RTL bulk migration (#35735)](https://github.com/mattermost/mattermost/commit/c0dcaf2cd676971c3da7b16d805b8e8f5794002d) | 2026-03-27 |
 | 51232b58 | [ci: shard server Postgres tests into 4 parallel runners (#35739)](https://github.com/mattermost/mattermost/commit/51232b58efa9b1199f53ae4059fd846080d466c7) | 2026-03-26 |
@@ -917,6 +910,10 @@
 | 81d6d1ea | [Fix link preview image layout shift by using SizeAwareImage (#37357)](https://github.com/mattermost/mattermost/commit/81d6d1ea20c07d9394cb569e7dd4da546cfc56fe) | 2026-08-12 |
 | 929a2e9e | [\[MM-70106\] Prevent search startup bulk processor leaks (#37873)](https://github.com/mattermost/mattermost/commit/929a2e9e3f908c09b0582cea75433b2a482bc019) | 2026-08-12 |
 | 7a06c7ae | [\[MM-64357\] Fix ABAC policy editor unable to switch back to Simple Mode when a value contains an apostrophe (#37819)](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) | 2026-08-12 |
+| bf0f9de0 | [\[MM-70189\] Add operators for CIDR and version checks to the simple policy editor (#37918)](https://github.com/mattermost/mattermost/commit/bf0f9de0784e65dc3a0f04b3c587d56c7bbc2901) | 2026-08-12 |
+| d0be8f40 | [MM-70240: Adjust post and thread payload sanitization (#37920)](https://github.com/mattermost/mattermost/commit/d0be8f408e7cfb67973c5007d8a3f9438c6040d9) | 2026-08-12 |
+| 27a5abe2 | [Log an error instead of refusing to start on unsupported Postgres, Elasticsearch, and OpenSearch versions (#37929)](https://github.com/mattermost/mattermost/commit/27a5abe2d403d566af152d2bf1c219a62f5738fc) | 2026-08-12 |
+| 65b1437d | [Added DM GM restriction for flagging a post (#37841)](https://github.com/mattermost/mattermost/commit/65b1437d0823a5fba390fbd0216403a37c28124f) | 2026-08-13 |
 
 ## 제외된 커밋
 
@@ -983,3 +980,4 @@
 | a8dc8baa | [\[MM-67235\] Add support for autotranslations on GM and DM (#35255)](https://github.com/mattermost/mattermost/commit/a8dc8baa905630d28c9d6966aca67c3ee01df16c) | GM/DM 자동번역 프론트엔드 배선(selector·UI). 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개)에 있어 okrbest에서 작동 불가 — exclude 처리(위 부록 참조). 자체 모듈 개발 시 UI 참고 가능. |
 | 932086e2 | [separate websocket event for translations metrics (#35296)](https://github.com/mattermost/mattermost/commit/932086e29cf3e2574d69417ddd9140be76784d7a) | AutoTranslation 관련 websocket 이벤트(post_translation_updated) 전용 Prometheus 카운터 등록만 추가. 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개 저장소)에 있어 okrbest에선 이 이벤트가 발생하지 않아 카운터는 항상 0으로 남는 비활성(inert) 계측. 향후 자체 autotranslation 기능 구현 시 재사용 가능. |
 | 100cde3a | [\[MM-67587\] Exclude system messages from autotranslation queue (#35267)](https://github.com/mattermost/mattermost/commit/100cde3a1aeee2faf5a537d1cb1a280b4c24f594) | 제목이 표방하는 '자동번역 큐에서 시스템 메시지 제외' 실제 로직은 github.com/mattermost/enterprise/autotranslation(비공개, //go:build enterprise 태그) 안에만 있음. 우리 저장소에는 RegisterAutoTranslationInterface()를 호출해 구현체를 등록하는 코드가 없고 go.mod/go.sum에도 참조 없음 — cherry-pick한 건 이 로직을 호출하는 post.go의 if/else→switch 스타일 리팩터뿐, 시스템 메시지 제외 기능 자체는 우리 쪽에서 비활성 상태. |
+| 85dcb8b9 | [MM-67944: Add shared channel integration test tool  (#35639)](https://github.com/mattermost/mattermost/commit/85dcb8b9e7e89977584922709b74e597139d5f23) | shared channel 통합 테스트 도구. -tags enterprise 빌드(github.com/mattermost/enterprise/*)와 Enterprise 라이선스 파일(--license 필수)을 전제로 해 okrbest에서는 실행 불가. 코드는 cherry-pick으로 반영됐으나 비활성 상태 — 공유 채널 검증이 필요해지면 라이선스 비의존 방식으로 자체 개발 대상. |
