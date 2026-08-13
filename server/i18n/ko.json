@@ -5043,10 +5043,6 @@
     "translation": "사용자 정의 프로필 속성 그룹을 등록할 수 없습니다."
   },
   {
-    "id": "app.custom_profile_attributes.create_property_field.app_error",
-    "translation": "사용자 정의 프로필 속성 필드를 생성할 수 없습니다."
-  },
-  {
     "id": "app.custom_profile_attributes.get_property_field.app_error",
     "translation": "사용자 정의 프로필 속성 필드를 가져올 수 없습니다."
   },
