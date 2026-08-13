@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-13 11:59
+- 갱신일: 2026-08-13 15:39
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 903개
+- 남은 커밋: 901개
 
-**마지막 반영 커밋:** `8a17f508` | [MM-68071 Upgrade core-js and update target browsers for @babel/preset-env (#35764)](https://github.com/mattermost/mattermost/commit/8a17f508bee13524b2691b1376b2752fb2f45785) | 2026-03-25
+**마지막 반영 커밋:** `51232b58` | [ci: shard server Postgres tests into 4 parallel runners (#35739)](https://github.com/mattermost/mattermost/commit/51232b58efa9b1199f53ae4059fd846080d466c7) | 2026-03-26
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 553e9948 | [Fix chevron toggle not working for edited post history title (#34797)](https://github.com/mattermost/mattermost/commit/553e9948f6c4500440c55e8c27a93ce9ebe52ad4) | 2026-03-26 |
-| 58dd9e1b | [Add property system app layer architecture (#35157)](https://github.com/mattermost/mattermost/commit/58dd9e1bb415573e4ef4af5b4a4803df1f8ae367) | 2026-03-26 |
-| c0dcaf2c | [MM-68021 H10-17 Enzyme to RTL bulk migration (#35735)](https://github.com/mattermost/mattermost/commit/c0dcaf2cd676971c3da7b16d805b8e8f5794002d) | 2026-03-27 |
-| 51232b58 | [ci: shard server Postgres tests into 4 parallel runners (#35739)](https://github.com/mattermost/mattermost/commit/51232b58efa9b1199f53ae4059fd846080d466c7) | 2026-03-26 |
 | fac92f4a | [Added FakeSetting for keys generation for support package (#35346)](https://github.com/mattermost/mattermost/commit/fac92f4a71f356009e27983a980f729f599e8ba5) | 2026-03-27 |
 | 0d016195 | [updates buildserver go base image versions to 1.25.8 (#35811)](https://github.com/mattermost/mattermost/commit/0d01619585892efd40d7393aa404550d2901f505) | 2026-03-26 |
 | 656a0248 | [Fix datetime MinDate/MaxDate validation and add sub-day relative patterns (#35327)](https://github.com/mattermost/mattermost/commit/656a0248ebcade5e5e88a7d5db99c138ed88ddd9) | 2026-03-27 |
@@ -914,6 +910,8 @@
 | d0be8f40 | [MM-70240: Adjust post and thread payload sanitization (#37920)](https://github.com/mattermost/mattermost/commit/d0be8f408e7cfb67973c5007d8a3f9438c6040d9) | 2026-08-12 |
 | 27a5abe2 | [Log an error instead of refusing to start on unsupported Postgres, Elasticsearch, and OpenSearch versions (#37929)](https://github.com/mattermost/mattermost/commit/27a5abe2d403d566af152d2bf1c219a62f5738fc) | 2026-08-12 |
 | 65b1437d | [Added DM GM restriction for flagging a post (#37841)](https://github.com/mattermost/mattermost/commit/65b1437d0823a5fba390fbd0216403a37c28124f) | 2026-08-13 |
+| 2df50ab1 | [\[MM-69911\] Include PAT token ID in server and audit logs for request traceability (#37910)](https://github.com/mattermost/mattermost/commit/2df50ab1fb250cad0bd2d139421446d8f55646dd) | 2026-08-13 |
+| 0eb2ec5a | [\[MM-70226\] Migrate role GetByName to request context (#37634)](https://github.com/mattermost/mattermost/commit/0eb2ec5a1771b82c905cb9d50491dc85326a3530) | 2026-08-13 |
 
 ## 제외된 커밋
 
