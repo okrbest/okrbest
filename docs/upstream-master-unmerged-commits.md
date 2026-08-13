@@ -3,29 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-13 15:39
+- 갱신일: 2026-08-13 21:15
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 901개
+- 남은 커밋: 888개
 
-**마지막 반영 커밋:** `51232b58` | [ci: shard server Postgres tests into 4 parallel runners (#35739)](https://github.com/mattermost/mattermost/commit/51232b58efa9b1199f53ae4059fd846080d466c7) | 2026-03-26
+**마지막 반영 커밋:** `fd2dd1c6` | [updated go to version 1.25.8 (#35817)](https://github.com/mattermost/mattermost/commit/fd2dd1c6188c3cf0f33462cad5b29c51d5830119) | 2026-03-27
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| fac92f4a | [Added FakeSetting for keys generation for support package (#35346)](https://github.com/mattermost/mattermost/commit/fac92f4a71f356009e27983a980f729f599e8ba5) | 2026-03-27 |
-| 0d016195 | [updates buildserver go base image versions to 1.25.8 (#35811)](https://github.com/mattermost/mattermost/commit/0d01619585892efd40d7393aa404550d2901f505) | 2026-03-26 |
-| 656a0248 | [Fix datetime MinDate/MaxDate validation and add sub-day relative patterns (#35327)](https://github.com/mattermost/mattermost/commit/656a0248ebcade5e5e88a7d5db99c138ed88ddd9) | 2026-03-27 |
-| 7a339a64 | [MM-68001 - enforce X-Requested-With header validation on BoR reveal endpoint (#35793)](https://github.com/mattermost/mattermost/commit/7a339a6438f5a4a5feba6b8de887f17a1378b207) | 2026-03-27 |
-| a6d1942f | [Fix issue where "Docs/Needed label is not getting added (#35794)](https://github.com/mattermost/mattermost/commit/a6d1942ff69ff3342023a6a2a63a960e16786905) | 2026-03-27 |
-| adbe7365 | [MM-68022 Bulk migration H18-28 Enzyme to RTL (#35753)](https://github.com/mattermost/mattermost/commit/adbe736576422dbc421ed294aad21ebb7e8080a6) | 2026-03-27 |
-| 48f2fd08 | [Merge the Integrated Boards MVP feature branch (#35796)](https://github.com/mattermost/mattermost/commit/48f2fd087339695673c9ab2f898ccf47007e6db8) | 2026-03-27 |
-| 006f1027 | [Adds COALESCE guard for property fields before PSAv2 migrations (#35830)](https://github.com/mattermost/mattermost/commit/006f102768ca9bf2016521b3e5af78993f1776cf) | 2026-03-27 |
-| 66894045 | [Allow Cursor bot to trigger docs impact review workflow (#35756)](https://github.com/mattermost/mattermost/commit/66894045e78b84de1687d46cc885bcd2c2c52497) | 2026-03-27 |
-| a19cc4b9 | [improves time limit checks (#35638)](https://github.com/mattermost/mattermost/commit/a19cc4b90960f23851ceb5600eeaaa5dc2fb4714) | 2026-03-27 |
-| dad9cab4 | [Add guards to avoid cards being created when the integrated boards feature flag is disabled (#35836)](https://github.com/mattermost/mattermost/commit/dad9cab48327b9638c37dd76a213984a23c19d68) | 2026-03-27 |
-| d0128492 | [Fix docs-impact-review workflow to reliably post analysis comments (#35831)](https://github.com/mattermost/mattermost/commit/d012849219222eba532ad0ae54e1b2678eb0c9e6) | 2026-03-27 |
-| 30837f7c | [move error back to logging warning...as caused breaking change (#35841)](https://github.com/mattermost/mattermost/commit/30837f7c4edc6a9293e719aba49c4eec50b6357f) | 2026-03-27 |
-| 71fe83ae | [Add concurrentIndex vet rule and fix migrations (#35809)](https://github.com/mattermost/mattermost/commit/71fe83aea21a7dcb2d76b4b252041dd23e6e0647) | 2026-03-27 |
-| fd2dd1c6 | [updated go to version 1.25.8 (#35817)](https://github.com/mattermost/mattermost/commit/fd2dd1c6188c3cf0f33462cad5b29c51d5830119) | 2026-03-27 |
 | 36bc59c1 | [MM-67957 H2-H9 Enzyme to RTL bulk migration (#35670)](https://github.com/mattermost/mattermost/commit/36bc59c1b768d8ed001b904ee341ffdb9f6f69f3) | 2026-03-30 |
 | 0278ad4d | [MM-66620 Fixing compact image attachment alignment (#35678)](https://github.com/mattermost/mattermost/commit/0278ad4d1a0f61884c140b0691c93a9ec31f7e25) | 2026-03-30 |
 | ece6b956 | [Add single-channel guest count to support packet stats (#35846)](https://github.com/mattermost/mattermost/commit/ece6b956facb44cc4ab10e17ff15bbe5914a6aea) | 2026-03-30 |
@@ -912,6 +897,8 @@
 | 65b1437d | [Added DM GM restriction for flagging a post (#37841)](https://github.com/mattermost/mattermost/commit/65b1437d0823a5fba390fbd0216403a37c28124f) | 2026-08-13 |
 | 2df50ab1 | [\[MM-69911\] Include PAT token ID in server and audit logs for request traceability (#37910)](https://github.com/mattermost/mattermost/commit/2df50ab1fb250cad0bd2d139421446d8f55646dd) | 2026-08-13 |
 | 0eb2ec5a | [\[MM-70226\] Migrate role GetByName to request context (#37634)](https://github.com/mattermost/mattermost/commit/0eb2ec5a1771b82c905cb9d50491dc85326a3530) | 2026-08-13 |
+| 7831d7fb | [\[MM-69226\] Fix Manage Teams role dropdown overflowing outside the modal (#37400)](https://github.com/mattermost/mattermost/commit/7831d7fbf138024b7653af90ab2c09bef86d9be0) | 2026-08-13 |
+| 9dfbaeca | [Add weekly recurring scheduled posts (#37746)](https://github.com/mattermost/mattermost/commit/9dfbaeca99f4096388fd1c048a9e6d1d0a86743e) | 2026-08-13 |
 
 ## 제외된 커밋
 
@@ -956,6 +943,12 @@
 
 | a3cdef8b | [Fix docs-impact-review CI hitting max turns limit (#35744)](https://github.com/mattermost/mattermost/commit/a3cdef8b0f1b31c931895fbd5011a17fa6869afa) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) max turns 한계 수정(+4/-1)도 반영할 대상이 없음. 0fa5e235·7ccafd79·fee649d0와 같은 계열 5번째. merge-tree modify/delete. |
 
+| a6d1942f | [Fix issue where "Docs/Needed label is not getting added (#35794)](https://github.com/mattermost/mattermost/commit/a6d1942ff69ff3342023a6a2a63a960e16786905) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 라벨 자동화 수정(+18/-7: 분석 본문 텍스트 출력 강제, 라벨 스텝이 PR 리뷰 본문까지 탐색, 라벨명 docs/needed→Docs/Needed)도 반영할 대상이 없음. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0·a3cdef8b와 같은 계열 7번째. merge-tree modify/delete. |
+
+| 66894045 | [Allow Cursor bot to trigger docs impact review workflow (#35756)](https://github.com/mattermost/mattermost/commit/66894045e78b84de1687d46cc885bcd2c2c52497) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) allowed_bots: 'cursor,claude' 1줄 추가도 반영할 대상이 없음. 해당 줄은 secrets.ANTHROPIC_API_KEY를 쓰는 스텝 설정이라 파일을 들여와도 우리에겐 시크릿도 분석 대상 저장소도 없음. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0·a3cdef8b·a6d1942f와 같은 계열 8번째. merge-tree modify/delete. |
+
+| d0128492 | [Fix docs-impact-review workflow to reliably post analysis comments (#35831)](https://github.com/mattermost/mattermost/commit/d012849219222eba532ad0ae54e1b2678eb0c9e6) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 분석 코멘트 안정화 수정(+57/-28)도 반영할 대상이 없음. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0·a3cdef8b·a6d1942f·66894045와 같은 계열 9번째. merge-tree modify/delete. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -966,6 +959,12 @@
 | 2bd143ce | [\[MM-65630\] Implement Search RHS popout, clean up and rework parts of search RHS (#35499)](https://github.com/mattermost/mattermost/commit/2bd143ced747794d40e17bae5654ebc837d085fa) | 008-search-rhs-popout |
 
 | 7425c681 | [\[MM-67741\] Scope role_updated WS events to affected team/channel (#35497)](https://github.com/mattermost/mattermost/commit/7425c6817bf244f976c729f8a73cecac8039a1e1) | specs/009-scope-role-updated-ws |
+
+| 48f2fd08 | [Merge the Integrated Boards MVP feature branch (#35796)](https://github.com/mattermost/mattermost/commit/48f2fd087339695673c9ab2f898ccf47007e6db8) | 010-integrated-boards-mvp (가칭) — 채널 내 보드/카드 MVP. DB 마이그레이션 8개(000160-000167)가 우리 자체 마이그레이션 000160-000164(spec 009 role_updated 포함)와 번호 정면 충돌해 재번호 전략 설계 필요. 122파일/+15977. 피처 플래그 IntegratedBoards 기본 off, upstream 기준 GA 전 MVP(FEATURE_FLAG_REMOVAL 주석, elasticsearch 인덱싱에 FIXME(IntegratedBoardMVP) 카드 제외). 후속 커밋 006f1027(PSAv2 COALESCE 가드)·dad9cab4(플래그 off 시 카드 생성 차단) 등이 이 spec 작업에 흡수 대상. |
+
+| 006f1027 | [Adds COALESCE guard for property fields before PSAv2 migrations (#35830)](https://github.com/mattermost/mattermost/commit/006f102768ca9bf2016521b3e5af78993f1776cf) | 010-integrated-boards-mvp (가칭) — 부모 48f2fd08에 경성 의존. property_field_store.go의 Select에 COALESCE(CreatedBy,'')/COALESCE(UpdatedBy,'') 가드를 넣는 패치인데, 대상 컬럼 ObjectType·Protected·Permission*·CreatedBy·UpdatedBy가 전부 48f2fd08의 마이그레이션(000160/000161/000165)이 만드는 것이라 우리 스키마엔 없음(현재 Select는 ID,GroupID,Name,Type,Attrs,TargetID,TargetType,CreateAt,UpdateAt,DeleteAt 10개뿐). 강행 시 없는 컬럼 SELECT로 런타임 SQL 오류. 마이그레이션 전 기존 행의 NULL 방어가 목적이므로 spec에서 우리 번호 체계로 마이그레이션 재작성 시 이 가드를 함께 반영해야 함. |
+
+| dad9cab4 | [Add guards to avoid cards being created when the integrated boards feature flag is disabled (#35836)](https://github.com/mattermost/mattermost/commit/dad9cab48327b9638c37dd76a213984a23c19d68) | 010-integrated-boards-mvp (가칭) — 부모 48f2fd08에 경성 의존. 참조 심볼 model.PostTypeCard(우리 public/model/post.go에 0회)와 FeatureFlags.IntegratedBoards(feature_flags.go에 0회)가 전부 48f2fd08이 추가하는 것이라 반영 시 빌드 실패. 내용은 부모의 알려진 결함(플래그 off여도 카드 생성됨)을 막는 가드 PostCardTypeCheckWithApp을 생성·예약게시물·예약잡 진입점에 넣는 것이라, spec 구현에서 부모 코드를 들여올 때 이 가드도 함께 반영해야 함. 006f1027과 동일 구조. |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
