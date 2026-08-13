@@ -3,6 +3,8 @@ channels/db/migrations/mysql/000150_create_org_role_tables.down.sql
 channels/db/migrations/mysql/000150_create_org_role_tables.up.sql
 channels/db/migrations/mysql/000152_add_full_visibility_to_position_definitions.down.sql
 channels/db/migrations/mysql/000152_add_full_visibility_to_position_definitions.up.sql
+channels/db/migrations/mysql/000153_set_default_extra_positions_user_org_profiles.down.sql
+channels/db/migrations/mysql/000153_set_default_extra_positions_user_org_profiles.up.sql
 channels/db/migrations/postgres/000001_create_teams.down.sql
 channels/db/migrations/postgres/000001_create_teams.up.sql
 channels/db/migrations/postgres/000002_create_team_members.down.sql
