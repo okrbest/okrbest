@@ -1,10 +1,10 @@
 # upstream-master 미반영 커밋 목록
 
-`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-13 21:15
-- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 갱신일: 2026-08-13 22:27
+- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 888개
 
 **마지막 반영 커밋:** `fd2dd1c6` | [updated go to version 1.25.8 (#35817)](https://github.com/mattermost/mattermost/commit/fd2dd1c6188c3cf0f33462cad5b29c51d5830119) | 2026-03-27
@@ -949,6 +949,12 @@
 
 | d0128492 | [Fix docs-impact-review workflow to reliably post analysis comments (#35831)](https://github.com/mattermost/mattermost/commit/d012849219222eba532ad0ae54e1b2678eb0c9e6) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 분석 코멘트 안정화 수정(+57/-28)도 반영할 대상이 없음. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0·a3cdef8b·a6d1942f·66894045와 같은 계열 9번째. merge-tree modify/delete. |
 
+| 48f2fd08 | [Merge the Integrated Boards MVP feature branch (#35796)](https://github.com/mattermost/mattermost/commit/48f2fd087339695673c9ab2f898ccf47007e6db8) | okrbest 제품 방향과 경합해 도입하지 않음 — 우리는 focalboard 기반 자체 Boards 플러그인(okrbest/okrbest-plugin-boards, 3960 커밋, v9.2.4)을 제품으로 개발 중이고 서버는 이를 프리패키지한다. upstream Integrated Boards는 그 플러그인을 서버 내장으로 '대체'하는 작업이라 데이터 모델부터 어긋난다(우리: blocks + 플러그인 자체 스토어 / upstream: property 시스템 PropertyField·PropertyValue + PostTypeCard 게시물 + 신규 Views 테이블). 두 모델 사이 이행 경로가 없어 반영 시 호환되지 않는 병렬 구현만 생긴다. upstream 기준으로도 미완성 — 2026-08-13 현재 IntegratedBoards 플래그 여전히 false, FIXME(IntegratedBoardMVP) 임시 제외가 post_layer.go·post_store.go·elasticsearch/common/indexing_job.go 3곳에 잔존, 커밋일 이후 4개월 반간 boards 핵심 파일 커밋 17건 추가. 주의 — 이 커밋의 마이그레이션 8개 중 6개(000160 add_user_tracking_to_properties, 000161 add_object_type_to_property_fields, 000162~000165)는 boards 전용이 아니라 property 시스템 일반 확장이고, 122파일 중 property 관련이 48개인 반면 view/card 전용은 11개뿐이다. 향후 property 시스템 후속 커밋(예: 3b64a2ac #37299 Property owners + 신규 pluginapi)이 이 컬럼들 위에 얹히므로, 그때 이 커밋의 property 절반만 분할 반영해야 할 수 있다. 현재 우리 플러그인은 Mattermost property API를 전혀 호출하지 않고(grep 0건) focalboard 자체 BlockProp 모델을 쓰므로 당장은 불필요. |
+
+| 006f1027 | [Adds COALESCE guard for property fields before PSAv2 migrations (#35830)](https://github.com/mattermost/mattermost/commit/006f102768ca9bf2016521b3e5af78993f1776cf) | 부모 48f2fd08(Integrated Boards MVP) 제외와 동일 사유 — property_field_store.go의 Select에 COALESCE(CreatedBy,'')/COALESCE(UpdatedBy,'') 가드를 넣는 패치인데, 대상 컬럼 ObjectType·Protected·Permission*·CreatedBy·UpdatedBy가 전부 48f2fd08의 마이그레이션(000160/000161/000165)이 만드는 것이라 우리 스키마엔 없다(현재 Select는 ID,GroupID,Name,Type,Attrs,TargetID,TargetType,CreateAt,UpdateAt,DeleteAt 10개). 강행 시 없는 컬럼 SELECT로 런타임 SQL 오류. 향후 48f2fd08의 property 절반을 분할 반영하게 되면 이 가드도 함께 반영해야 한다. |
+
+| dad9cab4 | [Add guards to avoid cards being created when the integrated boards feature flag is disabled (#35836)](https://github.com/mattermost/mattermost/commit/dad9cab48327b9638c37dd76a213984a23c19d68) | 부모 48f2fd08(Integrated Boards MVP) 제외와 동일 사유 — 참조 심볼 model.PostTypeCard(우리 public/model/post.go에 0회)와 FeatureFlags.IntegratedBoards(feature_flags.go에 0회)가 전부 48f2fd08이 추가하는 것이라 반영 시 빌드 실패. 내용도 boards 전용(플래그 off일 때 카드 생성 차단 가드)이라 property 분할 반영 대상에도 해당하지 않는다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -959,12 +965,6 @@
 | 2bd143ce | [\[MM-65630\] Implement Search RHS popout, clean up and rework parts of search RHS (#35499)](https://github.com/mattermost/mattermost/commit/2bd143ced747794d40e17bae5654ebc837d085fa) | 008-search-rhs-popout |
 
 | 7425c681 | [\[MM-67741\] Scope role_updated WS events to affected team/channel (#35497)](https://github.com/mattermost/mattermost/commit/7425c6817bf244f976c729f8a73cecac8039a1e1) | specs/009-scope-role-updated-ws |
-
-| 48f2fd08 | [Merge the Integrated Boards MVP feature branch (#35796)](https://github.com/mattermost/mattermost/commit/48f2fd087339695673c9ab2f898ccf47007e6db8) | 010-integrated-boards-mvp (가칭) — 채널 내 보드/카드 MVP. DB 마이그레이션 8개(000160-000167)가 우리 자체 마이그레이션 000160-000164(spec 009 role_updated 포함)와 번호 정면 충돌해 재번호 전략 설계 필요. 122파일/+15977. 피처 플래그 IntegratedBoards 기본 off, upstream 기준 GA 전 MVP(FEATURE_FLAG_REMOVAL 주석, elasticsearch 인덱싱에 FIXME(IntegratedBoardMVP) 카드 제외). 후속 커밋 006f1027(PSAv2 COALESCE 가드)·dad9cab4(플래그 off 시 카드 생성 차단) 등이 이 spec 작업에 흡수 대상. |
-
-| 006f1027 | [Adds COALESCE guard for property fields before PSAv2 migrations (#35830)](https://github.com/mattermost/mattermost/commit/006f102768ca9bf2016521b3e5af78993f1776cf) | 010-integrated-boards-mvp (가칭) — 부모 48f2fd08에 경성 의존. property_field_store.go의 Select에 COALESCE(CreatedBy,'')/COALESCE(UpdatedBy,'') 가드를 넣는 패치인데, 대상 컬럼 ObjectType·Protected·Permission*·CreatedBy·UpdatedBy가 전부 48f2fd08의 마이그레이션(000160/000161/000165)이 만드는 것이라 우리 스키마엔 없음(현재 Select는 ID,GroupID,Name,Type,Attrs,TargetID,TargetType,CreateAt,UpdateAt,DeleteAt 10개뿐). 강행 시 없는 컬럼 SELECT로 런타임 SQL 오류. 마이그레이션 전 기존 행의 NULL 방어가 목적이므로 spec에서 우리 번호 체계로 마이그레이션 재작성 시 이 가드를 함께 반영해야 함. |
-
-| dad9cab4 | [Add guards to avoid cards being created when the integrated boards feature flag is disabled (#35836)](https://github.com/mattermost/mattermost/commit/dad9cab48327b9638c37dd76a213984a23c19d68) | 010-integrated-boards-mvp (가칭) — 부모 48f2fd08에 경성 의존. 참조 심볼 model.PostTypeCard(우리 public/model/post.go에 0회)와 FeatureFlags.IntegratedBoards(feature_flags.go에 0회)가 전부 48f2fd08이 추가하는 것이라 반영 시 빌드 실패. 내용은 부모의 알려진 결함(플래그 off여도 카드 생성됨)을 막는 가드 PostCardTypeCheckWithApp을 생성·예약게시물·예약잡 진입점에 넣는 것이라, spec 구현에서 부모 코드를 들여올 때 이 가드도 함께 반영해야 함. 006f1027과 동일 구조. |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
