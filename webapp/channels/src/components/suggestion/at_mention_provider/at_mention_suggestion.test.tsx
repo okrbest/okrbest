@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {renderWithContext, screen} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
@@ -39,62 +38,68 @@ describe('at mention suggestion', () => {
         onMouseMove: jest.fn(),
     };
 
-    test('should not display nick name of the signed in user', () => {
-        const wrapper = mountWithIntl(
+    // okrbest는 항목 라벨에 teammateNameDisplay 기준 표시 이름을 쓰고(c60016e9),
+    // upstream의 '전체 이름 (닉네임)' 부가 설명은 렌더하지 않는다.
+    test('shows the signed in user by display name with a "you" marker and no full-name description', () => {
+        const {container} = renderWithContext(
             <AtMentionSuggestion
                 {...baseProps}
                 item={userid1}
             />,
         );
 
-        expect(wrapper).toMatchSnapshot();
+        expect(container).toMatchSnapshot();
 
-        expect(wrapper.find('.suggestion-list__ellipsis').text()).toContain('a b');
-        expect(wrapper.find('.suggestion-list__ellipsis').text()).not.toContain('a b (c)');
+        const ellipsis = container.querySelector('.suggestion-list__ellipsis');
+        expect(ellipsis?.textContent).toContain('@c');
+        expect(ellipsis?.textContent).toContain('(you)');
+        expect(ellipsis?.textContent).not.toContain('a b');
     });
 
-    test('should display nick name of non signed in user', () => {
-        const wrapper = mountWithIntl(
+    test('shows a non signed in user by display name with no full-name description', () => {
+        const {container} = renderWithContext(
             <AtMentionSuggestion
                 {...baseProps}
                 item={userid2}
             />,
         );
 
-        expect(wrapper).toMatchSnapshot();
+        expect(container).toMatchSnapshot();
 
-        expect(wrapper.find('.suggestion-list__ellipsis').text()).toContain('a b (c)');
+        const ellipsis = container.querySelector('.suggestion-list__ellipsis');
+        expect(ellipsis?.textContent).toBe('@c');
+        expect(ellipsis?.textContent).not.toContain('a b');
     });
 
     describe('accessible text', () => {
         const testCases = [
             {
-                name: 'at-mention suggestions should be labeled with the user\'s username and described with other names',
+                name: 'at-mention suggestions should be labeled with the user\'s display name',
                 term: '@test-user',
                 item: {...TestHelper.getUserMock({username: 'test-user', first_name: 'First', last_name: 'Last', nickname: 'Nickname'})},
-                expectedLabel: '@test-user',
-                expectedDescription: 'First Last (Nickname)',
+                expectedLabel: '@Nickname',
+                expectedDescription: '',
             },
             {
                 name: 'at-mention suggestions should include status in the description',
                 term: '@test-user',
                 item: {...TestHelper.getUserMock({username: 'test-user', first_name: 'First', last_name: 'Last'}), status: 'online'},
-                expectedLabel: '@test-user',
-                expectedDescription: 'First Last Online',
+                expectedLabel: '@First Last',
+                expectedDescription: 'Online',
             },
             {
                 name: 'at-mention suggestions should include if the user is the current user',
                 term: '@test-user',
                 item: {...TestHelper.getUserMock({username: 'test-user', first_name: 'First', last_name: 'Last'}), isCurrentUser: true},
-                expectedLabel: '@test-user',
-                expectedDescription: 'First Last (you)',
+                expectedLabel: '@First Last',
+                expectedDescription: '(you)',
             },
             {
                 name: 'at-mention suggestions should include if the user is a bot',
                 term: '@test-user',
                 item: {...TestHelper.getUserMock({username: 'test-user', first_name: '', last_name: '', nickname: 'Nickname', is_bot: true})},
-                expectedLabel: '@test-user',
-                expectedDescription: '(Nickname) BOT',
+                expectedLabel: '@Nickname',
+                expectedDescription: 'BOT',
             },
             {
                 name: 'at-mention suggestions should include if the user is a remote user',
