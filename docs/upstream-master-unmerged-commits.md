@@ -3,23 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-14 11:18
+- 갱신일: 2026-08-14 13:07
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 880개
+- 남은 커밋: 871개
 
-**마지막 반영 커밋:** `3e2c3f70` | [fix: prevent sql.DB connectionCleaner race and harden flaky tests (#35891)](https://github.com/mattermost/mattermost/commit/3e2c3f70c25b261a164595854ce8a8cb00247e3c) | 2026-03-31
+**마지막 반영 커밋:** `9b01e406` | [Move password hashers from server/v8 to server/public to fix module layering violation (#35805)a](https://github.com/mattermost/mattermost/commit/9b01e406f4a6660347aec4e187be56902763d606) | 2026-04-01
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 2550ecd8 | [ci: post success to required e2e status contexts when no relevant changes (#35880)](https://github.com/mattermost/mattermost/commit/2550ecd87bd1ad1dbb1c21054958be3ee46da0c9) | 2026-04-01 |
-| 47d2c607 | [Docs impact fixes (#35877)](https://github.com/mattermost/mattermost/commit/47d2c6074d61c2d7b4ecec2ddd58e3c024b36742) | 2026-04-01 |
-| f4d1abe7 | [MM-68140: Validate post read access before rewrite thread context (#35864)](https://github.com/mattermost/mattermost/commit/f4d1abe7e8f545f1a87f463fa9fe451c731aebf8) | 2026-04-01 |
-| d0012512 | [disable burn on read posts on shared channels (#35460)](https://github.com/mattermost/mattermost/commit/d00125121edc4053fc0fca666dc20a7eb78c9ca1) | 2026-04-01 |
-| aaefd410 | [MM-68120 - Use repo checkout for build files in server-ci-artifacts (#35842)](https://github.com/mattermost/mattermost/commit/aaefd4109be344f8a7ce71e971cabb242b6d1e1c) | 2026-04-01 |
-| eb8310a3 | [simplify CODEOWNERS (#35770)](https://github.com/mattermost/mattermost/commit/eb8310a30c416b721efbe42ed47c80d3d310b6ce) | 2026-04-01 |
-| 4d20645a | [Inline mattermost-govet into the monorepo (#35869)](https://github.com/mattermost/mattermost/commit/4d20645a5bcfb72b832fc8cfdfbc838fef852bb1) | 2026-04-01 |
-| 50f31ae8 | [Mm 66662 bump dependencies (#35849)](https://github.com/mattermost/mattermost/commit/50f31ae87cbd5ef34f65a21ba818c3157cdb31af) | 2026-04-01 |
-| 9b01e406 | [Move password hashers from server/v8 to server/public to fix module layering violation (#35805)a](https://github.com/mattermost/mattermost/commit/9b01e406f4a6660347aec4e187be56902763d606) | 2026-04-01 |
 | 596730c9 | [skip broken e2e test (#35926)](https://github.com/mattermost/mattermost/commit/596730c9b3a0c96064d105a8740362af542d03da) | 2026-04-02 |
 | edd637c5 | [MM-68173 Add write-permission guard to AllowDownloadLogs toggle (#35915)](https://github.com/mattermost/mattermost/commit/edd637c5396a758e220d165f19e1ebd377e9959a) | 2026-04-02 |
 | 5a73fb02 | [Translations update from Mattermost Weblate (#35890)](https://github.com/mattermost/mattermost/commit/5a73fb022d43195190ebf04808f8327ac283b461) | 2026-04-03 |
@@ -946,6 +937,8 @@
 | 006f1027 | [Adds COALESCE guard for property fields before PSAv2 migrations (#35830)](https://github.com/mattermost/mattermost/commit/006f102768ca9bf2016521b3e5af78993f1776cf) | 부모 48f2fd08(Integrated Boards MVP) 제외와 동일 사유 — property_field_store.go의 Select에 COALESCE(CreatedBy,'')/COALESCE(UpdatedBy,'') 가드를 넣는 패치인데, 대상 컬럼 ObjectType·Protected·Permission*·CreatedBy·UpdatedBy가 전부 48f2fd08의 마이그레이션(000160/000161/000165)이 만드는 것이라 우리 스키마엔 없다(현재 Select는 ID,GroupID,Name,Type,Attrs,TargetID,TargetType,CreateAt,UpdateAt,DeleteAt 10개). 강행 시 없는 컬럼 SELECT로 런타임 SQL 오류. 향후 48f2fd08의 property 절반을 분할 반영하게 되면 이 가드도 함께 반영해야 한다. |
 
 | dad9cab4 | [Add guards to avoid cards being created when the integrated boards feature flag is disabled (#35836)](https://github.com/mattermost/mattermost/commit/dad9cab48327b9638c37dd76a213984a23c19d68) | 부모 48f2fd08(Integrated Boards MVP) 제외와 동일 사유 — 참조 심볼 model.PostTypeCard(우리 public/model/post.go에 0회)와 FeatureFlags.IntegratedBoards(feature_flags.go에 0회)가 전부 48f2fd08이 추가하는 것이라 반영 시 빌드 실패. 내용도 boards 전용(플래그 off일 때 카드 생성 차단 가드)이라 property 분할 반영 대상에도 해당하지 않는다. |
+
+| 47d2c607 | [Docs impact fixes (#35877)](https://github.com/mattermost/mattermost/commit/47d2c6074d61c2d7b4ecec2ddd58e3c024b36742) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 프롬프트·판정 문구 다듬기(+46/-27)도 반영할 대상이 없음. merge-tree도 CONFLICT(modify/delete)로 부재를 확인. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0과 같은 계열. |
 
 ## spec 전환 커밋
 
