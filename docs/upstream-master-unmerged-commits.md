@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-14 14:55
+- 갱신일: 2026-08-14 16:15
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 862개
+- 남은 커밋: 856개
 
-**마지막 반영 커밋:** `00b25946` | [MM-68156: Fix space key clearing input in invite modal (#35913)](https://github.com/mattermost/mattermost/commit/00b2594648cedbd505db0bbe9e7043b96f7c3d14) | 2026-04-05
+**마지막 반영 커밋:** `e694e86d` | [MM-68204: Use multi-level logging for shared channel and remote cluster service errors (#35949)](https://github.com/mattermost/mattermost/commit/e694e86d631b14ac357dd468a0813a0d482d56d7) | 2026-04-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 2b45e43e | [MM-66627 (test): VH1-8 + EC Enzyme to RTL bulk migration (#35768)](https://github.com/mattermost/mattermost/commit/2b45e43e05046a78194869b59358acd19f7449dd) | 2026-04-06 |
-| ad35eba6 | [Added nil checks (#35755)](https://github.com/mattermost/mattermost/commit/ad35eba60b5e2ac4dcbf7ab48c998255ca4f738d) | 2026-04-06 |
-| 0ca124fa | [Fixed a bug where attachment-only post would send on enter when when set to only send on ctrl/cmd + enter (#35828)](https://github.com/mattermost/mattermost/commit/0ca124fa8fe66f5cf6d00714175e20cffca07a14) | 2026-04-06 |
-| ca726867 | [MM-67743 Fixing styling issues in Browse Channels modal (#35772)](https://github.com/mattermost/mattermost/commit/ca726867663b6f1a43bb72ef1873ab759abefbd4) | 2026-04-06 |
-| f68557c1 | [Fix Enterprise Advanced upsell messaging for Enterprise licenses (#35933)](https://github.com/mattermost/mattermost/commit/f68557c179385e1746267b2dbc68b5074008fc1d) | 2026-04-06 |
-| e694e86d | [MM-68204: Use multi-level logging for shared channel and remote cluster service errors (#35949)](https://github.com/mattermost/mattermost/commit/e694e86d631b14ac357dd468a0813a0d482d56d7) | 2026-04-06 |
 | 1c26ab94 | [test(enzyme migration): final bulk migration, removed enzyme dependencies and helpers (#35950)](https://github.com/mattermost/mattermost/commit/1c26ab9464882676634f4c47605bf311eb71e661) | 2026-04-07 |
 | 6662021d | [Update latest minor version to 11.7.0 (#35964)](https://github.com/mattermost/mattermost/commit/6662021dd5afe4542a6dd167e9bbc4dcd7dc8e5b) | 2026-04-07 |
 | 087b20d8 | [E2E \| Fix mock server response for translations (#35929)](https://github.com/mattermost/mattermost/commit/087b20d81c9ab2865cd2828e57c90a20cd83b5de) | 2026-04-07 |
