@@ -1,23 +1,16 @@
 # upstream-master 미반영 커밋 목록
 
-`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-13 22:27
-- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 888개
+- 갱신일: 2026-08-14 10:56
+- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 882개
 
-**마지막 반영 커밋:** `fd2dd1c6` | [updated go to version 1.25.8 (#35817)](https://github.com/mattermost/mattermost/commit/fd2dd1c6188c3cf0f33462cad5b29c51d5830119) | 2026-03-27
+**마지막 반영 커밋:** `96e4d7a7` | [MM-68076 Chunk bulk INSERTs to respect PostgreSQL parameter limit (#35767)](https://github.com/mattermost/mattermost/commit/96e4d7a76902d98a41c7d15e7618ad4ed8015dbc) | 2026-03-30
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 36bc59c1 | [MM-67957 H2-H9 Enzyme to RTL bulk migration (#35670)](https://github.com/mattermost/mattermost/commit/36bc59c1b768d8ed001b904ee341ffdb9f6f69f3) | 2026-03-30 |
-| 0278ad4d | [MM-66620 Fixing compact image attachment alignment (#35678)](https://github.com/mattermost/mattermost/commit/0278ad4d1a0f61884c140b0691c93a9ec31f7e25) | 2026-03-30 |
-| ece6b956 | [Add single-channel guest count to support packet stats (#35846)](https://github.com/mattermost/mattermost/commit/ece6b956facb44cc4ab10e17ff15bbe5914a6aea) | 2026-03-30 |
-| c81d0ddd | [Ability to E2E AI Bridge features + Initial Recaps E2E (#35541)](https://github.com/mattermost/mattermost/commit/c81d0ddd73d1f41c6ac2811cd9f8a6821f576b29) | 2026-03-30 |
-| f7f2d944 | [upgrade golangci-lint (#35845)](https://github.com/mattermost/mattermost/commit/f7f2d944e80eae9131b8fd53d298e25bb53266d1) | 2026-03-30 |
-| 9742dff9 | [MM-67518/MM-67762 Attempt to fix keep-at-bottom logic and scrolling when loading older posts (#35866)](https://github.com/mattermost/mattermost/commit/9742dff9d37ae41699bdce5ffdd658c610dd6431) | 2026-03-30 |
-| 96e4d7a7 | [MM-68076 Chunk bulk INSERTs to respect PostgreSQL parameter limit (#35767)](https://github.com/mattermost/mattermost/commit/96e4d7a76902d98a41c7d15e7618ad4ed8015dbc) | 2026-03-30 |
 | 4b8a4ae2 | [fix: resolve DATA RACE in TestReplicaLagQuery, TestInvalidReplicaLagDataSource, and TestMetrics (#35881)](https://github.com/mattermost/mattermost/commit/4b8a4ae2b35381a46b891f831518a731d6f9e313) | 2026-03-31 |
 | 3e2c3f70 | [fix: prevent sql.DB connectionCleaner race and harden flaky tests (#35891)](https://github.com/mattermost/mattermost/commit/3e2c3f70c25b261a164595854ce8a8cb00247e3c) | 2026-03-31 |
 | 2550ecd8 | [ci: post success to required e2e status contexts when no relevant changes (#35880)](https://github.com/mattermost/mattermost/commit/2550ecd87bd1ad1dbb1c21054958be3ee46da0c9) | 2026-04-01 |
@@ -899,6 +892,7 @@
 | 0eb2ec5a | [\[MM-70226\] Migrate role GetByName to request context (#37634)](https://github.com/mattermost/mattermost/commit/0eb2ec5a1771b82c905cb9d50491dc85326a3530) | 2026-08-13 |
 | 7831d7fb | [\[MM-69226\] Fix Manage Teams role dropdown overflowing outside the modal (#37400)](https://github.com/mattermost/mattermost/commit/7831d7fbf138024b7653af90ab2c09bef86d9be0) | 2026-08-13 |
 | 9dfbaeca | [Add weekly recurring scheduled posts (#37746)](https://github.com/mattermost/mattermost/commit/9dfbaeca99f4096388fd1c048a9e6d1d0a86743e) | 2026-08-13 |
+| 663ad3da | [MM-70072: Update team admin assignment during team join (#37922)](https://github.com/mattermost/mattermost/commit/663ad3dae93f9eaf0c8ce01afa87bafdf7f22b71) | 2026-08-13 |
 
 ## 제외된 커밋
 
