@@ -5503,7 +5503,7 @@
   "onboarding_wizard.invite_members.copied_link": "링크 복사됨",
   "onboarding_wizard.invite_members.copy_link": "링크 복사",
   "onboarding_wizard.invite_members.copy_link_input": "팀 초대 링크",
-  "onboarding_wizard.invite_members.description": "혼자서는 협업하기 어렵습니다. 팀 멤버를 초대하세요. 각 이메일 주소는 공백이나 쉼표로 구분하세요.",
+  "onboarding_wizard.invite_members.description": "혼자서는 협업하기 어렵습니다. 팀 멤버를 초대하세요. 각 이메일 주소는 쉼표나 세미콜론으로 구분하세요.",
   "onboarding_wizard.invite_members.description_link": "혼자서는 협업하기 어렵습니다. 아래 초대 링크를 사용하여 팀 멤버를 초대하세요.",
   "onboarding_wizard.invite_members.next": "초대 보내기",
   "onboarding_wizard.invite_members.next_link": "설정 완료",
