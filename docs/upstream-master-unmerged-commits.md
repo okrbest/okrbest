@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-14 14:02
+- 갱신일: 2026-08-14 14:31
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 864개
+- 남은 커밋: 863개
 
-**마지막 반영 커밋:** `24e38f2b` | [Update server/public to v0.3.0 to avoid import cycle in v0.2.1 (#35946)](https://github.com/mattermost/mattermost/commit/24e38f2bd7f2e04aece54fbe77e7647403d1c6aa) | 2026-04-03
+**마지막 반영 커밋:** `f6d5d9e1` | [\[MM-67859\] Update license renewal and expiry email branding (#35701)](https://github.com/mattermost/mattermost/commit/f6d5d9e1bc7d90b0b0a7fcd2ea0d062eeac71096) | 2026-04-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f6d5d9e1 | [\[MM-67859\] Update license renewal and expiry email branding (#35701)](https://github.com/mattermost/mattermost/commit/f6d5d9e1bc7d90b0b0a7fcd2ea0d062eeac71096) | 2026-04-04 |
 | 00b25946 | [MM-68156: Fix space key clearing input in invite modal (#35913)](https://github.com/mattermost/mattermost/commit/00b2594648cedbd505db0bbe9e7043b96f7c3d14) | 2026-04-05 |
 | 2b45e43e | [MM-66627 (test): VH1-8 + EC Enzyme to RTL bulk migration (#35768)](https://github.com/mattermost/mattermost/commit/2b45e43e05046a78194869b59358acd19f7449dd) | 2026-04-06 |
 | ad35eba6 | [Added nil checks (#35755)](https://github.com/mattermost/mattermost/commit/ad35eba60b5e2ac4dcbf7ab48c998255ca4f738d) | 2026-04-06 |
