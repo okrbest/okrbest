@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-14 13:07
+- 갱신일: 2026-08-14 13:30
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 871개
+- 남은 커밋: 869개
 
-**마지막 반영 커밋:** `9b01e406` | [Move password hashers from server/v8 to server/public to fix module layering violation (#35805)a](https://github.com/mattermost/mattermost/commit/9b01e406f4a6660347aec4e187be56902763d606) | 2026-04-01
+**마지막 반영 커밋:** `edd637c5` | [MM-68173 Add write-permission guard to AllowDownloadLogs toggle (#35915)](https://github.com/mattermost/mattermost/commit/edd637c5396a758e220d165f19e1ebd377e9959a) | 2026-04-02
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 596730c9 | [skip broken e2e test (#35926)](https://github.com/mattermost/mattermost/commit/596730c9b3a0c96064d105a8740362af542d03da) | 2026-04-02 |
-| edd637c5 | [MM-68173 Add write-permission guard to AllowDownloadLogs toggle (#35915)](https://github.com/mattermost/mattermost/commit/edd637c5396a758e220d165f19e1ebd377e9959a) | 2026-04-02 |
 | 5a73fb02 | [Translations update from Mattermost Weblate (#35890)](https://github.com/mattermost/mattermost/commit/5a73fb022d43195190ebf04808f8327ac283b461) | 2026-04-03 |
 | 3888a694 | [MM-68158: Fix shared channel remote display and notify UI on invite completion (#35908)](https://github.com/mattermost/mattermost/commit/3888a694799793d52cd9ba7733582d8119df6274) | 2026-04-03 |
 | 38e26fbd | [chore: fix typos in comments (#34960)](https://github.com/mattermost/mattermost/commit/38e26fbd2da2997f12d1a02435e37fad235c316a) | 2026-04-03 |
