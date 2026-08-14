@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-14 13:30
+- 갱신일: 2026-08-14 14:02
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 869개
+- 남은 커밋: 864개
 
-**마지막 반영 커밋:** `edd637c5` | [MM-68173 Add write-permission guard to AllowDownloadLogs toggle (#35915)](https://github.com/mattermost/mattermost/commit/edd637c5396a758e220d165f19e1ebd377e9959a) | 2026-04-02
+**마지막 반영 커밋:** `24e38f2b` | [Update server/public to v0.3.0 to avoid import cycle in v0.2.1 (#35946)](https://github.com/mattermost/mattermost/commit/24e38f2bd7f2e04aece54fbe77e7647403d1c6aa) | 2026-04-03
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 5a73fb02 | [Translations update from Mattermost Weblate (#35890)](https://github.com/mattermost/mattermost/commit/5a73fb022d43195190ebf04808f8327ac283b461) | 2026-04-03 |
-| 3888a694 | [MM-68158: Fix shared channel remote display and notify UI on invite completion (#35908)](https://github.com/mattermost/mattermost/commit/3888a694799793d52cd9ba7733582d8119df6274) | 2026-04-03 |
-| 38e26fbd | [chore: fix typos in comments (#34960)](https://github.com/mattermost/mattermost/commit/38e26fbd2da2997f12d1a02435e37fad235c316a) | 2026-04-03 |
-| 050e41f7 | [Doc line for new websocket event (#35939)](https://github.com/mattermost/mattermost/commit/050e41f7b7e144e260a7b3371702afb0b748ff4a) | 2026-04-03 |
-| 24e38f2b | [Update server/public to v0.3.0 to avoid import cycle in v0.2.1 (#35946)](https://github.com/mattermost/mattermost/commit/24e38f2bd7f2e04aece54fbe77e7647403d1c6aa) | 2026-04-03 |
 | f6d5d9e1 | [\[MM-67859\] Update license renewal and expiry email branding (#35701)](https://github.com/mattermost/mattermost/commit/f6d5d9e1bc7d90b0b0a7fcd2ea0d062eeac71096) | 2026-04-04 |
 | 00b25946 | [MM-68156: Fix space key clearing input in invite modal (#35913)](https://github.com/mattermost/mattermost/commit/00b2594648cedbd505db0bbe9e7043b96f7c3d14) | 2026-04-05 |
 | 2b45e43e | [MM-66627 (test): VH1-8 + EC Enzyme to RTL bulk migration (#35768)](https://github.com/mattermost/mattermost/commit/2b45e43e05046a78194869b59358acd19f7449dd) | 2026-04-06 |
