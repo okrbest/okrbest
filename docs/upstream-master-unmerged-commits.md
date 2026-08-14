@@ -3,25 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-14 16:15
+- 갱신일: 2026-08-15 00:24
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 856개
+- 남은 커밋: 854개
 
-**마지막 반영 커밋:** `e694e86d` | [MM-68204: Use multi-level logging for shared channel and remote cluster service errors (#35949)](https://github.com/mattermost/mattermost/commit/e694e86d631b14ac357dd468a0813a0d482d56d7) | 2026-04-06
+**마지막 반영 커밋:** `7dccd6eb` | [MM-68199: Fix shared channel membership sync error for local users (#35938)](https://github.com/mattermost/mattermost/commit/7dccd6eba648a626d9233c696627a7179b0dd17d) | 2026-04-07
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 1c26ab94 | [test(enzyme migration): final bulk migration, removed enzyme dependencies and helpers (#35950)](https://github.com/mattermost/mattermost/commit/1c26ab9464882676634f4c47605bf311eb71e661) | 2026-04-07 |
-| 6662021d | [Update latest minor version to 11.7.0 (#35964)](https://github.com/mattermost/mattermost/commit/6662021dd5afe4542a6dd167e9bbc4dcd7dc8e5b) | 2026-04-07 |
-| 087b20d8 | [E2E \| Fix mock server response for translations (#35929)](https://github.com/mattermost/mattermost/commit/087b20d81c9ab2865cd2828e57c90a20cd83b5de) | 2026-04-07 |
-| 252eb966 | [Update docs-impact workflow to keep stale comment instead of deleting (#35940)](https://github.com/mattermost/mattermost/commit/252eb9661d9be1ce247db9029035211e7297ec88) | 2026-04-07 |
-| faa7d75b | [Improved processing of attachments (#35854)](https://github.com/mattermost/mattermost/commit/faa7d75b4ea041701e97948f8aa1332e3626a39a) | 2026-04-07 |
-| e2e7aed6 | [Add prepackaged version of github plugin v2.7. (#35968)](https://github.com/mattermost/mattermost/commit/e2e7aed678d12e9d2ed121682933943a917a32ba) | 2026-04-07 |
-| 83819e3d | [Specify target Safari version as a string (#35955)](https://github.com/mattermost/mattermost/commit/83819e3db4b167efd84ccefdb92eb9e83c457073) | 2026-04-07 |
-| 540ccc59 | [MM-68179: Run sendLoop workers on all HA nodes (#35909)](https://github.com/mattermost/mattermost/commit/540ccc599be98ea130b48ae4b8df6ab90259e44b) | 2026-04-07 |
-| 8eb98632 | [Redact password reset token from audit log (#35911)](https://github.com/mattermost/mattermost/commit/8eb9863215893d8fcf15094d0b4dfa6578a0326e) | 2026-04-07 |
 | cf40f440 | [Markdown message preview fixed (#34942)](https://github.com/mattermost/mattermost/commit/cf40f44023c123cd628d2fe952264faf0a91fd5f) | 2026-04-08 |
-| 7dccd6eb | [MM-68199: Fix shared channel membership sync error for local users (#35938)](https://github.com/mattermost/mattermost/commit/7dccd6eba648a626d9233c696627a7179b0dd17d) | 2026-04-07 |
 | 9075204f | [Add demo plugin E2E tests for hook toggle and crash recovery (#35337)](https://github.com/mattermost/mattermost/commit/9075204f5f6840e3ff00f777d36617f7c6399881) | 2026-04-08 |
 | 9a412c53 | [MM-67946 Added entity decoding to message attachments (#35667)](https://github.com/mattermost/mattermost/commit/9a412c535f5b157dc8e36386ddaca9dd8f1f2bcf) | 2026-04-08 |
 | 12aedfdc | [Simplify Apple Silicon docker-compose support (#35975)](https://github.com/mattermost/mattermost/commit/12aedfdcaeb9b9bbd012a21a35de9b8ef511d757) | 2026-04-08 |
@@ -867,6 +857,14 @@
 | 7831d7fb | [\[MM-69226\] Fix Manage Teams role dropdown overflowing outside the modal (#37400)](https://github.com/mattermost/mattermost/commit/7831d7fbf138024b7653af90ab2c09bef86d9be0) | 2026-08-13 |
 | 9dfbaeca | [Add weekly recurring scheduled posts (#37746)](https://github.com/mattermost/mattermost/commit/9dfbaeca99f4096388fd1c048a9e6d1d0a86743e) | 2026-08-13 |
 | 663ad3da | [MM-70072: Update team admin assignment during team join (#37922)](https://github.com/mattermost/mattermost/commit/663ad3dae93f9eaf0c8ce01afa87bafdf7f22b71) | 2026-08-13 |
+| 22eaa8b0 | [\[MM-69889\] Improve handling of RelayState in SAML flow (#37837)](https://github.com/mattermost/mattermost/commit/22eaa8b03bbe2deb4728f4cf5cd5e870b90c6539) | 2026-08-14 |
+| d18f3dd2 | [\[MM-69748\] Add Hide Archived toggle to the Browse Channels modal (#37500)](https://github.com/mattermost/mattermost/commit/d18f3dd278889d2644007f96fda3ccc7ebe0d4c6) | 2026-08-14 |
+| 4f8b9d81 | [\[MM-69641\] Promote EnableExportDirectDownload to a Cloud-only configuration setting (#37477)](https://github.com/mattermost/mattermost/commit/4f8b9d8195ef527f279c2a02f3d24ea87284af1f) | 2026-08-14 |
+| a234862d | [\[MM-69816\] Update prepackaged Calls to v1.12.3 (#37985)](https://github.com/mattermost/mattermost/commit/a234862de7da948f1869867a75349c03a20c2665) | 2026-08-14 |
+| 9a9bbe28 | [\[MM-70188\] Convert the platform, os, browser user agent session attributes to select fields (#37969)](https://github.com/mattermost/mattermost/commit/9a9bbe28bdfc0a9fb36a13cf5aeda091b12942b4) | 2026-08-14 |
+| 6e857478 | [MM-70100: Adjust Slack import user handling based on import type (#37818)](https://github.com/mattermost/mattermost/commit/6e85747816d8058061e933fbcc2cc438c4c780cc) | 2026-08-14 |
+| bc6a0c1e | [MM-69881: Add a size limit to the local image proxy's direct image fetch (#37848)](https://github.com/mattermost/mattermost/commit/bc6a0c1ebf77d9056cb7d36a68853cbb06558f72) | 2026-08-14 |
+| 3b99b6c9 | [Add session attributes settings to System Console (#37973)](https://github.com/mattermost/mattermost/commit/3b99b6c9d98f81fab88d45513280aa47bdb44f9e) | 2026-08-14 |
 
 ## 제외된 커밋
 
@@ -924,6 +922,8 @@
 | dad9cab4 | [Add guards to avoid cards being created when the integrated boards feature flag is disabled (#35836)](https://github.com/mattermost/mattermost/commit/dad9cab48327b9638c37dd76a213984a23c19d68) | 부모 48f2fd08(Integrated Boards MVP) 제외와 동일 사유 — 참조 심볼 model.PostTypeCard(우리 public/model/post.go에 0회)와 FeatureFlags.IntegratedBoards(feature_flags.go에 0회)가 전부 48f2fd08이 추가하는 것이라 반영 시 빌드 실패. 내용도 boards 전용(플래그 off일 때 카드 생성 차단 가드)이라 property 분할 반영 대상에도 해당하지 않는다. |
 
 | 47d2c607 | [Docs impact fixes (#35877)](https://github.com/mattermost/mattermost/commit/47d2c6074d61c2d7b4ecec2ddd58e3c024b36742) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 프롬프트·판정 문구 다듬기(+46/-27)도 반영할 대상이 없음. merge-tree도 CONFLICT(modify/delete)로 부재를 확인. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0과 같은 계열. |
+
+| 252eb966 | [Update docs-impact workflow to keep stale comment instead of deleting (#35940)](https://github.com/mattermost/mattermost/commit/252eb9661d9be1ce247db9029035211e7297ec88) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 오래된 코멘트를 삭제 대신 유지하는 수정(+5/-1)도 반영할 대상이 없음. merge-tree도 CONFLICT(modify/delete)로 부재를 확인. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0·47d2c607과 같은 계열. |
 
 ## spec 전환 커밋
 
