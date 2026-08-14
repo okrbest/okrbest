@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-14 10:56
+- 갱신일: 2026-08-14 11:18
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 882개
+- 남은 커밋: 880개
 
-**마지막 반영 커밋:** `96e4d7a7` | [MM-68076 Chunk bulk INSERTs to respect PostgreSQL parameter limit (#35767)](https://github.com/mattermost/mattermost/commit/96e4d7a76902d98a41c7d15e7618ad4ed8015dbc) | 2026-03-30
+**마지막 반영 커밋:** `3e2c3f70` | [fix: prevent sql.DB connectionCleaner race and harden flaky tests (#35891)](https://github.com/mattermost/mattermost/commit/3e2c3f70c25b261a164595854ce8a8cb00247e3c) | 2026-03-31
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 4b8a4ae2 | [fix: resolve DATA RACE in TestReplicaLagQuery, TestInvalidReplicaLagDataSource, and TestMetrics (#35881)](https://github.com/mattermost/mattermost/commit/4b8a4ae2b35381a46b891f831518a731d6f9e313) | 2026-03-31 |
-| 3e2c3f70 | [fix: prevent sql.DB connectionCleaner race and harden flaky tests (#35891)](https://github.com/mattermost/mattermost/commit/3e2c3f70c25b261a164595854ce8a8cb00247e3c) | 2026-03-31 |
 | 2550ecd8 | [ci: post success to required e2e status contexts when no relevant changes (#35880)](https://github.com/mattermost/mattermost/commit/2550ecd87bd1ad1dbb1c21054958be3ee46da0c9) | 2026-04-01 |
 | 47d2c607 | [Docs impact fixes (#35877)](https://github.com/mattermost/mattermost/commit/47d2c6074d61c2d7b4ecec2ddd58e3c024b36742) | 2026-04-01 |
 | f4d1abe7 | [MM-68140: Validate post read access before rewrite thread context (#35864)](https://github.com/mattermost/mattermost/commit/f4d1abe7e8f545f1a87f463fa9fe451c731aebf8) | 2026-04-01 |
