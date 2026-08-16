@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-16 17:00
+- 갱신일: 2026-08-16 22:44
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 845개
+- 남은 커밋: 836개
 
-**마지막 반영 커밋:** `d1ca2977` | [Revert "Strip remote_id field from user patch API requests (#35910)" (#35996)](https://github.com/mattermost/mattermost/commit/d1ca297721b75700b212370e339ed37ae1b1d6b1) | 2026-04-09
+**마지막 반영 커밋:** `008373ad` | [fix: add explicit permission grant in team members test (#36007)](https://github.com/mattermost/mattermost/commit/008373ad5065aff87c4bf5df243dd0c18c480e0b) | 2026-04-10
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 010aad63 | [Fixed a bug where signup link showed up when signup was disabled (#35769)](https://github.com/mattermost/mattermost/commit/010aad6308f87e659971f80f985dfe96855772f2) | 2026-04-09 |
-| 1c093d37 | [Upgraded board prepackaged version to v9.2.4 (#35969)](https://github.com/mattermost/mattermost/commit/1c093d3760d71df55edc62b465d9dfee9ade986a) | 2026-04-09 |
-| cf102afc | [ci: disable fullyparallel for binary parameters job (#35995)](https://github.com/mattermost/mattermost/commit/cf102afc17f0efbd512994a491e742b107730fcf) | 2026-04-09 |
-| 6878d095 | [refactor(brand_image_setting): migrate BrandImageSetting to a function component (#34536)](https://github.com/mattermost/mattermost/commit/6878d095476d3fdbbafd93ee4df99b79262af151) | 2026-04-09 |
-| f441b34d | [Fix interactive dialog bugs: dynamic select lookups, radio values, field refresh (#35640)](https://github.com/mattermost/mattermost/commit/f441b34deeda1c3d0e474518352dc0d3cfaca30e) | 2026-04-09 |
-| 2be57a7e | [adds team member data sanitizing (#35562)](https://github.com/mattermost/mattermost/commit/2be57a7ec0c67004b77c76386f20a630920196e3) | 2026-04-09 |
-| 860df696 | [ci: re-enable server test coverage with 4-shard parallelism (#35743)](https://github.com/mattermost/mattermost/commit/860df69621bf8940ccf2aa4b3350a38034435c27) | 2026-04-09 |
-| 78b2980e | [fix: remove duplicate allow-failure input in server test template (#36004)](https://github.com/mattermost/mattermost/commit/78b2980ed5f1bd5c0ef05e0f81cc1b6c5179d44e) | 2026-04-09 |
 | c96d215f | [Translations update from Mattermost Weblate (#35966)](https://github.com/mattermost/mattermost/commit/c96d215ff196cb352844080074778363944c3f6e) | 2026-04-10 |
 | a244c170 | [Fixed URL validation for integration actions (#35857)](https://github.com/mattermost/mattermost/commit/a244c1704e77ede605d00f920e7f534d88f09079) | 2026-04-10 |
 | 5476f69f | [\[MM-68048\] Add focus/blur listeners for popouts to determine focused channel/thread (#35990)](https://github.com/mattermost/mattermost/commit/5476f69f718f3c280a906c8e4153b58149911c30) | 2026-04-10 |
@@ -26,7 +18,6 @@
 | 4d028d55 | [Support Elasticsearch v9 alongside v8 (#35781)](https://github.com/mattermost/mattermost/commit/4d028d557ba53b85bfd004bc56bb1db90cb45696) | 2026-04-10 |
 | f3c2e52b | [Bumping prepackaged zoom version to 1.13.0 (#35998)](https://github.com/mattermost/mattermost/commit/f3c2e52b76dd4fb07fff6e33537c46a5c72ef4a4) | 2026-04-10 |
 | 73c6e6a7 | [MM-68258 Remove `system_secure_connection_manager` role (#36009)](https://github.com/mattermost/mattermost/commit/73c6e6a7cff7d05d2607ec28789910ecb2e1821b) | 2026-04-10 |
-| 008373ad | [fix: add explicit permission grant in team members test (#36007)](https://github.com/mattermost/mattermost/commit/008373ad5065aff87c4bf5df243dd0c18c480e0b) | 2026-04-10 |
 | f83d32e4 | [Strip remote_id field from user patch API requests (#36008)](https://github.com/mattermost/mattermost/commit/f83d32e42c45d80d4ec2a6747652ddd5a3c01951) | 2026-04-10 |
 | 17939826 | [Update msgpack fork dependency (#35988)](https://github.com/mattermost/mattermost/commit/17939826efa20a97f087b3d390ec5136df350bae) | 2026-04-10 |
 | 8f458060 | [MM-63588: Add e2e tests for System Console User Attributes (#35931)](https://github.com/mattermost/mattermost/commit/8f45806004ea74486b1584667ed7687a69cb96a2) | 2026-04-10 |
