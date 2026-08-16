@@ -3,30 +3,16 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-15 00:24
+- 갱신일: 2026-08-16 17:00
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 854개
+- 남은 커밋: 845개
 
-**마지막 반영 커밋:** `7dccd6eb` | [MM-68199: Fix shared channel membership sync error for local users (#35938)](https://github.com/mattermost/mattermost/commit/7dccd6eba648a626d9233c696627a7179b0dd17d) | 2026-04-07
+**마지막 반영 커밋:** `d1ca2977` | [Revert "Strip remote_id field from user patch API requests (#35910)" (#35996)](https://github.com/mattermost/mattermost/commit/d1ca297721b75700b212370e339ed37ae1b1d6b1) | 2026-04-09
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| cf40f440 | [Markdown message preview fixed (#34942)](https://github.com/mattermost/mattermost/commit/cf40f44023c123cd628d2fe952264faf0a91fd5f) | 2026-04-08 |
-| 9075204f | [Add demo plugin E2E tests for hook toggle and crash recovery (#35337)](https://github.com/mattermost/mattermost/commit/9075204f5f6840e3ff00f777d36617f7c6399881) | 2026-04-08 |
-| 9a412c53 | [MM-67946 Added entity decoding to message attachments (#35667)](https://github.com/mattermost/mattermost/commit/9a412c535f5b157dc8e36386ddaca9dd8f1f2bcf) | 2026-04-08 |
-| 12aedfdc | [Simplify Apple Silicon docker-compose support (#35975)](https://github.com/mattermost/mattermost/commit/12aedfdcaeb9b9bbd012a21a35de9b8ef511d757) | 2026-04-08 |
-| 5b76fb11 | [MM-67647: Rename shared_channel_manager roles to follow system_ prefix convention (#35944)](https://github.com/mattermost/mattermost/commit/5b76fb11a55ad1d947bddafd1a3630a4bddb16f5) | 2026-04-08 |
-| 220cd725 | [MM-66887 Fix results in Invite to Team modal (#35936)](https://github.com/mattermost/mattermost/commit/220cd725ccee2b9a8022c2ae2620ca4db011d620) | 2026-04-08 |
-| f9b69898 | [Remove babel-plugin-typescript-to-proptypes and use of prop-types from web app (#35954)](https://github.com/mattermost/mattermost/commit/f9b69898245a11e5d9945f8418465c0e2ef903b6) | 2026-04-08 |
-| fba382d5 | [feat(test analysis): using reusable workflow (#35852)](https://github.com/mattermost/mattermost/commit/fba382d5bdfe594db3323ef442227679e5650209) | 2026-04-09 |
-| c303dd8e | [fix: test analysis (#35986)](https://github.com/mattermost/mattermost/commit/c303dd8e086efa506f6b779629b0619f3a7c7589) | 2026-04-09 |
-| 993c3cb5 | [fix: test analysis override (#35987)](https://github.com/mattermost/mattermost/commit/993c3cb5d20847301dcd346ae2372f05e38db6be) | 2026-04-09 |
-| 71ca373d | [Generate instead of hard-coding test passwords, enforce new minimum for FIPS, shard CI, fix FIPS builds (#35905)](https://github.com/mattermost/mattermost/commit/71ca373de7c5b17e864896e9f8e4b11cc075a4ad) | 2026-04-08 |
-| 6fdef8c9 | [ci: enable fullyparallel mode for server tests (#35816)](https://github.com/mattermost/mattermost/commit/6fdef8c9cc3d7e7f2c27118297dd795a527c9555) | 2026-04-08 |
-| fc9d3be3 | [Strip remote_id field from user patch API requests (#35910)](https://github.com/mattermost/mattermost/commit/fc9d3be3689d7218f9bd5dd8699e74b33c440911) | 2026-04-08 |
 | 010aad63 | [Fixed a bug where signup link showed up when signup was disabled (#35769)](https://github.com/mattermost/mattermost/commit/010aad6308f87e659971f80f985dfe96855772f2) | 2026-04-09 |
 | 1c093d37 | [Upgraded board prepackaged version to v9.2.4 (#35969)](https://github.com/mattermost/mattermost/commit/1c093d3760d71df55edc62b465d9dfee9ade986a) | 2026-04-09 |
-| d1ca2977 | [Revert "Strip remote_id field from user patch API requests (#35910)" (#35996)](https://github.com/mattermost/mattermost/commit/d1ca297721b75700b212370e339ed37ae1b1d6b1) | 2026-04-09 |
 | cf102afc | [ci: disable fullyparallel for binary parameters job (#35995)](https://github.com/mattermost/mattermost/commit/cf102afc17f0efbd512994a491e742b107730fcf) | 2026-04-09 |
 | 6878d095 | [refactor(brand_image_setting): migrate BrandImageSetting to a function component (#34536)](https://github.com/mattermost/mattermost/commit/6878d095476d3fdbbafd93ee4df99b79262af151) | 2026-04-09 |
 | f441b34d | [Fix interactive dialog bugs: dynamic select lookups, radio values, field refresh (#35640)](https://github.com/mattermost/mattermost/commit/f441b34deeda1c3d0e474518352dc0d3cfaca30e) | 2026-04-09 |
@@ -865,6 +851,11 @@
 | 6e857478 | [MM-70100: Adjust Slack import user handling based on import type (#37818)](https://github.com/mattermost/mattermost/commit/6e85747816d8058061e933fbcc2cc438c4c780cc) | 2026-08-14 |
 | bc6a0c1e | [MM-69881: Add a size limit to the local image proxy's direct image fetch (#37848)](https://github.com/mattermost/mattermost/commit/bc6a0c1ebf77d9056cb7d36a68853cbb06558f72) | 2026-08-14 |
 | 3b99b6c9 | [Add session attributes settings to System Console (#37973)](https://github.com/mattermost/mattermost/commit/3b99b6c9d98f81fab88d45513280aa47bdb44f9e) | 2026-08-14 |
+| 989d83c6 | [MM-69403 filter job websocket updates by permission (#37650)](https://github.com/mattermost/mattermost/commit/989d83c6378ba6adf0a50f8fd94ed73d86414650) | 2026-08-14 |
+| 1578db07 | [Fix repeating 400s for post_persistent_notifications and delete_expired_posts jobs (#37874)](https://github.com/mattermost/mattermost/commit/1578db0729812183230da3c9dbc73c96c7217f3a) | 2026-08-14 |
+| 338dc6c7 | [\[MM-69863\] Add external source picker (AD/LDAP, SAML) to New attribute (#37845)](https://github.com/mattermost/mattermost/commit/338dc6c74daafdb08b6699001a18dd83097064ed) | 2026-08-14 |
+| 44c0490c | [Prevent system-owned bots from being disabled (#37200)](https://github.com/mattermost/mattermost/commit/44c0490c7c005c297c52a24e2db3f900db3a6d70) | 2026-08-15 |
+| 2945359d | [\[MM-69895\] Delete bot access tokens when permanently deleting a bot (#37907)](https://github.com/mattermost/mattermost/commit/2945359dccf45ca8fb19892d3d699be93a170de0) | 2026-08-15 |
 
 ## 제외된 커밋
 
@@ -924,6 +915,16 @@
 | 47d2c607 | [Docs impact fixes (#35877)](https://github.com/mattermost/mattermost/commit/47d2c6074d61c2d7b4ecec2ddd58e3c024b36742) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 프롬프트·판정 문구 다듬기(+46/-27)도 반영할 대상이 없음. merge-tree도 CONFLICT(modify/delete)로 부재를 확인. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0과 같은 계열. |
 
 | 252eb966 | [Update docs-impact workflow to keep stale comment instead of deleting (#35940)](https://github.com/mattermost/mattermost/commit/252eb9661d9be1ce247db9029035211e7297ec88) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow)와 동일 사유로 제외 — okrbest에 docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용, adapt 대상 없음) 오래된 코멘트를 삭제 대신 유지하는 수정(+5/-1)도 반영할 대상이 없음. merge-tree도 CONFLICT(modify/delete)로 부재를 확인. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0·47d2c607과 같은 계열. |
+
+| fba382d5 | [feat(test analysis): using reusable workflow (#35852)](https://github.com/mattermost/mattermost/commit/fba382d5bdfe594db3323ef442227679e5650209) | 선행 커밋 e6b8e12f(SEC-9862, #35555)를 제외해 .github/workflows/pr-test-analysis.yml·pr-test-analysis-override.yml 자체가 okrbest에 없음. 이 커밋은 그 두 파일의 인라인 로직(-559)을 재사용 워크플로 호출(+39)로 축약하는 리팩터라 반영할 실체가 없음. merge-tree modify/delete. ae1691a3와 동일 계보. |
+
+| c303dd8e | [fix: test analysis (#35986)](https://github.com/mattermost/mattermost/commit/c303dd8e086efa506f6b779629b0619f3a7c7589) | fba382d5·e6b8e12f와 동일 사유 — okrbest에 .github/workflows/pr-test-analysis.yml이 없어 한 줄짜리 수정(+1/-1)을 적용할 대상이 없음. |
+
+| 993c3cb5 | [fix: test analysis override (#35987)](https://github.com/mattermost/mattermost/commit/993c3cb5d20847301dcd346ae2372f05e38db6be) | fba382d5·e6b8e12f와 동일 사유 — okrbest에 .github/workflows/pr-test-analysis-override.yml이 없어 한 줄짜리 수정(+1/-1)을 적용할 대상이 없음. |
+
+| fc9d3be3 | [Strip remote_id field from user patch API requests (#35910)](https://github.com/mattermost/mattermost/commit/fc9d3be3689d7218f9bd5dd8699e74b33c440911) | upstream이 d1ca2977(#35996)로 되돌린 커밋 — 되돌림 쌍으로 함께 제외해 순 효과 0을 유지한다. 되돌린 사유는 테스트 헬퍼 testlib.SetUserRemoteID가 mainHelper 공유 DB에 직접 SQL을 쏘아 병렬 테스트 모드에서 깨지는 회귀였고, okrbest는 직전 6fdef8c9(#35816)로 fullyparallel을 이미 켰으므로 그대로 받으면 같은 회귀가 재현된다. 프로덕션 보안 수정(api4/user.go patch.RemoteId=nil, sqlstore/user_store.go RemoteId 보존)은 재반영 커밋 f83d32e4(#36008)에 동일하게 담겨 있고 현재 HEAD 기준 merge-tree CLEAN 확인. |
+
+| d1ca2977 | [Revert "Strip remote_id field from user patch API requests (#35910)" (#35996)](https://github.com/mattermost/mattermost/commit/d1ca297721b75700b212370e339ed37ae1b1d6b1) | fc9d3be3(#35910)의 되돌림 커밋 — 원본을 제외했으므로 되돌릴 대상이 없다. 쌍으로 함께 제외. |
 
 ## spec 전환 커밋
 
