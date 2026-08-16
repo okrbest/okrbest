@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-16 22:44
+- 갱신일: 2026-08-17 00:52
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 836개
+- 남은 커밋: 826개
 
-**마지막 반영 커밋:** `008373ad` | [fix: add explicit permission grant in team members test (#36007)](https://github.com/mattermost/mattermost/commit/008373ad5065aff87c4bf5df243dd0c18c480e0b) | 2026-04-10
+**마지막 반영 커밋:** `8f458060` | [MM-63588: Add e2e tests for System Console User Attributes (#35931)](https://github.com/mattermost/mattermost/commit/8f45806004ea74486b1584667ed7687a69cb96a2) | 2026-04-10
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| c96d215f | [Translations update from Mattermost Weblate (#35966)](https://github.com/mattermost/mattermost/commit/c96d215ff196cb352844080074778363944c3f6e) | 2026-04-10 |
-| a244c170 | [Fixed URL validation for integration actions (#35857)](https://github.com/mattermost/mattermost/commit/a244c1704e77ede605d00f920e7f534d88f09079) | 2026-04-10 |
-| 5476f69f | [\[MM-68048\] Add focus/blur listeners for popouts to determine focused channel/thread (#35990)](https://github.com/mattermost/mattermost/commit/5476f69f718f3c280a906c8e4153b58149911c30) | 2026-04-10 |
-| 1574bda3 | [Server: Docs label prompt fix (#36020)](https://github.com/mattermost/mattermost/commit/1574bda3622e80252227f169a167605f43c98698) | 2026-04-10 |
-| 4d028d55 | [Support Elasticsearch v9 alongside v8 (#35781)](https://github.com/mattermost/mattermost/commit/4d028d557ba53b85bfd004bc56bb1db90cb45696) | 2026-04-10 |
-| f3c2e52b | [Bumping prepackaged zoom version to 1.13.0 (#35998)](https://github.com/mattermost/mattermost/commit/f3c2e52b76dd4fb07fff6e33537c46a5c72ef4a4) | 2026-04-10 |
-| 73c6e6a7 | [MM-68258 Remove `system_secure_connection_manager` role (#36009)](https://github.com/mattermost/mattermost/commit/73c6e6a7cff7d05d2607ec28789910ecb2e1821b) | 2026-04-10 |
-| f83d32e4 | [Strip remote_id field from user patch API requests (#36008)](https://github.com/mattermost/mattermost/commit/f83d32e42c45d80d4ec2a6747652ddd5a3c01951) | 2026-04-10 |
-| 17939826 | [Update msgpack fork dependency (#35988)](https://github.com/mattermost/mattermost/commit/17939826efa20a97f087b3d390ec5136df350bae) | 2026-04-10 |
-| 8f458060 | [MM-63588: Add e2e tests for System Console User Attributes (#35931)](https://github.com/mattermost/mattermost/commit/8f45806004ea74486b1584667ed7687a69cb96a2) | 2026-04-10 |
 | b3a0ad9c | [Fix FIPS-incompatible passwords and config in e2e test suites (#36001)](https://github.com/mattermost/mattermost/commit/b3a0ad9c53f0d4292275fb99f55c4a5826b9a1c6) | 2026-04-13 |
 | a2a896a5 | [MM-67433: Elasticsearch health monitor (#35747)](https://github.com/mattermost/mattermost/commit/a2a896a5def63cb1a6299e0b5f3dfa68bfc9113b) | 2026-04-13 |
 | f2a964fa | [fix(cypress): demo plugin (#36056)](https://github.com/mattermost/mattermost/commit/f2a964faf3f9276b2fddcbce30f04ba8daf222a2) | 2026-04-13 |
@@ -916,6 +906,8 @@
 | fc9d3be3 | [Strip remote_id field from user patch API requests (#35910)](https://github.com/mattermost/mattermost/commit/fc9d3be3689d7218f9bd5dd8699e74b33c440911) | upstream이 d1ca2977(#35996)로 되돌린 커밋 — 되돌림 쌍으로 함께 제외해 순 효과 0을 유지한다. 되돌린 사유는 테스트 헬퍼 testlib.SetUserRemoteID가 mainHelper 공유 DB에 직접 SQL을 쏘아 병렬 테스트 모드에서 깨지는 회귀였고, okrbest는 직전 6fdef8c9(#35816)로 fullyparallel을 이미 켰으므로 그대로 받으면 같은 회귀가 재현된다. 프로덕션 보안 수정(api4/user.go patch.RemoteId=nil, sqlstore/user_store.go RemoteId 보존)은 재반영 커밋 f83d32e4(#36008)에 동일하게 담겨 있고 현재 HEAD 기준 merge-tree CLEAN 확인. |
 
 | d1ca2977 | [Revert "Strip remote_id field from user patch API requests (#35910)" (#35996)](https://github.com/mattermost/mattermost/commit/d1ca297721b75700b212370e339ed37ae1b1d6b1) | fc9d3be3(#35910)의 되돌림 커밋 — 원본을 제외했으므로 되돌릴 대상이 없다. 쌍으로 함께 제외. |
+
+| 1574bda3 | [Server: Docs label prompt fix (#36020)](https://github.com/mattermost/mattermost/commit/1574bda3622e80252227f169a167605f43c98698) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow, #35358)를 제외했으므로 okrbest에 .github/workflows/docs-impact-review.yml이 존재하지 않아 적용 대상이 없음 (merge-tree도 modify/delete 충돌 보고, git log --diff-filter=D로 우리가 삭제한 적 없음을 확인). 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0·a3cdef8b·a6d1942f·66894045·d0128492·47d2c607·252eb966와 동일 계열 12번째 후속 수정. 내용은 (1) 내부 보안 강화는 문서화 대상 아님 규칙 추가 (2) github-script 들여쓰기 정정 (3) 빈 줄→공백 한 칸 잡음이며, 프롬프트가 여전히 'Mattermost project'/docs.mattermost.com/mattermost--docs sparse-checkout에 하드코딩돼 adapt 대상도 없음. |
 
 ## spec 전환 커밋
 
