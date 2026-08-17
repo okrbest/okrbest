@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-17 20:49
+- 갱신일: 2026-08-17 22:18
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 809개
+- 남은 커밋: 803개
 
-**마지막 반영 커밋:** `3cb00848` | [Add COALESCE guard for property values before PSAv2 migrations (#36079)](https://github.com/mattermost/mattermost/commit/3cb00848a6c19cf92043e38cdf6ecb0081dea479) | 2026-04-14
+**마지막 반영 커밋:** `455815a0` | [Update permission_system_scheme_settings snapshots (#36121)](https://github.com/mattermost/mattermost/commit/455815a06725f97637785490243cf2317d913dad) | 2026-04-15
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b712595d | [Fixed the UI for compact mode file editing (#35878)](https://github.com/mattermost/mattermost/commit/b712595dd0f76b6da9a8e1b151e9b189946c89da) | 2026-04-15 |
-| 9fa8c8c0 | [Add bulk set (replace) channel memberships API endpoint  (#36031)](https://github.com/mattermost/mattermost/commit/9fa8c8c0c80bb67442b6f17dc69c15ce3ea2238b) | 2026-04-15 |
-| c66bb0ec | [\[MM-68109\] Introduce new policy version v0.3 (#35904)](https://github.com/mattermost/mattermost/commit/c66bb0ecdbf7c86a17059ea4345e4f6ab5c633c8) | 2026-04-15 |
-| bff35776 | [chore(playwright): upgrade to v1.59 and to typescript@6.0 (#36071)](https://github.com/mattermost/mattermost/commit/bff35776904caf10dd5d9dae7a6fd44a50e1fc3d) | 2026-04-15 |
-| 0fcf3b5e | [Update docs-impact-review.yml (#36105)](https://github.com/mattermost/mattermost/commit/0fcf3b5ef20e587b6c45ead8147e53ab0e2fd635) | 2026-04-15 |
-| 62d0ab63 | [\[GH-29948\] \[GH-32467\] Avoid fetching resources requiring a license if it isn't the case (#34206)](https://github.com/mattermost/mattermost/commit/62d0ab633f1885fa45ed64c50171689655157273) | 2026-04-15 |
-| d4d65c8c | [Add manage_own_agent and manage_others_agent permissions (#35924)](https://github.com/mattermost/mattermost/commit/d4d65c8cfb56b63cd21020f06032330e1eb7752f) | 2026-04-15 |
-| 455815a0 | [Update permission_system_scheme_settings snapshots (#36121)](https://github.com/mattermost/mattermost/commit/455815a06725f97637785490243cf2317d913dad) | 2026-04-15 |
 | 80b97780 | [Feature mm 64509 team admin abac channels (#36061)](https://github.com/mattermost/mattermost/commit/80b977807a8194fb85396078fa167125a3b2f854) | 2026-04-16 |
 | beb96185 | [\[MM-68183\] Permission policies (#36003)](https://github.com/mattermost/mattermost/commit/beb96185cd6ab1ff72bf1b8b0349a542de019d8e) | 2026-04-16 |
 | d1657996 | [add override for e2e test on fips (#36128)](https://github.com/mattermost/mattermost/commit/d16579964c954e38f4eb17d4379f55a01ed13659) | 2026-04-16 |
@@ -820,6 +812,8 @@
 | 505d6c1e | [Add copy buttons for generated access tokens (#37494)](https://github.com/mattermost/mattermost/commit/505d6c1ecf4cb9d62bcc6a8ad100d0ba67c630c9) | 2026-08-17 |
 | ea183fab | [\[MM-67157\] Remove format parameter requirement from client license endpoint (#37167)](https://github.com/mattermost/mattermost/commit/ea183fab48b833461d83af94c21cdc62eaef3d2d) | 2026-08-17 |
 | 2b40a0bd | [MM-67868: Remove deprecated Slack compatibility type aliases (#37163)](https://github.com/mattermost/mattermost/commit/2b40a0bdaeb80e022dab022c3ef352ec170881a2) | 2026-08-17 |
+| 3f02a0a1 | [\[MM-70283\] Fix mixed custom-section fallback hiding valid plugin settings (#38004)](https://github.com/mattermost/mattermost/commit/3f02a0a1ac705d9900cbea8f82cb10df7e37b3ce) | 2026-08-17 |
+| fd62fe4f | [Allow granting delegated administration roles from the Manage Roles modal (#37202)](https://github.com/mattermost/mattermost/commit/fd62fe4faacf03845d9f723eeacba8798226587d) | 2026-08-17 |
 
 ## 제외된 커밋
 
@@ -895,6 +889,8 @@
 | 01219efb | [\[MM-68037\] Managed Sidebar Categories (MVF) (#35935)](https://github.com/mattermost/mattermost/commit/01219efbf4204055ffddb58902c1f870a216cd43) | 제외한 48f2fd08(Integrated Boards MVP)의 property 시스템 위에 얹힌 기능이라 반영할 토대가 없음. 팀 전체 고정 사이드바 카테고리(Managed Sidebar Categories)를 property 값으로 저장하는데, 필요한 선행 요소 4개가 전부 48f2fd08 소산이고 우리 트리에 없다 — (1) server/channels/api4/properties.go 파일 자체 부재(merge-tree modify/delete), (2) app/property_value.go가 호출하는 a.resolveValueBroadcastParams가 이 커밋에서 정의되지 않음, (3) model.WebsocketEventPropertyValuesUpdated 상수 부재, (4) PropertyField.ObjectType(마이그레이션 000161) 부재로 신규 라우트 /properties/groups/{group}/{objectType}/fields 성립 불가. 특히 이 커밋의 핵심 변경이 getPropertyFields·getPropertyValues 라우트를 FeatureFlags.IntegratedBoards 가드 밖으로 꺼내는 것이고 웹앱 Client4.getPropertyFields()가 그 엔드포인트를 호출하는데, 우리에겐 라우트도 파일도 없어 cherry-pick·adapt 모두 컴파일 실패. 규모도 68파일 +3133/-95. upstream 기준으로도 TeamSettings.EnableManagedChannelCategories 기본값 false에 관리 콘솔 노출이 Enterprise 라이선스 전용(isHidden: minLicenseTier(Enterprise))이라 당장의 제품 공백 아님. 006f1027·dad9cab4와 같은 계보. 향후 48f2fd08의 property 절반(api4/properties.go, 마이그레이션 000160~000165, property_values_updated WS 이벤트, 브로드캐스트 헬퍼)을 분할 반영하게 되면 이 커밋도 함께 재검토 대상. |
 
 | 3cb00848 | [Add COALESCE guard for property values before PSAv2 migrations (#36079)](https://github.com/mattermost/mattermost/commit/3cb00848a6c19cf92043e38cdf6ecb0081dea479) | 이미 제외한 006f1027(#35830, property fields판)의 property values판 — 가드를 씌울 컬럼 자체가 우리 스키마에 없다. PropertyValues.CreatedBy/UpdatedBy에 COALESCE(x,'') 가드를 넣어 PSAv2 마이그레이션 이전 NULL 상태에서도 조회가 깨지지 않게 하는 패치인데, 우리 propertyValueColumns는 9개(ID,TargetID,TargetType,GroupID,FieldID,Value,CreateAt,UpdateAt,DeleteAt)로 그 두 컬럼이 없고 model.PropertyValue 구조체에도 CreatedBy/UpdatedBy 필드가 아예 없다(grep 0건). 해당 컬럼은 전부 48f2fd08(Integrated Boards MVP, 제외)의 마이그레이션 000160/000165 소산. 강행 시 Go 컴파일에서 value.CreatedBy 미정의로 실패하고, 통과하더라도 없는 컬럼을 SELECT/INSERT 하는 SQL 런타임 오류. 추가되는 storetest 서브테스트("null columns, before createdBy and updatedBy migrations" 3건)도 전부 그 두 컬럼 전용. 006f1027·dad9cab4·01219efb에 이은 48f2fd08 계보 4번째. 향후 48f2fd08의 property 절반을 분할 반영하게 되면 이 가드도 함께 반영해야 한다. |
+
+| 0fcf3b5e | [Update docs-impact-review.yml (#36105)](https://github.com/mattermost/mattermost/commit/0fcf3b5ef20e587b6c45ead8147e53ab0e2fd635) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow, #35358)와 동일 사유로 제외 — okrbest에 .github/workflows/docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용) 적용 대상이 없다. merge-tree modify/delete 확인, git log --diff-filter=D로 우리가 삭제한 적 없음(애초에 가진 적 없음)도 확인. 변경 3줄이 전부 LLM 프롬프트 문구 조정이다 — (1) RST 파일을 파일명·제목만 보고 플래그하지 말고 실제 내용을 읽어 확인할 것 (2) api/v4/source/ YAML 변경은 api.mattermost.com에 자동 게시되므로 별도 조치 항목으로 만들지 말 것(2곳). 전부 docs/source/·api.mattermost.com·RST 등 Mattermost 자체 문서 저장소 문맥이라 adapt 대상도 없다. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0·a3cdef8b·a6d1942f·66894045·d0128492·47d2c607·252eb966·1574bda3와 같은 계열 13번째. |
 
 ## spec 전환 커밋
 
