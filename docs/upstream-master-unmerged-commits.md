@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-17 00:52
+- 갱신일: 2026-08-17 14:55
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 826개
+- 남은 커밋: 817개
 
-**마지막 반영 커밋:** `8f458060` | [MM-63588: Add e2e tests for System Console User Attributes (#35931)](https://github.com/mattermost/mattermost/commit/8f45806004ea74486b1584667ed7687a69cb96a2) | 2026-04-10
+**마지막 반영 커밋:** `e7b60bbd` | [MM-67291: ES health metric (#35844)](https://github.com/mattermost/mattermost/commit/e7b60bbd100de8732d0a182690fb1d19c89d83ac) | 2026-04-13
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b3a0ad9c | [Fix FIPS-incompatible passwords and config in e2e test suites (#36001)](https://github.com/mattermost/mattermost/commit/b3a0ad9c53f0d4292275fb99f55c4a5826b9a1c6) | 2026-04-13 |
-| a2a896a5 | [MM-67433: Elasticsearch health monitor (#35747)](https://github.com/mattermost/mattermost/commit/a2a896a5def63cb1a6299e0b5f3dfa68bfc9113b) | 2026-04-13 |
-| f2a964fa | [fix(cypress): demo plugin (#36056)](https://github.com/mattermost/mattermost/commit/f2a964faf3f9276b2fddcbce30f04ba8daf222a2) | 2026-04-13 |
-| 4dcf6916 | [feat: automatically trigger fips e2e tests for relevant prs (#36014)](https://github.com/mattermost/mattermost/commit/4dcf6916f73452a74d28f24f718d96b94cd7fe45) | 2026-04-13 |
-| 8e14c8ed | [MM-67505 Add AnalyticsQueryTimeout setting and use when refreshing materialized views (#35906)](https://github.com/mattermost/mattermost/commit/8e14c8ed58d187687bf6f049d4b560188c5ab081) | 2026-04-13 |
-| 28dffaa5 | [MM-68235: Rename user-visible "Custom Profile Attributes" to "User Attributes" (#36046)](https://github.com/mattermost/mattermost/commit/28dffaa574e788c6c3123957ae0286c7e15ca179) | 2026-04-13 |
-| e3b2b0a5 | [Improve CJK handling in autocompletes and Find Channels modal and using Firefox (#35937)](https://github.com/mattermost/mattermost/commit/e3b2b0a5215d54daad814393d3af4046e8b325c3) | 2026-04-13 |
-| 2fb38fe7 | [\[MM-68266\] Pass through menu props to popout menu item, guard at menu definition to avoid null component blocking keyboard navigation (#36024)](https://github.com/mattermost/mattermost/commit/2fb38fe71d7b5d34885dd7d38915c0ff929048e1) | 2026-04-13 |
-| 161f0713 | [MM-66612: Add health flag to fast-fail when ES is offline (#35843)](https://github.com/mattermost/mattermost/commit/161f0713a4ea711b3765976edda3315f6e6470df) | 2026-04-13 |
-| e7b60bbd | [MM-67291: ES health metric (#35844)](https://github.com/mattermost/mattermost/commit/e7b60bbd100de8732d0a182690fb1d19c89d83ac) | 2026-04-13 |
 | ed80e8ba | [Shared channel UI for channel admins (#35448)](https://github.com/mattermost/mattermost/commit/ed80e8ba91aea94a6acf27ca42dc4c0764d737e5) | 2026-04-14 |
 | baea603c | [Updated sharedchannel test package dependencies to match those in server (#36055)](https://github.com/mattermost/mattermost/commit/baea603c4004d1f8706fb000e5bd0d3e32ddf9d0) | 2026-04-14 |
 | 01219efb | [\[MM-68037\] Managed Sidebar Categories (MVF) (#35935)](https://github.com/mattermost/mattermost/commit/01219efbf4204055ffddb58902c1f870a216cd43) | 2026-04-14 |
@@ -837,6 +827,7 @@
 | 338dc6c7 | [\[MM-69863\] Add external source picker (AD/LDAP, SAML) to New attribute (#37845)](https://github.com/mattermost/mattermost/commit/338dc6c74daafdb08b6699001a18dd83097064ed) | 2026-08-14 |
 | 44c0490c | [Prevent system-owned bots from being disabled (#37200)](https://github.com/mattermost/mattermost/commit/44c0490c7c005c297c52a24e2db3f900db3a6d70) | 2026-08-15 |
 | 2945359d | [\[MM-69895\] Delete bot access tokens when permanently deleting a bot (#37907)](https://github.com/mattermost/mattermost/commit/2945359dccf45ca8fb19892d3d699be93a170de0) | 2026-08-15 |
+| a012af76 | [\[MM-70246\] Fix squished author avatar in Content Flagging RHS post preview card (#37972)](https://github.com/mattermost/mattermost/commit/a012af768d11b384686e24ac6319be4b2dfe3099) | 2026-08-17 |
 
 ## 제외된 커밋
 
