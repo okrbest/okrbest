@@ -12,6 +12,7 @@ import ChannelMembersModal from 'components/channel_members_modal';
 import DatePicker from 'components/date_picker/date_picker';
 import RenderEmoji from 'components/emoji/render_emoji';
 import EmojiPickerTabs from 'components/emoji_picker/emoji_picker_tabs';
+import * as Menu from 'components/menu';
 import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import StartTrialFormModal from 'components/start_trial_form_modal';
@@ -94,6 +95,8 @@ interface WindowWithLibraries {
         EmojiPickerTabs: typeof EmojiPickerTabs;
         RenderEmoji: typeof RenderEmoji;
         DatePicker: typeof DatePicker;
+        MenuItem: typeof Menu.Item;
+        MenuSeparator: typeof Menu.Separator;
     };
     ProductApi: {
         useWebSocket: typeof useWebSocket;
@@ -182,6 +185,8 @@ window.Components = {
     EmojiPickerTabs,
     RenderEmoji,
     DatePicker,
+    MenuItem: Menu.Item,
+    MenuSeparator: Menu.Separator,
 };
 
 // This is a prototype of the Product API for use by internal plugins only while we transition to the proper architecture
