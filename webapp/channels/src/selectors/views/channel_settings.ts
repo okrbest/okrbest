@@ -3,7 +3,8 @@
 
 import {Permissions} from 'mattermost-redux/constants';
 import {createSelector} from 'mattermost-redux/selectors/create_selector';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {haveIChannelPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 
 import Constants from 'utils/constants';
 
@@ -19,7 +20,8 @@ export const canAccessChannelSettings = createSelector(
     (state: GlobalState) => state,
     (state: GlobalState) => state.entities.channels.channels,
     (state: GlobalState, channelId: string) => channelId,
-    (state, channels, channelId) => {
+    (state: GlobalState) => getConfig(state)?.ExperimentalSharedChannels === 'true',
+    (state, channels, channelId, isSharedChannelsEnabled) => {
         const channel = channels[channelId];
         if (!channel) {
             return false;
@@ -51,6 +53,10 @@ export const canAccessChannelSettings = createSelector(
             bannerPermission,
         );
 
+        // Configuration tab (shared channels) permissions
+        const hasSharedChannelsPermission = isSharedChannelsEnabled &&
+            haveISystemPermission(state, {permission: Permissions.MANAGE_SHARED_CHANNELS});
+
         // Archive tab permissions
         const archivePermission = isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL;
 
@@ -62,6 +68,6 @@ export const canAccessChannelSettings = createSelector(
         );
 
         // User can access channel settings if they have permission for at least one tab
-        return hasInfoPermission || hasBannerPermission || hasArchivePermission;
+        return hasInfoPermission || hasBannerPermission || hasSharedChannelsPermission || hasArchivePermission;
     },
 );
