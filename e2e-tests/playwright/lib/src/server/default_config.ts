@@ -234,7 +234,7 @@ const defaultServerConfig: AdminConfig = {
         MaxChannelsPerTeam: 2000,
         MaxNotificationsPerChannel: 1000,
         EnableConfirmNotificationsToChannel: true,
-        TeammateNameDisplay: 'username',
+        TeammateNameDisplay: 'nickname_full_name',
         ExperimentalEnableAutomaticReplies: false,
         LockTeammateNameDisplay: false,
         ExperimentalPrimaryTeam: '',
