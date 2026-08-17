@@ -1239,6 +1239,7 @@ export const PermissionsScope = {
     [Permissions.MANAGE_PUBLIC_CHANNEL_BANNER]: 'channel_scope',
     [Permissions.MANAGE_PRIVATE_CHANNEL_BANNER]: 'channel_scope',
     [Permissions.MANAGE_CHANNEL_ACCESS_RULES]: 'channel_scope',
+    [Permissions.MANAGE_TEAM_ACCESS_RULES]: 'team_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -1363,6 +1364,7 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_PUBLIC_CHANNEL_BANNER,
         Permissions.MANAGE_PRIVATE_CHANNEL_BANNER,
         Permissions.MANAGE_CHANNEL_ACCESS_RULES,
+        Permissions.MANAGE_TEAM_ACCESS_RULES,
     ],
     guests: [
         Permissions.EDIT_POST,
