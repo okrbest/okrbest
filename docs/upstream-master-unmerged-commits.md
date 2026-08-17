@@ -3,19 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-17 22:18
+- 갱신일: 2026-08-18 00:17
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 803개
+- 남은 커밋: 799개
 
-**마지막 반영 커밋:** `455815a0` | [Update permission_system_scheme_settings snapshots (#36121)](https://github.com/mattermost/mattermost/commit/455815a06725f97637785490243cf2317d913dad) | 2026-04-15
+**마지막 반영 커밋:** `ab0a579b` | [SEC-10098 E2E/Cypress chore(cypress): upgrade to v15.13 and to typescript@6.0 (#36091)](https://github.com/mattermost/mattermost/commit/ab0a579b477d30eddf8eb620be18916c67d19b8d) | 2026-04-16
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 80b97780 | [Feature mm 64509 team admin abac channels (#36061)](https://github.com/mattermost/mattermost/commit/80b977807a8194fb85396078fa167125a3b2f854) | 2026-04-16 |
 | beb96185 | [\[MM-68183\] Permission policies (#36003)](https://github.com/mattermost/mattermost/commit/beb96185cd6ab1ff72bf1b8b0349a542de019d8e) | 2026-04-16 |
-| d1657996 | [add override for e2e test on fips (#36128)](https://github.com/mattermost/mattermost/commit/d16579964c954e38f4eb17d4379f55a01ed13659) | 2026-04-16 |
-| 7bd18f5d | [fix(editor): restore focus to main textbox after editing a post (#35518)](https://github.com/mattermost/mattermost/commit/7bd18f5dec758c82e25946e251da27fc934fe5dc) | 2026-04-16 |
-| ab0a579b | [SEC-10098 E2E/Cypress chore(cypress): upgrade to v15.13 and to typescript@6.0 (#36091)](https://github.com/mattermost/mattermost/commit/ab0a579b477d30eddf8eb620be18916c67d19b8d) | 2026-04-16 |
 | 034799c2 | [Fixed a bug where user profile popover closed automatically when opened for the first time for a user from channel member list in RHS (#35918)](https://github.com/mattermost/mattermost/commit/034799c22194ca624dc29c27b2b11e2a95b292de) | 2026-04-16 |
 | d2848a89 | [MM-68274 - Adding watermarking toggle in server (#36025)](https://github.com/mattermost/mattermost/commit/d2848a893ac79cb8d5e1a8a1a75b4931270e90b2) | 2026-04-16 |
 | 49f3c747 | [Bumping prepackaged MS Calendar plugin version to v1.6.1 (#36137)](https://github.com/mattermost/mattermost/commit/49f3c747376b461c96472a7512ea4c70af482111) | 2026-04-16 |
