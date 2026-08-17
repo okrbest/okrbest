@@ -540,6 +540,18 @@
     "translation": "{{.Username}} 님이 채널의 보관을 해제했습니다."
   },
   {
+    "id": "api.channel.set_members.group_constrained.app_error",
+    "translation": "그룹으로 제한된 채널에는 멤버를 설정할 수 없습니다."
+  },
+  {
+    "id": "api.channel.set_members.policy_enforced.app_error",
+    "translation": "액세스 제어 정책이 적용된 채널에는 멤버를 설정할 수 없습니다."
+  },
+  {
+    "id": "api.channel.set_members.type.app_error",
+    "translation": "이 채널 유형에는 멤버를 설정할 수 없습니다."
+  },
+  {
     "id": "api.channel.update_channel.banner_info.channel_type.not_allowed",
     "translation": "채널 배너는 공개 채널과 비공개 채널에서만 설정할 수 있습니다."
   },
@@ -4915,6 +4927,22 @@
     "translation": "주어진 사용자와 검색어에 대한 그룹 채널을 가져올 수 없습니다."
   },
   {
+    "id": "app.channel.set_members.context_cancelled.app_error",
+    "translation": "채널 멤버 설정 작업이 취소되었습니다."
+  },
+  {
+    "id": "app.channel.set_members.empty_private.app_error",
+    "translation": "비공개 채널에서 모든 멤버를 제거할 수 없습니다."
+  },
+  {
+    "id": "app.channel.set_members.get_current.app_error",
+    "translation": "현재 채널 멤버를 가져올 수 없습니다."
+  },
+  {
+    "id": "app.channel.set_members.get_members.app_error",
+    "translation": "역할 조정을 위한 채널 멤버를 가져올 수 없습니다."
+  },
+  {
     "id": "app.channel.sidebar_categories.app_error",
     "translation": "데이터베이스에 레코드를 삽입하지 못했습니다."
   },
@@ -8551,6 +8579,18 @@
   {
     "id": "model.access.is_valid.user_id.app_error",
     "translation": "유효하지 않은 사용자 ID입니다."
+  },
+  {
+    "id": "model.access_policy.inherit.permission.app_error",
+    "translation": "권한 정책은 다른 정책을 상속할 수 없습니다."
+  },
+  {
+    "id": "model.access_policy.is_valid.actions.app_error",
+    "translation": "동작이 유효하지 않습니다."
+  },
+  {
+    "id": "model.access_policy.is_valid.roles.app_error",
+    "translation": "권한 정책은 정확히 하나의 역할에만 적용해야 합니다."
   },
   {
     "id": "model.acknowledgement.is_valid.post_id.app_error",
