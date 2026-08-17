@@ -2987,6 +2987,22 @@
     "translation": "서버 시작중 오류, err:%v"
   },
   {
+    "id": "api.shared_channel.attachment.creator_id_required.app_error",
+    "translation": "FileInfo.CreatorId가 필요합니다."
+  },
+  {
+    "id": "api.shared_channel.attachment.data_required.app_error",
+    "translation": "파일 데이터가 필요합니다."
+  },
+  {
+    "id": "api.shared_channel.attachment.file_info_required.app_error",
+    "translation": "FileInfo가 필요합니다."
+  },
+  {
+    "id": "api.shared_channel.attachment.filename_required.app_error",
+    "translation": "FileInfo.Name이 필요합니다."
+  },
+  {
     "id": "api.shared_channel.get_shared_channel_remotes_error",
     "translation": "공유 채널 원격 클러스터를 가져올 수 없습니다."
   },
