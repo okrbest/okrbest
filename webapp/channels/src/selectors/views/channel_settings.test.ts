@@ -69,6 +69,7 @@ describe('Selectors.Views.ChannelSettings', () => {
     beforeEach(() => {
         // Create a spy on the original function
         jest.spyOn(require('mattermost-redux/selectors/entities/roles'), 'haveIChannelPermission').mockImplementation(() => false);
+        jest.spyOn(require('mattermost-redux/selectors/entities/roles'), 'haveISystemPermission').mockImplementation(() => false);
     });
 
     afterEach(() => {
@@ -149,5 +150,29 @@ describe('Selectors.Views.ChannelSettings', () => {
         });
         const result = canAccessChannelSettings(baseState, defaultChannelId);
         expect(result).toBe(false);
+    });
+
+    it('should return true when user has only shared channels permission', () => {
+        const state = {
+            ...baseState,
+            entities: {
+                ...baseState.entities,
+                general: {
+                    ...baseState.entities.general,
+                    config: {ExperimentalSharedChannels: 'true'},
+                },
+            },
+        } as unknown as GlobalState;
+        setPermissionCheckResults({
+            [Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]: false,
+            [Permissions.MANAGE_PUBLIC_CHANNEL_BANNER]: false,
+            [Permissions.DELETE_PUBLIC_CHANNEL]: false,
+        });
+        const haveISystemPermissionMock = require('mattermost-redux/selectors/entities/roles').haveISystemPermission as jest.Mock;
+        haveISystemPermissionMock.mockImplementation((_state: GlobalState, {permission}: {permission: string}) =>
+            permission === Permissions.MANAGE_SHARED_CHANNELS,
+        );
+        const result = canAccessChannelSettings(state, channelId);
+        expect(result).toBe(true);
     });
 });
