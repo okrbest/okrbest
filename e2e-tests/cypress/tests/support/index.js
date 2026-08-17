@@ -253,7 +253,7 @@ function sysadminSetup(user) {
 }
 
 function resetUserPreference(userId) {
-    cy.apiSaveTeammateNameDisplayPreference('username');
+    cy.apiSaveTeammateNameDisplayPreference('nickname_full_name');
     cy.apiSaveLinkPreviewsPreference('true');
     cy.apiSaveCollapsePreviewsPreference('false');
     cy.apiSaveClockDisplayModeTo24HourPreference(false);
