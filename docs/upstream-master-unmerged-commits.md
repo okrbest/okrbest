@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-17 14:55
+- 갱신일: 2026-08-17 20:49
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 817개
+- 남은 커밋: 809개
 
-**마지막 반영 커밋:** `e7b60bbd` | [MM-67291: ES health metric (#35844)](https://github.com/mattermost/mattermost/commit/e7b60bbd100de8732d0a182690fb1d19c89d83ac) | 2026-04-13
+**마지막 반영 커밋:** `3cb00848` | [Add COALESCE guard for property values before PSAv2 migrations (#36079)](https://github.com/mattermost/mattermost/commit/3cb00848a6c19cf92043e38cdf6ecb0081dea479) | 2026-04-14
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| ed80e8ba | [Shared channel UI for channel admins (#35448)](https://github.com/mattermost/mattermost/commit/ed80e8ba91aea94a6acf27ca42dc4c0764d737e5) | 2026-04-14 |
-| baea603c | [Updated sharedchannel test package dependencies to match those in server (#36055)](https://github.com/mattermost/mattermost/commit/baea603c4004d1f8706fb000e5bd0d3e32ddf9d0) | 2026-04-14 |
-| 01219efb | [\[MM-68037\] Managed Sidebar Categories (MVF) (#35935)](https://github.com/mattermost/mattermost/commit/01219efbf4204055ffddb58902c1f870a216cd43) | 2026-04-14 |
-| 5af77b7e | [MM-67095: Hide Workspace Optimization for cloud-licensed workspaces (#36077)](https://github.com/mattermost/mattermost/commit/5af77b7e089cb5faca94ccfb7087e4d2c78c68f6) | 2026-04-14 |
-| 2b2ae477 | [test: clean up channel store data after TestChannelStore (#36066)](https://github.com/mattermost/mattermost/commit/2b2ae4778f6d3aad52f73ac3b958812456b42824) | 2026-04-14 |
-| 9be83a99 | [Fix command injection in server-test-template workflow (#36080)](https://github.com/mattermost/mattermost/commit/9be83a998acee113727bc208f11b07cf831296a9) | 2026-04-14 |
-| 88954db3 | [\[MM-63434\] Use forked PDF library with parsing depth limit (#35947)](https://github.com/mattermost/mattermost/commit/88954db3de2c10e8c4de5395130caaf6dc60e549) | 2026-04-14 |
-| fff3820c | [fix(ci): restore testname format in sharded gotestsum runs (#36078)](https://github.com/mattermost/mattermost/commit/fff3820ce430cebe00716bf7634a33e1eae1de24) | 2026-04-14 |
-| c3ab0f7f | [MM-68191: Add plugin Receive APIs for shared channel sync (#35962)](https://github.com/mattermost/mattermost/commit/c3ab0f7f78e28543e101b9d3f1264d084777aa84) | 2026-04-14 |
-| 0f2c1675 | [Add pluggable AI actions menu with custom prompts extension point (#35930)](https://github.com/mattermost/mattermost/commit/0f2c16754ff05f7ab1c201294c1262c4784f0ccf) | 2026-04-14 |
-| 3cb00848 | [Add COALESCE guard for property values before PSAv2 migrations (#36079)](https://github.com/mattermost/mattermost/commit/3cb00848a6c19cf92043e38cdf6ecb0081dea479) | 2026-04-14 |
 | b712595d | [Fixed the UI for compact mode file editing (#35878)](https://github.com/mattermost/mattermost/commit/b712595dd0f76b6da9a8e1b151e9b189946c89da) | 2026-04-15 |
 | 9fa8c8c0 | [Add bulk set (replace) channel memberships API endpoint  (#36031)](https://github.com/mattermost/mattermost/commit/9fa8c8c0c80bb67442b6f17dc69c15ce3ea2238b) | 2026-04-15 |
 | c66bb0ec | [\[MM-68109\] Introduce new policy version v0.3 (#35904)](https://github.com/mattermost/mattermost/commit/c66bb0ecdbf7c86a17059ea4345e4f6ab5c633c8) | 2026-04-15 |
@@ -828,6 +817,9 @@
 | 44c0490c | [Prevent system-owned bots from being disabled (#37200)](https://github.com/mattermost/mattermost/commit/44c0490c7c005c297c52a24e2db3f900db3a6d70) | 2026-08-15 |
 | 2945359d | [\[MM-69895\] Delete bot access tokens when permanently deleting a bot (#37907)](https://github.com/mattermost/mattermost/commit/2945359dccf45ca8fb19892d3d699be93a170de0) | 2026-08-15 |
 | a012af76 | [\[MM-70246\] Fix squished author avatar in Content Flagging RHS post preview card (#37972)](https://github.com/mattermost/mattermost/commit/a012af768d11b384686e24ac6319be4b2dfe3099) | 2026-08-17 |
+| 505d6c1e | [Add copy buttons for generated access tokens (#37494)](https://github.com/mattermost/mattermost/commit/505d6c1ecf4cb9d62bcc6a8ad100d0ba67c630c9) | 2026-08-17 |
+| ea183fab | [\[MM-67157\] Remove format parameter requirement from client license endpoint (#37167)](https://github.com/mattermost/mattermost/commit/ea183fab48b833461d83af94c21cdc62eaef3d2d) | 2026-08-17 |
+| 2b40a0bd | [MM-67868: Remove deprecated Slack compatibility type aliases (#37163)](https://github.com/mattermost/mattermost/commit/2b40a0bdaeb80e022dab022c3ef352ec170881a2) | 2026-08-17 |
 
 ## 제외된 커밋
 
@@ -899,6 +891,10 @@
 | d1ca2977 | [Revert "Strip remote_id field from user patch API requests (#35910)" (#35996)](https://github.com/mattermost/mattermost/commit/d1ca297721b75700b212370e339ed37ae1b1d6b1) | fc9d3be3(#35910)의 되돌림 커밋 — 원본을 제외했으므로 되돌릴 대상이 없다. 쌍으로 함께 제외. |
 
 | 1574bda3 | [Server: Docs label prompt fix (#36020)](https://github.com/mattermost/mattermost/commit/1574bda3622e80252227f169a167605f43c98698) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow, #35358)를 제외했으므로 okrbest에 .github/workflows/docs-impact-review.yml이 존재하지 않아 적용 대상이 없음 (merge-tree도 modify/delete 충돌 보고, git log --diff-filter=D로 우리가 삭제한 적 없음을 확인). 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0·a3cdef8b·a6d1942f·66894045·d0128492·47d2c607·252eb966와 동일 계열 12번째 후속 수정. 내용은 (1) 내부 보안 강화는 문서화 대상 아님 규칙 추가 (2) github-script 들여쓰기 정정 (3) 빈 줄→공백 한 칸 잡음이며, 프롬프트가 여전히 'Mattermost project'/docs.mattermost.com/mattermost--docs sparse-checkout에 하드코딩돼 adapt 대상도 없음. |
+
+| 01219efb | [\[MM-68037\] Managed Sidebar Categories (MVF) (#35935)](https://github.com/mattermost/mattermost/commit/01219efbf4204055ffddb58902c1f870a216cd43) | 제외한 48f2fd08(Integrated Boards MVP)의 property 시스템 위에 얹힌 기능이라 반영할 토대가 없음. 팀 전체 고정 사이드바 카테고리(Managed Sidebar Categories)를 property 값으로 저장하는데, 필요한 선행 요소 4개가 전부 48f2fd08 소산이고 우리 트리에 없다 — (1) server/channels/api4/properties.go 파일 자체 부재(merge-tree modify/delete), (2) app/property_value.go가 호출하는 a.resolveValueBroadcastParams가 이 커밋에서 정의되지 않음, (3) model.WebsocketEventPropertyValuesUpdated 상수 부재, (4) PropertyField.ObjectType(마이그레이션 000161) 부재로 신규 라우트 /properties/groups/{group}/{objectType}/fields 성립 불가. 특히 이 커밋의 핵심 변경이 getPropertyFields·getPropertyValues 라우트를 FeatureFlags.IntegratedBoards 가드 밖으로 꺼내는 것이고 웹앱 Client4.getPropertyFields()가 그 엔드포인트를 호출하는데, 우리에겐 라우트도 파일도 없어 cherry-pick·adapt 모두 컴파일 실패. 규모도 68파일 +3133/-95. upstream 기준으로도 TeamSettings.EnableManagedChannelCategories 기본값 false에 관리 콘솔 노출이 Enterprise 라이선스 전용(isHidden: minLicenseTier(Enterprise))이라 당장의 제품 공백 아님. 006f1027·dad9cab4와 같은 계보. 향후 48f2fd08의 property 절반(api4/properties.go, 마이그레이션 000160~000165, property_values_updated WS 이벤트, 브로드캐스트 헬퍼)을 분할 반영하게 되면 이 커밋도 함께 재검토 대상. |
+
+| 3cb00848 | [Add COALESCE guard for property values before PSAv2 migrations (#36079)](https://github.com/mattermost/mattermost/commit/3cb00848a6c19cf92043e38cdf6ecb0081dea479) | 이미 제외한 006f1027(#35830, property fields판)의 property values판 — 가드를 씌울 컬럼 자체가 우리 스키마에 없다. PropertyValues.CreatedBy/UpdatedBy에 COALESCE(x,'') 가드를 넣어 PSAv2 마이그레이션 이전 NULL 상태에서도 조회가 깨지지 않게 하는 패치인데, 우리 propertyValueColumns는 9개(ID,TargetID,TargetType,GroupID,FieldID,Value,CreateAt,UpdateAt,DeleteAt)로 그 두 컬럼이 없고 model.PropertyValue 구조체에도 CreatedBy/UpdatedBy 필드가 아예 없다(grep 0건). 해당 컬럼은 전부 48f2fd08(Integrated Boards MVP, 제외)의 마이그레이션 000160/000165 소산. 강행 시 Go 컴파일에서 value.CreatedBy 미정의로 실패하고, 통과하더라도 없는 컬럼을 SELECT/INSERT 하는 SQL 런타임 오류. 추가되는 storetest 서브테스트("null columns, before createdBy and updatedBy migrations" 3건)도 전부 그 두 컬럼 전용. 006f1027·dad9cab4·01219efb에 이은 48f2fd08 계보 4번째. 향후 48f2fd08의 property 절반을 분할 반영하게 되면 이 가드도 함께 반영해야 한다. |
 
 ## spec 전환 커밋
 
