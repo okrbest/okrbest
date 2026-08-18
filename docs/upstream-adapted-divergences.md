@@ -39,6 +39,7 @@
 | 팀 ABAC 플래그 기본 활성 | [7130ae59](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8) (#37781) | 서버 기본값은 받고 PropertyFieldRank 테스트와 e2e 플래그 한 줄을 버렸다. 비활성 근거에서 플래그가 빠졌다 — 아래 참조 |
 | 플러그인 ABAC API | [c7eff700](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) (#37509) | API 표면 8개는 받고 네이티브 속성·PSAv2 계보에 걸린 셋을 걷어냈다. 정책 엔진이 없어 비활성 — 아래 참조 |
 | UserStore.Get을 request context로 | [9f0ae6a2](https://github.com/mattermost/mattermost/commit/9f0ae6a220f5da8f4303ee80f2237f395ff9bed4) (#37646) | 56파일 중 제외한 Integrated Boards의 `app/board.go` 1줄만 못 받았다. 단독으로는 빌드되지 않아 `523292f0`과 짝으로 받았다 — 아래 참조 |
+| 내장 Slack 가져오기 API·CLI 제거 | [f112b9a7](https://github.com/mattermost/mattermost/commit/f112b9a7159b25c630a52b05dc27dfc2f9b5d694) (#37999) | 코드 제거는 전부 받았다. docs mdx 3개는 우리가 지운 파일이라 버렸고, Cypress 권한 스냅샷은 우리 줄에서 `import_team`만 뺐다. server ko 27키가 orphaned로 남는다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 
 ---
@@ -1209,6 +1210,45 @@ ABAC 설정과 플래그만 확인한다. 관리자가 ABAC 설정을 켜면 팀
   `SIMPLE_CONDITION_PATTERNS`에 upstream의 나머지 패턴을 같은 `CEL_STRING` 형태로 더하고, 버린 테스트
   셋과 원래 `user.email` 단언을 되살린다. 같은 파일의 앞선 기록(`469e1e26`, 랭크 연산자 테스트 넷)과
   함께 처리한다.
+
+## 내장 Slack 가져오기 API·CLI 제거 — 코드는 다 받고 문서·스냅샷·번역에서 빠진 것
+
+**upstream**: [`f112b9a7`](https://github.com/mattermost/mattermost/commit/f112b9a7159b25c630a52b05dc27dfc2f9b5d694)
+(Remove deprecated built-in Slack import API and CLI, #37999) — 34파일 +16/-3711, 2026-10-07 반영
+
+**받은 것.** 서버·webapp 코드 제거는 upstream 그대로다. `POST /api/v4/teams/{team_id}/import`,
+`app/slack.go`, `platform/services/slackimport/` 패키지, `mattermost import slack` CLI,
+`Client4.ImportTeam`, `server/tests/slack-import-*.json` 픽스처 6개, `import_team` 권한(모델·기본
+team_admin 역할·webapp 상수·권한 화면 문구)을 지웠다. 권한 변환 마이그레이션
+`removeImportTeamPermissionMigration`(Systems 키 `remove_import_team_permission`)도 받았다. 서버 시작 시
+1회 돌며 **모든 역할**에서 `import_team`을 뺀다. 포크는 이 기능을 쓰지 않았다 — webapp에 Slack 가져오기
+UI가 없고, 관련 파일 이력은 전부 upstream 커밋이며, `spec-docs/`·`specs/`에도 쓰는 계획이 없다.
+
+### 버린 것과 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `docs/main/administration-guide/comply/embedded-json-audit-log-schema.mdx` | `importTeam` 감사 이벤트 스키마 8줄 삭제 | **버림** (파일 부재 유지) | 포크가 `docs/main/` 트리를 지웠다 (modify/delete) |
+| `docs/main/administration-guide/manage/command-line-tools.mdx` | `mattermost import slack` 명령 설명 18줄 삭제 | **버림** | 같은 이유 |
+| `docs/main/administration-guide/onboard/advanced-permissions-backend-infrastructure.mdx` | `import_team` 권한 설명 8줄 삭제 | **버림** | 같은 이유 |
+| `e2e-tests/cypress/tests/support/api/default_roles_permissions.js` | upstream 스냅샷 줄로 교체 (`system_admin`·`team_admin`) | **우리 줄에서 `import_team` 단어만 삭제** | upstream 부모 스냅샷에는 `sysconsole_read_ai_recaps`·`sysconsole_write_ai_recaps`가 있고 우리에겐 없다. upstream 줄을 그대로 받으면 우리에게 없는 권한 둘이 끼어든다. 단어 집합 diff로 `import_team` 2개만 빠진 것을 확인했다 |
+| `webapp/channels/src/i18n/ko.json` | (커밋에 없음) | `admin.permissions.permission.import_team.{name,description}` 2키 **삭제** | en에서 지워진 키라 ko에 남으면 webapp orphaned가 생겨 `i18n-check-empty`가 CI를 막는다. 번역 추가가 아니라 삭제 추종이다 |
+| `server/i18n/ko.json` | (커밋에 없음) | **손대지 않음** — 27키 orphaned로 남음 | server orphaned는 CI 판정 대상이 아니다(기준선 59키). 아래 목록 참조 |
+
+**server ko에 남은 orphaned 27키.** en에서 지운 31키 중 ko에 번역이 있던 것이다.
+- `api.slackimport.*` 19키: `slack_add_bot_user.unable_import`, `slack_add_channels.{added,failed_to_add_user,import_failed,merge}`,
+  `slack_add_users.{created,merge_existing,merge_existing_failed,missing_email_address,unable_import}`,
+  `slack_import.{log,note1,note2,note3,notes,open.app_error,team_fail,zip.app_error,zip.file_too_large}`
+- `api.team.import_team.*` 8키: `array`, `integer`, `no_file`, `no_import_from`, `open`, `parse`, `unavailable`,
+  `unknown_import_from` (모두 `.app_error`)
+
+### 되돌릴 조건
+
+- 포크가 `docs/main/`을 되살리면 위 mdx 3개에서 upstream 삭제분(Slack CLI 설명, `importTeam` 감사 이벤트,
+  `import_team` 권한 설명)을 같이 지운다.
+- `ai_recaps` 권한 계보를 반영하면 Cypress 스냅샷을 upstream 줄과 맞춘다. 그때 `import_team`이 다시 들어오지
+  않았는지 확인한다.
+- server ko orphaned를 일괄 정리할 때 위 27키를 함께 지운다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
