@@ -42,6 +42,7 @@
 | 내장 Slack 가져오기 API·CLI 제거 | [f112b9a7](https://github.com/mattermost/mattermost/commit/f112b9a7159b25c630a52b05dc27dfc2f9b5d694) (#37999) | 코드 제거는 전부 받았다. docs mdx 3개는 우리가 지운 파일이라 버렸고, Cypress 권한 스냅샷은 우리 줄에서 `import_team`만 뺐다. server ko 27키가 orphaned로 남는다 — 아래 참조 |
 | atmos/camo 이미지 프록시 제거 | [eb3966e3](https://github.com/mattermost/mattermost/commit/eb3966e30bf4e13a0fdef43bb87429c54a6b7e25) (#37284) | 코드는 그대로 받고 webapp ko 5키를 함께 지웠다. server ko 3키 orphaned·1키 문구 변경이 남고, 운영 설정이 `atmos/camo`면 기동이 막힌다 — 아래 참조 |
 | Manage Attributes 삭제 액션 | [5bd5b3b8](https://github.com/mattermost/mattermost/commit/5bd5b3b899f7ce2eb5d981015db2a37077746a8c) (#37875) | 본체(Global Attributes 삭제 모달·표)는 제외 계보라 버리고, 섞인 공용 수정 둘(`getPluginDisplayName`, 고아 필드 훅 이전)만 받았다 — 아래 참조 |
+| 다이얼로그 deprecated date/datetime 필드 제거 | [78d12039](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a) (#37759) | 코드는 그대로 받고 우리가 지운 docs 2개의 갱신(업그레이드 노트 포함)을 버렸다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 
 ---
@@ -1319,6 +1320,28 @@ property-field DELETE API에 연결하는 기능이다. 그 화면(`admin_consol
 
 - property 시스템 v2와 Global Attributes 계보(`48f2fd08` → `38b66d22` → …)를 도입하면 이 커밋의 본체
   (버린 5+2파일, en 6키, ModalIdentifiers 1줄)를 그대로 가져온다. 공용 수정 둘은 이미 들어와 있다.
+
+## 다이얼로그 deprecated date/datetime 필드 제거 — 문서 갱신 2건을 버렸다
+
+**upstream**: [`78d12039`](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a)
+(MM-68396: Remove deprecated dialog date/datetime fields for v12.0, #37759) — 19파일 +231/-699, 2026-10-07 반영
+
+**받은 것.** 서버 `DialogElement`의 최상위 `MinDate`·`MaxDate`·`TimeInterval`과
+`DialogDateTimeConfig.AllowManualTimeEntry`, webapp 타입·변환·폼 컴포넌트의 같은 필드 처리를 upstream대로
+지웠다. 이제 이 키만 보내는 연동은 에러 없이 **날짜 범위·시간 간격·수동 입력 제약이 무시된다**.
+`datetime_config`(수동 입력은 `manual_time_entry`)로 옮겨야 한다. 포크 서버·webapp과 포크 Boards·Agents
+플러그인에는 사용처가 없음을 확인했다.
+
+### 버린 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `docs/develop/integrate/plugins/interactive-dialogs/index.md` | date·datetime 필드 표에서 deprecated 행 삭제 | **버림** (파일 부재 유지) | 포크가 `docs/develop/`를 지웠다 (modify/delete) |
+| `docs/main/administration-guide/upgrade/important-upgrade-notes.mdx` | v12.0 업그레이드 노트 1행 추가 — 위 "무시된다" 경고와 같은 내용 | **버림** | 포크가 `docs/main/`을 지웠다. 운영자 공지가 필요하면 위 문단을 쓴다 |
+
+### 되돌릴 조건
+
+- 포크가 개발자·운영 문서를 되살리면 위 두 갱신을 함께 넣는다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
