@@ -60,7 +60,6 @@ import type {A11yFocusEventDetail} from 'utils/constants';
 import DesktopApp from 'utils/desktop_api';
 import * as Keyboard from 'utils/keyboard';
 import {FOCUS_REPLY_POST, isPopoutWindow, sendToParent} from 'utils/popouts/popout_windows';
-import {isInternetExplorer, isEdge} from 'utils/user_agent';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -1191,15 +1190,11 @@ export function fillRecord<T>(value: T, length: number): Record<number, T> {
 // Checks if a data transfer contains files not text, folders, etc..
 // Slightly modified from http://stackoverflow.com/questions/6848043/how-do-i-detect-a-file-is-being-dragged-rather-than-a-draggable-element-on-my-pa
 export function isFileTransfer(files: DataTransfer) {
-    if (isInternetExplorer() || isEdge()) {
-        return files.types != null && files.types.includes('Files');
-    }
-
     return files.types != null && (files.types.indexOf ? files.types.indexOf('Files') !== -1 : files.types.includes('application/x-moz-file'));
 }
 
 export function isUriDrop(dataTransfer: DataTransfer) {
-    if (isInternetExplorer() || isEdge() || isSafari()) {
+    if (isSafari()) {
         for (let i = 0; i < dataTransfer.items.length; i++) {
             if (dataTransfer.items[i].type === 'text/uri-list') {
                 return true;
