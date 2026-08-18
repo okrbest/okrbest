@@ -2152,8 +2152,6 @@
   "admin.permissions.permission.edit_others_posts.name": "다른 사용자의 메시지를 편집",
   "admin.permissions.permission.edit_post.description": "메시지를 올린 후 {editTimeLimitButton}, 사용자는 자신의 메시지를 편집 할 수 있습니다.",
   "admin.permissions.permission.edit_post.name": "자신의 메세지를 편집",
-  "admin.permissions.permission.import_team.description": "팀 가져오기",
-  "admin.permissions.permission.import_team.name": "팀 가져오기",
   "admin.permissions.permission.invite_guest.description": "게스트를 채널에 초대하고 전자우편 초대를 보냅니다.",
   "admin.permissions.permission.invite_guest.name": "게스트 초대",
   "admin.permissions.permission.list_team_channels.description": "팀 채널 목록",
