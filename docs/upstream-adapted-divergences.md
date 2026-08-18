@@ -43,6 +43,7 @@
 | atmos/camo 이미지 프록시 제거 | [eb3966e3](https://github.com/mattermost/mattermost/commit/eb3966e30bf4e13a0fdef43bb87429c54a6b7e25) (#37284) | 코드는 그대로 받고 webapp ko 5키를 함께 지웠다. server ko 3키 orphaned·1키 문구 변경이 남고, 운영 설정이 `atmos/camo`면 기동이 막힌다 — 아래 참조 |
 | Manage Attributes 삭제 액션 | [5bd5b3b8](https://github.com/mattermost/mattermost/commit/5bd5b3b899f7ce2eb5d981015db2a37077746a8c) (#37875) | 본체(Global Attributes 삭제 모달·표)는 제외 계보라 버리고, 섞인 공용 수정 둘(`getPluginDisplayName`, 고아 필드 훅 이전)만 받았다 — 아래 참조 |
 | 다이얼로그 deprecated date/datetime 필드 제거 | [78d12039](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a) (#37759) | 코드는 그대로 받고 우리가 지운 docs 2개의 갱신(업그레이드 노트 포함)을 버렸다 — 아래 참조 |
+| 사용자 입력 표시 설정을 Posts로 승격 | [0bff02c8](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) (#38023) | 코드는 그대로, docs 2개는 버렸다. en id 이동을 따라 ko 5키를 새 id로 옮기고 나뉜 예시 키 1개를 채웠다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 
 ---
@@ -1342,6 +1343,32 @@ property-field DELETE API에 연결하는 기능이다. 그 화면(`admin_consol
 ### 되돌릴 조건
 
 - 포크가 개발자·운영 문서를 되살리면 위 두 갱신을 함께 넣는다.
+
+## 사용자 입력 표시 설정을 Posts로 승격 — ko 키를 지우지 않고 옮겼다
+
+**upstream**: [`0bff02c8`](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee)
+(Graduate user typing settings to Site Configuration > Posts, #38023) — 6파일 +79/-68, 2026-10-07 반영
+
+**받은 것.** `ServiceSettings.EnableUserTypingMessages`·`TimeBetweenUserTypingUpdatesMilliseconds`가
+시스템 콘솔 Experimental > Features에서 Site Configuration > Posts(Performance & Limits)로 옮겨졌다.
+`access` 태그가 `experimental_features` → `site_posts`로 바뀌어 위임 관리 역할의 콘솔 권한 범위도 같이 바뀐다.
+설정 키·기본값·런타임 동작은 그대로다.
+
+### 버린 것과 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `docs/main/administration-guide/configure/experimental-configuration-settings.mdx`·`site-configuration-settings.mdx` | 설정 설명을 Experimental 문서에서 Site Configuration 문서로 이동 | **버림** | 포크가 `docs/main/`을 지웠다 (modify/delete) |
+| `webapp/channels/src/i18n/ko.json` | (커밋에 없음) | `admin.experimental.{enableUserTypingMessages.desc,enableUserTypingMessages.title,timeBetweenUserTypingUpdatesMilliseconds.desc,.example,.title}` 5키를 `admin.posts.*`로 **이름만 옮김** | 지우면 orphaned는 풀리지만 옮겨진 설정이 한국어 UI에서 영어로 보인다. 번역 추가가 아니라 id 변경 추종이다 |
+| 같은 파일 `admin.posts.timeBetweenUserTypingUpdatesMilliseconds.title` | en이 "User Typing Timeout:" → "User Typing Timeout (milliseconds):" | "사용자 입력 시간초과 :" → "사용자 입력 시간초과 (밀리초) :" | en의 단위 추가를 최소한으로 따랐다 |
+| 같은 파일 `admin.experimental.UsersStatusAndProfileFetchingPollIntervalMilliseconds.example` (신규) | en이 공유하던 예시 키를 설정별로 나눔 | 기존 공유 번역 "예시: \"5000\""을 넣음 | 이 키가 없으면 해당 예시가 영어로 보인다 |
+
+키는 en 순서를 기준으로 기존 줄 사이에 끼워 넣었다. ko.json은 사전식 정렬이 아니므로 전체를 재정렬하면
+안 된다(한 번 해 보니 810줄이 움직였다).
+
+### 되돌릴 조건
+
+- 없음. 이후 upstream이 같은 키를 다시 옮기면 같은 방식으로 ko id를 따라 옮긴다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
