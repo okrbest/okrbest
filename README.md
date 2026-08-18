@@ -43,8 +43,6 @@ OKR.BEST의 다음 사용 사례에 대해 자세히 알아보세요:
 -   [Ubuntu 20.04 LTS](https://docs.mattermost.com/install/installing-ubuntu-2004-LTS.html)
 -   [Kubernetes](https://docs.mattermost.com/install/install-kubernetes.html)
 -   [Helm](https://docs.mattermost.com/install/install-kubernetes.html#installing-the-operators-via-helm)
--   [Debian Buster](https://docs.mattermost.com/install/install-debian.html)
--   [RHEL 8](https://docs.mattermost.com/install/install-rhel-8.html)
 -   [더 많은 서버 설치 가이드](https://docs.mattermost.com/guides/deployment.html)
 
 ## 네이티브 모바일 및 데스크톱 앱
