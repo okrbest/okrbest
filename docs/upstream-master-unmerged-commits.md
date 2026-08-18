@@ -3,7 +3,7 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-18 11:26
+- 갱신일: 2026-08-18 12:20
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 796개
 
@@ -896,10 +896,6 @@
 
 | 7425c681 | [\[MM-67741\] Scope role_updated WS events to affected team/channel (#35497)](https://github.com/mattermost/mattermost/commit/7425c6817bf244f976c729f8a73cecac8039a1e1) | specs/009-scope-role-updated-ws |
 
-| beb96185 | [\[MM-68183\] Permission policies (#36003)](https://github.com/mattermost/mattermost/commit/beb96185cd6ab1ff72bf1b8b0349a542de019d8e) | ABAC permission policies (리소스 단위 권한 정책 + 파일 접근 통제) |
-
-| a21e25e4 | [MM-68352 - update permission policy ff correctly checks in tests (#36142)](https://github.com/mattermost/mattermost/commit/a21e25e415f7bf60780e5e32f78035954ac23f25) | ABAC permission policies (리소스 단위 권한 정책 + 파일 접근 통제) |
-
 ## Mattermost 비공개 사설 모듈 커밋
 
 | 커밋 해시 | 커밋 제목 | 비공개 모듈 · 비고 |
@@ -912,4 +908,3 @@
 | 932086e2 | [separate websocket event for translations metrics (#35296)](https://github.com/mattermost/mattermost/commit/932086e29cf3e2574d69417ddd9140be76784d7a) | AutoTranslation 관련 websocket 이벤트(post_translation_updated) 전용 Prometheus 카운터 등록만 추가. 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개 저장소)에 있어 okrbest에선 이 이벤트가 발생하지 않아 카운터는 항상 0으로 남는 비활성(inert) 계측. 향후 자체 autotranslation 기능 구현 시 재사용 가능. |
 | 100cde3a | [\[MM-67587\] Exclude system messages from autotranslation queue (#35267)](https://github.com/mattermost/mattermost/commit/100cde3a1aeee2faf5a537d1cb1a280b4c24f594) | 제목이 표방하는 '자동번역 큐에서 시스템 메시지 제외' 실제 로직은 github.com/mattermost/enterprise/autotranslation(비공개, //go:build enterprise 태그) 안에만 있음. 우리 저장소에는 RegisterAutoTranslationInterface()를 호출해 구현체를 등록하는 코드가 없고 go.mod/go.sum에도 참조 없음 — cherry-pick한 건 이 로직을 호출하는 post.go의 if/else→switch 스타일 리팩터뿐, 시스템 메시지 제외 기능 자체는 우리 쪽에서 비활성 상태. |
 | 85dcb8b9 | [MM-67944: Add shared channel integration test tool  (#35639)](https://github.com/mattermost/mattermost/commit/85dcb8b9e7e89977584922709b74e597139d5f23) | shared channel 통합 테스트 도구. -tags enterprise 빌드(github.com/mattermost/enterprise/*)와 Enterprise 라이선스 파일(--license 필수)을 전제로 해 okrbest에서는 실행 불가. 코드는 cherry-pick으로 반영됐으나 비활성 상태 — 공유 채널 검증이 필요해지면 라이선스 비의존 방식으로 자체 개발 대상. |
-| beb96185 | [\[MM-68183\] Permission policies (#36003)](https://github.com/mattermost/mattermost/commit/beb96185cd6ab1ff72bf1b8b0349a542de019d8e) | 정책 평가 엔진이 github.com/mattermost/enterprise/access_control(비공개)에만 존재. okrbest에는 인터페이스·스토어·UI 스캐폴딩만 있어 CEL 표현식 평가가 동작하지 않는다. spec 착수 시 평가 엔진부터 자체 구현 필요. |
