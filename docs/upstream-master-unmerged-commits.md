@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-18 13:47
+- 갱신일: 2026-08-18 14:28
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 788개
+- 남은 커밋: 785개
 
-**마지막 반영 커밋:** `41e59bf1` | [Update Agents plugin to v2.0.0-rc3 (#36157)](https://github.com/mattermost/mattermost/commit/41e59bf1d5e71315fbe6b375d4de7943072489c7) | 2026-04-16
+**마지막 반영 커밋:** `bf843017` | [MM-38308 Remove remaining support for IE and pre-Chromium Edge (#36034)](https://github.com/mattermost/mattermost/commit/bf84301784777a6e08f9709ee882b0eac029437a) | 2026-04-17
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 66461e75 | [\[MM-67949\] Harden notification email filename rendering (#36082)](https://github.com/mattermost/mattermost/commit/66461e75538e888dc727d7024c695f0d0aca3bef) | 2026-04-17 |
-| 73100fcb | [Bump Boards FIPS version to v9.2.4 (#36165)](https://github.com/mattermost/mattermost/commit/73100fcb566e54ac24395e57093d33437429a0cd) | 2026-04-17 |
-| bf843017 | [MM-38308 Remove remaining support for IE and pre-Chromium Edge (#36034)](https://github.com/mattermost/mattermost/commit/bf84301784777a6e08f9709ee882b0eac029437a) | 2026-04-17 |
 | 0c99cc36 | [Add Playwright E2E tests for demo plugin server-side slash commands (#36146)](https://github.com/mattermost/mattermost/commit/0c99cc36cc45900f784a0cec3fa95d91988f6a5d) | 2026-04-20 |
 | 8cd48d46 | [\[MM-67880\] Add /mobile-logs slash command (#35658)](https://github.com/mattermost/mattermost/commit/8cd48d46514dfe42e1693c890e02ff5228be9d3d) | 2026-04-20 |
 | 978b0385 | [chore: Update NOTICE.txt file with updated dependencies (#36184)](https://github.com/mattermost/mattermost/commit/978b038561bed7935f9748776c78e55ca5f138b3) | 2026-04-20 |
