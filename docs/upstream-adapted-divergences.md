@@ -44,6 +44,7 @@
 | Manage Attributes 삭제 액션 | [5bd5b3b8](https://github.com/mattermost/mattermost/commit/5bd5b3b899f7ce2eb5d981015db2a37077746a8c) (#37875) | 본체(Global Attributes 삭제 모달·표)는 제외 계보라 버리고, 섞인 공용 수정 둘(`getPluginDisplayName`, 고아 필드 훅 이전)만 받았다 — 아래 참조 |
 | 다이얼로그 deprecated date/datetime 필드 제거 | [78d12039](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a) (#37759) | 코드는 그대로 받고 우리가 지운 docs 2개의 갱신(업그레이드 노트 포함)을 버렸다 — 아래 참조 |
 | 사용자 입력 표시 설정을 Posts로 승격 | [0bff02c8](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) (#38023) | 코드는 그대로, docs 2개는 버렸다. en id 이동을 따라 ko 5키를 새 id로 옮기고 나뉜 예시 키 1개를 채웠다 — 아래 참조 |
+| Email 로그인 버튼 색상 설정 제거 | [925a09a5](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) (#38021) | 코드는 그대로, docs 1개는 버렸고 webapp ko 6키를 지웠다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 
 ---
@@ -1369,6 +1370,23 @@ property-field DELETE API에 연결하는 기능이다. 그 화면(`admin_consol
 ### 되돌릴 조건
 
 - 없음. 이후 upstream이 같은 키를 다시 옮기면 같은 방식으로 ko id를 따라 옮긴다.
+
+## Email 로그인 버튼 색상 설정 제거 — docs를 버리고 ko 6키를 지웠다
+
+**upstream**: [`925a09a5`](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5)
+(Remove dead Email login button color settings, #38021) — 11파일 +6/-121, 2026-10-07 반영
+
+**받은 것.** `EmailSettings.LoginButtonColor`·`LoginButtonBorderColor`·`LoginButtonTextColor`와 클라이언트 props
+`EmailLoginButton{,Border,Text}Color`, 콘솔 Experimental 항목 3개, 설정 fixture의 같은 키를 지웠다. 포크 코드에서
+이 값을 읽는 곳은 없었다(LDAP·SAML 버튼 색상 제거 #37855·#37857은 앞서 반영). 운영 `config.json`에 남은 값은
+로딩 시 무시된다.
+
+### 버린 것과 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `docs/main/administration-guide/configure/experimental-configuration-settings.mdx` | 색상 설정 3개 설명 삭제 | **버림** | 포크가 `docs/main/`을 지웠다 (modify/delete) |
+| `webapp/channels/src/i18n/ko.json` | (커밋에 없음) | `admin.experimental.emailSettingsLoginButton{,Border,Text}Color.{desc,title}` 6키 **삭제** | en에서 지워진 키라 남기면 webapp orphaned로 CI가 막힌다. 설정이 없어져 옮길 곳이 없다 |
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)

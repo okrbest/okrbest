@@ -2169,9 +2169,6 @@ type EmailSettings struct {
 	EnablePreviewModeBanner           *bool   `access:"site_notifications"`
 	SkipServerCertificateVerification *bool   `access:"environment_smtp,write_restrictable,cloud_restrictable"`
 	EmailNotificationContentsType     *string `access:"site_notifications"`
-	LoginButtonColor                  *string `access:"experimental_features"`
-	LoginButtonBorderColor            *string `access:"experimental_features"`
-	LoginButtonTextColor              *string `access:"experimental_features"`
 }
 
 func (s *EmailSettings) SetDefaults(isUpdate bool) {
@@ -2301,18 +2298,6 @@ func (s *EmailSettings) SetDefaults(isUpdate bool) {
 
 	if s.EmailNotificationContentsType == nil {
 		s.EmailNotificationContentsType = new(EmailNotificationContentsFull)
-	}
-
-	if s.LoginButtonColor == nil {
-		s.LoginButtonColor = new("#0000")
-	}
-
-	if s.LoginButtonBorderColor == nil {
-		s.LoginButtonBorderColor = new("#2389D7")
-	}
-
-	if s.LoginButtonTextColor == nil {
-		s.LoginButtonTextColor = new("#2389D7")
 	}
 }
 
