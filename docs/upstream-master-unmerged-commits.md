@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-18 12:20
+- 갱신일: 2026-08-18 13:47
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 796개
+- 남은 커밋: 788개
 
-**마지막 반영 커밋:** `a21e25e4` | [MM-68352 - update permission policy ff correctly checks in tests (#36142)](https://github.com/mattermost/mattermost/commit/a21e25e415f7bf60780e5e32f78035954ac23f25) | 2026-04-16
+**마지막 반영 커밋:** `41e59bf1` | [Update Agents plugin to v2.0.0-rc3 (#36157)](https://github.com/mattermost/mattermost/commit/41e59bf1d5e71315fbe6b375d4de7943072489c7) | 2026-04-16
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| faf1118b | [Update en.json (#36139)](https://github.com/mattermost/mattermost/commit/faf1118b6a280dc363bafa0ff9dcdcc8cb800430) | 2026-04-16 |
-| 983ea5a4 | [MM-68356 - ensure files are stripped when session is nil for fail-secure handling (#36145)](https://github.com/mattermost/mattermost/commit/983ea5a49f22375da9a3385f074a74ac7ef3fd34) | 2026-04-16 |
-| dc724194 | [MM-68276: Apply default values for plugin settings inside sections (#36119)](https://github.com/mattermost/mattermost/commit/dc7241941e8b6cbff9a5898620964ad60115abcf) | 2026-04-16 |
-| 846e45a1 | [\[MM-68103\] Add channel banner to thread view (#35942)](https://github.com/mattermost/mattermost/commit/846e45a114405813cb78b990586e82c9c517213a) | 2026-04-16 |
-| f6341a17 | [MM-68247 Move user agent utilities into shared package and clean it up (#36033)](https://github.com/mattermost/mattermost/commit/f6341a17baa0b7133a5622a0a208dd22c978fa65) | 2026-04-16 |
-| 23ab604b | [ci: pin enterprise repo to explicit commit hash (#35957)](https://github.com/mattermost/mattermost/commit/23ab604b964a6ee8c07d56c2fced57bea621a643) | 2026-04-16 |
-| 588ee428 | [MM-68155: Add tooltip for urgent mention badges (#35912)](https://github.com/mattermost/mattermost/commit/588ee4281a915de82556dedeb790d20a9a4fc9a8) | 2026-04-16 |
-| 41e59bf1 | [Update Agents plugin to v2.0.0-rc3 (#36157)](https://github.com/mattermost/mattermost/commit/41e59bf1d5e71315fbe6b375d4de7943072489c7) | 2026-04-16 |
 | 66461e75 | [\[MM-67949\] Harden notification email filename rendering (#36082)](https://github.com/mattermost/mattermost/commit/66461e75538e888dc727d7024c695f0d0aca3bef) | 2026-04-17 |
 | 73100fcb | [Bump Boards FIPS version to v9.2.4 (#36165)](https://github.com/mattermost/mattermost/commit/73100fcb566e54ac24395e57093d33437429a0cd) | 2026-04-17 |
 | bf843017 | [MM-38308 Remove remaining support for IE and pre-Chromium Edge (#36034)](https://github.com/mattermost/mattermost/commit/bf84301784777a6e08f9709ee882b0eac029437a) | 2026-04-17 |
@@ -885,6 +877,10 @@
 
 | 0fcf3b5e | [Update docs-impact-review.yml (#36105)](https://github.com/mattermost/mattermost/commit/0fcf3b5ef20e587b6c45ead8147e53ab0e2fd635) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow, #35358)와 동일 사유로 제외 — okrbest에 .github/workflows/docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 전용) 적용 대상이 없다. merge-tree modify/delete 확인, git log --diff-filter=D로 우리가 삭제한 적 없음(애초에 가진 적 없음)도 확인. 변경 3줄이 전부 LLM 프롬프트 문구 조정이다 — (1) RST 파일을 파일명·제목만 보고 플래그하지 말고 실제 내용을 읽어 확인할 것 (2) api/v4/source/ YAML 변경은 api.mattermost.com에 자동 게시되므로 별도 조치 항목으로 만들지 말 것(2곳). 전부 docs/source/·api.mattermost.com·RST 등 Mattermost 자체 문서 저장소 문맥이라 adapt 대상도 없다. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0·a3cdef8b·a6d1942f·66894045·d0128492·47d2c607·252eb966·1574bda3와 같은 계열 13번째. |
 
+| 23ab604b | [ci: pin enterprise repo to explicit commit hash (#35957)](https://github.com/mattermost/mattermost/commit/23ab604b964a6ee8c07d56c2fced57bea621a643) | Mattermost, Inc.의 비공개 enterprise 저장소(BUILD_ENTERPRISE_DIR=../../enterprise)를 전제로 한 CI 인프라. make bump-enterprise는 그 디렉터리가 없으면 exit 1이라 okrbest에서 항상 실패하고, enterprise.pin에 담기는 해시도 접근 불가능한 저장소의 것이라 검증·갱신할 수 없다. 이 시점에는 pin을 읽는 코드가 .github/·server/ 어디에도 없어 미반영으로 인한 파급도 없다. |
+
+| 41e59bf1 | [Update Agents plugin to v2.0.0-rc3 (#36157)](https://github.com/mattermost/mattermost/commit/41e59bf1d5e71315fbe6b375d4de7943072489c7) | Agents 플러그인 v1.7.2 → v2.0.0-rc3. release candidate라 정식 릴리스가 아니고(우리 Makefile의 rc 사용 전례 0건), 메이저 버전 업이라 우리가 자체 확장한 AI 권한·UI(e64d0eea03, 1cfd12e5df)와의 호환을 검증할 방법이 없다. 또한 upstream은 server/Makefile 167행만 올리고 FIPS 변형(181행)은 v1.7.2로 남겨 일반/FIPS 빌드가 갈라진 상태다 — 우리는 7d03f48ee0로 FIPS 경로를 쓰므로 그 불일치를 떠안게 된다. 정식 v2.0.0 범프 커밋이 오면 그때 반영한다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -908,3 +904,4 @@
 | 932086e2 | [separate websocket event for translations metrics (#35296)](https://github.com/mattermost/mattermost/commit/932086e29cf3e2574d69417ddd9140be76784d7a) | AutoTranslation 관련 websocket 이벤트(post_translation_updated) 전용 Prometheus 카운터 등록만 추가. 실제 번역 로직은 github.com/mattermost/enterprise/autotranslation(비공개 저장소)에 있어 okrbest에선 이 이벤트가 발생하지 않아 카운터는 항상 0으로 남는 비활성(inert) 계측. 향후 자체 autotranslation 기능 구현 시 재사용 가능. |
 | 100cde3a | [\[MM-67587\] Exclude system messages from autotranslation queue (#35267)](https://github.com/mattermost/mattermost/commit/100cde3a1aeee2faf5a537d1cb1a280b4c24f594) | 제목이 표방하는 '자동번역 큐에서 시스템 메시지 제외' 실제 로직은 github.com/mattermost/enterprise/autotranslation(비공개, //go:build enterprise 태그) 안에만 있음. 우리 저장소에는 RegisterAutoTranslationInterface()를 호출해 구현체를 등록하는 코드가 없고 go.mod/go.sum에도 참조 없음 — cherry-pick한 건 이 로직을 호출하는 post.go의 if/else→switch 스타일 리팩터뿐, 시스템 메시지 제외 기능 자체는 우리 쪽에서 비활성 상태. |
 | 85dcb8b9 | [MM-67944: Add shared channel integration test tool  (#35639)](https://github.com/mattermost/mattermost/commit/85dcb8b9e7e89977584922709b74e597139d5f23) | shared channel 통합 테스트 도구. -tags enterprise 빌드(github.com/mattermost/enterprise/*)와 Enterprise 라이선스 파일(--license 필수)을 전제로 해 okrbest에서는 실행 불가. 코드는 cherry-pick으로 반영됐으나 비활성 상태 — 공유 채널 검증이 필요해지면 라이선스 비의존 방식으로 자체 개발 대상. |
+| 23ab604b | [ci: pin enterprise repo to explicit commit hash (#35957)](https://github.com/mattermost/mattermost/commit/23ab604b964a6ee8c07d56c2fced57bea621a643) | enterprise.pin + make bump-enterprise. github.com/mattermost/enterprise(비공개) 저장소의 커밋 해시를 고정하는 CI 장치로, 해당 저장소가 없는 okrbest에서는 실행 자체가 불가능해 exclude했다. 후속 upstream 커밋이 enterprise.pin을 실제로 참조하기 시작하면 그 시점에 재검토 필요. |
