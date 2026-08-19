@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-19 21:26
+- 갱신일: 2026-08-19 23:28
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 762개
+- 남은 커밋: 757개
 
-**마지막 반영 커밋:** `6ce4db65` | [Skip sqlstore DB setup during go test -list discovery (#36249)](https://github.com/mattermost/mattermost/commit/6ce4db65dc5d99248d42aa571fba0187b22669bb) | 2026-04-23
+**마지막 반영 커밋:** `9eb070b7` | [Reorder channel banner (#36268)](https://github.com/mattermost/mattermost/commit/9eb070b72bad03d9a2f599b101558e6fd4922636) | 2026-04-24
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 9c684e63 | [Property System v2 Generic APIs blacklist (#36171)](https://github.com/mattermost/mattermost/commit/9c684e6313b161d0e9cb07442235b962709b37cb) | 2026-04-24 |
-| 5817a6d6 | [Simplify PULL_REQUEST_TEMPLATE.md and document it in AGENTS.md (#36239)](https://github.com/mattermost/mattermost/commit/5817a6d687cc64ea3aa79c87c9eaebe317d69d1f) | 2026-04-24 |
-| 46624d1f | [\[MM-68231\] Tighten post info authorization (#36111)](https://github.com/mattermost/mattermost/commit/46624d1f47d9b70c6db940c5a4e7b3066edca895) | 2026-04-24 |
-| 1ed4d021 | [Fix FIPS test failures by using model.NewTestPassword() for short passwords (#36262)](https://github.com/mattermost/mattermost/commit/1ed4d0215a01bcd6520bc1e481918c1fdc3cc81d) | 2026-04-24 |
-| 9eb070b7 | [Reorder channel banner (#36268)](https://github.com/mattermost/mattermost/commit/9eb070b72bad03d9a2f599b101558e6fd4922636) | 2026-04-24 |
 | 5b4efbd2 | [Remove unused property fields index (#36279)](https://github.com/mattermost/mattermost/commit/5b4efbd28a90305ac4edb2e8e6bc809548977bea) | 2026-04-27 |
 | dda4bb12 | [Mm 68353 show placeholder for redacted files in preview (#36153)](https://github.com/mattermost/mattermost/commit/dda4bb129c6b778629cfa2cb40248917104d1499) | 2026-04-27 |
 | 24f9da39 | [Update docs-impact-review.yml (#36260)](https://github.com/mattermost/mattermost/commit/24f9da39cd6dae56de527cdf88b3af9253a857a2) | 2026-04-27 |
@@ -866,6 +861,10 @@
 | 7627784a | [Require sysadmin permission to create templates (#36217)](https://github.com/mattermost/mattermost/commit/7627784ae1288bdcc00f1459512ffce3613a60b1) | 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2 위에 얹힌 변경이라 반영할 토대가 없음 — 006f1027·3cb00848·01219efb·3fa87760에 이은 48f2fd08 계보 6번째. 유일한 변경 파일 server/channels/api4/properties.go가 okrbest에 아예 없다(ls 확인, merge-tree도 modify/delete CONFLICT). 내용은 createPropertyField에서 (1) ObjectType == PropertyFieldObjectTypeTemplate이면 target_type과 무관하게 manage_system을 강제하고 (2) 템플릿의 기본 PermissionField/Values/Options를 member가 아닌 sysadmin으로 두는 것인데, 필요한 선행 요소가 전부 우리 트리에 없다 — model.PropertyFieldObjectTypeTemplate 상수, PropertyField.ObjectType 필드(우리 구조체는 ID/GroupID/Name/Type/Attrs/TargetID/TargetType/CreateAt/UpdateAt/DeleteAt 10필드뿐), model.PermissionLevelMember/PermissionLevelSysadmin. 전부 48f2fd08의 마이그레이션 000160/000161/000165 소산이라 cherry-pick·adapt 모두 Go 컴파일 실패. 우리 Boards는 focalboard 기반 자체 플러그인(okrbest-plugin-boards, BlockProp 모델)이 담당하고 Mattermost property API를 호출하지 않는다. 향후 48f2fd08의 property 절반(api4/properties.go, 마이그레이션 000160~000165)을 분할 반영하게 되면 이 커밋도 함께 재검토 대상. |
 
 | 9d33d87e | [Fix Managed Category creatable input color on dark themes (#36242)](https://github.com/mattermost/mattermost/commit/9d33d87e0a92f44113af46a01ed9003f3cee9fa7) | 제외한 01219efb([MM-68037] Managed Sidebar Categories, #35935)의 후속 CSS 패치라 적용 대상이 없음 — 48f2fd08(Integrated Boards MVP) 계보 7번째. 유일한 변경 파일 webapp/channels/src/components/channel_settings_modal/managed_category_selector.scss가 우리 트리에 아예 없다(merge-tree도 modify/delete CONFLICT). 내용은 다크 테마에서 Managed Category creatable 입력창 글자색을 var(--center-channel-color)로 고정하는 5줄인데, 그 셀렉터를 쓰는 컴포넌트(managed_category_selector.tsx) 자체가 부재. 01219efb는 property 시스템 v2(48f2fd08 소산: api4/properties.go, PropertyField.ObjectType, 마이그레이션 000160~000165, property_values_updated WS 이벤트)를 전제로 해 제외했고, 그 전제가 풀리기 전엔 이 커밋도 반영할 실체가 없다. upstream 기준으로도 TeamSettings.EnableManagedChannelCategories 기본값 false에 Enterprise 라이선스 전용이라 제품 공백 아님. 향후 48f2fd08의 property 절반을 분할 반영하면 01219efb와 함께 재검토 대상. |
+
+| 9c684e63 | [Property System v2 Generic APIs blacklist (#36171)](https://github.com/mattermost/mattermost/commit/9c684e6313b161d0e9cb07442235b962709b37cb) | 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2 위에 얹힌 변경이라 반영할 토대가 없음 — 006f1027·3cb00848·01219efb·3fa87760·7627784a에 이은 48f2fd08 계보 8번째. PropertyGroup에 Version을 추가해 REST API가 v1 그룹 호출을 거부하게 하고 필드·그룹 버전 일치를 강제하는 작업인데, 필요한 선행 요소가 전부 우리 트리에 없다 — (1) 핵심 변경 파일 server/channels/api4/properties.go(63줄 수정)가 아예 부재(ls 확인, merge-tree도 modify/delete CONFLICT), (2) 우리 model.PropertyGroup은 ID·Name 2필드뿐이라 Version이 없고 sqlstore propertyGroupColumns도 {ID,Name}, (3) upstream이 RegisterPropertyGroup(name string)을 RegisterPropertyGroup(*model.PropertyGroup)으로 시그니처 변경 — 우리는 구 시그니처, (4) PropertyField.ObjectType·IsPSAv1 grep 0건, (5) 이 커밋이 수정하는 doSetupManagedCategoryProperties가 grep 0건(제외한 01219efb 소산), (6) 마이그레이션 000170_add_property_groups_version을 얹는데 우리 최신은 000164라 165~169가 비어 morph 시퀀스에 구멍이 생긴다. 규모도 33파일 +1071/-309에 DB 마이그레이션·보호 경로(migrations.list) 포함. 강행 시 Go 컴파일 실패, 통과해도 없는 컬럼 SELECT로 런타임 SQL 오류. 우리 Boards는 focalboard 기반 자체 플러그인(okrbest-plugin-boards)이 담당하고 Mattermost property API를 호출하지 않는다. 향후 48f2fd08의 property 절반(api4/properties.go, 마이그레이션 000160~000165)을 분할 반영하게 되면 이 커밋도 함께 재검토 대상. |
+
+| 5817a6d6 | [Simplify PULL_REQUEST_TEMPLATE.md and document it in AGENTS.md (#36239)](https://github.com/mattermost/mattermost/commit/5817a6d687cc64ea3aa79c87c9eaebe317d69d1f) | 두 변경 파일 모두 우리가 자체적으로 대체해 upstream 원문과 공통 기반이 없음(merge-tree 양쪽 다 content CONFLICT). (1) .github/PULL_REQUEST_TEMPLATE.md — 우리는 9609b9a89d·b0398f4fb3(Change brand PR Template)에서 전문을 한국어로 번역하고 OKR.BEST로 리브랜드했다(developers.okrbest.com, github.com/okrbest/okrbest). upstream 변경은 영문 원문을 59줄에서 30줄로 줄이면서 mattermost.atlassian.net·github.com/mattermost/mattermost 링크를 남기는 것이라, 그대로 반영하면 리브랜드가 되돌아간다(constitution 원칙 IV). (2) AGENTS.md — upstream 것은 make bump-enterprise/enterprise.pin 안내 11줄짜리 파일이고 우리 것은 spec-kit + superpowers 워크플로 문서로 내용이 전혀 다르다. 우리 AGENTS.md에 bump-enterprise가 grep 0건이라 upstream이 새 '## Pull Requests' 절을 덧붙이는 위치 자체가 존재하지 않는다. 순수 문서 변경이라 기능 공백도 없다. 우리 PR 템플릿 간소화가 필요해지면 upstream 문안을 따르지 않고 우리 문체 규칙(constitution 원칙 VIII)에 맞춰 별도로 진행한다. |
 
 ## spec 전환 커밋
 
