@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-19 16:07
+- 갱신일: 2026-08-19 16:50
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 781개
 
-**마지막 반영 커밋:** `2d7a71b0` | [ci: fix startup_failure in nightly race and weekly workflows (#36198)](https://github.com/mattermost/mattermost/commit/2d7a71b01810112269a22329042534fe739fee12) | 2026-04-21
+**마지막 반영 커밋:** `29bab218` | [e2e: adjust some pipeline settings (#36178)](https://github.com/mattermost/mattermost/commit/29bab2184db42103dd30c0827059ef3f854847d4) | 2026-04-21
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 3fa87760 | [\[MM-68100\] Implement Linked Properties for the Property System (#35808)](https://github.com/mattermost/mattermost/commit/3fa8776095087a9c928dee5d1b21d9aba5bcc0c3) | 2026-04-21 |
-| 29bab218 | [e2e: adjust some pipeline settings (#36178)](https://github.com/mattermost/mattermost/commit/29bab2184db42103dd30c0827059ef3f854847d4) | 2026-04-21 |
 | 50b8e108 | [Quick fixes for docs label automation (#36185)](https://github.com/mattermost/mattermost/commit/50b8e1086fa2efd07cd50c475a53165061473667) | 2026-04-22 |
 | 863d581f | [Update Agents plugin to v2.0.0-rc5 (#36207)](https://github.com/mattermost/mattermost/commit/863d581f98f4ae17d36646a8efccb2a50284bc69) | 2026-04-22 |
 | 694e6f40 | [fix: bot import panic when user exists without bot record (#36072)](https://github.com/mattermost/mattermost/commit/694e6f40dcda8ac682a8f7d24e50cad3565078fa) | 2026-04-22 |
@@ -792,6 +790,8 @@
 | ede2edab | [Enforce snake_case for mlog field keys (#37998)](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) | 2026-08-18 |
 | 480c1c5e | [\[M-70285\] Fix plugin settings section handling (#38003)](https://github.com/mattermost/mattermost/commit/480c1c5ed1688a9502d98f74c84675034f2f1ad9) | 2026-08-19 |
 | 6941f569 | [\[MM-70252\] Return 400 for malformed date filters in logs query API (#37970)](https://github.com/mattermost/mattermost/commit/6941f569018775c17062ab1118c6df84386a28ad) | 2026-08-19 |
+| ca6fd94e | [chore: bump playwright workers to 20 (#38015)](https://github.com/mattermost/mattermost/commit/ca6fd94e3d10a18b8feb03d3f612adae6e5de4f7) | 2026-08-19 |
+| 020e9dab | [ci: bump test-system-io-summary action for missed-spec status (#37804)](https://github.com/mattermost/mattermost/commit/020e9dabdd85b367c16bb3f6067dec06316cb2d1) | 2026-08-19 |
 
 ## 제외된 커밋
 
@@ -873,6 +873,8 @@
 | 23ab604b | [ci: pin enterprise repo to explicit commit hash (#35957)](https://github.com/mattermost/mattermost/commit/23ab604b964a6ee8c07d56c2fced57bea621a643) | Mattermost, Inc.의 비공개 enterprise 저장소(BUILD_ENTERPRISE_DIR=../../enterprise)를 전제로 한 CI 인프라. make bump-enterprise는 그 디렉터리가 없으면 exit 1이라 okrbest에서 항상 실패하고, enterprise.pin에 담기는 해시도 접근 불가능한 저장소의 것이라 검증·갱신할 수 없다. 이 시점에는 pin을 읽는 코드가 .github/·server/ 어디에도 없어 미반영으로 인한 파급도 없다. |
 
 | 41e59bf1 | [Update Agents plugin to v2.0.0-rc3 (#36157)](https://github.com/mattermost/mattermost/commit/41e59bf1d5e71315fbe6b375d4de7943072489c7) | Agents 플러그인 v1.7.2 → v2.0.0-rc3. release candidate라 정식 릴리스가 아니고(우리 Makefile의 rc 사용 전례 0건), 메이저 버전 업이라 우리가 자체 확장한 AI 권한·UI(e64d0eea03, 1cfd12e5df)와의 호환을 검증할 방법이 없다. 또한 upstream은 server/Makefile 167행만 올리고 FIPS 변형(181행)은 v1.7.2로 남겨 일반/FIPS 빌드가 갈라진 상태다 — 우리는 7d03f48ee0로 FIPS 경로를 쓰므로 그 불일치를 떠안게 된다. 정식 v2.0.0 범프 커밋이 오면 그때 반영한다. |
+
+| 3fa87760 | [\[MM-68100\] Implement Linked Properties for the Property System (#35808)](https://github.com/mattermost/mattermost/commit/3fa8776095087a9c928dee5d1b21d9aba5bcc0c3) | 제외한 48f2fd08(Integrated Boards MVP)의 property 시스템 v2 위에 얹힌 기능이라 반영할 토대가 없음 — 006f1027·dad9cab4·01219efb·3cb00848에 이은 48f2fd08 계보 5번째. PropertyFields에 LinkedFieldID 컬럼을 추가해 채널·게시물 속성 필드가 신규 ObjectType="template" 필드를 참조하게 만드는 작업인데, 필요한 선행 요소가 전부 우리 트리에 없다 — (1) server/channels/api4/properties.go 파일 자체 부재(merge-tree modify/delete 충돌), (2) api/v4/source/properties.yaml 부재, (3) model.PropertyField.ObjectType 부재(우리 구조체는 ID/GroupID/Name/Type/Attrs/TargetID/TargetType/CreateAt/UpdateAt/DeleteAt 10필드뿐), (4) model.PermissionLevel*·Protected·CreatedBy/UpdatedBy 부재(48f2fd08의 마이그레이션 000160/000161/000165 소산), (5) PropertyField.IsPSAv1() 부재(grep 0건), (6) 마이그레이션 000165~000167 부재 — 우리는 000164가 최신인데 이 커밋은 000168/000169를 얹어 morph 시퀀스에 구멍이 생긴다. 추가 라인 중 103줄이 ObjectType을, 10줄이 PermissionLevel/Protected/CreatedBy/UpdatedBy를 참조하므로 adapt 강행 시 Go 컴파일 실패, 통과해도 없는 컬럼 SELECT로 런타임 SQL 오류. 규모도 31파일 +3211/-235에 DB 마이그레이션 포함으로 spec 기준 초과. 우리 Boards는 focalboard 기반 자체 플러그인(okrbest-plugin-boards, BlockProp 모델)이 담당하고 Mattermost property API를 호출하지 않으며, upstream에서도 IntegratedBoards 플래그가 여전히 false다. 향후 48f2fd08의 property 절반(api4/properties.go, 마이그레이션 000160~000165, WS 이벤트, 브로드캐스트 헬퍼)을 분할 반영하게 되면 이 커밋도 함께 재검토 대상. |
 
 ## spec 전환 커밋
 
