@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-19 17:42
+- 갱신일: 2026-08-19 21:26
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 770개
+- 남은 커밋: 762개
 
-**마지막 반영 커밋:** `e8c9e525` | [Fix silent test discovery failure in sharded CI (#36222)](https://github.com/mattermost/mattermost/commit/e8c9e525e1586d6da3526ae0ac3c591295431729) | 2026-04-22
+**마지막 반영 커밋:** `6ce4db65` | [Skip sqlstore DB setup during go test -list discovery (#36249)](https://github.com/mattermost/mattermost/commit/6ce4db65dc5d99248d42aa571fba0187b22669bb) | 2026-04-23
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| ee9938fe | [\[MM-68162\] Allow only "in" operator for multiselect type attributes in basic editor (#35896)](https://github.com/mattermost/mattermost/commit/ee9938fead45acd20be8ab18018c85eaf30bbbda) | 2026-04-23 |
-| 795672f0 | [Raise shard-split HEAVY_MS above sqlstore timing (#36233)](https://github.com/mattermost/mattermost/commit/795672f07765f292cd36fff76dc9b31bb53e58cc) | 2026-04-23 |
-| 0b1d1728 | [\[MM-67975\] Add container CPU and memory limits to support packet diagnostics (#35835)](https://github.com/mattermost/mattermost/commit/0b1d1728a4c199f4b845a063551f3fc6b7645f7e) | 2026-04-23 |
-| 93ab9a4c | [\[MM-68351\] Fix nil pointer panic in mmctl websocket command on connection failure (#36138)](https://github.com/mattermost/mattermost/commit/93ab9a4cccabadb59028811ccfe648ba3799efa8) | 2026-04-23 |
-| 6bb9c582 | [MM-67352 Prevent composer scroll jumps on formatting click (#36081)](https://github.com/mattermost/mattermost/commit/6bb9c5826a896ea413cc21e4834d70b179a14cc4) | 2026-04-23 |
-| bc9c69ba | [MM-66082: Fix paste into Invite People modal (#36201)](https://github.com/mattermost/mattermost/commit/bc9c69ba3964fe6e5d1d4fe51283adc276ef117c) | 2026-04-23 |
-| 9d33d87e | [Fix Managed Category creatable input color on dark themes (#36242)](https://github.com/mattermost/mattermost/commit/9d33d87e0a92f44113af46a01ed9003f3cee9fa7) | 2026-04-23 |
-| 3f97021f | [Keep recap menu available after read (#35547)](https://github.com/mattermost/mattermost/commit/3f97021fc7bffc34e4772902e0fcb40e37a627ab) | 2026-04-23 |
-| c021eeaf | [MM-68439 Centralize filename handling for FileInfo (#36223)](https://github.com/mattermost/mattermost/commit/c021eeaff8f003034ab40f82c552cc26a710a8fd) | 2026-04-23 |
-| 1911e181 | [Fix invite modal input text clipping and modal width overflow (#36241)](https://github.com/mattermost/mattermost/commit/1911e18127d242dc3b80efd7b51cc60ec76cc1da) | 2026-04-23 |
-| 6ce4db65 | [Skip sqlstore DB setup during go test -list discovery (#36249)](https://github.com/mattermost/mattermost/commit/6ce4db65dc5d99248d42aa571fba0187b22669bb) | 2026-04-23 |
 | 9c684e63 | [Property System v2 Generic APIs blacklist (#36171)](https://github.com/mattermost/mattermost/commit/9c684e6313b161d0e9cb07442235b962709b37cb) | 2026-04-24 |
 | 5817a6d6 | [Simplify PULL_REQUEST_TEMPLATE.md and document it in AGENTS.md (#36239)](https://github.com/mattermost/mattermost/commit/5817a6d687cc64ea3aa79c87c9eaebe317d69d1f) | 2026-04-24 |
 | 46624d1f | [\[MM-68231\] Tighten post info authorization (#36111)](https://github.com/mattermost/mattermost/commit/46624d1f47d9b70c6db940c5a4e7b3066edca895) | 2026-04-24 |
@@ -781,6 +770,9 @@
 | 6941f569 | [\[MM-70252\] Return 400 for malformed date filters in logs query API (#37970)](https://github.com/mattermost/mattermost/commit/6941f569018775c17062ab1118c6df84386a28ad) | 2026-08-19 |
 | ca6fd94e | [chore: bump playwright workers to 20 (#38015)](https://github.com/mattermost/mattermost/commit/ca6fd94e3d10a18b8feb03d3f612adae6e5de4f7) | 2026-08-19 |
 | 020e9dab | [ci: bump test-system-io-summary action for missed-spec status (#37804)](https://github.com/mattermost/mattermost/commit/020e9dabdd85b367c16bb3f6067dec06316cb2d1) | 2026-08-19 |
+| fb87397d | [Data spillage exposure radius report generation (#37809)](https://github.com/mattermost/mattermost/commit/fb87397dbaeacf2578ab5f9ab69a0ee3860f9e80) | 2026-08-19 |
+| a7c68624 | [\[MM-70221\] Use request loggers in store methods (#37648)](https://github.com/mattermost/mattermost/commit/a7c686249728bf75e6b3da69b2227fd68065181b) | 2026-08-19 |
+| 19ffbc9c | [\[MM-69643\] Fail server startup when the AppsEnabled feature flag is enabled (#37968)](https://github.com/mattermost/mattermost/commit/19ffbc9c75928a50d3e10e2968aaf04b13c5a8e2) | 2026-08-19 |
 
 ## 제외된 커밋
 
@@ -872,6 +864,8 @@
 | b63e3205 | [docs: document enterprise.pin workflow in root AGENTS.md (#36200)](https://github.com/mattermost/mattermost/commit/b63e32057de19e0176c034d3ca7decafd5a779f9) | 이미 제외한 23ab604b(#35957, ci: pin enterprise repo to explicit commit hash)이 도입한 enterprise.pin / make bump-enterprise의 사용법을 루트 AGENTS.md에 문서화하는 커밋 — 문서화 대상 자체가 우리에게 없다. okrbest에는 enterprise.pin 파일이 없고(ls 확인), make bump-enterprise는 비공개 저장소 github.com/mattermost/enterprise를 가리키는 BUILD_ENTERPRISE_DIR가 없으면 exit 1이라 실행 불가다. 반영하면 존재하지 않는 워크플로의 사용법을 안내하는 거짓 문서가 된다. 추가로 upstream은 이 커밋에서 AGENTS.md를 신규 생성(+15줄)하는데 우리는 이미 내용이 완전히 다른 자체 AGENTS.md를 갖고 있어(spec-kit + superpowers 결합 워크플로 문서, 16dba65747·c4969e5979·4115c377d0 계열) merge-tree가 add/add CONFLICT로 보고한다. 향후 okrbest가 자체 비공개 모듈 저장소와 핀 고정 체계를 갖추면 23ab604b와 함께 재검토한다. |
 
 | 7627784a | [Require sysadmin permission to create templates (#36217)](https://github.com/mattermost/mattermost/commit/7627784ae1288bdcc00f1459512ffce3613a60b1) | 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2 위에 얹힌 변경이라 반영할 토대가 없음 — 006f1027·3cb00848·01219efb·3fa87760에 이은 48f2fd08 계보 6번째. 유일한 변경 파일 server/channels/api4/properties.go가 okrbest에 아예 없다(ls 확인, merge-tree도 modify/delete CONFLICT). 내용은 createPropertyField에서 (1) ObjectType == PropertyFieldObjectTypeTemplate이면 target_type과 무관하게 manage_system을 강제하고 (2) 템플릿의 기본 PermissionField/Values/Options를 member가 아닌 sysadmin으로 두는 것인데, 필요한 선행 요소가 전부 우리 트리에 없다 — model.PropertyFieldObjectTypeTemplate 상수, PropertyField.ObjectType 필드(우리 구조체는 ID/GroupID/Name/Type/Attrs/TargetID/TargetType/CreateAt/UpdateAt/DeleteAt 10필드뿐), model.PermissionLevelMember/PermissionLevelSysadmin. 전부 48f2fd08의 마이그레이션 000160/000161/000165 소산이라 cherry-pick·adapt 모두 Go 컴파일 실패. 우리 Boards는 focalboard 기반 자체 플러그인(okrbest-plugin-boards, BlockProp 모델)이 담당하고 Mattermost property API를 호출하지 않는다. 향후 48f2fd08의 property 절반(api4/properties.go, 마이그레이션 000160~000165)을 분할 반영하게 되면 이 커밋도 함께 재검토 대상. |
+
+| 9d33d87e | [Fix Managed Category creatable input color on dark themes (#36242)](https://github.com/mattermost/mattermost/commit/9d33d87e0a92f44113af46a01ed9003f3cee9fa7) | 제외한 01219efb([MM-68037] Managed Sidebar Categories, #35935)의 후속 CSS 패치라 적용 대상이 없음 — 48f2fd08(Integrated Boards MVP) 계보 7번째. 유일한 변경 파일 webapp/channels/src/components/channel_settings_modal/managed_category_selector.scss가 우리 트리에 아예 없다(merge-tree도 modify/delete CONFLICT). 내용은 다크 테마에서 Managed Category creatable 입력창 글자색을 var(--center-channel-color)로 고정하는 5줄인데, 그 셀렉터를 쓰는 컴포넌트(managed_category_selector.tsx) 자체가 부재. 01219efb는 property 시스템 v2(48f2fd08 소산: api4/properties.go, PropertyField.ObjectType, 마이그레이션 000160~000165, property_values_updated WS 이벤트)를 전제로 해 제외했고, 그 전제가 풀리기 전엔 이 커밋도 반영할 실체가 없다. upstream 기준으로도 TeamSettings.EnableManagedChannelCategories 기본값 false에 Enterprise 라이선스 전용이라 제품 공백 아님. 향후 48f2fd08의 property 절반을 분할 반영하면 01219efb와 함께 재검토 대상. |
 
 ## spec 전환 커밋
 
