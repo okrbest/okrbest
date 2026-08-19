@@ -3,21 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-18 14:28
+- 갱신일: 2026-08-19 12:00
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 785개
+- 남은 커밋: 792개
 
-**마지막 반영 커밋:** `bf843017` | [MM-38308 Remove remaining support for IE and pre-Chromium Edge (#36034)](https://github.com/mattermost/mattermost/commit/bf84301784777a6e08f9709ee882b0eac029437a) | 2026-04-17
+**마지막 반영 커밋:** `9c8191c3` | [ci: add yamllint workflow to detect duplicate YAML keys (#36010)](https://github.com/mattermost/mattermost/commit/9c8191c3b8a8a41352d21ca69be5b05a5f1de800) | 2026-04-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 0c99cc36 | [Add Playwright E2E tests for demo plugin server-side slash commands (#36146)](https://github.com/mattermost/mattermost/commit/0c99cc36cc45900f784a0cec3fa95d91988f6a5d) | 2026-04-20 |
-| 8cd48d46 | [\[MM-67880\] Add /mobile-logs slash command (#35658)](https://github.com/mattermost/mattermost/commit/8cd48d46514dfe42e1693c890e02ff5228be9d3d) | 2026-04-20 |
-| 978b0385 | [chore: Update NOTICE.txt file with updated dependencies (#36184)](https://github.com/mattermost/mattermost/commit/978b038561bed7935f9748776c78e55ca5f138b3) | 2026-04-20 |
-| 827fafca | [MM-68367: Warn in System Console when cluster sniffing is enabled (#36174)](https://github.com/mattermost/mattermost/commit/827fafca857f9d7d1fe487c9781cabcd4e5e1463) | 2026-04-20 |
 | c8f0a314 | [ci: move FIPS and binary params tests to weekly schedule (#36036)](https://github.com/mattermost/mattermost/commit/c8f0a31425a01cb7b95cc9ff1ef08714f88ffe52) | 2026-04-20 |
-| 5b810f91 | [fix(tests): re-enable 10 flaky tests across 12 JIRA tickets (#36159)](https://github.com/mattermost/mattermost/commit/5b810f917c54fa79310cd9ae915cf9ef1d07d7ef) | 2026-04-20 |
-| 9c8191c3 | [ci: add yamllint workflow to detect duplicate YAML keys (#36010)](https://github.com/mattermost/mattermost/commit/9c8191c3b8a8a41352d21ca69be5b05a5f1de800) | 2026-04-20 |
 | 39d25d94 | [MM-68259 Fixing text and emojis being clipped in channel banners (#36076)](https://github.com/mattermost/mattermost/commit/39d25d94ddd766ac9445eba0d2afdaffe74cc768) | 2026-04-21 |
 | 9aae84bc | [\[MM-67981\] Add process ID (PID) to support packet diagnostics (#35832)](https://github.com/mattermost/mattermost/commit/9aae84bc3f23be506f9a3b93f221290841555de6) | 2026-04-21 |
 | 52fa113d | [\[MM-67977\] Add Go runtime version to support packet diagnostics (#35833)](https://github.com/mattermost/mattermost/commit/52fa113dfc58af3c002ad5f3f5a743d2ebba328d) | 2026-04-21 |
@@ -796,6 +790,19 @@
 | fd62fe4f | [Allow granting delegated administration roles from the Manage Roles modal (#37202)](https://github.com/mattermost/mattermost/commit/fd62fe4faacf03845d9f723eeacba8798226587d) | 2026-08-17 |
 | d989f802 | [Disable TTL/grace period editing for server-derived attributes (#38001)](https://github.com/mattermost/mattermost/commit/d989f802d537023732e4d59fceca6cb731220bb6) | 2026-08-17 |
 | 6d78e8d5 | [Keep a collapse toggle for single video attachments (#38012)](https://github.com/mattermost/mattermost/commit/6d78e8d55189626ac765d4504dfca61d430b8490) | 2026-08-17 |
+| f112b9a7 | [Remove deprecated built-in Slack import API and CLI (#37999)](https://github.com/mattermost/mattermost/commit/f112b9a7159b25c630a52b05dc27dfc2f9b5d694) | 2026-08-18 |
+| 54939d47 | [\[MM-68249\] Drop support for OpenSearch v1.x (#37283)](https://github.com/mattermost/mattermost/commit/54939d47c0b64f0c15c0c992223f7db1aff2476a) | 2026-08-18 |
+| 95fc4743 | [Drop RHEL 7/8 support: switch build image to golang-bookworm (#37229)](https://github.com/mattermost/mattermost/commit/95fc4743df54efd8bbaba148c0e8542d8158c7c1) | 2026-08-18 |
+| dc6ab54f | [MM-67510 Drop deprecated autotranslation column from ChannelMembers (#37496)](https://github.com/mattermost/mattermost/commit/dc6ab54f82f624ec2bc1ffc895484df8198a063c) | 2026-08-18 |
+| 0912a75c | [Bump minimum supported Postgres version to v15 (#37285)](https://github.com/mattermost/mattermost/commit/0912a75c9c4580a00f14c565215fed5ffcb0fbf7) | 2026-08-18 |
+| eb3966e3 | [Remove atmos/camo image proxy support (#37284)](https://github.com/mattermost/mattermost/commit/eb3966e30bf4e13a0fdef43bb87429c54a6b7e25) | 2026-08-18 |
+| 6938caba | [\[MM-69646\] Disallow MoveThreadsEnabled feature flag (fail server startup) (#37966)](https://github.com/mattermost/mattermost/commit/6938cabac6b7d177962b74bc84df75b57b16d233) | 2026-08-18 |
+| 44d12bef | [\[MM-66243\] Omit sanitized last_viewed_at/last_update_at instead of returning -1 for other users (#37505)](https://github.com/mattermost/mattermost/commit/44d12bef8037de88f50150a5795e0b183924e1d6) | 2026-08-18 |
+| 5bd5b3b8 | [\[MM-69865\] Add Delete row action to Manage Attributes (#37875)](https://github.com/mattermost/mattermost/commit/5bd5b3b899f7ce2eb5d981015db2a37077746a8c) | 2026-08-18 |
+| 78d12039 | [MM-68396: Remove deprecated dialog date/datetime fields for v12.0 (#37759)](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a) | 2026-08-18 |
+| 0bff02c8 | [Graduate user typing settings to Site Configuration > Posts (#38023)](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) | 2026-08-18 |
+| 925a09a5 | [Remove dead Email login button color settings (#38021)](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) | 2026-08-18 |
+| ede2edab | [Enforce snake_case for mlog field keys (#37998)](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) | 2026-08-18 |
 
 ## 제외된 커밋
 
