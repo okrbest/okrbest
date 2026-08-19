@@ -354,7 +354,6 @@
   "admin.access_control.table_editor.remove_row": "행 제거",
   "admin.access_control.table_editor.selector.filter_attributes": "검색 속성...",
   "admin.access_control.table_editor.selector.filter_operators": "검색 연산자...",
-  "admin.access_control.table_editor.selector.filter_or_create": "검색 또는 가치 창출...",
   "admin.access_control.table_editor.selector.select_attribute": "속성 선택",
   "admin.access_control.table_editor.test_access_rule": "액세스 규칙 테스트",
   "admin.access_control.table_editor.user_excluded_tooltip": "채널에서 자신을 제외하게 되는 액세스 규칙은 테스트할 수 없습니다",
