@@ -3,27 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-19 12:00
+- 갱신일: 2026-08-19 16:07
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 792개
+- 남은 커밋: 781개
 
-**마지막 반영 커밋:** `9c8191c3` | [ci: add yamllint workflow to detect duplicate YAML keys (#36010)](https://github.com/mattermost/mattermost/commit/9c8191c3b8a8a41352d21ca69be5b05a5f1de800) | 2026-04-20
+**마지막 반영 커밋:** `2d7a71b0` | [ci: fix startup_failure in nightly race and weekly workflows (#36198)](https://github.com/mattermost/mattermost/commit/2d7a71b01810112269a22329042534fe739fee12) | 2026-04-21
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| c8f0a314 | [ci: move FIPS and binary params tests to weekly schedule (#36036)](https://github.com/mattermost/mattermost/commit/c8f0a31425a01cb7b95cc9ff1ef08714f88ffe52) | 2026-04-20 |
-| 39d25d94 | [MM-68259 Fixing text and emojis being clipped in channel banners (#36076)](https://github.com/mattermost/mattermost/commit/39d25d94ddd766ac9445eba0d2afdaffe74cc768) | 2026-04-21 |
-| 9aae84bc | [\[MM-67981\] Add process ID (PID) to support packet diagnostics (#35832)](https://github.com/mattermost/mattermost/commit/9aae84bc3f23be506f9a3b93f221290841555de6) | 2026-04-21 |
-| 52fa113d | [\[MM-67977\] Add Go runtime version to support packet diagnostics (#35833)](https://github.com/mattermost/mattermost/commit/52fa113dfc58af3c002ad5f3f5a743d2ebba328d) | 2026-04-21 |
-| bfaff4da | [Add server/AGENTS.md (#35903)](https://github.com/mattermost/mattermost/commit/bfaff4da7e8d31188b2c34563b908c5472784dd0) | 2026-04-21 |
-| 848ceb3c | [\[MM-67978\] Add open file descriptor count to support packet diagnostics (#35834)](https://github.com/mattermost/mattermost/commit/848ceb3c732dc04cf187a1beb43aeca069d5b79d) | 2026-04-21 |
-| 58052db8 | [\[MM-67976\] Add server uptime to support packet (#35838)](https://github.com/mattermost/mattermost/commit/58052db8e3ee75f7bb3a0dffca0daa908edfa551) | 2026-04-21 |
-| 0431659c | [\[MM-68237\] Unshare channels when remote is removed (#35997)](https://github.com/mattermost/mattermost/commit/0431659c93605ed777c665cce1f04570fc3bc08a) | 2026-04-21 |
-| 66502c2e | [MM-68047: Hide update status button in RHS post header (#36120)](https://github.com/mattermost/mattermost/commit/66502c2e677096a6fd1649528d6526b4cd931e2f) | 2026-04-21 |
-| d3ecc090 | [MM-67782: Fetch group members on popover open to fix empty member list (#36122)](https://github.com/mattermost/mattermost/commit/d3ecc09064671f50d5a192cb473ca3c001f200a1) | 2026-04-21 |
-| 67a645d2 | [MM-68378: Fix silent bulk failures in OpenSearch/Elasticsearch indexers (#36189)](https://github.com/mattermost/mattermost/commit/67a645d2c6cbe9a2841d3731c7eb13a321739abf) | 2026-04-21 |
-| ef80288c | [MM-68160: Fix post reminder confirmation not appearing for replies in RHS (#36124)](https://github.com/mattermost/mattermost/commit/ef80288cacd97c85ecb289d1112fd22a6976632e) | 2026-04-21 |
-| 2d7a71b0 | [ci: fix startup_failure in nightly race and weekly workflows (#36198)](https://github.com/mattermost/mattermost/commit/2d7a71b01810112269a22329042534fe739fee12) | 2026-04-21 |
 | 3fa87760 | [\[MM-68100\] Implement Linked Properties for the Property System (#35808)](https://github.com/mattermost/mattermost/commit/3fa8776095087a9c928dee5d1b21d9aba5bcc0c3) | 2026-04-21 |
 | 29bab218 | [e2e: adjust some pipeline settings (#36178)](https://github.com/mattermost/mattermost/commit/29bab2184db42103dd30c0827059ef3f854847d4) | 2026-04-21 |
 | 50b8e108 | [Quick fixes for docs label automation (#36185)](https://github.com/mattermost/mattermost/commit/50b8e1086fa2efd07cd50c475a53165061473667) | 2026-04-22 |
@@ -803,6 +790,8 @@
 | 0bff02c8 | [Graduate user typing settings to Site Configuration > Posts (#38023)](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) | 2026-08-18 |
 | 925a09a5 | [Remove dead Email login button color settings (#38021)](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) | 2026-08-18 |
 | ede2edab | [Enforce snake_case for mlog field keys (#37998)](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) | 2026-08-18 |
+| 480c1c5e | [\[M-70285\] Fix plugin settings section handling (#38003)](https://github.com/mattermost/mattermost/commit/480c1c5ed1688a9502d98f74c84675034f2f1ad9) | 2026-08-19 |
+| 6941f569 | [\[MM-70252\] Return 400 for malformed date filters in logs query API (#37970)](https://github.com/mattermost/mattermost/commit/6941f569018775c17062ab1118c6df84386a28ad) | 2026-08-19 |
 
 ## 제외된 커밋
 
