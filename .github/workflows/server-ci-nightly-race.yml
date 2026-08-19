@@ -13,8 +13,11 @@
 # this workflow tests for data races.
 name: Server CI Nightly Race
 on:
-  schedule:
-    - cron: "0 6 * * *" # Daily 6am UTC (~2am ET)
+  # okrbest: 스케줄 실행 비활성화. 이 워크플로가 요구하는 ubuntu-latest-8-cores
+  # 러너 라벨이 우리 저장소에 없어 잡이 러너 대기로 멈춘다. Server CI를 되살릴 때
+  # 러너 라벨과 함께 다시 켠다. 수동 실행은 workflow_dispatch로 가능.
+  # schedule:
+  #   - cron: "0 6 * * *" # Daily 6am UTC (~2am ET)
   workflow_dispatch: # Manual trigger for on-demand race detection
 
 permissions:
