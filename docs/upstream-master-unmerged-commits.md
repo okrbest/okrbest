@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-20 12:25
+- 갱신일: 2026-08-20 14:23
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 750개
+- 남은 커밋: 740개
 
-**마지막 반영 커밋:** `016e2fd6` | [ci: compile mmctl e2e tests with requirefips when FIPS_ENABLED=true (#36267)](https://github.com/mattermost/mattermost/commit/016e2fd6fbfea9b8f13cc62d3c6b088bc8d2bb79) | 2026-04-27
+**마지막 반영 커밋:** `85dc0851` | [\[MM-68535\] Invalidate channel cache after policy assignment (#36292)](https://github.com/mattermost/mattermost/commit/85dc0851972483cff74fd0c01c64a922b31cf25e) | 2026-04-28
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 45ec78b5 | [\[MM-68457\] Expose audit logging API via pluginapi.Client (#36232)](https://github.com/mattermost/mattermost/commit/45ec78b595427a115dcfbd19fe00ca50ede9d18c) | 2026-04-28 |
-| 81d4fe37 | [MM-68339: Add XML struct tags and multi-remote registration for shared channels plugin API  (#36126)](https://github.com/mattermost/mattermost/commit/81d4fe37938436d8e971aaa418c0b71519acd54f) | 2026-04-28 |
-| 2283b51b | [MM-67974: Add disk space info to Support Packet for local file store (#36300)](https://github.com/mattermost/mattermost/commit/2283b51b0e1f625c825706b30de7f94af2013c9e) | 2026-04-28 |
-| 5c43e4b1 | [\[MM-68459\] Implement dictionary style end user indicators for membership policies (#36240)](https://github.com/mattermost/mattermost/commit/5c43e4b15fbac964ee2301ee94f7acbca1369e58) | 2026-04-28 |
-| c85601dc | [\[MM-67979\] \[MM-67980\] Add SMTP and push proxy connectivity status to support packet diagnostics (#35837)](https://github.com/mattermost/mattermost/commit/c85601dc7fcad9ded56ee490b5c71dc5ab454cc6) | 2026-04-28 |
-| bd8fc922 | [MM-68526: Harden remote cluster patch response (#36288)](https://github.com/mattermost/mattermost/commit/bd8fc92226726da06c8fabaef568cc9ebaee1cb8) | 2026-04-28 |
-| c79c3831 | [MM-68264: return error on bot username conflict (#36064)](https://github.com/mattermost/mattermost/commit/c79c3831061a0880c0962c7d567c9e24dd35f44c) | 2026-04-28 |
-| fdaea9de | [MM-68339: slugify RemoteCluster.Name in plugin registration (#36309)](https://github.com/mattermost/mattermost/commit/fdaea9dec316d6a10014b7010f3558675e300490) | 2026-04-28 |
-| 2b7b398a | [\[MM-68102\] Add Classification Markings admin console page (#35934)](https://github.com/mattermost/mattermost/commit/2b7b398a2225d166cfe6eb7b6796d037c0dcef87) | 2026-04-28 |
-| 85dc0851 | [\[MM-68535\] Invalidate channel cache after policy assignment (#36292)](https://github.com/mattermost/mattermost/commit/85dc0851972483cff74fd0c01c64a922b31cf25e) | 2026-04-28 |
 | 320383d8 | [MM-67326 - add channel settings abac e2e (#36277)](https://github.com/mattermost/mattermost/commit/320383d8947691196695b88cbe5da3118dd17794) | 2026-04-29 |
 | f275a339 | [MM-67913: fix white flash on product navigation by centralizing app__body ownership (#36186)](https://github.com/mattermost/mattermost/commit/f275a339676ec8d19c914bba24fc649a1c858ee8) | 2026-04-29 |
 | 641d5a4e | [\[MM-68538\] Wrap incoming query from the CEL -> SQL conversion with parentheses (#36293)](https://github.com/mattermost/mattermost/commit/641d5a4eb7faa8037f9050b926800a875e8927e0) | 2026-04-29 |
@@ -866,6 +856,8 @@
 | 1af7d823 | [Remove AGENTS.CLOUD.md (#36286)](https://github.com/mattermost/mattermost/commit/1af7d823ded361df5ace499e2dc55ce2de8f3bce) | 도입 커밋 5ddd76ec(Development environment setup #35513)를 이미 제외했으므로 삭제 커밋도 대칭 제외 — okrbest는 AGENTS.CLOUD.md를 가진 적이 없어 지울 대상이 없다(ls 확인, 우리 히스토리에 해당 파일 추가·삭제 기록 0건). merge-tree가 CLEAN으로 나오는 것은 '이미 삭제된 상태'라 충돌이 없다는 뜻이고, cherry-pick하면 빈 커밋이 된다. 원본 파일은 Mattermost Inc. 내부 Cursor Cloud 전용 개발 환경 문서로 비공개 mattermost/enterprise·mattermost-plugin-agents 저장소와 CURSOR_GH_TOKEN/TEST_LICENSE 내부 시크릿을 전제로 해 적용 불가였고, 5ddd76ec 제외 사유에 '후속 커밋 1af7d823(#36286)에서 upstream이 스스로 제거함'을 이미 근거로 기록해 뒀다. 같은 계열 ac9d99bd(#35534, agent-browser 스킬)도 제외 상태. 우리 트리 상태(파일 없음)가 이미 upstream 최종 상태와 동일하다. |
 
 | 6103e95b | [ci: resolve enterprise branch from mattermost merge-base time (#36245)](https://github.com/mattermost/mattermost/commit/6103e95b79a51bc4e52857d09c5a279e7a9ab978) | upstream 자신의 revert 커밋인데 되돌릴 대상을 우리가 이미 제외해 적용할 내용이 0이다 — 이 커밋은 23ab604b(#35957 ci: pin enterprise repo to explicit commit hash)와 b63e3205(#36200 docs: document enterprise.pin workflow in root AGENTS.md)를 revert하고 enterprise 브랜치를 mattermost merge-base 시각으로 해석하는 방식으로 선회하는 것인데, 그 두 커밋 모두 이미 제외 상태(ledger 850·860·899행). 세 변경 전부 대상 부재 — (1) enterprise.pin 파일 없음(ls 실패), (2) server/Makefile에 bump-enterprise grep 0건이고 .PHONY도 all·bump-enterprise 없이 build로 시작, (3) 우리 AGENTS.md에 enterprise.pin 절 없음. AGENTS.md는 merge-tree content CONFLICT — 우리 것은 spec-kit + superpowers 결합 워크플로 문서라 upstream 원문(enterprise.pin 안내 + Pull Requests 절)과 공통 기반이 없다. 같은 사유로 5817a6d6(#36239)도 제외 상태(ledger 868행). cherry-pick 강행 시 우리 자체 AGENTS.md가 upstream 문서로 오염된다. 우리 트리 상태가 이미 upstream의 revert 후 상태와 동일하다. 도입 커밋 제외 → 삭제 커밋도 대칭 제외로, 1af7d823(AGENTS.CLOUD.md 삭제)과 같은 구조. 향후 okrbest가 자체 비공개 모듈 저장소와 핀 고정 체계를 갖추면 23ab604b와 함께 재검토한다. |
+
+| 2b7b398a | [\[MM-68102\] Add Classification Markings admin console page (#35934)](https://github.com/mattermost/mattermost/commit/2b7b398a2225d166cfe6eb7b6796d037c0dcef87) | 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2 위에 얹힌 신규 기능이라 반영할 토대가 없음 — 006f1027·3cb00848·01219efb·3fa87760·7627784a·9d33d87e·9c684e63·5b4efbd2에 이은 48f2fd08 계보 10번째. 시스템 콘솔에 분류 표시(Classification Markings) 관리 페이지를 신설해 보안 등급을 이름·색상·프리셋으로 관리하는 기능인데, 등급 데이터를 PropertyField/PropertyValue로 저장하므로 property 시스템 v2가 전제다. 필요한 선행 요소가 전부 부재 — (1) 핵심 파일 server/channels/api4/properties.go와 properties_test.go가 우리 트리에 아예 없음(ls 실패, merge-tree modify/delete CONFLICT 2건), (2) 이 커밋의 서버 변경 2줄이 property CRUD 라우트 게이트를 FeatureFlags.IntegratedBoards → IntegratedBoards \|\| ClassificationMarkings로 넓히는 것인데 우리에겐 그 라우트 자체가 없음, (3) 우리 webapp PropertyField 타입은 id/group_id/name/type/attrs/target_id/target_type/create_at/update_at/delete_at 10필드뿐이라 upstream이 쓰는 object_type이 없고 이 커밋이 추가하는 linked_field_id는 제외한 3fa87760(Linked Properties) 소산, (4) 커밋이 호출하는 client4의 createPropertyField/patchPropertyField/deletePropertyField가 전부 objectType 인자를 받는 v2 시그니처라 client4.ts content CONFLICT. 규모도 32파일 +2845/-10에 i18n 신규 키 28개, 신규 feature flag ClassificationMarkings 포함. 강행 시 서버는 없는 파일 수정 실패, 웹앱은 object_type 미정의로 타입 체크 실패, 런타임엔 없는 엔드포인트 404. upstream 기준으로도 ClassificationMarkings 플래그 뒤에 숨어 기본 비활성이라 당장의 제품 공백 아님. 우리 Boards는 focalboard 기반 자체 플러그인(okrbest-plugin-boards, BlockProp 모델)이 담당하고 Mattermost property API를 호출하지 않는다. 분류 표시 기능이 필요해지면 48f2fd08의 property 절반(api4/properties.go, PropertyField.object_type, 마이그레이션 000160~000165) 분할 반영을 선행 과제로 두고 그때 spec으로 여는 것이 맞다. |
 
 ## spec 전환 커밋
 
