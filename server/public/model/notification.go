@@ -98,12 +98,12 @@ type NotificationHistoryList struct {
 
 // NotificationHistoryCounts는 알림 개수 정보입니다.
 type NotificationHistoryCounts struct {
-	TotalCount    int64 `json:"total_count"`
-	UnreadCount   int64 `json:"unread_count"`
-	MentionCount  int64 `json:"mention_count"`
-	DMCount       int64 `json:"dm_count"`
-	ThreadCount   int64 `json:"thread_count"`
-	UrgentCount   int64 `json:"urgent_count"`
+	TotalCount   int64 `json:"total_count"`
+	UnreadCount  int64 `json:"unread_count"`
+	MentionCount int64 `json:"mention_count"`
+	DMCount      int64 `json:"dm_count"`
+	ThreadCount  int64 `json:"thread_count"`
+	UrgentCount  int64 `json:"urgent_count"`
 }
 
 // GetNotificationHistoryOptions는 알림 조회 옵션입니다.
@@ -152,6 +152,6 @@ func (n *NotificationHistory) ToJSON() string {
 }
 
 func (n *NotificationHistory) DeepCopy() *NotificationHistory {
-	copy := *n
-	return &copy
+	nCopy := *n
+	return &nCopy
 }

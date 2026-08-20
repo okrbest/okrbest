@@ -1167,8 +1167,8 @@ func searchUsers(c *Context, w http.ResponseWriter, r *http.Request) {
 		if props.Limit == model.UserSearchDefaultLimit {
 			props.Limit = 100 // 기본 100명으로 제한
 		}
-	} 
-	
+	}
+
 	if props.TeamId == "" && props.NotInChannelId != "" {
 		c.SetInvalidParam("team_id")
 		return

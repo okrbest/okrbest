@@ -269,8 +269,7 @@ func getPostsForChannel(c *Context, w http.ResponseWriter, r *http.Request) {
 	filterUserIdsParam := r.URL.Query().Get("filterUserIds")
 	var filterUserIds []string
 	if filterUserIdsParam != "" {
-		userIds := strings.Split(filterUserIdsParam, ",")
-		for _, userId := range userIds {
+		for userId := range strings.SplitSeq(filterUserIdsParam, ",") {
 			userId = strings.TrimSpace(userId)
 			if userId != "" {
 				if !model.IsValidId(userId) {
@@ -344,8 +343,8 @@ func getPostsForChannel(c *Context, w http.ResponseWriter, r *http.Request) {
 	clientPostList := c.App.PreparePostListForClient(c.AppContext, list)
 
 	// Filter bot messages based on query parameter
-	if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, showBotMessages); err != nil {
-		c.Err = err
+	if filterErr := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, showBotMessages); filterErr != nil {
+		c.Err = filterErr
 		return
 	}
 
@@ -410,8 +409,7 @@ func getPostsForChannelAroundLastUnread(c *Context, w http.ResponseWriter, r *ht
 	filterUserIdsParam := r.URL.Query().Get("filterUserIds")
 	var filterUserIds []string
 	if filterUserIdsParam != "" {
-		userIds := strings.Split(filterUserIdsParam, ",")
-		for _, userId := range userIds {
+		for userId := range strings.SplitSeq(filterUserIdsParam, ",") {
 			userId = strings.TrimSpace(userId)
 			if userId != "" {
 				if !model.IsValidId(userId) {
@@ -447,8 +445,8 @@ func getPostsForChannelAroundLastUnread(c *Context, w http.ResponseWriter, r *ht
 	clientPostList := c.App.PreparePostListForClient(c.AppContext, postList)
 
 	// Filter bot messages based on query parameter
-	if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, showBotMessages); err != nil {
-		c.Err = err
+	if filterErr := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, showBotMessages); filterErr != nil {
+		c.Err = filterErr
 		return
 	}
 
@@ -929,8 +927,8 @@ func getPostThread(c *Context, w http.ResponseWriter, r *http.Request) {
 	clientPostList := c.App.PreparePostListForClient(c.AppContext, list)
 
 	// Filter bot messages based on query parameter
-	if err := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, showBotMessages); err != nil {
-		c.Err = err
+	if filterErr := c.App.FilterBotMessagesFromPostList(c.AppContext, clientPostList, showBotMessages); filterErr != nil {
+		c.Err = filterErr
 		return
 	}
 
