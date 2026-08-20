@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"maps"
 	"net/http"
 	"regexp"
 	"strings"
@@ -147,7 +148,7 @@ func (a *App) CreatePositionDefinition(actorUserID string, input *model.Position
 		err  error
 	)
 
-	for collisionIndex := 0; collisionIndex < orgRoleCodeRetryLimit; collisionIndex++ {
+	for collisionIndex := range orgRoleCodeRetryLimit {
 		input.Code = generateOrgRoleCodeCandidate(baseCode, collisionIndex)
 		item, err = ss.CreatePositionDefinition(input)
 		if err == nil {
@@ -286,7 +287,7 @@ func (a *App) CreateOrgUnit(actorUserID string, input *model.OrgUnit) (*model.Or
 		err  error
 	)
 
-	for collisionIndex := 0; collisionIndex < orgRoleCodeRetryLimit; collisionIndex++ {
+	for collisionIndex := range orgRoleCodeRetryLimit {
 		input.Code = generateOrgRoleCodeCandidate(baseCode, collisionIndex)
 		item, err = ss.CreateOrgUnit(input)
 		if err == nil {
@@ -630,9 +631,7 @@ func (a *App) syncUserOrgProfileToProps(rctx request.CTX, item *model.UserOrgPro
 	}
 
 	newProps := model.StringMap{}
-	for k, v := range user.Props {
-		newProps[k] = v
-	}
+	maps.Copy(newProps, user.Props)
 	newProps[userPropOrgUnitIDs] = strings.Join(orgUnitIDs, ",")
 	newProps[userPropPositionCodes] = strings.Join(positionCodes, ",")
 	newProps[userPropIsCEO] = fmt.Sprintf("%t", isCEO)

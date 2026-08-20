@@ -778,7 +778,7 @@ func (a *App) AddUsersToGroupChannel(rctx request.CTX, channel *model.Channel, u
 			}
 
 			if _, nErr := a.Srv().Store().Channel().SaveMember(rctx, newMember); nErr != nil {
-				var appErr *model.AppError
+				var saveAppErr *model.AppError
 				var cErr *store.ErrConflict
 				switch {
 				case errors.As(nErr, &cErr):
@@ -786,8 +786,8 @@ func (a *App) AddUsersToGroupChannel(rctx request.CTX, channel *model.Channel, u
 					case "ChannelMembers":
 						continue
 					}
-				case errors.As(nErr, &appErr):
-					return nil, appErr
+				case errors.As(nErr, &saveAppErr):
+					return nil, saveAppErr
 				default:
 					return nil, model.NewAppError("AddUsersToGroupChannel", "api.channel.add_user.to.channel.failed.app_error", nil, "", http.StatusInternalServerError).Wrap(nErr)
 				}

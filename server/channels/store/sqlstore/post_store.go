@@ -784,14 +784,14 @@ func (s *SqlPostStore) Get(rctx request.CTX, id string, opts model.GetPostsOptio
 					sq.Eq{"DeleteAt": 0},
 				}).Suffix(")"),
 			).
-		From("Posts p, replycount").
-		Where(sq.And{
-			sq.Or{
-				sq.Eq{"p.Id": rootId},
-				sq.Eq{"p.RootId": rootId},
-			},
-			sq.Eq{"p.DeleteAt": 0},
-		})
+			From("Posts p, replycount").
+			Where(sq.And{
+				sq.Or{
+					sq.Eq{"p.Id": rootId},
+					sq.Eq{"p.RootId": rootId},
+				},
+				sq.Eq{"p.DeleteAt": 0},
+			})
 
 		var sort string
 		if opts.Direction != "" {
@@ -1946,7 +1946,7 @@ func (s *SqlPostStore) getParentsPosts(channelId string, offset int, limit int, 
 	userIdSubQueryCondition := ""
 	userIdQueryCondition := ""
 	params := []any{channelId}
-	
+
 	if len(filterUserIds) > 0 {
 		placeholders := make([]string, len(filterUserIds))
 		for i := range filterUserIds {
@@ -1962,11 +1962,11 @@ func (s *SqlPostStore) getParentsPosts(channelId string, offset int, limit int, 
 		}
 		userIdQueryCondition = " AND q2.UserId IN (" + strings.Join(placeholders2, ",") + ")"
 	}
-	
+
 	if includeDeleted {
 		deleteAtQueryCondition, deleteAtSubQueryCondition = "", ""
 	}
-	
+
 	params = append(params, limit, offset, channelId)
 
 	postColumnsQ2 := strings.Join(postSliceColumnsWithName("q2"), ", ")
