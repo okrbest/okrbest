@@ -36,7 +36,7 @@ func NewTestPool(logger mlog.LoggerIFace, driverName string, poolSize int) (*Tes
 	for range poolSize {
 		eg.Go(func() error {
 			settings := storetest.MakeSqlSettings(driverName)
-			sqlStore, err := New(*settings, logger, nil)
+			sqlStore, err := New(*settings, logger, nil, DisableMorphLogging())
 			if err != nil {
 				return err
 			}
