@@ -65,6 +65,15 @@ function ChannelSettingsInfoTab({
         haveIChannelPermission(state, channel.team_id, channel.id, channelPropertiesPermission),
     );
 
+    // Must stay aligned with server `UpdateChannel` when an ABAC membership policy is enforced.
+    const channelTypeLockedByMembershipPolicy = Boolean(channel.policy_enforced);
+    const channelTypeLockTooltip = channelTypeLockedByMembershipPolicy ?
+        formatMessage({
+            id: 'channel_settings.policy_enforced.cannot_change_channel_type',
+            defaultMessage: 'This channel has a membership policy applied. Remove the policy before changing between public and private.',
+        }) :
+        undefined;
+
     // Constants
     const HEADER_MAX_LENGTH = 1024;
 
@@ -134,6 +143,10 @@ function ChannelSettingsInfoTab({
     }, [dispatch, shouldShowPreviewHeader]);
 
     const handleChannelTypeChange = (type: ChannelType) => {
+        if (channelTypeLockedByMembershipPolicy) {
+            return;
+        }
+
         // Never allow conversion from private to public, regardless of permissions
         if (channel.type === Constants.PRIVATE_CHANNEL && type === Constants.OPEN_CHANNEL) {
             return;
@@ -375,12 +388,14 @@ function ChannelSettingsInfoTab({
                     description: formatMessage({id: 'channel_modal.type.public.description', defaultMessage: 'Anyone can join'}),
 
                     // Always disable public button if current channel is private, regardless of permissions
-                    disabled: channel.type === Constants.PRIVATE_CHANNEL || !canConvertToPublic,
+                    disabled: channel.type === Constants.PRIVATE_CHANNEL || !canConvertToPublic || channelTypeLockedByMembershipPolicy,
+                    tooltip: channelTypeLockTooltip,
                 }}
                 privateButtonProps={{
                     title: formatMessage({id: 'channel_modal.type.private.title', defaultMessage: 'Private Channel'}),
                     description: formatMessage({id: 'channel_modal.type.private.description', defaultMessage: 'Only invited members'}),
-                    disabled: !canConvertToPrivate,
+                    disabled: !canConvertToPrivate || channelTypeLockedByMembershipPolicy,
+                    tooltip: channelTypeLockTooltip,
                 }}
                 onChange={handleChannelTypeChange}
             />
