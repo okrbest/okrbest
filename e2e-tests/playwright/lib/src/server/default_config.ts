@@ -798,6 +798,7 @@ const defaultServerConfig: AdminConfig = {
         CJKSearch: false,
         MobileEphemeralMode: true,
         MmBlocksEnabled: true,
+        EnableConcurrentReact: true,
     },
     ImportSettings: {
         Directory: './import',
