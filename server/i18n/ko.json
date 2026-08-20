@@ -560,6 +560,10 @@
     "translation": "채널이 보관 처리 혹은 삭제되었습니다."
   },
   {
+    "id": "api.channel.update_channel.policy_enforced_type_conversion.app_error",
+    "translation": "이 채널에는 속성 기반 멤버십 정책이 적용되어 있습니다. 공개와 비공개를 전환하려면 먼저 정책을 제거하세요."
+  },
+  {
     "id": "api.channel.update_channel.tried.app_error",
     "translation": "기본 채널인 {{.Channel}} 채널에 유효하지 않은 갱신을 시도했습니다."
   },
@@ -6277,6 +6281,14 @@
   {
     "id": "app.org_role.type_change_not_allowed.app_error",
     "translation": "조직 단위의 유형(본부↔부서) 변경은 지원하지 않습니다."
+  },
+  {
+    "id": "app.pap.access_control.channel_default",
+    "translation": "팀 기본 채널에는 멤버십 정책을 적용할 수 없습니다."
+  },
+  {
+    "id": "app.pap.access_control.channel_type_not_supported",
+    "translation": "액세스 제어 정책은 공개 채널과 비공개 채널에만 적용할 수 있습니다."
   },
   {
     "id": "app.plugin.cluster.save_config.app_error",
