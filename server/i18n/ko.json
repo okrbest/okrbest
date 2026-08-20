@@ -8109,10 +8109,6 @@
     "translation": "{{.Backend}} 서버 버전을 파싱하는 데 실패했습니다"
   },
   {
-    "id": "ent.elasticsearch.stop.already_stopped.app_error",
-    "translation": "{{.Backend}}가 이미 중지되었습니다."
-  },
-  {
     "id": "ent.elasticsearch.test_config.indexing_disabled.error",
     "translation": "{{.Backend}}가 비활성화되어 있습니다."
   },
