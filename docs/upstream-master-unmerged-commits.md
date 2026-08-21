@@ -3,21 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-20 16:16
+- 갱신일: 2026-08-21 09:47
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 727개
+- 남은 커밋: 730개
 
-**마지막 반영 커밋:** `082f6ba8` | [Prepackage Agents plugin v2.0.2 (#36349)](https://github.com/mattermost/mattermost/commit/082f6ba85a9b019885e9a99ef0a6cf751a452f8a) | 2026-04-30
+**마지막 반영 커밋:** `5bad893c` | [  Move interactive dialog date/datetime properties into datetime_config (#36067)](https://github.com/mattermost/mattermost/commit/5bad893cade2640e447d16394582e9dd7fa72e62) | 2026-05-01
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
 | f275a339 | [MM-67913: fix white flash on product navigation by centralizing app__body ownership (#36186)](https://github.com/mattermost/mattermost/commit/f275a339676ec8d19c914bba24fc649a1c858ee8) | 2026-04-29 |
-| 1ead9ff0 | [update buildserver go base image versions to 1.25.9 (#36348)](https://github.com/mattermost/mattermost/commit/1ead9ff03837ef13adaef872eb26dd5c2897e58a) | 2026-05-01 |
-| 01bb3dcf | [MM-64977: Fix channel switcher row overlap with long channel and team names (#36330)](https://github.com/mattermost/mattermost/commit/01bb3dcf7ab7d56b60d7037e6a2ff4f3838f4835) | 2026-05-01 |
-| 99b73d4c | [\[MM-68393\] Tighten protected role patch authorization (#36197)](https://github.com/mattermost/mattermost/commit/99b73d4c4acf5ff3546c2548a5aaa804c2aa1b04) | 2026-05-01 |
-| 035c3ba4 | [Update go version to 1.25.9 (#36357)](https://github.com/mattermost/mattermost/commit/035c3ba4b9f0c5ce28f5c6787ae5122284d27a7a) | 2026-05-01 |
-| 7d6816ab | [MM-68382: Align team creation invite permission checks (#36188)](https://github.com/mattermost/mattermost/commit/7d6816abdfd170169f717aea43c5716a1f9ef6b0) | 2026-05-01 |
-| 5bad893c | [  Move interactive dialog date/datetime properties into datetime_config (#36067)](https://github.com/mattermost/mattermost/commit/5bad893cade2640e447d16394582e9dd7fa72e62) | 2026-05-01 |
 | 0aa28f98 | [Fix the gap between trail branner and the button (#34688)](https://github.com/mattermost/mattermost/commit/0aa28f9812038a3f377e7b44573dd358afc7be27) | 2026-05-02 |
 | ace28cd5 | [\[MM-67867\] Update Playbooks plugin to v2.8.1 (#36361)](https://github.com/mattermost/mattermost/commit/ace28cd5165156dfcb62d428f566d447cbc726da) | 2026-05-03 |
 | d4f147e2 | [Data spillage deletion summary (#36018)](https://github.com/mattermost/mattermost/commit/d4f147e2dae350ee8e52619b29e40e37482b40b1) | 2026-05-04 |
@@ -738,6 +732,15 @@
 | 4c6c5a06 | [Graduate Enable Channel Viewed WebSocket Messages to Environment > Web Server (#38026)](https://github.com/mattermost/mattermost/commit/4c6c5a063fefa1ec4484f62e1a209ec79711da13) | 2026-08-19 |
 | 95cabdfb | [Graduate theme and onboarding settings to Site Configuration > Customization (#38027)](https://github.com/mattermost/mattermost/commit/95cabdfb3b1380b44ca18e7878244f99fb19d2e5) | 2026-08-19 |
 | 260d0cda | [Trim whitespace when saving comma-separated System Console settings (#38042)](https://github.com/mattermost/mattermost/commit/260d0cda822beded4517a191bce5f6504fa3c3f1) | 2026-08-19 |
+| 7099dac6 | [\[MM-70277\] Improve plugin upload dropzone UX (#37569)](https://github.com/mattermost/mattermost/commit/7099dac602f41688b1ffbd60a73a4ad54bbf6970) | 2026-08-20 |
+| bcc9ce5e | [docs(P14): reconcile developer docs drift through Mattermost Blocks (#38043)](https://github.com/mattermost/mattermost/commit/bcc9ce5e4afc6c63aa9cc4166f09d998cb22e873) | 2026-08-20 |
+| c36f979e | [\[MM-70198\] Fix post preview layout shift by overlaying the "Show more" control (#37974)](https://github.com/mattermost/mattermost/commit/c36f979edd0ec3912097c4ffcd944e3f09fb67cd) | 2026-08-20 |
+| 62056e5a | [MM-70071: Automatically select hosted push notification server based on license (#37802)](https://github.com/mattermost/mattermost/commit/62056e5a7c6c817fe95e4edeaeee8af8fb6b0b7d) | 2026-08-20 |
+| 6707ec44 | [MM-50202 Remove redundant findDOMNode from UserSettingsModal (#38008)](https://github.com/mattermost/mattermost/commit/6707ec446dcc63d4207353b833bb5a5132f40928) | 2026-08-20 |
+| bfc2637d | [Precompute multibyte mention keywords once per post (#38038)](https://github.com/mattermost/mattermost/commit/bfc2637d215af9291f42c2e59caa7f7f11c4fea3) | 2026-08-20 |
+| ddee8289 | [\[MM-69866\] Add Applies-to resource picker (Users, Channels, Posts) to New attribute (#38002)](https://github.com/mattermost/mattermost/commit/ddee8289bc70fb13b7a39db7e6144f0fd34968a2) | 2026-08-20 |
+| 3e8afaa0 | [MM-69232 Enable concurrent React in E2E tests (#37037)](https://github.com/mattermost/mattermost/commit/3e8afaa06400887dfbeb8ce77186bcb0ed72c9b9) | 2026-08-20 |
+| 752e5d17 | [MM-70307: Change Postgres test password to mostest_password (#38060)](https://github.com/mattermost/mattermost/commit/752e5d1755b5f5cc13e024c87eba3ed3622998af) | 2026-08-21 |
 
 ## 제외된 커밋
 
