@@ -1,24 +1,16 @@
 # upstream-master 미반영 커밋 목록
 
-`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-21 10:34
-- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 724개
+- 갱신일: 2026-08-21 12:21
+- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 716개
 
-**마지막 반영 커밋:** `1b7b15b1` | [MM-67931: Prepackage the FIPS flavour of Playbooks v2.8.1 (#36387) (#36391)](https://github.com/mattermost/mattermost/commit/1b7b15b1212b89b5e66ff6b3b2e9a5afd28d8222) | 2026-05-04
+**마지막 반영 커밋:** `8f9b08f0` | [MM-56762: Bookmarks overflow menu with drag-and-drop reordering (#35118)](https://github.com/mattermost/mattermost/commit/8f9b08f07b23420d58f675f59ddbd56258a81d83) | 2026-05-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 7ddf5847 | [Removing Beta Label From Hungarian Language (#36386)](https://github.com/mattermost/mattermost/commit/7ddf584741e1f7b0c671ab1992056c923d4757e8) | 2026-05-04 |
-| b7a97f4b | [ci: disable fullyparallel for unsharded weekly Postgres jobs (#36390)](https://github.com/mattermost/mattermost/commit/b7a97f4bdc08abc08a296e5d03065f03e9ebd626) | 2026-05-04 |
-| 846791aa | [MM-68622: start inter-cluster services before plugin activation (#36366)](https://github.com/mattermost/mattermost/commit/846791aa65217996b25c7d6ec9304e0e780dbde5) | 2026-05-04 |
-| 724c5b71 | [CPA Display Name Support  (#36247)](https://github.com/mattermost/mattermost/commit/724c5b719191c88c1d79f018b765f75520986183) | 2026-05-04 |
-| 154286f5 | [fix: only run e2e tests for fips for versions v11+ (#36374)](https://github.com/mattermost/mattermost/commit/154286f53f008c50c458c5e36dc3f6892a6acfeb) | 2026-05-04 |
-| 49260c42 | [Prepackage mattermost-plugin-agents v2.0.3 (#36401)](https://github.com/mattermost/mattermost/commit/49260c42899b4b36ffcfddb93f80761bab9c4592) | 2026-05-04 |
-| 022acb74 | [MM-68536: Show actual remote names in system console channel list (#36298)](https://github.com/mattermost/mattermost/commit/022acb74c5752a2d6212ef6e22d7dd8abbb3f9dc) | 2026-05-04 |
-| 8f9b08f0 | [MM-56762: Bookmarks overflow menu with drag-and-drop reordering (#35118)](https://github.com/mattermost/mattermost/commit/8f9b08f07b23420d58f675f59ddbd56258a81d83) | 2026-05-04 |
 | 9e955bf6 | [Edit attachment permission (#36227)](https://github.com/mattermost/mattermost/commit/9e955bf683b68383dfe6050f318c15bedd6698b7) | 2026-05-05 |
 | 969ae195 | [MM-68500 - add AttributeValueMasking flag and HasMaskedValues field (#36408)](https://github.com/mattermost/mattermost/commit/969ae195e1c993c9d9001dc8a65e79657d644694) | 2026-05-05 |
 | 9bbe9ea6 | [Update Agents plugin FIPS version to v2.0.3 (#36417)](https://github.com/mattermost/mattermost/commit/9bbe9ea6e6ecdd7440f0161a9ffc08f6e471257a) | 2026-05-05 |
