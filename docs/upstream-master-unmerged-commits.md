@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-21 09:58
+- 갱신일: 2026-08-21 10:25
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 729개
+- 남은 커밋: 724개
 
-**마지막 반영 커밋:** `0aa28f98` | [Fix the gap between trail branner and the button (#34688)](https://github.com/mattermost/mattermost/commit/0aa28f9812038a3f377e7b44573dd358afc7be27) | 2026-05-02
+**마지막 반영 커밋:** `1b7b15b1` | [MM-67931: Prepackage the FIPS flavour of Playbooks v2.8.1 (#36387) (#36391)](https://github.com/mattermost/mattermost/commit/1b7b15b1212b89b5e66ff6b3b2e9a5afd28d8222) | 2026-05-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f275a339 | [MM-67913: fix white flash on product navigation by centralizing app__body ownership (#36186)](https://github.com/mattermost/mattermost/commit/f275a339676ec8d19c914bba24fc649a1c858ee8) | 2026-04-29 |
-| ace28cd5 | [\[MM-67867\] Update Playbooks plugin to v2.8.1 (#36361)](https://github.com/mattermost/mattermost/commit/ace28cd5165156dfcb62d428f566d447cbc726da) | 2026-05-03 |
-| d4f147e2 | [Data spillage deletion summary (#36018)](https://github.com/mattermost/mattermost/commit/d4f147e2dae350ee8e52619b29e40e37482b40b1) | 2026-05-04 |
-| e5344bc5 | [Update Agents plugin FIPS version to v2.0.2 (#36389)](https://github.com/mattermost/mattermost/commit/e5344bc57d7a057da5f9299ec904a39adf9f51e4) | 2026-05-04 |
-| 1b7b15b1 | [MM-67931: Prepackage the FIPS flavour of Playbooks v2.8.1 (#36387) (#36391)](https://github.com/mattermost/mattermost/commit/1b7b15b1212b89b5e66ff6b3b2e9a5afd28d8222) | 2026-05-04 |
 | 7ddf5847 | [Removing Beta Label From Hungarian Language (#36386)](https://github.com/mattermost/mattermost/commit/7ddf584741e1f7b0c671ab1992056c923d4757e8) | 2026-05-04 |
 | b7a97f4b | [ci: disable fullyparallel for unsharded weekly Postgres jobs (#36390)](https://github.com/mattermost/mattermost/commit/b7a97f4bdc08abc08a296e5d03065f03e9ebd626) | 2026-05-04 |
 | 846791aa | [MM-68622: start inter-cluster services before plugin activation (#36366)](https://github.com/mattermost/mattermost/commit/846791aa65217996b25c7d6ec9304e0e780dbde5) | 2026-05-04 |
