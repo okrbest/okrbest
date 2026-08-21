@@ -1,28 +1,16 @@
 # upstream-master 미반영 커밋 목록
 
-`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-21 13:37
-- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 715개
+- 갱신일: 2026-08-21 14:06
+- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 703개
 
-**마지막 반영 커밋:** `e4360876` | [docs: clarify PR template rules in AGENTS.md (#36422)](https://github.com/mattermost/mattermost/commit/e43608762d4e781fbadbc88d1f7b35d89c1c3d06) | 2026-05-05
+**마지막 반영 커밋:** `7d1ee48c` | [MM-68647: Fix Data Spillage reviewer pill background in dark mode (#36424)](https://github.com/mattermost/mattermost/commit/7d1ee48c080bb0a2d47ee0e6ddffaa75ec7d12c9) | 2026-05-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 9e955bf6 | [Edit attachment permission (#36227)](https://github.com/mattermost/mattermost/commit/9e955bf683b68383dfe6050f318c15bedd6698b7) | 2026-05-05 |
-| 969ae195 | [MM-68500 - add AttributeValueMasking flag and HasMaskedValues field (#36408)](https://github.com/mattermost/mattermost/commit/969ae195e1c993c9d9001dc8a65e79657d644694) | 2026-05-05 |
-| 9bbe9ea6 | [Update Agents plugin FIPS version to v2.0.3 (#36417)](https://github.com/mattermost/mattermost/commit/9bbe9ea6e6ecdd7440f0161a9ffc08f6e471257a) | 2026-05-05 |
-| 8c720834 | [MM-68547: Tighten authorization on group syncable link and patch endpoints (#36316)](https://github.com/mattermost/mattermost/commit/8c72083414e675c97987374395e36d1f36b4bd8a) | 2026-05-05 |
-| 357d1ef0 | [MM-67982 Only focus mobile search box when search is opened (#36346)](https://github.com/mattermost/mattermost/commit/357d1ef0bd4c0520eef8f770149ec89234212148) | 2026-05-05 |
-| ebc066e7 | [\[MM-68273\] Add system messages for share / unshare events (#36032)](https://github.com/mattermost/mattermost/commit/ebc066e7fdbcf6fd4409b51a8fd307de51947e43) | 2026-05-05 |
-| 0502d6b3 | [\[MM-68655\] Surface RPC errors from plugin hooks (#36414)](https://github.com/mattermost/mattermost/commit/0502d6b3c59ede0e625a718f338b28e46245d275) | 2026-05-05 |
-| dd9d1612 | [MM-68149: upgrade mattermost-server-build images to Go 1.26.2 (#36419)](https://github.com/mattermost/mattermost/commit/dd9d16128cbf77fb009de92b17b6f941aa255054) | 2026-05-05 |
-| c787d065 | [MM-68494 Directly import WithTooltip/ShortcutKey from shared package (#36270)](https://github.com/mattermost/mattermost/commit/c787d06506ee3771a5903563b1f5f478211278ac) | 2026-05-05 |
-| 2b753c49 | [Remove unused GetChannelCounts store and app methods (#36351)](https://github.com/mattermost/mattermost/commit/2b753c49f2297ecc0144442f9aa6e932d5b3f8cd) | 2026-05-05 |
-| 71fb5b1e | [fix: tolerate concurrent update conflicts in content flagging migration (#36421)](https://github.com/mattermost/mattermost/commit/71fb5b1e549e8dd099822f1fb3c7a10f9ceea484) | 2026-05-05 |
-| 7d1ee48c | [MM-68647: Fix Data Spillage reviewer pill background in dark mode (#36424)](https://github.com/mattermost/mattermost/commit/7d1ee48c080bb0a2d47ee0e6ddffaa75ec7d12c9) | 2026-05-05 |
 | d5946e94 | [Update latest minor version to 11.8.0 (#36437)](https://github.com/mattermost/mattermost/commit/d5946e9477967e62ea22117dd5c1f5ad1c56a174) | 2026-05-06 |
 | 1a88e3b3 | [Adds experimental label to the views endpoints (#36398)](https://github.com/mattermost/mattermost/commit/1a88e3b3223a012cb1e9d78896256e47f35b6464) | 2026-05-06 |
 | 5124cc73 | [\[MM-68590\] Clarify membership policy UI copy (#36428)](https://github.com/mattermost/mattermost/commit/5124cc738763b2c53f325b322212a84989ac936a) | 2026-05-06 |
