@@ -3,16 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-21 09:47
+- 갱신일: 2026-08-21 09:58
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 730개
+- 남은 커밋: 729개
 
-**마지막 반영 커밋:** `5bad893c` | [  Move interactive dialog date/datetime properties into datetime_config (#36067)](https://github.com/mattermost/mattermost/commit/5bad893cade2640e447d16394582e9dd7fa72e62) | 2026-05-01
+**마지막 반영 커밋:** `0aa28f98` | [Fix the gap between trail branner and the button (#34688)](https://github.com/mattermost/mattermost/commit/0aa28f9812038a3f377e7b44573dd358afc7be27) | 2026-05-02
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
 | f275a339 | [MM-67913: fix white flash on product navigation by centralizing app__body ownership (#36186)](https://github.com/mattermost/mattermost/commit/f275a339676ec8d19c914bba24fc649a1c858ee8) | 2026-04-29 |
-| 0aa28f98 | [Fix the gap between trail branner and the button (#34688)](https://github.com/mattermost/mattermost/commit/0aa28f9812038a3f377e7b44573dd358afc7be27) | 2026-05-02 |
 | ace28cd5 | [\[MM-67867\] Update Playbooks plugin to v2.8.1 (#36361)](https://github.com/mattermost/mattermost/commit/ace28cd5165156dfcb62d428f566d447cbc726da) | 2026-05-03 |
 | d4f147e2 | [Data spillage deletion summary (#36018)](https://github.com/mattermost/mattermost/commit/d4f147e2dae350ee8e52619b29e40e37482b40b1) | 2026-05-04 |
 | e5344bc5 | [Update Agents plugin FIPS version to v2.0.2 (#36389)](https://github.com/mattermost/mattermost/commit/e5344bc57d7a057da5f9299ec904a39adf9f51e4) | 2026-05-04 |
