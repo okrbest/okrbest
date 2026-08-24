@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-24 22:02
+- 갱신일: 2026-08-24 22:14
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 678개
+- 남은 커밋: 677개
 
-**마지막 반영 커밋:** `55044352` | [MM-68705 - Order-tolerant Shared Channel plugin API's for receiving attachments (#36486)](https://github.com/mattermost/mattermost/commit/5504435231e5264c79d6a794fed82bbf4e50bb23) | 2026-05-08
+**마지막 반영 커밋:** `b052f346` | [E2E/Playwright: balance shard timing by enabling fullyParallel in CI (#36054)](https://github.com/mattermost/mattermost/commit/b052f3463a618d98c2f335f9d96c1f6f6531cef5) | 2026-05-09
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b052f346 | [E2E/Playwright: balance shard timing by enabling fullyParallel in CI (#36054)](https://github.com/mattermost/mattermost/commit/b052f3463a618d98c2f335f9d96c1f6f6531cef5) | 2026-05-09 |
 | e2700a96 | [test: mark autotranslation tests as fixme for quick green in ci and to address those separately (#36492)](https://github.com/mattermost/mattermost/commit/e2700a961afdb06cc7c4608dfa87f2047a22ef1b) | 2026-05-10 |
 | 52c400ed | [Update E2E test workflows to use context names and server images and bump playwright workers to 10 (#36496)](https://github.com/mattermost/mattermost/commit/52c400ed1ff92c91b776898678148c279b476c13) | 2026-05-11 |
 | 0afef776 | [Include connection ID in plugin context (#36074)](https://github.com/mattermost/mattermost/commit/0afef7760c40d87a492d540e1bb428a094e66cce) | 2026-05-11 |
@@ -812,6 +811,8 @@
 | c3322b3a | [fix: permission required by e2e test-system-io actions (#36478)](https://github.com/mattermost/mattermost/commit/c3322b3a05ef35c6556e4a352a30ae5d482df949) | test system IO 3부작(91de3d23 adapt → 33ddd8a4 exclude → 이 커밋)의 마지막 조각으로, 앞선 두 결정의 직접적 귀결이라 반영할 대상이 없다. merge-tree CONFLICT 3건이 전부 우리가 안 받은 것 위에 얹으려다 생겼다 — (1) e2e-tests-cypress.yml과 (2) e2e-tests-playwright.yml의 대상은 v2 템플릿을 호출하는 잡인데 91de3d23을 adapt하며 그 잡을 만들지 않아 적용 대상 자체가 없고, (3) e2e-tests-ci.yml은 33ddd8a4가 넣었어야 할 id-token: write 4줄이 우리 쪽에 없어 그 위에 pull-requests: write를 얹으려니 컨텍스트가 어긋난다. 충돌 없이 붙는 e2e-tests-on-merge.yml·e2e-tests-on-release.yml의 권한 블록 40줄도 test-system-io 액션이 PR에 코멘트를 달기 위한 것이라 소비자가 없고, 두 워크플로 모두 Mattermost 내부 릴리스 파이프라인을 전제해 우리 저장소에서 실행되지 않는다. pull-requests: write는 워크플로가 PR 본문·코멘트·라벨을 수정할 수 있는 강한 권한이라 실행되지 않는 워크플로에 부여할 근거가 없다(최소 권한 원칙). |
 
 | 3c792a05 | [MM-68433 - Fix DM/GM menu gating and header save in Channel Settings (#36213)](https://github.com/mattermost/mattermost/commit/3c792a0535d4372af8e1b10b105fd161d5e333c7) | 제외한 a8dc8baa([MM-67235] Add support for autotranslations on GM and DM, #35255)가 깐 GM/DM 자동번역 배선의 버그 수정이라 고칠 대상이 우리 트리에 없다. a8dc8baa는 실제 번역 로직이 비공개 github.com/mattermost/enterprise/autotranslation에만 있어 작동 불가라는 사유로 제외했고 사설 모듈 표에도 등재돼 있다. 파일별로 — (1) selectors/views/channel_settings.ts는 merge-tree CONFLICT이며 우리 셀렉터엔 DM/GM 자동번역 분기가 통째로 없다(isDMAndGMAutotranslationRestricted·isAutoTranslationEnabled·hasTranslationPermission 전부 부재), 이 커밋의 변경은 그 분기의 주석 수정이라 대상 자체가 없다. (2) channel_settings_info_tab.tsx는 merge-tree가 auto-merge로 보고하지만 실제로는 빌드를 깨뜨린다 — 변경이 'if (!displayName.trim())'을 'if (!isDMorGroupChannel && !displayName.trim())'로 바꾸는데 우리 파일엔 isDMorGroupChannel이 없고 DM_CHANNEL·GM_CHANNEL 참조도 0건이다. upstream 부모엔 16번 등장하며 도입 커밋이 바로 제외한 a8dc8baa다. 텍스트 3-way 병합이라 merge-tree가 못 잡는 미정의 식별자 참조 케이스. (3) channel_settings_modal.tsx의 isDMorGM 조기 반환 4줄만은 붙지만, 그 함수가 계산하는 자동번역 권한이 우리에겐 비활성 기능이라 의미가 없다. E2E 스펙 autotranslation_permissions.spec.ts 146줄과 lib/src/ui/pages/channels.ts 헬퍼 15줄도 작동하지 않는 기능 대상이다. |
+
+| b052f346 | [E2E/Playwright: balance shard timing by enabling fullyParallel in CI (#36054)](https://github.com/mattermost/mattermost/commit/b052f3463a618d98c2f335f9d96c1f6f6531cef5) | 우리가 실행하지 않는 CI의 샤드 시간을 맞추기 위한 E2E 전면 개편이라 얻는 것이 없다 — 111파일 +20560/-4212로 이번 sync 최대 규모. 영역별로 e2e-tests 100파일(+8389/-3978), .github 3파일(CI 샤딩 템플릿), webapp 4파일(+11519, 이 중 스냅샷이 +11456), server 4파일(+456/-122). 반영하지 않는 근거 — (1) 우리 e2e-tests-* 워크플로는 workflow_call 전용이고 상위 호출자가 없어 PR 체크에 e2e 잡이 0건이다(PR #372 확인), 즉 fullyParallel로 균형 잡을 CI 자체가 없다. (2) 우리 Playwright는 post_textbox testid 부재 등으로 채널 스펙이 대부분 실패하는 상태라 병렬화 이전 문제가 있다. (3) MISSING PATHS 20건과 merge-tree CONFLICT 6건이 대부분 제외한 기능의 스펙이다 — managed_categories(69fbaece·01219efb 제외), classification_markings(2b7b398a 제외), autotranslation_ui/users(a8dc8baa 제외 계열), ABAC/LDAP 스펙. (4) 100개 파일을 재배치하면 향후 우리 Playwright 격차 해소 시 깨진 스펙 위치가 전부 바뀌어 오히려 방해가 된다. 섞여 들어온 제품 코드 변경 2건도 각각 반영하지 않는다 — webapp/channels/src/components/admin_console/admin_sidebar/admin_sidebar_category.tsx의 <Route path={link}> 제거(+3/-9)는 하위 섹션을 항상 렌더하게 만드는 관리자 콘솔 실제 동작 변경인데(스냅샷 +11456줄이 그 증거) 커밋에 자체 정당화가 없고 E2E가 사이드바 항목을 보이게 하려는 편의 변경으로 보인다. server/channels/api4/job.go의 policy_id 필터(+23줄, access_control_sync 잡 한정·시스템 관리자 권한 강제)는 유일하게 독립적 가치가 있는 조각이고 의존(JobTypeAccessControlSync, GetJobsByTypeAndData)도 충족되며 테스트 297줄을 동반하지만, 우리 ABAC 정책 UI(access_control/policy_details)가 실제로 이 필터를 호출하는지 미확인이라 보류한다 — ABAC 정책 잡 목록 UI를 다룰 때 이 조각만 되살릴 수 있다. |
 
 ## spec 전환 커밋
 
