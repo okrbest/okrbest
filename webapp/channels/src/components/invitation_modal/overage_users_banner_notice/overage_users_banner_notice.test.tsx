@@ -221,8 +221,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
         await userEvent.click(screen.getByText(contactSalesTextLink));
         expect(screen.getByRole('link')).toHaveAttribute(
             'href',
-            LicenseLinks.CONTACT_SALES +
-                '?utm_source=mattermost&utm_medium=in-product&utm_content=overage_users_banner&uid=current_user&sid=&edition=team&server_version=',
+            LicenseLinks.CONTACT_SALES,
         );
     });
 
@@ -322,8 +321,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
         await userEvent.click(screen.getByText(contactSalesTextLink));
         expect(screen.getByRole('link')).toHaveAttribute(
             'href',
-            LicenseLinks.CONTACT_SALES +
-                '?utm_source=mattermost&utm_medium=in-product&utm_content=overage_users_banner&uid=current_user&sid=&edition=team&server_version=',
+            LicenseLinks.CONTACT_SALES,
         );
     });
 
