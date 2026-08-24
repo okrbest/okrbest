@@ -131,7 +131,8 @@ describe('components/admin_console/billing/billing_history', () => {
         expect(screen.queryByTestId(invoiceA.id)).not.toBeInTheDocument();
         expect(screen.queryByTestId(invoiceB.id)).not.toBeInTheDocument();
 
-        expect(screen.getByRole('link')).toHaveAttribute('href', CloudLinks.BILLING_DOCS + '?utm_source=mattermost&utm_medium=in-product-cloud&utm_content=billing_history&uid=current_user_id&sid=&edition=team&server_version=');
+        // No tracking parameters: useExternalLink only tracks mattermost.com, and BILLING_DOCS is on our own domain.
+        expect(screen.getByRole('link')).toHaveAttribute('href', CloudLinks.BILLING_DOCS);
         expect(screen.getByRole('link')).toHaveTextContent('See how billing works');
         expect(screen.getByTestId('no-invoices')).toHaveTextContent(NO_INVOICES_LEGEND);
     });

@@ -11,7 +11,7 @@ import {
     userEvent,
     waitFor,
 } from 'tests/react_testing_utils';
-import {AboutLinks, LicenseSkus} from 'utils/constants';
+import {AboutLinks, LicenseLinks, LicenseSkus} from 'utils/constants';
 
 import GroupsSVG from './features/images/groups_svg';
 
@@ -68,8 +68,11 @@ describe('components/feature_discovery', () => {
             expect(featureLink).toBeInTheDocument();
             expect(featureLink).toHaveAttribute('href', 'https://test.mattermost.com/secondary/?utm_source=mattermost&utm_medium=in-product&utm_content=feature_discovery&uid=&sid=&edition=team&server_version=');
             expect(featureLink).toHaveTextContent('Learn more');
-            expect(screen.getByText('Mattermost Software and Services License Agreement')).toHaveAttribute('href', 'https://mattermost.com/pl/software-and-services-license-agreement?utm_source=mattermost&utm_medium=in-product&utm_content=feature_discovery&uid=&sid=&edition=team&server_version=');
-            expect(screen.getByText('Privacy Policy')).toHaveAttribute('href', AboutLinks.PRIVACY_POLICY + '?utm_source=mattermost&utm_medium=in-product&utm_content=feature_discovery&uid=&sid=&edition=team&server_version=');
+
+            // No tracking parameters on these two: useExternalLink only tracks mattermost.com, and both links are on
+            // our own domain. learnMoreURL above is a mattermost.com test fixture, so it does get them.
+            expect(screen.getByText('Mattermost Software and Services License Agreement')).toHaveAttribute('href', LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT);
+            expect(screen.getByText('Privacy Policy')).toHaveAttribute('href', AboutLinks.PRIVACY_POLICY);
 
             expect(getPrevTrialLicense).toHaveBeenCalled();
             expect(getCloudSubscription).not.toHaveBeenCalled();

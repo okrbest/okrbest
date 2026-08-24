@@ -66,17 +66,27 @@ const encodeString = (s: string) => {
     return Buffer.from(s).toString('base64');
 };
 
-export const buildMMURL = (baseURL: string, firstName: string, lastName: string, companyName: string, businessEmail: string, source: string, medium: string) => {
-    const mmURL = `${baseURL}?qk=${encodeString(firstName)}&qp=${encodeString(lastName)}&qw=${encodeString(companyName)}&qx=${encodeString(businessEmail)}&utm_source=${source}&utm_medium=${medium}`;
+export const buildMMURL = (baseURL: string, firstName: string, lastName: string, companyName: string, businessEmail: string, source?: string, medium?: string) => {
+    let mmURL = `${baseURL}?qk=${encodeString(firstName)}&qp=${encodeString(lastName)}&qw=${encodeString(companyName)}&qx=${encodeString(businessEmail)}`;
+
+    // useExternalLink only returns tracking parameters for the domains it tracks, so these are absent for any other
+    // base URL. Appending them regardless would put the literal string "undefined" in the link.
+    if (source) {
+        mmURL = mmURL.concat(`&utm_source=${source}`);
+    }
+    if (medium) {
+        mmURL = mmURL.concat(`&utm_medium=${medium}`);
+    }
+
     return mmURL;
 };
 
-export const goToMattermostContactSalesForm = (firstName: string, lastName: string, companyName: string, businessEmail: string, source: string, medium: string) => {
+export const goToMattermostContactSalesForm = (firstName: string, lastName: string, companyName: string, businessEmail: string, source?: string, medium?: string) => {
     const url = buildMMURL(LicenseLinks.CONTACT_SALES, firstName, lastName, companyName, businessEmail, source, medium);
     window.open(url, '_blank');
 };
 
-export const getCloudContactSalesLink = (firstName: string, lastName: string, companyName: string, businessEmail: string, source: string, medium: string) => {
+export const getCloudContactSalesLink = (firstName: string, lastName: string, companyName: string, businessEmail: string, source?: string, medium?: string) => {
     const url = buildMMURL(LicenseLinks.CONTACT_SALES, firstName, lastName, companyName, businessEmail, source, medium);
     return url;
 };

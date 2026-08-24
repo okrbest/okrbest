@@ -9,7 +9,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {General} from 'mattermost-redux/constants';
 
 import {renderWithContext, screen, userEvent} from 'tests/react_testing_utils';
-import {OverActiveUserLimits, Preferences, SelfHostedProducts, StatTypes} from 'utils/constants';
+import {LicenseLinks, OverActiveUserLimits, Preferences, SelfHostedProducts, StatTypes} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 import {generateId} from 'utils/utils';
 
@@ -220,8 +220,9 @@ describe('components/overage_users_banner', () => {
         await userEvent.click(screen.getByText(contactSalesTextLink));
         expect(windowSpy).toHaveBeenCalledTimes(1);
 
-        // only the email is encoded and other params are empty. See logic for useOpenSalesLink hook
-        const salesLinkWithEncodedParams = 'https://mattermost.com/contact-sales/?qk=&qp=&qw=&qx=dGVzdEBtYXR0ZXJtb3N0LmNvbQ==&utm_source=mattermost&utm_medium=in-product';
+        // Only the email is encoded and other params are empty. See logic for useOpenSalesLink hook. The utm
+        // parameters are absent because useExternalLink only tracks mattermost.com, not our own domains.
+        const salesLinkWithEncodedParams = `${LicenseLinks.CONTACT_SALES}?qk=&qp=&qw=&qx=dGVzdEBtYXR0ZXJtb3N0LmNvbQ==`;
         expect(windowSpy).toHaveBeenCalledWith(salesLinkWithEncodedParams, '_blank');
     });
 
@@ -317,8 +318,9 @@ describe('components/overage_users_banner', () => {
         await userEvent.click(screen.getByText(contactSalesTextLink));
         expect(windowSpy).toHaveBeenCalledTimes(1);
 
-        // only the email is encoded and other params are empty. See logic for useOpenSalesLink hook
-        const salesLinkWithEncodedParams = 'https://mattermost.com/contact-sales/?qk=&qp=&qw=&qx=dGVzdEBtYXR0ZXJtb3N0LmNvbQ==&utm_source=mattermost&utm_medium=in-product';
+        // Only the email is encoded and other params are empty. See logic for useOpenSalesLink hook. The utm
+        // parameters are absent because useExternalLink only tracks mattermost.com, not our own domains.
+        const salesLinkWithEncodedParams = `${LicenseLinks.CONTACT_SALES}?qk=&qp=&qw=&qx=dGVzdEBtYXR0ZXJtb3N0LmNvbQ==`;
         expect(windowSpy).toHaveBeenCalledWith(salesLinkWithEncodedParams, '_blank');
     });
 });

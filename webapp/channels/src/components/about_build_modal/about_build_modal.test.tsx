@@ -191,10 +191,17 @@ describe('components/AboutBuildModal', () => {
     });
 
     test('should show default tos and privacy policy links and not the config links', () => {
+        // The shared fixture points these at the AboutLinks defaults, which would make the assertions below vacuous.
+        // Use distinct values so they actually prove the modal ignores the configured links.
+        const configWithOwnLinks = {
+            ...config,
+            TermsOfServiceLink: 'https://example.com/configured-terms-of-use',
+            PrivacyPolicyLink: 'https://example.com/configured-privacy-policy',
+        };
         const state = {
             entities: {
                 general: {
-                    config,
+                    config: configWithOwnLinks,
                     license: {
                         Cloud: 'false',
                     },
@@ -206,7 +213,7 @@ describe('components/AboutBuildModal', () => {
         };
         renderWithContext(
             <AboutBuildModal
-                config={config}
+                config={configWithOwnLinks}
                 license={license}
                 socketStatus={socketStatus}
                 onExited={jest.fn()}
@@ -214,12 +221,13 @@ describe('components/AboutBuildModal', () => {
             state,
         );
 
-        expect(screen.getByRole('link', {name: 'Terms of Use'})).toHaveAttribute('href', `${AboutLinks.TERMS_OF_SERVICE}?utm_source=mattermost&utm_medium=in-product&utm_content=about_build_modal&uid=currentUserId&sid=&edition=enterprise&server_version=3.6.0`);
+        // No tracking parameters: useExternalLink only tracks mattermost.com, and both links are on our own domain.
+        expect(screen.getByRole('link', {name: 'Terms of Use'})).toHaveAttribute('href', AboutLinks.TERMS_OF_SERVICE);
 
-        expect(screen.getByRole('link', {name: 'Privacy Policy'})).toHaveAttribute('href', `${AboutLinks.PRIVACY_POLICY}?utm_source=mattermost&utm_medium=in-product&utm_content=about_build_modal&uid=currentUserId&sid=&edition=enterprise&server_version=3.6.0`);
+        expect(screen.getByRole('link', {name: 'Privacy Policy'})).toHaveAttribute('href', AboutLinks.PRIVACY_POLICY);
 
-        expect(screen.getByRole('link', {name: 'Terms of Use'})).not.toHaveAttribute('href', config?.TermsOfServiceLink);
-        expect(screen.getByRole('link', {name: 'Privacy Policy'})).not.toHaveAttribute('href', config?.PrivacyPolicyLink);
+        expect(screen.getByRole('link', {name: 'Terms of Use'})).not.toHaveAttribute('href', configWithOwnLinks.TermsOfServiceLink);
+        expect(screen.getByRole('link', {name: 'Privacy Policy'})).not.toHaveAttribute('href', configWithOwnLinks.PrivacyPolicyLink);
     });
 
     test('should show load metric when license is loaded and API returns data', async () => {
