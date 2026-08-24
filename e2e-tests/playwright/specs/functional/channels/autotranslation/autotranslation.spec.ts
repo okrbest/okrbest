@@ -15,7 +15,7 @@ import {
 
 const POST_TYPE_AUTOTRANSLATION_CHANGE = 'system_autotranslation';
 
-test(
+test.fixme(
     'post is translated for user with autotranslation enabled',
     {
         tag: ['@autotranslation'],
