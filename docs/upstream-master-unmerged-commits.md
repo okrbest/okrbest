@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-24 11:18
+- 갱신일: 2026-08-24 14:05
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 702개
+- 남은 커밋: 696개
 
-**마지막 반영 커밋:** `076beaff` | [Update interdependency between packages to 11.8.0 (#36449)](https://github.com/mattermost/mattermost/commit/076beaff52256c9560cc7732218c6ae89e6e42bd) | 2026-05-06
+**마지막 반영 커밋:** `10ad2505` | [Split out buttonClassNames utility and use for most places Button isn't (#36328)](https://github.com/mattermost/mattermost/commit/10ad2505a787269d9a5505f55259778d03b8a397) | 2026-05-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 6293e354 | [Translations update from Mattermost Weblate (#36404)](https://github.com/mattermost/mattermost/commit/6293e354c9999f373a6cdc4634f5de026deea0b0) | 2026-05-06 |
-| e898ccdf | [MM-68397 Add shared package to STYLE_GUIDE.md (#36425)](https://github.com/mattermost/mattermost/commit/e898ccdf3d7ba09cf41785ee26b32d1b395c6998) | 2026-05-06 |
-| 3b86b9e1 | [refactor(color_input): migrate ColorInput to a function component (#33363)](https://github.com/mattermost/mattermost/commit/3b86b9e14a2f6aef848c0df2bb388671dbf0b23d) | 2026-05-06 |
-| 7f161bb2 | [Lower default test console log level from stdlog to debug (#36455)](https://github.com/mattermost/mattermost/commit/7f161bb24c78a8766d0e8d2381d9644e512f9a80) | 2026-05-06 |
-| c1ddd774 | [MM-68654 Add Button to the Component Library (#36412)](https://github.com/mattermost/mattermost/commit/c1ddd77481f7cdc046cfa675b6b98aa5bc021bc3) | 2026-05-06 |
-| 10ad2505 | [Split out buttonClassNames utility and use for most places Button isn't (#36328)](https://github.com/mattermost/mattermost/commit/10ad2505a787269d9a5505f55259778d03b8a397) | 2026-05-06 |
 | c1107620 | [docs: import server/AGENTS.md from platform/AGENTS.md to ensure eager loading (#36400)](https://github.com/mattermost/mattermost/commit/c1107620bc69d2b7e662f86891e6db94786ff94b) | 2026-05-07 |
 | 870c2c6b | [Add root id to webhooks (#36415)](https://github.com/mattermost/mattermost/commit/870c2c6b13f73b2833050036596fef4869f907be) | 2026-05-07 |
 | 5da794ab | [MM-68543 Invalidate active WebConn session cache on global session revocation (#36332)](https://github.com/mattermost/mattermost/commit/5da794aba089efda18d05a02b254eaf8200cba5b) | 2026-05-07 |
