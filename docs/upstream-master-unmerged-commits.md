@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-21 14:06
+- 갱신일: 2026-08-24 11:18
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 703개
+- 남은 커밋: 702개
 
-**마지막 반영 커밋:** `7d1ee48c` | [MM-68647: Fix Data Spillage reviewer pill background in dark mode (#36424)](https://github.com/mattermost/mattermost/commit/7d1ee48c080bb0a2d47ee0e6ddffaa75ec7d12c9) | 2026-05-05
+**마지막 반영 커밋:** `076beaff` | [Update interdependency between packages to 11.8.0 (#36449)](https://github.com/mattermost/mattermost/commit/076beaff52256c9560cc7732218c6ae89e6e42bd) | 2026-05-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| d5946e94 | [Update latest minor version to 11.8.0 (#36437)](https://github.com/mattermost/mattermost/commit/d5946e9477967e62ea22117dd5c1f5ad1c56a174) | 2026-05-06 |
-| 1a88e3b3 | [Adds experimental label to the views endpoints (#36398)](https://github.com/mattermost/mattermost/commit/1a88e3b3223a012cb1e9d78896256e47f35b6464) | 2026-05-06 |
-| 5124cc73 | [\[MM-68590\] Clarify membership policy UI copy (#36428)](https://github.com/mattermost/mattermost/commit/5124cc738763b2c53f325b322212a84989ac936a) | 2026-05-06 |
-| 97c3b538 | [MM-68532: default EnableSearchPublicChannelsWithoutMembership to true for new installations (#36399)](https://github.com/mattermost/mattermost/commit/97c3b53873b0eca02e830dd4a92f7c9da97c3097) | 2026-05-06 |
-| ecf8a741 | [Add unread badge to Recaps sidebar link (#36246)](https://github.com/mattermost/mattermost/commit/ecf8a741ac1f26b77071606026274f967355ddb2) | 2026-05-06 |
-| a6ea65b4 | [Bumping prepackaged gitlab version to 1.12.2 (#36430)](https://github.com/mattermost/mattermost/commit/a6ea65b44b3ba4ce2be19fb500f3d458fbdcaabf) | 2026-05-06 |
-| 34ef034d | [MM-68261 Add Button component to shared package (#36191)](https://github.com/mattermost/mattermost/commit/34ef034dd95c0e42c0c0cca3546170cb8283711a) | 2026-05-06 |
-| 076beaff | [Update interdependency between packages to 11.8.0 (#36449)](https://github.com/mattermost/mattermost/commit/076beaff52256c9560cc7732218c6ae89e6e42bd) | 2026-05-06 |
 | 6293e354 | [Translations update from Mattermost Weblate (#36404)](https://github.com/mattermost/mattermost/commit/6293e354c9999f373a6cdc4634f5de026deea0b0) | 2026-05-06 |
 | e898ccdf | [MM-68397 Add shared package to STYLE_GUIDE.md (#36425)](https://github.com/mattermost/mattermost/commit/e898ccdf3d7ba09cf41785ee26b32d1b395c6998) | 2026-05-06 |
 | 3b86b9e1 | [refactor(color_input): migrate ColorInput to a function component (#33363)](https://github.com/mattermost/mattermost/commit/3b86b9e14a2f6aef848c0df2bb388671dbf0b23d) | 2026-05-06 |
@@ -714,6 +706,13 @@
 | ddee8289 | [\[MM-69866\] Add Applies-to resource picker (Users, Channels, Posts) to New attribute (#38002)](https://github.com/mattermost/mattermost/commit/ddee8289bc70fb13b7a39db7e6144f0fd34968a2) | 2026-08-20 |
 | 3e8afaa0 | [MM-69232 Enable concurrent React in E2E tests (#37037)](https://github.com/mattermost/mattermost/commit/3e8afaa06400887dfbeb8ce77186bcb0ed72c9b9) | 2026-08-20 |
 | 752e5d17 | [MM-70307: Change Postgres test password to mostest_password (#38060)](https://github.com/mattermost/mattermost/commit/752e5d1755b5f5cc13e024c87eba3ed3622998af) | 2026-08-21 |
+| cce8fdff | [docs(P13): reconcile all remaining authored docs drift (#38044)](https://github.com/mattermost/mattermost/commit/cce8fdff7610963c5eb284525f5fc3414fd7c9b1) | 2026-08-21 |
+| 6ac8899d | [MM-70307: Bump Go version to v1.26.7 (#38046)](https://github.com/mattermost/mattermost/commit/6ac8899d93c070330bae7b73cfd5468205720089) | 2026-08-21 |
+| 4881d14d | [Fix Avatar layout regressions from MM-69802 without collapsing size tokens (#38072)](https://github.com/mattermost/mattermost/commit/4881d14dc8e977bc4286be26420e61412008b477) | 2026-08-21 |
+| b9c2bd73 | [docs: restore generated plugin SDK reference pages (#37788)](https://github.com/mattermost/mattermost/commit/b9c2bd733fca307507cee1a7c788a250ea81b9e3) | 2026-08-21 |
+| 83113218 | [MM-70307: Update dependencies (#38086)](https://github.com/mattermost/mattermost/commit/83113218589ebbd3a3bbc37b56b05dc73429d328) | 2026-08-21 |
+| c864f8de | [MM-69962: Fix inline media flickering between sizes near the 480px container threshold (#37971)](https://github.com/mattermost/mattermost/commit/c864f8de12d1c6e6c6b3efcb97bae41610126e44) | 2026-08-21 |
+| c5835cd2 | [\[MM-70290\] Run app migrations locked to the master DB (#38084)](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e) | 2026-08-22 |
 
 ## 제외된 커밋
 
@@ -825,6 +824,8 @@
 | 6c0e0fee | [\[MM-68464\] Introduce system object type for property fields and values (#36250)](https://github.com/mattermost/mattermost/commit/6c0e0fee4a337902c75b7c3dfe98f93654a59cc1) | 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2 위에 얹힌 변경이라 반영할 토대가 없음 — 006f1027·3cb00848·01219efb·3fa87760·7627784a·9d33d87e·9c684e63·5b4efbd2·2b7b398a에 이은 48f2fd08 계보 11번째이자, 직전에 제외한 2b7b398a([MM-68102] Classification Markings 관리 콘솔)의 직접 후속. property 시스템에 system object type을 도입해 사용자·채널·게시물이 아닌 Mattermost 인스턴스 자체에 붙는 속성을 표현하는 작업(PropertyFieldObjectTypeSystem 상수, PropertyValueTargetTypeSystem과 센티널 PropertyValueSystemTargetID='system', isValidPropertyValueTargetID 예외 처리, api4 system 라우트, client4 메서드, OpenAPI 스펙)인데, 필요한 선행 요소가 전부 부재 — (1) server/channels/api4/properties.go(+121)와 properties_test.go(+274)가 우리 트리에 아예 없음(ls 확인, merge-tree modify/delete), (2) api/v4/source/properties.yaml(+103) 부재, (3) server/channels/app/property_value_test.go 부재, (4) 핵심 변경인 PropertyField.IsValid()의 system 검증이 참조하는 model.PropertyField.ObjectType이 grep 0건, (5) PropertyFieldObjectTypeTemplate·PropertyFieldTargetLevelSystem·IsPSAv1() 부재 — 전부 48f2fd08 소산, (6) 이 커밋이 수정하는 e2e classification_markings.spec.ts는 제외한 2b7b398a 소산이라 부재. 강행 시 pf.ObjectType == PropertyFieldObjectTypeSystem에서 Go 컴파일 실패하고, 통과해도 존재하지 않는 라우트 호출. server/i18n/en.json +8은 신규 검증 오류 메시지용인데 그 검증 자체를 반영할 수 없다. 규모 14파일 +671/-26. 우리 Boards는 focalboard 기반 자체 플러그인(okrbest-plugin-boards, BlockProp 모델)이 담당하고 Mattermost property API를 호출하지 않는다. 향후 48f2fd08의 property 절반(api4/properties.go, PropertyField.ObjectType, 마이그레이션 000160~000165)을 분할 반영하게 되면 2b7b398a와 함께 재검토 대상. |
 
 | e4360876 | [docs: clarify PR template rules in AGENTS.md (#36422)](https://github.com/mattermost/mattermost/commit/e43608762d4e781fbadbc88d1f7b35d89c1c3d06) | okrbest는 AGENTS.md를 16dba65747에서 spec-kit + superpowers 워크플로 문서로 전면 교체해 upstream 원문(## Pull Requests 4줄)이 존재하지 않는다. 또한 upstream이 요구하는 영문 '#### Release Note' + release-note 펜스 블록은 한국어로 리브랜드된 .github/PULL_REQUEST_TEMPLATE.md(#### 릴리스 노트)와 맞지 않는다. PR 형식은 speckit-sync 스킬이 별도로 규정한다. |
+
+| 1a88e3b3 | [Adds experimental label to the views endpoints (#36398)](https://github.com/mattermost/mattermost/commit/1a88e3b3223a012cb1e9d78896256e47f35b6464) | 부모 48f2fd08(Integrated Boards MVP) 제외와 동일 사유 — 문서 대상인 api/v4/source/views.yaml 자체가 우리 트리에 없다(merge-tree modify/delete). 이 파일은 48f2fd08이 추가한 것이고 Views 테이블·엔드포인트가 Integrated Boards 소산이라, 우리에겐 experimental 라벨을 붙일 API가 존재하지 않는다. 순수 OpenAPI 문서 14줄 추가라 빌드 위험은 없으나 반영할 실체가 없음. 006f1027·dad9cab4·01219efb·3cb00848·3fa87760에 이은 48f2fd08 계보 6번째. 향후 Integrated Boards 방향을 재검토하게 되면 함께 재검토 대상. |
 
 ## spec 전환 커밋
 
