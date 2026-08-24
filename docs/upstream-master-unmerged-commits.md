@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-24 16:59
+- 갱신일: 2026-08-24 22:02
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 686개
+- 남은 커밋: 678개
 
-**마지막 반영 커밋:** `97f0ad7c` | [\[MM-68697\] Preserve sender file ID in plugin-relayed shared channel attachments (#36468)](https://github.com/mattermost/mattermost/commit/97f0ad7c3bd3a5a1583cf2d3f8ca8c43adbd8a33) | 2026-05-07
+**마지막 반영 커밋:** `55044352` | [MM-68705 - Order-tolerant Shared Channel plugin API's for receiving attachments (#36486)](https://github.com/mattermost/mattermost/commit/5504435231e5264c79d6a794fed82bbf4e50bb23) | 2026-05-08
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 6d30bff0 | [fix: use Blob with application/json type for client_perf sendBeacon (#36466)](https://github.com/mattermost/mattermost/commit/6d30bff0a6887832444e2812c3bb7f72fc7f5c85) | 2026-05-08 |
-| 91de3d23 | [SEC-10179 Integrate test system IO for Playwright and Cypress (#36376)](https://github.com/mattermost/mattermost/commit/91de3d23837c2ec9293c73cb570d08aa86ccba1d) | 2026-05-08 |
-| 33ddd8a4 | [fix: permission required by test-system-io actions (#36477)](https://github.com/mattermost/mattermost/commit/33ddd8a47bbf944688dfffb09f86d9256c7f6a3d) | 2026-05-08 |
-| c3322b3a | [fix: permission required by e2e test-system-io actions (#36478)](https://github.com/mattermost/mattermost/commit/c3322b3a05ef35c6556e4a352a30ae5d482df949) | 2026-05-08 |
-| 7795766a | [Update user active endpoint (#36469)](https://github.com/mattermost/mattermost/commit/7795766aa26e9d91ff94925efffe4849c412b3e3) | 2026-05-08 |
-| e7c517bc | [Fix modal title line-height regression (#36452)](https://github.com/mattermost/mattermost/commit/e7c517bc98d0e69f1cc071ab7267d7ba8dc9d076) | 2026-05-08 |
-| 56089922 | [Data spillage report generation (#36339)](https://github.com/mattermost/mattermost/commit/56089922e367257a9283a19f01c943622fee02b1) | 2026-05-08 |
-| 3c792a05 | [MM-68433 - Fix DM/GM menu gating and header save in Channel Settings (#36213)](https://github.com/mattermost/mattermost/commit/3c792a0535d4372af8e1b10b105fd161d5e333c7) | 2026-05-08 |
-| 40fe8782 | [Fix compact mode: consecutive bot reply header floating incorrectly in RHS (#36467)](https://github.com/mattermost/mattermost/commit/40fe8782efef1263aac10a3d52bae9350a49132b) | 2026-05-08 |
-| 4a1fa5e2 | [Fix autocomplete clipping when RHS is open (#36287)](https://github.com/mattermost/mattermost/commit/4a1fa5e2af2f290fde02bdfb9116d8f14fab9192) | 2026-05-08 |
-| 55044352 | [MM-68705 - Order-tolerant Shared Channel plugin API's for receiving attachments (#36486)](https://github.com/mattermost/mattermost/commit/5504435231e5264c79d6a794fed82bbf4e50bb23) | 2026-05-08 |
 | b052f346 | [E2E/Playwright: balance shard timing by enabling fullyParallel in CI (#36054)](https://github.com/mattermost/mattermost/commit/b052f3463a618d98c2f335f9d96c1f6f6531cef5) | 2026-05-09 |
 | e2700a96 | [test: mark autotranslation tests as fixme for quick green in ci and to address those separately (#36492)](https://github.com/mattermost/mattermost/commit/e2700a961afdb06cc7c4608dfa87f2047a22ef1b) | 2026-05-10 |
 | 52c400ed | [Update E2E test workflows to use context names and server images and bump playwright workers to 10 (#36496)](https://github.com/mattermost/mattermost/commit/52c400ed1ff92c91b776898678148c279b476c13) | 2026-05-11 |
@@ -697,6 +686,9 @@
 | 83113218 | [MM-70307: Update dependencies (#38086)](https://github.com/mattermost/mattermost/commit/83113218589ebbd3a3bbc37b56b05dc73429d328) | 2026-08-21 |
 | c864f8de | [MM-69962: Fix inline media flickering between sizes near the 480px container threshold (#37971)](https://github.com/mattermost/mattermost/commit/c864f8de12d1c6e6c6b3efcb97bae41610126e44) | 2026-08-21 |
 | c5835cd2 | [\[MM-70290\] Run app migrations locked to the master DB (#38084)](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e) | 2026-08-22 |
+| 2d6fc019 | [Bump Go version in missed go.mod files (#38102)](https://github.com/mattermost/mattermost/commit/2d6fc019076174e4cdfb03ac49ec70a5820b86de) | 2026-08-24 |
+| a3e171f7 | [\[MM-70224\] Migrate property field reads to request context (#37636)](https://github.com/mattermost/mattermost/commit/a3e171f730781dc87e5eb0f36d556f9eb39fc22a) | 2026-08-24 |
+| 9091791e | [Require release team review for release documentation (#38097)](https://github.com/mattermost/mattermost/commit/9091791efe39d9ac8007d25c57184e2dbdb0389b) | 2026-08-24 |
 
 ## 제외된 커밋
 
@@ -814,6 +806,12 @@
 | c1107620 | [docs: import server/AGENTS.md from platform/AGENTS.md to ensure eager loading (#36400)](https://github.com/mattermost/mattermost/commit/c1107620bc69d2b7e662f86891e6db94786ff94b) | 루트 AGENTS.md는 우리가 통째로 대체한 파일이라 upstream 파일과 계보가 끊겨 있다 — upstream 9줄(PR 템플릿 작성 규칙) 대비 우리 62줄(spec-kit + superpowers 워크플로, 한국어)로 겹치는 문장이 0개다. 자체 커밋 16dba65747(spec-kit + superpowers 결합 워크플로 도입)·c4969e5979(speckit-sync 스킬 추가)·4115c377d0(Cursor·Codex 지원 보완) 계보로 관리되며, .specify/scripts/bash/check-workflow-wiring.sh가 CLAUDE.md·AGENTS.md·.cursor/rules/okrbest-workflow.mdc 3종 표면의 정합을 검사한다. 이 커밋이 붙이려는 위치(제목 바로 아래)의 텍스트가 우리 쪽에 없어 merge-tree CONFLICT. 임포트 대상 server/AGENTS.md와 그 규칙(make modules-tidy, make i18n-extract) 자체는 우리 트리에 실재하고 유효하지만, 에이전트 표면 3종 중 AGENTS.md에만 임포트를 넣으면 셋이 어긋나므로 upstream 커밋 범위를 넘는 우리 워크플로 설계 결정이 된다. 반영하지 않아도 upstream과의 격차가 누적되지 않는 드문 경우다 — 이 파일은 앞으로도 우리 정본으로 유지한다. |
 
 | 69fbaece | [\[MM-68496\] Feature flag Managed Categories, expose Default Category Name to UI for channel creation and settings (#36289)](https://github.com/mattermost/mattermost/commit/69fbaeced9a52afffb8dcc37278e6084ef570880) | 제외한 01219efb([MM-68037] Managed Sidebar Categories MVF, #35935)의 직접 후속이라 반영할 토대가 없음 — 48f2fd08(Integrated Boards MVP, #35796) property 시스템 v2 계보 12번째. 우리 트리에 Managed Categories 실체가 0건이다(grep -rl 'ManagedCategory\|managedCategory\|managed_category' server/ webapp/channels/src → 0개 파일). 이 커밋이 수정하려는 대상이 전부 부재 — (1) app/migrations.go의 doSetupManagedCategoryProperties·cacheManagedCategoryIDs·managedCategorySetupDoneKey 없음(01219efb 소산), (2) ChannelPatch.ManagedCategoryName과 model.ManagedCategoryPropertyGroupName 없음, (3) server/channels/api4/properties.go 파일 자체 부재(48f2fd08 소산)라 라우트 게이트에 ManagedChannelCategories를 추가할 대상이 없음, (4) managed_category_selector.tsx/.scss/.test.tsx가 없어 category_selector로의 개명이 불가, (5) redux 셀렉터 areManagedCategoriesEnabled·isChannelCategorySortingEnabled·makeGetSidebarCategoryNamesForTeam 전부 0건, (6) 신규 store 메서드 IncrementVersion이 전제하는 PropertyGroup.Version이 제외한 9c684e63 소산이라 부재. 커밋 제목 후반부인 'Default Category Name을 UI에 노출'도 분리 불가 — Channel.DefaultCategoryName 필드 자체는 무관한 옛 커밋 25a4839a9e(Automatic channel category sorting, #30866)로 우리에게 있으나, 이 커밋의 노출 방식이 Managed Categories에서 개명된 CategorySelector 컴포넌트와 같은 모달 배선을 재사용해 두 절반이 얽혀 있다. 규모도 39파일 +1298/-294에 신규 feature flag ManagedChannelCategories, 마이그레이션 버전 v2 승격, 신규 store 메서드 5계층(store/sqlstore/retrylayer/timerlayer/mocks) 포함. merge-tree CONFLICT 7건(channels.yaml, api4/channel.go, api4/channel_test.go, api4/properties.go, app/channel.go, app/migrations.go, managed_categories.spec.ts). 강행 시 서버는 없는 함수 수정으로 빌드 실패, 웹앱은 존재하지 않는 components/category_selector 임포트로 타입 체크·번들 실패. upstream 기준으로도 ManagedChannelCategories 플래그 기본값이 false라 당장의 제품 공백은 아니다. 필요해지면 48f2fd08의 property 절반 분할 반영을 선행 과제로 두고 01219efb부터 spec으로 여는 것이 순서다. |
+
+| 33ddd8a4 | [fix: permission required by test-system-io actions (#36477)](https://github.com/mattermost/mattermost/commit/33ddd8a47bbf944688dfffb09f86d9256c7f6a3d) | 직전 커밋 91de3d23(SEC-10179 test system IO 통합)을 adapt로 처리하며 워크플로 절반을 반영하지 않았으므로 이 권한을 요구하는 소비자가 우리 트리에 없다. 커밋 제목 그대로 'test-system-io 액션이 요구하는 권한'인데, mattermost/mattermost-test-system-io 액션과 v2 템플릿(e2e-tests-{cypress,playwright}-template-v2.yml)을 반영하지 않아 id-token: write를 쓸 대상이 없다. 게다가 .github/workflows/e2e-tests-ci.yml은 우리 저장소에서 실행되지 않는다 — 트리거가 workflow_dispatch와 Argo Events(Enterprise CI/docker-image 상태 체크 성공)로 Mattermost 내부 인프라를 전제하고, PR #372 체크 목록에 e2e 잡이 0건이다. id-token: write는 OIDC 토큰 발급 권한이라 최소 권한 원칙상 필요한 곳에만 부여하는 것이 맞고, 실행되지 않는 워크플로에 미리 열어둘 근거가 없다. merge-tree는 CLEAN이라 반영 자체는 무해하나 근거 없는 설정만 남는다. signals가 표시한 보호 경로는 upstream CODEOWNERS 기준이며 우리 저장소엔 .github/CODEOWNERS가 없어 해당 없음. |
+
+| c3322b3a | [fix: permission required by e2e test-system-io actions (#36478)](https://github.com/mattermost/mattermost/commit/c3322b3a05ef35c6556e4a352a30ae5d482df949) | test system IO 3부작(91de3d23 adapt → 33ddd8a4 exclude → 이 커밋)의 마지막 조각으로, 앞선 두 결정의 직접적 귀결이라 반영할 대상이 없다. merge-tree CONFLICT 3건이 전부 우리가 안 받은 것 위에 얹으려다 생겼다 — (1) e2e-tests-cypress.yml과 (2) e2e-tests-playwright.yml의 대상은 v2 템플릿을 호출하는 잡인데 91de3d23을 adapt하며 그 잡을 만들지 않아 적용 대상 자체가 없고, (3) e2e-tests-ci.yml은 33ddd8a4가 넣었어야 할 id-token: write 4줄이 우리 쪽에 없어 그 위에 pull-requests: write를 얹으려니 컨텍스트가 어긋난다. 충돌 없이 붙는 e2e-tests-on-merge.yml·e2e-tests-on-release.yml의 권한 블록 40줄도 test-system-io 액션이 PR에 코멘트를 달기 위한 것이라 소비자가 없고, 두 워크플로 모두 Mattermost 내부 릴리스 파이프라인을 전제해 우리 저장소에서 실행되지 않는다. pull-requests: write는 워크플로가 PR 본문·코멘트·라벨을 수정할 수 있는 강한 권한이라 실행되지 않는 워크플로에 부여할 근거가 없다(최소 권한 원칙). |
+
+| 3c792a05 | [MM-68433 - Fix DM/GM menu gating and header save in Channel Settings (#36213)](https://github.com/mattermost/mattermost/commit/3c792a0535d4372af8e1b10b105fd161d5e333c7) | 제외한 a8dc8baa([MM-67235] Add support for autotranslations on GM and DM, #35255)가 깐 GM/DM 자동번역 배선의 버그 수정이라 고칠 대상이 우리 트리에 없다. a8dc8baa는 실제 번역 로직이 비공개 github.com/mattermost/enterprise/autotranslation에만 있어 작동 불가라는 사유로 제외했고 사설 모듈 표에도 등재돼 있다. 파일별로 — (1) selectors/views/channel_settings.ts는 merge-tree CONFLICT이며 우리 셀렉터엔 DM/GM 자동번역 분기가 통째로 없다(isDMAndGMAutotranslationRestricted·isAutoTranslationEnabled·hasTranslationPermission 전부 부재), 이 커밋의 변경은 그 분기의 주석 수정이라 대상 자체가 없다. (2) channel_settings_info_tab.tsx는 merge-tree가 auto-merge로 보고하지만 실제로는 빌드를 깨뜨린다 — 변경이 'if (!displayName.trim())'을 'if (!isDMorGroupChannel && !displayName.trim())'로 바꾸는데 우리 파일엔 isDMorGroupChannel이 없고 DM_CHANNEL·GM_CHANNEL 참조도 0건이다. upstream 부모엔 16번 등장하며 도입 커밋이 바로 제외한 a8dc8baa다. 텍스트 3-way 병합이라 merge-tree가 못 잡는 미정의 식별자 참조 케이스. (3) channel_settings_modal.tsx의 isDMorGM 조기 반환 4줄만은 붙지만, 그 함수가 계산하는 자동번역 권한이 우리에겐 비활성 기능이라 의미가 없다. E2E 스펙 autotranslation_permissions.spec.ts 146줄과 lib/src/ui/pages/channels.ts 헬퍼 15줄도 작동하지 않는 기능 대상이다. |
 
 ## spec 전환 커밋
 
