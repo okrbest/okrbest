@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-24 22:14
+- 갱신일: 2026-08-24 22:24
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 677개
+- 남은 커밋: 676개
 
-**마지막 반영 커밋:** `b052f346` | [E2E/Playwright: balance shard timing by enabling fullyParallel in CI (#36054)](https://github.com/mattermost/mattermost/commit/b052f3463a618d98c2f335f9d96c1f6f6531cef5) | 2026-05-09
+**마지막 반영 커밋:** `e2700a96` | [test: mark autotranslation tests as fixme for quick green in ci and to address those separately (#36492)](https://github.com/mattermost/mattermost/commit/e2700a961afdb06cc7c4608dfa87f2047a22ef1b) | 2026-05-10
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| e2700a96 | [test: mark autotranslation tests as fixme for quick green in ci and to address those separately (#36492)](https://github.com/mattermost/mattermost/commit/e2700a961afdb06cc7c4608dfa87f2047a22ef1b) | 2026-05-10 |
 | 52c400ed | [Update E2E test workflows to use context names and server images and bump playwright workers to 10 (#36496)](https://github.com/mattermost/mattermost/commit/52c400ed1ff92c91b776898678148c279b476c13) | 2026-05-11 |
 | 0afef776 | [Include connection ID in plugin context (#36074)](https://github.com/mattermost/mattermost/commit/0afef7760c40d87a492d540e1bb428a094e66cce) | 2026-05-11 |
 | ef8a8cf2 | [Add Azurite to test infrastructure (#36485)](https://github.com/mattermost/mattermost/commit/ef8a8cf2cbf180ae18d94be060ddf08d8c07e68e) | 2026-05-11 |
