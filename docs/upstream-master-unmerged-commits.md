@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-25 12:04
+- 갱신일: 2026-08-25 13:08
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 670개
+- 남은 커밋: 663개
 
-**마지막 반영 커밋:** `3c39d615` | [Fix invite modal autocomplete clipping (#36505)](https://github.com/mattermost/mattermost/commit/3c39d615443e6a5782fe68d30fc63382bf11953c) | 2026-05-11
+**마지막 반영 커밋:** `8a8a4ac8` | [Add `Session` field to `Subject` (#36523)](https://github.com/mattermost/mattermost/commit/8a8a4ac8b14ff50f3423008024c6751cd0852b32) | 2026-05-12
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 5c21fbbc | [\[MM-68588\] Add notice in System Console when policy has mixed channel… (#36350)](https://github.com/mattermost/mattermost/commit/5c21fbbc0f9145ed083a0f0bccd5848457676401) | 2026-05-12 |
-| 69f30c21 | [MM-68708 - Fix TestCreatePost shared DM/GM subtests when env pins feature flag (#36488)](https://github.com/mattermost/mattermost/commit/69f30c21e93f87cd7f2f08b913ec052bffb8ac6d) | 2026-05-12 |
-| 0530d60e | [MM-68722 - Set higher statistics target on posts.rootid and posts.channelid (#36506)](https://github.com/mattermost/mattermost/commit/0530d60e4af9d45d779af773a8e25c0bf0922b3f) | 2026-05-12 |
-| f3ec71f2 | [wrap instead of embedding sqlx.DB (#36510)](https://github.com/mattermost/mattermost/commit/f3ec71f25faf0621656d5fffe1257a205fe5c2b9) | 2026-05-12 |
-| e3fbf871 | [MM-68149: Upgrade to Go 1.26.2 (#36418)](https://github.com/mattermost/mattermost/commit/e3fbf8711f73ac1266ebc943f88999175c2594ef) | 2026-05-12 |
-| 5661fe19 | [MM-68501 - implement GetMaskedVisualAST and wire API handler (#36413)](https://github.com/mattermost/mattermost/commit/5661fe19416045eb06eff77e2a2f532d428b007f) | 2026-05-12 |
-| 8a8a4ac8 | [Add `Session` field to `Subject` (#36523)](https://github.com/mattermost/mattermost/commit/8a8a4ac8b14ff50f3423008024c6751cd0852b32) | 2026-05-12 |
 | d8612e37 | [\[MM-2541\] Shortcut to mark all channels as read for a team (#34012)](https://github.com/mattermost/mattermost/commit/d8612e378f61933ae8fb7e66c0308eb9a13c42e6) | 2026-05-13 |
 | 11b55b77 | [Document Mattermost cloud startup flow (#36559)](https://github.com/mattermost/mattermost/commit/11b55b77f33f13de3b2f4c885ac9a3911e0e42ae) | 2026-05-13 |
 | 323841e9 | [Add board channel types (BO/BP) for Integrated Boards (#35887)](https://github.com/mattermost/mattermost/commit/323841e9c560e75a4f8fd3d106b0fd2d780216fc) | 2026-05-13 |
@@ -819,6 +812,8 @@
 | 2bd143ce | [\[MM-65630\] Implement Search RHS popout, clean up and rework parts of search RHS (#35499)](https://github.com/mattermost/mattermost/commit/2bd143ced747794d40e17bae5654ebc837d085fa) | 008-search-rhs-popout |
 
 | 7425c681 | [\[MM-67741\] Scope role_updated WS events to affected team/channel (#35497)](https://github.com/mattermost/mattermost/commit/7425c6817bf244f976c729f8a73cecac8039a1e1) | specs/009-scope-role-updated-ws |
+
+| e3fbf871 | [MM-68149: Upgrade to Go 1.26.2 (#36418)](https://github.com/mattermost/mattermost/commit/e3fbf8711f73ac1266ebc943f88999175c2594ef) | 010-go-1-26-upgrade — Go 1.26.2 툴체인 이행. upstream diff 수용을 넘어 우리 트리 전체 이행이 필요해 spec으로 전환. 범위: (1) 버전 핀 6곳(server/.go-version, server/go.mod, server/public/go.mod, tools/mattermost-govet/go.mod, tools/sharedchannel-test/go.mod) 1.25.9→1.26.2, (2) model.NewPointer(x)→new(x) 치환 — upstream diff는 3406곳을 다루지만 우리 트리 호출은 4678곳이라 약 1200곳이 okrbest 자체 코드(알림 히스토리·조직 역할·직위 등)에 남는다. builtin.go의 //go:fix inline 지시자를 함께 도입하면 go fix ./...로 일괄 처리 가능, (3) bToP/boolPtr 헬퍼 제거 53곳, reflect.Ptr→reflect.Pointer 14곳, NumField() 루프→Fields() 레인지 6곳, (4) JPEG 픽스처 24개 재생성 — Go 1.26의 새 image/jpeg 인코더가 출력 바이트를 바꾼다. 커밋이 도입하는 -update-fixtures 플래그와 허용오차 픽셀 비교(preview_test.go)를 함께 반영해 향후 툴체인 드리프트를 자동 흡수, (5) CI 신규 잡 check-go-fix(.github/workflows/server-ci.yml, 보호 경로) — go fix ./... 후 diff가 있으면 실패하므로 (2)를 끝내지 않으면 CI가 막힌다, (6) golangci-lint v2.11.4의 Go 1.26 지원 확인(server/Makefile). cherry-pick 충돌은 7건이며 그중 api4/properties_test.go와 model/view_test.go는 우리 트리에 없는 유령(제외한 48f2fd08 property/boards 계보)이고, 실질 충돌 5건은 api4/post_test.go·app/channel_test.go(이번·지난 세션에 우리가 반영한 커밋들로 줄 밀림), storetest/post_store.go, model/config.go(okrbest 자체 EnableWatermark 등), model/property_field_test.go. 규모 262파일 +4680/-4586, 보호 경로 3곳(.github/workflows/server-ci.yml, server/enterprise/elasticsearch/common/templates.go, indexing_job_test.go) 접촉. 부수 효과 — 2026-08-25 sync에서 bbbfc019(imaging 교체) 후 TestGenerateMiniPreviewImage가 실패한 원인(로컬 go.work가 1.26.2를 강제하는데 저장소는 1.25.9 목표)이 이 이행으로 해소된다. |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
