@@ -28,13 +28,23 @@
 
 | 대상 | 건수 | 변환 | 수단 | 게이트 영향 |
 |---|---|---|---|---|
-| `model.NewPointer(x)` 호출 | 4678 | `new(x)` | `gofmt -r` + `goimports` (결정 3) | **없음** — 제네릭이라 린터가 인식 못 함 |
+| `NewPointer(x)` 호출 | 4678 | `new(x)` | **upstream diff** (잔여 1곳만 `gofmt -r`) | **없음** — 제네릭이라 린터가 인식 못 함 |
 | `bToP(x)` | 37 | `new(x)`, 헬퍼 제거 | upstream diff | **있음** — `newexpr` 37건 |
 | `boolPtr(x)` | 4 | `new(x)`, 헬퍼 제거 | upstream diff | 있음 |
 | `reflect.Ptr` | 19 | `reflect.Pointer` | `go fix` (실증됨) | 없음 |
 | 구조체 필드·메서드 순회 | ~6 | `Fields()`/`Methods()` 레인지 | upstream diff | `stditerators` 5건 |
 
-`NewPointer` 4678곳 중 upstream diff가 덮는 범위는 3406곳이고, 나머지 약 1200곳이 okrbest 자체 코드다.
+**변환 방향**: `NewPointer(x)` **→** `new(x)`. Go 1.26이 내장 `new()`에 값 표현식을 허용하면서 헬퍼가 불필요해졌다. `NewPointer` 함수는 삭제되지 않으므로 미변환분도 컴파일된다 — 표기 정합 목적이다.
+
+**범위 실측 (파일 단위 전수 대조)**:
+
+| 측정 | 결과 |
+|---|---|
+| 우리 4678 vs upstream 부모 4915 | upstream 쪽이 **더 많다** |
+| 우리에게만 더 있는 줄 | **0** |
+| 212개 파일 중 upstream 커밋 범위 밖 | **1개** (`channels/api4/content_flagging_report_test.go`, 1곳) |
+| okrbest 고유 Go 파일 18개의 사용 | **0건** — 알림 히스토리·조직 역할·직위 전부 미사용 |
+| cherry-pick 후 예상 잔존 | 약 450줄 (upstream과 같은 수준) |
 
 **의존**: 모든 변환은 버전 핀 상승 이후에만 가능하다 (research 결정 1).
 

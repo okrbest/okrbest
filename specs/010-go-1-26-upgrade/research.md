@@ -24,7 +24,7 @@ public/model/builtin.go:9:41: new(t) requires go1.26 or later (-lang was set to 
 
 ## 결정 2 — `//go:fix inline` + `go fix`로는 `NewPointer`가 변환되지 않는다
 
-**결정**: `NewPointer` 호출 4678곳의 변환에 `go fix`를 쓸 수 없다. 별도 메커니즘이 필요하다.
+**결정**: `NewPointer` 호출(우리 트리 4678곳)의 변환에 `go fix`를 쓸 수 없다. 변환 자체는 upstream diff가 처리하지만, 그 범위 밖에 남는 것과 향후 유입분에는 별도 메커니즘이 필요하다.
 
 **근거 (실증)**: upstream `e3fbf871`은 `builtin.go`에 `//go:fix inline`을 붙이고 본문을 `new(t)`로 바꾼다. 우리 트리에 동일하게 적용하고 핀을 올린 뒤 `go fix ./channels/utils/`를 돌린 결과:
 
@@ -35,7 +35,9 @@ public/model/builtin.go:9:41: new(t) requires go1.26 or later (-lang was set to 
 
 > Remove `//go:fix inline` from NewPointer, which is a generic function **not yet supported by the inline analyzer**
 
-즉 upstream의 `//go:fix inline`은 **수명이 이틀인 잘못된 시도**였고, e3fbf871의 3406곳 변환은 `go fix`가 아닌 다른 수단으로 이뤄졌다.
+즉 upstream의 `//go:fix inline`은 **수명이 이틀인 잘못된 시도**였고, e3fbf871의 대량 변환은 `go fix`가 아닌 다른 수단으로 이뤄졌다.
+
+**변환 방향 확인**: 헷갈리기 쉬운 지점이라 못박는다. `NewPointer(x)` **→** `new(x)` 방향이다. Go 1.26이 내장 `new()`에 값 표현식을 허용하면서(`new("abc")` → `*string`) 헬퍼가 불필요해졌다. 헬퍼 자신의 본문도 `return &t` → `return new(t)`로 바뀐다. `NewPointer` 함수는 **삭제되지 않고 남으므로**, 변환하지 않은 호출부도 계속 컴파일된다 — 이 변환은 컴파일 요건이 아니라 upstream과의 표기 정합이다.
 
 **따라서 upstream을 따른다는 것의 의미**: `e3fbf871`의 지시자를 그대로 가져오되, 그것이 변환 수단이라고 기대하지 않는다. 그리고 `d4fc0ecb`를 반영할 때 지시자가 제거된다는 점을 미리 안다.
 
@@ -43,7 +45,19 @@ public/model/builtin.go:9:41: new(t) requires go1.26 or later (-lang was set to 
 
 ## 결정 3 — 잔여 `NewPointer` 변환은 `gofmt -r` + `goimports`로 한다
 
-**결정**: upstream diff가 덮지 않는 okrbest 자체 코드의 `NewPointer` 호출은 `gofmt -r 'model.NewPointer(a) -> new(a)'`로 치환하고, 이어서 `goimports`로 미사용 임포트를 정리한다.
+**결정**: cherry-pick 후에도 남는 `NewPointer` 호출은 `gofmt -r 'model.NewPointer(a) -> new(a)'`로 치환하고, 이어서 `goimports`로 미사용 임포트를 정리한다.
+
+**적용 규모 정정**: 이 결정의 초판은 대상을 "okrbest 자체 코드 약 1200곳"으로 잡았다. 실측 결과 **그런 범위는 없다**.
+
+| 측정 | 결과 |
+|---|---|
+| 우리 트리 `NewPointer(` 포함 줄 | 4678 |
+| upstream 부모(`e3fbf871^`) 같은 값 | 4915 (우리보다 많다) |
+| 파일 단위 전수 대조 — 우리에게만 더 있는 줄 | **0** |
+| 212개 파일 중 upstream 커밋 범위 밖 | **1개** (`channels/api4/content_flagging_report_test.go`, 호출 1곳) |
+| okrbest 고유 Go 파일 18개의 `NewPointer` 사용 | **0건** |
+
+즉 알림 히스토리·조직 역할·직위 등 okrbest 자체 기능 코드는 이 표기를 아예 쓰지 않는다. 이 메커니즘은 **잔여 1곳 처리와 향후 유입분 대비**용으로 남긴다.
 
 **근거 (실증)**: `channels/utils` 패키지에 적용해 확인했다.
 
@@ -57,7 +71,7 @@ public/model/builtin.go:9:41: new(t) requires go1.26 or later (-lang was set to 
 | 대안 | 기각 사유 |
 |---|---|
 | `go fix` | 결정 2 — 제네릭 미지원으로 동작하지 않음 |
-| 손수 4678곳 수정 | 재현 불가·검토 불가. FR-004 위반 |
+| 손수 대량 수정 | 재현 불가·검토 불가. FR-004 위반 |
 | 변환 생략 | 게이트는 통과하지만(결정 5) upstream 최종 상태와 어긋나 이후 sync 충돌이 계속 쌓인다 |
 
 **주의**: `server/public/model` 패키지 내부 호출은 수식자가 없으므로 규칙이 하나 더 필요하다 — `NewPointer(a) -> new(a)`.
@@ -100,7 +114,7 @@ upstream이 `d4fc0ecb`에서 v2.12.2로 올린 것은 Go 1.26 호환 때문이 �
 
 **11개 파일 전부가 upstream 커밋 범위 안에 있다.** 따라서 "최대한 upstream을 따라간다"는 방침이 여기서 그대로 효력을 낸다 — 우리가 독자적으로 고칠 지적이 하나도 없다.
 
-**따름 정리**: okrbest 자체 코드의 `NewPointer` 호출 약 1200곳은 린터 지적을 **내지 않는다**(제네릭이라 `newexpr` 분석기가 인식하지 못한다 — 결정 2와 같은 이유). 즉 결정 3의 변환은 **게이트 통과에 필수가 아니고**, 목적은 upstream 최종 상태와의 정합과 이후 sync 충돌 감소다. 이 사실이 작업 순서를 가른다(결정 7).
+**따름 정리**: `NewPointer` 호출은 몇 곳이 남든 린터 지적을 **내지 않는다**(제네릭이라 `newexpr` 분석기가 인식하지 못한다 — 결정 2와 같은 이유). 즉 결정 3의 변환은 **게이트 통과에 필수가 아니고**, 목적은 upstream 최종 상태와의 정합과 이후 sync 충돌 감소다.
 
 ---
 
@@ -125,12 +139,12 @@ var updateImagingFixtures = flag.Bool("update-fixtures", false, "overwrite imagi
 **결정**: 작업 순서를 이렇게 둔다.
 
 1. 버전 핀 상승 (결정 1 — 선행 필수)
-2. upstream `e3fbf871` cherry-pick + 충돌 5건 해소 (결정 5 — 게이트 해결)
+2. upstream `e3fbf871` cherry-pick + 충돌 7건 해소 (결정 5·8 — 게이트 해결)
 3. 픽스처 검증·필요 시 재생성 (결정 6)
-4. 잔여 `NewPointer` 자체 변환 (결정 3 — 게이트와 무관, 정합 목적)
+4. 잔여 `NewPointer` 실측·처리 (결정 3 — 예상 1곳, 게이트와 무관)
 5. `check-go-fix` CI 잡 도입 (마지막 — 앞 단계가 끝나야 통과)
 
-**근거**: 2번이 끝나면 게이트(SC-004)가 이미 통과한다. 4번은 게이트에 영향이 없으므로 뒤로 미뤄 **위험을 분리**할 수 있다. 만약 4번에서 문제가 생겨도 1~3번의 성과는 그대로 남는다. 반대로 4번을 먼저 하면 4678곳이 바뀐 트리 위에서 cherry-pick 충돌을 풀어야 해 훨씬 어렵다.
+**근거**: 2번이 끝나면 게이트(SC-004)가 이미 통과하고, `NewPointer`도 4678 → 약 450줄(upstream이 남기는 잔여와 같은 수준)로 정리된다. 4번은 그 뒤 **실측으로 잔여를 확인하는 단계**이지 대량 작업이 아니다 — 현재 예상 대상은 `content_flagging_report_test.go` 1곳이다. 반대로 4번을 먼저 하면 대량 변환된 트리 위에서 cherry-pick 충돌을 풀어야 해 훨씬 어렵다.
 
 **5번을 마지막에 두는 이유**: `check-go-fix`는 `go fix ./...` 후 diff가 없어야 통과한다. `reflect.Ptr` 등이 남아 있으면 실패하므로 2번 이후여야 한다.
 
@@ -161,6 +175,6 @@ var updateImagingFixtures = flag.Bool("update-fixtures", false, "overwrite imagi
 ## 미해결 위험
 
 1. **`model/config.go` 충돌** — okrbest 자체 설정 필드가 있는 유일한 실질 충돌이다. 변환(`NewPointer`→`new`)은 기계적이지만 우리 필드가 섞인 구역에서 잘못 해소하면 설정이 유실된다. 해소 후 `TestConfigDefaults` 계열로 검증해야 한다.
-2. **자체 코드 1200곳의 표본 검토** — `gofmt -r`은 AST 기반 치환이라 의미를 보존하지만, upstream 검토를 거치지 않은 범위다. 변환 후 패키지별 테스트로 확인하고, `git diff --stat`으로 예상 밖 파일이 바뀌지 않았는지 본다.
+2. **cherry-pick 후 잔여 실측** — 2단계 후 실제로 몇 곳이 남는지는 충돌 해소 방식에 따라 달라진다. 예상은 1곳이지만, 4단계에서 `grep`으로 확인한 뒤 `gofmt -r`을 적용할지 판단한다. 적용한다면 `goimports`를 반드시 뒤따르고(결정 3), `git diff --stat`으로 예상 밖 파일이 바뀌지 않았는지 본다.
 3. **보호 경로 3곳** — `.github/workflows/server-ci.yml`(CODEOWNERS), `enterprise/elasticsearch/common/templates.go`, `indexing_job_test.go`. 병합 시 code owner 리뷰가 필요할 수 있다.
 4. **작업 기간의 병행 변경** — 거의 모든 Go 파일을 건드리므로, 이행 중 다른 Go 변경이 병합되면 대규모 충돌이 난다. 착수 전 열린 PR을 정리해야 한다.
