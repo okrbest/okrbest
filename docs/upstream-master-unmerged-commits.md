@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-24 22:24
+- 갱신일: 2026-08-25 11:27
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 676개
+- 남은 커밋: 679개
 
-**마지막 반영 커밋:** `e2700a96` | [test: mark autotranslation tests as fixme for quick green in ci and to address those separately (#36492)](https://github.com/mattermost/mattermost/commit/e2700a961afdb06cc7c4608dfa87f2047a22ef1b) | 2026-05-10
+**마지막 반영 커밋:** `55496c07` | [Update API docs (#36302)](https://github.com/mattermost/mattermost/commit/55496c07c116f415244b14bbead53bc728f04d6e) | 2026-05-11
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 52c400ed | [Update E2E test workflows to use context names and server images and bump playwright workers to 10 (#36496)](https://github.com/mattermost/mattermost/commit/52c400ed1ff92c91b776898678148c279b476c13) | 2026-05-11 |
-| 0afef776 | [Include connection ID in plugin context (#36074)](https://github.com/mattermost/mattermost/commit/0afef7760c40d87a492d540e1bb428a094e66cce) | 2026-05-11 |
-| ef8a8cf2 | [Add Azurite to test infrastructure (#36485)](https://github.com/mattermost/mattermost/commit/ef8a8cf2cbf180ae18d94be060ddf08d8c07e68e) | 2026-05-11 |
-| 55496c07 | [Update API docs (#36302)](https://github.com/mattermost/mattermost/commit/55496c07c116f415244b14bbead53bc728f04d6e) | 2026-05-11 |
 | 71949aff | [chore: Update NOTICE.txt file with updated dependencies (#36499)](https://github.com/mattermost/mattermost/commit/71949aff69281fc17379ae642457a7f4b3dbc7d1) | 2026-05-11 |
 | 7e1bec4d | [MM-68233: Fix sidebar icon not updating on channel privacy conversion via WS (#36006)](https://github.com/mattermost/mattermost/commit/7e1bec4d4f545ad6a62d7655513c865ef15c5fb8) | 2026-05-11 |
 | 068e15f3 | [Bumping version of prepackaged github plugin to v2.7.1 (#36482)](https://github.com/mattermost/mattermost/commit/068e15f31cbd84c72a886634080ab346749d416a) | 2026-05-11 |
@@ -687,6 +683,13 @@
 | 2d6fc019 | [Bump Go version in missed go.mod files (#38102)](https://github.com/mattermost/mattermost/commit/2d6fc019076174e4cdfb03ac49ec70a5820b86de) | 2026-08-24 |
 | a3e171f7 | [\[MM-70224\] Migrate property field reads to request context (#37636)](https://github.com/mattermost/mattermost/commit/a3e171f730781dc87e5eb0f36d556f9eb39fc22a) | 2026-08-24 |
 | 9091791e | [Require release team review for release documentation (#38097)](https://github.com/mattermost/mattermost/commit/9091791efe39d9ac8007d25c57184e2dbdb0389b) | 2026-08-24 |
+| 2ee9804f | [\[MM-63635\] Fix plugin RHS panels not opening from the App Bar in the Threads view (#38116)](https://github.com/mattermost/mattermost/commit/2ee9804f99ca975b5df839346c46e89535379812) | 2026-08-24 |
+| 2c9524e3 | [\[MM-70387\] Keep App Marketplace modal at a fixed width when paging (#38057)](https://github.com/mattermost/mattermost/commit/2c9524e382a4a50cb5c2cd37cc6082586a7bb00b) | 2026-08-24 |
+| 5d5d4e27 | [\[MM-70389\] Add Android to the user_agent_platform session attribute values (#38059)](https://github.com/mattermost/mattermost/commit/5d5d4e27523ed2d7a1fe4ea31210b173414e6d2d) | 2026-08-24 |
+| 9b4ab46c | [\[MM-70402\] Fix Channel Settings showing unsaved changes on open for channels with untidy stored text (#38115)](https://github.com/mattermost/mattermost/commit/9b4ab46cc200e8e07fbec8475d2354dce5fcff60) | 2026-08-24 |
+| 84414404 | [Fix nil context panic in TestDoSetupSessionAttributesProperties (#38123)](https://github.com/mattermost/mattermost/commit/84414404a1d3032564fea9eb139fac14c72f045c) | 2026-08-24 |
+| 2021503f | [Log file IDs instead of filenames during file upload and content extraction (#37987)](https://github.com/mattermost/mattermost/commit/2021503fd7b9275147c11337aecdd02fd4883caf) | 2026-08-24 |
+| 4608b024 | [\[MM-70291\] Add Global Relay custom EML header setting (#38010)](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) | 2026-08-24 |
 
 ## 제외된 커밋
 
