@@ -12,7 +12,9 @@
 
 Phase 0 조사에서 방침을 그대로 밀고 나갈 근거를 얻었다. **언어 버전을 올리면 `make check-style`이 58건으로 실패하는데, 그 58건이 걸린 파일 11개가 전부 upstream 커밋 범위 안에 있다.** 즉 upstream diff를 충실히 반영하는 것만으로 품질 게이트가 해결된다 — 우리가 독자적으로 고칠 지적이 하나도 없다.
 
-동시에 **upstream을 그대로 따라가면 안 되는 지점 하나**도 실증으로 확인했다. upstream이 `builtin.go`에 넣은 `//go:fix inline`은 `go fix`로 `NewPointer` 호출을 변환하려는 시도인데, 제네릭 함수라 인라인 분석기가 인식하지 못해 **동작하지 않는다**. upstream 자신도 이틀 뒤 `d4fc0ecb`에서 그 지시자를 제거했다. 따라서 잔여 4678곳 변환은 `gofmt -r` + `goimports`로 하고, 지시자는 upstream 원문대로 받되 변환 수단으로 기대하지 않는다.
+동시에 **upstream을 그대로 따라가면 안 되는 지점 하나**도 실증으로 확인했다. upstream이 `builtin.go`에 넣은 `//go:fix inline`은 `go fix`로 `NewPointer` 호출을 변환하려는 시도인데, 제네릭 함수라 인라인 분석기가 인식하지 못해 **동작하지 않는다**. upstream 자신도 이틀 뒤 `d4fc0ecb`에서 그 지시자를 제거했다. 지시자는 upstream 원문대로 받되 변환 수단으로 기대하지 않는다.
+
+> **정정 (2026-08-25)**: 이 계획의 초판은 "okrbest 자체 코드 약 1200곳을 우리가 따로 변환해야 한다"를 전제로 4단계를 대량 작업으로 잡았다. **그 전제가 틀렸다.** 우리 트리의 `NewPointer` 4678곳은 파일 단위 전수 대조에서 **전부 upstream 커밋 범위 안**이고(우리에게만 더 있는 줄 0), okrbest 고유 Go 파일 18개의 사용은 **0건**이다. 범위 밖은 `content_flagging_report_test.go` 1파일 1곳뿐이다. 4단계를 대량 변환에서 **잔여 실측·처리**로 축소한다. 변환 방향도 못박는다 — `NewPointer(x)` **→** `new(x)`이며, 헬퍼는 삭제되지 않으므로 컴파일 요건이 아니라 표기 정합이다.
 
 ## 기술 맥락
 
@@ -32,7 +34,7 @@ Phase 0 조사에서 방침을 그대로 밀고 나갈 근거를 얻었다. **�
 
 **제약**: 이행 중 다른 대규모 Go 변경 병행 불가(거의 모든 Go 파일 접촉). 보호 경로 3곳 접촉
 
-**규모**: Go 파일 2042개, `NewPointer` 호출 4678곳, 픽스처 23개, 신규 린터 지적 58건
+**규모**: Go 파일 2042개, `NewPointer` 호출 4678곳(전부 upstream diff 범위, 잔여 예상 1곳), 픽스처 23개, 신규 린터 지적 58건
 
 ## Constitution Check
 
@@ -119,10 +121,10 @@ tools/
 | **1** | 버전 핀 5개 상승 | `go build ./...` 통과 | **선행 필수**. `new(x)`가 언어 버전 1.26 이상을 요구해, 핀 없이는 어떤 변환도 컴파일되지 않는다(실증) |
 | **2** | upstream `e3fbf871` cherry-pick + 충돌 7건 해소 | `make check-style` **0 issues** | 린터 지적 58건이 전부 이 diff로 해결된다. 게이트가 여기서 닫힌다 |
 | **3** | 픽스처 23개 검증·필요 시 재생성 | imaging 테스트 통과 | 2단계에서 픽스처가 함께 들어온다. 우리 툴체인에서 통과하는지 확인 |
-| **4** | 잔여 `NewPointer` 변환 (`gofmt -r` + `goimports`) | 잔존 0건, 신규 FAIL 0건 | **게이트와 무관**(제네릭이라 린터가 인식 못 함). 위험을 뒤로 분리 — 여기서 문제가 생겨도 1~3단계 성과는 남는다 |
+| **4** | 잔여 `NewPointer` **실측** 후 필요 시 `gofmt -r` + `goimports` | 잔존이 upstream 수준(약 450줄)이고 신규 FAIL 0건 | **게이트와 무관**(제네릭이라 린터가 인식 못 함). 2단계가 대부분을 정리하므로 여기서 다룰 예상 대상은 `content_flagging_report_test.go` **1곳** |
 | **5** | `check-go-fix` CI 잡 도입 + constitution 갱신 | CI 통과, 위반 주입 시 실패 | `go fix` 잔여물이 없어야 통과하므로 2·4단계 이후여야 한다 |
 
-**되돌리기**: 각 단계가 별도 커밋이므로 문제 발생 시 해당 커밋만 `git revert`한다. 특히 4단계는 4678곳을 건드리므로 단독 커밋으로 분리한다.
+**되돌리기**: 각 단계가 별도 커밋이므로 문제 발생 시 해당 커밋만 `git revert`한다. 4단계는 변경이 발생하는 경우에만 단독 커밋으로 분리한다.
 
 **완료 커밋 요건**: 본문에 `Upstream: https://github.com/mattermost/mattermost/commit/e3fbf8711f73ac1266ebc943f88999175c2594ef`를 넣어야 미반영 목록에서 자동 차감된다(SC-007).
 
@@ -136,7 +138,7 @@ tools/
 | `-update-fixtures` 플래그 | **upstream 원문 그대로** | 계약 문서에 원문 고정 |
 | `check-go-fix` CI 잡 | **upstream 원문 그대로** | YAML 전문을 계약 문서에 고정 |
 | `//go:fix inline` 지시자 | **원문대로 받되 수단으로 쓰지 않음** | 제네릭 미지원으로 무효. upstream도 `d4fc0ecb`에서 제거 |
-| `NewPointer` 잔여 변환 수단 | **upstream과 다름** (`gofmt -r`) | upstream에는 우리 1200곳이 존재하지 않아 참조할 방법이 없다 |
+| `NewPointer` 잔여 변환 수단 | **upstream과 다름** (`gofmt -r`) | upstream diff는 자기네 파일 목록에 한정된다. 범위 밖 1곳과 향후 유입분에 쓸 수단이 필요하다 |
 | golangci-lint 버전 | **올리지 않음** | v2.11.4로 충분(실증). upstream의 v2.12.2 상승은 별도 sync 항목 `d4fc0ecb` |
 | property v2 계보 훅 | **폐기** | 우리 트리에 대상 파일·심볼이 없음 (제외한 `48f2fd08` 계보) |
 
@@ -145,7 +147,7 @@ tools/
 | 위험 | 영향 | 대응 |
 |---|---|---|
 | `model/config.go`·`app/channel_test.go` 충돌 해소 실수 | okrbest 자체 기본값 유실 — `AdminNoticesEnabled`(false), `TeammateNameDisplay`(별명 우선) | quickstart 6절이 두 값을 지목 검증. 표기는 `new(...)`로 바뀌되 값은 우리 것이어야 한다 |
-| 자체 코드 1200곳 변환의 의미 변화 | 조용한 동작 변화 | `gofmt -r`은 AST 기반 치환. 4단계를 단독 커밋으로 두고 `git diff --stat`으로 예상 밖 파일 확인 + 패키지별 테스트 |
+| 4단계 잔여가 예상(1곳)보다 많음 | 추가 변환 작업 발생 | 2단계 직후 `grep -rc 'NewPointer('`로 실측해 판단. `gofmt -r` 적용 시 `goimports` 필수(조사 결정 3), `git diff --stat`으로 예상 밖 파일 확인 |
 | 임포트 미사용 잔존 | 빌드 실패 | 실증됨 — `gofmt -r` 직후 반드시 `goimports` (조사 결정 3) |
 | 보호 경로 3곳 | PR 즉시 병합 거부 | 예상된 결과. PR을 열어둔 채 code owner 리뷰 요청 |
 | 이행 중 병행 Go 변경 | 대규모 충돌 | 착수 전 열린 Go PR 정리. 이행 PR을 우선 병합 |
