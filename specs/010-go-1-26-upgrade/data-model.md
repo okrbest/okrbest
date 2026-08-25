@@ -62,15 +62,17 @@
 
 upstream `e3fbf871` cherry-pick 시 발생. 처리 방침은 [research.md 결정 8](./research.md) 참조.
 
-| 파일 | 우리 트리 | 처리 |
+실물 확인 결과 두 갈래다 — **제외한 `48f2fd08` 계보 5건**(훅 폐기)과 **okrbest 자체 커스터마이즈 2건**(우리 값 보존). 툴체인 미반영으로 인한 충돌은 없다.
+
+| 파일 | 원인 | 처리 |
 |---|---|---|
-| `api4/properties_test.go` | **없음** | 훅 폐기 |
-| `model/view_test.go` | **없음** | 훅 폐기 |
-| `api4/post_test.go` | 있음 | 줄 밀림 해소 |
-| `app/channel_test.go` | 있음 | 줄 밀림 해소 |
-| `storetest/post_store.go` | 있음 | 변환 수용 |
-| `model/config.go` | 있음 | **okrbest 자체 설정 보존** |
-| `model/property_field_test.go` | 있음 | property v2 훅만 폐기 |
+| `api4/properties_test.go` | 파일 없음 | 훅 폐기 |
+| `model/view_test.go` | 파일 없음 | 훅 폐기 |
+| `api4/post_test.go` | `FeatureFlags.IntegratedBoards` 의존 | 훅 폐기 |
+| `storetest/post_store.go` | `model.PostTypeCard` 의존 | 훅 폐기 |
+| `model/property_field_test.go` | `ObjectType` 의존 | 훅 폐기 |
+| `app/channel_test.go` | **자체 구조** — `DisplayName` 단일 필드 (upstream은 `DefaultCategoryName` 분리) | 우리 구조 보존 |
+| `model/config.go` | **자체 기본값** — `AdminNoticesEnabled`, `TeammateNameDisplay` | 우리 값 보존 |
 
 ---
 
