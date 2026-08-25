@@ -140,15 +140,21 @@ var updateImagingFixtures = flag.Bool("update-fixtures", false, "overwrite imagi
 
 **결정**: upstream diff를 최대한 그대로 받고, 우리 쪽 고유 내용만 보존한다.
 
-| 파일 | 처리 |
-|---|---|
-| `api4/properties_test.go` | **훅 폐기** — 우리 트리에 없는 파일 (제외한 `48f2fd08` property v2 계보) |
-| `model/view_test.go` | **훅 폐기** — 동상 |
-| `api4/post_test.go` | 해소 — 2026-08-25 sync의 `5bdf2b66`·`69f30c21`으로 줄이 밀렸을 뿐, 내용 충돌 아님 |
-| `app/channel_test.go` | 해소 — `7e1bec4d`(사이드바 아이콘 WS)로 줄 밀림 |
-| `storetest/post_store.go` | 해소 — upstream 변환 그대로 수용 |
-| `model/config.go` | **주의** — okrbest 자체 설정(`EnableWatermark` 등)이 있다. 우리 필드를 보존하며 변환만 수용 |
-| `model/property_field_test.go` | 해소 — property v2 의존 훅이 섞여 있으면 그 부분만 폐기 |
+**실물 확인 (2026-08-25)**: 시험 cherry-pick(`--no-commit` 후 abort)으로 충돌 7건의 내용을 직접 열어 원인을 확인했다. 결과는 두 갈래로 갈린다 — **제외한 `48f2fd08` 계보 5건**과 **okrbest 자체 커스터마이즈 2건**이다. 툴체인 관련 미반영 커밋 때문에 생긴 충돌은 **하나도 없다**.
+
+| 파일 | 원인 | 처리 |
+|---|---|---|
+| `api4/properties_test.go` | 파일 자체 없음 (`48f2fd08` 계보) | **훅 폐기** |
+| `model/view_test.go` | 파일 자체 없음 (동상) | **훅 폐기** |
+| `api4/post_test.go` | upstream이 `TestUpdateCardPostByNonOwner`를 추가하는데 `FeatureFlags.IntegratedBoards` 의존 | **훅 폐기** — 우리에게 그 플래그가 없다 |
+| `storetest/post_store.go` | upstream이 `testGetPostsSinceForSyncExcludedPostTypes`를 추가하는데 `model.PostTypeCard` 의존 | **훅 폐기** — 동상 |
+| `model/property_field_test.go` | upstream이 `ObjectType` 검증 케이스 추가 | **훅 폐기** — 우리 `PropertyField`에 `ObjectType` 없음 |
+| `app/channel_test.go` | **okrbest 자체 구조 차이** — 우리는 `DisplayName` 한 필드에 값을 넣고, upstream은 `DisplayName` + `DefaultCategoryName`으로 분리 | **우리 구조 보존**, 변환(`NewPointer`→`new`)만 수용 |
+| `model/config.go` | **okrbest 자체 기본값 변경 2건** — `AdminNoticesEnabled` true→false(`c14c66a1b2`), `TeammateNameDisplay`→`ShowNicknameFullName`(`d832dacbc4`) | **우리 기본값 보존**, 변환만 수용 |
+
+> **정정 이력**: 이 표의 초판은 `api4/post_test.go`·`app/channel_test.go` 충돌을 "2026-08-25 sync 커밋들로 줄이 밀렸을 뿐"이라고 적었다. 실물 확인 결과 틀렸다 — 전자는 제외 계보 의존이라 **폐기** 대상이고, 후자는 우리 자체 구조 차이라 **보존**이 필요하다. 해소 방법이 정반대이므로 바로잡는다.
+
+**따름 정리 — 실질 충돌은 2건뿐이다.** 7건 중 5건은 우리 트리에 대상이 없어 훅을 버리면 끝난다. 사람의 판단이 필요한 것은 `app/channel_test.go`와 `model/config.go` 둘뿐이고, 둘 다 "okrbest 값을 지키면서 표기 변환만 받는다"는 같은 원칙으로 처리한다.
 
 ---
 

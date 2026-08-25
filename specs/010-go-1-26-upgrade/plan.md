@@ -82,17 +82,17 @@ server/
 │   ├── go.mod                     # 핀 ③
 │   ├── model/
 │   │   ├── builtin.go             # //go:fix inline + new(t) (upstream 원문)
-│   │   ├── config.go              # ⚠ 충돌 — okrbest 자체 설정 보존
-│   │   └── property_field_test.go # 충돌 — property v2 훅 폐기
+│   │   ├── config.go              # ⚠ 충돌 — okrbest 자체 기본값 2건 보존
+│   │   └── property_field_test.go # 충돌 — ObjectType 의존, 훅 폐기
 │   ├── pluginapi/
 │   │   └── license_test.go        # 린터 지적 37건 — bToP 헬퍼 제거
 │   └── plugin/, shared/           # 변환 대상
 ├── channels/
-│   ├── api4/post_test.go          # 충돌 — 줄 밀림
+│   ├── api4/post_test.go          # 충돌 — IntegratedBoards 의존, 훅 폐기
 │   ├── app/
-│   │   ├── channel_test.go        # 충돌 — 줄 밀림
+│   │   ├── channel_test.go        # ⚠ 충돌 — okrbest 자체 구조 보존
 │   │   └── imaging/preview_test.go # -update-fixtures + 허용오차 비교
-│   ├── store/storetest/post_store.go # 충돌 — 변환 수용
+│   ├── store/storetest/post_store.go # 충돌 — PostTypeCard 의존, 훅 폐기
 │   ├── utils/merge.go             # reflect.Ptr → Pointer
 │   └── web/params_test.go         # 린터 지적 4건
 ├── enterprise/elasticsearch/common/ # ⚠ 보호 경로 2파일
@@ -144,7 +144,7 @@ tools/
 
 | 위험 | 영향 | 대응 |
 |---|---|---|
-| `model/config.go` 충돌 해소 실수 | okrbest 자체 설정(`EnableWatermark` 등) 유실 | quickstart 6절이 `TestConfig` 실행과 `EnableWatermark` 잔존을 지목 검증 |
+| `model/config.go`·`app/channel_test.go` 충돌 해소 실수 | okrbest 자체 기본값 유실 — `AdminNoticesEnabled`(false), `TeammateNameDisplay`(별명 우선) | quickstart 6절이 두 값을 지목 검증. 표기는 `new(...)`로 바뀌되 값은 우리 것이어야 한다 |
 | 자체 코드 1200곳 변환의 의미 변화 | 조용한 동작 변화 | `gofmt -r`은 AST 기반 치환. 4단계를 단독 커밋으로 두고 `git diff --stat`으로 예상 밖 파일 확인 + 패키지별 테스트 |
 | 임포트 미사용 잔존 | 빌드 실패 | 실증됨 — `gofmt -r` 직후 반드시 `goimports` (조사 결정 3) |
 | 보호 경로 3곳 | PR 즉시 병합 거부 | 예상된 결과. PR을 열어둔 채 code owner 리뷰 요청 |

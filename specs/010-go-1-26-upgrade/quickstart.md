@@ -131,14 +131,23 @@ diff /tmp/baseline_tests.txt /tmp/after_tests.txt
 
 **기대**: 신규 `FAIL` 항목 **0건**. 기준선에 있던 실패가 그대로 남는 것은 허용하되, 없던 실패가 생기면 안 된다.
 
-`model/config.go` 충돌 해소가 okrbest 자체 설정을 유실시키지 않았는지 지목해 확인:
+`model/config.go`·`app/channel_test.go` 충돌 해소가 okrbest 자체 값을 유실시키지 않았는지 지목해 확인한다. 실물 확인으로 특정된 두 기본값이 판정 대상이다([research.md 결정 8](./research.md)).
 
 ```bash
-cd server && go test ./public/model/ -run 'TestConfig' -count=1
-grep -c 'EnableWatermark' public/model/config.go
+cd server
+go test ./public/model/ -run 'TestConfig' -count=1
+
+# okrbest 자체 기본값 — upstream 값으로 되돌아가면 안 된다
+grep -n 'AdminNoticesEnabled = ' public/model/config.go
+grep -n 'TeammateNameDisplay = ' public/model/config.go | head -2
 ```
 
-**기대**: 테스트 통과, `EnableWatermark` 잔존(0이 아님).
+**기대**:
+
+- 테스트 통과
+- `AdminNoticesEnabled`가 **`false`** (upstream 기본값은 `true` — 우리 커밋 `c14c66a1b2`)
+- `TeammateNameDisplay`가 **`ShowNicknameFullName`** (upstream은 `ShowUsername` — 우리 커밋 `d832dacbc4`)
+- 표기는 `new(...)`로 바뀌어도 **값은 우리 것이어야 한다**
 
 ---
 
