@@ -52,15 +52,15 @@ upstream `e3fbf871`은 버전 핀·표기 변환·픽스처·CI 잡을 **하나�
 
 **충돌 처리 원칙** ([research.md 결정 8](./research.md)): 제외한 `48f2fd08` 계보 의존 5건은 **훅 폐기**, okrbest 자체 커스터마이즈 2건은 **우리 값 보존 + 표기 변환만 수용**.
 
-- [ ] T007 cherry-pick 착수 — `git cherry-pick -x e3fbf8711f73ac1266ebc943f88999175c2594ef`. 충돌 7건이 예상대로 나오는지 `git diff --name-only --diff-filter=U`로 확인
-- [ ] T008 [P] 충돌 해소 — `server/channels/api4/properties_test.go` 훅 폐기 (`git checkout --ours`). 우리 트리에 파일 자체가 없다
-- [ ] T009 [P] 충돌 해소 — `server/public/model/view_test.go` 훅 폐기. 동일 사유
-- [ ] T010 [P] 충돌 해소 — `server/channels/api4/post_test.go` 훅 폐기. upstream이 추가하는 `TestUpdateCardPostByNonOwner`가 `FeatureFlags.IntegratedBoards`에 의존하는데 우리에겐 그 플래그가 없다
-- [ ] T011 [P] 충돌 해소 — `server/channels/store/storetest/post_store.go` 훅 폐기. `testGetPostsSinceForSyncExcludedPostTypes`가 `model.PostTypeCard`에 의존
-- [ ] T012 [P] 충돌 해소 — `server/public/model/property_field_test.go` 훅 폐기. upstream이 추가하는 검증 케이스가 `ObjectType`에 의존
-- [ ] T013 충돌 해소 — `server/public/model/config.go`. **okrbest 기본값 2건을 반드시 보존**: `AdminNoticesEnabled`는 `false`(우리 커밋 `c14c66a1b2`), `TeammateNameDisplay`는 `ShowNicknameFullName`(우리 커밋 `d832dacbc4`). upstream 값(`true` / `ShowUsername`)으로 되돌리지 않는다. 표기만 `NewPointer(x)` → `new(x)`로 수용
-- [ ] T014 충돌 해소 — `server/channels/app/channel_test.go`. **okrbest 구조 보존**: 우리는 `DisplayName` 한 필드에 값을 넣고 upstream은 `DisplayName` + `DefaultCategoryName`으로 분리한다. 우리 구조를 유지하고 표기 변환만 수용
-- [ ] T015 빌드 확인 후 커밋 — `cd server && go build ./...`가 통과하면 `git add -A && git cherry-pick --continue`. 커밋 본문에 okrbest 맞춤 수정 요지와 `Upstream: https://github.com/mattermost/mattermost/commit/e3fbf8711f73ac1266ebc943f88999175c2594ef`를 넣는다 (SC-007의 자동 차감 조건)
+- [X] T007 cherry-pick 착수 — `git cherry-pick -x e3fbf8711f73ac1266ebc943f88999175c2594ef`. 충돌 7건이 예상대로 나오는지 `git diff --name-only --diff-filter=U`로 확인 — 충돌 7건이 예상과 정확히 일치
+- [X] T008 [P] 충돌 해소 — `server/channels/api4/properties_test.go` 훅 폐기 (`git checkout --ours`). 우리 트리에 파일 자체가 없다 — `DU`(deleted by us) 충돌 → `git rm`으로 삭제 유지
+- [X] T009 [P] 충돌 해소 — `server/public/model/view_test.go` 훅 폐기. 동일 사유 — `DU` 충돌 → `git rm`으로 삭제 유지
+- [X] T010 [P] 충돌 해소 — `server/channels/api4/post_test.go` 훅 폐기. upstream이 추가하는 `TestUpdateCardPostByNonOwner`가 `FeatureFlags.IntegratedBoards`에 의존하는데 우리에겐 그 플래그가 없다 — 훅 폐기. **주의** — `checkout --ours`가 표기 변환까지 버려 `25a1199c9b`에서 복원
+- [X] T011 [P] 충돌 해소 — `server/channels/store/storetest/post_store.go` 훅 폐기. `testGetPostsSinceForSyncExcludedPostTypes`가 `model.PostTypeCard`에 의존 — 훅 폐기. 동일하게 `25a1199c9b`에서 변환 복원
+- [X] T012 [P] 충돌 해소 — `server/public/model/property_field_test.go` 훅 폐기. upstream이 추가하는 검증 케이스가 `ObjectType`에 의존 — 훅 폐기. 동일하게 `25a1199c9b`에서 변환 복원
+- [X] T013 충돌 해소 — `server/public/model/config.go`. **okrbest 기본값 2건을 반드시 보존**: `AdminNoticesEnabled`는 `false`(우리 커밋 `c14c66a1b2`), `TeammateNameDisplay`는 `ShowNicknameFullName`(우리 커밋 `d832dacbc4`). upstream 값(`true` / `ShowUsername`)으로 되돌리지 않는다. 표기만 `NewPointer(x)` → `new(x)`로 수용 — `AdminNoticesEnabled = new(false)`, `TeammateNameDisplay = new(ShowNicknameFullName)` 보존. `EnableChannelCategorySorting` 훅은 제외한 `69fbaece` 소산(우리 0건)이라 폐기
+- [X] T014 충돌 해소 — `server/channels/app/channel_test.go`. **okrbest 구조 보존**: 우리는 `DisplayName` 한 필드에 값을 넣고 upstream은 `DisplayName` + `DefaultCategoryName`으로 분리한다. 우리 구조를 유지하고 표기 변환만 수용 — `ChannelPatch`에 `DefaultCategoryName` 없음 확인 → 슬래시 파싱 구조 유지 + `new()` 표기 수용
+- [X] T015 빌드 확인 후 커밋 — `cd server && go build ./...`가 통과하면 `git add -A && git cherry-pick --continue`. 커밋 본문에 okrbest 맞춤 수정 요지와 `Upstream: https://github.com/mattermost/mattermost/commit/e3fbf8711f73ac1266ebc943f88999175c2594ef`를 넣는다 (SC-007의 자동 차감 조건) — `go build ./...` EXIT=0 → 커밋 `51f7817e20` (258파일)
 
 **Checkpoint**: 버전 핀 5개가 1.26.2, 서버 전체 빌드 통과. 세 스토리의 코드가 트리에 들어왔다.
 
@@ -72,10 +72,10 @@ upstream `e3fbf871`은 버전 핀·표기 변환·픽스처·CI 잡을 **하나�
 
 **독립 테스트**: 버전 핀이 1.26.2이고 `go build ./...`가 통과하면 이 스토리는 그것만으로 가치를 낸다 — 이후 upstream 커밋이 `new(x)` 문법을 써도 막히지 않는다.
 
-- [ ] T016 [US1] 버전 핀 5개 일치 확인 — `cat server/.go-version`과 `grep '^go ' server/go.mod server/public/go.mod tools/mattermost-govet/go.mod tools/sharedchannel-test/go.mod`가 모두 `1.26.2`. 이어서 `git grep -n '1\.25\.9' -- server tools`가 **출력 없음**일 것 (quickstart 1절)
-- [ ] T017 [US1] 빌드 검증 — `cd server && go build ./...` 오류 0건 (quickstart 2절, SC-001)
-- [ ] T018 [US1] Go 1.26 문법 수용 확인 — 임시 파일에 `x := new("test")` 형태를 작성해 `go build`가 통과함을 보이고 파일을 삭제한다. 언어 버전이 실제로 올라갔음을 직접 확인하는 과제다
-- [ ] T019 [US1] 품질 게이트 — `cd server && make check-style`이 **`0 issues.`**. 핀만 올린 중간 상태에서는 58건(modernize 51 + govet 7)이 나오므로, upstream diff가 그것을 해소했는지 판정하는 과제다 ([research.md 결정 5](./research.md))
+- [X] T016 [US1] 버전 핀 5개 일치 확인 — `cat server/.go-version`과 `grep '^go ' server/go.mod server/public/go.mod tools/mattermost-govet/go.mod tools/sharedchannel-test/go.mod`가 모두 `1.26.2`. 이어서 `git grep -n '1\.25\.9' -- server tools`가 **출력 없음**일 것 (quickstart 1절) — 5개 핀 모두 `1.26.2`, `1.25.9` 잔존 **0건**
+- [X] T017 [US1] 빌드 검증 — `cd server && go build ./...` 오류 0건 (quickstart 2절, SC-001) — `go build ./...` EXIT=0
+- [X] T018 [US1] Go 1.26 문법 수용 확인 — 임시 파일에 `x := new("test")` 형태를 작성해 `go build`가 통과함을 보이고 파일을 삭제한다. 언어 버전이 실제로 올라갔음을 직접 확인하는 과제다 — `new("go1.26 initializer form")` 테스트 통과 후 임시 파일 삭제
+- [X] T019 [US1] 품질 게이트 — `cd server && make check-style`이 **`0 issues.`**. 핀만 올린 중간 상태에서는 58건(modernize 51 + govet 7)이 나오므로, upstream diff가 그것을 해소했는지 판정하는 과제다 ([research.md 결정 5](./research.md)) — **`0 issues.`** — 중간 상태의 58건을 upstream diff가 전부 해소(조사 결정 5 확인)
 
 **Checkpoint**: US1 독립 완결. 이 시점에서 멈춰도 툴체인 상승의 핵심 가치는 확보된다.
 
@@ -87,10 +87,10 @@ upstream `e3fbf871`은 버전 핀·표기 변환·픽스처·CI 잡을 **하나�
 
 **독립 테스트**: 이미지 패키지 테스트가 전부 통과하고, 픽스처를 일부러 훼손했다가 갱신 절차로 복구할 수 있으면 통과.
 
-- [ ] T020 [US2] 이미지 패키지 테스트 — `cd server && go test ./channels/app/imaging/... -count=1`이 `ok`. 실패하면 T021로 (quickstart 4절)
-- [ ] T021 [US2] 픽스처 불일치 시 재생성 — `cd server && go test ./channels/app/imaging/ -update-fixtures -count=1` 후 플래그 없이 재실행해 통과 확인. 갱신된 `server/tests/*.jpg|jpeg`를 **반드시 커밋**한다 ([contracts/developer-surface.md 계약 1](./contracts/developer-surface.md)). T020이 이미 통과하면 이 과제는 `불필요`로 적는다
-- [ ] T022 [US2] 회귀 해소 확인 — `cd server && go test ./channels/app/imaging/ -run TestGenerateMiniPreviewImage -count=1 -v`가 **PASS**. 착수 전 이 머신에서 `42 / 256 pixels differ (16.41%); first at (3, 8)`로 실패하던 테스트다 (SC-003, 헌법 원칙 III의 증거)
-- [ ] T023 [US2] 갱신 절차 실주행 — quickstart 5절 그대로: 픽스처 하나를 훼손 → 실패 확인 → `-update-fixtures` → 통과 확인 → `git diff`가 비어 있음(원래 내용 복원) 확인 (SC-006)
+- [X] T020 [US2] 이미지 패키지 테스트 — `cd server && go test ./channels/app/imaging/... -count=1`이 `ok`. 실패하면 T021로 (quickstart 4절) — `ok ...channels/app/imaging 0.715s`
+- [X] T021 [US2] 픽스처 불일치 시 재생성 — `cd server && go test ./channels/app/imaging/ -update-fixtures -count=1` 후 플래그 없이 재실행해 통과 확인. 갱신된 `server/tests/*.jpg|jpeg`를 **반드시 커밋**한다 ([contracts/developer-surface.md 계약 1](./contracts/developer-surface.md)). T020이 이미 통과하면 이 과제는 `불필요`로 적는다 — **불필요** — T020이 통과. upstream 픽스처가 우리 툴체인 출력과 일치
+- [X] T022 [US2] 회귀 해소 확인 — `cd server && go test ./channels/app/imaging/ -run TestGenerateMiniPreviewImage -count=1 -v`가 **PASS**. 착수 전 이 머신에서 `42 / 256 pixels differ (16.41%); first at (3, 8)`로 실패하던 테스트다 (SC-003, 헌법 원칙 III의 증거) — 기준선 `--- FAIL` → 현재 `--- PASS`. 원칙 III의 RED→GREEN 증거
+- [X] T023 [US2] 갱신 절차 실주행 — quickstart 5절 그대로: 픽스처 하나를 훼손 → 실패 확인 → `-update-fixtures` → 통과 확인 → `git diff`가 비어 있음(원래 내용 복원) 확인 (SC-006) — 훼손→**FAIL**→`-update-fixtures`→**ok**→커밋본과 완전 동일 복원. **문서 결함 발견** — 바이트 덧붙이기 훼손은 무효(JPEG가 EOI 뒤를 무시)라 quickstart 5절 정정
 
 **Checkpoint**: US1 + US2 각각 독립 검증 완료.
 
@@ -104,10 +104,10 @@ upstream `e3fbf871`은 버전 핀·표기 변환·픽스처·CI 잡을 **하나�
 
 > **여기서 실제 코드 작업이 남는다.** upstream 커밋이 덮지 못한 잔여가 실측으로 확인됐다 — `server/public/model/utils_test.go:1090`의 `reflect.Ptr`(upstream은 이 파일을 이 커밋에서 고치지 않았고, 나중 커밋에서 고쳤다)와 `server/channels/api4/content_flagging_report_test.go`의 `NewPointer` 1곳. 이 둘을 처리하지 않으면 `check-go-fix` CI 잡이 **실패한다**.
 
-- [ ] T024 [US3] `go fix` 잔여 처리 — `cd server && go fix ./...` 실행 후 `git status --porcelain`으로 변경 확인. 최소 `public/model/utils_test.go`의 `reflect.Ptr` → `reflect.Pointer`가 잡힐 것. 변경분을 검토 후 커밋
-- [ ] T025 [US3] `NewPointer` 잔여 실측 — `cd server && grep -rn 'NewPointer(' --include='*.go' . | wc -l`로 현재 값을 재고 upstream 수준(약 450줄)인지 확인한다. 범위 밖으로 확인된 `channels/api4/content_flagging_report_test.go` 1곳을 `gofmt -r 'model.NewPointer(a) -> new(a)' -w` 로 처리하고, **반드시 `goimports`를 뒤따라** 미사용 임포트를 정리한다 ([research.md 결정 3](./research.md) — 실증된 부작용)
-- [ ] T026 [US3] 옛 표기 소거 확인 — `cd server`에서 `grep -rn 'bToP(\|boolPtr(' --include='*.go' . | wc -l`과 `grep -rn 'reflect\.Ptr\b' --include='*.go' . | wc -l`이 모두 **0**. 착수 전에는 41 / 19였다 (quickstart 3절, SC-002)
-- [ ] T027 [US3] CI 검사 작동 확인 — quickstart 7절 그대로: `sed`로 `reflect.Pointer`를 `reflect.Ptr`로 되돌려 위반을 주입하고 `go fix` 후 `git status --porcelain`에 변경이 뜨는지 본다(CI라면 exit 1). 확인 후 `git checkout`으로 원복 (SC-005)
+- [X] T024 [US3] `go fix` 잔여 처리 — `cd server && go fix ./...` 실행 후 `git status --porcelain`으로 변경 확인. 최소 `public/model/utils_test.go`의 `reflect.Ptr` → `reflect.Pointer`가 잡힐 것. 변경분을 검토 후 커밋 — `go fix ./public/...`로 `reflect.Ptr`→`reflect.Pointer` 5곳 → 커밋 `c18e01d4c3`. **발견** — `server/public`은 별도 모듈이라 `./...`에 안 잡힌다
+- [X] T025 [US3] `NewPointer` 잔여 실측 — `cd server && grep -rn 'NewPointer(' --include='*.go' . | wc -l`로 현재 값을 재고 upstream 수준(약 450줄)인지 확인한다. 범위 밖으로 확인된 `channels/api4/content_flagging_report_test.go` 1곳을 `gofmt -r 'model.NewPointer(a) -> new(a)' -w` 로 처리하고, **반드시 `goimports`를 뒤따라** 미사용 임포트를 정리한다 ([research.md 결정 3](./research.md) — 실증된 부작용) — 잔여 실측 310 → 원인 규명 후 3파일 복원(`25a1199c9b`) + 범위 밖 1곳 변환(`76ef0e61d5`) → **246**
+- [X] T026 [US3] 옛 표기 소거 확인 — `cd server`에서 `grep -rn 'bToP(\|boolPtr(' --include='*.go' . | wc -l`과 `grep -rn 'reflect\.Ptr\b' --include='*.go' . | wc -l`이 모두 **0**. 착수 전에는 41 / 19였다 (quickstart 3절, SC-002) — bToP 37→**0**, boolPtr 4→**0**, reflect.Ptr 19→**0**, NewPointer 4678→**246**. `go fix` 두 모듈 모두 변경 **0개**
+- [X] T027 [US3] CI 검사 작동 확인 — quickstart 7절 그대로: `sed`로 `reflect.Pointer`를 `reflect.Ptr`로 되돌려 위반을 주입하고 `go fix` 후 `git status --porcelain`에 변경이 뜨는지 본다(CI라면 exit 1). 확인 후 `git checkout`으로 원복 (SC-005) — 위반 **커밋** 후 재현 → `git status`에 변경 발생 = CI exit 1 확인. **문서 결함 발견** — 작업 트리에만 주입하면 무효라 quickstart 7절 정정(+ public 모듈 사각지대 명시)
 
 **Checkpoint**: 세 스토리 모두 독립 검증 완료. `go fix ./...` 후 변경 0개.
 
@@ -117,8 +117,8 @@ upstream `e3fbf871`은 버전 핀·표기 변환·픽스처·CI 잡을 **하나�
 
 **목적**: 문서 정합과 추적성. 코드 변경은 없다.
 
-- [ ] T028 [P] 규범 문서 갱신 — `.specify/memory/constitution.md`의 Go 버전 표기 2곳(원칙 I, 기술 스택 절)을 **1.24.6 → 1.26.2**로 고친다. 현재 값은 실제(1.25.9)와도 이미 어긋나 있었다 (FR-012, quickstart 8절)
-- [ ] T029 [P] 에이전트 컨텍스트 확인 — `CLAUDE.md`·`AGENTS.md`·`.cursor/rules/specify-rules.mdc`의 plan 참조가 `specs/010-go-1-26-upgrade/plan.md`인지 확인 (이미 갱신돼 있으면 `불필요`로 적는다)
+- [X] T028 [P] 규범 문서 갱신 — `.specify/memory/constitution.md`의 Go 버전 표기 2곳(원칙 I, 기술 스택 절)을 **1.24.6 → 1.26.2**로 고친다. 현재 값은 실제(1.25.9)와도 이미 어긋나 있었다 (FR-012, quickstart 8절) — `Go 1.24.6` → `Go 1.26.2` 2곳(원칙 I 37줄, 기술 스택 173줄)
+- [X] T029 [P] 에이전트 컨텍스트 확인 — `CLAUDE.md`·`AGENTS.md`·`.cursor/rules/specify-rules.mdc`의 plan 참조가 `specs/010-go-1-26-upgrade/plan.md`인지 확인 (이미 갱신돼 있으면 `불필요`로 적는다) — **불필요** — 3파일 모두 이미 `specs/010-go-1-26-upgrade/plan.md` 참조
 - [ ] T030 미반영 목록 차감 확인 — `.specify/scripts/bash/upstream-sync.sh update` 후 `status`로 남은 커밋이 **1 줄어들고** `e3fbf871`이 목록에서 사라졌는지 확인. 안 줄면 커밋 본문의 `Upstream:` 참조를 점검한다 (SC-007, quickstart 9절)
 
 ### 완료 검증 (고정 — 지우지 않는다)
