@@ -34,7 +34,7 @@ spec 주도 작업에 적용된다. 문서 언어는 한국어, 코드 식별자
 
 변경이 닿은 패키지의 게이트를 머지 전에 통과해야 한다.
 
-- `server/` (Go 1.24.6): `make check-style`(golangci-lint + vet) + `make test-server`
+- `server/` (Go 1.26.2): `make check-style`(golangci-lint + vet) + `make test-server`
   통과. 생성 mock은 `make mocks`로 재생성하여 최신 상태로 커밋하고, `go mod tidy`가
   클린해야 한다. CI 집행: `.github/workflows/server-ci.yml`.
 - `webapp/` (React + TypeScript 5.6): `npm run check`(eslint + stylelint) +
@@ -170,7 +170,7 @@ upstream 커밋은 spec 분기로 본 파이프라인에 합류한다.
 
 ## 기술·범위 제약
 
-- 모노레포: `server/`(Go 1.24.6, go workspaces), `webapp/`(React + TS 5.6,
+- 모노레포: `server/`(Go 1.26.2, go workspaces), `webapp/`(React + TS 5.6,
   npm workspaces), `api/`(API 레퍼런스), `e2e-tests/`(Playwright + Cypress),
   `tools/mmgotool/`(i18n 도구).
 - Node는 `.nvmrc`(20.11) 기준. webapp engine: Node `>=18.10.0`, npm `^9 || ^10`.

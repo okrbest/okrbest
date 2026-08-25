@@ -99,18 +99,21 @@ cd server && go test ./channels/app/imaging/ -run TestGenerateMiniPreviewImage -
 
 ```bash
 cd server
-# 픽스처 하나를 일부러 훼손
-cp tests/mini_preview_test_qa_data_graph_16x16_q90.jpg /tmp/fixture.bak
-printf '\x00\x00' >> tests/mini_preview_test_qa_data_graph_16x16_q90.jpg
+F=tests/mini_preview_test_qa_data_graph_16x16_q90.jpg
+
+# 픽셀이 실제로 다른 이미지로 교체한다
+cp tests/testgif_expected_thumbnail.jpg $F
 
 go test ./channels/app/imaging/ -run TestGenerateMiniPreviewImage -count=1   # 실패해야 정상
 go test ./channels/app/imaging/ -run TestGenerateMiniPreviewImage -update-fixtures -count=1
 go test ./channels/app/imaging/ -run TestGenerateMiniPreviewImage -count=1   # 통과해야 정상
 
-git diff --stat tests/mini_preview_test_qa_data_graph_16x16_q90.jpg
+git status --porcelain $F   # 비어 있어야 한다
 ```
 
-**기대**: 훼손 후 실패 → 갱신 후 통과 → 파일이 원래 내용으로 복원돼 `git diff`가 비어 있다.
+**기대**: 훼손 후 실패 → 갱신 후 통과 → 파일이 커밋된 내용과 **완전히 동일**하게 복원.
+
+> **훼손 방법 주의 (실주행에서 확인)**: 파일 끝에 바이트를 덧붙이는 방식(`printf '\x00\x00' >> $F`)은 **효과가 없다**. JPEG 디코더가 EOI 마커 뒤 바이트를 무시해 테스트가 그대로 통과한다. 픽셀이 실제로 달라지는 훼손이어야 한다.
 
 ---
 
@@ -156,15 +159,24 @@ grep -n 'TeammateNameDisplay = ' public/model/config.go | head -2
 `check-go-fix` 잡이 옛 표기를 잡는지 확인한다. 로컬에서 잡의 판정 로직을 그대로 재현한다:
 
 ```bash
-cd server
-# reflect.Pointer 를 옛 별칭으로 되돌려 일부러 위반을 만든다
-sed -i '' 's/reflect\.Pointer/reflect.Ptr/' channels/utils/merge.go
-go fix ./channels/utils/
-git status --porcelain channels/utils/    # 변경이 잡혀야 정상 → CI라면 실패
-git checkout channels/utils/merge.go
+# 위반을 '커밋'해야 한다 — CI는 커밋된 상태에서 checkout 후 go fix를 돌린다
+sed -i '' 's/case reflect\.Pointer:/case reflect.Ptr:/' server/channels/utils/merge.go
+git add server/channels/utils/merge.go && git commit -m "TEMP: 검사 작동 확인용 위반"
+
+cd server && go fix ./channels/utils/ && cd ..
+git status --porcelain          # 변경이 떠야 정상 → CI라면 exit 1
+
+# 원복
+git checkout server/channels/utils/merge.go && git reset --hard HEAD~1
 ```
 
-**기대**: `go fix`가 파일을 되돌려 `git status`에 변경이 뜬다. CI에서는 이 상태가 exit 1이다.
+**기대**: `go fix`가 `reflect.Ptr`를 되돌려 `git status`에 변경이 뜬다. CI에서는 이 상태가 exit 1이다.
+
+> **주의 1 (실주행에서 확인)**: 위반을 **작업 트리에만** 주입하면 안 된다. `go fix`가 되돌리는 순간 파일이 커밋 상태와 같아져 `git status`가 비고, 검사가 작동하지 않은 것처럼 보인다. 반드시 커밋한 뒤 재현한다.
+>
+> **주의 2**: `git reset --hard`는 **미커밋 변경을 전부 날린다**. 원복 전에 다른 작업 중인 변경이 없는지 확인한다.
+>
+> **주의 3 — CI 잡의 사각지대**: upstream 원문 잡은 `go fix ./...` 하나만 돌린다. `server/public`은 **별도 모듈**이라 이 패턴에 잡히지 않는다(`make check-style`이 `./... ./public/...` 둘을 쓰는 것과 같은 이유). 즉 `public/` 아래의 `go fix` 위반은 CI가 잡지 못한다. upstream과 동일하게 두었으나, 로컬 검증에서는 두 패턴을 모두 돌린다.
 
 ---
 
