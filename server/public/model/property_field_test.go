@@ -227,16 +227,16 @@ func TestPropertyField_IsValid(t *testing.T) {
 func TestPropertyFieldPatch_IsValid(t *testing.T) {
 	t.Run("valid patch", func(t *testing.T) {
 		patch := &PropertyFieldPatch{
-			Name: NewPointer("test field"),
-			Type: NewPointer(PropertyFieldTypeText),
+			Name: new("test field"),
+			Type: new(PropertyFieldTypeText),
 		}
 		require.NoError(t, patch.IsValid())
 	})
 
 	t.Run("empty name", func(t *testing.T) {
 		patch := &PropertyFieldPatch{
-			Name: NewPointer(""),
-			Type: NewPointer(PropertyFieldTypeText),
+			Name: new(""),
+			Type: new(PropertyFieldTypeText),
 		}
 		require.Error(t, patch.IsValid())
 	})
@@ -244,7 +244,7 @@ func TestPropertyFieldPatch_IsValid(t *testing.T) {
 	t.Run("invalid type", func(t *testing.T) {
 		invalidType := PropertyFieldType("invalid")
 		patch := &PropertyFieldPatch{
-			Name: NewPointer("test field"),
+			Name: new("test field"),
 			Type: &invalidType,
 		}
 		require.Error(t, patch.IsValid())
@@ -317,10 +317,10 @@ func TestPropertyField_Patch(t *testing.T) {
 		}
 
 		patch := &PropertyFieldPatch{
-			Name:       NewPointer("new name"),
-			Type:       NewPointer(PropertyFieldTypeSelect),
-			TargetID:   NewPointer("new_target"),
-			TargetType: NewPointer("new_type"),
+			Name:       new("new name"),
+			Type:       new(PropertyFieldTypeSelect),
+			TargetID:   new("new_target"),
+			TargetType: new("new_type"),
 			Attrs:      &StringInterface{"key": "value"},
 		}
 
@@ -342,7 +342,7 @@ func TestPropertyField_Patch(t *testing.T) {
 		}
 
 		patch := &PropertyFieldPatch{
-			Name: NewPointer("new name"),
+			Name: new("new name"),
 		}
 
 		pf.Patch(patch)
