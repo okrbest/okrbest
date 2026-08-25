@@ -23,7 +23,7 @@ func TestGenerateFlaggedPostReport(t *testing.T) {
 
 	t.Run("Should return 501 when feature is disabled", func(t *testing.T) {
 		th.App.UpdateConfig(func(config *model.Config) {
-			config.ContentFlaggingSettings.EnableContentFlagging = model.NewPointer(false)
+			config.ContentFlaggingSettings.EnableContentFlagging = new(false)
 			config.ContentFlaggingSettings.SetDefaults()
 		})
 
