@@ -28,6 +28,7 @@ import Input from 'components/widgets/inputs/input/input';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import {AnnouncementBarMessages, AnnouncementBarTypes, AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
+import {getUserPropertyFieldLabel} from 'utils/properties';
 import {validHttpUrl} from 'utils/url';
 import * as Utils from 'utils/utils';
 
@@ -1543,7 +1544,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
                 // Only render inputs if the field is not synced, admin-managed, or protected
                 if (!isSynced && !isAdminManaged && !isProtected) {
                     let attributeLabel: JSX.Element | string = (
-                        attribute.name
+                        getUserPropertyFieldLabel(attribute)
                     );
                     if (this.props.isMobileView) {
                         attributeLabel = '';
@@ -1594,7 +1595,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
                                         maxLength={Constants.MAX_CUSTOM_ATTRIBUTE_LENGTH}
                                         autoCapitalize='off'
                                         onFocus={Utils.moveCursorToEnd}
-                                        aria-label={attribute.name}
+                                        aria-label={getUserPropertyFieldLabel(attribute)}
                                         validate={validate}
                                     />
                                 </div>
@@ -1619,7 +1620,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
                 max = (
                     <SettingItemMax
                         key={'settingItemMax_' + attribute.id}
-                        title={attribute.name}
+                        title={getUserPropertyFieldLabel(attribute)}
                         inputs={inputs}
                         submit={submit}
                         saving={this.state.sectionIsSaving}
@@ -1666,7 +1667,7 @@ export class UserSettingsGeneralTab extends PureComponent<Props, State> {
                         key={'settingItem_' + attribute.id}
                         active={active}
                         areAllSectionsInactive={this.props.activeSection === ''}
-                        title={attribute.name}
+                        title={getUserPropertyFieldLabel(attribute)}
                         describe={describe}
                         section={sectionName}
                         updateSection={this.updateSection}
