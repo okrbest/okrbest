@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-26 13:09
+- 갱신일: 2026-08-26 15:07
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 655개
+- 남은 커밋: 647개
 
-**마지막 반영 커밋:** `d4fc0ecb` | [MM-68150: Upgrade golangci-lint to v2.12.2 (#36554)](https://github.com/mattermost/mattermost/commit/d4fc0ecb1c352280ecc07aa48386756cf234d6ad) | 2026-05-14
+**마지막 반영 커밋:** `02023f03` | [\[MM-68463\] New endpoint to GET user by auth_data (#36352)](https://github.com/mattermost/mattermost/commit/02023f0328e5bb9e04ca06f25c2284efbc1f1759) | 2026-05-15
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 51fd952a | [MM-67771: Update Report a Problem to email flow (#35900)](https://github.com/mattermost/mattermost/commit/51fd952ae6fe02555b7ed1b7b05d9e97f1e90c09) | 2026-05-15 |
-| 54bee006 | [MM-68332: consistently enforce query timeouts (#36522)](https://github.com/mattermost/mattermost/commit/54bee00622d4ada34a92b893e988afd29223a5d1) | 2026-05-15 |
-| fa1255f1 | [Update Calls to v1.11.5 (#36574)](https://github.com/mattermost/mattermost/commit/fa1255f149f210b94b96c0a98aa3ff37d37d5986) | 2026-05-15 |
-| d75155b3 | [Add flaky test webhook notification (#36573)](https://github.com/mattermost/mattermost/commit/d75155b39df6989dab6df13d965886c50668c483) | 2026-05-15 |
-| 6aae94f2 | [Add Display Name to User Properties in Webapp (#36363)](https://github.com/mattermost/mattermost/commit/6aae94f20bbfafe0289a00de65f4990eaac2da76) | 2026-05-15 |
-| 3f3d8408 | [Return descriptive errors from Role.IsValid and Role.IsValidWithoutId (#36582)](https://github.com/mattermost/mattermost/commit/3f3d8408b2877e73401b8706363eaf1f45a5814c) | 2026-05-15 |
-| deafd88f | [MM-68762: Discoverable Private Channels — Server data layer (#36539)](https://github.com/mattermost/mattermost/commit/deafd88fd5a8cf423ee2caa660fd8958673456ef) | 2026-05-15 |
-| 02023f03 | [\[MM-68463\] New endpoint to GET user by auth_data (#36352)](https://github.com/mattermost/mattermost/commit/02023f0328e5bb9e04ca06f25c2284efbc1f1759) | 2026-05-15 |
 | 8eb97fa6 | [refactor: remove redundant status update jobs from E2E test workflows (#36579)](https://github.com/mattermost/mattermost/commit/8eb97fa6c3960aeb12cf17a9c526eb02e149d9b8) | 2026-05-16 |
 | 238867e2 | [MM-68732: Remove global mutex for login attempts in favour of database serialization (#36515)](https://github.com/mattermost/mattermost/commit/238867e24762ab1557f676c589820615d7293d5b) | 2026-05-18 |
 | 669eb104 | [Fix webhook list ordering instability when paginating (MM-65732) (#36470)](https://github.com/mattermost/mattermost/commit/669eb104c60c82e3e3eed2b18d1e7c64877aa71e) | 2026-05-18 |
