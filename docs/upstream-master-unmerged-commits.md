@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-26 15:18
+- 갱신일: 2026-08-26 16:57
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 646개
+- 남은 커밋: 637개
 
-**마지막 반영 커밋:** `8eb97fa6` | [refactor: remove redundant status update jobs from E2E test workflows (#36579)](https://github.com/mattermost/mattermost/commit/8eb97fa6c3960aeb12cf17a9c526eb02e149d9b8) | 2026-05-16
+**마지막 반영 커밋:** `548183d7` | [Mm 68282 admin ephemeral mode (#36194)](https://github.com/mattermost/mattermost/commit/548183d748ada9af25eb8d7a4cced1064cec4532) | 2026-05-18
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 238867e2 | [MM-68732: Remove global mutex for login attempts in favour of database serialization (#36515)](https://github.com/mattermost/mattermost/commit/238867e24762ab1557f676c589820615d7293d5b) | 2026-05-18 |
-| 669eb104 | [Fix webhook list ordering instability when paginating (MM-65732) (#36470)](https://github.com/mattermost/mattermost/commit/669eb104c60c82e3e3eed2b18d1e7c64877aa71e) | 2026-05-18 |
-| 9d061555 | [Update bot checks (#36503)](https://github.com/mattermost/mattermost/commit/9d0615554077ca123057e9bab158f94f2e0c52a9) | 2026-05-18 |
-| f067fcde | [MM-66339 Hide empty content-flagging "With comment" section in reviewer DM (#36552)](https://github.com/mattermost/mattermost/commit/f067fcde92eb16ef1bec24a8ddc1856fc3ca7f1d) | 2026-05-18 |
-| bab90098 | [MM-68592: Add leave confirmation modal for policy-added public channels (#36439)](https://github.com/mattermost/mattermost/commit/bab90098251922b8c7df136b0f3a30c7de7727bc) | 2026-05-18 |
-| 479103d8 | [chore: Update NOTICE.txt file with updated dependencies (#36609)](https://github.com/mattermost/mattermost/commit/479103d8684e9dd79b0e861f03259fe89be25c4e) | 2026-05-18 |
-| f0360a83 | [Data spillage report generation UI (#36340)](https://github.com/mattermost/mattermost/commit/f0360a838af51ab1e204ed05b0bcb9234f530a41) | 2026-05-18 |
-| d4471bec | [Mm 68503 be abac mask save path masking (#36513)](https://github.com/mattermost/mattermost/commit/d4471bece166ea55aa605e750cfa1ac4a9580eb8) | 2026-05-18 |
-| 9bd77d3f | [MM-68702: Reject demoting bot accounts to guest (#36487)](https://github.com/mattermost/mattermost/commit/9bd77d3fc4d2af3f7f0259a205174e76a1a276e1) | 2026-05-18 |
-| 548183d7 | [Mm 68282 admin ephemeral mode (#36194)](https://github.com/mattermost/mattermost/commit/548183d748ada9af25eb8d7a4cced1064cec4532) | 2026-05-18 |
 | 23b4d827 | [MM-68197 Show classification banners in web and desktop apps (#36490)](https://github.com/mattermost/mattermost/commit/23b4d8275bb2d8d8649e67cbd07e8bc564aa58d0) | 2026-05-19 |
 | 1d1580cb | [chore: update reusable workflows to specific commit sha (#36600)](https://github.com/mattermost/mattermost/commit/1d1580cb3c62681346120a1689fa392952fbb899) | 2026-05-19 |
 | 9d318dc4 | [refactor: speed up E2E test workflows and eliminate npm cache-restore failures (#36599)](https://github.com/mattermost/mattermost/commit/9d318dc4cdabe6c9fd76a286ba7c07515a991fec) | 2026-05-19 |
@@ -657,6 +647,7 @@
 | e7360779 | [Adding Dataminr v2.0.0 as a prepackaged plugin (#38111)](https://github.com/mattermost/mattermost/commit/e7360779e068f9e3267e7fde578efeef64bb1a9f) | 2026-08-25 |
 | c3a5a087 | [\[MM-70086\] Compare user attributes against channel attributes in access rules (#37755)](https://github.com/mattermost/mattermost/commit/c3a5a087d7f40b201656f19ff6fc149f1547eb97) | 2026-08-25 |
 | f21b0299 | [Bumping prepackaged Boards version to 9.4.0 (#38131)](https://github.com/mattermost/mattermost/commit/f21b0299d326fe0a90cadb10a68160374350af03) | 2026-08-25 |
+| e22a25ab | [\[MM-65738\] Clarify main logger shutdown timeout diagnostic (#38101)](https://github.com/mattermost/mattermost/commit/e22a25ab85e3723b8c4e1745d177c3bddb950c4c) | 2026-08-26 |
 
 ## 제외된 커밋
 
@@ -805,6 +796,8 @@
 | 7425c681 | [\[MM-67741\] Scope role_updated WS events to affected team/channel (#35497)](https://github.com/mattermost/mattermost/commit/7425c6817bf244f976c729f8a73cecac8039a1e1) | specs/009-scope-role-updated-ws |
 
 | e3fbf871 | [MM-68149: Upgrade to Go 1.26.2 (#36418)](https://github.com/mattermost/mattermost/commit/e3fbf8711f73ac1266ebc943f88999175c2594ef) | 010-go-1-26-upgrade — Go 1.26.2 툴체인 이행. upstream diff 수용을 넘어 우리 트리 전체 이행이 필요해 spec으로 전환. 범위: (1) 버전 핀 6곳(server/.go-version, server/go.mod, server/public/go.mod, tools/mattermost-govet/go.mod, tools/sharedchannel-test/go.mod) 1.25.9→1.26.2, (2) model.NewPointer(x)→new(x) 치환 — upstream diff는 3406곳을 다루지만 우리 트리 호출은 4678곳이라 약 1200곳이 okrbest 자체 코드(알림 히스토리·조직 역할·직위 등)에 남는다. builtin.go의 //go:fix inline 지시자를 함께 도입하면 go fix ./...로 일괄 처리 가능, (3) bToP/boolPtr 헬퍼 제거 53곳, reflect.Ptr→reflect.Pointer 14곳, NumField() 루프→Fields() 레인지 6곳, (4) JPEG 픽스처 24개 재생성 — Go 1.26의 새 image/jpeg 인코더가 출력 바이트를 바꾼다. 커밋이 도입하는 -update-fixtures 플래그와 허용오차 픽셀 비교(preview_test.go)를 함께 반영해 향후 툴체인 드리프트를 자동 흡수, (5) CI 신규 잡 check-go-fix(.github/workflows/server-ci.yml, 보호 경로) — go fix ./... 후 diff가 있으면 실패하므로 (2)를 끝내지 않으면 CI가 막힌다, (6) golangci-lint v2.11.4의 Go 1.26 지원 확인(server/Makefile). cherry-pick 충돌은 7건이며 그중 api4/properties_test.go와 model/view_test.go는 우리 트리에 없는 유령(제외한 48f2fd08 property/boards 계보)이고, 실질 충돌 5건은 api4/post_test.go·app/channel_test.go(이번·지난 세션에 우리가 반영한 커밋들로 줄 밀림), storetest/post_store.go, model/config.go(okrbest 자체 EnableWatermark 등), model/property_field_test.go. 규모 262파일 +4680/-4586, 보호 경로 3곳(.github/workflows/server-ci.yml, server/enterprise/elasticsearch/common/templates.go, indexing_job_test.go) 접촉. 부수 효과 — 2026-08-25 sync에서 bbbfc019(imaging 교체) 후 TestGenerateMiniPreviewImage가 실패한 원인(로컬 go.work가 1.26.2를 강제하는데 저장소는 1.25.9 목표)이 이 이행으로 해소된다. |
+
+| f0360a83 | [Data spillage report generation UI (#36340)](https://github.com/mattermost/mattermost/commit/f0360a838af51ab1e204ed05b0bcb9234f530a41) | data-spillage-report-ui — 플래그된 메시지를 유지/제거하기 전에 증거 ZIP 보고서를 생성·다운로드시키는 다단계 모달. 규모 41파일 +2212/-253으로 spec 기준(>15파일, >500줄, 신규 대형 UI)을 정면 충족. 기계적 반영이 불가능한 이유는 **제외한 f1b9aa052e(Rename Content Flagging to Data Spillage Handling, #35407) 위에 세워졌기 때문**이다 — 그 커밋을 사용자 확인으로 제외해 우리는 'Content Flagging'/'Flag message' 용어와 `keep_remove_flag_content_modal.*` 키 체계를 유지하는데, 이 커밋은 `keep_remove_quarantined_content_modal.*`로 신규 키 19개를 추가하고 모달 본체 358줄을 그 체계 위에서 재작성한다. 그대로 받으면 우리 en.json에 없는 키를 참조해 defaultMessage("quarantined for review by")로 폴백하며 제외 결정이 무력화된다. 충돌 3건 — remove_flagged_message_confirmation_modal.tsx(용어 체계), i18n/en.json(카탈로그 상시 분기 +518/-417), reviewer-actions.spec.ts(용어 무관, upstream이 나중에 넣은 e2e 레이스 가드 27줄 부재). **서버 6파일은 깨끗하다**(git apply --check 통과) — api4/app/model에 `action`(keep/remove) 파라미터를 실어 content_review.yaml에 actor_decision·actor_user_id·actor_username을 기록하는 확장으로, 백엔드 짝 2e5c23dc8b(#36339, upstream 56089922)를 이미 adapt로 받아둔 위에 얹힌다. spec 착수 시 서버 계약은 upstream 패치를 그대로 쓰고 UI만 우리 용어(flag)로 설계하면 된다. 곁들여 정리할 것 — 우리 channels/app/content_flagging_report.go:458의 사용자 노출 문자열 "generated a report for the quarantined message"는 #36339 adapt 때 딸려 들어온 용어 오염이며 이 커밋과 무관하게 남아 있다. 실효성 참고: 콘텐츠 플래깅 전체가 MinimumEnterpriseAdvancedLicense 게이트다. |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
