@@ -119,15 +119,15 @@ upstream `e3fbf871`은 버전 핀·표기 변환·픽스처·CI 잡을 **하나�
 
 - [X] T028 [P] 규범 문서 갱신 — `.specify/memory/constitution.md`의 Go 버전 표기 2곳(원칙 I, 기술 스택 절)을 **1.24.6 → 1.26.2**로 고친다. 현재 값은 실제(1.25.9)와도 이미 어긋나 있었다 (FR-012, quickstart 8절) — `Go 1.24.6` → `Go 1.26.2` 2곳(원칙 I 37줄, 기술 스택 173줄)
 - [X] T029 [P] 에이전트 컨텍스트 확인 — `CLAUDE.md`·`AGENTS.md`·`.cursor/rules/specify-rules.mdc`의 plan 참조가 `specs/010-go-1-26-upgrade/plan.md`인지 확인 (이미 갱신돼 있으면 `불필요`로 적는다) — **불필요** — 3파일 모두 이미 `specs/010-go-1-26-upgrade/plan.md` 참조
-- [ ] T030 미반영 목록 차감 확인 — `.specify/scripts/bash/upstream-sync.sh update` 후 `status`로 남은 커밋이 **1 줄어들고** `e3fbf871`이 목록에서 사라졌는지 확인. 안 줄면 커밋 본문의 `Upstream:` 참조를 점검한다 (SC-007, quickstart 9절)
+- [X] T030 미반영 목록 차감 확인 — `.specify/scripts/bash/upstream-sync.sh update` 후 `status`로 남은 커밋이 **1 줄어들고** `e3fbf871`이 목록에서 사라졌는지 확인. 안 줄면 커밋 본문의 `Upstream:` 참조를 점검한다 (SC-007, quickstart 9절) — 본문 미반영 표 0건, spec 부록 기록 1건, 커밋 본문 `Upstream:` 참조 1건. **남은 커밋 수는 감소하지 않음** — spec 전환 시점에 이미 차감됨(아래 SC-007 참조)
 
 ### 완료 검증 (고정 — 지우지 않는다)
 
 증거를 남기는 과제다. 셋 다 없으면 게이트를 통과해도 결함이 남는다.
 
-- [ ] T031 품질 게이트 — `cd server && make check-style`(`0 issues.`)와 `go test ./... -count=1`을 돌리고, 실패 목록을 T004의 `/tmp/baseline_tests.txt`와 **`diff`로 비교해 보인다**. 신규 `FAIL` 0건. 개수 비교로 대신하지 않는다 (SC-004)
-- [ ] T032 종단 검증 — [quickstart.md](./quickstart.md) 9개 절을 **실제로 훑고** 절별 통과·실패를 기록한다. 환경이 없어 못 돌린 절은 `미실행`으로 적는다
-- [ ] T033 SC 검증 — spec.md의 SC-001~SC-007 각각을 **실측값**으로 확인해 표로 남긴다. 추정 금지
+- [X] T031 품질 게이트 — `cd server && make check-style`(`0 issues.`)와 `go test ./... -count=1`을 돌리고, 실패 목록을 T004의 `/tmp/baseline_tests.txt`와 **`diff`로 비교해 보인다**. 신규 `FAIL` 0건. 개수 비교로 대신하지 않는다 (SC-004) — 린트 `0 issues.`, **신규 FAIL 0건**(duration 정규화 후 diff), 패키지 수준 차이는 `channels/app/imaging` 해소 하나뿐
+- [X] T032 종단 검증 — [quickstart.md](./quickstart.md) 9개 절을 **실제로 훑고** 절별 통과·실패를 기록한다. 환경이 없어 못 돌린 절은 `미실행`으로 적는다 — quickstart 9개 절 전부 실주행. 8절 통과 / 9절 부분(SC-007 기준 미성립). 5절·7절은 절차 자체를 정정한 뒤 재검증
+- [X] T033 SC 검증 — spec.md의 SC-001~SC-007 각각을 **실측값**으로 확인해 표로 남긴다. 추정 금지 — SC-001~SC-006 **전부 실측 통과**. SC-007은 기준 자체가 성립하지 않아 ⚠️ (추적성 실질 요건은 충족)
 
 ---
 
@@ -195,3 +195,66 @@ upstream `e3fbf871`은 버전 핀·표기 변환·픽스처·CI 잡을 **하나�
 - **T013·T014에서 우리 기본값이 upstream 값으로 되돌아가면** — SC-004의 `TestConfig` 검증에서 잡힌다. quickstart 6절이 `AdminNoticesEnabled`·`TeammateNameDisplay`를 지목 확인한다
 - **T025의 잔여가 예상(1곳)보다 많으면** — 충돌 해소가 upstream 변환을 일부 버렸을 가능성이 있다. T013·T014 해소 내용을 재검토한다
 - **보호 경로 3곳**(`.github/workflows/server-ci.yml`, `enterprise/elasticsearch/common/templates.go`·`indexing_job_test.go`) 접촉으로 PR 즉시 병합이 거부될 수 있다. 예상된 결과이며 code owner 리뷰를 요청한다
+
+---
+
+## 완료 검증 결과 (2026-08-26 실측)
+
+### T031 품질 게이트 — 기준선 대비 diff
+
+| 항목 | 명령 | 결과 | 증거 |
+|---|---|---|---|
+| 린트 | `cd server && make check-style` | **`0 issues.`** | 착수 전 기준선도 `0 issues.` (`/tmp/baseline_style.txt`) |
+| 테스트 | `go test ./... -count=1` 후 기준선 diff | **신규 FAIL 0건** | duration 정규화 후 `comm -13` 결과 비어 있음 |
+| 패키지 수준 차이 | FAIL 패키지 목록 diff | **`channels/app/imaging` 하나 사라짐** | 그 외 차이 없음 |
+
+**판정 주의**: 두 실행 모두 `channels/api4`·`channels/app` 2개 패키지가 **10분 테스트 타임아웃**에 걸린다(`panic: test timed out after 10m0s`, 기준선·현재 동일). 그래서 두 패키지의 개별 테스트 목록은 잘려 비교가 불완전하다. duration을 지우지 않고 비교하면 같은 테스트가 다른 줄로 잡혀 diff가 192줄로 부풀었다 — 정규화가 필요하다.
+
+타임아웃 절단 때문에 diff에 "해소된 것처럼" 보였던 `TestAutocompleteChannels`·`ForSearch`·`ForSearchGuestUsers` 3건은 **실제로는 여전히 실패한다**(지목 재실행으로 확인). 기준선과 같은 상태이며 이 이행과 무관하다.
+
+### T032 종단 검증 — quickstart 9개 절
+
+| 절 | 대응 | 결과 | 실측값 |
+|---|---|---|---|
+| 1. 버전 핀 | SC-001 선행 | **통과** | 5개 핀 모두 `1.26.2`, `1.25.9` 잔존 0건 |
+| 2. 빌드 | SC-001 | **통과** | `go build ./...` EXIT=0 |
+| 3. 표기 일관성 | SC-002 | **통과** | bToP 0 / boolPtr 0 / reflect.Ptr 0, `go fix` 두 모듈 변경 0개 |
+| 4. 이미지 테스트 | SC-003 | **통과** | `ok ...channels/app/imaging 0.763s` |
+| 5. 픽스처 갱신 절차 | SC-006 | **통과** | 훼손→FAIL→`-update-fixtures`→ok→커밋본과 완전 동일 복원 |
+| 6. 품질 게이트 | SC-004 | **통과** | `0 issues.` + 신규 FAIL 0건 + okrbest 기본값 2건 보존 확인 |
+| 7. CI 검사 작동 | SC-005 | **통과** | 위반 커밋 후 `go fix` → `git status`에 변경 발생 = CI exit 1 |
+| 8. 문서 | FR-012 | **통과** | constitution `Go 1.26.2` 2곳, `Go 1.24.6` 0곳 |
+| 9. 추적성 | SC-007 | **부분** | 아래 SC-007 항목 참조 |
+
+**5절·7절은 문서의 절차 자체가 무효였다** — 실주행에서 드러나 quickstart를 정정했다(커밋 `567951670a`). 정정된 절차로 재검증해 통과를 확인했다.
+
+### T033 SC 실측
+
+| SC | 기준 | 실측값 | 판정 |
+|---|---|---|---|
+| SC-001 | 빌드 오류 0건 | `go build ./...` EXIT=**0** | ✅ |
+| SC-002 | 옛 표기 0건, `go fix` 변경 0개 | bToP **0**(←37), boolPtr **0**(←4), reflect.Ptr **0**(←19), `go fix` 변경 **0개** | ✅ |
+| SC-003 | 이미지 테스트 통과 | `ok 0.763s`. `TestGenerateMiniPreviewImage` 기준선 `--- FAIL` → 현재 **`--- PASS`** | ✅ |
+| SC-004 | 린트 0건 + 신규 FAIL 0건 | `0 issues.` / 신규 FAIL **0건** | ✅ |
+| SC-005 | 위반 주입 시 검사 실패 | 위반 커밋 후 `git status`에 변경 발생 → CI exit 1 | ✅ |
+| SC-006 | 갱신 절차 1회 실행 | 훼손→FAIL→갱신→ok→`git status` 비어 있음 | ✅ |
+| SC-007 | 남은 커밋 **1 감소** | 감소 **없음**. 아래 사유 | ⚠️ **기준 자체가 성립하지 않음** |
+
+**SC-007 판정 사유**: 이 기준은 "이행 완료 시 목록에서 차감돼 남은 커밋이 1 줄어든다"였으나, `e3fbf871`은 **spec 전환 시점에 이미 차감됐다**(670→669). 그래서 구현 완료로 추가 감소가 일어날 수 없다. 명세를 쓸 때 놓친 점이다.
+
+추적성이라는 **실질 요건은 충족된다**:
+
+- 본문 미반영 표에 `e3fbf871` **0건**
+- spec 전환 부록에 기록 **1건** (전환 사실의 정본)
+- 커밋 `51f7817e20` 본문에 `Upstream: https://github.com/mattermost/mattermost/commit/e3fbf871...` **1건**
+
+측정 중 `SYNC_BASE_BRANCH=HEAD update`가 663→666으로 **늘었는데**, 이는 2026-08-25에 upstream에 새 커밋 3건이 들어온 것으로 우리 작업과 무관하다. PR 범위를 흐리지 않게 그 갱신은 되돌렸다.
+
+### 구현 중 발견해 고친 것
+
+| 발견 | 조치 | 커밋 |
+|---|---|---|
+| `git checkout --ours`가 계보 훅만이 아니라 **해당 파일의 upstream 변경 전체**를 버림 (3파일, NewPointer 65곳) | 원인 규명 후 `gofmt -r`로 복원. upstream이 남긴 2줄은 원형 유지해 upstream 상태와 일치 | `25a1199c9b` |
+| `server/public`이 별도 모듈이라 `go fix ./...`에 안 잡힘 → `reflect.Ptr` 5곳 잔존 | `go fix ./public/...` 추가 실행. **CI 잡(upstream 원문)도 같은 사각지대**를 가짐을 quickstart에 명시 | `c18e01d4c3` |
+| quickstart 5절 훼손 방법 무효 (JPEG가 EOI 뒤 바이트 무시) | 픽셀이 실제로 달라지는 훼손으로 교체 | `567951670a` |
+| quickstart 7절 무효 (작업 트리 주입 시 `go fix`가 되돌려 `git status`가 빔) | 위반을 커밋한 뒤 재현하도록 정정 + `git reset --hard` 경고 추가 | `567951670a` |
