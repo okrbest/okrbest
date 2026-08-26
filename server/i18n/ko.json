@@ -2397,6 +2397,10 @@
     "translation": "api 엔드포인트는 라이선스가 필요합니다."
   },
   {
+    "id": "api.mark_all_as_read.disabled.app_error",
+    "translation": "모두 읽음으로 표시 기능이 활성화되어 있지 않습니다."
+  },
+  {
     "id": "api.marshal_error",
     "translation": "직렬화하지 못했습니다."
   },
@@ -4757,6 +4761,10 @@
   {
     "id": "app.channel.get_channels_by_ids.not_found.app_error",
     "translation": "채널을 찾을 수 없습니다."
+  },
+  {
+    "id": "app.channel.get_channels_by_team_with_unreads_and_with_mentions.app_error",
+    "translation": "읽지 않은 메시지와 멘션이 있는 채널을 가져오지 못했습니다."
   },
   {
     "id": "app.channel.get_channels_member_count.existing.app_error",
