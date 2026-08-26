@@ -75,6 +75,7 @@ type Store struct {
 	ReadReceiptStore                mocks.ReadReceiptStore
 	TemporaryPostStore              mocks.TemporaryPostStore
 	NotificationHistoryStore        mocks.NotificationHistoryStore
+	ChannelJoinRequestStore         mocks.ChannelJoinRequestStore
 }
 
 func (s *Store) Logger() mlog.LoggerIFace                      { return s.logger }
@@ -183,6 +184,10 @@ func (s *Store) TemporaryPost() store.TemporaryPostStore {
 func (s *Store) NotificationHistory() store.NotificationHistoryStore {
 	return &s.NotificationHistoryStore
 }
+
+func (s *Store) ChannelJoinRequest() store.ChannelJoinRequestStore {
+	return &s.ChannelJoinRequestStore
+}
 func (s *Store) GetSchemaDefinition() (*model.SupportPacketDatabaseSchema, error) {
 	return &model.SupportPacketDatabaseSchema{
 		Tables: []model.DatabaseTable{},
@@ -239,5 +244,6 @@ func (s *Store) AssertExpectations(t mock.TestingT) bool {
 		&s.ReadReceiptStore,
 		&s.TemporaryPostStore,
 		&s.NotificationHistoryStore,
+		&s.ChannelJoinRequestStore,
 	)
 }

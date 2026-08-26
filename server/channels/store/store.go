@@ -102,6 +102,7 @@ type Store interface {
 	Recap() RecapStore
 	ReadReceipt() ReadReceiptStore
 	TemporaryPost() TemporaryPostStore
+	ChannelJoinRequest() ChannelJoinRequestStore
 }
 
 type RetentionPolicyStore interface {
@@ -1340,6 +1341,19 @@ type NotificationHistoryStore interface {
 	DeleteOlderThan(timestamp int64) (int64, error)
 	// DeleteForUser는 사용자의 모든 알림을 삭제합니다.
 	DeleteForUser(userId string) error
+}
+
+// ChannelJoinRequestStore persists user requests to join discoverable private
+// channels. Rows are never deleted; status transitions are recorded with
+// reviewer and timestamps so the table doubles as an audit trail.
+type ChannelJoinRequestStore interface {
+	Save(req *model.ChannelJoinRequest) (*model.ChannelJoinRequest, error)
+	Get(id string) (*model.ChannelJoinRequest, error)
+	GetPendingForChannelAndUser(channelId, userId string) (*model.ChannelJoinRequest, error)
+	GetForChannel(channelId string, opts model.GetChannelJoinRequestsOpts) ([]*model.ChannelJoinRequest, int64, error)
+	GetForUser(userId string, opts model.GetChannelJoinRequestsOpts) ([]*model.ChannelJoinRequest, int64, error)
+	Update(req *model.ChannelJoinRequest) (*model.ChannelJoinRequest, error)
+	CountPending(channelId string) (int64, error)
 }
 
 type RecapStore interface {
