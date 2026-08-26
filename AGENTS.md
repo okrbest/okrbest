@@ -1,7 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-specs/010-go-1-26-upgrade/plan.md
+specs/011-data-spillage-report-ui/plan.md
 <!-- SPECKIT END -->
 
 ## Workflow
