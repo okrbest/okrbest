@@ -1,0 +1,9 @@
+# T013: client4 테스트 구현 전 실패 (2026-08-26)
+# 명령: cd webapp/platform/client && npx jest src/client4.test.ts
+
+TypeError: client.generateFlaggedPostReport is not a function
+  - should parse ZIP responses as blobs
+  - should send the reviewer decision when an action is given
+  - should abort an in-flight report request when the signal fires
+
+Tests: 3 failed, 10 passed, 13 total
