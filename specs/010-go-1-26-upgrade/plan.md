@@ -149,7 +149,7 @@ tools/
 | `model/config.go`·`app/channel_test.go` 충돌 해소 실수 | okrbest 자체 기본값 유실 — `AdminNoticesEnabled`(false), `TeammateNameDisplay`(별명 우선) | quickstart 6절이 두 값을 지목 검증. 표기는 `new(...)`로 바뀌되 값은 우리 것이어야 한다 |
 | 4단계 잔여가 예상(1곳)보다 많음 | 추가 변환 작업 발생 | 2단계 직후 `grep -rc 'NewPointer('`로 실측해 판단. `gofmt -r` 적용 시 `goimports` 필수(조사 결정 3), `git diff --stat`으로 예상 밖 파일 확인 |
 | 임포트 미사용 잔존 | 빌드 실패 | 실증됨 — `gofmt -r` 직후 반드시 `goimports` (조사 결정 3) |
-| 보호 경로 3곳 | PR 즉시 병합 거부 | 예상된 결과. PR을 열어둔 채 code owner 리뷰 요청 |
+| ~~보호 경로 3곳~~ | — | **해소 (2026-08-26 실측)**. `server-ci.yml`·`server/enterprise/`는 CODEOWNERS 목록에 없다. 보호 경로 무접촉이라 리뷰 없이 병합 가능 |
 | 이행 중 병행 Go 변경 | 대규모 충돌 | 착수 전 열린 Go PR 정리. 이행 PR을 우선 병합 |
 | 픽스처가 우리 환경에서도 어긋남 | imaging 테스트 실패 | `-update-fixtures`로 재생성 후 커밋 (계약 1) |
 

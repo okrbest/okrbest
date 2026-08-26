@@ -139,5 +139,5 @@ okrbest 자체 코드를 포함한 저장소 전체가 같은 포인터 생성 �
 ## 의존성
 
 - upstream 커밋 `e3fbf871`(MM-68149, #36418)이 참조 구현이다. 262파일 +4680/-4586 규모이며, 우리는 이를 참고하되 트리 전체 이행을 직접 수행한다.
-- 보호 경로 3곳을 건드린다 — `.github/workflows/server-ci.yml`(CODEOWNERS), `server/enterprise/elasticsearch/common/templates.go`, `server/enterprise/elasticsearch/common/indexing_job_test.go`. 병합 시 code owner 리뷰가 필요할 수 있다.
+- **CODEOWNERS 보호 경로는 건드리지 않는다** (2026-08-26 실측 확인). `.github/workflows/server-ci.yml`과 `server/enterprise/`를 수정하지만 둘 다 CODEOWNERS 목록에 없다 — 보호 대상은 `.github/workflows/channels-ci.yml`, `webapp` 패키지 파일들, `server/channels/db/migrations`, `app/authentication.go`, `app/authorization.go`다. 병합에 code owner 리뷰가 필요하지 않다.
 - 제외한 upstream 계보(`48f2fd08` Integrated Boards / property 시스템 v2)에 속한 파일은 우리 트리에 없다. 그 계보 관련 훅은 반영 대상이 아니다.
