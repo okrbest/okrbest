@@ -194,7 +194,7 @@ upstream `e3fbf871`은 버전 핀·표기 변환·픽스처·CI 잡을 **하나�
 
 - **T013·T014에서 우리 기본값이 upstream 값으로 되돌아가면** — SC-004의 `TestConfig` 검증에서 잡힌다. quickstart 6절이 `AdminNoticesEnabled`·`TeammateNameDisplay`를 지목 확인한다
 - **T025의 잔여가 예상(1곳)보다 많으면** — 충돌 해소가 upstream 변환을 일부 버렸을 가능성이 있다. T013·T014 해소 내용을 재검토한다
-- **보호 경로 3곳**(`.github/workflows/server-ci.yml`, `enterprise/elasticsearch/common/templates.go`·`indexing_job_test.go`) 접촉으로 PR 즉시 병합이 거부될 수 있다. 예상된 결과이며 code owner 리뷰를 요청한다
+- ~~보호 경로 3곳 접촉~~ → **해소**. 2026-08-26 실측 결과 CODEOWNERS 보호 경로 **무접촉**이다. `server-ci.yml`·`server/enterprise/`는 보호 목록에 없다(보호 대상은 `channels-ci.yml`·webapp 패키지 파일·`db/migrations`·`app/authentication.go`·`app/authorization.go`)
 
 ---
 
