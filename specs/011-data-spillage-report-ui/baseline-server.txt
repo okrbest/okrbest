@@ -1,0 +1,10 @@
+# 기준선: server 게이트 (T001)
+# 측정일: 2026-08-26
+# 브랜치: 011-data-spillage-report-ui (구현 전, 작업 트리 클린)
+
+## cd server && make check-style
+exit=0
+결과: 0 issues
+
+## 실패 목록
+(없음)

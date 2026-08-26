@@ -7,8 +7,10 @@ import (
 	"archive/zip"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/goccy/go-yaml"
@@ -52,7 +54,7 @@ func TestGenerateFlaggedPostReport(t *testing.T) {
 		appErr := setBaseConfig(th)
 		require.Nil(t, appErr)
 
-		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, model.NewId(), th.BasicUser.Id, "")
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, model.NewId(), th.BasicUser.Id, "", "")
 		require.NotNil(t, appErr)
 		require.Empty(t, path)
 	})
@@ -63,7 +65,7 @@ func TestGenerateFlaggedPostReport(t *testing.T) {
 
 		post := setupFlaggedPost(t, th)
 
-		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, model.NewId(), "")
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, model.NewId(), "", "")
 		require.NotNil(t, appErr)
 		require.Empty(t, path)
 	})
@@ -74,7 +76,7 @@ func TestGenerateFlaggedPostReport(t *testing.T) {
 
 		post := setupFlaggedPost(t, th)
 
-		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "")
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "", "")
 		require.Nil(t, appErr)
 		require.NotEmpty(t, path)
 
@@ -93,7 +95,7 @@ func TestGenerateFlaggedPostReport(t *testing.T) {
 
 		post := setupFlaggedPost(t, th)
 
-		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "")
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "", "")
 		require.Nil(t, appErr)
 
 		entries := readReportZip(t, path)
@@ -113,7 +115,7 @@ func TestGenerateFlaggedPostReport(t *testing.T) {
 
 		post := setupFlaggedPost(t, th)
 
-		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "")
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "", "")
 		require.Nil(t, appErr)
 
 		entries := readReportZip(t, path)
@@ -131,7 +133,7 @@ func TestGenerateFlaggedPostReport(t *testing.T) {
 
 		post := setupFlaggedPost(t, th)
 
-		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "")
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "", "")
 		require.Nil(t, appErr)
 
 		entries := readReportZip(t, path)
@@ -143,6 +145,85 @@ func TestGenerateFlaggedPostReport(t *testing.T) {
 		require.Equal(t, "spam", review.ReporterReason)
 		require.Equal(t, "This is spam content", review.ReporterComment)
 		require.Greater(t, review.ReportTimestamp, int64(0))
+		require.Empty(t, review.ActorDecision)
+		require.Empty(t, review.ActorUserId)
+		require.Empty(t, review.ActorUsername)
+	})
+
+	t.Run("content_review.yaml records remove decision after permanent delete", func(t *testing.T) {
+		appErr := setBaseConfig(th)
+		require.Nil(t, appErr)
+
+		post := setupFlaggedPost(t, th)
+
+		appErr = th.App.PermanentDeleteFlaggedPost(th.Context, &model.FlagContentActionRequest{Comment: "violates policy"}, th.SystemAdminUser.Id, post)
+		require.Nil(t, appErr)
+
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "", "")
+		require.Nil(t, appErr)
+
+		entries := readReportZip(t, path)
+		var review model.FlaggedPostReportContentReview
+		require.NoError(t, yaml.Unmarshal(entries["content_review.yaml"], &review))
+		require.Equal(t, "remove", review.ActorDecision)
+		require.Empty(t, review.ActorUserId)
+		require.Empty(t, review.ActorUsername)
+	})
+
+	t.Run("content_review.yaml records keep decision after keep action", func(t *testing.T) {
+		appErr := setBaseConfig(th)
+		require.Nil(t, appErr)
+
+		post := setupFlaggedPost(t, th)
+
+		appErr = th.App.KeepFlaggedPost(th.Context, &model.FlagContentActionRequest{Comment: "looks fine"}, th.SystemAdminUser.Id, post)
+		require.Nil(t, appErr)
+
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "", "")
+		require.Nil(t, appErr)
+
+		entries := readReportZip(t, path)
+		var review model.FlaggedPostReportContentReview
+		require.NoError(t, yaml.Unmarshal(entries["content_review.yaml"], &review))
+		require.Equal(t, "keep", review.ActorDecision)
+		require.Empty(t, review.ActorUserId)
+		require.Empty(t, review.ActorUsername)
+	})
+
+	t.Run("content_review.yaml uses pending action when status is not yet committed", func(t *testing.T) {
+		appErr := setBaseConfig(th)
+		require.Nil(t, appErr)
+
+		post := setupFlaggedPost(t, th)
+
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "", model.ContentFlaggingActionRemove)
+		require.Nil(t, appErr)
+
+		entries := readReportZip(t, path)
+		var review model.FlaggedPostReportContentReview
+		require.NoError(t, yaml.Unmarshal(entries["content_review.yaml"], &review))
+		require.Equal(t, "remove", review.ActorDecision)
+		require.Equal(t, th.BasicUser.Id, review.ActorUserId)
+		require.Equal(t, th.BasicUser.Username, review.ActorUsername)
+	})
+
+	t.Run("content_review.yaml ignores invalid pending action", func(t *testing.T) {
+		appErr := setBaseConfig(th)
+		require.Nil(t, appErr)
+
+		post := setupFlaggedPost(t, th)
+
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "", "bogus")
+		require.Nil(t, appErr)
+
+		entries := readReportZip(t, path)
+		var review model.FlaggedPostReportContentReview
+		require.NoError(t, yaml.Unmarshal(entries["content_review.yaml"], &review))
+		require.Empty(t, review.ActorDecision)
+		// Actor details are still populated whenever a pending action is supplied,
+		// even when the value isn't a recognised decision.
+		require.Equal(t, th.BasicUser.Id, review.ActorUserId)
+		require.Equal(t, th.BasicUser.Username, review.ActorUsername)
 	})
 
 	t.Run("includes file attachments for the base post", func(t *testing.T) {
@@ -181,7 +262,7 @@ func TestGenerateFlaggedPostReport(t *testing.T) {
 		appErr = th.App.FlagPost(th.Context, post, th.BasicTeam.Id, th.BasicUser2.Id, flagData)
 		require.Nil(t, appErr)
 
-		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "")
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "", "")
 		require.Nil(t, appErr)
 
 		entries := readReportZip(t, path)
@@ -217,7 +298,7 @@ func TestGenerateFlaggedPostReport(t *testing.T) {
 		appErr = th.App.FlagPost(th.Context, post, th.BasicTeam.Id, th.BasicUser2.Id, flagData)
 		require.Nil(t, appErr)
 
-		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "")
+		path, appErr := th.App.GenerateFlaggedPostReport(th.Context, post.Id, th.BasicUser.Id, "", "")
 		require.Nil(t, appErr)
 
 		entries := readReportZip(t, path)
@@ -383,5 +464,43 @@ func TestNotifyReviewersOfFlaggedPostReportGeneration(t *testing.T) {
 		require.NotPanics(t, func() {
 			th.App.NotifyReviewersOfFlaggedPostReportGeneration(th.Context, post.Id, model.NewId())
 		})
+	})
+
+	// okrbest: the reviewer notification must use our content-flagging vocabulary.
+	// Upstream renamed Content Flagging to "Quarantine for Review" in f1b9aa052e
+	// (#35407), which this fork deliberately excluded, so a stray "quarantined"
+	// here would surface terminology we rejected. This guards against re-drift.
+	t.Run("notification uses flagged-message wording, not quarantine", func(t *testing.T) {
+		appErr := setBaseConfig(th)
+		require.Nil(t, appErr)
+
+		post := setupFlaggedPost(t, th)
+
+		th.App.NotifyReviewersOfFlaggedPostReportGeneration(th.Context, post.Id, th.SystemAdminUser.Id)
+
+		contentReviewBot, appErr := th.App.getContentReviewBot(th.Context)
+		require.Nil(t, appErr)
+
+		dmChannel, appErr := th.App.GetOrCreateDirectChannel(th.Context, th.BasicUser.Id, contentReviewBot.UserId)
+		require.Nil(t, appErr)
+
+		posts, appErr := th.App.GetPostsPage(th.Context, model.GetPostsOptions{
+			ChannelId: dmChannel.Id,
+			Page:      0,
+			PerPage:   20,
+		})
+		require.Nil(t, appErr)
+
+		expected := fmt.Sprintf("@%s generated a report for the flagged message.", th.SystemAdminUser.Username)
+
+		var found bool
+		for _, p := range posts.Posts {
+			require.NotContains(t, strings.ToLower(p.Message), "quarantin",
+				"reviewer notifications must not use quarantine wording")
+			if p.RootId != "" && p.Message == expected {
+				found = true
+			}
+		}
+		require.True(t, found, "expected report generation notification %q in the reviewer thread", expected)
 	})
 }

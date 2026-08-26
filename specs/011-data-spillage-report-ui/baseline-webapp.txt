@@ -1,0 +1,58 @@
+# 기준선: webapp 게이트 (T002)
+# 측정일: 2026-08-26 / 브랜치 011-data-spillage-report-ui (구현 전, 작업 트리 클린)
+
+## cd webapp && npm run check  → exit=1
+### 오류 파일 46개
+webapp/channels/src/actions/views/rhs.test.ts
+webapp/channels/src/components/about_build_modal/about_build_modal.tsx
+webapp/channels/src/components/admin_console/admin_definition.tsx
+webapp/channels/src/components/admin_console/license_settings/license_settings.tsx
+webapp/channels/src/components/advanced_text_editor/advanced_text_editor.tsx
+webapp/channels/src/components/advanced_text_editor/use_editor_emoji_picker.tsx
+webapp/channels/src/components/boards_modal/boards_modal.tsx
+webapp/channels/src/components/channel_header_menu/channel_header_menu_items/channel_header_direct_menu.tsx
+webapp/channels/src/components/channel_header_menu/channel_header_menu_items/channel_header_group_menu.tsx
+webapp/channels/src/components/channel_header_menu/channel_header_menu_items/channel_header_public_private_menu.tsx
+webapp/channels/src/components/file_preview_modal/image_preview.tsx
+webapp/channels/src/components/global_header/left_controls/product_menu/product_menu_list/product_menu_list.tsx
+webapp/channels/src/components/invitation_modal/index.tsx
+webapp/channels/src/components/lexical_editor/config/editor_theme.ts
+webapp/channels/src/components/lexical_editor/lexical_text_editor.integration.test.tsx
+webapp/channels/src/components/lexical_editor/lexical_text_editor.test.tsx
+webapp/channels/src/components/lexical_editor/lexical_text_editor.tsx
+webapp/channels/src/components/lexical_editor/nodes/channel_mention_node.test.ts
+webapp/channels/src/components/lexical_editor/nodes/channel_mention_node.ts
+webapp/channels/src/components/lexical_editor/nodes/emoji_node.ts
+webapp/channels/src/components/lexical_editor/nodes/mention_node.test.ts
+webapp/channels/src/components/lexical_editor/nodes/mention_node.ts
+webapp/channels/src/components/lexical_editor/plugins/channel_mention_plugin.tsx
+webapp/channels/src/components/lexical_editor/plugins/emoji_plugin.tsx
+webapp/channels/src/components/lexical_editor/plugins/focus_plugin.tsx
+webapp/channels/src/components/lexical_editor/plugins/keyboard_plugin.test.tsx
+webapp/channels/src/components/lexical_editor/plugins/keyboard_plugin.tsx
+webapp/channels/src/components/lexical_editor/plugins/list_shortcut_plugin.tsx
+webapp/channels/src/components/lexical_editor/plugins/mention_plugin.integration.test.tsx
+webapp/channels/src/components/lexical_editor/plugins/mention_plugin.tsx
+webapp/channels/src/components/lexical_editor/plugins/on_change_plugin.test.tsx
+webapp/channels/src/components/lexical_editor/plugins/on_change_plugin.tsx
+webapp/channels/src/components/lexical_editor/plugins/slash_command_plugin.tsx
+webapp/channels/src/components/lexical_editor/utils/apply_mention_replacement.test.ts
+webapp/channels/src/components/lexical_editor/utils/apply_mention_replacement.ts
+webapp/channels/src/components/lexical_editor/utils/formatting_commands.ts
+webapp/channels/src/components/lexical_editor/utils/mention_replace.test.ts
+webapp/channels/src/components/lexical_editor/utils/read_channels_markdown_for_submit.ts
+webapp/channels/src/components/lexical_editor/utils/suggestion_list.tsx
+webapp/channels/src/components/more_direct_channels/index.ts
+webapp/channels/src/components/new_search/recent_searches.tsx
+webapp/channels/src/components/textbox/textbox.tsx
+webapp/channels/src/components/user_settings/display/user_settings_display.tsx
+webapp/channels/src/types/store/draft.ts
+webapp/channels/src/utils/local_storage.test.ts
+webapp/channels/src/utils/local_storage.ts
+
+## cd webapp/channels && npx tsc --noEmit  → 오류 파일 5개
+src/components/admin_console/admin_definition_ldap_wizard.tsx
+src/components/channel_header/channel_header.test.tsx
+src/components/lexical_editor/nodes/emoji_node.test.ts
+src/components/lexical_editor/plugins/markdown_paste_plugin.tsx
+src/components/post_view/post_view.test.tsx
