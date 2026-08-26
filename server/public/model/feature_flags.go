@@ -112,6 +112,11 @@ type FeatureFlags struct {
 
 	// Collect plugin metrics and serve them on the /metrics endpoint
 	AggregatePluginMetrics bool
+
+	// FEATURE_FLAG_REMOVAL: DiscoverableChannels - Remove this when the feature is GA.
+	// Gates the per-channel Discoverable toggle and the channel-join-request flow that lets
+	// non-members find a private channel in Browse Channels and request to join it.
+	DiscoverableChannels bool
 }
 
 func (f *FeatureFlags) SetDefaults() {
@@ -165,6 +170,8 @@ func (f *FeatureFlags) SetDefaults() {
 	f.EnableAIRecaps = false
 
 	f.AggregatePluginMetrics = false
+
+	f.DiscoverableChannels = false
 }
 
 // ToMap returns the feature flags as a map[string]string
