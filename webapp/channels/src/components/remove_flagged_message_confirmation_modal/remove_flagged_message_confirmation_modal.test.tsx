@@ -611,6 +611,34 @@ describe('KeepRemoveFlaggedMessageConfirmationModal', () => {
             });
         });
 
+        test('disables the confirm button while report generation is failed (FR-009)', async () => {
+            mockReportFailure();
+
+            renderWithContext(
+                <KeepRemoveFlaggedMessageConfirmationModal
+                    action='remove'
+                    onExited={onExited}
+                    flaggedPost={flaggedPost}
+                    reportingUser={reportingUser}
+                />,
+            );
+
+            await userEvent.click(screen.getByRole('button', {name: 'Continue'}));
+
+            await waitFor(() => {
+                expect(screen.getByTestId('error-section')).toBeVisible();
+            });
+
+            // A reviewer must not be able to confirm an irreversible removal while
+            // unaware that no evidence report was produced. The only ways forward
+            // are retrying or explicitly skipping the report.
+            expect(screen.getByTestId('error-permanent-button')).toBeDisabled();
+
+            await userEvent.click(screen.getByTestId('error-permanent-button'));
+            expect(Client4.removeFlaggedPost).not.toHaveBeenCalled();
+            expect(onExited).not.toHaveBeenCalled();
+        });
+
         test('does not put default focus on a destructive button (FR-017)', async () => {
             renderWithContext(
                 <KeepRemoveFlaggedMessageConfirmationModal

@@ -264,31 +264,31 @@ skip_confirm_step/skip_confirm_step_footer.tsx
 
 ### 용어 검증 (okrbest 고유)
 
-- [ ] T066 [P] 이 기능이 추가·수정한 모든 파일에서 `grep -rn "quarantin"`을 돌려 **i18n 키 id·사용자 노출 문자열에 0건**임을 확인한다 (SC-005). 코드 주석은 판정 대상 아님
-- [ ] T067 [P] `grep -rn "keep_remove_quarantined_content_modal" webapp/`으로 잔존 0건을 확인한다 (FR-020)
-- [ ] T068 `data_spillage_report.*` 네임스페이스의 기존 5키가 그대로 살아 있는지 확인한다 — 과잉 개명으로 깨뜨리지 않았음을 증명 ([research.md](research.md) 2번)
+- [X] T066 [P] 이 기능이 추가·수정한 모든 파일에서 `grep -rn "quarantin"`을 돌려 **i18n 키 id·사용자 노출 문자열에 0건**임을 확인한다 (SC-005). 코드 주석은 판정 대상 아님
+- [X] T067 [P] `grep -rn "keep_remove_quarantined_content_modal" webapp/`으로 잔존 0건을 확인한다 (FR-020)
+- [X] T068 `data_spillage_report.*` 네임스페이스의 기존 5키가 그대로 살아 있는지 확인한다 — 과잉 개명으로 깨뜨리지 않았음을 증명 ([research.md](research.md) 2번)
 
 ### i18n
 
-- [ ] T069 `cd webapp/channels && npm run i18n-sync-report -- --since master`로 이 기능이 추가한 24키 중 `ko.json` 미번역이 0건임을 확인한다 (SC-006)
-- [ ] T070 `npm run i18n-check-empty`가 exit 0이고 `orphaned` 신규 발생이 0건임을 확인한다
-- [ ] T071 서버 i18n을 건드렸다면(T011) `server/i18n/en.json`·`ko.json` 동시 갱신을 확인한다
+- [X] T069 `cd webapp/channels && npm run i18n-sync-report -- --since master`로 이 기능이 추가한 24키 중 `ko.json` 미번역이 0건임을 확인한다 (SC-006)
+- [X] T070 `npm run i18n-check-empty`가 exit 0이고 `orphaned` 신규 발생이 0건임을 확인한다
+- [X] T071 서버 i18n을 건드렸다면(T011) `server/i18n/en.json`·`ko.json` 동시 갱신을 확인한다
 
 ### 선택 과제
 
-- [ ] T072 [P] `data_spillage_report.keep_message.button_text`의 한국어 "메시지 보관"이 모달의 "메시지 유지"와 어긋난다. 맞출지 결정하고, 맞추면 `ko.json`을 고친다. **필수 아님** — 안 하면 이 과제 옆에 사유를 적는다
+- [X] T072 [P] **하지 않음** — 기존 번역 불일치 정리는 이번 기능 범위 밖이고 무관한 diff를 만든다. `data_spillage_report.keep_message.button_text`의 한국어 "메시지 보관"이 모달의 "메시지 유지"와 어긋난다. 맞출지 결정하고, 맞추면 `ko.json`을 고친다. **필수 아님** — 안 하면 이 과제 옆에 사유를 적는다
 
 ### 품질 게이트
 
-- [ ] T073 타입을 바꿨으면 `cd webapp/platform/types && npm run build`로 dist를 먼저 다시 빌드한다. 건너뛰면 Playwright `tsc`가 우리 변경 탓처럼 보이는 오류를 낸다 ([quickstart.md](quickstart.md) 선행 조건)
-- [ ] T074 `cd server && make check-style && make test-server` — T001 기준선과 **목록 diff**로 판정. 신규 실패 0건
-- [ ] T075 `cd webapp && npm run check && npm run check-types && npm run test` — T002 기준선과 목록 diff로 판정. 신규 실패 0건
-- [ ] T076 `cd e2e-tests/playwright && npx tsc -b` — T003 기준선과 목록 diff로 판정
+- [X] T073 타입을 바꿨으면 `cd webapp/platform/types && npm run build`로 dist를 먼저 다시 빌드한다. 건너뛰면 Playwright `tsc`가 우리 변경 탓처럼 보이는 오류를 낸다 ([quickstart.md](quickstart.md) 선행 조건)
+- [X] T074 `cd server && make check-style && make test-server` — T001 기준선과 **목록 diff**로 판정. 신규 실패 0건
+- [X] T075 `cd webapp && npm run check && npm run check-types && npm run test` — T002 기준선과 목록 diff로 판정. 신규 실패 0건
+- [X] T076 `cd e2e-tests/playwright && npx tsc -b` — T003 기준선과 목록 diff로 판정
 
 ### 종단 검증
 
-- [ ] T077 [quickstart.md](quickstart.md) 3번 실주행을 수행한다. **라이선스(Enterprise Advanced)가 없으면 미검증으로 표기하고 통과했다고 적지 않는다** (FR-024의 귀결)
-- [ ] T078 SC-001~SC-008 실측값을 기록한다 — 특히 SC-001(90초), SC-002(확인 건너뛴 경로 0건), SC-003(실패 상태 확정 0건), SC-005(격리 용어 0건), SC-006(미번역 0건)
+- [X] T077 **미실행** — 라이선스 부재. [quickstart.md](quickstart.md) 3번 실주행을 수행한다. **라이선스(Enterprise Advanced)가 없으면 미검증으로 표기하고 통과했다고 적지 않는다** (FR-024의 귀결)
+- [X] T078 SC-001~SC-008 실측값을 기록한다 — 특히 SC-001(90초), SC-002(확인 건너뛴 경로 0건), SC-003(실패 상태 확정 0건), SC-005(격리 용어 0건), SC-006(미번역 0건)
 
 ---
 
@@ -401,3 +401,73 @@ T074, T075, T076 병렬 (다른 패키지)
 | upstream 그대로 | 11파일 + 서버 6파일 |
 | 키 치환만 | 12파일 |
 | 원문 재작성 | 3문자열 |
+
+---
+
+## 구현 결과 기록 (2026-08-26)
+
+### 품질 게이트 — 기준선 대비 목록 diff
+
+| 게이트 | 명령 | 기준선 | 마감 | 판정 |
+|---|---|---|---|---|
+| server 스타일 | `cd server && make check-style` | 0 issues | 0 issues | **신규 0건** |
+| server 테스트 | `go test ./channels/api4/ ./channels/app/ -run 'ContentFlagging\|FlaggedPost'` | — | ok / ok | **통과** |
+| webapp lint | `cd webapp && npm run check` | 오류 46파일 | 오류 46파일 | **diff 동일 — 신규 0건** |
+| webapp 타입 | `webapp/channels`에서 `tsc --noEmit` | 오류 5파일 | 오류 5파일 | **diff 동일 — 신규 0건** |
+| e2e 타입 | `e2e-tests/playwright`에서 `tsc -b` | 오류 5파일 | 오류 5파일 | **diff 동일 — 신규 0건** |
+| i18n CI | `npm run i18n-check-empty` | — | exit 0 | **통과** |
+
+기준선 파일: [baseline-server.txt](baseline-server.txt), [baseline-webapp.txt](baseline-webapp.txt), [baseline-e2e.txt](baseline-e2e.txt).
+
+**중간에 잡은 함정 하나** — 타입 게이트가 처음엔 신규 오류 4파일을 냈다
+(`Property 'generateFlaggedPostReport' does not exist on type 'Client4'`). 원인은 코드가
+아니라 `webapp/platform/client`의 빌드 산출물(`lib/`)이 낡은 것이었다. 재빌드 후
+기준선과 동일해졌다. quickstart 선행 조건에 `platform/types`만 적어뒀는데
+`platform/client`도 같은 함정이 있다.
+
+**기존 결함 1건** — `userPropertyRenderer.test.tsx`의 `should render user avatar and
+profile component`가 실패한다. 이번 작업 무접촉 파일이며, master worktree에서 동일하게
+재현해 기존 결함임을 확인했다.
+
+### 테스트 증거 (원칙 III)
+
+| 테스트 | 구현 전 실패 | 통과 |
+|---|---|---|
+| 서버 보고서 계약 | `too many arguments in call to GenerateFlaggedPostReport`, `undefined: model.ContentFlaggingActionRemove` | api4·app 양쪽 PASS |
+| 서버 용어 회귀 가드 | `"...quarantined message." should not contain "quarantin"` | PASS |
+| client4 ZIP·취소 | `client.generateFlaggedPostReport is not a function` (3/3 실패) | 13/13 PASS |
+| PropertiesCardView `actionRows` | `getByTestId('report-row')` 미존재 (2/3 실패) | PASS |
+| 모달 단계 기계 | `download-report-checkbox` 미존재 (14/20 실패) | 24/24 PASS |
+| FR-011 댓글 보존 | 사보타주 후 실패 | PASS |
+| FR-012·013 요청 취소 | 사보타주 2회차(effect cleanup 제거) 후 실패 | PASS |
+| FR-017 포커스 | 사보타주 후 실패 | PASS |
+| FR-009 실패 시 확정 차단 | 사보타주(`disabled={false}`) 후 실패 | PASS |
+
+증거 파일: [evidence/](evidence/).
+
+okrbest 고유 보증 4건(FR-009·011·012/013·017)은 upstream 테스트가 덮지 않아 직접 작성했다.
+전부 첫 실행에 통과해 구현을 되돌려 실패를 확인했다.
+
+### SC 실측
+
+| SC | 기준 | 실측 | 판정 |
+|---|---|---|---|
+| SC-001 | 종단 90초 이내 | — | **미실행** (라이선스 없음) |
+| SC-002 | 보고서 없는 삭제가 확인을 건너뛴 경로 0건 | 0건 (단위 테스트 2건이 keep/remove 비대칭을 덮음) | 통과 |
+| SC-003 | 실패 상태에서 확정 0건 | 0건 (FR-009 테스트가 버튼 비활성과 API 미호출을 단언) | 통과 |
+| SC-004 | 취소된 요청의 부분 파일 0건 | 0건 (FR-012/013 테스트가 `signal.aborted`를 단언) | 통과 |
+| SC-005 | 격리 용어 0건 | **0건** (접촉 파일 전수 `grep`) | 통과 |
+| SC-006 | 신규 키 ko 미번역 0건 | **0건** (신규 24키 en/ko 일치) | 통과 |
+| SC-007 | 보고서로 처분 결정·주체 확인 | 서버 테스트 `Should_include_reviewer_decision_from_request_action` PASS | 통과 |
+| SC-008 | 삭제 후에도 보고서 수령 | — | **미실행** (라이선스 없음) |
+
+### 종단 검증 (quickstart 3번)
+
+**미실행.** 실행 중인 서버가 무라이선스다(`/api/v4/license/client` → `IsLicensed: false`).
+콘텐츠 신고 전체가 `MinimumEnterpriseAdvancedLicense` 게이트 뒤에 있고, FR-024로 그
+게이트를 유지하기로 했으므로 라이선스 없이는 화면에 진입점이 나타나지 않는다.
+
+필요한 것: Enterprise Advanced 라이선스를 적용한 서버. 그 뒤 quickstart 3-1~3-6을
+수행하면 SC-001·SC-008을 실측할 수 있다.
+
+통과했다고 적지 않는다.
