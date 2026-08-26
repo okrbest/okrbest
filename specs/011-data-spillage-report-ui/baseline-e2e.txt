@@ -1,0 +1,9 @@
+# 기준선: e2e playwright tsc (T003)
+# 측정일: 2026-08-26
+
+## cd e2e-tests/playwright && npx tsc -b  → 오류 파일 5개
+specs/functional/channels/channel_settings/abac_public_channels.spec.ts
+specs/functional/channels/content_flagging/deletion-report/deletion-report.spec.ts
+specs/functional/channels/direct_messages_modal/group_message_profiles.spec.ts
+specs/functional/system_console/abac/user_attributes/display_name_in_selector.spec.ts
+specs/functional/system_console/user_attributes/user_attributes.spec.ts

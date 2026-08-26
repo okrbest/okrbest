@@ -66,10 +66,10 @@ skip_confirm_step/skip_confirm_step_footer.tsx
 
 **Purpose**: 원칙 I은 회귀를 실패 목록 diff로 판정하라고 요구한다. 구현 전에 기준선을 남긴다. 이 단계를 건너뛰면 마감에 회귀 판정을 할 수 없다.
 
-- [ ] T001 [P] `server/`에서 `make check-style` 출력을 저장한다 — 결과를 [quickstart.md](quickstart.md) 0번 형식으로 `specs/011-data-spillage-report-ui/baseline-server.txt`에 기록
-- [ ] T002 [P] `webapp/`에서 `npm run check`와 `webapp/channels`의 `tsc --noEmit` 오류 **파일 목록**을 `specs/011-data-spillage-report-ui/baseline-webapp.txt`에 기록
-- [ ] T003 [P] `e2e-tests/playwright`에서 `npx tsc -b` 오류 파일 목록을 `specs/011-data-spillage-report-ui/baseline-e2e.txt`에 기록
-- [ ] T004 T001~T003 결과를 [research.md](research.md) 8번의 2026-08-26 측정값과 대조하고, 차이가 있으면 research.md를 현재 값으로 갱신
+- [X] T001 [P] `server/`에서 `make check-style` 출력을 저장한다 — 결과를 [quickstart.md](quickstart.md) 0번 형식으로 `specs/011-data-spillage-report-ui/baseline-server.txt`에 기록
+- [X] T002 [P] `webapp/`에서 `npm run check`와 `webapp/channels`의 `tsc --noEmit` 오류 **파일 목록**을 `specs/011-data-spillage-report-ui/baseline-webapp.txt`에 기록
+- [X] T003 [P] `e2e-tests/playwright`에서 `npx tsc -b` 오류 파일 목록을 `specs/011-data-spillage-report-ui/baseline-e2e.txt`에 기록
+- [X] T004 T001~T003 결과를 [research.md](research.md) 8번의 2026-08-26 측정값과 대조하고, 차이가 있으면 research.md를 현재 값으로 갱신
 
 **Checkpoint**: 기준선 3개 파일이 존재한다. 이후 모든 게이트 판정이 이것을 기준으로 삼는다.
 
@@ -83,17 +83,17 @@ skip_confirm_step/skip_confirm_step_footer.tsx
 
 ### 서버 계약 (분류 A — upstream 그대로)
 
-- [ ] T005 upstream `f0360a83`의 `server/public/model/content_flagging.go` 훅을 적용한다 — `FlagContentActionRequest.Action` 필드와 `ContentFlaggingActionKeep`/`ContentFlaggingActionRemove` 상수 추가
-- [ ] T006 [P] upstream `f0360a83`의 `server/public/model/content_flagging_report.go` 훅을 적용한다 — `FlaggedPostReportContentReview`에 `ActorDecision`·`ActorUserId`·`ActorUsername` 추가
-- [ ] T007 upstream `f0360a83`의 `server/channels/app/content_flagging_report.go` 훅을 적용한다 — `GenerateFlaggedPostReport`·`writeFlaggedPostReport`·`writeContentReviewEntry`에 `action` 인자 전달
-- [ ] T008 upstream `f0360a83`의 `server/channels/api4/content_flagging_report.go` 훅을 적용한다 — `action`을 감사 레코드에 기록하고 앱 계층에 전달
-- [ ] T009 upstream `f0360a83`의 서버 테스트 2파일을 적용한다 — `server/channels/api4/content_flagging_report_test.go`, `server/channels/app/content_flagging_report_test.go`. **적용 전에 먼저 실행해 실패를 확인하고 출력을 남긴다**
-- [ ] T010 `cd server && go build ./... && go test ./channels/api4/ ./channels/app/ -run TestGenerateFlaggedPostReport -count=1 -v` 통과를 확인하고 출력을 기록
+- [X] T005 upstream `f0360a83`의 `server/public/model/content_flagging.go` 훅을 적용한다 — `FlagContentActionRequest.Action` 필드와 `ContentFlaggingActionKeep`/`ContentFlaggingActionRemove` 상수 추가
+- [X] T006 [P] upstream `f0360a83`의 `server/public/model/content_flagging_report.go` 훅을 적용한다 — `FlaggedPostReportContentReview`에 `ActorDecision`·`ActorUserId`·`ActorUsername` 추가
+- [X] T007 upstream `f0360a83`의 `server/channels/app/content_flagging_report.go` 훅을 적용한다 — `GenerateFlaggedPostReport`·`writeFlaggedPostReport`·`writeContentReviewEntry`에 `action` 인자 전달
+- [X] T008 upstream `f0360a83`의 `server/channels/api4/content_flagging_report.go` 훅을 적용한다 — `action`을 감사 레코드에 기록하고 앱 계층에 전달
+- [X] T009 upstream `f0360a83`의 서버 테스트 2파일을 적용한다 — `server/channels/api4/content_flagging_report_test.go`, `server/channels/app/content_flagging_report_test.go`. **적용 전에 먼저 실행해 실패를 확인하고 출력을 남긴다**
+- [X] T010 `cd server && go build ./... && go test ./channels/api4/ ./channels/app/ -run TestGenerateFlaggedPostReport -count=1 -v` 통과를 확인하고 출력을 기록
 
 ### 서버 용어 정리 (okrbest 고유 — FR-022)
 
-- [ ] T011 `server/channels/app/content_flagging_report.go:458`의 `"@%s generated a report for the quarantined message."`를 우리 용어로 고친다. i18n 카탈로그로 옮길지 여기서 정하고, 옮기면 `server/i18n/en.json`·`ko.json`에 키를 함께 추가한다(FR-021)
-- [ ] T012 `grep -rn "quarantin" server/channels/app/content_flagging_report.go`로 사용자 노출 문자열에 격리 용어가 0건임을 확인한다 (코드 주석은 판정 대상 아님)
+- [X] T011 `server/channels/app/content_flagging_report.go:458`의 `"@%s generated a report for the quarantined message."`를 우리 용어로 고친다. i18n 카탈로그로 옮길지 여기서 정하고, 옮기면 `server/i18n/en.json`·`ko.json`에 키를 함께 추가한다(FR-021)
+- [X] T012 `grep -rn "quarantin" server/channels/app/content_flagging_report.go`로 사용자 노출 문자열에 격리 용어가 0건임을 확인한다 (코드 주석은 판정 대상 아님)
 
 ### 웹앱 클라이언트 (분류 A — upstream 그대로)
 

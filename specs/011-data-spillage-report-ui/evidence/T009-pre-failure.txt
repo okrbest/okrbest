@@ -1,0 +1,11 @@
+# T009: 서버 테스트 구현 전 실패 출력 (2026-08-26)
+# 명령: cd server && go vet ./channels/api4/ ./channels/app/
+
+# github.com/mattermost/mattermost/server/v8/channels/app
+vet: channels/app/content_flagging_report_test.go:55:100: too many arguments in call to th.App.GenerateFlaggedPostReport
+	have (*request.Context, string, string, string, string)
+	want (request.CTX, string, string, string)
+# github.com/mattermost/mattermost/server/v8/channels/api4
+vet: channels/api4/content_flagging_report_test.go:142:19: undefined: model.ContentFlaggingActionRemove
+
+exit=1
