@@ -97,18 +97,18 @@ skip_confirm_step/skip_confirm_step_footer.tsx
 
 ### 웹앱 클라이언트 (분류 A — upstream 그대로)
 
-- [ ] T013 `webapp/platform/client/src/client4.test.ts`에 ZIP 응답과 취소를 검증하는 테스트를 추가한다 — upstream `f0360a83`의 client4 테스트 19줄 기반. **구현 전 실패 출력을 남긴다**
-- [ ] T014 `webapp/platform/client/src/client4.ts`의 `doFetch`에 `application/zip` → `response.blob()` 분기를 추가한다 ([contracts/report-api.md](contracts/report-api.md) 참조)
-- [ ] T015 `webapp/platform/client/src/client4.ts`에 `getFlaggedPostReportUrl`과 `generateFlaggedPostReport(postId, comment, action?, signal?)`을 추가한다 — upstream 시그니처 그대로
-- [ ] T016 `cd webapp/platform/client && npx jest src/client4.test.ts` 통과를 확인하고 출력을 기록
-- [ ] T017 `doFetch` 변경이 기존 호출에 미치는 영향을 확인한다 — `application/zip`을 반환하는 다른 엔드포인트가 없음을 `grep`으로 확인하고 결과를 과제 옆에 적는다
+- [X] T013 `webapp/platform/client/src/client4.test.ts`에 ZIP 응답과 취소를 검증하는 테스트를 추가한다 — upstream `f0360a83`의 client4 테스트 19줄 기반. **구현 전 실패 출력을 남긴다**
+- [X] T014 `webapp/platform/client/src/client4.ts`의 `doFetch`에 `application/zip` → `response.blob()` 분기를 추가한다 ([contracts/report-api.md](contracts/report-api.md) 참조)
+- [X] T015 `webapp/platform/client/src/client4.ts`에 `getFlaggedPostReportUrl`과 `generateFlaggedPostReport(postId, comment, action?, signal?)`을 추가한다 — upstream 시그니처 그대로
+- [X] T016 `cd webapp/platform/client && npx jest src/client4.test.ts` 통과를 확인하고 출력을 기록
+- [X] T017 `doFetch` 변경이 기존 호출에 미치는 영향을 확인한다 — `application/zip`을 반환하는 다른 엔드포인트가 없음을 `grep`으로 확인하고 결과를 과제 옆에 적는다 — **결과: 서버에 zip 반환 핸들러 4개(content_flagging_report·export·job·system)가 있으나 webapp client4에는 이들을 부르는 메서드가 없다. 유일한 zip 소비자 `commercial_support_modal.tsx`는 raw `fetch()`를 쓴다. 기존 `doFetch` 소비자 0건 — 회귀 위험 없음.**
 
 ### 카드 행 리팩터 (분류 A + 주의)
 
-- [ ] T018 `webapp/channels/src/components/properties_card_view/properties_card_view.test.tsx`를 upstream에서 **그대로** 가져온다(격리 용어 0건). **먼저 실행해 실패를 확인한다**
-- [ ] T019 `webapp/channels/src/components/properties_card_view/properties_card_view.tsx`에 `ActionRow` 타입을 추가하고 `actionsRow?: React.ReactNode`를 `actionRows?: ActionRow[]`로 바꾼다. ⚠️ upstream 파일의 `Quarantined by`·`Quarantined at` defaultMessage(80·104행)는 **가져오지 않는다** — 우리 파일에는 없고 개명 커밋 산물이다
-- [ ] T020 `webapp/channels/src/components/post_view/data_spillage_report/data_spillage_report.tsx:192`의 호출부를 `actionRows`로 전환한다. 호출부는 이곳 하나뿐임을 `grep -rn "actionsRow" webapp/channels/src/`로 재확인
-- [ ] T021 `cd webapp/channels && npx jest src/components/properties_card_view src/components/post_view/data_spillage_report` 통과를 확인하고 출력을 기록
+- [X] T018 `webapp/channels/src/components/properties_card_view/properties_card_view.test.tsx`를 upstream에서 **그대로** 가져온다(격리 용어 0건). **먼저 실행해 실패를 확인한다**
+- [X] T019 `webapp/channels/src/components/properties_card_view/properties_card_view.tsx`에 `ActionRow` 타입을 추가하고 `actionsRow?: React.ReactNode`를 `actionRows?: ActionRow[]`로 바꾼다. ⚠️ upstream 파일의 `Quarantined by`·`Quarantined at` defaultMessage(80·104행)는 **가져오지 않는다** — 우리 파일에는 없고 개명 커밋 산물이다
+- [X] T020 `webapp/channels/src/components/post_view/data_spillage_report/data_spillage_report.tsx:192`의 호출부를 `actionRows`로 전환한다. 호출부는 이곳 하나뿐임을 `grep -rn "actionsRow" webapp/channels/src/`로 재확인
+- [X] T021 `cd webapp/channels && npx jest src/components/properties_card_view src/components/post_view/data_spillage_report` 통과를 확인하고 출력을 기록
 
 **Checkpoint**: 서버가 처분 결정을 보고서에 기록한다. 웹앱이 ZIP을 받을 수 있다. 카드에 라벨 있는 행을 여럿 놓을 수 있다. 이제 UI를 붙일 수 있다.
 
@@ -237,22 +237,22 @@ skip_confirm_step/skip_confirm_step_footer.tsx
 
 ### 테스트 (구현 전)
 
-- [ ] T059 [US4] `data_spillage_download_report.test.tsx`를 upstream에서 **그대로** 가져온다 (분류 A — 격리 용어 0건). **실패 출력을 남긴다**
-- [ ] T060 [P] [US4] `data_spillage_report.test.tsx`에 보고서 행이 카드에 나타나는지 테스트를 추가한다 — upstream 33줄 기반. **실패 출력을 남긴다**
+- [X] T059 [US4] `data_spillage_download_report.test.tsx`를 upstream에서 **그대로** 가져온다 (분류 A — 격리 용어 0건). **실패 출력을 남긴다**
+- [X] T060 [P] [US4] `data_spillage_report.test.tsx`에 보고서 행이 카드에 나타나는지 테스트를 추가한다 — upstream 33줄 기반. **실패 출력을 남긴다**
 
 ### 구현
 
-- [ ] T061 [P] [US4] `post_view/data_spillage_report/data_spillage_download_report/data_spillage_download_report.tsx`와 `.scss`를 upstream에서 **그대로** 가져온다 (분류 A). `action`을 보내지 않는 호출임을 확인한다 (FR-015)
-- [ ] T062 [US4] `data_spillage_report.tsx`의 `actionRows`에 보고서 행을 추가한다 — 라벨 `data_spillage_report.row.report.label`, 처분 버튼 행 라벨은 `row.actions.label`
+- [X] T061 [P] [US4] `post_view/data_spillage_report/data_spillage_download_report/data_spillage_download_report.tsx`와 `.scss`를 upstream에서 **그대로** 가져온다 (분류 A). `action`을 보내지 않는 호출임을 확인한다 (FR-015)
+- [X] T062 [US4] `data_spillage_report.tsx`의 `actionRows`에 보고서 행을 추가한다 — 라벨 `data_spillage_report.row.report.label`, 처분 버튼 행 라벨은 `row.actions.label`
 
 ### i18n
 
-- [ ] T063 [US4] `en.json`에 US4 키 5개를 추가한다 — `data_spillage_report.download_report.button_text`, `.failed.button_text`, `.generating.button_text`, `data_spillage_report.row.actions.label`, `.row.report.label`. ⚠️ 이 네임스페이스는 **개명 대상이 아니다** ([research.md](research.md) 2번)
-- [ ] T064 [US4] `ko.json`에 T063과 같은 키를 채운다
+- [X] T063 [US4] `en.json`에 US4 키 5개를 추가한다 — `data_spillage_report.download_report.button_text`, `.failed.button_text`, `.generating.button_text`, `data_spillage_report.row.actions.label`, `.row.report.label`. ⚠️ 이 네임스페이스는 **개명 대상이 아니다** ([research.md](research.md) 2번)
+- [X] T064 [US4] `ko.json`에 T063과 같은 키를 채운다
 
 ### 검증
 
-- [ ] T065 [US4] `npx jest src/components/post_view/data_spillage_report` 통과를 확인하고 출력을 기록
+- [X] T065 [US4] `npx jest src/components/post_view/data_spillage_report` 통과를 확인하고 출력을 기록
 
 **Checkpoint**: 처분과 무관한 보고서 내려받기가 동작한다.
 
