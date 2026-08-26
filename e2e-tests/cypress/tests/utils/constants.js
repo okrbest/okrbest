@@ -6,7 +6,6 @@ export const ABOUT_LINK = 'https://okr.best/pl/about-mattermost';
 export const ASK_COMMUNITY_LINK = 'https://okr.best/pl/default-ask-mattermost-community/';
 export const HELP_LINK = 'https://okr.best/pl/help/';
 export const PRIVACY_POLICY_LINK = 'https://okr.best/pl/privacy-policy/';
-export const REPORT_A_PROBLEM_LINK = 'https://okr.best/pl/report-a-bug';
 export const TERMS_OF_SERVICE_LINK = 'https://okr.best/pl/terms-of-use/';
 export const MATTERMOST_USER_GUIDE = 'https://docs.okrbest.com/guides/use-mattermost.html';
 
@@ -24,7 +23,6 @@ export const SupportSettings = {
     ASK_COMMUNITY_LINK,
     HELP_LINK,
     PRIVACY_POLICY_LINK,
-    REPORT_A_PROBLEM_LINK,
     TERMS_OF_SERVICE_LINK,
     MATTERMOST_USER_GUIDE,
 };
