@@ -788,6 +788,7 @@ const defaultServerConfig: AdminConfig = {
         EnableAIRecaps: false,
         IntegratedBoards: false,
         CJKSearch: false,
+        MobileEphemeralMode: true,
     },
     ImportSettings: {
         Directory: './import',
@@ -863,5 +864,11 @@ const defaultServerConfig: AdminConfig = {
         Agents: {
             LLMServiceID: '',
         },
+    },
+    MobileEphemeralModeSettings: {
+        Enable: false,
+        DisconnectionTimeoutSeconds: 60,
+        OfflinePersistenceTimerHours: 24,
+        AutoCacheCleanupDays: 7,
     },
 };
