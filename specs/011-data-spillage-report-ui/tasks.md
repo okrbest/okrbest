@@ -122,41 +122,41 @@ skip_confirm_step/skip_confirm_step_footer.tsx
 
 ### 테스트 (구현 전)
 
-- [ ] T022 [US1] `webapp/channels/src/components/remove_flagged_message_confirmation_modal/remove_flagged_message_confirmation_modal.test.tsx`에 `form → generating → generated → 확정` 경로 테스트를 추가한다 — upstream 테스트 기반, 키 네임스페이스만 우리 것으로. **실패 출력을 남긴다**
-- [ ] T023 [P] [US1] 같은 파일에 댓글 보존 테스트를 추가한다 — `generated`에서 뒤로 눌러 `form`으로 와도 댓글이 남는다 (FR-011). **실패 출력을 남긴다**
-- [ ] T024 [P] [US1] 같은 파일에 취소 테스트를 추가한다 — `generating` 중 창을 닫거나 뒤로 누르면 요청이 취소되고 파일이 저장되지 않는다 (FR-012·FR-013). **실패 출력을 남긴다**
-- [ ] T025 [P] [US1] 같은 파일에 포커스 테스트를 추가한다 — 각 단계의 기본 포커스가 파괴적 버튼에 있지 않다 (FR-017). **실패 출력을 남긴다**
+- [X] T022 [US1] `webapp/channels/src/components/remove_flagged_message_confirmation_modal/remove_flagged_message_confirmation_modal.test.tsx`에 `form → generating → generated → 확정` 경로 테스트를 추가한다 — upstream 테스트 기반, 키 네임스페이스만 우리 것으로. **실패 출력을 남긴다**
+- [X] T023 [P] [US1] 같은 파일에 댓글 보존 테스트를 추가한다 — `generated`에서 뒤로 눌러 `form`으로 와도 댓글이 남는다 (FR-011). **실패 출력을 남긴다**
+- [X] T024 [P] [US1] 같은 파일에 취소 테스트를 추가한다 — `generating` 중 창을 닫거나 뒤로 누르면 요청이 취소되고 파일이 저장되지 않는다 (FR-012·FR-013). **실패 출력을 남긴다**
+- [X] T025 [P] [US1] 같은 파일에 포커스 테스트를 추가한다 — 각 단계의 기본 포커스가 파괴적 버튼에 있지 않다 (FR-017). **실패 출력을 남긴다**
 
 ### 공용 하위 컴포넌트 (분류 A·B·C)
 
-- [ ] T026 [P] [US1] `report_notice.tsx`와 `report_notice.scss`를 upstream에서 **그대로** 가져온다 (분류 A) → `webapp/channels/src/components/remove_flagged_message_confirmation_modal/`
-- [ ] T027 [P] [US1] `flagged_message_body.scss`를 upstream에서 **그대로** 가져온다 (분류 A)
-- [ ] T028 [US1] `flagged_message_body.tsx`를 가져오고 키 네임스페이스를 `keep_remove_flag_content_modal.*`로 치환한다 (분류 B)
-- [ ] T029 [US1] `body_main_action_text.tsx`를 가져오고 키를 치환한다. ⚠️ `action_remove.body`·`action_keep.body`의 `defaultMessage`는 upstream 문구가 아니라 **우리 카탈로그 기존 문구**를 쓴다("flagged for review by") — 단, 오타 `posed` → `posted`는 함께 고친다 (분류 C)
+- [X] T026 [P] [US1] `report_notice.tsx`와 `report_notice.scss`를 upstream에서 **그대로** 가져온다 (분류 A) → `webapp/channels/src/components/remove_flagged_message_confirmation_modal/`
+- [X] T027 [P] [US1] `flagged_message_body.scss`를 upstream에서 **그대로** 가져온다 (분류 A)
+- [X] T028 [US1] `flagged_message_body.tsx`를 가져오고 키 네임스페이스를 `keep_remove_flag_content_modal.*`로 치환한다 (분류 B)
+- [X] T029 [US1] `body_main_action_text.tsx`를 가져오고 키를 치환한다. ⚠️ `action_remove.body`·`action_keep.body`의 `defaultMessage`는 upstream 문구가 아니라 **우리 카탈로그 기존 문구**를 쓴다("flagged for review by") — 단, 오타 `posed` → `posted`는 함께 고친다 (분류 C)
 
 ### 단계 컴포넌트
 
-- [ ] T030 [P] [US1] `form_step/form_step_body.scss`와 `form_step/form_step_footer.scss`를 **그대로** 가져온다 (분류 A)
-- [ ] T031 [US1] `form_step/form_step_body.tsx`를 가져오고 키를 치환한다 (분류 B)
-- [ ] T032 [US1] `form_step/form_step_footer.tsx`를 가져오고 키를 치환한다. ⚠️ `download_report_checkbox.label`의 `defaultMessage` "Download quarantined message report"는 **새로 쓴다** (분류 C)
-- [ ] T033 [P] [US1] `generating_step/generating_step_body.tsx`와 `generating_step/generating_step_footer.tsx`를 가져오고 키를 치환한다 (분류 B)
-- [ ] T034 [P] [US1] `generated_step/generated_step_body.tsx`와 `generated_step/generated_step_footer.tsx`를 가져오고 키를 치환한다 (분류 B)
+- [X] T030 [P] [US1] `form_step/form_step_body.scss`와 `form_step/form_step_footer.scss`를 **그대로** 가져온다 (분류 A)
+- [X] T031 [US1] `form_step/form_step_body.tsx`를 가져오고 키를 치환한다 (분류 B)
+- [X] T032 [US1] `form_step/form_step_footer.tsx`를 가져오고 키를 치환한다. ⚠️ `download_report_checkbox.label`의 `defaultMessage` "Download quarantined message report"는 **새로 쓴다** (분류 C)
+- [X] T033 [P] [US1] `generating_step/generating_step_body.tsx`와 `generating_step/generating_step_footer.tsx`를 가져오고 키를 치환한다 (분류 B)
+- [X] T034 [P] [US1] `generated_step/generated_step_body.tsx`와 `generated_step/generated_step_footer.tsx`를 가져오고 키를 치환한다 (분류 B)
 
 ### 모달 본체
 
-- [ ] T035 [US1] `remove_flagged_message_confirmation_modal.tsx`를 단계 기계로 확장한다 — `Step` 타입, `step`·`downloadReport` 상태 추가, `useEffect`로 `generating`에서 보고서 요청과 `AbortController` cleanup. 전이 규칙은 [data-model.md](data-model.md) 4번 표를 따른다. 외부 props는 바꾸지 않는다
-- [ ] T036 [US1] `remove_flagged_message_confirmation_modal.scss`에 upstream 변경분을 반영한다 (분류 A — 격리 용어 없음)
-- [ ] T037 [US1] 파일 저장 규약을 구현한다 — 이름 `flagged-post-<postId>-<timestamp>.zip`, 저장 후 객체 URL 해제, 취소된 요청은 저장 안 함 ([contracts/ui-contracts.md](contracts/ui-contracts.md) 4번)
+- [X] T035 [US1] `remove_flagged_message_confirmation_modal.tsx`를 단계 기계로 확장한다 — `Step` 타입, `step`·`downloadReport` 상태 추가, `useEffect`로 `generating`에서 보고서 요청과 `AbortController` cleanup. 전이 규칙은 [data-model.md](data-model.md) 4번 표를 따른다. 외부 props는 바꾸지 않는다
+- [X] T036 [US1] `remove_flagged_message_confirmation_modal.scss`에 upstream 변경분을 반영한다 (분류 A — 격리 용어 없음)
+- [X] T037 [US1] 파일 저장 규약을 구현한다 — 이름 `flagged-post-<postId>-<timestamp>.zip`, 저장 후 객체 URL 해제, 취소된 요청은 저장 안 함 ([contracts/ui-contracts.md](contracts/ui-contracts.md) 4번)
 
 ### i18n (US1 사용분)
 
-- [ ] T038 [US1] `webapp/channels/src/i18n/en.json`에 US1이 쓰는 키를 추가한다 — `generating.title`, `generated.title`, `action_keep.generating.body`, `action_keep.generated.body`, `action_remove.generating.body`, `action_remove.generated.body`, `action_keep.permanent_button_text`, `action_remove.permanent_button_text`, `back.button_text`, `continue.button_text`, `download_again.button_text`, `download_report_checkbox.label`
-- [ ] T039 [US1] `webapp/channels/src/i18n/ko.json`에 T038과 **같은 키를** 한국어로 채운다 (FR-021, 원칙 V). 용어는 `콘텐츠 신고`/`신고`/`메시지 유지`/`메시지 삭제` 계열
-- [ ] T040 [US1] `en.json`의 `keep_remove_flag_content_modal.action_keep.body`·`action_remove.body`의 오타 `posed`를 `posted`로 고친다. `ko.json`은 해당 없음(한국어 문구에 대응 오타 없음)
+- [X] T038 [US1] `webapp/channels/src/i18n/en.json`에 US1이 쓰는 키를 추가한다 — `generating.title`, `generated.title`, `action_keep.generating.body`, `action_keep.generated.body`, `action_remove.generating.body`, `action_remove.generated.body`, `action_keep.permanent_button_text`, `action_remove.permanent_button_text`, `back.button_text`, `continue.button_text`, `download_again.button_text`, `download_report_checkbox.label`
+- [X] T039 [US1] `webapp/channels/src/i18n/ko.json`에 T038과 **같은 키를** 한국어로 채운다 (FR-021, 원칙 V). 용어는 `콘텐츠 신고`/`신고`/`메시지 유지`/`메시지 삭제` 계열
+- [X] T040 [US1] `en.json`의 `keep_remove_flag_content_modal.action_keep.body`·`action_remove.body`의 오타 `posed`를 `posted`로 고친다. `ko.json`은 해당 없음(한국어 문구에 대응 오타 없음)
 
 ### 검증
 
-- [ ] T041 [US1] `cd webapp/channels && npx jest src/components/remove_flagged_message_confirmation_modal` 통과를 확인하고 출력을 기록
+- [X] T041 [US1] `cd webapp/channels && npx jest src/components/remove_flagged_message_confirmation_modal` 통과를 확인하고 출력을 기록
 
 **Checkpoint**: User Story 1이 독립적으로 동작한다. 보고서를 받고 처분을 확정할 수 있다. **여기까지가 MVP다.**
 
@@ -172,23 +172,23 @@ skip_confirm_step/skip_confirm_step_footer.tsx
 
 ### 테스트 (구현 전)
 
-- [ ] T042 [US2] `remove_flagged_message_confirmation_modal.test.tsx`에 비대칭 테스트를 추가한다 — 보고서 없이 **삭제**하면 `skip_confirm`을 거치고(FR-006), 보고서 없이 **유지**하면 바로 처리된다(FR-008). **실패 출력을 남긴다**
-- [ ] T043 [P] [US2] 같은 파일에 `skip_confirm`에서 뒤로 눌렀을 때 댓글이 유지되는지 테스트를 추가한다 (FR-011). **실패 출력을 남긴다**
+- [X] T042 [US2] `remove_flagged_message_confirmation_modal.test.tsx`에 비대칭 테스트를 추가한다 — 보고서 없이 **삭제**하면 `skip_confirm`을 거치고(FR-006), 보고서 없이 **유지**하면 바로 처리된다(FR-008). **실패 출력을 남긴다**
+- [X] T043 [P] [US2] 같은 파일에 `skip_confirm`에서 뒤로 눌렀을 때 댓글이 유지되는지 테스트를 추가한다 (FR-011). **실패 출력을 남긴다**
 
 ### 구현
 
-- [ ] T044 [P] [US2] `skip_confirm_step/skip_confirm_step_footer.scss`를 upstream에서 **그대로** 가져온다 (분류 A)
-- [ ] T045 [US2] `skip_confirm_step/skip_confirm_step_body.tsx`와 `skip_confirm_step/skip_confirm_step_footer.tsx`를 가져오고 키를 치환한다 (분류 B)
-- [ ] T046 [US2] 모달 본체에 `skip_confirm` 전이를 배선한다 — `form`에서 보고서 미선택 + `remove`, `generating`에서 보고서 포기 + `remove`. 두 경로 모두 [data-model.md](data-model.md) 4번 표를 따른다
+- [X] T044 [P] [US2] `skip_confirm_step/skip_confirm_step_footer.scss`를 upstream에서 **그대로** 가져온다 (분류 A)
+- [X] T045 [US2] `skip_confirm_step/skip_confirm_step_body.tsx`와 `skip_confirm_step/skip_confirm_step_footer.tsx`를 가져오고 키를 치환한다 (분류 B)
+- [X] T046 [US2] 모달 본체에 `skip_confirm` 전이를 배선한다 — `form`에서 보고서 미선택 + `remove`, `generating`에서 보고서 포기 + `remove`. 두 경로 모두 [data-model.md](data-model.md) 4번 표를 따른다
 
 ### i18n
 
-- [ ] T047 [US2] `en.json`에 US2 키를 추가한다 — `action_remove_without_report.title`, `action_remove_without_report.button_text`, `action_remove.skip_confirm.body`, `skip_report_download.button_text`
-- [ ] T048 [US2] `ko.json`에 T047과 같은 키를 채운다. `action_remove.skip_confirm.body`는 **이후 생성하는 보고서에 원문이 담기지 않는다**는 사실을 반드시 담아야 한다 (FR-007)
+- [X] T047 [US2] `en.json`에 US2 키를 추가한다 — `action_remove_without_report.title`, `action_remove_without_report.button_text`, `action_remove.skip_confirm.body`, `skip_report_download.button_text`
+- [X] T048 [US2] `ko.json`에 T047과 같은 키를 채운다. `action_remove.skip_confirm.body`는 **이후 생성하는 보고서에 원문이 담기지 않는다**는 사실을 반드시 담아야 한다 (FR-007)
 
 ### 검증
 
-- [ ] T049 [US2] `npx jest src/components/remove_flagged_message_confirmation_modal` 통과를 확인하고 출력을 기록
+- [X] T049 [US2] `npx jest src/components/remove_flagged_message_confirmation_modal` 통과를 확인하고 출력을 기록
 
 **Checkpoint**: 보고서 없는 삭제가 재확인을 거친다. 유지는 그대로 빠르다.
 
@@ -204,24 +204,24 @@ skip_confirm_step/skip_confirm_step_footer.tsx
 
 ### 테스트 (구현 전)
 
-- [ ] T050 [US3] `remove_flagged_message_confirmation_modal.test.tsx`에 실패 경로 테스트를 추가한다 — `error`에서 확정 버튼이 **비활성**이다 (FR-009). **실패 출력을 남긴다**
-- [ ] T051 [P] [US3] 같은 파일에 재시도 테스트를 추가한다 — `error`에서 다시 시도하면 `generating`으로 간다. **실패 출력을 남긴다**
-- [ ] T052 [P] [US3] 같은 파일에 포기 테스트를 추가한다 — `error`에서 보고서를 포기하면 `skip_confirm`으로 간다 (FR-010). **실패 출력을 남긴다**
+- [X] T050 [US3] `remove_flagged_message_confirmation_modal.test.tsx`에 실패 경로 테스트를 추가한다 — `error`에서 확정 버튼이 **비활성**이다 (FR-009). **실패 출력을 남긴다**
+- [X] T051 [P] [US3] 같은 파일에 재시도 테스트를 추가한다 — `error`에서 다시 시도하면 `generating`으로 간다. **실패 출력을 남긴다**
+- [X] T052 [P] [US3] 같은 파일에 포기 테스트를 추가한다 — `error`에서 보고서를 포기하면 `skip_confirm`으로 간다 (FR-010). **실패 출력을 남긴다**
 
 ### 구현
 
-- [ ] T053 [P] [US3] `error_step/error_step_body.scss`를 upstream에서 **그대로** 가져온다 (분류 A)
-- [ ] T054 [US3] `error_step/error_step_body.tsx`와 `error_step/error_step_footer.tsx`를 가져오고 키를 치환한다 (분류 B)
-- [ ] T055 [US3] 모달 본체에 `error` 전이를 배선한다 — 생성 실패 시 진입, 재시도·포기·뒤로 세 경로. 확정 버튼은 이 단계에서 비활성
+- [X] T053 [P] [US3] `error_step/error_step_body.scss`를 upstream에서 **그대로** 가져온다 (분류 A)
+- [X] T054 [US3] `error_step/error_step_body.tsx`와 `error_step/error_step_footer.tsx`를 가져오고 키를 치환한다 (분류 B)
+- [X] T055 [US3] 모달 본체에 `error` 전이를 배선한다 — 생성 실패 시 진입, 재시도·포기·뒤로 세 경로. 확정 버튼은 이 단계에서 비활성
 
 ### i18n
 
-- [ ] T056 [US3] `en.json`에 US3 키를 추가한다 — `error.title`, `error.body`, `try_again.button_text`
-- [ ] T057 [US3] `ko.json`에 T056과 같은 키를 채운다
+- [X] T056 [US3] `en.json`에 US3 키를 추가한다 — `error.title`, `error.body`, `try_again.button_text`
+- [X] T057 [US3] `ko.json`에 T056과 같은 키를 채운다
 
 ### 검증
 
-- [ ] T058 [US3] `npx jest src/components/remove_flagged_message_confirmation_modal` 통과를 확인하고 출력을 기록
+- [X] T058 [US3] `npx jest src/components/remove_flagged_message_confirmation_modal` 통과를 확인하고 출력을 기록
 
 **Checkpoint**: 실패해도 검토자가 신고 처리를 끝낼 수 있고, 실패를 모른 채 확정하지는 못한다.
 

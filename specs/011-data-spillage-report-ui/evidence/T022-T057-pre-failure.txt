@@ -1,0 +1,32 @@
+# US1~US3 구현 전 실패 출력 (2026-08-26)
+
+## 1. upstream 모달 테스트 도입 직후 (T022~T025, T042~T043, T050~T052)
+명령: cd webapp/channels && npx jest src/components/remove_flagged_message_confirmation_modal
+결과: Tests: 14 failed, 6 passed, 20 total
+대표 오류: Unable to find element by: [data-testid="download-report-checkbox"]
+          (단계 기계·보고서 체크박스 미구현)
+
+## 2. okrbest 고유 보증 테스트 (FR-011/012/013/017)
+upstream이 검증하지 않는 항목이라 직접 작성. 첫 실행에서 3/3 통과해
+원칙 III에 따라 구현을 되돌려 실패를 확인했다.
+
+### 사보타주 1: handleBackToForm의 abort 제거 + setComment('') 추가,
+###             form 기본 버튼에 autoFocus 추가
+  ✕ keeps the typed comment when returning to the form step (FR-011)
+  ✓ aborts the in-flight report request ...           ← 여전히 통과
+  ✕ does not put default focus on a destructive button (FR-017)
+  Tests: 2 failed, 1 passed
+
+  → FR-012/013이 통과한 이유: handleBackToForm이 아니라 useEffect cleanup이
+    취소를 수행한다. 테스트가 겨냥한 보증 경로가 아니었다.
+
+### 사보타주 2: useEffect cleanup의 controller.abort()도 제거
+  ✕ keeps the typed comment when returning to the form step (FR-011)
+  ✕ aborts the in-flight report request when leaving the generating step (FR-012, FR-013)
+  ✕ does not put default focus on a destructive button (FR-017)
+  Tests: 3 failed
+
+  → 세 테스트 모두 실제 회귀를 잡는다는 것을 확인.
+
+## 3. 복원 후
+Tests: 23 passed, 23 total
