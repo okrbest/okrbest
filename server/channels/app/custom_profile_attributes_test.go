@@ -14,10 +14,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func celSafeName() string {
-	return "f_" + model.NewId()
-}
-
 func TestGetCPAField(t *testing.T) {
 	mainHelper.Parallel(t)
 	th := Setup(t).InitBasic(t)

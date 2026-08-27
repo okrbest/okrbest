@@ -18,8 +18,6 @@ function makeValue(overrides: Partial<PropertyValue<unknown>> = {}): PropertyVal
         create_at: 1000,
         update_at: 1000,
         delete_at: 0,
-        created_by: 'user-1',
-        updated_by: 'user-1',
         ...overrides,
     };
 }

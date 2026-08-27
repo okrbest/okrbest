@@ -29,6 +29,7 @@ import AdvancedTextbox from 'components/widgets/advanced_textbox/advanced_textbo
 import SaveChangesPanel, {type SaveChangesPanelState} from 'components/widgets/modals/components/save_changes_panel';
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
 
+import {isMembershipPolicyEnforced} from 'utils/channel_utils';
 import Constants from 'utils/constants';
 
 import type {GlobalState} from 'types/store';
@@ -65,8 +66,12 @@ function ChannelSettingsInfoTab({
         haveIChannelPermission(state, channel.team_id, channel.id, channelPropertiesPermission),
     );
 
-    // Must stay aligned with server `UpdateChannel` when an ABAC membership policy is enforced.
-    const channelTypeLockedByMembershipPolicy = Boolean(channel.policy_enforced);
+    // Must stay aligned with the server gates (`setChannelMembers`, guest
+    // invite, `ChannelAccessControlled`). Read the membership action key
+    // specifically — a permission-only policy (e.g. file upload restriction)
+    // does not constrain the channel type, so the privacy toggle must stay
+    // enabled in that case.
+    const channelTypeLockedByMembershipPolicy = isMembershipPolicyEnforced(channel);
     const channelTypeLockTooltip = channelTypeLockedByMembershipPolicy ?
         formatMessage({
             id: 'channel_settings.policy_enforced.cannot_change_channel_type',
