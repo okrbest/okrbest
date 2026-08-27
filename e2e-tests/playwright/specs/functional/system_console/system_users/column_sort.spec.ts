@@ -44,7 +44,7 @@ test('MM-T5523-1 Sortable columns should sort the list when clicked', async ({pw
             emails.push(email);
         }
 
-        const expectedOrder = [...emails].sort((a, b) => a.localeCompare(b));
+        const expectedOrder = [...emails].sort((a, b) => a.localeCompare(b, undefined, {ignorePunctuation: true}));
         if (sortDirection === 'descending') {
             expectedOrder.reverse();
         }
@@ -67,7 +67,7 @@ test('MM-T5523-1 Sortable columns should sort the list when clicked', async ({pw
             emails.push(email);
         }
 
-        const expectedOrder = [...emails].sort((a, b) => a.localeCompare(b));
+        const expectedOrder = [...emails].sort((a, b) => a.localeCompare(b, undefined, {ignorePunctuation: true}));
         if (reversedDirection === 'descending') {
             expectedOrder.reverse();
         }
