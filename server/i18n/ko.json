@@ -2157,14 +2157,6 @@
     "translation": "이메일 설정에 설정되지 않은 값이 있습니다."
   },
   {
-    "id": "api.file.test_connection_s3_auth.app_error",
-    "translation": "S3에 연결할 수 없습니다. Amazon S3 연결 인증 매개변수와 인증 설정을 확인해주세요."
-  },
-  {
-    "id": "api.file.test_connection_s3_bucket_does_not_exist.app_error",
-    "translation": "Amazon S3 버킷이 사용 가능한지 확인하고, 버킷 권한을 확인해주세요."
-  },
-  {
     "id": "api.file.test_connection_s3_settings_nil.app_error",
     "translation": "파일 저장소 설정에 설정되지 않은 값이 있습니다."
   },
@@ -4733,10 +4725,6 @@
   {
     "id": "app.channel.get_by_scheme.app_error",
     "translation": "제공된 스키마에 대한 채널을 가져올 수 없습니다."
-  },
-  {
-    "id": "app.channel.get_channel_counts.get.app_error",
-    "translation": "채널 수를 가져올 수 없습니다."
   },
   {
     "id": "app.channel.get_channels.get.app_error",
