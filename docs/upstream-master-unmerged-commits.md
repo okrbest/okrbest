@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-27 11:50
+- 갱신일: 2026-08-27 14:08
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 633개
+- 남은 커밋: 623개
 
-**마지막 반영 커밋:** `41f3b226` | [Fix flaky E2E tests (Cypress + Playwright) (#36637)](https://github.com/mattermost/mattermost/commit/41f3b22679300652a4fa0e2c818a6387f553479e) | 2026-05-19
+**마지막 반영 커밋:** `981e5341` | [Fix flaky TestUserHasJoinedChannel (#36660)](https://github.com/mattermost/mattermost/commit/981e5341ca86180820b9d8695713c499d96d96df) | 2026-05-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 51c6d521 | [Fix config Sanitize fields missing from desanitize, causing FakeSetting to be persisted (#36619)](https://github.com/mattermost/mattermost/commit/51c6d5219f10a5a2b264e88181740b4ebb18fef1) | 2026-05-20 |
-| c74e51f3 | [chore(ci): upgrade Go to 1.26.3 in build container Dockerfiles (#36648)](https://github.com/mattermost/mattermost/commit/c74e51f35ec77c14b0283c88449bb701cb03cb7e) | 2026-05-20 |
-| 0790fc72 | [Upgrade Go to 1.26.3 (#36656)](https://github.com/mattermost/mattermost/commit/0790fc7281d7e31ba070ae8bc126df70501ef1d1) | 2026-05-20 |
-| 6189a3f5 | [\[MM-66489\] Pull and populate certificate from metadata endpoint (#36557)](https://github.com/mattermost/mattermost/commit/6189a3f54a072a339b9e2943072e11ac4b2f4083) | 2026-05-20 |
-| a84941be | [Remove Legacy Interactive Dialog code (#35874)](https://github.com/mattermost/mattermost/commit/a84941bec1bdf4f069e75650ec48b0aff61bdcba) | 2026-05-20 |
-| 448a6428 | [Add inline action buttons for bot-posted markdown (#36219)](https://github.com/mattermost/mattermost/commit/448a642835da50b82106ec8ad9ae6d0a200f6bae) | 2026-05-20 |
-| 2c925ccf | [MM-68151: Update server dependencies (#36571)](https://github.com/mattermost/mattermost/commit/2c925ccf88245bef4fe9bb84c8d1e97b65dee3e5) | 2026-05-20 |
-| c4b36dee | [Add user attribute validation banners (#36595)](https://github.com/mattermost/mattermost/commit/c4b36dee168f0a841acae674c800cc51c7928717) | 2026-05-20 |
-| 77f9ecdf | [Upgrade Go to 1.26.3 and update deps in tool modules (#36658)](https://github.com/mattermost/mattermost/commit/77f9ecdfde76ce011a0573d33de0dfda764ff20a) | 2026-05-20 |
-| 981e5341 | [Fix flaky TestUserHasJoinedChannel (#36660)](https://github.com/mattermost/mattermost/commit/981e5341ca86180820b9d8695713c499d96d96df) | 2026-05-20 |
 | a7ef484f | [\[MM-68576\] Add SAML connectivity status to support packet diagnostics (#36321)](https://github.com/mattermost/mattermost/commit/a7ef484feea794095a6ca5f0de9b767fe5db5fdc) | 2026-05-21 |
 | 5cacd267 | [Fix config-change-checker to use merge-base for per-file diffs (#36670)](https://github.com/mattermost/mattermost/commit/5cacd26776684792de1f6b4b1bf5bac56f0edf14) | 2026-05-21 |
 | 02bae8c3 | [Fix: Global Threads view shows only 1 quick reaction emoji instead of 3 (MM-68681) (#36512)](https://github.com/mattermost/mattermost/commit/02bae8c3a1caaacc435267c00aeee31a42fe6a1b) | 2026-05-21 |
