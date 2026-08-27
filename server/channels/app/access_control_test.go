@@ -2232,3 +2232,303 @@ func TestGetRecommendedPublicChannelsForUser(t *testing.T) {
 		mockACS.AssertExpectations(t)
 	})
 }
+
+// TestGetAccessControlPolicyAttributes_MaskedFieldsFiltered verifies that
+// source_only and shared_only attribute fields are stripped from the response
+// of GetAccessControlPolicyAttributes so their values are never exposed to
+// regular channel members through the invite modal or members sidebar.
+func TestGetAccessControlPolicyAttributes_MaskedFieldsFiltered(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+	th.App.Srv().SetLicense(model.NewTestLicenseSKU(model.LicenseShortSkuEnterprise))
+
+	rctx := request.TestContext(t)
+
+	cpaGroup, cErr := th.App.GetPropertyGroup(rctx, model.CustomProfileAttributesPropertyGroupName)
+	require.Nil(t, cErr)
+
+	// okrbest: property v1이라 ObjectType/Protected/PermissionField 필드가 없다.
+	// 스토어에 직접 넣어 property 서비스의 접근 제어 라우팅을 우회한다
+	// (migrations_test.go의 보호 필드 시딩과 같은 관용구). GetAccessMode()는
+	// v1에서도 Attrs[access_mode]를 그대로 읽으므로 검증 대상 동작은 동일하다.
+	makeField := func(name, accessMode string) {
+		protected := accessMode == model.PropertyAccessModeSourceOnly || accessMode == model.PropertyAccessModeSharedOnly
+		f := &model.PropertyField{
+			GroupID: cpaGroup.ID,
+			Name:    name,
+			Type:    model.PropertyFieldTypeText,
+			Attrs:   model.StringInterface{model.PropertyAttrsAccessMode: accessMode},
+		}
+		if protected {
+			f.Attrs[model.PropertyAttrsProtected] = true
+		}
+		_, err := th.App.Srv().Store().PropertyField().Create(f)
+		require.NoError(t, err)
+	}
+
+	makeField("PublicField", model.PropertyAccessModePublic)
+	makeField("SourceField", model.PropertyAccessModeSourceOnly)
+	makeField("SharedField", model.PropertyAccessModeSharedOnly)
+
+	channelID := model.NewId()
+	rawAttributes := map[string][]string{
+		"PublicField": {"Engineering"},
+		"SourceField": {"TopSecret"},
+		"SharedField": {"Alpha", "Bravo"},
+	}
+
+	mockACS := &mocks.AccessControlServiceInterface{}
+	th.App.Srv().ch.AccessControl = mockACS
+	mockACS.On("GetPolicyRuleAttributes", mock.Anything, channelID, model.AccessControlPolicyActionMembership).
+		Return(rawAttributes, nil).Once()
+
+	result, appErr := th.App.GetAccessControlPolicyAttributes(th.Context, channelID, model.AccessControlPolicyActionMembership)
+	require.Nil(t, appErr)
+
+	// Only the public field should survive.
+	assert.Equal(t, map[string][]string{"PublicField": {"Engineering"}}, result)
+	assert.NotContains(t, result, "SourceField")
+	assert.NotContains(t, result, "SharedField")
+	mockACS.AssertExpectations(t)
+}
+
+// TestGetAccessControlPolicyAttributes_PublicFieldsPassThrough verifies that
+// public attribute fields are returned unchanged.
+func TestGetAccessControlPolicyAttributes_PublicFieldsPassThrough(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+	th.App.Srv().SetLicense(model.NewTestLicenseSKU(model.LicenseShortSkuEnterprise))
+
+	rctx := request.TestContext(t)
+
+	cpaGroup, cErr := th.App.GetPropertyGroup(rctx, model.CustomProfileAttributesPropertyGroupName)
+	require.Nil(t, cErr)
+
+	fieldName := "f_" + model.NewId()[:8]
+	// okrbest: property v1 시그니처 — ObjectType/TargetLevel 없음, Create는 인자 1개
+	field := &model.PropertyField{
+		GroupID: cpaGroup.ID,
+		Name:    fieldName,
+		Type:    model.PropertyFieldTypeText,
+		Attrs:   model.StringInterface{model.PropertyAttrsAccessMode: model.PropertyAccessModePublic},
+	}
+	_, fieldErr := th.App.Srv().Store().PropertyField().Create(field)
+	require.NoError(t, fieldErr)
+
+	channelID := model.NewId()
+	rawAttributes := map[string][]string{fieldName: {"Engineering", "Sales"}}
+
+	mockACS := &mocks.AccessControlServiceInterface{}
+	th.App.Srv().ch.AccessControl = mockACS
+	mockACS.On("GetPolicyRuleAttributes", mock.Anything, channelID, model.AccessControlPolicyActionMembership).
+		Return(rawAttributes, nil).Once()
+
+	result, appErr := th.App.GetAccessControlPolicyAttributes(th.Context, channelID, model.AccessControlPolicyActionMembership)
+	require.Nil(t, appErr)
+	assert.Equal(t, rawAttributes, result)
+	mockACS.AssertExpectations(t)
+}
+
+// TestMergeStoredPolicyExpressions_ActionsLocked verifies that a caller who
+// cannot see all values in a stored rule cannot change that rule's Actions.
+// The attack: submit a PUT with the same masked expression but a different
+// action type — the merge would restore the hidden CEL value while silently
+// accepting the caller's action, removing the original access restriction.
+func TestMergeStoredPolicyExpressions_ActionsLocked(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+	th.App.Srv().SetLicense(model.NewTestLicenseSKU(model.LicenseShortSkuEnterprise))
+
+	rctx := request.TestContext(t)
+
+	// Insert a source_only field directly into the store to bypass the property
+	// service hook that restricts protected-field creation to plugin callers.
+	cpaGroup, cErr := th.App.GetPropertyGroup(rctx, model.CustomProfileAttributesPropertyGroupName)
+	require.Nil(t, cErr)
+
+	fieldName := "f_" + model.NewId()[:8]
+	// okrbest: property v1이라 ObjectType/Protected/PermissionField 필드가 없다.
+	// 보호 여부는 Attrs[protected]가, 접근 모드는 Attrs[access_mode]가 담는다.
+	field := &model.PropertyField{
+		GroupID: cpaGroup.ID,
+		Name:    fieldName,
+		Type:    model.PropertyFieldTypeText,
+		Attrs: model.StringInterface{
+			model.PropertyAttrsAccessMode: model.PropertyAccessModeSourceOnly,
+			model.PropertyAttrsProtected:  true,
+		},
+	}
+	_, storeErr := th.App.Srv().Store().PropertyField().Create(field)
+	require.NoError(t, storeErr)
+
+	callerID := model.NewId()
+	policyID := model.NewId()
+
+	storedExpr := `user.attributes.` + fieldName + ` == "TopSecret"`
+	maskedExpr := `user.attributes.` + fieldName + ` == "--------"`
+
+	storedPolicy := &model.AccessControlPolicy{
+		ID:   policyID,
+		Type: model.AccessControlPolicyTypeParent,
+		Rules: []model.AccessControlPolicyRule{
+			{Actions: []string{model.AccessControlPolicyActionMembership}, Expression: storedExpr},
+		},
+	}
+
+	// Attacker submits the masked expression unchanged but swaps the action.
+	submittedPolicy := &model.AccessControlPolicy{
+		ID:   policyID,
+		Type: model.AccessControlPolicyTypeParent,
+		Rules: []model.AccessControlPolicyRule{
+			{Actions: []string{model.AccessControlPolicyActionUploadFileAttachment}, Expression: maskedExpr},
+		},
+	}
+
+	mockACS := &mocks.AccessControlServiceInterface{}
+	th.App.Srv().ch.AccessControl = mockACS
+
+	mockACS.On("GetPolicy", mock.Anything, policyID).Return(storedPolicy, nil).Once()
+	mockACS.On("ExpressionToVisualAST", mock.Anything, storedExpr).Return(&model.VisualExpression{
+		Conditions: []model.Condition{
+			{Attribute: "user.attributes." + fieldName, Operator: "==", Value: "TopSecret", ValueType: model.LiteralValue},
+		},
+	}, nil).Maybe()
+	mockACS.On("ExpressionToVisualAST", mock.Anything, maskedExpr).Return(&model.VisualExpression{
+		Conditions: []model.Condition{
+			{Attribute: "user.attributes." + fieldName, Operator: "==", Value: maskedTokenValue, ValueType: model.LiteralValue},
+		},
+	}, nil).Maybe()
+
+	mergeErr := th.App.mergeStoredPolicyExpressions(th.Context, submittedPolicy, callerID)
+	require.Nil(t, mergeErr)
+
+	require.Len(t, submittedPolicy.Rules, 1)
+	// Expression must be restored to the real stored value.
+	assert.Equal(t, storedExpr, submittedPolicy.Rules[0].Expression)
+	// Actions must be locked to the stored value, not the attacker's.
+	assert.Equal(t, []string{model.AccessControlPolicyActionMembership}, submittedPolicy.Rules[0].Actions)
+	mockACS.AssertExpectations(t)
+}
+
+// TestMergeStoredPolicyExpressions_FailClosedTrueRejectedOnResubmit verifies the
+// claim from the PR review: if MaskPolicyExpressions emitted "true" for a rule
+// because the stored expression could not be parsed (fail-closed), a caller who
+// re-submits that "true" unchanged will be blocked on the save path.
+//
+// How it works:
+//  1. MaskPolicyExpressions (GET path) calls ExpressionToVisualAST on the stored
+//     expression; on parse failure it sets the rule to "true" (fail-closed).
+//  2. The caller sees "true" in the GET response and re-submits it.
+//  3. On the save path, mergeExpressionWithMaskedValues calls
+//     expressionHasMaskedValuesForCaller, which calls GetMaskedVisualAST, which
+//     calls ExpressionToVisualAST on the *stored* expression again.
+//  4. That second parse also fails → error propagates → save is blocked.
+//     "true" is never written to the DB.
+func TestMergeStoredPolicyExpressions_FailClosedTrueRejectedOnResubmit(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+	th.App.Srv().SetLicense(model.NewTestLicenseSKU(model.LicenseShortSkuEnterprise))
+
+	callerID := model.NewId()
+	policyID := model.NewId()
+
+	// A stored expression that ExpressionToVisualAST cannot parse.
+	// In production this is guarded by save-time validation, but defensive
+	// code paths must still protect against it.
+	storedExpr := `user.attributes.TopSecret == "Value"`
+
+	storedPolicy := &model.AccessControlPolicy{
+		ID:   policyID,
+		Type: model.AccessControlPolicyTypeParent,
+		Rules: []model.AccessControlPolicyRule{
+			{Actions: []string{model.AccessControlPolicyActionMembership}, Expression: storedExpr},
+		},
+	}
+
+	// Caller re-submits "true" — what MaskPolicyExpressions emitted as the
+	// fail-closed value when it could not parse the stored expression on GET.
+	submittedPolicy := &model.AccessControlPolicy{
+		ID:   policyID,
+		Type: model.AccessControlPolicyTypeParent,
+		Rules: []model.AccessControlPolicyRule{
+			{Actions: []string{model.AccessControlPolicyActionMembership}, Expression: "true"},
+		},
+	}
+
+	mockACS := &mocks.AccessControlServiceInterface{}
+	th.App.Srv().ch.AccessControl = mockACS
+
+	mockACS.On("GetPolicy", mock.Anything, policyID).Return(storedPolicy, nil).Once()
+	// Simulate the same parse failure that would have triggered fail-closed on GET.
+	parseErr := model.NewAppError("ExpressionToVisualAST", "app.pap.expression_to_visual_ast.app_error", nil, "simulated parse failure", http.StatusInternalServerError)
+	mockACS.On("ExpressionToVisualAST", mock.Anything, storedExpr).Return(nil, parseErr).Maybe()
+
+	mergeErr := th.App.mergeStoredPolicyExpressions(th.Context, submittedPolicy, callerID)
+
+	// Save must be blocked. The error returned here causes UpdateAccessControlPolicy
+	// to abort before any DB write — the in-memory struct may still hold "true"
+	// but it never reaches the store.
+	require.NotNil(t, mergeErr, "expected mergeStoredPolicyExpressions to return an error when stored expression is unparseable")
+	mockACS.AssertExpectations(t)
+}
+
+// TestMergeStoredPolicyExpressions_ActionsEditableWhenNoMasking verifies that
+// a caller who holds all values in a rule can freely change its Actions.
+func TestMergeStoredPolicyExpressions_ActionsEditableWhenNoMasking(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+	th.App.Srv().SetLicense(model.NewTestLicenseSKU(model.LicenseShortSkuEnterprise))
+
+	rctx := request.TestContext(t)
+
+	// Create a public field — values are always visible, so no masking occurs.
+	cpaGroup, cErr := th.App.GetPropertyGroup(rctx, model.CustomProfileAttributesPropertyGroupName)
+	require.Nil(t, cErr)
+
+	fieldName := "f_" + model.NewId()[:8]
+	// okrbest: property v1 시그니처 — ObjectType/TargetLevel 없음, Create는 인자 1개
+	field := &model.PropertyField{
+		GroupID: cpaGroup.ID,
+		Name:    fieldName,
+		Type:    model.PropertyFieldTypeText,
+		Attrs:   model.StringInterface{model.PropertyAttrsAccessMode: model.PropertyAccessModePublic},
+	}
+	_, fieldErr := th.App.Srv().Store().PropertyField().Create(field)
+	require.NoError(t, fieldErr)
+
+	callerID := model.NewId()
+	policyID := model.NewId()
+
+	expr := `user.attributes.` + fieldName + ` == "Engineering"`
+
+	storedPolicy := &model.AccessControlPolicy{
+		ID:   policyID,
+		Type: model.AccessControlPolicyTypeParent,
+		Rules: []model.AccessControlPolicyRule{
+			{Actions: []string{model.AccessControlPolicyActionMembership}, Expression: expr},
+		},
+	}
+	// Caller legitimately changes the action on a rule with no masked values.
+	submittedPolicy := &model.AccessControlPolicy{
+		ID:   policyID,
+		Type: model.AccessControlPolicyTypeParent,
+		Rules: []model.AccessControlPolicyRule{
+			{Actions: []string{model.AccessControlPolicyActionUploadFileAttachment}, Expression: expr},
+		},
+	}
+
+	mockACS := &mocks.AccessControlServiceInterface{}
+	th.App.Srv().ch.AccessControl = mockACS
+
+	mockACS.On("GetPolicy", mock.Anything, policyID).Return(storedPolicy, nil).Once()
+	mockACS.On("ExpressionToVisualAST", mock.Anything, expr).Return(&model.VisualExpression{
+		Conditions: []model.Condition{
+			{Attribute: "user.attributes." + fieldName, Operator: "==", Value: "Engineering", ValueType: model.LiteralValue},
+		},
+	}, nil).Maybe()
+
+	appErr := th.App.mergeStoredPolicyExpressions(th.Context, submittedPolicy, callerID)
+	require.Nil(t, appErr)
+
+	require.Len(t, submittedPolicy.Rules, 1)
+	// Expression unchanged (no masking, submitted passes through).
+	assert.Equal(t, expr, submittedPolicy.Rules[0].Expression)
+	// Actions must NOT be locked — caller's submitted value stands.
+	assert.Equal(t, []string{model.AccessControlPolicyActionUploadFileAttachment}, submittedPolicy.Rules[0].Actions)
+	mockACS.AssertExpectations(t)
+}
