@@ -18346,6 +18346,10 @@ func (s *RetryLayer) TotalSearchDbConnections() int {
 	return s.Store.TotalSearchDbConnections()
 }
 
+func (s *RetryLayer) GetDiagnostics(ctx context.Context) (*store.DatabaseDiagnostics, error) {
+	return s.Store.GetDiagnostics(ctx)
+}
+
 func (s *RetryLayer) UnlockFromMaster() {
 	s.Store.UnlockFromMaster()
 }
