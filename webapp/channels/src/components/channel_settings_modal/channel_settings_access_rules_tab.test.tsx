@@ -41,6 +41,7 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
         createAccessControlSyncJob: jest.fn(),
         updateAccessControlPoliciesActive: jest.fn(),
         validateExpressionAgainstRequester: jest.fn(),
+        simulatePolicyForUsers: jest.fn(),
     };
 
     const mockUserAttributes: UserPropertyField[] = [
@@ -160,6 +161,7 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
         mockActions.getChannelPolicy.mockClear();
         mockActions.saveChannelPolicy.mockClear();
         mockActions.searchUsers.mockClear();
+        mockActions.simulatePolicyForUsers.mockClear();
         mockUseChannelAccessControlActions.mockReturnValue(mockActions);
         mockUseChannelSystemPolicies.mockReturnValue({
             policies: [],
