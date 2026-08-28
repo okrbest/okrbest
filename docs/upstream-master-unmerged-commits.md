@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-28 13:53
+- 갱신일: 2026-08-28 15:28
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 589개
+- 남은 커밋: 585개
 
-**마지막 반영 커밋:** `099a18b8` | [Remove some leftover code related to removed notify admin feature (#36680)](https://github.com/mattermost/mattermost/commit/099a18b84e3be1037ac1fe30dc4797d8378a2909) | 2026-05-25
+**마지막 반영 커밋:** `41367fa7` | [Fix missing peer fields in package-lock.json (#36744)](https://github.com/mattermost/mattermost/commit/41367fa7b17c6d5c7e49e654e1c5a86e7a40e2e1) | 2026-05-26
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 1e98d75e | [MM-68944 Fix data spillage report affordances (#36685)](https://github.com/mattermost/mattermost/commit/1e98d75e80ec13f53856d7d226e2cd90a3e9b649) | 2026-05-26 |
-| 16c8f9d6 | [MM-68955 Offset onboarding checklist above bottom classification banner (#36691)](https://github.com/mattermost/mattermost/commit/16c8f9d6e3287f3466599e79fd0d633ec193d034) | 2026-05-26 |
-| d9c13884 | [\[MM-68649\] Add Session Attributes from user agent for use in Permission Policies (#36511)](https://github.com/mattermost/mattermost/commit/d9c1388461553fbb6d0dca7cf2fba963265b6096) | 2026-05-26 |
-| ecd72f79 | [MM-68787: Support sovereign-cloud endpoints for Azure Blob Storage (#36732)](https://github.com/mattermost/mattermost/commit/ecd72f79bdeb1b7129230b09c6689b7e499f2081) | 2026-05-26 |
-| 41367fa7 | [Fix missing peer fields in package-lock.json (#36744)](https://github.com/mattermost/mattermost/commit/41367fa7b17c6d5c7e49e654e1c5a86e7a40e2e1) | 2026-05-26 |
 | fc7b5c78 | [MM-68943 Wrap data spillage RHS action buttons (#36682)](https://github.com/mattermost/mattermost/commit/fc7b5c78a5d7113fbc5a88eb9bbadc8fadadc6e3) | 2026-05-27 |
 | 8a957afc | [\[MM-68458\] Improve diagnostics.yaml readability: reorder server fields and add inline YAML comments (#36703)](https://github.com/mattermost/mattermost/commit/8a957afce2f1664582f450b925c246cef9bfdede) | 2026-05-27 |
 | d563fdd5 | [Data spillage report api use available data (#36699)](https://github.com/mattermost/mattermost/commit/d563fdd5ac287044bf82c79b9ce87e81c3dfac8a) | 2026-05-27 |
@@ -600,6 +595,7 @@
 | 82d81775 | [Graduate account deactivation and user status away timeout to Site Configuration > Users and Teams (#38025)](https://github.com/mattermost/mattermost/commit/82d8177517a5648119ad38e072200a247e3d7dba) | 2026-08-27 |
 | 245e311a | [\[MM-57807\] Graduate Hardened Mode out of Experimental Features (#38022)](https://github.com/mattermost/mattermost/commit/245e311a41a789a282cf13b4685084fe07c89947) | 2026-08-27 |
 | 441e45a9 | [\[MM-63470\] Fix messages being sent to the previous channel after /msg or Cmd+K (#37928)](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3) | 2026-08-27 |
+| ab32bb0b | [MM-70366: Add a readOnly mode to WysiwygEditor (#38141)](https://github.com/mattermost/mattermost/commit/ab32bb0bc62da2e6ed2ad9fa613806e4dfa33c4d) | 2026-08-28 |
 
 ## 제외된 커밋
 
@@ -747,6 +743,8 @@
 | e8632bd4 | [\[MM-68777\] Add `admin` property field permission level (#36558)](https://github.com/mattermost/mattermost/commit/e8632bd45687f65f606efd944d86262156eee5fe) | 제외한 property 시스템 v2(48f2fd08·9f1fe90b 계보)와 분류 표시(2b7b398a·6083cc22·23b4d827) 두 계보 위에 얹힌 커밋이라 반영할 토대가 없다. property field 권한 레벨에 admin을 추가하는 작업(28파일 +701/-383)인데 merge-tree CONFLICT가 다수다. 터치 경로 부재 실측 — api/v4/source/properties.yaml, server/channels/api4/properties.go, app/properties/access_control_attribute_validation.go(전부 property v2 소산), classification_markings/utils/index.ts, useClassificationMarkings.ts, global_classification_banner.tsx, channel_classification/helpers.ts(전부 분류 표시 소산) 모두 없음. 결정적 근거 둘 — (1) 이 커밋이 PermissionLevelAdmin 상수를 추가하는 server/public/model/property_field.go에서 우리 파일의 PermissionLevel·PropertyFieldObjectType*·validPSAv2TargetTypes 심볼이 grep 0건이다. 우리는 ID/GroupID/Name/Type/Attrs/TargetID/TargetType/CreateAt/UpdateAt/DeleteAt 10필드 v1 구조체뿐이라 추가할 상수의 타입 자체가 존재하지 않는다. (2) 마이그레이션 000189의 내용이 ALTER TYPE permission_level ADD VALUE IF NOT EXISTS 'admin'; 한 줄인데, permission_level은 property v2 마이그레이션이 만드는 PostgreSQL enum 타입이고 우리 마이그레이션 전체 grep에서 0건이다 — 존재하지 않는 타입을 ALTER하므로 마이그레이션이 실패한다. server/channels/app/authorization.go의 +139(hasPropertyFieldPermissionLevel)도 우리 파일에 PermissionLevel 심볼이 0건이라 붙을 자리가 없다. 주의 — 이 제외로 마이그레이션 번호 정합이 처음 깨진다(우리 최신 000188, upstream 000189 사용). 향후 우리가 새 마이그레이션을 추가할 때는 000189를 건너뛰고 000190부터 써야 upstream과 어긋나지 않는다. property v2 분할 반영(api4/properties.go, PropertyField.ObjectType, PermissionLevel 타입 체계, permission_level enum, 마이그레이션 000160~000165)을 정식 과제로 열면 이 커밋이 재검토 대상이다. |
 
 | 7e75035c | [Add Data Spillage discovery page (#36697)](https://github.com/mattermost/mattermost/commit/7e75035cb6766afc8424c7ee299ef4184a249e92) | 제외한 f1b9aa05(Rename Content Flagging to Data Spillage Handling, #35407)의 명명 체계 위에 세워진 커밋이라 우리 관리 콘솔과 어긋난다. Enterprise Advanced 미만 라이선스에 보이는 Data Spillage Handling 기능 소개(업셀) 페이지를 추가하는 작업(7파일 +587, 신규 4파일)인데, f1b9aa05를 제외하면서 우리는 Data Spillage Handling 명명을 거부하고 Content Flagging을 유지하기로 했다(그 커밋의 제외 사유 — OPSEC concern/CUI violation 등 미국 국방·정보기관 특화 용어가 일반 협업·OKR 툴로 리브랜드된 okrbest 제품 성격과 맞지 않음). 그대로 반영하면 관리 콘솔 명명이 갈라진다 — 우리 설정 섹션은 admin_definition.tsx:3684에서 url 'site_config/content_flagging', 라벨 admin.sidebar.contentFlagging('Content Flagging')인데 이 커밋의 discovery는 url 'site_config/data_spillage', 라벨 admin.sidebar.dataSpillage('Data Spillage Handling')를 쓴다. discovery 페이지는 설정 페이지와 같은 URL이어야 shadow가 되므로 기능적으로도 깨진다. 실제로 동반 테스트 admin_definition_data_spillage.test.tsx의 'includes a discovery route at the Data Spillage URL'이 discoverySubsection.url === settingsSubsection.url을 단언하는데 우리 트리에서 data_spillage != content_flagging으로 실패함을 확인했다(시험 적용 후 되돌림). 우리 en.json에도 admin.sidebar.contentFlagging만 있고 dataSpillage는 없다. 이 계보의 처리와 일관된다 — f1b9aa05(개명) 제외, f0360a83(Data spillage 보고서 생성 UI) spec 전환(우리 011 작업 specs/011-data-spillage-report-ui로 구현), 이 커밋이 세 번째다. 덧붙여 이 페이지는 'Handle data spillage with Mattermost Enterprise Advanced' 제목과 docs.mattermost.com 링크를 담은 Mattermost 라이선스 업셀 화면이라, 우리 제품에 필요한지도 별도 판단이 필요하다. Data Spillage 명명을 채택하기로 하면 f1b9aa05부터 함께 재검토할 대상이다. |
+
+| 16c8f9d6 | [MM-68955 Offset onboarding checklist above bottom classification banner (#36691)](https://github.com/mattermost/mattermost/commit/16c8f9d6e3287f3466599e79fd0d633ec193d034) | 제외한 6083cc22(MM-68196 Global Classification 배너, #36231)의 후속 미세 조정이라 반영할 대상이 없음 — 분류 표시 계보(48f2fd08 property v2 → 2b7b398a 관리 콘솔 → 6083cc22 전역 배너 → 23b4d827 배너 노출)를 모두 제외했으므로 이 커밋이 '수정'하는 webapp/channels/src/components/global_classification_banner/ 디렉터리 자체가 부재. merge-tree도 텍스트 충돌이 아닌 modify/delete로 나온다. 나머지 절반인 onboarding_tasklist.tsx는 auto-merge되지만 추가되는 규칙이 '#root.global-classification-banner-bottom-visible &' 셀렉터에 걸려 있고 그 클래스를 붙이는 주체가 제외된 배너 컴포넌트뿐이라, 포크 전체 grep 0건 — 반영해도 영원히 발동하지 않는 CSS 4줄과 정의부 없는 CSS 변수 폴백만 남는다(버튼 위치 변화 0). 분류 표시를 제품에 도입하기로 하면 48f2fd08의 property 절반부터 분할 반영하고 2b7b398a부터 순서대로 spec으로 여는 것이 순서이며, 그때 이 조정도 함께 따라온다. |
 
 ## spec 전환 커밋
 
