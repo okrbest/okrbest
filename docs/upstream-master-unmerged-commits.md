@@ -3,30 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-27 15:49
+- 갱신일: 2026-08-28 09:59
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 609개
+- 남은 커밋: 599개
 
-**마지막 반영 커밋:** `3570814d` | [MM-68316: add `mattermost db ping` subcommand (#36406)](https://github.com/mattermost/mattermost/commit/3570814ddd3c2afffc01c244c8ce7d77a9c3f857) | 2026-05-21
+**마지막 반영 커밋:** `7e75035c` | [Add Data Spillage discovery page (#36697)](https://github.com/mattermost/mattermost/commit/7e75035cb6766afc8424c7ee299ef4184a249e92) | 2026-05-22
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 6ee3fb9a | [Fix membership policy edit action navigation (#36690)](https://github.com/mattermost/mattermost/commit/6ee3fb9af19120245e5ca44dce3296d1e0419dbf) | 2026-05-22 |
-| b0d2f836 | [Translations update from Mattermost Weblate (#36695)](https://github.com/mattermost/mattermost/commit/b0d2f83620e0f02dfb7818f837d278234fbdc087) | 2026-05-22 |
-| 209606f1 | [MM-68419: Add expires_at to PAT data model and enforce expiry at token validation (#36243)](https://github.com/mattermost/mattermost/commit/209606f15b2aefd95c80c8b0db1ba7d3b9d5eba5) | 2026-05-22 |
-| b4aa46a4 | [Bumping version of prepackaged boards plugin (#36701)](https://github.com/mattermost/mattermost/commit/b4aa46a4be5f4eef83163e41d6b1ef880592d01f) | 2026-05-22 |
-| 18204958 | [Skip flaky TestGetLogs (MM-68910) (#36659)](https://github.com/mattermost/mattermost/commit/182049583bd2a44d8db93211b4173b0a84811309) | 2026-05-22 |
-| efdebec6 | [Fix flaky TestPatchTeam GroupConstrained subtest (#36689)](https://github.com/mattermost/mattermost/commit/efdebec6ad71d3d7fe3c750e40cd4ac30cf5970d) | 2026-05-22 |
-| 27d14422 | [Fix inactive team icon active styling (#36683)](https://github.com/mattermost/mattermost/commit/27d144226f89cdca5c995f18569d259801adfcae) | 2026-05-22 |
-| c6315459 | [MM-66162: harden GET /sharedchannels/{id}/remotes error path and add WS guard (#36696)](https://github.com/mattermost/mattermost/commit/c63154598c6137e4452d4ee0ca83ddbe028da57a) | 2026-05-22 |
-| 4e01dae5 | [Fix flaky TestPreparePostForClient/files (#36631)](https://github.com/mattermost/mattermost/commit/4e01dae5342ffaa5db7be23160d3e7c3b46b2d73) | 2026-05-22 |
-| e8632bd4 | [\[MM-68777\] Add `admin` property field permission level (#36558)](https://github.com/mattermost/mattermost/commit/e8632bd45687f65f606efd944d86262156eee5fe) | 2026-05-22 |
-| f8e233cc | [Fix Group Details role dropdown not updating UI when changing role (#36561)](https://github.com/mattermost/mattermost/commit/f8e233cc391babde53bc7df8b0903456c0d34c7b) | 2026-05-22 |
-| 834a86b5 | [MM-68248: Support OpenSearch v3 (#36617)](https://github.com/mattermost/mattermost/commit/834a86b5e3dde472b042316556253b69e399f7f3) | 2026-05-22 |
-| b0185d98 | [update packages to Fix npm audit vulnerabilities (#35810)](https://github.com/mattermost/mattermost/commit/b0185d9817bd61bc118a32a86f30ddeecf4f91fb) | 2026-05-22 |
-| 44ba06ee | [MM-68248: Handle missing OpenSearch indexes gracefully before reindex (#36712)](https://github.com/mattermost/mattermost/commit/44ba06ee3c8b53f1267928e6a189c137d75f43e0) | 2026-05-22 |
-| b60ba8b6 | [chore(ci): allow build-server-image to build and push from release branches (#36716)](https://github.com/mattermost/mattermost/commit/b60ba8b6b4100797d7a22374682f3aafc3d44bfc) | 2026-05-22 |
-| 7e75035c | [Add Data Spillage discovery page (#36697)](https://github.com/mattermost/mattermost/commit/7e75035cb6766afc8424c7ee299ef4184a249e92) | 2026-05-22 |
 | 508f1551 | [Fix flaky TestScrubPost (#36686)](https://github.com/mattermost/mattermost/commit/508f1551e3897b7d0f763e4176bdae822312c273) | 2026-05-25 |
 | cfafefe5 | [Used short mode of data spillage report card in threads view to fix spacing issue (#36709)](https://github.com/mattermost/mattermost/commit/cfafefe58c8eac2682e08bc9dd2eefe7d368af2b) | 2026-05-25 |
 | 4d8c25f0 | [\[MM-68736\] Reconcile partial GM membership in bulk import (#36542)](https://github.com/mattermost/mattermost/commit/4d8c25f040f870848df47334867c8a2cf37c77b9) | 2026-05-25 |
@@ -620,6 +604,12 @@
 | 9ea90ca8 | [Backport i18n packaging and locale fallback fixes (#38148)](https://github.com/mattermost/mattermost/commit/9ea90ca862df152a8adf4d86a06c323b4415f901) | 2026-08-26 |
 | 85b0227d | [E2E/Playwright: Upgrade playwright@1.62 and its deps (#38014)](https://github.com/mattermost/mattermost/commit/85b0227d1d741e436b7e179cc839820a91279921) | 2026-08-27 |
 | c4a2e085 | [fix tests with file server host (#38138)](https://github.com/mattermost/mattermost/commit/c4a2e085ec0bc674d5ff2316a059c48db196a05e) | 2026-08-27 |
+| cda301a7 | [MM-69945: Align post type validation across post and scheduled post paths (#38054)](https://github.com/mattermost/mattermost/commit/cda301a7b06c9ad78b484d922dee5e82a061d8be) | 2026-08-27 |
+| 87c84ef1 | [MM-70018: Remove unused config fields for v12 (#37743)](https://github.com/mattermost/mattermost/commit/87c84ef1772e85e45c4a338b199a4b668fffb4aa) | 2026-08-27 |
+| 1361e922 | [Prepackage mattermost-plugin-agents v2.6.0. (#38159)](https://github.com/mattermost/mattermost/commit/1361e92299e25be1328820e5ba5fb92c987fafd6) | 2026-08-27 |
+| 82d81775 | [Graduate account deactivation and user status away timeout to Site Configuration > Users and Teams (#38025)](https://github.com/mattermost/mattermost/commit/82d8177517a5648119ad38e072200a247e3d7dba) | 2026-08-27 |
+| 245e311a | [\[MM-57807\] Graduate Hardened Mode out of Experimental Features (#38022)](https://github.com/mattermost/mattermost/commit/245e311a41a789a282cf13b4685084fe07c89947) | 2026-08-27 |
+| 441e45a9 | [\[MM-63470\] Fix messages being sent to the previous channel after /msg or Cmd+K (#37928)](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3) | 2026-08-27 |
 
 ## 제외된 커밋
 
@@ -763,6 +753,10 @@
 | 1ffa4d89 | [Add Docker Hub login to Cloud Agent start hook. (#36632)](https://github.com/mattermost/mattermost/commit/1ffa4d89941e9b5cdbe50466081e5149f83415c2) | 제외한 11b55b77(Document Mattermost cloud startup flow, #36559)의 직계 후속이라 수정 대상 파일이 우리 트리에 하나도 없다. Cursor Cloud Agent start 훅에 docker_login_if_configured()를 추가해 DOCKERHUB_USERNAME/DOCKERHUB_TOKEN으로 익명 Docker Hub pull 레이트 리밋을 피하는 변경(3파일 +24/-3)인데, 세 파일 .cursor/README.md·.cursor/cursor.md·.cursor/scripts/cloud-agent-start.sh가 전부 11b55b77 소산이라 부재하고 merge-tree CONFLICT 3건이 모두 modify/delete다. 11b55b77의 제외 사유가 그대로 유지된다 — (1) .cursor/environment.json이 비공개 mattermost/enterprise를 Cursor multi-repo 의존으로 선언하고 install 훅이 ../../enterprise 형제 체크아웃을 전제하는데 그 저장소가 우리에게 없어 컨테이너가 기동되지 않는다, (2) 우리 .cursor/는 자체 에이전트 자산 전용으로 .gitignore에서 따로 관리하며 현재 plans 하위만 있다. adapt로 살릴 조각이 0이다 — 변경 실체가 없는 셸 스크립트에 함수를 추가하고 없는 문서 2개의 문장을 고치는 것이 전부라, 되살리려면 11b55b77의 .cursor/ 신규 6파일(Dockerfile 166줄, cloud-agent-install.sh 179줄, cloud-agent-start.sh 83줄 등)부터 가져와야 하는데 그것이 enterprise 전제 때문에 애초에 성립하지 않는다. 제품 코드·CI·제품 문서 변경 0건이라 반영하지 않아도 제품 공백이 없다. 비공개 모듈 태그는 붙이지 않는다 — 11b55b77과 마찬가지로 향후 자체 구현할 기능이 아니라 Mattermost 사내 IDE 도구 설정이다. |
 
 | b9e8d5ce | [MM-68763: fix BuildAccessControlSubject call missing channelID argument (#36681)](https://github.com/mattermost/mattermost/commit/b9e8d5ce8213cef0295ece336989b16ef84ffbe3) | 선행 커밋 e6c59693(MM-68763 Discoverable Private Channels 서버 완성)을 adapt할 때 함께 반영해 별도 커밋이 불필요하다. upstream은 e6c59693에서 BuildAccessControlSubject를 3인자로 호출해 빌드가 깨진 채 머지하고 이 커밋에서 channel.Id를 더해 고쳤는데, okrbest의 BuildAccessControlSubject는 이미 4인자 시그니처라 그대로 두면 컴파일이 되지 않는다. 빌드가 깨진 커밋을 브랜치에 남기지 않기 위해 e6c59693 adapt 시점에 channel_join_request.go:337을 a.BuildAccessControlSubject(rctx, user.Id, user.Roles, channel.Id)로 함께 고쳤다(우리 커밋 21e9aaf741, 커밋 본문에 사유 기록). 검증 — 이 해시로 git cherry-pick을 실제 시도하면 적용할 변경이 없다고 판정한다(빈 커밋). 즉 내용상 반영 완료 상태이며, 차감 grep이 찾는 트레일러 형식이 아니라서 목록에 남아 있을 뿐이다. |
+
+| e8632bd4 | [\[MM-68777\] Add `admin` property field permission level (#36558)](https://github.com/mattermost/mattermost/commit/e8632bd45687f65f606efd944d86262156eee5fe) | 제외한 property 시스템 v2(48f2fd08·9f1fe90b 계보)와 분류 표시(2b7b398a·6083cc22·23b4d827) 두 계보 위에 얹힌 커밋이라 반영할 토대가 없다. property field 권한 레벨에 admin을 추가하는 작업(28파일 +701/-383)인데 merge-tree CONFLICT가 다수다. 터치 경로 부재 실측 — api/v4/source/properties.yaml, server/channels/api4/properties.go, app/properties/access_control_attribute_validation.go(전부 property v2 소산), classification_markings/utils/index.ts, useClassificationMarkings.ts, global_classification_banner.tsx, channel_classification/helpers.ts(전부 분류 표시 소산) 모두 없음. 결정적 근거 둘 — (1) 이 커밋이 PermissionLevelAdmin 상수를 추가하는 server/public/model/property_field.go에서 우리 파일의 PermissionLevel·PropertyFieldObjectType*·validPSAv2TargetTypes 심볼이 grep 0건이다. 우리는 ID/GroupID/Name/Type/Attrs/TargetID/TargetType/CreateAt/UpdateAt/DeleteAt 10필드 v1 구조체뿐이라 추가할 상수의 타입 자체가 존재하지 않는다. (2) 마이그레이션 000189의 내용이 ALTER TYPE permission_level ADD VALUE IF NOT EXISTS 'admin'; 한 줄인데, permission_level은 property v2 마이그레이션이 만드는 PostgreSQL enum 타입이고 우리 마이그레이션 전체 grep에서 0건이다 — 존재하지 않는 타입을 ALTER하므로 마이그레이션이 실패한다. server/channels/app/authorization.go의 +139(hasPropertyFieldPermissionLevel)도 우리 파일에 PermissionLevel 심볼이 0건이라 붙을 자리가 없다. 주의 — 이 제외로 마이그레이션 번호 정합이 처음 깨진다(우리 최신 000188, upstream 000189 사용). 향후 우리가 새 마이그레이션을 추가할 때는 000189를 건너뛰고 000190부터 써야 upstream과 어긋나지 않는다. property v2 분할 반영(api4/properties.go, PropertyField.ObjectType, PermissionLevel 타입 체계, permission_level enum, 마이그레이션 000160~000165)을 정식 과제로 열면 이 커밋이 재검토 대상이다. |
+
+| 7e75035c | [Add Data Spillage discovery page (#36697)](https://github.com/mattermost/mattermost/commit/7e75035cb6766afc8424c7ee299ef4184a249e92) | 제외한 f1b9aa05(Rename Content Flagging to Data Spillage Handling, #35407)의 명명 체계 위에 세워진 커밋이라 우리 관리 콘솔과 어긋난다. Enterprise Advanced 미만 라이선스에 보이는 Data Spillage Handling 기능 소개(업셀) 페이지를 추가하는 작업(7파일 +587, 신규 4파일)인데, f1b9aa05를 제외하면서 우리는 Data Spillage Handling 명명을 거부하고 Content Flagging을 유지하기로 했다(그 커밋의 제외 사유 — OPSEC concern/CUI violation 등 미국 국방·정보기관 특화 용어가 일반 협업·OKR 툴로 리브랜드된 okrbest 제품 성격과 맞지 않음). 그대로 반영하면 관리 콘솔 명명이 갈라진다 — 우리 설정 섹션은 admin_definition.tsx:3684에서 url 'site_config/content_flagging', 라벨 admin.sidebar.contentFlagging('Content Flagging')인데 이 커밋의 discovery는 url 'site_config/data_spillage', 라벨 admin.sidebar.dataSpillage('Data Spillage Handling')를 쓴다. discovery 페이지는 설정 페이지와 같은 URL이어야 shadow가 되므로 기능적으로도 깨진다. 실제로 동반 테스트 admin_definition_data_spillage.test.tsx의 'includes a discovery route at the Data Spillage URL'이 discoverySubsection.url === settingsSubsection.url을 단언하는데 우리 트리에서 data_spillage != content_flagging으로 실패함을 확인했다(시험 적용 후 되돌림). 우리 en.json에도 admin.sidebar.contentFlagging만 있고 dataSpillage는 없다. 이 계보의 처리와 일관된다 — f1b9aa05(개명) 제외, f0360a83(Data spillage 보고서 생성 UI) spec 전환(우리 011 작업 specs/011-data-spillage-report-ui로 구현), 이 커밋이 세 번째다. 덧붙여 이 페이지는 'Handle data spillage with Mattermost Enterprise Advanced' 제목과 docs.mattermost.com 링크를 담은 Mattermost 라이선스 업셀 화면이라, 우리 제품에 필요한지도 별도 판단이 필요하다. Data Spillage 명명을 채택하기로 하면 f1b9aa05부터 함께 재검토할 대상이다. |
 
 ## spec 전환 커밋
 
