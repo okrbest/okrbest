@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-28 09:59
+- 갱신일: 2026-08-28 13:53
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 599개
+- 남은 커밋: 589개
 
-**마지막 반영 커밋:** `7e75035c` | [Add Data Spillage discovery page (#36697)](https://github.com/mattermost/mattermost/commit/7e75035cb6766afc8424c7ee299ef4184a249e92) | 2026-05-22
+**마지막 반영 커밋:** `099a18b8` | [Remove some leftover code related to removed notify admin feature (#36680)](https://github.com/mattermost/mattermost/commit/099a18b84e3be1037ac1fe30dc4797d8378a2909) | 2026-05-25
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 508f1551 | [Fix flaky TestScrubPost (#36686)](https://github.com/mattermost/mattermost/commit/508f1551e3897b7d0f763e4176bdae822312c273) | 2026-05-25 |
-| cfafefe5 | [Used short mode of data spillage report card in threads view to fix spacing issue (#36709)](https://github.com/mattermost/mattermost/commit/cfafefe58c8eac2682e08bc9dd2eefe7d368af2b) | 2026-05-25 |
-| 4d8c25f0 | [\[MM-68736\] Reconcile partial GM membership in bulk import (#36542)](https://github.com/mattermost/mattermost/commit/4d8c25f040f870848df47334867c8a2cf37c77b9) | 2026-05-25 |
-| c6b59cc9 | [MM-68663: Admin console support and Test Connection generalization for Azure Blob Storage (#36583)](https://github.com/mattermost/mattermost/commit/c6b59cc9a757999f7f68a1f8f5a8daa76e4f7664) | 2026-05-25 |
-| b609ec59 | [chore: Update NOTICE.txt file with updated dependencies (#36729)](https://github.com/mattermost/mattermost/commit/b609ec59fc606563f6e9dc892bbc1d694b12ebde) | 2026-05-25 |
-| 25bf5edc | [MM-68773 Fix bug with HTML encoding in proxied image URL (#36555)](https://github.com/mattermost/mattermost/commit/25bf5edc4f3b2b8597ebeafb6fab1d66c25e6cd1) | 2026-05-25 |
-| 462f34ac | [Generate default_roles_permissions.js from a live server snapshot (#36698)](https://github.com/mattermost/mattermost/commit/462f34ac6cd7ef10dc7a4fd975660081f49d5f7f) | 2026-05-25 |
-| e1189a30 | [MM-68914 - Fix DM/GM channel member import defaulting SchemeUser to false (#36661)](https://github.com/mattermost/mattermost/commit/e1189a3005aa1cb8afb3b922562c9e1a71a0b597) | 2026-05-25 |
-| 67b49ad5 | [MM-68154: Upgrade imagemeta to v0.17.2 (#36588)](https://github.com/mattermost/mattermost/commit/67b49ad5c07417a0f2e4e77c5a5878f22f9b5c34) | 2026-05-25 |
-| 099a18b8 | [Remove some leftover code related to removed notify admin feature (#36680)](https://github.com/mattermost/mattermost/commit/099a18b84e3be1037ac1fe30dc4797d8378a2909) | 2026-05-25 |
 | 1e98d75e | [MM-68944 Fix data spillage report affordances (#36685)](https://github.com/mattermost/mattermost/commit/1e98d75e80ec13f53856d7d226e2cd90a3e9b649) | 2026-05-26 |
 | 16c8f9d6 | [MM-68955 Offset onboarding checklist above bottom classification banner (#36691)](https://github.com/mattermost/mattermost/commit/16c8f9d6e3287f3466599e79fd0d633ec193d034) | 2026-05-26 |
 | d9c13884 | [\[MM-68649\] Add Session Attributes from user agent for use in Permission Policies (#36511)](https://github.com/mattermost/mattermost/commit/d9c1388461553fbb6d0dca7cf2fba963265b6096) | 2026-05-26 |
