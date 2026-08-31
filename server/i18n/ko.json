@@ -6695,10 +6695,6 @@
     "translation": "사전 패키지 플러그인 버전을 구문 분석할 수 없습니다"
   },
   {
-    "id": "app.reaction.bulk_get_for_post_ids.app_error",
-    "translation": "게시물의 반응을 가져올 수 없습니다"
-  },
-  {
     "id": "app.reaction.delete_all_with_emoji_name.get_reactions.app_error",
     "translation": "이 이모지 이름의 모든 반응을 가져올 수 없습니다"
   },
