@@ -70,6 +70,7 @@
 | App.GetUser·HasPermissionTo를 request context로 이관 | [c57bd5a8](https://github.com/mattermost/mattermost/commit/c57bd5a8466ffb943748b02e8ce27d56f40df569) (#37923) | rctx 치환은 받고, 충돌 블록 8곳과 없는 파일 4개(Scheduled Recaps 한도·property v2 계보)는 버렸다. 포크 전용 호출자 6곳에 rctx를 넘겼다 — 아래 참조 |
 | 이메일 알림 설정을 Notifications로 승격 | [dd83cc14](https://github.com/mattermost/mattermost/commit/dd83cc144d2e4bda6768a0ddbbdec3d3711f5138) (#38024) | 코드는 그대로, docs 2개는 버렸고 en 충돌은 우리 OKR.BEST 문구를 지켰다. ko 8키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리, 버린 docs 내용은 아래 참조 |
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
+| react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 
 ---
 
@@ -1476,6 +1477,25 @@ master ruleset에 필수 상태 체크가 없어 job 이름 변경이 병합을 
 | `files:` 제외 목록 | `!server/i18n/en.json`·`!webapp/.../en.json`만 | `!server/i18n/ko.json`·`!webapp/channels/src/i18n/ko.json` 2줄 **유지** | 우리는 ko 번역을 저장소에서 직접 고친다. 남기지 않으면 ko를 고치는 PR마다 경고가 뜬다 |
 
 되돌릴 조건: ko 경고를 허용하기로 하면 제외 2줄을 지워 upstream과 같게 만든다.
+
+## react-transition-group findDOMNode 제거 — 지운 product_menu의 스냅숏 갱신을 버렸다
+
+**upstream**: [`6e36dad9`](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0)
+(Stop react-transition-group from calling findDOMNode, #38236) — 17파일 +826/-740, 2026-10-12 반영
+
+**받은 것.** `CSSTransition`·`Transition` 사용처 15파일에 `nodeRef`를 넘기는 코드 전부와 `actions_menu` 스냅숏 갱신.
+`MenuWrapperAnimation`·`mobile_sidebar_right`는 ref를 걸 래퍼 `<div>`가 새로 생긴다. 우리 CSS 중 `MenuWrapperAnimation`의 직계
+자식을 가정하는 선택자는 없다(`.MenuWrapper > a`는 트리거). MenuWrapper 사용처 28개 디렉터리 jest에서 래퍼 때문에 바뀐 우리 스냅숏은 0개였다.
+
+### 버린 것
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `webapp/channels/src/components/global_header/left_controls/product_menu/__snapshots__/product_menu.test.tsx.snap` | +650/-640 — 제품 메뉴 드롭다운 스냅숏 전체에 `MenuWrapperAnimation` 래퍼 `<div>` 한 겹이 끼면서 들여쓰기가 한 단계씩 밀린 갱신. 내용 변화는 래퍼 div 추가뿐 | 우리 `f95ba5a8d7`(좌측 네비게이션 Slack식 재구성 — 기능 버튼 레일 + 팀 드롭다운)이 `global_header/left_controls/product_menu/` 디렉터리를 통째로 지웠다(merge-tree modify/delete) | 제품 메뉴를 upstream 형태로 되살리면 스냅숏을 새로 생성한다. 손으로 옮길 필요 없다 |
+
+검증: 바뀐 컴포넌트와 MenuWrapper 사용처 jest 243 suites 중 실패 5개는 모두 이 커밋과 무관하다.
+`invite_members` 스냅숏 1건은 이 커밋의 `invite_members.tsx` 변경을 되돌려도 똑같이 실패한다(react-select 로딩 안내 렌더링, 기준선).
+나머지 4개(`user_utils`·`local_storage`·`markdown`·`admin_console_index`)는 이 커밋이 건드리지 않은 utils 테스트다.
 
 ## Email 로그인 버튼 색상 설정 제거 — docs를 버리고 ko 6키를 지웠다
 
