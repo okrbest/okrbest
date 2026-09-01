@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-08-28 16:49
+- 갱신일: 2026-09-01 18:32
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 577개
+- 남은 커밋: 588개
 
-**마지막 반영 커밋:** `a6e01986` | [\[MM-68999\] Add SchemaVersion to PropertyGroup for group-specific field schema versioning (#36747)](https://github.com/mattermost/mattermost/commit/a6e019863edbc518ae552ea6782762ec42fcbca2) | 2026-05-27
+**마지막 반영 커밋:** `8c8f28f9` | [MM-69042 Add user setting to experimentally enable concurrent React (#36785)](https://github.com/mattermost/mattermost/commit/8c8f28f943e811572e16c63f9dfd80b4e3fe081a) | 2026-05-28
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b632c9ed | [Stop logging email subject when sending mail (#36765)](https://github.com/mattermost/mattermost/commit/b632c9ed1c76f9c7f07a99e78ac77617ce3696f7) | 2026-05-28 |
-| 23d83b74 | [MM-65723 Validate user auth update requests (#36749)](https://github.com/mattermost/mattermost/commit/23d83b74d2fb5f77304e87b9246249c4121053f3) | 2026-05-28 |
-| bf39b41c | [MM-68845: Tighten authorization on /share-channel autocomplete (#36662)](https://github.com/mattermost/mattermost/commit/bf39b41ca85f26217513a108325f2f3742e1097e) | 2026-05-28 |
-| 1379beae | [MM-68840: Apply team sanitization on scheme teams endpoint (#36640)](https://github.com/mattermost/mattermost/commit/1379beae9833a490161cf654f9e661717984b42d) | 2026-05-28 |
-| 800810e8 | [\[MM-69028\] Enable ClassificationMarkings feature flag by default (#36776)](https://github.com/mattermost/mattermost/commit/800810e88080a0a46d39ed6993ff5b456b1a8d67) | 2026-05-28 |
-| 42f02158 | [Tighten CI workflows (#36778)](https://github.com/mattermost/mattermost/commit/42f021581fbed633dcd43e7e93a9127583f7944c) | 2026-05-28 |
-| 0d0dd16d | [Fix classification modal save state (#36693)](https://github.com/mattermost/mattermost/commit/0d0dd16d4053732bbc617b96d92974e7c903d68a) | 2026-05-28 |
-| 8c8f28f9 | [MM-69042 Add user setting to experimentally enable concurrent React (#36785)](https://github.com/mattermost/mattermost/commit/8c8f28f943e811572e16c63f9dfd80b4e3fe081a) | 2026-05-28 |
 | 5ad66d3f | [Fix flaky TestUpdatePropertyValues_WriteAccessControl (#36784)](https://github.com/mattermost/mattermost/commit/5ad66d3f76d2db69008aba9af4c5ffc27d1fc7f4) | 2026-05-29 |
 | 495fbc84 | [MM-68978 - Harden ABAC masking guards and fix sentinel detection (#36740)](https://github.com/mattermost/mattermost/commit/495fbc84373c100c541582f001cd7aa548197b38) | 2026-05-29 |
 | e3823a51 | [Fix flaky TestScheduleOnceSequential (#36805)](https://github.com/mattermost/mattermost/commit/e3823a51ce5ce522f296306dbcb142dd76a5c07e) | 2026-05-29 |
@@ -588,6 +580,25 @@
 | 245e311a | [\[MM-57807\] Graduate Hardened Mode out of Experimental Features (#38022)](https://github.com/mattermost/mattermost/commit/245e311a41a789a282cf13b4685084fe07c89947) | 2026-08-27 |
 | 441e45a9 | [\[MM-63470\] Fix messages being sent to the previous channel after /msg or Cmd+K (#37928)](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3) | 2026-08-27 |
 | ab32bb0b | [MM-70366: Add a readOnly mode to WysiwygEditor (#38141)](https://github.com/mattermost/mattermost/commit/ab32bb0bc62da2e6ed2ad9fa613806e4dfa33c4d) | 2026-08-28 |
+| 50241b42 | [docs(P15): reconcile authored docs drift through fips-migration (#38181)](https://github.com/mattermost/mattermost/commit/50241b4293e9d98c3e393b6fc095d365f2655987) | 2026-08-28 |
+| d8073d1b | [\[MM-70248\] Bump mattermost/pdf to cap PDF text extraction (#38179)](https://github.com/mattermost/mattermost/commit/d8073d1b9f860ae264a148068e00429bb30387a1) | 2026-08-28 |
+| e86491ad | [MM 70120 channel attributes foundation (#37881)](https://github.com/mattermost/mattermost/commit/e86491adacd19f856a29227742735d503f358931) | 2026-08-28 |
+| f8a5beb1 | [Deduplicate System Console config isDisabled dependencies (#38124)](https://github.com/mattermost/mattermost/commit/f8a5beb1755d97953e2c5161a94da08a32d83f1f) | 2026-08-28 |
+| dbf28993 | [\[MM-67123\] Prevent mention clicks in preview from submitting the draft (#38114)](https://github.com/mattermost/mattermost/commit/dbf2899370d6adc64b92c9f57ae06352b6c505e0) | 2026-08-28 |
+| c8b1cc00 | [MM-68283 - Add render-time ABAC permission decisions for file upload/download (#36820)](https://github.com/mattermost/mattermost/commit/c8b1cc0046c9ab53de4cb33804a7b4bc5cd03a83) | 2026-08-29 |
+| c57bd5a8 | [\[MM-70230\] Migrate App.GetUser to request context (#37923)](https://github.com/mattermost/mattermost/commit/c57bd5a8466ffb943748b02e8ce27d56f40df569) | 2026-08-31 |
+| 3bf2d07f | [feat(docs): boost documentation results in Algolia search ranking (#38202)](https://github.com/mattermost/mattermost/commit/3bf2d07fd016456f9a51c2318ae58b9f084751d3) | 2026-08-31 |
+| 4ce99ddd | [Mm 70167 channel attribute assignment (#37933)](https://github.com/mattermost/mattermost/commit/4ce99ddd38636bb6916613efc892606db3fe75f9) | 2026-08-31 |
+| c059bd33 | [docs: give specialized personas a distinct visual tier on the homepage (#38205)](https://github.com/mattermost/mattermost/commit/c059bd33eaf5f69397ae56fab8a0bd58e0b46101) | 2026-08-31 |
+| 0d1ce90d | [\[MM-70250\] Remove unused GET bulk reactions endpoint (#38174)](https://github.com/mattermost/mattermost/commit/0d1ce90d72122d3047345c022bf236d5c0f6a13e) | 2026-08-31 |
+| 25c84214 | [MM-69537 Fix places where suggestion results are incorrectly mutated (#38175)](https://github.com/mattermost/mattermost/commit/25c84214b7eeea6ea89b91847643cc80b35c62ac) | 2026-08-31 |
+| 9de33037 | [MM-70076 - include native user attribute fields in ABAC policy listings (#38136)](https://github.com/mattermost/mattermost/commit/9de33037326535e4f165de398c2cfabe0318ce4e) | 2026-08-31 |
+| 35242cbe | [\[MM-70208\] Require client secret re-entry when validating or saving outgoing OAuth connections (#38168)](https://github.com/mattermost/mattermost/commit/35242cbed7bf3e379801312b9077acc8edffcd78) | 2026-08-31 |
+| 443c6fdf | [Prepackage mattermost-plugin-agents v2.6.1. (#38242)](https://github.com/mattermost/mattermost/commit/443c6fdf275c48d5b0646e6f191aed68fc646236) | 2026-08-31 |
+| 679dcd7e | [\[MM-70524\] Fix advanced text editor issue with rootID (#38244)](https://github.com/mattermost/mattermost/commit/679dcd7e1653320dbffa0a9a664f196f406362e3) | 2026-08-31 |
+| 460f20b2 | [MM-70227: Adjust error detail formatting in session and OAuth flows (#37915)](https://github.com/mattermost/mattermost/commit/460f20b2eeecb7bd92184c396430c91056ea4ef7) | 2026-09-01 |
+| 40e282b9 | [\[Docs Revamp Feedback\] Fix admonition styling, card grid, oversized images, and TOC duplicates (#38180)](https://github.com/mattermost/mattermost/commit/40e282b95b6108de01c19e30a9a2121b96787f9b) | 2026-09-01 |
+| 8edfbbad | [\[MM-70429\] Increase interactive dialog title max length to 80 (#38140)](https://github.com/mattermost/mattermost/commit/8edfbbade7ec03f8194c323d852d5f731aaa2a56) | 2026-09-01 |
 
 ## 제외된 커밋
 
@@ -741,6 +752,10 @@
 | 159ed5ad | [Return error when plugins use deprecated custom_profile_attributes group name (#36748)](https://github.com/mattermost/mattermost/commit/159ed5ad96e192921d9c3c1b9f0bc284deb48d20) | 제외한 property 시스템 v2 계보(48f2fd08 Integrated Boards MVP → 9f1fe90b Migrate CPA to the v2 Property System, #36180)의 후속 정리라 반영할 대상이 없음 — 이 커밋이 삭제·수정하는 폐기 별칭 메커니즘이 우리에게 부재하다. 실측: DeprecatedCPAPropertyGroupName grep 0건, migrateDeprecatedPropertyGroupName grep 0건, AccessControlPropertyGroupName은 1건이지만 server/public/model/property_group.go의 주석 안에서 '우리는 병합하지 않았다'고 명시한 대목뿐이다. 우리 PluginAPI.RegisterPropertyGroup은 폐기 이름 분기 없이 곧장 위임하며 시그니처도 다르다 — 우리는 api.app.RegisterPropertyGroup(ctx, name) 문자열, 상류는 &model.PropertyGroup{Name:..., Version:...} 구조체다(PropertyGroup.Version은 9c684e63 소산으로 우리 모델엔 ID·Name 2필드뿐). merge-tree CONFLICT도 plugin_api.go·plugin_api_test.go 양쪽에서 나는데, 상류안으로 풀면 없는 상수 model.DeprecatedCPAPropertyGroupName 참조로 Go 컴파일이 깨지고 우리 코드를 지키면 반영 효과가 0이다. property v2를 제품에 도입하기로 하면 48f2fd08의 property 절반(api4/properties.go, PropertyField.ObjectType, PropertyGroup.Version, 마이그레이션 000160~000165)부터 분할 반영하고 9f1fe90b를 spec으로 여는 것이 순서이며, 그때 이 정리도 함께 따라온다. |
 
 | a6e01986 | [\[MM-68999\] Add SchemaVersion to PropertyGroup for group-specific field schema versioning (#36747)](https://github.com/mattermost/mattermost/commit/a6e019863edbc518ae552ea6782762ec42fcbca2) | 제외한 property 시스템 v2 계보(48f2fd08 Integrated Boards MVP → 9c684e63 PropertyGroup.Version)의 후속이라 얹힐 토대가 없음 — 159ed5ad와 같은 계보이며 근거가 더 강하다. 선행 요소 전수 부재: model.PropertyGroup이 ID·Name 2필드뿐이라 Version 필드가 없고(9c684e63 소산), PropertyGroupVersionV1/V2 각 grep 0건, AccessControlPropertyGroupSchemaVersion grep 0건, sqlstore의 propertyGroupColumns가 우리는 {ID, Name}인데 상류는 {ID, Name, Version}이다. DB도 마찬가지 — 상류 마이그레이션이 000193인데 우리 최신은 000188이라 그 사이 property v2 마이그레이션들이 미반영이고, PropertyGroups 테이블에 Version 컬럼 자체가 없다(우리는 000129에서 생성한 원형). 강행 시 server.go의 model.PropertyGroupVersionV2와 sqlstore의 group.SchemaVersion 참조로 Go 컴파일이 두 곳에서 깨지며, 마이그레이션만 돌면 Version 없는 테이블에 SchemaVersion만 붙는 반쪽 스키마가 된다. merge-tree CONFLICT 3파일(server.go, sqlstore/property_group_store.go, storetest/property_group_store.go)에 더해 마이그레이션 2개가 CODEOWNERS 보호 경로다. adapt하려면 Version 필드·상수·마이그레이션을 손으로 이식해야 해 adapt 기준(≤5파일·≤150라인·보호경로 무접촉)을 벗어난다. property v2를 도입하기로 하면 48f2fd08의 property 절반(api4/properties.go, PropertyField.ObjectType, PropertyGroup.Version, 마이그레이션 000160~000165)부터 분할 반영하는 것이 순서이며, 그때 이 커밋도 함께 따라온다. |
+
+| 800810e8 | [\[MM-69028\] Enable ClassificationMarkings feature flag by default (#36776)](https://github.com/mattermost/mattermost/commit/800810e88080a0a46d39ed6993ff5b456b1a8d67) | 제외한 2b7b398a([MM-68102] Classification Markings 관리 콘솔 페이지, #35934)가 도입한 FeatureFlags.ClassificationMarkings의 기본값을 false→true로 뒤집는 후속 커밋이라 반영할 대상이 없음 — 우리 트리에 ClassificationMarkings 식별자가 server/·webapp/ 통틀어 0건이다. 뿌리는 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2로, 분류 표시 계보 2b7b398a·6083cc22(MM-68196 Global Classification 배너)·23b4d827(MM-68197 웹·데스크톱 배너)·e8632bd4([MM-68777] admin property field 권한)·16c8f9d6(MM-68955 온보딩 체크리스트 오프셋)를 모두 같은 사유로 제외했다. merge-tree CONFLICT 2건(feature_flags.go, feature_flags_test.go)도 이 제외의 결과다 — 우리 SetDefaults에는 f.ClassificationMarkings 줄이 없고 인접한 f.AutoTranslation도 우리는 false(upstream은 true)라 문맥이 어긋나며, 테스트 파일에는 TestFeatureFlagsSetDefaults 함수 자체가 없다. 강행하면 구조체에 없는 필드 대입으로 컴파일이 깨지고, adapt로 플래그만 심으면 그 값을 읽는 코드가 하나도 없어 죽은 필드가 된다. 분류 표시 기능이 필요해지면 2b7b398a 제외 사유에 적어둔 대로 property 시스템 v2 분할 반영(api4/properties.go, PropertyField.object_type, 마이그레이션 000160~000165)을 선행 과제로 두고 spec으로 여는 것이 맞다. |
+
+| 0d0dd16d | [Fix classification modal save state (#36693)](https://github.com/mattermost/mattermost/commit/0d0dd16d4053732bbc617b96d92974e7c903d68a) | 제외한 분류 표시(Classification Markings) 계보의 버그 수정이라 반영할 대상이 없음 — 우리 webapp/channels/src/components/channel_settings_modal/channel_settings_configuration_tab.tsx에 'classification' 문자열이 0건이다. 커밋이 옮기려는 useEffect도, 고치려는 hasClassificationChanges 조건식도, canManageClassification·classificationBanner·selectedClassificationId 심볼도 우리 파일에 없어 고칠 버그 자체가 존재하지 않는다. 신규 E2E 스펙 e2e-tests/playwright/specs/functional/channels/channel_classification/channel_classification.spec.ts는 디렉터리조차 없어 merge-tree가 modify/delete CONFLICT로 잡았고, 웹앱 파일 2건도 content CONFLICT다. 뿌리는 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2로, 계보 2b7b398a·6083cc22·23b4d827·e8632bd4·16c8f9d6·800810e8를 모두 같은 사유로 제외했다. 강행하면 존재하지 않는 심볼 참조로 타입 체크가 깨진다. 참고 — 이 커밋에는 분류 표시와 무관한 절반이 섞여 있다: E2E 헬퍼 setChannelBannerTextColor→setChannelBannerBackgroundColor 이름 정정(lib/src/ui/components/channels/channel_settings/configuration_settings.ts 1줄 + channel_banner.spec.ts 호출부 6줄)으로, 메서드가 실제로는 #channel_banner_banner_background_color_picker 셀렉터를 채우므로 정당한 정정이다. 이 부분은 반영하지 않았다 — 우리 Playwright 채널 스펙은 post_textbox testid 부재로 현재 전부 실패해 실익이 없고, adapt로 취하면 원본 제목 'Fix classification modal save state'와 Upstream 참조가 붙어 분류 버그를 고친 것으로 기록이 왜곡된다. 새 이름을 쓰는 upstream E2E 커밋을 나중에 가져올 때 그 자리에서 처리한다. |
 
 ## spec 전환 커밋
 
