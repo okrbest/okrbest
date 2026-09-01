@@ -68,6 +68,7 @@
 | v12 미사용 설정 필드 제거 | [87c84ef1](https://github.com/mattermost/mattermost/commit/87c84ef1772e85e45c4a338b199a4b668fffb4aa) (#37743) | 11개 모두 받았다. 충돌은 `TeamSettings` 정렬 1곳. 제외·spec 커밋 206개 중 이 필드를 기능적으로 쓰는 커밋은 없다 — 아래 참조 |
 | 채널 전환 뒤 이전 채널로 전송되는 버그 | [441e45a9](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3) (#37928) | 수정은 받고 우리 `draftRef` 즉시 갱신에도 같은 가드를 걸었다(가드 테스트 신규). upstream jest 4건은 Lexical 하네스에서 입력이 안 들어가 red로 남는다 — 아래 참조 |
 | App.GetUser·HasPermissionTo를 request context로 이관 | [c57bd5a8](https://github.com/mattermost/mattermost/commit/c57bd5a8466ffb943748b02e8ce27d56f40df569) (#37923) | rctx 치환은 받고, 충돌 블록 8곳과 없는 파일 4개(Scheduled Recaps 한도·property v2 계보)는 버렸다. 포크 전용 호출자 6곳에 rctx를 넘겼다 — 아래 참조 |
+| 이메일 알림 설정을 Notifications로 승격 | [dd83cc14](https://github.com/mattermost/mattermost/commit/dd83cc144d2e4bda6768a0ddbbdec3d3711f5138) (#38024) | 코드는 그대로, docs 2개는 버렸고 en 충돌은 우리 OKR.BEST 문구를 지켰다. ko 8키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리, 버린 docs 내용은 아래 참조 |
 
 ---
 
@@ -1433,6 +1434,32 @@ Hardened Mode가 Experimental에서 Environment > Web Server로 옮겨지고 `ac
 검증: `go test ./public/model/ ./config/ ./channels/web/`, api4 `TestCreatePost`·`TestCreatePostWithOAuthClient`·`TestUpdatePost`·`TestPatchPost`,
 app `HardenedMode`·`TestCreatePost` 통과. `admin_definition_*` 11 suites 통과, `admin_console_index` 2건은 같은 기준선 실패.
 eslint 오류 0(경고: 새 줄의 upstream `eslint-disable-line formatjs/enforce-placeholders`가 쓰이지 않음 — upstream 그대로 둠).
+
+**같은 처리 — `dd83cc14`** (Graduate email notification settings to Site Configuration > Notifications, #38024,
+2026-10-12 반영): `EmailSettings.EmailBatchingBufferSize`·`EmailBatchingInterval`·`UseChannelInEmailNotifications`가
+Experimental에서 Site Configuration > Notifications로 옮겨지고 `access` 태그가 `site_notifications`로 바뀌었다. 설정 키·기본값·서버 동작은
+그대로다. 배칭 두 항목은 "Enable Email Batching" 바로 아래에서 같은 비활성 조건(이메일 알림 꺼짐·배칭 꺼짐·HA·Site URL 없음)을 상속하고
+Cloud에서 숨는다. 포크 코드에서 옛 `sysconsole_*_experimental_features` 권한으로 이 세 설정을 다루는 곳은 없다.
+
+`en.json` 충돌 1곳: 새 `emailBatching*` 키 6개가 들어갈 자리 바로 뒤 `admin.environment.notifications.enable.help`가
+우리 리브랜드 문구("When true, **OKR.BEST** attempts…")라서 upstream 원문("Mattermost")과 겹쳤다. 새 키 6개는 받고 `enable.help`는 우리 문구를 지켰다.
+`admin_definition.tsx`는 자동 병합됐고 옮긴 블록에 제품명이 없다.
+
+| 옛 id | 새 id | ko 처리 |
+|---|---|---|
+| `admin.experimental.emailBatchingBufferSize.{title,desc,example}` | `admin.environment.notifications.emailBatchingBufferSize.{label,help,placeholder}` | 문구 유지 ("전자우편 일괄처리 버퍼 크기:" 표기 혼용도 그대로) |
+| `admin.experimental.emailBatchingInterval.{title,desc,example}` | `admin.environment.notifications.emailBatchingInterval.{label,help,placeholder}` | 문구 유지 |
+| `admin.experimental.useChannelInEmailNotifications.{title,desc}` | `admin.environment.notifications.useChannelInEmailNotifications.{label,help}` | 문구 유지 |
+
+**버린 docs 내용** (우리가 지운 `docs/main/` 경로, 1d3bbc63 문서 사이트 계보 제외). 문서 사이트를 되살리면 아래를 다시 반영한다.
+
+| 파일 | upstream 변경 | 버린 내용 요지 |
+|---|---|---|
+| `docs/main/administration-guide/configure/experimental-configuration-settings.mdx` (+3/-65) | 세 설정 절 삭제, 상단 jq 예시 교체 | `### Email batching buffer size`·`### Email batching interval`·`### Use channel name in email notifications` 절(설명·Note·`config.json` 표)을 지웠다. 페이지 머리의 jq 예시 `jq '.EmailSettings.EmailBatchingBufferSize'`를 남은 설정 `jq '.ExperimentalSettings.LinkMetadataTimeoutMilliseconds'`로 바꿨다 |
+| `docs/main/administration-guide/configure/site-configuration-settings.mdx` (+63) | Notifications 절에 세 설정 추가 | 2열 표(설명·기본값 \| System Config 경로 `Site Configuration > Notifications`·`config.json` 키) 형식으로 세 절을 새로 썼다. Note에 "Cloud admins can't modify", "email batching이 켜졌을 때만 적용"을 더했다. **문서 오류 정정 포함** — 옛 문서의 "큐가 배칭 간격을 넘으면 즉시 발송", "버퍼가 차면 간격을 줄이라"를 "수신 버퍼가 차면 즉시 발송되니 Email batching buffer size를 늘리라"로 고쳤다(서버 동작 기준) |
+
+검증: `go test ./public/model/ ./config/` 통과. `admin_definition_*` jest 11 suites 통과, `admin_console_index` 2건은 같은 기준선 실패라
+새 검색 단언(`Email Batching Buffer Size`·`Use Channel Name in Email Notifications`)은 검증되지 않았다.
 
 ## Email 로그인 버튼 색상 설정 제거 — docs를 버리고 ko 6키를 지웠다
 
