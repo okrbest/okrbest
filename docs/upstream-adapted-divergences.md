@@ -69,6 +69,7 @@
 | 채널 전환 뒤 이전 채널로 전송되는 버그 | [441e45a9](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3) (#37928) | 수정은 받고 우리 `draftRef` 즉시 갱신에도 같은 가드를 걸었다(가드 테스트 신규). upstream jest 4건은 Lexical 하네스에서 입력이 안 들어가 red로 남는다 — 아래 참조 |
 | App.GetUser·HasPermissionTo를 request context로 이관 | [c57bd5a8](https://github.com/mattermost/mattermost/commit/c57bd5a8466ffb943748b02e8ce27d56f40df569) (#37923) | rctx 치환은 받고, 충돌 블록 8곳과 없는 파일 4개(Scheduled Recaps 한도·property v2 계보)는 버렸다. 포크 전용 호출자 6곳에 rctx를 넘겼다 — 아래 참조 |
 | 이메일 알림 설정을 Notifications로 승격 | [dd83cc14](https://github.com/mattermost/mattermost/commit/dd83cc144d2e4bda6768a0ddbbdec3d3711f5138) (#38024) | 코드는 그대로, docs 2개는 버렸고 en 충돌은 우리 OKR.BEST 문구를 지켰다. ko 8키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리, 버린 docs 내용은 아래 참조 |
+| 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 
 ---
 
@@ -1460,6 +1461,21 @@ Cloud에서 숨는다. 포크 코드에서 옛 `sysconsole_*_experimental_featur
 
 검증: `go test ./public/model/ ./config/` 통과. `admin_definition_*` jest 11 suites 통과, `admin_console_index` 2건은 같은 기준선 실패라
 새 검색 단언(`Email Batching Buffer Size`·`Use Channel Name in Email Notifications`)은 검증되지 않았다.
+
+## 비영문 번역 파일 검사를 경고로 완화 — ko.json 제외는 남기고 sync 브랜치 예외는 버렸다
+
+**upstream**: [`7b21e93e`](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3)
+(Allow direct modifications to non-English translation files, #38218) — `.github/workflows/i18n-ci-template.yml` +6/-4, 2026-10-12 반영
+
+**받은 것.** job 이름 "Report non-English translation file changes", 상단 설명 주석, 변경 감지 시 `::error` + `exit 1` 대신 `::warning`만 남기고 통과.
+master ruleset에 필수 상태 체크가 없어 job 이름 변경이 병합을 막지 않는다(2026-10-12 `gh api .../rulesets` 확인).
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| job `if:` | weblate 계정 예외 삭제 | **삭제를 따랐다 — 우리 22cb424b74의 sync 브랜치 예외도 함께 버렸다.** 버린 코드: `if: >- github.event.pull_request.user.login != 'weblate' && !startsWith(github.head_ref, 'sync/upstream-')`와 그 설명 주석 3줄 | 검사가 실패하지 않으므로 sync PR을 뺄 이유가 없다 |
+| `files:` 제외 목록 | `!server/i18n/en.json`·`!webapp/.../en.json`만 | `!server/i18n/ko.json`·`!webapp/channels/src/i18n/ko.json` 2줄 **유지** | 우리는 ko 번역을 저장소에서 직접 고친다. 남기지 않으면 ko를 고치는 PR마다 경고가 뜬다 |
+
+되돌릴 조건: ko 경고를 허용하기로 하면 제외 2줄을 지워 upstream과 같게 만든다.
 
 ## Email 로그인 버튼 색상 설정 제거 — docs를 버리고 ko 6키를 지웠다
 

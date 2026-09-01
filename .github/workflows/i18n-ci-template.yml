@@ -7,16 +7,14 @@ on:
 permissions:
   contents: read
 
+# Translations used to arrive exclusively through Weblate, so this job failed
+# any PR that touched a non-English file unless it came from the weblate
+# account. Translations may now be authored in-repo and land in the same PR as
+# the English string, so the change is reported instead of rejected.
 jobs:
   check-files:
-    name: Check only English translation files changed
+    name: Report non-English translation file changes
     runs-on: ubuntu-22.04
-    # Allow weblate to modify non-English. okrbest also allows upstream sync
-    # branches, which carry upstream's Weblate commits verbatim (those arrive as
-    # regular commits here, not as PRs authored by the weblate bot).
-    if: >-
-      github.event.pull_request.user.login != 'weblate' &&
-      !startsWith(github.head_ref, 'sync/upstream-')
     steps:
       - name: Checkout code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -38,5 +36,4 @@ jobs:
       - name: Check changed files
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
-          echo "::error title=Non-English i18n files changed::Only PRs from weblate should modify non-English translation files."
-          exit 1
+          echo "::warning title=Non-English i18n files changed::This PR modifies non-English translation files directly. Ensure the changes are intentional and will not be overwritten by Weblate."
