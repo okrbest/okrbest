@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-01 18:32
+- 갱신일: 2026-09-01 23:03
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 588개
+- 남은 커밋: 589개
 
-**마지막 반영 커밋:** `8c8f28f9` | [MM-69042 Add user setting to experimentally enable concurrent React (#36785)](https://github.com/mattermost/mattermost/commit/8c8f28f943e811572e16c63f9dfd80b4e3fe081a) | 2026-05-28
+**마지막 반영 커밋:** `bcf51196` | [MM-68854: Dispatch Test Connection on ExportDriverName when dedicated export filestore is active (#36759)](https://github.com/mattermost/mattermost/commit/bcf511968217cd0f65cbead926e03260bfcd1011) | 2026-05-29
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 5ad66d3f | [Fix flaky TestUpdatePropertyValues_WriteAccessControl (#36784)](https://github.com/mattermost/mattermost/commit/5ad66d3f76d2db69008aba9af4c5ffc27d1fc7f4) | 2026-05-29 |
-| 495fbc84 | [MM-68978 - Harden ABAC masking guards and fix sentinel detection (#36740)](https://github.com/mattermost/mattermost/commit/495fbc84373c100c541582f001cd7aa548197b38) | 2026-05-29 |
-| e3823a51 | [Fix flaky TestScheduleOnceSequential (#36805)](https://github.com/mattermost/mattermost/commit/e3823a51ce5ce522f296306dbcb142dd76a5c07e) | 2026-05-29 |
-| 1f4f1b4c | [ \[MM-69025\] Enable session attributes in simulation (#36773)](https://github.com/mattermost/mattermost/commit/1f4f1b4c5979b58a3978ea183f21683343282031) | 2026-05-29 |
-| 9fdcad41 | [Fix flaky TestCheckTeamsChannelsIntegrity (#36754)](https://github.com/mattermost/mattermost/commit/9fdcad41c21461a42da1242c4bfb8a133c5eea69) | 2026-05-29 |
-| bcf51196 | [MM-68854: Dispatch Test Connection on ExportDriverName when dedicated export filestore is active (#36759)](https://github.com/mattermost/mattermost/commit/bcf511968217cd0f65cbead926e03260bfcd1011) | 2026-05-29 |
 | 307452bb | [\[MM-67113\] Add license preview/diff view when uploading a new license (#34877)](https://github.com/mattermost/mattermost/commit/307452bb55f7bd9c752109802f46688220840836) | 2026-06-01 |
 | 8d885139 | [chore: Update NOTICE.txt file with updated dependencies (#36825)](https://github.com/mattermost/mattermost/commit/8d8851396816f5a1e375c9e6610973fbed159d31) | 2026-06-01 |
 | 7c759e8a | [\[MM-69058\] Don't enable native channel banner when creating a classification banner (#36810)](https://github.com/mattermost/mattermost/commit/7c759e8ae4f24ea2a39614129220a8f41cf08918) | 2026-06-01 |
@@ -599,6 +593,13 @@
 | 460f20b2 | [MM-70227: Adjust error detail formatting in session and OAuth flows (#37915)](https://github.com/mattermost/mattermost/commit/460f20b2eeecb7bd92184c396430c91056ea4ef7) | 2026-09-01 |
 | 40e282b9 | [\[Docs Revamp Feedback\] Fix admonition styling, card grid, oversized images, and TOC duplicates (#38180)](https://github.com/mattermost/mattermost/commit/40e282b95b6108de01c19e30a9a2121b96787f9b) | 2026-09-01 |
 | 8edfbbad | [\[MM-70429\] Increase interactive dialog title max length to 80 (#38140)](https://github.com/mattermost/mattermost/commit/8edfbbade7ec03f8194c323d852d5f731aaa2a56) | 2026-09-01 |
+| 885471e2 | [\[MM-70279\] Add plugin upload overwrite review panel (#37586)](https://github.com/mattermost/mattermost/commit/885471e28f2f8a337a4b4a734a46542442530321) | 2026-09-01 |
+| b11848a8 | [Fix flaky TestCopyEmojiImages (#38156)](https://github.com/mattermost/mattermost/commit/b11848a87c5440cdc84b6c69d6681fa7540aa410) | 2026-09-01 |
+| d8ef20f0 | [\[MM-70213\] Allow custom URI schemes in DCR redirect URI validation (#37917)](https://github.com/mattermost/mattermost/commit/d8ef20f0863d3c3d472ea89abc2de334b00c044b) | 2026-09-01 |
+| dd83cc14 | [Graduate email notification settings to Site Configuration > Notifications (#38024)](https://github.com/mattermost/mattermost/commit/dd83cc144d2e4bda6768a0ddbbdec3d3711f5138) | 2026-09-01 |
+| b3c66c7d | [MM-68613: raise post message size limit to 1MB (#37300)](https://github.com/mattermost/mattermost/commit/b3c66c7d17f1c55d7551a162fcac8455104918e0) | 2026-09-01 |
+| 3e3f8c76 | [\[MM-70507\] Filter OAuth endpoint requests that hit reserved IPs (#38222)](https://github.com/mattermost/mattermost/commit/3e3f8c769a15c53747c42fecfc811665ce021b17) | 2026-09-01 |
+| fbd8e482 | [Remove unused ABAC audit logging setting from system console (#38252)](https://github.com/mattermost/mattermost/commit/fbd8e482674188f92c074800443ceb6235cafaf5) | 2026-09-01 |
 
 ## 제외된 커밋
 
@@ -790,3 +791,4 @@
 | d1a4d74b | [MM-68589 add ever-member history lookup for ABAC sync (#36429)](https://github.com/mattermost/mattermost/commit/d1a4d74b423d5771e9e47fa364772786036c0e87) | ChannelMemberHistoryStore.GetEverMembersInChannel 배관(인터페이스·sqlstore 구현·retrylayer·timerlayer·mocks·storetest 160줄)은 cherry-pick으로 반영했으나, 이를 호출하는 ABAC 동기화 로직이 비공개 github.com/mattermost/enterprise/access_control에 있어 우리 트리에서는 호출자가 없는 상태로 남는다. upstream 최신 트리를 검색해도 OSS 쪽 소비자가 없다(git grep -l GetEverMembersInChannel upstream-master -- server/* → 배관 6건뿐). OSS에는 einterfaces/access_control.go 인터페이스만 있고 구현체는 server/enterprise/external_imports.go:38의 사설 임포트로 들어온다. 다만 storetest 64줄이 TestChannelMemberHistoryStore 스위트에 등록돼 SQL 정확성은 사설 모듈 없이도 검증된다. ABAC 채널 멤버십 동기화를 자체 구현할 때 이 조회 메서드는 이미 준비돼 있다 — 주어진 사용자 목록 중 해당 채널에 한 번이라도 멤버였던 이력이 있는 사용자 ID를 ChannelMemberHistory에서 DISTINCT 조회한다. |
 | a7ef484f | [\[MM-68576\] Add SAML connectivity status to support packet diagnostics (#36321)](https://github.com/mattermost/mattermost/commit/a7ef484feea794095a6ca5f0de9b767fe5db5fdc) | SAML 연결 진단 인터페이스·등록 훅·호출부만 반영되고 실제 연결 테스트 로직은 비공개 github.com/mattermost/enterprise/saml에만 있다. einterfaces/saml_diagnostic.go의 SamlDiagnosticInterface.RunSupportPacketTest를 구현·등록하는 쪽이 그 모듈이라 우리 빌드에서는 PlatformService.samlDiagnostic이 nil로 남는다. 호출부가 nil을 정확히 처리해(support_packet.go: samlDiagnostic != nil && SamlSettings.Enable 아니면 StatusDisabled) 지원 패킷은 SAML을 disabled로 보고하며 크래시 위험이 없다. 향후 자체 SAML 진단을 구현하게 되면 이 인터페이스에 붙이면 된다 — SAML 메타데이터 URL 도달성 검사가 실제 내용이다. |
 | ba1cec51 | [\[MM-68693\] Resource level permission policies and new simulation (#36472)](https://github.com/mattermost/mattermost/commit/ba1cec51a54474496875fc8e14e144bfffa4919e) | 리소스 수준 권한 정책(upload_file_attachment·download_file_attachment)과 Simulate access 미리보기 UX. API·app 계층·모델·웹앱 UI 20파일(simulate_access 모달 일습, channel_settings_permissions_policy_tab.tsx +1267)을 adapt로 반영했으나, ALLOW/DENY를 실제로 판정하는 엔진이 비공개 github.com/mattermost/enterprise/access_control에만 있다(server/enterprise/external_imports.go, //go:build enterprise, ../enterprise 부재). 우리 빌드에서 ch.AccessControl이 nil이라 시뮬레이션 버튼과 권한 규칙 탭은 눌러도 동작하지 않는다. einterfaces/pap.go의 PolicyAdministrationPointInterface.SimulatePolicyForUsers가 그 접점이고, app/access_control.go:653이 이를 호출하는 OSS 소비자다 — 테스트는 mocks.AccessControlServiceInterface를 주입해 배관을 검증한다. 4da11e81(공개 채널 멤버십 정책)과 같은 유형이다: 배관·UI는 다 있고 엔진만 없다. 신규 플래그 ChannelPermissionPolicies·PolicySimulation은 기본 false. 향후 자체 ABAC 판정 엔진을 검토하면 이 커밋의 인터페이스에 붙이면 되고, 그때 필요한 선행 과제는 제외한 property v2 계보(9f1fe90b) 분할 반영이다 — 이 커밋 반영에만 v2 우회가 10곳 필요했다. |
+| 1f4f1b4c | [ \[MM-69025\] Enable session attributes in simulation (#36773)](https://github.com/mattermost/mattermost/commit/1f4f1b4c5979b58a3978ea183f21683343282031) | `github.com/mattermost/enterprise/access_control` — 정책 시뮬레이터 본체(acs.SimulatePolicyForUsers)가 비공개 모듈에 있어 '시뮬레이션에서 세션 속성 사용' 기능은 우리 빌드에서 작동하지 않는다. OSS 트리에 반영된 것은 스캐폴딩뿐 — BuildAccessControlSubjectForSession 안에 인라인돼 있던 세션 속성 조회를 exported GetSessionAttributes(sessionID)로 추출(프로덕션 PDP 경로는 동작 동일), 오류 키 개명(build_subject_for_session.get_session_attributes → get_session_attributes), 죽은 키 app.pap.save_policy.user_session_unsupported.app_error 제거, use_active_session이 no-op임을 알리는 Go·TS 주석. GetSessionAttributes를 호출하는 OSS 코드는 BuildAccessControlSubjectForSession 자신뿐이고, exported로 바뀐 이유가 비공개 시뮬레이터에서 호출하기 위해서다. 근거 — server/enterprise/external_imports.go가 _ "github.com/mattermost/enterprise/access_control"을 임포트하지만 //go:build enterprise 태그 뒤에 있고 해당 모듈이 server/go.mod에 없어, channels.go:198-200의 accessControlServiceInterface가 nil로 남고 ch.AccessControl도 nil이 된다(ABAC 서비스 전체가 비활성). 같은 계보의 4da11e81·d1a4d74b·ba1cec51([MM-68693] Resource level permission policies and new simulation, 우리 반영분 9a52353965)과 동일한 처리다. ABAC 시뮬레이터 자체 구현 시 이 커밋의 세션 속성 기준선 적용 방식을 함께 반영해야 한다. |
