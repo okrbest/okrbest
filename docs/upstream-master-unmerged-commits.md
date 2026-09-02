@@ -3,23 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-01 23:03
+- 갱신일: 2026-09-02 15:16
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 589개
+- 남은 커밋: 588개
 
-**마지막 반영 커밋:** `bcf51196` | [MM-68854: Dispatch Test Connection on ExportDriverName when dedicated export filestore is active (#36759)](https://github.com/mattermost/mattermost/commit/bcf511968217cd0f65cbead926e03260bfcd1011) | 2026-05-29
+**마지막 반영 커밋:** `5c360d80` | [MM-68995: reject deactivated guests on REST magic-link login (#36746)](https://github.com/mattermost/mattermost/commit/5c360d8077ae994681253c852f7ceb6f7c130d01) | 2026-06-01
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 307452bb | [\[MM-67113\] Add license preview/diff view when uploading a new license (#34877)](https://github.com/mattermost/mattermost/commit/307452bb55f7bd9c752109802f46688220840836) | 2026-06-01 |
-| 8d885139 | [chore: Update NOTICE.txt file with updated dependencies (#36825)](https://github.com/mattermost/mattermost/commit/8d8851396816f5a1e375c9e6610973fbed159d31) | 2026-06-01 |
-| 7c759e8a | [\[MM-69058\] Don't enable native channel banner when creating a classification banner (#36810)](https://github.com/mattermost/mattermost/commit/7c759e8ae4f24ea2a39614129220a8f41cf08918) | 2026-06-01 |
-| 5283ca54 | [add PushNotification.Transport and related const (#36829)](https://github.com/mattermost/mattermost/commit/5283ca54b46b82e599306891a7561c957b472b60) | 2026-06-01 |
-| da480519 | [Upgrade "@mattermost/compass-icons" to 0.1.61 (#36831)](https://github.com/mattermost/mattermost/commit/da48051967a28bbb0ccd063b46792d581532bb7d) | 2026-06-01 |
-| ea6ac3f2 | [MM-68983: Tighten OAuth token issuance and cleanup on user deactivation (#36743)](https://github.com/mattermost/mattermost/commit/ea6ac3f229a82d61c4124998d8af26287b66d29b) | 2026-06-01 |
-| a57695da | [MM-69002 Convert ESLint configs to flat config (#36750)](https://github.com/mattermost/mattermost/commit/a57695daa3e9dab5c6a798ae1cf107a91384e5d1) | 2026-06-01 |
-| e9f62a66 | [MM-69003 Replace eslint-plugin-header with eslint-plugin-headers (#36766)](https://github.com/mattermost/mattermost/commit/e9f62a663918f1587d711d4beb1656208aca5c43) | 2026-06-01 |
-| 5c360d80 | [MM-68995: reject deactivated guests on REST magic-link login (#36746)](https://github.com/mattermost/mattermost/commit/5c360d8077ae994681253c852f7ceb6f7c130d01) | 2026-06-01 |
 | a84032f4 | [MM-69053 Log server message when a user has concurrent React enabled (#36837)](https://github.com/mattermost/mattermost/commit/a84032f40a6ab1dadc344914a1ab92a2fb934577) | 2026-06-02 |
 | 19e7a2be | [Fix flaky TestCheckUsersEmojiIntegrity (#36756)](https://github.com/mattermost/mattermost/commit/19e7a2be283415958757eca10d65825d9e1f099f) | 2026-06-02 |
 | 6c401066 | [Deleted removed post from content flagging redux store (#36803)](https://github.com/mattermost/mattermost/commit/6c401066f73462d445d4f6e3571646320debb8a5) | 2026-06-02 |
@@ -600,6 +591,14 @@
 | b3c66c7d | [MM-68613: raise post message size limit to 1MB (#37300)](https://github.com/mattermost/mattermost/commit/b3c66c7d17f1c55d7551a162fcac8455104918e0) | 2026-09-01 |
 | 3e3f8c76 | [\[MM-70507\] Filter OAuth endpoint requests that hit reserved IPs (#38222)](https://github.com/mattermost/mattermost/commit/3e3f8c769a15c53747c42fecfc811665ce021b17) | 2026-09-01 |
 | fbd8e482 | [Remove unused ABAC audit logging setting from system console (#38252)](https://github.com/mattermost/mattermost/commit/fbd8e482674188f92c074800443ceb6235cafaf5) | 2026-09-01 |
+| 7b21e93e | [Allow direct modifications to non-English translation files (#38218)](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) | 2026-09-01 |
+| 5650f8eb | [\[MM-69864\]\[MM-69870\] Edit existing attributes and persist Applies-to add/remove on Save (#38056)](https://github.com/mattermost/mattermost/commit/5650f8eb049fc9d79e0bed165b4b927a57bc043d) | 2026-09-01 |
+| 756f4e81 | [Remove the remaining string refs (#38237)](https://github.com/mattermost/mattermost/commit/756f4e8101b196ece7583f8e67efb4ad2282593c) | 2026-09-01 |
+| 2a64b828 | [Take react-bootstrap's lifecycle fix and stop shipping a second react-dom (#38240)](https://github.com/mattermost/mattermost/commit/2a64b8283d692233527619c5902ef78d150836df) | 2026-09-01 |
+| 6e36dad9 | [Stop react-transition-group from calling findDOMNode (#38236)](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) | 2026-09-01 |
+| 864d7a9b | [Make PerformanceReporterController and PermissionSystemSchemeSettings safe to remount (#38239)](https://github.com/mattermost/mattermost/commit/864d7a9b96948fe95ce17c78d18472352bb9f27d) | 2026-09-01 |
+| ff806bff | [Avoid blank DMs / 0-count GMs in LHS (#37930)](https://github.com/mattermost/mattermost/commit/ff806bffa8d208ca8bd8f2976634f6c7d200ced8) | 2026-09-01 |
+| a8dd85fe | [\[MM-69948\] Validate roles on team member role updates (#38186)](https://github.com/mattermost/mattermost/commit/a8dd85fe1c53d657c31f94a2179e085e6935f046) | 2026-09-01 |
 
 ## 제외된 커밋
 
@@ -757,6 +756,8 @@
 | 800810e8 | [\[MM-69028\] Enable ClassificationMarkings feature flag by default (#36776)](https://github.com/mattermost/mattermost/commit/800810e88080a0a46d39ed6993ff5b456b1a8d67) | 제외한 2b7b398a([MM-68102] Classification Markings 관리 콘솔 페이지, #35934)가 도입한 FeatureFlags.ClassificationMarkings의 기본값을 false→true로 뒤집는 후속 커밋이라 반영할 대상이 없음 — 우리 트리에 ClassificationMarkings 식별자가 server/·webapp/ 통틀어 0건이다. 뿌리는 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2로, 분류 표시 계보 2b7b398a·6083cc22(MM-68196 Global Classification 배너)·23b4d827(MM-68197 웹·데스크톱 배너)·e8632bd4([MM-68777] admin property field 권한)·16c8f9d6(MM-68955 온보딩 체크리스트 오프셋)를 모두 같은 사유로 제외했다. merge-tree CONFLICT 2건(feature_flags.go, feature_flags_test.go)도 이 제외의 결과다 — 우리 SetDefaults에는 f.ClassificationMarkings 줄이 없고 인접한 f.AutoTranslation도 우리는 false(upstream은 true)라 문맥이 어긋나며, 테스트 파일에는 TestFeatureFlagsSetDefaults 함수 자체가 없다. 강행하면 구조체에 없는 필드 대입으로 컴파일이 깨지고, adapt로 플래그만 심으면 그 값을 읽는 코드가 하나도 없어 죽은 필드가 된다. 분류 표시 기능이 필요해지면 2b7b398a 제외 사유에 적어둔 대로 property 시스템 v2 분할 반영(api4/properties.go, PropertyField.object_type, 마이그레이션 000160~000165)을 선행 과제로 두고 spec으로 여는 것이 맞다. |
 
 | 0d0dd16d | [Fix classification modal save state (#36693)](https://github.com/mattermost/mattermost/commit/0d0dd16d4053732bbc617b96d92974e7c903d68a) | 제외한 분류 표시(Classification Markings) 계보의 버그 수정이라 반영할 대상이 없음 — 우리 webapp/channels/src/components/channel_settings_modal/channel_settings_configuration_tab.tsx에 'classification' 문자열이 0건이다. 커밋이 옮기려는 useEffect도, 고치려는 hasClassificationChanges 조건식도, canManageClassification·classificationBanner·selectedClassificationId 심볼도 우리 파일에 없어 고칠 버그 자체가 존재하지 않는다. 신규 E2E 스펙 e2e-tests/playwright/specs/functional/channels/channel_classification/channel_classification.spec.ts는 디렉터리조차 없어 merge-tree가 modify/delete CONFLICT로 잡았고, 웹앱 파일 2건도 content CONFLICT다. 뿌리는 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2로, 계보 2b7b398a·6083cc22·23b4d827·e8632bd4·16c8f9d6·800810e8를 모두 같은 사유로 제외했다. 강행하면 존재하지 않는 심볼 참조로 타입 체크가 깨진다. 참고 — 이 커밋에는 분류 표시와 무관한 절반이 섞여 있다: E2E 헬퍼 setChannelBannerTextColor→setChannelBannerBackgroundColor 이름 정정(lib/src/ui/components/channels/channel_settings/configuration_settings.ts 1줄 + channel_banner.spec.ts 호출부 6줄)으로, 메서드가 실제로는 #channel_banner_banner_background_color_picker 셀렉터를 채우므로 정당한 정정이다. 이 부분은 반영하지 않았다 — 우리 Playwright 채널 스펙은 post_textbox testid 부재로 현재 전부 실패해 실익이 없고, adapt로 취하면 원본 제목 'Fix classification modal save state'와 Upstream 참조가 붙어 분류 버그를 고친 것으로 기록이 왜곡된다. 새 이름을 쓰는 upstream E2E 커밋을 나중에 가져올 때 그 자리에서 처리한다. |
+
+| 7c759e8a | [\[MM-69058\] Don't enable native channel banner when creating a classification banner (#36810)](https://github.com/mattermost/mattermost/commit/7c759e8ae4f24ea2a39614129220a8f41cf08918) | 제외한 분류 표시(Classification Markings) 계보의 후속 버그 수정이라 반영할 대상이 없음 — 우리 webapp/channels/src/components/new_channel_modal/new_channel_modal.tsx에 'classification'·'banner' 문자열이 0건이다. 이 커밋이 지우려는 banner_info: {enabled: true, text, background_color} 블록도, 그 조건인 classificationEnabled && selectedClassificationId && bannerText도 우리 파일에 없어 고칠 버그 자체가 존재하지 않는다. 해당 코드를 넣은 upstream 커밋이 이미 제외한 23b4d827(MM-68197 Show classification banners in web and desktop apps, #36490)이다. 뿌리는 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2로, 분류 표시 계보 2b7b398a(관리 콘솔)·6083cc22(전역 배너)·23b4d827(배너 노출)·e8632bd4(admin property field 권한)·16c8f9d6(온보딩 체크리스트 오프셋)·800810e8(플래그 기본 활성)·0d0dd16d(모달 저장 상태 수정)를 모두 같은 사유로 제외했고 이 커밋이 계보 8번째다. merge-tree CONFLICT도 텍스트 충돌이 아니라 삽입 지점 부재다 — 우리 파일 176행 부근은 upstream과 전혀 다른 ServerErrorId 분기 코드다. 규모는 1파일 +3/-1로 작지만 강행할 수 없다: 존재하지 않는 블록을 지우는 패치라 적용 자체가 불가능하고, adapt로 주석 3줄만 심으면 참조 대상 없는 죽은 주석이 남아 기록만 왜곡된다. 분류 표시를 제품에 도입하기로 하면 48f2fd08의 property 절반(api4/properties.go, PropertyField.ObjectType, PropertyGroup.Version, 마이그레이션 000160~000165) 분할 반영을 선행 과제로 두고 2b7b398a부터 순서대로 spec으로 여는 것이 맞으며, 그때 이 수정도 함께 따라온다. |
 
 ## spec 전환 커밋
 
