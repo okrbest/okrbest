@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| React 경고 props·refs·keys 정리 | [f6f27191](https://github.com/mattermost/mattermost/commit/f6f2719165ffb132e351342add570f3b1b6fd07a) (#38238) | Tag forwardRef·suggestion dispatch 제거·워크스페이스 key는 받았다. 채널 헤더 메뉴 `isReadonly` 제거 2파일은 우리가 먼저 지워 버렸다 — 아래 참조 |
 
 ---
 
@@ -1518,6 +1519,24 @@ master ruleset에 필수 상태 체크가 없어 job 이름 변경이 병합을 
 | `test_modal.tsx` 채널 선택 단계 | `handleChannelSelected`에서 `fetchUsers('', '')` → `fetchUsers(term, '', true)` | **버렸다** | `requireChannel`·채널 선택 단계는 우리 test_modal에 없다(채널 속성 계보) |
 
 되살릴 조건: 세션·네이티브 속성 계보를 도입해 `buildCELSchemas`가 생기면 upstream 테스트를 그대로 받고 우리 인라인 가드는 지운다.
+
+## React 경고 props·refs·keys 정리 — 채널 헤더 메뉴 hunk는 이미 같은 상태라 버렸다
+
+**upstream**: [`f6f27191`](https://github.com/mattermost/mattermost/commit/f6f2719165ffb132e351342add570f3b1b6fd07a)
+(Fix props, refs and keys that React was warning about, #38238) — 5파일 +15/-9, 2026-10-12 반영
+
+**받은 것.** `widgets/tag/tag.tsx` forwardRef(WithTooltip 위치 기준), `suggestion/suggestion.tsx`의 connect 주입 `dispatch` 제거,
+`add_workspace_dropdown.tsx`의 key·id를 `remote_id-name`으로(같은 remote_id 중복 key). 이 id를 참조하는 테스트·e2e 선택자는 없다.
+
+### 버린 것
+
+| 파일 | upstream 변경 | 버린 이유 |
+|---|---|---|
+| `channel_header_menu/channel_header_menu.tsx` (-3) | `const isReadonly = false;`와 `isReadonly={isReadonly}` prop 전달 삭제 | 우리 `b1914c9d66`(Slack식 채널 헤더 재구성)이 이미 지웠다(우리 트리 `isReadonly` 0건). 충돌은 그 근처 upstream 문맥(`getIsChannelBookmarksEnabled`·`isChannelAutotranslatedSelector`)이 우리와 달라 생긴 것이고 우리 파일을 그대로 두었다 |
+| `channel_header_menu/channel_header_menu_items/channel_header_public_private_menu.tsx` (-1) | Props의 `isReadonly: boolean;` 삭제 | 같은 이유로 우리 파일에 그 줄이 없어 병합 결과가 변화 없음 |
+
+검증: tag·suggestion·channel_header_menu·share_channel_with_workspaces·plugin_marketplace jest 43 suites 중 실패 2건은
+suggestion 기준선 실패(`at_mention_provider` '@h', `suggestion_box` reset selection)다.
 
 ## Email 로그인 버튼 색상 설정 제거 — docs를 버리고 ko 6키를 지웠다
 
