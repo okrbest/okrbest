@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-02 15:16
+- 갱신일: 2026-09-02 23:52
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 588개
+- 남은 커밋: 582개
 
-**마지막 반영 커밋:** `5c360d80` | [MM-68995: reject deactivated guests on REST magic-link login (#36746)](https://github.com/mattermost/mattermost/commit/5c360d8077ae994681253c852f7ceb6f7c130d01) | 2026-06-01
+**마지막 반영 커밋:** `ab31663f` | [MM-69010: Validate incoming webhook user membership (#36811)](https://github.com/mattermost/mattermost/commit/ab31663fce2c6faff4c051ae30e740e4af0dbc93) | 2026-06-02
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| a84032f4 | [MM-69053 Log server message when a user has concurrent React enabled (#36837)](https://github.com/mattermost/mattermost/commit/a84032f40a6ab1dadc344914a1ab92a2fb934577) | 2026-06-02 |
-| 19e7a2be | [Fix flaky TestCheckUsersEmojiIntegrity (#36756)](https://github.com/mattermost/mattermost/commit/19e7a2be283415958757eca10d65825d9e1f099f) | 2026-06-02 |
-| 6c401066 | [Deleted removed post from content flagging redux store (#36803)](https://github.com/mattermost/mattermost/commit/6c401066f73462d445d4f6e3571646320debb8a5) | 2026-06-02 |
-| 1b3dc637 | [\[MM-69078\] Surface plugin upload rejections as a toast (parity with download rejections) (#36838)](https://github.com/mattermost/mattermost/commit/1b3dc637845e65adf2ae0ea45212526d4914e58c) | 2026-06-02 |
-| 127552ce | [Add user setting to disable auto-follow on channel-wide mentions (#36068)](https://github.com/mattermost/mattermost/commit/127552ce84201f4e442f8b41aebf2e8d93c7910b) | 2026-06-02 |
-| 8e8b807a | [MM-68665: Implement FileBackendWithLinkGenerator for Azure (SAS for export downloads) (#36758)](https://github.com/mattermost/mattermost/commit/8e8b807a429115d27bf2d51e8761b10b67bdaf27) | 2026-06-02 |
-| 9d27c060 | [Restrict group_constrained to channels that support group sync (#36812)](https://github.com/mattermost/mattermost/commit/9d27c06085d27d236278e8e374f374e18aea97d6) | 2026-06-02 |
-| 6ef5d58b | [Board channel bookmarks with target_id and readonly bookmark API (#36572)](https://github.com/mattermost/mattermost/commit/6ef5d58b7f12950def5383e732415755859ed27b) | 2026-06-02 |
-| 1e0bdaf0 | [MM-69057: Verify post ownership on inbound shared-channel edit/delete (#36814)](https://github.com/mattermost/mattermost/commit/1e0bdaf068ef2af7294d0ae0eff9b10e06cbfbc5) | 2026-06-02 |
-| ab31663f | [MM-69010: Validate incoming webhook user membership (#36811)](https://github.com/mattermost/mattermost/commit/ab31663fce2c6faff4c051ae30e740e4af0dbc93) | 2026-06-02 |
 | 6dac3b9d | [Harden post action request verification (#36840)](https://github.com/mattermost/mattermost/commit/6dac3b9df47b00dcdd6b6481305a3092b043aed4) | 2026-06-03 |
 | 61643e10 | [MM-68952: Resolve public channel mentions for non-members under Compliance (#36815)](https://github.com/mattermost/mattermost/commit/61643e106605134bd88695f3cba206cd641169f0) | 2026-06-03 |
 | 50952dec | [\[MM-68648\] Implement GetForGroup to get fields in the Property System, add caching for fields (#36836)](https://github.com/mattermost/mattermost/commit/50952dec3ff880bc031cd47628ebdf98f3fe6898) | 2026-06-03 |
@@ -599,6 +589,10 @@
 | 864d7a9b | [Make PerformanceReporterController and PermissionSystemSchemeSettings safe to remount (#38239)](https://github.com/mattermost/mattermost/commit/864d7a9b96948fe95ce17c78d18472352bb9f27d) | 2026-09-01 |
 | ff806bff | [Avoid blank DMs / 0-count GMs in LHS (#37930)](https://github.com/mattermost/mattermost/commit/ff806bffa8d208ca8bd8f2976634f6c7d200ced8) | 2026-09-01 |
 | a8dd85fe | [\[MM-69948\] Validate roles on team member role updates (#38186)](https://github.com/mattermost/mattermost/commit/a8dd85fe1c53d657c31f94a2179e085e6935f046) | 2026-09-01 |
+| b6243db3 | [\[MM-70506\] Apply request body size limit to plugin requests (#38229)](https://github.com/mattermost/mattermost/commit/b6243db3d27e7a02e6b75b4c842aa329b873752e) | 2026-09-02 |
+| dc7f63b4 | [MM-70247: bump msgpack fork to cap byte-string allocation paths (#37980)](https://github.com/mattermost/mattermost/commit/dc7f63b4fc3cf7afcb9d9c03fadb478adcabb691) | 2026-09-02 |
+| cfab0366 | [ABAC: plugin policy self-inclusion and editor/test robustness (#37926)](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) | 2026-09-02 |
+| 235bddba | [Hand Cypress E2E deps to workers as a run-scoped artifact (#38253)](https://github.com/mattermost/mattermost/commit/235bddbae0c4c387c07b918f4bf59d0ebeb6001c) | 2026-09-02 |
 
 ## 제외된 커밋
 
