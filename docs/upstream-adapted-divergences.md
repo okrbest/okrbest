@@ -71,6 +71,7 @@
 | 이메일 알림 설정을 Notifications로 승격 | [dd83cc14](https://github.com/mattermost/mattermost/commit/dd83cc144d2e4bda6768a0ddbbdec3d3711f5138) (#38024) | 코드는 그대로, docs 2개는 버렸고 en 충돌은 우리 OKR.BEST 문구를 지켰다. ko 8키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리, 버린 docs 내용은 아래 참조 |
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
+| ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
 
 ---
 
@@ -1496,6 +1497,27 @@ master ruleset에 필수 상태 체크가 없어 job 이름 변경이 병합을 
 검증: 바뀐 컴포넌트와 MenuWrapper 사용처 jest 243 suites 중 실패 5개는 모두 이 커밋과 무관하다.
 `invite_members` 스냅숏 1건은 이 커밋의 `invite_members.tsx` 변경을 되돌려도 똑같이 실패한다(react-select 로딩 안내 렌더링, 기준선).
 나머지 4개(`user_utils`·`local_storage`·`markdown`·`admin_console_index`)는 이 커밋이 건드리지 않은 utils 테스트다.
+
+## ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 — 편집기 가드를 우리 형태에 이식했다
+
+**upstream**: [`cfab0366`](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9)
+(ABAC: plugin policy self-inclusion and editor/test robustness, #37926) — 13파일 +384/-90, 2026-10-12 반영
+
+**받은 것.** server 8파일 전부 — `enforceAccessControlPolicyWriteGuards` 추출(채널·팀·플러그인 정책 저장이 같은 가드를 씀),
+비 sysadmin 저장 시 self-inclusion 상시 검사, 플러그인 쿼리 빈 users 정규화, 신규 `plugin_access_control_save_test.go`.
+우리 빌드는 `ch.AccessControl`이 nil(비공개 PDP)이라 저장 경로가 비활성이다 — 코드 정합 목적. webapp `entry.tsx`의 ResizeObserver 경고 무시 확장,
+`test_modal.tsx`의 `result.data.users ?? []`와 그 테스트도 받았다.
+
+### 바꾼 것과 버린 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `server/channels/app/plugin_access_control_gob_test.go` import | (upstream 파일엔 이미 있음) | `einterfaces/mocks` import 1줄 **추가** | 우리가 `b6f879d2e6` adapt에서 mocks를 쓰지 않는 형태로 받아 import가 없었다. 새 테스트가 `mocks`를 써서 컴파일이 깨졌다 |
+| `cel_editor/editor.tsx` 스키마 | `buildCELSchemas()` 안의 `cleanNames`에 `typeof name === 'string'` 가드, `CELUserAttribute.attribute?: string \| null` | **같은 가드를 우리 인라인 `schemas` 필터(`map(attr => attr.attribute).filter(...)`)에 이식**, Props `userAttributes[].attribute`를 `string \| null` 선택 필드로 | 우리 편집기에는 `buildCELSchemas`가 없다 — 그 함수는 제외한 세션 속성(684ddb32)·네이티브 속성(84a554b2) 계보에서 생겼다. 크래시 지점(`attr.includes`)은 우리에게도 있었다 |
+| `cel_editor/editor.test.tsx` | `buildCELSchemas` 단위 테스트 1개(null/undefined 이름 건너뜀, `objectType`·`isNative` 필드 사용) | **버렸다.** 대신 null·undefined 이름 행으로 `CELEditor`를 렌더해 'Valid'까지 가는 우리 테스트 1개를 새로 썼다(수정 전 `TypeError: Cannot read properties of null (reading 'includes')`로 실패 확인) | 대상 함수가 없고 `objectType`·`isNative`도 우리 타입에 없다 |
+| `test_modal.tsx` 채널 선택 단계 | `handleChannelSelected`에서 `fetchUsers('', '')` → `fetchUsers(term, '', true)` | **버렸다** | `requireChannel`·채널 선택 단계는 우리 test_modal에 없다(채널 속성 계보) |
+
+되살릴 조건: 세션·네이티브 속성 계보를 도입해 `buildCELSchemas`가 생기면 upstream 테스트를 그대로 받고 우리 인라인 가드는 지운다.
 
 ## Email 로그인 버튼 색상 설정 제거 — docs를 버리고 ko 6키를 지웠다
 
