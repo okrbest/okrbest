@@ -156,4 +156,23 @@ describe('CELEditor', () => {
         });
         expect(screen.getByText('Access Rule Test Results')).toBeInTheDocument();
     });
+
+    test('should render when plugin-provided attributes have null or missing names', async () => {
+        // Plugins reach the editor through window.Components and may pass incomplete
+        // PropertyField proxy rows that never went through toCELEditorAttributes.
+        renderWithContext(
+            <CELEditor
+                {...baseProps}
+                actions={{checkExpression: jest.fn().mockResolvedValue([])}}
+                userAttributes={[
+                    {attribute: null, values: []},
+                    {attribute: undefined, values: []},
+                    {attribute: 'department', values: ['Engineering']},
+                ]}
+            />,
+            {},
+        );
+
+        expect(await screen.findByText('Valid')).toBeInTheDocument();
+    });
 });

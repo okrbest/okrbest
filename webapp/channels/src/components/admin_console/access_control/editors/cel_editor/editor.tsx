@@ -89,7 +89,9 @@ export interface CELEditorProps {
     teamId?: string;
     disabled?: boolean;
     userAttributes: Array<{
-        attribute: string;
+
+        // Plugins may pass incomplete proxy rows through window.Components.
+        attribute?: string | null;
         values: string[];
     }>;
 
@@ -145,7 +147,9 @@ function CELEditor({
         user: ['attributes'],
         'user.attributes': userAttributes.
             map((attr) => attr.attribute).
-            filter((attr) => !attr.includes(' ') && attr.trim() !== ''),
+
+            // Skip null/undefined/invalid names; name.includes would throw during render.
+            filter((name): name is string => typeof name === 'string' && !name.includes(' ') && name.trim() !== ''),
     };
 
     const injectedCheckExpression = actions?.checkExpression;
