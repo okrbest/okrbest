@@ -1846,6 +1846,5 @@ func TestBoardChannelBookmarkAPIReadonly(t *testing.T) {
 		require.NotNil(t, found)
 		require.Equal(t, model.ChannelBookmarkBoard, found.Type)
 		require.Equal(t, boardTargetID, found.TargetId)
-
 	})
 }
