@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-03 17:00
+- 갱신일: 2026-09-03 21:08
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 577개
+- 남은 커밋: 576개
 
-**마지막 반영 커밋:** `3fc5b942` | [\[MM-69115\] Fixed issue where channels could end up in two categories (#36875)](https://github.com/mattermost/mattermost/commit/3fc5b942927dede596ead4ebfec4f40085365f4b) | 2026-06-04
+**마지막 반영 커밋:** `3440453d` | [\[MM-68425\] Update marked (#36710)](https://github.com/mattermost/mattermost/commit/3440453d82613b1d8d67c93011c11d56a1380869) | 2026-06-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 3af36e0a | [ci: scope GitHub Actions workflows (#36890)](https://github.com/mattermost/mattermost/commit/3af36e0a499b35a823ae39a715d4a1a72017bf4d) | 2026-06-04 |
-| 4245b697 | [Pass explicit secrets to reusable server CI workflows (#36896)](https://github.com/mattermost/mattermost/commit/4245b69744ac33fbbb860fb2140e129e1489e352) | 2026-06-04 |
-| 56015e8b | [ci: use variables in shell for workflows (#36904)](https://github.com/mattermost/mattermost/commit/56015e8b87711ad43ccf1faf3b23bcdf1a1c48e0) | 2026-06-04 |
-| b4fcb472 | [Remove agent-browser skill and lockfile (#36930)](https://github.com/mattermost/mattermost/commit/b4fcb4720124074b360c0dca1239263a63298e50) | 2026-06-04 |
-| 3440453d | [\[MM-68425\] Update marked (#36710)](https://github.com/mattermost/mattermost/commit/3440453d82613b1d8d67c93011c11d56a1380869) | 2026-06-04 |
 | 1fc2824e | [chore(webapp): remove orphaned @types/react-custom-scrollbars (#36818)](https://github.com/mattermost/mattermost/commit/1fc2824e58d547165dd0bbcf1a88c9fee9edf543) | 2026-06-05 |
 | 01892e9d | [MM-69132 Migrate DynamicVirtualizedList to TypeScript (#36923)](https://github.com/mattermost/mattermost/commit/01892e9d06035f14895769138c745f4c05cca5de) | 2026-06-05 |
 | b5ee857a | [MM-67616: Load synced remote member profiles so participant list refreshes (#36861)](https://github.com/mattermost/mattermost/commit/b5ee857af81befcbe348c88bd9be70b7812ab455) | 2026-06-05 |
@@ -588,6 +583,10 @@
 | 9939a55a | [MM-69706: remove the ChannelBookmarks feature flag compatibility shim (#38291)](https://github.com/mattermost/mattermost/commit/9939a55ac2c22e9a62465c8f772fabb9f2e8e61d) | 2026-09-02 |
 | d81b68fa | [E2E/Cypress: fix flaky emoji picker reaction helper (#38225)](https://github.com/mattermost/mattermost/commit/d81b68faa574ddd714d7c43bfa17417068c11639) | 2026-09-03 |
 | d348eab9 | [\[Docs Revamp Feedback\] Restructure the Deployment Guide, and fix sidebar placement, labels, and ordering (#38217)](https://github.com/mattermost/mattermost/commit/d348eab976a083bd077346a219d803d46c0bb8c3) | 2026-09-03 |
+| c0ee2b2e | [MM-70215: Adjust status response serialization (#37916)](https://github.com/mattermost/mattermost/commit/c0ee2b2e25912fbfde78bb9fd4b9540f3afd08b5) | 2026-09-03 |
+| 10edb2d2 | [chore: extract install-<tool> Makefile targets (#38284)](https://github.com/mattermost/mattermost/commit/10edb2d29a810827253abee2cec7eaa7a8745268) | 2026-09-03 |
+| e34eceaa | [MM-69994: Fix user endpoint request handling (#37699)](https://github.com/mattermost/mattermost/commit/e34eceaa3432e42b7495a350b503b23014626348) | 2026-09-03 |
+| e379ae17 | [fix(docs): apply Algolia searchParameters on the full search page (#38308)](https://github.com/mattermost/mattermost/commit/e379ae1710f66195346cea85e1dbd92b55b93e56) | 2026-09-03 |
 
 ## 제외된 커밋
 
@@ -749,6 +748,8 @@
 | 7c759e8a | [\[MM-69058\] Don't enable native channel banner when creating a classification banner (#36810)](https://github.com/mattermost/mattermost/commit/7c759e8ae4f24ea2a39614129220a8f41cf08918) | 제외한 분류 표시(Classification Markings) 계보의 후속 버그 수정이라 반영할 대상이 없음 — 우리 webapp/channels/src/components/new_channel_modal/new_channel_modal.tsx에 'classification'·'banner' 문자열이 0건이다. 이 커밋이 지우려는 banner_info: {enabled: true, text, background_color} 블록도, 그 조건인 classificationEnabled && selectedClassificationId && bannerText도 우리 파일에 없어 고칠 버그 자체가 존재하지 않는다. 해당 코드를 넣은 upstream 커밋이 이미 제외한 23b4d827(MM-68197 Show classification banners in web and desktop apps, #36490)이다. 뿌리는 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2로, 분류 표시 계보 2b7b398a(관리 콘솔)·6083cc22(전역 배너)·23b4d827(배너 노출)·e8632bd4(admin property field 권한)·16c8f9d6(온보딩 체크리스트 오프셋)·800810e8(플래그 기본 활성)·0d0dd16d(모달 저장 상태 수정)를 모두 같은 사유로 제외했고 이 커밋이 계보 8번째다. merge-tree CONFLICT도 텍스트 충돌이 아니라 삽입 지점 부재다 — 우리 파일 176행 부근은 upstream과 전혀 다른 ServerErrorId 분기 코드다. 규모는 1파일 +3/-1로 작지만 강행할 수 없다: 존재하지 않는 블록을 지우는 패치라 적용 자체가 불가능하고, adapt로 주석 3줄만 심으면 참조 대상 없는 죽은 주석이 남아 기록만 왜곡된다. 분류 표시를 제품에 도입하기로 하면 48f2fd08의 property 절반(api4/properties.go, PropertyField.ObjectType, PropertyGroup.Version, 마이그레이션 000160~000165) 분할 반영을 선행 과제로 두고 2b7b398a부터 순서대로 spec으로 여는 것이 맞으며, 그때 이 수정도 함께 따라온다. |
 
 | 50952dec | [\[MM-68648\] Implement GetForGroup to get fields in the Property System, add caching for fields (#36836)](https://github.com/mattermost/mattermost/commit/50952dec3ff880bc031cd47628ebdf98f3fe6898) | 기술적으로 반영 가능하나 호출자가 없어 시기가 이르다 — 앞선 48f2fd08 계보 제외들(3fa87760·7627784a·9c684e63 등)과 성격이 다름을 명시해 둔다. GetForGroup 자체는 우리 스키마에서 동작한다(s.tableSelectQuery의 우리 10컬럼만 쓰고 GroupID/DeleteAt만 걸러, 제외한 마이그레이션 000160/000161/000165의 ObjectType·Protected·Permission* 컬럼을 건드리지 않음). 문제는 (1) 소비자 부재 — upstream 전체에서 GetForGroup을 호출하는 곳은 server/channels/app/session_attributes.go의 getSessionAttributeFieldsByName 하나뿐인데 그 함수는 이 커밋에 없고 이후 세션 어트리뷰트 리팩터 소산이라, 이 커밋만 반영하면 호출자 0인 인프라와 아무도 안 부르는 메서드를 캐싱하는 localcache 레이어가 들어온다. (2) 테스트 246줄이 이식 불가 — app/property_field_test.go(76줄)는 model.PropertyFieldObjectTypeUser(우리 모델에 ObjectType 0건), CreatePropertyField 4인자(우리 2인자), UpdatePropertyField 3반환값(우리 2), DeletePropertyField 5인자(우리 3), registerTestPropertyGroup 헬퍼(부재)에 의존하고, localcachelayer/main_test.go와 property_field_layer.go는 Update의 expectedUpdateAts 3인자 시그니처와 Linked Properties의 링크 필드 전파 동작을 전제한다 — 포팅이 아니라 재작성이라 검증할 동작이 없는 코드에 지어낸 테스트를 붙이게 된다(원칙 I·III 위배). (3) 인터페이스 divergence — 우리 PropertyFieldStore에는 읽기 메서드의 ctx, CountForGroupObjectType, CountLinkedFields, Update의 expectedUpdateAts, CheckPropertyNameConflict가 전부 없다(48f2fd08 계보 소산). (4) 보호 경로 server/enterprise/metrics/metrics.go 접촉(클러스터 이벤트 등록 1줄)으로 PR 즉시 merge가 거부될 수 있다. 재검토 트리거 — session_attributes.go에 getSessionAttributeFieldsByName을 도입하는 upstream 커밋이 오면 이 커밋과 묶어 함께 반영한다. 그때는 실제 호출자가 있어 검증 가능한 동작이 생기고 테스트도 upstream 것을 쓸 수 있다. 반영 시 GetForGroup은 ctx를 받는 upstream 시그니처를 유지해야 한다(request.CTX가 context.Context를 만족하므로 upstream 호출부와 그대로 맞는다). |
+
+| b4fcb472 | [Remove agent-browser skill and lockfile (#36930)](https://github.com/mattermost/mattermost/commit/b4fcb4720124074b360c0dca1239263a63298e50) | 이 커밋이 건드리는 16개 파일이 우리 트리에 하나도 없어 반영할 실체가 없음 — agent-browser 스킬 문서 11개(.agents/skills/agent-browser/, 2148줄), .cursor/Dockerfile·README.md·cursor.md·scripts/cloud-agent-install.sh, skills-lock.json 전부 부재. 우리가 지운 것이 아니라 애초에 들어온 적이 없다: git log HEAD -- <경로>가 빈 결과이고, 이 스킬을 추가한 upstream 커밋 ac9d99bdd4(Add agent-browser skill and update cloud agent docs, #35534)가 아직 미반영 목록에 남아 있다. 추가를 받지 않았으므로 삭제도 받을 것이 없다. merge-tree CONFLICT 4건(.cursor/Dockerfile, README.md, cursor.md, scripts/cloud-agent-install.sh)은 전부 modify/delete로, 우리에게 없는 파일을 upstream이 '수정'하기 때문에 발생한다 — 강행하면 제거 커밋이 추가 커밋으로 뒤집혀 우리가 쓰지 않는 Cursor 클라우드 에이전트 구성 파일 4개가 새로 생긴다. 우리 .agents/.cursor는 내용물이 완전히 달라 ui-styling·ui-ux-pro-max 스킬과 okrbest-workflow.mdc 등 자체 규칙·계획 문서만 들어 있고 upstream의 Cursor 클라우드 에이전트 구성과 무관하다. 선행 커밋 ac9d99bdd4를 반영하게 되면 이 삭제 커밋도 함께 재검토 대상이나, upstream 스스로 obsolete 판정한 스킬이라 그럴 이유가 없다. |
 
 ## spec 전환 커밋
 
