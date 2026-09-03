@@ -49,7 +49,9 @@ webapp/channels/src/utils/constants.tsx   ← 건드리지 않는다
 
 **여기서 잠복 버그도 잡힌다** — 메시지 수정으로 같은 자리의 첨부가 교체되면 이전 파일의 배율이 새 파일에 남는 문제([research.md](./research.md) 사실 6)
 
-- [ ] T003 실패 테스트를 먼저 쓴다 — `webapp/channels/src/components/file_preview_modal/file_preview_modal.test.tsx`에 (a) `getFileIdentity`가 파일 id에는 `id:` 접두사를, 외부 링크에는 `link:` 접두사를 붙이는지, (b) 파일 **개수가 같은데 내용만 바뀐 교체**에서 그 자리만 배율·맞춤 배율·이동 위치가 초기화되고 다른 자리는 유지되는지, (c) 목록이 길어질 때 새 자리가 기본값으로 채워지는지 확인하는 테스트를 추가한다. **실행해 실패 출력을 기록한다**
+- [ ] T003 실패 테스트를 먼저 쓴다 — `webapp/channels/src/components/file_preview_modal/file_preview_modal.test.tsx`에 (a) `getFileIdentity`가 파일 id에는 `id:` 접두사를, 외부 링크에는 `link:` 접두사를 붙이는지, (b) 파일 **개수가 같은데 내용만 바뀐 교체**에서 그 자리만 배율·맞춤 배율·이동 위치가 초기화되고 다른 자리는 유지되는지, (c) 목록이 길어질 때 새 자리가 기본값으로 채워지는지, (d) **`showZoomControls`가 이미지·SVG·PDF에서 참이고 그 외 형식에서 거짓인지** 확인하는 테스트를 추가한다. **실행해 실패 출력을 기록한다**
+
+> (d)를 여기 두는 이유: 노출 판단이 T006이 고치는 바로 그 `getDerivedStateFromProps` 안(`file_preview_modal.tsx:142-147`)에 있다. 기준선 42개 테스트에 이 검증이 없어(실물 확인) 깨져도 조용히 지나간다 (FR-022)
 - [ ] T004 `getFileIdentity` 정적 도우미를 `webapp/channels/src/components/file_preview_modal/file_preview_modal.tsx`에 구현한다 — 파일 id가 있으면 `id:<id>`, 없으면 `link:<link>`. 접두사로 두 종류를 갈라 우연한 문자열 일치를 막는다 ([contracts/component-contracts.md](./contracts/component-contracts.md))
 - [ ] T005 `State`에 `panOffset: Record<number, {x: number; y: number}>`와 `fileIdentities: string[]`를 더하고 생성자에서 초기화한다 — `webapp/channels/src/components/file_preview_modal/file_preview_modal.tsx` ([data-model.md](./data-model.md))
 - [ ] T006 `getDerivedStateFromProps`의 초기화 조건을 파일 개수 비교에서 **자리별 식별자 비교**로 바꾼다 — `webapp/channels/src/components/file_preview_modal/file_preview_modal.tsx:151`의 `props.fileInfos.length !== state.prevFileInfosCount` 분기. 달라진 자리만 초기화하고 같은 자리는 그대로 둔다 (FR-018). T003이 실패에서 통과로 바뀌는지 확인한다
@@ -69,7 +71,9 @@ webapp/channels/src/utils/constants.tsx   ← 건드리지 않는다
 > 구현 전에 써서 **실패하는 것을 먼저 확인한다** (constitution 원칙 III)
 
 - [ ] T007 [P] [US1] 끌기 입력 테스트를 `webapp/channels/src/components/file_preview_modal/image_preview.test.tsx`에 추가한다 — (a) 맞춤 배율에서 `mousedown` 시 이동이 시작되지 않고 확대 상태에서는 시작하는지 (FR-002), (b) 오른쪽·가운데 버튼으로는 시작되지 않는지 (FR-003), (c) 5px 넘게 움직인 뒤의 `click`이 `onBackgroundClick`을 부르지 않고 2px만 움직이면 부르는지 (FR-005). **실패 출력을 기록한다**
-- [ ] T008 [P] [US1] 이동 위치 상태 테스트를 `webapp/channels/src/components/file_preview_modal/file_preview_modal.test.tsx`에 추가한다 — (a) 파일 A를 이동해 두고 B로 갔다 돌아오면 A의 위치가 복원되는지 (FR-017), (b) 리셋이 배율을 맞춤 배율로, 이동 위치를 `{0,0}`으로 되돌리는지 (FR-016, FR-020), (c) 배율을 줄여 이미지가 화면에 다 들어오면 이동 위치가 `{0,0}`으로 잘리는지 ([data-model.md](./data-model.md) 불변 조건 2·3). **실패 출력을 기록한다**
+- [ ] T008 [P] [US1] 이동 위치 상태 테스트를 `webapp/channels/src/components/file_preview_modal/file_preview_modal.test.tsx`에 추가한다 — (a) 파일 A를 이동해 두고 B로 갔다 돌아오면 A의 위치가 복원되는지 (FR-017), (b) 리셋이 배율을 맞춤 배율로, 이동 위치를 `{0,0}`으로 되돌리는지 (FR-016, FR-020), (c) 배율을 줄여 이미지가 화면에 다 들어오면 이동 위치가 `{0,0}`으로 잘리는지 ([data-model.md](./data-model.md) 불변 조건 2·3), (d) **컨테이너보다 큰 이미지가 로드되면 `onAutoScale`이 맞춤 배율로 불리고, 컨테이너보다 작은 이미지에서는 기준 배율이 유지되는지** (FR-019). **실패 출력을 기록한다**
+
+> (d)를 더하는 이유: 맞춤 배율 자동 축소는 upstream에 없는 우리 고유 동작인데 기준선 42개 테스트에 `fitScale`·`onAutoScale` 언급이 **0건**이다(실물 확인). "실패 0건 유지"를 통과해도 이 동작이 깨진 채 지나갈 수 있다
 
 ### Implementation for User Story 1
 
@@ -97,9 +101,9 @@ webapp/channels/src/utils/constants.tsx   ← 건드리지 않는다
 
 ### Implementation for User Story 2
 
-- [ ] T017 [US2] 휠 배율·이동 위치 계산을 `webapp/channels/src/components/file_preview_modal/file_preview_modal.tsx`에 구현한다 — 배율 변화 폭을 `deltaY` 세기에 비례시키고, 새 이동 위치를 결정 2의 식으로 구한다. **DOM을 되읽지 않는다** — `scaledSize = baseSize × ratio`로 이미 알고 있으므로 `scrollWidth`·`getBoundingClientRect`를 크기 변경 뒤에 읽지 않는다. 되읽으면 강제 동기 레이아웃이 걸려 SC-006이 깨진다
+- [ ] T017 [US2] 휠 배율·이동 위치 계산을 `webapp/channels/src/components/file_preview_modal/file_preview_modal.tsx`에 구현한다 — 배율 변화 폭을 `deltaY` 세기에 비례시키고(`deltaY`가 0이면 즉시 반환해 아무것도 바꾸지 않는다 — FR-011), 새 이동 위치를 결정 2의 식으로 구한다. `oldScroll`은 `state.panOffset[imageIndex]`에서 가져온다. **DOM을 되읽지 않는다** — `scaledSize = baseSize × ratio`로 이미 알고 있으므로 `scrollWidth`·`getBoundingClientRect`를 크기 변경 뒤에 읽지 않는다. 되읽으면 강제 동기 레이아웃이 걸려 SC-006이 깨진다
 - [ ] T018 [US2] 비수동 휠 리스너를 `webapp/channels/src/components/file_preview_modal/image_preview.tsx`에 단다 — 리액트 합성 이벤트의 휠은 기본이 수동(passive)이라 `preventDefault()`가 듣지 않는다. ref로 `addEventListener('wheel', handler, {passive: false})`를 걸고 정리 함수에서 떼어 낸다. 커서 위치와 컨테이너 크기를 `onWheelZoom`으로 부모에 넘긴다 (FR-010, [contracts/component-contracts.md](./contracts/component-contracts.md))
-- [ ] T019 [US2] 연속 입력을 rAF로 묶는다 — `webapp/channels/src/components/file_preview_modal/image_preview.tsx`에서 한 프레임에 한 번만 반영해 휠을 빠르게 굴려도 끊기지 않게 한다 (SC-006). T015·T016이 통과로 바뀌는지 확인한다
+- [ ] T019 [US2] 연속 입력을 rAF로 묶는다 — 묶는 자리는 **입력을 감지하는 자식 쪽**(`webapp/channels/src/components/file_preview_modal/image_preview.tsx`)이다. 휠 이벤트가 여러 번 들어와도 `deltaY`를 누적해 두었다가 **한 프레임에 `onWheelZoom`을 1회만** 부른다. 계산은 부모(T017)가 하므로 자식이 호출을 늦추기만 하면 부모의 상태 갱신도 프레임당 1회로 줄어든다 (SC-006). T015·T016이 통과로 바뀌는지 확인한다
 
 **Checkpoint**: US1과 US2가 각각 독립적으로 동작한다
 
@@ -117,7 +121,9 @@ webapp/channels/src/utils/constants.tsx   ← 건드리지 않는다
 
 ### Implementation for User Story 3
 
-- [ ] T021 [US3] `keydown` 처리기를 `webapp/channels/src/components/file_preview_modal/file_preview_modal.tsx`에 구현한다 — 모달이 열려 있는 동안 문서 수준에서 듣고, 세 조건(파일 형식이 이미지·SVG가 아님 / 조합키 눌림 / 입력 칸 포커스)에서 무시한다. 처리한 입력은 `preventDefault()`한다. 컴포넌트가 사라질 때 리스너를 떼어 낸다 ([contracts/component-contracts.md](./contracts/component-contracts.md) 키보드 계약)
+- [ ] T021 [US3] `keydown` 처리기를 `webapp/channels/src/components/file_preview_modal/file_preview_modal.tsx`에 구현한다 — 모달이 열려 있는 동안 문서 수준에서 듣고, 세 조건(파일 형식이 이미지·SVG가 아님 / 조합키 눌림 / 입력 칸 포커스)에서 무시한다. 처리한 입력은 `preventDefault()`한다 ([contracts/component-contracts.md](./contracts/component-contracts.md) 키보드 계약)
+
+> **기존 처리기와 공존한다 — 합치지 않는다.** `file_preview_modal.tsx:120-135`에 이미 `handleKeyPress`가 `document`의 **`keyup`**에 걸려 있다(LEFT/RIGHT 파일 이동). 확대는 **`keydown`**이어야 한다 — `keyup`에서 `preventDefault()`를 불러도 이미 입력된 글자를 되돌리지 못하고, upstream도 `keydown`을 쓴다. 두 리스너를 **별도로 두되 등록·해제를 기존 것과 같은 자리**(`componentDidMount`/`componentWillUnmount`)에 붙여 생명주기를 어긋나게 하지 않는다. 기존 `handleKeyPress`의 동작과 이벤트 종류는 손대지 않는다
 
 > **주의**: 이미지와 PDF가 `state.scale`을 공유하고 `handleZoomIn`/`Out`/`Reset`이 파일 형식을 가리지 않는다. 파일 형식 조건을 빼면 PDF에서도 그냥 동작해 명세의 범위 밖 선을 넘는다 ([research.md](./research.md) 사실 4)
 
@@ -139,7 +145,7 @@ webapp/channels/src/utils/constants.tsx   ← 건드리지 않는다
 
 - [ ] T025 품질 게이트 — `cd webapp/channels && npm run test -- src/components/file_preview_modal`, `cd webapp && npm run check`, `cd webapp && npm run check-types`를 돌리고 **출력을 제시한다**. 실패 목록을 구현 전 기준선([baseline-tests.txt](./baseline-tests.txt))과 **diff로 비교**한다. 기준선이 깨끗하므로 판정은 "실패 0건 유지"다. 개수 비교로 대신하지 않는다
 - [ ] T026 종단 검증 — 앱을 띄우고 [quickstart.md](./quickstart.md)의 실주행 시나리오 1~7을 **실제 브라우저에서** 훑어 시나리오별 통과·실패를 기록한다. 특히 시나리오 1-5(끌고 배경에서 떼기)와 시나리오 5(첨부 교체)를 빠뜨리지 않는다. 환경이 없어 못 돌리면 `미실행`으로 적는다
-- [ ] T027 SC 검증 — [spec.md](./spec.md)의 SC-001~SC-007 각각을 **실측값**으로 확인한다 (추정 금지). 특히 SC-002(커서 기준점이 이미지 짧은 변의 2% 이내)와 SC-005(파일별 복원 100%)는 숫자를 적는다. SC-007(처음 보는 사용자 90% 성공)은 이번 범위에서 측정할 수 없으면 `미측정`으로 적는다
+- [ ] T027 SC 검증 — [spec.md](./spec.md)의 SC-001~SC-006 각각을 **실측값**으로 확인한다 (추정 금지). 숫자를 적을 것: SC-002(커서 기준점이 이미지 짧은 변의 2% 이내), SC-005(파일별 복원 100%), SC-006(프레임 시간 50ms 초과 0회 — 성능 기록 첨부). OBS-001은 출시 후 관찰 항목이라 이번 판정에서 제외한다
 
 ---
 
