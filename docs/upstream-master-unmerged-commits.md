@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-02 23:52
+- 갱신일: 2026-09-03 10:58
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 582개
+- 남은 커밋: 580개
 
-**마지막 반영 커밋:** `ab31663f` | [MM-69010: Validate incoming webhook user membership (#36811)](https://github.com/mattermost/mattermost/commit/ab31663fce2c6faff4c051ae30e740e4af0dbc93) | 2026-06-02
+**마지막 반영 커밋:** `fb8cfbae` | [Fix flaky TestSharedChannelPostMetadataSync (#36862)](https://github.com/mattermost/mattermost/commit/fb8cfbaef7617f8a4dd427a601cb34f2e36d7a4c) | 2026-06-03
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 6dac3b9d | [Harden post action request verification (#36840)](https://github.com/mattermost/mattermost/commit/6dac3b9df47b00dcdd6b6481305a3092b043aed4) | 2026-06-03 |
-| 61643e10 | [MM-68952: Resolve public channel mentions for non-members under Compliance (#36815)](https://github.com/mattermost/mattermost/commit/61643e106605134bd88695f3cba206cd641169f0) | 2026-06-03 |
-| 50952dec | [\[MM-68648\] Implement GetForGroup to get fields in the Property System, add caching for fields (#36836)](https://github.com/mattermost/mattermost/commit/50952dec3ff880bc031cd47628ebdf98f3fe6898) | 2026-06-03 |
-| fb8cfbae | [Fix flaky TestSharedChannelPostMetadataSync (#36862)](https://github.com/mattermost/mattermost/commit/fb8cfbaef7617f8a4dd427a601cb34f2e36d7a4c) | 2026-06-03 |
 | 563e1a95 | [ci: standardize checkout action inputs across workflows (#36876)](https://github.com/mattermost/mattermost/commit/563e1a951da9dfb0aab9a1e91bfb2d532a471999) | 2026-06-04 |
 | aa03fae7 | [\[MM-69026\] Add zoom and pan to the image file preview (#36775)](https://github.com/mattermost/mattermost/commit/aa03fae744f73030357531df853f5c2eef75b852) | 2026-06-04 |
 | 85dae1b8 | [MM-68417, MM-68420: API support for PAT expiry and admin policy settings (#36706)](https://github.com/mattermost/mattermost/commit/85dae1b8841cf7f64334937f5399c49e390c6b6e) | 2026-06-04 |
@@ -593,6 +589,8 @@
 | dc7f63b4 | [MM-70247: bump msgpack fork to cap byte-string allocation paths (#37980)](https://github.com/mattermost/mattermost/commit/dc7f63b4fc3cf7afcb9d9c03fadb478adcabb691) | 2026-09-02 |
 | cfab0366 | [ABAC: plugin policy self-inclusion and editor/test robustness (#37926)](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) | 2026-09-02 |
 | 235bddba | [Hand Cypress E2E deps to workers as a run-scoped artifact (#38253)](https://github.com/mattermost/mattermost/commit/235bddbae0c4c387c07b918f4bf59d0ebeb6001c) | 2026-09-02 |
+| f6f27191 | [Fix props, refs and keys that React was warning about (#38238)](https://github.com/mattermost/mattermost/commit/f6f2719165ffb132e351342add570f3b1b6fd07a) | 2026-09-02 |
+| 9939a55a | [MM-69706: remove the ChannelBookmarks feature flag compatibility shim (#38291)](https://github.com/mattermost/mattermost/commit/9939a55ac2c22e9a62465c8f772fabb9f2e8e61d) | 2026-09-02 |
 
 ## 제외된 커밋
 
@@ -752,6 +750,8 @@
 | 0d0dd16d | [Fix classification modal save state (#36693)](https://github.com/mattermost/mattermost/commit/0d0dd16d4053732bbc617b96d92974e7c903d68a) | 제외한 분류 표시(Classification Markings) 계보의 버그 수정이라 반영할 대상이 없음 — 우리 webapp/channels/src/components/channel_settings_modal/channel_settings_configuration_tab.tsx에 'classification' 문자열이 0건이다. 커밋이 옮기려는 useEffect도, 고치려는 hasClassificationChanges 조건식도, canManageClassification·classificationBanner·selectedClassificationId 심볼도 우리 파일에 없어 고칠 버그 자체가 존재하지 않는다. 신규 E2E 스펙 e2e-tests/playwright/specs/functional/channels/channel_classification/channel_classification.spec.ts는 디렉터리조차 없어 merge-tree가 modify/delete CONFLICT로 잡았고, 웹앱 파일 2건도 content CONFLICT다. 뿌리는 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2로, 계보 2b7b398a·6083cc22·23b4d827·e8632bd4·16c8f9d6·800810e8를 모두 같은 사유로 제외했다. 강행하면 존재하지 않는 심볼 참조로 타입 체크가 깨진다. 참고 — 이 커밋에는 분류 표시와 무관한 절반이 섞여 있다: E2E 헬퍼 setChannelBannerTextColor→setChannelBannerBackgroundColor 이름 정정(lib/src/ui/components/channels/channel_settings/configuration_settings.ts 1줄 + channel_banner.spec.ts 호출부 6줄)으로, 메서드가 실제로는 #channel_banner_banner_background_color_picker 셀렉터를 채우므로 정당한 정정이다. 이 부분은 반영하지 않았다 — 우리 Playwright 채널 스펙은 post_textbox testid 부재로 현재 전부 실패해 실익이 없고, adapt로 취하면 원본 제목 'Fix classification modal save state'와 Upstream 참조가 붙어 분류 버그를 고친 것으로 기록이 왜곡된다. 새 이름을 쓰는 upstream E2E 커밋을 나중에 가져올 때 그 자리에서 처리한다. |
 
 | 7c759e8a | [\[MM-69058\] Don't enable native channel banner when creating a classification banner (#36810)](https://github.com/mattermost/mattermost/commit/7c759e8ae4f24ea2a39614129220a8f41cf08918) | 제외한 분류 표시(Classification Markings) 계보의 후속 버그 수정이라 반영할 대상이 없음 — 우리 webapp/channels/src/components/new_channel_modal/new_channel_modal.tsx에 'classification'·'banner' 문자열이 0건이다. 이 커밋이 지우려는 banner_info: {enabled: true, text, background_color} 블록도, 그 조건인 classificationEnabled && selectedClassificationId && bannerText도 우리 파일에 없어 고칠 버그 자체가 존재하지 않는다. 해당 코드를 넣은 upstream 커밋이 이미 제외한 23b4d827(MM-68197 Show classification banners in web and desktop apps, #36490)이다. 뿌리는 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2로, 분류 표시 계보 2b7b398a(관리 콘솔)·6083cc22(전역 배너)·23b4d827(배너 노출)·e8632bd4(admin property field 권한)·16c8f9d6(온보딩 체크리스트 오프셋)·800810e8(플래그 기본 활성)·0d0dd16d(모달 저장 상태 수정)를 모두 같은 사유로 제외했고 이 커밋이 계보 8번째다. merge-tree CONFLICT도 텍스트 충돌이 아니라 삽입 지점 부재다 — 우리 파일 176행 부근은 upstream과 전혀 다른 ServerErrorId 분기 코드다. 규모는 1파일 +3/-1로 작지만 강행할 수 없다: 존재하지 않는 블록을 지우는 패치라 적용 자체가 불가능하고, adapt로 주석 3줄만 심으면 참조 대상 없는 죽은 주석이 남아 기록만 왜곡된다. 분류 표시를 제품에 도입하기로 하면 48f2fd08의 property 절반(api4/properties.go, PropertyField.ObjectType, PropertyGroup.Version, 마이그레이션 000160~000165) 분할 반영을 선행 과제로 두고 2b7b398a부터 순서대로 spec으로 여는 것이 맞으며, 그때 이 수정도 함께 따라온다. |
+
+| 50952dec | [\[MM-68648\] Implement GetForGroup to get fields in the Property System, add caching for fields (#36836)](https://github.com/mattermost/mattermost/commit/50952dec3ff880bc031cd47628ebdf98f3fe6898) | 기술적으로 반영 가능하나 호출자가 없어 시기가 이르다 — 앞선 48f2fd08 계보 제외들(3fa87760·7627784a·9c684e63 등)과 성격이 다름을 명시해 둔다. GetForGroup 자체는 우리 스키마에서 동작한다(s.tableSelectQuery의 우리 10컬럼만 쓰고 GroupID/DeleteAt만 걸러, 제외한 마이그레이션 000160/000161/000165의 ObjectType·Protected·Permission* 컬럼을 건드리지 않음). 문제는 (1) 소비자 부재 — upstream 전체에서 GetForGroup을 호출하는 곳은 server/channels/app/session_attributes.go의 getSessionAttributeFieldsByName 하나뿐인데 그 함수는 이 커밋에 없고 이후 세션 어트리뷰트 리팩터 소산이라, 이 커밋만 반영하면 호출자 0인 인프라와 아무도 안 부르는 메서드를 캐싱하는 localcache 레이어가 들어온다. (2) 테스트 246줄이 이식 불가 — app/property_field_test.go(76줄)는 model.PropertyFieldObjectTypeUser(우리 모델에 ObjectType 0건), CreatePropertyField 4인자(우리 2인자), UpdatePropertyField 3반환값(우리 2), DeletePropertyField 5인자(우리 3), registerTestPropertyGroup 헬퍼(부재)에 의존하고, localcachelayer/main_test.go와 property_field_layer.go는 Update의 expectedUpdateAts 3인자 시그니처와 Linked Properties의 링크 필드 전파 동작을 전제한다 — 포팅이 아니라 재작성이라 검증할 동작이 없는 코드에 지어낸 테스트를 붙이게 된다(원칙 I·III 위배). (3) 인터페이스 divergence — 우리 PropertyFieldStore에는 읽기 메서드의 ctx, CountForGroupObjectType, CountLinkedFields, Update의 expectedUpdateAts, CheckPropertyNameConflict가 전부 없다(48f2fd08 계보 소산). (4) 보호 경로 server/enterprise/metrics/metrics.go 접촉(클러스터 이벤트 등록 1줄)으로 PR 즉시 merge가 거부될 수 있다. 재검토 트리거 — session_attributes.go에 getSessionAttributeFieldsByName을 도입하는 upstream 커밋이 오면 이 커밋과 묶어 함께 반영한다. 그때는 실제 호출자가 있어 검증 가능한 동작이 생기고 테스트도 upstream 것을 쓸 수 있다. 반영 시 GetForGroup은 ctx를 받는 upstream 시그니처를 유지해야 한다(request.CTX가 context.Context를 만족하므로 upstream 호출부와 그대로 맞는다). |
 
 ## spec 전환 커밋
 
