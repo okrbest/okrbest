@@ -3,7 +3,7 @@
 exports[`components/view_image/ImagePreview should match snapshot, with preview 1`] = `
 <div>
   <div
-    class="image_preview "
+    class="image_preview"
     style="justify-content: center; align-items: center;"
   >
     <img
@@ -28,7 +28,7 @@ exports[`components/view_image/ImagePreview should match snapshot, with preview,
 exports[`components/view_image/ImagePreview should match snapshot, without preview 1`] = `
 <div>
   <div
-    class="image_preview "
+    class="image_preview"
     style="justify-content: center; align-items: center;"
   >
     <img
