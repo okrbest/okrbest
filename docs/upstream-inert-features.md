@@ -13,6 +13,7 @@ Mattermost 비공개 저장소(`github.com/mattermost/enterprise/*`) 의존으�
 | 반영 커밋 | upstream | 비활성 사유 · 활성화 조건 |
 |---|---|---|
 | `c82b456b` Board channel bookmarks with target_id and readonly bookmark API | [6ef5d58b](https://github.com/mattermost/mattermost/commit/6ef5d58b7f12950def5383e732415755859ed27b) (#36572) | 아래 참조 |
+| `52ac8d88` MM-68952: Resolve public channel mentions for non-members under Compliance | [61643e10](https://github.com/mattermost/mattermost/commit/61643e106605134bd88695f3cba206cd641169f0) (#36815) | 아래 참조 |
 
 ---
 
@@ -53,3 +54,39 @@ board 채널 타입(`BO`/`BP`) 자체가 우리에게 없다.
 (property `permission_level`에 `admin` 추가) 소산이라 비어 있다. 이 커밋이 `000190`부터
 쓰면서 그 공백을 처음 실현했다. 앞으로 자체 마이그레이션을 추가할 때도 upstream 번호와
 어긋나지 않게 사용 중인 번호를 피해서 매긴다.
+
+---
+
+## 채널 멘션 해석 — board 채널 분기 누락 (`HasPermissionToResolveChannelMention`)
+
+**반영 상태.** 버그 픽스 본체는 전부 들어왔다. `~channel` 멘션 이름 해석이 콘텐츠 읽기
+권한(`HasPermissionToReadChannel`)을 재사용한 탓에, Compliance Monitoring이 켜지면 공개
+채널 비참여자에게 `channel_mentions` prop이 벗겨져 웹앱이 링크 대신 날 슬러그를 렌더하던
+문제다. `HasPermissionToResolveChannelMention`을 신설해 호출부 3곳(`FillInPostProps`,
+`sanitizeChannelMentionsForUser`, `channelMentionsBroadcastHook`)을 교체했고, 신규 함수는
+공개 채널 이름·링크만 노출하므로 ComplianceSettings와 무관하되 팀 멤버십은 요구한다.
+Go 테스트 506줄과 Playwright 스펙 140줄도 그대로 가져왔다.
+
+**무엇을 들어냈나.** upstream 원본은 팀 멤버십 경로를 `ChannelTypeOpen`과
+`ChannelTypeOpenBoard` 둘 다에 적용한다. okrbest에는 board 채널 타입(`BO`/`BP`)과
+`ChannelTypeSpace`가 없어서(위 board 북마크 항목의 "반영하지 않은 인접 조각" 참조)
+`|| channel.Type == model.ChannelTypeOpenBoard` 절을 제거했다. 남겼다면 컴파일이 깨진다.
+
+`authorization_test.go`의 "open board, team member, compliance ON -> resolves" 케이스와
+그 switch 분기도 뺐다. 이 분기는 `model.KanbanProps`·`model.View`·`model.ViewTypeKanban`·
+`Store().Channel().SaveBoardChannel`을 쓰는데 넷 다 우리 트리에 없다 — Integrated Boards
+계보 전체에 딸린 것들이라 한 줄로 대체할 수 없다. 두 자리 모두 소스에 주석으로 표시했다.
+
+**영향.** 없다. 생성될 수 없는 채널 타입에 대한 분기라서, 제거해도 관측 가능한 동작이
+달라지지 않는다. 나머지 케이스(공개/비공개/DM/GM × 팀 멤버십 × compliance)는 upstream
+그대로 통과한다.
+
+**활성화 조건.** board 채널 타입을 도입하면 두 자리를 되살린다 — 프로덕션은 `||` 절 한 줄,
+테스트는 upstream 원본의 switch 분기를 그대로 가져오면 된다.
+
+**보안 메모.** 이 커밋은 권한 검사를 **완화**한다. Compliance Monitoring이 켜진 상태에서
+팀 멤버가 자기가 안 들어간 공개 채널의 표시 이름을 멘션 링크로 보게 된다. upstream 논거는
+공개 채널 이름이 이미 팀 내 browse/search/autocomplete로 발견 가능하고, 링크를 따라가려면
+채널 참여가 필요해 컴플라이언스 기록이 남는다는 것이다. 우리 트리에서도 성립한다 —
+`HasPermissionToChannelMemberCount`가 이미 compliance와 무관하게 `PermissionListTeamChannels`로
+공개 채널을 노출한다. 비공개·DM·GM과 교차 팀은 여전히 막힌다.
