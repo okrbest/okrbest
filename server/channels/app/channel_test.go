@@ -3999,3 +3999,145 @@ func TestPatchChannelWithCategorySorting(t *testing.T) {
 	require.Equal(t, "Disabled Category/Channel Name", patchedChannel.DisplayName)
 	require.Equal(t, "New Category", patchedChannel.DefaultCategoryName)
 }
+
+// sidebarCategoriesContaining returns the display names of every category that explicitly
+// lists the given channel, so a test can assert a channel is not listed twice.
+func sidebarCategoriesContaining(t *testing.T, th *TestHelper, userID, teamID, channelID string) []string {
+	t.Helper()
+
+	categories, appErr := th.App.GetSidebarCategoriesForTeamForUser(th.Context, userID, teamID)
+	require.Nil(t, appErr)
+
+	var names []string
+	for _, category := range categories.Categories {
+		if slices.Contains(category.Channels, channelID) {
+			names = append(names, category.DisplayName)
+		}
+	}
+
+	return names
+}
+
+func TestPatchChannelDefaultCategoryMovesOutOfPreviousCategory(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+
+	th.App.UpdateConfig(func(cfg *model.Config) {
+		*cfg.ExperimentalSettings.ExperimentalChannelCategorySorting = true
+	})
+
+	channel := th.createChannel(t, th.BasicTeam, model.ChannelTypeOpen)
+	_, appErr := th.App.AddUserToChannel(th.Context, th.BasicUser, channel, false)
+	require.Nil(t, appErr)
+
+	// okrbest derives the default category from the display name (handleChannelCategoryName)
+	// because ChannelPatch has no DefaultCategoryName field on this fork.
+	channel, appErr = th.App.PatchChannel(th.Context, channel, &model.ChannelPatch{
+		DisplayName: new("Category A / " + channel.DisplayName),
+	}, th.BasicUser.Id)
+	require.Nil(t, appErr)
+
+	require.Equal(t, []string{"Category A"}, sidebarCategoriesContaining(t, th, th.BasicUser.Id, th.BasicTeam.Id, channel.Id))
+
+	// Create Category B up front via a second channel. Moving into an *existing* category takes the
+	// update path, which — unlike CreateSidebarCategory — only touches the categories it is handed,
+	// so the source category has to be updated alongside the destination.
+	other := th.createChannel(t, th.BasicTeam, model.ChannelTypeOpen)
+	_, appErr = th.App.AddUserToChannel(th.Context, th.BasicUser, other, false)
+	require.Nil(t, appErr)
+	_, appErr = th.App.PatchChannel(th.Context, other, &model.ChannelPatch{
+		DisplayName: new("Category B / " + other.DisplayName),
+	}, th.BasicUser.Id)
+	require.Nil(t, appErr)
+
+	channel, appErr = th.App.PatchChannel(th.Context, channel, &model.ChannelPatch{
+		DisplayName: new("Category B / " + channel.DisplayName),
+	}, th.BasicUser.Id)
+	require.Nil(t, appErr)
+
+	assert.Equal(t, []string{"Category B"}, sidebarCategoriesContaining(t, th, th.BasicUser.Id, th.BasicTeam.Id, channel.Id),
+		"channel should appear in exactly one category after moving")
+}
+
+func TestPatchChannelDefaultCategoryMovesOutOfFavorites(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+
+	th.App.UpdateConfig(func(cfg *model.Config) {
+		*cfg.ExperimentalSettings.ExperimentalChannelCategorySorting = true
+	})
+
+	channel := th.createChannel(t, th.BasicTeam, model.ChannelTypeOpen)
+	_, appErr := th.App.AddUserToChannel(th.Context, th.BasicUser, channel, false)
+	require.Nil(t, appErr)
+
+	// Create the destination category up front so the move takes the update path rather than
+	// CreateSidebarCategory, which clears the channel's other categories on its own.
+	other := th.createChannel(t, th.BasicTeam, model.ChannelTypeOpen)
+	_, appErr = th.App.AddUserToChannel(th.Context, th.BasicUser, other, false)
+	require.Nil(t, appErr)
+	_, appErr = th.App.PatchChannel(th.Context, other, &model.ChannelPatch{
+		DisplayName: new("Moved Category / " + other.DisplayName),
+	}, th.BasicUser.Id)
+	require.Nil(t, appErr)
+
+	// Explicitly place the channel in Favorites, a non-custom category. The original category search
+	// must cover every non-DM category, not just custom ones.
+	categories, appErr := th.App.GetSidebarCategoriesForTeamForUser(th.Context, th.BasicUser.Id, th.BasicTeam.Id)
+	require.Nil(t, appErr)
+
+	var favorites *model.SidebarCategoryWithChannels
+	for _, category := range categories.Categories {
+		if category.Type == model.SidebarCategoryFavorites {
+			favorites = category
+			break
+		}
+	}
+	require.NotNil(t, favorites)
+
+	favorites.Channels = append(favorites.Channels, channel.Id)
+	_, appErr = th.App.UpdateSidebarCategories(th.Context, th.BasicUser.Id, th.BasicTeam.Id, []*model.SidebarCategoryWithChannels{favorites})
+	require.Nil(t, appErr)
+
+	channel, appErr = th.App.PatchChannel(th.Context, channel, &model.ChannelPatch{
+		DisplayName: new("Moved Category / " + channel.DisplayName),
+	}, th.BasicUser.Id)
+	require.Nil(t, appErr)
+
+	assert.Equal(t, []string{"Moved Category"}, sidebarCategoriesContaining(t, th, th.BasicUser.Id, th.BasicTeam.Id, channel.Id),
+		"channel should no longer be listed in Favorites")
+}
+
+func TestPatchChannelDefaultCategoryReapplyIsIdempotent(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+
+	th.App.UpdateConfig(func(cfg *model.Config) {
+		*cfg.ExperimentalSettings.ExperimentalChannelCategorySorting = true
+	})
+
+	channel := th.createChannel(t, th.BasicTeam, model.ChannelTypeOpen)
+	_, appErr := th.App.AddUserToChannel(th.Context, th.BasicUser, channel, false)
+	require.Nil(t, appErr)
+
+	patch := &model.ChannelPatch{DisplayName: new("Reapply Category / " + channel.DisplayName)}
+	channel, appErr = th.App.PatchChannel(th.Context, channel, patch, th.BasicUser.Id)
+	require.Nil(t, appErr)
+
+	// Patching again re-runs the default category logic while the channel is already in the target
+	// category. This must not error or list the channel twice in the category.
+	_, appErr = th.App.PatchChannel(th.Context, channel, &model.ChannelPatch{Header: new("updated header")}, th.BasicUser.Id)
+	require.Nil(t, appErr)
+
+	categories, appErr := th.App.GetSidebarCategoriesForTeamForUser(th.Context, th.BasicUser.Id, th.BasicTeam.Id)
+	require.Nil(t, appErr)
+
+	for _, category := range categories.Categories {
+		if category.DisplayName == "Reapply Category" {
+			count := 0
+			for _, channelID := range category.Channels {
+				if channelID == channel.Id {
+					count++
+				}
+			}
+			assert.Equal(t, 1, count, "channel should appear exactly once in the default category")
+		}
+	}
+}
