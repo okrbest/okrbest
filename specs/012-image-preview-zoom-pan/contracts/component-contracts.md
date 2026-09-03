@@ -46,10 +46,12 @@ interface Props {
 | `fitScale` | 없으면 `scale`과 같다고 본다. 끌기 가능 여부 판정(`scale > fitScale`)에 쓴다 |
 | `panOffset` | 없으면 `{x: 0, y: 0}`. 렌더 뒤 감싸는 요소의 스크롤 위치로 복원한다 |
 | `onPanChange` | 끌기가 끝날 때(`mouseup`) 최종 위치로 한 번만 부른다. 끄는 중에는 부르지 않는다 |
-| `onWheelZoom` | 휠 입력마다 부른다. 배율 계산은 부모가 한다 — 자식은 입력과 기하 정보만 넘긴다 |
+| `onWheelZoom` | 한 프레임에 최대 1회 부른다(자식이 rAF로 묶는다). 배율 계산은 부모가 한다 — 자식은 입력과 기하 정보만 넘긴다 |
 | `onBackgroundClick` | 끌기로 판정된 동작 뒤에는 부르지 않는다 (FR-005) |
 
 **책임 분리**: 배율과 이동 위치의 *값*은 부모(`FilePreviewModal`)가 소유한다. `ImagePreview`는 표시와 입력 감지만 맡는다. 지금 `scale`을 부모가 들고 있는 구조를 그대로 따른다.
+
+**`oldScroll`은 어디서 오나**: 커서 기준 계산식([research.md](../research.md) 결정 2)에 필요한 `oldScroll`을 `onWheelZoom`이 넘기지 않는다. 부모가 **`state.panOffset[imageIndex]`를 `oldScroll`로 쓴다.** 이 값이 최신인 근거는 끌기가 `mouseup`에서 `onPanChange`로 항상 상태에 반영되고, `mouseup`이 뒤따르는 어떤 휠 입력보다 먼저 일어나기 때문이다. 자식이 DOM 스크롤을 직접 만지는 구간은 끌기 진행 중뿐이며 그 사이에는 휠 계산이 끼어들지 않는다.
 
 ### 마크업 계약
 
