@@ -10,6 +10,9 @@
 Mattermost 비공개 저장소(`github.com/mattermost/enterprise/*`) 의존으로 비활성인 커밋은
 여기가 아니라 ledger 하단 **"Mattermost 비공개 사설 모듈 커밋"** 부록에 있다.
 
+코드가 **동작하지만 upstream과 형태가 다른** 지점(adapt로 벌어진 차이)은
+`docs/upstream-adapted-divergences.md`에 있다.
+
 | 반영 커밋 | upstream | 비활성 사유 · 활성화 조건 |
 |---|---|---|
 | `c82b456b` Board channel bookmarks with target_id and readonly bookmark API | [6ef5d58b](https://github.com/mattermost/mattermost/commit/6ef5d58b7f12950def5383e732415755859ed27b) (#36572) | 아래 참조 |
