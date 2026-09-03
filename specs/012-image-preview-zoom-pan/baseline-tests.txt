@@ -1,0 +1,20 @@
+
+> mattermost-webapp@11.8.0 test
+> cross-env TZ=Etc/UTC LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 jest src/components/file_preview_modal
+
+PASS src/components/file_preview_modal/file_preview_modal_footer/file_preview_modal_footer.test.tsx (36.629 s)
+PASS src/components/file_preview_modal/popover_bar/popover_bar.test.tsx (37.108 s)
+PASS src/components/file_preview_modal/file_preview_modal_main_nav/file_preview_modal_main_nav.test.tsx (37.291 s)
+PASS src/components/file_preview_modal/file_preview_modal_info/file_preview_modal_info.test.tsx (51.656 s)
+PASS src/components/file_preview_modal/file_preview_modal_header/file_preview_modal_header.test.tsx (52.377 s)
+PASS src/components/file_preview_modal/image_preview.test.tsx (52.562 s)
+PASS src/components/file_preview_modal/file_preview_modal.test.tsx (52.622 s)
+PASS src/components/file_preview_modal/file_preview_modal_main_actions/file_preview_modal_main_actions.test.tsx (57.056 s)
+
+Test Suites: 8 passed, 8 total
+Tests:       42 passed, 42 total
+Snapshots:   24 passed, 24 total
+Time:        76.729 s
+Ran all test suites matching src/components/file_preview_modal.
+
+[exited with code 0]
