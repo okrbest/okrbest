@@ -4673,8 +4673,30 @@ func (a *App) addChannelToDefaultCategory(rctx request.CTX, userID string, chann
 			}
 		}
 
+		// Find the original category if the channel is already in a category
+		var originalCategory *model.SidebarCategoryWithChannels
+		for _, category := range categories.Categories {
+			if category.Type != model.SidebarCategoryDirectMessages && slices.Contains(category.Channels, channel.Id) {
+				originalCategory = category
+				break
+			}
+		}
+
+		// The channel is already in the target category, so there's nothing to move.
+		if originalCategory != nil && originalCategory == targetCategory {
+			return
+		}
+
+		var categoriesToUpdate []*model.SidebarCategoryWithChannels
+		if originalCategory != nil {
+			idx := slices.Index(originalCategory.Channels, channel.Id)
+			originalCategory.Channels = slices.Delete(originalCategory.Channels, idx, idx+1)
+			categoriesToUpdate = append(categoriesToUpdate, originalCategory)
+		}
+
 		if targetCategory == nil {
-			// Create new category if it doesn't exist
+			// Create new category if it doesn't exist. CreateSidebarCategory clears the channel from
+			// its previous categories itself, so the original category needs no separate update.
 			targetCategory = &model.SidebarCategoryWithChannels{
 				SidebarCategory: model.SidebarCategory{
 					UserId:      userID,
@@ -4689,13 +4711,17 @@ func (a *App) addChannelToDefaultCategory(rctx request.CTX, userID string, chann
 			if err != nil {
 				mlog.Error("Failed to create default category", mlog.String("user_id", userID), mlog.String("team_id", channel.TeamId), mlog.String("category_name", channel.DefaultCategoryName), mlog.Err(err))
 			}
-		} else {
-			// Add channel to existing category
-			targetCategory.Channels = append([]string{channel.Id}, targetCategory.Channels...)
-			_, err = a.UpdateSidebarCategories(rctx, userID, channel.TeamId, []*model.SidebarCategoryWithChannels{targetCategory})
-			if err != nil {
-				mlog.Error("Failed to update default category", mlog.String("user_id", userID), mlog.String("team_id", channel.TeamId), mlog.String("category_name", channel.DefaultCategoryName), mlog.Err(err))
-			}
+			return
+		}
+
+		// Add channel to existing category. The store only deletes SidebarChannels rows for the
+		// categories it is handed, so the source category has to be updated alongside the target.
+		targetCategory.Channels = append([]string{channel.Id}, targetCategory.Channels...)
+		categoriesToUpdate = append(categoriesToUpdate, targetCategory)
+
+		_, err = a.UpdateSidebarCategories(rctx, userID, channel.TeamId, categoriesToUpdate)
+		if err != nil {
+			mlog.Error("Failed to update default category", mlog.String("user_id", userID), mlog.String("team_id", channel.TeamId), mlog.String("category_name", channel.DefaultCategoryName), mlog.Err(err))
 		}
 	}
 }
