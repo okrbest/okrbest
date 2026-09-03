@@ -73,8 +73,14 @@ type State = {
     showZoomControls: boolean;
     scale: Record<number, number>;
     fitScale: Record<number, number>;
+    panOffset: Record<number, PanOffset>;
+    fileIdentities: string[];
     content: string;
 }
+
+export type PanOffset = {x: number; y: number};
+
+const ORIGIN: PanOffset = {x: 0, y: 0};
 
 export default class FilePreviewModal extends React.PureComponent<Props, State> {
     static defaultProps = {
@@ -97,8 +103,18 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             showZoomControls: false,
             scale: Utils.fillRecord(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length),
             fitScale: Utils.fillRecord(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length),
+            panOffset: {},
+            fileIdentities: [],
             content: '',
         };
+    }
+
+    // A file's identity, not its position. A post edit can swap the attachment at
+    // an index without changing the list length, and the zoom/pan state for that
+    // index has to reset when it does. Namespacing keeps a file id from colliding
+    // with an external link that happens to be the same string.
+    static getFileIdentity(fileInfo: FileInfo | LinkInfo): string {
+        return isFileInfo(fileInfo) ? `id:${fileInfo.id}` : `link:${(fileInfo as LinkInfo).link}`;
     }
 
     handleNext = () => {
@@ -125,14 +141,59 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         }
     };
 
+    // Separate from handleKeyPress on purpose. File navigation reacts to keyup,
+    // but zoom keys have to cancel the browser default, and preventDefault on
+    // keyup is too late for that — the character is already in.
+    handleZoomKeyDown = (e: KeyboardEvent) => {
+        if (e.ctrlKey || e.metaKey || e.altKey) {
+            return;
+        }
+
+        const fileInfo = this.props.fileInfos[this.state.imageIndex];
+        if (!fileInfo) {
+            return;
+        }
+
+        // PDF shares the zoom state but keeps its own scrolling page view, so the
+        // shortcuts stay off there (see spec 012, out of scope).
+        const fileType = Utils.getFileType(fileInfo.extension);
+        if (fileType !== FileTypes.IMAGE && fileType !== FileTypes.SVG) {
+            return;
+        }
+
+        const active = document.activeElement as HTMLElement | null;
+        if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable)) {
+            return;
+        }
+
+        switch (e.key) {
+        case '+':
+        case '=':
+            this.handleZoomIn();
+            break;
+        case '-':
+            this.handleZoomOut();
+            break;
+        case '0':
+            this.handleZoomReset();
+            break;
+        default:
+            return;
+        }
+
+        e.preventDefault();
+    };
+
     componentDidMount() {
         document.addEventListener('keyup', this.handleKeyPress);
+        document.addEventListener('keydown', this.handleZoomKeyDown);
 
         this.showImage(this.props.startIndex);
     }
 
     componentWillUnmount() {
         document.removeEventListener('keyup', this.handleKeyPress);
+        document.removeEventListener('keydown', this.handleZoomKeyDown);
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
@@ -151,10 +212,35 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         if (props.fileInfos.length !== state.prevFileInfosCount) {
             updatedState.loaded = Utils.fillRecord(false, props.fileInfos.length);
             updatedState.progress = Utils.fillRecord(0, props.fileInfos.length);
-            updatedState.scale = Utils.fillRecord(ZoomSettings.DEFAULT_SCALE, props.fileInfos.length);
-            updatedState.fitScale = Utils.fillRecord(ZoomSettings.DEFAULT_SCALE, props.fileInfos.length);
             updatedState.prevFileInfosCount = props.fileInfos.length;
         }
+
+        // Zoom and pan reconcile on file identity, not on list length. A post edit
+        // can replace the attachment at an index while the length stays the same;
+        // reconciling on length alone left the old file's zoom applied to the new one.
+        const identities = props.fileInfos.map(FilePreviewModal.getFileIdentity);
+        const previous = state.fileIdentities;
+        const identityChanged = identities.length !== previous.length ||
+            identities.some((identity, index) => previous[index] !== identity);
+
+        if (identityChanged) {
+            const scale: Record<number, number> = {};
+            const fitScale: Record<number, number> = {};
+            const panOffset: Record<number, PanOffset> = {};
+
+            identities.forEach((identity, index) => {
+                const unchanged = previous[index] === identity;
+                scale[index] = unchanged ? state.scale[index] ?? ZoomSettings.DEFAULT_SCALE : ZoomSettings.DEFAULT_SCALE;
+                fitScale[index] = unchanged ? state.fitScale[index] ?? ZoomSettings.DEFAULT_SCALE : ZoomSettings.DEFAULT_SCALE;
+                panOffset[index] = unchanged ? state.panOffset[index] ?? ORIGIN : ORIGIN;
+            });
+
+            updatedState.scale = scale;
+            updatedState.fitScale = fitScale;
+            updatedState.panOffset = panOffset;
+            updatedState.fileIdentities = identities;
+        }
+
         return Object.keys(updatedState).length ? updatedState : null;
     }
 
@@ -269,6 +355,17 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         });
     };
 
+    setPanOffset = (index: number, offset: PanOffset) => {
+        this.setState((prevState) => {
+            return {
+                panOffset: {
+                    ...prevState.panOffset,
+                    [index]: offset,
+                },
+            };
+        });
+    };
+
     handleZoomIn = () => {
         let newScale = this.state.scale[this.state.imageIndex];
         newScale = Math.min(newScale + ZoomSettings.SCALE_DELTA, ZoomSettings.MAX_SCALE);
@@ -284,6 +381,65 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
     handleZoomReset = () => {
         const resetScale = this.state.fitScale[this.state.imageIndex] ?? ZoomSettings.DEFAULT_SCALE;
         this.setScale(this.state.imageIndex, resetScale);
+        this.setPanOffset(this.state.imageIndex, ORIGIN);
+    };
+
+    // Applies a scale and re-clips the pan offset to whatever room the new size
+    // leaves. Shrinking the image below the viewport leaves nowhere to pan, so the
+    // offset collapses back to the origin.
+    applyZoom = (index: number, nextScale: number, scaledSize: {width: number; height: number}, viewport: {width: number; height: number}, nextOffset?: PanOffset) => {
+        const maxX = Math.max(0, scaledSize.width - viewport.width);
+        const maxY = Math.max(0, scaledSize.height - viewport.height);
+
+        this.setState((prevState) => {
+            const current = nextOffset ?? prevState.panOffset[index] ?? ORIGIN;
+            return {
+                scale: {
+                    ...prevState.scale,
+                    [index]: nextScale,
+                },
+                panOffset: {
+                    ...prevState.panOffset,
+                    [index]: {
+                        x: Math.min(Math.max(current.x, 0), maxX),
+                        y: Math.min(Math.max(current.y, 0), maxY),
+                    },
+                },
+            };
+        });
+    };
+
+    // Zoom anchored on the pointer: the image point under the cursor has to stay
+    // under the cursor. Everything needed is already known — the natural size and
+    // both ratios — so the new scroll target is computed rather than read back
+    // from the DOM, which would force a synchronous layout on every wheel tick.
+    handleWheelZoom = (scaleDelta: number, cursor: PanOffset, viewport: {width: number; height: number}, naturalSize: {width: number; height: number}) => {
+        const index = this.state.imageIndex;
+        const currentScale = this.state.scale[index] ?? ZoomSettings.DEFAULT_SCALE;
+        const nextScale = Math.min(
+            Math.max(currentScale + scaleDelta, ZoomSettings.MIN_SCALE),
+            ZoomSettings.MAX_SCALE,
+        );
+
+        if (nextScale === currentScale) {
+            return;
+        }
+
+        const currentRatio = currentScale / ZoomSettings.DEFAULT_SCALE;
+        const nextRatio = nextScale / ZoomSettings.DEFAULT_SCALE;
+        const growth = nextRatio / currentRatio;
+        const offset = this.state.panOffset[index] ?? ORIGIN;
+
+        const nextOffset = {
+            x: ((offset.x + cursor.x) * growth) - cursor.x,
+            y: ((offset.y + cursor.y) * growth) - cursor.y,
+        };
+        const scaledSize = {
+            width: naturalSize.width * nextRatio,
+            height: naturalSize.height * nextRatio,
+        };
+
+        this.applyZoom(index, nextScale, scaledSize, viewport, nextOffset);
     };
 
     handleAutoScale = (index: number, nextScale: number) => {
@@ -368,8 +524,12 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                             fileInfo={fileInfo as FileInfo}
                             canDownloadFiles={this.props.canDownloadFiles}
                             scale={this.state.scale[this.state.imageIndex]}
+                            fitScale={this.state.fitScale[this.state.imageIndex]}
+                            panOffset={this.state.panOffset[this.state.imageIndex]}
                             onAutoScale={(nextScale) => this.handleAutoScale(this.state.imageIndex, nextScale)}
                             onBackgroundClick={this.handleBgClose}
+                            onPanChange={(offset) => this.setPanOffset(this.state.imageIndex, offset)}
+                            onWheelZoom={this.handleWheelZoom}
                         />
                     );
                     zoomBar = (

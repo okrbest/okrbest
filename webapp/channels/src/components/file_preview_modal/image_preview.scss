@@ -9,6 +9,21 @@
         overflow: auto;
     }
 
+    // 확대된 상태에서만 끌 수 있다. 맞춤 배율에서는 이미지가 화면에 다 들어와
+    // 옮길 곳이 없으므로 잡을 수 있다는 신호를 주지 않는다.
+    &--pannable &__image {
+        cursor: grab;
+    }
+
+    &--dragging &__image {
+        cursor: grabbing;
+    }
+
+    // 끄는 동안 글자·이미지가 선택되면 커서를 따라 파란 선택 영역이 끌려 나온다.
+    &--pannable {
+        user-select: none;
+    }
+
     &__image {
         flex: 0 0 auto;
         max-width: 100%;

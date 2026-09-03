@@ -6,7 +6,7 @@ import React from 'react';
 import FilePreviewModal from 'components/file_preview_modal/file_preview_modal';
 
 import {act, render} from 'tests/react_testing_utils';
-import Constants from 'utils/constants';
+import Constants, {ZoomSettings} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 import * as Utils from 'utils/utils';
 import {generateId} from 'utils/utils';
@@ -399,5 +399,242 @@ describe('components/FilePreviewModal', () => {
         const props = {...baseProps, pluginFilePreviewComponents};
         const {container} = renderModal(props);
         expect(container).toMatchSnapshot();
+    });
+
+    describe('per-file zoom state', () => {
+        test('getFileIdentity namespaces file ids and external links separately', () => {
+            const byId = FilePreviewModal.getFileIdentity(TestHelper.getFileInfoMock({id: 'abc'}));
+            const byLink = FilePreviewModal.getFileIdentity({
+                has_preview_image: false,
+                link: 'abc',
+                extension: 'png',
+                name: 'abc',
+            });
+
+            expect(byId).toBe('id:abc');
+            expect(byLink).toBe('link:abc');
+            expect(byId).not.toBe(byLink);
+        });
+
+        test('resets only the swapped index when the file list length is unchanged', () => {
+            const {ref, rerender} = renderModal({
+                ...baseProps,
+                fileInfos: [
+                    TestHelper.getFileInfoMock({id: 'file_a', extension: 'jpg'}),
+                    TestHelper.getFileInfoMock({id: 'file_b', extension: 'jpg'}),
+                ],
+            });
+
+            act(() => {
+                ref.current?.setScale(0, 2.5);
+                ref.current?.setScale(1, 2.25);
+                ref.current?.setPanOffset(0, {x: 40, y: 60});
+                ref.current?.setPanOffset(1, {x: 10, y: 20});
+            });
+
+            // Same length, different file at index 0 — the pre-existing bug let the
+            // old file's zoom survive because only length changes triggered a reset.
+            act(() => {
+                rerender(
+                    <FilePreviewModal
+                        {...baseProps}
+                        ref={ref}
+                        fileInfos={[
+                            TestHelper.getFileInfoMock({id: 'file_c', extension: 'jpg'}),
+                            TestHelper.getFileInfoMock({id: 'file_b', extension: 'jpg'}),
+                        ]}
+                    />,
+                );
+            });
+
+            expect(ref.current?.state.scale[0]).toBe(ZoomSettings.DEFAULT_SCALE);
+            expect(ref.current?.state.panOffset[0]).toEqual({x: 0, y: 0});
+
+            // The untouched index keeps what the user had set.
+            expect(ref.current?.state.scale[1]).toBe(2.25);
+            expect(ref.current?.state.panOffset[1]).toEqual({x: 10, y: 20});
+        });
+
+        test('seeds newly appended indexes with defaults', () => {
+            const {ref, rerender} = renderModal();
+
+            act(() => {
+                ref.current?.setScale(0, 2.5);
+            });
+
+            act(() => {
+                rerender(
+                    <FilePreviewModal
+                        {...baseProps}
+                        ref={ref}
+                        fileInfos={[
+                            TestHelper.getFileInfoMock({id: 'file_id', extension: 'jpg'}),
+                            TestHelper.getFileInfoMock({id: 'file_new', extension: 'jpg'}),
+                        ]}
+                    />,
+                );
+            });
+
+            expect(ref.current?.state.scale[1]).toBe(ZoomSettings.DEFAULT_SCALE);
+            expect(ref.current?.state.panOffset[1]).toEqual({x: 0, y: 0});
+        });
+
+        test('resetting zoom returns to the fit scale and the origin', () => {
+            const {ref} = renderModal();
+
+            act(() => {
+                ref.current?.handleAutoScale(0, 0.35);
+                ref.current?.setScale(0, 2.5);
+                ref.current?.setPanOffset(0, {x: 120, y: 80});
+            });
+
+            act(() => {
+                ref.current?.handleZoomReset();
+            });
+
+            expect(ref.current?.state.scale[0]).toBe(0.35);
+            expect(ref.current?.state.panOffset[0]).toEqual({x: 0, y: 0});
+        });
+
+        test('clamps the pan offset when zooming back to a size that fits', () => {
+            const {ref} = renderModal();
+
+            act(() => {
+                ref.current?.handleAutoScale(0, ZoomSettings.DEFAULT_SCALE);
+                ref.current?.setScale(0, 2.75);
+                ref.current?.setPanOffset(0, {x: 200, y: 150});
+            });
+
+            act(() => {
+                // The scaled image is smaller than the viewport, so there is
+                // nowhere left to pan and the offset has to collapse.
+                ref.current?.applyZoom(0, ZoomSettings.DEFAULT_SCALE, {width: 200, height: 150}, {width: 400, height: 300});
+            });
+
+            expect(ref.current?.state.panOffset[0]).toEqual({x: 0, y: 0});
+        });
+
+        test('keeps the cursor anchored while wheel zooming', () => {
+            const {ref} = renderModal();
+
+            act(() => {
+                ref.current?.handleAutoScale(0, ZoomSettings.DEFAULT_SCALE);
+                ref.current?.setPanOffset(0, {x: 100, y: 50});
+            });
+
+            // 1.75 -> 2.625 is a growth of 1.5 (staying under the 3.0 ceiling).
+            // Cursor sits 200,150 into a 400x300 viewport, so the scroll target is
+            //   (100 + 200) * 1.5 - 200 = 250 and (50 + 150) * 1.5 - 150 = 150.
+            act(() => {
+                ref.current?.handleWheelZoom(0.875, {x: 200, y: 150}, {width: 400, height: 300}, {width: 2000, height: 1000});
+            });
+
+            expect(ref.current?.state.scale[0]).toBe(2.625);
+            expect(ref.current?.state.panOffset[0]).toEqual({x: 250, y: 150});
+        });
+
+        test('clamps the zoom at the configured ceiling and floor', () => {
+            const {ref} = renderModal();
+            const natural = {width: 2000, height: 1000};
+            const viewport = {width: 400, height: 300};
+
+            act(() => {
+                ref.current?.handleWheelZoom(99, {x: 0, y: 0}, viewport, natural);
+            });
+            expect(ref.current?.state.scale[0]).toBe(ZoomSettings.MAX_SCALE);
+
+            act(() => {
+                ref.current?.handleWheelZoom(-99, {x: 0, y: 0}, viewport, natural);
+            });
+            expect(ref.current?.state.scale[0]).toBe(ZoomSettings.MIN_SCALE);
+        });
+
+        describe('keyboard zoom', () => {
+            const press = (ref: React.RefObject<FilePreviewModal>, key: string, extra: Partial<KeyboardEvent> = {}) => {
+                const event = {key, preventDefault: jest.fn(), ...extra} as unknown as KeyboardEvent;
+                act(() => {
+                    ref.current?.handleZoomKeyDown(event);
+                });
+                return event;
+            };
+
+            test('zooms in on + and =, out on -, and resets on 0', () => {
+                const {ref} = renderModal();
+                const start = ref.current!.state.scale[0];
+
+                press(ref, '+');
+                expect(ref.current?.state.scale[0]).toBe(start + ZoomSettings.SCALE_DELTA);
+
+                press(ref, '=');
+                expect(ref.current?.state.scale[0]).toBe(start + (2 * ZoomSettings.SCALE_DELTA));
+
+                press(ref, '-');
+                expect(ref.current?.state.scale[0]).toBe(start + ZoomSettings.SCALE_DELTA);
+
+                act(() => {
+                    ref.current?.setPanOffset(0, {x: 30, y: 30});
+                });
+                press(ref, '0');
+                expect(ref.current?.state.scale[0]).toBe(start);
+                expect(ref.current?.state.panOffset[0]).toEqual({x: 0, y: 0});
+            });
+
+            test('ignores keys while a text field has focus', () => {
+                const {ref} = renderModal();
+                const start = ref.current!.state.scale[0];
+
+                const input = document.createElement('input');
+                document.body.appendChild(input);
+                input.focus();
+
+                press(ref, '+');
+                expect(ref.current?.state.scale[0]).toBe(start);
+
+                input.remove();
+            });
+
+            test('ignores keys pressed with a modifier', () => {
+                const {ref} = renderModal();
+                const start = ref.current!.state.scale[0];
+
+                press(ref, '+', {ctrlKey: true});
+                press(ref, '+', {metaKey: true});
+                press(ref, '+', {altKey: true});
+
+                expect(ref.current?.state.scale[0]).toBe(start);
+            });
+
+            test('does nothing while a pdf is on screen', () => {
+                const {ref} = renderModal({
+                    ...baseProps,
+                    fileInfos: [TestHelper.getFileInfoMock({id: 'doc', extension: 'pdf'})],
+                });
+                const start = ref.current!.state.scale[0];
+
+                press(ref, '+');
+
+                expect(ref.current?.state.scale[0]).toBe(start);
+            });
+        });
+
+        test('shows zoom controls for image, svg and pdf only', () => {
+            const cases: Array<[string, boolean]> = [
+                ['jpg', true],
+                ['svg', true],
+                ['pdf', true],
+                ['mp4', false],
+                ['txt', false],
+            ];
+
+            for (const [extension, expected] of cases) {
+                const {ref, unmount} = renderModal({
+                    ...baseProps,
+                    fileInfos: [TestHelper.getFileInfoMock({id: `file_${extension}`, extension})],
+                });
+
+                expect(ref.current?.state.showZoomControls).toBe(expected);
+                unmount();
+            }
+        });
     });
 });
