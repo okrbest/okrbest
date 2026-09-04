@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-03 21:08
+- 갱신일: 2026-09-04 12:16
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 576개
+- 남은 커밋: 582개
 
-**마지막 반영 커밋:** `3440453d` | [\[MM-68425\] Update marked (#36710)](https://github.com/mattermost/mattermost/commit/3440453d82613b1d8d67c93011c11d56a1380869) | 2026-06-04
+**마지막 반영 커밋:** `ff01f820` | [MM-69131: Keep app__body off backstage routes to fix dark-theme styling (#36928)](https://github.com/mattermost/mattermost/commit/ff01f820439f7e91ac2016af943f5f54096f9386) | 2026-06-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 1fc2824e | [chore(webapp): remove orphaned @types/react-custom-scrollbars (#36818)](https://github.com/mattermost/mattermost/commit/1fc2824e58d547165dd0bbcf1a88c9fee9edf543) | 2026-06-05 |
-| 01892e9d | [MM-69132 Migrate DynamicVirtualizedList to TypeScript (#36923)](https://github.com/mattermost/mattermost/commit/01892e9d06035f14895769138c745f4c05cca5de) | 2026-06-05 |
-| b5ee857a | [MM-67616: Load synced remote member profiles so participant list refreshes (#36861)](https://github.com/mattermost/mattermost/commit/b5ee857af81befcbe348c88bd9be70b7812ab455) | 2026-06-05 |
-| ff01f820 | [MM-69131: Keep app__body off backstage routes to fix dark-theme styling (#36928)](https://github.com/mattermost/mattermost/commit/ff01f820439f7e91ac2016af943f5f54096f9386) | 2026-06-05 |
 | ca87bd7d | [MM-60669 Prevent bot users from becoming the first system admin (#36867)](https://github.com/mattermost/mattermost/commit/ca87bd7d24ecce9ad0da4ae58a30342e68143d0d) | 2026-06-08 |
 | 20c4d892 | [Add additional PluggableErrorBoundaries (#36854)](https://github.com/mattermost/mattermost/commit/20c4d8925e7400550924ca62b369acad5fb4c461) | 2026-06-08 |
 | 27b2525e | [Fix flaky TestPluginAPIGetUserPreferences (#36855)](https://github.com/mattermost/mattermost/commit/27b2525e88c3b38eb11ce6c5eeb46620eb50f7f9) | 2026-06-08 |
@@ -587,6 +583,16 @@
 | 10edb2d2 | [chore: extract install-<tool> Makefile targets (#38284)](https://github.com/mattermost/mattermost/commit/10edb2d29a810827253abee2cec7eaa7a8745268) | 2026-09-03 |
 | e34eceaa | [MM-69994: Fix user endpoint request handling (#37699)](https://github.com/mattermost/mattermost/commit/e34eceaa3432e42b7495a350b503b23014626348) | 2026-09-03 |
 | e379ae17 | [fix(docs): apply Algolia searchParameters on the full search page (#38308)](https://github.com/mattermost/mattermost/commit/e379ae1710f66195346cea85e1dbd92b55b93e56) | 2026-09-03 |
+| bea96f4e | [docs: fix incorrect GPO policy name for desktop auto-updater (#38310)](https://github.com/mattermost/mattermost/commit/bea96f4e818ccb0755f581651820f6ee3221f350) | 2026-09-03 |
+| 76b47c3b | [Fix flaky TestSendMailPlainText (#38309)](https://github.com/mattermost/mattermost/commit/76b47c3ba9ca333ada289264e9e9900f77ae36c3) | 2026-09-03 |
+| 0760aee3 | [\[MM-70529\] Fix OpenSearch plugin discovery on AWS (#38280)](https://github.com/mattermost/mattermost/commit/0760aee32b79fe98997a76b9363648e0ea3a5dae) | 2026-09-03 |
+| 24e436e7 | [\[Docs Revamp Feedback\] Match landing page titles to the TOC, and keep the sidebar on persona pages (#38301)](https://github.com/mattermost/mattermost/commit/24e436e7ae2a6a45866c9612da3981ea21b2b540) | 2026-09-03 |
+| 8f6d17d8 | [Tag the build server image on its Node version (#38281)](https://github.com/mattermost/mattermost/commit/8f6d17d875e990645f3b5842815f6277a301683d) | 2026-09-03 |
+| bbd00c4f | [docs: add 6 missing legacy redirect entries to active-redirects.json (#38317)](https://github.com/mattermost/mattermost/commit/bbd00c4f3599c55d4f802d396060b38554334a90) | 2026-09-03 |
+| 1cf3c871 | [Warm the Cypress deps cache from master and prefer it over the artifact (#38261)](https://github.com/mattermost/mattermost/commit/1cf3c87173c287c3a03c0b102a520e828f0eeff4) | 2026-09-03 |
+| f6eda181 | [feat: enable React concurrent rendering by default (#38312)](https://github.com/mattermost/mattermost/commit/f6eda181e1b265b330959ec73e0298534fc259c3) | 2026-09-03 |
+| 4086261f | [docs: fix 10 legacy redirect gaps and two bugs in the external link checker (#38318)](https://github.com/mattermost/mattermost/commit/4086261f0090bc337d0fd7c715fdb9c0334d3fc1) | 2026-09-03 |
+| 01fd4cfe | [Stabilize flaky Cypress and Playwright E2E specs (#38300)](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba) | 2026-09-04 |
 
 ## 제외된 커밋
 
