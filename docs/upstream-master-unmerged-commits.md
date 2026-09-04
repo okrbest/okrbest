@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-04 12:16
+- 갱신일: 2026-09-04 14:09
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 582개
+- 남은 커밋: 577개
 
-**마지막 반영 커밋:** `ff01f820` | [MM-69131: Keep app__body off backstage routes to fix dark-theme styling (#36928)](https://github.com/mattermost/mattermost/commit/ff01f820439f7e91ac2016af943f5f54096f9386) | 2026-06-05
+**마지막 반영 커밋:** `f6e7e716` | [Migrate Zephyr manual tests to Cypress E2E (#36971)](https://github.com/mattermost/mattermost/commit/f6e7e716953f4e30e3d65c0466651bb697c53ed2) | 2026-06-08
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| ca87bd7d | [MM-60669 Prevent bot users from becoming the first system admin (#36867)](https://github.com/mattermost/mattermost/commit/ca87bd7d24ecce9ad0da4ae58a30342e68143d0d) | 2026-06-08 |
-| 20c4d892 | [Add additional PluggableErrorBoundaries (#36854)](https://github.com/mattermost/mattermost/commit/20c4d8925e7400550924ca62b369acad5fb4c461) | 2026-06-08 |
-| 27b2525e | [Fix flaky TestPluginAPIGetUserPreferences (#36855)](https://github.com/mattermost/mattermost/commit/27b2525e88c3b38eb11ce6c5eeb46620eb50f7f9) | 2026-06-08 |
-| b7dda343 | [Move flaky test report from PR comment to Mattermost channel (#36965)](https://github.com/mattermost/mattermost/commit/b7dda3435c3f2f355619fc52d385b241e765e0ea) | 2026-06-08 |
-| ffd48149 | [MM-T3436: add Cypress E2E for Actiance XML compliance export download (#36970)](https://github.com/mattermost/mattermost/commit/ffd48149404f4a5d6cd00128be244b44aea4bb2a) | 2026-06-08 |
-| f6e7e716 | [Migrate Zephyr manual tests to Cypress E2E (#36971)](https://github.com/mattermost/mattermost/commit/f6e7e716953f4e30e3d65c0466651bb697c53ed2) | 2026-06-08 |
 | 755925fb | [MM-68830: Preserve unknown permissions during migrations on downgrade (#36888)](https://github.com/mattermost/mattermost/commit/755925fb739ba40ac2486fdcfb8e90c2eaf4f35b) | 2026-06-09 |
 | 7ad8f71b | [Automate schema migration release notes process (#36760)](https://github.com/mattermost/mattermost/commit/7ad8f71bf50da156bf8ad3a8e1165d29b535dd93) | 2026-06-09 |
 | 684ddb32 | [\[MM-68988\]\[MM-68989\]\[MM-68990\]\[MM-68991\]\[MM-68997\]\[MM-68998\] Session Attributes MVF - Server-work (#36934)](https://github.com/mattermost/mattermost/commit/684ddb32a90378760ee2b3d6b0be4224e01a8e43) | 2026-06-09 |
@@ -593,6 +587,7 @@
 | f6eda181 | [feat: enable React concurrent rendering by default (#38312)](https://github.com/mattermost/mattermost/commit/f6eda181e1b265b330959ec73e0298534fc259c3) | 2026-09-03 |
 | 4086261f | [docs: fix 10 legacy redirect gaps and two bugs in the external link checker (#38318)](https://github.com/mattermost/mattermost/commit/4086261f0090bc337d0fd7c715fdb9c0334d3fc1) | 2026-09-03 |
 | 01fd4cfe | [Stabilize flaky Cypress and Playwright E2E specs (#38300)](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba) | 2026-09-04 |
+| 240b9bed | [\[MM-70274\] Add permissions migration so upgraded installs can access the System Console Recaps page (#38058)](https://github.com/mattermost/mattermost/commit/240b9bed8b371430dd112e2ff51eaf336ce4fd0f) | 2026-09-04 |
 
 ## 제외된 커밋
 
@@ -757,6 +752,8 @@
 
 | b4fcb472 | [Remove agent-browser skill and lockfile (#36930)](https://github.com/mattermost/mattermost/commit/b4fcb4720124074b360c0dca1239263a63298e50) | 이 커밋이 건드리는 16개 파일이 우리 트리에 하나도 없어 반영할 실체가 없음 — agent-browser 스킬 문서 11개(.agents/skills/agent-browser/, 2148줄), .cursor/Dockerfile·README.md·cursor.md·scripts/cloud-agent-install.sh, skills-lock.json 전부 부재. 우리가 지운 것이 아니라 애초에 들어온 적이 없다: git log HEAD -- <경로>가 빈 결과이고, 이 스킬을 추가한 upstream 커밋 ac9d99bdd4(Add agent-browser skill and update cloud agent docs, #35534)가 아직 미반영 목록에 남아 있다. 추가를 받지 않았으므로 삭제도 받을 것이 없다. merge-tree CONFLICT 4건(.cursor/Dockerfile, README.md, cursor.md, scripts/cloud-agent-install.sh)은 전부 modify/delete로, 우리에게 없는 파일을 upstream이 '수정'하기 때문에 발생한다 — 강행하면 제거 커밋이 추가 커밋으로 뒤집혀 우리가 쓰지 않는 Cursor 클라우드 에이전트 구성 파일 4개가 새로 생긴다. 우리 .agents/.cursor는 내용물이 완전히 달라 ui-styling·ui-ux-pro-max 스킬과 okrbest-workflow.mdc 등 자체 규칙·계획 문서만 들어 있고 upstream의 Cursor 클라우드 에이전트 구성과 무관하다. 선행 커밋 ac9d99bdd4를 반영하게 되면 이 삭제 커밋도 함께 재검토 대상이나, upstream 스스로 obsolete 판정한 스킬이라 그럴 이유가 없다. |
 
+| b7dda343 | [Move flaky test report from PR comment to Mattermost channel (#36965)](https://github.com/mattermost/mattermost/commit/b7dda3435c3f2f355619fc52d385b241e765e0ea) | Mattermost, Inc. 사내 채널 webhook(secrets.WEBHOOK_URL_FLAKY_TEST_MM)으로 flaky 리포트를 옮기는 변경. okrbest 저장소에는 해당 시크릿이 없어(설정된 시크릿은 PAT_TOKEN 뿐) 신규 스텝이 영구 skip되고, 삭제되는 PR 코멘트 스텝(actions/github-script)은 시크릿 없이 작동하는 우리의 유일한 flaky 알림 경로다. 반영하면 순수 손실이라 제외한다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -793,3 +790,4 @@
 | a7ef484f | [\[MM-68576\] Add SAML connectivity status to support packet diagnostics (#36321)](https://github.com/mattermost/mattermost/commit/a7ef484feea794095a6ca5f0de9b767fe5db5fdc) | SAML 연결 진단 인터페이스·등록 훅·호출부만 반영되고 실제 연결 테스트 로직은 비공개 github.com/mattermost/enterprise/saml에만 있다. einterfaces/saml_diagnostic.go의 SamlDiagnosticInterface.RunSupportPacketTest를 구현·등록하는 쪽이 그 모듈이라 우리 빌드에서는 PlatformService.samlDiagnostic이 nil로 남는다. 호출부가 nil을 정확히 처리해(support_packet.go: samlDiagnostic != nil && SamlSettings.Enable 아니면 StatusDisabled) 지원 패킷은 SAML을 disabled로 보고하며 크래시 위험이 없다. 향후 자체 SAML 진단을 구현하게 되면 이 인터페이스에 붙이면 된다 — SAML 메타데이터 URL 도달성 검사가 실제 내용이다. |
 | ba1cec51 | [\[MM-68693\] Resource level permission policies and new simulation (#36472)](https://github.com/mattermost/mattermost/commit/ba1cec51a54474496875fc8e14e144bfffa4919e) | 리소스 수준 권한 정책(upload_file_attachment·download_file_attachment)과 Simulate access 미리보기 UX. API·app 계층·모델·웹앱 UI 20파일(simulate_access 모달 일습, channel_settings_permissions_policy_tab.tsx +1267)을 adapt로 반영했으나, ALLOW/DENY를 실제로 판정하는 엔진이 비공개 github.com/mattermost/enterprise/access_control에만 있다(server/enterprise/external_imports.go, //go:build enterprise, ../enterprise 부재). 우리 빌드에서 ch.AccessControl이 nil이라 시뮬레이션 버튼과 권한 규칙 탭은 눌러도 동작하지 않는다. einterfaces/pap.go의 PolicyAdministrationPointInterface.SimulatePolicyForUsers가 그 접점이고, app/access_control.go:653이 이를 호출하는 OSS 소비자다 — 테스트는 mocks.AccessControlServiceInterface를 주입해 배관을 검증한다. 4da11e81(공개 채널 멤버십 정책)과 같은 유형이다: 배관·UI는 다 있고 엔진만 없다. 신규 플래그 ChannelPermissionPolicies·PolicySimulation은 기본 false. 향후 자체 ABAC 판정 엔진을 검토하면 이 커밋의 인터페이스에 붙이면 되고, 그때 필요한 선행 과제는 제외한 property v2 계보(9f1fe90b) 분할 반영이다 — 이 커밋 반영에만 v2 우회가 10곳 필요했다. |
 | 1f4f1b4c | [ \[MM-69025\] Enable session attributes in simulation (#36773)](https://github.com/mattermost/mattermost/commit/1f4f1b4c5979b58a3978ea183f21683343282031) | `github.com/mattermost/enterprise/access_control` — 정책 시뮬레이터 본체(acs.SimulatePolicyForUsers)가 비공개 모듈에 있어 '시뮬레이션에서 세션 속성 사용' 기능은 우리 빌드에서 작동하지 않는다. OSS 트리에 반영된 것은 스캐폴딩뿐 — BuildAccessControlSubjectForSession 안에 인라인돼 있던 세션 속성 조회를 exported GetSessionAttributes(sessionID)로 추출(프로덕션 PDP 경로는 동작 동일), 오류 키 개명(build_subject_for_session.get_session_attributes → get_session_attributes), 죽은 키 app.pap.save_policy.user_session_unsupported.app_error 제거, use_active_session이 no-op임을 알리는 Go·TS 주석. GetSessionAttributes를 호출하는 OSS 코드는 BuildAccessControlSubjectForSession 자신뿐이고, exported로 바뀐 이유가 비공개 시뮬레이터에서 호출하기 위해서다. 근거 — server/enterprise/external_imports.go가 _ "github.com/mattermost/enterprise/access_control"을 임포트하지만 //go:build enterprise 태그 뒤에 있고 해당 모듈이 server/go.mod에 없어, channels.go:198-200의 accessControlServiceInterface가 nil로 남고 ch.AccessControl도 nil이 된다(ABAC 서비스 전체가 비활성). 같은 계보의 4da11e81·d1a4d74b·ba1cec51([MM-68693] Resource level permission policies and new simulation, 우리 반영분 9a52353965)과 동일한 처리다. ABAC 시뮬레이터 자체 구현 시 이 커밋의 세션 속성 기준선 적용 방식을 함께 반영해야 한다. |
+| ffd48149 | [MM-T3436: add Cypress E2E for Actiance XML compliance export download (#36970)](https://github.com/mattermost/mattermost/commit/ffd48149404f4a5d6cd00128be244b44aea4bb2a) | github.com/mattermost/enterprise/message_export/actiance_export (비공개). 이 커밋 자체는 Cypress 테스트 33줄 추가라 그대로 반영되지만, 검증 대상인 Actiance XML 컴플라이언스 내보내기가 okrbest 빌드에서 동작하지 않아 통과할 수 없다. 근거 — RegisterMessageExportInterface(server/channels/app/enterprise.go:67)를 호출하는 코드가 우리 트리에 0건이라 channels.go:130의 messageExportInterface가 nil로 남고 ch.MessageExport도 nil이 된다. 구현체는 server/enterprise/external_imports.go의 //go:build enterprise 임포트(message_export, actiance_export, csv_export, global_relay_export)로만 들어오며 해당 모듈이 server/go.mod에 없다. 우리에겐 오픈소스 server/enterprise/message_export/shared/만 있다. 같은 스펙 파일의 기존 테스트 MM-T1172·MM-T1173·MM-T1176·MM-T3305도 동일 제약을 공유한다. 향후 컴플라이언스 내보내기를 자체 구현하면 einterfaces.MessageExportInterface(StartSynchronizeJob)를 구현해 등록하는 것이 접점이고, 이 Cypress 테스트 5건이 그대로 수용 기준이 된다. |
