@@ -136,7 +136,6 @@ describe('PostList', () => {
             const row = ref.current!.renderRow({
                 data: postListIds,
                 itemId: 'd',
-                style: {},
             });
 
             expect(row.props.children.props.previousListId).toEqual('');
@@ -153,7 +152,6 @@ describe('PostList', () => {
             const row = ref.current!.renderRow({
                 data: postListIds,
                 itemId: 'b',
-                style: {},
             });
 
             expect(row.props.children.props.previousListId).toEqual('c');
@@ -176,14 +174,12 @@ describe('PostList', () => {
             let row = ref.current!.renderRow({
                 data: postListIds,
                 itemId: 'c',
-                style: {},
             });
             expect(row.props.children.props.shouldHighlight).toEqual(false);
 
             row = ref.current!.renderRow({
                 data: postListIds,
                 itemId: 'b',
-                style: {},
             });
             expect(row.props.children.props.shouldHighlight).toEqual(true);
         });
@@ -748,13 +744,11 @@ describe('PostList', () => {
             const post3Row = instance.renderRow({
                 data: postListIdsForClassNames,
                 itemId: 'post3',
-                style: {},
             });
 
             const post5Row = instance.renderRow({
                 data: postListIdsForClassNames,
                 itemId: 'post5',
-                style: {},
             });
 
             expect(post3Row.props.className).toEqual('post-row__padding top');
@@ -786,7 +780,6 @@ describe('PostList', () => {
             const row = ref.current!.renderRow({
                 data: props.postListIds,
                 itemId: 'post4',
-                style: {},
             });
 
             expect(row.props.className).toEqual('post-row__padding bottom top');
@@ -817,7 +810,6 @@ describe('PostList', () => {
             const row = ref.current!.renderRow({
                 data: props.postListIds,
                 itemId: 'post2',
-                style: {},
             });
 
             expect(row.props.className).toEqual('');
