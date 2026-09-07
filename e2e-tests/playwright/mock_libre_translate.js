@@ -3,7 +3,7 @@
 
 /* eslint-disable no-console */
 
-const {createServer} = require('http'); // eslint-disable-line @typescript-eslint/no-require-imports
+const {createServer} = require('http');
 
 const PORT = Number(process.env.PORT) || 3010;
 
@@ -50,10 +50,11 @@ const server = createServer(async (req, res) => {
     const path = req.url.split('?')[0];
 
     if (method === 'GET' && path === '/') {
-        return sendJson(res, 200, {
+        sendJson(res, 200, {
             message: 'LibreTranslate mock',
             endpoints: ['GET /', 'POST /translate', 'POST /detect', 'GET /languages', 'POST /__control/source'],
         });
+        return;
     }
 
     if (method === 'POST' && path === '/__control/source') {
@@ -61,16 +62,19 @@ const server = createServer(async (req, res) => {
         try {
             body = await parseJsonBody(req);
         } catch {
-            return sendJson(res, 400, {error: 'Invalid JSON'});
+            sendJson(res, 400, {error: 'Invalid JSON'});
+            return;
         }
         if (typeof body.language === 'string') {
             sourceLanguage = body.language;
         }
-        return sendJson(res, 200, {ok: true, language: sourceLanguage});
+        sendJson(res, 200, {ok: true, language: sourceLanguage});
+        return;
     }
 
     if (method === 'GET' && path === '/languages') {
-        return sendJson(res, 200, LANGUAGES);
+        sendJson(res, 200, LANGUAGES);
+        return;
     }
 
     if (method === 'POST' && path === '/detect') {
@@ -83,7 +87,8 @@ const server = createServer(async (req, res) => {
         try {
             body = await parseJsonBody(req);
         } catch {
-            return sendJson(res, 400, {error: 'Invalid JSON'});
+            sendJson(res, 400, {error: 'Invalid JSON'});
+            return;
         }
 
         const q = body.q || '';
@@ -94,7 +99,7 @@ const server = createServer(async (req, res) => {
         const actualSource = source === 'auto' ? sourceLanguage : source;
 
         // Only "translate" if source differs from target (matches real LibreTranslate behavior)
-        const translatedText = actualSource !== target ? `${q} [translated to ${target}]` : q;
+        const translatedText = actualSource === target ? q : `${q} [translated to ${target}]`;
         const response = {translatedText};
         if (source === 'auto') {
             response.detectedLanguage = {language: sourceLanguage, confidence: 90};

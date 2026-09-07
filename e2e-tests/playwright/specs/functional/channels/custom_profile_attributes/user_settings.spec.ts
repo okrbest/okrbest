@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Team} from '@mattermost/types/teams';
-import {UserProfile} from '@mattermost/types/users';
-import {Channel} from '@mattermost/types/channels';
-import {Client4} from '@mattermost/client';
-import {UserPropertyField} from '@mattermost/types/properties';
+import type {Team} from '@mattermost/types/teams';
+import type {UserProfile} from '@mattermost/types/users';
+import type {Channel} from '@mattermost/types/channels';
+import type {Client4} from '@mattermost/client';
+import type {UserPropertyField} from '@mattermost/types/properties';
 
 import {expect, test} from '@mattermost/playwright-lib';
 
+import type {CustomProfileAttribute} from './helpers';
 import {
-    CustomProfileAttribute,
     setupCustomProfileAttributeFields,
     setupCustomProfileAttributeValues,
     deleteCustomProfileAttributes,
@@ -88,8 +88,8 @@ test.beforeEach(async ({pw}) => {
     ({team, user, adminClient, userClient} = await pw.initSetup({userOptions: {prefix: 'cpa-test-'}}));
     const channel = pw.random.channel({
         teamId: team.id,
-        name: `test-channel`,
-        displayName: `Test Channel`,
+        name: 'test-channel',
+        displayName: 'Test Channel',
     });
     testChannel = await adminClient.createChannel(channel);
 
@@ -259,7 +259,7 @@ test('MM-T5770 Cancelling Changes to Custom Profile Attributes @custom_profile_a
     await profileModal.cancelButton.click();
 
     // 5. Open Department field for editing again
-    await profileModal.container.locator(`text=Department`).scrollIntoViewIfNeeded();
+    await profileModal.container.locator('text=Department').scrollIntoViewIfNeeded();
     await profileModal.container.locator(`#customAttribute_${fieldId}Edit`).scrollIntoViewIfNeeded();
     await profileModal.container.locator(`#customAttribute_${fieldId}Edit`).click();
 
@@ -340,7 +340,7 @@ test('MM-T5772 URL Validation in Custom Profile Attributes @custom_profile_attri
 
     // 3. Edit Website field and enter an invalid URL
     const fieldId = getFieldIdByName(attributeFieldsMap, 'Website');
-    await profileModal.container.locator(`text=Website`).scrollIntoViewIfNeeded();
+    await profileModal.container.locator('text=Website').scrollIntoViewIfNeeded();
     await profileModal.container.locator(`#customAttribute_${fieldId}Edit`).scrollIntoViewIfNeeded();
     await profileModal.container.locator(`#customAttribute_${fieldId}Edit`).click();
     await profileModal.container.locator(`#customAttribute_${fieldId}`).scrollIntoViewIfNeeded();

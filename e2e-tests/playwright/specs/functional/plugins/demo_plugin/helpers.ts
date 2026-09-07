@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Client4} from '@mattermost/client';
+import type {Client4} from '@mattermost/client';
 
 import {expect} from '@mattermost/playwright-lib';
 
@@ -34,7 +34,7 @@ export async function setupDemoPlugin(
 
     await expect
         .poll(async () => {
-            return await pw.isPluginActive(adminClient, DEMO_PLUGIN_ID);
+            return pw.isPluginActive(adminClient, DEMO_PLUGIN_ID);
         })
         .toBe(true);
 }

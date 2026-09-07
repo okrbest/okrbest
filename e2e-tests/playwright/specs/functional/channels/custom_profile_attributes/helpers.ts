@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Page} from '@playwright/test';
-import {Client4} from '@mattermost/client';
-import {UserPropertyField, UserPropertyFieldPatch, FieldType} from '@mattermost/types/properties';
+import type {Page} from '@playwright/test';
+import type {Client4} from '@mattermost/client';
+import type {UserPropertyField, UserPropertyFieldPatch, FieldType} from '@mattermost/types/properties';
 
-import {expect, ChannelsPage} from '@mattermost/playwright-lib';
+import type {ChannelsPage} from '@mattermost/playwright-lib';
+import {expect} from '@mattermost/playwright-lib';
 
 // Common test data constants
 export const TEST_PHONE = '555-123-4567';
@@ -43,11 +44,11 @@ export type CustomProfileAttribute = {
     name: string;
     value?: string;
     type: string;
-    options?: {name: string; color: string; sort_order?: number}[];
+    options?: Array<{name: string; color: string; sort_order?: number}>;
     attrs?: {
         value_type?: string;
         visibility?: string;
-        options?: {name: string; color: string}[];
+        options?: Array<{name: string; color: string}>;
         display_name?: string;
     };
 };
