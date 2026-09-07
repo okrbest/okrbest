@@ -42,6 +42,7 @@ type TimerLayer struct {
 	JobStore                        store.JobStore
 	LicenseStore                    store.LicenseStore
 	LinkMetadataStore               store.LinkMetadataStore
+	NotificationHistoryStore        store.NotificationHistoryStore
 	NotifyAdminStore                store.NotifyAdminStore
 	OAuthStore                      store.OAuthStore
 	OutgoingOAuthConnectionStore    store.OutgoingOAuthConnectionStore
@@ -170,6 +171,10 @@ func (s *TimerLayer) License() store.LicenseStore {
 
 func (s *TimerLayer) LinkMetadata() store.LinkMetadataStore {
 	return s.LinkMetadataStore
+}
+
+func (s *TimerLayer) NotificationHistory() store.NotificationHistoryStore {
+	return s.NotificationHistoryStore
 }
 
 func (s *TimerLayer) NotifyAdmin() store.NotifyAdminStore {
@@ -428,6 +433,11 @@ type TimerLayerLicenseStore struct {
 
 type TimerLayerLinkMetadataStore struct {
 	store.LinkMetadataStore
+	Root *TimerLayer
+}
+
+type TimerLayerNotificationHistoryStore struct {
+	store.NotificationHistoryStore
 	Root *TimerLayer
 }
 
@@ -6048,6 +6058,182 @@ func (s *TimerLayerLinkMetadataStore) Save(linkMetadata *model.LinkMetadata) (*m
 		s.Root.Metrics.ObserveStoreMethodDuration("LinkMetadataStore.Save", success, elapsed)
 	}
 	return result, err
+}
+
+func (s *TimerLayerNotificationHistoryStore) Delete(id string) error {
+	start := time.Now()
+
+	err := s.NotificationHistoryStore.Delete(id)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("NotificationHistoryStore.Delete", success, elapsed)
+	}
+	return err
+}
+
+func (s *TimerLayerNotificationHistoryStore) DeleteForUser(userId string) error {
+	start := time.Now()
+
+	err := s.NotificationHistoryStore.DeleteForUser(userId)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("NotificationHistoryStore.DeleteForUser", success, elapsed)
+	}
+	return err
+}
+
+func (s *TimerLayerNotificationHistoryStore) DeleteOlderThan(timestamp int64) (int64, error) {
+	start := time.Now()
+
+	result, err := s.NotificationHistoryStore.DeleteOlderThan(timestamp)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("NotificationHistoryStore.DeleteOlderThan", success, elapsed)
+	}
+	return result, err
+}
+
+func (s *TimerLayerNotificationHistoryStore) Get(id string) (*model.NotificationHistory, error) {
+	start := time.Now()
+
+	result, err := s.NotificationHistoryStore.Get(id)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("NotificationHistoryStore.Get", success, elapsed)
+	}
+	return result, err
+}
+
+func (s *TimerLayerNotificationHistoryStore) GetCountsForUser(userId string) (*model.NotificationHistoryCounts, error) {
+	start := time.Now()
+
+	result, err := s.NotificationHistoryStore.GetCountsForUser(userId)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("NotificationHistoryStore.GetCountsForUser", success, elapsed)
+	}
+	return result, err
+}
+
+func (s *TimerLayerNotificationHistoryStore) GetForUser(userId string, opts model.GetNotificationHistoryOptions) (*model.NotificationHistoryList, error) {
+	start := time.Now()
+
+	result, err := s.NotificationHistoryStore.GetForUser(userId, opts)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("NotificationHistoryStore.GetForUser", success, elapsed)
+	}
+	return result, err
+}
+
+func (s *TimerLayerNotificationHistoryStore) MarkAllAsReadForUser(userId string) error {
+	start := time.Now()
+
+	err := s.NotificationHistoryStore.MarkAllAsReadForUser(userId)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("NotificationHistoryStore.MarkAllAsReadForUser", success, elapsed)
+	}
+	return err
+}
+
+func (s *TimerLayerNotificationHistoryStore) MarkAsRead(notificationId string) error {
+	start := time.Now()
+
+	err := s.NotificationHistoryStore.MarkAsRead(notificationId)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("NotificationHistoryStore.MarkAsRead", success, elapsed)
+	}
+	return err
+}
+
+func (s *TimerLayerNotificationHistoryStore) MarkAsReadByChannel(userId string, channelId string) error {
+	start := time.Now()
+
+	err := s.NotificationHistoryStore.MarkAsReadByChannel(userId, channelId)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("NotificationHistoryStore.MarkAsReadByChannel", success, elapsed)
+	}
+	return err
+}
+
+func (s *TimerLayerNotificationHistoryStore) Save(notification *model.NotificationHistory) (*model.NotificationHistory, error) {
+	start := time.Now()
+
+	result, err := s.NotificationHistoryStore.Save(notification)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("NotificationHistoryStore.Save", success, elapsed)
+	}
+	return result, err
+}
+
+func (s *TimerLayerNotificationHistoryStore) SaveBatch(notifications []*model.NotificationHistory) error {
+	start := time.Now()
+
+	err := s.NotificationHistoryStore.SaveBatch(notifications)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("NotificationHistoryStore.SaveBatch", success, elapsed)
+	}
+	return err
 }
 
 func (s *TimerLayerNotifyAdminStore) DeleteBefore(trial bool, now int64) error {
@@ -14087,22 +14273,6 @@ func (s *TimerLayerUserAccessTokenStore) DeleteByIds(tokenIDs []string) (int64, 
 	return result, err
 }
 
-func (s *TimerLayerUserAccessTokenStore) GetExpiredBefore(cutoff int64, limit int) ([]*model.UserAccessToken, error) {
-	start := time.Now()
-
-	result, err := s.UserAccessTokenStore.GetExpiredBefore(cutoff, limit)
-
-	elapsed := float64(time.Since(start)) / float64(time.Second)
-	if s.Root.Metrics != nil {
-		success := "false"
-		if err == nil {
-			success = "true"
-		}
-		s.Root.Metrics.ObserveStoreMethodDuration("UserAccessTokenStore.GetExpiredBefore", success, elapsed)
-	}
-	return result, err
-}
-
 func (s *TimerLayerUserAccessTokenStore) Get(tokenID string) (*model.UserAccessToken, error) {
 	start := time.Now()
 
@@ -14163,6 +14333,22 @@ func (s *TimerLayerUserAccessTokenStore) GetByUser(userID string, page int, perP
 			success = "true"
 		}
 		s.Root.Metrics.ObserveStoreMethodDuration("UserAccessTokenStore.GetByUser", success, elapsed)
+	}
+	return result, err
+}
+
+func (s *TimerLayerUserAccessTokenStore) GetExpiredBefore(cutoff int64, limit int) ([]*model.UserAccessToken, error) {
+	start := time.Now()
+
+	result, err := s.UserAccessTokenStore.GetExpiredBefore(cutoff, limit)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("UserAccessTokenStore.GetExpiredBefore", success, elapsed)
 	}
 	return result, err
 }
@@ -14693,6 +14879,22 @@ func (s *TimerLayerWebhookStore) UpdateIncoming(webhook *model.IncomingWebhook) 
 	return result, err
 }
 
+func (s *TimerLayerWebhookStore) UpdateIncomingLastUsed(webhookID string, lastUsed int64) error {
+	start := time.Now()
+
+	err := s.WebhookStore.UpdateIncomingLastUsed(webhookID, lastUsed)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("WebhookStore.UpdateIncomingLastUsed", success, elapsed)
+	}
+	return err
+}
+
 func (s *TimerLayerWebhookStore) UpdateOutgoing(hook *model.OutgoingWebhook) (*model.OutgoingWebhook, error) {
 	start := time.Now()
 
@@ -14737,10 +14939,6 @@ func (s *TimerLayer) TotalSearchDbConnections() int {
 	return s.Store.TotalSearchDbConnections()
 }
 
-func (s *TimerLayer) GetDiagnostics(ctx context.Context) (*store.DatabaseDiagnostics, error) {
-	return s.Store.GetDiagnostics(ctx)
-}
-
 func (s *TimerLayer) UnlockFromMaster() {
 	s.Store.UnlockFromMaster()
 }
@@ -14774,6 +14972,7 @@ func New(childStore store.Store, metrics einterfaces.MetricsInterface) *TimerLay
 	newStore.JobStore = &TimerLayerJobStore{JobStore: childStore.Job(), Root: &newStore}
 	newStore.LicenseStore = &TimerLayerLicenseStore{LicenseStore: childStore.License(), Root: &newStore}
 	newStore.LinkMetadataStore = &TimerLayerLinkMetadataStore{LinkMetadataStore: childStore.LinkMetadata(), Root: &newStore}
+	newStore.NotificationHistoryStore = &TimerLayerNotificationHistoryStore{NotificationHistoryStore: childStore.NotificationHistory(), Root: &newStore}
 	newStore.NotifyAdminStore = &TimerLayerNotifyAdminStore{NotifyAdminStore: childStore.NotifyAdmin(), Root: &newStore}
 	newStore.OAuthStore = &TimerLayerOAuthStore{OAuthStore: childStore.OAuth(), Root: &newStore}
 	newStore.OutgoingOAuthConnectionStore = &TimerLayerOutgoingOAuthConnectionStore{OutgoingOAuthConnectionStore: childStore.OutgoingOAuthConnection(), Root: &newStore}
