@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Locator, expect} from '@playwright/test';
+import type {Locator} from '@playwright/test';
+import {expect} from '@playwright/test';
 
 export default class ConfigurationSettings {
     readonly container: Locator;
@@ -32,7 +33,9 @@ export default class ConfigurationSettings {
         await expect
             .poll(
                 async () => {
-                    if (!(await saveButton.isVisible())) return 'hidden';
+                    if (!(await saveButton.isVisible())) {
+                        return 'hidden';
+                    }
                     return (await saveButton.getAttribute('class')) ?? '';
                 },
                 {timeout: 10000},

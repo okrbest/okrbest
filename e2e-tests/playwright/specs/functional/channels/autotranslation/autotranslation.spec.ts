@@ -207,7 +207,9 @@ test.fixme(
             username: poster.username,
             password: poster.password,
         });
-        if (!posterClient) throw new Error('Failed to create poster client');
+        if (!posterClient) {
+            throw new Error('Failed to create poster client');
+        }
 
         const oldMessage = 'Old message before enable';
         await posterClient.createPost({
@@ -319,7 +321,9 @@ test(
             username: poster.username,
             password: poster.password,
         });
-        if (!posterClient) throw new Error('Failed to create poster client');
+        if (!posterClient) {
+            throw new Error('Failed to create poster client');
+        }
 
         await posterClient.createPost({
             channel_id: created.id,
@@ -387,7 +391,9 @@ test.fixme(
             username: poster.username,
             password: poster.password,
         });
-        if (!posterClient) throw new Error('Failed to create poster client');
+        if (!posterClient) {
+            throw new Error('Failed to create poster client');
+        }
 
         // Set Spanish source to ensure translation happens for new member
         await setMockSourceLanguage(translationUrl, 'es');
@@ -496,7 +502,9 @@ test.fixme(
             username: poster.username,
             password: poster.password,
         });
-        if (!posterClient) throw new Error('Failed to create poster client');
+        if (!posterClient) {
+            throw new Error('Failed to create poster client');
+        }
 
         const originalText = 'Solo texto original';
         // Set Spanish to ensure translation
@@ -574,7 +582,9 @@ test.fixme(
             username: poster.username,
             password: poster.password,
         });
-        if (!posterClient) throw new Error('Failed to create poster client');
+        if (!posterClient) {
+            throw new Error('Failed to create poster client');
+        }
 
         // Create a second poster to test translation indicators (only show with multiple users)
         const poster2 = await pw.random.user('poster2');
@@ -585,7 +595,9 @@ test.fixme(
             username: poster2.username,
             password: poster2.password,
         });
-        if (!posterClient2) throw new Error('Failed to create second poster client');
+        if (!posterClient2) {
+            throw new Error('Failed to create second poster client');
+        }
 
         // Set source language for mock/real server before creating posts
         // For mock: controls which language is detected; for real: auto-detection is used
@@ -677,7 +689,9 @@ test.fixme(
             username: poster.username,
             password: poster.password,
         });
-        if (!posterClient) throw new Error('Failed to create poster client');
+        if (!posterClient) {
+            throw new Error('Failed to create poster client');
+        }
 
         // Create a second poster to test translation indicators (only show with multiple users)
         const poster2 = await pw.random.user('poster2');
@@ -688,7 +702,9 @@ test.fixme(
             username: poster2.username,
             password: poster2.password,
         });
-        if (!posterClient2) throw new Error('Failed to create second poster client');
+        if (!posterClient2) {
+            throw new Error('Failed to create second poster client');
+        }
 
         // Set source language before creating posts
         // Post Spanish first so it gets the translation indicator (first message from posterClient)
@@ -778,7 +794,9 @@ test.fixme(
             username: poster.username,
             password: poster.password,
         });
-        if (!posterClient) throw new Error('Failed to create poster client');
+        if (!posterClient) {
+            throw new Error('Failed to create poster client');
+        }
 
         // Create a second poster to show translation indicator (only visible with multiple users)
         const poster2 = await pw.random.user('poster2');
@@ -789,7 +807,9 @@ test.fixme(
             username: poster2.username,
             password: poster2.password,
         });
-        if (!posterClient2) throw new Error('Failed to create second poster client');
+        if (!posterClient2) {
+            throw new Error('Failed to create second poster client');
+        }
 
         // Post Spanish message that's long enough for reliable detection
         await posterClient.createPost({
@@ -872,7 +892,9 @@ test.fixme(
             username: poster.username,
             password: poster.password,
         });
-        if (!posterClient) throw new Error('Failed to create poster client');
+        if (!posterClient) {
+            throw new Error('Failed to create poster client');
+        }
 
         // Create a second poster to show translation indicator (only visible with multiple users)
         const poster2 = await pw.random.user('poster2');
@@ -883,7 +905,9 @@ test.fixme(
             username: poster2.username,
             password: poster2.password,
         });
-        if (!posterClient2) throw new Error('Failed to create second poster client');
+        if (!posterClient2) {
+            throw new Error('Failed to create second poster client');
+        }
 
         // Set Spanish source to ensure translation happens
         await setMockSourceLanguage(translationUrl, 'es');

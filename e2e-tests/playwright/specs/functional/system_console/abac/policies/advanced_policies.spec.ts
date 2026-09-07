@@ -11,10 +11,8 @@ import {
     createUserWithAttributes,
 } from '@mattermost/playwright-lib';
 
-import {
-    CustomProfileAttribute,
-    setupCustomProfileAttributeFields,
-} from '../../../channels/custom_profile_attributes/helpers';
+import type {CustomProfileAttribute} from '../../../channels/custom_profile_attributes/helpers';
+import {setupCustomProfileAttributeFields} from '../../../channels/custom_profile_attributes/helpers';
 import {
     ensureUserAttributes,
     createUserForABAC,
@@ -125,7 +123,7 @@ test.describe('ABAC Policies - Advanced Policies', () => {
 
         await createAdvancedPolicy(systemConsolePage.page, {
             name: policyName,
-            celExpression: celExpression,
+            celExpression,
             autoSync: true,
             channels: [privateChannel.display_name],
         });

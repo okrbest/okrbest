@@ -39,7 +39,7 @@ export default defineConfig({
             slowMo: testConfig.slowMo,
         },
         screenshot: 'only-on-failure',
-        timezoneId: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        timezoneId: new Intl.DateTimeFormat().resolvedOptions().timeZone,
         trace: 'retain-on-failure-and-retries',
         video: 'retain-on-failure',
         actionTimeout: duration.half_min,

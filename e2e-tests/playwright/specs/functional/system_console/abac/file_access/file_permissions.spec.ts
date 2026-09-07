@@ -4,10 +4,8 @@
 import {expect, test, enableABAC} from '@mattermost/playwright-lib';
 
 import {getAsset} from '../../../../../asset';
-import {
-    CustomProfileAttribute,
-    setupCustomProfileAttributeFields,
-} from '../../../channels/custom_profile_attributes/helpers';
+import type {CustomProfileAttribute} from '../../../channels/custom_profile_attributes/helpers';
+import {setupCustomProfileAttributeFields} from '../../../channels/custom_profile_attributes/helpers';
 import {
     createUserForABAC,
     createPrivateChannelForABAC,

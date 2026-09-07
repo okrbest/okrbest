@@ -14,10 +14,8 @@ import type {UserPropertyField} from '@mattermost/types/properties';
 
 import {newTestPassword} from '@mattermost/playwright-lib';
 
-import {
-    CustomProfileAttribute,
-    setupCustomProfileAttributeValuesForUser,
-} from '../../channels/custom_profile_attributes/helpers';
+import type {CustomProfileAttribute} from '../../channels/custom_profile_attributes/helpers';
+import {setupCustomProfileAttributeValuesForUser} from '../../channels/custom_profile_attributes/helpers';
 
 /**
  * Verify policy exists with better waiting and retry logic
@@ -61,8 +59,8 @@ export async function verifyPolicyNotExists(page: Page, policyName: string): Pro
 export async function createUserAttributeField(client: Client4, name: string, type: string = 'text'): Promise<any> {
     const url = `${client.getBaseRoute()}/custom_profile_attributes/fields`;
     const field = {
-        name: name,
-        type: type,
+        name,
+        type,
         attrs: {
             managed: 'admin', // Admin-managed attribute
             visibility: 'when_set',
@@ -177,7 +175,7 @@ export async function createUserForABAC(
     const user = await adminClient.createUser(
         {
             email: `${username}@example.com`,
-            username: username,
+            username,
             password: newTestPassword(),
         } as any,
         '',
@@ -234,11 +232,11 @@ export async function testAccessRule(
     if (countText) {
         const totalMatch = countText.match(/of\s*(\d+)\s*total/i);
         if (totalMatch) {
-            totalMatches = parseInt(totalMatch[1]);
+            totalMatches = parseInt(totalMatch[1], 10);
         } else {
             const matchesMatch = countText.match(/(\d+)\s*match/i);
             if (matchesMatch) {
-                totalMatches = parseInt(matchesMatch[1]);
+                totalMatches = parseInt(matchesMatch[1], 10);
             }
         }
     }
@@ -805,7 +803,7 @@ export async function createAdvancedPolicy(
     const saveEnabled = await saveButton.isEnabled({timeout: 5000}).catch(() => false);
     if (!saveEnabled) {
         // console.error(`❌ Save button is disabled - cannot save policy`);
-        throw new Error(`Save button is disabled`);
+        throw new Error('Save button is disabled');
     }
 
     await saveButton.click();
@@ -829,7 +827,7 @@ export async function createAdvancedPolicy(
         await page.waitForTimeout(2000);
     } else {
         // console.error(`❌ Apply Policy button not found`);
-        throw new Error(`Apply Policy button not visible after Save`);
+        throw new Error('Apply Policy button not visible after Save');
     }
 }
 
@@ -916,7 +914,7 @@ export async function getJobDetailsForChannel(
             if (await addedTab.isVisible({timeout: 2000})) {
                 const addedText = await addedTab.textContent();
                 const addedMatch = addedText?.match(/Added\s*\((\d+)\)/i);
-                added = addedMatch ? parseInt(addedMatch[1]) : 0;
+                added = addedMatch ? parseInt(addedMatch[1], 10) : 0;
             }
 
             // Parse Removed count from the tab: "Removed (X)"
@@ -924,7 +922,7 @@ export async function getJobDetailsForChannel(
             if (await removedTab.isVisible({timeout: 2000})) {
                 const removedText = await removedTab.textContent();
                 const removedMatch = removedText?.match(/Removed\s*\((\d+)\)/i);
-                removed = removedMatch ? parseInt(removedMatch[1]) : 0;
+                removed = removedMatch ? parseInt(removedMatch[1], 10) : 0;
             }
 
             // Close the Channel Membership Changes modal
@@ -946,8 +944,8 @@ export async function getJobDetailsForChannel(
             const addedMatch = countsText?.match(/\+(\d+)/);
             const removedMatch = countsText?.match(/-(\d+)/);
 
-            added = addedMatch ? parseInt(addedMatch[1]) : 0;
-            removed = removedMatch ? parseInt(removedMatch[1]) : 0;
+            added = addedMatch ? parseInt(addedMatch[1], 10) : 0;
+            removed = removedMatch ? parseInt(removedMatch[1], 10) : 0;
         }
     }
 
@@ -1076,17 +1074,15 @@ export async function getPolicyIdByName(
 
                 if (policy) {
                     return policy.id;
-                } else {
-                    // Wait before retrying
-                    if (attempt < retries) {
-                        await new Promise((resolve) => setTimeout(resolve, 2000));
-                    }
                 }
-            } else {
+
                 // Wait before retrying
                 if (attempt < retries) {
                     await new Promise((resolve) => setTimeout(resolve, 2000));
                 }
+            } else if (attempt < retries) {
+                // Wait before retrying
+                await new Promise((resolve) => setTimeout(resolve, 2000));
             }
         } catch {
             // console.error(`Failed to search policies (attempt ${attempt}):`, _error.message || String(_error));
