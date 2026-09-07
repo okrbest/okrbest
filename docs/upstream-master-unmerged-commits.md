@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-04 14:09
+- 갱신일: 2026-09-07 14:56
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 577개
+- 남은 커밋: 586개
 
-**마지막 반영 커밋:** `f6e7e716` | [Migrate Zephyr manual tests to Cypress E2E (#36971)](https://github.com/mattermost/mattermost/commit/f6e7e716953f4e30e3d65c0466651bb697c53ed2) | 2026-06-08
+**마지막 반영 커밋:** `493fb0ce` | [Fix Permission/Membership Policies list columns running together (#36963)](https://github.com/mattermost/mattermost/commit/493fb0ce554da9cffb647151029080138c0ab1b9) | 2026-06-09
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 755925fb | [MM-68830: Preserve unknown permissions during migrations on downgrade (#36888)](https://github.com/mattermost/mattermost/commit/755925fb739ba40ac2486fdcfb8e90c2eaf4f35b) | 2026-06-09 |
-| 7ad8f71b | [Automate schema migration release notes process (#36760)](https://github.com/mattermost/mattermost/commit/7ad8f71bf50da156bf8ad3a8e1165d29b535dd93) | 2026-06-09 |
-| 684ddb32 | [\[MM-68988\]\[MM-68989\]\[MM-68990\]\[MM-68991\]\[MM-68997\]\[MM-68998\] Session Attributes MVF - Server-work (#36934)](https://github.com/mattermost/mattermost/commit/684ddb32a90378760ee2b3d6b0be4224e01a8e43) | 2026-06-09 |
-| cc1547ac | [\[MM-68618\] Harden file removals (#36427)](https://github.com/mattermost/mattermost/commit/cc1547ac46b49e9484c1dcf95119b67dc6bf7409) | 2026-06-09 |
-| f3836530 | [MM-69003 Mostly share ESLint config between web app and E2E tests (#36767)](https://github.com/mattermost/mattermost/commit/f3836530b72e0822a60e83ad00a49258d88e306a) | 2026-06-09 |
-| 493fb0ce | [Fix Permission/Membership Policies list columns running together (#36963)](https://github.com/mattermost/mattermost/commit/493fb0ce554da9cffb647151029080138c0ab1b9) | 2026-06-09 |
 | de0779d1 | [Update latest minor version to 11.9.0 (#36976)](https://github.com/mattermost/mattermost/commit/de0779d1bfcf5a10ca2d14d245406bb7d72e0988) | 2026-06-10 |
 | 7ecd62dd | [ci: invoke post-server-ci workflows via workflow_call from Server CI (#36880)](https://github.com/mattermost/mattermost/commit/7ecd62ddc1220edb911181722d9a6829dabac509) | 2026-06-10 |
 | 2e3c0ff2 | [MM-69175: Fix broken CI steps (#36989)](https://github.com/mattermost/mattermost/commit/2e3c0ff2788cbff793f2ff07544dc73c33d82219) | 2026-06-10 |
@@ -588,6 +582,21 @@
 | 4086261f | [docs: fix 10 legacy redirect gaps and two bugs in the external link checker (#38318)](https://github.com/mattermost/mattermost/commit/4086261f0090bc337d0fd7c715fdb9c0334d3fc1) | 2026-09-03 |
 | 01fd4cfe | [Stabilize flaky Cypress and Playwright E2E specs (#38300)](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba) | 2026-09-04 |
 | 240b9bed | [\[MM-70274\] Add permissions migration so upgraded installs can access the System Console Recaps page (#38058)](https://github.com/mattermost/mattermost/commit/240b9bed8b371430dd112e2ff51eaf336ce4fd0f) | 2026-09-04 |
+| 97813196 | [docs: unescape HTML entities inside markdown code spans (#38329)](https://github.com/mattermost/mattermost/commit/97813196cddd289c6be33804ad62952f544d938e) | 2026-09-04 |
+| 3bd85d0a | [\[MM-69882\] Decouple pin/unpin from ServiceSettings.PostEditTimeLimit (#38296)](https://github.com/mattermost/mattermost/commit/3bd85d0a93e06085d133dc7ede45ccaba76026c2) | 2026-09-04 |
+| 53e6ffa8 | [Block link previews after redirects to restricted domains (#36665)](https://github.com/mattermost/mattermost/commit/53e6ffa876a500c7b75358cfd350002690227fa0) | 2026-09-04 |
+| d78e09b9 | [fix(check-external-links): follow 301s, route GET-fallback through the loop, skip Zendesk (#38319)](https://github.com/mattermost/mattermost/commit/d78e09b9a57ed794c32ac0c2c0067ebacc2037c3) | 2026-09-04 |
+| bbd208cf | [chore(ci): bump pr-test-analysis toolkit ref to pick up claude-code-action v1.0.210 (#38335)](https://github.com/mattermost/mattermost/commit/bbd208cffdc23be2bfd86e2338a1bc4b591247c2) | 2026-09-04 |
+| e9379690 | [Remove EnableExperimentalLocales and the experimental locales (#38219)](https://github.com/mattermost/mattermost/commit/e9379690d5873cbf65049fabaab22f1317696868) | 2026-09-04 |
+| 43b2ae87 | [Stop encoding English grammar in four i18n source strings (#38228)](https://github.com/mattermost/mattermost/commit/43b2ae87e06b06abe01f9382ec26899c54c31728) | 2026-09-04 |
+| 9905a827 | [Skip flaky TestLicenseFromBytesEnvironmentMismatch (MM-70560) (#38297)](https://github.com/mattermost/mattermost/commit/9905a827e2a0d69b7f55424b503c56b0670de042) | 2026-09-04 |
+| 1807e4b6 | [\[MM-70273\] Validate and limit mention_keys notify prop (#38121)](https://github.com/mattermost/mattermost/commit/1807e4b68183e1462bb535b726f4fec3a8980004) | 2026-09-04 |
+| 791fc09b | [Test and lint mmgotool in CI (#38338)](https://github.com/mattermost/mattermost/commit/791fc09b5dab6ef8de5b96673656ee05e5984ef7) | 2026-09-04 |
+| 1b6a5797 | [Sync Cloud Agent Go toolchain with server/.go-version (1.26.7) (#38298)](https://github.com/mattermost/mattermost/commit/1b6a5797592f082933f630a2bf44e4a3a4a6d88f) | 2026-09-04 |
+| b3946ef5 | [\[MM-69862\]\[MM-69867\] Lock Definition and Applies-to for plugin-owned attributes (#38268)](https://github.com/mattermost/mattermost/commit/b3946ef5e2b85a27d365af2592cf1262de6a665e) | 2026-09-04 |
+| 502cf7e3 | [Bump @floating-ui/react, MUI (within v5) and react-day-picker for React 19 support (#38337)](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38) | 2026-09-05 |
+| 0019ecc5 | [(1) - Feature post delivery audit setting (#37882)](https://github.com/mattermost/mattermost/commit/0019ecc531dfef227d5f7523d41f8443d47227e1) | 2026-09-07 |
+| 86088592 | [fix(e2e): repoint markdown image tests off the deleted docs.mattermost.com asset (#38330)](https://github.com/mattermost/mattermost/commit/86088592790eb63047bee73cd82390aae0c3e27b) | 2026-09-07 |
 
 ## 제외된 커밋
 
@@ -753,6 +762,10 @@
 | b4fcb472 | [Remove agent-browser skill and lockfile (#36930)](https://github.com/mattermost/mattermost/commit/b4fcb4720124074b360c0dca1239263a63298e50) | 이 커밋이 건드리는 16개 파일이 우리 트리에 하나도 없어 반영할 실체가 없음 — agent-browser 스킬 문서 11개(.agents/skills/agent-browser/, 2148줄), .cursor/Dockerfile·README.md·cursor.md·scripts/cloud-agent-install.sh, skills-lock.json 전부 부재. 우리가 지운 것이 아니라 애초에 들어온 적이 없다: git log HEAD -- <경로>가 빈 결과이고, 이 스킬을 추가한 upstream 커밋 ac9d99bdd4(Add agent-browser skill and update cloud agent docs, #35534)가 아직 미반영 목록에 남아 있다. 추가를 받지 않았으므로 삭제도 받을 것이 없다. merge-tree CONFLICT 4건(.cursor/Dockerfile, README.md, cursor.md, scripts/cloud-agent-install.sh)은 전부 modify/delete로, 우리에게 없는 파일을 upstream이 '수정'하기 때문에 발생한다 — 강행하면 제거 커밋이 추가 커밋으로 뒤집혀 우리가 쓰지 않는 Cursor 클라우드 에이전트 구성 파일 4개가 새로 생긴다. 우리 .agents/.cursor는 내용물이 완전히 달라 ui-styling·ui-ux-pro-max 스킬과 okrbest-workflow.mdc 등 자체 규칙·계획 문서만 들어 있고 upstream의 Cursor 클라우드 에이전트 구성과 무관하다. 선행 커밋 ac9d99bdd4를 반영하게 되면 이 삭제 커밋도 함께 재검토 대상이나, upstream 스스로 obsolete 판정한 스킬이라 그럴 이유가 없다. |
 
 | b7dda343 | [Move flaky test report from PR comment to Mattermost channel (#36965)](https://github.com/mattermost/mattermost/commit/b7dda3435c3f2f355619fc52d385b241e765e0ea) | Mattermost, Inc. 사내 채널 webhook(secrets.WEBHOOK_URL_FLAKY_TEST_MM)으로 flaky 리포트를 옮기는 변경. okrbest 저장소에는 해당 시크릿이 없어(설정된 시크릿은 PAT_TOKEN 뿐) 신규 스텝이 영구 skip되고, 삭제되는 PR 코멘트 스텝(actions/github-script)은 시크릿 없이 작동하는 우리의 유일한 flaky 알림 경로다. 반영하면 순수 손실이라 제외한다. |
+
+| 7ad8f71b | [Automate schema migration release notes process (#36760)](https://github.com/mattermost/mattermost/commit/7ad8f71bf50da156bf8ad3a8e1165d29b535dd93) | Mattermost, Inc. 사내 릴리스 노트 프로세스 전용 자동화라 okrbest에 반영할 실체가 없다. 신규 파일 2개(.github/workflows/migration-automation.yml 76줄, .github/scripts/migration_automation.py 358줄)뿐이고 코드 변경은 0이다. 워크플로가 secrets.ANTHROPIC_API_KEY를 요구하는데(워크플로 주석에 'already a repo secret'으로 명시 — mattermost 저장소 기준) okrbest에는 그 시크릿이 없다. 반영하면 server/channels/db/migrations/postgres/**.up.sql이 master에 올라올 때마다 pip install 이후 인증 실패로 잡이 죽어, 이미 영구 실패 중인 build-server-image 위에 상시 실패 잡을 하나 더 얹게 된다. 산출물도 job summary에 쓰는 마이그레이션 리뷰·릴리스 노트로 Mattermost 릴리스 담당 워크플로에 종속된다. 향후 우리도 같은 자동화를 원하면 ANTHROPIC_API_KEY를 저장소 시크릿으로 등록하고 그 시점에 별도 도입하면 된다. |
+
+| 684ddb32 | [\[MM-68988\]\[MM-68989\]\[MM-68990\]\[MM-68991\]\[MM-68997\]\[MM-68998\] Session Attributes MVF - Server-work (#36934)](https://github.com/mattermost/mattermost/commit/684ddb32a90378760ee2b3d6b0be4224e01a8e43) | Session Attributes MVF를 okrbest 제품으로 가져가지 않기로 결정. 두 축에서 반영 불가·불필요하다. (1) 선행 의존 부재 — 이 커밋은 property 시스템 위에 세션 속성 스키마를 올리는데, 그 기반인 server/channels/api4/properties.go가 HEAD에 없다. 이 파일은 48f2fd08(Integrated Boards MVP, #35796)이 만들었고 우리는 그 커밋을 자체 focalboard 기반 Boards 플러그인과 데이터 모델이 어긋난다는 사유로 제외했다. server/public/model/session_attributes.go, server/channels/app/properties/session_attributes.go도 마찬가지로 부재하고, server/channels/app/migrations.go에는 doSetupContentFlaggingProperties만 있고 이 커밋의 hunk가 끼어들 doSetupBoardsProperties·doSetupManagedCategoryProperties가 없다. merge-tree CONFLICT 7파일. (2) 제품 방향 — 기능 전체가 MinimumEnterpriseAdvancedLicense 게이트 뒤에 있고 FeatureFlags.SessionAttributes 기본값도 false다. 우리가 bf53cd3345(#36511)로 반영해 둔 user agent 기반 세션 속성 역시 같은 게이트로 현재 비활성이며, 이 커밋은 그 312줄을 재작성해 본격 기능으로 만드는 작업이다. 48파일 2153추가/168삭제 규모의 신규 개발이라 cherry-pick도 adapt도 성립하지 않는다. 후속 커밋 80eb4980(#37012 manifest 수정), 20c4cc42(#37033 표시 이름 시드), d4186537(#37018 User Attribute LDAP/SAML 동기화)도 이 커밋에 의존하므로 같은 사유로 연쇄 제외 대상이다. 향후 Session Attributes를 제품에 넣기로 하면 api4/properties.go를 포함한 property 시스템을 어디까지 가져올지부터 정하고 spec-kit으로 별도 개발한다. |
 
 ## spec 전환 커밋
 
