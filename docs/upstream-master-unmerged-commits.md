@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-07 14:56
+- 갱신일: 2026-09-07 22:07
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 586개
+- 남은 커밋: 585개
 
-**마지막 반영 커밋:** `493fb0ce` | [Fix Permission/Membership Policies list columns running together (#36963)](https://github.com/mattermost/mattermost/commit/493fb0ce554da9cffb647151029080138c0ab1b9) | 2026-06-09
+**마지막 반영 커밋:** `471fd8d1` | [Bound document content extraction time and decouple it from uploads (MM-69098) (#36856)](https://github.com/mattermost/mattermost/commit/471fd8d1ddff33457fc381aae1c1b40b6ab2d69a) | 2026-06-10
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| de0779d1 | [Update latest minor version to 11.9.0 (#36976)](https://github.com/mattermost/mattermost/commit/de0779d1bfcf5a10ca2d14d245406bb7d72e0988) | 2026-06-10 |
-| 7ecd62dd | [ci: invoke post-server-ci workflows via workflow_call from Server CI (#36880)](https://github.com/mattermost/mattermost/commit/7ecd62ddc1220edb911181722d9a6829dabac509) | 2026-06-10 |
-| 2e3c0ff2 | [MM-69175: Fix broken CI steps (#36989)](https://github.com/mattermost/mattermost/commit/2e3c0ff2788cbff793f2ff07544dc73c33d82219) | 2026-06-10 |
-| fb77dec4 | [Configure Dependabot cooldown for GitHub Actions updates (#36887)](https://github.com/mattermost/mattermost/commit/fb77dec49360b7eae9fca5071ea11197c071081e) | 2026-06-10 |
-| 58022aad | [Fix flaky TestUserHasJoinedChannel (#36985)](https://github.com/mattermost/mattermost/commit/58022aad5437e5049d25142e9998d7d70c5f4ba6) | 2026-06-10 |
-| 6ecf1900 | [Keep plugin post action menus open when hovering away (#36991)](https://github.com/mattermost/mattermost/commit/6ecf19008f0f071b155901e523d01c17c39ddc05) | 2026-06-10 |
-| 8a267c8a | [MM-69104: Elide plugin_statuses_changed payload (#36966)](https://github.com/mattermost/mattermost/commit/8a267c8ababdc7d2acd0aceed7c8451748603fd1) | 2026-06-10 |
-| 99dd99b8 | [Fix flaky TestThreadStore Get unread reply counts for thread (#36926)](https://github.com/mattermost/mattermost/commit/99dd99b8e681af126785ceb8141413e43a7bf255) | 2026-06-10 |
-| 3535473d | [Fix flaky TestBasicAPIPlugins/test_send_mail_plugin (#36834)](https://github.com/mattermost/mattermost/commit/3535473d967611d3043539a86f0d0282636e6ffb) | 2026-06-10 |
-| 471fd8d1 | [Bound document content extraction time and decouple it from uploads (MM-69098) (#36856)](https://github.com/mattermost/mattermost/commit/471fd8d1ddff33457fc381aae1c1b40b6ab2d69a) | 2026-06-10 |
 | 6583982b | [Fix stale channel members RHS list after ABAC access-rule member removal (#36964)](https://github.com/mattermost/mattermost/commit/6583982b26f4e63b68f060d65abc7359de49f3a0) | 2026-06-11 |
 | d562481f | [Added pre-migration infra and a pre-migration for fixing schema ID migration numbers (#36870)](https://github.com/mattermost/mattermost/commit/d562481f82ad8801ba8c1b63f51e2e7f073efe6b) | 2026-06-11 |
 | a08d806a | [Fix flaky-test Mattermost table for colspan section rows (#36993)](https://github.com/mattermost/mattermost/commit/a08d806a485547adddf73a0329dccdab2ad1cecb) | 2026-06-11 |
@@ -597,6 +587,15 @@
 | 502cf7e3 | [Bump @floating-ui/react, MUI (within v5) and react-day-picker for React 19 support (#38337)](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38) | 2026-09-05 |
 | 0019ecc5 | [(1) - Feature post delivery audit setting (#37882)](https://github.com/mattermost/mattermost/commit/0019ecc531dfef227d5f7523d41f8443d47227e1) | 2026-09-07 |
 | 86088592 | [fix(e2e): repoint markdown image tests off the deleted docs.mattermost.com asset (#38330)](https://github.com/mattermost/mattermost/commit/86088592790eb63047bee73cd82390aae0c3e27b) | 2026-09-07 |
+| d7880054 | [\[MM-70278\] Add enable button for disabled plugin settings (#37588)](https://github.com/mattermost/mattermost/commit/d7880054f7a36c9cae1333079e66a7475143048f) | 2026-09-07 |
+| 8b5045c2 | [Ensure we only warm the node_modules cache from the master branch (#38342)](https://github.com/mattermost/mattermost/commit/8b5045c27bcd86d923033ad94818f2962bb302e6) | 2026-09-07 |
+| 94d6a203 | [MM-70228: Adjust LDAP test connection validation (#37913)](https://github.com/mattermost/mattermost/commit/94d6a203950611e96f58dc85c88b75461126c9c2) | 2026-09-07 |
+| cd9bcb00 | [chore(ci): warm Go module and build cache daily, restore read-only in CI (#38285)](https://github.com/mattermost/mattermost/commit/cd9bcb005e8304bdb8fc19ae8611894b78faf650) | 2026-09-07 |
+| 15abf327 | [\[MM-67612\] Show the default channel URL as read-only instead of failing the save (#38110)](https://github.com/mattermost/mattermost/commit/15abf3275f745e0d5869ffc79c71a93b6206f51d) | 2026-09-07 |
+| b4b70b92 | [MM-70570 - Fix flaky ESC blur test by enabling fake timers (#38316)](https://github.com/mattermost/mattermost/commit/b4b70b92180da05225f398ed6fee8e496e91565b) | 2026-09-07 |
+| 2266df0c | [\[MM-68319\] Stop capping OutgoingIntegrationRequestsTimeout at 30 seconds (#38103)](https://github.com/mattermost/mattermost/commit/2266df0c33c84ce66f62e1dfd0b1479732b47ce7) | 2026-09-07 |
+| 3ed4cb03 | [chore: Update NOTICE.txt file with updated dependencies (#38376)](https://github.com/mattermost/mattermost/commit/3ed4cb03b3e9a6ac0eb7cd3730b476bafa93c413) | 2026-09-07 |
+| 53aaf6a4 | [Move changelog generation automation to server repo (#38113)](https://github.com/mattermost/mattermost/commit/53aaf6a4a8e75b23c7eea031f1b49cdce1710767) | 2026-09-07 |
 
 ## 제외된 커밋
 
