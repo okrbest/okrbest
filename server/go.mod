@@ -15,7 +15,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.23
 	github.com/aws/aws-sdk-go-v2/service/marketplacemetering v1.36.5
 	github.com/bep/imagemeta v0.17.2
-	github.com/blang/semver/v4 v4.0.0
 	github.com/boxes-ltd/imaging v1.7.5
 	github.com/cespare/xxhash/v2 v2.3.0
 	github.com/dgryski/dgoogauth v0.0.0-20190221195224-5a805980a5f3
