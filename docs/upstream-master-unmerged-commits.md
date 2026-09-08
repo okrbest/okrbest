@@ -1,24 +1,16 @@
 # upstream-master 미반영 커밋 목록
 
-`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-08 23:16
-- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 572개
+- 갱신일: 2026-09-09 00:41
+- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 565개
 
-**마지막 반영 커밋:** `79c7fe62` | [\[MM-68782\] MBE Phase 8e: add hook registerComposerPlaceholder (#36584)](https://github.com/mattermost/mattermost/commit/79c7fe6238981b8f3ecad3927fb5e124f6a311e7) | 2026-06-15
+**마지막 반영 커밋:** `d90ea343` | [MM-69003 Update ESLint and related dependencies (#37039)](https://github.com/mattermost/mattermost/commit/d90ea343bcc2f33129c16cb6577ceb511b59cfcf) | 2026-06-15
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f83ca8b9 | [Fix Permission Policy tab 403 for channel admins when no policy exists (#36980)](https://github.com/mattermost/mattermost/commit/f83ca8b9fa6fc1583e4063cc565e84e6bb3a0efc) | 2026-06-15 |
-| 0a738be9 | [Fix S3 MoveFile/CopyFile failing on files larger than 5GiB (#37035)](https://github.com/mattermost/mattermost/commit/0a738be909b175e3e220500c1e981bf48762c9d7) | 2026-06-15 |
-| c45a6755 | [MM-68976 Preserve PluginSettings.SignaturePublicKeyFiles on config patch endpoint (#36868)](https://github.com/mattermost/mattermost/commit/c45a67555359b161aeb931094c96c3b9557ac143) | 2026-06-15 |
-| c621c9f7 | [MM-69213: Validate Azure storage account names and use httpservice for custom endpoints (#37014)](https://github.com/mattermost/mattermost/commit/c621c9f7e0ea6fa422e6c9a9df00f65aacbac055) | 2026-06-15 |
-| c6f89ed7 | [Prevent plugins from changing the push notification transport type (#37059)](https://github.com/mattermost/mattermost/commit/c6f89ed71b598965b2a1c0aa5e428a2d830b9be6) | 2026-06-15 |
-| c4b82e53 | [Fix flaky TestUserHasJoinedChannel (#37052)](https://github.com/mattermost/mattermost/commit/c4b82e53e4d0718e493435062926b2b37e813013) | 2026-06-15 |
-| d067d355 | [Fix flaky TestGetLinkMetadataFromCache (#37050)](https://github.com/mattermost/mattermost/commit/d067d355030f2f073d2979d61cc85812ac73c372) | 2026-06-15 |
-| d90ea343 | [MM-69003 Update ESLint and related dependencies (#37039)](https://github.com/mattermost/mattermost/commit/d90ea343bcc2f33129c16cb6577ceb511b59cfcf) | 2026-06-15 |
 | 2c0d2779 | [fix: user account menu ellipsis fixes (#34663)](https://github.com/mattermost/mattermost/commit/2c0d2779cbab2f87bfe14f43b2f6efaefe107c81) | 2026-06-16 |
 | fbb05c58 | [\[MM-69126\] Fix custom emoji upload size and GIF frame limits (#36984)](https://github.com/mattermost/mattermost/commit/fbb05c584fe43e5a36758955a899541807e1f777) | 2026-06-16 |
 | 2f47a0da | [Update docs impact review workflow to Claude Sonnet 4.6 (#37071)](https://github.com/mattermost/mattermost/commit/2f47a0dafb77e2bc527151bdfc2cf7324001878d) | 2026-06-16 |
@@ -583,6 +575,7 @@
 | 0d79d720 | [Bumping prepackaged version of the zoom plugin to v1.13.1 (#38339)](https://github.com/mattermost/mattermost/commit/0d79d72074449c335eb8cd421e4c8dbd99636a8a) | 2026-09-08 |
 | a66e9c03 | [MM-70511: Optimize FileInfo and Channels bulk-indexing queries (#38206)](https://github.com/mattermost/mattermost/commit/a66e9c034bb00a06984373d12ac6fd8bedd27aa3) | 2026-09-08 |
 | 80fc4302 | [Apply React 19 type codemods ahead of the upgrade (#38313)](https://github.com/mattermost/mattermost/commit/80fc4302ae33a94ee0cd9664d9bb6ac1f6561201) | 2026-09-08 |
+| 7eebdb8f | [Migrate from react-beautiful-dnd to @hello-pangea/dnd (#38320)](https://github.com/mattermost/mattermost/commit/7eebdb8f9411ae2d4bd11d5a2ae03d65d7b0552f) | 2026-09-08 |
 
 ## 제외된 커밋
 
