@@ -22,12 +22,12 @@ export type NotificationHistoryItem = {
 };
 
 export type NotificationType =
-    | 'mention'
-    | 'direct_message'
-    | 'group_message'
-    | 'thread_reply'
-    | 'channel_post'
-    | 'system';
+    | 'mention' |
+    'direct_message' |
+    'group_message' |
+    'thread_reply' |
+    'channel_post' |
+    'system';
 
 export type NotificationHistoryResponse = {
     notifications: NotificationHistoryItem[];
