@@ -33,6 +33,11 @@ Element.prototype.getBoundingClientRect = rectStub as any;
 let testEditor: LexicalEditor | null = null;
 function EditorCapture() {
     const [editor] = useLexicalComposerContext();
+
+    // Test-only escape hatch: the suite needs the editor instance to drive
+    // assertions. Capturing it during render is safe here because this
+    // component renders once inside each test's own composer.
+    // eslint-disable-next-line react-hooks/globals
     testEditor = editor;
     return null;
 }

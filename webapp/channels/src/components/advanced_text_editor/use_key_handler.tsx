@@ -48,9 +48,9 @@ const useKeyHandler = (
     isInEditMode?: boolean,
     onCancel?: () => void,
 ): [
-        (e: React.KeyboardEvent<HTMLElement>) => void,
-        (e: React.KeyboardEvent<HTMLElement>) => void,
-    ] => {
+    (e: React.KeyboardEvent<HTMLElement>) => void,
+    (e: React.KeyboardEvent<HTMLElement>) => void,
+] => {
     const dispatch = useDispatch();
 
     const ctrlSend = useSelector((state: GlobalState) => getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'));

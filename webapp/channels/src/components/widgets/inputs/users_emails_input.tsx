@@ -70,8 +70,8 @@ const pasteDelimiter = /[\n\r,;]+/;
 const spaceSeparatedPasteDelimiter = /\s+/;
 
 type PasteHandling =
-    | {mode: 'draft'}
-    | {mode: 'bulk'; delimiter: RegExp};
+    {mode: 'draft'} |
+    {mode: 'bulk'; delimiter: RegExp};
 
 const getPasteHandling = (value: string): PasteHandling => {
     const trimmedValue = value.trim();
@@ -558,7 +558,7 @@ export class UsersEmailsInput extends React.PureComponent<Props, State> {
         let data;
         try {
             data = await Client4.getUserByEmail(value);
-        } catch (error) {
+        } catch {
             return null;
         }
         return data?.delete_at === 0 ? data : null;
@@ -568,7 +568,7 @@ export class UsersEmailsInput extends React.PureComponent<Props, State> {
         let data;
         try {
             data = await Client4.getUserByUsername(value);
-        } catch (error) {
+        } catch {
             return null;
         }
         return data?.delete_at === 0 ? data : null;

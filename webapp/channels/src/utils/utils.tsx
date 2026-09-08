@@ -239,7 +239,7 @@ export const getFileType = (extin: string): typeof FileTypes[keyof typeof FileTy
                 return FileTypes.IMAGE;
             }
         }
-    } catch (e) {
+    } catch {
         // Not a valid URL, just check if the string itself has an extension
         if (extin.includes('.')) {
             const extension = extin.split('.').pop()?.toLowerCase();
@@ -1245,7 +1245,7 @@ export function clearFileInput(elm: HTMLInputElement) {
             elm.type = 'text';
             elm.type = 'file';
         }
-    } catch (e) {
+    } catch {
         // Do nothing
     }
 }
@@ -1536,9 +1536,9 @@ export function isTextSelectedInPostOrReply(e: React.KeyboardEvent | KeyboardEve
     const {id} = e.target as HTMLElement;
 
     const isTypingInValidTextbox =
-    id === AdvancedTextEditorTextboxIds.InCenter ||
-    id === AdvancedTextEditorTextboxIds.InRHSComment ||
-    id === AdvancedTextEditorTextboxIds.InEditMode;
+        id === AdvancedTextEditorTextboxIds.InCenter ||
+        id === AdvancedTextEditorTextboxIds.InRHSComment ||
+        id === AdvancedTextEditorTextboxIds.InEditMode;
 
     if (isTypingInValidTextbox === false) {
         return false;
@@ -1633,9 +1633,9 @@ export function numberToFixedDynamic(num: number, places: number): string {
 export function getDatePickerLocalesForDateFns(locale: string, loadedLocales: Record<string, Locale>) {
     if (locale && locale !== 'en' && !loadedLocales[locale]) {
         try {
-            /* eslint-disable global-require */
+            /* eslint-disable global-require, @typescript-eslint/no-require-imports */
             loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
-            /* eslint-disable global-require */
+            /* eslint-enable global-require, @typescript-eslint/no-require-imports */
         } catch (e) {
             console.log(e); // eslint-disable-line no-console
         }

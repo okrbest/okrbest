@@ -1,25 +1,22 @@
 # upstream-master 미반영 커밋 목록
 
-`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-08 16:53
-- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 571개
+- 갱신일: 2026-09-08 23:16
+- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 572개
 
-**마지막 반영 커밋:** `162322cc` | [\[MM-68797\] MBE Phase 8c: registerChannelIconOverride follow-ups (#36576)](https://github.com/mattermost/mattermost/commit/162322cc4ce050e8e38573b1e07e6513bdc1efe2) | 2026-06-14
+**마지막 반영 커밋:** `79c7fe62` | [\[MM-68782\] MBE Phase 8e: add hook registerComposerPlaceholder (#36584)](https://github.com/mattermost/mattermost/commit/79c7fe6238981b8f3ecad3927fb5e124f6a311e7) | 2026-06-15
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
 | f83ca8b9 | [Fix Permission Policy tab 403 for channel admins when no policy exists (#36980)](https://github.com/mattermost/mattermost/commit/f83ca8b9fa6fc1583e4063cc565e84e6bb3a0efc) | 2026-06-15 |
 | 0a738be9 | [Fix S3 MoveFile/CopyFile failing on files larger than 5GiB (#37035)](https://github.com/mattermost/mattermost/commit/0a738be909b175e3e220500c1e981bf48762c9d7) | 2026-06-15 |
-| c5bead3a | [\[MM-68781\] MBE Phase 8d: add hooks ChannelComposerBanner & ChannelIntro (#36581)](https://github.com/mattermost/mattermost/commit/c5bead3a4bfa5e59c280460422f3b169968b1c4f) | 2026-06-15 |
 | c45a6755 | [MM-68976 Preserve PluginSettings.SignaturePublicKeyFiles on config patch endpoint (#36868)](https://github.com/mattermost/mattermost/commit/c45a67555359b161aeb931094c96c3b9557ac143) | 2026-06-15 |
-| 00730d07 | [MM-68960 Improving UX for custom selections (#36878)](https://github.com/mattermost/mattermost/commit/00730d0744e34a26d3af80425580f50e93a48cc3) | 2026-06-15 |
 | c621c9f7 | [MM-69213: Validate Azure storage account names and use httpservice for custom endpoints (#37014)](https://github.com/mattermost/mattermost/commit/c621c9f7e0ea6fa422e6c9a9df00f65aacbac055) | 2026-06-15 |
 | c6f89ed7 | [Prevent plugins from changing the push notification transport type (#37059)](https://github.com/mattermost/mattermost/commit/c6f89ed71b598965b2a1c0aa5e428a2d830b9be6) | 2026-06-15 |
 | c4b82e53 | [Fix flaky TestUserHasJoinedChannel (#37052)](https://github.com/mattermost/mattermost/commit/c4b82e53e4d0718e493435062926b2b37e813013) | 2026-06-15 |
-| 79c7fe62 | [\[MM-68782\] MBE Phase 8e: add hook registerComposerPlaceholder (#36584)](https://github.com/mattermost/mattermost/commit/79c7fe6238981b8f3ecad3927fb5e124f6a311e7) | 2026-06-15 |
 | d067d355 | [Fix flaky TestGetLinkMetadataFromCache (#37050)](https://github.com/mattermost/mattermost/commit/d067d355030f2f073d2979d61cc85812ac73c372) | 2026-06-15 |
 | d90ea343 | [MM-69003 Update ESLint and related dependencies (#37039)](https://github.com/mattermost/mattermost/commit/d90ea343bcc2f33129c16cb6577ceb511b59cfcf) | 2026-06-15 |
 | 2c0d2779 | [fix: user account menu ellipsis fixes (#34663)](https://github.com/mattermost/mattermost/commit/2c0d2779cbab2f87bfe14f43b2f6efaefe107c81) | 2026-06-16 |
@@ -582,6 +579,10 @@
 | 03a30e91 | [\[MM-70592\] Fix read-only settings for section-based plugins without a footer (#38384)](https://github.com/mattermost/mattermost/commit/03a30e91831c241ff9d82ee4b203fd19968e664a) | 2026-09-08 |
 | 904ee27f | [docs: emit redirect stubs at both <from>/index.html and <from>.html (#38389)](https://github.com/mattermost/mattermost/commit/904ee27f26e09fffd309bf2aac4fd7f99b9dd265) | 2026-09-08 |
 | d611ca8f | [chore: always render with createRoot and drop the EnableConcurrentReact flag (#38391)](https://github.com/mattermost/mattermost/commit/d611ca8f4ad014b69d1349612a34eb0a4b49bc7d) | 2026-09-08 |
+| 9c8d4164 | [MM-70074: Fix output formatting issue in mmctl (#37794)](https://github.com/mattermost/mattermost/commit/9c8d4164abd4e3dd585b97ab2f7efcf11b2fc141) | 2026-09-08 |
+| 0d79d720 | [Bumping prepackaged version of the zoom plugin to v1.13.1 (#38339)](https://github.com/mattermost/mattermost/commit/0d79d72074449c335eb8cd421e4c8dbd99636a8a) | 2026-09-08 |
+| a66e9c03 | [MM-70511: Optimize FileInfo and Channels bulk-indexing queries (#38206)](https://github.com/mattermost/mattermost/commit/a66e9c034bb00a06984373d12ac6fd8bedd27aa3) | 2026-09-08 |
+| 80fc4302 | [Apply React 19 type codemods ahead of the upgrade (#38313)](https://github.com/mattermost/mattermost/commit/80fc4302ae33a94ee0cd9664d9bb6ac1f6561201) | 2026-09-08 |
 
 ## 제외된 커밋
 
@@ -765,6 +766,12 @@
 | d081ae0c | [fix the mocks and the store layer (#37049)](https://github.com/mattermost/mattermost/commit/d081ae0c9e8b995f96f5e6d63c5479098dfd26a6) | 우리 275d214fa6(fix: 팀 ABAC 반영 후 생성물 재생성)이 동일한 내용을 이미 반영했다. 이 커밋은 upstream이 팀 ABAC(46417611) 병합 후 생성물 재생성을 빠뜨린 것을 바로잡는 후속 수정인데, 우리도 지난 세션 46417611 adapt에서 같은 누락을 냈고 CI 세 잡(Check migration files·Check store layers·Check mocks)이 잡아내 make migrations-extract / make store-layers / make mocks로 고쳤다. 두 커밋의 stat이 완전히 일치한다 — 6파일 +100/-98, 파일별 줄 수(2, 8, 48, 12, 64, 64)까지 동일. 현재 상태 확인: mocks 3종(AttributesStore.go, AccessControlServiceInterface.go, PolicyAdministrationPointInterface.go)은 upstream 사후 이미지와 바이트 단위 동일, migrations.list에 000194 up/down 2줄 등록됨, retrylayer.go는 GetChannelMembersToRemove(825)→GetSubject(846)→GetTeamMembersToRemove(867) 알파벳 순 정렬 완료. merge-tree의 migrations.list 충돌은 이 커밋 때문이 아니라 upstream 파일에 000193_add_property_groups_schema_version(제외한 property v2 계보 a6e019863e의 마이그레이션)이 있어서다 — cherry-pick하면 우리에게 없는 000193을 잘못 들여올 위험만 생긴다. |
 
 | 9f7fdadc | [\[MM-68780\] MBE Phase 8b: registerChannelIconOverride (#36575)](https://github.com/mattermost/mattermost/commit/9f7fdadc70033dc568800fc4751d326f28268d86) | 선행 263b3c11([MM-68779] MBE Phase 8a: registerChannelTypeOption, #36569) 제외 사유를 승계한다 — 8a 기록이 '8a는 10편(8a·8b·8c·8d·8e·8f·8h·12·12e·13) 중 1편이라 받으면 나머지도 따라와야 하며, 필요가 생기면 8a~12e를 한 묶음으로 spec 전환해 재검토한다'고 예고해 두었다. (1) 소비자 부재 — registerChannelIconOverride는 플러그인이 채널 아이콘을 교체하는 순수 확장점으로, 등록된 오버라이드가 0개면 아이콘 표시가 오늘과 완전히 동일하다. okrbest에 이 API를 쓸 플러그인이 없어 반영해도 사용자에게 보이는 변화가 없다. (2) 충돌이 8a 부재에서 나온다 — webapp/channels/src/plugins/registry.test.ts는 8a가 만드는 파일이라 우리 트리에 아예 없고(MISSING PATHS), 8b는 이 파일을 수정하려 해 붙을 대상이 없다. registry.ts·types/store/plugins.ts·reducers/plugins/index.ts는 registerChannelTypeOption grep 0건이라 8a가 넣은 등록 배관 부재로 줄 밀림 CONFLICT다. 나머지 두 충돌(channel_intro_message.tsx, channel_mention_provider.tsx)은 아이콘 렌더링 교체 지점이 우리 자체 변경과 겹친 것. (3) 규모 — 68파일 +3216/-313(신규 19·수정 49)으로 spec 기준(>15파일·>500줄)을 넘고 adapt 가이드의 20배가 넘는다. 신규 channel_type_icon/ 13파일이 +1023줄이고 나머지 약 2200줄이 SVG 렌더링 호출 지점 약 50곳 교체와 그 테스트다. (4) 순수 리팩터 — channel_type_icon/ 통합은 동작 변화가 없는 정리라 제외해도 기능 손실이 없다. (5) 부분 반영은 더 나쁘다 — 8a를 제외한 채 8b만 받으면 registry.ts에 registerChannelIconOverride만 있고 registerChannelTypeOption은 없는 반쪽 확장 표면이 남는다. 묶음 spec 전환은 필요가 생겼을 때 8a 항목을 기점으로 연다. |
+
+| c5bead3a | [\[MM-68781\] MBE Phase 8d: add hooks ChannelComposerBanner & ChannelIntro (#36581)](https://github.com/mattermost/mattermost/commit/c5bead3a4bfa5e59c280460422f3b169968b1c4f) | MBE 시리즈 제외 승계 — 263b3c11(Phase 8a)·9f7fdadc(Phase 8b)를 제외했고, 8a 기록이 '8a는 10편(8a·8b·8c·8d·8e·8f·8h·12·12e·13) 중 1편이라 받으면 나머지도 따라와야 하며, 필요가 생기면 8a~12e를 한 묶음으로 spec 전환해 재검토한다'고 예고해 두었다. (1) 소비자 부재 — ChannelComposerBanner·ChannelIntro는 플러그인이 작성창 배너와 채널 인트로를 꽂는 순수 확장점으로, 등록된 것이 0개면 화면이 오늘과 동일하다. okrbest에 이 API를 쓸 플러그인이 없어 동작 변화가 0이다. (2) 선행 부재로 기계적 반영 불가 — MISSING PATHS 11건 중 channel_type_icon/channel_icon_override.ts는 8b가 만드는 파일인데 8d가 이를 수정하려 해 modify/delete 충돌이고, plugins/registry.test.ts는 8a가 만드는 파일이라 역시 부재하며, threading/virtualized_thread_viewer/create_comment.test.tsx도 앞선 Phase 산물이다. registry.ts·reducers/plugins/index.ts·types/store/plugins.ts 충돌은 8a·8b가 넣은 등록 배관 부재에 따른 줄 밀림이다. 나머지 8건(channel_intro_renderer/, channel_view/channel_composer_banner.*, selectors/channel_intro.*, utils/matcher_error_log.*)은 이 커밋이 새로 만드는 파일이라 부재 사유가 아니다. (3) 규모 — 19파일 +1007/-33으로 adapt 가이드(5파일·150줄)를 크게 넘는다. (4) 8c(162322cc)와 달리 분리 가능한 독립 수정이 없다 — post_list_row.tsx 2줄과 channel_view.tsx 2줄은 전부 새 컴포넌트를 꽂는 배선이라 그 컴포넌트 없이는 의미가 없다. 묶음 spec 전환은 필요가 생겼을 때 8a 항목을 기점으로 연다. |
+
+| 00730d07 | [MM-68960 Improving UX for custom selections (#36878)](https://github.com/mattermost/mattermost/commit/00730d0744e34a26d3af80425580f50e93a48cc3) | 제외한 2b7b398a([MM-68102] Add Classification Markings admin console page, #35934) 계보의 UX 개선 후속 — 반영할 실체가 하나도 없다. 2b7b398a 제외의 뿌리는 property 시스템 v2 부재(48f2fd08 Integrated Boards MVP 제외의 소산)다. 직접 확인한 부재: (1) webapp/channels/src/components/admin_console/classification_markings/ 디렉터리 자체가 없어 7파일 중 5파일이 modify/delete 충돌(classification_markings.tsx·.test.tsx, components/classification_levels_table.tsx, components/level_name_cell.tsx, utils/presets.ts), (2) channel_settings_configuration_tab.tsx는 파일이 있으나 classificationEnabled·channel_settings.classification·classification_markings grep 0건이라 이 커밋이 고치려는 분류 블록이 존재하지 않는다 — <span>→<label htmlFor='channelClassificationToggle'> 접근성 개선도 분류 토글이 있어야 의미가 있고 SectionNotice 여백 정리도 분류 블록 내부다, (3) i18n/en.json에 admin.classification_markings.* 키가 0건이라 추가하려는 admin.classification_markings.preset.empty 하나만 넣으면 아무도 참조하지 않는 고아 키가 된다. 162322cc(MBE 8c)처럼 분리 가능한 독립 수정이 섞여 있지 않다. 같은 계보의 da5d7c8c(#37060 discovery page)·63077696(#37633)·5b273440(#37838)도 그 자리에서 같은 판단 대상이다. Classification Markings를 제품에 넣기로 하면 2b7b398a와 property 시스템 범위부터 정해 spec-kit으로 별도 개발한다. |
+
+| 79c7fe62 | [\[MM-68782\] MBE Phase 8e: add hook registerComposerPlaceholder (#36584)](https://github.com/mattermost/mattermost/commit/79c7fe6238981b8f3ecad3927fb5e124f6a311e7) | MBE 시리즈 제외 승계 — 263b3c11(8a)·9f7fdadc(8b)·c5bead3a(8d)를 제외했고, 8a 기록이 '8a~12e를 한 묶음으로 spec 전환해 재검토한다'고 예고해 두었다. (1) 소비자 부재 — registerComposerPlaceholder는 플러그인이 작성창 placeholder 문구를 바꾸는 순수 확장점으로, 등록된 것이 0개면 작성창이 오늘과 동일하다. okrbest에 쓸 플러그인이 없어 동작 변화가 0이다. (2) 선행 부재로 기계적 반영 불가 — MISSING PATHS 10건 중 channel_type_icon/channel_icon_override.ts는 8b 산물, plugins/registry.test.ts는 8a 산물, selectors/channel_intro.ts와 utils/matcher_error_log.ts·.test.ts는 8d 산물로 전부 부재다. 특히 이 커밋의 개명 작업(matcher_error_log → plugin_error_log, -224줄)은 우리에게 지울 대상이 아예 없다. 나머지 5건(advanced_text_editor/composer_placeholder.*, use_composer_placeholder.ts, utils/plugin_error_log.*)은 이 커밋이 새로 만드는 파일이라 부재 사유가 아니다. (3) 규모 — 15파일 +607/-229로 adapt 가이드(5파일·150줄)를 크게 넘는다. (4) 162322cc(8c)와 달리 분리 가능한 독립 수정이 없다 — advanced_text_editor.tsx +5줄은 새 훅을 꽂는 배선이라 훅 없이는 의미가 없다. 남은 8f(52f30c33)·8h(8e409c48)·12(0d08ed27)·12e(3a74d876)도 그 자리에서 같은 판단 대상이며, Phase 13(56291ddd)은 우리가 가진 서버 ChannelGuard 위에 얹히므로 8a 기록대로 따로 판단한다. |
 
 ## spec 전환 커밋
 

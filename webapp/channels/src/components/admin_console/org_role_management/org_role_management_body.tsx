@@ -81,8 +81,8 @@ type DeleteConfirmTarget =
     | {
         type: 'position';
         item: PositionDefinition;
-    }
-    | {
+    } |
+    {
         type: 'department';
         item: OrgUnit;
     };

@@ -57,7 +57,7 @@ export const getDefaultReportAProblemMailtoLink = createSelector(
 
         const subject = 'Problem with OKR.BEST app';
         const body =
-`Please share a description of the problem with reproduction steps:
+            `Please share a description of the problem with reproduction steps:
 
 
 You may also attach any relevant screenshots and ${logsInstructions}, if applicable:
