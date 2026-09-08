@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-08 10:25
+- 갱신일: 2026-09-08 10:45
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 580개
+- 남은 커밋: 576개
 
-**마지막 반영 커밋:** `80eb4980` | [Fixes for the session attributes manifest (#37012)](https://github.com/mattermost/mattermost/commit/80eb49802dcb2135139527ef9afecec9e718b6fc) | 2026-06-11
+**마지막 반영 커밋:** `5cbbb76b` | [MM-69003 Switch to using @stylistic/eslint-plugin for deprecated ESLint rules (#36770)](https://github.com/mattermost/mattermost/commit/5cbbb76b7b2598c93b3f271ef259f8753f986a6f) | 2026-06-11
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 93d0e619 | [Route Calls pushes through a VoIP token if present (#36726)](https://github.com/mattermost/mattermost/commit/93d0e6198daac749e0f35cb53cba9b07d0f4194d) | 2026-06-12 |
-| ebf41be7 | [Stop shared channel sync error spam for deleted remote clusters (#36931)](https://github.com/mattermost/mattermost/commit/ebf41be7041077a656ba0d1653d2152b588d2149) | 2026-06-11 |
-| 2db07164 | [Fix flaky TestGetMattermostLog (#36927)](https://github.com/mattermost/mattermost/commit/2db07164df09dc00c4b388b91a98f0e94c218fc1) | 2026-06-11 |
-| 5cbbb76b | [MM-69003 Switch to using @stylistic/eslint-plugin for deprecated ESLint rules (#36770)](https://github.com/mattermost/mattermost/commit/5cbbb76b7b2598c93b3f271ef259f8753f986a6f) | 2026-06-11 |
 | 4539cf73 | [Fix: Scroll pop caused because of delayed correction. (#36879)](https://github.com/mattermost/mattermost/commit/4539cf73fb17e634253d429c7d24969aca62bc62) | 2026-06-12 |
 | aad6c8af | [\[MM-69228\] Default the CJKSearch feature flag to true (#37032)](https://github.com/mattermost/mattermost/commit/aad6c8afe846a9e3c3709fdea57dd7706ea605d4) | 2026-06-12 |
 | 20c4cc42 | [Seed display names for session attribute fields (#37033)](https://github.com/mattermost/mattermost/commit/20c4cc42b2ee5b33b463189503ec146b550665bf) | 2026-06-12 |
