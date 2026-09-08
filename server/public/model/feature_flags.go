@@ -116,9 +116,6 @@ type FeatureFlags struct {
 	// being unreachable.
 	ClusterGracefulDrain bool
 
-	// Enable React concurrent rendering
-	EnableConcurrentReact bool
-
 	// Enable verifying plugin signatures against the MFI public key, in addition to the
 	// existing hard-coded Mattermost public key and any admin-configured public keys.
 	EnableMFIPluginSignaturePublicKey bool
@@ -172,8 +169,6 @@ func (f *FeatureFlags) SetDefaults() {
 	f.MobileEphemeralMode = false
 
 	f.MmBlocksEnabled = true
-
-	f.EnableConcurrentReact = true
 
 	f.EnableMFIPluginSignaturePublicKey = true
 
