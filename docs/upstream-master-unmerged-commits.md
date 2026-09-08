@@ -1,19 +1,17 @@
 # upstream-master 미반영 커밋 목록
 
-`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-08 10:45
-- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 576개
+- 갱신일: 2026-09-08 13:42
+- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 574개
 
-**마지막 반영 커밋:** `5cbbb76b` | [MM-69003 Switch to using @stylistic/eslint-plugin for deprecated ESLint rules (#36770)](https://github.com/mattermost/mattermost/commit/5cbbb76b7b2598c93b3f271ef259f8753f986a6f) | 2026-06-11
+**마지막 반영 커밋:** `20c4cc42` | [Seed display names for session attribute fields (#37033)](https://github.com/mattermost/mattermost/commit/20c4cc42b2ee5b33b463189503ec146b550665bf) | 2026-06-12
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
 | 4539cf73 | [Fix: Scroll pop caused because of delayed correction. (#36879)](https://github.com/mattermost/mattermost/commit/4539cf73fb17e634253d429c7d24969aca62bc62) | 2026-06-12 |
-| aad6c8af | [\[MM-69228\] Default the CJKSearch feature flag to true (#37032)](https://github.com/mattermost/mattermost/commit/aad6c8afe846a9e3c3709fdea57dd7706ea605d4) | 2026-06-12 |
-| 20c4cc42 | [Seed display names for session attribute fields (#37033)](https://github.com/mattermost/mattermost/commit/20c4cc42b2ee5b33b463189503ec146b550665bf) | 2026-06-12 |
 | 46417611 | [MM - 69063 -  team abac backend and security gate (#36903)](https://github.com/mattermost/mattermost/commit/46417611228df242d939cfb4c21b44a79087f3f2) | 2026-06-12 |
 | d4186537 | [Allow syncing any User Attribute field with LDAP/SAML and disable the editable toggle when synced (#37018)](https://github.com/mattermost/mattermost/commit/d41865371704120a65e03f0a481b60e17dbc692e) | 2026-06-12 |
 | d081ae0c | [fix the mocks and the store layer (#37049)](https://github.com/mattermost/mattermost/commit/d081ae0c9e8b995f96f5e6d63c5479098dfd26a6) | 2026-06-14 |
@@ -762,6 +760,10 @@
 | 263b3c11 | [\[MM-68779\] MBE Phase 8a: registerChannelTypeOption (#36569)](https://github.com/mattermost/mattermost/commit/263b3c11d3754b631c8aa9012efa1b719fbf40db) | 쓰는 플러그인이 없는 웹앱 확장점인데, 우리가 의도적으로 제외한 기능들 때문에 배선 대상 파일이 200줄 벌어져 손으로 재구성해야 한다. (1) 소비자 부재 — registerChannelTypeOption은 플러그인이 '새 채널 만들기' 모달에 자체 채널 유형 옵션을 꽂는 순수 확장점으로, 등록된 옵션이 0개면 모달 동작이 오늘과 동일하다. okrbest에 이 API를 쓸 플러그인이 없다. (2) 배선 파일 divergence — new_channel_modal.tsx가 우리 326줄 대 upstream 부모 520줄이다. upstream diff(+236/-72)는 채널 생성 블록을 isBuiltInType 분기로 통째로 들여쓰기하는데, 그 블록의 classificationEnabled·selectedClassificationId·banner_info(classification markings, 2b7b398a 제외)와 managedCategoryName·areManagedCategoriesEnabled(managed categories, 69fbaece·01219efb 제외)가 우리 쪽에 없어 merge-tree content CONFLICT다. 기계적 해결이 불가능하고 신규 테스트 947줄(모달 677·셀렉터 130·registry 140)도 우리 모달 구조에 맞게 손질해야 한다. (3) 부분 반영은 더 나쁘다 — registry.ts(+53)·platform types(+28)·types/store/plugins.ts(+24)·리듀서(+1)만 받으면 플러그인이 호출해도 아무 일도 안 일어나는 죽은 API가 남는다. (4) 시리즈 성격 — 8a는 10편(8a·8b·8c·8d·8e·8f·8h·12·12e·13) 중 1편이라 받으면 나머지도 따라와야 한다. 서버 쪽 선행 [MM-68400] Four plugin hooks and ChannelGuard enforcement는 e624d3700a로 반영했지만 그 커밋은 server 전용(webapp 파일 0개)이라 웹앱 플러그인 확장 표면은 아직 하나도 받지 않은 상태다. signals의 MISSING PATHS 2건(registry.test.ts, public-private-selector.test.tsx)은 이 커밋이 새로 만드는 파일이라 부재 사유가 아니다. 향후 okrbest가 플러그인으로 채널 유형을 확장할 필요가 생기면 8a~12e를 한 묶음으로 spec 전환해 재검토한다. 시리즈 마지막 Phase 13(56291ddd, 예약 게시물·초안 channel-guard 강제)은 우리가 이미 가진 서버 ChannelGuard 위에 얹히므로 그 자리에서 별도 판단한다. |
 
 | 80eb4980 | [Fixes for the session attributes manifest (#37012)](https://github.com/mattermost/mattermost/commit/80eb49802dcb2135139527ef9afecec9e718b6fc) | 부모 커밋 684ddb32(#36934 Session Attributes MVF - Server-work) 제외의 연쇄 — 그 제외 기록(ledger)이 이 커밋을 이름으로 지목해 두었다. 이 커밋이 고치는 대상이 우리 트리에 하나도 없다: model.SessionAttributeSystemFields, model.SessionAttributesRequestDerivedFieldNames, Server.doSetupSessionAttributesProperties, Server.seedSessionAttributeFields, App.GetSessionAttributesManifest 전부 grep 0건이고 server/public/model/session_attributes.go도 부재(MISSING PATHS). 부모를 제외한 사유는 property 시스템 v2 부재(api4/properties.go — 48f2fd08 Integrated Boards MVP 제외의 소산)와 48파일 2153추가 규모의 신규 개발이라는 것이었다. merge-tree CONFLICT 3건(migrations.go, migrations_test.go, session_attributes.go)은 전부 그 부재에서 나온다 — 세 파일은 우리 트리에 있지만 이 커밋의 hunk가 붙을 함수가 없다. 커밋 내용 3건 모두 반영할 실체가 없다: (1) sessionAttributesSetupDoneKey 마커 제거 — 우리에게 그 상수도 doSetupSessionAttributesProperties도 없다, (2) 시드 시 Attrs 통째 덮어쓰기를 Attrs['platforms']만 갱신으로 축소 — seedSessionAttributeFields 부재, (3) manifest에서 요청 파생 필드 제외 — GetSessionAttributesManifest 부재. 우리에게 있는 세션 속성은 bf53cd3345(#36511, upstream d9c13884를 adapt)로 반영한 user agent 기반 312줄이며 이 커밋이 건드리는 코드가 아니다. 향후 Session Attributes를 제품에 넣기로 하면 684ddb32와 함께 property 시스템 범위부터 정해 spec-kit으로 별도 개발한다. |
+
+| aad6c8af | [\[MM-69228\] Default the CJKSearch feature flag to true (#37032)](https://github.com/mattermost/mattermost/commit/aad6c8afe846a9e3c3709fdea57dd7706ea605d4) | 부모 커밋 60fbce7d([MM-67671] Add CJK Post search support for PostgreSQL)가 이미 제외되어 okrbest에 CJKSearch 피처플래그 자체가 없음(grep -rn CJKSearch server/ webapp/ → 0건). 우리 포크는 6eecf5ee32(채널 검색을 Postgres FTS에서 ILIKE 부분일치로 전면 교체)로 CJK 부분일치 검색을 플래그 없이 상시 지원하므로, 플래그 기본값을 true로 바꾸려는 이 커밋은 반영할 대상이 없다. e2e default_config.ts 790행의 CJKSearch 잔여 항목은 우리 서버가 반환하지 않는 필드라 true로 바꾸면 e2e 기대값이 더 어긋난다. |
+
+| 20c4cc42 | [Seed display names for session attribute fields (#37033)](https://github.com/mattermost/mattermost/commit/20c4cc42b2ee5b33b463189503ec146b550665bf) | 부모 커밋 684ddb32(#36934 Session Attributes MVF - Server-work) 제외의 연쇄 — 그 제외 기록이 이 커밋을 이름으로 지목해 두었다. 반영할 실체가 한 줄도 없다: server/public/model/session_attributes.go·session_attributes_test.go 파일 자체가 부재(MISSING PATHS)라 상수 19개와 sessionAttributeField 시그니처 변경(displayName 인자 추가)을 붙일 곳이 없고, migrations.go의 seedSessionAttributeFields는 grep 0건이라 Attrs[SAAttrDisplayName] 갱신 1줄도 끼어들 함수가 없다. 테스트가 참조하는 model.SessionAttributeManifestEntry, TestDoSetupSessionAttributesProperties, TestGetSessionAttributesManifest도 전부 부재. merge-tree CONFLICT 4건(user_test.go, migrations.go, migrations_test.go, session_attributes.go는 modify/delete)은 모두 이 부재에서 나온다. 부모 제외 사유는 property 시스템 v2(api4/properties.go — 48f2fd08 Integrated Boards MVP 제외의 소산) 부재와 Enterprise Advanced 게이트 뒤 48파일 2153줄 규모의 신규 개발이라는 것이었다. 우리에게 있는 세션 속성은 bf53cd3345(#36511)로 반영한 user agent 기반 312줄이며 이 커밋이 건드리는 코드가 아니다. 향후 Session Attributes를 제품에 넣기로 하면 684ddb32와 함께 property 시스템 범위부터 정해 spec-kit으로 별도 개발한다. |
 
 ## spec 전환 커밋
 
