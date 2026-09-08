@@ -829,7 +829,7 @@ func TestCPAField_SanitizeAndValidate(t *testing.T) {
 				errorId:     "app.custom_profile_attributes.sanitize_and_validate.app_error",
 			},
 			{
-				name: "managed field should clear LDAP sync properties",
+				name: "managed field keeps its LDAP and SAML sync properties",
 				field: &CPAField{
 					PropertyField: PropertyField{
 						Type: PropertyFieldTypeText,
@@ -844,12 +844,12 @@ func TestCPAField_SanitizeAndValidate(t *testing.T) {
 				expectedAttrs: CPAAttrs{
 					Visibility: CustomProfileAttributesVisibilityDefault,
 					Managed:    "admin",
-					LDAP:       "", // Should be cleared
-					SAML:       "", // Should be cleared
+					LDAP:       "ldap_attribute",
+					SAML:       "saml_attribute",
 				},
 			},
 			{
-				name: "managed field should clear sync properties even when field supports syncing",
+				name: "managed field keeps the LDAP sync property on its own",
 				field: &CPAField{
 					PropertyField: PropertyField{
 						Type: PropertyFieldTypeText, // Text fields support syncing
@@ -863,7 +863,46 @@ func TestCPAField_SanitizeAndValidate(t *testing.T) {
 				expectedAttrs: CPAAttrs{
 					Visibility: CustomProfileAttributesVisibilityDefault,
 					Managed:    "admin",
-					LDAP:       "", // Should be cleared due to mutual exclusivity
+					LDAP:       "ldap_attribute",
+					SAML:       "",
+				},
+			},
+			{
+				name: "managed field keeps the SAML sync property on its own",
+				field: &CPAField{
+					PropertyField: PropertyField{
+						Type: PropertyFieldTypeText,
+					},
+					Attrs: CPAAttrs{
+						Managed: "admin",
+						SAML:    "saml_attribute",
+					},
+				},
+				expectError: false,
+				expectedAttrs: CPAAttrs{
+					Visibility: CustomProfileAttributesVisibilityDefault,
+					Managed:    "admin",
+					LDAP:       "",
+					SAML:       "saml_attribute",
+				},
+			},
+			{
+				name: "managed field that does not support syncing still drops sync properties",
+				field: &CPAField{
+					PropertyField: PropertyField{
+						Type: PropertyFieldTypeDate, // Only text fields support syncing
+					},
+					Attrs: CPAAttrs{
+						Managed: "admin",
+						LDAP:    "ldap_attribute",
+						SAML:    "saml_attribute",
+					},
+				},
+				expectError: false,
+				expectedAttrs: CPAAttrs{
+					Visibility: CustomProfileAttributesVisibilityDefault,
+					Managed:    "admin",
+					LDAP:       "",
 					SAML:       "",
 				},
 			},
