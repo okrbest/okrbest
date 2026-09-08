@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-08 14:19
+- 갱신일: 2026-09-08 16:53
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 571개
 
-**마지막 반영 커밋:** `d4186537` | [Allow syncing any User Attribute field with LDAP/SAML and disable the editable toggle when synced (#37018)](https://github.com/mattermost/mattermost/commit/d41865371704120a65e03f0a481b60e17dbc692e) | 2026-06-12
+**마지막 반영 커밋:** `162322cc` | [\[MM-68797\] MBE Phase 8c: registerChannelIconOverride follow-ups (#36576)](https://github.com/mattermost/mattermost/commit/162322cc4ce050e8e38573b1e07e6513bdc1efe2) | 2026-06-14
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| d081ae0c | [fix the mocks and the store layer (#37049)](https://github.com/mattermost/mattermost/commit/d081ae0c9e8b995f96f5e6d63c5479098dfd26a6) | 2026-06-14 |
-| 9f7fdadc | [\[MM-68780\] MBE Phase 8b: registerChannelIconOverride (#36575)](https://github.com/mattermost/mattermost/commit/9f7fdadc70033dc568800fc4751d326f28268d86) | 2026-06-14 |
-| 162322cc | [\[MM-68797\] MBE Phase 8c: registerChannelIconOverride follow-ups (#36576)](https://github.com/mattermost/mattermost/commit/162322cc4ce050e8e38573b1e07e6513bdc1efe2) | 2026-06-14 |
 | f83ca8b9 | [Fix Permission Policy tab 403 for channel admins when no policy exists (#36980)](https://github.com/mattermost/mattermost/commit/f83ca8b9fa6fc1583e4063cc565e84e6bb3a0efc) | 2026-06-15 |
 | 0a738be9 | [Fix S3 MoveFile/CopyFile failing on files larger than 5GiB (#37035)](https://github.com/mattermost/mattermost/commit/0a738be909b175e3e220500c1e981bf48762c9d7) | 2026-06-15 |
 | c5bead3a | [\[MM-68781\] MBE Phase 8d: add hooks ChannelComposerBanner & ChannelIntro (#36581)](https://github.com/mattermost/mattermost/commit/c5bead3a4bfa5e59c280460422f3b169968b1c4f) | 2026-06-15 |
@@ -582,6 +579,9 @@
 | 53aaf6a4 | [Move changelog generation automation to server repo (#38113)](https://github.com/mattermost/mattermost/commit/53aaf6a4a8e75b23c7eea031f1b49cdce1710767) | 2026-09-07 |
 | f301b531 | [Update latest version to 12.0.0 (#38378)](https://github.com/mattermost/mattermost/commit/f301b5310e9b841392e4c262c49ab7c3ae615304) | 2026-09-07 |
 | 597d9c42 | [docs/site: add legacy Sphinx URL redirects for 281 URLs, fix 3 broken targets (#38387)](https://github.com/mattermost/mattermost/commit/597d9c429602d119552b4a7cc7c2b50ce41f895b) | 2026-09-07 |
+| 03a30e91 | [\[MM-70592\] Fix read-only settings for section-based plugins without a footer (#38384)](https://github.com/mattermost/mattermost/commit/03a30e91831c241ff9d82ee4b203fd19968e664a) | 2026-09-08 |
+| 904ee27f | [docs: emit redirect stubs at both <from>/index.html and <from>.html (#38389)](https://github.com/mattermost/mattermost/commit/904ee27f26e09fffd309bf2aac4fd7f99b9dd265) | 2026-09-08 |
+| d611ca8f | [chore: always render with createRoot and drop the EnableConcurrentReact flag (#38391)](https://github.com/mattermost/mattermost/commit/d611ca8f4ad014b69d1349612a34eb0a4b49bc7d) | 2026-09-08 |
 
 ## 제외된 커밋
 
@@ -761,6 +761,10 @@
 | aad6c8af | [\[MM-69228\] Default the CJKSearch feature flag to true (#37032)](https://github.com/mattermost/mattermost/commit/aad6c8afe846a9e3c3709fdea57dd7706ea605d4) | 부모 커밋 60fbce7d([MM-67671] Add CJK Post search support for PostgreSQL)가 이미 제외되어 okrbest에 CJKSearch 피처플래그 자체가 없음(grep -rn CJKSearch server/ webapp/ → 0건). 우리 포크는 6eecf5ee32(채널 검색을 Postgres FTS에서 ILIKE 부분일치로 전면 교체)로 CJK 부분일치 검색을 플래그 없이 상시 지원하므로, 플래그 기본값을 true로 바꾸려는 이 커밋은 반영할 대상이 없다. e2e default_config.ts 790행의 CJKSearch 잔여 항목은 우리 서버가 반환하지 않는 필드라 true로 바꾸면 e2e 기대값이 더 어긋난다. |
 
 | 20c4cc42 | [Seed display names for session attribute fields (#37033)](https://github.com/mattermost/mattermost/commit/20c4cc42b2ee5b33b463189503ec146b550665bf) | 부모 커밋 684ddb32(#36934 Session Attributes MVF - Server-work) 제외의 연쇄 — 그 제외 기록이 이 커밋을 이름으로 지목해 두었다. 반영할 실체가 한 줄도 없다: server/public/model/session_attributes.go·session_attributes_test.go 파일 자체가 부재(MISSING PATHS)라 상수 19개와 sessionAttributeField 시그니처 변경(displayName 인자 추가)을 붙일 곳이 없고, migrations.go의 seedSessionAttributeFields는 grep 0건이라 Attrs[SAAttrDisplayName] 갱신 1줄도 끼어들 함수가 없다. 테스트가 참조하는 model.SessionAttributeManifestEntry, TestDoSetupSessionAttributesProperties, TestGetSessionAttributesManifest도 전부 부재. merge-tree CONFLICT 4건(user_test.go, migrations.go, migrations_test.go, session_attributes.go는 modify/delete)은 모두 이 부재에서 나온다. 부모 제외 사유는 property 시스템 v2(api4/properties.go — 48f2fd08 Integrated Boards MVP 제외의 소산) 부재와 Enterprise Advanced 게이트 뒤 48파일 2153줄 규모의 신규 개발이라는 것이었다. 우리에게 있는 세션 속성은 bf53cd3345(#36511)로 반영한 user agent 기반 312줄이며 이 커밋이 건드리는 코드가 아니다. 향후 Session Attributes를 제품에 넣기로 하면 684ddb32와 함께 property 시스템 범위부터 정해 spec-kit으로 별도 개발한다. |
+
+| d081ae0c | [fix the mocks and the store layer (#37049)](https://github.com/mattermost/mattermost/commit/d081ae0c9e8b995f96f5e6d63c5479098dfd26a6) | 우리 275d214fa6(fix: 팀 ABAC 반영 후 생성물 재생성)이 동일한 내용을 이미 반영했다. 이 커밋은 upstream이 팀 ABAC(46417611) 병합 후 생성물 재생성을 빠뜨린 것을 바로잡는 후속 수정인데, 우리도 지난 세션 46417611 adapt에서 같은 누락을 냈고 CI 세 잡(Check migration files·Check store layers·Check mocks)이 잡아내 make migrations-extract / make store-layers / make mocks로 고쳤다. 두 커밋의 stat이 완전히 일치한다 — 6파일 +100/-98, 파일별 줄 수(2, 8, 48, 12, 64, 64)까지 동일. 현재 상태 확인: mocks 3종(AttributesStore.go, AccessControlServiceInterface.go, PolicyAdministrationPointInterface.go)은 upstream 사후 이미지와 바이트 단위 동일, migrations.list에 000194 up/down 2줄 등록됨, retrylayer.go는 GetChannelMembersToRemove(825)→GetSubject(846)→GetTeamMembersToRemove(867) 알파벳 순 정렬 완료. merge-tree의 migrations.list 충돌은 이 커밋 때문이 아니라 upstream 파일에 000193_add_property_groups_schema_version(제외한 property v2 계보 a6e019863e의 마이그레이션)이 있어서다 — cherry-pick하면 우리에게 없는 000193을 잘못 들여올 위험만 생긴다. |
+
+| 9f7fdadc | [\[MM-68780\] MBE Phase 8b: registerChannelIconOverride (#36575)](https://github.com/mattermost/mattermost/commit/9f7fdadc70033dc568800fc4751d326f28268d86) | 선행 263b3c11([MM-68779] MBE Phase 8a: registerChannelTypeOption, #36569) 제외 사유를 승계한다 — 8a 기록이 '8a는 10편(8a·8b·8c·8d·8e·8f·8h·12·12e·13) 중 1편이라 받으면 나머지도 따라와야 하며, 필요가 생기면 8a~12e를 한 묶음으로 spec 전환해 재검토한다'고 예고해 두었다. (1) 소비자 부재 — registerChannelIconOverride는 플러그인이 채널 아이콘을 교체하는 순수 확장점으로, 등록된 오버라이드가 0개면 아이콘 표시가 오늘과 완전히 동일하다. okrbest에 이 API를 쓸 플러그인이 없어 반영해도 사용자에게 보이는 변화가 없다. (2) 충돌이 8a 부재에서 나온다 — webapp/channels/src/plugins/registry.test.ts는 8a가 만드는 파일이라 우리 트리에 아예 없고(MISSING PATHS), 8b는 이 파일을 수정하려 해 붙을 대상이 없다. registry.ts·types/store/plugins.ts·reducers/plugins/index.ts는 registerChannelTypeOption grep 0건이라 8a가 넣은 등록 배관 부재로 줄 밀림 CONFLICT다. 나머지 두 충돌(channel_intro_message.tsx, channel_mention_provider.tsx)은 아이콘 렌더링 교체 지점이 우리 자체 변경과 겹친 것. (3) 규모 — 68파일 +3216/-313(신규 19·수정 49)으로 spec 기준(>15파일·>500줄)을 넘고 adapt 가이드의 20배가 넘는다. 신규 channel_type_icon/ 13파일이 +1023줄이고 나머지 약 2200줄이 SVG 렌더링 호출 지점 약 50곳 교체와 그 테스트다. (4) 순수 리팩터 — channel_type_icon/ 통합은 동작 변화가 없는 정리라 제외해도 기능 손실이 없다. (5) 부분 반영은 더 나쁘다 — 8a를 제외한 채 8b만 받으면 registry.ts에 registerChannelIconOverride만 있고 registerChannelTypeOption은 없는 반쪽 확장 표면이 남는다. 묶음 spec 전환은 필요가 생겼을 때 8a 항목을 기점으로 연다. |
 
 ## spec 전환 커밋
 
