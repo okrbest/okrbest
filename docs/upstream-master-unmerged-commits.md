@@ -1,18 +1,16 @@
 # upstream-master 미반영 커밋 목록
 
-`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-08 13:58
-- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 573개
+- 갱신일: 2026-09-08 14:19
+- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 571개
 
-**마지막 반영 커밋:** `46417611` | [MM - 69063 -  team abac backend and security gate (#36903)](https://github.com/mattermost/mattermost/commit/46417611228df242d939cfb4c21b44a79087f3f2) | 2026-06-12
+**마지막 반영 커밋:** `d4186537` | [Allow syncing any User Attribute field with LDAP/SAML and disable the editable toggle when synced (#37018)](https://github.com/mattermost/mattermost/commit/d41865371704120a65e03f0a481b60e17dbc692e) | 2026-06-12
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 4539cf73 | [Fix: Scroll pop caused because of delayed correction. (#36879)](https://github.com/mattermost/mattermost/commit/4539cf73fb17e634253d429c7d24969aca62bc62) | 2026-06-12 |
-| d4186537 | [Allow syncing any User Attribute field with LDAP/SAML and disable the editable toggle when synced (#37018)](https://github.com/mattermost/mattermost/commit/d41865371704120a65e03f0a481b60e17dbc692e) | 2026-06-12 |
 | d081ae0c | [fix the mocks and the store layer (#37049)](https://github.com/mattermost/mattermost/commit/d081ae0c9e8b995f96f5e6d63c5479098dfd26a6) | 2026-06-14 |
 | 9f7fdadc | [\[MM-68780\] MBE Phase 8b: registerChannelIconOverride (#36575)](https://github.com/mattermost/mattermost/commit/9f7fdadc70033dc568800fc4751d326f28268d86) | 2026-06-14 |
 | 162322cc | [\[MM-68797\] MBE Phase 8c: registerChannelIconOverride follow-ups (#36576)](https://github.com/mattermost/mattermost/commit/162322cc4ce050e8e38573b1e07e6513bdc1efe2) | 2026-06-14 |
