@@ -272,13 +272,9 @@ func (c *CPAField) SanitizeAndValidate() *AppError {
 	if !c.SupportsOptions() {
 		c.Attrs.Options = nil
 	}
+	// Only the field type gates syncing: admin-managed fields can be synced too,
+	// since synced values come from the IdP and are never user-editable.
 	if !c.SupportsSyncing() {
-		c.Attrs.LDAP = ""
-		c.Attrs.SAML = ""
-	}
-
-	// Clear sync properties if managed is set (mutual exclusivity)
-	if c.IsAdminManaged() {
 		c.Attrs.LDAP = ""
 		c.Attrs.SAML = ""
 	}
