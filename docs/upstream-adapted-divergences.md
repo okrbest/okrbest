@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| 플러그인 파일 동작 정책 API | [db126654](https://github.com/mattermost/mattermost/commit/db12665463b46b44e161a3fdb69e52fd7dd95acd) (#38321) | 생산 코드·생성 코드는 그대로. 새 테스트의 `SessionAttribute().Refresh` 호출에서 `updatedAt` 인자를 뺐다(제외한 Session Attributes 계보 시그니처) — 아래 참조 |
 | React 19 대비 독립 수정 | [786d22bc](https://github.com/mattermost/mattermost/commit/786d22bce34973ab3ea040cb996c66d27364fa26) (#38390) | Card 수정은 우리 형태(`expanded`만)로 옮겼고, 없는 테스트 1개를 버렸다. 우리 파일에서 쓰이지 않게 된 `act` import를 지웠다 — 아래 참조 |
 | FileInfo·Channels (CreateAt, Id) 인덱스 | [a40861c4](https://github.com/mattermost/mattermost/commit/a40861c41413c3ce36f549741f9cb4a1a5fe166d) (#38398) | 마이그레이션 000219·000220은 그대로 받았다. `migrations.list` 충돌 문맥의 000218(보류한 전달 감사)은 넣지 않아 번호 공백이 생긴다 — 아래 참조 |
 | 서버·웹앱 번역 카탈로그 검사기 | [5e6f509f](https://github.com/mattermost/mattermost/commit/5e6f509f36b6518d8df166c01fa606441629dab4) (#38231) | 검사기·CI·다른 언어 정리는 받고, 우리 ko.json 2개에 대한 upstream 정리(webapp 113키·server 51키)는 버렸다. 검사기 기준 결함은 후속 i18n 작업 — 아래 참조 |
@@ -2208,6 +2209,25 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## 플러그인 파일 동작 정책 API — 테스트의 store 호출 인자 하나만 맞췄다
+
+**upstream**: [`db126654`](https://github.com/mattermost/mattermost/commit/db12665463b46b44e161a3fdb69e52fd7dd95acd)
+(MM-70203: add plugin file action policy API, #38321) — 6파일 +206, 2026-10-14 반영
+
+**받은 것.** `PluginAPI.HasPermissionToFileAction(sessionID, fileID, action) bool`과 `plugin.API` 인터페이스·timer layer·RPC 생성 코드·`plugintest` mock, 새 테스트 `TestPluginAPIHasPermissionToFileAction`.
+전제(`App.HasPermissionToFileAction` — c8b7bc61 #36820, `model.IsPermissionAction`, `Server.getFileInfo`)는 이미 있다.
+
+**바꾼 것.** 새 테스트(`plugin_api_test.go`)가 `Store().SessionAttribute().Refresh(sessionID, attrs, model.GetMillis())`로 인자 3개를 넘긴다.
+세 번째 `updatedAt`은 제외한 `684ddb32`(#36934 Session Attributes MVF)가 넣은 시그니처라 우리 store는 `Refresh(sessionID, attrs)` 2인자다.
+그대로 두면 `channels/app` 테스트 패키지 전체가 빌드 실패하므로 그 인자만 뺐다. cherry-pick은 텍스트 충돌 없이 됐고 `go vet ./channels/app`에서 드러났다.
+
+| 위치 | upstream 코드 | 우리 코드 | 되살릴 조건 |
+|---|---|---|---|
+| `channels/app/plugin_api_test.go` `TestPluginAPIHasPermissionToFileAction` | `Refresh(activeSession.Id, map[string]any{…IPAddress: "192.0.2.10"}, model.GetMillis())` | `Refresh(activeSession.Id, map[string]any{…IPAddress: "192.0.2.10"})` | `684ddb32`를 들이면 upstream 형태로 되돌린다 |
+
+**검증.** `go build ./...`, `go vet ./channels/app` 통과. `TestPluginAPIHasPermissionToFileAction` 8개 하위 테스트 PASS(세션 속성 IP가 판정 요청에 실리는 `policy_allow_with_session_attributes` 포함).
+`go test ./public/plugin/...` 통과, `make pluginapi` 재생성 결과 diff 없음.
 
 ## React 19 대비 독립 수정 — Card는 우리 형태로 옮기고 없는 테스트는 버렸다
 
