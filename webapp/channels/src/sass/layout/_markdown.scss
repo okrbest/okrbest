@@ -354,28 +354,33 @@ h6.markdown__heading {
 }
 
 ol.markdown__list {
-    display: table;
-    padding: 0;
-    counter-reset: list;
+    // This element has padding-left and counter-reset set by the MarkdownListOrdered component
+    list-style-type: decimal;
 
     >li {
-        display: table-row;
         counter-increment: list;
         word-break: break-word;
 
-        &::before {
-            display: table-cell;
-            padding-right: 8px;
-            content: counter(list) ".";
-            text-align: right;
-            word-break: keep-all;
+        &::marker {
+            /*
+             * The extra spaces are intentional to cause Chrome/Firefox to match the padding of Safari which doesn't
+             * support setting the content of the marker as of May 2026.
+             *
+             * Once it does, those extra spaces can be removed, a padding-left of 8px can be added to the li, and 1ch
+             * can be removed from --marker-width.
+             */
+            content: counter(list) ".  ";
         }
+
         // Special rules for task items within ordered lists
         &.list-item--task-list {
-            &::before {
+            list-style-type: none;
+
+            &::marker {
                 // The counter is erased for task items
                 content: "";
             }
+
             input[type="checkbox"] {
                 // Margins are adjusted to align better the checkbox with the text
                 margin-right: 2px;
@@ -384,27 +389,28 @@ ol.markdown__list {
         }
     }
 
-    // 중첩된 ordered list: 2뎁스 = lower-alpha, 3뎁스 = lower-roman
+    // 중첩된 ordered list: 2뎁스 = lower-alpha, 3뎁스 = lower-roman.
+    // Lexical 에디터(lexical_text_editor.scss)의 중첩 표기와 맞춘다.
+    //
+    // 별도 카운터를 두지 않고 위의 list 카운터를 그대로 쓴다. MarkdownListOrdered가
+    // ol마다 counter-reset을 인라인 스타일로 넣기 때문에 list는 이미 목록 단위로
+    // 스코프되며, 인라인 counter-reset은 스타일시트의 counter-reset을 통째로
+    // 덮어써서 별도 카운터는 리셋되지 않는다.
+    //
+    // list-style-type도 함께 지정한다. Safari는 ::marker의 content를 지원하지
+    // 않으므로 그 경우 네이티브 마커가 알파벳·로마자를 그린다.
     ol.markdown__list {
-        counter-reset: list-alpha;
+        list-style-type: lower-alpha;
 
-        >li {
-            counter-increment: list-alpha;
-
-            &::before {
-                content: counter(list-alpha, lower-alpha) ".";
-            }
+        >li::marker {
+            content: counter(list, lower-alpha) ".  ";
         }
 
         ol.markdown__list {
-            counter-reset: list-roman;
+            list-style-type: lower-roman;
 
-            >li {
-                counter-increment: list-roman;
-
-                &::before {
-                    content: counter(list-roman, lower-roman) ".";
-                }
+            >li::marker {
+                content: counter(list, lower-roman) ".  ";
             }
         }
     }
