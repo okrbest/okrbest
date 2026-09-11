@@ -3,28 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-10 23:33
+- 갱신일: 2026-09-11 21:26
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 556개
+- 남은 커밋: 546개
 
-**마지막 반영 커밋:** `ee04f28e` | [MM-69311: Add a new ClusterReliableFallbackLength metric (#37122)](https://github.com/mattermost/mattermost/commit/ee04f28e873d990a1719cfc13809ad8aa7cc6554) | 2026-06-19
+**마지막 반영 커밋:** `86732989` | [\[MM-69229\] Remove orphaned DeprecateCloudFree feature flag (#37149)](https://github.com/mattermost/mattermost/commit/86732989e8b350e0a1d66b8e361484b7d08df1bf) | 2026-06-22
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 3972ae0b | [Read pending scheduled posts from master to avoid replica lag gaps (#37104)](https://github.com/mattermost/mattermost/commit/3972ae0b4e0ac9082060e8be45324672c652b440) | 2026-06-22 |
-| 489d08c0 | [Bring back Level check in testlib.hasMsg (#37121)](https://github.com/mattermost/mattermost/commit/489d08c0c9104d6ed457419565b18441d015f6a5) | 2026-06-22 |
-| eb76344e | [Add showPopout opt-out to plugin RHS registerRightHandSidebarComponent (#37125)](https://github.com/mattermost/mattermost/commit/eb76344ec73110e4f27bbb508540b09ca8677c95) | 2026-06-22 |
-| 94e2efbd | [MM-51016 Re-implement layout logic for Markdown lists (#36678)](https://github.com/mattermost/mattermost/commit/94e2efbd995c599f11362ec6a5260252b6433df1) | 2026-06-22 |
-| a4ecc008 | [MM-68232: Remove external Google Fonts from email templates (#36011)](https://github.com/mattermost/mattermost/commit/a4ecc008fac61faab80b247e8c45311201b3f293) | 2026-06-22 |
-| 159fe550 | [Fix MM-T643 long URL embedded image E2E test (#37073)](https://github.com/mattermost/mattermost/commit/159fe5502b78b59df8614a5f500b851cc595ec6c) | 2026-06-22 |
-| 1eb4c62c | [PSAv2 endpoint improvements (#36782)](https://github.com/mattermost/mattermost/commit/1eb4c62cf921f4e01c933a0ca2a3cc452c266d7d) | 2026-06-22 |
-| 149e10bc | [Translations update from Mattermost Weblate (#37093)](https://github.com/mattermost/mattermost/commit/149e10bc4c9df295f2b8fbba4a8582de1fa61513) | 2026-06-22 |
-| 9a2ea895 | [Fix how Redux store is re-exported (#37038)](https://github.com/mattermost/mattermost/commit/9a2ea89575cf1b6989df5e3fc311db7f8ce1f465) | 2026-06-22 |
-| 08eef111 | [Migrate most remaining files to TypeScript (#36954)](https://github.com/mattermost/mattermost/commit/08eef111b82f042ba491448d554e9d4f677c3c9a) | 2026-06-22 |
-| 62f0880e | [Downgrade missing-profile thread notification from error to warning (#37144)](https://github.com/mattermost/mattermost/commit/62f0880e7d2c40c8c51f5fc3b715bddeaf5a3f28) | 2026-06-22 |
-| ce1235f1 | [Fix Playbooks participant modal alignment (#36988)](https://github.com/mattermost/mattermost/commit/ce1235f1feacdf8aacf471dc0f0741c644d66a52) | 2026-06-23 |
-| a05afe9a | [Fix and re-enable flaky TestCreatePostNotificationsWithCRT (#37139)](https://github.com/mattermost/mattermost/commit/a05afe9a80b90589a7932584028080e1ccf69194) | 2026-06-22 |
-| 86732989 | [\[MM-69229\] Remove orphaned DeprecateCloudFree feature flag (#37149)](https://github.com/mattermost/mattermost/commit/86732989e8b350e0a1d66b8e361484b7d08df1bf) | 2026-06-22 |
 | c55282c7 | [\[MM-69229\] Remove orphaned PermalinkPreviews feature flag (#37147)](https://github.com/mattermost/mattermost/commit/c55282c7380bc08ca5f8b1097a8fd808855f5fd3) | 2026-06-23 |
 | 3ad7e2cc | [MM-64636 Show managing plugin in bot accounts list (#37136)](https://github.com/mattermost/mattermost/commit/3ad7e2cc8e9fbbdeac2b542f56be4f6099e740e3) | 2026-06-23 |
 | 08c3f6fa | [\[MM-69183\] Gate expensive user/guest count queries behind admin check in getServerLimits (#36999)](https://github.com/mattermost/mattermost/commit/08c3f6faa98a5c6465b90e5a6aacf027e653586e) | 2026-06-23 |
@@ -567,6 +553,10 @@
 | 75a26632 | [MM-70180 — Channel attributes: display, banner, and post-creation editing (#38267)](https://github.com/mattermost/mattermost/commit/75a266320e04a046e6798226ce193316475f99c6) | 2026-09-09 |
 | e4cfcd95 | [Stabilize ranked operators Playwright spec attribute selection (#38415)](https://github.com/mattermost/mattermost/commit/e4cfcd9561a8c3ab7472a5dc2fd4e28a512d1f1e) | 2026-09-10 |
 | 87168644 | [Update v12.0 and Mobile v2.45 deprecation notices (#38382)](https://github.com/mattermost/mattermost/commit/87168644a48fa66f0229a64d1706a3223c465cea) | 2026-09-10 |
+| d20de412 | [Clarify that the LDAP Admin Filter applies only at AD/LDAP sign-in (#38453)](https://github.com/mattermost/mattermost/commit/d20de4128b0d6dcd562b7959fa232cfbc3ef8f22) | 2026-09-10 |
+| 1da64def | [Fix cloud preview modal sitting at the bottom of the page. (#38455)](https://github.com/mattermost/mattermost/commit/1da64deffcfe790ca059e4254d4a1d7986afca08) | 2026-09-10 |
+| db126654 | [MM-70203: add plugin file action policy API (#38321)](https://github.com/mattermost/mattermost/commit/db12665463b46b44e161a3fdb69e52fd7dd95acd) | 2026-09-10 |
+| a73cce0d | [Use sidebar title class for category drag handles in Cypress (#38417)](https://github.com/mattermost/mattermost/commit/a73cce0d03afc26b194813d1b7e9c47a3dafc0cd) | 2026-09-11 |
 
 ## 제외된 커밋
 
@@ -770,6 +760,8 @@
 | 017a7102 | [\[MM-69055\] Add rank property field type (#36809)](https://github.com/mattermost/mattermost/commit/017a7102f82ed9a36864d566690f1fe8d4e2beef) | 제외한 property 시스템 v2(48f2fd08 Integrated Boards MVP·9f1fe90b 계보)와 분류 표시(2b7b398a·6083cc22·23b4d827·800810e8·da5d7c8c) 두 계보 위에 얹힌 신규 기능이라 반영할 토대가 없다. property 필드에 rank 타입을 신설해 분류 표시 필드를 select→rank로 전환하고 AttributeView가 {name,rank} 객체를 노출하게 하며 shared_only 마스킹을 '자기 등급 이하'로 분기시키는 작업(79파일 +4488/-86, DB 마이그레이션 4개 000197~000200)이다. 결정적 근거 — 마이그레이션 000198_convert_classification_fields_to_rank.up.sql이 UPDATE PropertyFields ... AND ObjectType = 'template' 형태로 PropertyFields.ObjectType 컬럼을 참조하는데 우리 스키마·모델(server/public/model/property_field.go)에 그 컬럼이 없다. ledger가 property v2 분할 반영 대상으로 명시한 바로 그 PropertyField.ObjectType이다. 즉 이 마이그레이션은 no-op이 아니라 'column objecttype does not exist' SQL 오류로 서버 기동을 막는다 — 부분 반영이 exclude보다 위험한 사례다. 그 밖의 부재 실측(전부 신규 생성이 아니라 커밋이 수정하는 대상이라 부재가 곧 반영 불가 사유) — server/channels/api4/properties.go(+1/-1), server/channels/app/properties/access_control_attribute_validation.go(+29/-4), webapp/channels/src/components/common/hooks/useClassificationMarkings.ts(+1/-1), e2e-tests의 channel_classification/helpers.ts·classification_markings_helpers.ts 모두 우리 트리에 없다. 우리 PropertyFieldType enum도 text/select/multiselect/date/user/multiuser 6종뿐이라 upstream이 전제하는 v2 타입 체계와 다르다. merge-tree CONFLICT(e2e-tests/.ci/server.generate.sh, default_config.ts 등), 규모는 spec 분기 기준(>15파일·>500줄·DB 마이그레이션)을 모든 항목에서 초과하지만 단독 spec으로 열 수 없다 — 선행이 property v2와 분류 표시 두 계보 전체다. 착수 기점은 ledger가 이미 지정한 48f2fd08/e8632bd4 항목이다. **마이그레이션 번호 주의** — 이 커밋이 upstream에서 000197~000200을 점유한다. 우리는 e1188034 adapt(a0eaa843d7)로 webhooks를 000196으로 옮겨 현재 최신이 000196이므로, 자체 마이그레이션을 추가할 때는 upstream과 어긋나지 않도록 000201부터 써야 한다. 또한 이 커밋이 upstream에서 migration_000194_test.go를 migration_000198_test.go로 개명하지만 우리 migration_000194_test.go는 000194_add_type_id_index_to_access_control_policies를 검증하는 별개 파일이라 영향받지 않는다(numstat상 삭제 없이 신규 추가 171줄만). |
 
 | 7ed01d74 | [Skip docs impact review when Docs/Not Needed label is present (#37109)](https://github.com/mattermost/mattermost/commit/7ed01d749e2d8213ed36517652128d5495732a6a) | 부모 워크플로 45f54a0e(Documentation Impact Review Workflow, #35358)와 동일 사유로 제외 — okrbest에 .github/workflows/docs-impact-review.yml 자체가 없어(Mattermost 공식 docs 저장소 docs.mattermost.com 전용, adapt 대상 없음) 적용 대상이 없다. merge-tree modify/delete CONFLICT, MISSING PATHS 등재, git log --diff-filter=D 무결과(우리가 삭제한 적 없이 애초에 가진 적 없음)로 세 번 확인. 변경 내용은 job의 if: 조건에 !contains(github.event.pull_request.labels.*.name, 'Docs/Not Needed') 한 줄을 더해 Docs/Not Needed 라벨이 붙은 PR에서 워크플로를 건너뛰게 하는 것(기존 draft·unified-ci-app 조건은 멀티라인으로 재배치, +4/-1). 라벨명 Docs/Not Needed·Docs/Needed는 Mattermost 조직 이슈 라벨 체계이고, 해당 job은 mattermost/docs를 sparse-checkout하고 secrets.ANTHROPIC_API_KEY로 Claude를 호출하는 스텝이라 파일을 들여와도 우리에겐 시크릿도 분석 대상 저장소도 라벨도 없다. 0fa5e235·7ccafd79·202334aa·9e73b9bb·fee649d0·a3cdef8b·a6d1942f·66894045·d0128492·47d2c607·252eb966·1574bda3·0fcf3b5e·50b8e108·24f9da39·2f47a0da와 같은 계열 17번째. |
+
+| 1eb4c62c | [PSAv2 endpoint improvements (#36782)](https://github.com/mattermost/mattermost/commit/1eb4c62cf921f4e01c933a0ca2a3cc452c266d7d) | 제외한 48f2fd08(Integrated Boards MVP, #35796)의 property 시스템 v2 위에 얹힌 확장이라 반영할 토대가 없음 — 006f1027·3cb00848·01219efb·3fa87760·7627784a·9d33d87e·9c684e63·5b4efbd2·2b7b398a·6c0e0fee·69fbaece 등에 이은 48f2fd08 계보. PSAv2 API에 커서·델타(since) 질의, 계층 검색, 신규 fields 검색 엔드포인트, property values의 since를 추가하고 델타 효율용 인덱스 2개를 얹는 작업인데, 필요한 선행 요소가 전부 부재 — (1) 핵심 변경 파일 server/channels/api4/properties.go(+296)가 우리 트리에 아예 없음(ls 확인, merge-tree modify/delete CONFLICT), (2) server/channels/api4/properties_test.go(+980) 부재, (3) api/v4/source/properties.yaml(+275) 부재, (4) model.PropertyField.ObjectType 부재 — 이 커밋 추가 라인 중 116줄이 ObjectType을 참조하는데 우리 구조체는 ID/GroupID/Name/Type/Attrs/TargetID/TargetType/CreateAt/UpdateAt/DeleteAt 10필드뿐(grep 0건), (5) 마이그레이션 000201_create_property_fields_groupid_updateat_id_index·000202_create_property_values_groupid_updateat_id_index를 얹는데 우리 최신은 000196_add_lastused_to_incoming_webhooks라 197~200이 비어 morph 시퀀스에 구멍이 생긴다. 그 빈 구간 197~200(add_rank_to_property_field_type, convert_classification_fields_to_rank, rename_classification_linked_fields, add_rank_to_attribute_view)이 전부 이미 제외한 Classification Markings·attribute view 계보 소산이라, 구멍을 메우려면 제외 결정을 연쇄로 뒤집어야 한다. 강행 시 없는 파일 수정 실패, 통과해도 ObjectType 미정의로 Go 컴파일 실패, 그마저 넘겨도 없는 컬럼 SELECT로 런타임 SQL 오류. 규모도 19파일 +2965/-337에 DB 마이그레이션·보호 경로(server/channels/db/migrations/) 접촉으로 spec 기준 초과이자 CODEOWNERS 리뷰 요건 발생. 우리 Boards는 focalboard 기반 자체 플러그인(okrbest-plugin-boards, BlockProp 모델)이 담당하고 Mattermost property API를 호출하지 않아 제품 공백 없음. 향후 48f2fd08의 property 절반(api4/properties.go, PropertyField.ObjectType, 마이그레이션 000160~000165)을 분할 반영하게 되면 계보 전체와 함께 재검토 대상. |
 
 ## spec 전환 커밋
 
