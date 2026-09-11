@@ -2157,10 +2157,6 @@
     "translation": "이메일 설정에 설정되지 않은 값이 있습니다."
   },
   {
-    "id": "api.file.test_connection_s3_settings_nil.app_error",
-    "translation": "파일 저장소 설정에 설정되지 않은 값이 있습니다."
-  },
-  {
     "id": "api.file.upload_file.incorrect_channelId.app_error",
     "translation": "파일을 업로드할 수 없습니다. 채널 ID가 잘못되었습니다: {{.channelId}}"
   },
