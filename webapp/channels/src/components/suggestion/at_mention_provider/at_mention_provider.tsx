@@ -51,7 +51,7 @@ export type Props = {
     autocompleteUsersInChannel: (prefix: string) => Promise<ActionResult>;
     useChannelMentions: boolean;
     autocompleteGroups: Group[] | null;
-    searchAssociatedGroupsForReference: (prefix: string) => Promise<{data: Group[]}>;
+    searchAssociatedGroupsForReference: (prefix: string) => Promise<ActionResult<Group[]>>;
     priorityProfiles: UserProfile[] | undefined;
     defaultAgent?: Agent;
 };
@@ -73,7 +73,7 @@ export default class AtMentionProvider extends Provider {
     public autocompleteUsersInChannel: (prefix: string) => Promise<ActionResult>;
     public useChannelMentions: boolean;
     public autocompleteGroups: Group[] | null;
-    public searchAssociatedGroupsForReference: (prefix: string) => Promise<{data: Group[]}>;
+    public searchAssociatedGroupsForReference: (prefix: string) => Promise<ActionResult<Group[]>>;
     public priorityProfiles: UserProfile[] | undefined;
     public defaultAgent?: Agent;
 
