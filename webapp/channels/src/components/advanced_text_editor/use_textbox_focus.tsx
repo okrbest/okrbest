@@ -17,7 +17,7 @@ import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_te
 import {shouldFocusMainTextbox} from 'utils/post_utils';
 
 const useTextboxFocus = (
-    editorRef: React.RefObject<LexicalTextEditorHandle>,
+    editorRef: React.RefObject<LexicalTextEditorHandle | null>,
     channelId: string,
     isRHS: boolean,
     canPost: boolean,

@@ -36,7 +36,7 @@ exports[`SidebarList should match snapshot 1`] = `
     />
     <div>
       <div
-        data-rfd-droppable-context-id=":r0:"
+        data-rfd-droppable-context-id="_r_0_"
         data-rfd-droppable-id="droppable-categories"
         id="sidebar-droppable-categories"
       >
@@ -51,7 +51,7 @@ exports[`SidebarList should match snapshot 1`] = `
 
 exports[`SidebarList should match snapshot 2`] = `
 <div
-  data-rfd-droppable-context-id=":r0:"
+  data-rfd-droppable-context-id="_r_0_"
   data-rfd-droppable-id="droppable-categories"
   id="sidebar-droppable-categories"
 >

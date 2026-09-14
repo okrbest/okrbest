@@ -183,7 +183,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const successMessageTimerRef = useRef<number>();
+    const successMessageTimerRef = useRef<number | undefined>(undefined);
 
     const [selectedUserIds, setSelectedUserIds] = useState<Set<string>>(new Set());
     const [bulkOrgUnitId, setBulkOrgUnitId] = useState('');
@@ -191,7 +191,7 @@ const OrgRoleManagementBody = ({teamId}: Props) => {
     const [bulkPositionId, setBulkPositionId] = useState('');
     const [isBulkSaving, setIsBulkSaving] = useState(false);
     const [bulkSaveSummary, setBulkSaveSummary] = useState<BulkSaveSummary | null>(null);
-    const bulkSaveSummaryTimerRef = useRef<number>();
+    const bulkSaveSummaryTimerRef = useRef<number | undefined>(undefined);
     const teamIdRef = useRef(teamId);
     const headerCheckboxRef = useRef<HTMLInputElement>(null);
 

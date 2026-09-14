@@ -149,9 +149,9 @@ type State = {
 };
 
 export default class PostList extends React.PureComponent<Props, State> {
-    listRef: React.RefObject<DynamicVirtualizedList>;
-    postListRef: React.RefObject<HTMLDivElement>;
-    postListContentRef: React.RefObject<HTMLDivElement>;
+    listRef: React.RefObject<DynamicVirtualizedList | null>;
+    postListRef: React.RefObject<HTMLDivElement | null>;
+    postListContentRef: React.RefObject<HTMLDivElement | null>;
     scrollStopAction: DelayedAction | null = null;
     initRangeToRender: number[];
     showSearchHintThreshold: number;
