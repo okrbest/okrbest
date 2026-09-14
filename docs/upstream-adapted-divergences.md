@@ -95,6 +95,7 @@
 | 플러그인 시작 실패가 웹앱을 막지 않게 | [98371929](https://github.com/mattermost/mattermost/commit/98371929edae113a6af7a7f73b964c1a6378168b) (#38486) | 로더·레지스트리 수정은 그대로 받고, `registry.ts`의 제외 계보(MBE 8a~8h·채널 설정 탭) 메서드 충돌 3곳과 `registry.test.ts`의 해당 스위트 8개를 버렸다. 테스트 파일은 lifetime 스위트만 담아 새로 만들었다 — 아래 참조 |
 | 플러그인에 호스트 JSX 런타임 노출 | [e97df5b6](https://github.com/mattermost/mattermost/commit/e97df5b6e18a227cf9aa3cf47317f44672d9eaef) (#38489) | 코드 3파일은 그대로 받고 `docs/develop/` 플러그인 개발자 문서 2개(제외한 문서 사이트 계보)를 버렸다. 포크 플러그인 빌드 설정에 쓸 요지를 남긴다 — 아래 참조 |
 | 남은 JS 테스트 TS 이관 | [d1666572](https://github.com/mattermost/mattermost/commit/d16665723616ee8b63a127816cbad2022668354f) (#38493) | 34개 이관은 받고, 제외 계보(Managed Categories·채널 설정 탭)의 테스트 2개와 import 1개를 버렸다. 자동 병합된 포크 전용 테스트 3곳에 타입을 맞췄다 — 아래 참조 |
+| Global Relay 발신자 주소 설정 | [69f0f2c2](https://github.com/mattermost/mattermost/commit/69f0f2c22cfb346566bc02ad67347bd65a7cabdf) (#38451) | 설정·검증·콘솔 UI는 그대로 받고 docs/main mdx 1개를 버렸다. 설정을 쓰는 EML 작성기가 비공개 모듈이라 발동하지 않는다 — 아래 참조 |
 
 ---
 
@@ -2720,7 +2721,29 @@ production React 19에는 `jsxDEV`가 없어서, 그 자리를 `jsx`/`jsxs`로 �
 - 접촉 테스트 34스위트: 726건 중 712건 통과.
 - 실패 14건은 `actions/views/channel.test.ts` 10건(channel view actions의 loadUnreads·prefetchChannelPosts·syncPostsInChannel 등)과 `mattermost-redux/src/actions/channel_categories.test.ts` 4건(moveChannel(s)ToCategory optimistic update)이다. 반영 전 `.js` 두 파일을 꺼내 돌려도 똑같이 14건이 실패하는 기준선 실패다.
 - 타입을 고친 두 파일은 121건 모두 통과한다.
-- `tsc --noEmit`: 반영 직후 16건 중 3건이 이 커밋 파일(위 포크 테스트 3곳)에서 나왔고, 고친 뒤 13건이 남았다. 13건은 모두 이 커밋이 건드리지 않은 파일(`admin_definition_ldap_wizard.tsx` 6, `emoji_node.test.ts` 2, `markdown_paste_plugin.tsx` 1, `post_view.test.tsx` 2, `resizable_lhs/index.tsx` 2)에 있다.
+- `tsc --noEmit` (TS 이관): 반영 직후 16건 중 3건이 이 커밋 파일(위 포크 테스트 3곳)에서 나왔고, 고친 뒤 13건이 남았다. 13건은 모두 이 커밋이 건드리지 않은 파일(`admin_definition_ldap_wizard.tsx` 6, `emoji_node.test.ts` 2, `markdown_paste_plugin.tsx` 1, `post_view.test.tsx` 2, `resizable_lhs/index.tsx` 2)에 있다.
+---
+
+## Global Relay 발신자 주소 — docs/main 1개를 버렸고 기능은 비공개 모듈에 묶인다
+
+**upstream**: [`69f0f2c2`](https://github.com/mattermost/mattermost/commit/69f0f2c22cfb346566bc02ad67347bd65a7cabdf)
+([MM-70642] Add Global Relay SenderAddress config setting, #38451) — 12파일 +285/-6, 2026-10-15 반영
+
+**받은 것.** `GlobalRelayMessageExportSettings.SenderAddress`(기본 `""`)를 추가하고, 값이 있으면 `IsValidEmail`로 검증한다.
+시스템 콘솔 `message_export_settings.tsx`의 "Sender Address" 입력칸, server·webapp en.json 키, 테스트·스냅숏, e2e 기본 설정 3개도 받았다.
+스냅숏은 재생성 없이 통과했다.
+
+**발동하지 않는다.** 이 값을 From과 SMTP envelope sender로 쓰는 EML 작성기는 비공개 `github.com/mattermost/enterprise/message_export/global_relay_export`(`server/enterprise/external_imports.go`)에만 있다.
+우리 포크에서는 설정 저장과 검증만 동작한다. 같은 구조인 `4608b024`(#38010 사용자 지정 헤더, 우리 `96235b5b15`)와 같다. ledger 비공개 모듈 표에 등재했다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/administration-guide/configure/compliance-configuration-settings.mdx` | "Global Relay sender address" 절 추가. 요지: 내보내는 모든 EML의 From과 SMTP envelope sender로 쓰는 고정 주소이고, 비우면(기본) 첫 채널 참여자의 username으로 From을 정한다. 참여자 이메일은 To 헤더에 남아 아카이브가 참여자를 색인할 수 있다. 설정 키는 `.MessageExportSettings.GlobalRelaySettings.SenderAddress`(문자열) | 제외한 `1d3bbc63`(#37330 문서 사이트 이관) 계보라 파일이 없다(modify/delete). 원칙 IV | 없음 |
+
+**검증.** 2026-10-15. `go test ./public/model -run 'Config|GlobalRelay|MessageExport'` 통과.
+webapp `message_export_settings.test.tsx`(Node 24)는 14건과 스냅숏 5개가 모두 통과했다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
