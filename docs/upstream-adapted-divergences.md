@@ -94,6 +94,7 @@
 | React 경고 props·refs·keys 정리 | [f6f27191](https://github.com/mattermost/mattermost/commit/f6f2719165ffb132e351342add570f3b1b6fd07a) (#38238) | Tag forwardRef·suggestion dispatch 제거·워크스페이스 key는 받았다. 채널 헤더 메뉴 `isReadonly` 제거 2파일은 우리가 먼저 지워 버렸다 — 아래 참조 |
 | 플러그인 시작 실패가 웹앱을 막지 않게 | [98371929](https://github.com/mattermost/mattermost/commit/98371929edae113a6af7a7f73b964c1a6378168b) (#38486) | 로더·레지스트리 수정은 그대로 받고, `registry.ts`의 제외 계보(MBE 8a~8h·채널 설정 탭) 메서드 충돌 3곳과 `registry.test.ts`의 해당 스위트 8개를 버렸다. 테스트 파일은 lifetime 스위트만 담아 새로 만들었다 — 아래 참조 |
 | 플러그인에 호스트 JSX 런타임 노출 | [e97df5b6](https://github.com/mattermost/mattermost/commit/e97df5b6e18a227cf9aa3cf47317f44672d9eaef) (#38489) | 코드 3파일은 그대로 받고 `docs/develop/` 플러그인 개발자 문서 2개(제외한 문서 사이트 계보)를 버렸다. 포크 플러그인 빌드 설정에 쓸 요지를 남긴다 — 아래 참조 |
+| 남은 JS 테스트 TS 이관 | [d1666572](https://github.com/mattermost/mattermost/commit/d16665723616ee8b63a127816cbad2022668354f) (#38493) | 34개 이관은 받고, 제외 계보(Managed Categories·채널 설정 탭)의 테스트 2개와 import 1개를 버렸다. 자동 병합된 포크 전용 테스트 3곳에 타입을 맞췄다 — 아래 참조 |
 
 ---
 
@@ -2692,6 +2693,34 @@ production React 19에는 `jsxDEV`가 없어서, 그 자리를 `jsx`/`jsxs`로 �
 
 **검증.** 2026-10-15, Node 24. 새 테스트를 반영 전 `export.ts`로 돌리면 21건 중 4건이 실패한다(런타임 노출 테스트).
 반영 후 `export.test.ts`·`export.production.test.ts`·`react_dom_compatibility.test.ts`는 39건이 모두 통과한다.
+---
+
+## 남은 JS 테스트 TS 이관 — 제외 계보 테스트를 버리고 포크 테스트에 타입을 맞췄다
+
+**upstream**: [`d1666572`](https://github.com/mattermost/mattermost/commit/d16665723616ee8b63a127816cbad2022668354f)
+([MM-70679] Migrate remaining JS test files to TypeScript, #38493) — webapp 테스트 37파일 +1079/-960, 2026-10-15 반영
+
+**받은 것.** `.test.js`/`.jsx` 34개를 `.ts`/`.tsx`로 옮겼다. `mattermost-redux/test/test_store.js`도 `.ts`가 됐다.
+기존 `.ts` 테스트 6개(channels·posts·preferences·teams·users actions)의 타입 보정도 받았다. 제품 코드는 바뀌지 않는다.
+우리 포크 전용 테스트(테마 일괄 적용 `f35a1449a9`, 멘션 필터 `mentionFilter`)는 rename과 함께 자동 병합됐다.
+
+**버린 것.**
+
+| 위치 | upstream 코드 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `mattermost-redux/src/actions/channel_categories.test.ts` | `should not add channel to Channels category when default_category_name is set` 테스트 1개 | `Channel.default_category_name`은 제외한 Managed Categories 계보(`69fbaece`·`01219efb`) 소산이라 우리 `addChannelToInitialCategory`가 이 필드를 보지 않는다 | Managed Categories 계보를 받을 때 |
+| `mattermost-redux/src/reducers/entities/channel_categories.test.ts` import | `ChannelCategoryTypes`(action_types) | 이 파일에서 import 말고는 쓰이지 않는다(upstream에서도 제외 계보 케이스용 잔재). 타입 import 3개(`ChannelCategory`·`DeepPartial`·`IDMappedObjects`)는 받았다 | 같음 |
+| `selectors/plugins.test.ts` | `getChannelSettingsTabs` describe 블록(68줄)과 `ChannelSettingsTabComponent`·`getChannelSettingsTabs` import | upstream은 제외한 `4255e314`(#35591 채널 설정 탭)가 만든 `.ts`에 `.js` 내용을 합쳤다. 우리 `.js`는 upstream 직전 `.js`와 같아서 upstream 결과본에서 이 블록만 뺐다 | 채널 설정 탭 확장점을 받을 때 upstream 파일로 교체 |
+
+**포크 테스트에 맞춘 것(upstream에 없는 줄).**
+- `actions/websocket_actions.test.ts` — `handleThemeAppliedToAllEvent` 테스트 인자를 같은 파일의 `wsMessage<WebSocketMessages.ThemeAppliedToAll>(...)`로 감쌌다.
+- `reducers/views/rhs.test.ts` — `mentionFilter` 기본값 테스트의 `rhsReducer({}, {})`를 `{} as AnyAction`으로 바꿨다. `SUPPRESS_RHS` 상태 객체의 `mentionFilter`에 `as const`를 붙였다. 둘 다 JS 시절엔 드러나지 않던 타입 오류다.
+
+**검증.** 2026-10-15, Node 24.
+- 접촉 테스트 34스위트: 726건 중 712건 통과.
+- 실패 14건은 `actions/views/channel.test.ts` 10건(channel view actions의 loadUnreads·prefetchChannelPosts·syncPostsInChannel 등)과 `mattermost-redux/src/actions/channel_categories.test.ts` 4건(moveChannel(s)ToCategory optimistic update)이다. 반영 전 `.js` 두 파일을 꺼내 돌려도 똑같이 14건이 실패하는 기준선 실패다.
+- 타입을 고친 두 파일은 121건 모두 통과한다.
+- `tsc --noEmit`: 반영 직후 16건 중 3건이 이 커밋 파일(위 포크 테스트 3곳)에서 나왔고, 고친 뒤 13건이 남았다. 13건은 모두 이 커밋이 건드리지 않은 파일(`admin_definition_ldap_wizard.tsx` 6, `emoji_node.test.ts` 2, `markdown_paste_plugin.tsx` 1, `post_view.test.tsx` 2, `resizable_lhs/index.tsx` 2)에 있다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
