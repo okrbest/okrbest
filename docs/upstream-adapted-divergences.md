@@ -92,6 +92,7 @@
 | Cypress·Playwright E2E 스펙 안정화 | [01fd4cfe](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba) (#38300) | 19파일은 받고, 제외·spec 계보에 걸린 Playwright 3파일의 변경을 버렸다 — 아래 참조 |
 | OpenSearch 플러그인 감지(AWS) 수정 | [0760aee3](https://github.com/mattermost/mattermost/commit/0760aee32b79fe98997a76b9363648e0ea3a5dae) (#38280) | server 8파일은 그대로 받았고, 우리가 지운 `docs/main/` 문서 1개(로그 표 1줄)를 버렸다 — 아래 참조 |
 | React 경고 props·refs·keys 정리 | [f6f27191](https://github.com/mattermost/mattermost/commit/f6f2719165ffb132e351342add570f3b1b6fd07a) (#38238) | Tag forwardRef·suggestion dispatch 제거·워크스페이스 key는 받았다. 채널 헤더 메뉴 `isReadonly` 제거 2파일은 우리가 먼저 지워 버렸다 — 아래 참조 |
+| 플러그인 시작 실패가 웹앱을 막지 않게 | [98371929](https://github.com/mattermost/mattermost/commit/98371929edae113a6af7a7f73b964c1a6378168b) (#38486) | 로더·레지스트리 수정은 그대로 받고, `registry.ts`의 제외 계보(MBE 8a~8h·채널 설정 탭) 메서드 충돌 3곳과 `registry.test.ts`의 해당 스위트 8개를 버렸다. 테스트 파일은 lifetime 스위트만 담아 새로 만들었다 — 아래 참조 |
 
 ---
 
@@ -2618,6 +2619,41 @@ webapp tsc 오류 목록이 반영 전과 같다(11건, 전부 기존). 변경 �
 
 참고: 우리 `webapp-ci.yml`의 `check-external-links` 잡은 `needs: check-lint`라 check-lint가 구조적으로 실패하는 동안 CI에서 돌지 않는다. 로컬 `npm run check-external-links`에서만 의미가 있다.
 `/webapp/scripts`는 CODEOWNERS 보호 경로라 이 커밋이 든 PR은 `--admin` 병합이 필요하다.
+---
+
+## 플러그인 시작 실패 격리 — 제외 계보의 레지스트리 메서드와 테스트 스위트를 버렸다
+
+**upstream**: [`98371929`](https://github.com/mattermost/mattermost/commit/98371929edae113a6af7a7f73b964c1a6378168b)
+([MM-70678] Prevent plugin startup failures from blocking the web app, #38486) — `webapp/channels/src/plugins/` 6파일 +780/-160, 2026-10-15 반영
+
+**받은 것.** `plugins/index.ts`·`plugins/actions.ts`는 그대로 받았다.
+- 30초 타임아웃을 둔다. `window` error 이벤트로 번들 실행 오류를 잡는다. async `initialize()`를 await한다.
+- 실패한 플러그인은 `failedPlugins`에 넣는다. 새로고침 전까지 늦게 온 `registerPlugin`이 다시 살리지 못한다.
+- `removePlugin`은 try/finally로 정리를 끝까지 한다.
+- 실패를 5% 샘플링해 `logPluginLoadFailure`로 서버 client log에 남긴다.
+
+`plugins/registry.ts`의 수정도 우리에게 있는 메서드에는 전부 적용했다.
+- 생성자가 `isActive` 콜백을 받는다.
+- 모듈 함수 `dispatchPluginComponentAction`/`WithData`를 private 메서드로 옮겼다.
+- `this.dispatch`·`guardAction`으로 실패한 뒤에 늦게 온 등록을 무시한다.
+
+해소한 `registry.ts`는 upstream 결과본에서 줄을 빼기만 한 형태다(`diff`의 추가 줄 0). 우리만 가진 메서드가 옛 모듈 함수를 부르는 곳은 없었다.
+
+**버린 것.**
+
+| 위치 | upstream 코드 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `registry.ts` import | `import type {ChannelSettingsTab} from 'types/plugins/channel_settings';` | 우리 트리에 채널 설정 탭 플러그인 확장점이 없다. 같은 hunk의 `import type {ActionFunc, MMAction} from 'types/store';`는 살렸다 | 채널 설정 탭 확장점 계보를 받을 때 |
+| `registry.ts` 메서드 | `registerChannelSettingsTab`(선언형 `sections`+`onSave` 또는 커스텀 `component`, `RECEIVED_PLUGIN_CHANNEL_SETTINGS_TAB` 디스패치). 이 커밋은 `store.dispatch` → `this.dispatch`로만 바꿨다 | 확장점 자체가 우리에게 없어 충돌 쪽이 비어 있었다 | 위와 같음. 받을 때 `this.dispatch` 형태로 넣는다 |
+| `registry.ts` 메서드 묶음 | `registerChannelTypeOption`·`registerChannelIconOverride`(`isActive()`일 때만 `clearLoggedMatcherErrors`)·`registerChannelComposerBannerComponent`·`registerChannelIntro`·`registerPostHeaderComponent`·`registerProductSwitcherMenuItem`·`registerComposerPlaceholder`와 관련 import 4줄·타입 5개, `registerProduct`의 `isTeamScoped` | 제외한 MBE 8a~8h(`263b3c11`·`9f7fdadc`·`c5bead3a`·`79c7fe62`·`52f30c33`·`8e409c48`·`3a74d876`)와 team-scoped product(`922276c1`) 계보. 이 커밋은 그 메서드들의 디스패치를 `this.dispatchPluginComponent*`로 바꾸고 일부에 `isActive()` 가드를 넣었다 | MBE 계보를 spec으로 받을 때. 이 커밋 이후 형태(`this.` 디스패치와 `isActive()` 가드)로 넣어야 한다 |
+| `registry.test.ts` 전체 | upstream 파일(+95)은 MBE 8a가 만든 파일 위의 수정이다. 스위트 9개 중 8개(`registerChannelTypeOption`·`registerChannelIconOverride`·`registerChannelComposerBannerComponent`·`registerChannelIntro`·`registerPostHeaderComponent`·`registerProductSwitcherMenuItem`·`registerComposerPlaceholder`·`registerProduct`)가 제외 계보의 기능을 시험한다 | 우리 트리에 파일이 없었다(modify/delete 충돌). 우리는 mock 헤더와 이 커밋이 추가한 `PluginRegistry lifetime` 스위트 3개만 담아 새로 만들었다. `ProductComponent` import는 `registerProduct` 스위트 전용이라 뺐다 | MBE·team-scoped product 계보를 받을 때 upstream 파일로 교체한다 |
+
+**검증.** 2026-10-15, Node 24 기준.
+- 구현 전: 새 `registry.test.ts`를 반영 전 `registry.ts`로 돌리면 3건 모두 실패한다.
+- 구현 전: 새 `index.test.ts`를 반영 전 `index.ts`로 돌리면 async `initialize` 실패가 처리되지 않은 rejection(`Async initialization failed`)이 된다. 이 rejection이 jest 워커를 죽여 스위트가 끝나지 않는다(240초 시간 제한으로 끊었다). 이 커밋이 고치는 증상 그대로다.
+- 반영 후: `src/plugins/`와 `websocket_actions.test.jsx`를 돌리면 14스위트 193건 중 192건이 통과한다.
+- 남은 1건 `access_control_editors.test.tsx`의 `AccessControlTableEditor lazily resolves and renders`는 lazy 청크 변환이 10초를 넘겨 "loading"에 머무는 실패다. 반영 전 3파일로 되돌려도 똑같이 실패하는 기준선 실패다.
+- 바뀐 6파일 eslint: 오류 0, 경고 9(`any`·`max-lines`, upstream과 같다).
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
