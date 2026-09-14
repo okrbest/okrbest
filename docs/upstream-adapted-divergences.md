@@ -93,6 +93,7 @@
 | OpenSearch 플러그인 감지(AWS) 수정 | [0760aee3](https://github.com/mattermost/mattermost/commit/0760aee32b79fe98997a76b9363648e0ea3a5dae) (#38280) | server 8파일은 그대로 받았고, 우리가 지운 `docs/main/` 문서 1개(로그 표 1줄)를 버렸다 — 아래 참조 |
 | React 경고 props·refs·keys 정리 | [f6f27191](https://github.com/mattermost/mattermost/commit/f6f2719165ffb132e351342add570f3b1b6fd07a) (#38238) | Tag forwardRef·suggestion dispatch 제거·워크스페이스 key는 받았다. 채널 헤더 메뉴 `isReadonly` 제거 2파일은 우리가 먼저 지워 버렸다 — 아래 참조 |
 | 플러그인 시작 실패가 웹앱을 막지 않게 | [98371929](https://github.com/mattermost/mattermost/commit/98371929edae113a6af7a7f73b964c1a6378168b) (#38486) | 로더·레지스트리 수정은 그대로 받고, `registry.ts`의 제외 계보(MBE 8a~8h·채널 설정 탭) 메서드 충돌 3곳과 `registry.test.ts`의 해당 스위트 8개를 버렸다. 테스트 파일은 lifetime 스위트만 담아 새로 만들었다 — 아래 참조 |
+| 플러그인에 호스트 JSX 런타임 노출 | [e97df5b6](https://github.com/mattermost/mattermost/commit/e97df5b6e18a227cf9aa3cf47317f44672d9eaef) (#38489) | 코드 3파일은 그대로 받고 `docs/develop/` 플러그인 개발자 문서 2개(제외한 문서 사이트 계보)를 버렸다. 포크 플러그인 빌드 설정에 쓸 요지를 남긴다 — 아래 참조 |
 
 ---
 
@@ -2654,6 +2655,43 @@ webapp tsc 오류 목록이 반영 전과 같다(11건, 전부 기존). 변경 �
 - 반영 후: `src/plugins/`와 `websocket_actions.test.jsx`를 돌리면 14스위트 193건 중 192건이 통과한다.
 - 남은 1건 `access_control_editors.test.tsx`의 `AccessControlTableEditor lazily resolves and renders`는 lazy 청크 변환이 10초를 넘겨 "loading"에 머무는 실패다. 반영 전 3파일로 되돌려도 똑같이 실패하는 기준선 실패다.
 - 바뀐 6파일 eslint: 오류 0, 경고 9(`any`·`max-lines`, upstream과 같다).
+---
+
+## 호스트 JSX 런타임 노출 — 플러그인 개발자 문서 2개를 버렸다
+
+**upstream**: [`e97df5b6`](https://github.com/mattermost/mattermost/commit/e97df5b6e18a227cf9aa3cf47317f44672d9eaef)
+([MM-70687] Expose host JSX runtimes to web app plugins, #38489) — 5파일 +123/-1, 2026-10-15 반영
+
+**받은 것.** `webapp/channels/src/plugins/export.ts`가 `window.ReactJSXRuntime`·`window.ReactJSXDevRuntime`을 노출한다.
+production React 19에는 `jsxDEV`가 없어서, 그 자리를 `jsx`/`jsxs`로 대신하는 폴백(key 보존)을 넣었다. `export.test.ts` +38과 신규 `export.production.test.ts`도 그대로 받았다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/develop/integrate/plugins/components/webapp/index.md` | 끝에 "React and JSX runtime compatibility" 절 추가(아래 문서로 연결, Mattermost 12.0 이상 요구) | 제외한 `1d3bbc63`(#37330 문서 사이트 이관) 계보라 파일이 없다(modify/delete). 원칙 IV | 문서 사이트를 들이지 않는 한 없음 |
+| `docs/develop/integrate/plugins/components/webapp/react-jsx-runtime.md` (신규 41줄) | 플러그인 개발자용 React 19 호환 안내 | 같은 계보. 요지는 아래에 남긴다 | 같음 |
+
+**버린 문서의 요지 — 포크 플러그인(Playbooks·Boards 등)을 React 19 호스트에 맞출 때 쓴다.**
+1. 매니페스트에 `"min_server_version": "12.0.0"`을 둔다. 더 높은 값이 이미 있으면 그대로 둔다.
+2. 플러그인 webpack `externals`에 다섯 줄을 모두 넣는다. `react`만 빼면 옛 JSX 런타임이 번들에 남아 `ReactCurrentOwner`나 incompatible-element 오류가 난다.
+   ```js
+   externals: {
+       react: 'React',
+       'react-dom': 'ReactDOM',
+       'react-dom/client': 'ReactDOM',
+       'react/jsx-runtime': 'ReactJSXRuntime',
+       'react/jsx-dev-runtime': 'ReactJSXDevRuntime',
+   },
+   ```
+   `react-dom/client`도 넣는다. 의존성이 직접 import할 수 있다.
+3. 재빌드해서 배포한다. 이미 배포한 번들은 호스트 노출만으로는 바뀌지 않는다.
+4. 의존성 코드 안에 박힌 JSX 런타임은 externals로 바꿀 수 없다. 런타임을 따로 import하는 버전으로 올린다.
+5. 모달·메뉴·설정처럼 시작 뒤에 뜨는 UI까지 확인한다. production 빌드와 development 빌드를 모두 시험하고, production 호스트에서 development 플러그인도 돌려 본다(이때 dev 전용 JSX 진단은 나오지 않는다).
+6. 공유 런타임이 React 19에서 지워진 API까지 되살리지는 않는다. `findDOMNode`는 DOM ref로, 옛 `ReactDOM.render`는 root API로 바꾼다.
+
+**검증.** 2026-10-15, Node 24. 새 테스트를 반영 전 `export.ts`로 돌리면 21건 중 4건이 실패한다(런타임 노출 테스트).
+반영 후 `export.test.ts`·`export.production.test.ts`·`react_dom_compatibility.test.ts`는 39건이 모두 통과한다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
