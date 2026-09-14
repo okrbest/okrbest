@@ -8,7 +8,7 @@ import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_te
 import * as UserAgent from 'utils/user_agent';
 
 const useOrientationHandler = (
-    editorRef: React.RefObject<LexicalTextEditorHandle>,
+    editorRef: React.RefObject<LexicalTextEditorHandle | null>,
     postId: string,
 ) => {
     const lastOrientation = useRef('');

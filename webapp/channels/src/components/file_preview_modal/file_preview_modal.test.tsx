@@ -550,7 +550,7 @@ describe('components/FilePreviewModal', () => {
         });
 
         describe('keyboard zoom', () => {
-            const press = (ref: React.RefObject<FilePreviewModal>, key: string, extra: Partial<KeyboardEvent> = {}) => {
+            const press = (ref: React.RefObject<FilePreviewModal | null>, key: string, extra: Partial<KeyboardEvent> = {}) => {
                 const event = {key, preventDefault: jest.fn(), ...extra} as unknown as KeyboardEvent;
                 act(() => {
                     ref.current?.handleZoomKeyDown(event);

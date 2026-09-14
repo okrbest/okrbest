@@ -95,7 +95,7 @@ type State = {
 };
 
 export class SidebarChannelLink extends React.PureComponent<Props, State> {
-    labelRef: React.RefObject<HTMLDivElement>;
+    labelRef: React.RefObject<HTMLDivElement | null>;
 
     constructor(props: Props) {
         super(props);

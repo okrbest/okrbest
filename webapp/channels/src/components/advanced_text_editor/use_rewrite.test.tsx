@@ -383,6 +383,7 @@ describe('useRewrite', () => {
             });
 
             props = result.current.rewriteMenuProps;
+
             props.onUndoMessage();
 
             expect(mockHandleDraftChange).toHaveBeenCalledWith(

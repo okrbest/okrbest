@@ -36,7 +36,7 @@ const useUploadFiles = (
     isThreadView: boolean,
     storedDrafts: React.MutableRefObject<Record<string, PostDraft | undefined>>,
     isDisabled: boolean,
-    editorRef: React.RefObject<LexicalTextEditorHandle>,
+    editorRef: React.RefObject<LexicalTextEditorHandle | null>,
     handleDraftChange: (draft: PostDraft, options?: {instant?: boolean; show?: boolean}) => void,
     focusTextbox: (forceFocust?: boolean) => void,
     setServerError: (err: (ServerError & {submittedMessage?: string}) | null) => void,
@@ -87,7 +87,7 @@ const useUploadFiles = (
             return;
         }
 
-        const newFileInfos = sortFileInfos([...draftToUpdate.fileInfos || [], ...fileInfos], locale);
+        const newFileInfos = sortFileInfos([...(draftToUpdate.fileInfos || []), ...fileInfos], locale);
 
         const clientIdsSet = new Set(clientIds);
         const uploadsInProgress = (draftToUpdate.uploadsInProgress || []).filter((v) => !clientIdsSet.has(v));

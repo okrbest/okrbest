@@ -13,7 +13,7 @@ import type {PostDraft} from 'types/store/draft';
 
 const usePluginItems = (
     draft: PostDraft,
-    editorRef: React.RefObject<LexicalTextEditorHandle>,
+    editorRef: React.RefObject<LexicalTextEditorHandle | null>,
     handleDraftChange: (draft: PostDraft) => void,
 ) => {
     const postEditorActions = useSelector((state: GlobalState) => state.plugins.components.PostEditorAction);

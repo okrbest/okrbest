@@ -32,7 +32,7 @@ const useEditorEmojiPicker = (
     textboxId: string,
     isDisabled: boolean,
     shouldShowPreview: boolean,
-    editorRef?: React.RefObject<LexicalTextEditorHandle>,
+    editorRef?: React.RefObject<LexicalTextEditorHandle | null>,
 ) => {
     const intl = useIntl();
 
