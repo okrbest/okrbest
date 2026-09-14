@@ -1,17 +1,27 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getChannelHeaderMenuPluginComponents, getPluginUserSettings, getChannelMobileHeaderPluginButtons} from 'selectors/plugins';
+import type {DeepPartial} from '@mattermost/types/utilities';
 
-describe('selectors/plugins', () => {
+import type {GlobalState} from 'types/store';
+import type {ChannelHeaderAction, MobileChannelHeaderButtonAction} from 'types/store/plugins';
+
+import {
+    getChannelHeaderMenuPluginComponents,
+    getChannelMobileHeaderPluginButtons,
+    getPluginUserSettings,
+} from './plugins';
+
+describe('Selectors.Plugins', () => {
     describe('getPluginUserSettings', () => {
         it('has no settings', () => {
-            const state = {
+            const state: DeepPartial<GlobalState> = {
                 plugins: {},
             };
-            const settings = getPluginUserSettings(state);
-            expect(settings).toEqual({});
+
+            expect(getPluginUserSettings(state as GlobalState)).toEqual({});
         });
+
         it('has settings', () => {
             const stateSettings = {
                 pluginId: {
@@ -21,21 +31,19 @@ describe('selectors/plugins', () => {
                     id: 'pluginId2',
                 },
             };
-            const state = {
+            const state: DeepPartial<GlobalState> = {
                 plugins: {
                     userSettings: stateSettings,
                 },
             };
-            const settings = getPluginUserSettings(state);
-            expect(settings).toEqual(stateSettings);
+
+            expect(getPluginUserSettings(state as GlobalState)).toEqual(stateSettings);
         });
     });
 
     describe('getChannelHeaderMenuPluginComponents', () => {
-        test('no channel header components found', () => {
-            const expectedComponents = [];
-
-            const state = {
+        function makeState(channelHeaderComponents: ChannelHeaderAction[]): GlobalState {
+            const state: DeepPartial<GlobalState> = {
                 entities: {
                     general: {
                         config: {},
@@ -46,12 +54,19 @@ describe('selectors/plugins', () => {
                 },
                 plugins: {
                     components: {
-                        ChannelHeader: expectedComponents,
+                        ChannelHeader: channelHeaderComponents,
                     },
                 },
             };
-            const components = getChannelHeaderMenuPluginComponents(state);
-            expect(components).toEqual(expectedComponents);
+
+            return state as GlobalState;
+        }
+
+        test('no channel header components found', () => {
+            const expectedComponents: ChannelHeaderAction[] = [];
+            const state = makeState(expectedComponents);
+
+            expect(getChannelHeaderMenuPluginComponents(state)).toEqual(expectedComponents);
         });
 
         test('one channel header component found as shouldRender returns true', () => {
@@ -59,26 +74,10 @@ describe('selectors/plugins', () => {
                 {
                     shouldRender: () => true,
                 },
-            ];
+            ] as unknown as ChannelHeaderAction[];
+            const state = makeState(expectedComponents);
 
-            const state = {
-                entities: {
-                    general: {
-                        config: {},
-                    },
-                    preferences: {
-                        myPreferences: {},
-                    },
-                },
-                plugins: {
-                    components: {
-                        ChannelHeader: expectedComponents,
-                    },
-                },
-            };
-
-            const components = getChannelHeaderMenuPluginComponents(state);
-            expect(components).toEqual(expectedComponents);
+            expect(getChannelHeaderMenuPluginComponents(state)).toEqual(expectedComponents);
         });
 
         test('one channel header component found as shouldRender is not defined', () => {
@@ -86,73 +85,30 @@ describe('selectors/plugins', () => {
                 {
                     id: 'testId',
                 },
-            ];
+            ] as ChannelHeaderAction[];
+            const state = makeState(expectedComponents);
 
-            const state = {
-                entities: {
-                    general: {
-                        config: {},
-                    },
-                    preferences: {
-                        myPreferences: {},
-                    },
-                },
-                plugins: {
-                    components: {
-                        ChannelHeader: expectedComponents,
-                    },
-                },
-            };
-
-            const components = getChannelHeaderMenuPluginComponents(state);
-            expect(components).toEqual(expectedComponents);
+            expect(getChannelHeaderMenuPluginComponents(state)).toEqual(expectedComponents);
         });
 
         test('no channel header components found as shouldRender returns false', () => {
-            const expectedComponents = [];
-
-            const state = {
-                entities: {
-                    general: {
-                        config: {},
-                    },
-                    preferences: {
-                        myPreferences: {},
-                    },
+            const state = makeState([
+                {
+                    shouldRender: () => false,
                 },
-                plugins: {
-                    components: {
-                        ChannelHeader: [{
-                            shouldRender: () => false,
-                        }],
-                    },
-                },
-            };
+            ] as unknown as ChannelHeaderAction[]);
 
-            const components = getChannelHeaderMenuPluginComponents(state);
-            expect(components).toEqual(expectedComponents);
+            expect(getChannelHeaderMenuPluginComponents(state)).toEqual([]);
         });
 
         test('memoization', () => {
             let shouldRenderResult = false;
 
-            let state = {
-                entities: {
-                    general: {
-                        config: {},
-                    },
-                    preferences: {
-                        myPreferences: {},
-                    },
+            let state = makeState([
+                {
+                    shouldRender: () => shouldRenderResult,
                 },
-                plugins: {
-                    components: {
-                        ChannelHeader: [{
-                            shouldRender: () => shouldRenderResult,
-                        }],
-                    },
-                },
-            };
+            ] as unknown as ChannelHeaderAction[]);
 
             const firstResult = getChannelHeaderMenuPluginComponents(state);
 
@@ -192,7 +148,7 @@ describe('selectors/plugins', () => {
                             ...state.plugins.components.ChannelHeader,
                             {
                                 id: 'anotherPlugin',
-                            },
+                            } as ChannelHeaderAction,
                         ],
                     },
                 },
@@ -209,32 +165,30 @@ describe('selectors/plugins', () => {
     });
 
     describe('getChannelMobileHeaderPluginButtons', () => {
-        it('has no settings', () => {
-            const state = {
+        function makeState(mobileChannelHeaderButtons: MobileChannelHeaderButtonAction[]): GlobalState {
+            const state: DeepPartial<GlobalState> = {
                 plugins: {
                     components: {
-                        MobileChannelHeaderButton: [],
+                        MobileChannelHeaderButton: mobileChannelHeaderButtons,
                     },
                 },
             };
-            const settings = getChannelMobileHeaderPluginButtons(state);
-            expect(settings).toEqual([]);
+
+            return state as GlobalState;
+        }
+
+        it('has no settings', () => {
+            expect(getChannelMobileHeaderPluginButtons(makeState([]))).toEqual([]);
         });
+
         it('has settings', () => {
             const headerButton = {
                 id: 'someid',
                 pluginId: 'pluginid',
                 dropdownText: 'some dropdown text',
-            };
-            const state = {
-                plugins: {
-                    components: {
-                        MobileChannelHeaderButton: [headerButton],
-                    },
-                },
-            };
-            const settings = getChannelMobileHeaderPluginButtons(state);
-            expect(settings).toEqual([headerButton]);
+            } as MobileChannelHeaderButtonAction;
+
+            expect(getChannelMobileHeaderPluginButtons(makeState([headerButton]))).toEqual([headerButton]);
         });
     });
 });

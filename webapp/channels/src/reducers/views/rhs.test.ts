@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import type {AnyAction} from 'redux';
+
 import {SearchTypes} from 'mattermost-redux/action_types';
 
 import rhsReducer from 'reducers/views/rhs';
@@ -38,7 +40,7 @@ describe('Reducers.RHS', () => {
     test('Initial state', () => {
         const nextState = rhsReducer(
             {},
-            {},
+            {} as AnyAction,
         );
 
         expect(nextState).toEqual(initialState);
@@ -625,7 +627,7 @@ describe('Reducers.RHS', () => {
 
     describe('mentionFilter', () => {
         test('default value is include_groups', () => {
-            const nextState = rhsReducer({}, {});
+            const nextState = rhsReducer({}, {} as AnyAction);
             expect(nextState.mentionFilter).toEqual('include_groups');
         });
 
@@ -688,7 +690,7 @@ describe('Reducers.RHS', () => {
             shouldFocusRHS: false,
             searchTeam: null,
             memberFilterUserIds: {},
-            mentionFilter: 'include_groups',
+            mentionFilter: 'include_groups' as const,
         };
 
         const nextState = rhsReducer(state, {type: ActionTypes.SUPPRESS_RHS});

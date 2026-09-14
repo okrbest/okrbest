@@ -2,8 +2,14 @@
 // See LICENSE.txt for license information.
 
 import cloneDeep from 'lodash/cloneDeep';
+import type {IntlShape} from 'react-intl';
+import type {AnyAction} from 'redux';
 
+import type {WebSocketMessage, WebSocketMessages} from '@mattermost/client';
 import {WebSocketEvents} from '@mattermost/client';
+import type {ChannelType} from '@mattermost/types/channels';
+import type {Post} from '@mattermost/types/posts';
+import type {DeepPartial} from '@mattermost/types/utilities';
 
 import {ChannelTypes, CloudTypes, JobTypes, PostTypes, PreferenceTypes, RenderPermissionTypes, TeamTypes} from 'mattermost-redux/action_types';
 import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
@@ -36,6 +42,8 @@ import configureStore from 'tests/test_store';
 import {getHistory} from 'utils/browser_history';
 import Constants, {ActionTypes, ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {setIntl} from 'utils/i18n';
+
+import type {GlobalState} from 'types/store';
 
 import {
     handleChannelUpdatedEvent,
@@ -256,7 +264,7 @@ let mockState = {
             RightHandSidebarComponent: [],
         },
     },
-};
+} as unknown as GlobalState;
 
 jest.mock('stores/redux_store', () => {
     return {
@@ -271,9 +279,15 @@ jest.mock('actions/views/rhs', () => ({
     }),
 }));
 
+// Field-checks a partial message fixture. Omitted fields stay absent rather than
+// being defaulted: several handlers branch on whether broadcast is present.
+function wsMessage<T extends WebSocketMessage>(msg: DeepPartial<T>): T {
+    return msg as unknown as T;
+}
+
 describe('handleEvent', () => {
     test('should dispatch channel updated event properly', () => {
-        const msg = {event: WebSocketEvents.ChannelUpdated};
+        const msg = wsMessage<WebSocketMessages.ChannelUpdated>({event: WebSocketEvents.ChannelUpdated});
 
         handleEvent(msg);
 
@@ -283,11 +297,11 @@ describe('handleEvent', () => {
 
 describe('handlePostEditEvent', () => {
     beforeEach(() => {
-        store.dispatch.mockClear();
-        getPostsAround.mockClear();
+        jest.mocked(store.dispatch).mockClear();
+        jest.mocked(getPostsAround).mockClear();
     });
 
-    const buildMsg = (postOverrides) => {
+    const buildMsg = (postOverrides: Partial<Post>): WebSocketMessages.PostEdited => {
         const post = JSON.stringify({
             id: 'test',
             create_at: 123,
@@ -300,10 +314,10 @@ describe('handlePostEditEvent', () => {
             metadata: {},
             ...postOverrides,
         });
-        return {
+        return wsMessage<WebSocketMessages.PostEdited>({
             data: {post},
             broadcast: {channel_id: '1234657'},
-        };
+        });
     };
 
     test('post edited', async () => {
@@ -384,14 +398,14 @@ describe('handlePostEditEvent', () => {
 describe('handleGroupAddedMemberEvent', () => {
     test('add to group in state', async () => {
         const testStore = configureStore(mockState);
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.GroupMember>({
             data: {
                 group_member: '{"group_id":"group-1","user_id":"currentUserId","create_at":1691178673417,"delete_at":0}',
             },
             broadcast: {
                 user_id: 'currentUserId',
             },
-        };
+        });
 
         testStore.dispatch(handleGroupAddedMemberEvent(msg));
         expect(store.dispatch).toHaveBeenCalledWith({
@@ -428,14 +442,14 @@ describe('handleGroupAddedMemberEvent', () => {
 
     test('add to group not in state', async () => {
         const testStore = configureStore(mockState);
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.GroupMember>({
             data: {
                 group_member: '{"group_id":"group-2","user_id":"currentUserId","create_at":1691178673417,"delete_at":0}',
             },
             broadcast: {
                 user_id: 'currentUserId',
             },
-        };
+        });
 
         testStore.dispatch(handleGroupAddedMemberEvent(msg));
         expect(getGroup).toHaveBeenCalled();
@@ -448,12 +462,12 @@ describe('handlePostUnreadEvent', () => {
         const msgData = {last_viewed_at: 123, msg_count: 40, mention_count: 1};
         const expectedData = {lastViewedAt: 123, msgCount: 40, mentionCount: 1, channelId: 'channel1'};
         const expectedAction = {type: 'POST_UNREAD_SUCCESS', data: expectedData};
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.PostUnread>({
             data: msgData,
             broadcast: {
                 channel_id: 'channel1',
             },
-        };
+        });
 
         handlePostUnreadEvent(msg);
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
@@ -497,14 +511,14 @@ describe('handleUserAddedEvent', () => {
 
     test('should load both the profile and the channel membership for a newly synced remote member', async () => {
         const testStore = configureStore(stateWithLicense);
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.UserAddedToChannel>({
             data: {
                 user_id: 'remoteUser',
             },
             broadcast: {
                 channel_id: currentChannelId,
             },
-        };
+        });
 
         await testStore.dispatch(handleUserAddedEvent(msg));
 
@@ -521,14 +535,14 @@ describe('handleUserAddedEvent', () => {
         // requires the membership relation. The membership must be fetched even when
         // the profile fetch is skipped.
         const testStore = configureStore(stateWithLicense);
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.UserAddedToChannel>({
             data: {
                 user_id: 'user',
             },
             broadcast: {
                 channel_id: currentChannelId,
             },
-        };
+        });
 
         await testStore.dispatch(handleUserAddedEvent(msg));
 
@@ -538,14 +552,14 @@ describe('handleUserAddedEvent', () => {
 
     test('should not load the profile or membership when both are already in the store', async () => {
         const testStore = configureStore(stateWithLoadedMember);
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.UserAddedToChannel>({
             data: {
                 user_id: 'loadedMember',
             },
             broadcast: {
                 channel_id: currentChannelId,
             },
-        };
+        });
 
         await testStore.dispatch(handleUserAddedEvent(msg));
 
@@ -555,14 +569,14 @@ describe('handleUserAddedEvent', () => {
 
     test('should not load the profile or membership when the channel is not the current channel', async () => {
         const testStore = configureStore(stateWithLicense);
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.UserAddedToChannel>({
             data: {
                 user_id: 'remoteUser',
             },
             broadcast: {
                 channel_id: 'someOtherChannel',
             },
-        };
+        });
 
         await testStore.dispatch(handleUserAddedEvent(msg));
 
@@ -579,7 +593,7 @@ describe('handleUserRemovedEvent', () => {
     const otherUserId1 = 'otherUser1';
     const otherUserId2 = 'otherUser2';
 
-    let redirectUserToDefaultTeam;
+    let redirectUserToDefaultTeam: jest.Mock;
     beforeEach(async () => {
         const globalActions = require('actions/global_actions');
         redirectUserToDefaultTeam = globalActions.redirectUserToDefaultTeam;
@@ -587,14 +601,14 @@ describe('handleUserRemovedEvent', () => {
     });
 
     test('should close RHS', () => {
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.UserRemovedFromChannel>({
             data: {
                 channel_id: currentChannelId,
             },
             broadcast: {
                 user_id: currentUserId,
             },
-        };
+        });
 
         handleUserRemovedEvent(msg);
         expect(closeRightHandSide).toHaveBeenCalled();
@@ -609,14 +623,14 @@ describe('handleUserRemovedEvent', () => {
             ],
             type: 'BATCHING_REDUCER.BATCH',
         };
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.UserRemovedFromChannel>({
             data: {
                 channel_id: currentChannelId,
             },
             broadcast: {
                 user_id: 'guestId',
             },
-        };
+        });
 
         handleUserRemovedEvent(msg);
         expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
@@ -631,14 +645,14 @@ describe('handleUserRemovedEvent', () => {
             ],
             type: 'BATCHING_REDUCER.BATCH',
         };
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.UserRemovedFromChannel>({
             data: {
                 channel_id: currentChannelId,
             },
             broadcast: {
                 user_id: 'guestId',
             },
-        };
+        });
 
         mockState = mergeObjects(
             mockState,
@@ -676,7 +690,7 @@ describe('handleUserRemovedEvent', () => {
     });
 
     test('should load the remover_id user if is not available in the store', () => {
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.UserRemovedFromChannel>({
             data: {
                 channel_id: currentChannelId,
                 remover_id: 'otherUser',
@@ -684,14 +698,14 @@ describe('handleUserRemovedEvent', () => {
             broadcast: {
                 user_id: currentUserId,
             },
-        };
+        });
 
         handleUserRemovedEvent(msg);
         expect(getUser).toHaveBeenCalledWith('otherUser');
     });
 
     test('should not load the remover_id user if is available in the store', () => {
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.UserRemovedFromChannel>({
             data: {
                 channel_id: currentChannelId,
                 remover_id: 'user',
@@ -699,14 +713,14 @@ describe('handleUserRemovedEvent', () => {
             broadcast: {
                 user_id: currentUserId,
             },
-        };
+        });
 
         handleUserRemovedEvent(msg);
         expect(getUser).not.toHaveBeenCalled();
     });
 
     test('should redirect if the user removed is the current user from the current channel', () => {
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.UserRemovedFromChannel>({
             data: {
                 channel_id: currentChannelId,
                 remover_id: 'user',
@@ -714,13 +728,13 @@ describe('handleUserRemovedEvent', () => {
             broadcast: {
                 user_id: currentUserId,
             },
-        };
+        });
         handleUserRemovedEvent(msg);
         expect(redirectUserToDefaultTeam).toHaveBeenCalled();
     });
 
     test('should redirect if the user removed themselves from the current channel', () => {
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.UserRemovedFromChannel>({
             data: {
                 channel_id: currentChannelId,
                 remover_id: currentUserId,
@@ -728,14 +742,14 @@ describe('handleUserRemovedEvent', () => {
             broadcast: {
                 user_id: currentUserId,
             },
-        };
+        });
         handleUserRemovedEvent(msg);
         expect(redirectUserToDefaultTeam).toHaveBeenCalled();
     });
 
     test('should not redirect if the user removed is not the current user or the channel is not the current channel', () => {
         // Same channel, different user removed
-        let msg = {
+        let msg = wsMessage<WebSocketMessages.UserRemovedFromChannel>({
             data: {
                 channel_id: currentChannelId,
                 remover_id: otherUserId1,
@@ -743,13 +757,13 @@ describe('handleUserRemovedEvent', () => {
             broadcast: {
                 user_id: otherUserId2,
             },
-        };
+        });
 
         handleUserRemovedEvent(msg);
         expect(redirectUserToDefaultTeam).not.toHaveBeenCalled();
 
         // Different channel, current user removed
-        msg = {
+        msg = wsMessage<WebSocketMessages.UserRemovedFromChannel>({
             data: {
                 channel_id: otherChannelId,
                 remover_id: otherUserId1,
@@ -757,7 +771,7 @@ describe('handleUserRemovedEvent', () => {
             broadcast: {
                 user_id: currentUserId,
             },
-        };
+        });
 
         handleUserRemovedEvent(msg);
         expect(redirectUserToDefaultTeam).not.toHaveBeenCalled();
@@ -780,12 +794,12 @@ describe('handleNewPostEvent', () => {
         const testStore = configureStore(initialState);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: 'user1'};
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.Posted>({
             data: {
                 post: JSON.stringify(post),
                 set_online: true,
             },
-        };
+        });
 
         testStore.dispatch(handleNewPostEvent(msg));
         expect(handleNewPost).toHaveBeenCalledWith(post, msg);
@@ -796,12 +810,12 @@ describe('handleNewPostEvent', () => {
         const testStore = realConfigureStore(initialState);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: otherUserId};
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.Posted>({
             data: {
                 post: JSON.stringify(post),
                 set_online: true,
             },
-        };
+        });
 
         expect(testStore.getState().entities.users.statuses[otherUserId]).toBe(undefined);
 
@@ -814,12 +828,12 @@ describe('handleNewPostEvent', () => {
         const testStore = realConfigureStore(initialState);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: otherUserId, type: Constants.AUTO_RESPONDER};
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.Posted>({
             data: {
                 post: JSON.stringify(post),
                 set_online: false,
             },
-        };
+        });
 
         expect(testStore.getState().entities.users.statuses[otherUserId]).toBe(undefined);
 
@@ -846,12 +860,12 @@ describe('handleNewPostEvent', () => {
         });
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: otherUserId};
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.Posted>({
             data: {
                 post: JSON.stringify(post),
                 set_online: true,
             },
-        };
+        });
 
         expect(testStore.getState().entities.users.statuses[otherUserId]).toBe(UserStatuses.AWAY);
 
@@ -866,12 +880,12 @@ describe('handleNewPostEvent', () => {
         expect(testStore.getState().entities.users.statuses[otherUserId]).toBe(undefined);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: otherUserId};
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.Posted>({
             data: {
                 post: JSON.stringify(post),
                 set_online: false,
             },
-        };
+        });
 
         testStore.dispatch(handleNewPostEvent(msg));
 
@@ -898,12 +912,12 @@ describe('handleNewPostEvents', () => {
             {id: 'post3', channel_id: 'channel2'},
             {id: 'post4', channel_id: 'channel2'},
             {id: 'post5', channel_id: 'channel1'},
-        ];
+        ] as unknown as Post[];
 
         const queue = posts.map((post) => {
-            return {
+            return wsMessage<WebSocketMessages.Posted>({
                 data: {post: JSON.stringify(post)},
-            };
+            });
         });
 
         testStore.dispatch(handleNewPostEvents(queue));
@@ -1010,7 +1024,7 @@ describe('handleChannelUpdatedEvent', () => {
                 },
             },
         },
-    };
+    } as unknown as GlobalState;
 
     test('when a channel is updated', () => {
         const testStore = configureStore(initialState);
@@ -1019,7 +1033,7 @@ describe('handleChannelUpdatedEvent', () => {
             id: 'channel',
             team_id: 'team',
         };
-        const msg = {data: {channel: JSON.stringify(channel)}};
+        const msg = wsMessage<WebSocketMessages.ChannelUpdated>({data: {channel: JSON.stringify(channel)}});
 
         testStore.dispatch(handleChannelUpdatedEvent(msg));
         expect(testStore.getActions()).toEqual([{
@@ -1039,7 +1053,7 @@ describe('handleChannelUpdatedEvent', () => {
 
     test('when GM is converted to private channel', () => {
         const state = initialState;
-        state.entities.channels.channels.channel.type = Constants.GM_CHANNEL;
+        state.entities.channels.channels.channel.type = Constants.GM_CHANNEL as ChannelType;
 
         const testStore = configureStore(state);
         const channel = {
@@ -1048,7 +1062,7 @@ describe('handleChannelUpdatedEvent', () => {
             type: Constants.PRIVATE_CHANNEL,
         };
 
-        const msg = {data: {channel: JSON.stringify(channel)}};
+        const msg = wsMessage<WebSocketMessages.ChannelUpdated>({data: {channel: JSON.stringify(channel)}});
         testStore.dispatch(handleChannelUpdatedEvent(msg));
         expect(testStore.getActions()).toEqual([{
             type: 'BATCHING_REDUCER.BATCH',
@@ -1081,7 +1095,7 @@ describe('handleChannelUpdatedEvent', () => {
             id: 'channel',
             team_id: 'team',
         };
-        const msg = {data: {channel: JSON.stringify(channel)}};
+        const msg = wsMessage<WebSocketMessages.ChannelUpdated>({data: {channel: JSON.stringify(channel)}});
 
         testStore.dispatch(handleChannelUpdatedEvent(msg));
 
@@ -1092,7 +1106,7 @@ describe('handleChannelUpdatedEvent', () => {
         const testStore = configureStore(initialState);
 
         const channel = {id: 'otherchannel'};
-        const msg = {data: {channel: JSON.stringify(channel)}};
+        const msg = wsMessage<WebSocketMessages.ChannelUpdated>({data: {channel: JSON.stringify(channel)}});
 
         testStore.dispatch(handleChannelUpdatedEvent(msg));
 
@@ -1109,7 +1123,7 @@ describe('handleChannelAccessControlUpdatedEvent', () => {
     });
 
     beforeEach(() => {
-        invalidateAccessControlAttributesCache.mockClear();
+        jest.mocked(invalidateAccessControlAttributesCache).mockClear();
     });
 
     test('dispatches RECEIVED_CHANNEL with parsed channel and invalidates attribute cache', () => {
@@ -1120,11 +1134,11 @@ describe('handleChannelAccessControlUpdatedEvent', () => {
             team_id: 'team-1',
             policy_enforced: true,
         };
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.ChannelAccessControlUpdated>({
             data: {
                 channel: JSON.stringify(channel),
             },
-        };
+        });
 
         testStore.dispatch(handleChannelAccessControlUpdatedEvent(msg));
 
@@ -1151,7 +1165,7 @@ describe('handleChannelAccessControlUpdatedEvent', () => {
         const testStore = configureStore(withPermissionPolicies({channels: {currentChannelId: 'channel-ac-1'}}));
         const channel = {id: 'channel-ac-1', team_id: 'team-1', policy_enforced: true};
 
-        testStore.dispatch(handleChannelAccessControlUpdatedEvent({data: {channel: JSON.stringify(channel)}}));
+        testStore.dispatch(handleChannelAccessControlUpdatedEvent(wsMessage<WebSocketMessages.ChannelAccessControlUpdated>({data: {channel: JSON.stringify(channel)}})));
 
         // Dropping the chunks alone would leave the channel in view empty until it remounts.
         expect(testStore.getActions()).toContainEqual({type: PostTypes.RESET_POSTS_IN_CHANNEL, channelId: 'channel-ac-1'});
@@ -1167,7 +1181,7 @@ describe('handleChannelAccessControlUpdatedEvent', () => {
         });
         const channel = {id: 'channel-ac-1', team_id: 'team-1', policy_enforced: true};
 
-        testStore.dispatch(handleChannelAccessControlUpdatedEvent({data: {channel: JSON.stringify(channel)}}));
+        testStore.dispatch(handleChannelAccessControlUpdatedEvent(wsMessage<WebSocketMessages.ChannelAccessControlUpdated>({data: {channel: JSON.stringify(channel)}})));
 
         const types = testStore.getActions().map((a) => a.type);
         expect(types).toEqual([ChannelTypes.RECEIVED_CHANNEL]);
@@ -1175,7 +1189,7 @@ describe('handleChannelAccessControlUpdatedEvent', () => {
 
     test('returns early when msg.data.channel is missing', () => {
         const testStore = configureStore({});
-        const msg = {data: {}};
+        const msg = wsMessage<WebSocketMessages.ChannelAccessControlUpdated>({data: {}});
 
         testStore.dispatch(handleChannelAccessControlUpdatedEvent(msg));
 
@@ -1191,11 +1205,11 @@ describe('handleTeamAccessControlUpdatedEvent', () => {
             id: 'team-ac-1',
             policy_enforced: true,
         };
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.TeamAccessControlUpdated>({
             data: {
                 team: JSON.stringify(team),
             },
-        };
+        });
 
         testStore.dispatch(handleTeamAccessControlUpdatedEvent(msg));
 
@@ -1209,7 +1223,7 @@ describe('handleTeamAccessControlUpdatedEvent', () => {
 
     test('returns early when msg.data.team is missing', () => {
         const testStore = configureStore({});
-        const msg = {data: {}};
+        const msg = wsMessage<WebSocketMessages.TeamAccessControlUpdated>({data: {}});
 
         testStore.dispatch(handleTeamAccessControlUpdatedEvent(msg));
 
@@ -1250,7 +1264,7 @@ describe('handleCloudSubscriptionChanged', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
         const newLimits = {
             messages: {
                 history: 10001,
@@ -1261,13 +1275,13 @@ describe('handleCloudSubscriptionChanged', () => {
             ...baseSubscription,
             id: 'newsub',
         };
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.CloudSubscriptionChanged>({
             event: WebSocketEvents.CloudSubscriptionChanged,
             data: {
                 limits: newLimits,
                 subscription: newSubscription,
             },
-        };
+        });
 
         const testStore = configureStore(initialState);
         testStore.dispatch(handleCloudSubscriptionChanged(msg));
@@ -1294,18 +1308,18 @@ describe('handleCloudSubscriptionChanged', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
         const newLimits = {
             messages: {
                 history: 10001,
             },
         };
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.CloudSubscriptionChanged>({
             event: WebSocketEvents.CloudSubscriptionChanged,
             data: {
                 limits: newLimits,
             },
-        };
+        });
 
         const testStore = configureStore(initialState);
         testStore.dispatch(handleCloudSubscriptionChanged(msg));
@@ -1334,12 +1348,12 @@ describe('handleCloudSubscriptionChanged', () => {
             id: 'newsub',
         };
 
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.CloudSubscriptionChanged>({
             event: WebSocketEvents.CloudSubscriptionChanged,
             data: {
                 subscription: newSubscription,
             },
-        };
+        });
 
         const testStore = configureStore(initialState);
         testStore.dispatch(handleCloudSubscriptionChanged(msg));
@@ -1352,16 +1366,18 @@ describe('handleCloudSubscriptionChanged', () => {
 });
 
 describe('handlePluginEnabled/handlePluginDisabled', () => {
+    const windowWithPlugins = window as unknown as {plugins: Record<string, {initialize: jest.Mock}>};
+
     const origError = console.error;
     const origCreateElement = document.createElement;
     const origGetElementsByTagName = document.getElementsByTagName;
-    const origWindowPlugins = window.plugins;
+    const origWindowPlugins = windowWithPlugins.plugins;
 
     afterEach(() => {
         console.error = origError;
         document.createElement = origCreateElement;
         document.getElementsByTagName = origGetElementsByTagName;
-        window.plugins = origWindowPlugins;
+        windowWithPlugins.plugins = origWindowPlugins;
     });
 
     describe('handlePluginEnabled', () => {
@@ -1387,9 +1403,9 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             document.createElement = jest.fn();
             document.getElementsByTagName = jest.fn();
-            document.getElementsByTagName.mockReturnValue([{
+            jest.mocked(document.getElementsByTagName).mockReturnValue([{
                 appendChild: jest.fn(),
-            }]);
+            }] as unknown as HTMLCollectionOf<Element>);
         });
 
         test('when a plugin is enabled', async () => {
@@ -1398,28 +1414,28 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
                 id: 'com.mattermost.demo-plugin',
             };
 
-            const mockScript = origCreateElement.call(document, 'script');
-            document.createElement.mockReturnValue(mockScript);
+            const mockScript = origCreateElement.call(document, 'script') as HTMLScriptElement;
+            jest.mocked(document.createElement).mockReturnValue(mockScript);
 
-            handlePluginEnabled({data: {manifest}});
+            handlePluginEnabled(wsMessage<WebSocketMessages.Plugin>({data: {manifest}}));
 
             expect(document.createElement).toHaveBeenCalledWith('script');
             expect(document.getElementsByTagName).toHaveBeenCalledTimes(1);
-            expect(document.getElementsByTagName()[0].appendChild).toHaveBeenCalledTimes(1);
+            expect((document.getElementsByTagName as jest.Mock)()[0].appendChild).toHaveBeenCalledTimes(1);
             expect(mockScript.dataset.pluginVersion).toBe(manifest.version);
 
             expect(store.dispatch).toHaveBeenCalledTimes(1);
 
-            let dispatchArg = store.dispatch.mock.calls[0][0];
+            let dispatchArg = jest.mocked(store.dispatch).mock.calls[0][0] as unknown as AnyAction;
             expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
             expect(dispatchArg.data).toBe(manifest);
 
             // Assert handlePluginEnabled is idempotent
-            handlePluginEnabled({data: {manifest}});
+            handlePluginEnabled(wsMessage<WebSocketMessages.Plugin>({data: {manifest}}));
 
             expect(store.dispatch).toHaveBeenCalledTimes(2);
 
-            dispatchArg = store.dispatch.mock.calls[1][0];
+            dispatchArg = jest.mocked(store.dispatch).mock.calls[1][0] as unknown as AnyAction;
             expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
             expect(dispatchArg.data).toBe(manifest);
 
@@ -1440,44 +1456,44 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
                 },
             };
 
-            const mockScript = origCreateElement.call(document, 'script');
-            document.createElement.mockReturnValue(mockScript);
+            const mockScript = origCreateElement.call(document, 'script') as HTMLScriptElement;
+            jest.mocked(document.createElement).mockReturnValue(mockScript);
 
-            handlePluginEnabled({data: {manifest}});
+            handlePluginEnabled(wsMessage<WebSocketMessages.Plugin>({data: {manifest}}));
 
             expect(document.createElement).toHaveBeenCalledWith('script');
             expect(document.getElementsByTagName).toHaveBeenCalledTimes(1);
-            expect(document.getElementsByTagName()[0].appendChild).toHaveBeenCalledTimes(1);
+            expect((document.getElementsByTagName as jest.Mock)()[0].appendChild).toHaveBeenCalledTimes(1);
 
-            let dispatchArg = store.dispatch.mock.calls[0][0];
+            let dispatchArg = jest.mocked(store.dispatch).mock.calls[0][0] as unknown as AnyAction;
             expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
             expect(dispatchArg.data).toBe(manifest);
 
             // Upgrade plugin
-            handlePluginEnabled({data: {manifest: manifestv2}});
+            handlePluginEnabled(wsMessage<WebSocketMessages.Plugin>({data: {manifest: manifestv2}}));
 
             expect(mockScript.dataset.pluginVersion).toBe(manifestv2.version);
 
             // Assert upgrade is idempotent
-            handlePluginEnabled({data: {manifest: manifestv2}});
+            handlePluginEnabled(wsMessage<WebSocketMessages.Plugin>({data: {manifest: manifestv2}}));
 
             expect(document.createElement).toHaveBeenCalledTimes(2);
 
-            dispatchArg = store.dispatch.mock.calls[1][0];
+            dispatchArg = jest.mocked(store.dispatch).mock.calls[1][0] as unknown as AnyAction;
             expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
             expect(dispatchArg.data).toBe(manifestv2);
 
             expect(store.dispatch).toHaveBeenCalledTimes(4);
-            const dispatchRemovedArg = store.dispatch.mock.calls[2][0];
+            const dispatchRemovedArg = jest.mocked(store.dispatch).mock.calls[2][0] as unknown as (dispatch: typeof store.dispatch) => void;
             expect(typeof dispatchRemovedArg).toBe('function');
             dispatchRemovedArg(store.dispatch);
 
-            dispatchArg = store.dispatch.mock.calls[3][0];
+            dispatchArg = jest.mocked(store.dispatch).mock.calls[3][0] as unknown as AnyAction;
             expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
             expect(dispatchArg.data).toBe(manifestv2);
 
             expect(store.dispatch).toHaveBeenCalledTimes(6);
-            const dispatchReceivedArg4 = store.dispatch.mock.calls[5][0];
+            const dispatchReceivedArg4 = jest.mocked(store.dispatch).mock.calls[5][0] as unknown as AnyAction;
 
             expect(dispatchReceivedArg4.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
             expect(dispatchReceivedArg4.data).toBe(manifestv2);
@@ -1509,9 +1525,9 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             document.createElement = jest.fn();
             document.getElementsByTagName = jest.fn();
-            document.getElementsByTagName.mockReturnValue([{
+            jest.mocked(document.getElementsByTagName).mockReturnValue([{
                 appendChild: jest.fn(),
-            }]);
+            }] as unknown as HTMLCollectionOf<Element>);
         });
 
         test('when a plugin is disabled', () => {
@@ -1520,42 +1536,42 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
                 id: 'com.mattermost.demo-3-plugin',
             };
             const initialize = jest.fn();
-            window.plugins = {
+            windowWithPlugins.plugins = {
                 [manifest.id]: {
                     initialize,
                 },
             };
 
-            const mockScript = origCreateElement.call(document, 'script');
-            document.createElement.mockReturnValue(mockScript);
+            const mockScript = origCreateElement.call(document, 'script') as HTMLScriptElement;
+            jest.mocked(document.createElement).mockReturnValue(mockScript);
 
             expect(mockScript.onload).toBeNull();
 
             // Enable plugin
-            handlePluginEnabled({data: {manifest}});
+            handlePluginEnabled(wsMessage<WebSocketMessages.Plugin>({data: {manifest}}));
 
             expect(document.createElement).toHaveBeenCalledWith('script');
             expect(document.createElement).toHaveBeenCalledTimes(1);
 
             // Disable plugin
-            handlePluginDisabled({data: {manifest}});
+            handlePluginDisabled(wsMessage<WebSocketMessages.Plugin>({data: {manifest}}));
 
             // Assert handlePluginDisabled is idempotent
-            handlePluginDisabled({data: {manifest}});
+            handlePluginDisabled(wsMessage<WebSocketMessages.Plugin>({data: {manifest}}));
 
             expect(store.dispatch).toHaveBeenCalledTimes(3);
 
-            const dispatchArg = store.dispatch.mock.calls[0][0];
+            const dispatchArg = jest.mocked(store.dispatch).mock.calls[0][0] as unknown as AnyAction;
             expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
             expect(dispatchArg.data).toBe(manifest);
 
-            const dispatchRemovedArg = store.dispatch.mock.calls[1][0];
+            const dispatchRemovedArg = jest.mocked(store.dispatch).mock.calls[1][0] as unknown as (dispatch: typeof store.dispatch) => void;
 
             expect(typeof dispatchRemovedArg).toBe('function');
             dispatchRemovedArg(store.dispatch);
 
             expect(store.dispatch).toHaveBeenCalledTimes(5);
-            const dispatchReceivedArg3 = store.dispatch.mock.calls[4][0];
+            const dispatchReceivedArg3 = jest.mocked(store.dispatch).mock.calls[4][0] as unknown as AnyAction;
             expect(dispatchReceivedArg3.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
             expect(dispatchReceivedArg3.data).toBe(manifest);
 
@@ -1580,7 +1596,7 @@ describe('handleAppsPluginDisabled', () => {
 
 describe('handleLeaveTeam', () => {
     test('when a user leave a team', () => {
-        const msg = {data: {team_id: 'team', user_id: 'member1'}};
+        const msg = wsMessage<WebSocketMessages.UserRemovedFromTeam>({data: {team_id: 'team', user_id: 'member1'}});
 
         handleLeaveTeamEvent(msg);
 
@@ -1633,33 +1649,33 @@ describe('handleStatusChangedEvent', () => {
 
         expect(getStatusForUserId(testStore.getState(), currentUserId)).toBe(UserStatuses.ONLINE);
 
-        testStore.dispatch(handleStatusChangedEvent({
+        testStore.dispatch(handleStatusChangedEvent(wsMessage<WebSocketMessages.StatusChanged>({
             event: WebSocketEvents.StatusChange,
             data: {
                 user_id: currentUserId,
                 status: UserStatuses.AWAY,
             },
-        }));
+        })));
 
         expect(getStatusForUserId(testStore.getState(), currentUserId)).toBe(UserStatuses.AWAY);
 
-        testStore.dispatch(handleStatusChangedEvent({
+        testStore.dispatch(handleStatusChangedEvent(wsMessage<WebSocketMessages.StatusChanged>({
             event: WebSocketEvents.StatusChange,
             data: {
                 user_id: currentUserId,
                 status: UserStatuses.ONLINE,
             },
-        }));
+        })));
 
         expect(getStatusForUserId(testStore.getState(), currentUserId)).toBe(UserStatuses.ONLINE);
 
-        testStore.dispatch(handleStatusChangedEvent({
+        testStore.dispatch(handleStatusChangedEvent(wsMessage<WebSocketMessages.StatusChanged>({
             event: WebSocketEvents.StatusChange,
             data: {
                 user_id: currentUserId,
                 status: UserStatuses.OFFLINE,
             },
-        }));
+        })));
 
         expect(getStatusForUserId(testStore.getState(), currentUserId)).toBe(UserStatuses.OFFLINE);
     });
@@ -1691,11 +1707,11 @@ describe('handleCustomAttributeValuesUpdated', () => {
                 user_id: currentUserId,
                 values: {field1: 'value1', field2: 'value2'},
             },
-        }));
+        } as unknown as WebSocketMessages.CPAValuesUpdated));
 
         expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes).toBeTruthy();
-        expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes.field1).toEqual('value1');
-        expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes.field2).toEqual('value2');
+        expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes!.field1).toEqual('value1');
+        expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes!.field2).toEqual('value2');
 
         // update one field, add new field
         testStore.dispatch(handleCustomAttributeValuesUpdated({
@@ -1704,12 +1720,12 @@ describe('handleCustomAttributeValuesUpdated', () => {
                 user_id: currentUserId,
                 values: {field1: 'valueChanged', field3: 'new field'},
             },
-        }));
+        } as unknown as WebSocketMessages.CPAValuesUpdated));
 
         expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes).toBeTruthy();
-        expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes.field1).toEqual('valueChanged');
-        expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes.field2).toEqual('value2');
-        expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes.field3).toEqual('new field');
+        expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes!.field1).toEqual('valueChanged');
+        expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes!.field2).toEqual('value2');
+        expect(stateUser(testStore.getState(), currentUserId).custom_profile_attributes!.field3).toEqual('new field');
     });
 
     test('should ignore the CustomAttributeValues if no user', () => {
@@ -1723,7 +1739,7 @@ describe('handleCustomAttributeValuesUpdated', () => {
                 user_id: 'nonExistantUser',
                 values: {field1: 'value1', field2: 'value2'},
             },
-        }));
+        } as unknown as WebSocketMessages.CPAValuesUpdated));
 
         expect(stateUser(testStore.getState(), 'nonExistintUser')).toBeFalsy();
         expect(stateUser(testStore.getState(), currentUserId)).toBeTruthy();
@@ -1751,7 +1767,7 @@ describe('render permission invalidation via existing events', () => {
     test('CPA value update for the current user clears render decisions, resets every channel and refetches the visible one', () => {
         const testStore = configureStore(stateWithCurrentUser('visible-channel'));
 
-        testStore.dispatch(handleCustomAttributeValuesUpdated({data: {user_id: currentUserId, values: {field1: 'v'}}}));
+        testStore.dispatch(handleCustomAttributeValuesUpdated({data: {user_id: currentUserId, values: {field1: 'v'}}} as unknown as WebSocketMessages.CPAValuesUpdated));
 
         const actions = testStore.getActions();
         expect(actions.map((a) => a.type)).toContain(RenderPermissionTypes.CLEAR_RENDER_DECISIONS);
@@ -1764,7 +1780,7 @@ describe('render permission invalidation via existing events', () => {
     test('CPA value update with no channel in view resets without refetching', () => {
         const testStore = configureStore(stateWithCurrentUser());
 
-        testStore.dispatch(handleCustomAttributeValuesUpdated({data: {user_id: currentUserId, values: {field1: 'v'}}}));
+        testStore.dispatch(handleCustomAttributeValuesUpdated({data: {user_id: currentUserId, values: {field1: 'v'}}} as unknown as WebSocketMessages.CPAValuesUpdated));
 
         const types = testStore.getActions().map((a) => a.type);
         expect(types).toContain(PostTypes.RESET_POSTS_IN_CHANNEL);
@@ -1774,7 +1790,7 @@ describe('render permission invalidation via existing events', () => {
     test('CPA value update for another user does NOT invalidate current-user render decisions', () => {
         const testStore = configureStore(stateWithCurrentUser());
 
-        testStore.dispatch(handleCustomAttributeValuesUpdated({data: {user_id: 'someoneElse', values: {field1: 'v'}}}));
+        testStore.dispatch(handleCustomAttributeValuesUpdated({data: {user_id: 'someoneElse', values: {field1: 'v'}}} as unknown as WebSocketMessages.CPAValuesUpdated));
 
         const types = testStore.getActions().map((a) => a.type);
         expect(types).not.toContain(RenderPermissionTypes.CLEAR_RENDER_DECISIONS);
@@ -1783,7 +1799,7 @@ describe('render permission invalidation via existing events', () => {
 });
 
 describe('handlePermissionPolicyUpdatedEvent', () => {
-    function stateWith(currentChannelId, channelIds = [], permissionPoliciesEnabled = true) {
+    function stateWith(currentChannelId: string, channelIds: string[] = [], permissionPoliciesEnabled = true) {
         return {
             entities: {
                 channels: {currentChannelId},
@@ -1836,7 +1852,7 @@ describe('handleCustomAttributeCRUD', () => {
             data: {
                 field: field1,
             },
-        }));
+        } as unknown as WebSocketMessages.CPAFieldCreated));
 
         let cpaFields = getCustomProfileAttributes(testStore.getState());
         expect(cpaFields).toBeTruthy();
@@ -1850,7 +1866,7 @@ describe('handleCustomAttributeCRUD', () => {
             data: {
                 field: field2,
             },
-        }));
+        } as unknown as WebSocketMessages.CPAFieldCreated));
 
         cpaFields = getCustomProfileAttributes(testStore.getState());
         expect(cpaFields).toBeTruthy();
@@ -1864,7 +1880,7 @@ describe('handleCustomAttributeCRUD', () => {
             data: {
                 field: {...field1, name: 'Updated Name'},
             },
-        }));
+        } as unknown as WebSocketMessages.CPAFieldUpdated));
 
         cpaFields = getCustomProfileAttributes(testStore.getState());
         expect(cpaFields).toBeTruthy();
@@ -1873,12 +1889,12 @@ describe('handleCustomAttributeCRUD', () => {
         expect(cpaFields.filter(({id}) => id === field2.id)[0].name).toEqual(field2.name);
 
         // delete field
-        testStore.dispatch(handleCustomAttributesDeleted({
+        testStore.dispatch(handleCustomAttributesDeleted(wsMessage<WebSocketMessages.CPAFieldDeleted>({
             event: WebSocketEvents.CPAFieldDeleted,
             data: {
                 field_id: field1.id,
             },
-        }));
+        })));
 
         cpaFields = getCustomProfileAttributes(testStore.getState());
         expect(cpaFields).toBeTruthy();
@@ -1896,7 +1912,7 @@ describe('handleCustomAttributeCRUD', () => {
                 data: {
                     field: field1,
                 },
-            }));
+            } as unknown as WebSocketMessages.CPAFieldCreated));
 
             let cpaFields = getCustomProfileAttributes(testStore.getState());
             expect(cpaFields).toBeTruthy();
@@ -1910,7 +1926,7 @@ describe('handleCustomAttributeCRUD', () => {
                 data: {
                     field: updatedField,
                 },
-            }));
+            } as unknown as WebSocketMessages.CPAFieldUpdated));
 
             cpaFields = getCustomProfileAttributes(testStore.getState());
             expect(cpaFields).toBeTruthy();
@@ -1942,7 +1958,7 @@ describe('handleCustomAttributeCRUD', () => {
                 data: {
                     field: field1,
                 },
-            }));
+            } as unknown as WebSocketMessages.CPAFieldCreated));
 
             // Update the field with delete_values flag
             const updatedField = {...field1, type: 'select'};
@@ -1952,7 +1968,7 @@ describe('handleCustomAttributeCRUD', () => {
                     field: updatedField,
                     delete_values: true,
                 },
-            }));
+            } as unknown as WebSocketMessages.CPAFieldUpdated));
 
             // Check that the field was updated
             const cpaFields = getCustomProfileAttributes(testStore.getState());
@@ -1989,7 +2005,7 @@ describe('handleCustomAttributeCRUD', () => {
                 data: {
                     field: field1,
                 },
-            }));
+            } as unknown as WebSocketMessages.CPAFieldCreated));
 
             // Update the field but with delete_values flag set to false
             const updatedField = {...field1, name: 'Updated Field Name', type: 'text'};
@@ -1999,7 +2015,7 @@ describe('handleCustomAttributeCRUD', () => {
                     field: updatedField,
                     delete_values: false,
                 },
-            }));
+            } as unknown as WebSocketMessages.CPAFieldUpdated));
 
             // Check that the field was updated
             const cpaFields = getCustomProfileAttributes(testStore.getState());
@@ -2010,7 +2026,7 @@ describe('handleCustomAttributeCRUD', () => {
             // Check that the user's values for this field were NOT cleared
             const user = testStore.getState().entities.users.profiles.user1;
             expect(user.custom_profile_attributes).toBeTruthy();
-            expect(user.custom_profile_attributes[field1.id]).toEqual('some value');
+            expect(user.custom_profile_attributes![field1.id]).toEqual('some value');
         });
 
         test('should not clear values when delete_values is not specified', () => {
@@ -2037,7 +2053,7 @@ describe('handleCustomAttributeCRUD', () => {
                 data: {
                     field: field1,
                 },
-            }));
+            } as unknown as WebSocketMessages.CPAFieldCreated));
 
             // Update the field without specifying delete_values
             const updatedField = {...field1, type: 'number'};
@@ -2048,7 +2064,7 @@ describe('handleCustomAttributeCRUD', () => {
 
                     // delete_values not specified
                 },
-            }));
+            } as unknown as WebSocketMessages.CPAFieldUpdated));
 
             // Check that the field was updated
             const cpaFields = getCustomProfileAttributes(testStore.getState());
@@ -2059,7 +2075,7 @@ describe('handleCustomAttributeCRUD', () => {
             // Check that the user's values for this field were NOT cleared
             const user = testStore.getState().entities.users.profiles.user1;
             expect(user.custom_profile_attributes).toBeTruthy();
-            expect(user.custom_profile_attributes[field1.id]).toEqual('some value');
+            expect(user.custom_profile_attributes![field1.id]).toEqual('some value');
         });
     });
 });
@@ -2068,7 +2084,7 @@ describe('handleChannelConvertedEvent', () => {
     const channelId = 'converted-channel';
 
     beforeEach(() => {
-        store.dispatch.mockClear();
+        jest.mocked(store.dispatch).mockClear();
         mockState = {
             ...mockState,
             entities: {
@@ -2086,7 +2102,7 @@ describe('handleChannelConvertedEvent', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
     });
 
     test('should update channel type from private to public when channel_type is O', () => {
@@ -2096,7 +2112,7 @@ describe('handleChannelConvertedEvent', () => {
                 channel_id: channelId,
                 channel_type: Constants.OPEN_CHANNEL,
             },
-        };
+        } as unknown as WebSocketMessage;
 
         handleEvent(msg);
 
@@ -2110,7 +2126,7 @@ describe('handleChannelConvertedEvent', () => {
     });
 
     test('should update channel type from public to private when channel_type is P', () => {
-        mockState.entities.channels.channels[channelId].type = Constants.OPEN_CHANNEL;
+        mockState.entities.channels.channels[channelId].type = Constants.OPEN_CHANNEL as ChannelType;
 
         const msg = {
             event: 'channel_converted',
@@ -2118,7 +2134,7 @@ describe('handleChannelConvertedEvent', () => {
                 channel_id: channelId,
                 channel_type: Constants.PRIVATE_CHANNEL,
             },
-        };
+        } as unknown as WebSocketMessage;
 
         handleEvent(msg);
 
@@ -2132,14 +2148,14 @@ describe('handleChannelConvertedEvent', () => {
     });
 
     test('should fall back to private when channel_type is not present (backwards compat)', () => {
-        mockState.entities.channels.channels[channelId].type = Constants.OPEN_CHANNEL;
+        mockState.entities.channels.channels[channelId].type = Constants.OPEN_CHANNEL as ChannelType;
 
         const msg = {
             event: 'channel_converted',
             data: {
                 channel_id: channelId,
             },
-        };
+        } as unknown as WebSocketMessage;
 
         handleEvent(msg);
 
@@ -2159,7 +2175,7 @@ describe('handleChannelConvertedEvent', () => {
                 channel_id: 'nonexistent-channel',
                 channel_type: Constants.OPEN_CHANNEL,
             },
-        };
+        } as unknown as WebSocketMessage;
 
         handleEvent(msg);
 
@@ -2172,7 +2188,7 @@ describe('handleChannelConvertedEvent', () => {
         const msg = {
             event: 'channel_converted',
             data: {},
-        };
+        } as unknown as WebSocketMessage;
 
         handleEvent(msg);
 
@@ -2188,7 +2204,7 @@ describe('handleChannelConvertedEvent', () => {
                 channel_id: channelId,
                 channel_type: Constants.OPEN_CHANNEL,
             },
-        };
+        } as unknown as WebSocketMessage;
 
         handleEvent(msg);
 
@@ -2208,8 +2224,8 @@ describe('handleSharedChannelRemoteUpdatedEvent', () => {
     const channelId = 'shared-remote-channel';
 
     beforeEach(() => {
-        store.dispatch.mockClear();
-        fetchChannelRemotes.mockClear();
+        jest.mocked(store.dispatch).mockClear();
+        jest.mocked(fetchChannelRemotes).mockClear();
         mockState = {
             ...mockState,
             entities: {
@@ -2228,15 +2244,15 @@ describe('handleSharedChannelRemoteUpdatedEvent', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
     });
 
     test('dispatches fetchChannelRemotes when local channel is shared', () => {
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.SharedChannelRemoteUpdated>({
             event: WebSocketEvents.SharedChannelRemoteUpdated,
             data: {channel_id: channelId},
             broadcast: {channel_id: channelId},
-        };
+        });
 
         handleEvent(msg);
 
@@ -2251,11 +2267,11 @@ describe('handleSharedChannelRemoteUpdatedEvent', () => {
     test('skips fetch when local channel is not shared (regression: MM-66162)', () => {
         mockState.entities.channels.channels[channelId].shared = false;
 
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.SharedChannelRemoteUpdated>({
             event: WebSocketEvents.SharedChannelRemoteUpdated,
             data: {channel_id: channelId},
             broadcast: {channel_id: channelId},
-        };
+        });
 
         handleEvent(msg);
 
@@ -2263,11 +2279,11 @@ describe('handleSharedChannelRemoteUpdatedEvent', () => {
     });
 
     test('skips fetch when channel is absent from local state', () => {
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.SharedChannelRemoteUpdated>({
             event: WebSocketEvents.SharedChannelRemoteUpdated,
             data: {channel_id: 'unknown-channel'},
             broadcast: {channel_id: 'unknown-channel'},
-        };
+        });
 
         handleEvent(msg);
 
@@ -2275,11 +2291,11 @@ describe('handleSharedChannelRemoteUpdatedEvent', () => {
     });
 
     test('skips fetch when channel_id is missing from both data and broadcast', () => {
-        const msg = {
+        const msg = wsMessage<WebSocketMessages.SharedChannelRemoteUpdated>({
             event: WebSocketEvents.SharedChannelRemoteUpdated,
             data: {},
             broadcast: {},
-        };
+        });
 
         handleEvent(msg);
 
@@ -2293,10 +2309,10 @@ describe('handleFileUploadRejected', () => {
     });
 
     afterAll(() => {
-        setIntl(null);
+        setIntl(null as unknown as IntlShape);
     });
 
-    const msg = {
+    const msg = wsMessage<WebSocketMessages.FileUploadRejected>({
         event: WebSocketEvents.FileUploadRejected,
         data: {
             file_name: 'secret.tdf',
@@ -2304,7 +2320,7 @@ describe('handleFileUploadRejected', () => {
             channel_id: 'channel1',
         },
         broadcast: {},
-    };
+    });
 
     test('opens an info toast with the rejection reason', () => {
         const testStore = configureStore();
@@ -2335,12 +2351,12 @@ describe('handleFileUploadRejected', () => {
 
 describe('handleJobUpdated', () => {
     beforeEach(() => {
-        getJobsByType.mockClear();
+        jest.mocked(getJobsByType).mockClear();
     });
 
     test('dispatches RECEIVED_JOB with the parsed job on valid JSON', () => {
         const job = {id: 'job1', type: 'ldap_sync', status: 'success'};
-        const msg = {data: {job: JSON.stringify(job)}};
+        const msg = wsMessage<WebSocketMessages.JobUpdated>({data: {job: JSON.stringify(job)}});
 
         const testStore = configureStore(mockState);
         testStore.dispatch(handleJobUpdated(msg));
@@ -2352,7 +2368,7 @@ describe('handleJobUpdated', () => {
     });
 
     test('does not dispatch when msg.data.job is malformed JSON', () => {
-        const msg = {data: {job: '{not-valid-json'}};
+        const msg = wsMessage<WebSocketMessages.JobUpdated>({data: {job: '{not-valid-json'}});
 
         const testStore = configureStore(mockState);
         testStore.dispatch(handleJobUpdated(msg));
@@ -2367,7 +2383,7 @@ describe('handleJobUpdated', () => {
         ['canceled', 'elasticsearch_post_indexing'],
     ])('re-fetches job list on terminal status "%s"', (status, type) => {
         const job = {id: 'job1', type, status};
-        const msg = {data: {job: JSON.stringify(job)}};
+        const msg = wsMessage<WebSocketMessages.JobUpdated>({data: {job: JSON.stringify(job)}});
 
         const testStore = configureStore(mockState);
         testStore.dispatch(handleJobUpdated(msg));
@@ -2380,7 +2396,7 @@ describe('handleJobUpdated', () => {
 
     test('does not re-fetch on non-terminal status', () => {
         const job = {id: 'job1', type: 'ldap_sync', status: 'in_progress'};
-        const msg = {data: {job: JSON.stringify(job)}};
+        const msg = wsMessage<WebSocketMessages.JobUpdated>({data: {job: JSON.stringify(job)}});
 
         const testStore = configureStore(mockState);
         testStore.dispatch(handleJobUpdated(msg));
@@ -2407,10 +2423,10 @@ describe('handleThemeAppliedToAllEvent', () => {
         });
 
         const themeValue = '{"sidebarBg":"#1e325c","type":"Denim"}';
-        handleThemeAppliedToAllEvent({
+        handleThemeAppliedToAllEvent(wsMessage<WebSocketMessages.ThemeAppliedToAll>({
             event: WebSocketEvents.ThemeAppliedToAll,
             data: {theme: themeValue},
-        });
+        }));
 
         expect(store.dispatch).toHaveBeenCalledWith({
             type: PreferenceTypes.DELETED_PREFERENCES,
