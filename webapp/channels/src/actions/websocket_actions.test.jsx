@@ -1398,7 +1398,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
                 id: 'com.mattermost.demo-plugin',
             };
 
-            const mockScript = {};
+            const mockScript = origCreateElement.call(document, 'script');
             document.createElement.mockReturnValue(mockScript);
 
             handlePluginEnabled({data: {manifest}});
@@ -1406,6 +1406,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             expect(document.createElement).toHaveBeenCalledWith('script');
             expect(document.getElementsByTagName).toHaveBeenCalledTimes(1);
             expect(document.getElementsByTagName()[0].appendChild).toHaveBeenCalledTimes(1);
+            expect(mockScript.dataset.pluginVersion).toBe(manifest.version);
 
             expect(store.dispatch).toHaveBeenCalledTimes(1);
 
@@ -1439,7 +1440,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
                 },
             };
 
-            const mockScript = {};
+            const mockScript = origCreateElement.call(document, 'script');
             document.createElement.mockReturnValue(mockScript);
 
             handlePluginEnabled({data: {manifest}});
@@ -1454,6 +1455,8 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             // Upgrade plugin
             handlePluginEnabled({data: {manifest: manifestv2}});
+
+            expect(mockScript.dataset.pluginVersion).toBe(manifestv2.version);
 
             // Assert upgrade is idempotent
             handlePluginEnabled({data: {manifest: manifestv2}});
@@ -1523,10 +1526,10 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
                 },
             };
 
-            const mockScript = {};
+            const mockScript = origCreateElement.call(document, 'script');
             document.createElement.mockReturnValue(mockScript);
 
-            expect(mockScript.onload).toBeUndefined();
+            expect(mockScript.onload).toBeNull();
 
             // Enable plugin
             handlePluginEnabled({data: {manifest}});
