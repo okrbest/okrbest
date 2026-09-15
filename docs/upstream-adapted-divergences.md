@@ -97,6 +97,7 @@
 | 남은 JS 테스트 TS 이관 | [d1666572](https://github.com/mattermost/mattermost/commit/d16665723616ee8b63a127816cbad2022668354f) (#38493) | 34개 이관은 받고, 제외 계보(Managed Categories·채널 설정 탭)의 테스트 2개와 import 1개를 버렸다. 자동 병합된 포크 전용 테스트 3곳에 타입을 맞췄다 — 아래 참조 |
 | Global Relay 발신자 주소 설정 | [69f0f2c2](https://github.com/mattermost/mattermost/commit/69f0f2c22cfb346566bc02ad67347bd65a7cabdf) (#38451) | 설정·검증·콘솔 UI는 그대로 받고 docs/main mdx 1개를 버렸다. 설정을 쓰는 EML 작성기가 비공개 모듈이라 발동하지 않는다 — 아래 참조 |
 | 채널별 입장·퇴장 메시지 끄기 (spec 029) | [5de31f8e](https://github.com/mattermost/mattermost/commit/5de31f8e868f61636ee9d556176cd6ab5f956f2b) (#37314) | sync에서 spec으로 넘겨 반영. 36파일을 upstream 줄 그대로 들이고, 포크 FilterUserIds를 같은 쿼리에 나란히 붙였다. 제외 계보 문맥 8곳을 버렸고 포크 테스트 3개는 포크 전용 새 파일에 뒀다 — 아래 참조 |
+| sort → slices 이관 | [68c4bb52](https://github.com/mattermost/mattermost/commit/68c4bb52e5e094d7c26f627f949973040c9c56a7) (#38473) | 이관과 govet `sortSlices`는 받았다. 보류했던 `concurrentIndex` vet 규칙도 Makefile을 upstream과 맞추며 함께 켰다. 제외 계보(CPA v2·property) 2곳을 버리고 우리 CPA v1 정렬 1곳을 직접 옮겼다 — 아래 참조 |
 
 ---
 
@@ -2745,6 +2746,29 @@ production React 19에는 `jsxDEV`가 없어서, 그 자리를 `jsx`/`jsxs`로 �
 
 **검증.** 2026-10-15. `go test ./public/model -run 'Config|GlobalRelay|MessageExport'` 통과.
 webapp `message_export_settings.test.tsx`(Node 24)는 14건과 스냅숏 5개가 모두 통과했다.
+---
+
+## sort → slices 이관 — CPA v1 정렬을 직접 옮기고 concurrentIndex 규칙을 켰다
+
+**upstream**: [`68c4bb52`](https://github.com/mattermost/mattermost/commit/68c4bb52e5e094d7c26f627f949973040c9c56a7)
+(MM-70626: Migrate sort to slices, #38473) — 58파일 +477/-204, 2026-10-15 반영
+
+**받은 것.** `sort.Slice`·`sort.Strings`·`sort.Ints`를 `slices.Sort`/`SortFunc`로 바꾼 호출 전부와 govet 분석기 `tools/mattermost-govet/sortSlices/`, `make vet`의 `-sortSlices`(엔터프라이즈 줄 포함).
+
+**Makefile — 보류했던 규칙을 함께 켰다.** 충돌 문맥이던 `-concurrentIndex`·`.path`·`.minMigration=166` 3줄을 upstream 그대로 넣었다.
+이 규칙은 `71fe83ae`(#35809)를 `6a9bc3f3f3`으로 반영할 때 govet 외부 리비전 문제로 보류했는데, govet이 저장소에 인라인된 뒤에도 켜지지 않은 채 남아 있었다.
+적용 전 실측으로 우리 마이그레이션 위반 0건을 확인했다. 이제 vet 대상이 upstream과 같다.
+
+**버린 것과 바꾼 것.**
+
+| 위치 | upstream 변경 | 처리 | 이유 |
+|---|---|---|---|
+| `server/channels/app/properties/access_control_attribute_validation.go` | 정렬 이관 | 버림 | 제외 계보(property v2·CPA v2 `9f1fe90b`) 파일이라 우리에게 없다(modify/delete) |
+| `server/public/model/custom_profile_attributes.go` | v2 정렬 함수의 `sort.Slice` → `slices.SortFunc`와 `cmp`·`slices` import | 버림(우리 파일 유지) | 우리는 CPA v1을 유지해 그 함수가 없다 |
+| `server/channels/app/custom_profile_attributes.go` `ListCPAFields` | (upstream에 없음 — upstream은 이 정렬을 v2 model로 옮겼다) | 포크가 직접 `slices.SortFunc` + `cmp.Compare(SortOrder)`로 바꿈 | 새 `sortSlices` 검사가 이 `sort.Slice` 1건을 잡는다. 비교 키는 그대로라 동작이 같다 |
+| `server/channels/store/storetest/channel_store.go` | `slices` 사용 | 포크가 `"slices"` import 1줄 추가 | upstream 쪽 파일에는 이미 있던 import(우리가 받지 않은 다른 커밋)라 텍스트 병합 뒤 `undefined: slices`로 컴파일이 깨졌다 |
+
+**검증.** `go build ./...`, `make vet`(sortSlices·concurrentIndex 포함) 통과. 접촉 패키지 테스트는 커밋 직후 기록.
 ---
 
 ## 채널별 입장·퇴장 메시지 끄기 — upstream 줄을 그대로 두고 포크 필터를 끝에 붙였다
