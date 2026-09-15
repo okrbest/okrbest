@@ -11130,7 +11130,7 @@ func TestResetPasswordFailedAttempts(t *testing.T) {
 
 		user := th.CreateUser(t)
 
-		for i := 0; i < *maxAttempts; i++ {
+		for range *maxAttempts {
 			_, _, err := client.Login(context.Background(), user.Email, wrongPassword)
 			require.Error(t, err)
 		}
@@ -11209,7 +11209,7 @@ func TestResetPasswordFailedAttempts(t *testing.T) {
 
 		user := th.CreateUser(t)
 
-		for i := 0; i < *maxAttempts; i++ {
+		for range *maxAttempts {
 			_, _, err := client.Login(context.Background(), user.Email, wrongPassword)
 			require.Error(t, err)
 		}
@@ -11241,7 +11241,7 @@ func TestResetPasswordFailedAttempts(t *testing.T) {
 
 		user := th.CreateUser(t)
 
-		for i := 0; i < *maxAttempts; i++ {
+		for range *maxAttempts {
 			_, _, err := client.Login(context.Background(), user.Email, wrongPassword)
 			require.Error(t, err)
 		}
@@ -11277,7 +11277,7 @@ func TestResetPasswordFailedAttempts(t *testing.T) {
 		_, appErr := th.App.UpdateUserRoles(th.Context, sysadmin.Id, model.SystemUserRoleId+" "+model.SystemAdminRoleId, false)
 		require.Nil(t, appErr)
 
-		for i := 0; i < *maxAttempts; i++ {
+		for range *maxAttempts {
 			_, _, err := client.Login(context.Background(), sysadmin.Email, wrongPassword)
 			require.Error(t, err)
 		}
@@ -11309,7 +11309,7 @@ func TestResetPasswordFailedAttempts(t *testing.T) {
 		_, appErr := th.App.UpdateUserRoles(th.Context, sysadmin.Id, model.SystemUserRoleId+" "+model.SystemAdminRoleId, false)
 		require.Nil(t, appErr)
 
-		for i := 0; i < *maxAttempts; i++ {
+		for range *maxAttempts {
 			_, _, err := client.Login(context.Background(), sysadmin.Email, wrongPassword)
 			require.Error(t, err)
 		}

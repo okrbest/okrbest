@@ -358,10 +358,10 @@ func TestGetReplica(t *testing.T) {
 
 			dataSourceReplicas := []string{}
 			dataSourceSearchReplicas := []string{}
-			for i := 0; i < testCase.DataSourceReplicaNum; i++ {
+			for range testCase.DataSourceReplicaNum {
 				dataSourceReplicas = append(dataSourceReplicas, *settings.DataSource)
 			}
-			for i := 0; i < testCase.DataSourceSearchReplicaNum; i++ {
+			for range testCase.DataSourceSearchReplicaNum {
 				dataSourceSearchReplicas = append(dataSourceSearchReplicas, *settings.DataSource)
 			}
 
@@ -431,10 +431,10 @@ func TestGetReplica(t *testing.T) {
 
 			dataSourceReplicas := []string{}
 			dataSourceSearchReplicas := []string{}
-			for i := 0; i < testCase.DataSourceReplicaNum; i++ {
+			for range testCase.DataSourceReplicaNum {
 				dataSourceReplicas = append(dataSourceReplicas, *settings.DataSource)
 			}
-			for i := 0; i < testCase.DataSourceSearchReplicaNum; i++ {
+			for range testCase.DataSourceSearchReplicaNum {
 				dataSourceSearchReplicas = append(dataSourceSearchReplicas, *settings.DataSource)
 			}
 
@@ -736,10 +736,10 @@ func TestGetAllConns(t *testing.T) {
 			}
 			dataSourceReplicas := []string{}
 			dataSourceSearchReplicas := []string{}
-			for i := 0; i < testCase.DataSourceReplicaNum; i++ {
+			for range testCase.DataSourceReplicaNum {
 				dataSourceReplicas = append(dataSourceReplicas, *settings.DataSource)
 			}
-			for i := 0; i < testCase.DataSourceSearchReplicaNum; i++ {
+			for range testCase.DataSourceSearchReplicaNum {
 				dataSourceSearchReplicas = append(dataSourceSearchReplicas, *settings.DataSource)
 			}
 
