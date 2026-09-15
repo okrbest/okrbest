@@ -17,6 +17,7 @@ export type PluginManifest = {
     icon_path?: string;
     version: string;
     min_server_version?: string;
+    required_add_on?: string;
     translate?: boolean;
     server?: PluginManifestServer;
     backend?: PluginManifestServer;
