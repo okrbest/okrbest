@@ -8,11 +8,12 @@
 package app
 
 import (
+	"cmp"
 	"database/sql"
 	"encoding/json"
 	"errors"
 	"net/http"
-	"sort"
+	"slices"
 
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/shared/mlog"
@@ -81,8 +82,8 @@ func (a *App) ListCPAFields(rctx request.CTX) ([]*model.CPAField, *model.AppErro
 		cpaFields = append(cpaFields, cpaField)
 	}
 
-	sort.Slice(cpaFields, func(i, j int) bool {
-		return cpaFields[i].Attrs.SortOrder < cpaFields[j].Attrs.SortOrder
+	slices.SortFunc(cpaFields, func(a, b *model.CPAField) int {
+		return cmp.Compare(a.Attrs.SortOrder, b.Attrs.SortOrder)
 	})
 
 	return cpaFields, nil
