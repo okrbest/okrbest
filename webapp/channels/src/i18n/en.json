@@ -899,7 +899,7 @@
   "admin.contentFlagging.reviewerSettings.perTeamReviewers.title": "Configure content flagging per team",
   "admin.contentFlagging.reviewerSettings.sameReviewersForAllTeams": "Same reviewers for all teams:",
   "admin.contentFlagging.reviewerSettings.title": "Content Reviewers",
-  "admin.contentFlagging.reviewerSettings.toggle": "Enable or disable content reviewers for this team",
+  "admin.contentFlagging.reviewerSettings.toggle": "Enable or disable content reviewers for team {teamName}",
   "admin.contentFlagging.title": "Content Flagging",
   "admin.custom_terms_of_service_feature_discovery.copy": "Create your own terms of service that new users must accept before accessing your Mattermost instance on desktop, web, or mobile.",
   "admin.custom_terms_of_service_feature_discovery.title": "Create custom terms of service with Mattermost Enterprise",

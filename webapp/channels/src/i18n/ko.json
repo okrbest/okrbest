@@ -802,7 +802,7 @@
   "admin.contentFlagging.reviewerSettings.perTeamReviewers.title": "팀별로 콘텐츠 플래그 지정 구성",
   "admin.contentFlagging.reviewerSettings.sameReviewersForAllTeams": "모든 팀에 동일한 검토자가 배정됩니다:",
   "admin.contentFlagging.reviewerSettings.title": "콘텐츠 검토자",
-  "admin.contentFlagging.reviewerSettings.toggle": "이 팀에 대한 콘텐츠 검토자 사용 또는 사용 안 함",
+  "admin.contentFlagging.reviewerSettings.toggle": "{teamName} 팀의 콘텐츠 검토자 사용 또는 사용 안 함",
   "admin.contentFlagging.title": "콘텐츠 플래그 지정",
   "admin.custom_terms_of_service_feature_discovery.copy": "데스크톱, 웹 또는 모바일에서 OKR.BEST 인스턴스에 접근하기 전에 새 사용자가 수락해야 하는 자체 서비스 약관을 만드세요.",
   "admin.custom_terms_of_service_feature_discovery.title": "OKR.BEST Enterprise로 맞춤 서비스 약관 만들기",
