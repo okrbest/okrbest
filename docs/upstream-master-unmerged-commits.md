@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-16 11:03
+- 갱신일: 2026-09-16 11:45
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 577개
+- 남은 커밋: 575개
 
-**마지막 반영 커밋:** `ba033eae` | [\[MM-69229\] Promote ConsumePostHook: remove the feature flag (#37148)](https://github.com/mattermost/mattermost/commit/ba033eae470449940b6f954379b090019f481d50) | 2026-06-23
+**마지막 반영 커밋:** `54ecdfd7` | [Add mattermost_system_server_info metric exposing version and build info (#37209)](https://github.com/mattermost/mattermost/commit/54ecdfd7ab32c87cd70361983daced75d96e8a90) | 2026-06-24
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 7b104091 | [\[MM-69229\] Remove CloudAnnualRenewals feature flag and dead code (#37151)](https://github.com/mattermost/mattermost/commit/7b10409141c9f5963a7aad272e641591e8001cd5) | 2026-06-24 |
-| 54ecdfd7 | [Add mattermost_system_server_info metric exposing version and build info (#37209)](https://github.com/mattermost/mattermost/commit/54ecdfd7ab32c87cd70361983daced75d96e8a90) | 2026-06-24 |
 | f91f67aa | [Include team name in Content Flagging reviewer toggle aria-label (#37212)](https://github.com/mattermost/mattermost/commit/f91f67aa1b0384f3255e02685766fca443e60e64) | 2026-06-25 |
 | 9c456b0e | [Prepackage mattermost-plugin-agents v2.4.1. (#37184)](https://github.com/mattermost/mattermost/commit/9c456b0e821736e7e09037d4648b238e992984c8) | 2026-06-25 |
 | 0dccdfb0 | [\[MM-69333\] Native ABAC user attributes: populate runtime subject (Phase 2) (#37107)](https://github.com/mattermost/mattermost/commit/0dccdfb0f9e29d6e49cd6097e10a8799d72d709f) | 2026-06-25 |
