@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-11 21:26
+- 갱신일: 2026-09-16 11:03
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 546개
+- 남은 커밋: 577개
 
-**마지막 반영 커밋:** `86732989` | [\[MM-69229\] Remove orphaned DeprecateCloudFree feature flag (#37149)](https://github.com/mattermost/mattermost/commit/86732989e8b350e0a1d66b8e361484b7d08df1bf) | 2026-06-22
+**마지막 반영 커밋:** `ba033eae` | [\[MM-69229\] Promote ConsumePostHook: remove the feature flag (#37148)](https://github.com/mattermost/mattermost/commit/ba033eae470449940b6f954379b090019f481d50) | 2026-06-23
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| c55282c7 | [\[MM-69229\] Remove orphaned PermalinkPreviews feature flag (#37147)](https://github.com/mattermost/mattermost/commit/c55282c7380bc08ca5f8b1097a8fd808855f5fd3) | 2026-06-23 |
-| 3ad7e2cc | [MM-64636 Show managing plugin in bot accounts list (#37136)](https://github.com/mattermost/mattermost/commit/3ad7e2cc8e9fbbdeac2b542f56be4f6099e740e3) | 2026-06-23 |
-| 08c3f6fa | [\[MM-69183\] Gate expensive user/guest count queries behind admin check in getServerLimits (#36999)](https://github.com/mattermost/mattermost/commit/08c3f6faa98a5c6465b90e5a6aacf027e653586e) | 2026-06-23 |
-| 0f49f337 | [Fix typo in support packet FileStore error field YAML tag (#37157)](https://github.com/mattermost/mattermost/commit/0f49f337dc5a928934788120d361dfeea054aae3) | 2026-06-23 |
-| 1bfb13db | [Bump prepackaged Playbooks plugin to v2.10.0 (#37179)](https://github.com/mattermost/mattermost/commit/1bfb13dbc0754320a26d63a29f0f5ae5bb0bdb91) | 2026-06-23 |
-| dbcd904c | [\[MM-69229\] Promote CloudIPFiltering: remove the feature flag (#37150)](https://github.com/mattermost/mattermost/commit/dbcd904cc23c32dde5e0c92f499f0cbd7ec7ff91) | 2026-06-23 |
-| ba033eae | [\[MM-69229\] Promote ConsumePostHook: remove the feature flag (#37148)](https://github.com/mattermost/mattermost/commit/ba033eae470449940b6f954379b090019f481d50) | 2026-06-23 |
 | 7b104091 | [\[MM-69229\] Remove CloudAnnualRenewals feature flag and dead code (#37151)](https://github.com/mattermost/mattermost/commit/7b10409141c9f5963a7aad272e641591e8001cd5) | 2026-06-24 |
 | 54ecdfd7 | [Add mattermost_system_server_info metric exposing version and build info (#37209)](https://github.com/mattermost/mattermost/commit/54ecdfd7ab32c87cd70361983daced75d96e8a90) | 2026-06-24 |
 | f91f67aa | [Include team name in Content Flagging reviewer toggle aria-label (#37212)](https://github.com/mattermost/mattermost/commit/f91f67aa1b0384f3255e02685766fca443e60e64) | 2026-06-25 |
@@ -557,6 +550,44 @@
 | 1da64def | [Fix cloud preview modal sitting at the bottom of the page. (#38455)](https://github.com/mattermost/mattermost/commit/1da64deffcfe790ca059e4254d4a1d7986afca08) | 2026-09-10 |
 | db126654 | [MM-70203: add plugin file action policy API (#38321)](https://github.com/mattermost/mattermost/commit/db12665463b46b44e161a3fdb69e52fd7dd95acd) | 2026-09-10 |
 | a73cce0d | [Use sidebar title class for category drag handles in Cypress (#38417)](https://github.com/mattermost/mattermost/commit/a73cce0d03afc26b194813d1b7e9c47a3dafc0cd) | 2026-09-11 |
+| d588f0a9 | [\[MM-69859\] Allow admins to change a user's profile picture from the System Console (#37562)](https://github.com/mattermost/mattermost/commit/d588f0a95ad05b11ad081f42f2d90ea2323d46d8) | 2026-09-11 |
+| fa302bf9 | [Add i18n/glossary: core terminology for 21 supported locales (#38410)](https://github.com/mattermost/mattermost/commit/fa302bf9e62335d78c9a4a6f71e8beb19b678be4) | 2026-09-11 |
+| bff707df | [\[MM-70614\] Stop the System Console sidebar from clipping its header menu scroll bar (#38418)](https://github.com/mattermost/mattermost/commit/bff707dff4e0e4e669b17246f7507784ced7d375) | 2026-09-11 |
+| 044a60f7 | [\[MM-69349\] Validate additional server config settings (#37657)](https://github.com/mattermost/mattermost/commit/044a60f70c8d1c0bbc893a8a263f0a92b55caaa2) | 2026-09-11 |
+| 65f8ca23 | [\[MM-69869\] Applies to: per-resource configuration (Users) (#38409)](https://github.com/mattermost/mattermost/commit/65f8ca23aacc6f960d1dd22e7a4665ed774644aa) | 2026-09-11 |
+| 2477c3ba | [Revert unintended package-lock.json changes from #38409 (#38488)](https://github.com/mattermost/mattermost/commit/2477c3bac152740b8b4d2d3522183d8240f00168) | 2026-09-11 |
+| 5c299244 | [Add checkbox_group and checkbox_matrix interactive dialog elements (#37656)](https://github.com/mattermost/mattermost/commit/5c2992443ce0080301eb40a2777d5316df70b317) | 2026-09-11 |
+| afc8def8 | [\[MM-70573\] Propagate context through plugin HTTP (#38354)](https://github.com/mattermost/mattermost/commit/afc8def801504c8ec5db8f60f3c42d16dfcc0493) | 2026-09-11 |
+| 83faa165 | [Replace unlisted minio/minio image with Chainguard minio (#38495)](https://github.com/mattermost/mattermost/commit/83faa165e33eacbbe7b95737ad4d7c2670ba368c) | 2026-09-12 |
+| 84ea31fc | [Skip flaky TestGetMattermostLog (MM-70639) (#38446)](https://github.com/mattermost/mattermost/commit/84ea31fcad59dad963097588f0316258cc7caa7d) | 2026-09-12 |
+| 5dd13c95 | [MM-69223: V12 - Default-strip post identity props and reinject under verified authority (#37872)](https://github.com/mattermost/mattermost/commit/5dd13c953b2dcd7534154cc5c473559d5ee6d37a) | 2026-09-13 |
+| 012e6dda | [File download policy enforcement for content reviewers (#38245)](https://github.com/mattermost/mattermost/commit/012e6dda5d685760f8e91c1f9fb54b3a9a789079) | 2026-09-14 |
+| e594b211 | [MM-70619: Add live Security Updates bulletin to product docs (#38427)](https://github.com/mattermost/mattermost/commit/e594b2116ce7bacf76c0173f306ac68a35a1f140) | 2026-09-14 |
+| 438af259 | [MM-69969: re-work file attachment when serving draft and edit history file metadata (#38048)](https://github.com/mattermost/mattermost/commit/438af2598398efdaf46056d46b3ac7324464d4eb) | 2026-09-14 |
+| f29d0431 | [chore: Update NOTICE.txt file with updated dependencies (#38530)](https://github.com/mattermost/mattermost/commit/f29d0431de2dccaf8535024be76396dfa12da29b) | 2026-09-14 |
+| 797148b6 | [Fix stale merge defect from #38048 (#38529)](https://github.com/mattermost/mattermost/commit/797148b6c31082cea398f05aecefaa649db8d73c) | 2026-09-14 |
+| 4322d9e9 | [Update the web app to React 19 (#38311)](https://github.com/mattermost/mattermost/commit/4322d9e9a2dbef25b3860ec2279afd6634ceb61f) | 2026-09-14 |
+| f801461e | [\[MM-70612\] Add temporary plugin React DOM root logging (#38454)](https://github.com/mattermost/mattermost/commit/f801461e2bab10e34b2369088b158461e6b19667) | 2026-09-14 |
+| 846df3d3 | [Rename Global Attributes System Console section to Attribute Management (#38485)](https://github.com/mattermost/mattermost/commit/846df3d3f3e29375bad1342af0d194651239df82) | 2026-09-14 |
+| 98371929 | [\[MM-70678\] Prevent plugin startup failures from blocking the web app (#38486)](https://github.com/mattermost/mattermost/commit/98371929edae113a6af7a7f73b964c1a6378168b) | 2026-09-14 |
+| cfa66f0e | [docs: advertise Playbooks as Entry + Enterprise + Enterprise Advanced only (#38532)](https://github.com/mattermost/mattermost/commit/cfa66f0ea57ddf1b607addb22f4d906882936f0d) | 2026-09-14 |
+| e97df5b6 | [\[MM-70687\] Expose host JSX runtimes to web app plugins (#38489)](https://github.com/mattermost/mattermost/commit/e97df5b6e18a227cf9aa3cf47317f44672d9eaef) | 2026-09-14 |
+| d1666572 | [\[MM-70679\] Migrate remaining JS test files to TypeScript (#38493)](https://github.com/mattermost/mattermost/commit/d16665723616ee8b63a127816cbad2022668354f) | 2026-09-14 |
+| 461f214c | [\[MM-67330\] Apply the search term to the System Console user CSV export (#38492)](https://github.com/mattermost/mattermost/commit/461f214c6bd2567e672b1639a3ab750c0fd42042) | 2026-09-14 |
+| 5de31f8e | [MM-68909: Add per-channel setting to disable join/leave system messages (#37314)](https://github.com/mattermost/mattermost/commit/5de31f8e868f61636ee9d556176cd6ab5f956f2b) | 2026-09-14 |
+| 69f0f2c2 | [\[MM-70642\] Add Global Relay SenderAddress config setting (#38451)](https://github.com/mattermost/mattermost/commit/69f0f2c22cfb346566bc02ad67347bd65a7cabdf) | 2026-09-14 |
+| fcf51cdd | [\[MM-70251\] Fix interactive dialog submitting against wrong channel (#38193)](https://github.com/mattermost/mattermost/commit/fcf51cdd2604d74a25887c25c63a2e2c787b1320) | 2026-09-14 |
+| 0c75e8fd | [\[MM-67353\] Respect collapsed image previews for GIF-picker images (#38491)](https://github.com/mattermost/mattermost/commit/0c75e8fd1f66800285a2df168def6aab7ddf1bff) | 2026-09-14 |
+| 5b866b8c | [Add collapsible section support to interactive dialogs (#37341)](https://github.com/mattermost/mattermost/commit/5b866b8c22de69f68e025d4a08163bc68d6d3f3c) | 2026-09-14 |
+| 46bfb717 | [add new ephemeral mode audit logging endpoints (#37715)](https://github.com/mattermost/mattermost/commit/46bfb71725b710702dabfdd2df8a719bb520e716) | 2026-09-15 |
+| 41cdeab3 | [Add dot release docs for server v11.10.2, v11.9.2, v11.7.11 (#38388)](https://github.com/mattermost/mattermost/commit/41cdeab36c818050cfd3409e18a50ef03bc9aebf) | 2026-09-15 |
+| 791ab8f0 | [MM-70627: Convert loops to range-over-int (#38474)](https://github.com/mattermost/mattermost/commit/791ab8f0f4f8ba1c66b7d241c4e732eb48257144) | 2026-09-15 |
+| 68c4bb52 | [MM-70626: Migrate sort to slices (#38473)](https://github.com/mattermost/mattermost/commit/68c4bb52e5e094d7c26f627f949973040c9c56a7) | 2026-09-15 |
+| 1e0a76ee | [MM-70575: Support paid `add-on` plugin licenses (#38327)](https://github.com/mattermost/mattermost/commit/1e0a76ee9a41ef2de19745e74e97178844b245df) | 2026-09-15 |
+| 0576319d | [MM-61876: Add Playwright tests for message priority cases (#38289)](https://github.com/mattermost/mattermost/commit/0576319d9bfbc323e797b435055015ab33e78c03) | 2026-09-15 |
+| d9ab8dd0 | [\[MM-47076\] Migrate "components/suggestion/suggestion_box" and its tests to Typescript (#38490)](https://github.com/mattermost/mattermost/commit/d9ab8dd076601fb00815c4b5ce4b3416ad0311b6) | 2026-09-15 |
+| 41c482b4 | [Enable single team and channel migrations between instances (#37868)](https://github.com/mattermost/mattermost/commit/41c482b497c5236878019689bc202914f8425f40) | 2026-09-15 |
+| 216766a8 | [\[MM-70677\] Remove dead useUpdateOnVisibilityChange hook and phantom @popperjs/core import (#38484)](https://github.com/mattermost/mattermost/commit/216766a810511b9ca9782bced490f72b23a3edf7) | 2026-09-16 |
 
 ## 제외된 커밋
 
