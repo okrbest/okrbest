@@ -22,6 +22,7 @@
 | 우리 커밋 | upstream | 차이 요약 |
 |---|---|---|
 | `9551f53f` [MM-69115] 채널이 두 카테고리에 남는 버그 | [3fc5b942](https://github.com/mattermost/mattermost/commit/3fc5b942927dede596ead4ebfec4f40085365f4b) (#36875) | 제외한 계보에서 함수 블록만 부분 이식 — 아래 참조 |
+| `da70dcce` Mattermost Blocks | [1c801690](https://github.com/mattermost/mattermost/commit/1c801690a06a39ad5ad467a621196c19229295bb) (#36338) | 제외한 property v2·분류 표시 계보의 문맥을 걷어내고 수용, 선택자·헬퍼 이름은 우리 것 유지 — 아래 참조 |
 
 ---
 
@@ -83,3 +84,48 @@ MovesOutOfFavorites:        expected ["Moved Category"], actual ["Favorites", "M
 
 그때 이 이식분은 중복되므로 upstream 형태로 되돌리면 된다. 같은 내용을 ledger 부록의
 `69fbaece` 제외 사유에도 남겨 뒀다 — 그쪽에서 이 문서로 오게 된다.
+
+---
+
+## Mattermost Blocks — 제외한 두 계보에서 문맥만 걷어내고 수용
+
+**무엇을 했나.** upstream `1c801690`(Mattermost Blocks, #36338)을 패치 그대로 받았다.
+155파일 +20,930/−1,485 규모이나 재설계하지 않았고, 충돌 9곳(126줄)만 우리 트리 사정에
+맞게 풀었다. 그중 **지속적 차이로 남는 것이 넷**이다.
+
+**1. `FeatureFlags.SetDefaults`에서 `PropertyFieldRank`를 뺐다.**
+upstream은 `f.PropertyFieldRank = false`와 `f.MmBlocksEnabled = true`를 나란히 넣는데,
+`PropertyFieldRank`는 제외한 property v2 계보(`48f2fd08` → `9f1fe90b`) 소산이라 우리
+`FeatureFlags` 구조체에 **필드 자체가 없다**. 그대로 받으면 없는 필드에 대입해 컴파일이
+깨진다. `MmBlocksEnabled`만 취했다.
+→ **이 줄은 다음에 건드리는 커밋과 또 충돌한다.** property v2를 도입하면 함께 정리된다.
+
+**2. `feature_flags_test.go`의 `TestFeatureFlagsSetDefaults`에서 `ClassificationMarkings`
+서브테스트 둘을 뺐다.** 제외한 분류 표시 계보(`2b7b398a`·`6083cc22`) 소산이라 해당 필드가
+없다. `MmBlocksEnabled` 검사만 남겼다.
+
+**3. `post_message_preview/index.ts`의 autotranslation 선택자 이름을 유지했다.**
+upstream은 `isChannelAutotranslated` → `isMyChannelAutotranslated` 개명을 반영한 상태지만
+그 커밋이 우리에겐 미반영이다. 우리 이름을 지키고 upstream의 `getFeatureFlagValue`만 받았다.
+같은 줄을 `7bbb063b9a`(MM-69172)에서 이미 한 번 풀었다 — **세 번째로 또 만날 줄이다.**
+
+**4. `actions/command.ts`가 `localizeMessage`를 계속 쓴다.**
+upstream은 이 파일을 `getIntl` 기반으로 이관한 뒤였으나(우리 미반영 선행 커밋) 우리 본문은
+여전히 `localizeMessage`를 3곳에서 쓴다. `applyIntegrationGotoLocation`(upstream 신규, 본문
+사용)만 더하고 `getIntl`·`getSiteURL`은 미사용이라 넣지 않았다.
+
+**동작 변화 하나 — 첨부 클릭.** upstream이 `makeIsEligibleForClick` 셀렉터에 `.attachment`를
+추가한다(결정: 그대로 수용). 우리 첨부 래퍼가 `className={'attachment ...'}`이고 자체 커밋
+`152f848078`(봇 슬랙 부분 클릭시 이동 가능하게)이 그 안쪽 `.attachment__container`에 클릭
+핸들러를 달아 둔 상태다. 결과:
+- `title_link` 있음 → 우리 핸들러가 링크를 열고 `stopPropagation` (변화 없음)
+- `title_link` 없음 → 이전엔 게시물 클릭이 발동해 스레드가 열렸으나 **이제 아무 일도 없다**
+
+upstream이 `.attachment`를 넣은 이유가 블록·드롭다운·자동완성이 첨부 안으로 들어오면서
+의도치 않은 스레드 열림을 막으려는 것이라, 블록을 도입하는 이상 같은 필요가 우리에게도 있다.
+우리 커스터마이즈의 원래 목적(`title_link` 이동)은 그대로 살아 있다.
+
+**차이를 없앨 조건.** (1) property v2 계보를 도입하면 `PropertyFieldRank`와
+`ClassificationMarkings`가 함께 들어와 1·2가 해소된다. (2) upstream의
+`isMyChannelAutotranslated` 개명 커밋을 반영하면 3이 해소된다. (3) `command.ts`의 `getIntl`
+이관 커밋을 반영하면 4가 해소된다.
