@@ -25,6 +25,8 @@
 | `da70dcce` Mattermost Blocks | [1c801690](https://github.com/mattermost/mattermost/commit/1c801690a06a39ad5ad467a621196c19229295bb) (#36338) | 제외한 property v2·분류 표시 계보의 문맥을 걷어내고 수용, 선택자·헬퍼 이름은 우리 것 유지 — 아래 참조 |
 | `b5236f98` Playwright 1.61 업그레이드 | [d85da5ce](https://github.com/mattermost/mattermost/commit/d85da5ce2c7bf9a8718b2bba620ba0992043ef3d) (#37277) | e2e 기본 설정·워크플로·ABAC 스펙이 우리 쪽에서 갈라져 upstream 훅 넷을 버렸다 — 아래 참조 |
 | `020de7a6` ABAC 플래그 기본 활성 | [939afca4](https://github.com/mattermost/mattermost/commit/939afca46faeec7b65bbd02de8b11911935c515e) (#37265) | 플래그 다섯 중 넷만 뒤집었다 — PropertyFieldRank는 우리에게 필드가 없다 — 아래 참조 |
+| `41cec566` 공유 채널 플래그 제거 | [9e3d8efc](https://github.com/mattermost/mattermost/commit/9e3d8efc1a62b53e883a5a08ce3552c7c9fc896d) (#37154) | 충돌 넷이 전부 우리 Lexical 개명·자체 프로퍼티에서 왔다 — 아래 참조 |
+| `469e1e26` 권한 정책 편집기 Simple 모드 | [be8f7fe0](https://github.com/mattermost/mattermost/commit/be8f7fe02f65a506b1734e13eb68e44902d8bd80) (#37267) | 랭크 연산자 테스트 넷을 버렸다 — 우리 shared.tsx에 랭크 계보가 없다 — 아래 참조 |
 
 ---
 
@@ -257,3 +259,84 @@ api4 실패에는 **우리 팀 ABAC 계보 테스트**가 셋 끼어 있었다 �
 
 **차이를 없앨 조건.** property v2 계보를 도입하면 `PropertyFieldRank` 필드와
 `rankPropertyFieldGate`가 함께 들어와 셋이 한꺼번에 해소된다. 그때 upstream 형태로 되돌리면 된다.
+
+---
+
+## 공유 채널 플래그 제거 — 충돌 넷이 전부 우리 자체 변경에서 왔다
+
+**무엇을 했나.** upstream `9e3d8efc`(#37154)가 공유 채널 플래그 셋
+(`EnableRemoteClusterService`, `EnableSharedChannelsPlugins`,
+`EnableSharedChannelsMemberSync`)을 제거한다. 32파일 +76/−452를 그대로 받았고,
+충돌 넷만 우리 형태에 맞춰 풀었다. **버린 upstream 코드는 없다** — 네 충돌 모두
+"우리 이름/프로퍼티 vs upstream 이름/프로퍼티"였지 기능 취사선택이 아니다.
+
+| 파일 | 우리가 지킨 것 | 왜 충돌했나 |
+|---|---|---|
+| `advanced_text_editor.tsx` | `lexicalEditorRef` 이름, `useOrientationHandler` 호출 | Lexical 에디터 계보(`9fae0052`)에서 `textboxRef`를 개명했다. upstream 쪽의 `wysiwygRef`는 제외한 TipTap 커밋(`0fa2713b`) 소산이라 받지 않았다 |
+| `use_plugin_items.tsx` | `LexicalTextEditorHandle` 타입 임포트 | 같은 계보. upstream은 `TextboxClass`를 쓴다 |
+| `channel_header/index.ts` | `showBotMessages` 프로퍼티, `getMyChannelAutotranslation` 이름 | autotranslation 선택자 개명 미반영 |
+| `channel_header_menu.tsx` | `getChannelAutotranslation` 이름 | 〃 |
+
+**autotranslation 선택자 이름은 이제 네 번째로 만난 줄이다.** upstream의
+`isChannelAutotranslated` → `isMyChannelAutotranslated` 개명 커밋이 미반영이라
+계속 우리 이름을 지키고 있다 — 위 "Mattermost Blocks" 항목 3번과 같은 지점이고,
+`7bbb063b9a`(MM-69172) → `da70dcce`(Blocks) → 이번이 세 번째·네 번째다.
+**그 개명 커밋을 반영하면 한꺼번에 정리된다.**
+
+**동작 영향은 커넥티드 워크스페이스를 켤 때만 드러난다.**
+
+| 플래그 | 우리 기본값 | 제거 전 실제 동작 | 제거 후 |
+|---|---|---|---|
+| `EnableSharedChannelsPlugins` | `true` | 훅이 `!channel.shared \|\| flag`라 항상 true | 변화 없음 |
+| `EnableSharedChannelsMemberSync` | `false` | 멤버 동기화가 **항상 꺼짐** | 원격 클러스터 서비스 유무로만 판정 |
+| `EnableRemoteClusterService` | `false` | 관리자가 설정을 켜도 클라이언트엔 **항상 "false"** | `ConnectedWorkspacesSettings`를 그대로 따름 |
+
+뒤 둘은 `ConnectedWorkspacesSettings.EnableSharedChannels`와
+`EnableRemoteClusterService`가 모두 기본 `false`라(`config.go:1270`·`1274`)
+관리자가 커넥티드 워크스페이스를 켜지 않는 한 잠들어 있다. 켠다면 **설정이 실제로
+작동하는 쪽이 옳고**, 그것이 이 커밋의 목적이다.
+
+---
+
+## 권한 정책 편집기 — 랭크 연산자 테스트 넷을 버렸다
+
+**무엇을 했나.** upstream `be8f7fe0`(#37267)은 권한 정책 규칙 편집기가 들고 있던
+낡은 `isSimpleExpression` 로컬 복사본을 지우고 공유 헬퍼를 쓰게 한다. 소스 수정은
+그대로 받고, **랭크 연산자를 검증하는 테스트 넷을 제거**했다.
+
+- `opens a ranked-operator rule in Simple mode (MM-69527)`
+- 표 케이스 셋: `ranked is at most (<=)`, `ranked greater than (>)`,
+  `ranked less than (<)`
+
+**왜 버렸나.** 우리 `access_control/editors/shared.tsx`가 upstream 대비 **44줄
+부족한데 그게 전부 랭크 계보**다.
+
+| 지점 | upstream | 우리 |
+|---|---|---|
+| `OPERATOR_CONFIG` | `IS_EXACTLY`·`IS_AT_LEAST`·`IS_GREATER_THAN`·`IS_AT_MOST`·`IS_LESS_THAN` 있음 | **없음** |
+| `isSimpleCondition` 첫 정규식 | `(==\|!=\|>=\|<=\|>\|<)` | `(==\|!=)` |
+
+그래서 랭크 표현식(`user.attributes.level >= "Senior"`)이 우리에게서 Advanced
+모드로 열리는 것은 **버그가 아니라 정상 동작**이다. 제외한 property v2 /
+`PropertyFieldRank` 계보와 같은 뿌리이며, 위 "ABAC 플래그 기본 활성" 항목에 이어
+이 격차를 **네 번째**로 만났다.
+
+**랭크 없이도 이 수정은 실익이 있다.** 로컬 복사본이 못 잡던 괄호 multiselect
+"has any of" OR 그룹을 우리 공유 헬퍼의 `isMultiselectOrGroup`이 처리하고, 해당
+테스트가 통과한다. 로컬 복사본에 있던 `((\[.*?\])||['"]...)` 빈 대안 오타도 함께
+사라진다 — 공유 헬퍼 ⊇ 로컬 복사본이고 랭크만 빠진다. 제거 전 12/16이었고
+실패 4건이 전부 랭크였다. 제거 후 12/12.
+
+**`AccessControlSettings` 필드 둘도 같이 걸렸다.** upstream이 새로 넣은 테스트가
+`accessControlSettings` 리터럴에 `TrustProxyDeviceIdentityHeader`와
+`EnforceDeviceIDConsistency`를 심는데, 우리 `AccessControlSettings` 타입에는 **둘 다
+없다** — 위 "ABAC 플래그 기본 활성" 항목에서 버린 것과 같은 필드다. jest는 통과하지만
+`npm run check-types`가 TS2353으로 잡는다(`permission_policy_details.test.tsx(47,9)`).
+두 줄을 지워 기준선 29건을 유지했다. **jest 통과만으로는 이 부류를 못 걸러낸다 —
+adapt 후 반드시 check-types를 함께 돌려야 한다.**
+
+**차이를 없앨 조건.** property v2 / 랭크 속성 계보를 도입하면 `shared.tsx`의 44줄이
+들어오고, 그때 이 테스트 넷을 upstream 형태로 되살리면 된다. 같은 도입으로
+`PropertyFieldRank` 플래그와 `rankPropertyFieldGate`도 함께 해소된다.
+`TrustProxyDeviceIdentityHeader`·`EnforceDeviceIDConsistency`가 들어오면 위 테스트
+리터럴도 upstream 형태로 되돌린다.
