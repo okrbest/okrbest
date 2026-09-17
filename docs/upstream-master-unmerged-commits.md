@@ -1,35 +1,16 @@
 # upstream-master 미반영 커밋 목록
 
-`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-17 11:12
-- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 548개
+- 갱신일: 2026-09-17 12:08
+- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 532개
 
-**마지막 반영 커밋:** `0fa2713b` | [MM-67755: WYSIWYG editor for message composition (#36143)](https://github.com/mattermost/mattermost/commit/0fa2713b59d5c4920ded6734ce5d7927f34e6fba) | 2026-06-30
+**마지막 반영 커밋:** `68668c87` | [Mirror postgres images for versions 15, 16, and 17 (#37305)](https://github.com/mattermost/mattermost/commit/68668c871e69aa79bf73439eb8cb5c5fabb64853) | 2026-06-30
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 40728a4f | [chore(webapp): remove orphaned prettier devDependency (#36817)](https://github.com/mattermost/mattermost/commit/40728a4fd294b66e822c8a2ec7f9c42f423d4deb) | 2026-06-30 |
-| 743b565c | [Fix Quarantine for Review modal overflow with many post attachments (#37255)](https://github.com/mattermost/mattermost/commit/743b565c2d24c86e35dda87b993a52ed041657fb) | 2026-06-30 |
-| d85da5ce | [E2E/Playwright: Upgrade Playwright to 1.61 and its deps (#37277)](https://github.com/mattermost/mattermost/commit/d85da5ce2c7bf9a8718b2bba620ba0992043ef3d) | 2026-06-30 |
-| 245944c3 | [Bump prepackaged Agents plugin to v2.4.2 (#37289)](https://github.com/mattermost/mattermost/commit/245944c3252c61d25048d911f112906c070def81) | 2026-06-30 |
-| 510d1c03 | [Make SAML algorithm help text links clickable in System Console (#37140)](https://github.com/mattermost/mattermost/commit/510d1c0309dca1ddf004e0dbc7bc34c0563efaf4) | 2026-06-30 |
-| 9d06c9de | [Fix missing return after c.Err in two api4 handlers (#37281)](https://github.com/mattermost/mattermost/commit/9d06c9de9aa9a9e797e1da01951453438ca237e0) | 2026-06-30 |
-| 4d1849f3 | [Client4.GetUsersNotInChannelWithOptions accesses options.Etag outside the existing if options != nil guard, causing a nil pointer dereference (panic) when options is nil (#37045)](https://github.com/mattermost/mattermost/commit/4d1849f346cbf26806d1c8d75b63b25eed574461) | 2026-06-30 |
-| 577d84d8 | [\[MM-69484\] Fix SetJobWarning not decrementing active job metric (#37213)](https://github.com/mattermost/mattermost/commit/577d84d82c284e8aacdc0fa6480b52e0ab9170ad) | 2026-06-30 |
-| 43e8e12e | [Fix flaky TestUserHasJoinedChannel (#37288)](https://github.com/mattermost/mattermost/commit/43e8e12e2ee492c167f51efe4437a83a217f4798) | 2026-06-30 |
-| 2111c438 | [Bump golang.org/x/net to v0.56.0 (#37293)](https://github.com/mattermost/mattermost/commit/2111c4387e5077d5d701e94cfb5954307fd6d9d0) | 2026-06-30 |
-| a54b4b0a | [ci: make setup-go-work a Makefile prereq, remove explicit CI steps (#37268)](https://github.com/mattermost/mattermost/commit/a54b4b0a4ff8904da88597a88bc998bf1aa5dc9d) | 2026-06-30 |
-| abf24032 | [MM-67818 Fix Recaps sidebar icon opacity to match other LHS items (#37063)](https://github.com/mattermost/mattermost/commit/abf24032f32aba94a6d6b9adb94fdbd418c90277) | 2026-06-30 |
-| 98a9c895 | [preserve individual plugin configs during patch when absent (#37171)](https://github.com/mattermost/mattermost/commit/98a9c89514af7c0d8c6252cf2d03ec5c3877c9a4) | 2026-06-30 |
-| 939afca4 | [\[MM-69528\] Enable feature flags for ranked attributes, permission policies and masking by default (#37265)](https://github.com/mattermost/mattermost/commit/939afca46faeec7b65bbd02de8b11911935c515e) | 2026-06-30 |
-| 229575b0 | [Add direct message support to mmctl post create (#37159)](https://github.com/mattermost/mattermost/commit/229575b0a7914dd1dce4875abf290461b0f50166) | 2026-06-30 |
-| e8e47bd5 | [\[MM-69506\] Preserve channel permission rule fields on save validation error (#37236)](https://github.com/mattermost/mattermost/commit/e8e47bd528f0cc637734d3cc0b022a54aaf9451e) | 2026-06-30 |
-| 637319b9 | [Fix flaky mmctl plugin e2e tests by using local HTTP server (#37211)](https://github.com/mattermost/mattermost/commit/637319b9bd30ca9cdfa1302f8d466edbd924310b) | 2026-06-30 |
-| cb136ac8 | [MM-61199: Remove channelBookmarks feature flag (#37120)](https://github.com/mattermost/mattermost/commit/cb136ac81e8576f398683d82d3406e9df71c0260) | 2026-06-30 |
-| 68668c87 | [Mirror postgres images for versions 15, 16, and 17 (#37305)](https://github.com/mattermost/mattermost/commit/68668c871e69aa79bf73439eb8cb5c5fabb64853) | 2026-06-30 |
 | 82657b2e | [update Calls to v1.12.1 (#37307)](https://github.com/mattermost/mattermost/commit/82657b2e4a6d142f307c2889c45611a3faa45200) | 2026-07-01 |
 | 236e39b9 | [Update docs-impact-review prompt (#37224)](https://github.com/mattermost/mattermost/commit/236e39b9fc552bb7c9293f02396e2bd3499e1e51) | 2026-07-01 |
 | 9e3d8efc | [chore: remove deprecated shared channels feature flags (#37154)](https://github.com/mattermost/mattermost/commit/9e3d8efc1a62b53e883a5a08ce3552c7c9fc896d) | 2026-07-01 |
@@ -559,6 +540,9 @@
 | b2c92d7a | [\[MM-60059\] Point guest-only inviters to an administrator when the invitee is already a workspace member (#38558)](https://github.com/mattermost/mattermost/commit/b2c92d7ae3dc9af7e94231bd16c8bbb75101a226) | 2026-09-16 |
 | 9ef79330 | [Add a graph custom attribute type whose options form a hierarchy (#37851)](https://github.com/mattermost/mattermost/commit/9ef793301ab3b74feda5d6cc22f41d78741a4786) | 2026-09-16 |
 | ed04a0fd | [Move New attribute button into Attribute Management header (#38555)](https://github.com/mattermost/mattermost/commit/ed04a0fdc2ffda218d15b11e17d281944292e48d) | 2026-09-16 |
+| 388f9b07 | [Show non-template property fields on Manage Attributes (#38483)](https://github.com/mattermost/mattermost/commit/388f9b07e1d6ee4d14ae81ca612516e5b919a749) | 2026-09-16 |
+| 67c177a4 | [Add Playwright SSO/Auth E2E infra: Keycloak, LDAP helpers, testcontainers support (#38509)](https://github.com/mattermost/mattermost/commit/67c177a45f5b14282c5c9ae0d5de42b6fd1c8ec3) | 2026-09-17 |
+| 05b1146c | [\[MM-70737\] Skip ScheduledPostWillBeCreated for burn-on-read scheduled posts (#38570)](https://github.com/mattermost/mattermost/commit/05b1146c55c50f2721448d3c0897a5ea0be05127) | 2026-09-16 |
 
 ## 제외된 커밋
 
