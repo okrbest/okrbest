@@ -47,12 +47,23 @@ export {
     ensureOpenldap,
 } from './openldap';
 export type {LdapUser} from './openldap';
-export {createKeycloakUser, deleteKeycloakUser, samlServerConfig, ensureKeycloak} from './keycloak';
+export {
+    generateKeycloakUser,
+    createKeycloakUser,
+    deleteKeycloakUser,
+    suspendKeycloakUser,
+    samlServerConfig,
+    keycloakSamlDescriptorUrl,
+    ensureKeycloak,
+    openidServerConfig,
+    ensureKeycloakOpenId,
+} from './keycloak';
 export type {KeycloakUser} from './keycloak';
 export {listMinioObjectKeys, ensureMinio} from './minio';
 export {elasticsearchServerConfig, ensureElasticsearch} from './elasticsearch';
 export {opensearchServerConfig, ensureOpensearch} from './opensearch';
 export {ensureAzurite, listAzuriteBlobNames} from './azurite';
+export {ensureServerEnv, ensureSiteUrl} from './server_env';
 export {ensureLocalFile} from './filestore';
 export {ensurePostgresSearch} from './postgres_search';
 export {ensureFeatureFlag} from './feature_flags';

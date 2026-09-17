@@ -2950,3 +2950,34 @@ Slack 실측(2873px 창에서 검색 바 1512px = 52.6vw) 기준. 변경 후 실
 두므로, peek 오버레이는 `background: var(--sidebar-bg)`를 반드시 되살린다
 — 빠지면 본문이 비쳐 보인다 (2026-10-07 수정).
 i18n `sidebar.channelSidebarToggle.{hide,show}` (en/ko).
+
+---
+
+## Playwright testcontainers lib — 업그레이드 하네스 없이 SSO 인프라만 받았다
+
+**무엇을 했나.** upstream `67c177a4`(#38509)는 OpenID·SAML·LDAP e2e 스펙이 기댈 인프라를
+깐다. Keycloak 헬퍼(`generateKeycloakUser`·`suspendKeycloakUser`·`openidServerConfig`·
+`ensureKeycloakOpenId`·`keycloakSamlDescriptorUrl`), `KeycloakLoginPage`, `LoginPage`의 SSO
+locator, `pw.ensureServerEnv()`·`pw.ensureSiteUrl()`(신규 `server/server_env.ts`), Mattermost
+컨테이너 고정 호스트 포트 8055, SiteURL을 `env_baseline.ts`의 재정의 가능 단계로 이동,
+피처 플래그 기본값 제거를 **그대로** 받았다. 우리 lib은 spec 013으로 직접 세운 것이라 충돌
+5파일(`constants.ts`·`env_baseline.ts`·`mattermost_container.ts`·`server/index.ts`·
+`test_fixture.ts`)은 손으로 옮겼다.
+
+**버린 것.**
+
+| 버린 것 | 이유 |
+|---|---|
+| `constants.ts`·`mattermost_container.ts`의 주석 축약 hunk 다수 | 대상 주석(`MATTERMOST_DATA_DIR` 바인드 마운트, Postgres DSN config, 업그레이드 대기 전략·reuse 분기)이 제외한 롤링 업그레이드 하네스 `fe9a36e8` 산물이라 우리 파일에 없다 |
+| `test_fixture.ts`의 import·필드 알파벳 재정렬 | 기능 무관 정렬. 새 항목만 기존 순서 뒤에 붙였다 |
+| `wysiwyg_editor/*.spec.ts` 7개의 `ensureFeatureFlag('WysiwygEditor')` 추가 | 제외한 TipTap WYSIWYG(`0fa2713b`·`b56f4332`) 스펙이라 우리 트리에 없다 |
+| `abac/resource_attributes/*.spec.ts` 5개의 플래그·호출 수정 | 제외한 `9ef79330`(graph 속성·ABAC 리소스 속성) 스펙이라 우리 트리에 없다 |
+
+**동작 차이.** `env_baseline.ts`는 upstream 최종본과 같다 — 우리에게만 없던
+`MM_FEATUREFLAGS_RESOURCEATTRIBUTESINPOLICIES`를 포함해 피처 플래그 줄이 모두 빠졌다.
+`channel_perm_rules_v0_4.spec.ts`는 `skipIfFeatureFlagNotSet('PermissionPolicies')`라서
+플래그가 꺼진 서버에선 건너뛴다. upstream도 같은 상태로 남겨 두었다.
+
+**다음에 만날 자리.** 업그레이드 하네스 관련 코드(`upgrade_env`, `upgradeServerImage`,
+`saveUpgradePhaseLogs`, `MATTERMOST_DATA_DIR`)를 건드리는 upstream e2e 커밋은 같은 파일에서
+같은 모양으로 충돌한다. 풀이도 같다 — 하네스 hunk는 버리고 나머지를 옮긴다.

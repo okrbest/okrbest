@@ -56,6 +56,13 @@ import {
     isPluginActive,
     samlServerConfig,
     ensureKeycloak,
+    generateKeycloakUser,
+    suspendKeycloakUser,
+    keycloakSamlDescriptorUrl,
+    openidServerConfig,
+    ensureKeycloakOpenId,
+    ensureServerEnv,
+    ensureSiteUrl,
     elasticsearchServerConfig,
     opensearchServerConfig,
     ensureElasticsearch,
@@ -151,6 +158,13 @@ export class PlaywrightExtended {
     readonly deleteKeycloakUser;
     readonly samlServerConfig;
     readonly ensureKeycloak;
+    readonly generateKeycloakUser;
+    readonly suspendKeycloakUser;
+    readonly keycloakSamlDescriptorUrl;
+    readonly openidServerConfig;
+    readonly ensureKeycloakOpenId;
+    readonly ensureServerEnv;
+    readonly ensureSiteUrl;
     readonly elasticsearchServerConfig;
     readonly opensearchServerConfig;
     readonly ensureElasticsearch;
@@ -204,6 +218,9 @@ export class PlaywrightExtended {
     readonly landingLoginPage;
     readonly signupPage;
     readonly resetPasswordPage;
+    readonly keycloakLoginPage;
+    // Same default page as above, post-login, for specs that authenticate it directly.
+    readonly channelsPage;
 
     readonly hasSeenLandingPage;
 
@@ -251,6 +268,13 @@ export class PlaywrightExtended {
         this.deleteKeycloakUser = deleteKeycloakUser;
         this.samlServerConfig = samlServerConfig;
         this.ensureKeycloak = ensureKeycloak;
+        this.generateKeycloakUser = generateKeycloakUser;
+        this.suspendKeycloakUser = suspendKeycloakUser;
+        this.keycloakSamlDescriptorUrl = keycloakSamlDescriptorUrl;
+        this.openidServerConfig = openidServerConfig;
+        this.ensureKeycloakOpenId = ensureKeycloakOpenId;
+        this.ensureServerEnv = ensureServerEnv;
+        this.ensureSiteUrl = ensureSiteUrl;
         this.elasticsearchServerConfig = elasticsearchServerConfig;
         this.opensearchServerConfig = opensearchServerConfig;
         this.ensureElasticsearch = ensureElasticsearch;
@@ -277,6 +301,9 @@ export class PlaywrightExtended {
         this.landingLoginPage = new pages.LandingLoginPage(page, isMobile);
         this.signupPage = new pages.SignupPage(page);
         this.resetPasswordPage = new pages.ResetPasswordPage(page);
+        this.keycloakLoginPage = new pages.KeycloakLoginPage(page);
+        // Same default page as above, post-login
+        this.channelsPage = new pages.ChannelsPage(page);
 
         // ./mock_browser_api
         this.stubNotification = stubNotification;
@@ -310,9 +337,9 @@ export class PlaywrightExtended {
             userWithAttributes: createUserWithAttributes,
         };
 
-        this.hasSeenLandingPage = async () => {
+        this.hasSeenLandingPage = async (url = '/') => {
             // Visit the base URL to be able to set the localStorage
-            await page.goto('/');
+            await page.goto(url);
             return waitUntilLocalStorageIsSet(page, '__landingPageSeen__', 'true');
         };
     }
