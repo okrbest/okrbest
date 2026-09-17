@@ -268,18 +268,24 @@ export default function ImagePreview({
         };
     }, [onWheelZoom]);
 
+    // An SVG declaring only a viewBox has no intrinsic size and renders at the browser's 300px
+    // default, so it needs the width the server derived. A width of 0 would collapse it instead.
+    const svgStyle: React.CSSProperties = {};
+    if (getFileType(fileInfo.extension) === FileTypes.SVG && fileInfo.width > 0) {
+        svgStyle.width = fileInfo.width;
+        svgStyle.height = 'auto';
+    }
+
     if (!canDownloadFiles) {
-        return <img src={previewUrl}/>;
+        return (
+            <img
+                src={previewUrl}
+                style={svgStyle}
+            />
+        );
     }
 
-    const isSVG = getFileType(fileInfo.extension) === FileTypes.SVG;
-
-    let imageStyle: React.CSSProperties = {};
-
-    if (isSVG) {
-        imageStyle.width = fileInfo.width;
-        imageStyle.height = 'auto';
-    }
+    let imageStyle: React.CSSProperties = {...svgStyle};
 
     // 확대 시 실제 크기 변경 (transform 대신)
     if (baseSize.width > 0 && scale !== ZoomSettings.DEFAULT_SCALE) {

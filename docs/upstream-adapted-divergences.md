@@ -3025,3 +3025,22 @@ Docs 플러그인) 산물이라 store 메서드도 채널 타입도 우리 트�
 
 **다음에 만날 자리.** `LeaveTeam`·채널 목록 순회 근처를 고치는 upstream 커밋은 Space 블록 문맥으로
 같은 모양의 충돌을 낸다 — Space 블록만 빼고 받는다.
+
+---
+
+## SVG 미리보기 크기 — 우리 확대 구조(image_preview) 위에 조건만 옮겼다
+
+**무엇을 했나.** upstream `2a25e948`(MM-62407, #38560)의 서버 `imaging/svg.go` 치수 파싱 수정
+(절대 width·height 우선, 쉼표 viewBox 허용, NaN·무한대·int 범위 밖 거부)과
+`single_image_view`·`size_aware_image`의 "폭이 있을 때만 SVG 크기 지정"은 **그대로** 받았다.
+
+**손으로 옮긴 것.** `file_preview_modal/image_preview.tsx`는 우리 자체 커밋 `36df58b0`(끌기·휠·키보드
+조작)이 다시 쓴 컴포넌트다 — upstream은 `transform: scale()`로 확대하지만 우리는 `baseSize × zoomRatio`로
+실제 width·height를 바꾼다. 그래서 upstream 구조는 버리고 두 조건만 옮겼다.
+
+1. SVG 크기 지정에 `fileInfo.width > 0` 조건 추가 (치수 없는 SVG가 폭 0으로 찌그러지던 버그)
+2. `!canDownloadFiles` 분기의 `<img>`에도 같은 SVG 크기 적용
+
+**버린 것.** upstream 테스트 `should apply both transform and SVG sizing together` 1건 —
+우리 확대는 transform을 쓰지 않는다. 나머지 SVG 테스트 4건(5케이스)은 받았고, 수정 전 3건 실패를
+확인한 뒤 통과시켰다.
