@@ -24,6 +24,7 @@
 | `9551f53f` [MM-69115] 채널이 두 카테고리에 남는 버그 | [3fc5b942](https://github.com/mattermost/mattermost/commit/3fc5b942927dede596ead4ebfec4f40085365f4b) (#36875) | 제외한 계보에서 함수 블록만 부분 이식 — 아래 참조 |
 | `da70dcce` Mattermost Blocks | [1c801690](https://github.com/mattermost/mattermost/commit/1c801690a06a39ad5ad467a621196c19229295bb) (#36338) | 제외한 property v2·분류 표시 계보의 문맥을 걷어내고 수용, 선택자·헬퍼 이름은 우리 것 유지 — 아래 참조 |
 | `b5236f98` Playwright 1.61 업그레이드 | [d85da5ce](https://github.com/mattermost/mattermost/commit/d85da5ce2c7bf9a8718b2bba620ba0992043ef3d) (#37277) | e2e 기본 설정·워크플로·ABAC 스펙이 우리 쪽에서 갈라져 upstream 훅 넷을 버렸다 — 아래 참조 |
+| `020de7a6` ABAC 플래그 기본 활성 | [939afca4](https://github.com/mattermost/mattermost/commit/939afca46faeec7b65bbd02de8b11911935c515e) (#37265) | 플래그 다섯 중 넷만 뒤집었다 — PropertyFieldRank는 우리에게 필드가 없다 — 아래 참조 |
 
 ---
 
@@ -193,3 +194,66 @@ onPrem 오버라이드(`'localhost 127.0.0.1'`)로 되살렸다.
 **차이를 없앨 조건.** (1) upstream의 워크플로 계보를 다시 맞추면 1이 해소된다.
 (2) ABAC 스펙 계보를 반영하면 2·3이 함께 해소된다. (3) `make config-reset` 기반으로
 `FeatureFlags` 블록을 재생성하면 4가 해소된다 — 이건 upstream과 무관한 우리 숙제다.
+
+---
+
+## ABAC 플래그 기본 활성 — 다섯 중 넷만 뒤집었다
+
+**무엇을 했나.** upstream `939afca4`([MM-69528], #37265)는 ABAC 하위 기능 플래그 **다섯**을
+기본 활성으로 뒤집는다. 우리는 **넷만** 받았다.
+
+| 플래그 | 우리 기본값 | 상태 |
+|---|---|---|
+| `AttributeValueMasking` | `true` | 받음 |
+| `PermissionPolicies` | `true` | 받음 (우산 플래그) |
+| `ChannelPermissionPolicies` | `true` | 받음 |
+| `PolicySimulation` | `true` | 받음 |
+| **`PropertyFieldRank`** | — | **필드 자체가 없다** |
+
+`PropertyFieldRank`는 제외한 property v2 계보(`48f2fd08` → `9f1fe90b`) 소산이다. 같은 이유로
+`da70dcce`(Mattermost Blocks) adapt에서도 이 필드를 뺐다 — 위 항목 1번과 같은 줄이다.
+**세 번째로 만난 자리다.**
+
+**그래서 셋을 버렸다.**
+
+1. `feature_flags.go`의 `f.PropertyFieldRank = true`. 없는 필드에 대입하면 컴파일이 깨진다.
+2. `server/channels/app/property_field.go`의 `rankPropertyFieldGate` 주석 수정
+   (*"which is the default"* 구절 삭제). 우리 파일은 upstream 부모와 **42/385줄** 다르고
+   그 함수가 아예 없다 — `propertyFieldOptionsEqual`, `propertyFieldBroadcastParams`,
+   `publishPropertyFieldEvent`도 마찬가지다. 3-way 머지가 블록 전체를 되살리려 해 충돌했고
+   HEAD 쪽으로 풀었다.
+3. `feature_flags_test.go`에 새로 들어온 `TestFeatureFlagsSetDefaults_PropertyFieldRank`.
+   테스트 파일은 자동 병합돼 이 함수가 딸려 들어왔고 `flags.PropertyFieldRank`를 참조하므로
+   제거했다.
+
+**테스트 파일 둘은 갈라져 있는데도 자동 병합됐다.** `app/access_control_test.go`가 upstream
+부모와 **59/182줄** 다른데도 충돌이 없었다 — upstream이 손대는 함수 여섯
+(`TestCreateOrUpdateAccessControlPolicy`, `TestDeleteAccessControlPolicy`,
+`TestHasPermissionToFileAction`, `TestPublishChannelPolicyEnforcedUpdateHydratesBroadcastPayload`,
+`TestUpdateAccessControlPoliciesActive_MaskingGuard`,
+`TestMaskPolicyExpressions_FailClosedUsesDenyAllSentinel`)이 우리 파일에 전부 있었기 때문이다.
+`api4/access_control_test.go`는 우리 것이 부모와 동일해 그대로 붙었다.
+
+**blast radius를 커밋 전에 실측했다.** 플래그만 뒤집고 돌린 결과:
+
+| 패키지 | 플립만 | upstream 테스트 패치 적용 후 |
+|---|---|---|
+| `public/model` | 2건 실패 | 0건 |
+| `channels/api4` | **20개 서브테스트 실패** | **0건** |
+| `channels/app` | 1건 실패 | 0건 |
+
+api4 실패에는 **우리 팀 ABAC 계보 테스트**가 셋 끼어 있었다 —
+`TestCreateAccessControlPolicyTeamAdmin`, `TestGetAccessControlPolicyTeamAdmin`,
+`TestDeleteAccessControlPolicyTeamAdmin`(자체 커밋 `530f684f`·`cd7d9c32` 계보). 이들도 같은
+파일의 `setupTeamAdminABAC` 헬퍼를 공유해서, upstream이 그 헬퍼에 마스킹 끄기와
+`SetReadOnlyFF(false)`를 넣자 함께 풀렸다. **우리 팀 ABAC 테스트가 upstream 헬퍼에 묶여 있다는
+뜻이므로, 앞으로 그 헬퍼를 건드리는 upstream 커밋은 우리 테스트에도 직접 영향을 준다.**
+
+**동작 영향은 라이선스가 완충한다.** 넷 다 Enterprise Advanced 라이선스 게이트 뒤에 있다
+(테스트가 `model.NewTestLicenseSKU(model.LicenseShortSkuEnterpriseAdvanced)`를 심어야 경로가
+열린다). 플래그는 허용 층이고 라이선스가 문지기다. 다만 라이선스가 있는 환경에서는
+`AttributeValueMasking`이 켜지면서 **마스킹된 값을 가진 호출자의 정책 비활성화를 막는 가드**가
+살아난다 — 관리자가 체감하는 변화다.
+
+**차이를 없앨 조건.** property v2 계보를 도입하면 `PropertyFieldRank` 필드와
+`rankPropertyFieldGate`가 함께 들어와 셋이 한꺼번에 해소된다. 그때 upstream 형태로 되돌리면 된다.
