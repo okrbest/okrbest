@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-17 20:54
+- 갱신일: 2026-09-18 00:18
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 519개
+- 남은 커밋: 521개
 
-**마지막 반영 커밋:** `076370e6` | [MM-67412: System Console — Board Attributes screen (PSAv2-based) (#36518)](https://github.com/mattermost/mattermost/commit/076370e690a23bb50ca030ba514d6e698b320d87) | 2026-07-02
+**마지막 반영 커밋:** `5433e6ee` | [\[MM-69689\] Self-heal orphaned shared channel remotes for deleted remote clusters (#37346)](https://github.com/mattermost/mattermost/commit/5433e6eef9e9fb16b623a4a851ec9a21352a2f49) | 2026-07-03
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 780170e6 | [MM-69340: fix NULL Type scan error in Draft.Get() (#37337)](https://github.com/mattermost/mattermost/commit/780170e67bfe4a56e46b94f7d1f186b6b0d165ff) | 2026-07-03 |
-| 68389fab | [MM-69466: re-fetch admin config on config_changed to prevent concurrent save clobber (#37338)](https://github.com/mattermost/mattermost/commit/68389fabbb182d246870dad0f1fe4e6f50d9da48) | 2026-07-03 |
-| 7434f994 | [\[MM-69688\] Fix /share-channel status always showing "--" for Last Sync (#37345)](https://github.com/mattermost/mattermost/commit/7434f994925110c25fbbce17fc8a62816d606ef7) | 2026-07-03 |
-| 5433e6ee | [\[MM-69689\] Self-heal orphaned shared channel remotes for deleted remote clusters (#37346)](https://github.com/mattermost/mattermost/commit/5433e6eef9e9fb16b623a4a851ec9a21352a2f49) | 2026-07-03 |
 | ce23427d | [\[MM-69691\] Fix /secure-connection status ordering and malformed table header (#37347)](https://github.com/mattermost/mattermost/commit/ce23427d98a85628757b86cd9f64af449de801a2) | 2026-07-04 |
 | 87b7433d | [E2E/Cypress: Upgrade cypress to 15.18 and its deps (#37278)](https://github.com/mattermost/mattermost/commit/87b7433d2d330e91f82c281b3a8e3b71809e95ff) | 2026-07-06 |
 | 8fa7e72a | [E2E/Playwright: Reorg POM using accessibility locators (#37315)](https://github.com/mattermost/mattermost/commit/8fa7e72a6ed2d796db9f63243f1d29635b26dd9c) | 2026-07-06 |
@@ -530,6 +526,12 @@
 | 206629e7 | [Add a v12.4 &amp; Desktop App v6.5 ESR placeholder to the release policy timeline (#38566)](https://github.com/mattermost/mattermost/commit/206629e762a24b3f30744639571b354943c0609c) | 2026-09-17 |
 | 6c7e55f2 | [Allow scope admins to set property field permission levels (#38119)](https://github.com/mattermost/mattermost/commit/6c7e55f286c6785b23d58f40fbf17004becd9b56) | 2026-09-17 |
 | 7c55cb93 | [Stop package-lock.json from losing its peer markers (#38265)](https://github.com/mattermost/mattermost/commit/7c55cb93c27630137ca7f8ff27e370745f729b95) | 2026-09-17 |
+| fa843524 | [MM-70601: Bound input size in the plain-text content extractor (#38479)](https://github.com/mattermost/mattermost/commit/fa8435241df4062f58bd496f7bc7dfd10e648046) | 2026-09-17 |
+| 175ffde7 | [Update minimum macOS / Safari versions (#38576)](https://github.com/mattermost/mattermost/commit/175ffde763dbd47b27b6d3552f656c837de76843) | 2026-09-17 |
+| c6175dfd | [\[MM-70617\] Extend PAT expiry policy to user-owned bots (#37599)](https://github.com/mattermost/mattermost/commit/c6175dfd82b9801fe8c1622839c703ee6a3b4f65) | 2026-09-17 |
+| 62f57271 | [\[MM-70617\] Add webapp support for user-owned bot PAT expiry (#37604)](https://github.com/mattermost/mattermost/commit/62f57271740726da92dda34cbfefdf9aff587e3b) | 2026-09-17 |
+| fc07d708 | [update Calls to v1.12.5 (#38556)](https://github.com/mattermost/mattermost/commit/fc07d7087d4efab3fa98f822c6bf22ea37f63473) | 2026-09-17 |
+| d4d4e42a | [MM-70020: Move ABAC auto-add members from the policy Active flag onto the membership rule (#37756)](https://github.com/mattermost/mattermost/commit/d4d4e42a7a0755a207e36d3c6916df9e962e0ed5) | 2026-09-17 |
 
 ## 제외된 커밋
 
