@@ -23,6 +23,7 @@
 |---|---|---|
 | `9551f53f` [MM-69115] 채널이 두 카테고리에 남는 버그 | [3fc5b942](https://github.com/mattermost/mattermost/commit/3fc5b942927dede596ead4ebfec4f40085365f4b) (#36875) | 제외한 계보에서 함수 블록만 부분 이식 — 아래 참조 |
 | `da70dcce` Mattermost Blocks | [1c801690](https://github.com/mattermost/mattermost/commit/1c801690a06a39ad5ad467a621196c19229295bb) (#36338) | 제외한 property v2·분류 표시 계보의 문맥을 걷어내고 수용, 선택자·헬퍼 이름은 우리 것 유지 — 아래 참조 |
+| `b5236f98` Playwright 1.61 업그레이드 | [d85da5ce](https://github.com/mattermost/mattermost/commit/d85da5ce2c7bf9a8718b2bba620ba0992043ef3d) (#37277) | e2e 기본 설정·워크플로·ABAC 스펙이 우리 쪽에서 갈라져 upstream 훅 넷을 버렸다 — 아래 참조 |
 
 ---
 
@@ -129,3 +130,66 @@ upstream이 `.attachment`를 넣은 이유가 블록·드롭다운·자동완성
 `ClassificationMarkings`가 함께 들어와 1·2가 해소된다. (2) upstream의
 `isMyChannelAutotranslated` 개명 커밋을 반영하면 3이 해소된다. (3) `command.ts`의 `getIntl`
 이관 커밋을 반영하면 4가 해소된다.
+
+---
+
+## Playwright e2e — 갈라진 네 갈래에서 upstream 훅을 버렸다
+
+**무엇을 했나.** upstream `d85da5ce`(Playwright 1.61 업그레이드, #37277)는 의존성 범프에
+default_config 재생성·ABAC 스펙 수정·Azure 타입 추가가 섞여 있다. 의존성과 타입은 그대로
+받았고, 나머지 넷은 **적용 대상이 우리 트리에 없어** 버렸다. 넷 다 다음 sync에서 같은
+자리를 또 만난다.
+
+**1. `.github/workflows/e2e-tests-playwright-template.yml` — 우리 워크플로는 자체 버전.**
+upstream은 `mcr.microsoft.com/playwright:v1.59.1-noble` → `v1.61.0-noble` 핀을 올리는데,
+우리 파일은 upstream 부모와 99/87줄 다르고 **그 이미지 핀 자체가 없다**. 이미지 범프는
+`e2e-tests/.ci/server.generate.sh`와 `README.md`에만 적용했다.
+→ 부수 효과로 이 커밋은 CODEOWNERS 보호 경로를 건드리지 않는다. upstream이 워크플로에
+버전을 더 박아 넣을수록 이 간극은 벌어진다.
+
+**2. `abac/support.ts` — 우리 파일이 110/303줄 다른 옛 계보.**
+upstream이 고치는 `waitForPolicySyncJob`(타임아웃 매개변수화)이 **우리에겐 없는 함수**다.
+우리 `support.ts`는 `expect.poll` 도입 전 형태이고 `assertAccessControlAutocompleteContains`
+같은 우리 쪽 헬퍼를 따로 들고 있다.
+
+**3. ABAC 스펙 3개가 우리에게 없다.**
+`ldap/ldap_sync_removal_bidirectional.spec.ts`, `policies/advanced_policies_operators.spec.ts`,
+`policy_management/edit_policies_rules.spec.ts`. 해당 스펙을 들여온 upstream 커밋이
+미반영이다.
+
+**4. `default_config.ts`의 `FeatureFlags` 블록 — 우리 플래그 집합이 다르다.**
+upstream의 재생성분을 받지 않았다. 다만 **우리 블록도 우리 서버와 어긋나 있다.**
+`server/public/model/feature_flags.go`의 `SetDefaults()`와 대조한 결과:
+
+| 어긋난 지점 | e2e default_config | 우리 서버 |
+|---|---|---|
+| `AutoTranslation` | `true` | `false` (비공개 모듈이라 꺼 둠) |
+| `PermissionPolicies` | `true` | `false` |
+| `MobileEphemeralMode` | `true` | `false` |
+| `CJKSearch`, `IntegratedBoards` | 있음 | **구조체에 필드 없음** |
+| `AttributeValueMasking`, `ChannelPermissionPolicies`, `PolicySimulation`, `TeamMembershipAccessControl`, `EnableOrgRoleManagement`, `EnableShiftEscapeToMarkAllRead`, `AggregatePluginMetrics`, `SessionAttributes`, `DiscoverableChannels`, `EnableLexicalEditor` | 없음 | 있음 |
+
+이번 커밋 범위를 넘어서므로 손대지 않았다. 파일 주석이 명시한 계약(*"Should be based only
+from the generated default config from ./server via `make config-reset`"*)을 지키려면 별도
+작업으로 블록 전체를 우리 서버 기준으로 다시 생성해야 한다.
+
+**값 셋은 반대로 upstream 쪽이 옳아서 받았다.** upstream이 자기 서버 기준으로 고친 값 중
+셋은 **우리 서버 기본값과도 일치**했다 — 우리 파일이 낡았던 것이다.
+
+| 값 | 고치기 전 | 우리 서버 `SetDefaults()` |
+|---|---|---|
+| `PasswordSettings.MinimumLength` | 14 | **8** (`config.go:1783`) |
+| `ServiceSettings.AllowedUntrustedInternalConnections` | `'localhost,127.0.0.1'` | **`''`** (`config.go:564`) |
+| `ElasticsearchSettings.EnableSearchPublicChannelsWithoutMembership` | `false` | **`true`** (`config.go:3403`) |
+
+`AllowedUntrustedInternalConnections`는 기본값에서 빠지면 테스트가 깨지므로 upstream처럼
+onPrem 오버라이드(`'localhost 127.0.0.1'`)로 되살렸다.
+
+**버린 값 하나 더 — `EmailSettings.FeedbackName`.** upstream은 onPrem 오버라이드로
+`'Mattermost'`를 넣지만 리브랜드 대상 문자열이고, 우리 서버 기본값은 `''`이라 그대로 뒀다.
+`FeedbackName`을 검증하는 스펙은 `notifications/system_console.spec.ts` 하나뿐이고
+자기 값(`'Mattermost Test Team'`)을 직접 설정한다.
+
+**차이를 없앨 조건.** (1) upstream의 워크플로 계보를 다시 맞추면 1이 해소된다.
+(2) ABAC 스펙 계보를 반영하면 2·3이 함께 해소된다. (3) `make config-reset` 기반으로
+`FeatureFlags` 블록을 재생성하면 4가 해소된다 — 이건 upstream과 무관한 우리 숙제다.
