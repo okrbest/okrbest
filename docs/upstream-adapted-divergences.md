@@ -3006,3 +3006,22 @@ store의 `PolicyAutoAdd` 도출·API·UI와 마이그레이션 `000227`(Active �
 
 **다음에 만날 자리.** `migrations.list` 끝에 줄을 붙이는 upstream 커밋은 같은 자리에서 같은
 모양으로 충돌한다 — `000222`~`000226`은 빼고 그 커밋 소속 줄만 받는다.
+
+---
+
+## ABAC 멤버십 감사 로그 — Space 채널 정리 블록 없이
+
+**무엇을 했나.** upstream `de7a2dc7`(MM-69614, #37771)의 사용자별 ABAC 멤버십 감사 로그
+(`access_control_membership.go`·`access_control_membership_audit.go`, 감사 이벤트 상수 3개,
+`LeaveTeam`의 정책 기인 제거·연쇄 채널 제거 감사)를 **그대로** 받았다.
+
+**버린 것.** `app/team.go`의 `LeaveTeam`에서 Space 백킹 채널 멤버십을 따로 지우는 블록
+(`GetTeamSpaceChannelsForUser` 호출 + 연쇄 제거 감사 1줄). 제외한 `5f7f967a`(ChannelTypeSpace,
+Docs 플러그인) 산물이라 store 메서드도 채널 타입도 우리 트리에 없다.
+
+**알아 둘 점.** 채널용 `Add/RemoveChannelMemberByAccessPolicy`와 `RemoveTeamMemberByAccessPolicy`는
+공개 트리에 호출처가 없다 — upstream에선 비공개 `enterprise/access_control` 동기화 잡이 부른다.
+우리 빌드에선 이 감사 경로가 실행되지 않는다.
+
+**다음에 만날 자리.** `LeaveTeam`·채널 목록 순회 근처를 고치는 upstream 커밋은 Space 블록 문맥으로
+같은 모양의 충돌을 낸다 — Space 블록만 빼고 받는다.
