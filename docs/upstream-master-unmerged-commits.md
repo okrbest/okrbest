@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-17 12:08
+- 갱신일: 2026-09-17 17:02
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 532개
+- 남은 커밋: 530개
 
-**마지막 반영 커밋:** `68668c87` | [Mirror postgres images for versions 15, 16, and 17 (#37305)](https://github.com/mattermost/mattermost/commit/68668c871e69aa79bf73439eb8cb5c5fabb64853) | 2026-06-30
+**마지막 반영 커밋:** `be8f7fe0` | [Fix permission policy rule editor defaulting to Advanced mode (#37267)](https://github.com/mattermost/mattermost/commit/be8f7fe02f65a506b1734e13eb68e44902d8bd80) | 2026-07-01
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 82657b2e | [update Calls to v1.12.1 (#37307)](https://github.com/mattermost/mattermost/commit/82657b2e4a6d142f307c2889c45611a3faa45200) | 2026-07-01 |
-| 236e39b9 | [Update docs-impact-review prompt (#37224)](https://github.com/mattermost/mattermost/commit/236e39b9fc552bb7c9293f02396e2bd3499e1e51) | 2026-07-01 |
-| 9e3d8efc | [chore: remove deprecated shared channels feature flags (#37154)](https://github.com/mattermost/mattermost/commit/9e3d8efc1a62b53e883a5a08ce3552c7c9fc896d) | 2026-07-01 |
-| 430bedef | [Fix "Upload Files" permission pre-selected when creating a new channel permission rule (#37234)](https://github.com/mattermost/mattermost/commit/430bedef831c4a16abe99ee6d476316bf5e8209c) | 2026-07-01 |
-| be8f7fe0 | [Fix permission policy rule editor defaulting to Advanced mode (#37267)](https://github.com/mattermost/mattermost/commit/be8f7fe02f65a506b1734e13eb68e44902d8bd80) | 2026-07-01 |
 | 91ad3c34 | [\[MM-69600\] Add --show-ids flag to mmctl channel list (#37313)](https://github.com/mattermost/mattermost/commit/91ad3c34f066b5f90655822e696cf6126517bc47) | 2026-07-02 |
 | 97750a86 | [\[MM-69596\] Show user roles in mmctl user search plain-text output (#37309)](https://github.com/mattermost/mattermost/commit/97750a8641a8e710b6c3095fbf4b9d0a5c5c97bd) | 2026-07-02 |
 | 3759dd50 | [\[MM-69598\] Add mmctl user status command to get and set a user's status (#37312)](https://github.com/mattermost/mattermost/commit/3759dd503110970e2ceffb50bc336dc380e34606) | 2026-07-02 |
@@ -543,6 +538,9 @@
 | 388f9b07 | [Show non-template property fields on Manage Attributes (#38483)](https://github.com/mattermost/mattermost/commit/388f9b07e1d6ee4d14ae81ca612516e5b919a749) | 2026-09-16 |
 | 67c177a4 | [Add Playwright SSO/Auth E2E infra: Keycloak, LDAP helpers, testcontainers support (#38509)](https://github.com/mattermost/mattermost/commit/67c177a45f5b14282c5c9ae0d5de42b6fd1c8ec3) | 2026-09-17 |
 | 05b1146c | [\[MM-70737\] Skip ScheduledPostWillBeCreated for burn-on-read scheduled posts (#38570)](https://github.com/mattermost/mattermost/commit/05b1146c55c50f2721448d3c0897a5ea0be05127) | 2026-09-16 |
+| 361780de | [MM-61874: Add Playwright coverage for team-scoped channel drafts (MM-T4410) (#38557)](https://github.com/mattermost/mattermost/commit/361780defad1ff6b1009ddab3e7f5f2f7bbcdba9) | 2026-09-17 |
+| ffe6ebcb | [Add v10.11.24 dot release documentation (#38563)](https://github.com/mattermost/mattermost/commit/ffe6ebcbc9613a1b33264ff8da46e53550dc11d0) | 2026-09-17 |
+| 206629e7 | [Add a v12.4 &amp; Desktop App v6.5 ESR placeholder to the release policy timeline (#38566)](https://github.com/mattermost/mattermost/commit/206629e762a24b3f30744639571b354943c0609c) | 2026-09-17 |
 
 ## 제외된 커밋
 
@@ -762,6 +760,8 @@
 | 97cf1a4f | [Update docs-needed workflow (#37294)](https://github.com/mattermost/mattermost/commit/97cf1a4f4227949f8b15ae8a314107ebe88fc5c7) | 부모 워크플로 891b59d4(Server: Create product documentation automation, #36282)와 동일 사유로 제외 — okrbest에 .github/workflows/docs-needed.yml 자체가 없어 고칠 대상이 없다. 없음을 셋으로 확인: merge-tree modify/delete CONFLICT, MISSING PATHS 등재, git log --diff-filter=D 무결과(우리가 지운 적 없이 애초에 가진 적 없음 — 891b59d4를 제외했기 때문). 변경 내용은 순수 정리 3종(+55/-58) — 맨 위 '---' 문서 시작 표시 제거, 빈 줄 53곳의 후행 공백 제거(yamllint 대응), job name을 'Open docs PR for ${{ github.repository }}#${{ ...pull_request.number }}' 표현식에서 고정 문자열 'Open Docs PR'로 단축. 891b59d4 제외 사유가 그대로 유효하다 — mattermost/docs 저장소 하드코딩(gh pr create --repo mattermost/docs 등), secrets.ANTHROPIC_API_KEY와 CHANGELOG_READ/WRITE GitHub App 자격증명 요구, 시스템 프롬프트를 mattermost/docs의 .github/prompts/draft_docs.md에서 런타임 로드, 트리거인 Docs/Needed 라벨은 Mattermost 문서 프로세스 규약. 파일을 들여와도 시크릿도 대상 저장소도 라벨도 없어 죽은 워크플로 631줄만 남는다. signals의 보호 경로 표시(.github/workflows/)는 디렉터리 전체를 보수적으로 잡은 것이고 우리 CODEOWNERS 실제 등재는 channels-ci.yml 하나뿐이라 해당 없음. docs 자동화 워크플로 제외 계열(45f54a0e 계보 17건 + 891b59d4)의 후속. 같은 계열 대기 중 — 33eb5b1a(#37440, 2026-07-13), 2d8a5f94(#37491, 2026-07-14). |
 
 | 0fa2713b | [MM-67755: WYSIWYG editor for message composition (#36143)](https://github.com/mattermost/mattermost/commit/0fa2713b59d5c4920ded6734ce5d7927f34e6fba) | 우리가 자체 커밋으로 같은 기능을 이미 구현했다 — 메시지 작성창 WYSIWYG 에디터를 Lexical로 확정(사용자 결정, 2026-09-17). upstream은 TipTap(ProseMirror) 기반을 같은 슬롯에 넣으려 하므로 정면 경쟁이다. 우리 구현: webapp/channels/src/components/lexical_editor/ 38파일 224KB(config·nodes·plugins·utils + 단위·통합 테스트), 도입 커밋 9fae0052(Lexical WYSIWYG 에디터 통합, #189), 후속 3249a914(Feature/fix mention #211)·8bfe2ccb(멘션/채널 멘션 개선)·d20d14cb(KeyboardPlugin 모바일 Enter 키)·6b6d3a3a(이모지 노드 클래스명)·303cfdfc(이모지 노드 이미지 URL). 서버 플래그도 우리 것이 따로 있다 — EnableLexicalEditor(feature_flags.go:119, 기본 false). 그래서 advanced_text_editor.tsx가 upstream 부모와 112/186줄 다르고 이건 차이가 아니라 교체다: Textbox·SuggestionList·applyMarkdownUtil·showPreview를 걷어내고 LexicalTextEditor·applyLexicalFormatting·lexicalEditorRef로 바꿨다. upstream 변경 규모 31파일 +3107/-287 — 신규 파일 8개(wysiwyg_editor.tsx 449줄, wysiwyg_suggestion_list.tsx 300줄, wysiwyg_editor.scss 374줄, link_popover.tsx 312줄, text_style_dropdown.tsx 170줄, user_settings/advanced/wysiwyg_editor_section 196줄), 신규 npm 의존성 11개(@tiptap/* 10개 3.20.0 + lowlight 3.3.0, webapp/package-lock.json +846줄), 기능 플래그 WysiwygEditor + 사용자 환경설정 wysiwyg_editor(기본 false). merge-tree CONFLICT 7파일(advanced_text_editor.tsx, formatting_bar.tsx, formatting_icon.tsx, use_editor_emoji_picker.tsx, use_key_handler.tsx, use_textbox_focus.tsx, use_upload_files.tsx). adapt를 검토했으나 기각 — 플래그가 기본 false라 잠든 채 넣을 수는 있지만 에디터 두 벌(Lexical 38파일 + TipTap 11개 의존성)을 동시에 안게 되고 번들 크기·유지보수·이후 sync 양방향 충돌 비용만 는다. 한국어 IME 조합 입력 대응을 Lexical 쪽에서 이미 여러 번 고쳤는데 TipTap 경로를 들이면 처음부터 다시 해야 한다. 후속 영향 — upstream이 TipTap을 표준 작성창 경로로 가져가면 이후 에디터 관련 커밋이 그 전제로 들어온다. 그런 커밋은 이 제외를 근거로 같은 판단(우리 Lexical로 번역하거나 제외)을 하면 된다. 참고로 upstream이 이 커밋에서 저장소 루트에 빈 package-lock.json({"packages":{}} 6줄)을 추가하는데 우리 루트엔 package.json 자체가 없어 대상 없음. |
+
+| 236e39b9 | [Update docs-impact-review prompt (#37224)](https://github.com/mattermost/mattermost/commit/236e39b9fc552bb7c9293f02396e2bd3499e1e51) | 부모 워크플로 45f54a0e(Implementation of Documentation Impact Review Workflow via GH Actions, #35358)와 동일 사유로 제외 — okrbest에 .github/workflows/docs-impact-review.yml 자체가 없어 고칠 대상이 없다. 없음을 셋으로 확인: merge-tree modify/delete CONFLICT, MISSING PATHS 등재, git log --diff-filter=D 무결과(우리가 지운 적 없이 애초에 가진 적 없음 — 45f54a0e를 제외했기 때문). 변경 내용은 +2/-57이나 실질 삭제는 한 줄뿐 — Claude 프롬프트에서 '보안 취약점 수정 PR(CVE 참조, security fix, vuln, embargo 표현 등)이면 문서화는 평소대로 하되 산출물에 보안 성격을 드러내지 말라'는 지시문을 제거하는 것이고 나머지 56줄은 공백 줄 정리다. 45f54a0e 제외 사유가 그대로 유효하다 — 해당 job은 mattermost/docs를 sparse-checkout하고 secrets.ANTHROPIC_API_KEY로 Claude를 호출하며, 트리거인 Docs/Needed·Docs/Not Needed 라벨은 Mattermost 조직 이슈 라벨 체계라 우리에겐 시크릿도 분석 대상 저장소도 라벨도 없다. signals의 보호 경로 표시(.github/workflows/)는 디렉터리 전체를 보수적으로 잡은 것이고 우리 CODEOWNERS에는 .github/workflows 항목이 하나도 없다. 45f54a0e 계열 제외 21번째 — 직전 세션의 97cf1a4f(docs-needed 워크플로 갱신)와 같은 성격. |
 
 ## spec 전환 커밋
 
