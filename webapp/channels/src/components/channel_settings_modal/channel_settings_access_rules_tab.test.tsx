@@ -688,8 +688,9 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
                     id: 'channel_id',
                     name: 'Test Channel',
                     type: 'channel',
-                    active: true, // Server has auto-sync enabled
-                    rules: [], // But no rules
+
+                    // Auto-add is on but there is no rule to apply it to.
+                    rules: [{actions: ['membership'], expression: '', metadata: {auto_add: 'always'}}],
                 },
             });
 
@@ -740,8 +741,9 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
                     id: 'channel_id',
                     name: 'Test Channel',
                     type: 'channel',
-                    active: true, // Server has auto-sync enabled
-                    rules: [], // But no channel rules
+
+                    // Auto-add is on, carried by a rule with no channel expression.
+                    rules: [{actions: ['membership'], expression: '', metadata: {auto_add: 'always'}}],
                 },
             });
 
@@ -903,12 +905,12 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
                 id: 'channel_id',
                 name: 'Test Channel',
                 type: 'channel',
-                active: false, // Policy starts as inactive until job completes
                 revision: 1,
                 created_at: expect.any(Number),
                 rules: [{
                     actions: ['membership'],
                     expression: 'user.attributes.department == "Engineering"',
+                    metadata: {auto_add: 'always'},
                 }],
                 imports: [],
             });
@@ -1831,7 +1833,6 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
                 data: {
                     id: 'channel_id',
                     rules: [{actions: ['membership'], expression: 'user.department == "Engineering"'}],
-                    active: false,
                 },
             });
 
@@ -1874,7 +1875,6 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
                 data: {
                     id: 'channel_id',
                     rules: [{actions: ['membership'], expression: 'user.department == "Engineering"'}],
-                    active: false,
                 },
             });
 
@@ -1933,7 +1933,6 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
                 data: {
                     id: 'channel_id',
                     rules: [{actions: ['membership'], expression: 'user.department == "Engineering"'}],
-                    active: false,
                 },
             });
 
@@ -1993,8 +1992,7 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
             mockActions.getChannelPolicy.mockResolvedValue({
                 data: {
                     id: 'channel_id',
-                    rules: [{actions: ['membership'], expression: 'user.department == "Engineering"'}],
-                    active: true,
+                    rules: [{actions: ['membership'], expression: 'user.department == "Engineering"', metadata: {auto_add: 'always'}}],
                 },
             });
 
@@ -2063,8 +2061,7 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
             mockActions.getChannelPolicy.mockResolvedValue({
                 data: {
                     id: 'channel_id',
-                    rules: [{actions: ['membership'], expression: 'user.department == "Engineering"'}],
-                    active: true,
+                    rules: [{actions: ['membership'], expression: 'user.department == "Engineering"', metadata: {auto_add: 'always'}}],
                 },
             });
 
@@ -2117,8 +2114,7 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
             mockActions.getChannelPolicy.mockResolvedValue({
                 data: {
                     id: 'channel_id',
-                    rules: [{actions: ['membership'], expression: 'user.department == "Engineering"'}],
-                    active: true,
+                    rules: [{actions: ['membership'], expression: 'user.department == "Engineering"', metadata: {auto_add: 'always'}}],
                 },
             });
 
