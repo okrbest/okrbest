@@ -2981,3 +2981,28 @@ locator, `pw.ensureServerEnv()`·`pw.ensureSiteUrl()`(신규 `server/server_env.
 **다음에 만날 자리.** 업그레이드 하네스 관련 코드(`upgrade_env`, `upgradeServerImage`,
 `saveUpgradePhaseLogs`, `MATTERMOST_DATA_DIR`)를 건드리는 upstream e2e 커밋은 같은 파일에서
 같은 모양으로 충돌한다. 풀이도 같다 — 하네스 hunk는 버리고 나머지를 옮긴다.
+
+---
+
+## ABAC 자동 추가를 멤버십 규칙으로 — graph 속성 마이그레이션 없이 000227~000229만
+
+**무엇을 했나.** upstream `d4d4e42a`(MM-70020, #37756)는 ABAC 정책의 자동 멤버 추가 여부를
+`Active` 플래그에서 멤버십 규칙 메타데이터(`auto_add`)로 옮긴다. 정책 모델(`SetAutoAddMode`)·
+store의 `PolicyAutoAdd` 도출·API·UI와 마이그레이션 `000227`(Active → 규칙 `auto_add` 데이터 이전)·
+`000228`·`000229`(rules·imports 포함 검색 인덱스)를 **그대로** 받았다.
+
+**버린 것.**
+
+| 버린 것 | 이유 |
+|---|---|
+| `migrations.list`의 `000222`~`000226` 줄 | 제외한 `9ef79330`(graph 속성·PropertyOptions 테이블) 마이그레이션이다. upstream 문맥에 섞여 있었을 뿐 이 커밋 소속이 아니다 |
+| `storetest/channel_store.go`의 `SaveBoardChannel`·`SaveRejectsBoardTypes` 등록 2줄 | 제외한 Integrated Boards 계보(`48f2fd08`) 테스트라 함수가 우리 트리에 없다 |
+| webapp 테스트의 `@mattermost/types/properties_user` import 경로 | 제외 계보 산물 경로다. 우리 경로 `@mattermost/types/properties`를 유지했다 |
+| e2e `abac/resource_attributes/{helpers.ts,membership_sync.spec.ts,multiselect_sync.spec.ts}` 수정 | 제외한 `9ef79330` 스펙이라 우리 트리에 없다 |
+
+**마이그레이션 번호 공백.** 우리 목록은 `000221` 다음이 바로 `000227`이다. `000216`·`000218` 공백과
+같은 성격이고 `TestMigration000227`이 이 상태에서 통과했다. graph 속성 계보를 나중에 들이면
+`000222`~`000226`이 적용 순서상 뒤늦게 들어오게 되니 그때 순서 의존을 따로 확인한다.
+
+**다음에 만날 자리.** `migrations.list` 끝에 줄을 붙이는 upstream 커밋은 같은 자리에서 같은
+모양으로 충돌한다 — `000222`~`000226`은 빼고 그 커밋 소속 줄만 받는다.

@@ -144,8 +144,7 @@ describe('components/team_settings/TeamMembershipTab', () => {
             data: {
                 policy: {
                     id: 'team_id',
-                    active: true,
-                    rules: [{actions: ['membership'], expression: 'user.attributes.department in ["Engineering"]'}],
+                    rules: [{actions: ['membership'], expression: 'user.attributes.department in ["Engineering"]', metadata: {auto_add: 'always'}}],
                     imports: [],
                 },
                 enforced: true,
@@ -170,7 +169,6 @@ describe('components/team_settings/TeamMembershipTab', () => {
             data: {
                 policy: {
                     id: 'team_id',
-                    active: false,
                     rules: [{actions: ['membership'], expression: 'user.attributes.department in ["Engineering"]'}],
                     imports: [],
                 },
@@ -200,8 +198,7 @@ describe('components/team_settings/TeamMembershipTab', () => {
             id: 'parent_policy_id',
             name: 'Global Policy',
             type: 'parent',
-            active: true,
-            rules: [{actions: ['membership'], expression: 'user.attributes.location in ["US"]'}],
+            rules: [{actions: ['membership'], expression: 'user.attributes.location in ["US"]', metadata: {auto_add: 'always'}}],
             imports: [],
         };
 
@@ -210,7 +207,6 @@ describe('components/team_settings/TeamMembershipTab', () => {
             data: {
                 policy: {
                     id: 'team_id',
-                    active: false,
                     rules: [],
                     imports: ['parent_policy_id'],
                 },
@@ -269,7 +265,6 @@ describe('components/team_settings/TeamMembershipTab', () => {
             data: {
                 policy: {
                     id: 'team_id',
-                    active: false,
                     rules: [{actions: ['membership'], expression: 'user.attributes.department in ["Engineering"]'}],
                     imports: [],
                 },
@@ -305,8 +300,7 @@ describe('components/team_settings/TeamMembershipTab', () => {
             data: {
                 policy: {
                     id: 'team_id',
-                    active: true,
-                    rules: [{actions: ['membership'], expression: 'user.attributes.department in ["Engineering"]'}],
+                    rules: [{actions: ['membership'], expression: 'user.attributes.department in ["Engineering"]', metadata: {auto_add: 'always'}}],
                     imports: [],
                 },
                 enforced: true,
@@ -343,8 +337,7 @@ describe('components/team_settings/TeamMembershipTab', () => {
             data: {
                 policy: {
                     id: 'team_id',
-                    active: true,
-                    rules: [{actions: ['membership'], expression: 'user.attributes.department in ["Engineering"]'}],
+                    rules: [{actions: ['membership'], expression: 'user.attributes.department in ["Engineering"]', metadata: {auto_add: 'always'}}],
                     imports: [],
                 },
                 enforced: true,
@@ -373,7 +366,6 @@ describe('components/team_settings/TeamMembershipTab', () => {
             data: {
                 policy: {
                     id: 'team_id',
-                    active: false,
                     rules: [{actions: ['membership'], expression: 'user.attributes.department in ["Engineering"]'}],
                     imports: [],
                 },
@@ -410,7 +402,6 @@ describe('components/team_settings/TeamMembershipTab', () => {
             data: {
                 policy: {
                     id: 'team_id',
-                    active: false,
                     rules: [{actions: ['membership'], expression: 'user.attributes.department in ["Engineering"]'}],
                     imports: ['parent_policy_id'],
                 },
@@ -443,7 +434,6 @@ describe('components/team_settings/TeamMembershipTab', () => {
             data: {
                 policy: {
                     id: 'team_id',
-                    active: false,
                     rules: [{actions: ['membership'], expression: 'user.attributes.department in ["Engineering"]'}],
                     imports: [],
                 },
@@ -507,7 +497,7 @@ describe('components/team_settings/TeamMembershipTab', () => {
     it('does not block self-exclusion on a public team (advisory: no removal)', async () => {
         const {getTeamAccessControlPolicy} = require('mattermost-redux/actions/access_control');
         getTeamAccessControlPolicy.mockImplementation(() => () => Promise.resolve({
-            data: {policy: {id: 'team_id', active: false, rules: [], imports: []}, enforced: false},
+            data: {policy: {id: 'team_id', rules: [], imports: []}, enforced: false},
         }));
         mockActions.validateExpressionAgainstRequester.mockResolvedValue({
             data: {requester_matches: false},
@@ -533,7 +523,7 @@ describe('components/team_settings/TeamMembershipTab', () => {
     it('blocks save with the strict self-exclusion message on a private team', async () => {
         const {getTeamAccessControlPolicy} = require('mattermost-redux/actions/access_control');
         getTeamAccessControlPolicy.mockImplementation(() => () => Promise.resolve({
-            data: {policy: {id: 'team_id', active: false, rules: [], imports: []}, enforced: false},
+            data: {policy: {id: 'team_id', rules: [], imports: []}, enforced: false},
         }));
         mockActions.validateExpressionAgainstRequester.mockResolvedValue({
             data: {requester_matches: false},
@@ -638,8 +628,7 @@ describe('components/team_settings/TeamMembershipTab', () => {
             id: 'parent_policy_id',
             name: 'Global Policy',
             type: 'team',
-            active: true,
-            rules: [{actions: ['membership'], expression: 'user.attributes.location in ["US"]'}],
+            rules: [{actions: ['membership'], expression: 'user.attributes.location in ["US"]', metadata: {auto_add: 'always'}}],
             imports: [],
         };
 
@@ -648,7 +637,6 @@ describe('components/team_settings/TeamMembershipTab', () => {
             data: {
                 policy: {
                     id: 'team_id',
-                    active: false,
                     rules: [],
                     imports: ['parent_policy_id'],
                 },
@@ -694,7 +682,6 @@ describe('components/team_settings/TeamMembershipTab', () => {
             data: {
                 policy: {
                     id: 'team_id',
-                    active: false,
                     rules: [{actions: ['membership'], expression: maskedExpression}],
                     imports: [],
                 },
