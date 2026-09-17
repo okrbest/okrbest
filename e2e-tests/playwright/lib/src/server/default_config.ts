@@ -3,6 +3,7 @@
 
 import merge from 'deepmerge';
 import type {
+    AccessControlSettings,
     AdminConfig,
     ClusterSettings,
     EmailSettings,
@@ -26,6 +27,7 @@ export function mergeWithOnPremServerConfig(overrides: Partial<AdminConfig>): Ad
 }
 
 type TestAdminConfig = {
+    AccessControlSettings: Partial<AccessControlSettings>;
     ClusterSettings: Partial<ClusterSettings>;
     EmailSettings: Partial<EmailSettings>;
     ExperimentalSettings: Partial<ExperimentalSettings>;
@@ -39,6 +41,10 @@ type TestAdminConfig = {
 // On-prem setting that is different from the default
 const onPremServerConfig = (): Partial<TestAdminConfig> => {
     return {
+        AccessControlSettings: {
+            EnableAttributeBasedAccessControl: true,
+            EnableUserManagedAttributes: true,
+        },
         ClusterSettings: {
             Enable: testConfig.haClusterEnabled,
             ClusterName: testConfig.haClusterName,
@@ -77,6 +83,7 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
             EnableSecurityFixAlert: false,
             GiphySdkKey: 's0glxvzVg9azvPipKxcPLpXV0q1x1fVP',
             EnableTesting: true,
+            AllowedUntrustedInternalConnections: 'localhost 127.0.0.1',
         },
         TeamSettings: {
             EnableOpenServer: true,
@@ -86,7 +93,7 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
 };
 
 // Should be based only from the generated default config from ./server via "make config-reset"
-// Based on v11.7 server
+// Based on v11.9 server
 const defaultServerConfig: AdminConfig = {
     ServiceSettings: {
         SiteURL: '',
@@ -129,7 +136,7 @@ const defaultServerConfig: AdminConfig = {
         EnableClientPerformanceDebugging: false,
         EnableSecurityFixAlert: true,
         EnableInsecureOutgoingConnections: false,
-        AllowedUntrustedInternalConnections: 'localhost,127.0.0.1',
+        AllowedUntrustedInternalConnections: '',
         EnableMultifactorAuthentication: false,
         EnforceMultifactorAuthentication: false,
         EnableUserAccessTokens: false,
@@ -288,7 +295,7 @@ const defaultServerConfig: AdminConfig = {
         Certificate: '',
     },
     PasswordSettings: {
-        MinimumLength: 14,
+        MinimumLength: 8,
         Lowercase: false,
         Number: false,
         Uppercase: false,
@@ -323,6 +330,15 @@ const defaultServerConfig: AdminConfig = {
         AmazonS3RequestTimeoutMilliseconds: 30000,
         AmazonS3UploadPartSizeBytes: 5242880,
         AmazonS3StorageClass: '',
+        AzureStorageAccount: '',
+        AzureAuthMode: 'shared_key',
+        AzureAccessKey: '',
+        AzureContainer: '',
+        AzurePathPrefix: '',
+        AzureCloud: 'commercial',
+        AzureEndpoint: '',
+        AzureSSL: true,
+        AzureRequestTimeoutMilliseconds: 30000,
         DedicatedExportStore: false,
         ExportDriverName: 'local',
         ExportDirectory: './data/',
@@ -340,6 +356,16 @@ const defaultServerConfig: AdminConfig = {
         ExportAmazonS3PresignExpiresSeconds: 21600,
         ExportAmazonS3UploadPartSizeBytes: 104857600,
         ExportAmazonS3StorageClass: '',
+        ExportAzureStorageAccount: '',
+        ExportAzureAuthMode: 'shared_key',
+        ExportAzureAccessKey: '',
+        ExportAzureContainer: '',
+        ExportAzurePathPrefix: '',
+        ExportAzureCloud: 'commercial',
+        ExportAzureEndpoint: '',
+        ExportAzureSSL: true,
+        ExportAzureRequestTimeoutMilliseconds: 30000,
+        ExportAzurePresignExpiresSeconds: 21600,
     },
     EmailSettings: {
         EnableSignUpWithEmail: true,
@@ -655,7 +681,7 @@ const defaultServerConfig: AdminConfig = {
         ClientKey: '',
         Trace: '',
         IgnoredPurgeIndexes: '',
-        EnableSearchPublicChannelsWithoutMembership: false,
+        EnableSearchPublicChannelsWithoutMembership: true,
     },
     DataRetentionSettings: {
         EnableMessageDeletion: false,
