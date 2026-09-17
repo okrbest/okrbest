@@ -8,6 +8,7 @@ import {
     INBUCKET_ALIAS,
     INBUCKET_SMTP_PORT,
     MATTERMOST_ALIAS,
+    MATTERMOST_FIXED_HOST_PORT,
     MATTERMOST_PORT,
     POSTGRES_ALIAS,
     POSTGRES_DB,
@@ -87,7 +88,10 @@ export async function startMattermostContainer(
             .withLabels(TESTCONTAINERS_LABELS)
             // Ensures host.docker.internal resolves to the Docker host (via host-gateway).
             .withExtraHosts([{host: 'host.docker.internal', ipAddress: 'host-gateway'}])
-            .withExposedPorts(MATTERMOST_PORT)
+            // Fixed rather than random: a random host port would change on every
+            // restartMattermostContainer(), staling a host-reachable ServiceSettings.SiteURL
+            // (see server_env.ts's ensureSiteUrl()) the moment the container is replaced.
+            .withExposedPorts({container: MATTERMOST_PORT, host: MATTERMOST_FIXED_HOST_PORT})
             .withEnvironment(env)
             .withStartupTimeout(5 * 60_000)
             .withWaitStrategy(

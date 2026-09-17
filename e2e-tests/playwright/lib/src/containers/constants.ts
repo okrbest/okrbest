@@ -20,6 +20,10 @@ export const INBUCKET_POP3_PORT = 10110;
 export const MATTERMOST_ALIAS = 'server';
 export const MATTERMOST_PORT = 8065;
 
+// Host port the container publishes MATTERMOST_PORT to; fixed and distinct from 8065 so a
+// testcontainers run doesn't collide with a locally-run dev server on the same machine.
+export const MATTERMOST_FIXED_HOST_PORT = 8055;
+
 // Interactive-message/dialog callback sidecar shared with Cypress. Always started, like
 // postgres/inbucket — not gated behind testcontainersServices.
 export const WEBHOOK_ALIAS = 'webhook';
@@ -36,6 +40,10 @@ export const KEYCLOAK_PORT = 8080;
 export const KEYCLOAK_REALM = 'mattermost';
 export const KEYCLOAK_ADMIN_USER = 'admin';
 export const KEYCLOAK_ADMIN_PASSWORD = 'admin';
+
+// Matches the `mattermost-openid` client's clientId/secret in keycloak-realm-export.json.
+export const KEYCLOAK_OPENID_CLIENT_ID = 'mattermost-openid';
+export const KEYCLOAK_OPENID_CLIENT_SECRET = '9Y7dykcoA9luTC77XtXxOu9UbNx3rhj6';
 
 export const ELASTICSEARCH_ALIAS = 'elasticsearch';
 export const ELASTICSEARCH_PORT = 9200;
