@@ -221,6 +221,7 @@ export class PlaywrightExtended {
     readonly signupPage;
     readonly resetPasswordPage;
     readonly keycloakLoginPage;
+    readonly errorPage;
     // Same default page as above, post-login, for specs that authenticate it directly.
     readonly channelsPage;
 
@@ -304,6 +305,7 @@ export class PlaywrightExtended {
         this.signupPage = new pages.SignupPage(page);
         this.resetPasswordPage = new pages.ResetPasswordPage(page);
         this.keycloakLoginPage = new pages.KeycloakLoginPage(page);
+        this.errorPage = new pages.ErrorPage(page);
         // Same default page as above, post-login
         this.channelsPage = new pages.ChannelsPage(page);
 
