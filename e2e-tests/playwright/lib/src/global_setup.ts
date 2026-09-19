@@ -3,10 +3,15 @@
 
 import {Client4} from '@mattermost/client';
 import type {PluginManifest} from '@mattermost/types/plugins';
-import type {PreferenceType} from '@mattermost/types/preferences';
 import type {UserProfile} from '@mattermost/types/users';
 
-import {createNewTeam, getAdminClient, getDefaultAdminUser, makeClient} from './server';
+import {
+    createNewTeam,
+    getAdminClient,
+    getDefaultAdminUser,
+    makeClient,
+    setDefaultOnboardingPreferences,
+} from './server';
 import {testConfig} from './test_config';
 import {defaultTeam} from './util';
 
@@ -160,14 +165,7 @@ async function savePreferences(client: Client4, userId: UserProfile['id']) {
             throw new Error('userId is not defined');
         }
 
-        const preferences: PreferenceType[] = [
-            {user_id: userId, category: 'tutorial_step', name: userId, value: '999'},
-            {user_id: userId, category: 'crt_thread_pane_step', name: userId, value: '999'},
-            {user_id: userId, category: 'onboarding_task_list', name: 'onboarding_task_list_show', value: 'false'},
-            {user_id: userId, category: 'onboarding_task_list', name: 'onboarding_task_list_open', value: 'false'},
-        ];
-
-        await client.savePreferences(userId, preferences);
+        await setDefaultOnboardingPreferences(client, userId);
     } catch (error) {
         // eslint-disable-next-line no-console
         console.log('Error saving preferences', error);

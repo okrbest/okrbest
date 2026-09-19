@@ -8,7 +8,13 @@ export {getOnPremServerConfig, mergeWithOnPremServerConfig} from './default_conf
 export {initSetup, getAdminClient} from './init';
 export {createRandomPost} from './post';
 export {createNewTeam, createRandomTeam} from './team';
-export {createNewUserProfile, createRandomUser, getDefaultAdminUser, isOutsideRemoteUserHour} from './user';
+export {
+    createNewUserProfile,
+    createRandomUser,
+    getDefaultAdminUser,
+    isOutsideRemoteUserHour,
+    setDefaultOnboardingPreferences,
+} from './user';
 export {extractEmailLink, getRecentEmail} from './email';
 export type {InbucketEmail} from './email';
 export {

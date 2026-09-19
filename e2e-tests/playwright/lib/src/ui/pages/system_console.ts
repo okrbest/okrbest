@@ -3,6 +3,8 @@
 
 import type {Page} from '@playwright/test';
 
+import LoginPage from './login';
+
 import SystemConsoleNavbar from '@/ui/components/system_console/navbar';
 import SystemConsoleSidebar from '@/ui/components/system_console/sidebar';
 import SystemConsoleHeader from '@/ui/components/system_console/header';
@@ -18,6 +20,8 @@ import UsersAndTeams from '@/ui/components/system_console/sections/site_configur
 import SystemProperties from '@/ui/components/system_console/sections/system_attributes/system_properties';
 import FeatureDiscovery from '@/ui/components/system_console/sections/system_users/feature_discovery';
 import PluginManagement from '@/ui/components/system_console/sections/plugins/plugin_management';
+import OpenIdConnect from '@/ui/components/system_console/sections/authentication/openid_connect';
+import {testConfig} from '@/test_config';
 
 export default class SystemConsolePage {
     readonly page: Page;
@@ -54,6 +58,12 @@ export default class SystemConsolePage {
 
     // Plugins
     readonly pluginManagement: PluginManagement;
+
+    // Authentication
+    readonly openIdConnect: OpenIdConnect;
+
+    // Same page after logging out of the System Console
+    readonly loginPage: LoginPage;
 
     constructor(page: Page) {
         this.page = page;
@@ -92,6 +102,11 @@ export default class SystemConsolePage {
 
         // Plugins
         this.pluginManagement = new PluginManagement(adminConsoleWrapper);
+
+        // Authentication
+        this.openIdConnect = new OpenIdConnect(adminConsoleWrapper);
+
+        this.loginPage = new LoginPage(page);
     }
 
     async toBeVisible() {
@@ -107,5 +122,15 @@ export default class SystemConsolePage {
     async gotoPluginManagement() {
         await this.page.goto('/admin_console/plugins/plugin_management');
         await this.page.waitForLoadState('networkidle');
+    }
+
+    async gotoOpenIdConnect() {
+        await this.page.goto(new URL('/admin_console/authentication/openid', testConfig.baseURL).href);
+        await this.openIdConnect.toBeVisible();
+    }
+
+    async logOut() {
+        await this.sidebar.header.logOut();
+        await this.loginPage.toBeVisible();
     }
 }
