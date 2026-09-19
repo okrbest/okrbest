@@ -12,6 +12,7 @@ export default class DirectChannelsModal {
     readonly results;
     readonly searchInput;
     readonly memberLimitHelpText;
+    readonly newConversationWarning;
 
     constructor(container: Locator) {
         this.container = container;
@@ -20,6 +21,11 @@ export default class DirectChannelsModal {
         this.results = container.getByTestId('more-modal-list');
         this.searchInput = container.getByRole('combobox', {name: 'Search for people'});
         this.memberLimitHelpText = container.locator('#multiSelectHelpMemberInfo');
+        // okrbest keeps the existing GM when members are added (a6e6c0bd), so the modal warns
+        // about shared history instead of upstream's "This will start a new conversation".
+        this.newConversationWarning = container.getByText(
+            "Newly added members will be able to view the existing conversation history. If you're adding a lot of people, consider creating a private channel instead.",
+        );
     }
 
     async toBeVisible() {
@@ -67,6 +73,17 @@ export default class DirectChannelsModal {
 
     async fillSearchInput(text: string) {
         await this.searchInput.fill(text);
+    }
+
+    getUserResult(username: string) {
+        return this.results.getByText(`@${username}`, {exact: false});
+    }
+
+    async openSelfDirectMessage(username: string) {
+        await this.fillSearchInput(username);
+        await expect(this.getUserResult(username)).toBeVisible();
+        await this.getUserResult(username).click();
+        await expect(this.container).not.toBeAttached();
     }
 
     async toHaveUserAsNthResult(user: UserProfile, index: number) {

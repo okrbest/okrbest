@@ -3044,3 +3044,29 @@ Docs 플러그인) 산물이라 store 메서드도 채널 타입도 우리 트�
 **버린 것.** upstream 테스트 `should apply both transform and SVG sizing together` 1건 —
 우리 확대는 transform을 쓰지 않는다. 나머지 SVG 테스트 4건(5케이스)은 받았고, 수정 전 3건 실패를
 확인한 뒤 통과시켰다.
+
+---
+
+## Playwright MM-T468 — GM 멤버 추가는 같은 대화를 유지한다 (포크 기능 a6e6c0bd)
+
+**무엇을 했나.** upstream `3aa8aa2c`(#37455, Cypress → Playwright 이전 2차)를 받으면서 새 스펙
+`direct_messages_modal/group_message_membership.spec.ts`의 MM-T468을 **우리 동작에 맞게 다시 썼다.**
+upstream은 기존 GM에 멤버를 추가하면 새 GM을 만들어 이력이 사라지지만, 우리는 자체 기능
+`a6e6c0bd`(그룹 메시지 멤버 관리, `addUsersToGroupMessage` API)로 같은 GM에 멤버를 넣고 이력을 유지한다.
+
+| 자리 | upstream | okrbest |
+|---|---|---|
+| POM `direct_channels_modal.ts`의 `newConversationWarning` 문구 | "This will start a new conversation. …" | "Newly added members will be able to view the existing conversation history. …" (`more_direct_channels.new_convo_note`) |
+| 추가 후 이력 | `toNotContainText('historical')` + "This is the start of your group message history" 인트로 | `centerView.container`가 `historical`을 **포함** |
+| 헤더 제목 `toHaveTitle(newMember.username)` | 있음 | 뺐다 — 같은 GM의 표시 이름 갱신 방식을 실측하지 않았다 |
+| 멤버 목록에 기존+신규 전원 | 있음 | 유지 |
+
+같은 이유로 우리가 고쳐 두었던 Cypress `gm_add_user_spec.js`의 MM-T468은 upstream처럼 삭제했다
+(검증은 위 Playwright 스펙으로 옮겨졌다). `gm_header_spec.js`도 upstream대로 삭제 — 우리 쪽 placeholder
+문구('Edit the Channel Header...')는 실제 UI('Enter the Channel Header')와 어긋난 낡은 상태였다.
+
+**검증 한계.** 우리 Playwright 환경은 채널 스펙 다수가 기존 격차로 실패해 이 스펙을 실브라우저로
+돌리지 않았다. tsc(master 기준선 동일)·eslint·prettier만 통과를 확인했다.
+
+**다음에 만날 자리.** GM 멤버 추가·`more_direct_channels`를 다루는 upstream e2e·UI 커밋은 같은 차이로
+충돌하거나 반대 동작을 단언한다 — 우리 GM 유지 동작을 기준으로 맞춘다.
