@@ -57,6 +57,7 @@ import {
     samlServerConfig,
     ensureKeycloak,
     generateKeycloakUser,
+    setDefaultOnboardingPreferences,
     suspendKeycloakUser,
     keycloakSamlDescriptorUrl,
     openidServerConfig,
@@ -200,6 +201,7 @@ export class PlaywrightExtended {
     readonly createNewTeam;
     readonly isOutsideRemoteUserHour;
     readonly makeClient;
+    readonly setDefaultOnboardingPreferences;
 
     // ./visual
     readonly matchSnapshot;
@@ -318,6 +320,7 @@ export class PlaywrightExtended {
         this.createNewUserProfile = createNewUserProfile;
         this.createNewTeam = createNewTeam;
         this.makeClient = makeClient;
+        this.setDefaultOnboardingPreferences = setDefaultOnboardingPreferences;
 
         // ./visual
         this.matchSnapshot = matchSnapshot;

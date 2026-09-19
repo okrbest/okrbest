@@ -14,6 +14,7 @@ export default class SystemConsoleSidebarHeader {
     readonly userName: Locator;
     readonly menuButton: Locator;
     readonly menu: Locator;
+    readonly logOutMenuItem: Locator;
 
     constructor(container: Locator) {
         this.container = container;
@@ -22,6 +23,7 @@ export default class SystemConsoleSidebarHeader {
         this.userName = container.getByText(/^@/);
         this.menuButton = container.getByRole('button', {name: 'Menu Icon'});
         this.menu = container.getByRole('menu');
+        this.logOutMenuItem = container.page().getByRole('menuitem', {name: 'Log Out'});
     }
 
     async toBeVisible() {
@@ -36,5 +38,10 @@ export default class SystemConsoleSidebarHeader {
         await this.menuButton.click();
         await expect(this.menu).toBeVisible();
         return this.menu;
+    }
+
+    async logOut() {
+        await this.openMenu();
+        await this.logOutMenuItem.click();
     }
 }
