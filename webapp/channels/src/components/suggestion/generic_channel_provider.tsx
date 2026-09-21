@@ -39,7 +39,10 @@ const GenericChannelSuggestion = React.forwardRef<HTMLLIElement, SuggestionProps
         >
             {icon}
             <div className='suggestion-list__ellipsis'>
-                <span className='suggestion-list__main'>
+                <span
+                    data-testid='suggestion-list__main'
+                    className='suggestion-list__main'
+                >
                     {channelName}
                 </span>
                 {description}

@@ -433,7 +433,10 @@ function ChannelSettingsConfigurationTab({
         showTabSwitchError;
 
     return (
-        <div className='ChannelSettingsModal__configurationTab'>
+        <div
+            className='ChannelSettingsModal__configurationTab'
+            data-testid='channel-settings-configuration-tab'
+        >
             {canManageSharedChannels && (
                 <>
                     <ConfirmModal

@@ -638,6 +638,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                             <div
                                 id={field.id + '-error'}
                                 className='field-error'
+                                data-testid='fieldError'
                                 role='alert'
                                 aria-live='polite'
                             >
@@ -725,6 +726,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                             <div
                                 id='username-error'
                                 className='field-error'
+                                data-testid='fieldError'
                                 role='alert'
                                 aria-live='polite'
                             >
@@ -782,6 +784,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                             <div
                                 id='email-error'
                                 className='field-error'
+                                data-testid='fieldError'
                                 role='alert'
                                 aria-live='polite'
                             >
@@ -800,7 +803,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                     defaultMessage='Authentication Method'
                 />
                 <ShieldOutlineIcon/>
-                <span>{getUserAuthenticationTextField(this.props.intl, this.props.mfaEnabled, this.state.user)}</span>
+                <span data-testid='authenticationMethodValue'>{getUserAuthenticationTextField(this.props.intl, this.props.mfaEnabled, this.state.user)}</span>
             </label>,
         );
 
@@ -831,6 +834,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                         <div
                             id='authdata-error'
                             className='field-error'
+                            data-testid='fieldError'
                             role='alert'
                             aria-live='polite'
                         >
@@ -868,11 +872,18 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                         <div
                             key={`${keyPrefix}-row-${Math.trunc(index / 2)}`}
                             className='field-row'
+                            data-testid='fieldRow'
                         >
-                            <div className='field-column left'>
+                            <div
+                                className='field-column left'
+                                data-testid='fieldColumn'
+                            >
                                 {field}
                             </div>
-                            <div className='field-column right'>
+                            <div
+                                className='field-column right'
+                                data-testid='fieldColumn'
+                            >
                                 {fieldList[index + 1]}
                             </div>
                         </div>
@@ -883,7 +894,10 @@ export class SystemUserDetail extends PureComponent<Props, State> {
         };
 
         return (
-            <div className='two-column-layout'>
+            <div
+                className='two-column-layout'
+                data-testid='twoColumnLayout'
+            >
                 {renderFieldRows(fields, 'standard-field')}
                 {cpaFields.length > 0 && (
                     <>
@@ -995,7 +1009,10 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                         username: this.state.user?.username ?? '',
                     }}
                 />
-                <ul className='changes-list'>
+                <ul
+                    className='changes-list'
+                    data-testid='changesList'
+                >
                     {fields.map((field, index) => {
                         return (
                             <li key={index}>
@@ -1031,6 +1048,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                                 <div
                                     id='confirm-password-error'
                                     className='field-error'
+                                    data-testid='fieldError'
                                     role='alert'
                                     aria-live='polite'
                                 >
@@ -1335,12 +1353,16 @@ export class SystemUserDetail extends PureComponent<Props, State> {
 
     render() {
         return (
-            <div className='SystemUserDetail wrapper--fixed'>
+            <div
+                className='SystemUserDetail wrapper--fixed'
+                data-testid='systemUserDetail'
+            >
                 <AdminHeader withBackButton={true}>
                     <div>
                         <BlockableLink
                             to='/admin_console/user_management/users'
                             className='fa fa-angle-left back'
+                            data-testid='adminHeader-backLink'
                         />
                         <FormattedMessage
                             id='admin.systemUserDetail.title'
@@ -1468,6 +1490,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
 
                         {/* User's team details */}
                         <AdminPanel
+                            id='teamMembershipPanel'
                             title={defineMessage({
                                 id: 'admin.userManagement.userDetail.teamsTitle',
                                 defaultMessage: 'Team Membership',

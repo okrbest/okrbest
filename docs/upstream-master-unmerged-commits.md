@@ -1,10 +1,10 @@
 # upstream-master 미반영 커밋 목록
 
-`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-21 11:05
-- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 갱신일: 2026-09-21 11:23
+- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 544개
 
 **마지막 반영 커밋:** `ce23427d` | [\[MM-69691\] Fix /secure-connection status ordering and malformed table header (#37347)](https://github.com/mattermost/mattermost/commit/ce23427d98a85628757b86cd9f64af449de801a2) | 2026-07-04

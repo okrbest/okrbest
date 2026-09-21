@@ -19,8 +19,8 @@ export default class ScheduleMessageModal {
         this.timeButton = container.getByTestId('time_button');
         this.timeOptionDropdown = container.getByLabel('Choose a time');
         this.closeButton = container.getByRole('button', {name: 'Close'});
-        this.scheduleButton = container.locator('button:has-text("Schedule")');
-        this.cancelButton = container.locator('button:has-text("Cancel")');
+        this.scheduleButton = container.getByRole('button', {name: 'Schedule'});
+        this.cancelButton = container.getByRole('button', {name: 'Cancel'});
     }
 
     async toBeVisible() {
@@ -72,6 +72,10 @@ export default class ScheduleMessageModal {
         }
 
         await dateLocator.click();
+
+        // Wait for the date-picker calendar to fully close before returning.
+        const calendarPopper = this.container.getByTestId('date-picker-popper');
+        await calendarPopper.waitFor({state: 'hidden'});
 
         // if day is single digit then prefix with a 0
         if (day < 10) {

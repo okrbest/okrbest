@@ -101,6 +101,7 @@ const SearchChannelWithPermissionsSuggestion = React.forwardRef<HTMLLIElement, S
             <div className='suggestion-list__ellipsis'>
                 <span
                     id={ids.name}
+                    data-testid='suggestion-list__main'
                     className='suggestion-list__main'
                 >
                     {displayName}
