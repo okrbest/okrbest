@@ -461,6 +461,11 @@ type GetPostsOptions struct {
 	IncludeDeleted           bool
 	IncludePostPriority      bool
 	FilterUserIds            []string // Filter posts by specific user IDs (empty means no filter)
+	// ExcludeExpiredBurnOnReadPosts, when set, makes the query skip burn-on-read
+	// posts whose read receipt has already expired for UserId. It is only set by
+	// the app layer when the burn-on-read feature is enabled, so it adds no query
+	// overhead otherwise.
+	ExcludeExpiredBurnOnReadPosts bool
 }
 
 type PostCountOptions struct {
