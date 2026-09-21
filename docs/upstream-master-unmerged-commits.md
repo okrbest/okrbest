@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-21 13:57
+- 갱신일: 2026-09-21 15:03
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 540개
+- 남은 커밋: 534개
 
-**마지막 반영 커밋:** `bca41e56` | [Add job create, show, and cancel commands to mmctl (#37280)](https://github.com/mattermost/mattermost/commit/bca41e5650c70ca7dcdee9ba34ed4f42553dac60) | 2026-07-06
+**마지막 반영 커밋:** `3ba841e4` | [Change resizable LHS/RHS to only drag with left mouse button (#37364)](https://github.com/mattermost/mattermost/commit/3ba841e499df2c476b3b5586f2c7768e1c89b2c0) | 2026-07-07
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 91422dbb | [Fix confusing empty state in access control job details modal (#37203)](https://github.com/mattermost/mattermost/commit/91422dbb03f827ada83a64e48b011b1bac1039dc) | 2026-07-07 |
-| 1d377586 | [Virtualize the scheduled posts list to fix slowness with 100+ scheduled posts (#37259)](https://github.com/mattermost/mattermost/commit/1d3775866c11595029727887b00b27ebffd4b5c6) | 2026-07-07 |
-| cdc2d453 | [\[MM-69599\] Add `mmctl channel users list` command to list channel members (#37311)](https://github.com/mattermost/mattermost/commit/cdc2d4535850ce4295f25e041a441adf41410eee) | 2026-07-07 |
-| 44ab0466 | [\[MM-68856\] Respect default agent and persist last-selected agent in the agent selector (#37017)](https://github.com/mattermost/mattermost/commit/44ab0466d2fcb931a54093d0980e46d5f82a02ce) | 2026-07-07 |
-| 95f4687b | [Fix package-lock.json (#37365)](https://github.com/mattermost/mattermost/commit/95f4687b677ab2388f6902766894d99f64a12f73) | 2026-07-07 |
-| 3ba841e4 | [Change resizable LHS/RHS to only drag with left mouse button (#37364)](https://github.com/mattermost/mattermost/commit/3ba841e499df2c476b3b5586f2c7768e1c89b2c0) | 2026-07-07 |
 | 17c77e27 | [\[MM-69337\] Surface native user attributes in ABAC webapp editors (Phase 6) (#37174)](https://github.com/mattermost/mattermost/commit/17c77e27d6bbabc92503bdff06456f6939bb5159) | 2026-07-07 |
 | 4255e314 | [Support pluggable channel settings tabs (#35591)](https://github.com/mattermost/mattermost/commit/4255e31412918b85e37cd9ec4bbc0e844aca3cf7) | 2026-07-07 |
 | ea636064 | [Fix flaky TestSendInviteEmails (#37254)](https://github.com/mattermost/mattermost/commit/ea636064f47febdec581179924b2f633291e4953) | 2026-07-07 |
