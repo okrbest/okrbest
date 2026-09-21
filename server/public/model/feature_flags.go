@@ -36,8 +36,6 @@ type FeatureFlags struct {
 
 	MoveThreadsEnabled bool
 
-	StreamlinedMarketplace bool
-
 	CloudDedicatedExportUI bool
 
 	WebSocketEventScope bool
@@ -142,7 +140,6 @@ func (f *FeatureFlags) SetDefaults() {
 	f.OnboardingTourTips = true
 	f.EnableExportDirectDownload = false
 	f.MoveThreadsEnabled = false
-	f.StreamlinedMarketplace = true
 	f.CloudDedicatedExportUI = false
 	f.WebSocketEventScope = true
 	f.ExperimentalAuditSettingsSystemConsoleUI = true
