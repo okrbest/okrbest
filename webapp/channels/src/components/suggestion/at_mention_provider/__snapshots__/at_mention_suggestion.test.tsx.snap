@@ -30,6 +30,7 @@ exports[`at mention suggestion shows a non signed in user by display name with n
     >
       <span
         class="suggestion-list__main"
+        data-testid="suggestion-list__main"
         id="test-suggestion-1-atMention"
       >
         @c
@@ -70,6 +71,7 @@ exports[`at mention suggestion shows the signed in user by display name with a "
     >
       <span
         class="suggestion-list__main"
+        data-testid="suggestion-list__main"
         id="test-suggestion-1-atMention"
       >
         @c

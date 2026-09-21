@@ -30,6 +30,7 @@ exports[`components/signup/Signup should match snapshot for all signup options e
         >
           <div
             class="signup-body-card-content"
+            data-testid="signup-body-card"
           >
             <h2
               class="signup-body-card-title"
@@ -176,6 +177,7 @@ exports[`components/signup/Signup should match snapshot for all signup options e
         >
           <div
             class="signup-body-card-content"
+            data-testid="signup-body-card"
           >
             <h2
               class="signup-body-card-title"
@@ -571,6 +573,7 @@ exports[`components/signup/Signup should match snapshot for all signup options e
         >
           <div
             class="signup-body-card-content"
+            data-testid="signup-body-card"
           >
             <h2
               class="signup-body-card-title"

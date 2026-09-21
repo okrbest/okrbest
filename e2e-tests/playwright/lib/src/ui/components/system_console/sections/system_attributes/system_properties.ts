@@ -244,9 +244,10 @@ export default class SystemProperties {
     /**
      * Resolves the warning AlertBanner whose title text matches `title`.
      * Banners stack below the table; one per unique error type.
+     * Each banner has data-testid set to its validation warning id (e.g. 'user_properties.validation.name_required').
      */
     validationBannerByTitle(title: string | RegExp): Locator {
-        return this.container.locator('.AlertBanner').filter({hasText: title});
+        return this.container.getByTestId(/^user_properties\.validation/).filter({hasText: title});
     }
 
     validationMessage(text: string | RegExp): Locator {

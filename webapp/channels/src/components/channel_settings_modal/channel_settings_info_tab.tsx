@@ -342,7 +342,10 @@ function ChannelSettingsInfoTab({
     }, [channel, displayName, channelUrl, channelPurpose, channelHeader, channelType, saveChangesPanelState]);
 
     return (
-        <div className='ChannelSettingsModal__infoTab'>
+        <div
+            className='ChannelSettingsModal__infoTab'
+            data-testid='channel-settings-info-tab'
+        >
             {/* ConvertConfirmModal for channel privacy changes */}
             <ConvertConfirmModal
                 show={showConvertConfirmModal}
