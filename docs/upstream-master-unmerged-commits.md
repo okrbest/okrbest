@@ -1,20 +1,16 @@
 # upstream-master 미반영 커밋 목록
 
-`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-21 11:23
-- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 544개
+- 갱신일: 2026-09-21 13:57
+- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 540개
 
-**마지막 반영 커밋:** `ce23427d` | [\[MM-69691\] Fix /secure-connection status ordering and malformed table header (#37347)](https://github.com/mattermost/mattermost/commit/ce23427d98a85628757b86cd9f64af449de801a2) | 2026-07-04
+**마지막 반영 커밋:** `bca41e56` | [Add job create, show, and cancel commands to mmctl (#37280)](https://github.com/mattermost/mattermost/commit/bca41e5650c70ca7dcdee9ba34ed4f42553dac60) | 2026-07-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 87b7433d | [E2E/Cypress: Upgrade cypress to 15.18 and its deps (#37278)](https://github.com/mattermost/mattermost/commit/87b7433d2d330e91f82c281b3a8e3b71809e95ff) | 2026-07-06 |
-| 8fa7e72a | [E2E/Playwright: Reorg POM using accessibility locators (#37315)](https://github.com/mattermost/mattermost/commit/8fa7e72a6ed2d796db9f63243f1d29635b26dd9c) | 2026-07-06 |
-| ed681250 | [chore: Update NOTICE.txt file with updated dependencies (#37359)](https://github.com/mattermost/mattermost/commit/ed6812504b2594d797f591f757cbcc0df94b4255) | 2026-07-06 |
-| bca41e56 | [Add job create, show, and cancel commands to mmctl (#37280)](https://github.com/mattermost/mattermost/commit/bca41e5650c70ca7dcdee9ba34ed4f42553dac60) | 2026-07-06 |
 | 91422dbb | [Fix confusing empty state in access control job details modal (#37203)](https://github.com/mattermost/mattermost/commit/91422dbb03f827ada83a64e48b011b1bac1039dc) | 2026-07-07 |
 | 1d377586 | [Virtualize the scheduled posts list to fix slowness with 100+ scheduled posts (#37259)](https://github.com/mattermost/mattermost/commit/1d3775866c11595029727887b00b27ebffd4b5c6) | 2026-07-07 |
 | cdc2d453 | [\[MM-69599\] Add `mmctl channel users list` command to list channel members (#37311)](https://github.com/mattermost/mattermost/commit/cdc2d4535850ce4295f25e041a441adf41410eee) | 2026-07-07 |
