@@ -795,7 +795,6 @@ const defaultServerConfig: AdminConfig = {
         StreamlinedMarketplace: true,
         CloudDedicatedExportUI: false,
         WebSocketEventScope: true,
-        NotificationMonitoring: true,
         ExperimentalAuditSettingsSystemConsoleUI: true,
         CustomProfileAttributes: true,
         AttributeBasedAccessControl: true,
