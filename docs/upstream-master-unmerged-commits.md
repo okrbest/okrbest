@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-18 00:18
+- 갱신일: 2026-09-21 11:05
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 521개
+- 남은 커밋: 544개
 
-**마지막 반영 커밋:** `5433e6ee` | [\[MM-69689\] Self-heal orphaned shared channel remotes for deleted remote clusters (#37346)](https://github.com/mattermost/mattermost/commit/5433e6eef9e9fb16b623a4a851ec9a21352a2f49) | 2026-07-03
+**마지막 반영 커밋:** `ce23427d` | [\[MM-69691\] Fix /secure-connection status ordering and malformed table header (#37347)](https://github.com/mattermost/mattermost/commit/ce23427d98a85628757b86cd9f64af449de801a2) | 2026-07-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| ce23427d | [\[MM-69691\] Fix /secure-connection status ordering and malformed table header (#37347)](https://github.com/mattermost/mattermost/commit/ce23427d98a85628757b86cd9f64af449de801a2) | 2026-07-04 |
 | 87b7433d | [E2E/Cypress: Upgrade cypress to 15.18 and its deps (#37278)](https://github.com/mattermost/mattermost/commit/87b7433d2d330e91f82c281b3a8e3b71809e95ff) | 2026-07-06 |
 | 8fa7e72a | [E2E/Playwright: Reorg POM using accessibility locators (#37315)](https://github.com/mattermost/mattermost/commit/8fa7e72a6ed2d796db9f63243f1d29635b26dd9c) | 2026-07-06 |
 | ed681250 | [chore: Update NOTICE.txt file with updated dependencies (#37359)](https://github.com/mattermost/mattermost/commit/ed6812504b2594d797f591f757cbcc0df94b4255) | 2026-07-06 |
@@ -532,6 +531,30 @@
 | 62f57271 | [\[MM-70617\] Add webapp support for user-owned bot PAT expiry (#37604)](https://github.com/mattermost/mattermost/commit/62f57271740726da92dda34cbfefdf9aff587e3b) | 2026-09-17 |
 | fc07d708 | [update Calls to v1.12.5 (#38556)](https://github.com/mattermost/mattermost/commit/fc07d7087d4efab3fa98f822c6bf22ea37f63473) | 2026-09-17 |
 | d4d4e42a | [MM-70020: Move ABAC auto-add members from the policy Active flag onto the membership rule (#37756)](https://github.com/mattermost/mattermost/commit/d4d4e42a7a0755a207e36d3c6916df9e962e0ed5) | 2026-09-17 |
+| 3db1a9ad | [MM-70669: Migrate CPA fields into Global Attributes templates (#38537)](https://github.com/mattermost/mattermost/commit/3db1a9adf80fd91d911de1b02632bd0bc3e9fe9d) | 2026-09-17 |
+| de7a2dc7 | [MM-69614: Add per-user audit logging for ABAC membership sync (#37771)](https://github.com/mattermost/mattermost/commit/de7a2dc759af43a23d2e4d7789b61dde51986995) | 2026-09-17 |
+| 348b648e | [fix a lint issue where got in by a stale branch (#38597)](https://github.com/mattermost/mattermost/commit/348b648e5622033f9339bff8a70172c3113464ea) | 2026-09-17 |
+| 2a25e948 | [\[MM-62407\] Fix SVG previews sized from bogus or missing dimensions (#38560)](https://github.com/mattermost/mattermost/commit/2a25e948faf1b25ca2faa1b8ae72354d8d1046d0) | 2026-09-17 |
+| 0517d594 | [\[MM-62078\] Make the composer's remove-labels control visible on keyboard focus and give it a tooltip (#38568)](https://github.com/mattermost/mattermost/commit/0517d594ffce293cbc42be180732e7d7ea16c2ac) | 2026-09-17 |
+| 85372e3a | [Hierarchical attributes webapp support (#38481)](https://github.com/mattermost/mattermost/commit/85372e3ad5be76145710111802c551b3706ecc83) | 2026-09-17 |
+| 20965a2c | [MM-70775: Clear a CPA field's own options after linking it to a Global Attributes template (#38600)](https://github.com/mattermost/mattermost/commit/20965a2ca8585c41fefa6e5134a891907f0c3acc) | 2026-09-17 |
+| bea18569 | [MM-70746 - Add ChannelAttributesRequired Feature Flag for required channel attribute enforcement (#38571)](https://github.com/mattermost/mattermost/commit/bea18569451c6cd5331df21fa23fa9435f540c07) | 2026-09-18 |
+| f44434ef | [\[MM-69911\] Document user_access_token_id audit log meta field (#38531)](https://github.com/mattermost/mattermost/commit/f44434ef299cd28a08e7ca2523ffadbfc9232df8) | 2026-09-18 |
+| 892fcb2a | [Bump prepackage Zoom plugin version to 2.0.0 (#38613)](https://github.com/mattermost/mattermost/commit/892fcb2a45071b159703641dbab2ea524d9daa71) | 2026-09-18 |
+| 3fb15ce5 | [MM-70591: Update OAuth application and authorization endpoint handling (#38575)](https://github.com/mattermost/mattermost/commit/3fb15ce594dacb6994db5f8f4ecd0567ac039f55) | 2026-09-18 |
+| e261eb05 | [Bumping the prepackaged gitlab version to v2.0.0 (#38623)](https://github.com/mattermost/mattermost/commit/e261eb0585d937c0a6ce667b5a8b23439dca19ce) | 2026-09-18 |
+| 68bf6f80 | [Fix flaky TestPostAcknowledgementsStore/postgres/BatchDelete/batch_delete_should_update_post's_update_at (#38622)](https://github.com/mattermost/mattermost/commit/68bf6f80995438de44d382319bd537daaf048cd1) | 2026-09-18 |
+| 9d1aeedf | [MM-70629: Emit any instead of interface{} in generated mocks (#38475)](https://github.com/mattermost/mattermost/commit/9d1aeedf12cd639e2e932d24547ab957e504000d) | 2026-09-18 |
+| d283cc63 | [MM-70778: Support graph attribute values on channels (#38611)](https://github.com/mattermost/mattermost/commit/d283cc6301368f6e3dc0fa6be0a1537a9677750b) | 2026-09-18 |
+| 619043e1 | [Fix AD/LDAP docs: manual deactivation not supported for LDAP users (#38614)](https://github.com/mattermost/mattermost/commit/619043e14685f96cf675b246a1afbae8f3a51602) | 2026-09-18 |
+| 4bbc6cc3 | [Harden admin user card profile-picture input so the native "No file chosen" control can't surface (#38599)](https://github.com/mattermost/mattermost/commit/4bbc6cc349a48921e04f562fcc061e4bcb5d7de4) | 2026-09-18 |
+| cc273232 | [MM-70806: Keep hierarchical value dropdown chevron at a fixed size (#38652)](https://github.com/mattermost/mattermost/commit/cc27323262db6414ce5794d4161e7a5b2def87ee) | 2026-09-18 |
+| 3aa8aa2c | [E2E/Playwright: Migrate active Cypress tests batch 2 (#37455)](https://github.com/mattermost/mattermost/commit/3aa8aa2c37ae7aedcdc0de1fe8f2430510d2f922) | 2026-09-19 |
+| fa5a5a99 | [\[E2E/Playwright\] Add OpenID Connect login and System Console tests (#38517)](https://github.com/mattermost/mattermost/commit/fa5a5a997f1296047c643654dcd3ac1ebdc57a6e) | 2026-09-19 |
+| c43fcbce | [\[E2E/Playwright\] Add SAML and SAML+LDAP tests and delete ported Cypress specs (#38518)](https://github.com/mattermost/mattermost/commit/c43fcbce0eb9500375e638af08aae8264ae7e7d1) | 2026-09-19 |
+| 2edc236f | [\[E2E/Playwright\] Add LDAP login, filter, and System Console tests (#38516)](https://github.com/mattermost/mattermost/commit/2edc236f238bc5e21d0e223046bfdbb0210d63a3) | 2026-09-19 |
+| 6ee80ce0 | [Temporarily disable Documentation Impact Review workflow (#38659)](https://github.com/mattermost/mattermost/commit/6ee80ce049fe86c5bff11b8dde6c391414f253a8) | 2026-09-19 |
+| 80a0d4da | [Fix flaky TestChannelStore/LocalCache+PostgreSQL/ReactionDelete/Delete (#38657)](https://github.com/mattermost/mattermost/commit/80a0d4da72887d2e1b54ba1947d5cbc74f89b894) | 2026-09-20 |
 
 ## 제외된 커밋
 
