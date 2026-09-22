@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-22 18:07
+- 갱신일: 2026-09-22 22:12
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 509개
+- 남은 커밋: 507개
 
-**마지막 반영 커밋:** `9588492b` | [MM-69392 - Make DCR redirect URI allowlist matching URL-component aware (#37170)](https://github.com/mattermost/mattermost/commit/9588492b619a1c0e3d5a8453e067c0bbf548905a) | 2026-07-10
+**마지막 반영 커밋:** `5ddee464` | [Fix interactive message action buttons overflowing on long text (#37142)](https://github.com/mattermost/mattermost/commit/5ddee4647bbe2ff60a7fc0d2d5e1f1551beefdba) | 2026-07-10
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| be7cc0ba | [Bucket server test-timing cache by date to cut cache churn (#37425)](https://github.com/mattermost/mattermost/commit/be7cc0ba3e40da14cff31d441dd2b9e12474120f) | 2026-07-10 |
-| 14288c74 | [Adopt per-target .PHONY directives in server Makefiles (#37447)](https://github.com/mattermost/mattermost/commit/14288c742ba5e4aa66e3b2bbef28de50451ff517) | 2026-07-10 |
-| af49e8dc | [Preserve 429/503 retry status codes through DoActionRequest (#36700)](https://github.com/mattermost/mattermost/commit/af49e8dc80ed721e3cd7c7d7576d14dfe5bbdd94) | 2026-07-11 |
-| 09bda773 | [MM-69585: remove AttributeBasedAccessControl feature flag (#37366)](https://github.com/mattermost/mattermost/commit/09bda773d80d364b8c6a660868db77d213d93f29) | 2026-07-10 |
-| 836857ab | [\[MM-69403\] Push WebSocket events on job status changes (#37130)](https://github.com/mattermost/mattermost/commit/836857ab92769766cf131e4a89975c5b175bcbc1) | 2026-07-10 |
-| 5ddee464 | [Fix interactive message action buttons overflowing on long text (#37142)](https://github.com/mattermost/mattermost/commit/5ddee4647bbe2ff60a7fc0d2d5e1f1551beefdba) | 2026-07-10 |
 | cce485f6 | [\[MM-69561\] Add ability to rotate (regenerate) Personal Access Tokens (#37295)](https://github.com/mattermost/mattermost/commit/cce485f60598d8eada1c0afb50d29fa172163bd4) | 2026-07-10 |
 | b530799a | [Add plugin metadata panel to management and settings pages (#37331)](https://github.com/mattermost/mattermost/commit/b530799aeb0393ac5c24ecb2f1d2664db688dbf1) | 2026-07-13 |
 | 4e428ef3 | [Fix docs automation workflow (#37401)](https://github.com/mattermost/mattermost/commit/4e428ef393f1420759afe1a5fd2f2e5c90509288) | 2026-07-13 |
@@ -520,6 +514,10 @@
 | 2ddcee9f | [\[MM-70758\] Health Dashboard PR03: section-type vocabulary (#38582)](https://github.com/mattermost/mattermost/commit/2ddcee9f9543a89f56744b7b336cef0b12807636) | 2026-09-22 |
 | 4974f1f7 | [\[MM-70759\] Health Dashboard engine-types (PR04+PR05): rule + snapshot types (#38583)](https://github.com/mattermost/mattermost/commit/4974f1f7c776fff8b1d4c46a41ffbe27cdbbc7ed) | 2026-09-22 |
 | 909cadce | [\[MM-70760\] Health Dashboard PR06: rule evaluation engine (#38585)](https://github.com/mattermost/mattermost/commit/909cadce5e26397239122222273a660b33a62d5e) | 2026-09-22 |
+| 9900413b | [security: bump dependencies (#38705)](https://github.com/mattermost/mattermost/commit/9900413b43fd6653d2a101e8afa8e3f088cdbfa7) | 2026-09-22 |
+| efad2e0a | [Allow Oxide mobile device IDs for push session registration. (#38706)](https://github.com/mattermost/mattermost/commit/efad2e0a912440f792f8b5167e32c662854c1e31) | 2026-09-22 |
+| 493723d4 | [\[MM-70784\] Health Dashboard PR07: FindingStore interface + in-memory store (#38631)](https://github.com/mattermost/mattermost/commit/493723d4001af32c0fd76cd8ac51dd522a69131e) | 2026-09-22 |
+| 289d5e5e | [Update Playbooks plugin to v2.12.0 (incl. FIPS) (#38700)](https://github.com/mattermost/mattermost/commit/289d5e5e86711603cd4f62955fc7e197871b8b36) | 2026-09-22 |
 
 ## 제외된 커밋
 
