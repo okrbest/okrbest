@@ -98,6 +98,7 @@
 | Global Relay 발신자 주소 설정 | [69f0f2c2](https://github.com/mattermost/mattermost/commit/69f0f2c22cfb346566bc02ad67347bd65a7cabdf) (#38451) | 설정·검증·콘솔 UI는 그대로 받고 docs/main mdx 1개를 버렸다. 설정을 쓰는 EML 작성기가 비공개 모듈이라 발동하지 않는다 — 아래 참조 |
 | 채널별 입장·퇴장 메시지 끄기 (spec 029) | [5de31f8e](https://github.com/mattermost/mattermost/commit/5de31f8e868f61636ee9d556176cd6ab5f956f2b) (#37314) | sync에서 spec으로 넘겨 반영. 36파일을 upstream 줄 그대로 들이고, 포크 FilterUserIds를 같은 쿼리에 나란히 붙였다. 제외 계보 문맥 8곳을 버렸고 포크 테스트 3개는 포크 전용 새 파일에 뒀다 — 아래 참조 |
 | sort → slices 이관 | [68c4bb52](https://github.com/mattermost/mattermost/commit/68c4bb52e5e094d7c26f627f949973040c9c56a7) (#38473) | 이관과 govet `sortSlices`는 받았다. 보류했던 `concurrentIndex` vet 규칙도 Makefile을 upstream과 맞추며 함께 켰다. 제외 계보(CPA v2·property) 2곳을 버리고 우리 CPA v1 정렬 1곳을 직접 옮겼다 — 아래 참조 |
+| Health Dashboard PR08 health_findings 저장소 | [579c0bd9](https://github.com/mattermost/mattermost/commit/579c0bd96b61629b83ea379a276859f3d85d2f25) (#38632) | 마이그레이션 000231·000232와 SQL 저장소는 그대로 받았다. 충돌 문맥의 000230(제외 계보)과 mock store의 `View()` 접근자를 버렸고, 000230은 빈 번호로 남는다 — 아래 참조 |
 
 ---
 
@@ -2746,6 +2747,23 @@ production React 19에는 `jsxDEV`가 없어서, 그 자리를 `jsx`/`jsxs`로 �
 
 **검증.** 2026-10-15. `go test ./public/model -run 'Config|GlobalRelay|MessageExport'` 통과.
 webapp `message_export_settings.test.tsx`(Node 24)는 14건과 스냅숏 5개가 모두 통과했다.
+---
+
+## Health Dashboard PR08 — 000230 빈 번호와 mock View 접근자
+
+**upstream**: [`579c0bd9`](https://github.com/mattermost/mattermost/commit/579c0bd96b61629b83ea379a276859f3d85d2f25)
+([MM-70785] Health Dashboard PR08: health_findings migration + SQL FindingStore, #38632) — 21파일 +1188/-68, 2026-10-17 반영. 연작 전체 반영 결정(A)의 한 편.
+
+**받은 것.** 마이그레이션 `000231_create_health_findings`·`000232_create_healthfindings_lastseenat_index`, `sqlstore/health_finding_store.go`, store 인터페이스·레이어·mock(생성기로 재생성), 메모리 저장소 테스트 정리.
+
+**버린 것.**
+
+| 위치 | upstream 충돌 문맥 | 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `server/channels/db/migrations/migrations.list` | `000230_add_creator_to_permission_level` up/down 2줄 | 09-21에 제외한 `b2a68c93`(#38129, property v2 계보)의 마이그레이션이라 파일이 없다. 목록은 `make migrations-extract`로 다시 만들었고 **000230은 빈 번호**로 남는다(000216·000218과 같은 처지) | property v2 계보를 받을 때 |
+| `server/channels/store/storetest/store.go` | `func (s *Store) View() store.ViewStore` | 우리에게 `ViewStore`가 없다(제외한 Integrated Boards 뷰 계보). `HealthFinding()` 접근자만 넣었다 | 같은 계보를 받을 때 |
+
+**검증.** `go build ./...`, `go vet ./channels/store/... ./platform/shared/healthcheck/...` 통과. `TestHealthFindingStore`, `TestMigration000231`, `TestMigration000232`, healthcheck 패키지 통과. 보호 경로(마이그레이션)라 PR 병합에 `--admin`이 필요하다.
 ---
 
 ## sort → slices 이관 — CPA v1 정렬을 직접 옮기고 concurrentIndex 규칙을 켰다
