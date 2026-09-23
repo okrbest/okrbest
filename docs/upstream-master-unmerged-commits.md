@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-22 22:12
+- 갱신일: 2026-09-23 12:06
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 507개
+- 남은 커밋: 512개
 
-**마지막 반영 커밋:** `5ddee464` | [Fix interactive message action buttons overflowing on long text (#37142)](https://github.com/mattermost/mattermost/commit/5ddee4647bbe2ff60a7fc0d2d5e1f1551beefdba) | 2026-07-10
+**마지막 반영 커밋:** `cce485f6` | [\[MM-69561\] Add ability to rotate (regenerate) Personal Access Tokens (#37295)](https://github.com/mattermost/mattermost/commit/cce485f60598d8eada1c0afb50d29fa172163bd4) | 2026-07-10
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| cce485f6 | [\[MM-69561\] Add ability to rotate (regenerate) Personal Access Tokens (#37295)](https://github.com/mattermost/mattermost/commit/cce485f60598d8eada1c0afb50d29fa172163bd4) | 2026-07-10 |
 | b530799a | [Add plugin metadata panel to management and settings pages (#37331)](https://github.com/mattermost/mattermost/commit/b530799aeb0393ac5c24ecb2f1d2664db688dbf1) | 2026-07-13 |
 | 4e428ef3 | [Fix docs automation workflow (#37401)](https://github.com/mattermost/mattermost/commit/4e428ef393f1420759afe1a5fd2f2e5c90509288) | 2026-07-13 |
 | 17466f36 | [E2E/Playwright: Migrate RFQA browser tests (batch 4, 61-80) (#37411)](https://github.com/mattermost/mattermost/commit/17466f36380cba48096061308c6e659610de4d35) | 2026-07-13 |
@@ -518,6 +517,12 @@
 | efad2e0a | [Allow Oxide mobile device IDs for push session registration. (#38706)](https://github.com/mattermost/mattermost/commit/efad2e0a912440f792f8b5167e32c662854c1e31) | 2026-09-22 |
 | 493723d4 | [\[MM-70784\] Health Dashboard PR07: FindingStore interface + in-memory store (#38631)](https://github.com/mattermost/mattermost/commit/493723d4001af32c0fd76cd8ac51dd522a69131e) | 2026-09-22 |
 | 289d5e5e | [Update Playbooks plugin to v2.12.0 (incl. FIPS) (#38700)](https://github.com/mattermost/mattermost/commit/289d5e5e86711603cd4f62955fc7e197871b8b36) | 2026-09-22 |
+| 8a3fcb5a | [MM-70065: Update direct channel targeting for incoming webhooks (#38681)](https://github.com/mattermost/mattermost/commit/8a3fcb5a65a99a5ffa9df73233bf15bba268800a) | 2026-09-22 |
+| bb72eeb7 | [Allow to hydrate posts with their attributes (#38134)](https://github.com/mattermost/mattermost/commit/bb72eeb7b23438efbec04a224b28b00d4552af64) | 2026-09-22 |
+| dc8e580f | [Add Documentation issue template (#38658)](https://github.com/mattermost/mattermost/commit/dc8e580fa5c1523376a9a36740c56dc148270e87) | 2026-09-22 |
+| 2b3f2e20 | [\[MM-61452\] Align invite modal channel autocomplete row spacing and slug with the post composer (#38602)](https://github.com/mattermost/mattermost/commit/2b3f2e2026c40eb86e7c7fbfd4b2626888d453f3) | 2026-09-22 |
+| 9b320fbe | [\[MM-70819\] Stop channel header attribute chips blanking on unrelated edits (#38653)](https://github.com/mattermost/mattermost/commit/9b320fbe1ec1595eda6ac7320b438577acee921d) | 2026-09-22 |
+| 97143428 | [Paint Attribute Management after template fields load (#38646)](https://github.com/mattermost/mattermost/commit/971434284737a8a6c9da6a5364dd598c849a29ae) | 2026-09-22 |
 
 ## 제외된 커밋
 
