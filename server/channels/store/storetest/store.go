@@ -79,6 +79,7 @@ type Store struct {
 	TemporaryPostStore              mocks.TemporaryPostStore
 	NotificationHistoryStore        mocks.NotificationHistoryStore
 	ChannelJoinRequestStore         mocks.ChannelJoinRequestStore
+	HealthFindingStore              mocks.HealthFindingStore
 }
 
 func (s *Store) Logger() mlog.LoggerIFace                      { return s.logger }
@@ -195,6 +196,9 @@ func (s *Store) NotificationHistory() store.NotificationHistoryStore {
 func (s *Store) ChannelJoinRequest() store.ChannelJoinRequestStore {
 	return &s.ChannelJoinRequestStore
 }
+func (s *Store) HealthFinding() store.HealthFindingStore {
+	return &s.HealthFindingStore
+}
 func (s *Store) GetSchemaDefinition() (*model.SupportPacketDatabaseSchema, error) {
 	return &model.SupportPacketDatabaseSchema{
 		Tables: []model.DatabaseTable{},
@@ -258,5 +262,6 @@ func (s *Store) AssertExpectations(t mock.TestingT) bool {
 		&s.TemporaryPostStore,
 		&s.NotificationHistoryStore,
 		&s.ChannelJoinRequestStore,
+		&s.HealthFindingStore,
 	)
 }
