@@ -16,7 +16,7 @@ import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entitie
 import {get, getBool, getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, isCurrentUserGuestUser, getStatusForUserId, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, isCurrentUserGuestUser, getStatusForUserId, getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 
 import {autocompleteChannels} from 'actions/channel_actions';
 import * as GlobalActions from 'actions/global_actions';
@@ -68,6 +68,7 @@ import Footer from './footer';
 import FormattingBar from './formatting_bar';
 import {Separator} from './formatting_bar/formatting_bar';
 import MessageWithMentionsFooter from './message_with_mentions_footer';
+import OutOfOfficeWarning from './out_of_office_warning';
 import SendButton from './send_button';
 import TexteditorActions from './texteditor_actions';
 import ToggleFormattingBar from './toggle_formatting_bar';
@@ -179,6 +180,22 @@ const AdvancedTextEditor = ({
     const teammateId = useSelector((state: GlobalState) => getDirectChannel(state, channelId)?.teammate_id || '');
     const teammateDisplayName = useSelector((state: GlobalState) => (teammateId ? getDisplayName(state, teammateId) : ''));
     const showDndWarning = useSelector((state: GlobalState) => (teammateId ? getStatusForUserId(state, teammateId) === UserStatuses.DND : false));
+    const showOooWarning = useSelector((state: GlobalState) => {
+        if (!teammateId) {
+            return false;
+        }
+        if (getConfig(state).ExperimentalEnableAutomaticReplies !== 'true') {
+            return false;
+        }
+        if (teammateId === getCurrentUserId(state)) {
+            return false;
+        }
+        const teammate = getUser(state, teammateId);
+        if (teammate?.is_bot) {
+            return false;
+        }
+        return getStatusForUserId(state, teammateId) === UserStatuses.OUT_OF_OFFICE;
+    });
     const selectedPostFocussedAt = useSelector((state: GlobalState) => getSelectedPostFocussedAt(state));
     const aiActionMenuItems = useSelector((state: GlobalState) => state.plugins.components.AIActionMenuItem);
     const {available: aiRewriteEnabled} = useGetAgentsBridgeEnabled();
@@ -748,12 +765,14 @@ const AdvancedTextEditor = ({
                 <FileLimitStickyBanner/>
             )}
             {showDndWarning && <DoNotDisturbWarning displayName={teammateDisplayName}/>}
+            {showOooWarning && <OutOfOfficeWarning displayName={teammateDisplayName}/>}
             {!isInEditMode && (
                 <PostBoxIndicator
                     channelId={channelId}
                     teammateDisplayName={teammateDisplayName}
                     location={location}
                     postId={rootId}
+                    hideRemoteUserHour={showOooWarning}
                 />
             )}
             <div
