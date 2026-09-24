@@ -27,6 +27,7 @@
 | `020de7a6` ABAC 플래그 기본 활성 | [939afca4](https://github.com/mattermost/mattermost/commit/939afca46faeec7b65bbd02de8b11911935c515e) (#37265) | 플래그 다섯 중 넷만 뒤집었다 — PropertyFieldRank는 우리에게 필드가 없다 — 아래 참조 |
 | `41cec566` 공유 채널 플래그 제거 | [9e3d8efc](https://github.com/mattermost/mattermost/commit/9e3d8efc1a62b53e883a5a08ce3552c7c9fc896d) (#37154) | 충돌 넷이 전부 우리 Lexical 개명·자체 프로퍼티에서 왔다 — 아래 참조 |
 | `469e1e26` 권한 정책 편집기 Simple 모드 | [be8f7fe0](https://github.com/mattermost/mattermost/commit/be8f7fe02f65a506b1734e13eb68e44902d8bd80) (#37267) | 랭크 연산자 테스트 넷을 버렸다 — 우리 shared.tsx에 랭크 계보가 없다 — 아래 참조 |
+| `2bfb351e` 플러그인이 코어 모달을 id로 연다 | [379959ba](https://github.com/mattermost/mattermost/commit/379959ba32abf832be77195e4a72789a923f1f99) (#37339) | squash에 섞인 에디터 공개(#37514)를 뺐다 — Tiptap 에디터가 우리에게 없다 — 아래 참조 |
 
 ---
 
@@ -340,3 +341,62 @@ adapt 후 반드시 check-types를 함께 돌려야 한다.**
 `PropertyFieldRank` 플래그와 `rankPropertyFieldGate`도 함께 해소된다.
 `TrustProxyDeviceIdentityHeader`·`EnforceDeviceIDConsistency`가 들어오면 위 테스트
 리터럴도 upstream 형태로 되돌린다.
+
+---
+
+## 플러그인 공개 API — 모달은 받고 에디터 공개는 뺐다
+
+**무엇을 했나.** upstream `379959ba`(#37339)는 squash 커밋 하나에 두 기능을 담았다.
+
+| 부분 | 내용 | 처리 |
+|---|---|---|
+| 모달 공개 (#37339 본체) | `window.WebappUtils.modals.openModalById`·`canOpenModalId`, 허용 목록 모달 5개(`user_settings`·`invitation`·`team_settings`·`team_members`·`leave_team`), 빌드 시 props 계약 가드 | **반영** |
+| suggestion 타입 이동 | `SuggestionResults`·`ProviderResults` 등을 `@mattermost/shared/types/global/suggestions.ts`로 옮기고 `suggestion_results.ts`는 re-export | **반영** |
+| 에디터 공개 (#37514, MM-69774) | `window.WebappUtils.editor` — WYSIWYG 에디터·FormattingBar·SuggestionList·자동완성 provider 넷 | **제외** |
+
+제외한 파일과 줄:
+
+- `webapp/channels/src/plugins/published_editor.ts` (95줄) — 파일째 뺐다
+- `webapp/channels/src/plugins/published_editor.test.tsx` (129줄) — 파일째 뺐다
+- `webapp/platform/shared/src/types/global/editor.ts` (135줄) — 파일째 뺐다
+- `webapp/channels/src/plugins/export.ts` — `PublishedEditorUtils` import, `publishedEditorUtils` import,
+  `WindowWithLibraries.WebappUtils.editor` 필드, `window.WebappUtils.editor` 값 네 줄
+- `webapp/platform/shared/src/types/global/index.ts` — `./editor` import·re-export,
+  `WindowShared.WebappUtils.editor` 필드 세 줄
+
+원본은 `git show 379959ba -- <경로>`로 언제든 꺼낼 수 있다.
+
+**왜 뺐나.** `published_editor.ts`가
+`components/advanced_text_editor/wysiwyg_editor/wysiwyg_editor`를 import하고 그
+`WysiwygEditorHandle` 타입으로 빌드 가드를 건다. 이 파일은 upstream `0fa2713b`(MM-67755,
+Tiptap WYSIWYG, #36143)가 만들었는데 **우리는 그 커밋을 제외했다** — 메시지 작성창
+에디터를 Lexical(`components/lexical_editor/`)로 확정했기 때문이다(ledger 제외 부록 참조).
+FormattingBar도 upstream은 `forwardRef`로 `FormattingBarHandle`(`openLinkPopover`)을
+노출하지만 우리 `formatting_bar.tsx`에는 handle이 없다. merge-tree는 새 파일 추가라
+CLEAN으로 나왔지만 그대로 받으면 webapp 빌드가 깨진다.
+
+**외부 영향.** `window.WebappUtils.editor`를 쓰는 upstream 플러그인은 우리 서버에서
+해당 기능이 동작하지 않는다(`undefined` 접근). `canOpenModalId`처럼 기능 탐지 함수가 없으니
+플러그인 쪽은 `window.WebappUtils.editor` 존재 여부로 확인해야 한다. 모달 공개는 영향 없다.
+
+**검증.** 반영 후 `npx tsc -b`(channels) 오류가 기준선(직전 커밋, 같은 디렉터리)과 29건
+동일 목록 — 모달 계약 가드 성립. jest `export.test`·`published_modals.test`·
+`components/suggestion` 통과. suggestion 실패 2건
+(`AtMentionProvider should suggest for "@h"`, `SuggestionBox should reset selection…`)은
+변경 전 HEAD에서도 똑같이 실패하는 기준선이다.
+
+**되살릴 때.** 두 갈래가 있다.
+
+1. **일부는 Tiptap 없이 바로 가능하다.** provider 넷(`AtMentionProvider`·`ChannelMentionProvider`·
+   `CommandProvider`·`EmoticonProvider`)과 `components/suggestion/suggestion_list.tsx`는 우리
+   트리에 있다. `editor.ts`의 `SuggestionListProps`·provider 생성자 타입이 우리 실제
+   시그니처와 맞는지만 확인하면 `editor.providers`·`editor.SuggestionList`는 먼저 공개할 수 있다.
+2. **`WysiwygEditor`·`FormattingBar` 공개는 Lexical 대응 설계가 필요하다.** upstream 계약
+   (`PublishedWysiwygEditorHandle`: `insertText`·`focus`·`blur`·`getInputBox`,
+   `PublishedFormattingBarHandle`: `openLinkPopover`, `WysiwygEditorProps`의
+   `value`·`onChange(markdown)`·`onSubmit`·`channelId`…)을 Lexical 에디터로 구현할지
+   정해야 한다. upstream 반영이 아니라 자체 기능이므로 brainstorming → `/speckit-specify`로
+   시작한다. 계약 타입을 upstream과 같게 맞추면 upstream 플러그인이 그대로 붙는다.
+
+이후 upstream이 `published_editor.ts`나 `types/global/editor.ts`를 고치는 커밋은
+modify/delete 충돌로 나타난다 — 이 항목을 근거로 같은 판단(제외 또는 위 설계 후 수용)을 한다.
