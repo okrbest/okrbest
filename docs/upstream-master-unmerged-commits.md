@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-23 16:48
+- 갱신일: 2026-09-25 00:59
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 481개
+- 남은 커밋: 499개
 
-**마지막 반영 커밋:** `922276c1` | [MM-69728: support team-scoped product baseURLs (#37410)](https://github.com/mattermost/mattermost/commit/922276c1347e78ece7bd86f29ac3100ac933cf92) | 2026-07-14
+**마지막 반영 커밋:** `1388ba47` | [Update Playbooks plugin to v2.11.0 (incl. FIPS) (#37528)](https://github.com/mattermost/mattermost/commit/1388ba477cc7e9cc9f02756b2e2a882b825ea30a) | 2026-07-15
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 901b4256 | [Fix assorted down migrations, add additional testing (#37464)](https://github.com/mattermost/mattermost/commit/901b4256bdbeea7db350a874cc342cf19878b2b3) | 2026-07-15 |
-| 7778bb79 | [MM-69792: Recover shared channel sync after a brief remote outage (#37499)](https://github.com/mattermost/mattermost/commit/7778bb79d1a4920df6f4d6c5cc0999453fc0464b) | 2026-07-15 |
-| 379959ba | [MM-69782: let plugins open core modals by id (#37339)](https://github.com/mattermost/mattermost/commit/379959ba32abf832be77195e4a72789a923f1f99) | 2026-07-15 |
-| b9179642 | [update Calls to v1.12.2 (#37502)](https://github.com/mattermost/mattermost/commit/b9179642f3b5effce0305fc4ceabc6737970d8fb) | 2026-07-15 |
-| 8d10e91d | [MM-69798: Add AccessControlSettings setting to disable channel access indicators (#37519)](https://github.com/mattermost/mattermost/commit/8d10e91d3899f35ed8272f1c0d4a88f352ad8be6) | 2026-07-16 |
-| 1388ba47 | [Update Playbooks plugin to v2.11.0 (incl. FIPS) (#37528)](https://github.com/mattermost/mattermost/commit/1388ba477cc7e9cc9f02756b2e2a882b825ea30a) | 2026-07-15 |
 | 5bae85c9 | [E2E/Playwright Migrate MM-T5801 to 06 (#37530)](https://github.com/mattermost/mattermost/commit/5bae85c921dadab2d0148c9b49ab630b1e5b158c) | 2026-07-16 |
 | f110574b | [E2E/Playwright Migrate T1434, T4023 and T1987 (#37533)](https://github.com/mattermost/mattermost/commit/f110574b559df9bc121b4239d03f524a9bdb8cd2) | 2026-07-16 |
 | 86888cba | [\[MM-69007\] Speed up Support Packet tests by shortening the CPU profile sample (#36761)](https://github.com/mattermost/mattermost/commit/86888cbac650febc303e94c193c7211075662baa) | 2026-07-16 |
@@ -492,6 +486,30 @@
 | 9b320fbe | [\[MM-70819\] Stop channel header attribute chips blanking on unrelated edits (#38653)](https://github.com/mattermost/mattermost/commit/9b320fbe1ec1595eda6ac7320b438577acee921d) | 2026-09-22 |
 | 97143428 | [Paint Attribute Management after template fields load (#38646)](https://github.com/mattermost/mattermost/commit/971434284737a8a6c9da6a5364dd598c849a29ae) | 2026-09-22 |
 | 579c0bd9 | [\[MM-70785\] Health Dashboard PR08: health_findings migration + SQL FindingStore (#38632)](https://github.com/mattermost/mattermost/commit/579c0bd96b61629b83ea379a276859f3d85d2f25) | 2026-09-23 |
+| 6249c96b | [Bumping the prepackaged MS Calendar version to v2.0.0 (#38672)](https://github.com/mattermost/mattermost/commit/6249c96b019ba646a8c2bcb5ea9b35dd83e8de37) | 2026-09-23 |
+| bc7bb75c | [Fix MySQL 8.4+ authentication docs for PostgreSQL migration and server requirements (#38679)](https://github.com/mattermost/mattermost/commit/bc7bb75ce16544448b1cc498abfe2217ef14bfc2) | 2026-09-23 |
+| da316ef0 | [\[MM-70786\] Health Dashboard PR09 (core): reconcile + unknown state machine (#38670)](https://github.com/mattermost/mattermost/commit/da316ef0acb96f728f20014f2bb4886c06ba28c6) | 2026-09-23 |
+| 6cd323d1 | [\[MM-70787\] Health Dashboard PR10: mute + finding GC (#38675)](https://github.com/mattermost/mattermost/commit/6cd323d1544b679697f103361f31809a0e2f2c50) | 2026-09-23 |
+| ab7d2b5d | [\[MM-70804\] Stop the attribute Type menu offering conversions to or from Hierarchical (#38697)](https://github.com/mattermost/mattermost/commit/ab7d2b5db5ec0f076e98ac8aabc7216e9d003b0d) | 2026-09-23 |
+| e9a8793d | [\[MM-70834\] Align graph child draft with same-level siblings (#38701)](https://github.com/mattermost/mattermost/commit/e9a8793d555a58f40771f21d02757883c81c330b) | 2026-09-23 |
+| 86ee66a9 | [Add workflow to auto-label docs PRs for editor review (#38717)](https://github.com/mattermost/mattermost/commit/86ee66a92d9187ab7e1144007d72039b9fdc1cf3) | 2026-09-23 |
+| ffce664c | [Add workspace organization guide and retire channel naming conventions page (#38598)](https://github.com/mattermost/mattermost/commit/ffce664cf5d21bbaabc9b6ca4553d2be9140a2bf) | 2026-09-23 |
+| be1bfe55 | [Show selected hierarchical attribute values in the profile popover (#38685)](https://github.com/mattermost/mattermost/commit/be1bfe55a3aee7fc114323844e4b29e3b0aab6cb) | 2026-09-23 |
+| 371582e1 | [Implement cache for GetSubject to cache CPA user attributes (#38691)](https://github.com/mattermost/mattermost/commit/371582e1674541acef3a80afd5e1790ba8bfb664) | 2026-09-23 |
+| 8ddcd797 | [Fix K8s HA upgrade doc FAQ claiming manual DB schema migration (#38678)](https://github.com/mattermost/mattermost/commit/8ddcd797c7a5801c04831fbbd9104193d1c6015a) | 2026-09-23 |
+| df20dd76 | [Show out-of-office notice above DM composer (#38635)](https://github.com/mattermost/mattermost/commit/df20dd76df11a6e8ff7d0b9da010a54fc90a736e) | 2026-09-23 |
+| b94495ff | [\[MM-59493\] Accept all 2xx responses from slash command integrations instead of only 200 OK (#38603)](https://github.com/mattermost/mattermost/commit/b94495ffc9e21960768853eec8166cdcf1f5786d) | 2026-09-23 |
+| 53211e45 | [\[MM-61861\] Hide "Manage roles" for guests so "Promote to member" is the only promotion path (#38606)](https://github.com/mattermost/mattermost/commit/53211e45b6e63e99a5cc64d1ce1b344e3b64cc51) | 2026-09-23 |
+| 163baf03 | [Portal hierarchical parent search suggestions out of the value menu (#38688)](https://github.com/mattermost/mattermost/commit/163baf0351e8c307c57c09074cd758ade6c76509) | 2026-09-23 |
+| 913291dd | [\[MM-55271\] Switch Product Menu doesn't follow standard accessible keyboard behavior (#38561)](https://github.com/mattermost/mattermost/commit/913291dd0518d0c3b022d453b23981e7070a03b0) | 2026-09-24 |
+| 6d5b018c | [fix: align sharedchannel-test deps with the server module (#38760)](https://github.com/mattermost/mattermost/commit/6d5b018cdfcdcff90c3e0413d842a4bcf7f4109d) | 2026-09-24 |
+| cb4254cc | [Bump prepackage Boards plugin version to 10.0.0 (#38759)](https://github.com/mattermost/mattermost/commit/cb4254cc2d14902227540a29aafa0eeb15da5171) | 2026-09-24 |
+| 923df3de | [docs: migrate developers.mattermost.com links to docs.mattermost.com/developers (#38660)](https://github.com/mattermost/mattermost/commit/923df3deba0c852772c8b9fd7f225a15f1fe5246) | 2026-09-24 |
+| 76ad4213 | [Add dot release docs for server v11.11.1 (#38725)](https://github.com/mattermost/mattermost/commit/76ad4213c924f6b459f83a6bab89adff3c290afd) | 2026-09-24 |
+| b60e47f9 | [Update pgloader docs for caching_sha2_password support (#38768)](https://github.com/mattermost/mattermost/commit/b60e47f9ae183d161dd473f783b9465279777a69) | 2026-09-24 |
+| adbf5510 | [\[MM-70907\] Cancel all leader tasks on Channels.Stop (#38766)](https://github.com/mattermost/mattermost/commit/adbf55108481172a9195ad91f3038df8c5202ec5) | 2026-09-24 |
+| 18a91d90 | [Enable SessionAttributes feature flag by default (#38771)](https://github.com/mattermost/mattermost/commit/18a91d90f0ed6527d2d23dbf79d0d918474f1898) | 2026-09-24 |
+| 4cd9cbfc | [\[MM-58530\] Report unhandled promise rejections and move global error handling out of entry.tsx (#38730)](https://github.com/mattermost/mattermost/commit/4cd9cbfc6c3852c5cdc5b0a4c8e938533afbcd76) | 2026-09-24 |
 
 ## 제외된 커밋
 
