@@ -28,6 +28,7 @@
 | `41cec566` 공유 채널 플래그 제거 | [9e3d8efc](https://github.com/mattermost/mattermost/commit/9e3d8efc1a62b53e883a5a08ce3552c7c9fc896d) (#37154) | 충돌 넷이 전부 우리 Lexical 개명·자체 프로퍼티에서 왔다 — 아래 참조 |
 | `469e1e26` 권한 정책 편집기 Simple 모드 | [be8f7fe0](https://github.com/mattermost/mattermost/commit/be8f7fe02f65a506b1734e13eb68e44902d8bd80) (#37267) | 랭크 연산자 테스트 넷을 버렸다 — 우리 shared.tsx에 랭크 계보가 없다 — 아래 참조 |
 | `2bfb351e` 플러그인이 코어 모달을 id로 연다 | [379959ba](https://github.com/mattermost/mattermost/commit/379959ba32abf832be77195e4a72789a923f1f99) (#37339) | squash에 섞인 에디터 공개(#37514)를 뺐다 — Tiptap 에디터가 우리에게 없다 — 아래 참조 |
+| `666f5d95` 채널 접근 표시 끄기 설정 | [8d10e91d](https://github.com/mattermost/mattermost/commit/8d10e91d3899f35ed8272f1c0d4a88f352ad8be6) (#37519) | `AccessControlSettings`의 세션 속성 필드 둘이 없어 충돌 7파일 — 복원 체크리스트 포함 — 아래 참조 |
 
 ---
 
@@ -400,3 +401,68 @@ CLEAN으로 나왔지만 그대로 받으면 webapp 빌드가 깨진다.
 
 이후 upstream이 `published_editor.ts`나 `types/global/editor.ts`를 고치는 커밋은
 modify/delete 충돌로 나타난다 — 이 항목을 근거로 같은 판단(제외 또는 위 설계 후 수용)을 한다.
+
+---
+
+## `AccessControlSettings` — 세션 속성 필드 둘이 없다
+
+**무엇을 했나.** upstream `8d10e91d`(MM-69798, #37519)는 `AccessControlSettings`에
+`EnableChannelPolicyIndicators`(기본 `true`)를 넣는다. 끄면 채널 멤버 RHS·초대 모달이 정책
+속성 태그를 숨기고, `GET /channels/{id}/access_control/attributes`도 빈 `{}`를 돌려준다.
+기능은 **그대로** 받았다. 충돌 7파일을 풀면서 upstream 문맥에 있던 두 필드를 뺐다.
+
+**빠진 두 필드.**
+
+| 필드 | 태그 | 기본값 | 하는 일 (upstream) |
+|---|---|---|---|
+| `TrustProxyDeviceIdentityHeader` | `access:"write_restrictable,cloud_restrictable"` | `false` | 켜면 mTLS 리버스 프록시가 넣은 `X-Mattermost-Session-Attribute-Device-Id` 헤더로 **TLS device ID** 세션 속성을 채운다 |
+| `EnforceDeviceIDConsistency` | `access:"write_restrictable,cloud_restrictable"` | `false` | 켜면 세션에 캐시된 기기 ID와 들어온 기기 ID가 다를 때 막는다 |
+
+**왜 없나.** 두 필드는 upstream `684ddb32`(Session Attributes MVF - Server-work, #36934)가
+들여왔고, **우리는 그 커밋을 제외했다**(ledger 제외 부록 — property 시스템 v2 부재,
+48파일 +2153 규모의 신규 개발). 읽는 쪽 코드 `server/channels/app/session_attributes.go`도
+우리 트리에 없다. 필드만 넣으면 아무도 읽지 않는 설정이 콘솔에 생긴다.
+
+**이 격차를 만난 자리.** `020de7a6`(ABAC 플래그 기본 활성), `469e1e26`(권한 정책 편집기 —
+테스트 리터럴 두 줄 삭제, `okrbest:` 주석 남김)에 이어 이번이 세 번째다. 앞으로도
+`AccessControlSettings` 끝에 필드를 붙이는 upstream 커밋은 **같은 자리에서 같은 모양으로**
+충돌한다. 풀이는 늘 같다 — 새 필드는 받고 두 필드 줄만 뺀다.
+
+**이번에 뺀 자리 (7파일).**
+
+| 파일 | 뺀 것 |
+|---|---|
+| `server/public/model/config.go` | 구조체 필드 둘 + `SetDefaults()`의 `nil` 기본값 블록 둘 |
+| `webapp/platform/types/src/config.ts` | `AccessControlSettings` 타입 필드 둘 |
+| `e2e-tests/playwright/lib/src/server/default_config.ts` | 기본 설정 리터럴 두 줄 |
+| `webapp/.../access_control/policy_details/policy_details.test.tsx` | 픽스처 두 줄 |
+| `webapp/.../permission_policies/policy_details/permission_policy_details.test.tsx` | 픽스처 두 줄 (`469e1e26` 때 이미 빠져 있음, `okrbest:` 주석 있음) |
+| `webapp/.../team_settings/team_access_policies_tab/team_access_policies_tab.test.tsx` | 픽스처 두 줄 |
+| `webapp/.../team_settings/team_access_policies_tab/team_policy_editor.test.tsx` | 픽스처 두 줄 |
+
+**검증.** server: `go build ./...` 성공, `TestGetChannelAccessControlAttributes` 서브테스트 2개
+·`config` `TestGetClientConfig`·`public/model` Config 테스트 통과. webapp: `tsc -b` 오류가
+기준선 29건과 동일 목록. 관련 jest 14스위트 통과. 같은 실행에서 실패한
+`selectors/entities/users.test.ts`·`channels.test.ts` 7건은 직전 커밋에서 똑같이 실패하는
+기준선이다.
+
+**되살릴 때 — 체크리스트.** 세션 속성 기능을 도입하기로 하면(Session Attributes MVF 계보,
+선행으로 property 시스템 v2 `48f2fd08` 계보가 필요하다) 아래를 upstream 형태로 되돌린다.
+`git grep -l -E "TrustProxyDeviceIdentityHeader|EnforceDeviceIDConsistency" upstream-master`가
+upstream의 전체 사용처를 준다(현재 11파일).
+
+1. **설정 정의** — `server/public/model/config.go` 구조체 필드 둘(태그 포함)과 `SetDefaults()`
+   블록 둘. 위치는 `EnableChannelPolicyIndicators` **바로 아래**(upstream 순서).
+2. **타입** — `webapp/platform/types/src/config.ts`의 `AccessControlSettings`.
+3. **e2e 기본값** — `e2e-tests/playwright/lib/src/server/default_config.ts` (둘 다 `false`).
+4. **테스트 픽스처 넷** — 위 표의 테스트 4파일. `permission_policy_details.test.tsx`의
+   `okrbest:` 주석도 함께 지운다.
+5. **기능 코드** — `server/channels/app/session_attributes.go`(+테스트), `server/channels/api4/user_test.go`.
+   이건 필드만이 아니라 세션 속성 기능 전체를 들여올 때 딸려 온다.
+6. **시스템 콘솔** — `admin_definition.tsx`의 토글 둘. upstream은
+   `FeatureFlags.SessionAttributes`가 꺼져 있거나 Enterprise Advanced 미만이면 숨긴다.
+   i18n 키 넷(`admin.accesscontrol.trustProxyDeviceIdentityHeader.title`·`.desc`,
+   `admin.accesscontrol.enforceDeviceIdConsistency.title`·`.desc` — `Id` 대소문자 주의)을
+   en·ko 양쪽에 넣는다.
+
+1~4만 먼저 넣는 것은 권하지 않는다 — 읽는 코드 없이 설정만 생긴다. 5·6과 함께 넣는다.
