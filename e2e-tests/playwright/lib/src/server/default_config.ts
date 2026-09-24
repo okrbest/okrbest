@@ -836,6 +836,7 @@ const defaultServerConfig: AdminConfig = {
     AccessControlSettings: {
         EnableAttributeBasedAccessControl: false,
         EnableUserManagedAttributes: false,
+        EnableChannelPolicyIndicators: true,
     },
     ContentFlaggingSettings: {
         EnableContentFlagging: false,
