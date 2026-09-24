@@ -21,6 +21,7 @@ describe('TeamAccessPoliciesTab', () => {
         accessControlSettings: {
             EnableAttributeBasedAccessControl: true,
             EnableUserManagedAttributes: false,
+            EnableChannelPolicyIndicators: true,
         },
         areThereUnsavedChanges: false,
         setAreThereUnsavedChanges: jest.fn(),
