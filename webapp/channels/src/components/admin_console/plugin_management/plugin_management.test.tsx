@@ -9,7 +9,7 @@ import PluginState from 'mattermost-redux/constants/plugins';
 import {PluginManagement} from 'components/admin_console/plugin_management/plugin_management';
 
 import {defaultIntl} from 'tests/helpers/intl-test-helper';
-import {renderWithContext} from 'tests/react_testing_utils';
+import {renderWithContext, screen} from 'tests/react_testing_utils';
 
 describe('components/PluginManagement', () => {
     const defaultProps = {
@@ -125,6 +125,30 @@ describe('components/PluginManagement', () => {
         };
         const {container} = renderWithContext(<PluginManagement {...props}/>);
         expect(container).toMatchSnapshot();
+    });
+
+    test('should title the page "Plugin Management"', () => {
+        renderWithContext(<PluginManagement {...defaultProps}/>);
+
+        expect(screen.getByText('Plugin Management', {exact: true})).toBeInTheDocument();
+    });
+
+    test('should render "Enable Plugins" in bold without markdown asterisks when plugins are disabled', () => {
+        const props = {
+            ...defaultProps,
+            config: {
+                ...defaultProps.config,
+                PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
+                    Enable: false,
+                },
+            },
+        };
+        renderWithContext(<PluginManagement {...props}/>);
+
+        const strong = screen.getByText('Enable Plugins', {selector: 'strong'});
+        expect(strong.parentElement).toHaveTextContent('To enable plugins, set Enable Plugins to true.');
+        expect(strong.parentElement).not.toHaveTextContent('**');
     });
 
     test('should match snapshot when `Enable Plugins` is hidden', () => {

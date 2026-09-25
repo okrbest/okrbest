@@ -13,7 +13,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -427,7 +427,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -844,7 +844,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -917,7 +917,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -1332,7 +1332,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -1748,7 +1748,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -2163,7 +2163,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -2577,7 +2577,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -2792,7 +2792,11 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                     class="help-text"
                     data-testid="undefinedhelp-text"
                   >
-                    To enable plugins, set **Enable Plugins** to true. See 
+                    To enable plugins, set 
+                    <strong>
+                      Enable Plugins
+                    </strong>
+                     to true. See 
                     <a
                       href="https://okr.best/pl/plugins"
                       location="plugin_management"
@@ -2983,7 +2987,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -3397,7 +3401,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -3825,7 +3829,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -4522,7 +4526,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -5017,7 +5021,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -5512,7 +5516,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
@@ -6007,7 +6011,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         class="admin-console__header"
         data-testid="admin-console-header"
       >
-        Management
+        Plugin Management
       </div>
       <div
         class="admin-console__wrapper"
