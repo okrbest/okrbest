@@ -29,6 +29,7 @@
 | `469e1e26` 권한 정책 편집기 Simple 모드 | [be8f7fe0](https://github.com/mattermost/mattermost/commit/be8f7fe02f65a506b1734e13eb68e44902d8bd80) (#37267) | 랭크 연산자 테스트 넷을 버렸다 — 우리 shared.tsx에 랭크 계보가 없다 — 아래 참조 |
 | `2bfb351e` 플러그인이 코어 모달을 id로 연다 | [379959ba](https://github.com/mattermost/mattermost/commit/379959ba32abf832be77195e4a72789a923f1f99) (#37339) | squash에 섞인 에디터 공개(#37514)를 뺐다 — Tiptap 에디터가 우리에게 없다 — 아래 참조 |
 | `666f5d95` 채널 접근 표시 끄기 설정 | [8d10e91d](https://github.com/mattermost/mattermost/commit/8d10e91d3899f35ed8272f1c0d4a88f352ad8be6) (#37519) | `AccessControlSettings`의 세션 속성 필드 둘이 없어 충돌 7파일 — 복원 체크리스트 포함 — 아래 참조 |
+| `097a9330` Playwright T1434·T4023·T1987 이관 | [f110574b](https://github.com/mattermost/mattermost/commit/f110574b559df9bc121b4239d03f524a9bdb8cd2) (#37533) | 새 스펙이 우리 포크에서 돌지 않는다. 분석 중 db55f9fa43 문구 누락 2건을 찾아 `ad603577`로 복원 — 아래 참조 |
 
 ---
 
@@ -466,3 +467,73 @@ upstream의 전체 사용처를 준다(현재 11파일).
    en·ko 양쪽에 넣는다.
 
 1~4만 먼저 넣는 것은 권하지 않는다 — 읽는 코드 없이 설정만 생긴다. 5·6과 함께 넣는다.
+
+---
+
+## Playwright 이관 스펙 — 받았지만 우리 포크에서 돌지 않는다
+
+**무엇을 했나.** upstream `f110574b`(#37533)는 Cypress 테스트 셋을 Playwright로 옮긴다.
+MM-T1434(서식 없이 붙여넣기)와 MM-T4023·T1987(마켓플레이스 플러그인 설치·설정·제거)이다.
+POM 헬퍼(`pasteHtml`, 마켓플레이스·플러그인 관리 POM)와 Cypress 대기 한 줄도 딸려 온다.
+`system_console.ts` 충돌 두 곳은 문맥 충돌이라, upstream 문맥에 있던 두 줄을 빼고 받았다.
+
+| 뺀 것 | 출처 (제외한 커밋) |
+|---|---|
+| `import BoardAttributes ...` | `076370e6` Board Attributes 화면 (property v2 계보) |
+| `gotoNotificationsSettings()` | `b052f346` E2E fullyParallel 전면 개편 |
+
+**왜 돌지 않나.** 제품 코드 결함이 아니라 테스트 기반이 포크와 어긋나서다.
+
+1. **공통 장벽.** 두 스펙 모두 `channelsPage.toBeVisible()`로 시작한다. 이 헬퍼는
+   `post_create.ts`에서 `getByTestId('post_textbox')`를 기다린다. 우리 입력창은 자체
+   `9fae005295`(Lexical WYSIWYG 에디터 통합, #189)의 contenteditable이고 `id`만 내보낸다.
+   같은 세션에 받은 `5bae85c9`(#37530, 교차 팀 검색 스펙)도 여기서 멈춘다.
+2. **T1434는 전제가 다르다.** upstream은 textarea에 붙여넣은 HTML 표가 마크다운 텍스트
+   (`| foo | bar |`)가 되는지 `toHaveValue`로 본다. 우리는
+   `lexical_editor/plugins/markdown_paste_plugin.tsx`가 Lexical 표 노드로 바꾼다.
+   contenteditable에는 value가 없다. testid를 달아도 이 스펙은 통과하지 못한다.
+3. **T4023·T1987은 1만 넘으면 된다.** 제목 문구 차이가 두 번째 장벽이었는데 아래 복원으로
+   풀었다. 원격 마켓플레이스에서 실제로 내려받으므로 인터넷이 필요하다.
+
+**받은 이유.** Cypress 레이스 수정은 바로 유효하다. POM은 뒤따르는 upstream 이관 커밋의
+토대다. 빼면 그 커밋들이 연쇄로 충돌한다.
+
+**되살릴 때.** Lexical 에디터에 `data-testid`(`post_textbox`/`reply_textbox`)를 달고
+`post_create.ts`의 입력 헬퍼를 contenteditable에 맞추는 별도 과제가 먼저다. T1434는 그
+뒤에도 우리 붙여넣기 결과(Lexical 표)에 맞게 기대값을 다시 써야 한다.
+
+### 분석 중 찾은 것 — db55f9fa43 문구 누락
+
+`plugin_management.tsx`가 upstream과 리브랜드 외에 두 줄이 달랐다. 둘 다 upstream
+`db55f9fa43`(MM-66653, i18n 추출을 mmjstool에서 @formatjs/cli로 이관, #34498)이 고친 줄이다.
+
+| 키 | 우리 (수정 전) | upstream | 증상 |
+|---|---|---|---|
+| `admin.plugin.management.title` | `Management` | `Plugin Management` | 영문 제목이 사이드바 메뉴명과 다르다 |
+| `admin.plugin.uploadAndPluginDisabledDesc` | `**Enable Plugins**` | `<strong>` + `strong` 렌더러 | 영문 화면에 별표가 그대로 보인다. ko.json은 이미 `<strong>`을 써서 렌더러 부재로 태그가 깨진다 |
+
+`ad603577`로 두 줄을 upstream 형태로 되돌렸다. 키는 그대로라 ko.json은 건드리지 않았다.
+
+**제외한 것을 되살린 것인가 — 아니다.** db55f9fa43은 제외 부록에 없다. 자체 spec
+`specs/003-i18n-formatjs-migration`으로 재구현해 **반영됨**으로 차감됐다. 다만 그 spec은
+범위를 도구 교체로 한정했다(`spec.md` "번역 내용(문구 자체의 의미) 변경을 목적으로 하지
+않으며"). 그래서 upstream 커밋이 함께 고친 영문 문구 정합화가 넘어오지 않았다. 그 뒤
+`f0c6b474ea`(en.json 재추출)가 소스 기준으로 en.json을 다시 만들면서 옛 문구가 en.json에도
+굳었다. 이번 복원은 **spec 003이 범위에서 뺀 부분을 필요한 곳만 가져온 것**이다. 복원 커밋
+본문은 `Upstream:`이 아닌 `Reference:`로 적어 ledger 차감에 끼지 않게 했다.
+
+**같은 유형의 앞선 처리.**
+
+| 커밋 | 처리 |
+|---|---|
+| `5c8daf5dba` | SSO 체험판 카드 문구 복원 |
+| `93ff1a8877` | `setIntl`/`IntlCapture` 복원 (문구가 아닌 코드 누락) |
+| `684c8fc154` | 복원하지 않고 스냅샷을 우리 문구에 맞춤 ("Enable Group Mention" 등) |
+| `5db785e538` | 복원하지 않고 e2e 정규식을 관용화 (채널 헤더 placeholder) |
+
+**남은 과제.** db55f9fa43은 232파일짜리다. 다른 파일에도 같은 누락이 남았을 수 있다.
+upstream이 이 커밋에서 바꾼 `defaultMessage` 중 우리 소스에 옛 값으로 남은 것을 전수
+점검하는 일은 sync 범위 밖의 별도 과제다. 점검 출발점:
+`git show db55f9fa43 -- 'webapp/channels/src/**/*.tsx' | grep "^-.*defaultMessage"`로 옛 값을
+뽑아 우리 트리에서 `git grep -F`한다. 복원 시에는 en.json 값을 함께 바꾸고, ko.json 번역이
+새 영문과 맞는지 본다.
