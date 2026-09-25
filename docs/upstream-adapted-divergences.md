@@ -29,6 +29,7 @@
 | `469e1e26` 권한 정책 편집기 Simple 모드 | [be8f7fe0](https://github.com/mattermost/mattermost/commit/be8f7fe02f65a506b1734e13eb68e44902d8bd80) (#37267) | 랭크 연산자 테스트 넷을 버렸다 — 우리 shared.tsx에 랭크 계보가 없다 — 아래 참조 |
 | `2bfb351e` 플러그인이 코어 모달을 id로 연다 | [379959ba](https://github.com/mattermost/mattermost/commit/379959ba32abf832be77195e4a72789a923f1f99) (#37339) | squash에 섞인 에디터 공개(#37514)를 뺐다 — Tiptap 에디터가 우리에게 없다 — 아래 참조 |
 | `666f5d95` 채널 접근 표시 끄기 설정 | [8d10e91d](https://github.com/mattermost/mattermost/commit/8d10e91d3899f35ed8272f1c0d4a88f352ad8be6) (#37519) | `AccessControlSettings`의 세션 속성 필드 둘이 없어 충돌 7파일 — 복원 체크리스트 포함 — 아래 참조 |
+| `8b87a1b0` 팀 ABAC 멤버십 동기화·사용자 화면 | [3a820143](https://github.com/mattermost/mattermost/commit/3a820143a1a5384172386a6c728e65825696a1e0) (#37054) | 120파일을 받으며 제외 계보에 걸린 7곳을 우리 트리에 맞췄다. 잡 policy_id 필터 2줄은 버렸다 — 복원 체크리스트 포함 — 아래 참조 |
 | `097a9330` Playwright T1434·T4023·T1987 이관 | [f110574b](https://github.com/mattermost/mattermost/commit/f110574b559df9bc121b4239d03f524a9bdb8cd2) (#37533) | 새 스펙이 우리 포크에서 돌지 않는다. 분석 중 db55f9fa43 문구 누락 2건을 찾아 `ad603577`로 복원 — 아래 참조 |
 
 ---
@@ -537,3 +538,78 @@ upstream이 이 커밋에서 바꾼 `defaultMessage` 중 우리 소스에 옛 �
 `git show db55f9fa43 -- 'webapp/channels/src/**/*.tsx' | grep "^-.*defaultMessage"`로 옛 값을
 뽑아 우리 트리에서 `git grep -F`한다. 복원 시에는 en.json 값을 함께 바꾸고, ko.json 번역이
 새 영문과 맞는지 본다.
+
+---
+
+## 팀 ABAC 멤버십 — 120파일을 받으며 7곳을 우리 트리에 맞췄다
+
+**무엇을 했나.** upstream `3a820143`(MM-69100, #37054)은 팀 ABAC의 멤버 동기화 잡과
+최종 사용자 화면(팀 설정 멤버십 탭, 초대 모달 안내, 디렉터리 추천 배지, 시스템 콘솔 팀별
+정책 패널, 동기화 잡 상세)을 넣는다. 120파일 +11444/-585이고 DB 마이그레이션은 없다.
+뿌리 `46417611`(팀 ABAC 백엔드)을 `cd7d9c322b`로 이미 adapt했으므로 같은 계보로 받았다.
+
+**비활성 조건.** `46417611`과 같다. 정책 평가 엔진이 비공개 모듈
+`github.com/mattermost/enterprise/access_control`에만 있고, 팀 ABAC 표면 전체가
+`TeamMembershipAccessControlEnabled()` 3중 게이트(기능 스위치 기본 false, Enterprise Advanced
+라이선스, `EnableAttributeBasedAccessControl`) 뒤에 있다. ledger 비공개 모듈 표에 기록했다.
+
+**게이트 밖에서 모든 사용자에게 바뀐 것.**
+
+| 화면 | 전 | 후 |
+|---|---|---|
+| 팀 설정 → 접근 탭 | "이 서버 계정이 있는 누구나 가입 허용" 체크박스 | "공개 팀 / 비공개 팀" 카드(`PublicPrivateSelector`). 저장 값은 그대로 `allow_open_invite` |
+| 같은 탭의 허용 도메인 | 항상 표시 | 그룹 동기화 팀에서는 숨김 |
+| 설정 모달 저장 버튼(`widgets/modals/components/save_changes_panel.tsx`) | 즉시 반응 | 저장 중 스피너, 중복 클릭 방지 |
+
+### 우리 트리에 맞춘 7곳
+
+| # | 위치 | upstream | 우리 | 이유 |
+|---|---|---|---|---|
+| 1 | `server/channels/api4/job.go` | policy_id 잡 필터 조건에 `JobTypeAccessControlTeamSync` 추가(2줄) | **버림** | 대상 블록이 우리에게 없다 — 아래 절 참조 |
+| 2 | `server/public/model/post.go` | 상수 블록에 새 타입 2개 + `PostTypeCard` | 새 타입 2개만 | `PostTypeCard`는 우리 트리에 없는 상수 |
+| 3 | import 6곳(`team_details.tsx`, `team_level_access_rules.tsx`(+test), `team_membership_tab.tsx`(+test), `policy_details.tsx`) | `@mattermost/types/properties_user` | `@mattermost/types/properties` | 그 파일은 제외한 `076370e6`(Board Attributes, property v2 계보)이 만든다. 같은 `UserPropertyField` 타입이 우리 쪽에 있다 |
+| 4 | 테스트 픽스처 2곳(`team_level_access_rules.test.tsx`, `team_membership_tab.test.tsx`) | `created_by`, `updated_by`, `object_type` 필드 | 세 필드 삭제 | property v2 필드라 우리 `PropertyField` 타입에 없다(TS2353) |
+| 5 | `team_settings/team_access_tab/open_invite.tsx` | `selected={... Constants.OPEN_CHANNEL ...}` | `as ChannelType` 형변환 | upstream은 제외한 `263b3c11`(MBE 채널 타입 옵션) 계보에서 선택기 prop을 `string`으로 넓혔다. 우리 선택기는 `ChannelType` |
+| 6 | `searchable_sync_job_team_list.tsx`(신규) | `defaultMessage='No results for "{text}"'` | `'No results for {text}'` | 같은 id `more_channels.noMore`를 쓰는 우리 기존 두 파일(`searchable_channel_list.tsx`, `searchable_sync_job_channel_list.tsx`)이 따옴표 없는 옛 값이다. db55f9fa43 누락 유형이다(아래 "남은 과제") |
+| 7 | `invitation_modal.test.tsx` | 기본 props `searchProfiles: jest.fn()` | `jest.fn().mockResolvedValue({data: []})` | 우리 `users_emails_input.tsx`는 자체 커밋 `968f9ee416`(채널 초대 시 초대 가능 멤버 보이게)로 `defaultOptions={true}`다. 마운트 때 빈 검색어로 디바운스 검색을 예약하고, `undefined`를 돌려주는 모의 객체가 upstream이 새로 넣은 비동기 테스트로 새어 `Cannot read properties of undefined (reading 'then')`로 실패했다. 제품 동작은 그대로 둔다 |
+
+**i18n.** en.json 충돌 3곳은 소스 기준으로 풀었다. `general_tab.openInviteDesc`는 우리 소스
+문구("When enabled…")를 유지했고(upstream en은 "When allowed…" — 역시 db55f9fa43 유형),
+`select_team.private.icon`은 우리 값 "Private team"을 유지했다. upstream이 en에서 삭제한
+`general_tab.openInviteText`·`openInviteTitle`은 ko.json에서도 지웠다(orphaned는 CI 차단).
+새 키 약 70개는 번역이 없어 **게이트 밖 접근 탭 문구("Discoverability", "Public Team" 등)가
+한국어 화면에 영어로 보인다** — 세션 마감 i18n 후속 목록으로 넘긴다.
+
+### 잡 policy_id 필터 — 제외한 커밋에 섞여 있던 서버 코드
+
+`3a820143`의 `api4/job.go` 변경은 이 한 줄이다.
+
+```go
+-	} else if policyID != "" && c.Params.JobType == model.JobTypeAccessControlSync {
++	} else if policyID != "" && (c.Params.JobType == model.JobTypeAccessControlSync || c.Params.JobType == model.JobTypeAccessControlTeamSync) {
+```
+
+고칠 블록(`GET /api/v4/jobs/type/{type}?policy_id=` — 시스템 관리자만 정책별로 잡 목록을 걸러
+보는 23줄)을 들인 것은 upstream `b052f3463a`(E2E/Playwright: balance shard timing by enabling
+fullyParallel in CI, #36054)다. 우리는 그 커밋을 "우리가 돌리지 않는 CI 샤딩 개편"으로 제외했는데,
+그 안에 이 서버 기능과 테스트(`api4/job_test.go` +202, `app/job_test.go` +95)가 섞여 있었다.
+[[sync-exclude-overbroad-bundled-commits]] 유형의 사례다.
+
+**지금 영향.** 새 웹앱(`getJobsByType(..., policyId)`)이 `policy_id`를 보내도 우리 서버는 무시하고
+그 타입의 잡을 거르지 않은 채 돌려준다. 채널 동기화 잡도 이미 같은 상태였다. 팀 ABAC이
+비활성이라 사용자 영향은 없다.
+
+**되살릴 때 — 체크리스트.** 팀 ABAC이나 채널 ABAC 동기화 잡 상세를 실제로 쓰게 되면:
+
+1. `b052f3463a`의 `server/channels/api4/job.go` 변경(23줄)을 받는다 — `policyID := r.URL.Query().Get("policy_id")`
+   와 `else if` 블록, `sort` import.
+2. 같은 커밋의 `api4/job_test.go`·`app/job_test.go` 테스트를 받는다. `app.GetJobsByTypeAndData`는
+   우리 트리에 있는지 먼저 확인한다.
+3. 그 위에 이 절의 2줄(팀 동기화 타입 추가)을 얹는다.
+4. `server/scripts/shard-split.js`는 CI 샤딩용이라 받지 않는다.
+
+### 남은 과제 — `more_channels.noMore`
+
+upstream은 세 파일 모두 `'No results for "{text}"'`(따옴표 포함)다. 우리는 두 기존 파일이 옛 값이라
+새 파일도 거기에 맞췄다. 세 파일을 upstream 값으로 올리고 en.json을 함께 바꾸는 일은
+"Playwright 이관 스펙" 절의 db55f9fa43 전수 점검 과제에 포함한다.
