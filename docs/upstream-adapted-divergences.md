@@ -29,6 +29,7 @@
 | `469e1e26` 권한 정책 편집기 Simple 모드 | [be8f7fe0](https://github.com/mattermost/mattermost/commit/be8f7fe02f65a506b1734e13eb68e44902d8bd80) (#37267) | 랭크 연산자 테스트 넷을 버렸다 — 우리 shared.tsx에 랭크 계보가 없다 — 아래 참조 |
 | `2bfb351e` 플러그인이 코어 모달을 id로 연다 | [379959ba](https://github.com/mattermost/mattermost/commit/379959ba32abf832be77195e4a72789a923f1f99) (#37339) | squash에 섞인 에디터 공개(#37514)를 뺐다 — Tiptap 에디터가 우리에게 없다 — 아래 참조 |
 | `666f5d95` 채널 접근 표시 끄기 설정 | [8d10e91d](https://github.com/mattermost/mattermost/commit/8d10e91d3899f35ed8272f1c0d4a88f352ad8be6) (#37519) | `AccessControlSettings`의 세션 속성 필드 둘이 없어 충돌 7파일 — 복원 체크리스트 포함 — 아래 참조 |
+| `7f77ce32` 이메일 사용자 프로필 잠금·초대 이름 지정 | [2851af05](https://github.com/mattermost/mattermost/commit/2851af059d62cb3eebe73debdaa812d5fa440a94) (#37458) | 직위는 우리 조직 역할 읽기 전용 유지, 가입 화면의 우리 이름·성 입력칸을 미리 채우고 잠갔다 — 아래 참조 |
 | `8b87a1b0` 팀 ABAC 멤버십 동기화·사용자 화면 | [3a820143](https://github.com/mattermost/mattermost/commit/3a820143a1a5384172386a6c728e65825696a1e0) (#37054) | 120파일을 받으며 제외 계보에 걸린 7곳을 우리 트리에 맞췄다. 잡 policy_id 필터 2줄은 버렸다 — 복원 체크리스트 포함 — 아래 참조 |
 | `097a9330` Playwright T1434·T4023·T1987 이관 | [f110574b](https://github.com/mattermost/mattermost/commit/f110574b559df9bc121b4239d03f524a9bdb8cd2) (#37533) | 새 스펙이 우리 포크에서 돌지 않는다. 분석 중 db55f9fa43 문구 누락 2건을 찾아 `ad603577`로 복원 — 아래 참조 |
 
@@ -613,3 +614,37 @@ fullyParallel in CI, #36054)다. 우리는 그 커밋을 "우리가 돌리지 �
 upstream은 세 파일 모두 `'No results for "{text}"'`(따옴표 포함)다. 우리는 두 기존 파일이 옛 값이라
 새 파일도 거기에 맞췄다. 세 파일을 upstream 값으로 올리고 en.json을 함께 바꾸는 일은
 "Playwright 이관 스펙" 절의 db55f9fa43 전수 점검 과제에 포함한다.
+
+---
+
+## 이메일 사용자 프로필 잠금 — 직위는 우리 것, 가입 화면은 우리 입력칸에 맞췄다
+
+**무엇을 했나.** upstream `2851af05`(#37458)는 두 기능을 넣는다. (1) `TeamSettings.LockProfileFieldsForEmailUsers`
+(`none` 기본 / `name_and_username` / `all`)로 이메일·비밀번호 사용자의 사용자명·이름(`all`이면 별명·직위·
+프로필 사진까지)을 잠근다. 시스템 관리자와 `edit_other_users` 권한은 예외, 빈 이름은 한 번 채울 수 있다.
+(2) 팀 이메일 초대에 받는 사람의 사용자명·이름·성을 미리 정해 두면(`MemberInvite.Profiles`) 가입 때
+그 값이 적용된다. 68파일, DB 마이그레이션 없음.
+
+**켜지는 조건.** 둘 다 `MinimumEnterpriseLicense`와 설정값(`none` 아님)이 필요하다. 시스템 콘솔 드롭다운도
+Enterprise 미만에서 숨는다. 라이선스가 없으면 비활성이다.
+
+**게이트 밖에서 바뀐 것.** 시스템 콘솔 → 사용자 상세에서 관리자가 이름·성을 편집할 수 있다. 초대 재발송 잡이
+채널 없이 보낸 초대에서 실패하던 버그가 고쳐지고, 오류를 잡 상태에 남긴다. 초대 메일 코드는
+`email.InviteEmailData` 구조체로 재구성됐다(동작 동일).
+
+### 우리 트리에 맞춘 곳
+
+| # | 위치 | upstream | 우리 | 이유 |
+|---|---|---|---|---|
+| 1 | `user_settings/general/user_settings_general.tsx` 직위 섹션 | 편집 가능한 직위 입력 + "관리자가 잠금" 분기 | **우리 조직 역할 읽기 전용 행 유지** | 자체 커밋 `d0074256e6`·`82797fe393`·`d95e975b71`이 직위·부서·직책을 팀 관리자 지정 값으로 바꾸고 편집을 없앴다. 잠글 편집칸이 애초에 없다. 서버의 `position` 잠금 검사(`CheckLockedProfileFields`)는 그대로 받았다 — API로 직위를 바꾸는 경로는 막힌다 |
+| 2 | 같은 파일 import | `@mattermost/types/properties_user` | `@mattermost/types/properties` | 제외한 `076370e6` 계보. `supportsOptions` import도 쓰지 않아 뺐다 |
+| 3 | `signup/signup.tsx` | 사용자명만 미리 채우고 잠금, 이름은 "…으로 가입합니다" 문구로만 표시 | **우리 이름(필수)·성 입력칸에 미리 지정된 값을 채우고 잠금** | 자체 커밋 `7bfd555b77`이 가입 화면에 이름(필수)·성(선택)·표시 이름(선택) 입력칸을 넣었다. 서버(`app/user.go` `CreateUserWithToken`)는 초대 토큰의 이름을 클라이언트 값보다 우선 적용하므로, 그대로 두면 "홍길동으로 가입합니다"라고 보여 주면서 이름을 다시 필수로 요구하고 입력값은 버려진다. 이름·성을 각각 따로 판단한다(하나만 지정되면 그 칸만 잠김). upstream의 안내 문구 줄은 그대로 둔다 |
+| 4 | `signup.test.tsx` | "미리 지정된 사용자명이 이미 쓰이면 잘못된 초대 화면" 테스트 | 우리 필수 이름칸을 채우고 제출 | 채우지 않으면 제출 전 검증에서 멈춰 서버 오류 경로에 닿지 않는다. 우리 동작 확인 테스트 2건 추가 |
+| 5 | `admin_console/system_user_detail/system_user_detail.tsx` | 주석 "select/multiselect/rank" | "select/multiselect" | 제외한 `017a7102`(rank 필드 타입). 코드는 upstream 그대로 |
+| 6 | `docs/main/*.mdx` 3개 | 설정·초대·프로필 문서 갱신 | 버림 | 제외한 문서 사이트 계보(`1d3bbc63`) |
+
+**i18n.** webapp 새 키 23개, server 새 키 15개, 삭제 키 없음. 게이트 밖 문구(사용자 상세의 이름·성 편집 등)는
+번역 전까지 영어로 보인다 — 세션 마감 i18n 후속 목록으로 넘긴다.
+
+**다시 볼 때.** upstream이 가입 화면에서 이름 입력을 받게 되거나, 우리가 조직 역할 체계를 바꿔 직위를 다시
+사용자 편집으로 돌리면 1·3번을 재검토한다.
