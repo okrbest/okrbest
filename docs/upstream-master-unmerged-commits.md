@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-27 20:25
+- 갱신일: 2026-09-27 21:11
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 491개
+- 남은 커밋: 487개
 
-**마지막 반영 커밋:** `2851af05` | [Add admin-locked profile fields for email users and pre-provisioned names on invites (#37458)](https://github.com/mattermost/mattermost/commit/2851af059d62cb3eebe73debdaa812d5fa440a94) | 2026-07-17
+**마지막 반영 커밋:** `fa92268d` | [Add Algolia site verification to docs robots.txt (#37578)](https://github.com/mattermost/mattermost/commit/fa92268d4768a852ed6f69bcd8aa4564546d3552) | 2026-07-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f4e141cc | [\[MM-69610\] Fix membership policy value chips wrapping onto multiple lines (#37320)](https://github.com/mattermost/mattermost/commit/f4e141cc1dd07e6e30a1b89edf30effb9362ad82) | 2026-07-20 |
-| 28113e5a | [Bumping prepackaged mscalendar version to v1.7.0 (#37575)](https://github.com/mattermost/mattermost/commit/28113e5a7a683aae51d765841eb8cb0bfd16ae88) | 2026-07-20 |
-| 9e51e325 | [Add --active flag to mmctl user list (#37560)](https://github.com/mattermost/mattermost/commit/9e51e325f595c7be007708847a19e1cfb23cfabf) | 2026-07-20 |
-| fa92268d | [Add Algolia site verification to docs robots.txt (#37578)](https://github.com/mattermost/mattermost/commit/fa92268d4768a852ed6f69bcd8aa4564546d3552) | 2026-07-20 |
 | ef7bafc4 | [chore: Update NOTICE.txt file with updated dependencies (#37574)](https://github.com/mattermost/mattermost/commit/ef7bafc48cd2dc524b2f21ff555f6773fbe6a709) | 2026-07-21 |
 | fc18ad4e | [docs(P13f): reconcile docs drift — Administration Guide: Scale (#37481)](https://github.com/mattermost/mattermost/commit/fc18ad4e6e67ea9ee737d61c0e1662d779de82ca) | 2026-07-21 |
 | 6417c934 | [docs: port P13/P14 content drift into monorepo (#37590)](https://github.com/mattermost/mattermost/commit/6417c9342a89ebf333b139c2d8ad6cf6c139e45c) | 2026-07-21 |
@@ -793,6 +789,8 @@
 | b56f4332 | [MM-69305: Add e2e tests for WYSIWYG editor (#37498)](https://github.com/mattermost/mattermost/commit/b56f433243beaf8028ed13a08215a411f74c9b33) | 제외한 0fa2713b(MM-67755 WYSIWYG editor for message composition, #36143)의 E2E 테스트라 검증 대상이 우리 트리에 없다 — 작성창 WYSIWYG를 우리 Lexical(webapp/channels/src/components/lexical_editor/, 도입 9fae005295 #189, 스위치 EnableLexicalEditor)로 확정했고(사용자 결정 2026-09-17), 0fa2713b 제외 기록이 'TipTap 전제로 들어오는 후속 에디터 커밋은 같은 판단을 하라'고 미리 적어 둔 경우다. 13파일 +510/-13, 전부 e2e-tests/: TipTap(ProseMirror) 작성창 POM wysiwyg_editor.ts(102줄, 입력창을 data-testid=post_textbox contenteditable로 찾고 pressSequentially 입력), 사용자 설정 display_settings/wysiwyg_editor 헬퍼, 스펙 7개 380줄(자동완성·작성·서식 막대·켜짐 조건·마크다운·붙여넣기·RHS). 실측 — 우리 webapp에 tiptap 의존성 0건, wysiwyg_editor 설정을 읽는 코드 없음, FeatureFlags.WysiwygEditor는 모델에만 남아 켜지는 에디터가 없다. 우리 Lexical 입력창은 id만 있고 post_textbox testid가 없어 POM이 입력창을 찾지 못하며, 붙여넣기·마크다운 스펙은 ProseMirror 변환 결과를 기대해 Lexical과 다르다. merge-tree CONFLICT 1건(lib/src/index.ts)은 문맥 충돌. 떼어 받을 조각 없음 — e2e-tests/.ci/server.generate.sh의 MM_FEATUREFLAGS_WYSIWYGEDITOR 한 줄은 우리에게 켤 대상이 없고, e2e-tests/playwright/package-lock.json 변경(워크스페이스 버전 11.9.0→11.10.0, peer 키 10개 제거)은 npm 재생성 부산물로 이후 lockfile 재생성 커밋(85b0227d 등)에서 정리된다. private-module 태그 해당 없음(우리가 다른 구현을 택한 공개 기능). 재검토 조건: Lexical 작성창 E2E가 필요해지면 Lexical 입력창 data-testid 부여(docs/upstream-adapted-divergences.md 'Playwright 이관 스펙' 절)부터 별도 과제로 하고, 이 커밋은 스펙 구성 참고로만 쓴다. |
 
 | 1bca3763 | [Remove stray root package-lock.json (#37555)](https://github.com/mattermost/mattermost/commit/1bca37636e66ceb193fe2cebe57d9dde760aa431) | 지울 대상이 우리 트리에 없다 — 이 커밋은 저장소 루트의 빈 package-lock.json(6줄, 짝 package.json 없음, Mattermost 릴리스 파이프라인의 snyk sbom --all-projects를 멈추게 함)을 삭제하는데, 그 파일을 넣은 것은 우리가 Lexical을 택해 제외한 0fa2713b(MM-67755 WYSIWYG editor, #36143)다. 0fa2713b 제외 기록이 '루트에 빈 package-lock.json을 추가하는데 우리 루트엔 package.json 자체가 없어 대상 없음'이라고 이미 짚어 두었다. 실측으로도 우리 루트에 package-lock.json·package.json 둘 다 없다(MISSING PATHS). merge-tree는 CLEAN이지만 cherry-pick하면 빈 커밋이 된다. |
+
+| fa92268d | [Add Algolia site verification to docs robots.txt (#37578)](https://github.com/mattermost/mattermost/commit/fa92268d4768a852ed6f69bcd8aa4564546d3552) | 제외한 문서 사이트 계보(1d3bbc63 → dd69d06d Docusaurus·Algolia 설정)의 크롤러 검증 파일이라 반영할 곳이 없다. 새 파일 docs/site/static/robots.txt 4줄 — Mattermost 소유 Algolia 계정의 소유권 검증 코드(Algolia-Crawler-Verif: 24A3DAA227BD6D4B)와 'User-agent: * / Allow: /'. 우리 트리에 docs/site/ 디렉터리가 없다(MISSING PATHS, FORK HISTORY 없음). 검증 코드는 docs.mattermost.com CloudFront 배포에 묶인 Mattermost 계정 값이라 우리가 문서 사이트를 만들더라도 재사용할 수 없다. merge-tree는 CLEAN이지만 받으면 쓰이지 않는 파일과 타사 계정 식별자만 남는다. |
 
 ## spec 전환 커밋
 
