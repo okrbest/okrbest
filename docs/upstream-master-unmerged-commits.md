@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-27 21:11
+- 갱신일: 2026-09-28 08:53
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 487개
+- 남은 커밋: 479개
 
-**마지막 반영 커밋:** `fa92268d` | [Add Algolia site verification to docs robots.txt (#37578)](https://github.com/mattermost/mattermost/commit/fa92268d4768a852ed6f69bcd8aa4564546d3552) | 2026-07-20
+**마지막 반영 커밋:** `25f3a75c` | [\[MM-67163\] Scheduled Recaps (#35495)](https://github.com/mattermost/mattermost/commit/25f3a75cb7977e1af675cb1f22b704614ea052b5) | 2026-07-21
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| ef7bafc4 | [chore: Update NOTICE.txt file with updated dependencies (#37574)](https://github.com/mattermost/mattermost/commit/ef7bafc48cd2dc524b2f21ff555f6773fbe6a709) | 2026-07-21 |
-| fc18ad4e | [docs(P13f): reconcile docs drift — Administration Guide: Scale (#37481)](https://github.com/mattermost/mattermost/commit/fc18ad4e6e67ea9ee737d61c0e1662d779de82ca) | 2026-07-21 |
-| 6417c934 | [docs: port P13/P14 content drift into monorepo (#37590)](https://github.com/mattermost/mattermost/commit/6417c9342a89ebf333b139c2d8ad6cf6c139e45c) | 2026-07-21 |
-| 24a5dd28 | [ci: consolidate docs-preview checks into one status with preview URL (#37524)](https://github.com/mattermost/mattermost/commit/24a5dd2859bb8b65e370c0e38dae6bc9fb5379bb) | 2026-07-21 |
-| b27f213f | [docs(sidebar): restructure sidebar grouping, fix Samples/Recipes stubs, self-host sample downloads (#37591)](https://github.com/mattermost/mattermost/commit/b27f213f4a9046c494611a845223a9fe40d3cb90) | 2026-07-21 |
-| f84dd257 | [Prepackage mattermost-plugin-agents v2.5.0-rc1. (#37582)](https://github.com/mattermost/mattermost/commit/f84dd257542b3965c58b378bdbd54503407192b6) | 2026-07-21 |
-| 518b6b2c | [Updated minimum supported Edge and Chrome versions (#37589)](https://github.com/mattermost/mattermost/commit/518b6b2c3941ded03b197db1cb881816b02a5d33) | 2026-07-21 |
-| 25f3a75c | [\[MM-67163\] Scheduled Recaps (#35495)](https://github.com/mattermost/mattermost/commit/25f3a75cb7977e1af675cb1f22b704614ea052b5) | 2026-07-21 |
 | d851305b | [docs(site): remove What's New in v11 stub page and fix heading typography (#37617)](https://github.com/mattermost/mattermost/commit/d851305b38c9fbee00d5e1efa54bb4d2a937e633) | 2026-07-22 |
 | 376b5532 | [MM-69828 - Fix ABAC team Access-tab stuck-public cards, parent-policy mode-flip count (#37558)](https://github.com/mattermost/mattermost/commit/376b553286409950aba874d49d83b4ce04ea7eac) | 2026-07-22 |
 | 1bfa2e51 | [Bumping prepackaged boards version to 9.3.1 (#37594)](https://github.com/mattermost/mattermost/commit/1bfa2e5113c43b20ac35b9d4e9f772d586613187) | 2026-07-22 |
@@ -791,6 +783,18 @@
 | 1bca3763 | [Remove stray root package-lock.json (#37555)](https://github.com/mattermost/mattermost/commit/1bca37636e66ceb193fe2cebe57d9dde760aa431) | 지울 대상이 우리 트리에 없다 — 이 커밋은 저장소 루트의 빈 package-lock.json(6줄, 짝 package.json 없음, Mattermost 릴리스 파이프라인의 snyk sbom --all-projects를 멈추게 함)을 삭제하는데, 그 파일을 넣은 것은 우리가 Lexical을 택해 제외한 0fa2713b(MM-67755 WYSIWYG editor, #36143)다. 0fa2713b 제외 기록이 '루트에 빈 package-lock.json을 추가하는데 우리 루트엔 package.json 자체가 없어 대상 없음'이라고 이미 짚어 두었다. 실측으로도 우리 루트에 package-lock.json·package.json 둘 다 없다(MISSING PATHS). merge-tree는 CLEAN이지만 cherry-pick하면 빈 커밋이 된다. |
 
 | fa92268d | [Add Algolia site verification to docs robots.txt (#37578)](https://github.com/mattermost/mattermost/commit/fa92268d4768a852ed6f69bcd8aa4564546d3552) | 제외한 문서 사이트 계보(1d3bbc63 → dd69d06d Docusaurus·Algolia 설정)의 크롤러 검증 파일이라 반영할 곳이 없다. 새 파일 docs/site/static/robots.txt 4줄 — Mattermost 소유 Algolia 계정의 소유권 검증 코드(Algolia-Crawler-Verif: 24A3DAA227BD6D4B)와 'User-agent: * / Allow: /'. 우리 트리에 docs/site/ 디렉터리가 없다(MISSING PATHS, FORK HISTORY 없음). 검증 코드는 docs.mattermost.com CloudFront 배포에 묶인 Mattermost 계정 값이라 우리가 문서 사이트를 만들더라도 재사용할 수 없다. merge-tree는 CLEAN이지만 받으면 쓰이지 않는 파일과 타사 계정 식별자만 남는다. |
+
+| fc18ad4e | [docs(P13f): reconcile docs drift — Administration Guide: Scale (#37481)](https://github.com/mattermost/mattermost/commit/fc18ad4e6e67ea9ee737d61c0e1662d779de82ca) | 제외한 1d3bbc63(feat(docs): move docs-experimental content into monorepo docs/, #37330)의 이관 뒷정리라 고칠 대상이 하나도 없다 — 70b62d9e·3c9979f5·f3849f83·eee6722e에 이은 같은 계열. 옛 Sphinx 문서 저장소(mattermost/docs)의 최신 내용을 docs/main 관리자 가이드 Scale 문서로 옮기는 커밋(Elasticsearch v9 지원·v7.17 폐지, AWS OpenSearch 접근 정책 안내 정정 등). 15파일 +94/-38 전부 docs/main/이고 우리 트리에 존재하는 파일 0개(실측), server·webapp·CI에 닿는 줄도 없다. 뿌리 제외 사유는 constitution 원칙 IV(Mattermost 브랜드가 박힌 문서 사이트). |
+
+| 6417c934 | [docs: port P13/P14 content drift into monorepo (#37590)](https://github.com/mattermost/mattermost/commit/6417c9342a89ebf333b139c2d8ad6cf6c139e45c) | 제외한 문서 사이트 계보(1d3bbc63 → dd69d06d → d4fdff72)의 내용 이관 묶음이라 반영할 대상이 없다. 옛 Sphinx 문서 저장소에서 빠졌던 페이지(manage-plugins.mdx 등)와 내용 차이를 모노레포로 옮기는 커밋. 37파일 +2665/-436 — docs/main 32, docs/site 3(Docusaurus 설정), docs/develop 2(기여자 문서) — 이고 우리 트리에 존재하는 파일 0개(실측), server·webapp·CI에 닿는 줄 없음. 뿌리 제외 사유는 constitution 원칙 IV. |
+
+| 24a5dd28 | [ci: consolidate docs-preview checks into one status with preview URL (#37524)](https://github.com/mattermost/mattermost/commit/24a5dd2859bb8b65e370c0e38dae6bc9fb5379bb) | 제외한 33eb5b1a(ci: add docs PR preview workflows, #37440)가 만든 워크플로를 고치는 커밋이라 대상이 없다 — 문서 인프라 제외 계열(45f54a0e 계보 + 891b59d4·97cf1a4f·4e428ef3·33eb5b1a)의 후속. 문서 PR 미리보기 상태 체크를 하나로 합치고 미리보기 URL을 표시하는 변경으로, 대상 3파일(.github/workflows/docs-preview.yml·docs-preview-fork.yml·docs-preview-template.yml, +46/-91)이 우리 트리에 하나도 없다(실측). 빌드 대상인 docs/site/ Docusaurus 문서 사이트 자체가 우리에게 없다. |
+
+| b27f213f | [docs(sidebar): restructure sidebar grouping, fix Samples/Recipes stubs, self-host sample downloads (#37591)](https://github.com/mattermost/mattermost/commit/b27f213f4a9046c494611a845223a9fe40d3cb90) | 제외한 문서 사이트 계보(1d3bbc63 → dd69d06d)의 사이드바·예제 파일 작업이라 반영할 대상이 없다. 15파일 +27531/-183 전부 docs/main·docs/site — 사이드바 생성 스크립트 gen-documentation-sidebar.mjs(900줄) 재구성, Samples/Recipes 스텁 정리, 사이트 직접 내려받기용 예제 파일(actiance_export.xml 2만 5천 줄, csv_export.zip 399KB 바이너리, mattermost-specfile.xml, Grafana·Loki·OTel 설정 등) 추가. 우리 트리에 존재하는 파일 0개(실측). 받으면 Mattermost 브랜드 예제 파일과 바이너리만 저장소에 늘어난다 — 뿌리 제외 사유 constitution 원칙 IV와 같다. |
+
+| f84dd257 | [Prepackage mattermost-plugin-agents v2.5.0-rc1. (#37582)](https://github.com/mattermost/mattermost/commit/f84dd257542b3965c58b378bdbd54503407192b6) | Agents 플러그인 v2.4.2 → v2.5.0-rc1. release candidate라 정식 릴리스가 아니다 — 41e59bf1(v2.0.0-rc3)·863d581f(v2.0.0-rc5) 제외 선례와 같은 사유(정식 릴리스만 받고, 우리 자체 AI 권한·UI 확장 e64d0eea03·1cfd12e5df와의 호환은 정식 버전 tarball로 확인한다). server/Makefile 2줄(일반 166행·FIPS 180행 동시 변경이라 41e59bf1 때의 일반/FIPS 불일치 문제는 없음), merge-tree CLEAN. 우리 Makefile은 정식 v2.4.2 유지. 이후 upstream에 dc41b72f(v2.5.0-rc2, 07-28)와 정식 10804f80(v2.5.1, 07-29)이 이어지므로 rc를 받으면 검증만 두 번 든다. 재검토 조건: 10804f80(v2.5.1) 차례에 min_server_version·웹앱 registry API(registerAIActionMenuItemComponent 확장점 포함)·plugin.API 구현을 tarball 실측으로 확인하고 올린다. rc2(dc41b72f)도 같은 사유로 제외 대상. |
+
+| 25f3a75c | [\[MM-67163\] Scheduled Recaps (#35495)](https://github.com/mattermost/mattermost/commit/25f3a75cb7977e1af675cb1f22b704614ea052b5) | [보류성 제외 — 재검토 조건 명시] AI Recaps 도입 여부가 미정이라 미룬다. 기존 AI Recaps 본체(ecf942dc4d·6423db44f7·2f1394a233·2d91b4c7fa·5117d0e2e0)는 받아 두었고 이 커밋은 그 위의 신규 기능 '예약 요약'이다. 113파일 +12168/-337: DB 마이그레이션 7개(000205 ScheduledRecaps 테이블, 000206~000209 인덱스, 000210 Recaps에 ScheduledRecapId·SkipReason 컬럼, 000211 인덱스 — 모두 IF NOT EXISTS·CONCURRENTLY라 운영 부담은 작음), store 계층, app/jobs(1분 주기 스케줄러, AIRecapsEnabled일 때만 동작), api4, webapp 예약 UI, 새 설정 AIRecapSettings. 라이선스 검사는 없다 — 조건은 FeatureFlags.EnableAIRecaps(기본 false)와 AIRecapSettings.Enable, 요약은 Agents 플러그인 브리지(오픈소스, 브리지 API에 라이선스 검사 없음 — 모듈 캐시 v1.14.0 소스 기준)로 만든다. 지금 받지 않는 이유: (1) 게이트 밖으로 새는 것 둘 — 시스템 콘솔 site_config/recaps 설정 화면이 기능 스위치와 무관하게 권한만으로 노출되고, 기존 수동 요약에 한도(하루 10회, 수동 요약 간 60분 쿨다운, 요약당 글 500·하루 글 5000)가 새로 걸린다, (2) 신규 권한 sysconsole_read/write_ai_recaps와 생성 파일 default_roles_permissions.js를 우리 DB 스냅샷으로 재생성해야 CI 생성물 검사가 통과한다, (3) migrations.list 보호 경로 접촉(병합에 --admin), (4) 번역 webapp 106·server 44개. 충돌 7파일(api/Makefile, playwright default_config.ts, migrations.list, web/context.go — 우리에게 없는 RequireViewId 문맥, admin_sidebar 스냅샷, en.json, platform/types store.ts)은 풀이 가능. 후속 영향: 이후 upstream에서 예약 요약에 직접 기대는 코드 커밋은 없고(ScheduledRecap·AIRecapSettings 검색 시 문서 b3fee0f5뿐), c57bd5a846(App.GetUser 요청 컨텍스트 리팩터)이 이 커밋이 만든 getStartOfUserDayMillis를 고치므로 그 차례에 recap.go hunk 2~3개를 버리는 adapt가 필요하다. 재검토 조건: 운영에서 AI Recaps(EnableAIRecaps)를 켜기로 결정할 때 — 이 제외 행을 지우고 다시 처리하며, 그때 한도 기본값·콘솔 노출·권한 생성물·번역을 함께 정한다. |
 
 ## spec 전환 커밋
 
