@@ -17,7 +17,7 @@ Mattermost 비공개 저장소(`github.com/mattermost/enterprise/*`) 의존으�
 |---|---|---|
 | `c82b456b` Board channel bookmarks with target_id and readonly bookmark API | [6ef5d58b](https://github.com/mattermost/mattermost/commit/6ef5d58b7f12950def5383e732415755859ed27b) (#36572) | 아래 참조 |
 | `52ac8d88` MM-68952: Resolve public channel mentions for non-members under Compliance | [61643e10](https://github.com/mattermost/mattermost/commit/61643e106605134bd88695f3cba206cd641169f0) (#36815) | 아래 참조 |
-| `3adb72ee` MM-69612 ABAC 감사 로깅 옵트인 설정 | [f6c1459e](https://github.com/mattermost/mattermost/commit/f6c1459ebf597b2097d07e447eec4300121d1086) (#37322) | 설정을 읽는 코드가 아직 없다 — 아래 참조 |
+| `3adb72ee` MM-69612 ABAC 감사 로깅 옵트인 설정 | [f6c1459e](https://github.com/mattermost/mattermost/commit/f6c1459ebf597b2097d07e447eec4300121d1086) (#37322) | 발행 코드 `a6e7df955b`(de7a2dc759) 반영, 콘솔 노출 `742dbc48` 반영. 남은 비활성 사유는 비공개 ABAC 엔진 — 아래 참조 |
 
 ---
 
@@ -104,6 +104,14 @@ Go 테스트 506줄과 Playwright 스펙 140줄도 그대로 가져왔다.
 EnableAccessControlAuditLogging`(기본 `false`), 신규 `config.IsAuditLoggingActive()`(감사
 출력이 실제로 어딘가로 가는지 판정), 설정은 켰는데 감사 싱크가 없을 때의 부팅 경고,
 클라이언트 설정 노출(`EnableAccessControlAuditLogging`·`AuditLoggingActive`), 시스템 콘솔 항목.
+
+**갱신(2026-10-19).** 아래 "왜 비활성인가"·"지금 상태"는 2026-07-28 반영 시점의 기록이다. 그 뒤 발행 커밋
+`de7a2dc759`(MM-69614)를 `a6e7df955b`(2026-09-17)로 받아 `access_control_membership_audit.go`가 생겼고,
+upstream `742dbc48`(#38789)로 콘솔 토글의 `isHidden`을 걷어 노출했다(문구도 "membership policy decisions"로 좁힘).
+설정·발행 경로·콘솔이 모두 있으므로 **우리 코드 쪽 활성화 조건은 충족됐다.** 남은 비활성 사유는 판정 본체다 —
+멤버십 동기화 판정은 비공개 `github.com/mattermost/enterprise/access_control` 엔진이 내리고, 우리 빌드에서는 ABAC가
+비활성이라 기록할 판정이 없다. 토글도 `EnableAttributeBasedAccessControl`이 꺼져 있으면 disabled로 보인다.
+아래 "활성화 조건"의 확인 항목 (1)~(3)은 ABAC 엔진을 갖추게 될 때 그대로 유효하다.
 
 **왜 비활성인가.** 이 설정을 읽어 **실제로 감사 로그를 발행하는 코드가 우리 트리에 없다.**
 upstream에서 소비처는 `server/channels/app/access_control_membership.go`와
