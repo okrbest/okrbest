@@ -41,7 +41,7 @@
 | 플러그인 ABAC API | [c7eff700](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) (#37509) | API 표면 8개는 받고 네이티브 속성·PSAv2 계보에 걸린 셋을 걷어냈다. 정책 엔진이 없어 비활성 — 아래 참조 |
 | UserStore.Get을 request context로 | [9f0ae6a2](https://github.com/mattermost/mattermost/commit/9f0ae6a220f5da8f4303ee80f2237f395ff9bed4) (#37646) | 56파일 중 제외한 Integrated Boards의 `app/board.go` 1줄만 못 받았다. 단독으로는 빌드되지 않아 `523292f0`과 짝으로 받았다 — 아래 참조 |
 | 내장 Slack 가져오기 API·CLI 제거 | [f112b9a7](https://github.com/mattermost/mattermost/commit/f112b9a7159b25c630a52b05dc27dfc2f9b5d694) (#37999) | 코드 제거는 전부 받았다. docs mdx 3개는 우리가 지운 파일이라 버렸고, Cypress 권한 스냅샷은 우리 줄에서 `import_team`만 뺐다. server ko 27키가 orphaned로 남는다 — 아래 참조 |
-| atmos/camo 이미지 프록시 제거 | [eb3966e3](https://github.com/mattermost/mattermost/commit/eb3966e30bf4e13a0fdef43bb87429c54a6b7e25) (#37284) | 코드는 그대로 받고 webapp ko 5키를 함께 지웠다. server ko 3키 orphaned·1키 문구 변경이 남고, 운영 설정이 `atmos/camo`면 기동이 막힌다 — 아래 참조 |
+| atmos/camo 이미지 프록시 제거 | [eb3966e3](https://github.com/mattermost/mattermost/commit/eb3966e30bf4e13a0fdef43bb87429c54a6b7e25) (#37284) | 코드는 그대로 받고 webapp ko 5키를 함께 지웠다. server ko 3키 orphaned·1키 문구 변경이 남는다. 운영 설정이 `atmos/camo`면 기동이 막히던 위험은 `6d0f48dd`로 해소(local로 자동 이전) — 아래 참조 |
 | Manage Attributes 삭제 액션 | [5bd5b3b8](https://github.com/mattermost/mattermost/commit/5bd5b3b899f7ce2eb5d981015db2a37077746a8c) (#37875) | 본체(Global Attributes 삭제 모달·표)는 제외 계보라 버리고, 섞인 공용 수정 둘(`getPluginDisplayName`, 고아 필드 훅 이전)만 받았다 — 아래 참조 |
 | 다이얼로그 deprecated date/datetime 필드 제거 | [78d12039](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a) (#37759) | 코드는 그대로 받고 우리가 지운 docs 2개의 갱신(업그레이드 노트 포함)을 버렸다 — 아래 참조 |
 | 사용자 입력 표시 설정을 Posts로 승격 | [0bff02c8](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) (#38023) | 코드는 그대로, docs 2개는 버렸다. en id 이동을 따라 ko 5키를 새 id로 옮기고 나뉜 예시 키 1개를 채웠다 — 아래 참조 |
@@ -1331,6 +1331,10 @@ UI가 없고, 관련 파일 이력은 전부 upstream 커밋이며, `spec-docs/`
 `Enable` 값과 상관없이 `model.config.is_valid.atmos_camo_image_proxy_removed.app_error`를 낸다. 운영
 `config.json`(또는 DB 설정)에 이 값이 남아 있으면 이 커밋을 배포한 서버가 설정 검증에서 기동하지 못한다.
 배포 전에 `local`로 바꾸거나 확인한다. 로컬 개발 `server/config/config.json`(git 미추적)은 `local`이다.
+
+**해소(2026-10-19).** upstream `6d0f48dd`(#38926)를 받아 이 위험이 사라졌다. `isValid()`는 프록시가 **켜져 있을 때만**
+atmos/camo를 거부하고, 설정을 읽을 때 `fixConfig`의 `fixLegacyImageProxyType`이 atmos/camo를 `local`로 바꾸고 경고 로그를 남긴다.
+같은 커밋의 `fixRetiredFeatureFlags`는 은퇴한 `AppsEnabled`·`MoveThreadsEnabled`가 켜져 있으면(환경변수 포함) 기동을 막지 않고 끈다.
 
 ### 버린 것과 바꾼 것
 
