@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-09-28 17:06
+- 갱신일: 2026-10-02 10:28
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 475개
+- 남은 커밋: 517개
 
-**마지막 반영 커밋:** `f06971b6` | [Fix two Session Attribute issues (#37620)](https://github.com/mattermost/mattermost/commit/f06971b657de292ae8482175d7aebf846ce101f5) | 2026-07-22
+**마지막 반영 커밋:** `bc3ad86a` | [Update Playbooks plugin to v2.11.1 (incl. FIPS) (#37631)](https://github.com/mattermost/mattermost/commit/bc3ad86a236431364a13ab03942902eb84daaf9f) | 2026-07-23
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 06ddf503 | [docs: mark scale partial pages as unlisted with proper titles (#37628)](https://github.com/mattermost/mattermost/commit/06ddf5032375e40b0bb606ec8d204109f62265cf) | 2026-07-23 |
-| 12018e56 | [Mm 69829 -  fix team policy management qa (#37568)](https://github.com/mattermost/mattermost/commit/12018e56cde4eb9b7ff6b24bcc0a9c1740a6eacf) | 2026-07-23 |
-| 5afa3b8c | [ci: run yamllint on ubuntu-24.04 (#37641)](https://github.com/mattermost/mattermost/commit/5afa3b8cbf402c370fa675bba43d48b1900eab66) | 2026-07-23 |
-| bc3ad86a | [Update Playbooks plugin to v2.11.1 (incl. FIPS) (#37631)](https://github.com/mattermost/mattermost/commit/bc3ad86a236431364a13ab03942902eb84daaf9f) | 2026-07-23 |
 | 1cc20031 | [MM-69857 - Keep parent imports and team scope system-managed on the policy update endpoint (#37625)](https://github.com/mattermost/mattermost/commit/1cc20031fe883bba65214dd12aaae91ff82af3a7) | 2026-07-24 |
 | 5fbb2a32 | [docs: vendor and stage Mattermost Agents docs for Docusaurus build (#37627)](https://github.com/mattermost/mattermost/commit/5fbb2a32d618c3da6757ca0663f3ea043c2335fd) | 2026-07-24 |
 | 7bc3bbfd | [ABAC: share TableEditor/CELEditor with plugins via window.Components (#37510)](https://github.com/mattermost/mattermost/commit/7bc3bbfd0c94b2a9577f40815d4fb25955c8ea38) | 2026-07-24 |
@@ -486,6 +482,52 @@
 | 1f33d75c | [System console LHS UI update (#26966)](https://github.com/mattermost/mattermost/commit/1f33d75c0c2f9d26cd9be109ae66b24c0bc3f28b) | 2026-09-26 |
 | b5c970cd | [\[E2E/Playwright\] Add login and auth-policy tests and delete ported Cypress specs (#38519)](https://github.com/mattermost/mattermost/commit/b5c970cdbb4a6b007d373421d5511747e520cf43) | 2026-09-28 |
 | 8bfa298a | [\[E2E/Playwright\] Add password, MFA, authentication-method, and claim tests (#38520)](https://github.com/mattermost/mattermost/commit/8bfa298a54cba976311164492f4be9e62a039389) | 2026-09-28 |
+| 27c501d2 | [Replace docs impact review with self-clearing gap detection (#38177)](https://github.com/mattermost/mattermost/commit/27c501d217266608a917c163690505d14d75df66) | 2026-09-28 |
+| 20f5e648 | [Fix MM-T1773 for FIPS builds' longer min password requirement (#38807)](https://github.com/mattermost/mattermost/commit/20f5e648e5cc0d53dafa220f8674f777ad361d1b) | 2026-09-28 |
+| 905bf730 | [Fix errors in AD/LDAP documentation (#38426)](https://github.com/mattermost/mattermost/commit/905bf730081b3986c5ada27cec0a7de2c86a2ec9) | 2026-09-28 |
+| 05553d08 | [Prepackage mattermost-plugin-agents v2.8.0 (#38793)](https://github.com/mattermost/mattermost/commit/05553d083cd8b9a92ccbcddca6202896ce60c4ae) | 2026-09-28 |
+| 5427f6b0 | [Draft docs from merged Docs/Needed via author personas (#38764)](https://github.com/mattermost/mattermost/commit/5427f6b024fd0c79638c7bd552f7e94283ff06a5) | 2026-09-28 |
+| 3348d7df | [Move Session Attributes under Attribute Management in System Console (#38799)](https://github.com/mattermost/mattermost/commit/3348d7dfd1e4b657ef3303889cabd2b0a107c6a5) | 2026-09-28 |
+| 70658e18 | [Add @mattermost/compass-ui@0.1.0-alpha.10 and migrate ConfirmModal buttons (#38153)](https://github.com/mattermost/mattermost/commit/70658e18d4c6234765af050d051fb1a8a7b2e31f) | 2026-09-28 |
+| 03e5d908 | [\[MM-70936\] Show a "Managed by" indicator on the Applies-to Users card when an attribute is synced via SAML or AD/LDAP (#38800)](https://github.com/mattermost/mattermost/commit/03e5d9083d2de65f5e0c43287f092fc04f8138a9) | 2026-09-28 |
+| 6e4c923e | [MM-70890: Don't copy ldap/saml sync attrs to non-user linked fields (#38774)](https://github.com/mattermost/mattermost/commit/6e4c923eb2f1ceafcc9491c607396060d9ec405b) | 2026-09-28 |
+| a938826d | [Allow system-level resources in render-time action search (#38745)](https://github.com/mattermost/mattermost/commit/a938826dda9e55e43e6fde65ace9add072984025) | 2026-09-29 |
+| 53a9536f | [Cache a blank subject for users without attributes to avoid unnecessary DB hits (#38744)](https://github.com/mattermost/mattermost/commit/53a9536f81c5288392e74a340f1209bb803680e0) | 2026-09-29 |
+| f1cf5341 | [\[MM-70897\] Show channel header attributes on a thread opened from the Threads view (#38792)](https://github.com/mattermost/mattermost/commit/f1cf534107168df16c6752139e0242fa40563a84) | 2026-09-29 |
+| 7dc8c5f7 | [Update manage-user-surveys.mdx (#38754)](https://github.com/mattermost/mattermost/commit/7dc8c5f72bc1e2e3a180ce23d72f0815dab6a189) | 2026-09-29 |
+| 258d6ce8 | [MM-70676: Rework file metadata preparation for post retrieval, channel bookmarks, and notification delivery (#38444)](https://github.com/mattermost/mattermost/commit/258d6ce8c1e045c3a92b6aaa68ede818ff44dbc8) | 2026-09-29 |
+| d038ccd2 | [Render English from each message's defaultMessage, not en.json (#38494)](https://github.com/mattermost/mattermost/commit/d038ccd2aa7ba98c8ba73c96eefca6e831980319) | 2026-09-29 |
+| 47b00703 | [Give every en.json entry a translator-facing description (#38411)](https://github.com/mattermost/mattermost/commit/47b00703d1cb4853bdb7492f78338b77df1bd0c4) | 2026-09-29 |
+| 2a6eba42 | [Add a Slack migration overview for teams evaluating a move (#38801)](https://github.com/mattermost/mattermost/commit/2a6eba426feacbea5267a5af452f91affbe82e05) | 2026-09-29 |
+| c7ae0e63 | [\[MM-60727\] Update relative date separators when the local day changes (#38832)](https://github.com/mattermost/mattermost/commit/c7ae0e632138639da734be3ac480e087f314bd18) | 2026-09-29 |
+| 0d48bb83 | [\[MM-70857\] Stop Classification Markings adopting or colliding with same-named attribute fields (#38699)](https://github.com/mattermost/mattermost/commit/0d48bb838aaa25e451968e3de7d4532b477f2456) | 2026-09-29 |
+| e4decb8e | [Apply the signed-in user's theme on the full-page error screen. (#38812)](https://github.com/mattermost/mattermost/commit/e4decb8e1e6fa21ccb976bd3d6146b117b0b79d4) | 2026-09-29 |
+| cc0611f2 | [Fix flaky TestSearchAllChannels (#38859)](https://github.com/mattermost/mattermost/commit/cc0611f2ee9c8d8c012bb3631133d6d51e069068) | 2026-09-30 |
+| 8583dffb | [MM-70691 Disallow Burn-on-Read for weekly repeating scheduled posts (#38777)](https://github.com/mattermost/mattermost/commit/8583dffb7e67621fea7b86d2c2c1043b03e9f4b7) | 2026-09-29 |
+| 26ee3a47 | [Update Playbooks plugin to v2.12.1 (incl. FIPS) (#38853)](https://github.com/mattermost/mattermost/commit/26ee3a470639ea19573f0bf23af7e1e6048cfa8b) | 2026-09-29 |
+| ef6957a5 | [Fix flaky post-list scroll and Global Attributes menu-height Playwright specs (#38871)](https://github.com/mattermost/mattermost/commit/ef6957a5f3a14534932857733cfc91fc311987bd) | 2026-09-30 |
+| 9176425f | [Bumping prepackaged Jira version to v5.0.0 (#38851)](https://github.com/mattermost/mattermost/commit/9176425f82c265e2fceef0e5010a8bc1e0a94264) | 2026-09-30 |
+| 73562bd0 | [MM-70272: Add aggregate size and depth limits to archive and Slack import extraction (#38009)](https://github.com/mattermost/mattermost/commit/73562bd08c7428bf8a7caab5424e24565a20bd0c) | 2026-09-30 |
+| 1bd281bf | [\[MM-70880\] Health Dashboard PR01: pointer-ize SupportPacketStats + Stat accessor (#38729)](https://github.com/mattermost/mattermost/commit/1bd281bfbace2000dbd102e17fdb1f2b205720b6) | 2026-09-30 |
+| 7c457d07 | [\[MM-70881\] Health Dashboard PR02: support packet collectors return typed structs (#38732)](https://github.com/mattermost/mattermost/commit/7c457d07c849ec41486f39bc2291e6e15a0e6c0d) | 2026-09-30 |
+| d2914954 | [\[MM-70882\] Health Dashboard PR11: live snapshot provider (#38734)](https://github.com/mattermost/mattermost/commit/d2914954e068b23012853a3ce16073408f27d653) | 2026-09-30 |
+| 3ba2add3 | [\[MM-70902\] Health Dashboard PR11b: leader diagnostics with per-section errors (#38758)](https://github.com/mattermost/mattermost/commit/3ba2add35efe861a7b4c07dd8dc3202a1f3e4c67) | 2026-09-30 |
+| 7206a384 | [Mm 70889 channel attributes fix (#38747)](https://github.com/mattermost/mattermost/commit/7206a38470ee4091dc594859b1a4055a60e56362) | 2026-09-30 |
+| 4aa82f6f | [Don't ship empty strings as valid translations (#38412)](https://github.com/mattermost/mattermost/commit/4aa82f6f13868bc328761cc4ba1cefc251a4186e) | 2026-09-30 |
+| cbdd84fb | [\[MM-70993\] Include session attributes in the ABAC post ETag (#38821)](https://github.com/mattermost/mattermost/commit/cbdd84fbfba4ccd6324f0d335a66d07a9cfbf530) | 2026-09-30 |
+| eaeebdc9 | [MM-69851: update emoji image processing to use the shared image decoder (#38716)](https://github.com/mattermost/mattermost/commit/eaeebdc94fe27ce294a3ece78796ba415db0a530) | 2026-09-30 |
+| 94c163f8 | [Default graph attributes and channel resource policies on (#38824)](https://github.com/mattermost/mattermost/commit/94c163f808bc30ef5692d33269e0a971d08da872) | 2026-09-30 |
+| 0f35dda9 | [Gate rolling-upgrade E2E on master/release merges by changed files (#38873)](https://github.com/mattermost/mattermost/commit/0f35dda92b8e9b10ed42241d2f4dee83e1b9b5a6) | 2026-10-01 |
+| f747d624 | [Fix Attribute Management listing permissions, Classification license gate, and sync-source cascade (#38830)](https://github.com/mattermost/mattermost/commit/f747d6242a6d32eb9ac406f0b992384bf2f7857d) | 2026-09-30 |
+| 24ef18fd | [MM-70812: Lock integration-managed channel attribute values in the channel RHS (#38802)](https://github.com/mattermost/mattermost/commit/24ef18fda7ca58b8ef59c8dd880fd17bccabe12b) | 2026-09-30 |
+| 91b4450e | [\[MM-70692\] New ABAC Permission Policy: Burn on Read (#38656)](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) | 2026-09-30 |
+| 2ab94cca | [Docs: document Aurora reader endpoint vs instance endpoints for DataSourceReplicas (#38817)](https://github.com/mattermost/mattermost/commit/2ab94ccaabe9a7d9595cc31376e37c5f127a8956) | 2026-10-01 |
+| 1a6759a6 | [Make CPA create/patch/delete template-aware (#38834)](https://github.com/mattermost/mattermost/commit/1a6759a60f4826387f9250e031f558c9b39a6ede) | 2026-09-30 |
+| 751b8cb6 | [Prepackage mattermost-plugin-agents v2.9.0 (#38898)](https://github.com/mattermost/mattermost/commit/751b8cb67b946baecb991b6ce5c04a5caecc39fe) | 2026-10-01 |
+| f5b9b0ed | [Fill the gaps in the 21 locale catalogs (#38904)](https://github.com/mattermost/mattermost/commit/f5b9b0ed4742ffac6dba6bb0f20680fe92b93b87) | 2026-10-01 |
+| e4966419 | [MM-68613: avoid locking posts while resizing message column (#38815)](https://github.com/mattermost/mattermost/commit/e496641946089308c04bb29bb09d2aaebbdafe1c) | 2026-10-01 |
+| ac3b3318 | [\[MM-71072\] Fix broken Security Bulletin signup link on Security Updates docs page (#38928)](https://github.com/mattermost/mattermost/commit/ac3b331878d44700bdb2feeed81d2c2709577ed4) | 2026-10-01 |
+| 2e626276 | [Restructure Slack migration guide end to end (#37911)](https://github.com/mattermost/mattermost/commit/2e6262768eccdb47be1ca2caaef00e61826d5f1c) | 2026-10-01 |
 
 ## 제외된 커밋
 
@@ -799,6 +841,8 @@
 | 38b66d22 | [\[MM-69845\] Add Global Attributes access gate to System Console (#37580)](https://github.com/mattermost/mattermost/commit/38b66d2262d904e8ef28588d5fa8f830b4743f41) | upstream Global Attributes(이후 'Attribute Management'로 개명) 계보의 뿌리이고, 그 계보 전체가 제외한 property 시스템 v2 위에 있다. 이 커밋 자체는 시스템 콘솔 system_attributes 아래 'Manage Attributes' 빈 틀 페이지(자리표시 문구 1줄) + 새 FeatureFlags.GlobalAttributes(기본 false) + Enterprise 라이선스 게이트 + sysadmin 외 편집 차단, 9파일 +277. 이후 upstream 후속 14건 이상(4ec0fe9c access_control·template 속성 목록, 63077696 분류 표시 예외, 844d3370 Rank 포함 새 속성, ddee8289·5650f8eb·65f8ca23 적용 대상, 3db1a9ad CPA 필드를 템플릿으로 이전 52파일, 85372e3a 계층 속성, 0c3717c9 전화·URL 타입, 846df3d3 개명 등)이 템플릿 ObjectType(3fa87760)·Rank(017a7102)·분류 표시(2b7b398a) 등 제외한 48f2fd08 계보를 전제한다. merge-tree CONFLICT 2건도 제외 계보 문맥이다 — feature_flags.go의 ClassificationMarkings(2b7b398a), admin_definition.tsx의 session_attributes(684ddb32·57fe965a)·board_attributes(076370e6) 항목. 이 커밋만 받으면 스위치 뒤에 숨은 빈 페이지와 번역 대상 문구만 남고 채울 후속은 받을 수 없다. 이후 Global Attributes/Attribute Management 커밋은 같은 사유로 연쇄 제외 대상. private-module 태그 해당 없음. 재검토 조건: property 시스템 v2(48f2fd08의 property 절반)를 도입하기로 할 때. |
 
 | f06971b6 | [Fix two Session Attribute issues (#37620)](https://github.com/mattermost/mattermost/commit/f06971b657de292ae8482175d7aebf846ce101f5) | 고치는 대상이 우리가 받지 않은 Session Attributes MVF 코드와 property v2 파일이다 — 684ddb32·80eb4980·20c4cc42·09585a01·57fe965a에 이은 같은 계보. 4파일 +61/-4: (1) api4/properties.go getV2Group이 세션 속성 스키마 노출에 FeatureFlags.SessionAttributes까지 요구하도록 — 파일 자체가 제외한 48f2fd08 소산이라 없다(modify/delete), (2) app/session_attributes.go ProcessSessionAttributesRequest가 OAuth 앱 세션의 self-attest를 막도록 — 이 함수는 제외한 684ddb32(MVF)의 재작성본이고 우리 파일(78줄)은 앞서 받은 초기 버전 bf53cd3345의 RefreshRequestProvidedSessionAttributesIfNeeded라 내용 충돌. 개념상 우리 함수도 Local·PAT·CloudKey·RemoteCluster 토큰만 제외하고 OAuth 세션은 제외하지 않지만, FeatureFlags.SessionAttributes(기본 false)와 Enterprise Advanced 라이선스 둘 다 필요하고 수집 속성은 비공개 ABAC 엔진에서만 쓰여 우리 빌드에서는 실행되지 않는다. 재검토 조건: Session Attributes를 도입하게 되면 이 커밋의 OAuth 세션 제외(session.IsOAuth)를 함께 반영한다. |
+
+| 06ddf503 | [docs: mark scale partial pages as unlisted with proper titles (#37628)](https://github.com/mattermost/mattermost/commit/06ddf5032375e40b0bb606ec8d204109f62265cf) | 제외한 1d3bbc63(feat(docs): move docs-experimental content into monorepo docs/, #37330)의 문서 사이트 계보 뒷정리라 반영할 실체가 0파일이다. 터치 3파일 전부가 MISSING PATHS다 — docs/main/administration-guide/scale/additional-ha-considerations.mdx·estimated-storage-per-user-per-month.mdx·lifetime-storage.mdx이며 우리 docs/에는 main 하위 디렉터리 자체가 없다(실측: 파일 6개 + superpowers/specs뿐이고 그중 셋이 sync 워크플로 자산. site·pdf·styles·develop 디렉터리도 전부 부재). merge-tree 충돌 종류가 modify/delete인 것이 그 증거다 — 내용 다툼이 아니라 'master에서 삭제된 파일을 upstream이 수정했다'는 뜻이다. 커밋 내용은 scale-to-*-users 페이지에 import되는 콘텐츠 파셜 3개에 frontmatter 2줄(title, unlisted: true)을 넣어 Docusaurus가 slug 유도 제목의 독립 페이지로 렌더링하지 않게 하는 것(Sphinx :orphan:/:nosearch: 이관 뒷정리)인데, 그 파셜을 import할 소비자 페이지가 우리 트리에 없다(grep -rl 'scale-to' docs/ 결과 0건)이라 unlisted 지정 자체가 무효다. 내용 면에서도 파셜 본문이 Elasticsearch 설정 안내와 Mattermost 제품 문서 내부 링크(/administration-guide/scale/elasticsearch-setup), 'Mattermost's implementation'·'a Mattermost server approximately 600 MB' 같은 브랜드 서술로 채워져 리브랜드 충실성(원칙 IV)과 부딪친다. 같은 계보 제외 선례 — dd69d06d(Docusaurus config·Algolia·OpenAPI)·1b27d5d7(docs CD)·70b62d9e·3c9979f5·f3849f83(RST→MDX 뒷정리 3건)·d4fdff72(docs/develop 사내 문서 삭제). okrbest 문서 사이트를 구축하기로 하면 1d3bbc63 제외 기록이 적어둔 별도 과제(Docusaurus 멀티 인스턴스 IA)로 다루며, frontmatter 2줄짜리 이 커밋과는 무관하다. |
 
 ## spec 전환 커밋
 
