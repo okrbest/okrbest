@@ -4108,6 +4108,7 @@ type AccessControlSettings struct {
 	EnableAttributeBasedAccessControl *bool
 	EnableUserManagedAttributes       *bool `access:"write_restrictable"`
 	EnableChannelPolicyIndicators     *bool `access:"write_restrictable"`
+	EnableAccessControlAuditLogging   *bool `access:"write_restrictable,cloud_restrictable"`
 }
 
 func (s *AccessControlSettings) SetDefaults() {
@@ -4123,6 +4124,10 @@ func (s *AccessControlSettings) SetDefaults() {
 	// behavior; admins may disable them to avoid leaking policy details.
 	if s.EnableChannelPolicyIndicators == nil {
 		s.EnableChannelPolicyIndicators = new(true)
+	}
+
+	if s.EnableAccessControlAuditLogging == nil {
+		s.EnableAccessControlAuditLogging = new(false)
 	}
 }
 

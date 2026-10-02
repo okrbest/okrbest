@@ -38,6 +38,7 @@ describe('TeamPolicyEditor', () => {
             EnableAttributeBasedAccessControl: true,
             EnableUserManagedAttributes: false,
             EnableChannelPolicyIndicators: true,
+            EnableAccessControlAuditLogging: false,
         },
         onNavigateBack: jest.fn(),
         actions: {

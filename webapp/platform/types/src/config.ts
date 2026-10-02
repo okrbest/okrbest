@@ -246,6 +246,8 @@ export type ClientConfig = {
     // Access Control Settings
     EnableAttributeBasedAccessControl: string;
     EnableUserManagedAttributes: string;
+    EnableAccessControlAuditLogging: string;
+    AuditLoggingActive: string;
     EnableChannelPolicyIndicators: string;
 
     // Auto Translation Settings
@@ -1061,6 +1063,7 @@ export type AccessControlSettings = {
     EnableAttributeBasedAccessControl: boolean;
     EnableUserManagedAttributes: boolean;
     EnableChannelPolicyIndicators: boolean;
+    EnableAccessControlAuditLogging: boolean;
 };
 
 export type ContentFlaggingNotificationSettings = {
