@@ -17,6 +17,7 @@ Mattermost 비공개 저장소(`github.com/mattermost/enterprise/*`) 의존으�
 |---|---|---|
 | `c82b456b` Board channel bookmarks with target_id and readonly bookmark API | [6ef5d58b](https://github.com/mattermost/mattermost/commit/6ef5d58b7f12950def5383e732415755859ed27b) (#36572) | 아래 참조 |
 | `52ac8d88` MM-68952: Resolve public channel mentions for non-members under Compliance | [61643e10](https://github.com/mattermost/mattermost/commit/61643e106605134bd88695f3cba206cd641169f0) (#36815) | 아래 참조 |
+| `3adb72ee` MM-69612 ABAC 감사 로깅 옵트인 설정 | [f6c1459e](https://github.com/mattermost/mattermost/commit/f6c1459ebf597b2097d07e447eec4300121d1086) (#37322) | 설정을 읽는 코드가 아직 없다 — 아래 참조 |
 
 ---
 
@@ -93,3 +94,40 @@ Go 테스트 506줄과 Playwright 스펙 140줄도 그대로 가져왔다.
 채널 참여가 필요해 컴플라이언스 기록이 남는다는 것이다. 우리 트리에서도 성립한다 —
 `HasPermissionToChannelMemberCount`가 이미 compliance와 무관하게 `PermissionListTeamChannels`로
 공개 채널을 노출한다. 비공개·DM·GM과 교차 팀은 여전히 막힌다.
+
+---
+
+## ABAC 감사 로깅 옵트인 설정 (`EnableAccessControlAuditLogging`)
+
+**무엇이 들어왔나.** upstream `f6c1459e`(MM-69612, #37322)로 ABAC 정책 판정을 감사 로그로
+남기는 **옵트인 설정**을 받았다(17파일 +360/-1). 구성 — `AccessControlSettings.
+EnableAccessControlAuditLogging`(기본 `false`), 신규 `config.IsAuditLoggingActive()`(감사
+출력이 실제로 어딘가로 가는지 판정), 설정은 켰는데 감사 싱크가 없을 때의 부팅 경고,
+클라이언트 설정 노출(`EnableAccessControlAuditLogging`·`AuditLoggingActive`), 시스템 콘솔 항목.
+
+**왜 비활성인가.** 이 설정을 읽어 **실제로 감사 로그를 발행하는 코드가 우리 트리에 없다.**
+upstream에서 소비처는 `server/channels/app/access_control_membership.go`와
+`access_control_membership_audit.go` 두 파일인데, 그 둘을 만드는 커밋이
+
+```
+de7a2dc759  MM-69614: Add per-user audit logging for ABAC membership sync (#37771)  2026-09-17
+```
+
+이고 ledger의 **pending 표에 있다**(제외 아님). 즉 반영 시점(2026-07-28 기준) 기준으로 약 7주
+뒤 커밋이다. upstream도 같은 순서로 넣었다 — 설정 먼저(`f6c1459e`), 발행 나중(`de7a2dc759`).
+
+**지금 상태.** 시스템 콘솔에 토글이 보이고, 켜면 감사 싱크가 없을 때 부팅 경고가 뜬다. 그러나
+감사 로그는 나오지 않는다. 기본값이 `false`라 사용자 영향은 0이다.
+
+**활성화 조건.** `de7a2dc759`(MM-69614)를 반영하면 발행 경로가 생겨 설정이 실제로 동작한다.
+그때 함께 확인할 것 — (1) `ExperimentalAuditSettings.FileEnabled`를 켜거나 advanced logging
+타깃을 감사 레벨에 묶어야 출력이 실제로 나간다(`IsAuditLoggingActive`가 그걸 판정하고, 아니면
+부팅 경고가 뜬다), (2) 감사 로그에 담기는 사용자 식별 정보가 우리 개인정보 정책과 맞는지,
+(3) 콘솔 항목이 Enterprise Advanced 라이선스 티어 아래에서 숨는지(신규 테스트
+`admin_definition_abac_audit_logging.test.tsx`가 그 동작을 고정한다).
+
+**adapt 시 버린 것.** 충돌 7파일에서 upstream 블록에 함께 들어 있던
+`TrustProxyDeviceIdentityHeader`·`EnforceDeviceIDConsistency` 둘은 받지 않았다 — 이 커밋의
+추가분이 아니라 우리 `AccessControlSettings`에 없는 기존 upstream 필드다(세션·기기 속성 계보,
+`docs/upstream-adapted-divergences.md`의 `666f5d95` 항목). 결과로 우리 구조체는 기존 3필드 +
+신규 1필드다.
