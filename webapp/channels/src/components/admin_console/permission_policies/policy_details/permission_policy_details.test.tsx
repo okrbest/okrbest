@@ -49,6 +49,7 @@ describe('components/admin_console/permission_policies/policy_details/Permission
         EnableAttributeBasedAccessControl: true,
         EnableUserManagedAttributes: false,
         EnableChannelPolicyIndicators: true,
+        EnableAccessControlAuditLogging: false,
     };
 
     const baseProps = {
