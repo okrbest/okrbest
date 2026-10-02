@@ -32,6 +32,7 @@
 | `7f77ce32` 이메일 사용자 프로필 잠금·초대 이름 지정 | [2851af05](https://github.com/mattermost/mattermost/commit/2851af059d62cb3eebe73debdaa812d5fa440a94) (#37458) | 직위는 우리 조직 역할 읽기 전용 유지, 가입 화면의 우리 이름·성 입력칸을 미리 채우고 잠갔다 — 아래 참조 |
 | `8b87a1b0` 팀 ABAC 멤버십 동기화·사용자 화면 | [3a820143](https://github.com/mattermost/mattermost/commit/3a820143a1a5384172386a6c728e65825696a1e0) (#37054) | 120파일을 받으며 제외 계보에 걸린 7곳을 우리 트리에 맞췄다. 잡 policy_id 필터 2줄은 버렸다 — 복원 체크리스트 포함 — 아래 참조 |
 | `097a9330` Playwright T1434·T4023·T1987 이관 | [f110574b](https://github.com/mattermost/mattermost/commit/f110574b559df9bc121b4239d03f524a9bdb8cd2) (#37533) | 새 스펙이 우리 포크에서 돌지 않는다. 분석 중 db55f9fa43 문구 누락 2건을 찾아 `ad603577`로 복원 — 아래 참조 |
+| `a67e917f` ABAC 에디터 플러그인 공개 | [7bc3bbfd](https://github.com/mattermost/mattermost/commit/7bc3bbfd0c94b2a9577f40815d4fb25955c8ea38) (#37510) | 노출·주입 훅은 받고 Session Attributes·native 필드에 묶인 셋을 버렸다. 테스트 파일 하나는 새로 작성 — 아래 참조 |
 
 ---
 
@@ -648,3 +649,72 @@ Enterprise 미만에서 숨는다. 라이선스가 없으면 비활성이다.
 
 **다시 볼 때.** upstream이 가입 화면에서 이름 입력을 받게 되거나, 우리가 조직 역할 체계를 바꿔 직위를 다시
 사용자 편집으로 돌리면 1·3번을 재검토한다.
+
+---
+
+## ABAC 에디터 플러그인 공개 — 노출은 받고 Session Attributes 계보 셋을 버렸다
+
+**무엇을 했나.** upstream `7bc3bbfd`(#37510)는 ABAC 정책 에디터 둘(`TableEditor`·`CELEditor`)을
+`window.Components`에 노출해 플러그인이 쓰게 하고, 두 에디터의 네트워크 호출을 플러그인이 주입으로
+갈아끼울 수 있게 한다. 8파일 +419/-16.
+
+**받은 것.** 노출 경로 전체와 주입 훅 7개다.
+
+| 받은 것 | 내용 |
+|---|---|
+| `plugins/access_control_editors.ts` (신규) | `AccessControlTableEditor`·`AccessControlCELEditor`를 `React.lazy`로 내보낸다 (monaco를 main 번들에서 분리) |
+| `plugins/export.ts`·`export.test.ts` | 둘을 `window.Components`에 꽂고 타입 인터페이스에 올린다 |
+| `TableEditorProps`·`CELEditorProps` | `export`로 승격 — 플러그인이 타입을 쓸 수 있게 |
+| `TableEditorProps.actions.searchUsers?` | 내장 `TestResultsModal`의 사용자 검색을 주입으로 대체 (없으면 기존 redux thunk) |
+| `CELEditorActions` (신규) + `actions?` prop | `checkExpression?`·`searchUsers?` 주입. 없으면 `Client4.checkAccessControlExpression`·redux thunk 폴백 |
+
+주입은 전부 옵셔널 가드 폴백이라 **아무도 주입하지 않으면 동작이 이전과 같다.**
+
+**왜 받았나.** 우리 포크는 같은 성격의 `window.Components` 노출을 두 번 받았다 —
+`cb551237c5`(MBE Phase 12, 채널 모달 노출)와 `fa49f968f4`(MM-69782, 모달 id 공개). 둘 다
+"노출은 받고 제외 계보에 묶인 부분만 떼낸다"는 방식이었고 이 커밋도 같은 틀에 맞는다. ledger가
+"소비자 부재"로 제외한 MBE 8a/8b/8c(`263b3c11`·`9f7fdadc`·`c5bead3a`)는 배선 파일이
+200~388줄 벌어져 손으로 재구성해야 했던 반면, 이 커밋의 주입 지점은 우리 파일에 제자리로 있었다 —
+`cel_editor/editor.tsx`의 176·196·452행, `table_editor.tsx`의 556행.
+
+**소비자는 없다.** upstream 전체 이력을 `git log -S`로 훑으면 `AccessControlTableEditor`·
+`AccessControlCELEditor`가 이 커밋 하나에만 나온다. 의도된 소비자는 외부 플러그인이고 우리가
+번들하는 플러그인 중 ABAC 정책을 편집하는 것은 없다. 즉 지금은 **쓰이지 않는 확장점**이다.
+
+### 버린 셋
+
+| # | 위치 | upstream | 우리 | 이유 |
+|---|---|---|---|---|
+| 1 | `cel_editor/editor.tsx` `buildCELSchemas` | `objectType === USER_OBJECT_TYPE` 판정을 `!attr.objectType || ...`로 완화 | 훅 자체를 버림 | 우리 `editor.tsx`에는 `buildCELSchemas`도 `CELUserAttribute` 타입도 없다. Monaco 자동완성 스키마를 `{user: ['attributes'], 'user.attributes': [...]}`로 인라인 구성한다. 그 함수를 넣은 것이 Session Attributes MVF(`684ddb32`, 제외) 계보다 |
+| 2 | `table_editor.tsx` `isRowValueValid` | 충돌 해결 시 함께 끼어 오려 함 | 버림 | `OPERATOR_CONFIG[...].type === 'native_method'`와 `isValidYoungerThanDaysValue`에 의존한다. 둘 다 우리 `shared.tsx`에 없다 (native 필드 계보 미반영) |
+| 3 | `table_editor_channel_admin.test.tsx` `TableEditor - attribute name collision across namespaces` describe | upstream 부모에 이미 있던 테스트 | 버림 | `UserPropertyField.object_type`과 `attrs.managed`로 user/session 동명 속성을 구분해 `user.session.region` 생성을 검증한다. 우리 `PropertyField`에 `object_type`이 없고 session 네임스페이스 자체가 없다 |
+
+### 새로 쓴 파일
+
+`cel_editor/editor.test.tsx`는 **우리에게 없던 파일**이다. upstream 부모의 42줄이 전부
+`buildCELSchemas` 테스트였기 때문이다(그 함수가 우리에게 없으니 파일도 없었다). upstream 206줄에서
+주입 테스트 5건만 담아 159줄로 새로 만들었다 — `buildCELSchemas` describe 4건
+(`treats attributes without an object type`·`offers only user.attributes`·`adds the user.session
+bucket`·`drops names with spaces`)은 제외했다.
+
+### 테스트 mock 조정
+
+`table_editor_channel_admin.test.tsx`의 새 describe에서 두 곳을 우리 타입에 맞췄다.
+
+- import 경로 `@mattermost/types/properties_user` → `@mattermost/types/properties`
+  (우리 트리에 `properties_user.ts`가 없다 — 제외한 `076370e6` 계보)
+- mock에서 `created_by`·`updated_by`·`object_type` 제거 — 우리 `PropertyField`에 없는 필드다
+- `fireEvent` import 불필요 (쓰던 describe를 3번에서 버렸다), `userEvent` 추가
+
+### 공개 API 형태
+
+노출하면 prop 타입이 플러그인 공개 API가 되므로 대조했다. `TableEditorProps`는 이 커밋이 넣는
+`searchUsers` 한 줄 빼고 우리와 upstream이 **완전히 동일**하다. `CELEditorProps.userAttributes`는
+우리가 `Array<{attribute, values}>`, upstream이 `CELUserAttribute[]`(`objectType?`·`isNative?`가
+옵셔널로 더 붙음)인데 옵셔널이라 **구조적으로 호환**된다. 차이는 우리가 session·native 속성을
+자동완성에 반영하지 않는 **동작 범위**뿐이다 — 플러그인이 그 두 필드를 채워 넘겨도 우리 에디터는
+무시한다.
+
+**다시 볼 때.** Session Attributes MVF(`684ddb32`)를 도입하면 1·3번과 새로 쓴 테스트 파일을
+upstream 형태로 되돌린다. native 필드 계보를 받으면 2번의 `isRowValueValid`가 따라온다. 이 확장점을
+쓸 플러그인을 우리가 만들게 되면 `CELEditorProps.userAttributes`의 동작 범위 차이를 먼저 메워야 한다.
