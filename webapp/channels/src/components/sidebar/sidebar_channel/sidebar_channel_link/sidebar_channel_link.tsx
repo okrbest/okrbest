@@ -71,6 +71,7 @@ type Props = WrappedComponentProps & {
     rhsOpen?: boolean;
     isSharedChannel?: boolean;
     remoteNames: string[];
+    hasPendingJoinRequests: boolean;
 
     actions: {
         markMostRecentPostInChannelAsUnread: (channelId: string) => void;
@@ -275,6 +276,15 @@ export class SidebarChannelLink extends React.PureComponent<Props, State> {
                     hasUrgent={hasUrgent}
                     tooltip={hasUrgent ? messages.urgentMentionTooltip : undefined}
                 />
+                {this.props.hasPendingJoinRequests && (
+                    <span
+                        className='SidebarChannelLink__join-request-dot'
+                        aria-label={this.props.intl.formatMessage({
+                            id: 'sidebar_channel.join_requests_pending',
+                            defaultMessage: 'Pending join requests',
+                        })}
+                    />
+                )}
                 <div
                     className={classNames(
                         'SidebarMenu',
