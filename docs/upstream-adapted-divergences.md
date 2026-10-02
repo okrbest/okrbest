@@ -35,6 +35,7 @@
 | `a67e917f` ABAC 에디터 플러그인 공개 | [7bc3bbfd](https://github.com/mattermost/mattermost/commit/7bc3bbfd0c94b2a9577f40815d4fb25955c8ea38) (#37510) | 노출·주입 훅은 받고 Session Attributes·native 필드에 묶인 셋을 버렸다. 테스트 파일 하나는 새로 작성 — 아래 참조 |
 | `f7c10ac5` e2e 플레이크 안정화 | [10b780cb](https://github.com/mattermost/mattermost/commit/10b780cb097b2ec94ab0f9df7ebcbd5b7850f13f) (#37614) | Cypress 수정과 AI bridge 락 fixture는 받고, 보류 제외한 Scheduled Recaps 스펙 하나를 버렸다 — 아래 참조 |
 | `8dab2f66` 포스트 편집이 초안을 만드는 버그 | [0fed2262](https://github.com/mattermost/mattermost/commit/0fed2262813c57bec6f47088efcbfe9e4335b5c4) (#37658) | 수정은 그대로, 신규 테스트의 요소 조회를 Lexical에 맞췄다. 파일 전체 실행에선 여전히 타임아웃 — 아래 참조 |
+| `1f79143b` discoverable 비공개 채널 가입 요청 UX (4커밋) | [99bc7bd8](https://github.com/mattermost/mattermost/commit/99bc7bd886c97d33149a839b29a59b8301242d7e) (#37078) | 59파일 +3957을 네 단계로 나눠 받았다. 충돌 9파일에서 제외 계보(MBE 8a/8b/8c·Managed Categories·classification) 부분을 버렸다 — 아래 참조 |
 
 ---
 
@@ -844,3 +845,92 @@ upstream 테스트를 우리가 끈 상태가 된다. webapp jest는 우리 PR C
 `placeholder` 속성을 실제로 렌더하도록) 이 파일의 11건이 한꺼번에 살아난다. 그 작업을 하면
 이 테스트의 `document.getElementById` 조회도 upstream의 `getByTestId`로 되돌릴 수 있다.
 우선순위를 매긴다면 `data-testid`를 추가하는 쪽이 11개 테스트를 되살리는 가장 짧은 경로다.
+
+---
+
+## discoverable 비공개 채널 가입 요청 UX — 59파일을 네 단계로, 제외 계보는 버렸다
+
+**무엇을 했나.** upstream `99bc7bd8`(#37078)는 발견 가능한 비공개 채널의 가입 요청 UX 전체를
+넣는다(59파일 +3957/-128, server 변경 0). 서버 절반은 `4820fc0a4d`(MM-68763 Discoverable
+Private Channels — Server feature complete, #36580)로 이미 보유했고 webapp 쪽에는 타입과
+웹소켓 이벤트 이름만 있어 **백엔드가 잠들어 있었다.** 이 커밋이 그 사이를 메운다.
+
+**네 커밋으로 나눴다** — 한 커밋에 59파일을 몰지 않기 위해서다.
+
+| 단계 | 내용 |
+|---|---|
+| 1/4 redux·platform | Client4 엔드포인트, 웹소켓 메시지, Channel/Config 타입, join request redux 계층(action types·actions·reducer·selectors·initial state·권한 상수) |
+| 2/4 신규 컴포넌트 | RequestJoinChannelModal, PendingJoinRequests(RHS 승인·거절), 요청 수 동기화 둘(헤더·사이드바) |
+| 3/4 기존 파일 배선 | Browse Channels·채널 스위처·사이드바·채널 헤더·멤버 RHS·새 채널 모달·설정 Info 탭, en.json 35키 |
+| 4/4 e2e | Playwright 스펙 + Browse Channels 페이지 객체 |
+
+**기능 플래그.** `FeatureFlags.DiscoverableChannels`는 **upstream도 기본 `false`**다
+(`feature_flags.go` — `FEATURE_FLAG_REMOVAL: ... Remove this when the feature is GA`).
+우리가 off로 바꾼 것이 아니다 — `d6fd658467`(MM-68762 Server data layer) 반영 때 그 값으로
+들어왔고, 저장소에서 켜는 곳은 없다. 따라서 받아도 사용자에게 보이지 않는다.
+
+### 버린 것 — 전부 제외 계보에 속한 부분
+
+merge-tree는 7파일 충돌을 예측했지만 실제 cherry-pick은 **9파일**에서 충돌했고, 더 중요하게는
+**59파일 중 30파일이 upstream 부모와 갈라져 있었다.** 충돌이 안 난 파일도 "텍스트로 합쳐졌다"는
+뜻일 뿐이어서, `channel_settings_info_tab.tsx`에서는 auto-merge가 **정의 없는 참조**
+(`isDMorGroupChannel`)를 들여왔다.
+
+| # | 위치 | 버린 것 | 이유 |
+|---|---|---|---|
+| 1 | `new_channel_modal.tsx` (우리 -305줄) | upstream 앵커 `pluginOptions`·`showDefaultCategorySelector` 문맥 | MBE Phase 8a(`263b3c11`)·Managed Categories 제외. 삽입 코드 자체는 그 계보를 참조하지 않아(실측 0건) **토글을 type selector 직후에 배치**하는 것만 정하면 됐다. `Toggle` import 추가 |
+| 2 | `channel_settings_info_tab.tsx` (-218줄, 충돌 8블록) | Managed Categories 절(`defaultCategoryName`·`managedCategoryName`·`server*`) | 그 필드가 우리에게 없다. deps 배열과 unsaved-changes 비교식에는 `discoverable`만 덧붙였다 |
+| 3 | `searchable_channel_list.tsx` | upstream의 `<ChannelIcon channel={...}/>` | `components/channel_type_icon`이 우리에게 없다(MBE Phase 8b/8c 제외). 우리 `getChannelIconComponent` 팩토리를 유지했다 |
+| 4 | `en.json` | `channel_settings.classification.*` 3키 | 이 커밋의 추가분이 아니라 **문맥 줄**이다 — 우리에게 없는 기존 upstream 키(MBE classification 제외). 받으면 죽은 i18n이 된다 |
+| 5 | `new_channel_modal.scss` | `.new-channel-modal-classification` 블록(약 60줄) | 같은 이유(문맥 줄, 제외 계보). `.Input_subheading`·`.new-channel-modal-discoverable`만 받았다 |
+| 6 | `channel_settings_modal.scss` | upstream의 `.Input_subheading { 0.75 }` | 선택자를 넓히고 투명도를 바꿔 **모달의 기존 부제 전부를 재스타일링**한다. 우리 `label.Input_subheading { 0.64 }`를 유지했고, 그 선택자도 신규 섹션의 `<label>`에 적용된다 |
+
+### 직접 써넣은 것
+
+- **`isDMorGroupChannel` 정의** — auto-merge가 참조만(`canManageDiscoverability`,
+  `showDiscoverableToggle`) 들여왔다. upstream 부모는 `isDirect || isGroup`으로 파생하는데
+  `isPrivate`·`isDirect`·`isGroup` 셋이 우리 파일에 없다(우리 -218줄의 일부). `channel.type`에서
+  직접 계산하는 1줄로 넣었다.
+- **`channel_header/index.ts`** — 우리 `getMyChannelAutotranslation` 이름(upstream은
+  `isMyChannelAutotranslated`로 개명)과 우리 `showBotMessages` prop을 유지하고
+  `getPendingJoinRequestsCount`·`hasPendingJoinRequests`만 더했다.
+- **`channel_members_rhs`** — 우리 멤버 필터 props(`setMemberFilterUserIds`·`filterUserIds`)를
+  유지하고 join request props를 더했다.
+- **`searchable_channel_list.tsx`의 상단 `ariaLabel` 제거** — upstream이 아래쪽
+  pending-request 인식 버전으로 대체하므로 중복 선언이 됐다(TS2451). upstream 버전의 else
+  분기가 우리 기존 문자열과 글자까지 같다.
+
+### 동작을 upstream에 맞춘 한 곳
+
+`channel_settings_info_tab.tsx`의 `patchChannel` 호출을 **"변경된 필드만 전송"**으로 바꿨다.
+우리는 4필드를 항상 통째로 보내고 있었고(우리 테스트가 그걸 고정), upstream 부모는 이미
+선택적이었다. 이 커밋의 신규 테스트가 `toHaveBeenCalledWith('channel1', {discoverable: true})`와
+`{header: 'New header text'}`로 payload 모양을 단언해서 통째 전송으로는 통과할 수 없다.
+우리 테스트 기대값 2곳에서 변경되지 않은 `name` 필드를 제거했다.
+
+### 검증
+
+- webapp `tsc` **30건** (master 기준선 29) — **+1건**은 `channel_header.test.tsx`가 18→19로
+  늘어난 것이다. upstream이 추가한 render 호출이 우리 필수 prop `showBotMessages`를 넘기지
+  않는데, 이는 기존 18건과 **동일한 결함**이다(우리 포크가 required prop을 더하면서 테스트
+  기본 props를 갱신하지 않았다). 이 커밋 범위 밖이라 그대로 두었다 — 기본 props에 한 줄
+  더하면 19건이 한꺼번에 사라진다
+- eslint 변경 파일 전체 **clean**
+- jest 접촉 영역 21 스위트 **288개 전부 통과**(신규 리듀서 테스트 262줄·컴포넌트 테스트 314줄 포함)
+- en.json 신규 38키·제거 0 → orphaned 없음, `i18n-check-empty` exit 0
+
+### 남은 일
+
+- **ko 번역 38키** — 전부 미번역이다(세션 마감 i18n 후속 목록)
+- **플래그 켠 실주행 검증** — `MM_FEATUREFLAGS_DiscoverableChannels=true`로 서버를 띄우고
+  요청→승인 흐름을 걸어봐야 신규 경로가 실제로 실행된다. e2e 스펙이
+  `pw.skipIfFeatureFlagNotSet('DiscoverableChannels', true)`로 스스로 건너뛰므로 플래그를
+  주지 않으면 아무것도 돌지 않는다. upstream도 e2e 기본 설정에서 플래그를 false로 두므로
+  같은 방식이다
+- **MBE 8a 묶음과의 관계** — ledger의 `263b3c11` 제외 기록이 "8a~12e를 한 묶음으로 spec
+  전환해 재검토한다"고 예고해 두었고, 그 작업은 `new_channel_modal.tsx`를 다시 건드린다.
+  이번에 토글을 type selector 직후에 둔 선택을 그때 재검토한다
+
+**다시 볼 때.** MBE Phase 8a를 도입하면 1번(앵커)과 토글 배치를, Managed Categories를
+도입하면 2·5번을, MBE 8b/8c를 도입하면 3번을, classification을 도입하면 4번을 되돌린다.
+`FeatureFlags.DiscoverableChannels`를 켜기로 하면 그 시점에 실주행 검증을 한다.
