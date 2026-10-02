@@ -34,6 +34,7 @@
 | `097a9330` Playwright T1434·T4023·T1987 이관 | [f110574b](https://github.com/mattermost/mattermost/commit/f110574b559df9bc121b4239d03f524a9bdb8cd2) (#37533) | 새 스펙이 우리 포크에서 돌지 않는다. 분석 중 db55f9fa43 문구 누락 2건을 찾아 `ad603577`로 복원 — 아래 참조 |
 | `a67e917f` ABAC 에디터 플러그인 공개 | [7bc3bbfd](https://github.com/mattermost/mattermost/commit/7bc3bbfd0c94b2a9577f40815d4fb25955c8ea38) (#37510) | 노출·주입 훅은 받고 Session Attributes·native 필드에 묶인 셋을 버렸다. 테스트 파일 하나는 새로 작성 — 아래 참조 |
 | `f7c10ac5` e2e 플레이크 안정화 | [10b780cb](https://github.com/mattermost/mattermost/commit/10b780cb097b2ec94ab0f9df7ebcbd5b7850f13f) (#37614) | Cypress 수정과 AI bridge 락 fixture는 받고, 보류 제외한 Scheduled Recaps 스펙 하나를 버렸다 — 아래 참조 |
+| `8dab2f66` 포스트 편집이 초안을 만드는 버그 | [0fed2262](https://github.com/mattermost/mattermost/commit/0fed2262813c57bec6f47088efcbfe9e4335b5c4) (#37658) | 수정은 그대로, 신규 테스트의 요소 조회를 Lexical에 맞췄다. 파일 전체 실행에선 여전히 타임아웃 — 아래 참조 |
 
 ---
 
@@ -784,3 +785,62 @@ CI와 일치하는 값이다.
 `recaps_scheduled.spec.ts`와 `recaps_helpers.ts`가 들어오고, 그때 이 커밋의 버린 hunk
 (import 교체 한 줄)도 함께 적용한다. 그 시점에 우리 `recaps.spec.ts`의 인라인 헬퍼를
 `recaps_helpers.ts`로 옮겨 upstream 형태에 맞출지도 함께 정한다.
+
+---
+
+## 포스트 편집 초안 버그 — 수정은 받았고 테스트는 Lexical 하네스에 막힌다
+
+**무엇을 했나.** upstream `0fed2262`(#37658)는 기존 포스트를 편집할 때 공유
+`AdvancedTextEditor`가 작성창과 같은 draft 저장 파이프라인을 타서, unmount / `beforeunload`에
+`updateDraft`를 `show: true` + 서버 동기화로 호출해 **실제 채널/스레드 draft를 만들던 버그**를
+고친다. 그 draft가 웹소켓으로 돌아와 drafts UI에 유령 항목으로 나타났다. `handleDraftChange`의
+`options.show` 분기 앞에 편집 모드 가드를 넣어 편집 내용은 로컬(`edit_draft_*` 키)에만 저장한다.
+
+**이 버그가 우리 트리에 실재했다.** 재현 조건 셋을 실측했다 — (1) 우리 `handleDraftChange`
+(227–268행)에 `isInEditMode` 가드가 없었다, (2) `edit_post.tsx:39`가 공유 에디터에
+`isInEditMode={true}`를 넘긴다, (3) `AllowSyncedDrafts`가 `server/public/model/config.go:488`에
+있고 기본값이 `true`(1018행 `new(true)`)다.
+
+**수정 전후 실측.** 프로덕션 훅을 넣고/빼며 `updateDraft` 호출 인자를 찍었다.
+
+| 상태 | 호출 인자 | 테스트 |
+|---|---|---|
+| 훅 없음 | 키 `edit_draft_post_id_1`, `show: true`, 서버 upsert `true` | 실패 |
+| 훅 적용 | 같은 키, `show: null`, upsert `null` | 통과 |
+
+타이핑도 실제로 등록됐다(메시지 `"original message edited"`). 즉 수정이 정확히 그 경로를 막는다.
+
+### 바꾼 것 — 테스트의 요소 조회 한 줄
+
+upstream은 `screen.getByTestId('edit_textbox')`로 textbox를 찾는다. 우리
+`lexical_text_editor.tsx`(244–249행)의 `ContentEditable`은 `id={id}`와 `data-placeholder`만
+렌더하고 **`data-testid`를 달지 않는다**(upstream textarea는 둘 다 있었다).
+`document.getElementById('edit_textbox')`로 바꿨다 — `AdvancedTextEditorTextboxIds.InEditMode`가
+`'edit_textbox'`(`utils/constants.tsx:740`)이므로 id로는 찾을 수 있다.
+
+### 남은 red — 파일 전체 실행에서 타임아웃
+
+| 실행 방식 | 결과 |
+|---|---|
+| `jest -t "MM-69928"` 격리 | **통과** (206ms) |
+| `jest advanced_text_editor.test.tsx` 전체 | **60초 타임아웃** (단언 실패가 아니라 `userEvent.type`이 멈춤) |
+
+`jest.setTimeout(240000)`을 테스트 본문에 넣어도 60초에 걸린다(그 API는 현재 테스트에 적용되지
+않는다). 느린 게 아니라 멈추는 것이다.
+
+**원인은 이 파일의 기존 breakage다.** `advanced_text_editor.test.tsx`는 master에서 이미
+**10건 실패 / 4건 통과**이고, 실패 전부가 같은 뿌리다 — 우리가 Lexical을 채택해
+`getByTestId('post_textbox')`(214행)·`getByTestId('edit_textbox')`(242행)·
+`getByPlaceholderText('Write to Test Channel')`(278·287·298·364·445·561행)로 요소를 찾는
+upstream 테스트들이 깨졌다. 앞선 10개가 남긴 상태가 Lexical 타이핑을 멈추게 한다.
+기준선 대비 테스트 결과 diff를 뜨면 **유일한 차이가 이 새 테스트 1건**이다.
+
+**그대로 red로 두기로 했다** — 같은 뿌리로 깨진 10개 형제 테스트를 저장소가 skip하지 않고
+red로 두고 있으므로 그 관행과 맞춘다. `it.skip`을 달면 10개와 처리가 달라져 일관성이 깨지고,
+upstream 테스트를 우리가 끈 상태가 된다. webapp jest는 우리 PR CI에서 돌지 않으므로
+(`test (channels shard N/4)` 잡이 과거 sync PR에서 전부 skipping) CI 신호에는 영향이 없다.
+
+**다시 볼 때.** Lexical 테스트 하네스를 고치면(`ContentEditable`에 `data-testid`를 달거나
+`placeholder` 속성을 실제로 렌더하도록) 이 파일의 11건이 한꺼번에 살아난다. 그 작업을 하면
+이 테스트의 `document.getElementById` 조회도 upstream의 `getByTestId`로 되돌릴 수 있다.
+우선순위를 매긴다면 `data-testid`를 추가하는 쪽이 11개 테스트를 되살리는 가장 짧은 경로다.
