@@ -7,7 +7,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import type {Channel} from '@mattermost/types/channels';
+import type {Channel, ChannelJoinRequest} from '@mattermost/types/channels';
 import type {UserProfile} from '@mattermost/types/users';
 
 import {ProfilesInChannelSortBy} from 'mattermost-redux/actions/users';
@@ -32,6 +32,7 @@ import ActionBar from './action_bar';
 import Header from './header';
 import MemberList, {ListItemType} from './member_list';
 import type {ChannelMember, ListItem} from './member_list';
+import PendingJoinRequests from './pending_join_requests';
 import SearchBar from './search';
 
 import './channel_members_rhs.scss';
@@ -50,6 +51,10 @@ export interface Props {
     editing: boolean;
     filterUserIds: string[];
 
+    // Discoverable Private Channels — admin pending join requests queue
+    canManageJoinRequests: boolean;
+    pendingJoinRequests: ChannelJoinRequest[];
+
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         openDirectChannelToUserId: (userId: string) => Promise<{data: Channel}>;
@@ -62,6 +67,8 @@ export interface Props {
         searchProfilesAndChannelMembers: (term: string, options: any) => Promise<{data: UserProfile[]}>;
         fetchRemoteClusterInfo: (remoteId: string, includeDeleted?: boolean, forceRefresh?: boolean) => void;
         setMemberFilterUserIds: (channelId: string, userIds: string[]) => void;
+        getChannelJoinRequests: (channelId: string, opts?: {status?: string}) => Promise<unknown>;
+        countPendingChannelJoinRequests: (channelId: string) => Promise<unknown>;
     };
 }
 
@@ -76,6 +83,8 @@ export default function ChannelMembersRHS({
     canManageMembers,
     editing = false,
     filterUserIds,
+    canManageJoinRequests,
+    pendingJoinRequests,
     actions,
 }: Props) {
     const history = useHistory();
@@ -201,7 +210,12 @@ export default function ChannelMembersRHS({
         actions.setChannelMembersRhsSearchTerm('');
         actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id, ProfilesInChannelSortBy.Admin, {}, true);
         actions.loadMyChannelMemberAndRole(channel.id);
-    }, [channel.id, channel.type]);
+
+        if (canManageJoinRequests) {
+            actions.getChannelJoinRequests(channel.id, {status: 'pending'});
+            actions.countPendingChannelJoinRequests(channel.id);
+        }
+    }, [channel.id, channel.type, canManageJoinRequests]);
 
     const setSearchTerms = async (terms: string) => {
         actions.setChannelMembersRhsSearchTerm(terms);
@@ -258,6 +272,8 @@ export default function ChannelMembersRHS({
         setIsNextPageLoading(false);
     }, [actions.loadProfilesAndReloadChannelMembers, page, channel.id],
     );
+
+    const showPendingJoinRequests = canManageJoinRequests;
 
     return (
         <div
@@ -334,6 +350,12 @@ export default function ChannelMembersRHS({
             )}
 
             <div className='channel-members-rhs__members-container'>
+                {showPendingJoinRequests && (
+                    <PendingJoinRequests
+                        channelId={channel.id}
+                        requests={pendingJoinRequests}
+                    />
+                )}
                 {channelMembers.length > 0 && (
                     <MemberList
                         searchTerms={searchTerms}

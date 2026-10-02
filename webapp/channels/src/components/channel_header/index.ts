@@ -14,11 +14,13 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {fetchChannelRemotes} from 'mattermost-redux/actions/shared_channels';
 import {General, Preferences} from 'mattermost-redux/constants';
 import {
+    canManageChannelJoinRequests,
     getCurrentChannel,
     getMyCurrentChannelMembership,
     isCurrentChannelMuted,
     getCurrentChannelStats,
     getMyChannelAutotranslation,
+    getPendingJoinRequestsCount,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
@@ -85,6 +87,13 @@ function makeMapStateToProps() {
             timestampUnits = getLastActiveTimestampUnits(state, dmUser.id);
         }
 
+        const canManageJoinRequests = canManageChannelJoinRequests(state, channel);
+        const hasPendingJoinRequests = Boolean(
+            canManageJoinRequests &&
+            channel &&
+            getPendingJoinRequestsCount(state, channel.id) > 0,
+        );
+
         return {
             team: getCurrentTeam(state),
             channel,
@@ -108,6 +117,7 @@ function makeMapStateToProps() {
             hideGuestTags: config.HideGuestTags === 'true',
             showBotMessages: channel ? get(state, Preferences.CATEGORY_CHANNEL_BOT_MESSAGES, channel.id, 'true') : 'true',
             isChannelAutotranslated: channel ? getMyChannelAutotranslation(state, channel.id) : false,
+            hasPendingJoinRequests,
         };
     };
 }

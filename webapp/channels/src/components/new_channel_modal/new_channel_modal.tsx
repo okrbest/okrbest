@@ -16,14 +16,16 @@ import {setNewChannelWithBoardPreference} from 'mattermost-redux/actions/boards'
 import {createChannel} from 'mattermost-redux/actions/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
 import Preferences from 'mattermost-redux/constants/preferences';
+import {isDiscoverableChannelsEnabled} from 'mattermost-redux/selectors/entities/general';
 import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
-import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveICurrentChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {switchToChannel} from 'actions/views/channel';
 import {closeModal} from 'actions/views/modals';
 
 import ChannelNameFormField from 'components/channel_name_form_field/channel_name_form_field';
+import Toggle from 'components/toggle';
 import Input from 'components/widgets/inputs/input/input';
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
 
@@ -66,6 +68,24 @@ const NewChannelModal = () => {
     const dispatch = useDispatch();
 
     const [type, setType] = useState(getChannelTypeFromPermissions(canCreatePublicChannel, canCreatePrivateChannel));
+
+    // Discoverable Private Channels — only available when the FF is on AND the
+    // creator has the team-scope discoverability permission (the server
+    // applies the same check on createChannel with discoverable=true). The
+    // toggle is hidden entirely otherwise so a user without permission
+    // doesn't see a control they can't exercise.
+    const discoverableFeatureEnabled = useSelector(isDiscoverableChannelsEnabled);
+    const canCreateDiscoverableChannel = useSelector((state: GlobalState) => haveICurrentTeamPermission(state, Permissions.MANAGE_PRIVATE_CHANNEL_DISCOVERABILITY));
+    const showDiscoverableOption = discoverableFeatureEnabled && canCreateDiscoverableChannel && type === Constants.PRIVATE_CHANNEL;
+    const [discoverable, setDiscoverable] = useState(false);
+    const discoverableTitle = formatMessage({
+        id: 'channel_settings.discoverable.title',
+        defaultMessage: 'Discoverable (Users can request to join)',
+    });
+    const discoverableDescription = formatMessage({
+        id: 'channel_settings.discoverable.description',
+        defaultMessage: 'Non-members can see this channel in Browse Channels, the channel switcher, and shared permalinks. Message contents stay hidden until they join.',
+    });
     const [displayName, setDisplayName] = useState('');
     const [url, setURL] = useState('');
     const [purpose, setPurpose] = useState('');
@@ -107,6 +127,12 @@ const NewChannelModal = () => {
             last_root_post_at: 0,
             scheme_id: '',
             update_at: 0,
+
+            // Only send `discoverable: true` when the toggle is actually
+            // rendered (private + FF on + has permission) AND the user
+            // checked it. The server rejects discoverable=true on a public
+            // channel; we never include the field for OPEN_CHANNEL.
+            ...(showDiscoverableOption && discoverable ? {discoverable: true} : {}),
         };
 
         try {
@@ -283,6 +309,41 @@ const NewChannelModal = () => {
                     }}
                     onChange={handleOnTypeChange}
                 />
+                {showDiscoverableOption && (
+                    <div
+                        className='new-channel-modal-discoverable'
+                        data-testid='new-channel-discoverable-section'
+                    >
+                        <div className='channel_banner_header'>
+                            <div className='channel_banner_header__text'>
+                                <label
+                                    className='Input_legend'
+                                    aria-label={discoverableTitle}
+                                >
+                                    {discoverableTitle}
+                                </label>
+                                <label
+                                    className='Input_subheading'
+                                    aria-label={discoverableDescription}
+                                >
+                                    {discoverableDescription}
+                                </label>
+                            </div>
+                            <div className='channel_banner_header__toggle'>
+                                <Toggle
+                                    id='newChannelDiscoverableToggle'
+                                    overrideTestId={true}
+                                    ariaLabel={discoverableTitle}
+                                    size='btn-md'
+                                    toggled={discoverable}
+                                    onToggle={() => setDiscoverable((v) => !v)}
+                                    tabIndex={0}
+                                    toggleClassName='btn-toggle-primary'
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <div className='new-channel-modal-purpose-container'>
                     <Input
                         id='new-channel-modal-purpose'
