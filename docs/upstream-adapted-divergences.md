@@ -33,6 +33,7 @@
 | `8b87a1b0` 팀 ABAC 멤버십 동기화·사용자 화면 | [3a820143](https://github.com/mattermost/mattermost/commit/3a820143a1a5384172386a6c728e65825696a1e0) (#37054) | 120파일을 받으며 제외 계보에 걸린 7곳을 우리 트리에 맞췄다. 잡 policy_id 필터 2줄은 버렸다 — 복원 체크리스트 포함 — 아래 참조 |
 | `097a9330` Playwright T1434·T4023·T1987 이관 | [f110574b](https://github.com/mattermost/mattermost/commit/f110574b559df9bc121b4239d03f524a9bdb8cd2) (#37533) | 새 스펙이 우리 포크에서 돌지 않는다. 분석 중 db55f9fa43 문구 누락 2건을 찾아 `ad603577`로 복원 — 아래 참조 |
 | `a67e917f` ABAC 에디터 플러그인 공개 | [7bc3bbfd](https://github.com/mattermost/mattermost/commit/7bc3bbfd0c94b2a9577f40815d4fb25955c8ea38) (#37510) | 노출·주입 훅은 받고 Session Attributes·native 필드에 묶인 셋을 버렸다. 테스트 파일 하나는 새로 작성 — 아래 참조 |
+| `f7c10ac5` e2e 플레이크 안정화 | [10b780cb](https://github.com/mattermost/mattermost/commit/10b780cb097b2ec94ab0f9df7ebcbd5b7850f13f) (#37614) | Cypress 수정과 AI bridge 락 fixture는 받고, 보류 제외한 Scheduled Recaps 스펙 하나를 버렸다 — 아래 참조 |
 
 ---
 
@@ -718,3 +719,68 @@ bucket`·`drops names with spaces`)은 제외했다.
 **다시 볼 때.** Session Attributes MVF(`684ddb32`)를 도입하면 1·3번과 새로 쓴 테스트 파일을
 upstream 형태로 되돌린다. native 필드 계보를 받으면 2번의 `isRowValueValid`가 따라온다. 이 확장점을
 쓸 플러그인을 우리가 만들게 되면 `CELEditorProps.userAttributes`의 동작 범위 차이를 먼저 메워야 한다.
+
+---
+
+## e2e 플레이크 안정화 — Scheduled Recaps 스펙 하나를 버렸다
+
+**무엇을 했나.** upstream `10b780cb`(#37614)는 서로 무관한 플레이크 둘을 고친다. 5파일 +102/-5.
+
+| 받은 것 | 내용 |
+|---|---|
+| `cypress/.../upload_files_spec.js` (+7/-5) | 포스트 이미지의 `src`를 읽기 전에 `.image-loading__container`가 사라질 때까지 기다리고 `src`에 `data:`가 없음을 단언한다. 로딩 중 data-URI 플레이스홀더가 실제 이미지와 `file thumbnail` aria-label을 공유해 `content-disposition` 없는 URI를 집던 플레이크 |
+| `playwright/lib/src/index.ts` (+1) | `export type {ExtendedFixtures} from './test_fixture';` — 신규 fixture가 쓴다 |
+| `playwright/specs/.../ai/ai_bridge_fixture.ts` (+93, 신규) | 서버측 AI bridge mock이 프로세스 전역이라 `PW_WORKERS > 1`에서 테스트가 서로를 덮어쓴다. 교차 프로세스 파일 락(`fs.open(path, 'wx')` 단일 원자적 생성)으로 직렬화하고, 락 대기 시간을 테스트 타임아웃에서 차감하지 않게 `testInfo.setTimeout`으로 보정한다. stale 회수 경로는 **의도적으로 없다** — 파일시스템 원시 연산으로 race-free하게 만들 수 없어서, 누수는 조용한 동시 접근이 아니라 4분 획득 타임아웃으로 드러난다 |
+| `playwright/specs/.../ai/recaps.spec.ts` (+3/-1) | `{expect, test}`를 `./ai_bridge_fixture`에서 받도록 교체 |
+
+**왜 받았나.** Cypress 수정은 우리 자체 영역에서 비롯된 플레이크다 — 그 플레이스홀더를 넣은 것이
+우리가 반영한 `1344890707`(MM-69174 Fix most layout shift caused by images in posts, #37420)이고
+`.image-loading__container`가 `webapp/channels/src/components/size_aware_image.tsx:431`에 있다.
+AI bridge 락도 우리에게 유효하다 — 우리 `recaps.spec.ts`가 같은 전역 mock을 쓴다
+(`setupRecapBridge` 25·99행, `pw.getAIBridgeMock` 73·156행).
+
+### 버린 것
+
+| 위치 | upstream | 우리 | 이유 |
+|---|---|---|---|
+| `playwright/specs/.../ai/recaps_scheduled.spec.ts` (+3/-1) | import를 `./ai_bridge_fixture`로 교체 | **파일 자체를 버림** | 그 스펙도, 그것이 import하는 `./recaps_helpers`도 우리 트리에 없다. `25f3a75c`([MM-67163] Scheduled Recaps, #35495)를 **보류성 제외**했기 때문이다 — 113파일 +12168, DB 마이그레이션 7개, 신규 권한 생성물 재생성, 게이트 밖 유출 둘(콘솔 설정 화면이 기능 스위치와 무관하게 노출, 기존 수동 요약에 한도 신설) |
+
+merge-tree가 이 파일을 **modify/delete** 충돌로 냈다. "upstream 채택"으로 풀면 보류 제외한 기능의
+스펙이 들어오고 그것이 import하는 `./recaps_helpers`가 없어 즉시 깨진다.
+
+### `recaps.spec.ts`를 우리 형태로 유지했다
+
+우리 파일은 **594줄 자체 버전**이고 upstream은 717줄이다. 차이는 헬퍼의 위치다 — 우리는
+`setupRecapBridge`를 파일 안(469행)에 직접 정의하고, upstream은 `./recaps_helpers`에서
+`createChannelWithManyPosts`·`createRecapAndWaitForStatus`·`createUnreadChannelFixture`·
+`markAllCurrentChannelsRead`·`setupRecapBridge`·`waitForRecapStatus`·`waitForRecordedRequestCount`
+일곱 개를 import한다. 그 헬퍼 파일이 우리에게 없으므로 import 교체는 `{expect, test}` 한 줄만
+적용하고 `@mattermost/client`·`@mattermost/types/channels`·`PlaywrightExtended` 타입 import는
+우리 것을 유지했다(import/order 규칙에 맞춰 `@mattermost/*` 그룹 뒤 빈 줄, 그다음 상대 경로).
+
+### 우리 CI는 이 테스트를 돌리지 않는다
+
+워크플로 실측 — 실제 브라우저 실행(`e2e-tests-ci.yml`·`e2e-fulltests-ci.yml`)은 Argo Events
+트리거와 `workflow_dispatch`로만 돌고 PR에서 돌지 않는다. PR이 트리거하는 것은
+`e2e-tests-check.yml`(경로 `e2e-tests/**`)뿐이고 이건 타입·린트 검사다. 따라서 이 반영의 실효는
+CI 신호가 아니라 (1) 디버전스 감소 — 이 영역 후속 커밋의 충돌을 줄인다, (2) 로컬·수동 e2e
+실행 시의 정확성이다. 같은 성격의 선례가 `097a9330` 항목("Playwright 이관 스펙 — 받았지만
+우리 포크에서 돌지 않는다")이다.
+
+### 검증 중 발견 — playwright tsc 기준선 수치가 잘못 쓰여 왔다
+
+`@mattermost/playwright-lib`는 `package.json`의 `types: "dist/index.d.ts"`로 해석된다.
+`lib/dist`는 **gitignore된 미추적 빌드 산출물**(`e2e-tests/playwright/.gitignore:15`)이라
+로컬이 낡으면 `lib/src`의 변경이 타입 검사에 반영되지 않고 **오류가 대량으로 부풀려진다**.
+낡은 dist로 재면 333건, `cd lib && npm run build` 후 재면 **10건**이다. 10건에 CI `check` 잡을
+떨어뜨리는 `display_name_in_selector.spec.ts`의 `managed` 오류 2건이 포함돼 있어 이쪽이
+CI와 일치하는 값이다.
+
+**후속 작업 시 주의** — `e2e-tests/playwright`에서 tsc로 기준선을 잴 때는 반드시
+`cd lib && npm run build`를 먼저 돌린다. 2026-10-02 이전 세션 보고에 적힌 "playwright tsc
+기준선 333건"은 이 이유로 틀린 수치다(결론 자체는 영향 없음 — 접촉 파일 오류 0건은 동일).
+
+**다시 볼 때.** 운영에서 AI Recaps(`EnableAIRecaps`)를 켜기로 해 `25f3a75c`를 반영하면
+`recaps_scheduled.spec.ts`와 `recaps_helpers.ts`가 들어오고, 그때 이 커밋의 버린 hunk
+(import 교체 한 줄)도 함께 적용한다. 그 시점에 우리 `recaps.spec.ts`의 인라인 헬퍼를
+`recaps_helpers.ts`로 옮겨 upstream 형태에 맞출지도 함께 정한다.
