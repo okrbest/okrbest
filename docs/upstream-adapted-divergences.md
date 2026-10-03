@@ -934,3 +934,113 @@ merge-tree는 7파일 충돌을 예측했지만 실제 cherry-pick은 **9파일*
 **다시 볼 때.** MBE Phase 8a를 도입하면 1번(앵커)과 토글 배치를, Managed Categories를
 도입하면 2·5번을, MBE 8b/8c를 도입하면 3번을, classification을 도입하면 4번을 되돌린다.
 `FeatureFlags.DiscoverableChannels`를 켜기로 하면 그 시점에 실주행 검증을 한다.
+
+---
+
+## E2E testcontainers 스택 — 서버 이미지 가드를 더하고 워크플로는 버렸다
+
+**upstream**: [`a8c2307b`](https://github.com/mattermost/mattermost/commit/a8c2307bee9bd60a3a0f72a658f32599b44cab0b)
+(E2E/Playwright: Add testcontainers to playwright-lib, #37570)
+**우리 커밋**: `252fa6dbd6` + `711f3cbd0e` (rebase 병합으로 SHA가 바뀐다 — 상단 upstream 링크로 찾는다)
+**명세**: `specs/013-e2e-testcontainers-stack/`
+
+84파일을 git 상태로 갈라 처리했다 — 신규 추가 56(충돌 0건), 우리가 upstream parent와
+**동일한** 수정 19, **갈라진** 수정 7, 우리 트리에 없는 1. 앞의 75개는 upstream 그대로
+받았고 갈라진 7개만 훅별로 판단했다.
+
+대부분이 부딪히지 않은 이유는 upstream이 전체를 `PW_USE_TESTCONTAINERS`(기본 `false`)
+안에 가뒀기 때문이다. 기존 `external` 모드 동작이 한 줄도 바뀌지 않는다.
+
+### 1. 서버 이미지 가드 — 우리가 더한 유일한 코드
+
+upstream `test_config.ts`는 이렇게 폴백한다.
+
+```ts
+this.serverImage = process.env.SERVER_IMAGE || MATTERMOST_SERVER_IMAGE;
+// MATTERMOST_SERVER_IMAGE = 'mattermostdevelopment/mattermost-enterprise-edition:master'
+```
+
+그대로 두면 `SERVER_IMAGE` 없이 돌릴 때 **upstream 서버를 테스트한다**. 테스트는
+초록인데 okrbest를 보지 않는다 — 가장 찾기 어려운 실패 양상이다. 그래서 대입부에서
+던지도록 바꿨다(4줄 + 주석).
+
+`lib/src/containers/default_images.ts`는 **바이트 단위로 upstream 그대로** 뒀다. 그 파일은
+upstream이 이미지 버전을 올릴 때마다 충돌을 주는 자리라, 손대지 않으면 이후 sync가 공짜다.
+
+**되돌릴 조건**: okrbest가 서버 이미지를 레지스트리에 발행하면, 그 이미지를 기본값으로
+두는 upstream 형태(`||` 폴백)로 되돌린다.
+
+### 2. 워크플로 미반영
+
+`.github/workflows/e2e-tests-playwright-template.yml`의 upstream 훅(+21/-14)을 적용하지
+않았다. 우리 파일이 **+471/-243**으로 갈라져 있고(`91de3d23` SEC-10179 adapt에서 워크플로
+757줄 미반영), CODEOWNERS 보호 경로이며, 브라우저 테스트가 PR에서 돌지 않는다
+(Argo Events·`workflow_dispatch` 전용). 적용해도 돌지 않는 코드를 넣고 갈라짐만 키운다.
+
+**되돌릴 조건**: 원격 CI로 testcontainers 모드를 돌리기로 하면, 1번의 레지스트리 발행과
+묶어서 워크플로를 함께 다룬다.
+
+### 3. `post_height.spec.ts` — 훅 둘을 갈라 받았다
+
+| 위치 | upstream | 우리 |
+|---|---|---|
+| ~36행 | `AllowedUntrustedInternalConnections`에 `${new URL(fileServerUrl).hostname}` 추가 | **받았다** (testcontainers 모드에 필요) |
+| ~280행대 | `skipProjects: ['firefox']` + TODO | **우리 것 유지** — `['chrome','firefox','ipad']` + MM-67372 SVG DoS 근거 주석 |
+
+280행대를 upstream 훅으로 덮으면 MM-67372 완화 조치의 skip 범위와 근거가 되돌아간다.
+
+### 4. 그 밖에 우리 것을 지킨 자리
+
+- **`lib/src/server/default_config.ts`** — upstream이 바꾸는 건 `ServiceSettings.SiteURL`
+  **한 줄**(`baseURL` → `internalBaseURL`)뿐이다. 우리 피처 플래그(`IntegratedBoards: false`,
+  `CJKSearch: false`, `MobileEphemeralMode: true`, `PermissionPolicies: true`)와
+  `TeammateNameDisplay: 'nickname_full_name'`는 전부 그대로다. 그 한 줄은 설정 취향이
+  아니라 기능이 요구하는 기계적 변경이고, `external` 모드에서는 두 값이 같아 동작이 안 바뀐다.
+- **`lib/src/index.ts`** — upstream 추가분(+28줄)만 받고 우리가 제거한 export 5건
+  (`WysiwygEditor`, `wysiwyg_helpers` 전체, `TextInputSetting`,
+  `ensureAutotranslationPermissions`, `licenseTier`)은 되살리지 않았다. 되살리면 없는
+  모듈을 export해 `tsc -b`가 깨진다.
+- **`package.json`의 `tsc` 스크립트 순서** — 우리 `tsc -b && npm run tsc --workspaces`를
+  유지했다(upstream은 역순). 이번 훅이 그 줄을 건드리지 않는다.
+- **`package-lock.json`** — upstream 훅(+2589/-268)을 붙이지 않고 `npm install`로 재생성했다.
+
+### 5. 서버 이미지 조달 — 우리만 쓰는 스크립트
+
+`e2e-tests/playwright/script/build_server_image.sh`를 새로 넣었다. upstream에 없는 파일이다.
+`server/build/Dockerfile`을 돌리는 데 함정이 넷 있어 손으로 반복하면 틀린다.
+
+1. 빌드 컨텍스트의 `dist/server`·`dist/client`를 저장소가 만들어 주지 않는다
+2. `MM_PACKAGE`의 `curl`은 빌드 컨테이너 안에서 돌아 `file://`이 통하지 않는다 → 로컬 HTTP
+3. macOS BSD tar 산출물을 컨테이너의 GNU tar가 거부한다(`Member name contains '..'`, AppleDouble)
+4. 최종 이미지가 distroless라 셸이 없어 `sh -c`로 검사할 수 없다
+
+이미지는 **amd64**로 만든다. 호스트가 arm64여도 그렇다 — `mattermost_container.ts:80`과
+`mmctl_container.ts:97`이 `.withPlatform('linux/amd64')`로 고정하기 때문이다. 그 두 파일은
+후속 커밋(`fe9a36e8` rolling upgrade, `67c177a4` SSO 인프라)이 건드릴 자리라 고정을 풀지
+않고 이미지를 맞췄다.
+
+### 6. 곁다리로 고친 기존 결함 하나
+
+`server/build/Dockerfile`의 `COPY dist/client/* /mattermost/client`가 와일드카드라
+하위 디렉터리를 평탄화했다. `files/` 안 171개가 최상위로 쏟아져 `/static/files/...`가 전부
+404가 된다. 와일드카드를 빼서 고쳤다(이미지의 `client/files/` 항목: 0개 → 172개).
+
+okrbest 자체 추가 블록(upstream에 없는 14줄)의 결함이고, 저장소의 어떤 절차도
+`server/build/dist`를 만들지 않아 실행된 적이 없어 드러나지 않았다.
+
+### 남은 일
+
+브라우저 스펙은 아직 통과하지 못한다. 막는 것이 둘 더 있고 **둘 다 이 커밋 범위 밖**이다.
+
+- **웹앱 프로덕션 번들** — `@mattermost/shared`가 `parcel build --no-optimize`로 빌드돼
+  `jsxDEV` 호출이 dist에 남는데(12파일), React 18.2의 프로덕션 JSX dev 런타임은
+  `exports.jsxDEV = void 0`다. 프로덕션 번들에서 반드시 터지고 화면이 백지가 된다.
+  `--no-optimize`를 빼고 다시 빌드하면 `jsxDEV`가 0파일이 되는 것까지 실험으로 확인했으나,
+  제품 전체에 영향을 주므로 **별도 작업으로 넘긴다**. upstream도 같은 설정이지만 우리는
+  보고하지 않고 자체 수정한다.
+- **스펙 선택자 vs Lexical** — upstream 스펙이 `getByTestId('post_textbox')`를 찾는데 우리
+  `lexical_text_editor.tsx:245-249`의 `ContentEditable`은 `id`와 `data-placeholder`만
+  내보내고 `data-testid`가 없다. 의도된 포크 갈라짐이다.
+
+**다시 볼 때.** 레지스트리 발행을 하면 1·2번을, 위 두 결함을 고치면 브라우저 스펙 판정을,
+MM-67372를 재검토하면 3번을 다시 본다.

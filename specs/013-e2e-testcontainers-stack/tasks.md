@@ -173,8 +173,8 @@ description: "E2E testcontainers 의존 서비스 스택 구현 과제"
 
 ## Phase 6: Polish & 교차 관심사
 
-- [ ] T048 [P] `docs/upstream-adapted-divergences.md` 기록 — **미완**. 남은 작업
-- [ ] T049 [P] `PW/sample.env` 환경변수 문서화 — **미완**. 남은 작업
+- [x] T048 [P] `docs/upstream-adapted-divergences.md` 기록 — **완료**. 6개 절(서버 이미지 가드·워크플로 미반영·post_height 훅 분리·우리 것을 지킨 4곳·이미지 조달 스크립트·Dockerfile 결함 수정)과 복원 조건, 남은 일 2건
+- [x] T049 [P] `PW/sample.env` 환경변수 문서화 — **완료**. 17~21번 항목 추가(`PW_USE_TESTCONTAINERS`, `SERVER_IMAGE`(필수·기본값 없음), `PW_TESTCONTAINERS_SERVICES`, `PW_TESTCONTAINERS_REUSE`, `PW_TESTCONTAINERS_CONTAINER_RUNNER`) + `.env.testcontainers`가 생성물이라는 주석. prettier 통과
 - [x] T050 [P] 이미지 생성 절차 문서 — **완료(스크립트로 대체)**. `PW/script/build_server_image.sh`가 절차를 담고 검증까지 수행한다(FR-004). 근거는 research.md D2
 - [x] T051 커밋 본문 `Upstream:` 링크 — **완료**. `252fa6dbd6` 커밋 본문에 포함
 - [ ] T052 PR 생성·병합 — **미완**. 사용자 확인 후 진행
