@@ -1,21 +1,16 @@
 # upstream-master 미반영 커밋 목록
 
-`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-03 17:38
-- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 501개
+- 갱신일: 2026-10-03 21:37
+- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 496개
 
 **마지막 반영 커밋:** `85acba42` | [Skip flaky TestExtractConcurrency (#37834)](https://github.com/mattermost/mattermost/commit/85acba42e1f9ae8a6bfb2f724bbf819b21a45c7a) | 2026-08-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 90ee5da7 | [docs: fix dark-mode code block contrast issues (#37736)](https://github.com/mattermost/mattermost/commit/90ee5da701b1b2732afb70e689ffd6e1ce6a46af) | 2026-07-29 |
-| 638a1970 | [MM-69929: Fix clipped focus outline on multi-image gallery thumbnails (#37713)](https://github.com/mattermost/mattermost/commit/638a19702c7fdd597be79ff933f2cbd27aaae8bd) | 2026-07-29 |
-| 8f0ab3f2 | [Add owners fields to policies (#37655)](https://github.com/mattermost/mattermost/commit/8f0ab3f2088817f06d4f104d82840965500fe534) | 2026-07-29 |
-| a5739da6 | [Make options editable when a select field is owned (#37720)](https://github.com/mattermost/mattermost/commit/a5739da6923f3eeba883b2455206c95120ddedb1) | 2026-07-29 |
-| 10804f80 | [Prepackage mattermost-plugin-agents v2.5.1 (#37727)](https://github.com/mattermost/mattermost/commit/10804f80f5739898f854203833c1dbab5e37f059) | 2026-07-29 |
 | cdbc9263 | [Translations update from Mattermost Weblate (#37689)](https://github.com/mattermost/mattermost/commit/cdbc92639c51b64243cf7a0c8f622c720a312029) | 2026-07-30 |
 | 6b90bb30 | [Make server-ci.yml always trigger so required checks never get stuck pending (#37557)](https://github.com/mattermost/mattermost/commit/6b90bb306383fe1147376016294e9d3bd6ba34db) | 2026-07-30 |
 | 9a8021b5 | [\[MM-69812\] webapp: document plugin-facing global surface governance (#37515)](https://github.com/mattermost/mattermost/commit/9a8021b5926b8e75b0458403a7719c88e1fde7eb) | 2026-07-30 |
@@ -859,6 +854,14 @@
 | 4cd57370 | [ci: remove testcontainers teardown step from playwright e2e workflow (#37697)](https://github.com/mattermost/mattermost/commit/4cd57370aca697cfb636f9dc2374c7059abb320b) | spec 전환한 a8c2307b(E2E/Playwright: Add testcontainers to playwright-lib, #37570)가 추가한 스텝을 지우는 후속이라 삭제 대상이 우리에게 없다. 커밋 내용은 .github/workflows/e2e-tests-playwright-template.yml에서 ci/testcontainers-teardown 스텝 8줄을 제거하는 것뿐이다(커밋 본문 없음, -8/+0) — 그 스텝은 PW_TESTCONTAINERS_REUSE 때문에 이전 단계들이 실행 중인 서버를 그대로 쓰므로 실제로 스택을 내리는 유일한 지점이었고 컨테이너 로그 수집과 .env.testcontainers drift 이력 보관도 겸했다. 실측 — 터치 1파일은 MISSING이 아니지만(파일 존재) 우리 워크플로에서 'testcontainers' 문자열이 0건이다(testcontainers-teardown 0, testcontainers:down 0, PW_TESTCONTAINERS_REUSE 0). a8c2307b를 spec으로 전환해 받지 않았으니 그 커밋이 넣은 스텝도, 그것이 호출하는 npm run testcontainers:down 스크립트도 없다. merge-tree CONFLICT는 우리 파일이 upstream 부모 대비 +471/-243 갈라진 데서 온다 — 91de3d23(SEC-10179 test system IO 통합) adapt에서 워크플로 757줄을 미반영한 결과이고 같은 세션의 c77efb5a 제외 사유와 같은 뿌리다. 향후 처리 — a8c2307b spec 작업에서 testcontainers 인프라를 도입할 때 upstream 최종 형태(teardown 스텝 없음)로 바로 세우면 이 커밋의 내용이 자연히 반영된다. 그 spec 기록이 이 커밋을 '바로 다음 대상'으로 이미 언급해 두었다. signals의 PROTECTED 표시는 거짓 양성이다 — 우리 CODEOWNERS의 .github/workflows 소유 항목은 channels-ci.yml 하나뿐이다. |
 
 | dc41b72f | [Prepackage mattermost-plugin-agents v2.5.0-rc2. (#37691)](https://github.com/mattermost/mattermost/commit/dc41b72fdd62e935c80fc05c7ca3949476aa8858) | f84dd257(Prepackage agents v2.5.0-rc1, #37582) 제외 사유가 이 커밋을 이름으로 지목해 둔 예고된 처리다 — 그 기록이 'rc2(dc41b72f)도 같은 사유로 제외 대상'이라고 적어뒀다. 커밋 내용은 server/Makefile의 Agents 플러그인 버전을 v2.5.0-rc1 → v2.5.0-rc2로 올리는 2줄(일반 166행·FIPS 180행)이고 커밋 본문은 없다. 우리 Makefile은 정식 v2.4.2를 쓴다(166행 mattermost-plugin-agents-v2.4.2, 180행 v2.4.2%2B1305067-fips) — rc1을 안 받았으므로 rc1 → rc2 치환 대상이 아예 없고 merge-tree가 충돌하는 것도 그래서다. rc 제외 방침의 선례 — 41e59bf1(v2.0.0-rc3)·863d581f(v2.0.0-rc5): 정식 릴리스만 받고 우리 자체 AI 권한·UI 확장(e64d0eea03·1cfd12e5df)과의 호환은 정식 버전 tarball로 확인한다. 정식 v2.5.1(10804f80, #37727, 2026-07-29)이 목록에 그대로 남아 있어 바로 다음 날짜다 — rc2를 받으면 하루 뒤 정식을 또 올려 tarball 검증을 두 번 하게 된다. 재검토 조건(f84dd257 기록에서 승계) — 10804f80 차례에 min_server_version·웹앱 registry API(registerAIActionMenuItemComponent 확장점 포함)·plugin.API 구현을 tarball 실측으로 확인하고 v2.4.2에서 v2.5.1로 한 번에 올린다. |
+
+| 90ee5da7 | [docs: fix dark-mode code block contrast issues (#37736)](https://github.com/mattermost/mattermost/commit/90ee5da701b1b2732afb70e689ffd6e1ce6a46af) | 제외한 문서 사이트 계보(1d3bbc63 #37330 → dd69d06d·70b62d9e) 위의 다크 모드 가독성 수정이라 고칠 대상이 없다. 터치 2파일(docs/develop/integrate/webhooks/outgoing/index.md 예제 펜스 json→text, docs/site/src/css/custom.css Prism 주석 토큰·목차 링크 대비)이 모두 master에 없어 merge-tree가 modify/delete 충돌을 낸다. 코드·리브랜드 의존 없음. 문서 사이트 반영을 재검토할 때 함께 다룬다. |
+
+| 8f0ab3f2 | [Add owners fields to policies (#37655)](https://github.com/mattermost/mattermost/commit/8f0ab3f2088817f06d4f104d82840965500fe534) | 핵심 조건 attrs.owners가 제외한 3b64a2ac(Property owners, #37299 — property 시스템 v2 계보 48f2fd08 → 9f1fe90b)의 산물이라 우리 환경에서 동작 변화가 0이다. 5파일 +113/-17(테스트 +92): ABAC 편집기의 '정책에 쓸 수 있는 속성' 판정을 shared.tsx hasControlledAttributeValues()로 추출하고 owners 보유 속성을 허용 대상에 추가. 실측 — webapp/platform/types/src/properties.ts에 owners 없음, upstream 타입 파일 properties_user.ts 부재(출처 076370e6, 제외), server PropertyAttrsOwners 상수 부재. merge-tree CONFLICT: upstream 문맥이 isNativeField(ABAC native 17c77e27, 제외)·isSessionAttributeField(684ddb32·57fe965a, 제외) 분기 위라 shared.tsx·shared.test.tsx content 충돌, attribute_selector_menu.test.tsx는 57fe965a 산출물이라 modify/delete. owners 조건을 빼고 함수 추출만 받는 adapt는 동작 불변에 충돌 해소 비용만 있어 택하지 않음. 3b64a2ac 계보를 재검토할 때 함께 다룬다. |
+
+| a5739da6 | [Make options editable when a select field is owned (#37720)](https://github.com/mattermost/mattermost/commit/a5739da6923f3eeba883b2455206c95120ddedb1) | 고치는 대상이 제외한 두 계보의 산물이라 우리 파일에 없다 — 8f0ab3f2와 같은 사유. 3파일 +157/-25(system_properties/user_properties_values.{tsx,scss,test.tsx}): owners가 지정된 select·multiselect·rank 속성의 옵션을 관리자가 편집하도록 하고 소유자 표시를 편집기 위 평문으로 옮김. 실측 — 우리 user_properties_values.tsx에 owner 0건(owner pill 출처 3b64a2ac Property owners #37299, 제외), rank 0건(UserPropertyRankValues 출처 017a7102 rank field type #36809, 제외). merge-tree CONFLICT 3파일 모두 content 충돌로 이 두 부재 계보 때문에 문맥이 벌어졌다. 우리 서버는 owners를 내려주지 않아 반영해도 동작 변화 0. 3b64a2ac 계보를 재검토할 때 8f0ab3f2와 함께 다룬다. |
+
+| 10804f80 | [Prepackage mattermost-plugin-agents v2.5.1 (#37727)](https://github.com/mattermost/mattermost/commit/10804f80f5739898f854203833c1dbab5e37f059) | 공식 Agents 번들 버전 올림을 멈춘다 — 1bfa2e51(Boards 9.3.1) 제외에서 정한 방침 적용. 우리 Agents 포크(okrbest/okrbest-plugin-agents)는 공식과 같은 플러그인 ID mattermost-ai이고, server/Makefile PLUGIN_PACKAGES는 plugins.releases.mattermost.com의 공식판을 번들한다(우리 포크 번들 경로 없음, 배포는 플러그인 저장소 make deploy). 재시작 때 processPrepackagedPlugin이 더 높은 번들 버전을 로컬 설치하므로 번들을 올릴수록 우리 포크와 그 위의 자체 AI 권한·UI 확장(e64d0eea03·1cfd12e5df)이 공식판에 덮일 위험이 커진다. mattermost-ai는 transitionallyPrepackagedPlugins(server/channels/app/plugin.go:1035)에 없어 파일 저장소 교체 경로는 없으나 로컬 설치 경로는 있다. 내용은 server/Makefile 2줄(일반 166·FIPS 180행) v2.5.0-rc2 → v2.5.1, 우리는 v2.4.2라 rc2 줄이 없어 merge-tree CONFLICT. f84dd257·dc41b72f(rc) 기록의 '정식 v2.5.1에서 tarball 실측 후 한 번에 올린다'는 재검토 조건은 이 방침으로 대체한다. 후속 범프 1361e922(v2.6.0)·443c6fdf(v2.6.1)·05553d08(v2.8.0)·751b8cb6(v2.9.0)도 같은 판단. 재검토 조건: 공식 Boards·Agents 번들 정책(목록에서 제거 또는 우리 산출물 번들)이 정해지면 그 정책에 따른다. |
 
 ## spec 전환 커밋
 
