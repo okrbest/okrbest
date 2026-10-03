@@ -4,6 +4,9 @@ logs
 node_modules
 /data
 /dist
+# docker 빌드 컨텍스트 — build/Dockerfile의 COPY dist/server|client 대상.
+# 바이너리+웹앱 번들이라 수백 MB다.
+/build/dist
 /webapp/dist
 jobserver
 npm-debug.log

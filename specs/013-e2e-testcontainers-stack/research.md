@@ -209,9 +209,17 @@ PR이 트리거하는 건 [`e2e-tests-check.yml`](../../.github/workflows/e2e-te
 ## D3. `default_config.ts` — upstream이 바꾸는 건 한 줄뿐이다
 
 **사실**: 우리 파일은 parent 대비 +17/-51로 많이 갈라졌다. 우리 피처 플래그
-(`IntegratedBoards`·`CJKSearch`·`MobileEphemeralMode`·`PermissionPolicies` 등),
-`TeammateNameDisplay: 'nickname_full_name'`, 우리에게 없는 설정 블록 제거
-(`MobileEphemeralModeSettings` 등)가 전부 여기 있다. **딱 우리쪽 설정이다.**
+(`IntegratedBoards: false`·`CJKSearch: false`·`MobileEphemeralMode: true`·
+`PermissionPolicies: true`), `TeammateNameDisplay: 'nickname_full_name'`(upstream은
+`'username'`), 그리고 우리에게 없는 키 제거(`AttributeValueMasking`,
+`ChannelPermissionPolicies`, `ClassificationMarkings`, `DiscoverableChannels`,
+`EnableChannelCategorySorting`, `EnableShiftEscapeToMarkAllRead`,
+`AggregatePluginMetrics`, Scheduled Recaps 계열 `MaxRecapsPerDay` 등, `FeedbackName`)가
+전부 여기 있다. **딱 우리쪽 설정이다.**
+
+*정정*: 처음에 `MobileEphemeralModeSettings` 블록을 "우리가 제거했다"고 적었는데
+틀렸다. 양쪽에 다 있고 **위치만 다르다**(우리 888행, parent 703행). 재배치를 제거로
+잘못 읽었다. 블록 단위로 사라진 설정은 없다 — 갈라짐은 키 단위다.
 
 upstream의 변경은 `ServiceSettings.SiteURL` **한 줄**이다.
 `testConfig.baseURL` → `testConfig.internalBaseURL`, 그리고 주석 5줄.
