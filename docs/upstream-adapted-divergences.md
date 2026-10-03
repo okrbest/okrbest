@@ -409,6 +409,11 @@ CLEAN으로 나왔지만 그대로 받으면 webapp 빌드가 깨진다.
 이후 upstream이 `published_editor.ts`나 `types/global/editor.ts`를 고치는 커밋은
 modify/delete 충돌로 나타난다 — 이 항목을 근거로 같은 판단(제외 또는 위 설계 후 수용)을 한다.
 
+**후속 반영.** upstream `9a8021b5`(MM-69812, #37515)가 `webapp/AGENTS.md`에 공개 API 규칙을
+더했다. 받으면서 `window.WebappUtils.editor` 항목만 "okrbest에는 공개하지 않음"으로 바꿨다 —
+에이전트가 없는 `published_editor.ts`를 찾지 않게 한다. 에디터 공개를 되살리면 이 줄도 upstream
+원문으로 돌린다.
+
 ---
 
 ## `AccessControlSettings` — 세션 속성 필드 둘이 없다
