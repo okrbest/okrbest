@@ -45,7 +45,10 @@ RUN rm -f /mattermost/bin/mattermost \
 # Copy the new mattermost server and client
 COPY --chown=mattermost:mattermost --chmod=755 dist/server/mattermost /mattermost/bin/mattermost
 COPY --chown=mattermost:mattermost --chmod=755 dist/server/mmctl /mattermost/bin/mmctl
-COPY --chown=mattermost:mattermost --chmod=755 dist/client/* /mattermost/client
+# dist/client/* (와일드카드)는 하위 디렉터리를 평탄화한다 — files/ 안의 폰트·CSS 171개가
+# /mattermost/client 최상위로 쏟아져 /static/files/... 가 전부 404가 된다.
+# 디렉터리를 통째로 넘겨야 구조가 보존된다.
+COPY --chown=mattermost:mattermost dist/client /mattermost/client
 # COPY --chown=mattermost:mattermost --chmod=755 ../i18n/* /mattermost/i18n
 # COPY --chown=mattermost:mattermost --chmod=755 ../config/config.json /mattermost/config/config.json
 

@@ -44,8 +44,10 @@ upstream [`a8c2307b`](https://github.com/mattermost/mattermost/commit/a8c2307bee
 **Testing**: Playwright. upstream이 신규 스펙 11건을 함께 넣어 US3 검증이 따라온다.
 PR 게이트는 `cd e2e-tests/playwright && npm run check`(eslint + prettier + `tsc -b` + `lint:test-docs`).
 
-**Target Platform**: Docker가 있는 개발 머신(이 머신은 darwin arm64). 서버 이미지는 **linux/arm64**로
-만든다 — 네이티브로 돌아 qemu 에뮬레이션을 피한다. 의존 서비스 이미지는 멀티아치다.
+**Target Platform**: Docker가 있는 개발 머신(이 머신은 darwin arm64). 서버 이미지는
+**linux/amd64**로 만든다 — 스택이 `mattermost_container.ts:80`·`mmctl_container.ts:97`에서
+`.withPlatform('linux/amd64')`로 고정하고, 그 고정을 풀면 후속 커밋 cherry-pick이
+충돌하므로 이미지를 맞춘다. Apple Silicon에서는 에뮬레이션으로 돈다.
 
 **Project Type**: 테스트 인프라. `server/` 무변경, `webapp/` 무변경. 변경 면적은
 `e2e-tests/playwright/` 안이다.
