@@ -39,9 +39,9 @@ description: "E2E testcontainers 의존 서비스 스택 구현 과제"
 
 - [x] T005 서버 이미지 빌드 — **완료(2026-10-03)**. [quickstart.md](quickstart.md) 1단계 5절차. 처음 레시피가 세 군데 틀려 고쳤다: 빌드 컨텍스트에 `server/build/dist/{server,client}` 수동 구성, `MM_PACKAGE`를 로컬 HTTP(`host.docker.internal:8899`)로 서빙(`file://` 불가), macOS tar 대신 `COPYFILE_DISABLE=1 tar --no-xattrs --exclude '._*'`로 단일 루트 tarball 재생성
 - [x] T006 이미지 온전성 검증 — **완료**. distroless라 셸이 없어 `--entrypoint`와 `docker create`+`docker cp`로 검사했다. 결과: `Version: 11.10.0`, `Build Hash: ce82c6e8778db5a3ad070459048aa2b09f37b80b`(우리 master HEAD), `client/root.html`+클라이언트 4491개, `config`·`data`·`logs`·`plugins`·`templates`·`i18n/ko.json` 전부 존재, 433MB
-- [ ] T007 이미지 기동 확인 — 컨테이너를 띄워 `/api/v4/system/ping`이 응답하고 **브라우저로 웹 UI가 열리는지** 본다. `ping`만 보면 안 된다 — 웹 UI 없는 이미지가 `ping`에는 답한다. T006은 파일 존재만 봤다
-- [ ] T008 `server/.gitignore`에 `/build/dist`를 추가한다 — 빌드 컨텍스트가 지금 ignore되지 않아 **380MB 바이너리가 추적 대상으로 노출된다**. 실수로 커밋하기 쉽다 (검증 중 실제로 `?? server/build/dist/`로 떴다)
-- [ ] T009 이미지 생성을 스크립트로 고정 — 5절차를 손으로 반복하면 틀린다. `server/build/` 또는 `PW/script/`에 스크립트로 넣는다. T050 문서화와 묶어도 된다
+- [x] T007 이미지 기동 확인 — **완료**. 격리 네트워크(postgres:14 전용)에서 기동: `/api/v4/system/ping` 200, `database_status: OK`, `filestore_status: OK`. **웹 UI 실제 서빙 확인** — `GET /` 200(698KB), main 번들 `/static/main.827aef64…js` 200. 파일 존재만 본 T006과 달리 브라우저가 받는 경로를 확인했다
+- [x] T008 `server/.gitignore`에 `/build/dist` 추가 — **완료**. `git check-ignore -v`로 확인(`server/.gitignore:9`). 추가 전 `?? server/build/dist/`로 380MB가 노출되던 것이 사라졌다
+- [x] T009 이미지 생성 스크립트 — **완료**. `e2e-tests/playwright/script/build_server_image.sh`. 기존 이미지를 지우고 **처음부터 돌려 검증**: 5절차 통과, 온전성 7종 OK, `Build Hash: db8fc1d409…`. 호스트 아키텍처 자동 판별, 빈 포트 자동 선택, trap 정리, tarball 거부항목 검사 포함
 
 **T005-T006에서 드러난 okrbest master의 잠재 결함** (이 기능이 만든 게 아니다):
 `server/build/Dockerfile` 39-48행의 `rm` + `COPY dist/server/...` 14줄은 okrbest 자체
@@ -62,11 +62,11 @@ description: "E2E testcontainers 의존 서비스 스택 구현 과제"
 
 ### 2-1. 의존 (D5·D8)
 
-- [ ] T010 `PW/lib/package.json`에 의존 5개 추가 — `testcontainers@12.0.4`, `@testcontainers/postgresql@12.0.4`, `@azure/storage-blob@12.33.0`, `ldapts@9.0.0`, `minio@8.0.7`
-- [ ] T011 `PW/package.json`에 `chalk@5.6.2`를 devDependency로 추가하고 `glob`/`globals` 정렬을 upstream에 맞춘다
-- [ ] T012 `PW/package.json`에 `allowScripts` 필드 신설 — **6개 전부**: `cpu-features@0.0.10`, `protobufjs@7.6.4`, `ssh2@1.17.0`, `unrs-resolver@1.12.2`, `@percy/core@1.32.2`, `fsevents@2.3.2`
-- [ ] T013 `PW/package.json`의 `tsc` 스크립트 순서(`tsc -b && npm run tsc --workspaces`)를 **그대로 둔다**. upstream은 역순이지만 이번 훅이 그 줄을 건드리지 않는다 (D5 — 우리 설정 보존)
-- [ ] T014 `cd PW && npm install`로 `package-lock.json` **재생성**. upstream의 +2589/-268 훅을 붙이지 않는다 — 우리 의존 트리가 다르다. lock을 같은 변경에서 커밋한다 (원칙 II, D8)
+- [x] T010 `PW/lib/package.json`에 의존 5개 추가 — **완료**. diff가 정확히 +5줄(포맷 보존). 설치 확인: testcontainers 12.0.4, @testcontainers/postgresql 12.0.4, @azure/storage-blob 12.33.0, ldapts 9.0.0, minio 8.0.7
+- [x] T011 `PW/package.json`에 `chalk@5.6.2` devDependency + `glob`/`globals` 정렬 — **완료**. 스크립트 3개(`test:full`·`testcontainers:up`·`testcontainers:down`)도 함께
+- [x] T012 `allowScripts` 6개 신설 — **완료**. upstream 순서 그대로(cpu-features, protobufjs, ssh2, unrs-resolver, @percy/core, fsevents)
+- [x] T013 `tsc` 스크립트 순서 보존 — **완료**. `tsc -b && npm run tsc --workspaces` 유지 확인(upstream 역순을 따르지 않았다). diff에 `package.json +1/-1`로 남는 것이 이 줄이다
+- [x] T014 `package-lock.json` 재생성 — **완료**. `npm install` EXIT=0, +1977/-61. 206패키지 추가. **네이티브 빌드(ssh2 1.17.0, cpu-features) 실패 0건** — darwin arm64에서 통과
 
 **T010이 6개인 이유**: 뒤 3개는 testcontainers가 끌고 온 게 아니라, `allowScripts` 필드를 도입하는 순간 **이미 설치 스크립트를 쓰던 기존 의존**까지 명시해야 해서다. 우리 트리에 이 필드가 0건이므로 3개만 넣으면 기존 설치가 깨진다. (사전 조사에 3개로 적혀 있던 것을 정정했다.)
 
@@ -74,11 +74,11 @@ description: "E2E testcontainers 의존 서비스 스택 구현 과제"
 
 전부 upstream 그대로 넣는다. copyright 헤더를 유지한다 (원칙 IV).
 
-- [ ] T015 [P] `PW/lib/src/containers/` 코드 21파일 — `stack.ts`(657줄 오케스트레이터), `default_images.ts`, `requirements.ts`, `mattermost_container.ts`, `postgres_container.ts`, `inbucket_container.ts`, `openldap_container.ts`, `keycloak_container.ts`, `minio_container.ts`, `azurite_container.ts`, `elasticsearch_container.ts`, `opensearch_container.ts`, `webhook_container.ts`, `mmctl_container.ts`, `network.ts`, `retry.ts`, `log.ts`, `paths.ts`, `constants.ts`, `env_baseline.ts`, `index.ts`
-- [ ] T016 [P] `PW/lib/src/containers/assets/` 9파일 — `Dockerfile.elasticsearch`, `Dockerfile.opensearch`, `keycloak-realm-export.json`(2333줄), `postgres.conf`, `README.md`, `webhook/Dockerfile.webhook`, `webhook/webhook_serve.js`, `webhook/utils/webhook_utils.js`, `webhook/tests/plugins/post_message_as.js`
-- [ ] T017 [P] `PW/lib/src/server/` 서비스 헬퍼 10파일 — `keycloak.ts`, `openldap.ts`, `minio.ts`, `azurite.ts`, `filestore.ts`, `elasticsearch.ts`, `opensearch.ts`, `postgres_search.ts`, `feature_flags.ts`, `mmctl.ts`
-- [ ] T018 [P] 실행 진입점 4파일 — `PW/playwright.testcontainers-up.config.ts`, `PW/script/testcontainers_up.spec.ts`, `PW/script/testcontainers_up_global_setup.ts`, `PW/script/testcontainers_down.mjs`
-- [ ] T019 [P] 신규 스펙 12파일 — `PW/specs/functional/system_console/`의 `feature_flag.spec.ts`, `ldap/ldap_login.spec.ts`, `saml/saml_login.spec.ts`, `mmctl/mmctl_remote.spec.ts`, `search/{elasticsearch,opensearch,postgres}_search.spec.ts` + `search/search_helpers.ts`, `file_storage/{local,minio,azurite}_file_storage.spec.ts` + `file_storage/file_storage_helpers.ts`
+- [x] T015 [P] `PW/lib/src/containers/` 코드 21파일 — **완료**. upstream 그대로. copyright 헤더 전부 확인(원칙 IV)
+- [x] T016 [P] `PW/lib/src/containers/assets/` 9파일 — **완료**. upstream 그대로
+- [x] T017 [P] `PW/lib/src/server/` 서비스 헬퍼 10파일 — **완료**. upstream 그대로
+- [x] T018 [P] 실행 진입점 4파일 — **완료**. upstream 그대로
+- [x] T019 [P] 신규 스펙 12파일 — **완료**. upstream 그대로. T032에서 형식 검사 통과 확인
 
 **T015-T017은 병렬이다.** 서로 다른 파일이고 우리 트리에 **단 하나도 존재하지 않는다**(충돌 0건 측정 완료).
 
@@ -86,16 +86,16 @@ description: "E2E testcontainers 의존 서비스 스택 구현 과제"
 
 ### 2-3. 우리와 동일한 수정 20개 (훅 그대로)
 
-- [ ] T020 [P] `PW/lib/src/test_config.ts` — upstream +204줄 적용 (`useTestContainers`, `internalBaseURL`, `serverImage`, `TESTCONTAINERS_SERVICE_NAMES`, `bootEnvOverrides` 등). `.env.testcontainers` dotenv 로드 포함
-- [ ] T021 [P] `PW/lib/src/test_fixture.ts`(+73/-1), `PW/global_setup.ts`(+17/-7), `PW/lib/src/file_server.ts`, `PW/lib/src/server/{client,email,index}.ts`, `PW/lib/src/ui/pages/login.ts`, `PW/mock_file_server.js`, `PW/lib/rollup.config.js`, `PW/lib/package.json`, `PW/eslint.config.mjs`, `PW/.gitignore` — upstream 훅 그대로
-- [ ] T022 [P] 문서·기존 스펙 — `e2e-tests/README.md`, `PW/README.md`, `PW/CLAUDE.OPTIONAL.md`, `PW/lib/README.md`, `PW/specs/functional/channels/interactive_messages/mm_blocks_{ephemeral,incoming_webhook}.spec.ts`, `PW/specs/functional/system_console/abac/masking/masking_db_setup.ts` — upstream 훅 그대로
+- [x] T020 [P] `PW/lib/src/test_config.ts` — **완료**. upstream +204줄 적용(`useTestContainers`, `internalBaseURL`, `serverImage`, `TESTCONTAINERS_SERVICE_NAMES`, `bootEnvOverrides`, `.env.testcontainers` 로드)
+- [x] T021 [P] 코드 11파일 — **완료**. `test_fixture.ts`·`global_setup.ts`·`file_server.ts`·`server/{client,email,index}.ts`·`ui/pages/login.ts`·`mock_file_server.js`·`lib/rollup.config.js`·`eslint.config.mjs`·`.gitignore`. 적용 후 upstream과 일치 검증
+- [x] T022 [P] 문서·기존 스펙 8파일 — **완료**. upstream 그대로
 
 ### 2-4. FR-002 가드 (우리가 직접 쓰는 유일한 코드 — TDD)
 
 > **실패를 먼저 본다.** 원칙 III — 첫 실행부터 통과한 테스트는 아무것도 잡지 못한다.
 
-- [ ] T023 **실패 확인** — T020 직후 가드 없는 상태에서 `SERVER_IMAGE`를 비우고 `PW_USE_TESTCONTAINERS=true`로 스택을 기동해, upstream 기본 이미지(`mattermostdevelopment/mattermost-enterprise-edition:master`)를 당기기 시작하는 것을 **출력으로 남긴다**. 이 증거 없이 T022를 완료로 표시하지 않는다
-- [ ] T024 `PW/lib/src/test_config.ts`의 `this.serverImage = process.env.SERVER_IMAGE || MATTERMOST_SERVER_IMAGE;`를 okrbest 가드로 교체 — `useTestContainers`가 켜졌는데 `SERVER_IMAGE`가 비면 던진다. 메시지에 이미지 생성 방법(quickstart 1단계 경로)을 담는다. `default_images.ts`는 건드리지 않는다
+- [x] T023 **실패 확인 — 완료**. Playwright로 RED를 봤다: `PW_USE_TESTCONTAINERS=true`, `SERVER_IMAGE` 미지정에서 `expect(received).not.toMatch` 실패, `Received string: "mattermostdevelopment/mattermost-enterprise-edition:master"`. **가드 없이는 upstream 서버를 테스트한다**는 것이 출력으로 확인됐다
+- [x] T024 가드 삽입 — **완료**. `PW/lib/src/test_config.ts`의 `serverImage` 대입부 앞에 `useTestContainers && !process.env.SERVER_IMAGE` 던지기. `default_images.ts` 무접촉. GREEN 3종 확인: (1) 지정 시 통과 `serverImage == okrbest/server:local`, (2) 미지정 시 EXIT=1 + 안내 메시지, (3) **external 모드에서 가드 미발동**(D1 보존)
 
 **가드를 `test_config.ts`에 두는 이유**: 대입부와 같은 자리여야 우회가 불가능하다. 문서로만 알리면 FR-002를 못 지킨다. 그리고 이 파일은 upstream이 어차피 204줄을 추가하는 자리라 새 충돌면이 생기지 않는다 (D2).
 
@@ -103,20 +103,20 @@ description: "E2E testcontainers 의존 서비스 스택 구현 과제"
 
 **T015-T022 뒤에 온다.** 앞의 76개를 넣고 `tsc -b`를 돌리면 갈라진 파일이 무엇을 요구하는지 타입 에러로 드러난다. 먼저 손대면 추측으로 고치게 된다.
 
-- [ ] T025 `PW/lib/src/server/default_config.ts` — upstream이 바꾸는 **한 줄만** 적용: `ServiceSettings.SiteURL`을 `testConfig.baseURL` → `testConfig.internalBaseURL`로, 주석 5줄 포함. 우리 피처 플래그(`IntegratedBoards`·`CJKSearch`·`MobileEphemeralMode`·`PermissionPolicies` 등)와 `TeammateNameDisplay: 'nickname_full_name'`, 우리가 제거한 설정 블록은 **전부 그대로 둔다** (D3)
-- [ ] T026 `PW/lib/src/index.ts` — upstream 추가분 +28줄만 넣는다(`startStack`/`stopStack`, `testConfig`, `TESTCONTAINERS_SERVICE_NAMES`, `ensure*` 11개, LDAP·Keycloak·스토리지·검색 헬퍼, 타입 4개). 우리가 제거한 8줄(`WysiwygEditor`, `wysiwyg_helpers`, `TextInputSetting`, `ensureAutotranslationPermissions`, `licenseTier`)을 **되살리지 않는다** — 없는 모듈을 export하면 `tsc -b`가 깨진다 (D4)
-- [ ] T027 `PW/specs/functional/system_console/mobile_security.spec.ts` — upstream 2줄 훅 적용(`import {... testConfig}`, 368행 `const serverUrl = testConfig.baseURL`). 갈라짐(+40/-55)과 훅 위치가 겹치지 않는다
-- [ ] T028 `PW/specs/functional/channels/post_list/post_height.spec.ts` — 훅 **둘을 갈라** 받는다. ~36행은 적용(`AllowedUntrustedInternalConnections`에 `${new URL(fileServerUrl).hostname}` 추가 + testcontainers 모드 주석). ~280행은 **우리 것을 지킨다**(`skipProjects: ['chrome','firefox','ipad']` + MM-67372 SVG DoS 근거 주석) — upstream 훅으로 덮으면 완화 조치가 되돌아가 회귀다 (D7)
-- [ ] T029 `.github/workflows/e2e-tests-playwright-template.yml` — **적용하지 않는다**. 우리 쪽 +471/-243 갈라짐(`91de3d23` SEC-10179 adapt에서 워크플로 757줄 미반영)이고, CODEOWNERS 보호 경로이며, 브라우저 테스트가 Argo Events·`workflow_dispatch` 전용이라 지금 돌지 않는다. 적용하면 돌지 않는 코드를 넣고 갈라짐만 키운다 (D6)
-- [ ] T030 `PW/specs/functional/system_console/abac/file_access/file_permissions_download.spec.ts` — 우리 트리에 **없는 파일**이다. upstream의 +13/-3은 적용 대상이 아니다. 건너뛴다
+- [x] T025 `PW/lib/src/server/default_config.ts` — **완료**. `SiteURL: testConfig.baseURL` → `internalBaseURL` **한 줄 + 주석 5줄**만 적용(+6/-1). upstream과 `SiteURL` 일치 확인. 우리 설정 보존 확인: `TeammateNameDisplay: nickname_full_name`, `PermissionPolicies: true`, `IntegratedBoards: false`, `CJKSearch: false`, `MobileEphemeralMode: true`
+- [x] T026 `PW/lib/src/index.ts` — **완료**. upstream 추가분 적용 후 우리 제거분 5건 재적용(+29/-2). 검증: `WysiwygEditor`·`wysiwyg_helpers`·`TextInputSetting`·`ensureAutotranslationPermissions`·`licenseTier` 각 0건, `startStack`·`stopStack`·`TESTCONTAINERS_SERVICE_NAMES`·`ensure*` 각 1건
+- [x] T027 `PW/specs/.../mobile_security.spec.ts` — **완료**. upstream 2줄 훅 적용(`testConfig` import, `serverUrl = testConfig.baseURL`). 우리 갈라짐(+40/-55)과 위치가 겹치지 않았다
+- [x] T028 `PW/specs/.../post_height.spec.ts` — **완료**. 36행 훅만 적용(47행에 `${new URL(fileServerUrl).hostname}` + testcontainers 모드 주석, `fileServerUrl`은 22·24행에서 스코프 확인). **280행대는 우리 것 보존** — `skipProjects: [chrome, firefox, ipad]`와 MM-67372 근거 주석 유지
+- [x] T029 워크플로 미적용 — **완료(의도적 미적용)**. `git diff HEAD -- .github/workflows/`가 비어 있음을 확인. 보호 경로 무접촉이라 code owner 리뷰로 막히지 않는다
+- [x] T030 `file_permissions_download.spec.ts` 건너뜀 — **완료**. 우리 트리의 `abac/file_access/`에는 `file_permissions.spec.ts`만 있다. 적용 대상 아님
 
 `PW/package-lock.json`(갈라진 7번째)은 T012에서 재생성으로 처리했다.
 
 ### 2-6. 타입·린트 녹색화
 
-- [ ] T031 `cd PW/lib && npm run build && cd .. && npm run tsc` — 오류가 T003 기준선의 **2건만** 남는지 확인. 3건 이상이면 우리가 깼다. 늘어난 오류를 추적해 T025-T026으로 되돌아간다
-- [ ] T032 `cd PW && npm run lint:test-docs` — 신규 스펙 12파일(T019)이 형식 검사(`@objective`·`@precondition`·MM-T ID·tag)를 통과하는지 확인. **기준선이 녹색이라 신규 실패는 전부 우리 책임이다**
-- [ ] T033 `cd PW && npm run lint && npm run prettier` — `lint`는 error 0(경고는 늘어도 된다), `prettier`는 통과
+- [x] T031 tsc — **완료**. 오류 **정확히 2건**, 기준선과 동일(`display_name_in_selector.spec.ts` 63·71행 `TS2353 managed`). diff 결과 차이 없음. upstream 76파일 + 가드가 새 타입 오류 0건
+- [x] T032 `lint:test-docs` — **완료**. EXIT=0 "Linter passed!". **신규 스펙 12건이 형식 검사를 통과**(기준선이 녹색이었으므로 신규 실패는 전부 우리 책임이었다)
+- [x] T033 `lint` + `prettier` — **완료**. lint EXIT=0 (0 errors, 경고 12→11 — upstream의 `test_fixture.ts` 변경이 불필요한 eslint-disable 경고를 해소). prettier EXIT=0
 
 **Checkpoint**: upstream 파일이 트리에 있고 게이트가 기준선과 같다. 스토리 검증을 시작할 수 있다.
 
