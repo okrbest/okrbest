@@ -166,8 +166,31 @@ PR이 트리거하는 건 [`e2e-tests-check.yml`](../../.github/workflows/e2e-te
 타입·린트뿐이다. 원격 러너용 이미지를 지금 요구하는 경로가 없다.
 `build-server-image.yml`은 **제품 이미지가 아니라 buildenv(툴체인) 이미지**라 쓸 수 없다.
 
-**arm64를 고른다.** 이 머신이 darwin arm64라 네이티브로 돈다. amd64는 qemu
-에뮬레이션이 붙어 SC-004·SC-005 기동 시간이 불리하고 간헐 실패가 늘어난다.
+**amd64를 고른다 (정정 — 처음엔 arm64로 적었고 틀렸다).**
+
+처음엔 "이 머신이 darwin arm64라 네이티브가 빠르다"는 이유로 arm64를 골랐다.
+실제로 돌려 보니 스택이 **거부했다**.
+
+```
+image with reference okrbest/server:local was found but its platform
+(linux/arm64) does not match the specified platform (linux/amd64)
+```
+
+원인: upstream이 플랫폼을 두 곳에 고정한다 —
+`lib/src/containers/mattermost_container.ts:80`과 `mmctl_container.ts:97`의
+`.withPlatform('linux/amd64')`. 주석은 "The published server images are
+amd64-only"다. upstream 배포 이미지에는 맞는 말이고, 우리 로컬 빌드에는 안 맞는다.
+
+**고정을 풀지 않고 이미지를 맞춘다.** 그 두 파일은 후속 upstream 커밋
+(`fe9a36e8` rolling upgrade, `67c177a4` SSO 인프라)이 건드릴 자리다. 지금 손대면
+그 cherry-pick이 충돌을 받는다. 사용자 제약("최대한 upstream을 따른다")에도 이쪽이 맞다.
+
+Apple Silicon에서 amd64 컨테이너가 실제로 도는 것을 확인했다
+(`docker run --platform linux/amd64 alpine uname -m` → `x86_64`).
+
+**재검토 조건**: 에뮬레이션 때문에 SC-004(90초)·SC-005(5분)를 못 지키면, 그때
+`withPlatform`을 `testConfig`에서 읽도록 바꾸는 divergence를 **측정 근거와 함께**
+연다. 추측으로 먼저 풀지 않는다.
 
 **이미 있는 로컬 이미지는 쓸 수 없다.** 이 머신에 `okrbest-app:local`(2025-07-02,
 353MB, arm64)이 남아 있고 `Cmd`가 `/mattermost/bin/mattermost`라 실제 okrbest 서버
@@ -353,6 +376,207 @@ lock은 +13/-3 갈라졌고 의존 트리가 다르다. `npm install`로 **재�
 `search` 4건). US3 인수 시나리오를 이 스펙들로 직접 검증할 수 있다. 다만 전부
 `lint:test-docs` 형식 검사(`@objective`·`@precondition`·MM-T ID·tag)를 통과해야
 PR 게이트가 녹는다 — upstream 파일이므로 통과할 것으로 보지만 측정으로 확인한다.
+
+---
+
+## D9-bis. SC-004(90초)는 지킬 수 없다 — 기동 시간의 하한은 upstream이 정한다
+
+**측정값(2026-10-03, 깨끗한 상태, 캐시된 이미지)**: 최소 구성
+(postgres + inbucket + webhook + 서버) 기동에 **서버 준비 121.5초, 전체 138초**.
+SC-004가 세운 90초를 넘긴다.
+
+서비스별로는 전부 빠르다 — inbucket 0.7초, postgres 1.4초, webhook 1.6초. **서버
+하나가 121.5초를 쓴다.** 그런데 느린 이유가 서버 기동이 아니다.
+
+`mattermost_container.ts:88-91`의 준비 판정이 두 조건을 `Wait.forAll`로 묶는다.
+
+| 조건 | 실제 충족 시각 |
+|---|---|
+| `/api/v4/system/ping` 200 | 기동 직후 (호스트에서 재보니 3.7ms 응답) |
+| 로그 `All migrations are complete.` | **마이그레이션 작업 완료 후 47초 뒤** |
+
+컨테이너 로그 타임스탬프가 원인을 그대로 보여준다.
+
+```
+07:17:31.154  Worker: Job is complete            (migrations/worker.go:131)
+07:18:17.992  All migrations are complete.       (migrations/scheduler.go:89)
+```
+
+마이그레이션은 07:17:31에 끝났고 문구는 07:18:17에 나왔다. 그 47초는 일이 아니라
+**스케줄러의 다음 tick을 기다린 시간**이다. 서버는 그 내내 HTTP를 정상 처리했다.
+
+**즉 하한은 우리 환경이 아니라 upstream의 판정 설계가 정한다.** amd64 에뮬레이션
+탓도 아니다.
+
+**조치**: SC-004의 90초를 **실측 기반으로 고친다**. 처음 90초를 쓴 근거가 없었다 —
+재지 않고 적은 숫자다. 새 기준은 **최소 구성 150초**(실측 138초 + 여유)다.
+근거 없는 숫자를 기준으로 두면 기준이 아니라 장식이다(constitution Governance).
+
+**이 판정을 바꾸지 않는 이유**: 마이그레이션 완료를 기다리는 것은 upstream의
+의도된 선택이다(주석: 권한 페이지 스펙이 마이그레이션 전에 붙으면 간헐 실패한다).
+`Wait.forAll`을 풀면 그 간헐 실패를 우리가 떠안는다. 기다리는 쪽이 맞다.
+
+**재검토 조건**: 스케줄러 tick 간격을 env로 줄일 수 있으면 기동 시간을 줄일 여지가
+있다. 다만 `mattermost_container.ts`를 건드리는 divergence가 되므로, 후속 커밋
+(`fe9a36e8`·`67c177a4`)이 그 파일을 어떻게 바꾸는지 본 뒤에 판단한다.
+
+---
+
+## D9-ter. 브라우저 스펙을 막는 것은 이 기능이 아니다 — 웹앱 프로덕션 번들이 깨져 있다
+
+스택을 띄우고 기존 smoke 스펙을 돌리니 **10건이 전부 실패**했다. 화면은 완전한
+백지였고 `expect(getByTestId('channel_view')).toBeVisible()`이 "element(s) not found"로
+끝났다. setup 2건(플러그인 로드·서버 배포 확인)은 통과했으므로 서버와 API는 정상이다.
+
+### 추적 경로
+
+처음엔 D3에서 바꾼 `SiteURL`을 의심했다. 서버 설정이 `http://server:8065`인데
+브라우저는 `localhost:55057`로 붙으니 그럴듯했다. **틀렸다** — `mmctl`로 `SiteURL`을
+호스트 주소로 바꾸고 다시 돌려도 같게 실패했다.
+
+브라우저 콘솔을 직접 잡아 보니 원인이 나왔다.
+
+```
+TypeError: (0 , a.jsxDEV) is not a function
+  at http://localhost:55057/static/3238.f6c29e472c14a5fa8384.js
+```
+
+`jsxDEV`는 React의 **개발용** JSX 런타임이다. 그런데 React 18.2.0의 프로덕션
+빌드는 그 자리를 비워 둔다.
+
+```js
+// webapp/node_modules/react/cjs/react-jsx-dev-runtime.production.min.js (전문)
+'use strict';var a=Symbol.for("react.fragment");exports.Fragment=a;exports.jsxDEV=void 0;
+```
+
+`exports.jsxDEV = void 0` — 설계상 undefined다. 즉 개발용 JSX 변환으로 컴파일된
+코드가 프로덕션 번들에 섞이면 **반드시** 터진다.
+
+섞인 출처는 `@mattermost/shared`다. 그 패키지의 빌드가
+`parcel build --no-optimize`(`webapp/platform/shared/package.json`)라서 dist에
+`jsxDEV` 호출이 남는다(12개 파일). `webapp/channels`가 프로덕션으로 번들하면
+그대로 끌려 들어간다(문제 청크에 `@mattermost/shared/components/emoji` 흔적).
+
+### 이 기능 탓이 아니다
+
+| 확인 | 결과 |
+|---|---|
+| 이 브랜치가 `webapp/`를 건드렸나 | `git diff master...HEAD -- webapp/` **비어 있음** |
+| `--no-optimize`가 우리 divergence인가 | **아니다.** upstream도 `parcel build --no-optimize`로 동일 |
+
+**왜 지금까지 안 드러났나** — 개발 흐름(`make run-server`)은 개발 모드 번들을 쓴다.
+거기서는 `jsxDEV`가 실재하므로 문제가 없다. 프로덕션 번들을 실제로 띄워 본 적이
+없었을 뿐이다. 이 머신에 남아 있던 `okrbest-app:local`이 15개월 전 것이고 그조차
+`client/`가 없었다는 사실이 그 방증이다.
+
+**즉 이 저장소는 지금 동작하는 프로덕션 웹앱 번들을 만들지 못한다.** 테스트
+인프라가 그 사실을 드러냈을 뿐이다.
+
+### 확인 실험
+
+`--no-optimize`를 빼고 `@mattermost/shared`를 다시 빌드하니 dist의 `jsxDEV`가
+12파일 → **0파일**이 됐다. 이 실험은 **커밋하지 않는다** — webapp 빌드 설정 변경은
+제품 전체에 영향을 주고 upstream과도 갈라지므로 이 기능의 범위가 아니다.
+
+### 조치
+
+- **이 기능의 범위**: 인프라 도입까지. 브라우저 스펙 통과는 웹앱 번들이 고쳐진 뒤에 판정한다.
+- **별도 작업으로 넘긴다**: `@mattermost/shared`의 프로덕션 빌드 설정. upstream과
+  공유하는 문제이므로 upstream에 보고할지도 함께 정해야 한다.
+- SC-001의 "스모크 스펙 통과"는 이 사유로 **차단**으로 기록한다. 통과로 적지 않는다.
+
+---
+
+## D9-quater. okrbest Dockerfile의 `COPY dist/client/*`가 디렉터리를 평탄화한다 (고침)
+
+웹앱 번들을 고치고 나니 다음 벽이 나왔다. 앱은 뜨는데 폰트·CSS가 전부 404다.
+
+```
+Refused to apply style from '.../static/files/7654b55b2f3442e91404.css'
+  because its MIME type ('text/plain') is not a supported stylesheet MIME type
+GET .../static/files/3bd5f5c5dd54ccb0c7c2.woff2 :: net::ERR_ABORTED
+```
+
+측정으로 확인했다.
+
+| 위치 | `files/` 항목 수 | 최상위 항목 수 |
+|---|---|---|
+| 빌드 산출물 `webapp/channels/dist/` | 171 | — |
+| 이미지 `/mattermost/client/` (수정 전) | **0** | 4490 |
+| 이미지 `/mattermost/client/` (수정 후) | **172** | 754 |
+
+원인은 okrbest 자체 블록의 와일드카드다.
+
+```dockerfile
+COPY --chown=mattermost:mattermost --chmod=755 dist/client/* /mattermost/client
+```
+
+`dist/client/*`는 매칭된 **디렉터리의 내용물**을 대상에 쏟는다. `files/` 안 171개가
+`client/` 최상위로 평탄화되어 `/static/files/...` 경로가 전부 깨진다.
+
+**고쳤다** — 와일드카드를 빼고 디렉터리를 통째로 넘긴다.
+
+```dockerfile
+COPY --chown=mattermost:mattermost dist/client /mattermost/client
+```
+
+`--chmod=755`도 함께 뺐다. 디렉터리 복사에서는 모든 정적 파일을 실행 가능으로
+만들 이유가 없다.
+
+**범위 판단**: `server/build/Dockerfile`은 "우리 설정"이지만 이건 설정이 아니라
+**결함**이고, FR-001(우리 제품을 테스트한다)을 직접 막는다. 폰트·CSS가 404인 서버는
+우리 제품이 아니다. 그리고 이 와일드카드는 D2 함정 1에서 본 대로 저장소의 어떤
+절차로도 실행된 적이 없어(`server/build/dist`를 아무도 만들지 않는다) 드러날 기회가
+없었다. 같은 14줄 블록의 두 번째 결함이다.
+
+---
+
+## D9-quinquies. 마지막 층 — upstream 스펙 선택자가 우리 UI와 안 맞는다
+
+Dockerfile(D9-quater)과 웹앱 번들(D9-ter)을 모두 처리하자 앱이 **완전히 렌더됐다**.
+실패 스냅샷에 헤더·내비게이션·"Channels" 제목·검색·설정·사용자 메뉴가 전부 나오고
+로그인도 끝난 상태다. 백지였던 처음과 다르다.
+
+남은 실패는 하나로 좁혀진다.
+
+```
+TimeoutError: locator.waitFor: Timeout 30000ms exceeded.
+  waiting for getByTestId('channel_view')
+    .getByTestId('post-create')
+    .getByTestId('post_textbox') to be visible
+```
+
+우리는 메시지 입력기로 **Lexical**을 쓴다. 그 `ContentEditable`은
+`id`와 `data-placeholder`만 내보내고 **`data-testid`가 없다**.
+
+```tsx
+// webapp/channels/src/components/lexical_editor/lexical_text_editor.tsx:245-249
+<ContentEditable
+    className='lexical-content-editable'
+    id={id}
+    data-placeholder={createMessage}
+/>
+```
+
+upstream 스펙은 `getByTestId('post_textbox')`를 찾으니 맞을 수 없다.
+
+**이것은 인프라 문제가 아니라 포크 갈라짐이다.** heavily-diverged 포크에서 upstream
+e2e 스펙이 그대로 통과하리라 기대하는 쪽이 틀렸다. 이 기능의 범위도 아니다 — 범위는
+"그 스펙들이 올라갈 토대"까지다(spec.md 비범위).
+
+### 세 층을 순서대로 정리하면
+
+브라우저 스펙 통과를 막는 것이 셋이고, 전부 이 기능이 만든 게 아니다.
+
+| 층 | 증상 | 성격 | 처리 |
+|---|---|---|---|
+| 1. Dockerfile `COPY dist/client/*` | 폰트·CSS 404 | okrbest 자체 블록의 결함 | **고쳤다** (D9-quater) — FR-001을 직접 막으므로 |
+| 2. 웹앱 프로덕션 번들 `jsxDEV` | 완전한 백지 | upstream과 공유하는 빌드 설정 | **범위 밖** — 실험으로 원인만 증명하고 되돌렸다 (D9-ter) |
+| 3. 스펙 선택자 vs Lexical | `post_textbox` 못 찾음 | 의도된 포크 갈라짐 | **범위 밖** — 별도 과제 |
+
+**결론**: 인프라는 동작한다. 스택이 뜨고, 우리 서버 이미지를 띄우고, 로그인까지
+되는 앱을 서빙하고, setup 스펙 2건이 통과한다. 그 위에서 upstream 스펙이 통과하려면
+2·3층을 따로 처리해야 한다. SC-001은 그 사유로 **차단**으로 기록한다.
 
 ---
 

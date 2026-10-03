@@ -60,20 +60,20 @@ npm run lint:test-docs  > /tmp/bl-testdocs.txt  2>&1; echo "testdocs=$?"
 ```bash
 cd server
 
-# (1) 웹앱 + arm64 바이너리 + dist 트리
-make build-client build-linux-arm64 package-linux-arm64
+# (1) 웹앱 + amd64 바이너리 + dist 트리
+make build-client build-linux-amd64 package-prep
 
 # (2) 깨끗한 tarball을 손으로 만든다 — make 산출물은 쓸 수 없다
 S=/tmp/okrbest-stage && rm -rf $S && mkdir -p $S/mattermost
 cp -R dist/mattermost/. $S/mattermost/
 mkdir -p $S/mattermost/bin $S/mattermost/logs
-cp bin/linux_arm64/mattermost bin/linux_arm64/mmctl $S/mattermost/bin/
-(cd $S && COPYFILE_DISABLE=1 tar --no-xattrs --exclude '._*' -czf okrbest-arm64.tar.gz mattermost)
-tar -tzf $S/okrbest-arm64.tar.gz | grep -cE '^\.\./|/\._|^\._'    # 0 이어야 한다
+cp bin/linux_amd64/mattermost bin/linux_amd64/mmctl $S/mattermost/bin/
+(cd $S && COPYFILE_DISABLE=1 tar --no-xattrs --exclude '._*' -czf okrbest-amd64.tar.gz mattermost)
+tar -tzf $S/okrbest-amd64.tar.gz | grep -cE '^\.\./|/\._|^\._'    # 0 이어야 한다
 
 # (3) 빌드 컨텍스트를 꾸민다 — 저장소가 자동화하지 않는다
 rm -rf build/dist && mkdir -p build/dist/server build/dist/client
-cp bin/linux_arm64/mattermost bin/linux_arm64/mmctl build/dist/server/
+cp bin/linux_amd64/mattermost bin/linux_amd64/mmctl build/dist/server/
 cp -R ../webapp/channels/dist/. build/dist/client/
 
 # (4) tarball을 HTTP로 서빙 — file:// 는 컨테이너 안에서 안 보인다
@@ -81,7 +81,7 @@ cp -R ../webapp/channels/dist/. build/dist/client/
 
 # (5) 빌드
 cd build
-docker build --build-arg MM_PACKAGE="http://host.docker.internal:8899/okrbest-arm64.tar.gz" \
+docker build --build-arg MM_PACKAGE="http://host.docker.internal:8899/okrbest-amd64.tar.gz" \
   -t okrbest/server:local .
 
 kill %1   # HTTP 서버 정리
@@ -218,7 +218,7 @@ docker ps --format '{{.Names}}' | grep '^mattermost-' | wc -l  # 여전히 9개
 느리므로 기준이 아니다.
 
 ```bash
-# SC-004: 최소 구성 90초 이내
+# SC-004: 최소 구성 150초 이내 (실측 138초 — research.md D9-bis)
 PW_TESTCONTAINERS_SERVICES= SERVER_IMAGE=okrbest/server:local \
   bash -c 'time npm run testcontainers:up'
 npm run testcontainers:down

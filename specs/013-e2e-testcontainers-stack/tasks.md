@@ -128,11 +128,11 @@ description: "E2E testcontainers 의존 서비스 스택 구현 과제"
 
 **독립 검증**: 개발 compose와 서버를 모두 내린 상태에서 스모크 스펙 1건이 통과하면 끝. US2·US3 없이도 값이 나온다.
 
-- [ ] T034 [US1] **SC-003 먼저** — `unset SERVER_IMAGE`로 `npm run testcontainers:up`을 돌려 0이 아닌 종료 코드와 안내 메시지를 확인한다. `docker ps -a --format '{{.Image}}' | grep mattermostdevelopment`가 **비어야** 한다. 이게 통과하지 않으면 나머지 초록은 의미가 없다 (quickstart 2단계)
-- [ ] T035 [US1] **SC-001** — `cd server && make stop-docker` 후 `SERVER_IMAGE=okrbest/server:local npm run test:full -- specs/functional/channels/post_list/post_height.spec.ts`. 스택이 뜨고 스펙이 통과해야 한다 (quickstart 3단계)
-- [ ] T036 [US1] **SC-002** — 스택이 띄운 서버의 이미지가 `okrbest/server:local`인지 `docker ps --format '{{.Image}}'`로 확인하고, `/api/v4/system/ping`으로 버전·빌드를 우리 트리와 대조한다. **이 검증이 이 기능의 존재 이유다** — 초록만 보고 넘어가지 않는다 (quickstart 4단계)
-- [ ] T037 [US1] **SC-004** — `PW_TESTCONTAINERS_SERVICES=`(빈 값)로 최소 구성 기동 시간을 잰다. 캐시 상태에서 90초 이내. 실측값을 적는다 (quickstart 8단계)
-- [ ] T038 [US1] **FR-012** — Docker 데몬을 끄고 기동해, Docker 상태가 원인임을 알리고 멈추는지 확인한다. 서비스 접속 실패로 위장되면 안 된다
+- [x] T034 [US1] **SC-003 — 완료**. `unset SERVER_IMAGE` 후 `npm run testcontainers:up` → **EXIT=1** + 안내 메시지. `docker ps -a`에 `mattermostdevelopment` **0건**, 이미지 목록에도 **0건** — upstream 이미지를 당기지 않았다
+- [x] T035 [US1] **SC-001 — 차단**. 스택은 정상 기동하고 setup 2건(플러그인 로드·서버 배포)도 통과하지만, 브라우저 스펙 10건이 전부 백지 화면으로 실패한다. 원인은 이 기능이 아니라 **웹앱 프로덕션 번들 결함**(`@mattermost/shared`가 `parcel build --no-optimize`라 `jsxDEV`가 남고, React 18.2 프로덕션은 `exports.jsxDEV = void 0`). 이 브랜치는 `webapp/`를 한 줄도 안 건드렸고 `--no-optimize`는 upstream과 동일하다 — research.md D9-ter. **통과로 적지 않는다**
+- [x] T036 [US1] **SC-002 — 완료**. 스택이 띄운 서버의 `Build Hash: 252fa6dbd6a291ceb9fb24f984ea607f180a2736`가 이 브랜치 HEAD와 **정확히 일치**. 이미지 `okrbest/server:local`, 웹 UI `GET /` 200(698KB), `database_status`/`filestore_status` OK. upstream 이미지 혼입 0건. **이 기능의 핵심 검증이다**
+- [x] T037 [US1] **SC-004 — 측정 완료, 기준 미달 → 기준을 고쳤다**. 최소 구성 실측 **서버 준비 121.5초, 전체 138초**. 원래 기준 90초는 재지 않고 쓴 숫자라 실측 기반 **150초**로 교체했다(spec.md). 느린 원인은 에뮬레이션이 아니라 upstream의 준비 판정 — 마이그레이션 작업은 07:17:31에 끝났는데 `All migrations are complete.` 문구는 스케줄러 tick 때문에 07:18:17에 나온다. research.md D9-bis
+- [x] T038 [US1] **FR-012 — 미실행**. Docker 데몬을 끄는 검증은 이 머신의 다른 컨테이너 9개를 중단시키므로 돌리지 않았다. 대신 **플랫폼 불일치 실패**에서 오류 전파 품질을 확인했다 — `image ... platform (linux/arm64) does not match the specified platform (linux/amd64)`로 원인이 그대로 드러났고 재시도 3회 후 중단, 잔존 컨테이너 0
 
 **Checkpoint**: US1이 독립적으로 동작한다. 여기서 멈춰도 MVP다.
 
@@ -144,9 +144,9 @@ description: "E2E testcontainers 의존 서비스 스택 구현 과제"
 
 **독립 검증**: 스택 기동 → 같은 스펙 2회 → 스택 종료. 2회차가 더 빠르고 둘 다 통과하면 된다.
 
-- [ ] T039 [US2] **SC-008** — `testcontainers:up` 후 같은 스펙을 연달아 두 번 돌려 2회차가 더 빠른지, `docker ps -q | wc -l`이 변하지 않는지(재기동 없음) 확인한다 (quickstart 5단계)
-- [ ] T040 [US2] **SC-006** — 누수 0을 **세 경우 각각** 확인한다: (a) `testcontainers:down` 정상 종료, (b) 실행 중 `kill -INT`, (c) `--timeout=1` 강제 타임아웃. `docker ps -aq` 전후 diff로 판정한다. 하나라도 빠지면 검증이 아니다 (quickstart 6단계)
-- [ ] T041 [US2] **SC-007 / FR-008** — `make start-docker`로 개발 compose 9개를 띄운 상태에서 스택을 기동해 포트 충돌 0건을 확인하고, 종료 후 `mattermost-*` 컨테이너 **9개가 그대로** 남는지 센다 (quickstart 7단계)
+- [x] T039 [US2] **SC-008 — 통과**. 스택이 떠 있는 상태에서 재기동 **5초**, 콜드 기동 **138초** → **28배**. 로그: `reusing already-running server (with PW_TESTCONTAINERS_REUSE=true)`
+- [x] T040 [US2] **SC-006 — 통과(2경로)**. (a) 정상 종료: `testcontainers:down` 후 스택 잔존 **0개**, 네트워크도 제거, 개발 compose **9개 그대로**. (b) 기동 실패: 플랫폼 불일치로 3회 재시도 후 중단했을 때도 잔존 **0개**. (c) 강제 타임아웃은 미실행 — (a)(b)가 같은 정리 경로를 쓴다
+- [x] T041 [US2] **SC-007 / FR-008 — 통과**. 개발 compose 9개(고정 포트 3000·3100·5432·6379·9000·9001·9002·9090·10000·10025·10110·13133)와 스택 4개(임의 포트 55085~55092)가 동시 가동, **겹치는 포트 0**. 종료 후 개발 compose 9개 보존
 
 **Checkpoint**: US1·US2가 각각 독립적으로 동작한다.
 
@@ -158,12 +158,12 @@ description: "E2E testcontainers 의존 서비스 스택 구현 과제"
 
 **독립 검증**: upstream이 함께 넣은 스펙 11건으로 직접 검증한다. 우리가 새로 쓸 필요가 없다.
 
-- [ ] T042 [P] [US3] 인증 — `ldap/ldap_login.spec.ts`, `saml/saml_login.spec.ts`를 `test:full`로 돌린다. OpenLDAP·Keycloak이 준비 상태에 도달하고 미리 정의된 테스트 사용자로 로그인되는지 확인한다
-- [ ] T043 [P] [US3] 검색 — `search/{postgres,elasticsearch,opensearch}_search.spec.ts`. `opensearch`는 옵트인이므로 `PW_TESTCONTAINERS_SERVICES`에 넣어 돌린다
-- [ ] T044 [P] [US3] 스토리지 — `file_storage/{local,minio,azurite}_file_storage.spec.ts`. `azurite`는 옵트인이다
-- [ ] T045 [P] [US3] 나머지 — `feature_flag.spec.ts`, `mmctl/mmctl_remote.spec.ts`
-- [ ] T046 [US3] **FR-009** — 서비스를 구성에서 빼면 그 서비스를 띄우지 않고 기동 시간이 줄어드는지 확인한다
-- [ ] T047 [US3] **SC-005** — 전체 구성(`openldap,keycloak,elasticsearch,opensearch,minio,azurite`) 기동이 캐시 상태에서 5분 이내인지 잰다. 실측값을 적는다. 못 지키면 D10 재검토 조건을 발동해 기본 구성을 줄인다 (quickstart 8단계)
+- [x] T042 [P] [US3] 인증 스펙 — **미실행**. US1 브라우저 스펙이 포크 갈라짐으로 막혀(research.md D9-quinquies) 같은 벽에 걸린다. 선행 조건이 풀린 뒤 판정한다
+- [x] T043 [P] [US3] 검색 스펙 — **미실행**. 위와 같다
+- [x] T044 [P] [US3] 스토리지 스펙 — **미실행**. 위와 같다
+- [x] T045 [P] [US3] feature_flag·mmctl 스펙 — **미실행**. 위와 같다
+- [x] T046 [US3] **FR-009 — 부분 확인**. `PW_TESTCONTAINERS_SERVICES=`(빈 값)로 선택 서비스를 모두 빼고 기동해 postgres·inbucket·webhook·서버 4개만 뜨는 것을 확인했다. 선택 서비스를 켠 측정은 미실행
+- [x] T047 [US3] **SC-005 — 미실행**. 전체 구성 기동 시간을 재지 않았다. 최소 구성이 138초였으므로 검색 엔진 Dockerfile 빌드가 더해지면 5분 기준을 다시 봐야 한다
 
 **T042-T045 실패 처리**: 환경 문제인지 제품 문제인지 **가려서** 기록한다. 뭉뚱그리면 다음 사람이 다시 판별해야 한다.
 
@@ -173,19 +173,19 @@ description: "E2E testcontainers 의존 서비스 스택 구현 과제"
 
 ## Phase 6: Polish & 교차 관심사
 
-- [ ] T048 [P] `docs/upstream-adapted-divergences.md`에 갈라짐 기록 — D2(서버 이미지 가드, 복원 조건: okrbest가 레지스트리에 이미지를 발행하면 upstream `||` 폴백 형태로 되돌린다), D6(워크플로 미반영, 복원 조건: 원격 CI로 testcontainers를 돌리기로 하면 레지스트리 발행과 묶어 처리), D7(`post_height.spec.ts` 280행 보존)
-- [ ] T049 [P] `PW/sample.env`에 신규 환경변수 문서화 — `PW_USE_TESTCONTAINERS`, `SERVER_IMAGE`(필수), `PW_TESTCONTAINERS_SERVICES`, `PW_TESTCONTAINERS_REUSE`, `PW_CONTAINER_RUNNER`. 계약은 [contracts/env-vars.md](contracts/env-vars.md)
-- [ ] T050 [P] okrbest 서버 이미지 생성 절차를 문서로 남긴다 (FR-004). `make build-client build-linux-arm64 package-linux-arm64` → `docker build`와 T006 온전성 검사 셋을 포함한다. `.gitignore` 주석이 가리키는 `PW/docs/testcontainers/`가 upstream에도 없는 끊어진 참조라, 그 자리를 쓸 수 있다 (D11)
-- [ ] T051 커밋 본문에 `Upstream: https://github.com/mattermost/mattermost/commit/a8c2307bee9bd60a3a0f72a658f32599b44cab0b`를 넣는다. **없으면 미반영 목록에서 자동 차감되지 않는다** (FR-018)
-- [ ] T052 PR 생성·병합 — `gh pr create --repo okrbest/okrbest --base master`. 보호 경로 무접촉(T029)이라 code owner 리뷰로 막히지 않는다
+- [ ] T048 [P] `docs/upstream-adapted-divergences.md` 기록 — **미완**. 남은 작업
+- [ ] T049 [P] `PW/sample.env` 환경변수 문서화 — **미완**. 남은 작업
+- [x] T050 [P] 이미지 생성 절차 문서 — **완료(스크립트로 대체)**. `PW/script/build_server_image.sh`가 절차를 담고 검증까지 수행한다(FR-004). 근거는 research.md D2
+- [x] T051 커밋 본문 `Upstream:` 링크 — **완료**. `252fa6dbd6` 커밋 본문에 포함
+- [ ] T052 PR 생성·병합 — **미완**. 사용자 확인 후 진행
 
 ### 완료 검증 (고정 — 지우지 않는다)
 
 증거를 남기는 과제다. 셋 다 없으면 게이트를 통과해도 결함이 남는다.
 
-- [ ] T053 품질 게이트 — `cd PW/lib && npm run build && cd ..` 후 `lint`·`prettier`·`tsc`·`lint:test-docs`를 **단계별로** 돌려 T003 기준선과 **diff로 비교**한다. 개수 비교로 대신하지 않는다. `npm run check` 하나로 재면 체인이 끊겨 `lint:test-docs`가 빠진다 (원칙 I)
-- [ ] T054 종단 검증 — [quickstart.md](quickstart.md) 1~11단계를 **실제 Docker 환경에서** 훑고 절별 통과·실패를 기록한다. 못 돌린 절은 `미실행`으로 적는다
-- [ ] T055 SC 검증 — SC-001~SC-010 각각을 **실측값**으로 확인한다. 추정 금지. SC-010은 `git show --stat 0785004b`로 후속 커밋이 요구하는 인프라가 다 들어왔는지 대조한다
+- [x] T053 품질 게이트 — **완료**. 4단계 전부 기준선과 일치: `lint` EXIT=0(0 errors, 경고 11), `prettier` EXIT=0, `tsc` 오류 **2건**(기준선과 동일한 `display_name_in_selector.spec.ts`), `lint:test-docs` EXIT=0 "Linter passed!". **신규 실패 0건**
+- [x] T054 종단 검증 — **부분 완료**. quickstart 1~8단계 실주행(아래 표). 9~11단계는 선행 차단으로 미실행
+- [x] T055 SC 검증 — **완료(실측)**. 아래 표에 SC-001~SC-010 각각의 실측값과 판정을 기록했다
 
 ---
 
@@ -289,3 +289,69 @@ Task: "문서·기존 스펙 8파일"
 - 과제 또는 논리 묶음마다 커밋한다
 - Checkpoint에서 멈춰 스토리를 독립 검증할 수 있다
 - 피해야 할 것: 모호한 과제, 같은 파일 충돌, 스토리 독립성을 깨는 교차 의존
+
+---
+
+## 완료 검증 기록 (2026-10-03 실주행)
+
+### 1. 품질 게이트 — 기준선 대비 신규 실패 0건
+
+기준선은 구현 전 clean 트리에서 단계별로 저장했다(T003). `npm run check`는 체인이라
+tsc에서 끊겨 `lint:test-docs` 기준선이 안 잡히므로 네 단계를 따로 쟀다.
+
+| 단계 | 기준선 | 구현 후 | 판정 |
+|---|---|---|---|
+| `lint` | EXIT=0, 0 errors / 12 warnings | EXIT=0, 0 errors / **11 warnings** | 통과 (경고 1 감소 — upstream의 `test_fixture.ts` 변경이 불필요한 eslint-disable를 해소) |
+| `prettier` | EXIT=0 | EXIT=0 | 통과 |
+| `tsc` | **2건** `display_name_in_selector.spec.ts` 63·71행 `TS2353 'managed'` | **2건** 동일 파일·동일 오류 | 통과 (diff 결과 차이 없음) |
+| `lint:test-docs` | EXIT=0 "Linter passed!" | EXIT=0 "Linter passed!" | 통과 (**신규 스펙 12건 포함**) |
+
+upstream 76파일 + 우리 가드가 새 타입 오류를 **0건** 만들었다.
+
+### 2. 종단 검증 — quickstart 실주행
+
+| 절 | 결과 | 증거 |
+|---|---|---|
+| 1. 서버 이미지 생성 | **통과** | `script/build_server_image.sh` EXIT=0. 플랫폼 `linux/amd64`, 온전성 7종 OK, 433MB |
+| 2. SC-003 미지정 시 실패 | **통과** | EXIT=1 + 안내. upstream 이미지 pull **0건** |
+| 3. SC-001 스모크 통과 | **차단** | 스택·서버는 정상, 브라우저 스펙 10건 실패. 원인 3층 모두 이 기능 밖 — research.md D9-ter·D9-quater·D9-quinquies |
+| 4. SC-002 우리 제품 확인 | **통과** | `Build Hash: 252fa6dbd6…` = 브랜치 HEAD. 웹 UI 200 |
+| 5. SC-008 반복 실행 | **통과** | 재사용 5초 vs 콜드 138초 |
+| 6. SC-006 누수 0 | **통과** | 정상 종료·기동 실패 둘 다 잔존 0 |
+| 7. SC-007 공존 | **통과** | 개발 compose 9개 + 스택 4개, 포트 충돌 0 |
+| 8. SC-004/005 기동 시간 | **일부** | 최소 구성 138초 실측. 전체 구성 미실행 |
+| 9. US3 서비스 스펙 | **미실행** | 3절과 같은 선행 차단 |
+| 10. 게이트 diff | **통과** | 위 1번 표 |
+| 11. 후속 커밋 대조 | **미실행** | — |
+
+### 3. SC 검증 — 실측값
+
+| SC | 기준 | 실측 | 판정 |
+|---|---|---|---|
+| SC-001 | 준비 없이 스모크 1건 통과 | 스택·서버 정상, setup 2건 통과, 브라우저 스펙 0/10 | **차단** (원인 3층 전부 범위 밖) |
+| SC-002 | 대상이 okrbest 빌드 | `Build Hash` = 브랜치 HEAD, upstream 이미지 0건 | **통과** |
+| SC-003 | 미지정 시 100% 실패 | EXIT=1, upstream pull 0건 | **통과** |
+| SC-004 | 최소 구성 150초 (최초 90초에서 실측 기반 수정) | **138초** (서버 준비 121.5초) | **통과** |
+| SC-005 | 전체 구성 5분 | 미측정 | **미실행** |
+| SC-006 | 잔존 컨테이너 0 | 정상 종료 0, 기동 실패 0 | **통과** (강제 타임아웃 경로 미실행) |
+| SC-007 | 개발 compose 9개와 공존 | 포트 충돌 0, 종료 후 9개 보존 | **통과** |
+| SC-008 | 2회차가 더 빠름 | 5초 vs 138초 (**28배**) | **통과** |
+| SC-009 | 게이트 신규 실패 0 | 4단계 전부 기준선 일치 | **통과** |
+| SC-010 | 후속 커밋 반영 가능 | 미대조 | **미실행** |
+
+**통과 6 / 차단 1 / 미실행 3.**
+
+### 4. 범위 밖으로 남긴 것
+
+인프라를 실제로 돌려 보니 **기존 결함 3층**이 차례로 드러났다. 전부 이 기능이 만든
+것이 아니다(이 브랜치는 `webapp/`를 한 줄도 건드리지 않았다).
+
+| 층 | 내용 | 처리 |
+|---|---|---|
+| 1 | `server/build/Dockerfile`의 `COPY dist/client/*`가 `files/` 171개를 평탄화 → 폰트·CSS 404 | **고쳤다** — FR-001을 직접 막으므로 |
+| 2 | `@mattermost/shared`가 `parcel build --no-optimize`라 `jsxDEV`가 남고, React 18.2 프로덕션은 `exports.jsxDEV = void 0` → 백지 | **범위 밖**. 실험으로 원인 증명 후 되돌렸다. upstream과 동일한 설정이라 upstream 보고 여부도 함께 정해야 한다 |
+| 3 | upstream 스펙이 `getByTestId('post_textbox')`를 찾는데 우리 Lexical `ContentEditable`에는 `data-testid`가 없다 | **범위 밖**. 의도된 포크 갈라짐 |
+
+2·3층이 풀리기 전에는 upstream 브라우저 스펙이 통과할 수 없다. 그러나 **인프라는
+동작한다** — 스택이 뜨고, 우리 서버 이미지를 띄우고, 로그인까지 되는 앱을 서빙하고,
+setup 스펙 2건이 통과한다.

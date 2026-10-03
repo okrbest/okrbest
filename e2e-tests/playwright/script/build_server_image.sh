@@ -28,12 +28,20 @@ SKIP_MAKE=0
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 SERVER_DIR="$REPO_ROOT/server"
 
-# 호스트 아키텍처에 맞춘다. arm64 Mac에서 amd64 이미지를 쓰면 qemu 에뮬레이션이 붙어
-# 기동이 느려지고 간헐 실패가 늘어난다.
-case "$(uname -m)" in
-  arm64|aarch64) ARCH=arm64 ;;
-  x86_64|amd64)  ARCH=amd64 ;;
-  *) echo "지원하지 않는 아키텍처: $(uname -m)" >&2; exit 1 ;;
+# amd64가 기본이다. 호스트 아키텍처를 따르지 않는다 —
+# lib/src/containers/mattermost_container.ts:80 과 mmctl_container.ts:97 이
+# .withPlatform('linux/amd64') 로 고정하기 때문이다(upstream 주석: "The published
+# server images are amd64-only"). arm64 이미지를 주면 스택이 이렇게 거부한다:
+#   image with reference ... was found but its platform (linux/arm64)
+#   does not match the specified platform (linux/amd64)
+# 그 두 파일은 후속 upstream 커밋(rolling upgrade·SSO 인프라)이 건드릴 자리라
+# 고정을 풀지 않고 이미지를 맞춘다. Apple Silicon에서는 에뮬레이션으로 돈다.
+# ARCH=arm64 로 덮어쓸 수는 있으나, 그러려면 위 두 파일의 플랫폼 고정도 함께 풀어야 한다.
+ARCH="${ARCH:-amd64}"
+case "$ARCH" in
+  amd64) ;;
+  arm64) echo "경고: ARCH=arm64 — 스택의 withPlatform('linux/amd64') 고정과 충돌한다" >&2 ;;
+  *) echo "지원하지 않는 ARCH: $ARCH (amd64 또는 arm64)" >&2; exit 1 ;;
 esac
 
 STAGE="$(mktemp -d "${TMPDIR:-/tmp}/okrbest-image.XXXXXX")"
@@ -48,8 +56,10 @@ echo "==> 아키텍처: linux/$ARCH   이미지: $IMAGE"
 
 # (1) 웹앱 + 바이너리 + dist 트리
 if [ "$SKIP_MAKE" -eq 0 ]; then
-  echo "==> [1/5] make build-client build-linux-$ARCH package-linux-$ARCH"
-  ( cd "$SERVER_DIR" && make build-client "build-linux-$ARCH" "package-linux-$ARCH" )
+  # package-prep 만 쓴다. package-linux-* 는 tarball까지 만들지만 (2)단계에서 어차피
+  # 다시 만들고(macOS tar 문제), amd64 쪽은 prepackaged 플러그인까지 내려받아 느리다.
+  echo "==> [1/5] make build-client build-linux-$ARCH package-prep"
+  ( cd "$SERVER_DIR" && make build-client "build-linux-$ARCH" package-prep )
 else
   echo "==> [1/5] 건너뜀 (--skip-make)"
   for f in "$SERVER_DIR/bin/linux_$ARCH/mattermost" "$SERVER_DIR/bin/linux_$ARCH/mmctl" "$SERVER_DIR/dist/mattermost"; do
@@ -95,15 +105,29 @@ echo "    포트 $PORT"
 
 # (5) 빌드
 echo "==> [5/5] docker build"
+# --platform 이 없으면 베이스 이미지(ubuntu, distroless)가 호스트 arch로 해석돼
+# amd64 바이너리를 담은 arm64 매니페스트 이미지가 나온다. 스택은 매니페스트를 보고
+# 거부한다: "platform (linux/arm64) does not match the specified platform (linux/amd64)"
 ( cd "$SERVER_DIR/build" && docker build \
+    --platform "linux/$ARCH" \
     --build-arg MM_PACKAGE="http://host.docker.internal:$PORT/$TARBALL" \
     -t "$IMAGE" . )
 
 # 온전성 검증 — distroless라 셸이 없다 (함정 4)
 echo "==> 검증"
-docker run --rm --entrypoint /mattermost/bin/mattermost "$IMAGE" version
 
-CID="$(docker create "$IMAGE")"
+# 플랫폼부터 본다. 매니페스트가 틀리면 파일이 다 있어도 스택이 거부한다.
+GOT_PLATFORM="$(docker image inspect "$IMAGE" --format '{{.Os}}/{{.Architecture}}')"
+if [ "$GOT_PLATFORM" != "linux/$ARCH" ]; then
+  echo "이미지 플랫폼이 linux/$ARCH 가 아니라 $GOT_PLATFORM 이다." >&2
+  echo "스택의 withPlatform('linux/amd64')가 매니페스트를 보고 거부한다." >&2
+  exit 1
+fi
+echo "    OK      플랫폼 $GOT_PLATFORM"
+
+docker run --rm --platform "linux/$ARCH" --entrypoint /mattermost/bin/mattermost "$IMAGE" version
+
+CID="$(docker create --platform "linux/$ARCH" "$IMAGE")"
 FAIL=0
 for p in /mattermost/client/root.html /mattermost/config /mattermost/data \
          /mattermost/logs /mattermost/plugins /mattermost/templates /mattermost/i18n/ko.json; do
