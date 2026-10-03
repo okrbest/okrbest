@@ -291,7 +291,8 @@ export async function deletePolicy(page: Page, policyName: string): Promise<void
  * Run ABAC sync job
  */
 export async function runSyncJob(page: Page, waitForCompletion: boolean = true): Promise<void> {
-    const runSyncButton = page.getByRole('button', {name: 'Run Sync Job'});
+    // "Run Channel Sync" when team ABAC is on, else "Run Sync Job".
+    const runSyncButton = page.getByRole('button', {name: /Run (Sync Job|Channel Sync)/});
     await runSyncButton.click();
     await page.waitForLoadState('networkidle');
 
