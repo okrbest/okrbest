@@ -37,6 +37,7 @@
 | `8dab2f66` 포스트 편집이 초안을 만드는 버그 | [0fed2262](https://github.com/mattermost/mattermost/commit/0fed2262813c57bec6f47088efcbfe9e4335b5c4) (#37658) | 수정은 그대로, 신규 테스트의 요소 조회를 Lexical에 맞췄다. 파일 전체 실행에선 여전히 타임아웃 — 아래 참조 |
 | `1f79143b` discoverable 비공개 채널 가입 요청 UX (4커밋) | [99bc7bd8](https://github.com/mattermost/mattermost/commit/99bc7bd886c97d33149a839b29a59b8301242d7e) (#37078) | 59파일 +3957을 네 단계로 나눠 받았다. 충돌 9파일에서 제외 계보(MBE 8a/8b/8c·Managed Categories·classification) 부분을 버렸다 — 아래 참조 |
 | 팀 ABAC 플래그 기본 활성 | [7130ae59](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8) (#37781) | 서버 기본값은 받고 PropertyFieldRank 테스트와 e2e 플래그 한 줄을 버렸다. 비활성 근거에서 플래그가 빠졌다 — 아래 참조 |
+| 플러그인 ABAC API | [c7eff700](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) (#37509) | API 표면 8개는 받고 네이티브 속성·PSAv2 계보에 걸린 셋을 걷어냈다. 정책 엔진이 없어 비활성 — 아래 참조 |
 
 ---
 
@@ -1096,3 +1097,42 @@ ABAC 설정과 플래그만 확인한다. 관리자가 ABAC 설정을 켜면 팀
   `TeamMembershipAccessControl: true`를 함께 넣는다.
 - `AccessControlServiceInterface`를 자체 구현하면 웹앱 게이트에 라이선스 확인이 빠진 점을
   다시 본다.
+
+---
+
+## 플러그인 ABAC API — 표면은 전부 받고 제외 계보 셋을 걷어냈다
+
+**upstream**: [`c7eff700`](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795)
+(ABAC: plugin-keyed resource types, trusted plugin PAP/CEL APIs, and AuthZEN-style decision API, #37509)
+
+17파일 +2995줄 중 15파일을 받았다. 플러그인 API 메서드 8개, 구현(`plugin_access_control.go`),
+리소스 타입 레지스트리, `AccessDecision.IsNoPolicy()`, 서버 i18n 9키, 감사 이벤트 3개가
+그대로 들어왔다. **기능은 비활성이다** — `pluginAccessControlAvailable()`이 정책 엔진
+(`Channels().AccessControl`) nil에서 거짓을 돌려줘, 플러그인 호출은 전부 "사용 불가"로
+끝난다. ledger 비공개 모듈 부록에 같은 해시로 올렸다.
+
+### 버린 것과 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `model/native_attributes.go`·테스트 | 네이티브 속성 select 옵션을 gob 안전 타입으로 교체 | **파일째 버림** | 우리에게 없는 파일이다. 제외한 ABAC 고유 속성 Phase 5(`84a554b2`) 소산 |
+| `app/plugin_api.go` | ABAC 메서드 8개 + 문맥의 `Upsert/DeletePropertyValue*WithOptions` | **ABAC 메서드 8개(32줄)만** 붙임 | 문맥 메서드는 제외한 PSAv2 계보(`9f1fe90b`) 것 |
+| `plugin/client_rpc_generated.go` | +248줄 | `go generate ./plugin`으로 **재생성** | 결과 diff가 upstream과 줄 단위로 같다 |
+| `plugin_access_control_test.go` "subject build failure" | `model.AccessControlPropertyGroupName` 조회를 깨뜨림 | `CustomProfileAttributesPropertyGroupName`으로 교체 | 그 상수는 제외한 `9f1fe90b`에 있다. 우리 `BuildAccessControlSubject`는 CPA 그룹을 읽는다 |
+| `plugin_access_control_gob_test.go` 하위 테스트 "fields autocomplete response including native attribute fields" | 네이티브 bool-select 옵션의 gob 회귀 검증 | **버림** | 검증 대상(네이티브 속성)이 없다. 나머지 gob 하위 테스트는 받았다 |
+| `plugin_access_control_test.go` "autocomplete requires only a valid acting user" | 첫 페이지가 비어 있지 않음을 단언 | 성공 경로만 검사 | 비어 있지 않은 근거가 네이티브 속성 필드다 |
+
+### 검증
+
+- `go build ./...` 통과, `go generate ./plugin` 재실행해도 변경 없음
+- `channels/app` 플러그인 ABAC 테스트 87개(하위 포함) 통과
+- `sqlstore` `TestAccessControlPolicyStore`의 새 하위 테스트(`PluginPolicy`, `TypeImmutableOnSave`) 통과
+- `public/model`, `public/plugin` 패키지 테스트 통과
+
+### 되돌릴 조건
+
+- ABAC 고유 속성 Phase 5(`84a554b2`)를 도입하면 `native_attributes.go`의 gob 수정과 버린
+  하위 테스트·단언 둘을 되살린다.
+- property v2 계보(`9f1fe90b`)를 도입하면 테스트 상수를 upstream 것으로 되돌린다.
+- `AccessControlServiceInterface`를 자체 구현하면 이 API가 바로 켜진다. 그때 플러그인 리소스
+  타입 접두어 검사와 404 통합 동작을 실주행으로 확인한다.
