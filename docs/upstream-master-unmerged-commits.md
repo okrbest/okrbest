@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-05 16:26
+- 갱신일: 2026-10-06 01:15
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 475개
+- 남은 커밋: 473개
 
-**마지막 반영 커밋:** `85acba42` | [Skip flaky TestExtractConcurrency (#37834)](https://github.com/mattermost/mattermost/commit/85acba42e1f9ae8a6bfb2f724bbf819b21a45c7a) | 2026-08-04
+**마지막 반영 커밋:** `61bc7f18` | [\[MM-69647\] Remove CloudDedicatedExportUI feature flag and dead code (#37836)](https://github.com/mattermost/mattermost/commit/61bc7f18e4459b3ad7cca27db26924845d0c966b) | 2026-08-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 7130ae59 | [MM-70054 - Enable Team Membership ABAC feature flag by default (#37781)](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8) | 2026-08-04 |
-| b4beed37 | [MM-69974: keep focus in the WYSIWYG composer and stop the Enter crash (#37815)](https://github.com/mattermost/mattermost/commit/b4beed37f88b15d6eb50d4dff0be082043077b55) | 2026-08-04 |
-| f4185af0 | [Update latest minor version to 11.11.0 (#37827)](https://github.com/mattermost/mattermost/commit/f4185af07a956c7bbbd41becd81293e8b87deff5) | 2026-08-04 |
-| cd920652 | [Bumping prepackaged github version to v2.8.0 (#37831)](https://github.com/mattermost/mattermost/commit/cd920652fb6fba828da217e070b879f1d495a2c8) | 2026-08-04 |
-| ddffe789 | [Fix: mobile menu backdrop fails to dismiss modal (#37430)](https://github.com/mattermost/mattermost/commit/ddffe7896ee03166281fff23d0296a0a24e9e742) | 2026-08-04 |
-| c7eff700 | [ABAC: plugin-keyed resource types, trusted plugin PAP/CEL APIs, and AuthZEN-style decision API (#37509)](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) | 2026-08-04 |
-| 61bc7f18 | [\[MM-69647\] Remove CloudDedicatedExportUI feature flag and dead code (#37836)](https://github.com/mattermost/mattermost/commit/61bc7f18e4459b3ad7cca27db26924845d0c966b) | 2026-08-04 |
 | 36af1ee5 | [Post attributes feature flag group (#37829)](https://github.com/mattermost/mattermost/commit/36af1ee5fc8f86ca671bf813e253806332eacf65) | 2026-08-05 |
 | 63077696 | [\[MM-69847\] Add Classification Markings read-only exception to Manage Attributes listing (#37633)](https://github.com/mattermost/mattermost/commit/6307769639d5ea135dcabafdca5e0628df25bea7) | 2026-08-05 |
 | f9227b1a | [Open Mattermost in the browser when the desktop landing page setting is disabled, with unit tests (#37833)](https://github.com/mattermost/mattermost/commit/f9227b1a2f644414e761b9ac513da1deab2c6b8a) | 2026-08-05 |
@@ -486,6 +479,11 @@
 | af4c3cfd | [Fix flaky autotranslation e2e tests and duplicate "AI Actions" button (#38965)](https://github.com/mattermost/mattermost/commit/af4c3cfde668e006981efa29ba740791eb03fb13) | 2026-10-03 |
 | 05a293c6 | [E2E/Test: Fix failing tests (#38981)](https://github.com/mattermost/mattermost/commit/05a293c603f9909565a8793148a5f7a08b4d3274) | 2026-10-04 |
 | 9e386cb9 | [docs: resolve raw HTML link and image paths through useBaseUrl (#38958)](https://github.com/mattermost/mattermost/commit/9e386cb9937f05f97cb42c9fef5b1c0d13832c42) | 2026-10-04 |
+| e32d8734 | [Request docs-draft review from a human when the source PR author is a bot (#38987)](https://github.com/mattermost/mattermost/commit/e32d8734cb082a1cc4ffed6eb827342d28b1fc8f) | 2026-10-05 |
+| bce346e7 | [MM-70640: Update EXIF metadata handling when reading image orientation (#38739)](https://github.com/mattermost/mattermost/commit/bce346e7948d2f36bb2b2416c6af74d618870e22) | 2026-10-05 |
+| f132e4af | [\[MM-70991\] Bump moment-timezone to 0.6.4 for the 2026 time zone changes (#38849)](https://github.com/mattermost/mattermost/commit/f132e4afd3fa9191631b009e80726e2c932c3dfb) | 2026-10-05 |
+| 9fa53220 | [docs: retire unused Puppeteer PDF pipeline (#39007)](https://github.com/mattermost/mattermost/commit/9fa532208d5585a2a6b872388a243873cabe2aea) | 2026-10-05 |
+| 7532e0ba | [chore: Update NOTICE.txt file with updated dependencies (#38997)](https://github.com/mattermost/mattermost/commit/7532e0bad8f458131c05291f9e97412875f05d17) | 2026-10-05 |
 
 ## 제외된 커밋
 
@@ -899,3 +897,4 @@
 | b021e5be | [\[MM-69734\] Add no session data, ensure session attributes are not leaked through evaluation trace to non sysadmins (#37600)](https://github.com/mattermost/mattermost/commit/b021e5be06e761fb7fccd4b0f3547cb4cb1fa7d6) | cherry-pick으로 반영(시뮬레이션 평가 트리 비-sysadmin 제거 SanitizeSimulationEvaluationTracesForCaller + no_session_data blame 상수·웹앱 'No recent session' 칩). 시뮬레이터 본체(acs.Simulate…)가 github.com/mattermost/enterprise/access_control에만 있어 우리 빌드에서는 a.Srv().ch.AccessControl이 nil → SimulateAccessControlPolicyForUsers가 501(server/channels/app/access_control.go:552). 평가 트리 제거는 방어 코드로 시뮬레이터가 붙으면 즉시 유효, no_session_data는 시뮬레이터가 내보내야 나타난다. ba1cec51·1f4f1b4c와 같은 계보. |
 | d4d216e9 | [Add ClusterInterface.Shutdown to surface skipped cluster sends (#37753)](https://github.com/mattermost/mattermost/commit/d4d216e93e492c3c7c2b3d481e966e22841b6825) | cherry-pick으로 반영(ClusterInterface.Shutdown() 선언 + PlatformService.Shutdown 맨 앞 defer 호출 + mock·테스트 가짜 구현 5곳). 종료 후 버려진 클러스터 전송을 집계하는 실제 구현은 github.com/mattermost/enterprise/cluster에만 있고 우리 빌드에서는 clusterIFace가 nil이라 if 가드로 no-op. ee04f28e·5634530e와 같은 계보. |
 | 5ef9e70d | [Mm 69832 abac review nits (#37640)](https://github.com/mattermost/mattermost/commit/5ef9e70d95d912d4bbe7b3f525b507e3e42ce3fd) | cherry-pick으로 반영(createAccessControlPolicy ManageSystem 검사 끌어올림 + 정책 팀 초대 후보 서버측 term 검색 + ShowFullName off 비관리자의 실명 검색 차단 ExcludeFullNames). 후보 조회 본체 acs.QueryUsersForResource가 github.com/mattermost/enterprise/access_control에만 있어 우리 빌드에서는 GetUsersNotInAbacTeam이 access_control_unavailable(500)을 낸다. 공개 코드인 attributes_store 필드 선택과 권한 검사 리팩터는 동작. 46417611·3a820143 팀 ABAC 계보. |
+| c7eff700 | [ABAC: plugin-keyed resource types, trusted plugin PAP/CEL APIs, and AuthZEN-style decision API (#37509)](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) | github.com/mattermost/enterprise/access_control — 플러그인 ABAC API(EvaluateAccessControl·PAP·CEL 8개)를 adapt로 반영했으나 정책 엔진(PDP/PAP)이 비공개 모듈에만 있어 비활성이다. pluginAccessControlAvailable()이 Channels().AccessControl nil에서 거짓을 돌려줘 플러그인 호출은 전부 '사용 불가'로 끝난다(EA 라이선스·EnableAttributeBasedAccessControl도 요구). 46417611·3a820143과 같은 조건으로, einterfaces.AccessControlServiceInterface를 자체 구현해 등록하면 활성화된다. |
