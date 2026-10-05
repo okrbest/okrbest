@@ -34,8 +34,6 @@ type FeatureFlags struct {
 
 	MoveThreadsEnabled bool
 
-	CloudDedicatedExportUI bool
-
 	CustomProfileAttributes bool
 
 	// Mask non-held attribute values in the policy editor for delegated admins.
@@ -142,7 +140,6 @@ func (f *FeatureFlags) SetDefaults() {
 	f.WysiwygEditor = false
 	f.EnableExportDirectDownload = false
 	f.MoveThreadsEnabled = false
-	f.CloudDedicatedExportUI = false
 	f.CustomProfileAttributes = true
 	f.AttributeValueMasking = true
 	f.PermissionPolicies = true
