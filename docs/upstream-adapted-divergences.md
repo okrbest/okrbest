@@ -36,6 +36,7 @@
 | `f7c10ac5` e2e 플레이크 안정화 | [10b780cb](https://github.com/mattermost/mattermost/commit/10b780cb097b2ec94ab0f9df7ebcbd5b7850f13f) (#37614) | Cypress 수정과 AI bridge 락 fixture는 받고, 보류 제외한 Scheduled Recaps 스펙 하나를 버렸다 — 아래 참조 |
 | `8dab2f66` 포스트 편집이 초안을 만드는 버그 | [0fed2262](https://github.com/mattermost/mattermost/commit/0fed2262813c57bec6f47088efcbfe9e4335b5c4) (#37658) | 수정은 그대로, 신규 테스트의 요소 조회를 Lexical에 맞췄다. 파일 전체 실행에선 여전히 타임아웃 — 아래 참조 |
 | `1f79143b` discoverable 비공개 채널 가입 요청 UX (4커밋) | [99bc7bd8](https://github.com/mattermost/mattermost/commit/99bc7bd886c97d33149a839b29a59b8301242d7e) (#37078) | 59파일 +3957을 네 단계로 나눠 받았다. 충돌 9파일에서 제외 계보(MBE 8a/8b/8c·Managed Categories·classification) 부분을 버렸다 — 아래 참조 |
+| 팀 ABAC 플래그 기본 활성 | [7130ae59](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8) (#37781) | 서버 기본값은 받고 PropertyFieldRank 테스트와 e2e 플래그 한 줄을 버렸다. 비활성 근거에서 플래그가 빠졌다 — 아래 참조 |
 
 ---
 
@@ -1049,3 +1050,49 @@ okrbest 자체 추가 블록(upstream에 없는 14줄)의 결함이고, 저장�
 
 **다시 볼 때.** 레지스트리 발행을 하면 1·2번을, 위 두 결함을 고치면 브라우저 스펙 판정을,
 MM-67372를 재검토하면 3번을 다시 본다.
+
+---
+
+## 팀 ABAC 플래그 기본 활성 — 서버는 받고 충돌 두 곳은 버렸다
+
+**upstream**: [`7130ae59`](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8)
+(MM-70054 - Enable Team Membership ABAC feature flag by default, #37781)
+
+`FeatureFlags.TeamMembershipAccessControl` 기본값을 `false`에서 `true`로 뒤집는다. 서버 쪽
+세 파일(`feature_flags.go`, `team_membership_access_control_test.go`,
+`team_membership_enforcement_test.go`)은 그대로 받았다. 충돌한 두 파일에서 upstream 몫을
+버렸다.
+
+### 버린 것
+
+| 파일 | upstream 변경 | 우리 처리 | 이유 |
+|---|---|---|---|
+| `server/public/model/feature_flags_test.go` | 문맥에 딸려 온 `TestFeatureFlagsSetDefaults_PropertyFieldRank` | **버림** (팀 ABAC 테스트만 받음) | `PropertyFieldRank` 필드가 우리에게 없다. 제외한 property v2 계보(`48f2fd08` → `9f1fe90b`) 소산이다 — 위 "ABAC 플래그 기본 활성" 항목 3번과 같은 자리, **네 번째로 만났다** |
+| `e2e-tests/playwright/lib/src/server/default_config.ts` | `TeamMembershipAccessControl: false → true` (1줄) | **우리 블록 유지** | 우리 FeatureFlags 블록에는 이 키가 아예 없다. upstream 재생성 블록과 갈라진 상태다 — 위 "Playwright e2e" 항목 4번. 이 한 줄을 받으려면 upstream 블록 전체(`AggregatePluginMetrics`, `ManagedChannelCategories`, `SessionAttributes`, `DiscoverableChannels`, `PropertyFieldRank` 등)가 딸려 온다 |
+
+e2e 블록을 버려도 동작은 같다. 서버가 FeatureFlags를 런타임 읽기 전용으로 다루므로 e2e
+기본 설정의 플래그 값은 서버 기본값을 바꾸지 못한다.
+
+### 비활성 근거가 하나 줄었다
+
+ledger의 비공개 모듈 부록(`46417611`, `3a820143`)은 팀 ABAC가 비활성인 근거로 **3중 게이트**
+(`TeamMembershipAccessControlEnabled()`)를 든다. 이 커밋으로 그중 플래그가 기본 활성이 됐다.
+남은 근거는 셋이다.
+
+1. `MinimumEnterpriseAdvancedLicense` — EA 라이선스가 없으면 꺼진다
+2. `AccessControlSettings.EnableAttributeBasedAccessControl` — 기본 `false`
+3. 정책 엔진 `Channels().AccessControl`이 nil — 평가는 거부(fail-closed)로 끝나고
+   (`team_directory_visibility.go`의 `evaluateTeamMembership`, `team.go`의 가입 게이트 403),
+   정책 저장 경로도 막혀 정책이 걸린 팀이 생기지 않는다
+
+**웹앱은 라이선스를 보지 않는다.** `selectors/general.ts`의 `isTeamMembershipAccessControlEnabled`는
+ABAC 설정과 플래그만 확인한다. 관리자가 ABAC 설정을 켜면 팀 설정 모달에 팀 접근·멤버십 탭이
+나타나지만 엔진이 없어 실제로 동작하지 않는다. 채널 ABAC도 같은 조건에서 같은 상태다.
+
+### 되돌릴 조건
+
+- property v2 계보를 도입하면 `PropertyFieldRank` 테스트를 되살린다.
+- e2e `default_config.ts`의 FeatureFlags 블록을 우리 서버 기준으로 다시 생성할 때
+  `TeamMembershipAccessControl: true`를 함께 넣는다.
+- `AccessControlServiceInterface`를 자체 구현하면 웹앱 게이트에 라이선스 확인이 빠진 점을
+  다시 본다.
