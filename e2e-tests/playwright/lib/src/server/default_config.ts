@@ -797,7 +797,6 @@ const defaultServerConfig: AdminConfig = {
         WysiwygEditor: false,
         EnableExportDirectDownload: false,
         MoveThreadsEnabled: false,
-        CloudDedicatedExportUI: false,
         NotificationMonitoring: true,
         CustomProfileAttributes: true,
         PermissionPolicies: true,
