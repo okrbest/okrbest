@@ -258,6 +258,9 @@ export function shouldFocusMainTextbox(e: React.KeyboardEvent | KeyboardEvent, a
     if (activeElement instanceof HTMLElement && activeElement.isContentEditable) {
         return false;
     }
+    if (activeElement.closest('[contenteditable="true"]')) {
+        return false;
+    }
 
     // Focus if it is an attempted paste
     if (Keyboard.cmdOrCtrlPressed(e) && Keyboard.isKeyPressed(e, Constants.KeyCodes.V)) {
