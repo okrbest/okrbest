@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-05 15:44
+- 갱신일: 2026-10-05 16:11
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 478개
+- 남은 커밋: 477개
 
 **마지막 반영 커밋:** `85acba42` | [Skip flaky TestExtractConcurrency (#37834)](https://github.com/mattermost/mattermost/commit/85acba42e1f9ae8a6bfb2f724bbf819b21a45c7a) | 2026-08-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| c17064f7 | [Fix flaky TestImportValidateDirectPostImportData (#37795)](https://github.com/mattermost/mattermost/commit/c17064f72c97e6e7ac4ee2c9ad02f2239faa10f9) | 2026-08-02 |
 | acf883c8 | [chore: Update NOTICE.txt file with updated dependencies (#37814)](https://github.com/mattermost/mattermost/commit/acf883c825a6f59be1f6301c0f84c6f8f5df8ddc) | 2026-08-03 |
 | ae0bec4d | [Add MFI plugin signature public key behind feature flag (#37793)](https://github.com/mattermost/mattermost/commit/ae0bec4d6741cafea7eca7beafbac1929826e20b) | 2026-08-03 |
 | 7130ae59 | [MM-70054 - Enable Team Membership ABAC feature flag by default (#37781)](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8) | 2026-08-04 |
