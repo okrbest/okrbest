@@ -51,6 +51,14 @@ func TestFeatureFlagsSetDefaults_AttributeValueMasking(t *testing.T) {
 	require.Equal(t, "true", flags.ToMap()["AttributeValueMasking"])
 }
 
+func TestFeatureFlagsSetDefaults_TeamMembershipAccessControl(t *testing.T) {
+	var flags FeatureFlags
+	flags.SetDefaults()
+
+	require.True(t, flags.TeamMembershipAccessControl, "TeamMembershipAccessControl should default to true")
+	require.Equal(t, "true", flags.ToMap()["TeamMembershipAccessControl"])
+}
+
 // TestFeatureFlagsPermissionPoliciesDependencies pins down the
 // "sub-flag is gated by the umbrella PermissionPolicies flag"
 // contract for both ChannelPermissionPolicies and PolicySimulation.
