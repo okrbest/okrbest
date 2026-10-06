@@ -588,9 +588,6 @@ const defaultServerConfig: AdminConfig = {
         LocaleAttribute: '',
         PositionAttribute: '',
         LoginButtonText: 'SAML',
-        LoginButtonColor: '#34a28b',
-        LoginButtonBorderColor: '#2389D7',
-        LoginButtonTextColor: '#ffffff',
     },
     NativeAppSettings: {
         AppCustomURLSchemes: ['mmauth://', 'mmauthbeta://'],
