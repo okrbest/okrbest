@@ -54,6 +54,7 @@ const UnreadChannelGroup = ({
         <section
             className='UnreadChannelGroup'
             data-testid={`unread-group-${channel.id}`}
+            data-channel-id={channel.id}
         >
             <header className='UnreadChannelGroup__header'>
                 <button
