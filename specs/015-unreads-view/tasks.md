@@ -73,14 +73,14 @@
 
 ### Tests for User Story 2 (구현 전 실패 확인 필수)
 
-- [ ] T016 [P] [US2] 읽음 처리 테스트 — 그룹 버튼 → `readMultipleChannels([id])` 호출·그룹 제거, 전체 버튼 → 전 그룹 id 일괄 호출·빈 상태 전환, 실패 응답 시 그룹 유지+오류 안내, Esc → 포커스 그룹 읽음. `CS/components/unreads_view/unread_channel_group.test.tsx`·`unreads_view.test.tsx`에 추가
+- [X] T016 [P] [US2] 읽음 처리 테스트 — 그룹 버튼 → `readMultipleChannels([id])` 호출·그룹 제거, 전체 버튼 → 전 그룹 id 일괄 호출·빈 상태 전환, 실패 응답 시 그룹 유지+오류 안내, Esc → 포커스 그룹 읽음. `CS/components/unreads_view/unread_channel_group.test.tsx`·`unreads_view.test.tsx`에 추가
 
 ### Implementation for User Story 2
 
-- [ ] T017 [US2] 그룹 "읽음으로 표시" 액션 구현으로 T016 일부 통과 — `unread_channel_group.tsx` PanelHeader 액션 + 제거 처리, 문구 en/ko 동시
-- [ ] T018 [US2] 화면 머리글 "모든 메시지 읽음으로 표시" 버튼 — `unreads_view.tsx`, 문구 en/ko 동시
-- [ ] T019 [US2] Esc 키 처리 — 포커스 그룹 읽음(FR-010), a11y 포커스 관리 포함. 열린 팝오버·메뉴·모달이 있으면 Esc는 그것부터 닫고 그룹 읽음을 실행하지 않는다. `unreads_view.tsx`
-- [ ] T020 [US2] 실패 처리 — 네트워크 오류 시 그룹 유지 + 오류 안내(기존 토스트/알림 관례), 문구 en/ko 동시
+- [X] T017 [US2] 그룹 "읽음으로 표시" 액션 구현으로 T016 일부 통과 — `unread_channel_group.tsx` PanelHeader 액션 + 제거 처리, 문구 en/ko 동시
+- [X] T018 [US2] 화면 머리글 "모든 메시지 읽음으로 표시" 버튼 — `unreads_view.tsx`, 문구 en/ko 동시
+- [X] T019 [US2] Esc 키 처리 — 포커스 그룹 읽음(FR-010), a11y 포커스 관리 포함. 열린 팝오버·메뉴·모달이 있으면 Esc는 그것부터 닫고 그룹 읽음을 실행하지 않는다. `unreads_view.tsx`
+- [X] T020 [US2] 실패 처리 — 네트워크 오류 시 그룹 유지 + 오류 안내(기존 토스트/알림 관례), 문구 en/ko 동시
 
 **Checkpoint**: US1+US2로 Slack 벤치마크의 핵심 루프(모아 보기 → 읽음 처리) 완성
 
