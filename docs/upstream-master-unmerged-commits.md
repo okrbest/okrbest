@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-06 12:22
+- 갱신일: 2026-10-06 12:37
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 443개
+- 남은 커밋: 438개
 
-**마지막 반영 커밋:** `8ce3c54a` | [MM-70016: Fix edge case in team invitation handling (#37741)](https://github.com/mattermost/mattermost/commit/8ce3c54a5ed76b2aa39a46cf8a1b517ea53ec0cc) | 2026-08-10
+**마지막 반영 커밋:** `1f08ac5b` | [MM-69886: Refresh Channel Members RHS on websocket add and reconnect (#37584)](https://github.com/mattermost/mattermost/commit/1f08ac5bb04372421315c0ebe0e951fbecf3ebb6) | 2026-08-11
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 4a68234d | [\[MM-69601\] mmctl: support file attachments in `post create` (#37310)](https://github.com/mattermost/mattermost/commit/4a68234d7568462cecaae42f76c57526b5df7c6a) | 2026-08-11 |
-| 844d3370 | [\[MM-69849\]\[MM-69850\] Add New Attribute page: create Text/Select/Multiselect/Rank attributes with an options editor (#37726)](https://github.com/mattermost/mattermost/commit/844d3370b71f49ede1ef3a4bfbc22c80a8bd135f) | 2026-08-11 |
-| d3c26275 | [fix(mmctl): lengthen sampledata passwords to meet FIPS minimum (#37867)](https://github.com/mattermost/mattermost/commit/d3c26275b651b2e23b173c9c914b5fc99e7626b8) | 2026-08-11 |
-| 11cc766d | [\[MM-69726\] Fix Message actions menu displaying off screen in narrow display (#37396)](https://github.com/mattermost/mattermost/commit/11cc766dfaa1cbe2c08e8ae7994d8118bfdbffa7) | 2026-08-11 |
-| 1f08ac5b | [MM-69886: Refresh Channel Members RHS on websocket add and reconnect (#37584)](https://github.com/mattermost/mattermost/commit/1f08ac5bb04372421315c0ebe0e951fbecf3ebb6) | 2026-08-11 |
 | 265f1509 | [\[MM-70223\] Migrate GetAllProfilesInChannel to request context (#37637)](https://github.com/mattermost/mattermost/commit/265f1509fa0ea08464a007995c943b21d0530f9a) | 2026-08-12 |
 | 270a5030 | [\[MM-70225\] Migrate Store.GetDiagnostics to request.CTX (#37635)](https://github.com/mattermost/mattermost/commit/270a5030542305e1a9921f6df71bc7793245442c) | 2026-08-12 |
 | 9f0ae6a2 | [\[MM-70222\] Migrate UserStore Get to request context (#37646)](https://github.com/mattermost/mattermost/commit/9f0ae6a220f5da8f4303ee80f2237f395ff9bed4) | 2026-08-12 |
@@ -823,6 +818,8 @@
 | a6d008c5 | [\[MM-70188\] Convert the os_platform session attribute to a select field (#37901)](https://github.com/mattermost/mattermost/commit/a6d008c5c2b13a6845a39bab0eaae13aacc1859d) | 제외한 Session Attributes 계보(684ddb32 #36934 Server-work → 80eb4980·20c4cc42)의 후속이라 얹힐 토대가 없다. os_platform 세션 속성을 text→select로 바꾸고 기존 시드 필드의 select 옵션을 스키마와 재동기화하는 syncSessionAttributeOptions 마이그레이션을 추가하는 4파일 +184/-3 변경인데, 실측 server/public/model/session_attributes.go·session_attributes_test.go가 HEAD에 없고(modify/delete 충돌) 고치려는 세션 속성 시드 마이그레이션(doSetupSessionAttributes 계열)도 우리 트리에 없어 migrations.go·migrations_test.go 충돌이 그 부재 함수 주변에서 난다. |
 
 | 4901a7fc | [\[MM-70186\] Add tooltips to platform icons in session attribute picker (#37898)](https://github.com/mattermost/mattermost/commit/4901a7fc2a9f075e2fef972498cfa5e4a74c1e9f) | 제외한 Session Attributes 관리 화면 57fe965a(#37362)의 후속이라 얹힐 토대가 없다. ABAC 속성 선택 메뉴의 세션 속성 플랫폼 아이콘(desktop/mobile/browser)에 WithTooltip·aria-label을 붙이며, attribute_selector_menu.tsx의 인라인 PLATFORM_ICONS를 admin_console/session_attributes/platform_icons·utils(getSessionAttrs) import로 교체한다(5파일 +197/-41). 실측 admin_console/session_attributes/ 디렉터리와 attribute_selector_menu.test.tsx가 모두 57fe965a 소산이라 HEAD에 없다(modify/delete 3건 + tsx 내용 충돌). 아이콘은 세션 속성 필드에만 표시되는데 우리 환경은 SessionAttributes가 꺼져 있어 화면에 나타나지 않는다 — 57fe965a 계보를 반영할 때 함께 처리할 대상. |
+
+| 844d3370 | [\[MM-69849\]\[MM-69850\] Add New Attribute page: create Text/Select/Multiselect/Rank attributes with an options editor (#37726)](https://github.com/mattermost/mattermost/commit/844d3370b71f49ede1ef3a4bfbc22c80a8bd135f) | 제외한 Global Attributes 계보(38b66d22 #37580 접근 게이트 → 4ec0fe9c #37608 목록 페이지 → 63077696)의 신규 기능이라 얹힐 토대가 없다 — 계보 전체가 제외한 property 시스템 v2(48f2fd08) 위에 있다. Manage Attributes에 Text/Select/Multiselect/Rank 새 속성 만들기 페이지와 옵션 편집기를 추가하는 27파일 +3647/-19 변경인데, 실측 터치 경로 27개 중 20개가 HEAD에 없다(admin_console/global_attributes/ 디렉터리 자체 부재). 우리 트리에 있는 것은 admin_definition.tsx(없는 페이지 라우트)·card.tsx/card_body.tsx·en.json뿐이다. Card의 disableExpandAnimation은 이 페이지 전용 opt-in prop이라 우리 쪽 기존 Card 사용처 5곳 모두 쓰지 않으므로 함께 미반영 — 이 계보를 반영할 때 card.tsx·card_body.tsx·card.test.tsx 변경도 같이 넣어야 한다. |
 
 ## spec 전환 커밋
 
