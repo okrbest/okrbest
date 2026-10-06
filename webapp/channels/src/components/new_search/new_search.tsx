@@ -103,6 +103,8 @@ const NewSearchTerms = styled.span`
 `;
 
 const SearchBoxContainer = styled.div`
+    /* OKR.BEST (Slack 벤치마크): 검색 바(52vw)와 같은 폭 — 좁은 창에서는 600px 바닥 유지 */
+    width: 52vw;
     min-width: 600px;
     border-radius: 12px;
     max-height: 90vh;
