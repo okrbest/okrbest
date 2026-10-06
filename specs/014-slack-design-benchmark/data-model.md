@@ -14,7 +14,7 @@ Mattermost 테마 필드로 옮긴 것이다.
 |---|---|---|
 | `type` | `'Slate'` | — |
 | `sidebarBg` | `#fdfdfd` | 사이드바 `#FDFDFD` |
-| `sidebarText` | `#333133` | 선택 항목 배경색을 글자로 재사용 — 대비 12.4:1 |
+| `sidebarText` | `#474647` | Slack 기본 글자 rgba(29,28,29,0.8)의 합성값 근사 — 대비 9.2:1. 활성 반전(11.5:1)이 사이드바 최고 대비가 되도록 기본 글자를 반전보다 낮게 둔다 (SC-002) |
 | `sidebarUnreadText` | `#1d1c1d` | content-pry |
 | `sidebarTextHoverBg` | `#e3e2e3` | hover `rgba(51,49,51,0.13)`의 `#FDFDFD` 위 합성값 |
 | `sidebarTextActiveBorder` | `#333133` | 활성 반전 배경 (R3 재해석) |

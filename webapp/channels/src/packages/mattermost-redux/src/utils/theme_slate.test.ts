@@ -53,6 +53,12 @@ describe('slate theme (spec 014 US1)', () => {
         expect(contrastRatio(slate.sidebarTextActiveBorder, slate.sidebarTextActiveColor)).toBeGreaterThanOrEqual(7.0);
     });
 
+    it('makes the active item the highest-contrast sidebar entry (SC-002)', () => {
+        const activePair = contrastRatio(slate.sidebarTextActiveBorder, slate.sidebarTextActiveColor);
+        const defaultPair = contrastRatio(slate.sidebarText, slate.sidebarBg);
+        expect(activePair).toBeGreaterThan(defaultPair);
+    });
+
     it('is the default theme when the user saved nothing (FR-002)', () => {
         expect(getTheme(makeState())).toEqual(slate);
     });
