@@ -3,14 +3,14 @@
 
 .UnreadsView {
     display: flex;
-    flex-direction: column;
     overflow: hidden;
+    flex-direction: column;
 
     &__body {
         display: flex;
+        overflow: hidden auto;
         flex: 1;
         flex-direction: column;
-        overflow-y: auto;
     }
 
     &__newItemsBanner {
@@ -28,9 +28,9 @@
 }
 
 .UnreadChannelGroup {
-    margin: 8px 20px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     border-radius: 4px;
+    margin: 8px 20px;
 
     &__header {
         display: flex;

@@ -8,9 +8,9 @@ import type {DeepPartial} from '@mattermost/types/utilities';
 import {renderWithContext, screen} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
-import UnreadsLink from './unreads_link';
-
 import type {GlobalState} from 'types/store';
+
+import UnreadsLink from './unreads_link';
 
 describe('components/sidebar/unreads_link', () => {
     const currentUserId = 'current_user_id';

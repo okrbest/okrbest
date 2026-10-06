@@ -114,7 +114,7 @@
 유지 (quickstart SC-005).
 
 - [ ] T024 [US4] 무변경 검증 — 신규 계정으로 사이드바 UNREADS 그룹 비표시·설정 토글 동작·켠 계정 유지(US4 시나리오 3종)를 실주행으로 확인하고 결과를 `specs/015-unreads-view/verification.md`에 기록. 단위 테스트 없음(기존 동작 확인이라 신규 테스트 대상 아님 — 사유 기록)
-- [ ] T025 [P] [US4] 배포 점검 항목 확정 — `mmctl config get ServiceSettings.ExperimentalGroupUnreadChannels` 확인 절차가 quickstart.md에 있는지 점검, 운영 적용 시점 기록란 추가
+- [X] T025 [P] [US4] 배포 점검 항목 확정 — `mmctl config get ServiceSettings.ExperimentalGroupUnreadChannels` 확인 절차가 quickstart.md에 있는지 점검, 운영 적용 시점 기록란 추가
 
 **Checkpoint**: 모든 사용자 스토리 완료
 
@@ -122,8 +122,8 @@
 
 ## Phase 7: Polish & 완료 검증
 
-- [ ] T026 [P] upstream 발산 기록 — 접촉 7곳(ui-contract §5)을 `docs/upstream-adapted-divergences.md`에 추가
-- [ ] T027 코드 정리 — 신규 파일 저작권 헤더(원칙 IV), 미사용 import, 주석 밀도 점검
+- [X] T026 [P] upstream 발산 기록 — 접촉 7곳(ui-contract §5)을 `docs/upstream-adapted-divergences.md`에 추가
+- [X] T027 코드 정리 — 신규 파일 저작권 헤더(원칙 IV), 미사용 import, 주석 밀도 점검
 
 ### 완료 검증 (고정 — 지우지 않는다)
 

@@ -3,16 +3,17 @@
 
 import React from 'react';
 
+import type {DeepPartial} from '@mattermost/types/utilities';
+
 import {renderWithContext, screen, waitFor, within, userEvent} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
+import type {GlobalState} from 'types/store';
+
 import UnreadsView from './unreads_view';
 
-import type {GlobalState} from 'types/store';
-import type {DeepPartial} from '@mattermost/types/utilities';
-
 const mockMarkChannelAsRead = jest.fn(() => ({type: 'MOCK_MARK_CHANNEL_AS_READ'}));
-const mockReadMultipleChannels = jest.fn((_channelIds: string[]) => () => Promise.resolve({data: true}));
+const mockReadMultipleChannels = jest.fn(() => () => Promise.resolve({data: true}));
 
 jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),

@@ -6,14 +6,14 @@ import {shallowEqual, useSelector} from 'react-redux';
 
 import type {DeepPartial} from '@mattermost/types/utilities';
 
+import {getUnreadChannels} from 'selectors/views/channel_sidebar';
+
 import {renderHookWithContext} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
-import {getUnreadChannels} from 'selectors/views/channel_sidebar';
+import type {GlobalState} from 'types/store';
 
 import useUnreadsSnapshot from './use_unreads_snapshot';
-
-import type {GlobalState} from 'types/store';
 
 const mockLoadUnreads = jest.fn((channelId: string) => ({type: 'MOCK_LOAD_UNREADS', channelId}));
 

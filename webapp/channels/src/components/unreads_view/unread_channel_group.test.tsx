@@ -8,9 +8,9 @@ import type {DeepPartial} from '@mattermost/types/utilities';
 import {renderWithContext, screen, userEvent} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
-import UnreadChannelGroup from './unread_channel_group';
-
 import type {GlobalState} from 'types/store';
+
+import UnreadChannelGroup from './unread_channel_group';
 
 jest.mock('components/post', () => {
     // PostComponent는 거대한 연결 컴포넌트라 카드 구조 단위 테스트에서는 스텁으로

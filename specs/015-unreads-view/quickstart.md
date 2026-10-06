@@ -82,6 +82,10 @@ mmctl config get ServiceSettings.ExperimentalGroupUnreadChannels
 
 `default_on`이면 FR-016 위반 — `disabled`로 되돌린다.
 
+| 점검 일시 | 환경 | 설정값 | 확인자 |
+|---|---|---|---|
+| (운영 적용 시 기입) | | | |
+
 ## 완료 기준
 
 - 위 시나리오 전부 통과 + SC-### 실측값 기록.
