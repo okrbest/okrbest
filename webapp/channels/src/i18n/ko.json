@@ -7134,6 +7134,7 @@
   "userAccountMenu.setCustomStatusMenuItem.hasStatusWithTextAndNoExpiry.ariaDescription": "상태가 \"{text}\"입니다. 상태 메시지를 설정하세요.",
   "userAccountMenu.setCustomStatusMenuItem.noStatusSet": "상태 메시지 설정",
   "userAccountMenu.setCustomStatusMenuItem.noStatusTextSet": "상태 메시지 텍스트 설정",
+  "userAccountMenu.settingsMenuItem.label": "설정",
   "userGuideHelp.askTheCommunity": "커뮤니티에 문의하기",
   "userGuideHelp.keyboardShortcuts": "키보드 단축키",
   "userGuideHelp.mattermostUserGuide": "OKR.BEST 사용자 가이드",

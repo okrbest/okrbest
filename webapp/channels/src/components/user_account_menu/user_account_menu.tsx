@@ -22,6 +22,7 @@ import UserAccountOnlineMenuItem from './user_account_online_menuitem';
 import UserAccountOutOfOfficeMenuItem from './user_account_out_of_office_menuitem';
 import UserAccountProfileMenuItem from './user_account_profile_menuitem';
 import UserAccountSetCustomStatusMenuItem from './user_account_set_custom_status_menuitem';
+import UserAccountSettingsMenuItem from './user_account_settings_menuitem';
 
 import type {PropsFromRedux} from './index';
 
@@ -127,6 +128,7 @@ export default function UserAccountMenu(props: Props) {
             <UserAccountProfileMenuItem
                 userId={props.userId}
             />
+            <UserAccountSettingsMenuItem/>
             <Menu.Separator/>
             <UserAccountLogoutMenuItem/>
         </Menu.Container>

@@ -1293,8 +1293,26 @@ Slack 벤치마크: 계정·상태 관리 버튼을 글로벌 헤더 우측 상�
 |---|---|---|
 | `components/global_header/right_controls/right_controls.tsx` | `<UserAccountMenu/>` 제거 (SettingsButton은 유지) | 헤더에 계정 버튼을 되살리지 않는다 |
 | `components/user_account_menu/user_account_menu.tsx` | 선택 prop `openUp` — 메뉴 앵커를 위/왼쪽으로 뒤집는 분기 | prop 유지 |
-| `components/sidebar/sidebar.tsx` | `<SidebarFooter/>` 삽입 (SidebarList 아래) | 삽입 유지 |
+| `components/sidebar/sidebar.tsx` | `<SidebarFooter/>` 삽입 (SidebarList 아래) | ~~삽입 유지~~ → 후속 커스텀에서 팀 레일 하단으로 재이동 (아래 항목) |
 
 포크 전용 신설: `components/sidebar/sidebar_footer/`, `_overrides.scss`의
 `.SidebarFooter` 블록. 참고: 온보딩 체크리스트 FAB(신규 사용자 한정, 해제 가능)가
 좌측 하단에 떠서 일시적으로 겹칠 수 있다 — 온보딩 종료 시 사라지는 요소라 수용.
+
+---
+
+## 팀 레일 상시 표시 + 프로필 버튼 레일 하단 + 설정 메뉴 항목 (포크 자체 커스텀, 2026-10-07)
+
+위 "프로필 버튼 사이드바 하단 이동" 항목의 후속 — 레일 상주 버튼 거치대 확보.
+
+| 파일 | 바꾼 것 | sync 충돌 시 지킬 것 |
+|---|---|---|
+| `components/team_sidebar/team_sidebar.tsx` | `myTeams.length <= 1 → return null` 제거(레일 상시 표시, root에 multi-teams 상시 부여), Scrollbars 아래 `<SidebarFooter/>` 삽입 | 상시 표시·footer 유지. `team_sidebar.test.tsx`가 고정 |
+| `components/sidebar/sidebar.tsx` | 직전 커스텀의 SidebarFooter 삽입을 제거(레일로 이동) | 채널 사이드바에 footer를 되살리지 않는다 |
+| `components/global_header/right_controls/right_controls.tsx` | `SettingsButton` + CustomizeYourExperience 투어 블록 제거 | 설정 진입은 프로필 메뉴 항목이 대체. 온보딩 '경험 맞춤' 투어 단계는 앵커가 없어져 비표시 — 수용 |
+| `components/user_account_menu/user_account_menu.tsx` | 프로필 항목 아래 `<UserAccountSettingsMenuItem/>` 삽입 | 항목 유지 |
+
+포크 전용 신설: `user_account_settings_menuitem.tsx`(+테스트),
+`team_sidebar.test.tsx`. i18n `userAccountMenu.settingsMenuItem.label` (en/ko).
+참고: showTeamSidebar=false인 별도 product 화면에서는 레일이 숨어 프로필
+버튼도 함께 숨는다 — channels 전용 포크라 수용.
