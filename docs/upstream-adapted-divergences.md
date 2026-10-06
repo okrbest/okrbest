@@ -1209,3 +1209,42 @@ ABAC 설정과 플래그만 확인한다. 관리자가 ABAC 설정을 켜면 팀
   `SIMPLE_CONDITION_PATTERNS`에 upstream의 나머지 패턴을 같은 `CEL_STRING` 형태로 더하고, 버린 테스트
   셋과 원래 `user.email` 단언을 되살린다. 같은 파일의 앞선 기록(`469e1e26`, 랭크 연산자 테스트 넷)과
   함께 처리한다.
+---
+
+## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
+
+adapt 커밋이 아니라 포크 고유 설계 변경이다. upstream 파일을 인라인으로 고친
+지점이 있어 후속 sync 충돌에 대비해 적는다. 정본 명세는
+`specs/014-slack-design-benchmark/`.
+
+### 인라인으로 고친 upstream 파일
+
+| 파일 | 바꾼 것 | sync 충돌 시 지킬 것 |
+|---|---|---|
+| `mattermost-redux/constants/preferences.ts` | `slate` 프리셋 추가(첫 항목), 기존 5종의 활성 반전 짝·의미색 교정 | 색 값은 `theme_presets_contrast.test.ts`·`theme_slate.test.ts`가 고정한다. upstream이 값을 되돌리면 테스트가 깨진다 |
+| `mattermost-redux/selectors/entities/preferences.ts` | `ThemeKey`·`ThemeType`에 slate, 기본 폴백 denim→slate (L181 부근) | 폴백은 slate 유지 |
+| `mattermost-redux/utils/theme_utils.ts` | `themeTypeMap`에 `Slate: 'slate'` | 매핑 유지 |
+| `sass/layout/_sidebar-left.scss` | ① 글자 알파 0.64 → 불투명 12곳 ② 활성 항목 완전 반전(배경=active-border, 글자=active-color)·8% 알파 배경과 좌측 4px 바 제거 ③ 폭 `clamp(180px, 19vw, 440px)`·단계식 max-width 통합 ④ 채널명 15px ⑤ Open Sans 스택에 Noto 추가 | 반전·폭 정책이 핵심. upstream이 활성 스타일을 고치면 반전 쪽을 유지 |
+| `sass/layout/_headers.scss` | 채널 제목 16/600/16 → 18/900/24, 토픽 12→13px | — |
+| `sass/components/_post.scss` | 작성자 이름 600→900 | — |
+| `sass/base/_typography.scss` | 폰트 스택에 Noto Sans KR, `@font-face` 5종 추가(Metropolis Black 900, Open Sans 800→900 슬롯, Noto 400/600/900) | — |
+| `sass/base/_css_variables.scss` | FOUC 정적 폴백을 slate 값으로 | applyTheme 이전 첫 페인트 색. slate와 함께 움직인다 |
+| `components/global_header/global_header.tsx` | 글자 `rgba(sidebar-text, 0.64)` → `var(--sidebar-header-text-color)` | — |
+| `components/lexical_editor/lexical_text_editor.scss` | 작성창 14→15px | — |
+| `components/{drafts,threading,recaps_link}` SCSS | 사이드바 계열 글자 알파 제거, drafts 활성 뱃지 색 반전 추종 | — |
+| `components/admin_console/admin_definition.tsx` + `i18n/{en,ko}.json` | DefaultTheme 드롭다운에 slate 옵션 | i18n 키 `admin.experimental.defaultTheme.options.slate` |
+| `components/new_search/new_search.tsx` | 헤더 검색 글자 알파 0.64/0.88 → 불투명 `var(--sidebar-text)` | SC-001 교정 (3.04 → 6.87) |
+
+### 포크 전용 신설 (sync 충돌 없음)
+
+- `sass/okrbest/_overrides.scss` — 포크 스타일 레이어. `styles.scss` **마지막**
+  import를 유지해야 한다. 모션 토큰(`--okr-anim-*`), 모달 마감, 활성 보조 규칙,
+  본문 15px 기준이 들어 있다.
+- `mattermost-redux/utils/wcag_contrast.ts` — 대비 회귀 테스트용 헬퍼.
+- 폰트 7파일 (`fonts/README.md`에 라이선스 고지).
+
+### 되돌릴 조건
+
+없다 — 이 차이는 포크의 디자인 정체성이다. upstream이 자체적으로 테마 모델을
+바꾸면(예: 활성 배경 필드 신설) R3의 재해석(active-border=배경)을 그 모델로
+옮기고 반전 테스트를 유지한다.

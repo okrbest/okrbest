@@ -81,7 +81,7 @@ const NewSearchContainer = styled.div`
     height: 28px;
     width: 100%;
     background-color: rgba(var(--sidebar-text-rgb), 0.08);
-    color: rgba(var(--sidebar-text-rgb), 0.64);
+    color: var(--sidebar-text);
     font-size: 12px;
     font-weight: 500;
     border-radius: var(--radius-s);
@@ -90,7 +90,7 @@ const NewSearchContainer = styled.div`
     cursor: pointer;
     &:hover {
         background-color: rgba(var(--sidebar-text-rgb), 0.16);
-        color: rgba(var(--sidebar-text-rgb), 0.88);
+        color: var(--sidebar-text);
     }
 `;
 

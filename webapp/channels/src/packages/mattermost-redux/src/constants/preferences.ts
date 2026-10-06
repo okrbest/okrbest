@@ -94,6 +94,7 @@ const Preferences = {
 
     CATEGORY_THEME: 'theme',
     THEMES: {
+
         // OKR.Best fork default (spec 014): neutral three-step chrome from the
         // Slack light-theme measurements. Luminance order must stay
         // sidebarTeamBarBg < sidebarBg < centerChannelBg; the active item uses
@@ -102,7 +103,7 @@ const Preferences = {
         slate: {
             type: 'Slate',
             sidebarBg: '#fdfdfd',
-            sidebarText: '#333133',
+            sidebarText: '#474647',
             sidebarUnreadText: '#1d1c1d',
             sidebarTextHoverBg: '#e3e2e3',
             sidebarTextActiveBorder: '#333133',
