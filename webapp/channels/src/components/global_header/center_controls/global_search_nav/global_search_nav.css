@@ -1,6 +1,7 @@
 .GlobalSearchNav {
     display: flex;
-    max-width: 432px;
+    /* OKR.BEST (Slack 벤치마크): 검색 바 폭 — Slack 실측 52vw (2873px 창에서 1512px) */
+    max-width: 52vw;
     flex: 1;
     flex-direction: row;
     flex-wrap: nowrap;
