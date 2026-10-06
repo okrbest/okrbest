@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-06 01:15
+- 갱신일: 2026-10-06 10:39
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 473개
+- 남은 커밋: 468개
 
-**마지막 반영 커밋:** `61bc7f18` | [\[MM-69647\] Remove CloudDedicatedExportUI feature flag and dead code (#37836)](https://github.com/mattermost/mattermost/commit/61bc7f18e4459b3ad7cca27db26924845d0c966b) | 2026-08-04
+**마지막 반영 커밋:** `5b273440` | [\[MM-70113\] Gate Classification Markings behind Enterprise Advanced license (#37838)](https://github.com/mattermost/mattermost/commit/5b273440bf1b2f735429239960524e9e0854db43) | 2026-08-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 36af1ee5 | [Post attributes feature flag group (#37829)](https://github.com/mattermost/mattermost/commit/36af1ee5fc8f86ca671bf813e253806332eacf65) | 2026-08-05 |
-| 63077696 | [\[MM-69847\] Add Classification Markings read-only exception to Manage Attributes listing (#37633)](https://github.com/mattermost/mattermost/commit/6307769639d5ea135dcabafdca5e0628df25bea7) | 2026-08-05 |
-| f9227b1a | [Open Mattermost in the browser when the desktop landing page setting is disabled, with unit tests (#37833)](https://github.com/mattermost/mattermost/commit/f9227b1a2f644414e761b9ac513da1deab2c6b8a) | 2026-08-05 |
-| 4eac9292 | [\[MM-69587\] Remove CustomProfileAttributes feature flag (#37389)](https://github.com/mattermost/mattermost/commit/4eac9292c02363461423aee51333000ed0633fea) | 2026-08-05 |
-| 5b273440 | [\[MM-70113\] Gate Classification Markings behind Enterprise Advanced license (#37838)](https://github.com/mattermost/mattermost/commit/5b273440bf1b2f735429239960524e9e0854db43) | 2026-08-05 |
 | eed994d1 | [\[MM-70114\] Fix flaky channel guard broadcast test (#37847)](https://github.com/mattermost/mattermost/commit/eed994d1062da9305ec950ba10ddb5faf0d6396f) | 2026-08-06 |
 | 318fd812 | [Fix flaky TestComplianceStore/postgres/MessageExport_UntilUpdateAt (#37856)](https://github.com/mattermost/mattermost/commit/318fd81259c9c1b8859a3f6e357b26e9603d3e4a) | 2026-08-06 |
 | dce666b0 | [MM-69980 Fix edited posts being slightly taller than unedited ones (#37693)](https://github.com/mattermost/mattermost/commit/dce666b02d8ec1864ed7b368157cc6d8ab96e5b4) | 2026-08-06 |
@@ -843,6 +838,12 @@
 | b9cea257 | [MM-69912: let plugins bring their own editor extensions and read structured content (#37678)](https://github.com/mattermost/mattermost/commit/b9cea25748f7f64a148e22ad51658a190378670c) | 고칠 대상 4파일이 모두 우리 트리에 없다(MISSING PATHS 4/4). 플러그인 공개 WYSIWYG 에디터(window.WebappUtils.editor)에 Tiptap 확장 주입·구조화(JSON) 내용 읽기/쓰기·로드 실패 시 자동저장 차단을 더하는 커밋(4파일 +602/-33, 테스트 454줄). wysiwyg_editor.tsx·.test.tsx는 제외한 0fa2713b(MM-67755 Tiptap WYSIWYG, #36143) 산물 — 우리는 Lexical(components/lexical_editor/)로 확정. published_editor.test.tsx·platform/shared/src/types/global/editor.ts는 379959ba adapt에서 Tiptap 의존 때문에 뺀 파일(docs/upstream-adapted-divergences.md '플러그인 공개 API' 항목이 이런 후속 커밋을 같은 판단으로 처리하도록 기록). merge-tree CONFLICT modify/delete 3건. 재검토 조건: Lexical 기반 에디터 공개를 자체 설계할 때 이 커밋의 확장 주입·JSON 모드 계약을 참고한다. |
 
 | 4ec0fe9c | [\[MM-69846\] List access_control/template attributes on the Manage Attributes page (#37608)](https://github.com/mattermost/mattermost/commit/4ec0fe9cc9dd35229c99260782ed011211f36e01) | 제외한 38b66d22(Global Attributes 접근 게이트, #37580)의 직접 후속이며 그 제외 사유가 연쇄 제외 대상으로 이 커밋을 이름으로 지목했다. 14파일 +1564/-81: 빈 틀이던 Manage Attributes 페이지에 access_control/template PropertyField 읽기 전용 표(global_attributes_table)와 redux properties action·reducer, e2e 스펙을 채운다. MISSING PATHS 13개 — admin_console/global_attributes/* 전부(출처 38b66d22, 제외), mattermost-redux actions·reducers/entities/properties.ts(출처 6083cc22, 제외), e2e global_attributes/*. 기반인 property 시스템 v2(48f2fd08)·템플릿 ObjectType(3fa87760) 계보 제외. 재검토 조건: property 시스템 v2 도입을 결정할 때(38b66d22와 동일). |
+
+| 36af1ee5 | [Post attributes feature flag group (#37829)](https://github.com/mattermost/mattermost/commit/36af1ee5fc8f86ca671bf813e253806332eacf65) | 제외한 property 시스템 v2(PSAv2) 계보(48f2fd08 Integrated Boards MVP → 9c684e63 PropertyGroup.Version → a6e01986 SchemaVersion)의 후속이라 얹힐 토대가 없다. Post Attributes 기능의 시작점으로 PostAttributes 플래그·post_attributes 그룹 상수·webapp 셀렉터를 추가하고 RegisterBuiltinGroups에 {Version: PropertyGroupVersionV2, SchemaVersion: 1}로 그룹을 등록하며 api4/properties.go 라우트 OR 조건에 플래그를 더한다. 실측: api4/properties.go·properties_test.go 부재(modify/delete 충돌), model.PropertyGroup이 ID·Name 2필드뿐이라 Version·SchemaVersion·PropertyGroupVersionV2가 없어 server.go 등록 줄이 컴파일되지 않는다. 플래그·셀렉터만 adapt하면 켜도 아무것도 동작하지 않는 빈 플래그가 된다. 후속 Post Attributes 커밋(예: bb72eeb7 #38134 hydrate posts with attributes)도 같은 근거로 연쇄 제외 대상. |
+
+| 63077696 | [\[MM-69847\] Add Classification Markings read-only exception to Manage Attributes listing (#37633)](https://github.com/mattermost/mattermost/commit/6307769639d5ea135dcabafdca5e0628df25bea7) | 제외한 두 계보가 만나는 UI 미세 조정이라 반영할 대상이 없다 — Global Attributes(38b66d22 #37580 접근 게이트 → 4ec0fe9c #37608 목록 페이지)와 Classification Markings(2b7b398a #35934 관리 페이지 → 6083cc22·23b4d827·800810e8·da5d7c8c·017a7102), 둘 다 제외한 property 시스템 v2(48f2fd08) 위에 있다. Manage Attributes 목록에서 분류 필드 행을 읽기 전용(Read-only 부제·Source 'Classification Markings'·점메뉴 대신 open-in-new 링크)으로 바꾸는 webapp·e2e 전용 변경(7파일 +496/-18). 실측: admin_console/global_attributes/·admin_console/classification_markings/ 디렉터리 자체가 HEAD에 없어 7파일 중 6파일이 MISSING PATHS(modify/delete 충돌), 남는 en.json 3키는 사용처 없는 문자열이 된다. 서버 변경·비공개 모듈 의존 없음. |
+
+| 5b273440 | [\[MM-70113\] Gate Classification Markings behind Enterprise Advanced license (#37838)](https://github.com/mattermost/mattermost/commit/5b273440bf1b2f735429239960524e9e0854db43) | 제외한 Classification Markings 계보(2b7b398a #35934 관리 콘솔 페이지 → 6083cc22·23b4d827·800810e8·da5d7c8c discovery 페이지·63077696, 뿌리는 property 시스템 v2 48f2fd08)의 후속이라 고칠 대상이 없다. 분류 표시 서브섹션과 그 feature discovery 항목의 isHidden 라이선스 게이트를 LicenseSkus.Enterprise→EnterpriseAdvanced로 올리는 2파일 +16/-7 변경인데, 실측 우리 admin_definition.tsx에 classification 문자열 0건(두 서브섹션 자체 부재)이고 admin_definition_classification_markings.test.tsx도 HEAD에 없다(modify/delete 충돌). 서버 변경·비공개 모듈 의존 없음. |
 
 ## spec 전환 커밋
 
