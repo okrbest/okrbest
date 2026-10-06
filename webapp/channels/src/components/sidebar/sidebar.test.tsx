@@ -102,15 +102,13 @@ describe('components/sidebar', () => {
         expect(screen.getByRole('application', {name: /channel sidebar region/i})).toBeInTheDocument();
     });
 
-    test('사이드바 하단 footer에 프로필 계정 메뉴 버튼을 표시한다 (Slack 벤치마크)', () => {
+    test('프로필 버튼은 팀 레일로 이동 — 채널 사이드바에는 footer가 없다', () => {
         renderWithContext(
             <Sidebar {...baseProps}/>,
             initialState,
         );
 
-        const footer = document.querySelector('.SidebarFooter');
-        expect(footer).toBeInTheDocument();
-        expect(screen.getByLabelText('User\'s account menu')).toBeInTheDocument();
+        expect(document.querySelector('#SidebarContainer .SidebarFooter')).toBeNull();
     });
 
     test('should not rendering anything when teamId is missing', () => {

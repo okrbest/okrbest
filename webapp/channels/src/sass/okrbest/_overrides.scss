@@ -90,12 +90,13 @@ body.app__body {
 // 우측 상단(글로벌 헤더) 대신 좌측 하단 고정. 둥근 사각 아바타 + 레일색 링의
 // 상태 점. 메뉴는 위로 열린다 (user_account_menu openUp).
 // ---------------------------------------------------------------------------
-#SidebarContainer .SidebarFooter {
+.team-sidebar .SidebarFooter {
     display: flex;
     flex-shrink: 0;
     align-items: center;
-    padding: 8px 12px;
-    border-top: 1px solid rgba(var(--sidebar-text-rgb), 0.08);
+    justify-content: center;
+    padding: 10px 0 14px;
+    border-top: 1px solid rgba(var(--sidebar-header-text-color-rgb), 0.12);
 
     .userAccountMenu_menuButton {
         padding: 2px;

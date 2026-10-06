@@ -15,6 +15,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 
 import Scrollbars from 'components/common/scrollbars';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
+import SidebarFooter from 'components/sidebar/sidebar_footer';
 import TeamButton from 'components/team_sidebar/components/team_button';
 
 import WebSocketClient from 'client/web_websocket_client';
@@ -181,10 +182,9 @@ export class TeamSidebar extends React.PureComponent<Props, State> {
     render() {
         const {intl} = this.props;
         const root: Element | null = document.querySelector('#root');
-        if (this.props.myTeams.length <= 1) {
-            root!.classList.remove('multi-teams');
-            return null;
-        }
+
+        // OKR.BEST (Slack 벤치마크): 팀 레일은 팀이 1개여도 항상 표시한다 —
+        // 하단 프로필 버튼 등 레일 상주 버튼의 거치대 역할.
         root!.classList.add('multi-teams');
 
         const plugins = [];
@@ -321,6 +321,7 @@ export class TeamSidebar extends React.PureComponent<Props, State> {
                         {joinableTeams}
                     </div>
                 </Scrollbars>
+                <SidebarFooter/>
                 {plugins}
             </div>
         );

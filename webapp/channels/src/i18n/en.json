@@ -7850,6 +7850,7 @@
   "userAccountMenu.setCustomStatusMenuItem.hasStatusWithTextAndNoExpiry.ariaDescription": "Status is \"{text}\". Set a custom status.",
   "userAccountMenu.setCustomStatusMenuItem.noStatusSet": "Set custom status",
   "userAccountMenu.setCustomStatusMenuItem.noStatusTextSet": "Set custom status text",
+  "userAccountMenu.settingsMenuItem.label": "Settings",
   "userGuideHelp.askTheCommunity": "Ask the community",
   "userGuideHelp.keyboardShortcuts": "Keyboard shortcuts",
   "userGuideHelp.mattermostUserGuide": "OKR.BEST user guide",

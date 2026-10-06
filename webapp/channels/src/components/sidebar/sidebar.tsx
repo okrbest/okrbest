@@ -7,7 +7,6 @@ import React, {lazy} from 'react';
 import {makeAsyncComponent} from 'components/async_load';
 import DataPrefetch from 'components/data_prefetch';
 import ResizableLhs from 'components/resizable_sidebar/resizable_lhs';
-import SidebarFooter from 'components/sidebar/sidebar_footer';
 import SidebarHeader from 'components/sidebar/sidebar_header';
 
 import Pluggable from 'plugins/pluggable';
@@ -264,7 +263,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}
                 />
-                <SidebarFooter/>
                 <DataPrefetch/>
                 <SidebarJoinRequestCountsSync/>
                 {this.renderModals()}
