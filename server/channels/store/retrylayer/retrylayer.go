@@ -16557,11 +16557,11 @@ func (s *RetryLayerUserStore) DecrementFailedPasswordAttempts(userID string) err
 
 }
 
-func (s *RetryLayerUserStore) DemoteUserToGuest(userID string) (*model.User, error) {
+func (s *RetryLayerUserStore) DemoteUserToGuest(rctx request.CTX, userID string) (*model.User, error) {
 
 	tries := 0
 	for {
-		result, err := s.UserStore.DemoteUserToGuest(userID)
+		result, err := s.UserStore.DemoteUserToGuest(rctx, userID)
 		if err == nil {
 			return result, nil
 		}
@@ -16578,11 +16578,11 @@ func (s *RetryLayerUserStore) DemoteUserToGuest(userID string) (*model.User, err
 
 }
 
-func (s *RetryLayerUserStore) Get(ctx context.Context, id string) (*model.User, error) {
+func (s *RetryLayerUserStore) Get(rctx request.CTX, id string) (*model.User, error) {
 
 	tries := 0
 	for {
-		result, err := s.UserStore.Get(ctx, id)
+		result, err := s.UserStore.Get(rctx, id)
 		if err == nil {
 			return result, nil
 		}
@@ -17496,11 +17496,11 @@ func (s *RetryLayerUserStore) PermanentDelete(rctx request.CTX, userID string) e
 
 }
 
-func (s *RetryLayerUserStore) PromoteGuestToUser(userID string) error {
+func (s *RetryLayerUserStore) PromoteGuestToUser(rctx request.CTX, userID string) error {
 
 	tries := 0
 	for {
-		err := s.UserStore.PromoteGuestToUser(userID)
+		err := s.UserStore.PromoteGuestToUser(rctx, userID)
 		if err == nil {
 			return nil
 		}
