@@ -13,7 +13,7 @@ import type {GlobalState} from 'types/store';
 import UnreadsView from './unreads_view';
 
 const mockMarkChannelAsRead = jest.fn(() => ({type: 'MOCK_MARK_CHANNEL_AS_READ'}));
-const mockReadMultipleChannels = jest.fn(() => () => Promise.resolve({data: true}));
+const mockReadMultipleChannels = jest.fn((channelIds: string[]) => () => Promise.resolve({data: true, requested: channelIds}));
 
 jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),

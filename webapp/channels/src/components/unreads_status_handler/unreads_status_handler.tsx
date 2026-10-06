@@ -47,7 +47,7 @@ type Props = {
     inGlobalThreads: boolean;
     inDrafts: boolean;
     inScheduledPosts: boolean;
-    inUnreads: boolean;
+    inUnreads?: boolean;
 };
 
 export class UnreadsStatusHandlerClass extends React.PureComponent<Props> {
