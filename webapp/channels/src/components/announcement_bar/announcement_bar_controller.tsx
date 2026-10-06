@@ -39,6 +39,9 @@ type Props = {
     };
 };
 
+// OKR.BEST: 체험판 시작 모달 자동 표시를 일시 중지한 상태. 복원하려면 true로 바꾼다.
+const AUTO_START_TRIAL_MODAL_ENABLED = false;
+
 class AnnouncementBarController extends React.PureComponent<Props> {
     render() {
         let adminConfiguredAnnouncementBar = null;
@@ -88,7 +91,7 @@ class AnnouncementBarController extends React.PureComponent<Props> {
         }
 
         let autoStartTrialModal = null;
-        if (this.props.userIsAdmin) {
+        if (AUTO_START_TRIAL_MODAL_ENABLED && this.props.userIsAdmin) {
             autoStartTrialModal = (
                 <AutoStartTrialModal/>
             );
