@@ -49,9 +49,10 @@ body.app__body {
         color: var(--sidebar-text-active-color);
     }
 
-    // 활성 상태의 Threads/Drafts 링크 아이콘 (svg fill은 color를 상속하지 않는다)
+    // 활성 상태의 Threads/Drafts/Unreads 링크 아이콘 (svg fill은 color를 상속하지 않는다)
     .SidebarGlobalThreads .SidebarChannel.active .SidebarLink .icon svg,
-    .SidebarDrafts .SidebarChannel.active .SidebarLink .icon svg {
+    .SidebarDrafts .SidebarChannel.active .SidebarLink .icon svg,
+    .SidebarUnreads .SidebarChannel.active .SidebarLink .icon svg {
         fill: var(--sidebar-text-active-color);
     }
 

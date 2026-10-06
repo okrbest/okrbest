@@ -35,7 +35,7 @@ function SidebarMentionsLink() {
     const threadMentionCount = threadCounts?.total_unread_mentions ?? 0;
     const hasMentions = channelMentionCount > 0 || threadMentionCount > 0;
 
-    const inThreadsOrDrafts = matchPath(pathname, {path: '/:team/(threads|drafts)'}) != null;
+    const inThreadsOrDrafts = matchPath(pathname, {path: '/:team/(threads|drafts|unreads)'}) != null;
 
     const handleClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
