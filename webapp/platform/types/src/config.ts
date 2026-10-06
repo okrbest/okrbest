@@ -151,9 +151,6 @@ export type ClientConfig = {
     IsDefaultMarketplace: string;
     LdapFirstNameAttributeSet: string;
     LdapLastNameAttributeSet: string;
-    LdapLoginButtonBorderColor: string;
-    LdapLoginButtonColor: string;
-    LdapLoginButtonTextColor: string;
     LdapLoginFieldName: string;
     LdapNicknameAttributeSet: string;
     LdapPositionAttributeSet: string;
@@ -768,9 +765,6 @@ export type LdapSettings = {
     QueryTimeout: number;
     MaxPageSize: number;
     LoginFieldName: string;
-    LoginButtonColor: string;
-    LoginButtonBorderColor: string;
-    LoginButtonTextColor: string;
     MaximumLoginAttempts: number;
 };
 
