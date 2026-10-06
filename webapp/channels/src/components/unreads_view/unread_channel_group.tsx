@@ -8,6 +8,7 @@ import {useHistory} from 'react-router-dom';
 
 import type {Channel} from '@mattermost/types/channels';
 
+import {isChannelAutotranslated} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
@@ -45,6 +46,7 @@ const UnreadChannelGroup = ({
 
     const currentUserId = useSelector(getCurrentUserId);
     const channelUrl = useSelector((state: GlobalState) => getChannelURL(state, channel, channel.team_id));
+    const autotranslated = useSelector((state: GlobalState) => isChannelAutotranslated(state, channel.id));
     const posts = useSelector(
         (state: GlobalState) => postIds.map((postId) => getPost(state, postId)).filter(Boolean),
         shallowEqual,
@@ -82,6 +84,7 @@ const UnreadChannelGroup = ({
                     onClick={handleOpenChannel}
                 >
                     <DraftTitle
+                        type='channel'
                         channel={channel}
                         userId={currentUserId}
                     />
@@ -102,6 +105,7 @@ const UnreadChannelGroup = ({
                         <PostComponent
                             post={post}
                             location={Locations.SEARCH}
+                            isChannelAutotranslated={autotranslated}
                         />
                     </div>
                 ))}

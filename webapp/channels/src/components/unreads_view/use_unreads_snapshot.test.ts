@@ -33,7 +33,6 @@ describe('components/unreads_view/use_unreads_snapshot', () => {
         display_name: 'Mention Channel',
         type: 'O',
         last_post_at: 3000,
-        total_msg_count: 10,
     });
     const recentChannel = TestHelper.getChannelMock({
         id: 'recent_channel_id',
@@ -42,7 +41,6 @@ describe('components/unreads_view/use_unreads_snapshot', () => {
         display_name: 'Recent Channel',
         type: 'O',
         last_post_at: 9000,
-        total_msg_count: 4,
     });
 
     const posts = {
@@ -153,7 +151,6 @@ describe('components/unreads_view/use_unreads_snapshot', () => {
             display_name: 'New Channel',
             type: 'O',
             last_post_at: 9500,
-            total_msg_count: 1,
         });
 
         const nextState = getBaseState();

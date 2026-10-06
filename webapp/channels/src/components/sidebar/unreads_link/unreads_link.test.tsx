@@ -23,7 +23,6 @@ describe('components/sidebar/unreads_link', () => {
         display_name: 'Unread Channel',
         type: 'O',
         last_post_at: 3000,
-        total_msg_count: 10,
     });
 
     function getState(withUnreads: boolean): DeepPartial<GlobalState> {
