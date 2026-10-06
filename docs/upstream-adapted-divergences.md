@@ -1329,5 +1329,6 @@ Slack 실측(2873px 창에서 검색 바 1512px = 52.6vw) 기준. 변경 후 실
 | `components/global_header/center_controls/global_search_nav/global_search_nav.css` | `max-width: 432px` → `52vw` | 52vw 유지 |
 | `components/global_header/left_controls/left_controls.tsx` | `flex-basis: 30%` → `flex: 0 0 auto` (사이드 영역 내용 폭) | 사이드가 빈 공간을 예약하면 검색 바가 못 넓어진다 |
 | `components/global_header/right_controls/right_controls.tsx` | 동일 | 동일 |
+| `components/new_search/new_search.tsx` | SearchBoxContainer에 `width: 52vw` 추가 (바닥 `min-width: 600px` 유지) — 검색 팝업을 바와 같은 폭으로 | 팝업 폭 = 바 폭. 실측: 1920에서 998px/998px, 좌우 오차 0 |
 
 시각 치수 변경이라 단위 테스트 불가 — Playwright 실측이 판정 (원칙 III 사유).
