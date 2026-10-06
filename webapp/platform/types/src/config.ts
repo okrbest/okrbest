@@ -188,10 +188,7 @@ export type ClientConfig = {
     RunJobs: string;
     SamlFirstNameAttributeSet: string;
     SamlLastNameAttributeSet: string;
-    SamlLoginButtonBorderColor: string;
-    SamlLoginButtonColor: string;
     SamlLoginButtonText: string;
-    SamlLoginButtonTextColor: string;
     SamlNicknameAttributeSet: string;
     SamlPositionAttributeSet: string;
     SchemaVersion: string;
@@ -839,9 +836,6 @@ export type SamlSettings = {
     LocaleAttribute: string;
     PositionAttribute: string;
     LoginButtonText: string;
-    LoginButtonColor: string;
-    LoginButtonBorderColor: string;
-    LoginButtonTextColor: string;
 };
 
 export type NativeAppSettings = {
