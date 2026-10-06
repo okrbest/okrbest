@@ -30,8 +30,6 @@ type FeatureFlags struct {
 	// Enable WYSIWYG text editor
 	WysiwygEditor bool
 
-	EnableExportDirectDownload bool
-
 	MoveThreadsEnabled bool
 
 	// Mask non-held attribute values in the policy editor for delegated admins.
@@ -139,7 +137,6 @@ func (f *FeatureFlags) SetDefaults() {
 	f.AppsEnabled = false
 	f.NormalizeLdapDNs = false
 	f.WysiwygEditor = false
-	f.EnableExportDirectDownload = false
 	f.MoveThreadsEnabled = false
 	f.AttributeValueMasking = true
 	f.PermissionPolicies = true
