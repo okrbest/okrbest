@@ -14,7 +14,8 @@ const LeftControlsContainer = styled.div`
     align-items: center;
     height: 40px;
     flex-shrink: 0;
-    flex-basis: 30%;
+    /* OKR.BEST (Slack 벤치마크): 사이드 영역은 내용 폭만 — 중앙 검색 바가 52vw까지 확장 */
+    flex: 0 0 auto;
 
     > * + * {
         margin-left: 12px;

@@ -18,7 +18,8 @@ const RightControlsContainer = styled.div`
     height: 40px;
     flex-shrink: 0;
     position: relative;
-    flex-basis: 30%;
+    /* OKR.BEST (Slack 벤치마크): 사이드 영역은 내용 폭만 — 중앙 검색 바가 52vw까지 확장 */
+    flex: 0 0 auto;
     justify-content: flex-end;
 
     > * + * {

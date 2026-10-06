@@ -1316,3 +1316,18 @@ Slack 벤치마크: 계정·상태 관리 버튼을 글로벌 헤더 우측 상�
 `team_sidebar.test.tsx`. i18n `userAccountMenu.settingsMenuItem.label` (en/ko).
 참고: showTeamSidebar=false인 별도 product 화면에서는 레일이 숨어 프로필
 버튼도 함께 숨는다 — channels 전용 포크라 수용.
+
+---
+
+## 상단 검색 바 폭 확대 (포크 자체 커스텀, 2026-10-07 — Slack 벤치마크)
+
+Slack 실측(2873px 창에서 검색 바 1512px = 52.6vw) 기준. 변경 후 실측
+1024/1280/1920 전부 52.0vw, 우측 컨트롤 겹침 없음.
+
+| 파일 | 바꾼 것 | sync 충돌 시 지킬 것 |
+|---|---|---|
+| `components/global_header/center_controls/global_search_nav/global_search_nav.css` | `max-width: 432px` → `52vw` | 52vw 유지 |
+| `components/global_header/left_controls/left_controls.tsx` | `flex-basis: 30%` → `flex: 0 0 auto` (사이드 영역 내용 폭) | 사이드가 빈 공간을 예약하면 검색 바가 못 넓어진다 |
+| `components/global_header/right_controls/right_controls.tsx` | 동일 | 동일 |
+
+시각 치수 변경이라 단위 테스트 불가 — Playwright 실측이 판정 (원칙 III 사유).
