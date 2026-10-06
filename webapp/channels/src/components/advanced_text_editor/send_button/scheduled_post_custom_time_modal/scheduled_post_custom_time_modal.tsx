@@ -155,7 +155,7 @@ export default function ScheduledPostCustomTimeModal({
             confirmButtonText={
                 <FormattedMessage
                     id='schedule_post.custom_time_modal.confirm_button_text'
-                    defaultMessage='Confirm'
+                    defaultMessage='Schedule'
                 />
             }
             cancelButtonText={
