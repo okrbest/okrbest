@@ -27,7 +27,11 @@ import type {PropsFromRedux} from './index';
 
 import './user_account_menu.scss';
 
-type Props = PropsFromRedux;
+type Props = PropsFromRedux & {
+
+    // OKR.BEST: 사이드바 하단 배치용 — 메뉴를 버튼 위쪽으로 연다
+    openUp?: boolean;
+};
 
 export const ELEMENT_ID_FOR_USER_ACCOUNT_MENU_BUTTON = 'userAccountMenuButton';
 export const ELEMENT_ID_FOR_USER_ACCOUNT_MENU = 'userAccountMenu';
@@ -67,14 +71,8 @@ export default function UserAccountMenu(props: Props) {
                 id: ELEMENT_ID_FOR_USER_ACCOUNT_MENU,
                 width: '264px',
             }}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-            }}
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
+            anchorOrigin={props.openUp ? {vertical: 'top', horizontal: 'left'} : {vertical: 'bottom', horizontal: 'right'}}
+            transformOrigin={props.openUp ? {vertical: 'bottom', horizontal: 'left'} : {vertical: 'top', horizontal: 'right'}}
         >
             <UserAccountNameMenuItem
                 profilePicture={props.profilePicture}
