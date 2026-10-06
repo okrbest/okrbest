@@ -84,3 +84,53 @@ body.app__body {
 .app__body .team-sidebar .team-container {
     color: var(--sidebar-header-text-color);
 }
+
+// ---------------------------------------------------------------------------
+// 프로필 버튼 사이드바 하단 배치 (Slack 벤치마크, spec 외 커스텀 — #175 계열)
+// 우측 상단(글로벌 헤더) 대신 좌측 하단 고정. 둥근 사각 아바타 + 레일색 링의
+// 상태 점. 메뉴는 위로 열린다 (user_account_menu openUp).
+// ---------------------------------------------------------------------------
+#SidebarContainer .SidebarFooter {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    padding: 8px 12px;
+    border-top: 1px solid rgba(var(--sidebar-text-rgb), 0.08);
+
+    .userAccountMenu_menuButton {
+        padding: 2px;
+        border-radius: 7px;
+        margin-inline-start: 0;
+
+        &:hover,
+        &[aria-expanded='true'] {
+            background: rgba(var(--sidebar-text-rgb), 0.16);
+        }
+
+        &.withCustomStatus {
+            background: rgba(var(--sidebar-text-rgb), 0.16);
+        }
+
+        // Slack식 둥근 사각 아바타
+        .Avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+        }
+
+        // 상태 점: 아바타 우하단에 겹치고, 사이드바 배경색 링을 두른다
+        .userStatusIconWrapper {
+            right: -4px;
+            bottom: -4px;
+            background-color: var(--sidebar-bg);
+            background-image: none;
+            color: var(--sidebar-text);
+        }
+
+        &:hover .userStatusIconWrapper,
+        &[aria-expanded='true'] .userStatusIconWrapper,
+        &.withCustomStatus .userStatusIconWrapper {
+            background-image: none;
+        }
+    }
+}

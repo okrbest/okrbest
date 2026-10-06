@@ -1281,3 +1281,20 @@ Slack Unreads 벤치마크 전용 화면. 정본 명세는 `specs/015-unreads-vi
 
 upstream이 자체 Unreads 전역 뷰를 도입하면 이 화면과 비교해 흡수·대체를
 결정한다. 그 전에는 유지.
+
+---
+
+## 프로필 버튼 사이드바 하단 이동 (포크 자체 커스텀, 2026-10-07 — #175 계열)
+
+Slack 벤치마크: 계정·상태 관리 버튼을 글로벌 헤더 우측 상단에서 채널 사이드바
+좌측 하단으로 이동. 둥근 사각 아바타(32px, r6) + 레일색 링 상태 점, 메뉴는 위로.
+
+| 파일 | 바꾼 것 | sync 충돌 시 지킬 것 |
+|---|---|---|
+| `components/global_header/right_controls/right_controls.tsx` | `<UserAccountMenu/>` 제거 (SettingsButton은 유지) | 헤더에 계정 버튼을 되살리지 않는다 |
+| `components/user_account_menu/user_account_menu.tsx` | 선택 prop `openUp` — 메뉴 앵커를 위/왼쪽으로 뒤집는 분기 | prop 유지 |
+| `components/sidebar/sidebar.tsx` | `<SidebarFooter/>` 삽입 (SidebarList 아래) | 삽입 유지 |
+
+포크 전용 신설: `components/sidebar/sidebar_footer/`, `_overrides.scss`의
+`.SidebarFooter` 블록. 참고: 온보딩 체크리스트 FAB(신규 사용자 한정, 해제 가능)가
+좌측 하단에 떠서 일시적으로 겹칠 수 있다 — 온보딩 종료 시 사라지는 요소라 수용.

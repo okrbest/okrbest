@@ -14,7 +14,6 @@ import {
     CustomizeYourExperienceTour,
     useShowOnboardingTutorialStep,
 } from 'components/tours/onboarding_tour';
-import UserAccountMenu from 'components/user_account_menu';
 
 import Pluggable from 'plugins/pluggable';
 import {isChannels} from 'utils/products';
@@ -81,7 +80,6 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
                         </>
                     ) : null
                 }
-                <UserAccountMenu/>
             </StyledCustomizeYourExperienceTour>
         </RightControlsContainer>
     );
