@@ -3,6 +3,9 @@
 exports[`SidebarList should match snapshot 1`] = `
 <div>
   <div
+    data-testid="UnreadsLink"
+  />
+  <div
     data-testid="GlobalThreadsLink"
   />
   <div

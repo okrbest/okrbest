@@ -94,7 +94,12 @@ describe('Selectors.Lhs', () => {
             jest.spyOn(PreferencesSelectors, 'isCollapsedThreadsEnabled').mockImplementationOnce(() => false);
             jest.spyOn(Lhs, 'getDraftsCount').mockImplementationOnce(() => 0);
             const items = Lhs.getVisibleStaticPages(state as GlobalState);
-            expect(items).toEqual([]);
+            expect(items).toEqual([
+                {
+                    id: 'unreads',
+                    isVisible: true,
+                },
+            ]);
         });
 
         it('handles threads - default off', () => {
@@ -102,6 +107,10 @@ describe('Selectors.Lhs', () => {
             jest.spyOn(Lhs, 'getDraftsCount').mockImplementationOnce(() => 0);
             const items = Lhs.getVisibleStaticPages(state as GlobalState);
             expect(items).toEqual([
+                {
+                    id: 'unreads',
+                    isVisible: true,
+                },
                 {
                     id: 'threads',
                     isVisible: true,
@@ -113,7 +122,12 @@ describe('Selectors.Lhs', () => {
             jest.spyOn(PreferencesSelectors, 'isCollapsedThreadsEnabled').mockImplementation(() => false);
             jest.spyOn(Lhs, 'getDraftsCount').mockImplementationOnce(() => 0);
             const items = Lhs.getVisibleStaticPages(state as GlobalState);
-            expect(items).toEqual([]);
+            expect(items).toEqual([
+                {
+                    id: 'unreads',
+                    isVisible: true,
+                },
+            ]);
         });
 
         it('should return drafts when there are available', () => {
@@ -121,6 +135,10 @@ describe('Selectors.Lhs', () => {
             jest.spyOn(Lhs, 'getDraftsCount').mockImplementationOnce(() => 1);
             const items = Lhs.getVisibleStaticPages(state as GlobalState);
             expect(items).toEqual([
+                {
+                    id: 'unreads',
+                    isVisible: true,
+                },
                 {
                     id: 'drafts',
                     isVisible: true,

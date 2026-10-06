@@ -39,6 +39,13 @@ export const getVisibleStaticPages = createSelector(
     (collapsedThreadsEnabled, draftsCount) => {
         const staticPages: StaticPage[] = [];
 
+        // 읽지 않은 항목 모아보기는 항상 노출한다 (FR-001). id는 URL 세그먼트와
+        // 같아야 Alt+↑/↓ 이동(switchToLhsStaticPage)이 동작한다.
+        staticPages.push({
+            id: 'unreads',
+            isVisible: true,
+        });
+
         if (collapsedThreadsEnabled) {
             staticPages.push({
                 id: 'threads',

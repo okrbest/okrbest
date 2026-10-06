@@ -46,19 +46,19 @@
 
 ### Tests for User Story 1 (구현 전 실패 확인 필수)
 
-- [ ] T006 [P] [US1] 스냅샷 훅 테스트 — 진입 시점 `getUnreadChannels`+`sortUnreadChannels` 고정(멘션 우선), `lastViewedAt` 고정, 이후 store 변화에 목록 불변, 부족 채널만 `loadUnreads` 호출. 그룹 유무가 `getUnreadChannels` 결과와 일치함을 단언한다(FR-015 — 사이드바 배지와 같은 원천). `CS/components/unreads_view/use_unreads_snapshot.test.ts`
-- [ ] T007 [P] [US1] 그룹 카드 테스트 — 채널 유형별 머리글(DraftTitle), `lastViewedAt` 이후 포스트만 렌더, 본문 적재 실패 시 안내, 채널 이동 동작. `CS/components/unreads_view/unread_channel_group.test.tsx`
-- [ ] T008 [P] [US1] 자동 읽음 금지 테스트 — 페이지 마운트~언마운트 동안 `markChannelAsRead`·`readMultipleChannels` 미호출 검증(FR-007). `CS/components/unreads_view/unreads_view.test.tsx`에 추가
+- [X] T006 [P] [US1] 스냅샷 훅 테스트 — 진입 시점 `getUnreadChannels`+`sortUnreadChannels` 고정(멘션 우선), `lastViewedAt` 고정, 이후 store 변화에 목록 불변, 부족 채널만 `loadUnreads` 호출. 그룹 유무가 `getUnreadChannels` 결과와 일치함을 단언한다(FR-015 — 사이드바 배지와 같은 원천). `CS/components/unreads_view/use_unreads_snapshot.test.ts`
+- [X] T007 [P] [US1] 그룹 카드 테스트 — 채널 유형별 머리글(DraftTitle), `lastViewedAt` 이후 포스트만 렌더, 본문 적재 실패 시 안내, 채널 이동 동작. `CS/components/unreads_view/unread_channel_group.test.tsx`
+- [X] T008 [P] [US1] 자동 읽음 금지 테스트 — 페이지 마운트~언마운트 동안 `markChannelAsRead`·`readMultipleChannels` 미호출 검증(FR-007). `CS/components/unreads_view/unreads_view.test.tsx`에 추가
 
 ### Implementation for User Story 1
 
-- [ ] T009 [US1] 스냅샷 훅 구현으로 T006 통과 — `CS/components/unreads_view/use_unreads_snapshot.ts` (data-model의 UnreadsSnapshot)
-- [ ] T010 [US1] 그룹 카드 구현으로 T007 통과 — `CS/components/unreads_view/unread_channel_group.tsx` (`Panel`+`PanelHeader`+`DraftTitle`+`PostComponent location=SEARCH`, 채널 열기 액션)
-- [ ] T011 [US1] 페이지 조립으로 T008 통과 — `CS/components/unreads_view/unreads_view.tsx`에 그룹 목록·빈 상태(`NoResultsIndicator`)·로딩 연결. 그룹 목록은 교체 가능하게 별도 컴포넌트로 분리(research 결정 4)
-- [ ] T012 [US1] 사이드바 링크 — `CS/components/sidebar/unreads_link/{index.ts,unreads_link.tsx}` 신설(GlobalThreadsLink 패턴, `ChannelMentionBadge`+`getUnreadStatusInCurrentTeam`, 항상 표시), `CS/components/sidebar/sidebar_list/sidebar_list.tsx` static 최상단에 삽입, 링크 문구 en/ko 동시 추가. 링크 렌더·배지 RTL 테스트 포함(선실패)
-- [ ] T013 [P] [US1] 키보드 진입 — `CS/selectors/lhs.ts` `getVisibleStaticPages`에 unreads 편입(FR-011). 기존 셀렉터 테스트에 케이스 추가(선실패)
-- [ ] T014 [P] [US1] 주변 분기 보완 — `CS/components/unreads_status_handler/`(탭 제목), `CS/components/mobile_channel_header/`(제목), `CS/components/sidebar/sidebar_mentions_link/`·`sidebar_saved_posts_link/`(matchPath에 unreads). 문구 en/ko 동시
-- [ ] T015 [P] [US1] 사이드바 링크·카드 스타일 — `CS/sass/okrbest/_overrides.scss`에 추가. 단위 테스트 불가(시각 배치) — quickstart 실주행으로 대체, 사유 여기 기록
+- [X] T009 [US1] 스냅샷 훅 구현으로 T006 통과 — `CS/components/unreads_view/use_unreads_snapshot.ts` (data-model의 UnreadsSnapshot)
+- [X] T010 [US1] 그룹 카드 구현으로 T007 통과 — `CS/components/unreads_view/unread_channel_group.tsx` (`Panel`+`PanelHeader`+`DraftTitle`+`PostComponent location=SEARCH`, 채널 열기 액션)
+- [X] T011 [US1] 페이지 조립으로 T008 통과 — `CS/components/unreads_view/unreads_view.tsx`에 그룹 목록·빈 상태(`NoResultsIndicator`)·로딩 연결. 그룹 목록은 교체 가능하게 별도 컴포넌트로 분리(research 결정 4)
+- [X] T012 [US1] 사이드바 링크 — `CS/components/sidebar/unreads_link/{index.ts,unreads_link.tsx}` 신설(GlobalThreadsLink 패턴, `ChannelMentionBadge`+`getUnreadStatusInCurrentTeam`, 항상 표시), `CS/components/sidebar/sidebar_list/sidebar_list.tsx` static 최상단에 삽입, 링크 문구 en/ko 동시 추가. 링크 렌더·배지 RTL 테스트 포함(선실패)
+- [X] T013 [P] [US1] 키보드 진입 — `CS/selectors/lhs.ts` `getVisibleStaticPages`에 unreads 편입(FR-011). 기존 셀렉터 테스트에 케이스 추가(선실패)
+- [X] T014 [P] [US1] 주변 분기 보완 — `CS/components/unreads_status_handler/`(탭 제목), `CS/components/mobile_channel_header/`(제목), `CS/components/sidebar/sidebar_mentions_link/`·`sidebar_saved_posts_link/`(matchPath에 unreads). 문구 en/ko 동시
+- [X] T015 [P] [US1] 사이드바 링크·카드 스타일 — `CS/sass/okrbest/_overrides.scss`에 추가. 단위 테스트 불가(시각 배치) — quickstart 실주행으로 대체, 사유 여기 기록
 
 **Checkpoint**: US1 Independent Test 통과 — MVP 성립
 

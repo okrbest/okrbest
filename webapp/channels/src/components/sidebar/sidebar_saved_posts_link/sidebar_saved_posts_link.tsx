@@ -25,7 +25,7 @@ function SidebarSavedPostsLink() {
     const rhsOpen = useSelector(getIsRhsOpen);
     const isActive = rhsOpen && rhsState === RHSStates.FLAG;
 
-    const inThreadsOrDrafts = matchPath(pathname, {path: '/:team/(threads|drafts)'}) != null;
+    const inThreadsOrDrafts = matchPath(pathname, {path: '/:team/(threads|drafts|unreads)'}) != null;
 
     const handleClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
