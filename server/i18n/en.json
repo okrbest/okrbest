@@ -1966,6 +1966,10 @@
     "translation": "Content flagging feature is disabled."
   },
   {
+    "id": "api.content_flagging.error.invalid_channel_type",
+    "translation": "Content flagging is not available for direct and group message channels."
+  },
+  {
     "id": "api.content_flagging.error.invalid_post_type",
     "translation": "Flagging a post of type '{{.PostType}}' is not allowed."
   },
