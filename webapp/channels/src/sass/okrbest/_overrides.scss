@@ -135,3 +135,44 @@ body.app__body {
         }
     }
 }
+
+// ---------------------------------------------------------------------------
+// 채널 사이드바 표시/숨기기 토글 + 레일 호버 임시 공개 (포크 자체 커스텀)
+// ---------------------------------------------------------------------------
+.sidebarHeaderContainer .ChannelSidebarToggle {
+    display: flex;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin-left: 2px;
+    color: rgba(var(--sidebar-text-rgb), 0.72);
+
+    &:hover {
+        background: rgba(var(--sidebar-text-rgb), 0.08);
+        color: var(--sidebar-text);
+    }
+}
+
+// 접힘: 레이아웃에서 제거 — 센터 영역이 자연 확장된다
+#SidebarContainer.channel-sidebar--hidden {
+    display: none;
+}
+
+// 레일 호버 임시 공개: 본문을 밀지 않고 레일 오른쪽에 오버레이로 띄운다.
+// main-wrapper(헤더·배너 아래, 레일 오른쪽에서 시작) 기준 절대 배치라
+// 공지 배너 유무와 무관하게 정렬된다.
+.main-wrapper {
+    position: relative;
+}
+
+#SidebarContainer.channel-sidebar--peek {
+    position: absolute;
+    z-index: 21;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    box-shadow: 8px 0 24px rgba(0, 0, 0, 0.16);
+}

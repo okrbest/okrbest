@@ -88,3 +88,13 @@ export function switchToLhsStaticPage(id: string): ActionFunc<boolean> {
         return {data: true};
     };
 }
+
+export const setChannelSidebarCollapsed = (collapsed: boolean) => ({
+    type: ActionTypes.SET_CHANNEL_SIDEBAR_COLLAPSED,
+    data: collapsed,
+});
+
+export const setChannelSidebarPeek = (peek: boolean) => ({
+    type: ActionTypes.SET_CHANNEL_SIDEBAR_PEEK,
+    data: peek,
+});

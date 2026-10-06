@@ -10,6 +10,10 @@ export type LhsViewState = {
 
     // Static pages (e.g. Threads, Insights, etc.)
     currentStaticPageId: string;
+
+    // OKR.BEST: 채널 사이드바 접기(토글)와 레일 호버 임시 공개(peek)
+    channelSidebarCollapsed: boolean;
+    channelSidebarPeek: boolean;
 };
 
 export enum LhsItemType {

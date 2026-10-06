@@ -26,6 +26,14 @@ export function getCurrentStaticPageId(state: GlobalState): string {
     return state.views.lhs.currentStaticPageId;
 }
 
+export function getChannelSidebarCollapsed(state: GlobalState): boolean {
+    return state.views.lhs.channelSidebarCollapsed;
+}
+
+export function getChannelSidebarPeek(state: GlobalState): boolean {
+    return state.views.lhs.channelSidebarPeek;
+}
+
 export function getIsGlobalThreadsView(state: GlobalState): boolean {
     return state.views.lhs.currentStaticPageId === LhsPage.Threads;
 }

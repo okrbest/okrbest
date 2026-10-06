@@ -37,11 +37,14 @@ type Props = {
     canCreatePrivateChannel: boolean;
     canJoinPublicChannel: boolean;
     isOpen: boolean;
+    channelSidebarCollapsed: boolean;
+    channelSidebarPeek: boolean;
     actions: {
         fetchMyCategories: (teamId: string) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
         clearChannelSelection: () => void;
+        setChannelSidebarPeek: (peek: boolean) => void;
         closeRightHandSide: () => void;
     };
     unreadFilterEnabled: boolean;
@@ -192,6 +195,18 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.setState({isDragging: false});
     };
 
+    handleSidebarMouseEnter = () => {
+        if (this.props.channelSidebarCollapsed) {
+            this.props.actions.setChannelSidebarPeek(true);
+        }
+    };
+
+    handleSidebarMouseLeave = () => {
+        if (this.props.channelSidebarCollapsed && this.props.channelSidebarPeek) {
+            this.props.actions.setChannelSidebarPeek(false);
+        }
+    };
+
     renderModals = () => {
         let moreDirectChannelsModal;
         if (this.state.showDirectChannelsModal) {
@@ -230,7 +245,13 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 className={classNames({
                     'move--right': this.props.isOpen && this.props.isMobileView,
                     dragging: this.state.isDragging,
+
+                    // OKR.BEST: 접힘(숨김)과 레일 호버 임시 공개(peek)
+                    'channel-sidebar--hidden': this.props.channelSidebarCollapsed && !this.props.channelSidebarPeek,
+                    'channel-sidebar--peek': this.props.channelSidebarCollapsed && this.props.channelSidebarPeek,
                 })}
+                onMouseEnter={this.handleSidebarMouseEnter}
+                onMouseLeave={this.handleSidebarMouseLeave}
             >
                 {this.props.isMobileView ? <MobileSidebarHeader/> : (
                     <SidebarHeader
