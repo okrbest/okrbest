@@ -30,7 +30,7 @@
 - [ ] T002 [P] `LhsPage.Unreads = 'unreads'` 추가 — `CS/types/store/lhs.ts`
 - [ ] T003 페이지 셸 RTL 테스트 작성(실패 확인) — 마운트 때 `selectLhsItem(Page, Unreads)`·`suppressRHS` 디스패치, 언마운트 때 `unsuppressRHS` 검증. `CS/components/unreads_view/unreads_view.test.tsx`
 - [ ] T004 페이지 셸 구현으로 T003 통과 — `CS/components/unreads_view/{index.ts,unreads_view.tsx}` (화면 제목 + 빈 본문. 문구 키는 en/ko 동시 추가)
-- [ ] T005 라우트 등록 — `CS/components/channel_layout/center_channel/center_channel.tsx`에 `/:team/unreads` Route 삽입(drafts 아래), `CS/components/root/root.tsx`의 `doesRouteBelongToTeamControllerRoutes` 정규식에 `unreads` 추가. 접속 확인은 T004 테스트에 라우트 케이스로 포함
+- [ ] T005 라우트 등록 — `CS/components/channel_layout/center_channel/center_channel.tsx`에 `/:team/unreads` Route 삽입(drafts 아래), `CS/components/root/root.tsx`의 `doesRouteBelongToTeamControllerRoutes` 정규식에 `unreads` 추가. 접속 확인은 T004 테스트에 라우트 케이스로 포함. `center_channel/index.ts`의 lastChannelPath 복원 대상에 unreads가 포함되지 않음(Drafts와 동일 정책)을 확인만 한다 — 수정 없음
 
 **Checkpoint**: `/:team/unreads` 직접 접속 시 빈 셸이 뜬다
 
@@ -46,7 +46,7 @@
 
 ### Tests for User Story 1 (구현 전 실패 확인 필수)
 
-- [ ] T006 [P] [US1] 스냅샷 훅 테스트 — 진입 시점 `getUnreadChannels`+`sortUnreadChannels` 고정(멘션 우선), `lastViewedAt` 고정, 이후 store 변화에 목록 불변, 부족 채널만 `loadUnreads` 호출. `CS/components/unreads_view/use_unreads_snapshot.test.ts`
+- [ ] T006 [P] [US1] 스냅샷 훅 테스트 — 진입 시점 `getUnreadChannels`+`sortUnreadChannels` 고정(멘션 우선), `lastViewedAt` 고정, 이후 store 변화에 목록 불변, 부족 채널만 `loadUnreads` 호출. 그룹 유무가 `getUnreadChannels` 결과와 일치함을 단언한다(FR-015 — 사이드바 배지와 같은 원천). `CS/components/unreads_view/use_unreads_snapshot.test.ts`
 - [ ] T007 [P] [US1] 그룹 카드 테스트 — 채널 유형별 머리글(DraftTitle), `lastViewedAt` 이후 포스트만 렌더, 본문 적재 실패 시 안내, 채널 이동 동작. `CS/components/unreads_view/unread_channel_group.test.tsx`
 - [ ] T008 [P] [US1] 자동 읽음 금지 테스트 — 페이지 마운트~언마운트 동안 `markChannelAsRead`·`readMultipleChannels` 미호출 검증(FR-007). `CS/components/unreads_view/unreads_view.test.tsx`에 추가
 
@@ -79,7 +79,7 @@
 
 - [ ] T017 [US2] 그룹 "읽음으로 표시" 액션 구현으로 T016 일부 통과 — `unread_channel_group.tsx` PanelHeader 액션 + 제거 처리, 문구 en/ko 동시
 - [ ] T018 [US2] 화면 머리글 "모든 메시지 읽음으로 표시" 버튼 — `unreads_view.tsx`, 문구 en/ko 동시
-- [ ] T019 [US2] Esc 키 처리 — 포커스 그룹 읽음(FR-010), a11y 포커스 관리 포함. `unreads_view.tsx`
+- [ ] T019 [US2] Esc 키 처리 — 포커스 그룹 읽음(FR-010), a11y 포커스 관리 포함. 열린 팝오버·메뉴·모달이 있으면 Esc는 그것부터 닫고 그룹 읽음을 실행하지 않는다. `unreads_view.tsx`
 - [ ] T020 [US2] 실패 처리 — 네트워크 오류 시 그룹 유지 + 오류 안내(기존 토스트/알림 관례), 문구 en/ko 동시
 
 **Checkpoint**: US1+US2로 Slack 벤치마크의 핵심 루프(모아 보기 → 읽음 처리) 완성
@@ -95,7 +95,7 @@
 
 ### Tests for User Story 3 (구현 전 실패 확인 필수)
 
-- [ ] T021 [P] [US3] 접기/배너 테스트 — 접기 토글 시 본문 숨김·머리글 유지, 새 미읽음 발생 시 목록 불변+배너 "새 항목 N개", 배너 클릭 시 스냅샷 재고정, 타 기기 읽음(멤버십 갱신) 시 다음 갱신에서 그룹 제거. `CS/components/unreads_view/new_items_banner.test.tsx`·기존 테스트 파일에 추가
+- [ ] T021 [P] [US3] 접기/배너 테스트 — 접기 토글 시 본문 숨김·머리글 유지, 새 미읽음 발생 시 목록 불변+배너 "새 항목 N개", 배너 클릭 시 스냅샷 재고정, 타 기기 읽음(멤버십 갱신) 시 다음 갱신에서 그룹 제거, 멤버십 상실(추방·보관) 채널도 갱신 때 제거. `CS/components/unreads_view/new_items_banner.test.tsx`·기존 테스트 파일에 추가
 
 ### Implementation for User Story 3
 
