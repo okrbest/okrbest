@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-06 10:39
+- 갱신일: 2026-10-06 11:00
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 468개
+- 남은 커밋: 464개
 
-**마지막 반영 커밋:** `5b273440` | [\[MM-70113\] Gate Classification Markings behind Enterprise Advanced license (#37838)](https://github.com/mattermost/mattermost/commit/5b273440bf1b2f735429239960524e9e0854db43) | 2026-08-05
+**마지막 반영 커밋:** `fbf8402d` | [\[MM-65680\] Add new configuration 'AttributeRefreshIntervalSeconds' to Access Control (#37854)](https://github.com/mattermost/mattermost/commit/fbf8402d4bce027823d7788c8f48401d839f8b31) | 2026-08-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| eed994d1 | [\[MM-70114\] Fix flaky channel guard broadcast test (#37847)](https://github.com/mattermost/mattermost/commit/eed994d1062da9305ec950ba10ddb5faf0d6396f) | 2026-08-06 |
-| 318fd812 | [Fix flaky TestComplianceStore/postgres/MessageExport_UntilUpdateAt (#37856)](https://github.com/mattermost/mattermost/commit/318fd81259c9c1b8859a3f6e357b26e9603d3e4a) | 2026-08-06 |
-| dce666b0 | [MM-69980 Fix edited posts being slightly taller than unedited ones (#37693)](https://github.com/mattermost/mattermost/commit/dce666b02d8ec1864ed7b368157cc6d8ab96e5b4) | 2026-08-06 |
-| fbf8402d | [\[MM-65680\] Add new configuration 'AttributeRefreshIntervalSeconds' to Access Control (#37854)](https://github.com/mattermost/mattermost/commit/fbf8402d4bce027823d7788c8f48401d839f8b31) | 2026-08-06 |
 | 67496bd1 | [Bumping prepackaged Jira version to v4.8.0 (#37862)](https://github.com/mattermost/mattermost/commit/67496bd1575a0d4ad56355f9a5967b4395dfd642) | 2026-08-07 |
 | 5ddb96d8 | [\[MM-69737\] Show a red warning callout in the System Console when settings are not recommended for production (#37407)](https://github.com/mattermost/mattermost/commit/5ddb96d8175435838580ca90f3dc69ab4178ac9e) | 2026-08-07 |
 | 04a0efba | [MM-70115: Update account type switch handling (#37861)](https://github.com/mattermost/mattermost/commit/04a0efba6fad655c7bf0b88b278111643c605037) | 2026-08-07 |
@@ -899,3 +895,4 @@
 | d4d216e9 | [Add ClusterInterface.Shutdown to surface skipped cluster sends (#37753)](https://github.com/mattermost/mattermost/commit/d4d216e93e492c3c7c2b3d481e966e22841b6825) | cherry-pick으로 반영(ClusterInterface.Shutdown() 선언 + PlatformService.Shutdown 맨 앞 defer 호출 + mock·테스트 가짜 구현 5곳). 종료 후 버려진 클러스터 전송을 집계하는 실제 구현은 github.com/mattermost/enterprise/cluster에만 있고 우리 빌드에서는 clusterIFace가 nil이라 if 가드로 no-op. ee04f28e·5634530e와 같은 계보. |
 | 5ef9e70d | [Mm 69832 abac review nits (#37640)](https://github.com/mattermost/mattermost/commit/5ef9e70d95d912d4bbe7b3f525b507e3e42ce3fd) | cherry-pick으로 반영(createAccessControlPolicy ManageSystem 검사 끌어올림 + 정책 팀 초대 후보 서버측 term 검색 + ShowFullName off 비관리자의 실명 검색 차단 ExcludeFullNames). 후보 조회 본체 acs.QueryUsersForResource가 github.com/mattermost/enterprise/access_control에만 있어 우리 빌드에서는 GetUsersNotInAbacTeam이 access_control_unavailable(500)을 낸다. 공개 코드인 attributes_store 필드 선택과 권한 검사 리팩터는 동작. 46417611·3a820143 팀 ABAC 계보. |
 | c7eff700 | [ABAC: plugin-keyed resource types, trusted plugin PAP/CEL APIs, and AuthZEN-style decision API (#37509)](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) | github.com/mattermost/enterprise/access_control — 플러그인 ABAC API(EvaluateAccessControl·PAP·CEL 8개)를 adapt로 반영했으나 정책 엔진(PDP/PAP)이 비공개 모듈에만 있어 비활성이다. pluginAccessControlAvailable()이 Channels().AccessControl nil에서 거짓을 돌려줘 플러그인 호출은 전부 '사용 불가'로 끝난다(EA 라이선스·EnableAttributeBasedAccessControl도 요구). 46417611·3a820143과 같은 조건으로, einterfaces.AccessControlServiceInterface를 자체 구현해 등록하면 활성화된다. |
+| fbf8402d | [\[MM-65680\] Add new configuration 'AttributeRefreshIntervalSeconds' to Access Control (#37854)](https://github.com/mattermost/mattermost/commit/fbf8402d4bce027823d7788c8f48401d839f8b31) | github.com/mattermost/enterprise/access_control — AccessControlSettings.AttributeRefreshIntervalSeconds(기본 30초, 0 이상) config 필드·검증·en.json 키만 cherry-pick으로 반영. 이 값을 읽어 DB AttributeView 새로고침 빈도를 제한하는 로직은 upstream-master OSS 트리 전체에 참조 0건(config 정의·테스트 픽스처·타입뿐)이라 비공개 모듈에 있는 것으로 판단 — 우리 빌드에서는 설정만 존재하고 동작하지 않는다. 8a9aacb0(SyncJobIntervalSeconds)과 같은 패턴. |
