@@ -1353,4 +1353,7 @@ Slack 실측(2873px 창에서 검색 바 1512px = 52.6vw) 기준. 변경 후 실
 포크 전용 신설: `components/sidebar/channel_sidebar_toggle/`(+테스트),
 `_overrides.scss`의 토글·hidden(display:none — 센터 자연 확장)·peek
 (.main-wrapper 기준 absolute — 공지 배너 유무와 무관하게 정렬) 블록.
+주의: spec 014가 데스크톱 폭에서 `#SidebarContainer`의 배경을 none으로
+두므로, peek 오버레이는 `background: var(--sidebar-bg)`를 반드시 되살린다
+— 빠지면 본문이 비쳐 보인다 (2026-10-07 수정).
 i18n `sidebar.channelSidebarToggle.{hide,show}` (en/ko).
