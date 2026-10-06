@@ -798,7 +798,6 @@ const defaultServerConfig: AdminConfig = {
         EnableExportDirectDownload: false,
         MoveThreadsEnabled: false,
         NotificationMonitoring: true,
-        CustomProfileAttributes: true,
         PermissionPolicies: true,
         ContentFlagging: true,
         EnableMattermostEntry: true,

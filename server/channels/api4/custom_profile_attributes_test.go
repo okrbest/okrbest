@@ -22,9 +22,7 @@ func celSafeName() string {
 
 func TestCreateCPAField(t *testing.T) {
 	mainHelper.Parallel(t)
-	th := SetupConfig(t, func(cfg *model.Config) {
-		cfg.FeatureFlags.CustomProfileAttributes = true
-	})
+	th := Setup(t)
 
 	th.TestForSystemAdminAndLocal(t, func(t *testing.T, client *model.Client4) {
 		field := &model.PropertyField{Name: celSafeName(), Type: model.PropertyFieldTypeText}
@@ -120,9 +118,7 @@ func TestCreateCPAField(t *testing.T) {
 
 func TestListCPAFields(t *testing.T) {
 	mainHelper.Parallel(t)
-	th := SetupConfig(t, func(cfg *model.Config) {
-		cfg.FeatureFlags.CustomProfileAttributes = true
-	})
+	th := Setup(t)
 
 	field, err := model.NewCPAFieldFromPropertyField(&model.PropertyField{
 		Name:  celSafeName(),
@@ -166,9 +162,7 @@ func TestListCPAFields(t *testing.T) {
 
 func TestPatchCPAField(t *testing.T) {
 	mainHelper.Parallel(t)
-	th := SetupConfig(t, func(cfg *model.Config) {
-		cfg.FeatureFlags.CustomProfileAttributes = true
-	})
+	th := Setup(t)
 
 	th.TestForSystemAdminAndLocal(t, func(t *testing.T, client *model.Client4) {
 		patch := &model.PropertyFieldPatch{Name: new(celSafeName())}
@@ -349,9 +343,7 @@ func TestPatchCPAField(t *testing.T) {
 
 func TestDeleteCPAField(t *testing.T) {
 	mainHelper.Parallel(t)
-	th := SetupConfig(t, func(cfg *model.Config) {
-		cfg.FeatureFlags.CustomProfileAttributes = true
-	})
+	th := Setup(t)
 
 	th.TestForSystemAdminAndLocal(t, func(t *testing.T, client *model.Client4) {
 		resp, err := client.DeleteCPAField(context.Background(), model.NewId())
@@ -422,9 +414,7 @@ func TestDeleteCPAField(t *testing.T) {
 func TestListCPAValues(t *testing.T) {
 	mainHelper.Parallel(t)
 
-	th := SetupConfig(t, func(cfg *model.Config) {
-		cfg.FeatureFlags.CustomProfileAttributes = true
-	}).InitBasic(t)
+	th := Setup(t).InitBasic(t)
 
 	th.RemovePermissionFromRole(t, model.PermissionViewMembers.Id, model.SystemUserRoleId)
 	defer th.AddPermissionToRole(t, model.PermissionViewMembers.Id, model.SystemUserRoleId)
@@ -510,9 +500,7 @@ func TestListCPAValues(t *testing.T) {
 func TestPatchCPAValues(t *testing.T) {
 	mainHelper.Parallel(t)
 
-	th := SetupConfig(t, func(cfg *model.Config) {
-		cfg.FeatureFlags.CustomProfileAttributes = true
-	}).InitBasic(t)
+	th := Setup(t).InitBasic(t)
 
 	field, err := model.NewCPAFieldFromPropertyField(&model.PropertyField{
 		Name: celSafeName(),
@@ -875,9 +863,7 @@ func TestPatchCPAValues(t *testing.T) {
 func TestPatchCPAValuesForUser(t *testing.T) {
 	mainHelper.Parallel(t)
 
-	th := SetupConfig(t, func(cfg *model.Config) {
-		cfg.FeatureFlags.CustomProfileAttributes = true
-	}).InitBasic(t)
+	th := Setup(t).InitBasic(t)
 
 	field, err := model.NewCPAFieldFromPropertyField(&model.PropertyField{
 		Name: celSafeName(),

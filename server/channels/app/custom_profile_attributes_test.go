@@ -849,9 +849,7 @@ func TestGetCPAValue(t *testing.T) {
 
 func TestListCPAValues(t *testing.T) {
 	mainHelper.Parallel(t)
-	th := SetupConfig(t, func(cfg *model.Config) {
-		cfg.FeatureFlags.CustomProfileAttributes = true
-	}).InitBasic(t)
+	th := Setup(t).InitBasic(t)
 
 	cpaID, cErr := th.App.CpaGroupID()
 	require.Nil(t, cErr)
@@ -1034,9 +1032,7 @@ func TestPatchCPAValue(t *testing.T) {
 
 func TestDeleteCPAValues(t *testing.T) {
 	mainHelper.Parallel(t)
-	th := SetupConfig(t, func(cfg *model.Config) {
-		cfg.FeatureFlags.CustomProfileAttributes = true
-	}).InitBasic(t)
+	th := Setup(t).InitBasic(t)
 
 	cpaID, cErr := th.App.CpaGroupID()
 	require.Nil(t, cErr)
