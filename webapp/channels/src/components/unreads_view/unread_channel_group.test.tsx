@@ -105,6 +105,25 @@ describe('components/unreads_view/unread_channel_group', () => {
         expect(screen.getByText('Couldn’t load unread messages. Open the channel to view them.')).toBeInTheDocument();
     });
 
+    test('접기 토글을 누르면 본문이 숨고 머리글만 남는다 (FR-012)', async () => {
+        renderWithContext(<UnreadChannelGroup {...baseProps}/>, getBaseState());
+
+        expect(screen.getByTestId('post-stub-unread_post1')).toBeInTheDocument();
+
+        const collapseButton = screen.getByRole('button', {name: 'Collapse channel group'});
+        expect(collapseButton).toHaveAttribute('aria-expanded', 'true');
+
+        await userEvent.click(collapseButton);
+
+        expect(screen.queryByTestId('post-stub-unread_post1')).not.toBeInTheDocument();
+        expect(screen.getByText('Unread Channel')).toBeInTheDocument();
+        expect(screen.getByRole('button', {name: 'Expand channel group'})).toHaveAttribute('aria-expanded', 'false');
+
+        await userEvent.click(screen.getByRole('button', {name: 'Expand channel group'}));
+
+        expect(screen.getByTestId('post-stub-unread_post1')).toBeInTheDocument();
+    });
+
     test('머리글의 채널 제목을 누르면 채널로 이동한다 (FR-004)', async () => {
         renderWithContext(<UnreadChannelGroup {...baseProps}/>, getBaseState());
 

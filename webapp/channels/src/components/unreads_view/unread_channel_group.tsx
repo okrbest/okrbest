@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback} from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useCallback, useState} from 'react';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {shallowEqual, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
@@ -38,6 +38,10 @@ const UnreadChannelGroup = ({
     actions,
 }: Props) => {
     const history = useHistory();
+    const {formatMessage} = useIntl();
+
+    // 접힘 상태는 세션 한정 — 저장하지 않는다 (FR-012).
+    const [isCollapsed, setIsCollapsed] = useState(false);
 
     const currentUserId = useSelector(getCurrentUserId);
     const channelUrl = useSelector((state: GlobalState) => getChannelURL(state, channel, channel.team_id));
@@ -59,6 +63,21 @@ const UnreadChannelGroup = ({
             <header className='UnreadChannelGroup__header'>
                 <button
                     type='button'
+                    className='UnreadChannelGroup__collapse style--none'
+                    aria-expanded={!isCollapsed}
+                    aria-label={isCollapsed ? formatMessage({
+                        id: 'unreads.group.expand',
+                        defaultMessage: 'Expand channel group',
+                    }) : formatMessage({
+                        id: 'unreads.group.collapse',
+                        defaultMessage: 'Collapse channel group',
+                    })}
+                    onClick={() => setIsCollapsed((collapsed) => !collapsed)}
+                >
+                    <i className={isCollapsed ? 'icon icon-chevron-right' : 'icon icon-chevron-down'}/>
+                </button>
+                <button
+                    type='button'
                     className='UnreadChannelGroup__title style--none'
                     onClick={handleOpenChannel}
                 >
@@ -74,7 +93,7 @@ const UnreadChannelGroup = ({
                     {actions}
                 </div>
             </header>
-            <div className='UnreadChannelGroup__posts'>
+            {!isCollapsed && <div className='UnreadChannelGroup__posts'>
                 {posts.map((post) => (
                     <div
                         key={post.id}
@@ -94,7 +113,7 @@ const UnreadChannelGroup = ({
                         />
                     </div>
                 )}
-            </div>
+            </div>}
         </section>
     );
 };

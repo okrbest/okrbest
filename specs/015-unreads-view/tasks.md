@@ -95,12 +95,12 @@
 
 ### Tests for User Story 3 (구현 전 실패 확인 필수)
 
-- [ ] T021 [P] [US3] 접기/배너 테스트 — 접기 토글 시 본문 숨김·머리글 유지, 새 미읽음 발생 시 목록 불변+배너 "새 항목 N개", 배너 클릭 시 스냅샷 재고정, 타 기기 읽음(멤버십 갱신) 시 다음 갱신에서 그룹 제거, 멤버십 상실(추방·보관) 채널도 갱신 때 제거. `CS/components/unreads_view/new_items_banner.test.tsx`·기존 테스트 파일에 추가
+- [X] T021 [P] [US3] 접기/배너 테스트 — 접기 토글 시 본문 숨김·머리글 유지, 새 미읽음 발생 시 목록 불변+배너 "새 항목 N개", 배너 클릭 시 스냅샷 재고정, 타 기기 읽음(멤버십 갱신) 시 다음 갱신에서 그룹 제거, 멤버십 상실(추방·보관) 채널도 갱신 때 제거. `CS/components/unreads_view/new_items_banner.test.tsx`·기존 테스트 파일에 추가
 
 ### Implementation for User Story 3
 
-- [ ] T022 [US3] 접기/펼치기 구현으로 T021 일부 통과 — `unread_channel_group.tsx` 로컬 상태 + 머리글 토글(FR-012)
-- [ ] T023 [US3] 새 항목 배너 — `CS/components/unreads_view/new_items_banner.tsx` 신설 + `use_unreads_snapshot.ts`에 신규 판정·재고정 추가(FR-013), 문구 en/ko 동시
+- [X] T022 [US3] 접기/펼치기 구현으로 T021 일부 통과 — `unread_channel_group.tsx` 로컬 상태 + 머리글 토글(FR-012)
+- [X] T023 [US3] 새 항목 배너 — `CS/components/unreads_view/new_items_banner.tsx` 신설 + `use_unreads_snapshot.ts`에 신규 판정·재고정 추가(FR-013), 문구 en/ko 동시
 
 **Checkpoint**: 모든 화면 동작 완성
 

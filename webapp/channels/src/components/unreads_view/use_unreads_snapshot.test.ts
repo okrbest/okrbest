@@ -183,6 +183,48 @@ describe('components/unreads_view/use_unreads_snapshot', () => {
         expect(result.current.newChannelCount).toBe(0);
     });
 
+    test('다른 기기에서 읽은 채널은 refresh 때 목록에서 빠진다 (US3-3)', () => {
+        const {result, replaceStoreState} = renderHookWithContext(() => useUnreadsSnapshot(), getBaseState());
+
+        expect(result.current.groups).toHaveLength(2);
+
+        // 다른 기기에서 mentionChannel을 읽음 — 멤버십이 갱신된 상태
+        const nextState = getBaseState();
+        nextState.entities!.channels!.myMembers![mentionChannel.id] = TestHelper.getChannelMembershipMock({
+            channel_id: mentionChannel.id,
+            user_id: currentUserId,
+            msg_count: 10,
+            mention_count: 0,
+            last_viewed_at: 4000,
+        });
+        replaceStoreState(nextState);
+
+        // 갱신 전에는 스냅샷 유지
+        expect(result.current.groups).toHaveLength(2);
+
+        act(() => {
+            result.current.refresh();
+        });
+
+        expect(result.current.groups.map((group) => group.channel.id)).toEqual([recentChannel.id]);
+    });
+
+    test('멤버십을 잃은 채널(추방·보관)은 refresh 때 목록에서 빠진다', () => {
+        const {result, replaceStoreState} = renderHookWithContext(() => useUnreadsSnapshot(), getBaseState());
+
+        expect(result.current.groups).toHaveLength(2);
+
+        const nextState = getBaseState();
+        delete nextState.entities!.channels!.myMembers![mentionChannel.id];
+        replaceStoreState(nextState);
+
+        act(() => {
+            result.current.refresh();
+        });
+
+        expect(result.current.groups.map((group) => group.channel.id)).toEqual([recentChannel.id]);
+    });
+
     test('removeGroups는 해당 그룹만 즉시 제거한다', () => {
         const {result} = renderHookWithContext(() => useUnreadsSnapshot(), getBaseState());
 

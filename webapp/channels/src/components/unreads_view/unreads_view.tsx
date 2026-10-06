@@ -17,6 +17,7 @@ import Header from 'components/widgets/header';
 
 import {LhsItemType, LhsPage} from 'types/store/lhs';
 
+import NewItemsBanner from './new_items_banner';
 import UnreadChannelGroupList from './unread_channel_group_list';
 import useUnreadsSnapshot from './use_unreads_snapshot';
 
@@ -26,7 +27,7 @@ const UnreadsView = () => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
-    const {groups, isLoading, removeGroups} = useUnreadsSnapshot();
+    const {groups, isLoading, newChannelCount, refresh, removeGroups} = useUnreadsSnapshot();
     const [hasMarkReadError, setHasMarkReadError] = useState(false);
 
     useEffect(() => {
@@ -109,6 +110,10 @@ const UnreadsView = () => {
                 className='UnreadsView__body'
                 onKeyDown={handleBodyKeyDown}
             >
+                <NewItemsBanner
+                    count={newChannelCount}
+                    onRefresh={refresh}
+                />
                 {hasMarkReadError && (
                     <div
                         className='UnreadsView__error'

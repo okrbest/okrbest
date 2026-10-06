@@ -227,6 +227,51 @@ describe('components/unreads_view', () => {
             expect(screen.getByTestId(`unread-group-${channelA.id}`)).toBeInTheDocument();
         });
 
+        test('보는 동안 생긴 새 미읽음은 목록을 흔들지 않고 배너로 알리며, 배너를 누르면 반영된다 (FR-013)', async () => {
+            const channelC = TestHelper.getChannelMock({
+                id: 'channel_c',
+                team_id: teamId,
+                name: 'channel-c',
+                display_name: 'Channel C',
+                type: 'O',
+                last_post_at: 9000,
+            });
+
+            const {updateStoreState} = renderWithContext(<UnreadsView/>, getStateWithUnreads());
+
+            await screen.findByTestId(`unread-group-${channelA.id}`);
+            expect(screen.queryByText('1 new unread conversation')).not.toBeInTheDocument();
+
+            updateStoreState({
+                entities: {
+                    channels: {
+                        channels: {[channelC.id]: channelC},
+                        myMembers: {
+                            [channelC.id]: TestHelper.getChannelMembershipMock({
+                                channel_id: channelC.id,
+                                user_id: currentUserId,
+                                msg_count: 0,
+                                mention_count: 0,
+                                last_viewed_at: 8000,
+                            }),
+                        },
+                        messageCounts: {[channelC.id]: {total: 1, root: 1}},
+                        channelsInTeam: {
+                            [teamId]: new Set([channelA.id, channelB.id, channelC.id]),
+                        },
+                    },
+                },
+            });
+
+            // 목록은 그대로, 배너만 나타난다
+            expect(screen.queryByTestId(`unread-group-${channelC.id}`)).not.toBeInTheDocument();
+            expect(await screen.findByText('1 new unread conversation')).toBeInTheDocument();
+
+            await userEvent.click(screen.getByRole('button', {name: 'Show'}));
+
+            expect(await screen.findByTestId(`unread-group-${channelC.id}`)).toBeInTheDocument();
+        });
+
         test('포커스가 있는 그룹에서 Esc를 누르면 그 그룹이 읽음 처리된다 (FR-010)', async () => {
             renderWithContext(<UnreadsView/>, getStateWithUnreads());
 
