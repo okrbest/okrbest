@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-06 13:44
+- 갱신일: 2026-10-06 19:03
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 426개
+- 남은 커밋: 421개
 
-**마지막 반영 커밋:** `27a5abe2` | [Log an error instead of refusing to start on unsupported Postgres, Elasticsearch, and OpenSearch versions (#37929)](https://github.com/mattermost/mattermost/commit/27a5abe2d403d566af152d2bf1c219a62f5738fc) | 2026-08-12
+**마지막 반영 커밋:** `663ad3da` | [MM-70072: Update team admin assignment during team join (#37922)](https://github.com/mattermost/mattermost/commit/663ad3dae93f9eaf0c8ce01afa87bafdf7f22b71) | 2026-08-13
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 65b1437d | [Added DM GM restriction for flagging a post (#37841)](https://github.com/mattermost/mattermost/commit/65b1437d0823a5fba390fbd0216403a37c28124f) | 2026-08-13 |
-| 2df50ab1 | [\[MM-69911\] Include PAT token ID in server and audit logs for request traceability (#37910)](https://github.com/mattermost/mattermost/commit/2df50ab1fb250cad0bd2d139421446d8f55646dd) | 2026-08-13 |
-| 0eb2ec5a | [\[MM-70226\] Migrate role GetByName to request context (#37634)](https://github.com/mattermost/mattermost/commit/0eb2ec5a1771b82c905cb9d50491dc85326a3530) | 2026-08-13 |
-| 7831d7fb | [\[MM-69226\] Fix Manage Teams role dropdown overflowing outside the modal (#37400)](https://github.com/mattermost/mattermost/commit/7831d7fbf138024b7653af90ab2c09bef86d9be0) | 2026-08-13 |
-| 9dfbaeca | [Add weekly recurring scheduled posts (#37746)](https://github.com/mattermost/mattermost/commit/9dfbaeca99f4096388fd1c048a9e6d1d0a86743e) | 2026-08-13 |
-| 663ad3da | [MM-70072: Update team admin assignment during team join (#37922)](https://github.com/mattermost/mattermost/commit/663ad3dae93f9eaf0c8ce01afa87bafdf7f22b71) | 2026-08-13 |
 | 22eaa8b0 | [\[MM-69889\] Improve handling of RelayState in SAML flow (#37837)](https://github.com/mattermost/mattermost/commit/22eaa8b03bbe2deb4728f4cf5cd5e870b90c6539) | 2026-08-14 |
 | d18f3dd2 | [\[MM-69748\] Add Hide Archived toggle to the Browse Channels modal (#37500)](https://github.com/mattermost/mattermost/commit/d18f3dd278889d2644007f96fda3ccc7ebe0d4c6) | 2026-08-14 |
 | 4f8b9d81 | [\[MM-69641\] Promote EnableExportDirectDownload to a Cloud-only configuration setting (#37477)](https://github.com/mattermost/mattermost/commit/4f8b9d8195ef527f279c2a02f3d24ea87284af1f) | 2026-08-14 |
@@ -437,6 +431,7 @@
 | f132e4af | [\[MM-70991\] Bump moment-timezone to 0.6.4 for the 2026 time zone changes (#38849)](https://github.com/mattermost/mattermost/commit/f132e4afd3fa9191631b009e80726e2c932c3dfb) | 2026-10-05 |
 | 9fa53220 | [docs: retire unused Puppeteer PDF pipeline (#39007)](https://github.com/mattermost/mattermost/commit/9fa532208d5585a2a6b872388a243873cabe2aea) | 2026-10-05 |
 | 7532e0ba | [chore: Update NOTICE.txt file with updated dependencies (#38997)](https://github.com/mattermost/mattermost/commit/7532e0bad8f458131c05291f9e97412875f05d17) | 2026-10-05 |
+| b2ce71db | [Remove the Belarusian language (#39014)](https://github.com/mattermost/mattermost/commit/b2ce71db9c18e547ab0c8b042361798201c0f735) | 2026-10-06 |
 
 ## 제외된 커밋
 
