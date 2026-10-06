@@ -1248,3 +1248,36 @@ adapt 커밋이 아니라 포크 고유 설계 변경이다. upstream 파일을 
 없다 — 이 차이는 포크의 디자인 정체성이다. upstream이 자체적으로 테마 모델을
 바꾸면(예: 활성 배경 필드 신설) R3의 재해석(active-border=배경)을 그 모델로
 옮기고 반전 테스트를 유지한다.
+
+---
+
+## spec 015 — 읽지 않은 항목 모아보기 (포크 자체 기능, 2026-10-07)
+
+Slack Unreads 벤치마크 전용 화면. 정본 명세는 `specs/015-unreads-view/`.
+신규 코드는 디렉터리 2곳에 격리했고, upstream 파일 수정은 아래 7곳의
+삽입뿐이다 (contracts/ui-contract.md §5).
+
+### 인라인으로 고친 upstream 파일
+
+| 파일 | 바꾼 것 | sync 충돌 시 지킬 것 |
+|---|---|---|
+| `components/channel_layout/center_channel/center_channel.tsx` | `/:team/unreads` Route + UnreadsView lazy 선언 삽입 | Route는 recaps 아래, Redirect 위 |
+| `components/root/root.tsx` | `doesRouteBelongToTeamControllerRoutes` 정규식에 `unreads` | `root.test.tsx`의 unreads 케이스가 고정한다 |
+| `components/sidebar/sidebar_list/sidebar_list.tsx` | static 영역 최상단에 `<UnreadsLink/>` 삽입 | 순서: Unreads → Threads → Drafts. 스냅샷 갱신됨 |
+| `types/store/lhs.ts` + `selectors/lhs.ts` | `LhsPage.Unreads`, `getVisibleStaticPages`에 unreads 상시 항목 | id `unreads`는 URL 세그먼트와 일치해야 Alt+↑/↓ 이동이 동작 |
+| `components/unreads_status_handler/` | `inUnreads` 분기 — 탭 제목 `unreads.title` | — |
+| `components/mobile_channel_header/` | `inUnreads` 분기 — 모바일 제목 | — |
+| `components/sidebar/sidebar_mentions_link·sidebar_saved_posts_link` (포크 커스텀) | `matchPath`를 `(threads\|drafts\|unreads)`로 | 이 두 파일 자체가 포크 전용 |
+
+### 포크 전용 신설 (sync 충돌 없음)
+
+- `components/unreads_view/` — 화면 본체(스냅샷 훅·그룹 카드·배너·테스트).
+  `PostList`를 쓰지 않는다 — 마운트 자동 `markChannelAsRead` 때문(FR-007).
+- `components/sidebar/unreads_link/` — 사이드바 메뉴.
+- `sass/okrbest/_overrides.scss`에 `.SidebarUnreads` 활성 아이콘 규칙 1곳 추가.
+- i18n `unreads.*` 키 14쌍 (en/ko).
+
+### 되돌릴 조건
+
+upstream이 자체 Unreads 전역 뷰를 도입하면 이 화면과 비교해 흡수·대체를
+결정한다. 그 전에는 유지.
