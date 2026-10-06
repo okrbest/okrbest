@@ -3,26 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-06 12:37
+- 갱신일: 2026-10-06 13:44
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 438개
+- 남은 커밋: 426개
 
-**마지막 반영 커밋:** `1f08ac5b` | [MM-69886: Refresh Channel Members RHS on websocket add and reconnect (#37584)](https://github.com/mattermost/mattermost/commit/1f08ac5bb04372421315c0ebe0e951fbecf3ebb6) | 2026-08-11
+**마지막 반영 커밋:** `27a5abe2` | [Log an error instead of refusing to start on unsupported Postgres, Elasticsearch, and OpenSearch versions (#37929)](https://github.com/mattermost/mattermost/commit/27a5abe2d403d566af152d2bf1c219a62f5738fc) | 2026-08-12
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 265f1509 | [\[MM-70223\] Migrate GetAllProfilesInChannel to request context (#37637)](https://github.com/mattermost/mattermost/commit/265f1509fa0ea08464a007995c943b21d0530f9a) | 2026-08-12 |
-| 270a5030 | [\[MM-70225\] Migrate Store.GetDiagnostics to request.CTX (#37635)](https://github.com/mattermost/mattermost/commit/270a5030542305e1a9921f6df71bc7793245442c) | 2026-08-12 |
-| 9f0ae6a2 | [\[MM-70222\] Migrate UserStore Get to request context (#37646)](https://github.com/mattermost/mattermost/commit/9f0ae6a220f5da8f4303ee80f2237f395ff9bed4) | 2026-08-12 |
-| 523292f0 | [Remove unused context import left behind by UserStore.Get migration (#37921)](https://github.com/mattermost/mattermost/commit/523292f0816a3a5ebc5f836d323a4d9beecc5860) | 2026-08-12 |
-| 46102626 | [MM-70151/MM-70152: fix slash commands in the WYSIWYG composer (#37880)](https://github.com/mattermost/mattermost/commit/46102626dbad7473f461307b7be4c98cd387bf4f) | 2026-08-12 |
-| 0fc1ff17 | [\[MM-69557\] Fix post actions menu not closing on outside click in mobile view (#37394)](https://github.com/mattermost/mattermost/commit/0fc1ff17c8a92a00c2694a059214d0b823db2a83) | 2026-08-12 |
-| 81d6d1ea | [Fix link preview image layout shift by using SizeAwareImage (#37357)](https://github.com/mattermost/mattermost/commit/81d6d1ea20c07d9394cb569e7dd4da546cfc56fe) | 2026-08-12 |
-| 929a2e9e | [\[MM-70106\] Prevent search startup bulk processor leaks (#37873)](https://github.com/mattermost/mattermost/commit/929a2e9e3f908c09b0582cea75433b2a482bc019) | 2026-08-12 |
-| 7a06c7ae | [\[MM-64357\] Fix ABAC policy editor unable to switch back to Simple Mode when a value contains an apostrophe (#37819)](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) | 2026-08-12 |
-| bf0f9de0 | [\[MM-70189\] Add operators for CIDR and version checks to the simple policy editor (#37918)](https://github.com/mattermost/mattermost/commit/bf0f9de0784e65dc3a0f04b3c587d56c7bbc2901) | 2026-08-12 |
-| d0be8f40 | [MM-70240: Adjust post and thread payload sanitization (#37920)](https://github.com/mattermost/mattermost/commit/d0be8f408e7cfb67973c5007d8a3f9438c6040d9) | 2026-08-12 |
-| 27a5abe2 | [Log an error instead of refusing to start on unsupported Postgres, Elasticsearch, and OpenSearch versions (#37929)](https://github.com/mattermost/mattermost/commit/27a5abe2d403d566af152d2bf1c219a62f5738fc) | 2026-08-12 |
 | 65b1437d | [Added DM GM restriction for flagging a post (#37841)](https://github.com/mattermost/mattermost/commit/65b1437d0823a5fba390fbd0216403a37c28124f) | 2026-08-13 |
 | 2df50ab1 | [\[MM-69911\] Include PAT token ID in server and audit logs for request traceability (#37910)](https://github.com/mattermost/mattermost/commit/2df50ab1fb250cad0bd2d139421446d8f55646dd) | 2026-08-13 |
 | 0eb2ec5a | [\[MM-70226\] Migrate role GetByName to request context (#37634)](https://github.com/mattermost/mattermost/commit/0eb2ec5a1771b82c905cb9d50491dc85326a3530) | 2026-08-13 |
@@ -820,6 +808,10 @@
 | 4901a7fc | [\[MM-70186\] Add tooltips to platform icons in session attribute picker (#37898)](https://github.com/mattermost/mattermost/commit/4901a7fc2a9f075e2fef972498cfa5e4a74c1e9f) | 제외한 Session Attributes 관리 화면 57fe965a(#37362)의 후속이라 얹힐 토대가 없다. ABAC 속성 선택 메뉴의 세션 속성 플랫폼 아이콘(desktop/mobile/browser)에 WithTooltip·aria-label을 붙이며, attribute_selector_menu.tsx의 인라인 PLATFORM_ICONS를 admin_console/session_attributes/platform_icons·utils(getSessionAttrs) import로 교체한다(5파일 +197/-41). 실측 admin_console/session_attributes/ 디렉터리와 attribute_selector_menu.test.tsx가 모두 57fe965a 소산이라 HEAD에 없다(modify/delete 3건 + tsx 내용 충돌). 아이콘은 세션 속성 필드에만 표시되는데 우리 환경은 SessionAttributes가 꺼져 있어 화면에 나타나지 않는다 — 57fe965a 계보를 반영할 때 함께 처리할 대상. |
 
 | 844d3370 | [\[MM-69849\]\[MM-69850\] Add New Attribute page: create Text/Select/Multiselect/Rank attributes with an options editor (#37726)](https://github.com/mattermost/mattermost/commit/844d3370b71f49ede1ef3a4bfbc22c80a8bd135f) | 제외한 Global Attributes 계보(38b66d22 #37580 접근 게이트 → 4ec0fe9c #37608 목록 페이지 → 63077696)의 신규 기능이라 얹힐 토대가 없다 — 계보 전체가 제외한 property 시스템 v2(48f2fd08) 위에 있다. Manage Attributes에 Text/Select/Multiselect/Rank 새 속성 만들기 페이지와 옵션 편집기를 추가하는 27파일 +3647/-19 변경인데, 실측 터치 경로 27개 중 20개가 HEAD에 없다(admin_console/global_attributes/ 디렉터리 자체 부재). 우리 트리에 있는 것은 admin_definition.tsx(없는 페이지 라우트)·card.tsx/card_body.tsx·en.json뿐이다. Card의 disableExpandAnimation은 이 페이지 전용 opt-in prop이라 우리 쪽 기존 Card 사용처 5곳 모두 쓰지 않으므로 함께 미반영 — 이 계보를 반영할 때 card.tsx·card_body.tsx·card.test.tsx 변경도 같이 넣어야 한다. |
+
+| 46102626 | [MM-70151/MM-70152: fix slash commands in the WYSIWYG composer (#37880)](https://github.com/mattermost/mattermost/commit/46102626dbad7473f461307b7be4c98cd387bf4f) | 제외한 TipTap WYSIWYG 작성기 0fa2713b(MM-67755, #36143)의 후속 버그 수정이라 고칠 대상이 없다 — 우리는 작성기를 자체 Lexical 구현(components/lexical_editor/, 9fae0052 계보)으로 확정했다(사용자 결정, 2026-09-17). MM-70151(TipTap 자동 링크가 slash command 인자 URL을 [url](url)로 직렬화해 명령이 깨짐 → stripRedundantLinkMarks)과 MM-70152(자동완성의 실행 항목 선택 시 sentinel 문자열이 삽입됨 → 명령 실행)를 고치는 5파일 +439/-11인데, 실측 advanced_text_editor/wysiwyg_editor/ 5파일 모두 HEAD에 없다(modify/delete 2건 + 신규 테스트 3파일). @tiptap/markdown 직렬화기와 TipTap suggestion 목록 전용 코드라 Lexical에 이식할 수 없다. 같은 증상이 Lexical slash_command_plugin에 있는지는 별도 확인 대상. |
+
+| bf0f9de0 | [\[MM-70189\] Add operators for CIDR and version checks to the simple policy editor (#37918)](https://github.com/mattermost/mattermost/commit/bf0f9de0784e65dc3a0f04b3c587d56c7bbc2901) | 제외한 Session Attributes(684ddb32 #36934)와 ABAC 고유 속성 Phase 5(84a554b2 #37133) 두 계보 위에 얹힌 신규 기능이라 작동할 경로가 없다. ABAC Simple 편집기에 세션 속성용 연산자 inCIDR('in IP range')·versionEQ/GT/GTE/LT/LTE를 추가하는 12파일 +368/-19인데, 토대가 세 겹으로 없다 — (1) server/public/model/session_attributes.go·_test.go가 HEAD에 없어(MISSING) 연산자를 등록할 IP·버전 세션 필드가 없고, (2) 연산자 노출은 필드가 attrs.operators로 광고할 때만 일어나는데(isFieldAdvertisedOperator) 그 구조(allowedOperatorLabelsForField·YOUNGER_THAN·native_method)가 84a554b2 계보라 우리 shared.tsx에 없으며, (3) 추가 판정 패턴도 user.session.* 전제다. 연산자만 들여오면 메뉴에 영원히 안 나타난다. inCIDR·version* CEL 평가는 비공개 enterprise/access_control 정책 엔진 몫. operator_selector_menu의 연산자 라벨 WithTooltip은 이 계보를 반영할 때 함께 받는다. |
 
 ## spec 전환 커밋
 
