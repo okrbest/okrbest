@@ -72,6 +72,8 @@ describe('components/sidebar', () => {
         canCreatePrivateChannel: true,
         canJoinPublicChannel: true,
         isOpen: false,
+        channelSidebarCollapsed: false,
+        channelSidebarPeek: false,
         teamId: currentTeam.id,
         hasSeenModal: true,
         isCloud: false,
@@ -87,6 +89,7 @@ describe('components/sidebar', () => {
             closeModal: jest.fn(),
             clearChannelSelection: jest.fn(),
             closeRightHandSide: jest.fn(),
+            setChannelSidebarPeek: jest.fn(),
         },
     };
 
@@ -100,6 +103,26 @@ describe('components/sidebar', () => {
         expect(document.getElementById('SidebarContainer')).toBeInTheDocument();
 
         expect(screen.getByRole('application', {name: /channel sidebar region/i})).toBeInTheDocument();
+    });
+
+    test('접힘 상태면 숨김 클래스, 접힘+peek이면 오버레이 클래스를 단다', () => {
+        const collapsedProps = {...baseProps, channelSidebarCollapsed: true, channelSidebarPeek: false};
+        const {rerender} = renderWithContext(
+            <Sidebar {...collapsedProps}/>,
+            initialState,
+        );
+
+        expect(document.getElementById('SidebarContainer')).toHaveClass('channel-sidebar--hidden');
+
+        rerender(
+            <Sidebar
+                {...collapsedProps}
+                channelSidebarPeek={true}
+            />,
+        );
+
+        expect(document.getElementById('SidebarContainer')).toHaveClass('channel-sidebar--peek');
+        expect(document.getElementById('SidebarContainer')).not.toHaveClass('channel-sidebar--hidden');
     });
 
     test('프로필 버튼은 팀 레일로 이동 — 채널 사이드바에는 footer가 없다', () => {

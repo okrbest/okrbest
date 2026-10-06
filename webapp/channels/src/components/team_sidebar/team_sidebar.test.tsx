@@ -5,7 +5,7 @@ import React from 'react';
 
 import type {DeepPartial} from '@mattermost/types/utilities';
 
-import {renderWithContext, screen} from 'tests/react_testing_utils';
+import {fireEvent, renderWithContext, screen} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
 import type {GlobalState} from 'types/store';
@@ -49,6 +49,16 @@ describe('components/team_sidebar', () => {
 
         expect(document.querySelector('.team-sidebar')).toBeInTheDocument();
         expect(document.getElementById('root')).toHaveClass('multi-teams');
+    });
+
+    test('채널 사이드바가 접힌 상태에서 레일에 호버하면 peek을 켠다', () => {
+        const state = getState();
+        (state as any).views = {lhs: {channelSidebarCollapsed: true, channelSidebarPeek: false}};
+        const {store} = renderWithContext(<TeamSidebar/>, state);
+
+        fireEvent.mouseEnter(document.querySelector('.team-sidebar')!);
+
+        expect((store.getState() as GlobalState).views.lhs.channelSidebarPeek).toBe(true);
     });
 
     test('팀 레일 하단에 프로필 계정 메뉴 버튼을 표시한다 (Slack 벤치마크)', () => {

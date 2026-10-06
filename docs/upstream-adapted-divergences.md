@@ -1332,3 +1332,25 @@ Slack 실측(2873px 창에서 검색 바 1512px = 52.6vw) 기준. 변경 후 실
 | `components/new_search/new_search.tsx` | SearchBoxContainer에 `width: 52vw` 추가 (바닥 `min-width: 600px` 유지) — 검색 팝업을 바와 같은 폭으로 | 팝업 폭 = 바 폭. 실측: 1920에서 998px/998px, 좌우 오차 0 |
 
 시각 치수 변경이라 단위 테스트 불가 — Playwright 실측이 판정 (원칙 III 사유).
+
+---
+
+## 채널 사이드바 표시/숨기기 토글 + 레일 호버 임시 공개 (포크 자체 커스텀, 2026-10-07)
+
+사이드바 헤더의 "채널 둘러보기/만들기" 우측 토글로 채널 사이드바를 접는다.
+기본은 펼침(숨기기 모드). 접힌 상태에서 팀 레일 호버 시 사이드바가 본문 위
+오버레이(peek)로 임시 공개되고, 토글은 "표시" 모드로 고정 복귀를 맡는다.
+상태는 사용자별 localStorage 보존.
+
+| 파일 | 바꾼 것 | sync 충돌 시 지킬 것 |
+|---|---|---|
+| `utils/constants.tsx` | ActionTypes 2종(SET_CHANNEL_SIDEBAR_COLLAPSED/PEEK) | — |
+| `types/store/lhs.ts`·`reducers/views/lhs.ts`(+기존 테스트 기대 보강)·`actions/views/lhs.ts`·`selectors/lhs.ts` | collapsed/peek 상태 배선. 접기 변경 시 peek 초기화 | 리듀서 테스트가 고정 |
+| `components/sidebar/sidebar.tsx` + `index.ts` | 클래스 2종(channel-sidebar--hidden/--peek) + 마우스 enter/leave 핸들러 | peek 유지는 사이드바 자신 호버에도 걸린다 |
+| `components/sidebar/sidebar_header/sidebar_header.tsx` | `<ChannelSidebarToggle/>` 삽입 (우측 끝) | — |
+| `components/team_sidebar/team_sidebar.tsx` + `index.ts` | 레일 호버 핸들러(150ms 유예 + :hover 재확인으로 레일→사이드바 이동 허용) | 타이밍 가드 유지 |
+
+포크 전용 신설: `components/sidebar/channel_sidebar_toggle/`(+테스트),
+`_overrides.scss`의 토글·hidden(display:none — 센터 자연 확장)·peek
+(.main-wrapper 기준 absolute — 공지 배너 유무와 무관하게 정렬) 블록.
+i18n `sidebar.channelSidebarToggle.{hide,show}` (en/ko).

@@ -11,6 +11,8 @@ describe('Reducers.LHS', () => {
     const initialState = {
         isOpen: false,
         currentStaticPageId: '',
+        channelSidebarCollapsed: false,
+        channelSidebarPeek: false,
         size: 'medium',
     };
 
@@ -19,6 +21,8 @@ describe('Reducers.LHS', () => {
             {
                 isOpen: false,
                 currentStaticPageId: '',
+                channelSidebarCollapsed: false,
+                channelSidebarPeek: false,
                 size: 'medium',
             },
             {type: 'testinit'},
@@ -32,6 +36,8 @@ describe('Reducers.LHS', () => {
             {
                 isOpen: true,
                 currentStaticPageId: '',
+                channelSidebarCollapsed: false,
+                channelSidebarPeek: false,
                 size: 'medium',
             },
             {
@@ -50,6 +56,8 @@ describe('Reducers.LHS', () => {
             {
                 isOpen: false,
                 currentStaticPageId: '',
+                channelSidebarCollapsed: false,
+                channelSidebarPeek: false,
                 size: 'medium',
             },
             {
@@ -68,6 +76,8 @@ describe('Reducers.LHS', () => {
             {
                 isOpen: false,
                 currentStaticPageId: '',
+                channelSidebarCollapsed: false,
+                channelSidebarPeek: false,
                 size: 'medium',
             },
             {
@@ -86,6 +96,8 @@ describe('Reducers.LHS', () => {
             {
                 isOpen: true,
                 currentStaticPageId: '',
+                channelSidebarCollapsed: false,
+                channelSidebarPeek: false,
                 size: 'medium',
             },
             {
@@ -110,6 +122,8 @@ describe('Reducers.LHS', () => {
                     {
                         isOpen: true,
                         currentStaticPageId: '',
+                        channelSidebarCollapsed: false,
+                        channelSidebarPeek: false,
                         size: 'medium',
                     },
                     {

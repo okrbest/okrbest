@@ -6280,6 +6280,8 @@
   "sidebar_right_menu.console": "관리자 도구",
   "sidebar_right_menu.flagged": "저장된 메시지",
   "sidebar_right_menu.recentMentions": "최근 멘션",
+  "sidebar.channelSidebarToggle.hide": "채널 사이드바 숨기기",
+  "sidebar.channelSidebarToggle.show": "채널 사이드바 표시",
   "sidebar.createDirectMessage": "개인 메시지 작성",
   "sidebar.directchannel.you": "{displayname} (당신)",
   "sidebar.menu.item.notSelected": "선택되지 않음",

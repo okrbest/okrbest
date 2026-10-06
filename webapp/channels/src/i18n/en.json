@@ -6868,6 +6868,8 @@
   "sidebar_right_menu.console": "System Console",
   "sidebar_right_menu.flagged": "Saved messages",
   "sidebar_right_menu.recentMentions": "Recent Mentions",
+  "sidebar.channelSidebarToggle.hide": "Hide channel sidebar",
+  "sidebar.channelSidebarToggle.show": "Show channel sidebar",
   "sidebar.createDirectMessage": "Create new direct message",
   "sidebar.directchannel.you": "{displayname} (you)",
   "sidebar.menu.item.notSelected": "not selected",

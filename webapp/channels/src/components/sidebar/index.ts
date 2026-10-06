@@ -12,9 +12,10 @@ import {haveICurrentChannelPermission, haveISystemPermission} from 'mattermost-r
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {clearChannelSelection} from 'actions/views/channel_sidebar';
+import {setChannelSidebarPeek} from 'actions/views/lhs';
 import {closeModal, openModal} from 'actions/views/modals';
 import {closeRightHandSide} from 'actions/views/rhs';
-import {getIsLhsOpen} from 'selectors/lhs';
+import {getChannelSidebarCollapsed, getChannelSidebarPeek, getIsLhsOpen} from 'selectors/lhs';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
@@ -48,6 +49,8 @@ function mapStateToProps(state: GlobalState) {
         canCreatePublicChannel,
         canJoinPublicChannel,
         isOpen: getIsLhsOpen(state),
+        channelSidebarCollapsed: getChannelSidebarCollapsed(state),
+        channelSidebarPeek: getChannelSidebarPeek(state),
         unreadFilterEnabled,
         isMobileView: getIsMobileView(state),
         isKeyBoardShortcutModalOpen: isModalOpen(state, ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL),
@@ -61,6 +64,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             clearChannelSelection,
+            setChannelSidebarPeek,
             fetchMyCategories,
             openModal,
             closeModal,

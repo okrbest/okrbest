@@ -6,6 +6,8 @@ import {useSelector} from 'react-redux';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
+import ChannelSidebarToggle from 'components/sidebar/channel_sidebar_toggle';
+
 import SidebarBrowseOrAddChannelMenu from './sidebar_browse_or_add_channel_menu';
 import SidebarTeamMenu from './sidebar_team_menu';
 
@@ -48,6 +50,7 @@ const SidebarHeader = (props: Props) => {
                     onInvitePeopleClick={props.invitePeopleModal}
                 />
             )}
+            <ChannelSidebarToggle/>
         </div>
     );
 };

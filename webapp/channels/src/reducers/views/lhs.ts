@@ -53,8 +53,35 @@ function currentStaticPageId(state = '', action: MMAction) {
     }
 }
 
+function channelSidebarCollapsed(state = false, action: MMAction) {
+    switch (action.type) {
+    case ActionTypes.SET_CHANNEL_SIDEBAR_COLLAPSED:
+        return action.data;
+    case UserTypes.LOGOUT_SUCCESS:
+        return false;
+    default:
+        return state;
+    }
+}
+
+function channelSidebarPeek(state = false, action: MMAction) {
+    switch (action.type) {
+    case ActionTypes.SET_CHANNEL_SIDEBAR_PEEK:
+        return action.data;
+    case ActionTypes.SET_CHANNEL_SIDEBAR_COLLAPSED:
+        // 접기 상태가 바뀌면 임시 공개는 초기화한다
+        return false;
+    case UserTypes.LOGOUT_SUCCESS:
+        return false;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     isOpen,
     size,
     currentStaticPageId,
+    channelSidebarCollapsed,
+    channelSidebarPeek,
 });

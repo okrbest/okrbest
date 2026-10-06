@@ -47,6 +47,33 @@ export class TeamSidebar extends React.PureComponent<Props, State> {
         };
     }
 
+    // OKR.BEST: 채널 사이드바가 접힌 상태에서 레일 호버로 임시 공개(peek)한다.
+    // 레일을 떠날 때는 사이드바로 건너가는 중일 수 있어 잠시 기다렸다가,
+    // 둘 다 호버가 아니면 닫는다.
+    peekCloseTimer: ReturnType<typeof setTimeout> | null = null;
+
+    handleRailMouseEnter = () => {
+        if (this.peekCloseTimer) {
+            clearTimeout(this.peekCloseTimer);
+            this.peekCloseTimer = null;
+        }
+        if (this.props.channelSidebarCollapsed) {
+            this.props.actions.setChannelSidebarPeek(true);
+        }
+    };
+
+    handleRailMouseLeave = () => {
+        if (!this.props.channelSidebarCollapsed) {
+            return;
+        }
+        this.peekCloseTimer = setTimeout(() => {
+            const stillHovered = document.querySelector('.team-sidebar:hover, #SidebarContainer:hover');
+            if (!stillHovered) {
+                this.props.actions.setChannelSidebarPeek(false);
+            }
+        }, 150);
+    };
+
     switchToPrevOrNextTeam = (e: KeyboardEvent, currentTeamId: string, teams: Team[]) => {
         if (Keyboard.isKeyPressed(e, Constants.KeyCodes.UP) || Keyboard.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
             e.preventDefault();
@@ -292,6 +319,8 @@ export class TeamSidebar extends React.PureComponent<Props, State> {
                 className={classNames('team-sidebar', {'move--right': this.props.isOpen})}
                 role='navigation'
                 aria-labelledby='teamSidebarWrapper'
+                onMouseEnter={this.handleRailMouseEnter}
+                onMouseLeave={this.handleRailMouseLeave}
             >
                 <Scrollbars>
                     <div
