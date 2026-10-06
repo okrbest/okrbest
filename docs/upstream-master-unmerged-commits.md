@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-06 19:03
+- 갱신일: 2026-10-06 23:27
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 421개
+- 남은 커밋: 410개
 
-**마지막 반영 커밋:** `663ad3da` | [MM-70072: Update team admin assignment during team join (#37922)](https://github.com/mattermost/mattermost/commit/663ad3dae93f9eaf0c8ce01afa87bafdf7f22b71) | 2026-08-13
+**마지막 반영 커밋:** `338dc6c7` | [\[MM-69863\] Add external source picker (AD/LDAP, SAML) to New attribute (#37845)](https://github.com/mattermost/mattermost/commit/338dc6c74daafdb08b6699001a18dd83097064ed) | 2026-08-14
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 22eaa8b0 | [\[MM-69889\] Improve handling of RelayState in SAML flow (#37837)](https://github.com/mattermost/mattermost/commit/22eaa8b03bbe2deb4728f4cf5cd5e870b90c6539) | 2026-08-14 |
-| d18f3dd2 | [\[MM-69748\] Add Hide Archived toggle to the Browse Channels modal (#37500)](https://github.com/mattermost/mattermost/commit/d18f3dd278889d2644007f96fda3ccc7ebe0d4c6) | 2026-08-14 |
-| 4f8b9d81 | [\[MM-69641\] Promote EnableExportDirectDownload to a Cloud-only configuration setting (#37477)](https://github.com/mattermost/mattermost/commit/4f8b9d8195ef527f279c2a02f3d24ea87284af1f) | 2026-08-14 |
-| a234862d | [\[MM-69816\] Update prepackaged Calls to v1.12.3 (#37985)](https://github.com/mattermost/mattermost/commit/a234862de7da948f1869867a75349c03a20c2665) | 2026-08-14 |
-| 9a9bbe28 | [\[MM-70188\] Convert the platform, os, browser user agent session attributes to select fields (#37969)](https://github.com/mattermost/mattermost/commit/9a9bbe28bdfc0a9fb36a13cf5aeda091b12942b4) | 2026-08-14 |
-| 6e857478 | [MM-70100: Adjust Slack import user handling based on import type (#37818)](https://github.com/mattermost/mattermost/commit/6e85747816d8058061e933fbcc2cc438c4c780cc) | 2026-08-14 |
-| bc6a0c1e | [MM-69881: Add a size limit to the local image proxy's direct image fetch (#37848)](https://github.com/mattermost/mattermost/commit/bc6a0c1ebf77d9056cb7d36a68853cbb06558f72) | 2026-08-14 |
-| 3b99b6c9 | [Add session attributes settings to System Console (#37973)](https://github.com/mattermost/mattermost/commit/3b99b6c9d98f81fab88d45513280aa47bdb44f9e) | 2026-08-14 |
-| 989d83c6 | [MM-69403 filter job websocket updates by permission (#37650)](https://github.com/mattermost/mattermost/commit/989d83c6378ba6adf0a50f8fd94ed73d86414650) | 2026-08-14 |
-| 1578db07 | [Fix repeating 400s for post_persistent_notifications and delete_expired_posts jobs (#37874)](https://github.com/mattermost/mattermost/commit/1578db0729812183230da3c9dbc73c96c7217f3a) | 2026-08-14 |
-| 338dc6c7 | [\[MM-69863\] Add external source picker (AD/LDAP, SAML) to New attribute (#37845)](https://github.com/mattermost/mattermost/commit/338dc6c74daafdb08b6699001a18dd83097064ed) | 2026-08-14 |
 | 44c0490c | [Prevent system-owned bots from being disabled (#37200)](https://github.com/mattermost/mattermost/commit/44c0490c7c005c297c52a24e2db3f900db3a6d70) | 2026-08-15 |
 | 2945359d | [\[MM-69895\] Delete bot access tokens when permanently deleting a bot (#37907)](https://github.com/mattermost/mattermost/commit/2945359dccf45ca8fb19892d3d699be93a170de0) | 2026-08-15 |
 | a012af76 | [\[MM-70246\] Fix squished author avatar in Content Flagging RHS post preview card (#37972)](https://github.com/mattermost/mattermost/commit/a012af768d11b384686e24ac6319be4b2dfe3099) | 2026-08-17 |
@@ -807,6 +796,12 @@
 | 46102626 | [MM-70151/MM-70152: fix slash commands in the WYSIWYG composer (#37880)](https://github.com/mattermost/mattermost/commit/46102626dbad7473f461307b7be4c98cd387bf4f) | 제외한 TipTap WYSIWYG 작성기 0fa2713b(MM-67755, #36143)의 후속 버그 수정이라 고칠 대상이 없다 — 우리는 작성기를 자체 Lexical 구현(components/lexical_editor/, 9fae0052 계보)으로 확정했다(사용자 결정, 2026-09-17). MM-70151(TipTap 자동 링크가 slash command 인자 URL을 [url](url)로 직렬화해 명령이 깨짐 → stripRedundantLinkMarks)과 MM-70152(자동완성의 실행 항목 선택 시 sentinel 문자열이 삽입됨 → 명령 실행)를 고치는 5파일 +439/-11인데, 실측 advanced_text_editor/wysiwyg_editor/ 5파일 모두 HEAD에 없다(modify/delete 2건 + 신규 테스트 3파일). @tiptap/markdown 직렬화기와 TipTap suggestion 목록 전용 코드라 Lexical에 이식할 수 없다. 같은 증상이 Lexical slash_command_plugin에 있는지는 별도 확인 대상. |
 
 | bf0f9de0 | [\[MM-70189\] Add operators for CIDR and version checks to the simple policy editor (#37918)](https://github.com/mattermost/mattermost/commit/bf0f9de0784e65dc3a0f04b3c587d56c7bbc2901) | 제외한 Session Attributes(684ddb32 #36934)와 ABAC 고유 속성 Phase 5(84a554b2 #37133) 두 계보 위에 얹힌 신규 기능이라 작동할 경로가 없다. ABAC Simple 편집기에 세션 속성용 연산자 inCIDR('in IP range')·versionEQ/GT/GTE/LT/LTE를 추가하는 12파일 +368/-19인데, 토대가 세 겹으로 없다 — (1) server/public/model/session_attributes.go·_test.go가 HEAD에 없어(MISSING) 연산자를 등록할 IP·버전 세션 필드가 없고, (2) 연산자 노출은 필드가 attrs.operators로 광고할 때만 일어나는데(isFieldAdvertisedOperator) 그 구조(allowedOperatorLabelsForField·YOUNGER_THAN·native_method)가 84a554b2 계보라 우리 shared.tsx에 없으며, (3) 추가 판정 패턴도 user.session.* 전제다. 연산자만 들여오면 메뉴에 영원히 안 나타난다. inCIDR·version* CEL 평가는 비공개 enterprise/access_control 정책 엔진 몫. operator_selector_menu의 연산자 라벨 WithTooltip은 이 계보를 반영할 때 함께 받는다. |
+
+| 9a9bbe28 | [\[MM-70188\] Convert the platform, os, browser user agent session attributes to select fields (#37969)](https://github.com/mattermost/mattermost/commit/9a9bbe28bdfc0a9fb36a13cf5aeda091b12942b4) | 부모 커밋 684ddb32(#36934 Session Attributes MVF - Server-work) 제외의 연쇄. 이 커밋은 server/public/model/session_attributes.go 한 파일만 고쳐 user agent 세션 속성(platform·os·browser)을 select 필드로 바꾸는데, 그 파일이 우리 트리에 없다(MISSING PATHS, modify/delete 충돌). 684ddb32는 property 시스템 기반(제외한 48f2fd08 Integrated Boards 계보)이 없고 Enterprise Advanced 게이트·플래그 기본 off라 제품에서 빼기로 했다. 80eb4980·20c4cc42와 같은 처리. Session Attributes를 도입하게 되면 684ddb32부터 함께 재검토한다. |
+
+| 3b99b6c9 | [Add session attributes settings to System Console (#37973)](https://github.com/mattermost/mattermost/commit/3b99b6c9d98f81fab88d45513280aa47bdb44f9e) | 부모 커밋 684ddb32(#36934 Session Attributes MVF - Server-work) 제외의 연쇄. 시스템 콘솔 접근 제어에 Session Attributes 섹션(토글 2개 + en 키 5개)을 추가하는데, 그 토글이 다루는 AccessControlSettings.TrustProxyDeviceIdentityHeader·EnforceDeviceIDConsistency는 684ddb32가 서버 config에 넣은 필드라 우리 트리에 없다(grep 0건 — permission_policy_details.test.tsx:44 주석에도 기록). 반영하면 FeatureFlags.SessionAttributes(기본 off)·Enterprise Advanced 게이트 뒤에 숨은 죽은 UI만 생긴다. 9a9bbe28과 같은 처리. Session Attributes를 도입하게 되면 684ddb32부터 함께 재검토한다. |
+
+| 338dc6c7 | [\[MM-69863\] Add external source picker (AD/LDAP, SAML) to New attribute (#37845)](https://github.com/mattermost/mattermost/commit/338dc6c74daafdb08b6699001a18dd83097064ed) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 #37580 접근 게이트 → 4ec0fe9c 목록 → 63077696 → 844d3370 새 속성 페이지)의 후속이라 얹힐 토대가 없다 — 계보 전체가 제외한 property 시스템 v2(48f2fd08) 위에 있다. 새 속성 페이지에 AD/LDAP·SAML 외부 소스 연결 칩 UI를 붙이는 15파일 +1071인데, 터치 경로 15개 중 13개가 HEAD에 없다(admin_console/global_attributes/ 디렉터리 부재). 함께 미반영한 범용 조각 — 신규 components/divider/(Divider)와 components/menu/menu.tsx의 menuButton onMouseDown 전달 옵션은 이 페이지 전용 opt-in이라 우리 쪽 사용처가 없다. 이 계보를 반영할 때 844d3370의 card.tsx 변경과 함께 넣어야 한다. 재검토 조건: property 시스템 v2 도입 결정 시(38b66d22와 동일). |
 
 ## spec 전환 커밋
 
