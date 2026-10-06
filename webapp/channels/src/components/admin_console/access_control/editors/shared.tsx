@@ -71,16 +71,31 @@ export function isMultiselectOperator(op: string): boolean {
     return op === OperatorLabel.HAS_ANY_OF || op === OperatorLabel.HAS_ALL_OF;
 }
 
+// Matches a single CEL string literal: a double-quoted string (which may contain
+// apostrophes and escaped double quotes) or a single-quoted string (which may
+// contain double quotes and escaped single quotes). This mirrors what the CEL
+// parser accepts and what celStringLiteral emits, so a value such as
+// "Matt's Department" is still recognized as a simple expression.
+const CEL_STRING = String.raw`(?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')`;
+
+// Empty list or comma-separated CEL string literals. Rejects unterminated /
+// unescaped quotes that the previous `\[.*?\]` matcher would accept.
+const CEL_STRING_LIST = String.raw`\[\s*(?:${CEL_STRING}(?:\s*,\s*${CEL_STRING})*)?\s*\]`;
+
+const SIMPLE_CONDITION_PATTERNS: RegExp[] = [
+    new RegExp(String.raw`^user\.attributes\.\w+\s*(==|!=)\s*${CEL_STRING}$`),
+    new RegExp(String.raw`^user\.attributes\.\w+\s+in\s+${CEL_STRING_LIST}$`),
+    new RegExp(String.raw`^((${CEL_STRING_LIST})|${CEL_STRING})\s+in\s+user\.attributes\.\w+$`),
+    new RegExp(String.raw`^user\.attributes\.\w+\.startsWith\(${CEL_STRING}.*?\)$`),
+    new RegExp(String.raw`^user\.attributes\.\w+\.endsWith\(${CEL_STRING}.*?\)$`),
+    new RegExp(String.raw`^user\.attributes\.\w+\.contains\(${CEL_STRING}.*?\)$`),
+];
+
+const MULTISELECT_GROUP_PART = new RegExp(String.raw`^${CEL_STRING}\s+in\s+user\.attributes\.\w+$`);
+
 export function isSimpleCondition(s: string): boolean {
     const trimmed = s.trim();
-    return Boolean(
-        trimmed.match(/^user\.attributes\.\w+\s*(==|!=)\s*['"][^'"]*['"]$/) ||
-        trimmed.match(/^user\.attributes\.\w+\s+in\s+\[.*?\]$/) ||
-        trimmed.match(/^((\[.*?\])|['"][^'"]*['"])\s+in\s+user\.attributes\.\w+$/) ||
-        trimmed.match(/^user\.attributes\.\w+\.startsWith\(['"][^'"]*['"].*?\)$/) ||
-        trimmed.match(/^user\.attributes\.\w+\.endsWith\(['"][^'"]*['"].*?\)$/) ||
-        trimmed.match(/^user\.attributes\.\w+\.contains\(['"][^'"]*['"].*?\)$/),
-    );
+    return SIMPLE_CONDITION_PATTERNS.some((pattern) => pattern.test(trimmed));
 }
 
 export function isMultiselectOrGroup(s: string): boolean {
@@ -90,8 +105,7 @@ export function isMultiselectOrGroup(s: string): boolean {
     }
     const inner = trimmed.slice(1, -1);
     return inner.split('||').every((part) => {
-        const p = part.trim();
-        return Boolean(p.match(/^['"][^'"]*['"]\s+in\s+user\.attributes\.\w+$/));
+        return MULTISELECT_GROUP_PART.test(part.trim());
     });
 }
 
