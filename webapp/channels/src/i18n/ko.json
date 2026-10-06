@@ -1098,6 +1098,7 @@
   "admin.experimental.defaultTheme.options.onyx": "오닉스",
   "admin.experimental.defaultTheme.options.quartz": "쿼츠",
   "admin.experimental.defaultTheme.options.sapphire": "사파이어",
+  "admin.experimental.defaultTheme.options.slate": "슬레이트",
   "admin.experimental.defaultTheme.title": "기본테마 :",
   "admin.experimental.delayChannelAutocomplete.desc": "활성화하면 채널 링크(예: ~town-square)의 자동 완성이 물결표(~) 입력 후 몇 글자를 더 입력해야 작동합니다. 비활성화하면 사용자가 물결표를 입력하는 즉시 자동 완성이 나타납니다.",
   "admin.experimental.delayChannelAutocomplete.title": "채널 자동 완성 지연:",

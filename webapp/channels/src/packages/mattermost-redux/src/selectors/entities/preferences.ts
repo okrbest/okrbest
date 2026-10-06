@@ -133,11 +133,11 @@ const getThemePreference = createSelector(
     },
 );
 
-export type ThemeKey = 'denim' | 'sapphire' | 'quartz' | 'indigo' | 'onyx';
+export type ThemeKey = 'slate' | 'denim' | 'sapphire' | 'quartz' | 'indigo' | 'onyx';
 
 export type LegacyThemeType = 'Mattermost' | 'Organization' | 'Mattermost Dark' | 'Windows Dark';
 
-export type ThemeType = 'Denim' | 'Sapphire' | 'Quartz' | 'Indigo' | 'Onyx';
+export type ThemeType = 'Slate' | 'Denim' | 'Sapphire' | 'Quartz' | 'Indigo' | 'Onyx';
 
 export type Theme = {
     [key: string]: string | undefined;
@@ -178,7 +178,8 @@ const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): T
     }
 
     // If no config.DefaultTheme or value doesn't refer to a valid theme name...
-    return Preferences.THEMES.denim;
+    // OKR.Best (spec 014): slate is the fork default theme.
+    return Preferences.THEMES.slate;
 });
 
 export const getTheme: (state: GlobalState) => Theme = createShallowSelector(

@@ -297,7 +297,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
               id="sidebarTextActiveBorder-inputColorValue"
               maxlength="7"
               type="text"
-              value="#5d89ea"
+              value="#f8f8f8"
             />
             <span
               class="input-group-addon color-pad"
@@ -308,7 +308,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
                 class="color-icon"
                 data-testid="color-icon"
                 id="sidebarTextActiveBorder-squareColorIconValue"
-                style="background-color: rgb(93, 137, 234);"
+                style="background-color: rgb(248, 248, 248);"
               />
             </span>
           </div>
@@ -331,7 +331,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
               id="sidebarTextActiveColor-inputColorValue"
               maxlength="7"
               type="text"
-              value="#ffffff"
+              value="#1e325c"
             />
             <span
               class="input-group-addon color-pad"
@@ -342,7 +342,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
                 class="color-icon"
                 data-testid="color-icon"
                 id="sidebarTextActiveColor-squareColorIconValue"
-                style="background-color: rgb(255, 255, 255);"
+                style="background-color: rgb(30, 50, 92);"
               />
             </span>
           </div>
@@ -365,7 +365,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
               id="onlineIndicator-inputColorValue"
               maxlength="7"
               type="text"
-              value="#3db887"
+              value="#38a77b"
             />
             <span
               class="input-group-addon color-pad"
@@ -376,7 +376,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
                 class="color-icon"
                 data-testid="color-icon"
                 id="onlineIndicator-squareColorIconValue"
-                style="background-color: rgb(61, 184, 135);"
+                style="background-color: rgb(56, 167, 123);"
               />
             </span>
           </div>
@@ -399,7 +399,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
               id="awayIndicator-inputColorValue"
               maxlength="7"
               type="text"
-              value="#ffbc1f"
+              value="#bd8b17"
             />
             <span
               class="input-group-addon color-pad"
@@ -410,7 +410,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
                 class="color-icon"
                 data-testid="color-icon"
                 id="awayIndicator-squareColorIconValue"
-                style="background-color: rgb(255, 188, 31);"
+                style="background-color: rgb(189, 139, 23);"
               />
             </span>
           </div>
@@ -639,7 +639,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
               id="newMessageSeparator-inputColorValue"
               maxlength="7"
               type="text"
-              value="#cc8f00"
+              value="#bd8b17"
             />
             <span
               class="input-group-addon color-pad"
@@ -650,7 +650,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
                 class="color-icon"
                 data-testid="color-icon"
                 id="newMessageSeparator-squareColorIconValue"
-                style="background-color: rgb(204, 143, 0);"
+                style="background-color: rgb(189, 139, 23);"
               />
             </span>
           </div>
@@ -673,7 +673,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
               id="errorTextColor-inputColorValue"
               maxlength="7"
               type="text"
-              value="#d24b4e"
+              value="#cc494c"
             />
             <span
               class="input-group-addon color-pad"
@@ -684,7 +684,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
                 class="color-icon"
                 data-testid="color-icon"
                 id="errorTextColor-squareColorIconValue"
-                style="background-color: rgb(210, 75, 78);"
+                style="background-color: rgb(204, 73, 76);"
               />
             </span>
           </div>
@@ -962,7 +962,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
           class="form-control"
           id="pasteBox"
         >
-          {"sidebarBg":"#1e325c","sidebarText":"#ffffff","sidebarUnreadText":"#ffffff","sidebarTextHoverBg":"#28427b","sidebarTextActiveBorder":"#5d89ea","sidebarTextActiveColor":"#ffffff","sidebarHeaderBg":"#192a4d","sidebarHeaderTextColor":"#ffffff","sidebarTeamBarBg":"#162545","onlineIndicator":"#3db887","awayIndicator":"#ffbc1f","dndIndicator":"#d24b4e","mentionBg":"#ffffff","mentionBj":"#ffffff","mentionColor":"#1e325c","centerChannelBg":"#ffffff","centerChannelColor":"#3f4350","newMessageSeparator":"#cc8f00","linkColor":"#386fe5","buttonBg":"#1c58d9","buttonColor":"#ffffff","errorTextColor":"#d24b4e","mentionHighlightBg":"#ffd470","mentionHighlightLink":"#1b1d22","codeTheme":"github"}
+          {"sidebarBg":"#1e325c","sidebarText":"#ffffff","sidebarUnreadText":"#ffffff","sidebarTextHoverBg":"#28427b","sidebarTextActiveBorder":"#f8f8f8","sidebarTextActiveColor":"#1e325c","sidebarHeaderBg":"#192a4d","sidebarHeaderTextColor":"#ffffff","sidebarTeamBarBg":"#162545","onlineIndicator":"#38a77b","awayIndicator":"#bd8b17","dndIndicator":"#d24b4e","mentionBg":"#ffffff","mentionBj":"#ffffff","mentionColor":"#1e325c","centerChannelBg":"#ffffff","centerChannelColor":"#3f4350","newMessageSeparator":"#bd8b17","linkColor":"#386fe5","buttonBg":"#1c58d9","buttonColor":"#ffffff","errorTextColor":"#cc494c","mentionHighlightBg":"#ffd470","mentionHighlightLink":"#1b1d22","codeTheme":"github"}
         </textarea>
         <div
           class="mt-3"

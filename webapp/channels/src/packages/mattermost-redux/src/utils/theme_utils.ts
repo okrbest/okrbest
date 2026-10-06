@@ -125,6 +125,7 @@ const themeTypeMap: ThemeTypeMap = {
     Organization: 'sapphire',
     'Mattermost Dark': 'indigo',
     'Windows Dark': 'onyx',
+    Slate: 'slate',
     Denim: 'denim',
     Sapphire: 'sapphire',
     Quartz: 'quartz',
