@@ -1216,6 +1216,7 @@
   "admin.experimental.defaultTheme.options.onyx": "Onyx",
   "admin.experimental.defaultTheme.options.quartz": "Quartz",
   "admin.experimental.defaultTheme.options.sapphire": "Sapphire",
+  "admin.experimental.defaultTheme.options.slate": "Slate",
   "admin.experimental.defaultTheme.title": "Default Theme:",
   "admin.experimental.delayChannelAutocomplete.desc": "When true, the autocomplete for channel links (such as ~town-square) will only trigger after typing a tilde followed by a couple letters. When false, the autocomplete will appear as soon as the user types a tilde.",
   "admin.experimental.delayChannelAutocomplete.title": "Delay Channel Autocomplete:",

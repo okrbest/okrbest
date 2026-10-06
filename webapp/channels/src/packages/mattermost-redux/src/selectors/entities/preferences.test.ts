@@ -180,7 +180,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            } as unknown as GlobalState)).toEqual(Preferences.THEMES.denim);
+            } as unknown as GlobalState)).toEqual(Preferences.THEMES.slate);
         });
 
         it('custom theme', () => {

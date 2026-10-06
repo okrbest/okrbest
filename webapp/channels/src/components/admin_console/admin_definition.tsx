@@ -6382,6 +6382,10 @@ const AdminDefinition: AdminDefinitionType = {
                             help_text_markdown: true,
                             options: [
                                 {
+                                    value: 'slate',
+                                    display_name: defineMessage({id: 'admin.experimental.defaultTheme.options.slate', defaultMessage: 'Slate'}),
+                                },
+                                {
                                     value: 'denim',
                                     display_name: defineMessage({id: 'admin.experimental.defaultTheme.options.denim', defaultMessage: 'Denim'}),
                                 },
