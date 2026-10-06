@@ -64,6 +64,10 @@ describe('components/sidebar/unreads_link', () => {
 
         const link = screen.getByRole('link', {name: /Unreads/});
         expect(link).toHaveAttribute('href', '/team-name/unreads');
+
+        // 아이콘은 compass-icons에 실존하는 글리프여야 한다 (mark-as-unread)
+        const icon = link.querySelector('i.icon');
+        expect(icon).toHaveClass('icon-mark-as-unread');
     });
 
     test('멘션 수를 배지로 보여준다 (FR-001)', () => {

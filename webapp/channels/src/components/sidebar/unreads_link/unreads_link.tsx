@@ -45,7 +45,7 @@ const UnreadsLink = () => {
                     })}
                     tabIndex={0}
                 >
-                    <i className='icon icon-message-badge-outline'/>
+                    <i className='icon icon-mark-as-unread'/>
                     <div className='SidebarChannelLinkLabel_wrapper'>
                         <span className='SidebarChannelLinkLabel sidebar-item__name'>
                             <FormattedMessage
