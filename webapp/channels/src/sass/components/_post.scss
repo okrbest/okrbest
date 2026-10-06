@@ -1173,7 +1173,9 @@
             min-width: 0;
             flex: 0 auto;
             margin-right: 8px;
-            font-weight: 600;
+
+            /* spec 014 — Slack 작성자 이름 실측: 굵기 900 */
+            font-weight: 900;
             gap: 8px;
             text-overflow: ellipsis;
 
