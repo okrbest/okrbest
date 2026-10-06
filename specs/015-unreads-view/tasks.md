@@ -27,10 +27,10 @@
 
 **⚠️ CRITICAL**: 이 단계 전에는 어떤 스토리도 시작할 수 없다
 
-- [ ] T002 [P] `LhsPage.Unreads = 'unreads'` 추가 — `CS/types/store/lhs.ts`
-- [ ] T003 페이지 셸 RTL 테스트 작성(실패 확인) — 마운트 때 `selectLhsItem(Page, Unreads)`·`suppressRHS` 디스패치, 언마운트 때 `unsuppressRHS` 검증. `CS/components/unreads_view/unreads_view.test.tsx`
-- [ ] T004 페이지 셸 구현으로 T003 통과 — `CS/components/unreads_view/{index.ts,unreads_view.tsx}` (화면 제목 + 빈 본문. 문구 키는 en/ko 동시 추가)
-- [ ] T005 라우트 등록 — `CS/components/channel_layout/center_channel/center_channel.tsx`에 `/:team/unreads` Route 삽입(drafts 아래), `CS/components/root/root.tsx`의 `doesRouteBelongToTeamControllerRoutes` 정규식에 `unreads` 추가. 접속 확인은 T004 테스트에 라우트 케이스로 포함. `center_channel/index.ts`의 lastChannelPath 복원 대상에 unreads가 포함되지 않음(Drafts와 동일 정책)을 확인만 한다 — 수정 없음
+- [X] T002 [P] `LhsPage.Unreads = 'unreads'` 추가 — `CS/types/store/lhs.ts`
+- [X] T003 페이지 셸 RTL 테스트 작성(실패 확인) — 마운트 때 `selectLhsItem(Page, Unreads)`·`suppressRHS` 디스패치, 언마운트 때 `unsuppressRHS` 검증. `CS/components/unreads_view/unreads_view.test.tsx`
+- [X] T004 페이지 셸 구현으로 T003 통과 — `CS/components/unreads_view/{index.ts,unreads_view.tsx}` (화면 제목 + 빈 본문. 문구 키는 en/ko 동시 추가)
+- [X] T005 라우트 등록 — `CS/components/channel_layout/center_channel/center_channel.tsx`에 `/:team/unreads` Route 삽입(drafts 아래), `CS/components/root/root.tsx`의 `doesRouteBelongToTeamControllerRoutes` 정규식에 `unreads` 추가. 접속 확인은 T004 테스트에 라우트 케이스로 포함. `center_channel/index.ts`의 lastChannelPath 복원 대상에 unreads가 포함되지 않음(Drafts와 동일 정책)을 확인만 한다 — 수정 없음
 
 **Checkpoint**: `/:team/unreads` 직접 접속 시 빈 셸이 뜬다
 
