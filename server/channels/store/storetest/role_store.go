@@ -4,7 +4,6 @@
 package storetest
 
 import (
-	"context"
 	"fmt"
 	"testing"
 
@@ -264,7 +263,7 @@ func testRoleStoreGetByName(t *testing.T, rctx request.CTX, ss store.Store) {
 	assert.Len(t, d1.Id, 26)
 
 	// Get a valid role
-	d2, err := ss.Role().GetByName(context.Background(), d1.Name)
+	d2, err := ss.Role().GetByName(rctx, d1.Name)
 	assert.NoError(t, err)
 	assert.Equal(t, d1.Id, d2.Id)
 	assert.Equal(t, r1.Name, d2.Name)
@@ -274,7 +273,7 @@ func testRoleStoreGetByName(t *testing.T, rctx request.CTX, ss store.Store) {
 	assert.Equal(t, r1.SchemeManaged, d2.SchemeManaged)
 
 	// Get an invalid role
-	_, err = ss.Role().GetByName(context.Background(), model.NewId())
+	_, err = ss.Role().GetByName(rctx, model.NewId())
 	assert.Error(t, err)
 }
 
@@ -382,7 +381,7 @@ func testRoleStoreDelete(t *testing.T, rctx request.CTX, ss store.Store) {
 	assert.NoError(t, err)
 	assert.NotZero(t, d2.DeleteAt)
 
-	d3, err := ss.Role().GetByName(context.Background(), d1.Name)
+	d3, err := ss.Role().GetByName(rctx, d1.Name)
 	assert.NoError(t, err)
 	assert.NotZero(t, d3.DeleteAt)
 
@@ -658,13 +657,13 @@ func testRoleStoreChannelHigherScopedPermissionsBlankTeamSchemeChannelGuest(t *t
 	require.NoError(t, nErr)
 	defer ss.Channel().Delete(channel.Id, 0)
 
-	channelSchemeUserRole, err := ss.Role().GetByName(context.Background(), channelScheme.DefaultChannelUserRole)
+	channelSchemeUserRole, err := ss.Role().GetByName(rctx, channelScheme.DefaultChannelUserRole)
 	require.NoError(t, err)
 	channelSchemeUserRole.Permissions = []string{}
 	_, err = ss.Role().Save(channelSchemeUserRole)
 	require.NoError(t, err)
 
-	teamSchemeUserRole, err := ss.Role().GetByName(context.Background(), teamScheme.DefaultChannelUserRole)
+	teamSchemeUserRole, err := ss.Role().GetByName(rctx, teamScheme.DefaultChannelUserRole)
 	require.NoError(t, err)
 	teamSchemeUserRole.Permissions = []string{model.PermissionUploadFile.Id}
 	_, err = ss.Role().Save(teamSchemeUserRole)
@@ -713,7 +712,7 @@ func testRoleStoreBackfillSchemeId(t *testing.T, rctx request.CTX, ss store.Stor
 	_, sqlErr := s.GetMaster().Exec(fmt.Sprintf("UPDATE Roles SET SchemeId = NULL WHERE Name = '%s'", scheme.DefaultTeamAdminRole))
 	require.NoError(t, sqlErr)
 
-	roleBeforeBackfill, err := ss.Role().GetByName(context.Background(), scheme.DefaultTeamAdminRole)
+	roleBeforeBackfill, err := ss.Role().GetByName(rctx, scheme.DefaultTeamAdminRole)
 	require.NoError(t, err)
 	require.Nil(t, roleBeforeBackfill.SchemeId)
 
@@ -744,7 +743,7 @@ func testRoleStoreBackfillSchemeId(t *testing.T, rctx request.CTX, ss store.Stor
 		WHERE Roles.Name = match.role_name`)
 	require.NoError(t, sqlErr)
 
-	roleAfterBackfill, err := ss.Role().GetByName(context.Background(), scheme.DefaultTeamAdminRole)
+	roleAfterBackfill, err := ss.Role().GetByName(rctx, scheme.DefaultTeamAdminRole)
 	require.NoError(t, err)
 	require.NotNil(t, roleAfterBackfill.SchemeId)
 	assert.Equal(t, scheme.Id, *roleAfterBackfill.SchemeId)

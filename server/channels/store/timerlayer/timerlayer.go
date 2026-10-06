@@ -7,7 +7,6 @@
 package timerlayer
 
 import (
-	"context"
 	"time"
 
 	"github.com/mattermost/mattermost/server/public/model"
@@ -9849,10 +9848,10 @@ func (s *TimerLayerRoleStore) GetAll() ([]*model.Role, error) {
 	return result, err
 }
 
-func (s *TimerLayerRoleStore) GetByName(ctx context.Context, name string) (*model.Role, error) {
+func (s *TimerLayerRoleStore) GetByName(rctx request.CTX, name string) (*model.Role, error) {
 	start := time.Now()
 
-	result, err := s.RoleStore.GetByName(ctx, name)
+	result, err := s.RoleStore.GetByName(rctx, name)
 
 	elapsed := float64(time.Since(start)) / float64(time.Second)
 	if s.Root.Metrics != nil {
