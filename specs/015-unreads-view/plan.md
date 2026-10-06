@@ -87,6 +87,8 @@ specs/015-unreads-view/
 │   └── ui-contract.md   # FR ↔ 동작·기존 API 대응, upstream 접촉 지점
 ├── checklists/
 │   └── requirements.md  # 명세 품질 체크리스트
+├── baseline.md          # 구현 전 게이트 기준선 (T001 산출)
+├── verification.md      # US4 무변경 검증 기록 (T024 산출)
 └── tasks.md             # Phase 2 (/speckit-tasks 산출 — 이 명령이 만들지 않음)
 ```
 
