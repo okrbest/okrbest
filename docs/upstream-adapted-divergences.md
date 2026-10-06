@@ -38,6 +38,7 @@
 | `1f79143b` discoverable 비공개 채널 가입 요청 UX (4커밋) | [99bc7bd8](https://github.com/mattermost/mattermost/commit/99bc7bd886c97d33149a839b29a59b8301242d7e) (#37078) | 59파일 +3957을 네 단계로 나눠 받았다. 충돌 9파일에서 제외 계보(MBE 8a/8b/8c·Managed Categories·classification) 부분을 버렸다 — 아래 참조 |
 | 팀 ABAC 플래그 기본 활성 | [7130ae59](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8) (#37781) | 서버 기본값은 받고 PropertyFieldRank 테스트와 e2e 플래그 한 줄을 버렸다. 비활성 근거에서 플래그가 빠졌다 — 아래 참조 |
 | 플러그인 ABAC API | [c7eff700](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) (#37509) | API 표면 8개는 받고 네이티브 속성·PSAv2 계보에 걸린 셋을 걷어냈다. 정책 엔진이 없어 비활성 — 아래 참조 |
+| UserStore.Get을 request context로 | [9f0ae6a2](https://github.com/mattermost/mattermost/commit/9f0ae6a220f5da8f4303ee80f2237f395ff9bed4) (#37646) | 56파일 중 제외한 Integrated Boards의 `app/board.go` 1줄만 못 받았다. 단독으로는 빌드되지 않아 `523292f0`과 짝으로 받았다 — 아래 참조 |
 
 ---
 
@@ -1136,3 +1137,42 @@ ABAC 설정과 플래그만 확인한다. 관리자가 ABAC 설정을 켜면 팀
 - property v2 계보(`9f1fe90b`)를 도입하면 테스트 상수를 upstream 것으로 되돌린다.
 - `AccessControlServiceInterface`를 자체 구현하면 이 API가 바로 켜진다. 그때 플러그인 리소스
   타입 접두어 검사와 404 통합 동작을 실주행으로 확인한다.
+
+## UserStore.Get request context 이관 — board.go 1줄을 못 받았다
+
+**upstream**: [`9f0ae6a2`](https://github.com/mattermost/mattermost/commit/9f0ae6a220f5da8f4303ee80f2237f395ff9bed4)
+([MM-70222] Migrate UserStore Get to request context, #37646) + 후속
+[`523292f0`](https://github.com/mattermost/mattermost/commit/523292f0)(#37921, 남은 `"context"` import 제거)
+
+`UserStore`의 `Get`·`PromoteGuestToUser`·`DemoteUserToGuest` 첫 인자를 `request.CTX`로 바꾸는
+기계적 이관이다. 56파일 중 55파일을 그대로 받았다. 우리 고유 호출처는 없다 — 패턴 검색에
+걸린 9파일은 같은 이름의 App·Client 메서드였고, 컴파일러로도 확인했다.
+
+### 못 받은 것
+
+| 자리 | upstream 변경 | 우리 처리 | 이유 |
+|---|---|---|---|
+| `server/channels/app/board.go` `CreateBoardChannel` | `User().Get(rctx.Context(), channel.CreatorId)` → `User().Get(rctx, channel.CreatorId)` | **파일째 없음** (modify/delete) | 파일이 제외한 Integrated Boards 계보 `323841e9`(#35887, board channel types BO/BP)의 소산이다. 뿌리 `48f2fd08` 제외 사유는 ledger 부록 — 우리는 자체 Boards 플러그인을 쓴다 |
+
+### 같이 알아 둘 것
+
+- **두 커밋은 짝이다.** `9f0ae6a2`만 적용하면 `mocks/UserStore.go`의 `"context" imported and not used`로
+  빌드가 깨진다. upstream도 두 PR 사이 같은 상태였다. 우리 이력에서도 `[MM-70222]` 커밋은 단독으로
+  빌드되지 않고 바로 다음 커밋(523292f0 반영분)에서 복구된다 — `git bisect` 때 이 커밋은 건너뛴다.
+- **DB 라우팅이 조금 달라졌다.** 예전 호출처 46곳이 `context.Background()`(→ replica)를 넘겼는데
+  이제 요청 rctx를 넘긴다. rctx에 `RequestContextWithMaster` 표시가 있으면 사용자 조회가 master로
+  간다. 더 최신 데이터를 읽는 쪽이라 정확성 위험은 없고, read replica 환경에서 부하가 조금
+  옮겨갈 수 있다. upstream과 같은 동작이다.
+
+### 검증
+
+- `9f0ae6a2`+`523292f0` 적용 후 `go build ./...`, `go vet ./channels/... ./platform/... ./cmd/...` 통과
+- `make store-layers`·`make store-mocks` 재생성 결과 diff 0
+- user·team store(PostgreSQL), sharedchannel, app(Promote·Demote·GetUser·UpdateUser·CreateUser·팀
+  합류·초대·SharedChannel·지속 알림), api4(Promote·Demote·GetUser·PatchUser·UpdateUserRoles) 통과.
+  localcachelayer `TestRoleStore/BackfillSchemeId` 실패는 master 기준선과 같다
+
+### 되돌릴 조건
+
+- Integrated Boards 계보(`48f2fd08` → `323841e9`)를 도입하면, `board.go`를 받는 자리에서
+  `CreateBoardChannel`의 `User().Get` 인자를 `rctx`로 맞춘다. 맞추지 않으면 컴파일 오류로 바로 드러난다.
