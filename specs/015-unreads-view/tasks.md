@@ -17,7 +17,7 @@
 
 **Purpose**: 기준선 확보 (원칙 I — 구현 전 필수)
 
-- [ ] T001 구현 전 기준선 저장 — `webapp/`에서 `npm run check`·`npm run check-types`·`npm run test`를 돌려 실패 목록을 `specs/015-unreads-view/baseline.md`에 기록한다 (깨끗하면 "실패 0건"으로 기록)
+- [X] T001 구현 전 기준선 저장 — `webapp/`에서 `npm run check`·`npm run check-types`·`npm run test`를 돌려 실패 목록을 `specs/015-unreads-view/baseline.md`에 기록한다 (깨끗하면 "실패 0건"으로 기록)
 
 ---
 
