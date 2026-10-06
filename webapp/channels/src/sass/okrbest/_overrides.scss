@@ -174,5 +174,9 @@ body.app__body {
     bottom: 0;
     left: 0;
     height: auto;
+
+    /* spec 014가 데스크톱 폭에서 배경을 none으로 둔다 — 오버레이는 본문 위에
+       뜨므로 불투명 배경을 되살리지 않으면 내용이 비쳐 보인다 */
+    background: var(--sidebar-bg);
     box-shadow: 8px 0 24px rgba(0, 0, 0, 0.16);
 }
