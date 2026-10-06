@@ -39,6 +39,7 @@
 | 팀 ABAC 플래그 기본 활성 | [7130ae59](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8) (#37781) | 서버 기본값은 받고 PropertyFieldRank 테스트와 e2e 플래그 한 줄을 버렸다. 비활성 근거에서 플래그가 빠졌다 — 아래 참조 |
 | 플러그인 ABAC API | [c7eff700](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) (#37509) | API 표면 8개는 받고 네이티브 속성·PSAv2 계보에 걸린 셋을 걷어냈다. 정책 엔진이 없어 비활성 — 아래 참조 |
 | UserStore.Get을 request context로 | [9f0ae6a2](https://github.com/mattermost/mattermost/commit/9f0ae6a220f5da8f4303ee80f2237f395ff9bed4) (#37646) | 56파일 중 제외한 Integrated Boards의 `app/board.go` 1줄만 못 받았다. 단독으로는 빌드되지 않아 `523292f0`과 짝으로 받았다 — 아래 참조 |
+| ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 
 ---
 
@@ -1176,3 +1177,35 @@ ABAC 설정과 플래그만 확인한다. 관리자가 ABAC 설정을 켜면 팀
 
 - Integrated Boards 계보(`48f2fd08` → `323841e9`)를 도입하면, `board.go`를 받는 자리에서
   `CreateBoardChannel`의 `User().Get` 인자를 `rctx`로 맞춘다. 맞추지 않으면 컴파일 오류로 바로 드러난다.
+
+## ABAC 편집기 아포스트로피 값 — 우리 패턴 7개만 고쳤다
+
+**upstream**: [`7a06c7ae`](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67)
+([MM-64357] Fix ABAC policy editor unable to switch back to Simple Mode when a value contains an apostrophe, #37819)
+
+**버그는 우리에게도 있었다.** 우리 `celStringLiteral`(`table_editor.tsx`)이 값을 `"Matt's Department"`처럼
+큰따옴표로 감싸 내보내는데, `isSimpleCondition`·`isMultiselectOrGroup`의 `['"][^'"]*['"]`가 값 안의
+`'`에서 문자열을 끊어 복잡한 식으로 분류했다. 그래서 Advanced → Simple 전환이 막혔다. 수정 전
+아포스트로피 테스트 13개가 실패하는 것을 확인한 뒤 고쳤다.
+
+### 버린 것과 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `editors/shared.tsx` 판정 패턴 | `user.(attributes\|session)` 6개 + rank 연산자 `>= <= > <` + 네이티브 속성 6개(`verified`·`isbot`·`email`·`createat`) | **`user.attributes` 6개 + multiselect 1개만** `CEL_STRING`·`CEL_STRING_LIST`로 다시 씀 | 우리 `shared.tsx`가 그 이전 형태다. session은 제외한 `684ddb32`, rank는 `017a7102`, 네이티브는 `84a554b2` 계보 |
+| `shared.tsx` 충돌 문맥 | `isRankOperator`·`isNativeMethodOperator`·`isNativeField`·`hasControlledAttributeValues`·`celPathFor` 등 | **버림** | 같은 제외 계보의 헬퍼다. 이 커밋의 수정 대상이 아니다 |
+| `table_editor.test.tsx` | 'ranked comparison operators…', 'session attribute equality…', 'native email equality…' | **버림** | 검증 대상 패턴이 우리에게 없다 |
+| `table_editor.test.tsx` in-list 경계 단언 3줄 | `user.email in [...]` | `user.attributes.email in [...]`로 바꿈 | 검증하려는 것은 리스트 파싱 규칙(닫히지 않은 문자열, 이스케이프 안 된 큰따옴표)이다. `user.email` 그대로면 우리 쪽에서는 늘 거짓이라 아무것도 검증하지 못한다 |
+| `permission_policy_details.test.tsx` | `userEvent` 사용(import는 앞선 upstream 커밋에 있음) | import 한 줄 추가 | 우리 파일엔 그 import가 없었다 |
+
+### 검증
+
+- 수정 전 RED 13개 → 수정 후 access_control·permission_policies·channel_settings_modal·team_settings jest 553개 통과
+- eslint 통과
+
+### 되돌릴 조건
+
+- rank(`017a7102`)·Session Attributes(`684ddb32`)·ABAC 고유 속성 Phase 5(`84a554b2`) 계보를 들이면
+  `SIMPLE_CONDITION_PATTERNS`에 upstream의 나머지 패턴을 같은 `CEL_STRING` 형태로 더하고, 버린 테스트
+  셋과 원래 `user.email` 단언을 되살린다. 같은 파일의 앞선 기록(`469e1e26`, 랭크 연산자 테스트 넷)과
+  함께 처리한다.
