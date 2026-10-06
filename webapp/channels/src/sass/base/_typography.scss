@@ -31,13 +31,13 @@ a {
 body {
     @include mixins.font-smoothing;
 
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', 'Noto Sans KR', sans-serif;
 }
 
 h1,
 h2,
 h3 {
-    font-family: Metropolis, sans-serif;
+    font-family: Metropolis, 'Noto Sans KR', sans-serif;
 }
 
 h1 {
@@ -148,6 +148,55 @@ ol {
     src: url('../fonts/Metropolis-LightItalic.woff') format('woff');
 }
 
+/* spec 014 — 900-weight heading face (bundled Metropolis stops at 600) */
+@font-face {
+    font-display: swap;
+    font-family: 'Metropolis';
+    font-style: normal;
+    font-weight: 900;
+    src:
+        url('../fonts/Metropolis-Black.woff2') format('woff2'),
+        url('../fonts/Metropolis-Black.woff') format('woff');
+}
+
+/* spec 014 — Open Sans has no 900; register ExtraBold(800) at the 900 slot so
+   headings and author names do not fall back to 600 or synthetic bold */
+@font-face {
+    font-display: swap;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 900;
+    src:
+        local(''),
+        url('../fonts/open-sans-v44-cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext_vietnamese-800.woff2') format('woff2'),
+        url('../fonts/open-sans-v44-cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext_vietnamese-800.woff') format('woff');
+}
+
+/* spec 014 — Noto Sans KR: pin Korean glyphs instead of OS fallback (FR-011) */
+@font-face {
+    font-display: swap;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/noto-sans-kr-v40-korean_latin-regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../fonts/noto-sans-kr-v40-korean_latin-600.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 900;
+    src: url('../fonts/noto-sans-kr-v40-korean_latin-900.woff2') format('woff2');
+}
+
 /* open-sans-300 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */
 @font-face {
     font-family: 'Open Sans';
@@ -215,14 +264,14 @@ ol {
 }
 
 .app__body.font--open_sans {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', 'Noto Sans KR', sans-serif;
 }
 
 .app__body {
     h1,
     h2,
     h3 {
-        font-family: Metropolis, sans-serif;
+        font-family: Metropolis, 'Noto Sans KR', sans-serif;
     }
 }
 

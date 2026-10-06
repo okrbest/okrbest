@@ -35,7 +35,7 @@
         }
 
         #unreadMentions {
-            color: rgba(var(--sidebar-text-rgb), 0.64);
+            color: var(--sidebar-text);
             margin-inline: 0;
 
             &:not(.urgent) {
@@ -59,7 +59,7 @@
 
 
         &.active #unreadMentions {
-            color: var(--sidebar-text);
+            color: var(--sidebar-text-active-color);
         }
     }
 }

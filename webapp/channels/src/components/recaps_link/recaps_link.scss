@@ -34,7 +34,7 @@
         height: 100%;
         align-items: center;
         padding: 0 16px 0 18px;
-        color: rgba(var(--sidebar-text-rgb), 0.72);
+        color: var(--sidebar-text);
         text-decoration: none;
 
         .icon {
@@ -42,7 +42,7 @@
             align-items: center;
             padding: 3px;
             margin-right: 1px;
-            color: rgba(var(--sidebar-text-rgb), 0.64);
+            color: var(--sidebar-text);
             font-size: 18px;
 
             svg {
