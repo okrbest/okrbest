@@ -113,7 +113,7 @@
 **Independent Test**: 설정 무변경 신규 계정에서 UNREADS 그룹 비표시, 토글 동작
 유지 (quickstart SC-005).
 
-- [ ] T024 [US4] 무변경 검증 — 신규 계정으로 사이드바 UNREADS 그룹 비표시·설정 토글 동작·켠 계정 유지(US4 시나리오 3종)를 실주행으로 확인하고 결과를 `specs/015-unreads-view/verification.md`에 기록. 단위 테스트 없음(기존 동작 확인이라 신규 테스트 대상 아님 — 사유 기록)
+- [X] T024 [US4] 무변경 검증 — 신규 계정으로 사이드바 UNREADS 그룹 비표시·설정 토글 동작·켠 계정 유지(US4 시나리오 3종)를 실주행으로 확인하고 결과를 `specs/015-unreads-view/verification.md`에 기록. 단위 테스트 없음(기존 동작 확인이라 신규 테스트 대상 아님 — 사유 기록)
 - [X] T025 [P] [US4] 배포 점검 항목 확정 — `mmctl config get ServiceSettings.ExperimentalGroupUnreadChannels` 확인 절차가 quickstart.md에 있는지 점검, 운영 적용 시점 기록란 추가
 
 **Checkpoint**: 모든 사용자 스토리 완료
@@ -130,9 +130,9 @@
 증거를 남기는 과제다. 셋 다 없으면 게이트를 통과해도 결함이 남는다
 (근거: WORKFLOW_PORTING_GUIDE.md 4-3·4-4절).
 
-- [ ] T028 품질 게이트 — `webapp/`에서 `npm run check`·`npm run check-types`·`npm run test`를 돌리고, 실패 목록이 T001 기준선과 같은지 **diff로 보인다**. 개수 비교로 대신하지 않는다
-- [ ] T029 종단 검증 — 빌드·배포 후 quickstart.md 시나리오를 **실제 환경에서** 훑고 절별 통과·실패를 기록한다. 환경이 없어 못 돌리면 `미실행`으로 적는다
-- [ ] T030 SC 검증 — spec.md의 SC-001~006 각각을 **실측값**으로 확인한다 (추정 금지)
+- [X] T028 품질 게이트 — `webapp/`에서 `npm run check`·`npm run check-types`·`npm run test`를 돌리고, 실패 목록이 T001 기준선과 같은지 **diff로 보인다**. 개수 비교로 대신하지 않는다
+- [X] T029 종단 검증 — 빌드·배포 후 quickstart.md 시나리오를 **실제 환경에서** 훑고 절별 통과·실패를 기록한다. 환경이 없어 못 돌리면 `미실행`으로 적는다
+- [X] T030 SC 검증 — spec.md의 SC-001~006 각각을 **실측값**으로 확인한다 (추정 금지)
 
 ---
 
@@ -182,3 +182,13 @@ Task: T015 _overrides.scss
 - 문자열을 추가하는 모든 과제는 en.json·ko.json을 같은 커밋에서 수정 (원칙 V)
 - 커밋은 과제 또는 논리 단위마다. Conventional Commits (원칙 VI)
 - upstream 접촉은 ui-contract §5의 7곳을 넘지 않는다. 넘어야 하면 멈추고 보고
+
+---
+
+## 완료 검증 결과 (2026-10-07)
+
+| 항목 | 명령 | 결과 | 증거 |
+|---|---|---|---|
+| 품질 게이트 (T028) | `cd webapp && npm run check / check-types / test` | 실패 목록이 기준선과 동일 (check 107 errors 동일 목록, check-types 1차 신규 17건→수정 후 동일, test 실패 27스위트 동일·신규 5스위트 통과) | [baseline.md](baseline.md) ↔ [verification.md](verification.md) §품질 게이트 |
+| 종단 검증 (T029) | 로컬 스택 실주행 (Playwright headless) | quickstart 전 절 통과. 미실행 2건 명시: Esc 팝업 충돌 수동 확인, 별도 기기 동시 반영 | [verification.md](verification.md) §quickstart |
+| SC 검증 (T030) | SC-001~006 실측 | 전부 통과 — SC-002 106ms, SC-004 51ms. SC-005는 1/10 계정 실측(결정 로직 무수정) | [verification.md](verification.md) §SC 실측값 |

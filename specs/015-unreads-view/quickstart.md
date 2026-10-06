@@ -84,6 +84,7 @@ mmctl config get ServiceSettings.ExperimentalGroupUnreadChannels
 
 | 점검 일시 | 환경 | 설정값 | 확인자 |
 |---|---|---|---|
+| 2026-10-07 05:10 KST | 로컬 개발 서버 (localhost:8065) | "disabled" — 정상 | Claude (mmctl --local 실측) |
 | (운영 적용 시 기입) | | | |
 
 ## 완료 기준
