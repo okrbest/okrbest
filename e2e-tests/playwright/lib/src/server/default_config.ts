@@ -768,8 +768,6 @@ const defaultServerConfig: AdminConfig = {
     ImageProxySettings: {
         Enable: false,
         ImageProxyType: 'local',
-        RemoteImageProxyURL: '',
-        RemoteImageProxyOptions: '',
     },
     CloudSettings: {
         CWSURL: 'https://customers.mattermost.com',
