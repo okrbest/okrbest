@@ -350,8 +350,9 @@ export class TeamSidebar extends React.PureComponent<Props, State> {
                         {joinableTeams}
                     </div>
                 </Scrollbars>
-                <SidebarFooter/>
                 {plugins}
+                {/* OKR.BEST: 프로필 버튼이 레일 최하단 — 플러그인 슬롯(BottomTeamSidebar)보다 뒤에 둔다 */}
+                <SidebarFooter/>
             </div>
         );
     }

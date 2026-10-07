@@ -90,6 +90,19 @@ body.app__body {
 // 우측 상단(글로벌 헤더) 대신 좌측 하단 고정. 둥근 사각 아바타 + 레일색 링의
 // 상태 점. 메뉴는 위로 열린다 (user_account_menu openUp).
 // ---------------------------------------------------------------------------
+
+// 플러그인 슬롯(BottomTeamSidebar, 예: todo 카운터)을 프로필 버튼 바로 위에 붙인다.
+// .team-sidebar의 justify-content: space-between이 남는 공간을 자식 사이에 분배해
+// 슬롯이 레일 중간에 뜨므로, margin-top: auto로 남는 공간을 전부 위로 밀어낸다.
+.team-sidebar .team-sidebar-bottom-plugin {
+    margin-top: auto;
+
+    // 플러그인이 없으면 슬롯 패딩이 프로필 위 빈 띠로 남지 않게 한다
+    &:empty {
+        padding: 0;
+    }
+}
+
 .team-sidebar .SidebarFooter {
     display: flex;
     flex-shrink: 0;

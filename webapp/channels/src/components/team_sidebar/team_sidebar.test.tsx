@@ -68,4 +68,19 @@ describe('components/team_sidebar', () => {
         expect(footer).toBeInTheDocument();
         expect(screen.getByLabelText('User\'s account menu')).toBeInTheDocument();
     });
+
+    test('프로필 버튼이 플러그인 슬롯(BottomTeamSidebar)보다 아래, 레일 최하단에 온다', () => {
+        renderWithContext(<TeamSidebar/>, getState());
+
+        const sidebar = document.querySelector('.team-sidebar')!;
+        const footer = sidebar.querySelector('.SidebarFooter')!;
+        const pluginSlot = sidebar.querySelector('.team-sidebar-bottom-plugin')!;
+
+        expect(pluginSlot).toBeInTheDocument();
+
+        // todo 플러그인 등이 BottomTeamSidebar에 꽂혀도 프로필이 최하단을 지키려면
+        // 플러그인 슬롯이 DOM에서 footer보다 앞(위)에 있어야 한다
+        expect(pluginSlot.compareDocumentPosition(footer) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        expect(sidebar.lastElementChild).toBe(footer);
+    });
 });
