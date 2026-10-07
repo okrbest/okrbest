@@ -41,6 +41,7 @@
 | UserStore.Get을 request context로 | [9f0ae6a2](https://github.com/mattermost/mattermost/commit/9f0ae6a220f5da8f4303ee80f2237f395ff9bed4) (#37646) | 56파일 중 제외한 Integrated Boards의 `app/board.go` 1줄만 못 받았다. 단독으로는 빌드되지 않아 `523292f0`과 짝으로 받았다 — 아래 참조 |
 | 내장 Slack 가져오기 API·CLI 제거 | [f112b9a7](https://github.com/mattermost/mattermost/commit/f112b9a7159b25c630a52b05dc27dfc2f9b5d694) (#37999) | 코드 제거는 전부 받았다. docs mdx 3개는 우리가 지운 파일이라 버렸고, Cypress 권한 스냅샷은 우리 줄에서 `import_team`만 뺐다. server ko 27키가 orphaned로 남는다 — 아래 참조 |
 | atmos/camo 이미지 프록시 제거 | [eb3966e3](https://github.com/mattermost/mattermost/commit/eb3966e30bf4e13a0fdef43bb87429c54a6b7e25) (#37284) | 코드는 그대로 받고 webapp ko 5키를 함께 지웠다. server ko 3키 orphaned·1키 문구 변경이 남고, 운영 설정이 `atmos/camo`면 기동이 막힌다 — 아래 참조 |
+| Manage Attributes 삭제 액션 | [5bd5b3b8](https://github.com/mattermost/mattermost/commit/5bd5b3b899f7ce2eb5d981015db2a37077746a8c) (#37875) | 본체(Global Attributes 삭제 모달·표)는 제외 계보라 버리고, 섞인 공용 수정 둘(`getPluginDisplayName`, 고아 필드 훅 이전)만 받았다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 
 ---
@@ -1277,6 +1278,47 @@ UI가 없고, 관련 파일 이력은 전부 upstream 커밋이며, `spec-docs/`
 ### 되돌릴 조건
 
 - server ko를 정리할 때 위 3키를 지우고, 신규·변경 2키를 번역한다.
+
+## Manage Attributes 삭제 액션 — 본체는 버리고 섞인 공용 수정 둘만 받았다
+
+**upstream**: [`5bd5b3b8`](https://github.com/mattermost/mattermost/commit/5bd5b3b899f7ce2eb5d981015db2a37077746a8c)
+([MM-69865] Add Delete row action to Manage Attributes, #37875) — 16파일 +1047/-49, 2026-10-07 반영
+
+**왜 쪼갰나.** 커밋 본체는 Global Attributes("Manage Attributes") 표의 Delete 메뉴를 확인 모달과
+property-field DELETE API에 연결하는 기능이다. 그 화면(`admin_console/global_attributes/`)은 우리 트리에
+없다 — 계보 뿌리 `38b66d22`(#37580)를 property 시스템 v2(`48f2fd08`) 부재로 제외했고, ledger에 후속
+커밋도 연쇄 제외 대상이라고 적어 두었다. 그런데 이 커밋에는 우리에게도 있는 화면에 작용하는 공용 수정
+둘이 섞여 있어, 통째로 제외하면 일반 수정까지 잃는다.
+
+### 받은 것
+
+| 자리 | 내용 |
+|---|---|
+| `selectors/plugins.ts` `getPluginDisplayName` | `state.plugins.plugins`(웹앱 번들 등록 플러그인)에 이름이 없으면 `entities.admin.pluginStatuses`의 이름을 쓴 뒤에야 원시 ID로 떨어진다. 서버 전용 플러그인 이름이 봇 목록·사용자 상세·사용자 설정·CPA 화면에서 ID 대신 보인다 |
+| `components/common/hooks/use_field_orphaned.ts` (신설) | `useInstalledPluginIds()`가 `admin.plugins`와 `admin.pluginStatuses`를 합쳐 설치 목록으로 삼는다. `useIsFieldOrphaned()`는 그 위에서 판정한다 |
+| `utils/properties.ts` `isFieldOrphaned` + 테스트 4개 | 판정 함수를 공용 유틸로 옮겼다. 규칙은 이전과 같다(protected + source_plugin_id + 미설치) |
+| `system_properties/orphaned_fields_utils.ts` | 삭제. `user_properties_table.tsx`·`user_properties_values.tsx`의 import를 새 훅으로 바꿨다 |
+
+### 버린 것과 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `admin_console/global_attributes/` 5파일 (삭제 모달·표·utils·테스트) | 삭제 기능 본체 ~720줄 | **버림** | 디렉터리가 없다. 제외한 `38b66d22` 계보 |
+| Playwright `system_console/global_attributes/` 스펙·헬퍼 | +230줄 | **버림** | 같은 이유 |
+| `webapp/channels/src/i18n/en.json` | `admin.global_attributes.confirm.delete.*` 5키, `table.actions.plugin_managed` 1키 추가 | **버림** | 쓰는 코드를 받지 않았다. ko 영향 없음 |
+| `utils/constants.tsx` | `ModalIdentifiers.GLOBAL_ATTRIBUTE_FIELD_DELETE` | **버림** | 삭제 모달 전용 |
+| `utils/properties.ts` import | `PropertyField`(`@mattermost/types/properties`), `UserPropertyField`(`properties_user`) | 둘 다 `@mattermost/types/properties`에서 가져옴 | 우리는 `properties_user.ts`가 없다(제외한 `076370e6` 소산). 기존 파일도 이 경로를 썼다 |
+| `user_properties_values.tsx` import 위치 | upstream 문맥(랭크 import 포함) | 우리 문맥에 같은 import 한 줄만 넣음 | 랭크 계보(`017a7102`) 제외로 주변 import가 다르다 |
+
+### 검증
+
+- `isFieldOrphaned` 구현 전 `utils/properties.test.ts` 4건 RED(`is not a function`) → 구현 후 GREEN
+- properties·system_properties·bots·selectors/plugins·custom_profile_attributes jest 14 suites 225개 통과, eslint 에러 0
+
+### 되돌릴 조건
+
+- property 시스템 v2와 Global Attributes 계보(`48f2fd08` → `38b66d22` → …)를 도입하면 이 커밋의 본체
+  (버린 5+2파일, en 6키, ModalIdentifiers 1줄)를 그대로 가져온다. 공용 수정 둘은 이미 들어와 있다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)

@@ -15,13 +15,14 @@ import {supportsOptions, type PropertyFieldOption, type UserPropertyField} from 
 
 import {getPluginDisplayName} from 'selectors/plugins';
 
+import {useIsFieldOrphaned} from 'components/common/hooks/use_field_orphaned';
+
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/keyboard';
 
 import type {GlobalState} from 'types/store';
 
 import {DangerText} from './controls';
-import {useIsFieldOrphaned} from './orphaned_fields_utils';
 import './user_properties_values.scss';
 import {useAttributeLinkModal} from './user_properties_dot_menu';
 
