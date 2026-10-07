@@ -40,6 +40,7 @@
 | 플러그인 ABAC API | [c7eff700](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) (#37509) | API 표면 8개는 받고 네이티브 속성·PSAv2 계보에 걸린 셋을 걷어냈다. 정책 엔진이 없어 비활성 — 아래 참조 |
 | UserStore.Get을 request context로 | [9f0ae6a2](https://github.com/mattermost/mattermost/commit/9f0ae6a220f5da8f4303ee80f2237f395ff9bed4) (#37646) | 56파일 중 제외한 Integrated Boards의 `app/board.go` 1줄만 못 받았다. 단독으로는 빌드되지 않아 `523292f0`과 짝으로 받았다 — 아래 참조 |
 | 내장 Slack 가져오기 API·CLI 제거 | [f112b9a7](https://github.com/mattermost/mattermost/commit/f112b9a7159b25c630a52b05dc27dfc2f9b5d694) (#37999) | 코드 제거는 전부 받았다. docs mdx 3개는 우리가 지운 파일이라 버렸고, Cypress 권한 스냅샷은 우리 줄에서 `import_team`만 뺐다. server ko 27키가 orphaned로 남는다 — 아래 참조 |
+| atmos/camo 이미지 프록시 제거 | [eb3966e3](https://github.com/mattermost/mattermost/commit/eb3966e30bf4e13a0fdef43bb87429c54a6b7e25) (#37284) | 코드는 그대로 받고 webapp ko 5키를 함께 지웠다. server ko 3키 orphaned·1키 문구 변경이 남고, 운영 설정이 `atmos/camo`면 기동이 막힌다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 
 ---
@@ -1249,6 +1250,33 @@ UI가 없고, 관련 파일 이력은 전부 upstream 커밋이며, `spec-docs/`
 - `ai_recaps` 권한 계보를 반영하면 Cypress 스냅샷을 upstream 줄과 맞춘다. 그때 `import_team`이 다시 들어오지
   않았는지 확인한다.
 - server ko orphaned를 일괄 정리할 때 위 27키를 함께 지운다.
+
+## atmos/camo 이미지 프록시 제거 — 코드는 다 받고 ko 정리와 운영 주의점이 남았다
+
+**upstream**: [`eb3966e3`](https://github.com/mattermost/mattermost/commit/eb3966e30bf4e13a0fdef43bb87429c54a6b7e25)
+(Remove atmos/camo image proxy support, #37284) — 17파일 +42/-540, 2026-10-07 반영
+
+**받은 것.** 코드 충돌이 없어 upstream 그대로다. `imageproxy/atmos_camo.go`와 테스트, 설정 필드
+`ImageProxySettings.RemoteImageProxyURL`·`RemoteImageProxyOptions`(model·webapp 타입·Playwright 기본 설정),
+시스템 콘솔 입력칸 2개와 `atmos/camo` 선택지를 지웠다. 상수는 `ImageProxyTypeAtmosCamo` →
+`ImageProxyTypeLegacyAtmosCamo`로 이름이 바뀌었다.
+
+**운영 주의 — 기동 차단 검증.** 새 `ImageProxySettings.isValid()`는 `ImageProxyType == "atmos/camo"`이면
+`Enable` 값과 상관없이 `model.config.is_valid.atmos_camo_image_proxy_removed.app_error`를 낸다. 운영
+`config.json`(또는 DB 설정)에 이 값이 남아 있으면 이 커밋을 배포한 서버가 설정 검증에서 기동하지 못한다.
+배포 전에 `local`로 바꾸거나 확인한다. 로컬 개발 `server/config/config.json`(git 미추적)은 `local`이다.
+
+### 버린 것과 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `webapp/channels/src/i18n/ko.json` | (커밋에 없음) | `admin.image.proxyOptions`, `admin.image.proxyOptionsDescription`, `admin.image.proxyURL`, `admin.image.proxyURLDescription`, `atmos/camo` 5키 **삭제** | en에서 지워진 키라 ko에 남으면 webapp orphaned가 생겨 `i18n-check-empty`가 CI를 막는다 |
+| `server/i18n/ko.json` | (커밋에 없음) | **손대지 않음** | server ko는 CI 판정 밖이다. 남은 일: orphaned 3키 `model.config.is_valid.atmos_camo_image_proxy_{options,options_length,url}.app_error`, 신규 1키 `model.config.is_valid.atmos_camo_image_proxy_removed.app_error` 번역(문구의 "Mattermost v12.0" 리브랜드 판단 포함), 문구가 바뀐 `model.config.is_valid.image_proxy_type.app_error`("Must be 'local'.") 번역 재검토 |
+| Cypress `on_prem_default_config.json`·`cloud_default_config.json`·`markdown_text_spec.js` | 손대지 않음 | 그대로 | upstream도 `RemoteImageProxy*` 키를 남겼다. 설정 로딩은 모르는 키를 무시한다 |
+
+### 되돌릴 조건
+
+- server ko를 정리할 때 위 3키를 지우고, 신규·변경 2키를 번역한다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
