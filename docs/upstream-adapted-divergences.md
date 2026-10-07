@@ -46,6 +46,7 @@
 | 사용자 입력 표시 설정을 Posts로 승격 | [0bff02c8](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) (#38023) | 코드는 그대로, docs 2개는 버렸다. en id 이동을 따라 ko 5키를 새 id로 옮기고 나뉜 예시 키 1개를 채웠다 — 아래 참조 |
 | Email 로그인 버튼 색상 설정 제거 | [925a09a5](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) (#38021) | 코드는 그대로, docs 1개는 버렸고 webapp ko 6키를 지웠다 — 아래 참조 |
 | 신고 메시지 노출 범위 보고서 | [fb87397d](https://github.com/mattermost/mattermost/commit/fb87397dbaeacf2578ab5f9ab69a0ee3860f9e80) (#37809) | 34파일을 받으며 제외한 개명 계보(`f1b9aa05`)에 걸린 id 1개·문구 2줄·테스트 3줄을 우리 용어로 바꾸고, en은 신규 키만 골라 받았다 — 아래 참조 |
+| store 메서드에 요청 로거 | [a7c68624](https://github.com/mattermost/mattermost/commit/a7c686249728bf75e6b3da69b2227fd68065181b) (#37648) | `post_store.go` 충돌에서 제외한 CJK 검색 함수 둘을 버리고 `search()` 시그니처에 `logger`만 더했다 — 아래 참조 |
 | mlog 필드 키 snake_case 강제 | [ede2edab](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) (#37998) | 전부 받고, 제외 계보 탓에 남은 옛 CPA 코드 1줄(`"fieldID"`)을 직접 고쳤다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 
@@ -1460,6 +1461,24 @@ client4·helpers 다운로드 함수, 상태 확인 로직 추출(`CheckFlaggedP
 ### 되돌릴 조건
 
 - 개명 계보(`f1b9aa05`)를 도입하기로 하면 위 네 곳을 upstream 형태로 되돌린다.
+
+## store 메서드에 요청 로거 — post_store.go에서 CJK 검색 함수를 버렸다
+
+**upstream**: [`a7c68624`](https://github.com/mattermost/mattermost/commit/a7c686249728bf75e6b3da69b2227fd68065181b)
+([MM-70221] Use request loggers in store methods, #37648) — 28파일 +294/-284, 2026-10-07 반영
+
+**받은 것.** `ScheduledPostStore`·`ReactionStore`·`ChannelMemberHistoryStore` 메서드의 `rctx` 인자 추가와
+호출부·layer·mocks·테스트, `SqlPostStore.search`의 요청 로거 사용, store 가이드 문서 전부.
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `store/sqlstore/post_store.go` `search()` 앞 충돌 | 문맥에 `splitCJKSearchTerms`·`buildCJKSearchClause` 함수 두 개가 있음 | **버리고** `search()` 시그니처에 `logger mlog.LoggerIFace`만 더함 | 두 함수는 제외한 `60fbce7d`(#35260, CJK Post 검색)의 산물이다. 포크는 `6eecf5ee32`로 한국어 검색을 자체 구현했다 |
+
+검증: 커밋 전 임시 worktree에서 빌드·`go vet ./channels/... ./cmd/...` 통과(포크 자체 호출부 깨짐 0). 반영 후
+`make store-layers`·`store-mocks` diff 0, `make vet` exit 0, sqlstore(ScheduledPost·Reaction·ChannelMemberHistory·Post)·
+localcachelayer(Reaction)·app(ScheduledPost·Emoji·UpdateUser·GuardedHook) 테스트 통과.
+
+되돌릴 조건: CJK 검색 계보(`60fbce7d`)를 들이면 두 함수가 `search()` 앞에 다시 들어온다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
