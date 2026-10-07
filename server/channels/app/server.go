@@ -425,7 +425,7 @@ func NewServer(options ...Option) (*Server, error) {
 	}
 
 	s.clusterLeaderListenerId = s.AddClusterLeaderChangedListener(func() {
-		mlog.Info("Cluster leader changed. Determining if job schedulers should be running:", mlog.Bool("isLeader", s.IsLeader()))
+		mlog.Info("Cluster leader changed. Determining if job schedulers should be running:", mlog.Bool("is_leader", s.IsLeader()))
 		if s.Jobs != nil {
 			s.Jobs.HandleClusterLeaderChange(s.IsLeader())
 		}
@@ -1893,13 +1893,13 @@ func runDNDStatusExpireJob(a *App) {
 	}
 
 	a.ch.srv.AddClusterLeaderChangedListener(func() {
-		mlog.Info("Cluster leader changed. Determining if unset DNS status task should be running", mlog.Bool("isLeader", a.IsLeader()))
+		mlog.Info("Cluster leader changed. Determining if unset DNS status task should be running", mlog.Bool("is_leader", a.IsLeader()))
 		if a.IsLeader() {
 			withMut(&a.ch.dndTaskMut, func() {
 				a.ch.dndTask = model.CreateRecurringTaskFromNextIntervalTime("Unset DND Statuses", a.UpdateDNDStatusOfUsers, model.DNDExpiryInterval)
 			})
 		} else {
-			mlog.Debug("This is no longer leader node. Cancelling the unset DND status task", mlog.Bool("isLeader", a.IsLeader()))
+			mlog.Debug("This is no longer leader node. Cancelling the unset DND status task", mlog.Bool("is_leader", a.IsLeader()))
 			cancelTask(&a.ch.dndTaskMut, &a.ch.dndTask)
 		}
 	})
@@ -1917,7 +1917,7 @@ func runPostReminderJob(a *App) {
 	}
 
 	a.ch.srv.AddClusterLeaderChangedListener(func() {
-		mlog.Info("Cluster leader changed. Determining if post reminder task should be running", mlog.Bool("isLeader", a.IsLeader()))
+		mlog.Info("Cluster leader changed. Determining if post reminder task should be running", mlog.Bool("is_leader", a.IsLeader()))
 		if a.IsLeader() {
 			rctx := request.EmptyContext(a.Log())
 			withMut(&a.ch.postReminderMut, func() {
@@ -1925,7 +1925,7 @@ func runPostReminderJob(a *App) {
 				a.ch.postReminderTask = model.CreateRecurringTaskFromNextIntervalTime("Check Post reminders", fn, 5*time.Minute)
 			})
 		} else {
-			mlog.Debug("This is no longer leader node. Cancelling the post reminder task", mlog.Bool("isLeader", a.IsLeader()))
+			mlog.Debug("This is no longer leader node. Cancelling the post reminder task", mlog.Bool("is_leader", a.IsLeader()))
 			cancelTask(&a.ch.postReminderMut, &a.ch.postReminderTask)
 		}
 	})
@@ -1939,11 +1939,11 @@ func runScheduledPostJob(a *App) {
 	}
 
 	a.ch.srv.AddClusterLeaderChangedListener(func() {
-		mlog.Info("Cluster leader changed. Determining if scheduled posts task should be running", mlog.Bool("isLeader", a.IsLeader()))
+		mlog.Info("Cluster leader changed. Determining if scheduled posts task should be running", mlog.Bool("is_leader", a.IsLeader()))
 		if a.IsLeader() {
 			doRunScheduledPostJob(a)
 		} else {
-			mlog.Debug("This is no longer leader node. Cancelling the scheduled post task", mlog.Bool("isLeader", a.IsLeader()))
+			mlog.Debug("This is no longer leader node. Cancelling the scheduled post task", mlog.Bool("is_leader", a.IsLeader()))
 			cancelTask(&a.ch.scheduledPostMut, &a.ch.scheduledPostTask)
 		}
 	})

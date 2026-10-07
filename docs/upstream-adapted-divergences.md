@@ -45,6 +45,7 @@
 | 다이얼로그 deprecated date/datetime 필드 제거 | [78d12039](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a) (#37759) | 코드는 그대로 받고 우리가 지운 docs 2개의 갱신(업그레이드 노트 포함)을 버렸다 — 아래 참조 |
 | 사용자 입력 표시 설정을 Posts로 승격 | [0bff02c8](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) (#38023) | 코드는 그대로, docs 2개는 버렸다. en id 이동을 따라 ko 5키를 새 id로 옮기고 나뉜 예시 키 1개를 채웠다 — 아래 참조 |
 | Email 로그인 버튼 색상 설정 제거 | [925a09a5](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) (#38021) | 코드는 그대로, docs 1개는 버렸고 webapp ko 6키를 지웠다 — 아래 참조 |
+| mlog 필드 키 snake_case 강제 | [ede2edab](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) (#37998) | 전부 받고, 제외 계보 탓에 남은 옛 CPA 코드 1줄(`"fieldID"`)을 직접 고쳤다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 
 ---
@@ -1387,6 +1388,32 @@ property-field DELETE API에 연결하는 기능이다. 그 화면(`admin_consol
 |---|---|---|---|
 | `docs/main/administration-guide/configure/experimental-configuration-settings.mdx` | 색상 설정 3개 설명 삭제 | **버림** | 포크가 `docs/main/`을 지웠다 (modify/delete) |
 | `webapp/channels/src/i18n/ko.json` | (커밋에 없음) | `admin.experimental.emailSettingsLoginButton{,Border,Text}Color.{desc,title}` 6키 **삭제** | en에서 지워진 키라 남기면 webapp orphaned로 CI가 막힌다. 설정이 없어져 옮길 곳이 없다 |
+
+## mlog 필드 키 snake_case 강제 — 우리에게만 남은 1줄을 고쳤다
+
+**upstream**: [`ede2edab`](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca)
+(Enforce snake_case for mlog field keys, #37998) — 50파일 +731/-143, 2026-10-07 반영
+
+**받은 것.** `tools/mattermost-govet/mlogFieldNaming` 분석기, `server/Makefile` `vet` 타깃(일반·enterprise)의
+`-mlogFieldNaming`, 서버 전역 로그 필드 키 일괄 수정(예: `userId` → `user_id`) 전부. `check-style`이 이 vet를
+돌리므로 이후 snake_case가 아닌 `mlog` 키는 게이트에서 막힌다.
+
+### 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `server/channels/app/custom_profile_attributes.go` `mlog.String("fieldID", …)` (필드 수정 시 값 삭제 실패 로그) | (커밋에 없음 — upstream 부모에는 이 줄이 없다) | `"field_id"`로 고침 | 이 줄은 #34408(`ef16fcfad2`) 코드다. upstream은 이후 property 시스템 v2 계보에서 이 함수를 다시 썼고 우리는 그 계보를 제외해 옛 코드가 남았다. 고치지 않으면 새 분석기에 걸려 `make vet`·`check-style`이 실패한다 |
+
+### 검증
+
+- 고치기 전 `go vet -mlogFieldNaming ./...` 위반 1건(RED) → 고친 뒤 `make vet` 전체 exit 0
+- `tools/mattermost-govet/mlogFieldNaming` 분석기 테스트 통과, `go build ./...` 통과
+- 커밋 전 임시 worktree 실측으로 포크 자체 코드(조직 역할·알림 이력 등)의 위반이 0건임을 확인했다
+
+### 되돌릴 조건
+
+- property 시스템 v2 계보로 `custom_profile_attributes.go`를 upstream 형태로 바꾸면 이 줄은 사라진다.
+- 로그 수집·대시보드에서 바뀐 키 이름(camelCase → snake_case)으로 검색 조건을 맞춰야 할 수 있다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)

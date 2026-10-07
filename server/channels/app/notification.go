@@ -1136,7 +1136,7 @@ func (a *App) getExplicitMentionsAndKeywords(rctx request.CTX, post *model.Post,
 			if _, ok := profileMap[user1]; ok {
 				mentions.addMention(user1, DMMention)
 			} else {
-				a.Log().Debug("missing profile: DM user not in profiles", mlog.String("userId", user1), mlog.String("channelId", channel.Id))
+				a.Log().Debug("missing profile: DM user not in profiles", mlog.String("user_id", user1), mlog.String("channel_id", channel.Id))
 			}
 		}
 
@@ -1145,7 +1145,7 @@ func (a *App) getExplicitMentionsAndKeywords(rctx request.CTX, post *model.Post,
 				if _, ok := profileMap[user2]; ok {
 					mentions.addMention(user2, DMMention)
 				} else {
-					a.Log().Debug("missing profile: DM user not in profiles", mlog.String("userId", user2), mlog.String("channelId", channel.Id))
+					a.Log().Debug("missing profile: DM user not in profiles", mlog.String("user_id", user2), mlog.String("channel_id", channel.Id))
 				}
 			}
 		}
@@ -1161,7 +1161,7 @@ func (a *App) getExplicitMentionsAndKeywords(rctx request.CTX, post *model.Post,
 				if _, ok := profileMap[id]; ok {
 					mentions.addMention(id, GMMention)
 				} else {
-					a.Log().Debug("missing profile: GM user not in profiles", mlog.String("userId", id), mlog.String("channelId", channel.Id))
+					a.Log().Debug("missing profile: GM user not in profiles", mlog.String("user_id", id), mlog.String("channel_id", channel.Id))
 				}
 			}
 		}
@@ -1173,7 +1173,7 @@ func (a *App) getExplicitMentionsAndKeywords(rctx request.CTX, post *model.Post,
 				if _, ok := profileMap[addedUserId]; ok {
 					mentions.addMention(addedUserId, KeywordMention)
 				} else {
-					a.Log().Debug("missing profile: user added to channel not in profiles", mlog.String("userId", addedUserId), mlog.String("channelId", channel.Id))
+					a.Log().Debug("missing profile: user added to channel not in profiles", mlog.String("user_id", addedUserId), mlog.String("channel_id", channel.Id))
 				}
 			}
 		}
