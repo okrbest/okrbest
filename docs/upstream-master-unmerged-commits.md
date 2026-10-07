@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-07 10:29
+- 갱신일: 2026-10-07 15:32
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 411개
+- 남은 커밋: 403개
 
-**마지막 반영 커밋:** `2945359d` | [\[MM-69895\] Delete bot access tokens when permanently deleting a bot (#37907)](https://github.com/mattermost/mattermost/commit/2945359dccf45ca8fb19892d3d699be93a170de0) | 2026-08-15
+**마지막 반영 커밋:** `6d78e8d5` | [Keep a collapse toggle for single video attachments (#38012)](https://github.com/mattermost/mattermost/commit/6d78e8d55189626ac765d4504dfca61d430b8490) | 2026-08-17
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| a012af76 | [\[MM-70246\] Fix squished author avatar in Content Flagging RHS post preview card (#37972)](https://github.com/mattermost/mattermost/commit/a012af768d11b384686e24ac6319be4b2dfe3099) | 2026-08-17 |
-| 505d6c1e | [Add copy buttons for generated access tokens (#37494)](https://github.com/mattermost/mattermost/commit/505d6c1ecf4cb9d62bcc6a8ad100d0ba67c630c9) | 2026-08-17 |
-| ea183fab | [\[MM-67157\] Remove format parameter requirement from client license endpoint (#37167)](https://github.com/mattermost/mattermost/commit/ea183fab48b833461d83af94c21cdc62eaef3d2d) | 2026-08-17 |
-| 2b40a0bd | [MM-67868: Remove deprecated Slack compatibility type aliases (#37163)](https://github.com/mattermost/mattermost/commit/2b40a0bdaeb80e022dab022c3ef352ec170881a2) | 2026-08-17 |
-| 3f02a0a1 | [\[MM-70283\] Fix mixed custom-section fallback hiding valid plugin settings (#38004)](https://github.com/mattermost/mattermost/commit/3f02a0a1ac705d9900cbea8f82cb10df7e37b3ce) | 2026-08-17 |
-| fd62fe4f | [Allow granting delegated administration roles from the Manage Roles modal (#37202)](https://github.com/mattermost/mattermost/commit/fd62fe4faacf03845d9f723eeacba8798226587d) | 2026-08-17 |
-| d989f802 | [Disable TTL/grace period editing for server-derived attributes (#38001)](https://github.com/mattermost/mattermost/commit/d989f802d537023732e4d59fceca6cb731220bb6) | 2026-08-17 |
-| 6d78e8d5 | [Keep a collapse toggle for single video attachments (#38012)](https://github.com/mattermost/mattermost/commit/6d78e8d55189626ac765d4504dfca61d430b8490) | 2026-08-17 |
 | f112b9a7 | [Remove deprecated built-in Slack import API and CLI (#37999)](https://github.com/mattermost/mattermost/commit/f112b9a7159b25c630a52b05dc27dfc2f9b5d694) | 2026-08-18 |
 | 54939d47 | [\[MM-68249\] Drop support for OpenSearch v1.x (#37283)](https://github.com/mattermost/mattermost/commit/54939d47c0b64f0c15c0c992223f7db1aff2476a) | 2026-08-18 |
 | 95fc4743 | [Drop RHEL 7/8 support: switch build image to golang-bookworm (#37229)](https://github.com/mattermost/mattermost/commit/95fc4743df54efd8bbaba148c0e8542d8158c7c1) | 2026-08-18 |
@@ -803,6 +795,8 @@
 | 3b99b6c9 | [Add session attributes settings to System Console (#37973)](https://github.com/mattermost/mattermost/commit/3b99b6c9d98f81fab88d45513280aa47bdb44f9e) | 부모 커밋 684ddb32(#36934 Session Attributes MVF - Server-work) 제외의 연쇄. 시스템 콘솔 접근 제어에 Session Attributes 섹션(토글 2개 + en 키 5개)을 추가하는데, 그 토글이 다루는 AccessControlSettings.TrustProxyDeviceIdentityHeader·EnforceDeviceIDConsistency는 684ddb32가 서버 config에 넣은 필드라 우리 트리에 없다(grep 0건 — permission_policy_details.test.tsx:44 주석에도 기록). 반영하면 FeatureFlags.SessionAttributes(기본 off)·Enterprise Advanced 게이트 뒤에 숨은 죽은 UI만 생긴다. 9a9bbe28과 같은 처리. Session Attributes를 도입하게 되면 684ddb32부터 함께 재검토한다. |
 
 | 338dc6c7 | [\[MM-69863\] Add external source picker (AD/LDAP, SAML) to New attribute (#37845)](https://github.com/mattermost/mattermost/commit/338dc6c74daafdb08b6699001a18dd83097064ed) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 #37580 접근 게이트 → 4ec0fe9c 목록 → 63077696 → 844d3370 새 속성 페이지)의 후속이라 얹힐 토대가 없다 — 계보 전체가 제외한 property 시스템 v2(48f2fd08) 위에 있다. 새 속성 페이지에 AD/LDAP·SAML 외부 소스 연결 칩 UI를 붙이는 15파일 +1071인데, 터치 경로 15개 중 13개가 HEAD에 없다(admin_console/global_attributes/ 디렉터리 부재). 함께 미반영한 범용 조각 — 신규 components/divider/(Divider)와 components/menu/menu.tsx의 menuButton onMouseDown 전달 옵션은 이 페이지 전용 opt-in이라 우리 쪽 사용처가 없다. 이 계보를 반영할 때 844d3370의 card.tsx 변경과 함께 넣어야 한다. 재검토 조건: property 시스템 v2 도입 결정 시(38b66d22와 동일). |
+
+| d989f802 | [Disable TTL/grace period editing for server-derived attributes (#38001)](https://github.com/mattermost/mattermost/commit/d989f802d537023732e4d59fceca6cb731220bb6) | 제외한 Session Attributes 관리 화면 57fe965a(#37362)의 후속이라 얹힐 토대가 없다 — 4901a7fc(#37898)와 같은 계보 연쇄 제외. 서버 수집(server-derived) 세션 속성의 TTL·유예 기간 편집을 막고(점 메뉴 하위 메뉴 숨김, 표 값 '—'), Server 배지에 설명 툴팁과 en 키 1개를 추가하는 7파일 +111/-60. 실측 변경 파일 6개(admin_console/session_attributes/ 아래 tsx·test·scss)가 모두 57fe965a 소산이라 HEAD에 없다(MISSING PATHS, modify/delete 충돌 5건). 57fe965a는 property 시스템 v2(48f2fd08)와 Session Attributes MVF(684ddb32) 제외로 서버 토대가 없어 제외했고, 기능 전체가 FeatureFlags.SessionAttributes(기본 off)·Enterprise Advanced 게이트 뒤다. private-module 태그 해당 없음 — 막는 것은 의도적으로 제외한 공개 계보다. 재검토 조건: Session Attributes를 도입하기로 하면 property v2 → 684ddb32 → 57fe965a → 이 커밋 순으로 함께 다룬다. |
 
 ## spec 전환 커밋
 
