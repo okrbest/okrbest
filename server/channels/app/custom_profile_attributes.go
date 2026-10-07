@@ -181,7 +181,7 @@ func (a *App) PatchCPAField(rctx request.CTX, fieldID string, patch *model.Prope
 	if shouldDeleteValues {
 		if dErr := a.DeletePropertyValuesForField(rctx, groupID, cpaField.ID); dErr != nil {
 			a.Log().Error("Error deleting property values when updating field",
-				mlog.String("fieldID", cpaField.ID),
+				mlog.String("field_id", cpaField.ID),
 				mlog.Err(dErr),
 			)
 		}
