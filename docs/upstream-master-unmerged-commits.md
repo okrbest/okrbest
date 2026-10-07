@@ -3,27 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-07 15:32
+- 갱신일: 2026-10-07 17:57
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 403개
+- 남은 커밋: 391개
 
-**마지막 반영 커밋:** `6d78e8d5` | [Keep a collapse toggle for single video attachments (#38012)](https://github.com/mattermost/mattermost/commit/6d78e8d55189626ac765d4504dfca61d430b8490) | 2026-08-17
+**마지막 반영 커밋:** `ede2edab` | [Enforce snake_case for mlog field keys (#37998)](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) | 2026-08-18
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f112b9a7 | [Remove deprecated built-in Slack import API and CLI (#37999)](https://github.com/mattermost/mattermost/commit/f112b9a7159b25c630a52b05dc27dfc2f9b5d694) | 2026-08-18 |
-| 54939d47 | [\[MM-68249\] Drop support for OpenSearch v1.x (#37283)](https://github.com/mattermost/mattermost/commit/54939d47c0b64f0c15c0c992223f7db1aff2476a) | 2026-08-18 |
-| 95fc4743 | [Drop RHEL 7/8 support: switch build image to golang-bookworm (#37229)](https://github.com/mattermost/mattermost/commit/95fc4743df54efd8bbaba148c0e8542d8158c7c1) | 2026-08-18 |
-| dc6ab54f | [MM-67510 Drop deprecated autotranslation column from ChannelMembers (#37496)](https://github.com/mattermost/mattermost/commit/dc6ab54f82f624ec2bc1ffc895484df8198a063c) | 2026-08-18 |
-| 0912a75c | [Bump minimum supported Postgres version to v15 (#37285)](https://github.com/mattermost/mattermost/commit/0912a75c9c4580a00f14c565215fed5ffcb0fbf7) | 2026-08-18 |
-| eb3966e3 | [Remove atmos/camo image proxy support (#37284)](https://github.com/mattermost/mattermost/commit/eb3966e30bf4e13a0fdef43bb87429c54a6b7e25) | 2026-08-18 |
-| 6938caba | [\[MM-69646\] Disallow MoveThreadsEnabled feature flag (fail server startup) (#37966)](https://github.com/mattermost/mattermost/commit/6938cabac6b7d177962b74bc84df75b57b16d233) | 2026-08-18 |
-| 44d12bef | [\[MM-66243\] Omit sanitized last_viewed_at/last_update_at instead of returning -1 for other users (#37505)](https://github.com/mattermost/mattermost/commit/44d12bef8037de88f50150a5795e0b183924e1d6) | 2026-08-18 |
-| 5bd5b3b8 | [\[MM-69865\] Add Delete row action to Manage Attributes (#37875)](https://github.com/mattermost/mattermost/commit/5bd5b3b899f7ce2eb5d981015db2a37077746a8c) | 2026-08-18 |
-| 78d12039 | [MM-68396: Remove deprecated dialog date/datetime fields for v12.0 (#37759)](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a) | 2026-08-18 |
-| 0bff02c8 | [Graduate user typing settings to Site Configuration > Posts (#38023)](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) | 2026-08-18 |
-| 925a09a5 | [Remove dead Email login button color settings (#38021)](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) | 2026-08-18 |
-| ede2edab | [Enforce snake_case for mlog field keys (#37998)](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) | 2026-08-18 |
 | 480c1c5e | [\[M-70285\] Fix plugin settings section handling (#38003)](https://github.com/mattermost/mattermost/commit/480c1c5ed1688a9502d98f74c84675034f2f1ad9) | 2026-08-19 |
 | 6941f569 | [\[MM-70252\] Return 400 for malformed date filters in logs query API (#37970)](https://github.com/mattermost/mattermost/commit/6941f569018775c17062ab1118c6df84386a28ad) | 2026-08-19 |
 | ca6fd94e | [chore: bump playwright workers to 20 (#38015)](https://github.com/mattermost/mattermost/commit/ca6fd94e3d10a18b8feb03d3f612adae6e5de4f7) | 2026-08-19 |
@@ -414,6 +401,7 @@
 | 20ef077c | [\[MM-71001\] Health Dashboard PR15: packet snapshot provider + mmctl health check --packet (#38838)](https://github.com/mattermost/mattermost/commit/20ef077c5d9e80565bd44fe51081803ffa5e3d2c) | 2026-10-06 |
 | c9c44767 | [\[MM-71036\] Health Dashboard PR01b: pointer-ize Support Packet diagnostics fields that can fail (#38888)](https://github.com/mattermost/mattermost/commit/c9c447677bf41242aafa1e16629e18d39b1bc0c8) | 2026-10-06 |
 | f396b69a | [\[MM-71090\] Health Dashboard: don't persist never-fired checks as resolved (#38982)](https://github.com/mattermost/mattermost/commit/f396b69a359af5f1065a480a8fbc393afa16a3d9) | 2026-10-06 |
+| 0584e1b3 | [Bump mattermost/pdf for content-stream array parsing fix (#38781)](https://github.com/mattermost/mattermost/commit/0584e1b30b494aa9ea48515d3e3b1f738c2909be) | 2026-10-07 |
 
 ## 제외된 커밋
 
