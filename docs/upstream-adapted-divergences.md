@@ -47,6 +47,7 @@
 | Email 로그인 버튼 색상 설정 제거 | [925a09a5](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) (#38021) | 코드는 그대로, docs 1개는 버렸고 webapp ko 6키를 지웠다 — 아래 참조 |
 | 신고 메시지 노출 범위 보고서 | [fb87397d](https://github.com/mattermost/mattermost/commit/fb87397dbaeacf2578ab5f9ab69a0ee3860f9e80) (#37809) | 34파일을 받으며 제외한 개명 계보(`f1b9aa05`)에 걸린 id 1개·문구 2줄·테스트 3줄을 우리 용어로 바꾸고, en은 신규 키만 골라 받았다 — 아래 참조 |
 | store 메서드에 요청 로거 | [a7c68624](https://github.com/mattermost/mattermost/commit/a7c686249728bf75e6b3da69b2227fd68065181b) (#37648) | `post_store.go` 충돌에서 제외한 CJK 검색 함수 둘을 버리고 `search()` 시그니처에 `logger`만 더했다 — 아래 참조 |
+| React Bootstrap·react-overlays 업데이트 | [9127a7d9](https://github.com/mattermost/mattermost/commit/9127a7d9b9c5529d9cc8da1fa5a3f210804400e8) (#37758) | 스냅숏 5개를 포크 렌더링으로 다시 생성했고 lock은 우리 것을 기준으로 `npm install`해 peer churn 3줄을 되돌렸다 — 아래 참조 |
 | mlog 필드 키 snake_case 강제 | [ede2edab](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) (#37998) | 전부 받고, 제외 계보 탓에 남은 옛 CPA 코드 1줄(`"fieldID"`)을 직접 고쳤다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 
@@ -1479,6 +1480,35 @@ client4·helpers 다운로드 함수, 상태 확인 로직 추출(`CheckFlaggedP
 localcachelayer(Reaction)·app(ScheduledPost·Emoji·UpdateUser·GuardedHook) 테스트 통과.
 
 되돌릴 조건: CJK 검색 계보(`60fbce7d`)를 들이면 두 함수가 `search()` 앞에 다시 들어온다.
+
+## React Bootstrap·react-overlays 업데이트 — 스냅숏과 lock을 우리 기준으로 다시 만들었다
+
+**upstream**: [`9127a7d9`](https://github.com/mattermost/mattermost/commit/9127a7d9b9c5529d9cc8da1fa5a3f210804400e8)
+(MM-69835 Update React Bootstrap to support React 19, #37758) — 44파일 +11261/-11271, 2026-10-07 반영
+
+**받은 것.** `react-bootstrap`(mattermost 포크) `05559f4c` → `c1770156`, `react-overlays` 0.9.3 → 5.2.1,
+`@types/react-overlays` 제거, `patches/react-overlays+5.2.1.patch`(ESC가 `preventDefault`돼도 모달을 닫게 함),
+`channel_header_plug.tsx`의 새 `RootCloseWrapper`·Dropdown ref 대응, 모달 스냅숏 갱신. 모달과 배경을 감싸던
+`<div role="none">`이 사라진다. 포크 모달 CSS(`sass/okrbest/_overrides.scss`의 `.app__body .modal .modal-content`)는
+자손 선택자라 영향이 없고, `role="none"`을 겨냥한 포크 코드·CSS도 없다.
+
+### 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| 스냅숏 4개 (`add_users_to_team_modal`, `manage_tokens_modal`, `add_users_to_role_modal`, `more_direct_channels`) | upstream 렌더링 기준 스냅숏 | 충돌 → 새 의존성 설치 후 `jest -u`로 **포크 렌더링 기준 재생성** | 포크 문구·구성이 upstream과 달라 텍스트 충돌 |
+| `start_trial_form_modal` 스냅숏 | upstream 스냅숏(개인정보 링크 `mattermost.com/pl/privacy-policy/?utm_…`) | 재생성 → `https://okr.best/pl/privacy-policy/` | 자동 병합이 파일을 통째로 upstream 것으로 덮어 우리 리브랜드 링크가 빠졌다. **HEAD 스냅숏도 이미 mattermost.com 링크라 이 테스트는 반영 전부터 실패하던 것**이었고, 재생성으로 함께 바로잡혔다 |
+| `webapp/package-lock.json` | upstream lock diff | 충돌 → **우리 lock을 기준으로 `npm install`**. 그 결과 중 `@floating-ui/dom`·`@types/react-dom`·`highlight.js`의 `"peer": true` 삭제 3줄은 되돌림 | 새 의존성과 무관한 npm peer churn이다 |
+
+### 검증
+
+- `node_modules/react-overlays` 5.2.1 설치, patch-package `react-overlays@5.2.1 ✔`, `cjs/Modal.js` ESC 분기에서 `defaultPrevented` 조건이 빠진 것 확인
+- 커밋이 다루는 jest 38 suites 256개 + `channel_header_plug`, platform/components `generic_modal` 13개 통과
+- 브라우저에서 ESC로 모달 닫힘은 jest로 확인할 수 없어 실주행 검증은 하지 않았다
+
+### 되돌릴 조건
+
+- 없음. 이후 React 19 계열 커밋은 이 버전을 전제한다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
