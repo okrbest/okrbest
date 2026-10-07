@@ -44,6 +44,7 @@
 | Manage Attributes 삭제 액션 | [5bd5b3b8](https://github.com/mattermost/mattermost/commit/5bd5b3b899f7ce2eb5d981015db2a37077746a8c) (#37875) | 본체(Global Attributes 삭제 모달·표)는 제외 계보라 버리고, 섞인 공용 수정 둘(`getPluginDisplayName`, 고아 필드 훅 이전)만 받았다 — 아래 참조 |
 | 다이얼로그 deprecated date/datetime 필드 제거 | [78d12039](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a) (#37759) | 코드는 그대로 받고 우리가 지운 docs 2개의 갱신(업그레이드 노트 포함)을 버렸다 — 아래 참조 |
 | 사용자 입력 표시 설정을 Posts로 승격 | [0bff02c8](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) (#38023) | 코드는 그대로, docs 2개는 버렸다. en id 이동을 따라 ko 5키를 새 id로 옮기고 나뉜 예시 키 1개를 채웠다 — 아래 참조 |
+| Channel Viewed 웹소켓 설정을 Web Server로 승격 | [4c6c5a06](https://github.com/mattermost/mattermost/commit/4c6c5a063fefa1ec4484f62e1a209ec79711da13) (#38026) | 코드는 그대로, docs 2개는 버렸고 ko 2키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리 |
 | Email 로그인 버튼 색상 설정 제거 | [925a09a5](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) (#38021) | 코드는 그대로, docs 1개는 버렸고 webapp ko 6키를 지웠다 — 아래 참조 |
 | 신고 메시지 노출 범위 보고서 | [fb87397d](https://github.com/mattermost/mattermost/commit/fb87397dbaeacf2578ab5f9ab69a0ee3860f9e80) (#37809) | 34파일을 받으며 제외한 개명 계보(`f1b9aa05`)에 걸린 id 1개·문구 2줄·테스트 3줄을 우리 용어로 바꾸고, en은 신규 키만 골라 받았다 — 아래 참조 |
 | store 메서드에 요청 로거 | [a7c68624](https://github.com/mattermost/mattermost/commit/a7c686249728bf75e6b3da69b2227fd68065181b) (#37648) | `post_store.go` 충돌에서 제외한 CJK 검색 함수 둘을 버리고 `search()` 시그니처에 `logger`만 더했다 — 아래 참조 |
@@ -1374,6 +1375,13 @@ property-field DELETE API에 연결하는 기능이다. 그 화면(`admin_consol
 ### 되돌릴 조건
 
 - 없음. 이후 upstream이 같은 키를 다시 옮기면 같은 방식으로 ko id를 따라 옮긴다.
+
+**같은 처리 — `4c6c5a06`** (Graduate Enable Channel Viewed WebSocket Messages to Environment > Web Server, #38026,
+2026-10-08 반영): `ServiceSettings.EnableChannelViewedMessages`가 Experimental에서 Environment > Web Server로 옮겨지고
+`access` 태그가 `environment_web_server`로 바뀌었다. 우리가 지운 `docs/main/.../environment-configuration-settings.mdx`·
+`experimental-configuration-settings.mdx` 갱신은 버렸다. ko는 `admin.experimental.enableChannelViewedMessages.{title,desc}`를
+`admin.service.enableChannelViewedMessages{,Description}`로 문구 변경 없이 옮겼다. 새 `admin_definition_channel_viewed_messages`
+테스트 통과. `admin_console_index` 2건은 기준선 실패라 그 안의 새 검색 단언은 검증되지 않았다.
 
 ## Email 로그인 버튼 색상 설정 제거 — docs를 버리고 ko 6키를 지웠다
 
