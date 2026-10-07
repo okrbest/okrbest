@@ -145,6 +145,27 @@ body.app__body {
     font-size: 30px; // 기존 15px의 2배
 }
 
+// 헤더 정렬: space-between이 +버튼을 중앙에 띄우므로, 팀 메뉴가 남은 폭을
+// 차지하고 +·토글을 우측에 한 쌍으로 묶는다. 두 버튼 크기도 48px로 통일.
+#SidebarContainer .sidebarHeaderContainer {
+    justify-content: flex-start;
+    gap: 4px;
+
+    > :first-child {
+        min-width: 0;
+        margin-right: auto;
+    }
+
+    #browseOrAddChannelMenuButton {
+        width: 48px;
+        height: 48px;
+
+        .icon {
+            font-size: 30px;
+        }
+    }
+}
+
 .sidebarHeaderContainer .ChannelSidebarToggle {
     display: flex;
     width: 48px;
