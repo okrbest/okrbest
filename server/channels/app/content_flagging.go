@@ -297,6 +297,20 @@ func (a *App) canFlagPost(groupId, postId, userLocal string) *model.AppError {
 	return model.NewAppError("canFlagPost", reason, nil, "", http.StatusBadRequest)
 }
 
+func (a *App) CheckFlaggedPostActionable(where, postId string) (*model.PropertyValue, *model.AppError) {
+	status, appErr := a.GetPostContentFlaggingPropertyValue(postId, ContentFlaggingPropertyNameStatus)
+	if appErr != nil {
+		return nil, appErr
+	}
+
+	statusValue := strings.Trim(string(status.Value), `"`)
+	if statusValue != model.ContentFlaggingStatusPending && statusValue != model.ContentFlaggingStatusAssigned {
+		return nil, model.NewAppError(where, "api.content_flagging.error.post_not_in_progress", nil, "", http.StatusBadRequest)
+	}
+
+	return status, nil
+}
+
 func (a *App) GetContentFlaggingMappedFields(groupId string) (map[string]*model.PropertyField, *model.AppError) {
 	fields, appErr := a.SearchPropertyFields(nil, groupId, model.PropertyFieldSearchOpts{PerPage: CONTENT_FLAGGING_MAX_PROPERTY_FIELDS})
 	if appErr != nil {
@@ -562,14 +576,9 @@ func (a *App) PermanentDeleteFlaggedPost(rctx request.CTX, actionRequest *model.
 	// generating unsafe JSON values
 	commentJsonValue := json.RawMessage(commentBytes)
 
-	status, appErr := a.GetPostContentFlaggingPropertyValue(flaggedPost.Id, ContentFlaggingPropertyNameStatus)
+	status, appErr := a.CheckFlaggedPostActionable("PermanentlyRemoveFlaggedPost", flaggedPost.Id)
 	if appErr != nil {
 		return appErr
-	}
-
-	statusValue := strings.Trim(string(status.Value), `"`)
-	if statusValue != model.ContentFlaggingStatusPending && statusValue != model.ContentFlaggingStatusAssigned {
-		return model.NewAppError("PermanentlyRemoveFlaggedPost", "api.content_flagging.error.post_not_in_progress", nil, "", http.StatusBadRequest)
 	}
 
 	groupId, err := a.ContentFlaggingGroupId()
@@ -851,14 +860,9 @@ func (a *App) KeepFlaggedPost(rctx request.CTX, actionRequest *model.FlagContent
 	// for keeping a flagged flaggedPost we need to-
 	// 1. Undelete the flaggedPost if it was deleted, that's it
 
-	status, appErr := a.GetPostContentFlaggingPropertyValue(flaggedPost.Id, ContentFlaggingPropertyNameStatus)
+	status, appErr := a.CheckFlaggedPostActionable("KeepFlaggedPost", flaggedPost.Id)
 	if appErr != nil {
 		return appErr
-	}
-
-	statusValue := strings.Trim(string(status.Value), `"`)
-	if statusValue != model.ContentFlaggingStatusPending && statusValue != model.ContentFlaggingStatusAssigned {
-		return model.NewAppError("KeepFlaggedPost", "api.content_flagging.error.post_not_in_progress", nil, "", http.StatusBadRequest)
 	}
 
 	groupId, err := a.ContentFlaggingGroupId()
