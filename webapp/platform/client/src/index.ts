@@ -11,6 +11,8 @@ export {
 } from './client4';
 export type {UserOrgProfileSummary} from './client4';
 
+export {extractFilenameFromContentDisposition} from './helpers';
+
 export {default as WebSocketClient} from './websocket';
 export {WebSocketEvents} from './websocket_events';
 export type {BaseWebSocketMessage, JsonEncodedValue, WebSocketBroadcast, WebSocketMessage} from './websocket_message';

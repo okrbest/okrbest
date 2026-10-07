@@ -45,6 +45,7 @@
 | 다이얼로그 deprecated date/datetime 필드 제거 | [78d12039](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a) (#37759) | 코드는 그대로 받고 우리가 지운 docs 2개의 갱신(업그레이드 노트 포함)을 버렸다 — 아래 참조 |
 | 사용자 입력 표시 설정을 Posts로 승격 | [0bff02c8](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) (#38023) | 코드는 그대로, docs 2개는 버렸다. en id 이동을 따라 ko 5키를 새 id로 옮기고 나뉜 예시 키 1개를 채웠다 — 아래 참조 |
 | Email 로그인 버튼 색상 설정 제거 | [925a09a5](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) (#38021) | 코드는 그대로, docs 1개는 버렸고 webapp ko 6키를 지웠다 — 아래 참조 |
+| 신고 메시지 노출 범위 보고서 | [fb87397d](https://github.com/mattermost/mattermost/commit/fb87397dbaeacf2578ab5f9ab69a0ee3860f9e80) (#37809) | 34파일을 받으며 제외한 개명 계보(`f1b9aa05`)에 걸린 id 1개·문구 2줄·테스트 3줄을 우리 용어로 바꾸고, en은 신규 키만 골라 받았다 — 아래 참조 |
 | mlog 필드 키 snake_case 강제 | [ede2edab](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) (#37998) | 전부 받고, 제외 계보 탓에 남은 옛 CPA 코드 1줄(`"fieldID"`)을 직접 고쳤다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 
@@ -1414,6 +1415,51 @@ property-field DELETE API에 연결하는 기능이다. 그 화면(`admin_consol
 
 - property 시스템 v2 계보로 `custom_profile_attributes.go`를 upstream 형태로 바꾸면 이 줄은 사라진다.
 - 로그 수집·대시보드에서 바뀐 키 이름(camelCase → snake_case)으로 검색 조건을 맞춰야 할 수 있다.
+
+## 신고 메시지 노출 범위 보고서 — 개명 계보에 걸린 네 곳을 우리 용어로 바꿨다
+
+**upstream**: [`fb87397d`](https://github.com/mattermost/mattermost/commit/fb87397dbaeacf2578ab5f9ab69a0ee3860f9e80)
+(Data spillage exposure radius report generation, #37809) — 34파일 +2379/-33, 2026-10-07 반영
+
+**받은 것.** 신고된 메시지가 올라온 시점부터 신고 시점까지 그 메시지를 볼 수 있었던 사용자 목록을
+계산하는 기능 전체다. `app/content_flagging_exposure_report.go`, `ChannelStore.GetMembersWithLastViewedAtSince`
+(sqlstore·retry·timer layer·mocks, DB 마이그레이션 없음), 노출 보고서 CSV API, 증거 ZIP의
+`exposure_report.csv`, 신고 카드의 "Exposure report" 행과 다운로드 버튼(`data_spillage_exposure_report/`),
+client4·helpers 다운로드 함수, 상태 확인 로직 추출(`CheckFlaggedPostActionable`).
+
+**왜 거의 그대로 들어왔나.** 이 영역은 spec 011(`specs/011-data-spillage-report-ui`)이 upstream `f0360a83`의
+서버 계약을 그대로 받아 구현했다. 그래서 신고 카드와 서버 보고서 코드가 upstream 부모와 각각 2줄만 달랐다.
+차이는 전부 제외한 개명 커밋 `f1b9aa05`(Content Flagging → Data Spillage Handling, "quarantine" 용어)에서 온다.
+
+### 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `app/content_flagging.go` `CheckFlaggedPostActionable` | 에러 id `api.data_spillage.error.post_not_in_progress` | `api.content_flagging.error.post_not_in_progress` | 개명 계보 제외로 우리 id 체계가 `api.content_flagging.*`다. 추출 전 두 호출부(Permanently Remove·Keep)도 원래 이 id였다 |
+| `app/content_flagging_report.go` 검토자 알림 2곳 | "…generated a report for the quarantined message." / "…downloaded an exposure report for the quarantined message." | "flagged message"로 바꿈 | spec 011 용어 정리(FR-022)로 우리는 "flagged"를 쓴다. 기존 가드 테스트(`notification uses flagged-message wording, not quarantine`)가 이 drift를 막는다 |
+| `app/content_flagging_report_test.go` 신규 테스트 3줄 | 위 "quarantined" 문구를 기대 | "flagged"로 바꿈 | 같은 이유. 바꾸기 전 2건 실패를 확인했다 |
+| `server/i18n/en.json`·`webapp/channels/src/i18n/en.json` | 개명 계보 키(`api.data_spillage.error.*`, keep/remove 버튼 등)가 문맥에 섞인 충돌 | 우리 파일을 기준으로 **이 커밋이 새로 만든 키만** upstream 위치에 끼워 넣음(server 29키, webapp 4키) | 개명 계보 키를 받으면 제외한 용어가 되살아난다 |
+
+내부 id의 `data_spillage`(예: `app.data_spillage.exposure.*`)는 그대로 두었다. 사용자에게 보이지 않고,
+포크에도 `app.data_spillage.report.zip_create.app_error` 같은 id가 이미 있다. 새 사용자 노출 문구에는
+"quarantine"·"Data Spillage"가 없음을 확인했다.
+
+### 검증
+
+- `make store-layers`·`make store-mocks`(mockery go1.26.4 고정) 재생성 결과가 커밋과 일치 (diff 0)
+- app(Exposure·ContentFlagging·FlaggedPost·Report·NotifyReviewers), api4(ContentFlagging·Report·Exposure),
+  sqlstore `TestChannelStore` 688개(신규 `GetMembersWithLastViewedAtSince` 포함) 통과
+- webapp `data_spillage_report`·`commercial_support_modal` 23개, platform/client `client4`·`helpers` 58개 통과,
+  `i18n-check-empty` exit 0
+
+### 남은 일
+
+- server ko 29키 번역. 특히 `app.data_spillage.exposure.column.*`·`meta.*`·`value.*`는 내려받는 CSV 열 제목과
+  값이라, 번역 전까지 한국어 환경에서도 영어로 나온다. webapp ko 4키(노출 보고서 버튼·행 라벨)도 같다.
+
+### 되돌릴 조건
+
+- 개명 계보(`f1b9aa05`)를 도입하기로 하면 위 네 곳을 upstream 형태로 되돌린다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
