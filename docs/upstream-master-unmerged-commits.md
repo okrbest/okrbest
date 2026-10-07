@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-06 23:27
+- 갱신일: 2026-10-07 10:29
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 410개
+- 남은 커밋: 411개
 
-**마지막 반영 커밋:** `338dc6c7` | [\[MM-69863\] Add external source picker (AD/LDAP, SAML) to New attribute (#37845)](https://github.com/mattermost/mattermost/commit/338dc6c74daafdb08b6699001a18dd83097064ed) | 2026-08-14
+**마지막 반영 커밋:** `2945359d` | [\[MM-69895\] Delete bot access tokens when permanently deleting a bot (#37907)](https://github.com/mattermost/mattermost/commit/2945359dccf45ca8fb19892d3d699be93a170de0) | 2026-08-15
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 44c0490c | [Prevent system-owned bots from being disabled (#37200)](https://github.com/mattermost/mattermost/commit/44c0490c7c005c297c52a24e2db3f900db3a6d70) | 2026-08-15 |
-| 2945359d | [\[MM-69895\] Delete bot access tokens when permanently deleting a bot (#37907)](https://github.com/mattermost/mattermost/commit/2945359dccf45ca8fb19892d3d699be93a170de0) | 2026-08-15 |
 | a012af76 | [\[MM-70246\] Fix squished author avatar in Content Flagging RHS post preview card (#37972)](https://github.com/mattermost/mattermost/commit/a012af768d11b384686e24ac6319be4b2dfe3099) | 2026-08-17 |
 | 505d6c1e | [Add copy buttons for generated access tokens (#37494)](https://github.com/mattermost/mattermost/commit/505d6c1ecf4cb9d62bcc6a8ad100d0ba67c630c9) | 2026-08-17 |
 | ea183fab | [\[MM-67157\] Remove format parameter requirement from client license endpoint (#37167)](https://github.com/mattermost/mattermost/commit/ea183fab48b833461d83af94c21cdc62eaef3d2d) | 2026-08-17 |
@@ -421,6 +419,9 @@
 | 9fa53220 | [docs: retire unused Puppeteer PDF pipeline (#39007)](https://github.com/mattermost/mattermost/commit/9fa532208d5585a2a6b872388a243873cabe2aea) | 2026-10-05 |
 | 7532e0ba | [chore: Update NOTICE.txt file with updated dependencies (#38997)](https://github.com/mattermost/mattermost/commit/7532e0bad8f458131c05291f9e97412875f05d17) | 2026-10-05 |
 | b2ce71db | [Remove the Belarusian language (#39014)](https://github.com/mattermost/mattermost/commit/b2ce71db9c18e547ab0c8b042361798201c0f735) | 2026-10-06 |
+| 20ef077c | [\[MM-71001\] Health Dashboard PR15: packet snapshot provider + mmctl health check --packet (#38838)](https://github.com/mattermost/mattermost/commit/20ef077c5d9e80565bd44fe51081803ffa5e3d2c) | 2026-10-06 |
+| c9c44767 | [\[MM-71036\] Health Dashboard PR01b: pointer-ize Support Packet diagnostics fields that can fail (#38888)](https://github.com/mattermost/mattermost/commit/c9c447677bf41242aafa1e16629e18d39b1bc0c8) | 2026-10-06 |
+| f396b69a | [\[MM-71090\] Health Dashboard: don't persist never-fired checks as resolved (#38982)](https://github.com/mattermost/mattermost/commit/f396b69a359af5f1065a480a8fbc393afa16a3d9) | 2026-10-06 |
 
 ## 제외된 커밋
 
