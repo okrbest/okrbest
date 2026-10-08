@@ -8,7 +8,7 @@ import React from 'react';
 import type {DeepPartial} from '@mattermost/types/utilities';
 
 import mergeObjects from 'packages/mattermost-redux/test/merge_objects';
-import {renderWithContext} from 'tests/react_testing_utils';
+import {renderWithContext, userEvent} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
 import type {GlobalState} from 'types/store';
@@ -158,6 +158,28 @@ describe('tabs are properly rendered', () => {
         expect(screen.queryByText(uiName2)).toBeInTheDocument();
         expect(screen.queryAllByText('plugin B Settings')).toHaveLength(2);
         expect(screen.queryByText('plugin A Settings')).not.toBeInTheDocument();
+    });
+});
+
+describe('collapsing the settings pane on mobile', () => {
+    it('hides the settings pane and clears the active tab', async () => {
+        renderWithContext(<UserSettingsModal {...baseProps}/>, baseState);
+
+        const modalDialog = document.querySelector('.settings-modal');
+        expect(modalDialog).toBeInTheDocument();
+        expect(modalDialog).not.toHaveClass('display--content');
+
+        // Selecting a tab shows the settings pane over the tab list on mobile
+        await userEvent.click(screen.getByRole('tab', {name: 'display'}));
+
+        expect(modalDialog).toHaveClass('display--content');
+        expect(screen.getByRole('tab', {name: 'display'})).toHaveAttribute('aria-selected', 'true');
+
+        // Pressing back collapses the settings pane to show the tab list again
+        await userEvent.click(screen.getByRole('button', {name: 'Collapse Icon'}));
+
+        expect(modalDialog).not.toHaveClass('display--content');
+        expect(screen.getByRole('tab', {name: 'display'})).toHaveAttribute('aria-selected', 'false');
     });
 });
 
