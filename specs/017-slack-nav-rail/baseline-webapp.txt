@@ -1,0 +1,8 @@
+
+Test Suites: 15 passed, 15 total
+Tests:       92 passed, 92 total
+Snapshots:   23 passed, 23 total
+Time:        6.649 s
+Ran all test suites matching src/components/team_sidebar|src/components/sidebar/sidebar_header|src/components/global_header.
+# 웹앱 기준선 (2026-10-08, 017 분기 직후, 코드 변경 없음)
+# check-types 기존 오류 31건: baseline-webapp-types-errors.txt (upstream sync 이후 재측정)

@@ -25,17 +25,7 @@ export function isShowOnboardingCompleteProfileTour(state = false, action: MMAct
     }
 }
 
-export function isShowOnboardingVisitConsoleTour(state = false, action: MMAction) {
-    switch (action.type) {
-    case ActionTypes.SHOW_ONBOARDING_VISIT_CONSOLE_TOUR:
-        return action.open;
-    default:
-        return state;
-    }
-}
-
 export default combineReducers({
     isShowOnboardingTaskCompletion,
     isShowOnboardingCompleteProfileTour,
-    isShowOnboardingVisitConsoleTour,
 });

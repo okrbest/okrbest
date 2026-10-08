@@ -11,6 +11,3 @@ export function isShowOnboardingCompleteProfileTour(state: GlobalState) {
     return state.views.onboardingTasks.isShowOnboardingCompleteProfileTour;
 }
 
-export function isShowOnboardingVisitConsoleTour(state: GlobalState) {
-    return state.views.onboardingTasks.isShowOnboardingVisitConsoleTour;
-}

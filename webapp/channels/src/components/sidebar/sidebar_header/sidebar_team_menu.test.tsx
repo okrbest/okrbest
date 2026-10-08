@@ -102,6 +102,96 @@ describe('components/sidebar/sidebar_header/sidebar_team_menu', () => {
         currentTeam,
     };
 
+    test('팀명 드롭다운 상단에 내 팀 목록 섹션을 보여준다', async () => {
+        const otherTeam = TestHelper.getTeamMock({
+            id: 'other-team-id',
+            name: 'other-team',
+            display_name: 'Other Team',
+            delete_at: 0,
+        });
+        const state: DeepPartial<GlobalState> = {
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                teams: {
+                    ...initialState.entities!.teams,
+                    teams: {
+                        [currentTeam.id]: currentTeam,
+                        [otherTeam.id]: otherTeam,
+                    },
+                    myMembers: {
+                        [currentTeam.id]: {roles: 'team_user'},
+                        [otherTeam.id]: {roles: 'team_user'},
+                    },
+                },
+            },
+        };
+
+        renderWithContext(
+            <SidebarTeamMenu {...baseProps}/>,
+            state,
+        );
+
+        await userEvent.click(screen.getByText(currentTeam.display_name));
+
+        await waitFor(() => {
+            expect(screen.getByText('My teams')).toBeInTheDocument();
+        });
+        expect(screen.getByRole('menuitem', {name: /Other Team/})).toBeInTheDocument();
+        expect(screen.getByTestId(`teamListMenuItem-check-${currentTeam.id}`)).toBeInTheDocument();
+    });
+
+    test('관리 섹션 — 시스템 콘솔 권한자에게 관리 항목을 보여준다', async () => {
+        const state: DeepPartial<GlobalState> = {
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                general: {
+                    ...initialState.entities!.general,
+                    config: {
+                        ...initialState.entities!.general!.config,
+                        SiteName: 'OKR.Best',
+                        EnableIncomingWebhooks: 'true',
+                    },
+                },
+                roles: {
+                    roles: {
+                        system_user: {
+                            permissions: [
+                                Permissions.CREATE_TEAM,
+                                Permissions.SYSCONSOLE_READ_ABOUT_EDITION_AND_LICENSE,
+                            ],
+                        },
+                        team_user: {
+                            permissions: [Permissions.MANAGE_INCOMING_WEBHOOKS],
+                        },
+                    },
+                },
+            },
+        };
+
+        renderWithContext(<SidebarTeamMenu {...baseProps}/>, state);
+        await userEvent.click(screen.getByText(currentTeam.display_name));
+
+        await waitFor(() => {
+            expect(screen.getByText('System Console')).toBeInTheDocument();
+        });
+        expect(screen.getByRole('menuitem', {name: /System Console/})).toBeInTheDocument();
+        expect(screen.getByText('Integrations')).toBeInTheDocument();
+        expect(screen.getByText('About OKR.Best')).toBeInTheDocument();
+    });
+
+    test('관리 섹션 — 권한 없는 사용자에게는 관리 항목을 숨기고 정보 항목만 보여준다', async () => {
+        renderWithContext(<SidebarTeamMenu {...baseProps}/>, initialState);
+        await userEvent.click(screen.getByText(currentTeam.display_name));
+
+        await waitFor(() => {
+            expect(screen.getByText(/About/)).toBeInTheDocument();
+        });
+        expect(screen.queryByText('System Console')).not.toBeInTheDocument();
+        expect(screen.queryByText('Integrations')).not.toBeInTheDocument();
+    });
+
     test('should open team menu when clicked', async () => {
         renderWithContext(
             <SidebarTeamMenu {...baseProps}/>,
@@ -249,43 +339,6 @@ describe('components/sidebar/sidebar_header/sidebar_team_menu', () => {
 
         await waitFor(() => {
             expect(screen.queryByText('Invite people')).not.toBeInTheDocument();
-        });
-    });
-
-    test('should show restricted indicator for "Create a team" on cloud free plan', async () => {
-        // State with cloud free plan
-        const stateWithCloudFree: DeepPartial<GlobalState> = {
-            ...initialState,
-            entities: {
-                ...initialState.entities,
-                general: {
-                    ...initialState.entities?.general,
-                    license: {
-                        ...initialState.entities?.general?.license,
-                        Cloud: 'true',
-                    },
-                },
-                cloud: {
-                    ...initialState.entities?.cloud,
-                    subscription: {
-                        is_free_trial: 'true',
-                    },
-                },
-            },
-        };
-
-        renderWithContext(
-            <SidebarTeamMenu {...baseProps}/>,
-            stateWithCloudFree,
-        );
-
-        await userEvent.click(screen.getByText(currentTeam.display_name));
-
-        await waitFor(() => {
-            expect(screen.getByText('Create a team')).toBeInTheDocument();
-
-            // Verify the RestrictedIndicator is rendered
-            expect(document.querySelector('.RestrictedIndicator__icon-tooltip')).toBeInTheDocument();
         });
     });
 });

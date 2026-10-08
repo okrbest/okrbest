@@ -190,9 +190,6 @@ export type ViewsState = {
         filter: string;
     };
 
-    productMenu: {
-        switcherOpen: boolean;
-    };
 
     channelSidebar: {
         unreadFilterEnabled: boolean;
@@ -209,7 +206,6 @@ export type ViewsState = {
     onboardingTasks: {
         isShowOnboardingTaskCompletion: boolean;
         isShowOnboardingCompleteProfileTour: boolean;
-        isShowOnboardingVisitConsoleTour: boolean;
     };
 
     threads: {

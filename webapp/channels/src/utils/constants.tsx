@@ -203,7 +203,6 @@ export const suitePluginIds = {
 };
 
 export const ActionTypes = keyMirror({
-    SET_PRODUCT_SWITCHER_OPEN: null,
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
     HIGHLIGHT_REPLY: null,
@@ -275,7 +274,6 @@ export const ActionTypes = keyMirror({
 
     SHOW_ONBOARDING_TASK_COMPLETION: null,
     SHOW_ONBOARDING_COMPLETE_PROFILE_TOUR: null,
-    SHOW_ONBOARDING_VISIT_CONSOLE_TOUR: null,
 
     TOGGLE_LHS: null,
     OPEN_LHS: null,
@@ -676,7 +674,6 @@ export const TutorialSteps = {
     CHANNEL_POPOVER: 1,
     ADD_CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
-    PRODUCT_SWITCHER: 4,
     SETTINGS: 5,
     START_TRIAL: 6,
     FINISHED: 999,
