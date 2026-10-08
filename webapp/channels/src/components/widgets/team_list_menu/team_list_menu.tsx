@@ -23,10 +23,14 @@ import {switchTeam} from 'actions/team_actions';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import * as Menu from 'components/menu';
+import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import {Preferences} from 'utils/constants';
 import {useCurrentProduct} from 'utils/products';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
+import * as Utils from 'utils/utils';
+
+import './team_list_menu.scss';
 
 import type {GlobalState} from 'types/store';
 
@@ -71,9 +75,19 @@ export default function TeamListMenu() {
                 <Menu.Item
                     key={team.id}
                     id={`teamListMenuItem-${team.id}`}
+                    className='teamListMenuItem'
                     aria-current={team.id === currentTeamId ? 'true' : undefined}
                     onClick={() => handleTeamClick(team)}
-                    labels={<span>{team.display_name}</span>}
+                    leadingElement={(
+                        <span aria-hidden='true'>
+                            <TeamIcon
+                                content={team.display_name}
+                                url={Utils.imageURLForTeam(team)}
+                                size='xxs'
+                            />
+                        </span>
+                    )}
+                    labels={<span className='teamListMenuItem__name'>{team.display_name}</span>}
                     trailingElements={team.id === currentTeamId && (
                         <CheckIcon
                             size={18}

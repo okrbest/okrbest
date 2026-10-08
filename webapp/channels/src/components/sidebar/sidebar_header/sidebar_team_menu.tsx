@@ -84,6 +84,7 @@ export default function SidebarTeamMenu(props: Props) {
             }}
             menu={{
                 id: 'sidebarTeamMenu',
+                width: '300px',
             }}
         >
             <TeamListMenu/>

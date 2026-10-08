@@ -120,6 +120,16 @@ describe('components/widgets/team_list_menu', () => {
         expect(screen.queryByTestId(`teamListMenuItem-check-${teamB.id}`)).not.toBeInTheDocument();
     });
 
+    it('should show a team icon on the left of every team item', async () => {
+        renderInMenu(baseState);
+        await openMenu();
+
+        for (const team of [teamA, teamB, teamC]) {
+            const item = screen.getByRole('menuitem', {name: new RegExp(team.display_name)});
+            expect(item.querySelector('.TeamIcon')).toBeInTheDocument();
+        }
+    });
+
     it('should switch to the clicked team', async () => {
         renderInMenu(baseState);
         await openMenu();
