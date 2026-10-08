@@ -62,6 +62,7 @@ interface WindowWithLibraries {
     ReactRouterDom: typeof import('react-router-dom');
     PropTypes: typeof import('prop-types');
     Luxon: typeof import('luxon');
+    StyledComponents: typeof import('styled-components');
     PostUtils: {
         formatText: typeof formatText;
         messageHtmlToComponent: (html: string, ...args: any[]) => JSX.Element;
@@ -140,6 +141,10 @@ window.ReactBootstrap = require('react-bootstrap');
 window.ReactRouterDom = require('react-router-dom');
 window.PropTypes = require('prop-types');
 window.Luxon = require('luxon');
+
+// Playbooks 등 플러그인이 webpack externals로 참조한다 (upstream 본체가
+// 노출하는 전역인데 이 포크에 빠져 있어 플러그인 로드가 깨졌다)
+window.StyledComponents = require('styled-components');
 
 // Functions exposed on window for plugins to use.
 window.PostUtils = {
