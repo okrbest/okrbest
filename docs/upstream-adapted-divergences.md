@@ -51,6 +51,7 @@
 | React Bootstrap·react-overlays 업데이트 | [9127a7d9](https://github.com/mattermost/mattermost/commit/9127a7d9b9c5529d9cc8da1fa5a3f210804400e8) (#37758) | 스냅숏 5개를 포크 렌더링으로 다시 생성했고 lock은 우리 것을 기준으로 `npm install`해 peer churn 3줄을 되돌렸다 — 아래 참조 |
 | mlog 필드 키 snake_case 강제 | [ede2edab](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) (#37998) | 전부 받고, 제외 계보 탓에 남은 옛 CPA 코드 1줄(`"fieldID"`)을 직접 고쳤다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
+| 앱 마이그레이션을 master DB에 고정 | [c5835cd2](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e) (#38084) | 잠금 6줄·mock 2줄·새 테스트는 받고, 충돌 문맥에 있던 제외 계보의 setup 마이그레이션 3개와 그 테스트 3개는 버렸다 — 아래 참조 |
 
 ---
 
@@ -1517,6 +1518,28 @@ localcachelayer(Reaction)·app(ScheduledPost·Emoji·UpdateUser·GuardedHook) �
 ### 되돌릴 조건
 
 - 없음. 이후 React 19 계열 커밋은 이 버전을 전제한다.
+
+## 앱 마이그레이션 master DB 고정 — 제외 계보의 setup 마이그레이션 3개는 버렸다
+
+**upstream**: [`c5835cd2`](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e)
+([MM-70290] Run app migrations locked to the master DB, #38084) — 3파일 +65, 2026-10-08 반영
+
+**받은 것.** `doAppMigrations` 맨 앞의 `s.Store().LockToMaster()` / `defer UnlockFromMaster()`와 주석,
+`testlib.GetMockStoreForSetupFunctions`의 `LockToMaster`·`UnlockFromMaster` mock 2줄, 새 테스트
+`TestDoAppMigrationsRunsLockedToMaster`(spy store 포함). 우리 diff도 upstream과 같은 +65다.
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `app/migrations.go` `doAppMigrations` 머리 | `rctx := request.EmptyContext(...)`를 잠금보다 **먼저** 선언 | 잠금 6줄만 넣고 `rctx` 줄은 버렸다. 우리 함수는 `rctx`를 `type migration` **뒤**에 선언한다 | 선언 위치가 갈라져 생긴 충돌이다. 동작 차이는 없다 |
+| `app/migrations.go` 마이그레이션 목록 | `doSetupBoardsProperties`·`doSetupManagedCategoryProperties`·`doSetupSessionAttributesProperties` 포함(우리보다 371줄 많음) | 받지 않음 — 이번 커밋이 건드린 것도 아니다 | 각각 제외한 `323841e9`(#35887 Integrated Boards), `69fbaece`(#36289 Managed Categories), `684ddb32`(#36934 Session Attributes)의 산물이다 |
+| `app/migrations_test.go` 충돌 구간 | 위 셋의 테스트 `TestDoSetupBoardsProperties`·`TestDoSetupManagedCategoryProperties`·`TestDoSetupSessionAttributesProperties`(약 450줄) | 우리 파일을 유지하고 새 테스트와 `store` import만 덧붙였다 | 같은 제외 계보다 |
+
+검증: 잠금을 뺀 상태에서 새 테스트가 `migrations must lock to master before touching the store`로 실패하고,
+넣으면 통과(RED→GREEN). 기존 마이그레이션 테스트 8개, mock store를 쓰는 app·app/email·app/platform·api4
+setup 계열 테스트 통과. 로컬 PG에 read replica가 없어 실제 복제 지연 상황은 재현하지 못했다(upstream 테스트 주석도 같은 한계를 밝힌다).
+
+되돌릴 조건: 위 세 계보 중 하나를 들이면 그 setup 마이그레이션과 테스트가 이 함수·파일에 다시 들어온다.
+그때 잠금 6줄은 함수 머리에 그대로 두면 된다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
