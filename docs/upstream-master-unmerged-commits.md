@@ -3,24 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-08 15:51
+- 갱신일: 2026-10-08 17:47
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 366개
+- 남은 커밋: 356개
 
-**마지막 반영 커밋:** `c5835cd2` | [\[MM-70290\] Run app migrations locked to the master DB (#38084)](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e) | 2026-08-22
+**마지막 반영 커밋:** `4608b024` | [\[MM-70291\] Add Global Relay custom EML header setting (#38010)](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) | 2026-08-24
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 2d6fc019 | [Bump Go version in missed go.mod files (#38102)](https://github.com/mattermost/mattermost/commit/2d6fc019076174e4cdfb03ac49ec70a5820b86de) | 2026-08-24 |
-| a3e171f7 | [\[MM-70224\] Migrate property field reads to request context (#37636)](https://github.com/mattermost/mattermost/commit/a3e171f730781dc87e5eb0f36d556f9eb39fc22a) | 2026-08-24 |
-| 9091791e | [Require release team review for release documentation (#38097)](https://github.com/mattermost/mattermost/commit/9091791efe39d9ac8007d25c57184e2dbdb0389b) | 2026-08-24 |
-| 2ee9804f | [\[MM-63635\] Fix plugin RHS panels not opening from the App Bar in the Threads view (#38116)](https://github.com/mattermost/mattermost/commit/2ee9804f99ca975b5df839346c46e89535379812) | 2026-08-24 |
-| 2c9524e3 | [\[MM-70387\] Keep App Marketplace modal at a fixed width when paging (#38057)](https://github.com/mattermost/mattermost/commit/2c9524e382a4a50cb5c2cd37cc6082586a7bb00b) | 2026-08-24 |
-| 5d5d4e27 | [\[MM-70389\] Add Android to the user_agent_platform session attribute values (#38059)](https://github.com/mattermost/mattermost/commit/5d5d4e27523ed2d7a1fe4ea31210b173414e6d2d) | 2026-08-24 |
-| 9b4ab46c | [\[MM-70402\] Fix Channel Settings showing unsaved changes on open for channels with untidy stored text (#38115)](https://github.com/mattermost/mattermost/commit/9b4ab46cc200e8e07fbec8475d2354dce5fcff60) | 2026-08-24 |
-| 84414404 | [Fix nil context panic in TestDoSetupSessionAttributesProperties (#38123)](https://github.com/mattermost/mattermost/commit/84414404a1d3032564fea9eb139fac14c72f045c) | 2026-08-24 |
-| 2021503f | [Log file IDs instead of filenames during file upload and content extraction (#37987)](https://github.com/mattermost/mattermost/commit/2021503fd7b9275147c11337aecdd02fd4883caf) | 2026-08-24 |
-| 4608b024 | [\[MM-70291\] Add Global Relay custom EML header setting (#38010)](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) | 2026-08-24 |
 | e7360779 | [Adding Dataminr v2.0.0 as a prepackaged plugin (#38111)](https://github.com/mattermost/mattermost/commit/e7360779e068f9e3267e7fde578efeef64bb1a9f) | 2026-08-25 |
 | c3a5a087 | [\[MM-70086\] Compare user attributes against channel attributes in access rules (#37755)](https://github.com/mattermost/mattermost/commit/c3a5a087d7f40b201656f19ff6fc149f1547eb97) | 2026-08-25 |
 | f21b0299 | [Bumping prepackaged Boards version to 9.4.0 (#38131)](https://github.com/mattermost/mattermost/commit/f21b0299d326fe0a90cadb10a68160374350af03) | 2026-08-25 |
@@ -773,6 +763,10 @@
 
 | b9c2bd73 | [docs: restore generated plugin SDK reference pages (#37788)](https://github.com/mattermost/mattermost/commit/b9c2bd733fca307507cee1a7c788a250ea81b9e3) | 제외한 1d3bbc63(feat(docs): move docs-experimental content into monorepo docs/, #37330)이 만든 Docusaurus 문서 사이트에 플러그인 SDK 레퍼런스 생성 파이프라인(Go 생성기 gen-plugin-godocs·gen-plugin-manifest-docs, Node 생성기 gen-plugin-jsdocs.mjs, PluginGoDocs 등 React 컴포넌트)을 되살리는 커밋이라 붙일 곳이 없다. 접촉 39파일(+1474/-62) 전부가 docs/ 아래(docs/develop 19·docs/main 2·docs/site 18)이고 하나씩 실측한 결과 우리 HEAD에 존재하는 파일이 0개다(merge-tree CONFLICT 전부 modify/delete·부재). docs/ 밖 변경 없음 — 생성기는 server/public/plugin·model·webapp registry.ts를 읽기만 한다. Mattermost 제품 문서라 리브랜드 충실성(constitution 원칙 IV)상 받을 수 없다. 같은 계보 bcc9ce5e(P14)·cce8fdff(P13) 제외와 같은 근거. |
 
+| 9091791e | [Require release team review for release documentation (#38097)](https://github.com/mattermost/mattermost/commit/9091791efe39d9ac8007d25c57184e2dbdb0389b) | Mattermost 저장소 운영 규칙이라 우리에게 적용 대상이 없다. CODEOWNERS에 릴리스 문서 13종(changelog·ESR·업그레이드·배포 가이드)을 @mattermost/release-eng·@mattermost/release-managers 리뷰 대상으로 추가하는 +16줄인데, (1) 대상 경로 13줄이 전부 docs/main/** — 제외한 1d3bbc63(#37330, 문서 사이트 이관) 계보라 우리 저장소에 없다, (2) 소유자가 Mattermost 조직 팀이라 우리 저장소에서 지정할 수 없다. 우리 CODEOWNERS는 7a3a625dc6('코드 소유자 변경')·361141f9d8로 13줄 전부 @okrbest/okrbest 기준으로 다시 써서 upstream 소유자(@hmhealey·@mattermost/product-security)가 하나도 남아 있지 않고, merge-tree CONFLICT도 이 차이에서 온다. |
+
+| 84414404 | [Fix nil context panic in TestDoSetupSessionAttributesProperties (#38123)](https://github.com/mattermost/mattermost/commit/84414404a1d3032564fea9eb139fac14c72f045c) | 고칠 대상이 우리 트리에 없다. migrations_test.go의 TestDoSetupSessionAttributesProperties 서브테스트('adds newly declared options to an already-seeded select')가 UpdatePropertyFields(nil, …)로 panic하던 것을 SystemCallerContext로 바꾸는 ±1줄인데, (1) TestDoSetupSessionAttributesProperties 자체가 제외한 684ddb32(#36934 Session Attributes) 계보라 우리 migrations_test.go에 0건이고(c5835cd2 adapt에서 버린 setup 테스트 3개 중 하나), (2) 그 서브테스트는 직전 5d5d4e27(#38059)을 adapt하며 버렸다(docs/upstream-adapted-divergences.md의 5d5d4e27 항목). merge-tree CONFLICT는 대상 줄 부재에서 온다. 재검토 조건: Session Attributes 계보(684ddb32) 도입 시 5d5d4e27의 버린 테스트와 함께 되살린다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -828,3 +822,4 @@
 | 5ef9e70d | [Mm 69832 abac review nits (#37640)](https://github.com/mattermost/mattermost/commit/5ef9e70d95d912d4bbe7b3f525b507e3e42ce3fd) | cherry-pick으로 반영(createAccessControlPolicy ManageSystem 검사 끌어올림 + 정책 팀 초대 후보 서버측 term 검색 + ShowFullName off 비관리자의 실명 검색 차단 ExcludeFullNames). 후보 조회 본체 acs.QueryUsersForResource가 github.com/mattermost/enterprise/access_control에만 있어 우리 빌드에서는 GetUsersNotInAbacTeam이 access_control_unavailable(500)을 낸다. 공개 코드인 attributes_store 필드 선택과 권한 검사 리팩터는 동작. 46417611·3a820143 팀 ABAC 계보. |
 | c7eff700 | [ABAC: plugin-keyed resource types, trusted plugin PAP/CEL APIs, and AuthZEN-style decision API (#37509)](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) | github.com/mattermost/enterprise/access_control — 플러그인 ABAC API(EvaluateAccessControl·PAP·CEL 8개)를 adapt로 반영했으나 정책 엔진(PDP/PAP)이 비공개 모듈에만 있어 비활성이다. pluginAccessControlAvailable()이 Channels().AccessControl nil에서 거짓을 돌려줘 플러그인 호출은 전부 '사용 불가'로 끝난다(EA 라이선스·EnableAttributeBasedAccessControl도 요구). 46417611·3a820143과 같은 조건으로, einterfaces.AccessControlServiceInterface를 자체 구현해 등록하면 활성화된다. |
 | fbf8402d | [\[MM-65680\] Add new configuration 'AttributeRefreshIntervalSeconds' to Access Control (#37854)](https://github.com/mattermost/mattermost/commit/fbf8402d4bce027823d7788c8f48401d839f8b31) | github.com/mattermost/enterprise/access_control — AccessControlSettings.AttributeRefreshIntervalSeconds(기본 30초, 0 이상) config 필드·검증·en.json 키만 cherry-pick으로 반영. 이 값을 읽어 DB AttributeView 새로고침 빈도를 제한하는 로직은 upstream-master OSS 트리 전체에 참조 0건(config 정의·테스트 픽스처·타입뿐)이라 비공개 모듈에 있는 것으로 판단 — 우리 빌드에서는 설정만 존재하고 동작하지 않는다. 8a9aacb0(SyncJobIntervalSeconds)과 같은 패턴. |
+| 4608b024 | [\[MM-70291\] Add Global Relay custom EML header setting (#38010)](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) | Global Relay EML 사용자 지정 헤더(CustomHeaderName·CustomHeaderValue) — 설정·검증·콘솔 UI는 adapt로 반영했으나 헤더를 EML에 쓰는 코드가 github.com/mattermost/enterprise/message_export/global_relay_export(비공개)에만 있어 발동하지 않는다. 자체 Global Relay 작성기 구현 시 이 설정을 그대로 쓰면 된다. |
