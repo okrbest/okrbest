@@ -123,7 +123,7 @@ psql postgres
 ```
 
 ```sql
-CREATE ROLE mmuser WITH LOGIN PASSWORD 'mostest';
+CREATE ROLE mmuser WITH LOGIN PASSWORD 'mostest_password';
 ALTER ROLE mmuser CREATEDB;
 \q
 ```
@@ -190,7 +190,13 @@ ENABLED_DOCKER_SERVICES="postgres mysql inbucket minio openldap dejavu keycloak 
 **PostgreSQL** (기본):
 ```
 MM_SQLSETTINGS_DRIVERNAME=postgres
-MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mostest@localhost:5432/mattermost_test?sslmode=disable&connect_timeout=10
+MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mostest_password@localhost:5432/mattermost_test?sslmode=disable&connect_timeout=10
+```
+
+기본 비밀번호는 `mostest_password`입니다(FIPS OpenSSL의 112비트 최소 길이 요건). `mostest`로 만든 기존 컨테이너는 볼륨이 남아 있는 한 옛 비밀번호를 쓰므로 한 번 바꿉니다:
+
+```sh
+docker exec -e PGPASSWORD=mostest mattermost-postgres psql -U mmuser -d mattermost_test -c "ALTER ROLE mmuser PASSWORD 'mostest_password'"
 ```
 
 **MySQL** (대체):
@@ -277,7 +283,7 @@ POSTGRES_DB=mattermost_test
 MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:원하는비밀번호@localhost:5432/mattermost_test?sslmode=disable&connect_timeout=10
 ```
 
-기본값(`mmuser`/`mostest`)을 덮어쓰려면 `server/docker-compose.override.yaml`도 생성합니다(역시 git 추적 제외, Makefile이 자동 인식):
+기본값(`mmuser`/`mostest_password`)을 덮어쓰려면 `server/docker-compose.override.yaml`도 생성합니다(역시 git 추적 제외, Makefile이 자동 인식):
 
 ```yaml
 services:
