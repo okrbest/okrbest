@@ -43,6 +43,7 @@ const (
 	WebsocketEventPreferenceChanged                   WebsocketEventType = "preference_changed"
 	WebsocketEventPreferencesChanged                  WebsocketEventType = "preferences_changed"
 	WebsocketEventPreferencesDeleted                  WebsocketEventType = "preferences_deleted"
+	WebsocketEventThemeAppliedToAll                   WebsocketEventType = "theme_applied_to_all"
 	WebsocketEventEphemeralMessage                    WebsocketEventType = "ephemeral_message"
 	WebsocketEventStatusChange                        WebsocketEventType = "status_change"
 	WebsocketEventHello                               WebsocketEventType = "hello"

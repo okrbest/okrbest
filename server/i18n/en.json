@@ -8365,6 +8365,14 @@
     "translation": "We encountered an error while finding preferences."
   },
   {
+    "id": "app.preference.apply_theme_all.invalid.app_error",
+    "translation": "The theme value is invalid."
+  },
+  {
+    "id": "app.preference.apply_theme_all.save.app_error",
+    "translation": "We encountered an error while applying the theme to all users."
+  },
+  {
     "id": "app.preference.get_category.app_error",
     "translation": "We encountered an error while finding preferences."
   },

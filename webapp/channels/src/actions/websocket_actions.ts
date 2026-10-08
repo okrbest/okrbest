@@ -114,7 +114,7 @@ import {getIsUserStatusesConfigEnabled} from 'mattermost-redux/selectors/entitie
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getGroup} from 'mattermost-redux/selectors/entities/groups';
 import {getPost, getMostRecentPostIdInChannel, getTeamIdFromPost} from 'mattermost-redux/selectors/entities/posts';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getThemePreferences, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getScheduledPostTeamId, isScheduledPostsEnabled} from 'mattermost-redux/selectors/entities/scheduled_posts';
 import {
@@ -546,6 +546,10 @@ export function handleEvent(msg: WebSocketMessage) {
 
     case WebSocketEvents.PreferenceChanged:
         handlePreferenceChangedEvent(msg);
+        break;
+
+    case WebSocketEvents.ThemeAppliedToAll:
+        handleThemeAppliedToAllEvent(msg);
         break;
 
     case WebSocketEvents.PreferencesChanged:
@@ -1582,6 +1586,28 @@ function handlePreferencesChangedEvent(msg: WebSocketMessages.PreferencesChanged
 function handlePreferencesDeletedEvent(msg: WebSocketMessages.PreferencesChanged) {
     const preferences = JSON.parse(msg.data.preferences) as PreferenceType[];
     dispatch({type: PreferenceTypes.DELETED_PREFERENCES, data: preferences});
+}
+
+// a system admin applied their theme to every user: drop team-specific themes
+// and overwrite the global one, so the new theme takes effect immediately
+export function handleThemeAppliedToAllEvent(msg: WebSocketMessages.ThemeAppliedToAll) {
+    const state = getState();
+    const currentUserId = getCurrentUserId(state);
+
+    const teamSpecificThemes = getThemePreferences(state).filter((pref) => pref.name !== '');
+    if (teamSpecificThemes.length > 0) {
+        dispatch({type: PreferenceTypes.DELETED_PREFERENCES, data: teamSpecificThemes});
+    }
+
+    dispatch({
+        type: PreferenceTypes.RECEIVED_PREFERENCES,
+        data: [{
+            user_id: currentUserId,
+            category: Constants.Preferences.CATEGORY_THEME,
+            name: '',
+            value: msg.data.theme,
+        }],
+    });
 }
 
 function addedNewDmUser(preference: PreferenceType) {

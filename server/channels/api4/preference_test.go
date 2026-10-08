@@ -1070,3 +1070,37 @@ func TestUpdateLimitVisibleDMsGMs(t *testing.T) {
 		CheckBadRequestStatus(t, resp)
 	})
 }
+
+func TestApplyThemeToAllUsers(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+	client := th.Client
+
+	themeValue := `{"sidebarBg":"#1e325c","type":"Denim"}`
+
+	t.Run("regular user is forbidden and nothing changes", func(t *testing.T) {
+		resp, err := client.ApplyThemeToAllUsers(context.Background(), themeValue)
+		require.Error(t, err)
+		CheckForbiddenStatus(t, resp)
+
+		_, appErr := th.App.GetPreferenceByCategoryAndNameForUser(th.Context, th.BasicUser2.Id, model.PreferenceCategoryTheme, "")
+		require.NotNil(t, appErr, "forbidden request must not create theme rows")
+	})
+
+	t.Run("invalid theme returns bad request", func(t *testing.T) {
+		resp, err := th.SystemAdminClient.ApplyThemeToAllUsers(context.Background(), "not-json")
+		require.Error(t, err)
+		CheckBadRequestStatus(t, resp)
+	})
+
+	t.Run("system admin applies theme to everyone", func(t *testing.T) {
+		resp, err := th.SystemAdminClient.ApplyThemeToAllUsers(context.Background(), themeValue)
+		require.NoError(t, err)
+		CheckOKStatus(t, resp)
+
+		for _, user := range []*model.User{th.BasicUser, th.BasicUser2, th.SystemAdminUser} {
+			pref, appErr := th.App.GetPreferenceByCategoryAndNameForUser(th.Context, user.Id, model.PreferenceCategoryTheme, "")
+			require.Nil(t, appErr)
+			require.Equal(t, themeValue, pref.Value)
+		}
+	})
+}

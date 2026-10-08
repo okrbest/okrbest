@@ -62,6 +62,55 @@ func (s SqlPreferenceStore) Save(preferences model.Preferences) (err error) {
 	return nil
 }
 
+// ApplyThemeToAllUsers overwrites the global theme preference of every active
+// non-bot user with the given value and removes all team-specific themes, in a
+// single transaction.
+func (s SqlPreferenceStore) ApplyThemeToAllUsers(value string) (err error) {
+	// validate the raw value before PreUpdate: PreUpdate silently coerces
+	// malformed JSON to "null", which would defeat rejection of bad input;
+	// the UserId is only needed to satisfy IsValid
+	preference := model.Preference{
+		UserId:   model.NewId(),
+		Category: model.PreferenceCategoryTheme,
+		Name:     "",
+		Value:    value,
+	}
+	if appErr := preference.IsValid(); appErr != nil {
+		return appErr
+	}
+	preference.PreUpdate()
+
+	transaction, err := s.GetMaster().Begin()
+	if err != nil {
+		return errors.Wrap(err, "begin_transaction")
+	}
+	defer finalizeTransactionX(transaction, &err)
+
+	if _, err = transaction.Exec(
+		`DELETE FROM Preferences WHERE Category = $1 AND Name != ''`,
+		model.PreferenceCategoryTheme,
+	); err != nil {
+		return errors.Wrap(err, "failed to delete team-specific theme preferences")
+	}
+
+	if _, err = transaction.Exec(
+		`INSERT INTO Preferences (UserId, Category, Name, Value)
+		SELECT Users.Id, $1, '', $2
+		FROM Users
+		WHERE Users.DeleteAt = 0
+		AND Users.Id NOT IN (SELECT UserId FROM Bots)
+		ON CONFLICT (userid, category, name) DO UPDATE SET Value = excluded.Value`,
+		model.PreferenceCategoryTheme, preference.Value,
+	); err != nil {
+		return errors.Wrap(err, "failed to apply theme to all users")
+	}
+
+	if err = transaction.Commit(); err != nil {
+		return errors.Wrap(err, "commit_transaction")
+	}
+	return nil
+}
+
 func (s SqlPreferenceStore) save(transaction *sqlxTxWrapper, preference *model.Preference) error {
 	preference.PreUpdate()
 

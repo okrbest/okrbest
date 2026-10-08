@@ -14,6 +14,24 @@ type PreferenceStore struct {
 	mock.Mock
 }
 
+// ApplyThemeToAllUsers provides a mock function with given fields: value
+func (_m *PreferenceStore) ApplyThemeToAllUsers(value string) error {
+	ret := _m.Called(value)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ApplyThemeToAllUsers")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string) error); ok {
+		r0 = rf(value)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // CleanupFlagsBatch provides a mock function with given fields: limit
 func (_m *PreferenceStore) CleanupFlagsBatch(limit int64) (int64, error) {
 	ret := _m.Called(limit)

@@ -1,0 +1,24 @@
+# 서버 기준선 (2026-10-08, branch 016-admin-theme-apply 분기 직후, 작업 트리에 코드 변경 없음)
+# DSN: TEST_DATABASE_POSTGRESQL_DSN=postgres://mmuser:***@localhost:5432/mattermost_test
+
+## go test ./channels/store/sqlstore -run 'TestPreferenceStore|TestDeleteUnusedFeatures'
+ok  	github.com/mattermost/mattermost/server/v8/channels/store/sqlstore	0.746s
+exit=0
+
+## go test ./channels/api4 -run 'Preference'
+ok  	github.com/mattermost/mattermost/server/v8/channels/api4	10.973s
+exit=0
+
+## make check-style: 실행 중 — 완료 시 아래에 추가
+
+## make check-style (기준선)
+go: downloading github.com/dlclark/regexp2 v1.12.0
+go: downloading github.com/charmbracelet/x/termios v0.1.1
+go: downloading github.com/charmbracelet/x/windows v0.2.2
+go: downloading github.com/muesli/cancelreader v0.2.2
+go: downloading golang.org/x/exp/typeparams v0.0.0-20260209203927-2842357ff358
+go: downloading golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b
+/home/sdh/okrbest/okrbest/server/bin/golangci-lint run ./... ./public/...
+0 issues.
+go fix -diff ./...
+exit=0

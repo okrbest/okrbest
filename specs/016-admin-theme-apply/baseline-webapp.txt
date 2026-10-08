@@ -1,0 +1,14 @@
+# 웹앱 기준선 (2026-10-08, 동일 시점)
+# 범위: 접촉 파일 jest 3개 스위트 + npm run check-types 전체. npm run check(eslint 전체)는 마감 때 접촉 파일 스코프로 측정
+
+## jest (user_settings_theme, websocket_actions, mattermost-redux preferences)
+Test Suites: 3 passed, 3 total
+Tests:       89 passed, 89 total
+Snapshots:   1 passed, 1 total
+Time:        12.73 s
+Ran all test suites within paths "src/components/user_settings/display/user_settings_theme/user_settings_theme.test.tsx", "src/actions/websocket_actions.test.jsx", "src/packages/mattermost-redux/src/actions/preferences.test.ts".
+exit=0
+
+## npm run check-types — 기존 실패 목록 (우리 변경과 무관, diff 판정용)
+기존 타입 오류 줄 수: 30
+(전체 목록: baseline-webapp-types-errors.txt)

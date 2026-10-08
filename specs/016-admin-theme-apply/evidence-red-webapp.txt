@@ -1,0 +1,25 @@
+                                      [33my[39m=[32m"32"[39m
+                                    [36m/>[39m
+                                    [36m<g[39m
+                                      [33mstyle[39m=[32m"fill: rgba(29,28,29,0.16);"[39m
+                                    [36m>[39m...
+
+      153 |         );
+      154 |
+    > 155 |         await userEvent.click(screen.getByLabelText('Apply new theme to all users'));
+          |                                      ^
+      156 |
+      157 |         const allTeamsCheckbox = screen.getByLabelText('Apply new theme to all my teams');
+      158 |         expect(allTeamsCheckbox).toBeChecked();
+
+      at Object.getElementError (../node_modules/@testing-library/dom/dist/config.js:37:19)
+      at getAllByLabelText (../node_modules/@testing-library/dom/dist/queries/label-text.js:111:38)
+      at ../node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at ../node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+      at Object.getByLabelText (src/components/user_settings/display/user_settings_theme/user_settings_theme.test.tsx:155:38)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 5 passed, 7 total
+Snapshots:   1 passed, 1 total
+Time:        2.204 s, estimated 7 s
+Ran all test suites within paths "src/components/user_settings/display/user_settings_theme/user_settings_theme.test.tsx".

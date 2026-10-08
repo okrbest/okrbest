@@ -4836,6 +4836,18 @@ func (c *Client4) UpdatePreferences(ctx context.Context, userId string, preferen
 	return BuildResponse(r), nil
 }
 
+// ApplyThemeToAllUsers applies the given theme preference value to every
+// active user. Requires the manage_system permission.
+func (c *Client4) ApplyThemeToAllUsers(ctx context.Context, themeValue string) (*Response, error) {
+	body := map[string]string{"theme": themeValue}
+	r, err := c.doAPIPostJSON(ctx, c.usersRoute().Join("theme", "apply_to_all"), body)
+	if err != nil {
+		return BuildResponse(r), err
+	}
+	defer closeBody(r)
+	return BuildResponse(r), nil
+}
+
 // DeletePreferences deletes the user's preferences.
 func (c *Client4) DeletePreferences(ctx context.Context, userId string, preferences Preferences) (*Response, error) {
 	r, err := c.doAPIPostJSON(ctx, c.preferencesRoute(userId).Join("delete"), preferences)

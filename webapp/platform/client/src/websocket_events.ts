@@ -34,6 +34,7 @@ export const enum WebSocketEvents {
     PreferenceChanged = 'preference_changed',
     PreferencesChanged = 'preferences_changed',
     PreferencesDeleted = 'preferences_deleted',
+    ThemeAppliedToAll = 'theme_applied_to_all',
     EphemeralMessage = 'ephemeral_message',
     StatusChange = 'status_change',
     Hello = 'hello',

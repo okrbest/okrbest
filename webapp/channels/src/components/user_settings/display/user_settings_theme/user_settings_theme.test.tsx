@@ -26,11 +26,13 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
         actions: {
             saveTheme: jest.fn().mockResolvedValue({data: true}),
             deleteTeamSpecificThemes: jest.fn().mockResolvedValue({data: true}),
+            applyThemeToAllUsers: jest.fn().mockResolvedValue({data: true}),
             openModal: jest.fn(),
         },
         allowCustomThemes: true,
         showAllTeamsCheckbox: true,
         applyToAllTeams: true,
+        showApplyToAllUsersCheckbox: false,
         areAllSectionsInactive: false,
     };
 
@@ -92,6 +94,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
             actions: {
                 saveTheme: jest.fn().mockResolvedValue({data: true}),
                 deleteTeamSpecificThemes: jest.fn().mockResolvedValue({data: true}),
+                applyThemeToAllUsers: jest.fn().mockResolvedValue({data: true}),
                 openModal: jest.fn(),
             },
         };
@@ -111,5 +114,65 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
         await waitFor(() => {
             expect(props.actions.deleteTeamSpecificThemes).toHaveBeenCalled();
         });
+    });
+
+    it('should call applyThemeToAllUsers instead of saveTheme when apply-to-all-users is checked', async () => {
+        const actions = {
+            saveTheme: jest.fn().mockResolvedValue({data: true}),
+            deleteTeamSpecificThemes: jest.fn().mockResolvedValue({data: true}),
+            applyThemeToAllUsers: jest.fn().mockResolvedValue({data: true}),
+            openModal: jest.fn(),
+        };
+        const props = {
+            ...requiredProps,
+            selected: true,
+            showApplyToAllUsersCheckbox: true,
+            actions,
+        };
+
+        renderWithContext(
+            <UserSettingsTheme {...props}/>,
+        );
+
+        await userEvent.click(screen.getByLabelText('Apply new theme to all users'));
+        await userEvent.click(screen.getByText('Save'));
+
+        await waitFor(() => {
+            expect(actions.applyThemeToAllUsers).toHaveBeenCalled();
+        });
+        expect(actions.saveTheme).not.toHaveBeenCalled();
+        expect(actions.deleteTeamSpecificThemes).not.toHaveBeenCalled();
+    });
+
+    it('should check and disable the all-teams checkbox while apply-to-all-users is checked', async () => {
+        const props = {
+            ...requiredProps,
+            selected: true,
+            showApplyToAllUsersCheckbox: true,
+        };
+
+        renderWithContext(
+            <UserSettingsTheme {...props}/>,
+        );
+
+        await userEvent.click(screen.getByLabelText('Apply new theme to all users'));
+
+        const allTeamsCheckbox = screen.getByLabelText('Apply new theme to all my teams');
+        expect(allTeamsCheckbox).toBeChecked();
+        expect(allTeamsCheckbox).toBeDisabled();
+    });
+
+    it('should not render the apply-to-all-users checkbox for non-admins', () => {
+        const props = {
+            ...requiredProps,
+            selected: true,
+            showApplyToAllUsersCheckbox: false,
+        };
+
+        renderWithContext(
+            <UserSettingsTheme {...props}/>,
+        );
+
+        expect(screen.queryByLabelText('Apply new theme to all users')).not.toBeInTheDocument();
     });
 });
