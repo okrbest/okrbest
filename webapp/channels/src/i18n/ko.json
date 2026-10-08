@@ -6436,6 +6436,7 @@
   "team_settings.openInviteDescription.groupConstrained": "잠깐, 연결된 그룹들 때문에 이 팀의 구성원들이 추가되거나 제거됩니다. <link>자세히 알아보기</link>",
   "team_sidebar.join": "참가 가능한 공개 팀",
   "team_sidebar.railTeamButton.ariaLabel": "현재 팀: {teamName}. 팀 전환",
+  "team_sidebar.railTeamButton.label": "팀",
   "team.button.ariaLabel": "{teamName} 팀",
   "team.button.mentions.ariaLabel": "{teamName} 팀, 멘션 {mentionCount}개",
   "team.button.name_undefined": "이 팀의 이름이 없습니다",

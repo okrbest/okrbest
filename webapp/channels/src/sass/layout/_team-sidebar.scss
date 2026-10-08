@@ -24,6 +24,102 @@
         padding: 16px 0 6px;
     }
 
+    // 레일 팀 버튼 — 팀 전환 진입점임을 알리는 셰브론 배지·라벨·스택·unread 점
+    .rail-team-button {
+        display: flex;
+        width: 56px;
+        flex-direction: column;
+        align-items: center;
+        padding: 8px 2px 6px;
+        border: none;
+        border-radius: 8px;
+        margin: 4px auto 0;
+        background: transparent;
+        color: var(--sidebar-header-text-color);
+        cursor: pointer;
+        gap: 3px;
+        opacity: 0.9;
+
+        &:hover,
+        &:focus {
+            background: rgba(var(--sidebar-text-rgb), 0.08);
+            opacity: 1;
+        }
+
+        .rail-team-button__avatar {
+            position: relative;
+            display: inline-flex;
+        }
+
+        // 다른 팀 아바타가 뒤에 살짝 겹쳐 "여러 팀 중 하나"임을 암시한다
+        .rail-team-button__stack {
+            position: absolute;
+            top: -5px;
+            right: -6px;
+            display: inline-flex;
+            opacity: 0.55;
+
+            .TeamIcon,
+            .TeamIcon__content,
+            .TeamIcon__image {
+                width: 20px;
+                min-width: 20px;
+                height: 20px;
+            }
+
+            .TeamIcon .TeamIcon__content {
+                border-radius: 5px;
+                box-shadow: 0 0 0 2px var(--sidebar-header-bg);
+            }
+        }
+
+        .rail-team-button__current {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+        }
+
+        .rail-team-button__chevron {
+            position: absolute;
+            z-index: 2;
+            right: -5px;
+            bottom: -5px;
+            display: inline-flex;
+            width: 14px;
+            height: 14px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 100%;
+            background: var(--sidebar-header-bg);
+            box-shadow: 0 0 0 1px rgba(var(--sidebar-text-rgb), 0.24);
+
+            svg {
+                fill: currentColor;
+            }
+        }
+
+        .rail-team-button__unread {
+            position: absolute;
+            z-index: 2;
+            top: -3px;
+            left: -3px;
+            width: 8px;
+            height: 8px;
+            border-radius: 100%;
+            background: var(--mention-bg);
+            box-shadow: 0 0 0 3px var(--sidebar-header-bg);
+        }
+
+        .rail-team-button__label {
+            overflow: hidden;
+            max-width: 100%;
+            font-size: 10px;
+            line-height: 14px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
     // Slack식 기능 버튼 레일 — 제품 버튼(아이콘+라벨)을 세로로 쌓는다
     .rail-products {
         display: flex;
@@ -68,8 +164,8 @@
         }
 
         .rail-product-button__label {
-            max-width: 100%;
             overflow: hidden;
+            max-width: 100%;
             font-size: 10px;
             line-height: 14px;
             text-overflow: ellipsis;
