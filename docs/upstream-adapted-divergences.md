@@ -55,6 +55,7 @@
 | property field 읽기를 request context로 이관 | [a3e171f7](https://github.com/mattermost/mattermost/commit/a3e171f730781dc87e5eb0f36d556f9eb39fc22a) (#37636) | 섞인 일반 정리(deprecated `WithMaster` 헬퍼 삭제) 4파일만 받고, property 본체 27파일은 제외 계보(`3fa87760` Linked Properties)라 버렸다 — 아래 참조 |
 | user_agent_platform 세션 속성에 Android 추가 | [5d5d4e27](https://github.com/mattermost/mattermost/commit/5d5d4e27523ed2d7a1fe4ea31210b173414e6d2d) (#38059) | 일반 함수 `getPlatformName`의 Android 판별만 받고, Session Attributes 스키마·SA·마이그레이션 테스트와 스키마 drift guard 테스트는 버렸다 — 아래 참조 |
 | 채널 설정이 공백 섞인 저장값에 미저장 경고를 띄우는 버그 | [9b4ab46c](https://github.com/mattermost/mattermost/commit/9b4ab46cc200e8e07fbec8475d2354dce5fcff60) (#38115) | 변경 감지 통합은 받고 Managed Categories 두 줄을 뺐다. 우리 `handleSave`의 저장 후 fallback을 `''`→저장값으로 고쳤고 DM 헤더 테스트 1개는 버렸다 — 아래 참조 |
+| Global Relay 사용자 지정 EML 헤더 설정 | [4608b024](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) (#38010) | 설정·검증·콘솔 UI는 받았으나 헤더를 쓰는 EML 작성기가 비공개 모듈이라 비활성(private-module 등재). docs 1개를 버리고 새 스냅숏 1개를 포크 렌더링으로 재생성 — 아래 참조 |
 
 ---
 
@@ -1622,6 +1623,33 @@ jest 테스트, Playwright 스펙 `unsaved_changes_on_open.spec.ts`. 통합 덕�
 
 되돌릴 조건: Managed Categories(`69fbaece`)를 들이면 두 줄이 돌아온다. DM/GM 채널 설정 계보(`a8dc8baa`·`3c792a05`)를
 들이면 `handleSave`의 DM/GM 분기와 DM 헤더 테스트가 돌아온다.
+
+## Global Relay 사용자 지정 EML 헤더 — 설정만 들어오고 헤더는 붙지 않는다
+
+**upstream**: [`4608b024`](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861)
+([MM-70291] Add Global Relay custom EML header setting, #38010) — 12파일 +1037/-12, 2026-10-08 반영
+
+**받은 것.** `GlobalRelayMessageExportSettings.CustomHeaderName`·`CustomHeaderValue`와 기본값, 검증(둘 다 있거나 둘 다
+없음, `httpguts` 유효 헤더 이름, 예약 헤더 13종 금지, 값의 제어문자 금지 — 헤더 주입 방지), `IsGlobalRelayReservedHeader`,
+시스템 콘솔 Message Export 입력란, `types/config.ts`, server en 4키·webapp en 6키, Cypress·Playwright 기본 설정, 테스트.
+
+**발동하지 않는 이유.** 이 값을 읽어 EML에 헤더를 쓰는 곳은 `github.com/mattermost/enterprise/message_export/global_relay_export`
+(비공개, `server/enterprise/external_imports.go:48`)뿐이다. 최신 upstream의 공개 코드에도 `CustomHeaderName`을 읽는 곳이 없다.
+우리 포크에서는 설정 저장·검증까지만 동작한다. ledger "Mattermost 비공개 사설 모듈 커밋" 표에 등재했다.
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `docs/main/.../compliance-configuration-settings.mdx` | 설정 설명 30줄 | 버림 | 우리가 지운 문서 사이트(`1d3bbc63`) 경로 |
+| `message_export_settings.test.tsx.snap`의 새 스냅숏 "enabled, globalrelay, custom customer type" | upstream 렌더링(`mattermost.com/pl/compliance-export?utm_…` 링크, 라벨 `Global Relay EML`) | `jest -u`로 **포크 렌더링 기준 재생성** — 링크 `https://okr.best/pl/compliance-export`, 라벨 `GlobalRelay EML`. 차이는 이 두 줄뿐 | 링크는 리브랜드. 라벨은 아래 후속 항목 |
+
+**후속(이 커밋과 무관하게 발견).** `admin.complianceExport.exportFormat.globalrelay`의 문구가 우리는 `GlobalRelay EML`,
+upstream은 `Global Relay EML`이다. upstream이 `db55f9fa43`(MM-66653, i18n 추출 도구 이관)에서 고친 줄인데 우리에게 반영되지 않았다 —
+`1409fd4be0`이 복원한 두 건과 같은 종류의 누락이다. tsx `defaultMessage`·en.json·스냅숏을 함께 고치는 별도 작업이 필요하다.
+
+검증: `public/model` Message Export·Global Relay 검증 테스트, `config` 패키지 테스트, `message_export_settings` jest 13개
+(스냅숏 재생성 1, 나머지 4 통과), 리브랜드 대상 문구 없음.
+
+되돌릴 조건: 없음. 비공개 모듈을 대체하는 자체 Global Relay 작성기를 만들면 이 설정을 그대로 쓰면 된다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
