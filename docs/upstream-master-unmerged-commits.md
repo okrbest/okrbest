@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-08 00:36
+- 갱신일: 2026-10-08 11:11
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 384개
+- 남은 커밋: 382개
 
-**마지막 반영 커밋:** `4c6c5a06` | [Graduate Enable Channel Viewed WebSocket Messages to Environment > Web Server (#38026)](https://github.com/mattermost/mattermost/commit/4c6c5a063fefa1ec4484f62e1a209ec79711da13) | 2026-08-19
+**마지막 반영 커밋:** `260d0cda` | [Trim whitespace when saving comma-separated System Console settings (#38042)](https://github.com/mattermost/mattermost/commit/260d0cda822beded4517a191bce5f6504fa3c3f1) | 2026-08-19
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 95cabdfb | [Graduate theme and onboarding settings to Site Configuration > Customization (#38027)](https://github.com/mattermost/mattermost/commit/95cabdfb3b1380b44ca18e7878244f99fb19d2e5) | 2026-08-19 |
-| 260d0cda | [Trim whitespace when saving comma-separated System Console settings (#38042)](https://github.com/mattermost/mattermost/commit/260d0cda822beded4517a191bce5f6504fa3c3f1) | 2026-08-19 |
 | 7099dac6 | [\[MM-70277\] Improve plugin upload dropzone UX (#37569)](https://github.com/mattermost/mattermost/commit/7099dac602f41688b1ffbd60a73a4ad54bbf6970) | 2026-08-20 |
 | bcc9ce5e | [docs(P14): reconcile developer docs drift through Mattermost Blocks (#38043)](https://github.com/mattermost/mattermost/commit/bcc9ce5e4afc6c63aa9cc4166f09d998cb22e873) | 2026-08-20 |
 | c36f979e | [\[MM-70198\] Fix post preview layout shift by overlaying the "Show more" control (#37974)](https://github.com/mattermost/mattermost/commit/c36f979edd0ec3912097c4ffcd944e3f09fb67cd) | 2026-08-20 |
