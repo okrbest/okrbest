@@ -45,6 +45,7 @@ export default function RailTeamButton() {
             }}
             menu={{
                 id: 'railTeamMenu',
+                width: '300px',
             }}
         >
             <TeamListMenu/>
