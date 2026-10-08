@@ -54,6 +54,7 @@
 | 앱 마이그레이션을 master DB에 고정 | [c5835cd2](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e) (#38084) | 잠금 6줄·mock 2줄·새 테스트는 받고, 충돌 문맥에 있던 제외 계보의 setup 마이그레이션 3개와 그 테스트 3개는 버렸다 — 아래 참조 |
 | property field 읽기를 request context로 이관 | [a3e171f7](https://github.com/mattermost/mattermost/commit/a3e171f730781dc87e5eb0f36d556f9eb39fc22a) (#37636) | 섞인 일반 정리(deprecated `WithMaster` 헬퍼 삭제) 4파일만 받고, property 본체 27파일은 제외 계보(`3fa87760` Linked Properties)라 버렸다 — 아래 참조 |
 | user_agent_platform 세션 속성에 Android 추가 | [5d5d4e27](https://github.com/mattermost/mattermost/commit/5d5d4e27523ed2d7a1fe4ea31210b173414e6d2d) (#38059) | 일반 함수 `getPlatformName`의 Android 판별만 받고, Session Attributes 스키마·SA·마이그레이션 테스트와 스키마 drift guard 테스트는 버렸다 — 아래 참조 |
+| 채널 설정이 공백 섞인 저장값에 미저장 경고를 띄우는 버그 | [9b4ab46c](https://github.com/mattermost/mattermost/commit/9b4ab46cc200e8e07fbec8475d2354dce5fcff60) (#38115) | 변경 감지 통합은 받고 Managed Categories 두 줄을 뺐다. 우리 `handleSave`의 저장 후 fallback을 `''`→저장값으로 고쳤고 DM 헤더 테스트 1개는 버렸다 — 아래 참조 |
 
 ---
 
@@ -1596,6 +1597,31 @@ Android 기기 세션이 `"Android"`로 남는다. 활동 기록 모달(`activit
 
 되돌릴 조건: Session Attributes 계보(`684ddb32`)를 들이면 스키마 선택지 Android와 drift guard·SA·마이그레이션 테스트를
 이 커밋에서 다시 가져온다. 그때 drift guard가 `getPlatformName`과 스키마의 일치를 지켜 준다.
+
+## 채널 설정 미저장 경고 버그 — Managed Categories를 빼고 우리 handleSave fallback을 고쳤다
+
+**upstream**: [`9b4ab46c`](https://github.com/mattermost/mattermost/commit/9b4ab46cc200e8e07fbec8475d2354dce5fcff60)
+([MM-70402] Fix Channel Settings showing unsaved changes on open for channels with untidy stored text, #38115) —
+6파일 +391/-45, 2026-10-08 반영
+
+**받은 것.** `channel_settings_info_tab.tsx`의 `hasTextChanged`(원본끼리 비교, trim은 저장 payload에서만), 부모 알림과
+SaveChangesPanel 표시를 하나로 합친 `hasUnsavedChanges`·`shouldShowPanel`, `channel_name_form_field`의 blur 검증 수정,
+jest 테스트, Playwright 스펙 `unsaved_changes_on_open.spec.ts`. 통합 덕분에 우리 쪽에 있던 두 계산의 불일치
+(부모용은 `discoverable`을 `showDiscoverableToggle`로 거르지 않았고 DM/GM 분기도 없었다)가 함께 사라졌다.
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `channel_settings_info_tab.tsx` `hasUnsavedChanges` | `defaultCategoryName`·`managedCategoryName` 비교 2줄 + 의존성 4개 | 빼고 나머지는 upstream 그대로 | 제외한 `69fbaece`(#36289 Managed Categories) 계보다 |
+| 같은 파일 `handleSave` 저장 후 로컬 상태 재설정 | (이 커밋은 안 건드림) upstream은 이미 `?? channel.<field>` + `isDMorGroupChannel` 분기 | **fallback만** `?? ''` → `?? channel.<field>`로 고쳤다. DM/GM 분기는 넣지 않았다 | 새 테스트 "detects and saves an edit made on untidy stored text"가 patch 응답이 부분적일 때(`data: {}`) 손대지 않은 헤더가 `''`로 비워져 실패했다. 운영에선 서버가 채널 전체를 돌려줘 드러나지 않던 결함이다. upstream의 fallback은 제외한 `a8dc8baa`(#35255 DM/GM 자동번역, 비공개 모듈)에서, DM/GM 분기는 제외한 `3c792a05`(#36213)에서 왔다 |
+| `channel_settings_info_tab.test.tsx` "reports no unsaved changes on a DM whose header ends in a newline" | DM 픽스처 `mockDirectMessageChannel` 사용 | 버림 | 픽스처와 채널 설정의 DM/GM 경로가 제외한 `3c792a05` 계보라 우리 테스트 파일에 없다 |
+| Playwright `info_settings.ts` | `purposeInput = getByPlaceholder('Enter a purpose for this channel (optional)')`, 헤더도 전체 문구 | 우리 헤더 정규식(`/^Enter a header/`) 유지, `purposeInput`도 `/^Enter a purpose/`로. `saveChangesPanel`·`updatePurpose()`는 그대로 | 우리 placeholder가 `"Enter a purpose for this channel"`(괄호 없음)·다른 헤더 문구라 upstream 문자열이 맞지 않는다 |
+
+검증: `channel_settings_modal/`·`channel_name_form_field/` jest 207개 통과(fallback 수정 전에는 2개 실패 — 위 두 행),
+접촉 파일 eslint 오류 0, Playwright tsc 기준선과 동일(3건), prettier 통과. 새 Playwright 스펙은 메모상 우리 포크에서
+채널 스펙이 돌지 않아 실행하지 않았다.
+
+되돌릴 조건: Managed Categories(`69fbaece`)를 들이면 두 줄이 돌아온다. DM/GM 채널 설정 계보(`a8dc8baa`·`3c792a05`)를
+들이면 `handleSave`의 DM/GM 분기와 DM 헤더 테스트가 돌아온다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
