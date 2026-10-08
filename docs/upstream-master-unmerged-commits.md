@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-08 15:27
+- 갱신일: 2026-10-08 15:51
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 367개
+- 남은 커밋: 366개
 
-**마지막 반영 커밋:** `c864f8de` | [MM-69962: Fix inline media flickering between sizes near the 480px container threshold (#37971)](https://github.com/mattermost/mattermost/commit/c864f8de12d1c6e6c6b3efcb97bae41610126e44) | 2026-08-21
+**마지막 반영 커밋:** `c5835cd2` | [\[MM-70290\] Run app migrations locked to the master DB (#38084)](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e) | 2026-08-22
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| c5835cd2 | [\[MM-70290\] Run app migrations locked to the master DB (#38084)](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e) | 2026-08-22 |
 | 2d6fc019 | [Bump Go version in missed go.mod files (#38102)](https://github.com/mattermost/mattermost/commit/2d6fc019076174e4cdfb03ac49ec70a5820b86de) | 2026-08-24 |
 | a3e171f7 | [\[MM-70224\] Migrate property field reads to request context (#37636)](https://github.com/mattermost/mattermost/commit/a3e171f730781dc87e5eb0f36d556f9eb39fc22a) | 2026-08-24 |
 | 9091791e | [Require release team review for release documentation (#38097)](https://github.com/mattermost/mattermost/commit/9091791efe39d9ac8007d25c57184e2dbdb0389b) | 2026-08-24 |
