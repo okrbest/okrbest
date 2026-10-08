@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-08 11:11
+- 갱신일: 2026-10-08 13:54
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 382개
+- 남은 커밋: 374개
 
-**마지막 반영 커밋:** `260d0cda` | [Trim whitespace when saving comma-separated System Console settings (#38042)](https://github.com/mattermost/mattermost/commit/260d0cda822beded4517a191bce5f6504fa3c3f1) | 2026-08-19
+**마지막 반영 커밋:** `3e8afaa0` | [MM-69232 Enable concurrent React in E2E tests (#37037)](https://github.com/mattermost/mattermost/commit/3e8afaa06400887dfbeb8ce77186bcb0ed72c9b9) | 2026-08-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 7099dac6 | [\[MM-70277\] Improve plugin upload dropzone UX (#37569)](https://github.com/mattermost/mattermost/commit/7099dac602f41688b1ffbd60a73a4ad54bbf6970) | 2026-08-20 |
-| bcc9ce5e | [docs(P14): reconcile developer docs drift through Mattermost Blocks (#38043)](https://github.com/mattermost/mattermost/commit/bcc9ce5e4afc6c63aa9cc4166f09d998cb22e873) | 2026-08-20 |
-| c36f979e | [\[MM-70198\] Fix post preview layout shift by overlaying the "Show more" control (#37974)](https://github.com/mattermost/mattermost/commit/c36f979edd0ec3912097c4ffcd944e3f09fb67cd) | 2026-08-20 |
-| 62056e5a | [MM-70071: Automatically select hosted push notification server based on license (#37802)](https://github.com/mattermost/mattermost/commit/62056e5a7c6c817fe95e4edeaeee8af8fb6b0b7d) | 2026-08-20 |
-| 6707ec44 | [MM-50202 Remove redundant findDOMNode from UserSettingsModal (#38008)](https://github.com/mattermost/mattermost/commit/6707ec446dcc63d4207353b833bb5a5132f40928) | 2026-08-20 |
-| bfc2637d | [Precompute multibyte mention keywords once per post (#38038)](https://github.com/mattermost/mattermost/commit/bfc2637d215af9291f42c2e59caa7f7f11c4fea3) | 2026-08-20 |
-| ddee8289 | [\[MM-69866\] Add Applies-to resource picker (Users, Channels, Posts) to New attribute (#38002)](https://github.com/mattermost/mattermost/commit/ddee8289bc70fb13b7a39db7e6144f0fd34968a2) | 2026-08-20 |
-| 3e8afaa0 | [MM-69232 Enable concurrent React in E2E tests (#37037)](https://github.com/mattermost/mattermost/commit/3e8afaa06400887dfbeb8ce77186bcb0ed72c9b9) | 2026-08-20 |
 | 752e5d17 | [MM-70307: Change Postgres test password to mostest_password (#38060)](https://github.com/mattermost/mattermost/commit/752e5d1755b5f5cc13e024c87eba3ed3622998af) | 2026-08-21 |
 | cce8fdff | [docs(P13): reconcile all remaining authored docs drift (#38044)](https://github.com/mattermost/mattermost/commit/cce8fdff7610963c5eb284525f5fc3414fd7c9b1) | 2026-08-21 |
 | 6ac8899d | [MM-70307: Bump Go version to v1.26.7 (#38046)](https://github.com/mattermost/mattermost/commit/6ac8899d93c070330bae7b73cfd5468205720089) | 2026-08-21 |
@@ -780,6 +772,10 @@
 | ca6fd94e | [chore: bump playwright workers to 20 (#38015)](https://github.com/mattermost/mattermost/commit/ca6fd94e3d10a18b8feb03d3f612adae6e5de4f7) | test system IO 계보(91de3d23 adapt → 33ddd8a4·c3322b3a·8eb97fa6·1d1580cb·2d05d063·49891e2f·c77efb5a exclude)의 연쇄 — 49891e2f(#37414, v2 workers 10→15)의 바로 다음 단계다. 이 커밋은 .github/workflows/e2e-tests-playwright.yml에서 Playwright v2 템플릿 잡의 workers를 15→20으로 올리는 1줄 변경인데, 그 v2 잡이 우리 트리에 없다. 우리 파일에는 v1 잡의 workers: 4(184행)만 있고, 52c400ed(#36496) adapt(3ef8ec9c14) 때 'v2 템플릿 workers 훅은 제외, v1 잡의 workers: 4 유지'로 정했다. merge-tree CONFLICT도 이 부재 문맥에서 난다. v1 잡을 20으로 올리는 것은 다른 의미의 변경이고 포크 러너 자원으로 근거가 없다. 재검토 조건: test system IO 계보(v2 템플릿)를 도입하면 49891e2f와 함께 workers 값을 맞춘다. |
 
 | 020e9dab | [ci: bump test-system-io-summary action for missed-spec status (#37804)](https://github.com/mattermost/mattermost/commit/020e9dabdd85b367c16bb3f6067dec06316cb2d1) | test system IO 계보(91de3d23 adapt → 33ddd8a4·c3322b3a·8eb97fa6·1d1580cb·2d05d063·49891e2f·c77efb5a·ca6fd94e exclude)의 연쇄 — c77efb5a(#37612)와 같은 핀 갱신이다. 이 커밋은 e2e-tests-cypress-template.yml·e2e-tests-playwright-template.yml의 ci/run-summary 스텝이 쓰는 mattermost/mattermost-test-system-io test-system-io-summary 액션을 1631d8fc(2026-07-28) → e2d5032c(2026-08-06)로 올린다. 실측 우리 두 템플릿에 test-system-io 참조가 0건이라 올릴 줄이 없고, merge-tree CONFLICT 2건도 이 부재 문맥에서 난다. 이 액션은 Mattermost 사내 테스트 결과 시스템에 보고하는 용도라 우리 저장소에서는 쓸 곳이 없다. 재검토 조건: test system IO 계보를 도입할 때 함께 최신 핀으로 맞춘다. |
+
+| bcc9ce5e | [docs(P14): reconcile developer docs drift through Mattermost Blocks (#38043)](https://github.com/mattermost/mattermost/commit/bcc9ce5e4afc6c63aa9cc4166f09d998cb22e873) | 제외한 1d3bbc63(feat(docs): move docs-experimental content into monorepo docs/, #37330)이 만든 docs/develop/ 아래 개발자 문서의 drift 정비라 고칠 대상이 없다. 접촉 13파일(+852/-60) 전부가 docs/develop/** 이고 우리 HEAD에 docs/develop/ 디렉터리 자체가 없다(signals MISSING 13/13, merge-tree CONFLICT는 전부 modify/delete). mm-blocks 레퍼런스 2페이지 신설도 Mattermost 제품 문서라 리브랜드 충실성(constitution 원칙 IV)상 받을 수 없다. 코드 변경 없음. 같은 계보의 70b62d9e·3c9979f5·d4fdff72 제외와 같은 근거이며, 후속 cce8fdff(P13)·50241b42(P15)가 목록에 남아 있다. |
+
+| ddee8289 | [\[MM-69866\] Add Applies-to resource picker (Users, Channels, Posts) to New attribute (#38002)](https://github.com/mattermost/mattermost/commit/ddee8289bc70fb13b7a39db7e6144f0fd34968a2) | 제외한 38b66d22(#37580, Global Attributes access gate) 계보의 후속으로, 38b66d22 제외 사유에 'ddee8289·5650f8eb·65f8ca23 적용 대상'이 연쇄 제외 대상으로 이미 명시돼 있다. New attribute 페이지에 Applies-to 카드(Users·Channels·Posts)를 추가해 리소스별 linked PropertyField를 만드는 기능인데, 우리 HEAD에 webapp/channels/src/components/admin_console/global_attributes/ 디렉터리 자체가 없다(signals MISSING 20/22, merge-tree CONFLICT 10건 전부 부재 파일). 기반인 attribute_details·utils·attribute_external_source는 제외한 844d3370·338dc6c7 등이 만든 것이고 계보 전체가 제외한 property 시스템 v2(48f2fd08 계보) 위에 있다. 22파일 +2309/-108. private-module 태그 해당 없음. 재검토 조건: property 시스템 v2 도입을 결정할 때(38b66d22와 같음). |
 
 ## spec 전환 커밋
 
