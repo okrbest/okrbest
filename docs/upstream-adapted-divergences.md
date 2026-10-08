@@ -51,6 +51,11 @@
 | React Bootstrap·react-overlays 업데이트 | [9127a7d9](https://github.com/mattermost/mattermost/commit/9127a7d9b9c5529d9cc8da1fa5a3f210804400e8) (#37758) | 스냅숏 5개를 포크 렌더링으로 다시 생성했고 lock은 우리 것을 기준으로 `npm install`해 peer churn 3줄을 되돌렸다 — 아래 참조 |
 | mlog 필드 키 snake_case 강제 | [ede2edab](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) (#37998) | 전부 받고, 제외 계보 탓에 남은 옛 CPA 코드 1줄(`"fieldID"`)을 직접 고쳤다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
+| 테마·온보딩 설정을 Customization으로 승격 | [95cabdfb](https://github.com/mattermost/mattermost/commit/95cabdfb3b1380b44ca18e7878244f99fb19d2e5) (#38027) | 옮긴 블록에 포크의 `slate` 옵션·`OKR.BEST` 문구를 되살리고 AllowedThemes 유효 이름에 `slate`를 더했다. ko 16키를 새 id로 옮겼다 — 아래 참조 |
+| 플러그인 업로드 드롭존 UX | [7099dac6](https://github.com/mattermost/mattermost/commit/7099dac602f41688b1ffbd60a73a4ad54bbf6970) (#37569) | 코드·스냅숏은 그대로, en에서 지워진 `admin.plugin.choose`·`admin.plugin.upload`를 ko에서도 지웠다(orphaned 방지). 신규 13키 ko는 미번역 |
+| UserSettingsModal findDOMNode 제거 | [6707ec44](https://github.com/mattermost/mattermost/commit/6707ec446dcc63d4207353b833bb5a5132f40928) (#38008) | 테스트 파일의 mock 수정분은 제외 계보(`4255e314`)에만 있는 mock이라 버리고 새 접기 테스트만 더했다 — 아래 참조 |
+| Postgres 테스트 비밀번호 mostest_password | [752e5d17](https://github.com/mattermost/mattermost/commit/752e5d1755b5f5cc13e024c87eba3ed3622998af) (#38060) | docs 7개를 버리고 포크 문서 `DEVELOPMENT.md`의 안내 3곳을 맞추며 기존 컨테이너 전환 명령을 더했다 — 아래 참조 |
+| 서버 의존성 업데이트 (MM-70307) | [83113218](https://github.com/mattermost/mattermost/commit/83113218589ebbd3a3bbc37b56b05dc73429d328) (#38086) | `github.com/blang/semver/v4`를 우리 tidy 결정대로 계속 뺐다 — upstream 대비 go.mod 1줄·go.sum 2줄 차이 — 아래 참조 |
 | 앱 마이그레이션을 master DB에 고정 | [c5835cd2](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e) (#38084) | 잠금 6줄·mock 2줄·새 테스트는 받고, 충돌 문맥에 있던 제외 계보의 setup 마이그레이션 3개와 그 테스트 3개는 버렸다 — 아래 참조 |
 | property field 읽기를 request context로 이관 | [a3e171f7](https://github.com/mattermost/mattermost/commit/a3e171f730781dc87e5eb0f36d556f9eb39fc22a) (#37636) | 섞인 일반 정리(deprecated `WithMaster` 헬퍼 삭제) 4파일만 받고, property 본체 27파일은 제외 계보(`3fa87760` Linked Properties)라 버렸다 — 아래 참조 |
 | user_agent_platform 세션 속성에 Android 추가 | [5d5d4e27](https://github.com/mattermost/mattermost/commit/5d5d4e27523ed2d7a1fe4ea31210b173414e6d2d) (#38059) | 일반 함수 `getPlatformName`의 Android 판별만 받고, Session Attributes 스키마·SA·마이그레이션 테스트와 스키마 drift guard 테스트는 버렸다 — 아래 참조 |
@@ -1522,6 +1527,82 @@ localcachelayer(Reaction)·app(ScheduledPost·Emoji·UpdateUser·GuardedHook) �
 ### 되돌릴 조건
 
 - 없음. 이후 React 19 계열 커밋은 이 버전을 전제한다.
+
+## 테마·온보딩 설정 Customization 승격 — slate 옵션과 리브랜드 문구를 옮긴 자리에 되살렸다
+
+**upstream**: [`95cabdfb`](https://github.com/mattermost/mattermost/commit/95cabdfb3b1380b44ca18e7878244f99fb19d2e5)
+(Graduate theme and onboarding settings to Site Configuration > Customization, #38027) — 9파일 +566/-198, 2026-10-08 반영(`e76e91fb76`)
+
+**받은 것.** `ThemeSettings.EnableThemeSelection`·`AllowCustomThemes`·`DefaultTheme`, `ServiceSettings.EnableTutorial`·
+`EnableOnboardingFlow`의 실험 > 기능 → 사이트 구성 > 사용자 지정 이동과 `access` 태그 `site_customization` 변경,
+`ThemeSettings.AllowedThemes` 콘솔 노출, i18n id `admin.experimental.*` → `admin.customization.*`, 테스트 4개.
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `admin_definition.tsx` `ThemeSettings.DefaultTheme` 옵션 | denim·sapphire·quartz·indigo·onyx | 맨 앞에 `slate`(`admin.customization.defaultTheme.options.slate`) 유지 | 포크 기본 테마(`64e2cc958a`, spec 014). upstream 블록을 그대로 옮기면 사라진다 |
+| `admin.customization.allowedThemesDesc` | 유효 이름 5개 나열 | `slate`를 더해 6개 | 같은 이유 — `Preferences.THEMES` 키에 slate가 있다 |
+| `admin.customization.enableTutorialDesc` | "open Mattermost" | "open OKR.BEST" | 리브랜드(원칙 IV). 옛 id에 있던 우리 문구를 새 id로 옮겼다 |
+| `ko.json` | (upstream은 en만 바꿈) | 옛 id 16개를 새 id로 이동(slate 포함, 문구 그대로) | en만 바꾸면 orphaned로 CI가 막힌다. `0bff02c8`·`4c6c5a06` 항목과 같은 처리 |
+| `docs/main/.../experimental-·site-configuration-settings.mdx` | 설정 설명 이동 | 버림 | 우리가 지운 문서 사이트(`1d3bbc63`) 경로 |
+
+ko 미번역: 새 키 `admin.customization.allowedThemes{Title,Desc,Placeholder}` 3개.
+검증: 관련 jest 19 suites 99개, `public/model`, api4 `TestGetConfig|TestUpdateConfig|TestPatchConfig` 통과.
+
+되돌릴 조건: 없음. upstream이 이 블록(옵션 목록·설명)을 다시 고치면 slate 줄과 OKR.BEST 문구에서 충돌한다 — 그때 둘을 보존한다.
+
+## UserSettingsModal findDOMNode 제거 — 제외 계보의 mock 수정은 버렸다
+
+**upstream**: [`6707ec44`](https://github.com/mattermost/mattermost/commit/6707ec446dcc63d4207353b833bb5a5132f40928)
+(MM-50202 Remove redundant findDOMNode from UserSettingsModal, #38008) — 8파일 +110/-109, 2026-10-08 반영(`ab6485b38a`)
+
+**받은 것.** `handleCollapse`의 `findDOMNode` 제거, `setting_mobile_header`의 뒤로 아이콘 `<button>` 래핑, 스냅숏 4개,
+새 테스트 "collapsing the settings pane on mobile", `utils/test_helper.ts`의 `getUserMock` 기본 `locale` `''`→`'en'`.
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `user_settings_modal.test.tsx` mock 블록 | `utils/url` mock에 `...jest.requireActual` 추가, `utils/utils`·`components/user_settings` mock 수정·삭제 | 버림 — 우리 파일에 그 mock이 없다 | 그 mock과 테스트 2개("retains the plugin preferences heading…", "prefixes root-relative icon paths…")는 제외한 `4255e314`(#35591 pluggable channel settings tabs)가 넣은 것이다 |
+
+검증: `user_settings/` jest 31 suites 293개 통과. `test_helper` locale 변경의 파급은 `getUserMock` 계열 171 suites를
+HEAD·master에서 각각 돌려 실패 목록이 같음(22 suites·121종, 전부 master 기준선)으로 확인했다.
+
+되돌릴 조건: `4255e314`를 들이면 이 커밋의 mock 수정분도 함께 다시 적용한다.
+
+## Postgres 테스트 비밀번호 — 포크 문서와 로컬 환경까지 맞췄다
+
+**upstream**: [`752e5d17`](https://github.com/mattermost/mattermost/commit/752e5d1755b5f5cc13e024c87eba3ed3622998af)
+(MM-70307: Change Postgres test password to mostest_password, #38060) — 48파일 ±96, 2026-10-08 반영(`773ff55bed`)
+
+**받은 것.** 코드·설정·CI·e2e의 `mostest` → `mostest_password` 41파일 전부(FIPS OpenSSL의 112비트 최소 길이 대응).
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `docs/develop/**`·`docs/main/**` 7개 | 비밀번호 문자열 치환 | 버림 | 우리가 지운 문서 사이트 경로 |
+| `DEVELOPMENT.md`(포크 문서) | — | Postgres 안내 3곳(`CREATE ROLE`, DSN 예시, 기본값 설명)을 `mostest_password`로 고치고, 기존 컨테이너를 `docker exec -e PGPASSWORD=mostest … ALTER ROLE`로 전환하는 방법을 더했다. MySQL DSN 예시는 `mostest` 그대로 | upstream이 모르는 우리 문서. MySQL은 이 커밋(Postgres·lib/pq) 범위 밖 |
+
+로컬 환경: `mattermost-postgres`의 `mmuser` 비밀번호를 같은 날 `ALTER ROLE`로 바꾸고 git 추적 밖의 `server/config/config.json`
+DSN도 맞췄다(사용자 승인). 컨테이너 env의 `POSTGRES_PASSWORD=mostest`는 볼륨 초기화 때만 쓰여 실제 값이 아니다.
+
+되돌릴 조건: 없음.
+
+## 서버 의존성 업데이트 — blang/semver/v4는 우리 tidy 결정대로 계속 뺐다
+
+**upstream**: [`83113218`](https://github.com/mattermost/mattermost/commit/83113218589ebbd3a3bbc37b56b05dc73429d328)
+(MM-70307: Update dependencies, #38086) — 9파일 +324/-407, 2026-10-08 반영(`6a4f23bc5a`)
+
+**받은 것.** `server/go.mod`·`go.sum`·`public/go.mod`·`public/go.sum`의 의존성 갱신 전부(aws-sdk-go-v2, `golang.org/x/*`,
+testify 1.12, grpc 1.83 등)와 opensearch-go 클라이언트 API 변경 대응(`enterprise/elasticsearch/opensearch/` 5파일).
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `server/go.mod` 직접 의존 블록 | `github.com/blang/semver/v4 v4.0.0` 유지 | 빼고 나머지는 upstream 버전. `go.sum`의 그 모듈 2줄도 없다 | 포크 `ec08e964fb`(2026-09-08 `go mod tidy`)가 직접 임포트하는 코드가 없어 뺐다. 반영 후 `make modules-tidy` 재실행 결과 무변경 |
+
+upstream 결과물과의 차이는 이 모듈의 go.mod 1줄·go.sum 2줄뿐이다. 이후 upstream 의존성 커밋이 이 줄 근처를 고치면
+go.mod가 다시 충돌한다 — 그때도 upstream 버전을 받고 blang/semver만 빼면 된다.
+
+검증 한계: OpenSearch 연동 테스트 8건은 로컬에 OpenSearch가 없어 변경 전후 모두 같은 이유(`127.0.0.1:9201 connection refused`)로
+실패했다. 클라이언트 API 변경은 실서버로 검증하지 못했다(CI OpenSearch 잡도 러너 부재로 queued).
+
+되돌릴 조건: 우리 코드가 `blang/semver/v4`를 직접 임포트하게 되면 tidy가 그 줄을 되살린다.
 
 ## 앱 마이그레이션 master DB 고정 — 제외 계보의 setup 마이그레이션 3개는 버렸다
 
