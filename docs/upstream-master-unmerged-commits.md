@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-08 17:47
+- 갱신일: 2026-10-08 18:11
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 356개
+- 남은 커밋: 353개
 
-**마지막 반영 커밋:** `4608b024` | [\[MM-70291\] Add Global Relay custom EML header setting (#38010)](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) | 2026-08-24
+**마지막 반영 커밋:** `f21b0299` | [Bumping prepackaged Boards version to 9.4.0 (#38131)](https://github.com/mattermost/mattermost/commit/f21b0299d326fe0a90cadb10a68160374350af03) | 2026-08-25
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| e7360779 | [Adding Dataminr v2.0.0 as a prepackaged plugin (#38111)](https://github.com/mattermost/mattermost/commit/e7360779e068f9e3267e7fde578efeef64bb1a9f) | 2026-08-25 |
-| c3a5a087 | [\[MM-70086\] Compare user attributes against channel attributes in access rules (#37755)](https://github.com/mattermost/mattermost/commit/c3a5a087d7f40b201656f19ff6fc149f1547eb97) | 2026-08-25 |
-| f21b0299 | [Bumping prepackaged Boards version to 9.4.0 (#38131)](https://github.com/mattermost/mattermost/commit/f21b0299d326fe0a90cadb10a68160374350af03) | 2026-08-25 |
 | e22a25ab | [\[MM-65738\] Clarify main logger shutdown timeout diagnostic (#38101)](https://github.com/mattermost/mattermost/commit/e22a25ab85e3723b8c4e1745d177c3bddb950c4c) | 2026-08-26 |
 | d5ddd9e7 | [\[MM-70313\] Detect CJK analyzer plugins reported under a prefixed component name (#38132)](https://github.com/mattermost/mattermost/commit/d5ddd9e726d003b4ced6665ff9b3e35e4ecf5a53) | 2026-08-26 |
 | 0a5c312c | [\[GH-30481\] Add negative caching for missing custom emoji names in LocalCacheEmojiStore (#38018)](https://github.com/mattermost/mattermost/commit/0a5c312cf90152f5db0a016d9f40c93037530bec) | 2026-08-26 |
@@ -766,6 +763,10 @@
 | 9091791e | [Require release team review for release documentation (#38097)](https://github.com/mattermost/mattermost/commit/9091791efe39d9ac8007d25c57184e2dbdb0389b) | Mattermost 저장소 운영 규칙이라 우리에게 적용 대상이 없다. CODEOWNERS에 릴리스 문서 13종(changelog·ESR·업그레이드·배포 가이드)을 @mattermost/release-eng·@mattermost/release-managers 리뷰 대상으로 추가하는 +16줄인데, (1) 대상 경로 13줄이 전부 docs/main/** — 제외한 1d3bbc63(#37330, 문서 사이트 이관) 계보라 우리 저장소에 없다, (2) 소유자가 Mattermost 조직 팀이라 우리 저장소에서 지정할 수 없다. 우리 CODEOWNERS는 7a3a625dc6('코드 소유자 변경')·361141f9d8로 13줄 전부 @okrbest/okrbest 기준으로 다시 써서 upstream 소유자(@hmhealey·@mattermost/product-security)가 하나도 남아 있지 않고, merge-tree CONFLICT도 이 차이에서 온다. |
 
 | 84414404 | [Fix nil context panic in TestDoSetupSessionAttributesProperties (#38123)](https://github.com/mattermost/mattermost/commit/84414404a1d3032564fea9eb139fac14c72f045c) | 고칠 대상이 우리 트리에 없다. migrations_test.go의 TestDoSetupSessionAttributesProperties 서브테스트('adds newly declared options to an already-seeded select')가 UpdatePropertyFields(nil, …)로 panic하던 것을 SystemCallerContext로 바꾸는 ±1줄인데, (1) TestDoSetupSessionAttributesProperties 자체가 제외한 684ddb32(#36934 Session Attributes) 계보라 우리 migrations_test.go에 0건이고(c5835cd2 adapt에서 버린 setup 테스트 3개 중 하나), (2) 그 서브테스트는 직전 5d5d4e27(#38059)을 adapt하며 버렸다(docs/upstream-adapted-divergences.md의 5d5d4e27 항목). merge-tree CONFLICT는 대상 줄 부재에서 온다. 재검토 조건: Session Attributes 계보(684ddb32) 도입 시 5d5d4e27의 버린 테스트와 함께 되살린다. |
+
+| c3a5a087 | [\[MM-70086\] Compare user attributes against channel attributes in access rules (#37755)](https://github.com/mattermost/mattermost/commit/c3a5a087d7f40b201656f19ff6fc149f1547eb97) | 제외한 property 시스템 v2 계보(48f2fd08·3fa87760 Linked Properties·017a7102 Rank) 위에 얹힌 신규 대형 기능이라 반영할 토대가 없다. ABAC 규칙에서 사용자 속성을 채널 속성(resource.attributes.*)과 비교하게 하는 81파일 +5287/-481로, 핵심인 DB 마이그레이션 000216(AttributeView → UserAttributeView·ChannelAttributeView 분리)이 PropertyFields.ObjectType 컬럼으로 user/channel을 가르고 rank 타입을 다루는데 우리 PropertyFields에는 ObjectType 컬럼이 없어(우리 마이그레이션에서 ObjectType은 자동번역 테이블뿐) 우리 DB에서 그대로 실패한다. HEAD 부재 경로 20개 — classification_markings/*(제외한 2b7b398a 분류 표시 계보), user_properties_rank_values*(Rank 계보), properties_user.ts, channel_attribute_target·test_channel_picker, migration 000216 테스트 등. 새 플래그 ResourceAttributesInPolicies(기본 false)도 이 토대를 전제한다. 후속 채널 속성 커밋(7206a383·94c163f8·24ef18fd·f1cf5341, 계층 속성 85372e3a 등)도 같은 사유로 연쇄 제외 대상. private-module 태그 해당 없음. 재검토 조건: property 시스템 v2 도입을 결정할 때 — 그때 이 커밋과 채널 속성 후속을 묶어 spec으로 가져간다. |
+
+| f21b0299 | [Bumping prepackaged Boards version to 9.4.0 (#38131)](https://github.com/mattermost/mattermost/commit/f21b0299d326fe0a90cadb10a68160374350af03) | 공식 Boards 번들 버전 올림(9.3.1 → 9.4.0, 일반·FIPS)을 받지 않는다 — 1bfa2e51(Boards 9.3.1) 제외에서 정한 방침 적용. 우리 Boards(okrbest/okrbest-plugin-boards)는 공식과 플러그인 ID(focalboard)가 같은 포크라, server/Makefile PLUGIN_PACKAGES가 더 높은 공식 버전을 번들하면 서버 재시작 때 processPrepackagedPlugin이 우리 플러그인을 공식 것으로 덮어쓴다(과도기 번들 목록이라 파일 저장소까지 교체). 우리 Makefile은 boards-v9.3.0·agents-v2.4.2에 머물러 있어 upstream 문맥(9.3.1·2.5.1)과도 어긋난다. Agents 10804f80 제외와 같은 근거. 번들 목록에서 Boards·Agents를 빼는 결정이 나면 그 정책을 따른다. |
 
 ## spec 전환 커밋
 
