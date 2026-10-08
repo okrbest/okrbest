@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-08 18:11
+- 갱신일: 2026-10-08 21:20
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 353개
+- 남은 커밋: 350개
 
-**마지막 반영 커밋:** `f21b0299` | [Bumping prepackaged Boards version to 9.4.0 (#38131)](https://github.com/mattermost/mattermost/commit/f21b0299d326fe0a90cadb10a68160374350af03) | 2026-08-25
+**마지막 반영 커밋:** `9ea90ca8` | [Backport i18n packaging and locale fallback fixes (#38148)](https://github.com/mattermost/mattermost/commit/9ea90ca862df152a8adf4d86a06c323b4415f901) | 2026-08-26
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| e22a25ab | [\[MM-65738\] Clarify main logger shutdown timeout diagnostic (#38101)](https://github.com/mattermost/mattermost/commit/e22a25ab85e3723b8c4e1745d177c3bddb950c4c) | 2026-08-26 |
-| d5ddd9e7 | [\[MM-70313\] Detect CJK analyzer plugins reported under a prefixed component name (#38132)](https://github.com/mattermost/mattermost/commit/d5ddd9e726d003b4ced6665ff9b3e35e4ecf5a53) | 2026-08-26 |
-| 0a5c312c | [\[GH-30481\] Add negative caching for missing custom emoji names in LocalCacheEmojiStore (#38018)](https://github.com/mattermost/mattermost/commit/0a5c312cf90152f5db0a016d9f40c93037530bec) | 2026-08-26 |
-| dfd3e81c | [Add OnLicenseChanged plugin hook (#37871)](https://github.com/mattermost/mattermost/commit/dfd3e81cc625f277e4bdf38c60236375061bbe18) | 2026-08-26 |
-| f8ce7089 | [Fix English i18n source typos and audit wording (#38149)](https://github.com/mattermost/mattermost/commit/f8ce70894aa839350798f695e3ed0be833f11a87) | 2026-08-26 |
-| c93955ad | [Allow public permalink clicks to join when compliance is enabled (#38040)](https://github.com/mattermost/mattermost/commit/c93955ad7c5a1eeda759c4c727450dfe27bc10a5) | 2026-08-26 |
-| 9ea90ca8 | [Backport i18n packaging and locale fallback fixes (#38148)](https://github.com/mattermost/mattermost/commit/9ea90ca862df152a8adf4d86a06c323b4415f901) | 2026-08-26 |
 | 85b0227d | [E2E/Playwright: Upgrade playwright@1.62 and its deps (#38014)](https://github.com/mattermost/mattermost/commit/85b0227d1d741e436b7e179cc839820a91279921) | 2026-08-27 |
 | c4a2e085 | [fix tests with file server host (#38138)](https://github.com/mattermost/mattermost/commit/c4a2e085ec0bc674d5ff2316a059c48db196a05e) | 2026-08-27 |
 | cda301a7 | [MM-69945: Align post type validation across post and scheduled post paths (#38054)](https://github.com/mattermost/mattermost/commit/cda301a7b06c9ad78b484d922dee5e82a061d8be) | 2026-08-27 |
@@ -364,6 +357,10 @@
 | 0584e1b3 | [Bump mattermost/pdf for content-stream array parsing fix (#38781)](https://github.com/mattermost/mattermost/commit/0584e1b30b494aa9ea48515d3e3b1f738c2909be) | 2026-10-07 |
 | dc88bb3d | [MM-70922: Download media gallery attachments as a single zip (#38879)](https://github.com/mattermost/mattermost/commit/dc88bb3d50b4ee4cde7f4555a84276a291612ead) | 2026-10-07 |
 | e8d7f37e | [\[MM-71076\] Calls: Add phone call options menu to the call button in DMs and profile popover (#38941)](https://github.com/mattermost/mattermost/commit/e8d7f37e923dc4d3582cdb83aefee751eab7bdba) | 2026-10-07 |
+| 5b28e9b1 | [docs: add Evaluators persona and Quick Start Evaluation folder (#38974)](https://github.com/mattermost/mattermost/commit/5b28e9b1600c877711b9ee3894df767f337a2997) | 2026-10-08 |
+| 33411b9d | [fix(app): scope received_group to group readers (#38299)](https://github.com/mattermost/mattermost/commit/33411b9d3ced672f94765eb58f3ebd25e1cecc43) | 2026-10-08 |
+| 6746e2f5 | [\[MM-70779\] Make the number part of a hyphenated term findable in Postgres search (#38704)](https://github.com/mattermost/mattermost/commit/6746e2f5d9fb824f3ed1575352f90961826f96f2) | 2026-10-08 |
+| acf6e7bd | [Add dot release docs for server v11.7.12 (ESR) (#39057)](https://github.com/mattermost/mattermost/commit/acf6e7bd22224cafcb847dabd6b2bf83505805d1) | 2026-10-08 |
 
 ## 제외된 커밋
 
