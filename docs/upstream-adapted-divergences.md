@@ -52,6 +52,7 @@
 | mlog 필드 키 snake_case 강제 | [ede2edab](https://github.com/mattermost/mattermost/commit/ede2edab4dabc7d5777f02ec3135197a659615ca) (#37998) | 전부 받고, 제외 계보 탓에 남은 옛 CPA 코드 1줄(`"fieldID"`)을 직접 고쳤다 — 아래 참조 |
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 | 앱 마이그레이션을 master DB에 고정 | [c5835cd2](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e) (#38084) | 잠금 6줄·mock 2줄·새 테스트는 받고, 충돌 문맥에 있던 제외 계보의 setup 마이그레이션 3개와 그 테스트 3개는 버렸다 — 아래 참조 |
+| property field 읽기를 request context로 이관 | [a3e171f7](https://github.com/mattermost/mattermost/commit/a3e171f730781dc87e5eb0f36d556f9eb39fc22a) (#37636) | 섞인 일반 정리(deprecated `WithMaster` 헬퍼 삭제) 4파일만 받고, property 본체 27파일은 제외 계보(`3fa87760` Linked Properties)라 버렸다 — 아래 참조 |
 
 ---
 
@@ -1540,6 +1541,36 @@ setup 계열 테스트 통과. 로컬 PG에 read replica가 없어 실제 복제
 
 되돌릴 조건: 위 세 계보 중 하나를 들이면 그 setup 마이그레이션과 테스트가 이 함수·파일에 다시 들어온다.
 그때 잠금 6줄은 함수 머리에 그대로 두면 된다.
+
+## property field 읽기 request context 이관 — WithMaster 정리만 받고 property 본체는 버렸다
+
+**upstream**: [`a3e171f7`](https://github.com/mattermost/mattermost/commit/a3e171f730781dc87e5eb0f36d556f9eb39fc22a)
+([MM-70224] Migrate property field reads to request context, #37636) — 31파일 +388/-416, 2026-10-08 반영
+
+**받은 것.** 섞여 들어온 일반 정리 — deprecated `store.WithMaster`·`sqlstore.WithMaster` 삭제,
+`RequestContextWithMaster`에 로직 인라인, 두 `TestContextMaster` 삭제(`store/context.go`·`context_test.go`,
+`store/sqlstore/context.go`·`context_test.go`). 우리 저장소에 `WithMaster` 호출부가 없어 동작 차이는 없다.
+
+**버린 것.** 아래 27파일 전부. 이 커밋의 본체는 `PropertyFieldStore` 읽기 메서드 5개
+(`Get`·`GetMany`·`GetFieldByName`·`GetFieldByNameForObjectType`·`GetForGroup`)의 `ctx context.Context`를
+`rctx request.CTX`로 바꾸고 호출부를 따라 고치는 것이다. 그런데 **우리 `PropertyFieldStore`에는 `ctx` 인자가 처음부터 없다**
+(`Get(groupID, id)`). 그 인자를 넣은 것은 제외한 `3fa87760`(#35808 Linked Properties, property 시스템 v2·`48f2fd08`
+계보)이고, `GetFieldByNameForObjectType`·`GetForGroup`·`CountLinkedFields`·`CheckPropertyNameConflict`·`Update`의
+`expectedUpdateAts`도 같은 계보라 우리에게 없다.
+
+| 묶음 | 파일 (`server/channels/` 기준) | 우리 처리 |
+|---|---|---|
+| store 인터페이스·구현·레이어·mock·storetest | `store/store.go`, `store/sqlstore/property_field_store.go`, `store/retrylayer/retrylayer.go`, `store/timerlayer/timerlayer.go`, `store/storetest/mocks/PropertyFieldStore.go`, `store/storetest/property_field_store.go` | 버림 — 바꿀 `ctx` 인자가 없다 |
+| localcachelayer | `store/localcachelayer/property_field_layer.go`·`_test.go`(우리에게 없음), `store/localcachelayer/main_test.go` | 버림 — property 캐시 레이어가 제외 계보다 |
+| 레이어 템플릿 | `store/layer_generators/retry_layer.go.tmpl`·`timer_layer.go.tmpl` | 버림 — 우리 템플릿·생성물에는 원래 `"context"` import가 없다 |
+| property 서비스 | `app/properties/property_field.go`·`property_value.go`·`access_control.go`, `access_control_attribute_validation.go`·`session_attributes.go`·`_test.go`(우리에게 없음) | 버림 — 호출부 `ctx`→`rctx` 치환과 Session Attributes(`684ddb32`)·속성 검증 계보 |
+| app·api4 호출부 | `app/content_flagging.go`·`_test.go`, `app/content_flagging_report.go`·`_test.go`, `app/content_flagging_exposure_report.go`, `app/access_control.go`, `app/session_attributes.go`, `app/migrations.go`·`_test.go`, `api4/content_flagging.go` | 버림 — 넘길 `rctx` 인자가 받는 쪽에 없다 |
+
+검증: `go build ./...`, `go vet ./channels/store/ ./channels/store/sqlstore/`, `store` 패키지 테스트,
+`sqlstore`의 `TestRequestContextWithMaster`·`TestGetReplica` 통과.
+
+되돌릴 조건: property 시스템 v2(`48f2fd08`·`3fa87760` 계보)를 들이면 `PropertyFieldStore`에 `ctx`가 생긴다.
+그때 이 커밋의 property 본체를 다시 적용해야 한다(그 시점엔 `ctx`→`rctx` 치환이 그대로 맞는다).
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
