@@ -7127,6 +7127,7 @@
   "team_settings.sync_status.sync_now": "Sync now",
   "team_settings.sync_status.syncing": "Syncing...",
   "team_sidebar.railTeamButton.ariaLabel": "Current team: {teamName}. Switch teams",
+  "team_sidebar.railTeamButton.label": "Teams",
   "terms_of_service.agreeButton": "I Agree",
   "terms_of_service.api_error": "Unable to complete the request. If this issue persists, contact your System Administrator.",
   "terms_of_service.disagreeButton": "I Disagree",
