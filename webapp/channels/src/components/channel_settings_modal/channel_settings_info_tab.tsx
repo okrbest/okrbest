@@ -43,6 +43,15 @@ type ChannelSettingsInfoTabProps = {
     showTabSwitchError?: boolean;
 };
 
+// The form seeds each field from the raw channel record and trims only when
+// building the save payload, so change detection compares the raw values. That
+// keeps an untouched channel clean on open (local value equals the stored one)
+// while still letting a user save the removal of stored leading/trailing
+// whitespace.
+function hasTextChanged(value: string, savedValue?: string): boolean {
+    return value !== (savedValue ?? '');
+}
+
 function ChannelSettingsInfoTab({
     channel,
     onCancel,
@@ -146,20 +155,25 @@ function ChannelSettingsInfoTab({
         }
     }, [channelNameError, formError, setFormError]);
 
-    // Update parent component when changes occur
-    useEffect(() => {
-        // Calculate unsaved changes directly
-        const unsavedChanges = channel ? (
-            displayName.trim() !== channel.display_name ||
-            channelUrl.trim() !== channel.name ||
-            channelPurpose.trim() !== channel.purpose ||
-            channelHeader.trim() !== channel.header ||
-            channelType !== channel.type ||
-            discoverable !== Boolean(channel.discoverable)
-        ) : false;
+    const hasUnsavedChanges = useMemo(() => {
+        if (hasTextChanged(channelHeader, channel.header)) {
+            return true;
+        }
 
-        setAreThereUnsavedChanges?.(unsavedChanges);
-    }, [channel, displayName, channelUrl, channelPurpose, channelHeader, channelType, discoverable, setAreThereUnsavedChanges]);
+        if (isDMorGroupChannel) {
+            return false;
+        }
+
+        return hasTextChanged(displayName, channel.display_name) ||
+            hasTextChanged(channelUrl, channel.name) ||
+            hasTextChanged(channelPurpose, channel.purpose) ||
+            channelType !== channel.type ||
+            (showDiscoverableToggle && discoverable !== Boolean(channel.discoverable));
+    }, [channel, isDMorGroupChannel, displayName, channelUrl, channelPurpose, channelHeader, channelType, discoverable, showDiscoverableToggle]);
+
+    useEffect(() => {
+        setAreThereUnsavedChanges?.(hasUnsavedChanges);
+    }, [hasUnsavedChanges, setAreThereUnsavedChanges]);
 
     const handleURLChange = useCallback((newURL: string) => {
         if (internalUrlError) {
@@ -298,16 +312,16 @@ function ChannelSettingsInfoTab({
         // public channel would 400. Upstream's Managed Categories clauses are
         // dropped: those fields do not exist in our tree.
         const updated: Partial<Channel> = {};
-        if (!isDMorGroupChannel && displayName.trim() !== channel.display_name) {
+        if (!isDMorGroupChannel && hasTextChanged(displayName, channel.display_name)) {
             updated.display_name = displayName.trim();
         }
-        if (!isDMorGroupChannel && channelUrl.trim() !== channel.name) {
+        if (!isDMorGroupChannel && hasTextChanged(channelUrl, channel.name)) {
             updated.name = channelUrl.trim();
         }
-        if (!isDMorGroupChannel && channelPurpose.trim() !== channel.purpose) {
+        if (!isDMorGroupChannel && hasTextChanged(channelPurpose, channel.purpose)) {
             updated.purpose = channelPurpose.trim();
         }
-        if (channelHeader.trim() !== channel.header) {
+        if (hasTextChanged(channelHeader, channel.header)) {
             updated.header = channelHeader.trim();
         }
 
@@ -332,10 +346,12 @@ function ChannelSettingsInfoTab({
 
         // After every successful save, update local state to match the saved values
         // with this, we make sure that the unsavedChanges check will return false after saving
-        setDisplayName(data?.display_name ?? updated.display_name ?? '');
-        setChannelURL(data?.name ?? updated.name ?? '');
-        setChannelPurpose(data?.purpose ?? updated.purpose ?? '');
-        setChannelHeader(data?.header ?? updated.header ?? '');
+        // Fields the patch did not touch fall back to the stored value, not '', so an untouched
+        // field keeps matching the channel record (upstream does the same since a8dc8baa).
+        setDisplayName(data?.display_name ?? updated.display_name ?? channel.display_name);
+        setChannelURL(data?.name ?? updated.name ?? channel.name);
+        setChannelPurpose(data?.purpose ?? updated.purpose ?? channel.purpose);
+        setChannelHeader(data?.header ?? updated.header ?? channel.header);
         if (data && 'discoverable' in data) {
             setDiscoverable(Boolean(data.discoverable));
         }
@@ -402,19 +418,7 @@ function ChannelSettingsInfoTab({
                      Boolean(showTabSwitchError) ||
                      Boolean(internalUrlError);
 
-    // Memoize the calculation for whether to show the save changes panel
-    const shouldShowPanel = useMemo(() => {
-        const unsavedChanges = channel ? (
-            displayName.trim() !== channel.display_name ||
-            channelUrl.trim() !== channel.name ||
-            channelPurpose.trim() !== channel.purpose ||
-            channelHeader.trim() !== channel.header ||
-            channelType !== channel.type ||
-            (showDiscoverableToggle && discoverable !== Boolean(channel.discoverable))
-        ) : false;
-
-        return unsavedChanges || saveChangesPanelState === 'saved';
-    }, [channel, displayName, channelUrl, channelPurpose, channelHeader, channelType, saveChangesPanelState, discoverable, showDiscoverableToggle]);
+    const shouldShowPanel = hasUnsavedChanges || saveChangesPanelState === 'saved';
 
     return (
         <div
