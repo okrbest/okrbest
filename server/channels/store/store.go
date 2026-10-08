@@ -704,6 +704,7 @@ type CommandWebhookStore interface {
 
 type PreferenceStore interface {
 	Save(preferences model.Preferences) error
+	ApplyThemeToAllUsers(value string) error
 	GetCategory(userID string, category string) (model.Preferences, error)
 	GetCategoryAndName(category string, name string) (model.Preferences, error)
 	Get(userID string, category string, name string) (*model.Preference, error)

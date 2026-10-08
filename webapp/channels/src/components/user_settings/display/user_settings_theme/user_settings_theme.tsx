@@ -30,9 +30,11 @@ type Props = {
     allowCustomThemes: boolean;
     showAllTeamsCheckbox: boolean;
     applyToAllTeams: boolean;
+    showApplyToAllUsersCheckbox: boolean;
     actions: {
         saveTheme: (teamId: string, theme: Theme) => void;
         deleteTeamSpecificThemes: () => void;
+        applyThemeToAllUsers: (theme: Theme) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
     };
 };
@@ -42,6 +44,7 @@ type State = {
     type: string;
     showAllTeamsCheckbox: boolean;
     applyToAllTeams: boolean;
+    applyToAllUsers: boolean;
     serverError: string;
     theme: Theme;
 };
@@ -88,6 +91,7 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
             type: theme.type || 'premade',
             showAllTeamsCheckbox: props.showAllTeamsCheckbox,
             applyToAllTeams: props.applyToAllTeams,
+            applyToAllUsers: false,
             serverError: '',
             isSaving: false,
         };
@@ -98,14 +102,18 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
     }
 
     submitTheme = async (): Promise<void> => {
-        const teamId = this.state.applyToAllTeams ? '' : this.props.currentTeamId;
-
         this.setState({isSaving: true});
 
-        await this.props.actions.saveTheme(teamId, this.state.theme);
+        if (this.state.applyToAllUsers) {
+            await this.props.actions.applyThemeToAllUsers(this.state.theme);
+        } else {
+            const teamId = this.state.applyToAllTeams ? '' : this.props.currentTeamId;
 
-        if (this.state.applyToAllTeams) {
-            await this.props.actions.deleteTeamSpecificThemes();
+            await this.props.actions.saveTheme(teamId, this.state.theme);
+
+            if (this.state.applyToAllTeams) {
+                await this.props.actions.deleteTeamSpecificThemes();
+            }
         }
 
         this.props.setRequireConfirm?.(false);
@@ -250,12 +258,33 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
                             <input
                                 id='applyThemeToAllTeams'
                                 type='checkbox'
-                                checked={this.state.applyToAllTeams}
+                                checked={this.state.applyToAllUsers || this.state.applyToAllTeams}
+                                disabled={this.state.applyToAllUsers}
                                 onChange={(e) => this.setState({applyToAllTeams: e.target.checked})}
                             />
                             <FormattedMessage
                                 id='user.settings.display.theme.applyToAllTeams'
                                 defaultMessage='Apply new theme to all my teams'
+                            />
+                        </label>
+                    </div>
+                );
+            }
+
+            let allUsersCheckbox = null;
+            if (this.props.showApplyToAllUsersCheckbox) {
+                allUsersCheckbox = (
+                    <div className='checkbox user-settings__submit-checkbox'>
+                        <label>
+                            <input
+                                id='applyThemeToAllUsers'
+                                type='checkbox'
+                                checked={this.state.applyToAllUsers}
+                                onChange={(e) => this.setState({applyToAllUsers: e.target.checked})}
+                            />
+                            <FormattedMessage
+                                id='user.settings.display.theme.applyToAllUsers'
+                                defaultMessage='Apply new theme to all users'
                             />
                         </label>
                     </div>
@@ -283,7 +312,12 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
                             </div>
                         </fieldset>
                     }
-                    submitExtra={allTeamsCheckbox}
+                    submitExtra={
+                        <>
+                            {allTeamsCheckbox}
+                            {allUsersCheckbox}
+                        </>
+                    }
                     submit={this.submitTheme}
                     disableEnterSubmit={true}
                     saving={this.state.isSaving}

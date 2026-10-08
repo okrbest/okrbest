@@ -27,6 +27,87 @@ func TestPreferenceStore(t *testing.T, rctx request.CTX, ss store.Store, s SqlSt
 	t.Run("PreferenceDeleteOrphanedRows", func(t *testing.T) { testPreferenceDeleteOrphanedRows(t, rctx, ss) })
 	t.Run("PreferenceCleanupFlagsBatch", func(t *testing.T) { testPreferenceCleanupFlagsBatch(t, rctx, ss) })
 	t.Run("PreferenceDeleteInvalidVisibleDmsGms", func(t *testing.T) { testDeleteInvalidVisibleDmsGms(t, rctx, ss, s) })
+	t.Run("PreferenceApplyThemeToAllUsers", func(t *testing.T) { testPreferenceApplyThemeToAllUsers(t, rctx, ss) })
+}
+
+func testPreferenceApplyThemeToAllUsers(t *testing.T, rctx request.CTX, ss store.Store) {
+	// json.Marshal sorts map keys, so keep seed values already sorted for exact comparison
+	newTheme := `{"sidebarBg":"#1e325c","type":"Denim"}`
+	oldTheme := `{"sidebarBg":"#202228","type":"Onyx"}`
+
+	activeWithGlobal, err := ss.User().Save(rctx, &model.User{Email: MakeEmail(), Username: model.NewUsername()})
+	require.NoError(t, err)
+	activeWithTeamThemes, err := ss.User().Save(rctx, &model.User{Email: MakeEmail(), Username: model.NewUsername()})
+	require.NoError(t, err)
+	activeWithoutTheme, err := ss.User().Save(rctx, &model.User{Email: MakeEmail(), Username: model.NewUsername()})
+	require.NoError(t, err)
+	deactivated, err := ss.User().Save(rctx, &model.User{Email: MakeEmail(), Username: model.NewUsername(), DeleteAt: model.GetMillis()})
+	require.NoError(t, err)
+
+	botOwnerID := activeWithGlobal.Id
+	botUser, err := ss.User().Save(rctx, model.UserFromBot(&model.Bot{
+		Username:    model.NewUsername(),
+		Description: "bot",
+		OwnerId:     botOwnerID,
+	}))
+	require.NoError(t, err)
+	_, nErr := ss.Bot().Save(&model.Bot{
+		UserId:      botUser.Id,
+		Username:    botUser.Username,
+		Description: "bot",
+		OwnerId:     botOwnerID,
+	})
+	require.NoError(t, nErr)
+
+	for _, user := range []*model.User{activeWithGlobal, activeWithTeamThemes, activeWithoutTheme, deactivated, botUser} {
+		userID := user.Id
+		defer func() {
+			require.NoError(t, ss.Preference().PermanentDeleteByUser(userID))
+			require.NoError(t, ss.User().PermanentDelete(rctx, userID))
+		}()
+	}
+
+	teamID1 := model.NewId()
+	teamID2 := model.NewId()
+	require.NoError(t, ss.Preference().Save(model.Preferences{
+		{UserId: activeWithGlobal.Id, Category: model.PreferenceCategoryTheme, Name: "", Value: oldTheme},
+		{UserId: activeWithTeamThemes.Id, Category: model.PreferenceCategoryTheme, Name: teamID1, Value: oldTheme},
+		{UserId: activeWithTeamThemes.Id, Category: model.PreferenceCategoryTheme, Name: teamID2, Value: oldTheme},
+		{UserId: deactivated.Id, Category: model.PreferenceCategoryTheme, Name: "", Value: oldTheme},
+	}))
+
+	t.Run("invalid theme value fails and changes nothing", func(t *testing.T) {
+		require.Error(t, ss.Preference().ApplyThemeToAllUsers("not-json"))
+
+		pref, getErr := ss.Preference().Get(activeWithGlobal.Id, model.PreferenceCategoryTheme, "")
+		require.NoError(t, getErr)
+		assert.Equal(t, oldTheme, pref.Value, "existing theme must stay untouched after a failed apply")
+
+		_, getErr = ss.Preference().Get(activeWithTeamThemes.Id, model.PreferenceCategoryTheme, teamID1)
+		require.NoError(t, getErr, "team-specific theme must survive a failed apply")
+	})
+
+	t.Run("applies theme to all active non-bot users", func(t *testing.T) {
+		require.NoError(t, ss.Preference().ApplyThemeToAllUsers(newTheme))
+
+		for _, userID := range []string{activeWithGlobal.Id, activeWithTeamThemes.Id, activeWithoutTheme.Id} {
+			pref, getErr := ss.Preference().Get(userID, model.PreferenceCategoryTheme, "")
+			require.NoError(t, getErr, "active user must have a global theme row")
+			assert.Equal(t, newTheme, pref.Value)
+		}
+
+		_, getErr := ss.Preference().Get(activeWithTeamThemes.Id, model.PreferenceCategoryTheme, teamID1)
+		require.Error(t, getErr, "team-specific theme must be removed")
+		_, getErr = ss.Preference().Get(activeWithTeamThemes.Id, model.PreferenceCategoryTheme, teamID2)
+		require.Error(t, getErr, "team-specific theme must be removed")
+
+		_, getErr = ss.Preference().Get(botUser.Id, model.PreferenceCategoryTheme, "")
+		require.Error(t, getErr, "bot must not receive a theme")
+
+		pref, getErr := ss.Preference().Get(deactivated.Id, model.PreferenceCategoryTheme, "")
+		require.NoError(t, getErr)
+		assert.Equal(t, oldTheme, pref.Value, "deactivated user's theme must stay untouched")
+	})
 }
 
 func testPreferenceSave(t *testing.T, _ request.CTX, ss store.Store) {

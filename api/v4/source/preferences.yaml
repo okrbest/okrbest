@@ -204,3 +204,42 @@
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthorized"
+  "/api/v4/users/theme/apply_to_all":
+    post:
+      tags:
+        - preferences
+      summary: Apply a theme to all users
+      description: >
+        Overwrite the theme preference of every active non-bot user with the
+        given theme value and remove team-specific themes. Users may change
+        their own theme again afterwards.
+
+        ##### Permissions
+
+        Must have the `manage_system` permission.
+      operationId: ApplyThemeToAllUsers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - theme
+              properties:
+                theme:
+                  type: string
+                  description: The theme preference value as a JSON string
+        required: true
+      responses:
+        "200":
+          description: Theme applied to all users successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatusOK"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"

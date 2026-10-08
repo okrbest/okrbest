@@ -1,0 +1,8 @@
+### GREEN(2차): storetest
+ok  	github.com/mattermost/mattermost/server/v8/channels/store/sqlstore	0.419s
+
+### GREEN(2차): app
+ok  	github.com/mattermost/mattermost/server/v8/channels/app	0.670s
+
+### GREEN(2차): api4
+ok  	github.com/mattermost/mattermost/server/v8/channels/api4	1.080s

@@ -5,9 +5,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import type {Dispatch} from 'redux';
 
-import {saveTheme, deleteTeamSpecificThemes} from 'mattermost-redux/actions/preferences';
+import {saveTheme, deleteTeamSpecificThemes, applyThemeToAllUsers} from 'mattermost-redux/actions/preferences';
 import {getTheme, getThemePreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getMyTeamsCount} from 'mattermost-redux/selectors/entities/teams';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
 
@@ -21,6 +22,7 @@ function mapStateToProps(state: GlobalState) {
         theme: getTheme(state),
         applyToAllTeams: getThemePreferences(state).length <= 1,
         showAllTeamsCheckbox: getMyTeamsCount(state) > 1,
+        showApplyToAllUsersCheckbox: isCurrentUserSystemAdmin(state),
     };
 }
 
@@ -29,6 +31,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators({
             saveTheme,
             deleteTeamSpecificThemes,
+            applyThemeToAllUsers,
             openModal,
         }, dispatch),
     };

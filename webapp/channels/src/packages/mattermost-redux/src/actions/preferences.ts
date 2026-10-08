@@ -112,6 +112,43 @@ export function saveTheme(teamId: string, theme: Theme): ActionFuncAsync {
     };
 }
 
+// applyThemeToAllUsers overwrites the theme of every active user on the server
+// with the given theme (system admins only; the server enforces the permission).
+export function applyThemeToAllUsers(theme: Theme): ActionFuncAsync {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const themeValue = JSON.stringify(theme);
+
+        try {
+            await Client4.applyThemeToAllUsers(themeValue);
+        } catch (error) {
+            return {error};
+        }
+
+        // reflect the server-side result locally without waiting for the
+        // broadcast event: team-specific themes are gone, the global theme is set
+        const teamSpecificThemes = getThemePreferences(state).filter((pref) => pref.name !== '');
+        if (teamSpecificThemes.length > 0) {
+            dispatch({
+                type: PreferenceTypes.DELETED_PREFERENCES,
+                data: teamSpecificThemes,
+            });
+        }
+        dispatch({
+            type: PreferenceTypes.RECEIVED_PREFERENCES,
+            data: [{
+                user_id: currentUserId,
+                category: Preferences.CATEGORY_THEME,
+                name: '',
+                value: themeValue,
+            }],
+        });
+
+        return {data: true};
+    };
+}
+
 export function deleteTeamSpecificThemes(): ActionFuncAsync {
     return async (dispatch, getState) => {
         const state = getState();

@@ -19,6 +19,37 @@ func (api *API) InitPreference() {
 	api.BaseRoutes.Preferences.Handle("/delete", api.APISessionRequired(deletePreferences)).Methods(http.MethodPost)
 	api.BaseRoutes.Preferences.Handle("/{category:[A-Za-z0-9_]+}", api.APISessionRequired(getPreferencesByCategory)).Methods(http.MethodGet)
 	api.BaseRoutes.Preferences.Handle("/{category:[A-Za-z0-9_]+}/name/{preference_name:[A-Za-z0-9_]+}", api.APISessionRequired(getPreferenceByCategoryAndName)).Methods(http.MethodGet)
+	api.BaseRoutes.Users.Handle("/theme/apply_to_all", api.APISessionRequired(applyThemeToAllUsers)).Methods(http.MethodPost)
+}
+
+func applyThemeToAllUsers(c *Context, w http.ResponseWriter, r *http.Request) {
+	auditRec := c.MakeAuditRecord(model.AuditEventApplyThemeToAllUsers, model.AuditStatusFail)
+	defer c.LogAuditRec(auditRec)
+
+	if !c.App.SessionHasPermissionTo(*c.AppContext.Session(), model.PermissionManageSystem) {
+		c.SetPermissionError(model.PermissionManageSystem)
+		return
+	}
+
+	var props struct {
+		Theme string `json:"theme"`
+	}
+	if err := model.StructFromJSONLimited(r.Body, &props); err != nil {
+		c.SetInvalidParamWithErr("theme", err)
+		return
+	}
+	if props.Theme == "" {
+		c.SetInvalidParam("theme")
+		return
+	}
+
+	if appErr := c.App.ApplyThemeToAllUsers(c.AppContext, props.Theme); appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	auditRec.Success()
+	ReturnStatusOK(w)
 }
 
 func getPreferences(c *Context, w http.ResponseWriter, r *http.Request) {

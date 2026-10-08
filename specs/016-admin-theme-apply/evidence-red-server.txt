@@ -1,0 +1,20 @@
+### RED: storetest (T005)
+# github.com/mattermost/mattermost/server/v8/channels/store/storetest
+channels/store/storetest/preference_store.go:80:36: ss.Preference().ApplyThemeToAllUsers undefined (type store.PreferenceStore has no field or method ApplyThemeToAllUsers)
+channels/store/storetest/preference_store.go:91:38: ss.Preference().ApplyThemeToAllUsers undefined (type store.PreferenceStore has no field or method ApplyThemeToAllUsers)
+FAIL	github.com/mattermost/mattermost/server/v8/channels/store/sqlstore [build failed]
+FAIL
+
+### RED: app (T006)
+# github.com/mattermost/mattermost/server/v8/channels/store/storetest
+channels/store/storetest/preference_store.go:80:36: ss.Preference().ApplyThemeToAllUsers undefined (type store.PreferenceStore has no field or method ApplyThemeToAllUsers)
+channels/store/storetest/preference_store.go:91:38: ss.Preference().ApplyThemeToAllUsers undefined (type store.PreferenceStore has no field or method ApplyThemeToAllUsers)
+FAIL	github.com/mattermost/mattermost/server/v8/channels/app [build failed]
+FAIL
+
+### RED: api4 (T007/T018)
+# github.com/mattermost/mattermost/server/v8/channels/store/storetest
+channels/store/storetest/preference_store.go:80:36: ss.Preference().ApplyThemeToAllUsers undefined (type store.PreferenceStore has no field or method ApplyThemeToAllUsers)
+channels/store/storetest/preference_store.go:91:38: ss.Preference().ApplyThemeToAllUsers undefined (type store.PreferenceStore has no field or method ApplyThemeToAllUsers)
+FAIL	github.com/mattermost/mattermost/server/v8/channels/api4 [build failed]
+FAIL

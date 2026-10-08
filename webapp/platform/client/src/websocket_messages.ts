@@ -375,6 +375,10 @@ export type PreferencesChanged =
         preferences: JsonEncodedValue<PreferenceType[]>;
     }>;
 
+export type ThemeAppliedToAll = BaseWebSocketMessage<WebSocketEvents.ThemeAppliedToAll, {
+    theme: string;
+}>;
+
 // Channel sidebar messages
 
 export type SidebarCategoryCreated = BaseWebSocketMessage<WebSocketEvents.SidebarCategoryCreated, {

@@ -8153,6 +8153,22 @@ func (s *TimerLayerPostPriorityStore) Save(priority *model.PostPriority) (*model
 	return result, err
 }
 
+func (s *TimerLayerPreferenceStore) ApplyThemeToAllUsers(value string) error {
+	start := time.Now()
+
+	err := s.PreferenceStore.ApplyThemeToAllUsers(value)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("PreferenceStore.ApplyThemeToAllUsers", success, elapsed)
+	}
+	return err
+}
+
 func (s *TimerLayerPreferenceStore) CleanupFlagsBatch(limit int64) (int64, error) {
 	start := time.Now()
 

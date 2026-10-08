@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import {WebSocketEvents} from '@mattermost/client';
 
-import {ChannelTypes, CloudTypes, JobTypes, TeamTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, CloudTypes, JobTypes, PreferenceTypes, TeamTypes} from 'mattermost-redux/action_types';
 import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
 import {fetchAllMyTeamsChannels, getChannelMember} from 'mattermost-redux/actions/channels';
 import {getCustomProfileAttributeFields} from 'mattermost-redux/actions/general';
@@ -58,6 +58,7 @@ import {
     handleCloudSubscriptionChanged,
     handleGroupAddedMemberEvent,
     handleStatusChangedEvent,
+    handleThemeAppliedToAllEvent,
     handleCustomAttributeValuesUpdated,
     handleCustomAttributesCreated,
     handleCustomAttributesUpdated,
@@ -2254,5 +2255,39 @@ describe('handleJobUpdated', () => {
         expect(testStore.getActions()).not.toContainEqual(
             expect.objectContaining({type: 'MOCK_GET_JOBS_BY_TYPE'}),
         );
+    });
+});
+
+describe('handleThemeAppliedToAllEvent', () => {
+    test('should drop team-specific themes and set the broadcast theme as the global one', () => {
+        const originalPreferences = mockState.entities.preferences;
+        const teamTheme = {category: 'theme', name: 'team1', user_id: 'currentUserId', value: '{"type":"Onyx"}'};
+        mockState = mergeObjects(mockState, {
+            entities: {
+                preferences: {
+                    myPreferences: {
+                        'theme--': {category: 'theme', name: '', user_id: 'currentUserId', value: '{"type":"Onyx"}'},
+                        'theme--team1': teamTheme,
+                    },
+                },
+            },
+        });
+
+        const themeValue = '{"sidebarBg":"#1e325c","type":"Denim"}';
+        handleThemeAppliedToAllEvent({
+            event: WebSocketEvents.ThemeAppliedToAll,
+            data: {theme: themeValue},
+        });
+
+        expect(store.dispatch).toHaveBeenCalledWith({
+            type: PreferenceTypes.DELETED_PREFERENCES,
+            data: [teamTheme],
+        });
+        expect(store.dispatch).toHaveBeenCalledWith({
+            type: PreferenceTypes.RECEIVED_PREFERENCES,
+            data: [{category: 'theme', name: '', user_id: 'currentUserId', value: themeValue}],
+        });
+
+        mockState.entities.preferences = originalPreferences;
     });
 });

@@ -86,6 +86,39 @@ func (a *App) UpdatePreferences(rctx request.CTX, userID string, preferences mod
 	return nil
 }
 
+// ApplyThemeToAllUsers overwrites the theme of every active non-bot user with
+// the given theme value, removing team-specific themes, and broadcasts the
+// change to all connected clients. Users may change their own theme afterwards.
+func (a *App) ApplyThemeToAllUsers(rctx request.CTX, themeValue string) *model.AppError {
+	preference := model.Preference{
+		UserId:   model.NewId(),
+		Category: model.PreferenceCategoryTheme,
+		Name:     "",
+		Value:    themeValue,
+	}
+	// validate before PreUpdate: PreUpdate silently coerces malformed JSON to "null"
+	if appErr := preference.IsValid(); appErr != nil {
+		return model.NewAppError("ApplyThemeToAllUsers", "app.preference.apply_theme_all.invalid.app_error", nil, "", http.StatusBadRequest).Wrap(appErr)
+	}
+	preference.PreUpdate()
+
+	if err := a.Srv().Store().Preference().ApplyThemeToAllUsers(preference.Value); err != nil {
+		var appErr *model.AppError
+		switch {
+		case errors.As(err, &appErr):
+			return appErr
+		default:
+			return model.NewAppError("ApplyThemeToAllUsers", "app.preference.apply_theme_all.save.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+		}
+	}
+
+	message := model.NewWebSocketEvent(model.WebsocketEventThemeAppliedToAll, "", "", "", nil, "")
+	message.Add("theme", preference.Value)
+	a.Publish(message)
+
+	return nil
+}
+
 func (a *App) DeletePreferences(rctx request.CTX, userID string, preferences model.Preferences) *model.AppError {
 	for _, preference := range preferences {
 		if userID != preference.UserId {

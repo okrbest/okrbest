@@ -73,6 +73,7 @@ export type WebSocketMessage = (
 
     Messages.PreferenceChanged |
     Messages.PreferencesChanged |
+    Messages.ThemeAppliedToAll |
 
     Messages.SidebarCategoryCreated |
     Messages.SidebarCategoryUpdated |

@@ -2989,6 +2989,13 @@ export default class Client4 {
         );
     };
 
+    applyThemeToAllUsers = (themeValue: string) => {
+        return this.doFetch<StatusOK>(
+            `${this.getUsersRoute()}/theme/apply_to_all`,
+            {method: 'post', body: JSON.stringify({theme: themeValue})},
+        );
+    };
+
     getMyPreferences = () => {
         return this.doFetch<PreferenceType>(
             `${this.getPreferencesRoute('me')}`,

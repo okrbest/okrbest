@@ -307,8 +307,9 @@ const (
 
 // Preferences
 const (
-	AuditEventDeletePreferences = "deletePreferences" // delete user preferences
-	AuditEventUpdatePreferences = "updatePreferences" // update user preferences
+	AuditEventApplyThemeToAllUsers = "applyThemeToAllUsers" // apply a theme to all users
+	AuditEventDeletePreferences    = "deletePreferences"    // delete user preferences
+	AuditEventUpdatePreferences    = "updatePreferences"    // update user preferences
 )
 
 // Remote Clusters

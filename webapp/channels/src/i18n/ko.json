@@ -6788,6 +6788,7 @@
   "user.settings.display.teammateNameDisplayTitle": "사용자 ID 표시",
   "user.settings.display.teammateNameDisplayUsername": "사용자 ID로 보기",
   "user.settings.display.theme.applyToAllTeams": "가입한 모든 팀에서 새로운 테마를 적용합니다.",
+  "user.settings.display.theme.applyToAllUsers": "모든 팀원에게 새로운 테마를 적용합니다.",
   "user.settings.display.theme.customTheme": "커스텀 테마",
   "user.settings.display.theme.describe": "내 테마 관리하기",
   "user.settings.display.theme.otherThemes": "다른 테마 보기",
