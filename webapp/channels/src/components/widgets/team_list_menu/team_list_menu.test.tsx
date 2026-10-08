@@ -20,12 +20,18 @@ jest.mock('actions/team_actions', () => ({
     switchTeam: jest.fn(() => ({type: 'MOCK_SWITCH_TEAM'})),
 }));
 
+jest.mock('mattermost-redux/selectors/entities/channels', () => ({
+    ...jest.requireActual('mattermost-redux/selectors/entities/channels'),
+    getTeamsUnreadStatuses: jest.fn(() => [new Set(), new Map(), new Map()]),
+}));
+
 jest.mock('utils/products', () => ({
     ...jest.requireActual('utils/products'),
     useCurrentProduct: jest.fn(() => null),
 }));
 
 const {switchTeam} = jest.requireMock('actions/team_actions');
+const {getTeamsUnreadStatuses} = jest.requireMock('mattermost-redux/selectors/entities/channels');
 const {useCurrentProduct} = jest.requireMock('utils/products');
 
 describe('components/widgets/team_list_menu', () => {
@@ -91,6 +97,7 @@ describe('components/widgets/team_list_menu', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        getTeamsUnreadStatuses.mockReturnValue([new Set(), new Map(), new Map()]);
     });
 
     it('should list my teams in saved order with the current team checked', async () => {
@@ -128,6 +135,19 @@ describe('components/widgets/team_list_menu', () => {
             const item = screen.getByRole('menuitem', {name: new RegExp(team.display_name)});
             expect(item.querySelector('.TeamIcon')).toBeInTheDocument();
         }
+    });
+
+    it('should mark teams with unreads with a dot, except the current team', async () => {
+        getTeamsUnreadStatuses.mockReturnValue([new Set([teamA.id, teamB.id]), new Map(), new Map()]);
+
+        renderInMenu(baseState);
+        await openMenu();
+
+        expect(screen.getByTestId(`teamListMenuItem-unread-${teamB.id}`)).toBeInTheDocument();
+
+        // 현재 팀(teamA)은 보고 있는 팀이므로 점을 띄우지 않는다
+        expect(screen.queryByTestId(`teamListMenuItem-unread-${teamA.id}`)).not.toBeInTheDocument();
+        expect(screen.queryByTestId(`teamListMenuItem-unread-${teamC.id}`)).not.toBeInTheDocument();
     });
 
     it('should switch to the clicked team', async () => {
