@@ -53,6 +53,7 @@
 | ABAC 편집기 아포스트로피 값 Simple 모드 복귀 | [7a06c7ae](https://github.com/mattermost/mattermost/commit/7a06c7ae5263a37e4916149b029619f1d7fd4b67) (#37819) | 판정 정규식을 우리 패턴 7개에만 적용했다. session·rank·네이티브 패턴과 테스트 셋을 버렸다 — 아래 참조 |
 | 앱 마이그레이션을 master DB에 고정 | [c5835cd2](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e) (#38084) | 잠금 6줄·mock 2줄·새 테스트는 받고, 충돌 문맥에 있던 제외 계보의 setup 마이그레이션 3개와 그 테스트 3개는 버렸다 — 아래 참조 |
 | property field 읽기를 request context로 이관 | [a3e171f7](https://github.com/mattermost/mattermost/commit/a3e171f730781dc87e5eb0f36d556f9eb39fc22a) (#37636) | 섞인 일반 정리(deprecated `WithMaster` 헬퍼 삭제) 4파일만 받고, property 본체 27파일은 제외 계보(`3fa87760` Linked Properties)라 버렸다 — 아래 참조 |
+| user_agent_platform 세션 속성에 Android 추가 | [5d5d4e27](https://github.com/mattermost/mattermost/commit/5d5d4e27523ed2d7a1fe4ea31210b173414e6d2d) (#38059) | 일반 함수 `getPlatformName`의 Android 판별만 받고, Session Attributes 스키마·SA·마이그레이션 테스트와 스키마 drift guard 테스트는 버렸다 — 아래 참조 |
 
 ---
 
@@ -1571,6 +1572,30 @@ setup 계열 테스트 통과. 로컬 PG에 read replica가 없어 실제 복제
 
 되돌릴 조건: property 시스템 v2(`48f2fd08`·`3fa87760` 계보)를 들이면 `PropertyFieldStore`에 `ctx`가 생긴다.
 그때 이 커밋의 property 본체를 다시 적용해야 한다(그 시점엔 `ctx`→`rctx` 치환이 그대로 맞는다).
+
+## user_agent_platform에 Android 추가 — getPlatformName만 받고 Session Attributes 스키마는 버렸다
+
+**upstream**: [`5d5d4e27`](https://github.com/mattermost/mattermost/commit/5d5d4e27523ed2d7a1fe4ea31210b173414e6d2d)
+([MM-70389] Add Android to the user_agent_platform session attribute values, #38059) — 6파일 +179/-8, 2026-10-08 반영
+
+**받은 것.** `app/user_agent.go`의 `getPlatformName` 수정 — OS가 Android이거나 Mattermost 모바일 앱이 iOS가 아니면
+`"Android"`를 돌려준다(전에는 `"Linux"`). `app/user_agent_test.go`의 기대값 7곳 갱신과 Chrome OS·Linux 데스크톱·
+Linux Desktop App 케이스 3개. **우리에게도 동작 변화가 있다** — `login.go:197`이 이 함수로 세션 `platform` 속성을 기록하므로
+Android 기기 세션이 `"Android"`로 남는다. 활동 기록 모달(`activity_log.tsx`)은 Android를 `os`로 판별해 표시는 그대로다.
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `public/model/session_attributes.go` | `user_agent_platform` 선택지에 `{"name": "Android"}` 추가 | 버림 — 파일이 우리에게 없다 | Session Attributes 스키마는 제외한 `684ddb32`(#36934)의 산물이다. 우리가 받은 `bf53cd3345`(#36511)는 app 계층(`app/session_attributes.go`)뿐이다 |
+| `public/model/session_attributes_test.go` | 선택지 테스트 | 버림 — 같은 이유 | 같은 계보 |
+| `app/user_agent_test.go` `TestPlatformNamesAreSelectableSessionAttributeValues` | 파생 플랫폼 이름과 스키마 선택지의 drift guard | **이 테스트와 그것만 쓰던 `require`·`model` import를 뺐다** | `model.SessionAttributeSystemFields`·`IsValidSessionAttributeValue`가 우리에게 없어 빌드가 깨진다 |
+| `app/session_attributes_test.go` | Android 세션이 `"Android"`로 저장되는지 확인 | 버림 | `ProcessSessionAttributesRequest`·`enableSessionAttributesCollection` 등 제외 계보 헬퍼를 쓴다(patch도 안 붙는다) |
+| `app/migrations_test.go` | 이미 시드된 select에 새 선택지가 붙는지 확인 | 버림 | `doSetupSessionAttributesProperties`가 우리에게 없다 — 오늘 `c5835cd2` 항목과 같은 계보 |
+
+검증: 수정 전 코드로는 `TestGetPlatformName`의 Android 기대값에서 실패(RED), 수정 후 통과(GREEN). `TestGetOSName`·
+`TestGetBrowser*`·`TestLoginByIntune_*`·`TestRefreshRequestProvidedSessionAttributesIfNeeded` 통과, `go vet ./channels/app/` 통과.
+
+되돌릴 조건: Session Attributes 계보(`684ddb32`)를 들이면 스키마 선택지 Android와 drift guard·SA·마이그레이션 테스트를
+이 커밋에서 다시 가져온다. 그때 drift guard가 `getPlatformName`과 스키마의 일치를 지켜 준다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
