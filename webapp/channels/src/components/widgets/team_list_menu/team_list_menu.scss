@@ -12,6 +12,24 @@
         margin-right: 10px;
     }
 
+    .teamListMenuItem__icon {
+        position: relative;
+        display: inline-flex;
+    }
+
+    // 다른 팀의 안 읽은 메시지 — 레일 팀 버튼의 점과 같은 색 관례
+    .teamListMenuItem__unread {
+        position: absolute;
+        z-index: 1;
+        top: -3px;
+        right: -3px;
+        width: 8px;
+        height: 8px;
+        border-radius: 100%;
+        background: var(--mention-bg);
+        box-shadow: 0 0 0 2px var(--center-channel-bg);
+    }
+
     // TeamIcon은 어두운 레일(sidebar 변수) 기준이라 밝은 메뉴 안에서는
     // 크기(24px)와 색을 본문(center-channel) 변수로 맞춘다
     .TeamIcon,

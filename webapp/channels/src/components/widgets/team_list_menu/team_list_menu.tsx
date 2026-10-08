@@ -14,6 +14,7 @@ import {
 import type {Team} from '@mattermost/types/teams';
 
 import {Permissions} from 'mattermost-redux/constants';
+import {getTeamsUnreadStatuses} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles_helpers';
@@ -44,6 +45,7 @@ export default function TeamListMenu() {
     const currentTeamId = useSelector(getCurrentTeamId);
     const locale = useSelector(getCurrentLocale);
     const teamsOrder = useSelector((state: GlobalState) => get(state, Preferences.TEAMS_ORDER, '', ''));
+    const [unreadTeams] = useSelector(getTeamsUnreadStatuses);
 
     const config = useSelector(getConfig);
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
@@ -79,12 +81,21 @@ export default function TeamListMenu() {
                     aria-current={team.id === currentTeamId ? 'true' : undefined}
                     onClick={() => handleTeamClick(team)}
                     leadingElement={(
-                        <span aria-hidden='true'>
+                        <span
+                            className='teamListMenuItem__icon'
+                            aria-hidden='true'
+                        >
                             <TeamIcon
                                 content={team.display_name}
                                 url={Utils.imageURLForTeam(team)}
                                 size='xxs'
                             />
+                            {team.id !== currentTeamId && unreadTeams.has(team.id) && (
+                                <span
+                                    className='teamListMenuItem__unread'
+                                    data-testid={`teamListMenuItem-unread-${team.id}`}
+                                />
+                            )}
                         </span>
                     )}
                     labels={<span className='teamListMenuItem__name'>{team.display_name}</span>}
