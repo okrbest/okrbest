@@ -2,49 +2,49 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback} from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom';
 
 import {
+    AccountMultipleOutlineIcon,
+    ApplicationCogIcon,
+    InformationOutlineIcon,
     LightbulbOutlineIcon,
     AccountPlusOutlineIcon,
     AccountMultiplePlusOutlineIcon,
     SettingsOutlineIcon,
-    AccountMultipleOutlineIcon,
     ExitToAppIcon,
-    MessagePlusOutlineIcon,
-    PlusIcon,
     MonitorAccountIcon,
     SitemapIcon,
+    ViewGridPlusOutlineIcon,
+    WebhookIncomingIcon,
 } from '@mattermost/compass-icons/components';
 import {buttonClassNames} from '@mattermost/shared/components/button';
 import type {Team} from '@mattermost/types/teams';
 
 import {Permissions} from 'mattermost-redux/constants';
-import {getCloudSubscription, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles_helpers';
-import {getJoinableTeamIds} from 'mattermost-redux/selectors/entities/teams';
+import {getConfig, getLicense, isMarketplaceEnabled} from 'mattermost-redux/selectors/entities/general';
+import {isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {haveICurrentTeamPermission, haveISystemPermission as haveISystemPermissionFromRoles} from 'mattermost-redux/selectors/entities/roles';
 
 import {openModal} from 'actions/views/modals';
 import {getMainMenuPluginComponents} from 'selectors/plugins';
 
+import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
-import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 import InvitationModal from 'components/invitation_modal';
 import LeaveTeamModal from 'components/leave_team_modal';
 import * as Menu from 'components/menu';
+import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
+import MarketplaceModal from 'components/plugin_marketplace/marketplace_modal';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 import TeamMembersModal from 'components/team_members_modal';
 import TeamOrgRoleManagementModal from 'components/team_org_role_management_modal';
 import TeamSettingsModal from 'components/team_settings_modal';
-import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
+import UserGroupsModal from 'components/user_groups_modal';
+import TeamListMenu from 'components/widgets/team_list_menu/team_list_menu';
 
-import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
-import {LicenseSkus, ModalIdentifiers, MattermostFeatures, CloudProducts} from 'utils/constants';
-import {isCloudLicense} from 'utils/license_utils';
+import {ModalIdentifiers} from 'utils/constants';
 
 import type {GlobalState} from 'types/store';
 
@@ -56,19 +56,14 @@ export default function SidebarTeamMenu(props: Props) {
     const license = useSelector(getLicense);
     const config = useSelector(getConfig);
 
-    const havePermissionToCreateTeam = useSelector((state: GlobalState) => haveISystemPermission(state, {permission: Permissions.CREATE_TEAM}));
     const havePermissionToManageTeam = useSelector((state: GlobalState) => haveICurrentTeamPermission(state, Permissions.MANAGE_TEAM));
     const havePermissionToManageTeamRoles = useSelector((state: GlobalState) => haveICurrentTeamPermission(state, Permissions.MANAGE_TEAM_ROLES));
     const havePermissionToAddUserToTeam = useSelector((state: GlobalState) => haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM));
     const havePermissionToInviteGuest = useSelector((state: GlobalState) => haveICurrentTeamPermission(state, Permissions.INVITE_GUEST));
-    const isCloud = isCloudLicense(license);
     const isGuestAccessEnabled = config?.EnableGuestAccounts === 'true';
     const isTeamGroupConstrained = Boolean(props.currentTeam?.group_constrained);
     const isLicensedForLDAPGroups = license?.LDAPGroups === 'true';
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
-    const joinableTeams = useSelector(getJoinableTeamIds);
-    const haveMoreJoinableTeams = joinableTeams?.length > 0;
-    const canJoinAnotherTeam = !experimentalPrimaryTeam && haveMoreJoinableTeams;
 
     const tooltipText = props.currentTeam.description ? props.currentTeam.description : props.currentTeam.display_name;
 
@@ -91,6 +86,8 @@ export default function SidebarTeamMenu(props: Props) {
                 id: 'sidebarTeamMenu',
             }}
         >
+            <TeamListMenu/>
+            <Menu.Separator/>
             {((isGuestAccessEnabled && havePermissionToInviteGuest) || havePermissionToAddUserToTeam) && (
                 <InvitePeopleMenuItem/>
             )}
@@ -112,18 +109,11 @@ export default function SidebarTeamMenu(props: Props) {
             {(!isTeamGroupConstrained && experimentalPrimaryTeam !== props.currentTeam.name) && (
                 <LeaveTeamMenuItem/>
             )}
-            {(canJoinAnotherTeam || havePermissionToCreateTeam) && <Menu.Separator/>}
-            {canJoinAnotherTeam &&
-                <JoinAnotherTeamMenuItem/>
-            }
-            {havePermissionToCreateTeam && (
-                <CreateTeamMenuItem
-                    isCloud={isCloud}
-                />
-            )}
             <Menu.Separator/>
             <LearnAboutTeamsMenuItem/>
             <PluginMenuItems/>
+            <Menu.Separator/>
+            <AdminToolsSection currentTeam={props.currentTeam}/>
         </Menu.Container>
     );
 }
@@ -386,119 +376,6 @@ function LeaveTeamMenuItem() {
     );
 }
 
-function JoinAnotherTeamMenuItem() {
-    const history = useHistory();
-
-    const handleClick = useCallback(() => {
-        history.push('/select_team');
-    }, [history]);
-
-    return (
-        <Menu.Item
-            leadingElement={(
-                <MessagePlusOutlineIcon
-                    size={18}
-                    aria-hidden='true'
-                />
-            )}
-            onClick={handleClick}
-            labels={(
-                <FormattedMessage
-                    id='sidebarLeft.teamMenu.joinAnotherTeamMenuItem.primaryLabel'
-                    defaultMessage='Join another team'
-                />
-            )}
-        />
-    );
-}
-
-interface CreateTeamMenuItemProps {
-    isCloud: boolean;
-}
-
-function CreateTeamMenuItem({isCloud}: CreateTeamMenuItemProps) {
-    const history = useHistory();
-
-    const cloudSubscription = useSelector(getCloudSubscription);
-    const subscriptionProduct = useSelector(getSubscriptionProduct);
-    const isFreeTrial = isCloud && cloudSubscription?.is_free_trial === 'true';
-    const isStarterFree = isCloud && subscriptionProduct?.sku === CloudProducts.STARTER;
-    const usageDeltas = useGetUsageDeltas();
-    const isTeamsLimitReached = isStarterFree && !isFreeTrial && usageDeltas.teams.active >= 0;
-    const isTeamCreateRestricted = isCloud && (isFreeTrial || isTeamsLimitReached);
-
-    const handleClick = useCallback(() => {
-        if (isTeamsLimitReached || isTeamCreateRestricted) {
-            return;
-        }
-
-        history.push('/create_team');
-    }, [history, isTeamsLimitReached]);
-
-    return (
-        <Menu.Item
-            leadingElement={(
-                <PlusIcon
-                    size={18}
-                    aria-hidden='true'
-                />
-            )}
-            onClick={handleClick}
-            labels={(
-                <FormattedMessage
-                    id='sidebarLeft.teamMenu.createTeamMenuItem.primaryLabel'
-                    defaultMessage='Create a team'
-                />
-            )}
-            trailingElements={isTeamCreateRestricted && <RestrictedIndicatorForCreateTeam isFreeTrial={isFreeTrial}/>}
-        />
-    );
-}
-
-function RestrictedIndicatorForCreateTeam({isFreeTrial}: {isFreeTrial: boolean}) {
-    const {formatMessage} = useIntl();
-
-    return (
-        <RestrictedIndicator
-            feature={MattermostFeatures.CREATE_MULTIPLE_TEAMS}
-            minimumPlanRequiredForFeature={LicenseSkus.Professional}
-            blocked={!isFreeTrial}
-            tooltipMessage={formatMessage({
-                id: 'navbar_dropdown.create.tooltip.cloudFreeTrial',
-                defaultMessage: 'During your trial you are able to create multiple teams. These teams will be archived after your trial.',
-            })}
-            titleAdminPreTrial={formatMessage({
-                id: 'navbar_dropdown.create.modal.titleAdminPreTrial',
-                defaultMessage: 'Try unlimited teams with a free trial',
-            })}
-            messageAdminPreTrial={formatMessage({
-                id: 'navbar_dropdown.create.modal.messageAdminPreTrial',
-                defaultMessage: 'Create unlimited teams with one of our paid plans. Get the full experience of Enterprise when you start a free, {trialLength} day trial.',
-            },
-            {
-                trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
-            },
-            )}
-            titleAdminPostTrial={formatMessage({
-                id: 'navbar_dropdown.create.modal.titleAdminPostTrial',
-                defaultMessage: 'Upgrade to create unlimited teams',
-            })}
-            messageAdminPostTrial={formatMessage({
-                id: 'navbar_dropdown.create.modal.messageAdminPostTrial',
-                defaultMessage: "Multiple teams allow for context-specific spaces that are more attuned to your and your teams' needs. Upgrade to the Professional plan to create unlimited teams.",
-            })}
-            titleEndUser={formatMessage({
-                id: 'navbar_dropdown.create.modal.titleEndUser',
-                defaultMessage: 'Multiple teams available in paid plans',
-            })}
-            messageEndUser={formatMessage({
-                id: 'navbar_dropdown.create.modal.messageEndUser',
-                defaultMessage: "Multiple teams allow for context-specific spaces that are more attuned to your teams' needs.",
-            })}
-        />
-    );
-}
-
 const MATTERMOST_ACADEMY_TEAM_TRAINING_LINK = 'https://mattermost.com/pl/mattermost-academy-team-training';
 
 function LearnAboutTeamsMenuItem() {
@@ -556,4 +433,129 @@ function PluginMenuItems() {
     }
 
     return null;
+}
+
+// product switcher(제거됨)에서 이전한 관리 섹션 — 각 항목의 노출 조건은
+// 기존 product_menu_list와 동일하다. 클라우드 요금제 전용 부속(RestrictedIndicator,
+// CloudTrial)과 비활성화돼 있던 앱 다운로드 항목은 셀프호스트 포크에서 쓰이지
+// 않아 이전하지 않았다.
+function AdminToolsSection({currentTeam}: {currentTeam: Team}) {
+    const dispatch = useDispatch();
+    const config = useSelector(getConfig);
+
+    const siteName = config.SiteName || 'Mattermost';
+    const enableCommands = config.EnableCommands === 'true';
+    const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
+    const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
+    const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
+    const enablePluginMarketplace = useSelector(isMarketplaceEnabled);
+    const enableCustomUserGroups = useSelector(isCustomGroupsEnabled);
+
+    const canManageTeamIntegrations = useSelector((state: GlobalState) => (
+        haveICurrentTeamPermission(state, Permissions.MANAGE_SLASH_COMMANDS) ||
+        haveICurrentTeamPermission(state, Permissions.MANAGE_OWN_SLASH_COMMANDS) ||
+        haveICurrentTeamPermission(state, Permissions.MANAGE_INCOMING_WEBHOOKS) ||
+        haveICurrentTeamPermission(state, Permissions.MANAGE_OWN_INCOMING_WEBHOOKS) ||
+        haveICurrentTeamPermission(state, Permissions.MANAGE_OUTGOING_WEBHOOKS) ||
+        haveICurrentTeamPermission(state, Permissions.MANAGE_OWN_OUTGOING_WEBHOOKS) ||
+        haveISystemPermissionFromRoles(state, {permission: Permissions.MANAGE_OAUTH})
+    ));
+    const canManageSystemBots = useSelector((state: GlobalState) => (
+        haveISystemPermissionFromRoles(state, {permission: Permissions.MANAGE_BOTS}) ||
+        haveISystemPermissionFromRoles(state, {permission: Permissions.MANAGE_OTHERS_BOTS})
+    ));
+    const canManageMarketplace = useSelector((state: GlobalState) => haveISystemPermissionFromRoles(state, {permission: Permissions.SYSCONSOLE_WRITE_PLUGINS}));
+
+    const someIntegrationEnabled = enableIncomingWebhooks || enableOutgoingWebhooks || enableCommands || enableOAuthServiceProvider || canManageSystemBots;
+    const showIntegrations = someIntegrationEnabled && (canManageTeamIntegrations || canManageSystemBots);
+
+    const openUserGroupsModal = useCallback(() => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.USER_GROUPS,
+            dialogType: UserGroupsModal,
+        }));
+    }, [dispatch]);
+
+    const openMarketplaceModal = useCallback(() => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.PLUGIN_MARKETPLACE,
+            dialogType: MarketplaceModal,
+        }));
+    }, [dispatch]);
+
+    const openAboutModal = useCallback(() => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.ABOUT,
+            dialogType: AboutBuildModal,
+        }));
+    }, [dispatch]);
+
+    return (
+        <>
+            <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
+                <Menu.LinkItem
+                    id='sidebarTeamMenu-systemConsole'
+                    to='/admin_console'
+                    leadingElement={<ApplicationCogIcon size={18}/>}
+                    labels={(
+                        <FormattedMessage
+                            id='navbar_dropdown.console'
+                            defaultMessage='System Console'
+                        />
+                    )}
+                />
+            </SystemPermissionGate>
+            {showIntegrations && (
+                <Menu.LinkItem
+                    id='sidebarTeamMenu-integrations'
+                    to={`/${currentTeam.name}/integrations`}
+                    leadingElement={<WebhookIncomingIcon size={18}/>}
+                    labels={(
+                        <FormattedMessage
+                            id='navbar_dropdown.integrations'
+                            defaultMessage='Integrations'
+                        />
+                    )}
+                />
+            )}
+            {enableCustomUserGroups && (
+                <Menu.Item
+                    id='sidebarTeamMenu-userGroups'
+                    onClick={openUserGroupsModal}
+                    leadingElement={<AccountMultipleOutlineIcon size={18}/>}
+                    labels={(
+                        <FormattedMessage
+                            id='navbar_dropdown.userGroups'
+                            defaultMessage='User Groups'
+                        />
+                    )}
+                />
+            )}
+            {enablePluginMarketplace && canManageMarketplace && (
+                <Menu.Item
+                    id='sidebarTeamMenu-marketplace'
+                    onClick={openMarketplaceModal}
+                    leadingElement={<ViewGridPlusOutlineIcon size={18}/>}
+                    labels={(
+                        <FormattedMessage
+                            id='navbar_dropdown.marketplace'
+                            defaultMessage='App Marketplace'
+                        />
+                    )}
+                />
+            )}
+            <Menu.Item
+                id='sidebarTeamMenu-about'
+                onClick={openAboutModal}
+                leadingElement={<InformationOutlineIcon size={18}/>}
+                labels={(
+                    <FormattedMessage
+                        id='navbar_dropdown.about'
+                        defaultMessage='About {appTitle}'
+                        values={{appTitle: siteName}}
+                    />
+                )}
+            />
+        </>
+    );
 }

@@ -3,20 +3,16 @@
 
 import classNames from 'classnames';
 import React from 'react';
-import {DragDropContext, Droppable} from 'react-beautiful-dnd';
-import type {DroppableProvided, DropResult} from 'react-beautiful-dnd';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import {injectIntl} from 'react-intl';
 import type {WrappedComponentProps} from 'react-intl';
 import type {RouteComponentProps} from 'react-router-dom';
 
 import type {Team} from '@mattermost/types/teams';
 
-import Permissions from 'mattermost-redux/constants/permissions';
-
 import Scrollbars from 'components/common/scrollbars';
-import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import SidebarFooter from 'components/sidebar/sidebar_footer';
-import TeamButton from 'components/team_sidebar/components/team_button';
+import RailProductButton from 'components/team_sidebar/components/rail_product_button';
+import RailTeamButton from 'components/team_sidebar/components/rail_team_button';
 
 import WebSocketClient from 'client/web_websocket_client';
 import Pluggable from 'plugins/pluggable';
@@ -24,7 +20,6 @@ import {Constants} from 'utils/constants';
 import * as Keyboard from 'utils/keyboard';
 import {getCurrentProduct} from 'utils/products';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
-import * as Utils from 'utils/utils';
 
 import type {PropsFromRedux} from './index';
 
@@ -32,21 +27,7 @@ export interface Props extends PropsFromRedux, WrappedComponentProps {
     location: RouteComponentProps['location'];
 }
 
-type State = {
-    showOrder: boolean;
-    teamsOrder: Team[];
-};
-
-export class TeamSidebar extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            showOrder: false,
-            teamsOrder: [],
-        };
-    }
-
+export class TeamSidebar extends React.PureComponent<Props> {
     // OKR.BEST: 채널 사이드바가 접힌 상태에서 레일 호버로 임시 공개(peek)한다.
     // 레일을 떠날 때는 사이드바로 건너가는 중일 수 있어 잠시 기다렸다가,
     // 둘 다 호버가 아니면 닫는다.
@@ -135,17 +116,7 @@ export class TeamSidebar extends React.PureComponent<Props, State> {
                 return;
             }
 
-            if (this.switchToTeamByNumber(e, currentTeamId, teams)) {
-                return;
-            }
-
-            this.setState({showOrder: true});
-        }
-    };
-
-    handleKeyUp = (e: KeyboardEvent) => {
-        if (!((e.ctrlKey || e.metaKey) && e.altKey)) {
-            this.setState({showOrder: false});
+            this.switchToTeamByNumber(e, currentTeamId, teams);
         }
     };
 
@@ -162,52 +133,13 @@ export class TeamSidebar extends React.PureComponent<Props, State> {
         // for admins, who are otherwise exempt on the System Console listing.
         this.props.actions.getTeams(0, 200, false, false, true);
         document.addEventListener('keydown', this.handleKeyDown);
-        document.addEventListener('keyup', this.handleKeyUp);
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeyDown);
-        document.removeEventListener('keyup', this.handleKeyUp);
     }
 
-    onDragEnd = (result: DropResult) => {
-        const {
-            updateTeamsOrderForUser,
-        } = this.props.actions;
-
-        if (!result.destination) {
-            return;
-        }
-
-        const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
-
-        const sourceIndex = result.source.index;
-        const destinationIndex = result.destination.index;
-
-        // Positioning the dropped Team button
-        const popElement = (list: Team[], idx: number) => {
-            return [...list.slice(0, idx), ...list.slice(idx + 1, list.length)];
-        };
-
-        const pushElement = (list: Team[], idx: number, itemId: string): Team[] => {
-            return [
-                ...list.slice(0, idx),
-                teams.find((team) => team.id === itemId)!,
-                ...list.slice(idx, list.length),
-            ];
-        };
-
-        const newTeamsOrder = pushElement(
-            popElement(teams, sourceIndex),
-            destinationIndex,
-            result.draggableId,
-        );
-        updateTeamsOrderForUser(newTeamsOrder.map((o: Team) => o.id));
-        this.setState({teamsOrder: newTeamsOrder});
-    };
-
     render() {
-        const {intl} = this.props;
         const root: Element | null = document.querySelector('#root');
 
         // OKR.BEST (Slack 벤치마크): 팀 레일은 팀이 1개여도 항상 표시한다 —
@@ -215,91 +147,35 @@ export class TeamSidebar extends React.PureComponent<Props, State> {
         root!.classList.add('multi-teams');
 
         const plugins = [];
-        const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
         const currentProduct = getCurrentProduct(this.props.products, this.props.location.pathname);
         if (currentProduct && !currentProduct.showTeamSidebar) {
             return null;
         }
 
-        const teams = sortedTeams.map((team: Team, index: number) => {
-            return (
-                <TeamButton
-                    key={'switch_team_' + team.name}
-                    url={`/${team.name}`}
-                    tip={team.display_name}
-                    active={team.id === this.props.currentTeamId}
-                    displayName={team.display_name}
-                    order={index + 1}
-                    showOrder={this.state.showOrder}
-                    unread={this.props.unreadTeamsSet.has(team.id)}
-                    mentions={this.props.mentionsInTeamMap.has(team.id) ? this.props.mentionsInTeamMap.get(team.id) : 0}
-                    hasUrgent={this.props.teamHasUrgentMap.has(team.id) ? this.props.teamHasUrgentMap.get(team.id) : false}
-                    teamIconUrl={Utils.imageURLForTeam(team)}
-                    switchTeam={(url: string) => this.props.actions.switchTeam(url, currentProduct ? team : undefined)}
-                    isDraggable={true}
-                    teamId={team.id}
-                    teamIndex={index}
-                    isInProduct={Boolean(currentProduct)}
+        // Slack식 기능 버튼 레일: Channels 고정 버튼 + 등록된 제품(Boards·Playbooks 등).
+        // 목적지는 기존 product switcher와 동일 — Channels는 '/'(라우터가 기본 채널로 보냄),
+        // 제품은 등록된 switcherLinkURL.
+        const productButtons = [
+            <RailProductButton
+                key='rail-product-channels'
+                id='railProduct-channels'
+                icon='product-channels'
+                text='Channels'
+                destination='/'
+                active={!currentProduct}
+            />,
+            ...this.props.products.map((product) => (
+                <RailProductButton
+                    key={`rail-product-${product.id}`}
+                    id={`railProduct-${product.pluginId || product.id}`}
+                    icon={product.switcherIcon}
+                    text={product.switcherText}
+                    destination={product.switcherLinkURL}
+                    active={currentProduct?.id === product.id}
                 />
-            );
-        });
-
-        const joinableTeams = [];
-
-        const plusIcon = (
-            <i
-                className='icon icon-plus'
-                role={'img'}
-                aria-label={intl.formatMessage({id: 'sidebar.team_menu.button.plusIcon', defaultMessage: 'Plus Icon'})}
-            />
-        );
-
-        if (this.props.moreTeamsToJoin && !this.props.experimentalPrimaryTeam) {
-            joinableTeams.push(
-                <TeamButton
-                    btnClass='team-btn__add'
-                    key='more_teams'
-                    url='/select_team'
-                    tip={
-                        <FormattedMessage
-                            id='team_sidebar.join'
-                            defaultMessage='Other teams you can join'
-                        />
-                    }
-                    content={plusIcon}
-                    switchTeam={this.props.actions.switchTeam}
-                    displayName={intl.formatMessage({
-                        id: 'team_sidebar.join',
-                        defaultMessage: 'Other teams you can join',
-                    })}
-                />,
-            );
-        } else {
-            joinableTeams.push(
-                <SystemPermissionGate
-                    permissions={[Permissions.CREATE_TEAM]}
-                    key='more_teams'
-                >
-                    <TeamButton
-                        btnClass='team-btn__add'
-                        url='/create_team'
-                        tip={
-                            <FormattedMessage
-                                id='navbar_dropdown.create'
-                                defaultMessage='Create a Team'
-                            />
-                        }
-                        content={plusIcon}
-                        switchTeam={this.props.actions.switchTeam}
-                        displayName={intl.formatMessage({
-                            id: 'navbar_dropdown.create',
-                            defaultMessage: 'Create a Team',
-                        })}
-                    />
-                </SystemPermissionGate>,
-            );
-        }
+            )),
+        ];
 
         // Disable team sidebar pluggables in products until proper support can be provided.
         const isNonChannelsProduct = !currentProduct;
@@ -327,27 +203,10 @@ export class TeamSidebar extends React.PureComponent<Props, State> {
                         className='team-wrapper'
                         id='teamSidebarWrapper'
                     >
-                        <DragDropContext
-                            onDragEnd={this.onDragEnd}
-                        >
-                            <Droppable
-                                droppableId='my_teams'
-                                type='TEAM_BUTTON'
-                            >
-                                {(provided: DroppableProvided) => {
-                                    return (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.droppableProps}
-                                        >
-                                            {teams}
-                                            {provided.placeholder}
-                                        </div>
-                                    );
-                                }}
-                            </Droppable>
-                        </DragDropContext>
-                        {joinableTeams}
+                        <RailTeamButton/>
+                        <div className='rail-products'>
+                            {productButtons}
+                        </div>
                     </div>
                 </Scrollbars>
                 {plugins}

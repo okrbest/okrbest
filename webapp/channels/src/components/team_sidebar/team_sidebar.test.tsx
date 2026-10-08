@@ -61,6 +61,56 @@ describe('components/team_sidebar', () => {
         expect((store.getState() as GlobalState).views.lhs.channelSidebarPeek).toBe(true);
     });
 
+    test('레일에 Channels와 등록된 제품 버튼을 등록 순서로 나열한다', () => {
+        const state = getState();
+        (state as any).plugins = {
+            components: {
+                Product: [
+                    {
+                        id: 'boards-product-id',
+                        pluginId: 'focalboard',
+                        switcherIcon: 'product-boards',
+                        switcherText: 'Boards',
+                        switcherLinkURL: '/boards',
+                        baseURL: '/boards',
+                        showTeamSidebar: true,
+                    },
+                    {
+                        id: 'playbooks-product-id',
+                        pluginId: 'playbooks',
+                        switcherIcon: 'product-playbooks',
+                        switcherText: 'Playbooks',
+                        switcherLinkURL: '/playbooks',
+                        baseURL: '/playbooks',
+                        showTeamSidebar: true,
+                    },
+                ],
+            },
+        };
+
+        renderWithContext(<TeamSidebar/>, state);
+
+        const links = [
+            screen.getByRole('link', {name: 'Channels'}),
+            screen.getByRole('link', {name: 'Boards'}),
+            screen.getByRole('link', {name: 'Playbooks'}),
+        ];
+        expect(links[0].compareDocumentPosition(links[1]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        expect(links[1].compareDocumentPosition(links[2]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+
+        // 채널 화면이므로 Channels가 활성이다
+        expect(links[0]).toHaveAttribute('aria-current', 'page');
+        expect(links[1]).not.toHaveAttribute('aria-current');
+    });
+
+    test('등록된 제품이 없으면 Channels 버튼만 나열한다', () => {
+        renderWithContext(<TeamSidebar/>, getState());
+
+        expect(screen.getByRole('link', {name: 'Channels'})).toBeInTheDocument();
+        expect(screen.queryByRole('link', {name: 'Boards'})).not.toBeInTheDocument();
+        expect(screen.queryByRole('link', {name: 'Playbooks'})).not.toBeInTheDocument();
+    });
+
     test('팀 레일 하단에 프로필 계정 메뉴 버튼을 표시한다 (Slack 벤치마크)', () => {
         renderWithContext(<TeamSidebar/>, getState());
 

@@ -63,10 +63,3 @@ export function setShowOnboardingCompleteProfileTour(open: boolean) {
     };
 }
 
-export function setShowOnboardingVisitConsoleTour(open: boolean) {
-    return {
-        type: ActionTypes.SHOW_ONBOARDING_VISIT_CONSOLE_TOUR,
-        open,
-    };
-}
-

@@ -15,10 +15,8 @@ import {openModal} from 'actions/views/modals';
 import {
     openInvitationsModal,
     setShowOnboardingCompleteProfileTour,
-    setShowOnboardingVisitConsoleTour,
     switchToChannels,
 } from 'actions/views/onboarding_tasks';
-import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {getOnboardingTaskPreferences} from 'selectors/onboarding';
 
 import Channels from 'components/common/svg_images_components/channels_svg';
@@ -39,6 +37,7 @@ import {
 } from 'components/tours';
 import {ELEMENT_ID_FOR_USER_ACCOUNT_MENU_BUTTON} from 'components/user_account_menu/user_account_menu';
 
+import {getHistory} from 'utils/browser_history';
 import {ModalIdentifiers} from 'utils/constants';
 
 import type {GlobalState} from 'types/store';
@@ -242,9 +241,10 @@ export const useHandleOnBoardingTaskTrigger = () => {
             break;
         }
         case OnboardingTasksName.VISIT_SYSTEM_CONSOLE: {
-            dispatch(setProductMenuSwitcherOpen(true));
-            dispatch(setShowOnboardingVisitConsoleTour(true));
-            handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED);
+            // product switcher가 제거되어 투어 팁을 띄울 곳이 없다 —
+            // 시스템 콘솔로 바로 이동시키고 과제를 완료 처리한다
+            getHistory().push('/admin_console');
+            handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED);
             break;
         }
         case OnboardingTasksName.INVITE_PEOPLE: {
