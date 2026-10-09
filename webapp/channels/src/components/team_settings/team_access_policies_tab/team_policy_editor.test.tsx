@@ -39,6 +39,8 @@ describe('TeamPolicyEditor', () => {
             EnableUserManagedAttributes: false,
             EnableChannelPolicyIndicators: true,
             EnableAccessControlAuditLogging: false,
+            SyncJobIntervalSeconds: 3600,
+            AttributeRefreshIntervalSeconds: 30,
         },
         onNavigateBack: jest.fn(),
         actions: {

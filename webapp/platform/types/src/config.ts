@@ -1046,6 +1046,8 @@ export type AccessControlSettings = {
     EnableUserManagedAttributes: boolean;
     EnableChannelPolicyIndicators: boolean;
     EnableAccessControlAuditLogging: boolean;
+    SyncJobIntervalSeconds: number;
+    AttributeRefreshIntervalSeconds: number;
 };
 
 export type ContentFlaggingNotificationSettings = {

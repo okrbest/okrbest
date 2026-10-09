@@ -23,6 +23,8 @@ describe('TeamAccessPoliciesTab', () => {
             EnableUserManagedAttributes: false,
             EnableChannelPolicyIndicators: true,
             EnableAccessControlAuditLogging: false,
+            SyncJobIntervalSeconds: 3600,
+            AttributeRefreshIntervalSeconds: 30,
         },
         areThereUnsavedChanges: false,
         setAreThereUnsavedChanges: jest.fn(),

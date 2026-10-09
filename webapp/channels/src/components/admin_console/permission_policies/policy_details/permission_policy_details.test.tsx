@@ -50,6 +50,8 @@ describe('components/admin_console/permission_policies/policy_details/Permission
         EnableUserManagedAttributes: false,
         EnableChannelPolicyIndicators: true,
         EnableAccessControlAuditLogging: false,
+        SyncJobIntervalSeconds: 3600,
+        AttributeRefreshIntervalSeconds: 30,
     };
 
     const baseProps = {
