@@ -65,6 +65,7 @@
 | Global Relay 사용자 지정 EML 헤더 설정 | [4608b024](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) (#38010) | 설정·검증·콘솔 UI는 받았으나 헤더를 쓰는 EML 작성기가 비공개 모듈이라 비활성(private-module 등재). docs 1개를 버리고 새 스냅숏 1개를 포크 렌더링으로 재생성 — 아래 참조 |
 | Playwright 1.62 업그레이드 | [85b0227d](https://github.com/mattermost/mattermost/commit/85b0227d1d741e436b7e179cc839820a91279921) (#38014) | docs 3개를 버렸다. e2e FeatureFlags는 우리 서버에 있는 플래그만 받아 6개를 뺐고, lock은 우리 것을 기준으로 다시 만들었다 — 아래 참조 |
 | v12 미사용 설정 필드 제거 | [87c84ef1](https://github.com/mattermost/mattermost/commit/87c84ef1772e85e45c4a338b199a4b668fffb4aa) (#37743) | 11개 모두 받았다. 충돌은 `TeamSettings` 정렬 1곳. 제외·spec 커밋 206개 중 이 필드를 기능적으로 쓰는 커밋은 없다 — 아래 참조 |
+| 채널 전환 뒤 이전 채널로 전송되는 버그 | [441e45a9](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3) (#37928) | 수정은 받고 우리 `draftRef` 즉시 갱신에도 같은 가드를 걸었다(가드 테스트 신규). upstream jest 4건은 Lexical 하네스에서 입력이 안 들어가 red로 남는다 — 아래 참조 |
 
 ---
 
@@ -1869,6 +1870,59 @@ server en에서 지운 3키 중 `model.config.is_valid.encrypt_sql.app_error` �
 ### 되돌릴 조건
 
 - 없음. 제외 계보를 들일 때 위 표의 충돌만 처리한다.
+
+## 채널 전환 뒤 이전 채널로 전송되는 버그 — 우리 draftRef에도 같은 가드를 걸었다
+
+**upstream**: [`441e45a9`](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3)
+([MM-63470] Fix messages being sent to the previous channel after /msg or Cmd+K, #37928) — 7파일 +564/-14, 2026-10-09 반영
+
+**받은 것.** 세 갈래 수정을 그대로 받았다.
+1. `onSubmit(channelId, rootId, draft, …)` — 전송 대상을 draft가 아니라 에디터 prop에서 받는다.
+2. `handleDraftChange`의 `setDraft`를 함수형 업데이터로 바꿨다. 다른 채널/스레드의 늦은 콜백(느린 전송, 업로드 완료)이 화면 draft를 덮지 않는다.
+3. 채널 전환 시 draft 리셋을 `useEffect`에서 렌더 시점(`if (draft.channelId !== channelId …) setDraft(draftFromStore)`)으로 옮겼다.
+
+`create_comment.test.jsx`·`use_submit.test.tsx` 변경과 Playwright 스펙 `draft_channel_switch.spec.ts`(신규)도 받았다.
+
+### 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `advanced_text_editor.tsx` 리셋 블록 위치 | `handleShowPreview` 위에 삽입 | 리셋 블록만 넣음 | 우리는 Lexical 통합(`9fae005295`)에서 미리보기 토글을 지웠다 |
+| `use_submit.tsx` 전송 호출 | `onSubmit(channelId, rootId, submittingDraft, …)` | `onSubmit(channelId, rootId, draftForApi, …)` | 우리 markdown 변환(`73f763f5c2`, GFM 표 정규화·URL 밑줄)을 유지했다 |
+| `handleDraftChange`의 `draftRef.current = draftToChange` | (upstream에 없음) | `draftRef.current`와 channelId·rootId가 같을 때만 갱신 | **의미 충돌.** 멘션 개선(`c60016e92d`)이 넣은 즉시 갱신이다. 전송 base가 `draftRef`라서, 가드가 없으면 늦은 콜백이 이전 채널 draft를 남긴다. 그러면 새 채널 전송에 그 draft(빈 첨부 등)가 실려 간다 |
+
+**가드 테스트 (포크 신규).** `should not submit the previous channel draft as the base after a late submit resolves`.
+A 채널 전송이 대기 중일 때 B로 옮긴다. 그다음 전송을 끝내고 B에서 다시 전송한다. B draft의 첨부가 실려야 한다.
+- 가드 없음(RED): `onSubmit("other_channel_id", "", {channelId: "current_channel_id", fileInfos: []…})`. 대상은 B인데 내용은 A의 빈 draft다.
+- 가드 적용(GREEN): 통과(단독·파일 전체 실행 모두).
+
+### 남은 red — upstream 신규 jest 4건
+
+4건 모두 upstream 원형 그대로 두었다. 우리 하네스로 옮길 수 없다.
+
+- `getByPlaceholderText`·`toHaveValue`·`fireEvent.input`은 textarea 전용이다. upstream 기본 작성창은 `<Textbox>`(textarea)이고, WYSIWYG는 `WysiwygEditor` 플래그(기본 false) 뒤의 Tiptap이다. 우리는 Lexical을 조건 없이 쓴다.
+- id로 찾아 `userEvent.type`을 해도 **jsdom에서 Lexical에 입력이 들어가지 않는다.** 실측 결과 `textContent: ""`, `updateDraft` 호출 0회였다. 3·4번(전송이 전환 뒤에 끝나는 경우)을 id 조회로 옮겨 봤지만 같은 이유로 실패해서 되돌렸다.
+- 앞선 `0fed2262` 절의 "`MM-69928` 격리 실행 통과"는 입력이 실제로 들어가서가 아니라, 확인할 호출이 없어서 단언이 그냥 통과한 것으로 보인다. 이 테스트는 파일 전체 실행에서 순서에 따라 통과와 실패가 바뀐다.
+
+기준선 대비 실패 목록 diff는 이렇다. 기준선 11건, 반영 후 14건이다. 추가된 것은 upstream 신규 4건이고, `MM-69928`은 이번 실행에서 통과했다. `advanced_text_editor/` 디렉터리의 나머지 suite와 `create_comment` suite는 통과했다.
+
+### 관찰 — jsdom에서만 확인, 실제 앱 미확인
+
+`lexical_text_editor.tsx`의 `ValueSyncPlugin`은 외부 `value`를 두 경우에만 반영한다. 처음 마운트될 때와 값이 비워질 때다.
+jsdom 탐침에서 두 채널 모두 비어 있지 않은 draft를 둔 채 A→B로 옮기면, 에디터에 A의 텍스트가 남았다(반영 전후 같음).
+실제 앱에서는 문제를 겪은 적이 없다고 사용자가 확인했다. 그래서 수정하지 않았다.
+재현 절차: A에 입력하고 보내지 않은 채 B로 이동 → B에도 입력하고 보내지 않은 채 A로 복귀 → 에디터에 B의 글이 남아 있는지 본다.
+
+### 검증
+
+- 위 가드 테스트 RED→GREEN, 에디터 suite 기준선 diff(위)
+- 접촉 파일 eslint: 새 오류 0(기존 4건은 HEAD에서도 같음)
+- playwright `tsc` 오류가 기준선과 같은 3건, 새 스펙 eslint·prettier 통과. 우리 포크에서 Playwright 채널 스펙은 돌지 않는다(`post_textbox` testid 부재)
+
+### 되돌릴 조건
+
+- Lexical 테스트 하네스가 입력을 받게 되면 upstream 4건을 id·`textContent` 조회로 옮겨 살린다.
+- `draftRef` 즉시 갱신(`c60016e92d`)을 없애면 가드도 함께 지운다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)

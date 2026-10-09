@@ -212,7 +212,7 @@ const useSubmit = (
                 response = await dispatch(editPost(draftForApi as unknown as Post));
                 handleFileChange(submittingDraft);
             } else {
-                response = await dispatch(onSubmit(draftForApi, options, schedulingInfo));
+                response = await dispatch(onSubmit(channelId, rootId, draftForApi, options, schedulingInfo));
             }
             if (response?.error) {
                 throw response.error;
