@@ -8,7 +8,7 @@ import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 import {shouldOpenInNewTab} from 'utils/url';
 import {copyToClipboard} from 'utils/utils';
 
-import {bookmarkHasLinkUrl, copyBookmarkLink, shouldOpenBookmarkInNewTab} from './utils';
+import {bookmarkHasLinkUrl, copyBookmarkLink, getIsChannelBookmarksEnabled, shouldOpenBookmarkInNewTab} from './utils';
 
 jest.mock('utils/url', () => ({
     shouldOpenInNewTab: jest.fn(),
@@ -116,5 +116,20 @@ describe('copyBookmarkLink', () => {
 
         expect(copyToClipboard).not.toHaveBeenCalled();
         expect(getFileDownloadUrl).not.toHaveBeenCalled();
+    });
+});
+
+describe('getIsChannelBookmarksEnabled', () => {
+    // okrbest 포크는 Team Edition(무라이선스)에서도 채널 북마크를 켠다
+    test('returns true even when the server has no license', () => {
+        const state = {
+            entities: {
+                general: {
+                    license: {IsLicensed: 'false'},
+                },
+            },
+        } as any;
+
+        expect(getIsChannelBookmarksEnabled(state)).toBe(true);
     });
 });

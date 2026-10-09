@@ -24,12 +24,9 @@ func (api *API) InitChannelBookmarks() {
 	api.BaseRoutes.ChannelBookmarks.Handle("", api.APISessionRequired(listChannelBookmarksForChannel)).Methods(http.MethodGet)
 }
 
+// okrbest: 채널 북마크는 Team Edition에서도 제공한다 — 라이선스 게이트 제거
+// (채널별 bookmark 권한 검사는 각 핸들러에서 그대로 수행한다)
 func createChannelBookmark(c *Context, w http.ResponseWriter, r *http.Request) {
-	if c.App.Channels().License() == nil {
-		c.Err = model.NewAppError("createChannelBookmark", "api.channel.bookmark.channel_bookmark.license.error", nil, "", http.StatusNotImplemented)
-		return
-	}
-
 	connectionID := r.Header.Get(model.ConnectionId)
 
 	c.RequireChannelId()
@@ -119,11 +116,6 @@ func createChannelBookmark(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func updateChannelBookmark(c *Context, w http.ResponseWriter, r *http.Request) {
-	if c.App.Channels().License() == nil {
-		c.Err = model.NewAppError("updateChannelBookmark", "api.channel.bookmark.channel_bookmark.license.error", nil, "", http.StatusNotImplemented)
-		return
-	}
-
 	connectionID := r.Header.Get(model.ConnectionId)
 
 	c.RequireChannelId()
@@ -236,11 +228,6 @@ func updateChannelBookmark(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func updateChannelBookmarkSortOrder(c *Context, w http.ResponseWriter, r *http.Request) {
-	if c.App.Channels().License() == nil {
-		c.Err = model.NewAppError("updateChannelBookmarkSortOrder", "api.channel.bookmark.channel_bookmark.license.error", nil, "", http.StatusNotImplemented)
-		return
-	}
-
 	connectionID := r.Header.Get(model.ConnectionId)
 
 	c.RequireChannelId()
@@ -340,11 +327,6 @@ func updateChannelBookmarkSortOrder(c *Context, w http.ResponseWriter, r *http.R
 }
 
 func deleteChannelBookmark(c *Context, w http.ResponseWriter, r *http.Request) {
-	if c.App.Channels().License() == nil {
-		c.Err = model.NewAppError("deleteChannelBookmark", "api.channel.bookmark.channel_bookmark.license.error", nil, "", http.StatusNotImplemented)
-		return
-	}
-
 	connectionID := r.Header.Get(model.ConnectionId)
 
 	c.RequireChannelId()
@@ -444,11 +426,6 @@ func deleteChannelBookmark(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func listChannelBookmarksForChannel(c *Context, w http.ResponseWriter, r *http.Request) {
-	if c.App.Channels().License() == nil {
-		c.Err = model.NewAppError("listChannelBookmarksForChannel", "api.channel.bookmark.channel_bookmark.license.error", nil, "", http.StatusNotImplemented)
-		return
-	}
-
 	c.RequireChannelId()
 	if c.Err != nil {
 		return
