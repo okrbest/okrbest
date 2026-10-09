@@ -61,6 +61,7 @@
 | user_agent_platform 세션 속성에 Android 추가 | [5d5d4e27](https://github.com/mattermost/mattermost/commit/5d5d4e27523ed2d7a1fe4ea31210b173414e6d2d) (#38059) | 일반 함수 `getPlatformName`의 Android 판별만 받고, Session Attributes 스키마·SA·마이그레이션 테스트와 스키마 drift guard 테스트는 버렸다 — 아래 참조 |
 | 채널 설정이 공백 섞인 저장값에 미저장 경고를 띄우는 버그 | [9b4ab46c](https://github.com/mattermost/mattermost/commit/9b4ab46cc200e8e07fbec8475d2354dce5fcff60) (#38115) | 변경 감지 통합은 받고 Managed Categories 두 줄을 뺐다. 우리 `handleSave`의 저장 후 fallback을 `''`→저장값으로 고쳤고 DM 헤더 테스트 1개는 버렸다 — 아래 참조 |
 | Global Relay 사용자 지정 EML 헤더 설정 | [4608b024](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) (#38010) | 설정·검증·콘솔 UI는 받았으나 헤더를 쓰는 EML 작성기가 비공개 모듈이라 비활성(private-module 등재). docs 1개를 버리고 새 스냅숏 1개를 포크 렌더링으로 재생성 — 아래 참조 |
+| Playwright 1.62 업그레이드 | [85b0227d](https://github.com/mattermost/mattermost/commit/85b0227d1d741e436b7e179cc839820a91279921) (#38014) | docs 3개를 버렸다. e2e FeatureFlags는 우리 서버에 있는 플래그만 받아 6개를 뺐고, lock은 우리 것을 기준으로 다시 만들었다 — 아래 참조 |
 
 ---
 
@@ -1731,6 +1732,43 @@ upstream은 `Global Relay EML`이다. upstream이 `db55f9fa43`(MM-66653, i18n �
 (스냅숏 재생성 1, 나머지 4 통과), 리브랜드 대상 문구 없음.
 
 되돌릴 조건: 없음. 비공개 모듈을 대체하는 자체 Global Relay 작성기를 만들면 이 설정을 그대로 쓰면 된다.
+
+## Playwright 1.62 업그레이드 — docs를 버리고 e2e 기본 설정은 우리 서버 플래그에 맞췄다
+
+**upstream**: [`85b0227d`](https://github.com/mattermost/mattermost/commit/85b0227d1d741e436b7e179cc839820a91279921)
+(E2E/Playwright: Upgrade playwright@1.62 and its deps, #38014) — 26파일 +801/-2820, 2026-10-09 반영
+
+**받은 것.** `@playwright/test` 1.61.1 → 1.62.1과 lib·루트 의존성 버전 올림, Docker 이미지 `v1.62.0-noble`,
+테스트 Postgres 이미지 14 → 15, `resolveMattermostBootEnv` 분리와 기동 로그의 서버 env 요약(비밀값 마스킹),
+제거된 `MM_FEATUREFLAGS_ENABLEREMOTECLUSTERSERVICE` env 정리와 `MM_FEATUREFLAGS_ENABLECONCURRENTREACT` baseline 추가,
+MoveThreads Cypress 스펙 4개 삭제(우리도 `6086676938`에서 플래그를 막았다), 접근성 스펙 3건 수정,
+`AccessControlSettings` 타입의 `SyncJobIntervalSeconds`·`AttributeRefreshIntervalSeconds`와 jest fixture 4개.
+서버 필드는 이미 있었고([config.go](../server/public/model/config.go)) webapp 타입만 비어 있었다.
+
+### 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `docs/main/.../abac-channel-access-rules.mdx`, `abac-team-channel-policies.mdx`, `abac-team-membership.mdx` | ABAC 문서에 사용자 속성 갱신 주기(`AttributeRefreshIntervalSeconds`) 설명 추가 | 버림 | 우리가 지운 문서 사이트(`1d3bbc63`) 경로 |
+| `e2e-tests/playwright/lib/src/server/default_config.ts` FeatureFlags 충돌 3곳 | v11.11 서버 기준 플래그 목록으로 교체 | 우리 `server/public/model/feature_flags.go`에 **있는** 플래그만 받고 값은 우리 `SetDefaults` 기본값을 썼다 | 이 파일은 "서버 `make config-reset` 결과"를 본뜬다. 기준은 upstream 서버가 아니라 우리 서버다 |
+| 같은 파일, 버린 플래그 | `ClassificationMarkings: true`, `GlobalAttributes: false`, `EnableDocs: false`, `ManagedChannelCategories: false`, `PostAttributes: false`, `PropertyFieldRank: true` | 넣지 않음 | 우리 서버에 없는 플래그다(분류 표시·Global Attributes·Managed Categories·property 계보를 제외) |
+| 같은 파일, 받은 플래그 | `AttributeValueMasking`·`ChannelPermissionPolicies`·`PolicySimulation`·`TeamMembershipAccessControl` (true), `AggregatePluginMetrics`·`SessionAttributes`·`DiscoverableChannels` (false) | 그대로 받음 | 우리 서버에 있고 기본값도 같다 |
+| 같은 파일, 우리 값 유지 | `CJKSearch: true`, `MobileEphemeralMode: false` | 우리 값 `CJKSearch: false`, `MobileEphemeralMode: true` 유지 | 반영 전부터 갈라져 있던 줄이다. 이 커밋에서 손대지 않았다 |
+| `e2e-tests/playwright/package-lock.json` | upstream lock diff | 충돌 → **우리 lock을 기준으로** Node v24에서 `npm install --package-lock-only --ignore-scripts` 재생성 | `743c479dea`에서 `npm ci`가 받도록 직접 다시 만든 lock이라 텍스트 병합이 안 된다. 바뀐 `"peer": true` 3줄은 모두 버전이 바뀐 패키지 항목이다(churn 아님) |
+
+### 검증
+
+- 새 lock으로 `npm ci --dry-run`과 `npm ci` 통과. `@playwright/test` 1.62.1, `testcontainers` 12.1.0, `chalk` 6.0.0 설치 확인
+- playwright `npm run tsc`: 반영 전후 같은 3건(`apostrophe_values.spec.ts`의 `@mattermost/types/properties_user`,
+  `display_name_in_selector.spec.ts`의 `managed` 2건) — 제외한 ABAC 계보 스펙의 기존 오류이고 새 오류는 없다
+- 변경한 playwright 파일 eslint 오류 0(경고 2: `default_config.ts` max-lines, 기존 TODO 주석), prettier 통과
+- webapp jest `policy_details`·`permission_policy_details`·`team_access_policies_tab/` 5 suites 50개 통과
+- e2e 실주행은 하지 않았다. 우리 포크에서 Playwright 채널 스펙이 원래 돌지 않는다
+
+### 되돌릴 조건
+
+- 제외한 계보(분류 표시·Global Attributes·Managed Categories·property)를 들이면 해당 플래그를 `default_config.ts`에 더한다.
+- 다음 Playwright 업그레이드 커밋도 lock은 같은 방식(우리 lock 기준 재생성)으로 처리한다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)

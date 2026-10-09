@@ -98,7 +98,7 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
 };
 
 // Should be based only from the generated default config from ./server via "make config-reset"
-// Based on v11.9 server
+// Based on v11.11 server
 const defaultServerConfig: AdminConfig = {
     ServiceSettings: {
         SiteURL: '',
@@ -778,17 +778,17 @@ const defaultServerConfig: AdminConfig = {
     FeatureFlags: {
         TestFeature: 'off',
         TestBoolFeature: false,
-        EnableRemoteClusterService: false,
         EnableSharedChannelsDMs: false,
-        EnableSharedChannelsPlugins: true,
-        EnableSharedChannelsMemberSync: false,
         EnableSyncAllUsersForRemoteCluster: false,
         AppsEnabled: false,
         NormalizeLdapDNs: false,
         WysiwygEditor: false,
         MoveThreadsEnabled: false,
         NotificationMonitoring: true,
+        AttributeValueMasking: true,
         PermissionPolicies: true,
+        ChannelPermissionPolicies: true,
+        PolicySimulation: true,
         ContentFlagging: true,
         EnableMattermostEntry: true,
         MobileSSOCodeExchange: false,
@@ -798,9 +798,17 @@ const defaultServerConfig: AdminConfig = {
         EnableAIRecaps: false,
         IntegratedBoards: false,
         CJKSearch: false,
+        AggregatePluginMetrics: false,
+        SessionAttributes: false,
+        DiscoverableChannels: false,
         MobileEphemeralMode: true,
+        TeamMembershipAccessControl: true,
         MmBlocksEnabled: true,
-        EnableConcurrentReact: true,
+        ClusterGracefulDrain: true,
+        ChannelBookmarks: true,
+        EnableConcurrentReact: false,
+        EnableMFIPluginSignaturePublicKey: true,
+        RecurringScheduledPosts: false,
     },
     ImportSettings: {
         Directory: './import',
@@ -833,6 +841,8 @@ const defaultServerConfig: AdminConfig = {
         EnableUserManagedAttributes: false,
         EnableChannelPolicyIndicators: true,
         EnableAccessControlAuditLogging: false,
+        SyncJobIntervalSeconds: 3600,
+        AttributeRefreshIntervalSeconds: 30,
     },
     ContentFlaggingSettings: {
         EnableContentFlagging: false,
