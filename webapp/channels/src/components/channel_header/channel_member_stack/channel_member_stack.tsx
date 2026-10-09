@@ -61,7 +61,7 @@ export default function ChannelMemberStack({channelId, hasPendingJoinRequests}: 
         <button
             type='button'
             data-testid='channelMemberStack'
-            className={classNames('channel-member-stack btn btn-icon btn-xs', {'channel-member-stack--active': active})}
+            className={classNames('channel-member-stack channel-header__icon btn btn-icon btn-sm', {'channel-member-stack--active': active})}
             onClick={handleClick}
             aria-label={formatMessage({
                 id: 'channel_header.memberStack.ariaLabel',

@@ -76,7 +76,7 @@ exports[`components/ChannelHeader should match snapshot with last active display
       </div>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -152,6 +152,28 @@ exports[`components/ChannelHeader should match snapshot with last active display
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -250,7 +272,7 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
       </div>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -326,6 +348,28 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -421,7 +465,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
       </div>
       <button
         aria-label="View 0 members"
-        class="channel-member-stack btn btn-icon btn-xs"
+        class="channel-member-stack channel-header__icon btn btn-icon btn-sm"
         data-testid="channelMemberStack"
         type="button"
       >
@@ -434,7 +478,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
       </button>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -510,6 +554,28 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -605,7 +671,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
       </div>
       <button
         aria-label="View 0 members"
-        class="channel-member-stack btn btn-icon btn-xs"
+        class="channel-member-stack channel-header__icon btn btn-icon btn-sm"
         data-testid="channelMemberStack"
         type="button"
       >
@@ -618,7 +684,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
       </button>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -694,6 +760,28 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -789,7 +877,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       </div>
       <button
         aria-label="View 0 members"
-        class="channel-member-stack btn btn-icon btn-xs"
+        class="channel-member-stack channel-header__icon btn btn-icon btn-sm"
         data-testid="channelMemberStack"
         type="button"
       >
@@ -802,7 +890,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       </button>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -878,6 +966,28 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -973,7 +1083,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       </div>
       <button
         aria-label="View 0 members"
-        class="channel-member-stack btn btn-icon btn-xs"
+        class="channel-member-stack channel-header__icon btn btn-icon btn-sm"
         data-testid="channelMemberStack"
         type="button"
       >
@@ -986,7 +1096,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       </button>
       <button
         aria-label="Unmute"
-        class="channel-header__mute btn btn-icon btn-xs inactive"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm inactive"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -1062,6 +1172,28 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -1171,7 +1303,7 @@ exports[`components/ChannelHeader should render properly when custom status is e
       </div>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -1247,6 +1379,28 @@ exports[`components/ChannelHeader should render properly when custom status is e
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -1359,7 +1513,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
       </div>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -1435,6 +1589,28 @@ exports[`components/ChannelHeader should render properly when custom status is s
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -1530,7 +1706,7 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
       </div>
       <button
         aria-label="View 0 members"
-        class="channel-member-stack btn btn-icon btn-xs"
+        class="channel-member-stack channel-header__icon btn btn-icon btn-sm"
         data-testid="channelMemberStack"
         type="button"
       >
@@ -1543,7 +1719,7 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
       </button>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -1619,6 +1795,28 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -1714,7 +1912,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       </div>
       <button
         aria-label="View 0 members"
-        class="channel-member-stack btn btn-icon btn-xs"
+        class="channel-member-stack channel-header__icon btn btn-icon btn-sm"
         data-testid="channelMemberStack"
         type="button"
       >
@@ -1727,7 +1925,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       </button>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -1803,6 +2001,28 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -1898,7 +2118,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
       </div>
       <button
         aria-label="View 0 members"
-        class="channel-member-stack btn btn-icon btn-xs"
+        class="channel-member-stack channel-header__icon btn btn-icon btn-sm"
         data-testid="channelMemberStack"
         type="button"
       >
@@ -1911,7 +2131,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
       </button>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -1987,6 +2207,28 @@ exports[`components/ChannelHeader should render properly when populated with cha
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -2082,7 +2324,7 @@ exports[`components/ChannelHeader should render properly when there are pending 
       </div>
       <button
         aria-label="View 0 members"
-        class="channel-member-stack btn btn-icon btn-xs"
+        class="channel-member-stack channel-header__icon btn btn-icon btn-sm"
         data-testid="channelMemberStack"
         type="button"
       >
@@ -2100,7 +2342,7 @@ exports[`components/ChannelHeader should render properly when there are pending 
       </button>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -2176,6 +2418,28 @@ exports[`components/ChannelHeader should render properly when there are pending 
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"
@@ -2271,7 +2535,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
       </div>
       <button
         aria-label="View 0 members"
-        class="channel-member-stack btn btn-icon btn-xs"
+        class="channel-member-stack channel-header__icon btn btn-icon btn-sm"
         data-testid="channelMemberStack"
         type="button"
       >
@@ -2284,7 +2548,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
       </button>
       <button
         aria-label="Mute Channel"
-        class="channel-header__mute btn btn-icon btn-xs"
+        class="channel-header__mute channel-header__icon btn btn-icon btn-sm"
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
@@ -2360,6 +2624,28 @@ exports[`components/ChannelHeader should render shared view 1`] = `
           />
         </svg>
         Files
+      </button>
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-bookmarks"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z"
+          />
+        </svg>
+        Bookmarks
       </button>
       <button
         aria-selected="false"

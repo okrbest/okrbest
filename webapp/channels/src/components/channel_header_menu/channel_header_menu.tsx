@@ -117,7 +117,7 @@ export default function ChannelHeaderMenu({dmUser, gmMembers, isMobile, archived
             menuButton={trigger === 'kebab' ? {
                 id: 'channelHeaderKebabButton',
                 dataTestId: 'channelHeaderKebabButton',
-                class: classNames('channel-header__icon btn btn-icon btn-xs'),
+                class: classNames('channel-header__icon btn btn-icon btn-sm'),
                 children: <DotsVerticalIcon size={18}/>,
                 'aria-label': ariaLabel.toLowerCase(),
             } : {
