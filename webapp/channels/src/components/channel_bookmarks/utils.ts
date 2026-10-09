@@ -11,7 +11,7 @@ import type {GlobalState} from '@mattermost/types/store';
 import {Permissions} from 'mattermost-redux/constants';
 import {getChannelBookmarks} from 'mattermost-redux/selectors/entities/channel_bookmarks';
 import {getChannel, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
@@ -117,10 +117,12 @@ export const useCanGetLinkPreviews = () => {
     return useSelector((state: GlobalState) => getConfig(state).EnableLinkPreviews === 'true');
 };
 
+// okrbest 포크는 Team Edition(무라이선스)에서도 채널 북마크를 켠다.
+// 서버 쪽 라이선스 게이트는 channels/api4/channel_bookmark.go에서 함께 제거했다.
+// 셀렉터 시그니처는 호출처 호환을 위해 유지한다.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getIsChannelBookmarksEnabled = (state: GlobalState) => {
-    const license = getLicense(state);
-
-    return license?.IsLicensed === 'true';
+    return true;
 };
 
 export const useChannelBookmarks = (channelId: string) => {

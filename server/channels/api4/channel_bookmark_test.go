@@ -22,7 +22,8 @@ func TestCreateChannelBookmark(t *testing.T) {
 	err := th.App.SetPhase2PermissionsMigrationStatus(true)
 	require.NoError(t, err)
 
-	t.Run("should not work without a license", func(t *testing.T) {
+	// okrbest: 채널 북마크는 Team Edition(무라이선스)에서도 동작한다
+	t.Run("should work without a license", func(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
@@ -31,8 +32,9 @@ func TestCreateChannelBookmark(t *testing.T) {
 			Emoji:       ":smile:",
 		}
 
-		_, _, err := th.Client.CreateChannelBookmark(context.Background(), channelBookmark)
-		CheckErrorID(t, err, "api.channel.bookmark.channel_bookmark.license.error")
+		cb, _, err := th.Client.CreateChannelBookmark(context.Background(), channelBookmark)
+		require.NoError(t, err)
+		require.NotNil(t, cb)
 	})
 
 	// enable guest accounts and add the license
@@ -283,10 +285,7 @@ func TestEditChannelBookmark(t *testing.T) {
 	err := th.App.SetPhase2PermissionsMigrationStatus(true)
 	require.NoError(t, err)
 
-	t.Run("should not work without a license", func(t *testing.T) {
-		_, _, err := th.Client.UpdateChannelBookmark(context.Background(), th.BasicChannel.Id, model.NewId(), &model.ChannelBookmarkPatch{})
-		CheckErrorID(t, err, "api.channel.bookmark.channel_bookmark.license.error")
-	})
+	// okrbest: 무라이선스 차단 서브테스트 제거 — 라이선스 게이트를 걷어냈다 (TestCreateChannelBookmark 참조)
 
 	// enable guest accounts and add the license
 	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.GuestAccountsSettings.Enable = true })
@@ -715,10 +714,7 @@ func TestUpdateChannelBookmarkSortOrder(t *testing.T) {
 	_ = createBookmark("three", th.BasicPrivateChannel.Id)
 	privateBookmark4 := createBookmark("four", th.BasicPrivateChannel.Id)
 
-	t.Run("should not work without a license", func(t *testing.T) {
-		_, _, err := th.Client.UpdateChannelBookmarkSortOrder(context.Background(), th.BasicChannel.Id, model.NewId(), 1)
-		CheckErrorID(t, err, "api.channel.bookmark.channel_bookmark.license.error")
-	})
+	// okrbest: 무라이선스 차단 서브테스트 제거 — 라이선스 게이트를 걷어냈다 (TestCreateChannelBookmark 참조)
 
 	// enable guest accounts and add the license
 	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.GuestAccountsSettings.Enable = true })
@@ -1101,10 +1097,7 @@ func TestDeleteChannelBookmark(t *testing.T) {
 
 	th.Context.Session().UserId = th.BasicUser.Id // set the user for the session
 
-	t.Run("should not work without a license", func(t *testing.T) {
-		_, _, err := th.Client.DeleteChannelBookmark(context.Background(), th.BasicChannel.Id, model.NewId())
-		CheckErrorID(t, err, "api.channel.bookmark.channel_bookmark.license.error")
-	})
+	// okrbest: 무라이선스 차단 서브테스트 제거 — 라이선스 게이트를 걷어냈다 (TestCreateChannelBookmark 참조)
 
 	// enable guest accounts and add the license
 	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.GuestAccountsSettings.Enable = true })
@@ -1471,10 +1464,7 @@ func TestListChannelBookmarksForChannel(t *testing.T) {
 
 	th.Context.Session().UserId = th.BasicUser.Id // set the user for the session
 
-	t.Run("should not work without a license", func(t *testing.T) {
-		_, _, err := th.Client.DeleteChannelBookmark(context.Background(), th.BasicChannel.Id, model.NewId())
-		CheckErrorID(t, err, "api.channel.bookmark.channel_bookmark.license.error")
-	})
+	// okrbest: 무라이선스 차단 서브테스트 제거 — 라이선스 게이트를 걷어냈다 (TestCreateChannelBookmark 참조)
 
 	// enable guest accounts and add the license
 	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.GuestAccountsSettings.Enable = true })
