@@ -1,0 +1,28 @@
+// 멤버 아바타 스택 — 겹친 아바타와 인원수를 한 버튼에 담는다
+.channel-member-stack {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .channel-member-stack__avatars {
+        display: inline-flex;
+        pointer-events: none;
+
+        .channel-member-stack__avatar {
+            border: 2px solid var(--center-channel-bg);
+
+            &:not(:first-child) {
+                margin-left: -8px;
+            }
+        }
+    }
+
+    .channel-member-stack__count {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    &.channel-member-stack--active {
+        background: rgba(var(--center-channel-color-rgb), 0.12);
+    }
+}

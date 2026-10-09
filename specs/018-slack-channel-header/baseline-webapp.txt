@@ -1,0 +1,9 @@
+Tests:       1 failed, 133 passed, 134 total
+Snapshots:   1 failed, 19 passed, 20 total
+Time:        6.559 s
+Ran all test suites matching src/components/channel_header|src/components/channel_bookmarks|src/components/channel_view.
+FAIL src/components/channel_header/channel_header.test.tsx
+FAIL src/components/channel_header/channel_header.test.tsx
+# 기준선 (2026-10-09, npm ci 직후, 018 분기 직후 코드 무변경)
+# check-types 기존 오류 30건: baseline-webapp-types-errors.txt
+# 위 jest 실패 1건은 기존 결함(우리 변경 전) — 마감 때 동일 실패만 허용

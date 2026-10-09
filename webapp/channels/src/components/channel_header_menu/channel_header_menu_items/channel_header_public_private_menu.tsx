@@ -37,17 +37,15 @@ interface Props extends Menu.FirstMenuItemProps {
     channel: Channel;
     user: UserProfile;
     isMuted: boolean;
-    isReadonly: boolean;
     isDefault: boolean;
     isMobile: boolean;
     isFavorite: boolean;
     isLicensedForLDAPGroups: boolean;
     pluginItems: ReactNode[];
-    isChannelBookmarksEnabled: boolean;
     isChannelAutotranslated: boolean;
 }
 
-const ChannelHeaderPublicMenu = ({channel, user, isMuted, isDefault, isMobile, isFavorite, isLicensedForLDAPGroups, pluginItems, isChannelBookmarksEnabled, isChannelAutotranslated, ...rest}: Props) => {
+const ChannelHeaderPublicMenu = ({channel, user, isMuted, isDefault, isMobile, isFavorite, isLicensedForLDAPGroups, pluginItems, isChannelAutotranslated, ...rest}: Props) => {
     const isGroupConstrained = channel?.group_constrained === true;
     const isArchived = channel.delete_at !== 0;
     const isPrivate = channel?.type === Constants.PRIVATE_CHANNEL;

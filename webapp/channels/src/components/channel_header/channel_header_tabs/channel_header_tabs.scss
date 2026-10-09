@@ -1,0 +1,59 @@
+// Slack식 채널 콘텐츠 탭 줄 — 014 벤치마크 체계(명도 층·굵기 위계) 안에서,
+// 활성은 색만이 아니라 하단 표시선과 굵기로 함께 구분한다
+.channel-header-tabs {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+    gap: 4px;
+
+    .channel-header-tabs__tab {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 6px 10px 8px;
+        border: none;
+        border-radius: 4px 4px 0 0;
+        background: transparent;
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 400;
+        gap: 5px;
+        line-height: 16px;
+
+        svg {
+            fill: currentColor;
+        }
+
+        &:hover {
+            background: rgba(var(--center-channel-color-rgb), 0.06);
+            color: var(--center-channel-color);
+        }
+
+        &.active {
+            color: var(--center-channel-color);
+            font-weight: 600;
+
+            &::after {
+                position: absolute;
+                right: 6px;
+                bottom: -1px;
+                left: 6px;
+                height: 2px;
+                border-radius: 1px;
+                background: var(--center-channel-color);
+                content: '';
+            }
+        }
+    }
+
+    .channel-header-tabs__badge {
+        padding: 0 6px;
+        border-radius: 8px;
+        background: rgba(var(--center-channel-color-rgb), 0.12);
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 16px;
+    }
+}

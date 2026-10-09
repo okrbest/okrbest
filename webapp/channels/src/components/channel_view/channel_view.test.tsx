@@ -39,6 +39,8 @@ jest.mock('client/web_websocket_client', () => ({
 
 jest.mock('./input_loading', () => () => <div data-testid='input-loading'/>);
 
+jest.mock('components/channel_bookmarks', () => () => <div data-testid='channel-bookmarks-bar'/>);
+
 describe('components/channel_view', () => {
     const baseProps: Props = {
         channelId: 'channelId',
@@ -56,6 +58,7 @@ describe('components/channel_view', () => {
         goToLastViewedChannel: jest.fn(),
         isFirstAdmin: false,
         isChannelBookmarksEnabled: false,
+        isChannelBookmarksBarCollapsed: false,
         missingChannelRole: false,
         fetchIsRestrictedDM: jest.fn(),
         canRestrictDirectMessage: false,
@@ -131,5 +134,29 @@ describe('components/channel_view', () => {
             />,
         );
         expect(baseProps.fetchIsRestrictedDM).toHaveBeenCalledTimes(1);
+    });
+
+    test('북마크 바는 접기 상태가 아니면 렌더된다', () => {
+        renderWithContext(
+            <ChannelView
+                {...baseProps}
+                isChannelBookmarksEnabled={true}
+                isChannelBookmarksBarCollapsed={false}
+            />,
+        );
+
+        expect(screen.getByTestId('channel-bookmarks-bar')).toBeInTheDocument();
+    });
+
+    test('접기 상태면 북마크 바를 렌더하지 않는다', () => {
+        renderWithContext(
+            <ChannelView
+                {...baseProps}
+                isChannelBookmarksEnabled={true}
+                isChannelBookmarksBarCollapsed={true}
+            />,
+        );
+
+        expect(screen.queryByTestId('channel-bookmarks-bar')).not.toBeInTheDocument();
     });
 });

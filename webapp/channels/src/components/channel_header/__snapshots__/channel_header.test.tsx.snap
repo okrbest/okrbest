@@ -28,12 +28,14 @@ exports[`components/ChannelHeader should match snapshot with last active display
               class="channel-header__icons"
             >
               <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
               </button>
               <div
@@ -103,6 +105,82 @@ exports[`components/ChannelHeader should match snapshot with last active display
         />
       </button>
     </div>
+    <div
+      class="channel-header-tabs"
+      role="tablist"
+    >
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
+      </button>
+    </div>
   </div>
 </div>
 `;
@@ -135,12 +213,14 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
               class="channel-header__icons"
             >
               <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
               </button>
               <div
@@ -199,117 +279,80 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
         />
       </button>
     </div>
-  </div>
-</div>
-`;
-
-exports[`components/ChannelHeader should render active channel files 1`] = `
-<div>
-  <div
-    aria-label="channel header region"
-    class="channel-header alt a11y__region"
-    data-a11y-sort-order="8"
-    data-channelid="channel_id"
-    id="channel-header"
-    role="banner"
-    tabindex="-1"
-  >
     <div
-      class="flex-parent"
+      class="channel-header-tabs"
+      role="tablist"
     >
-      <div
-        class="flex-child"
-      >
-        <div
-          class="channel-header__info"
-          id="channelHeaderInfo"
-        >
-          <div
-            class="channel-header__title dropdown"
-          >
-            <div
-              class="channel-header__icons"
-            >
-              <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs  channel-header__icon--active"
-                id="channelHeaderFilesButton"
-              >
-                <i
-                  class="icon icon-file-text-outline"
-                />
-              </button>
-              <div
-                class="channel-header__bot-filter"
-                style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
-              >
-                <input
-                  id="channelHeaderBotMessagesCheckbox"
-                  type="checkbox"
-                />
-                <label
-                  for="channelHeaderBotMessagesCheckbox"
-                  style="margin: 0px; cursor: pointer; font-size: 12px;"
-                >
-                  봇 메세지
-                </label>
-              </div>
-            </div>
-            <div
-              class="channel-header__description"
-              id="channelHeaderDescription"
-            >
-              <div
-                class="header-description__text"
-              >
-                <p
-                  class="markdown__paragraph-inline"
-                >
-                  header
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <button
-        aria-label="Open in new window"
-        class="btn btn-icon btn-sm PopoutButton channel-header__icon"
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
       </button>
       <button
-        aria-label="View Info"
-        class="channel-header__icon"
-        id="channel-info-btn"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
       </button>
     </div>
   </div>
@@ -344,33 +387,28 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               class="channel-header__icons"
             >
               <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
+              </button>
+              <button
+                aria-label="View 0 members"
+                class="channel-member-stack btn btn-icon btn-xs"
+                data-testid="channelMemberStack"
+                type="button"
+              >
+                <span
+                  class="channel-member-stack__count"
+                  data-testid="channelMemberStack-count"
+                >
+                  -
+                </span>
               </button>
               <div
                 class="channel-header__bot-filter"
@@ -423,6 +461,82 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         <i
           class="Icon-clPswv hCFmLO icon-information-outline"
         />
+      </button>
+    </div>
+    <div
+      class="channel-header-tabs"
+      role="tablist"
+    >
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
       </button>
     </div>
   </div>
@@ -457,33 +571,28 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               class="channel-header__icons"
             >
               <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
+              </button>
+              <button
+                aria-label="View 0 members"
+                class="channel-member-stack btn btn-icon btn-xs"
+                data-testid="channelMemberStack"
+                type="button"
+              >
+                <span
+                  class="channel-member-stack__count"
+                  data-testid="channelMemberStack-count"
+                >
+                  -
+                </span>
               </button>
               <div
                 class="channel-header__bot-filter"
@@ -538,117 +647,80 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
         />
       </button>
     </div>
-  </div>
-</div>
-`;
-
-exports[`components/ChannelHeader should render active pinned posts 1`] = `
-<div>
-  <div
-    aria-label="channel header region"
-    class="channel-header alt a11y__region"
-    data-a11y-sort-order="8"
-    data-channelid="channel_id"
-    id="channel-header"
-    role="banner"
-    tabindex="-1"
-  >
     <div
-      class="flex-parent"
+      class="channel-header-tabs"
+      role="tablist"
     >
-      <div
-        class="flex-child"
-      >
-        <div
-          class="channel-header__info"
-          id="channelHeaderInfo"
-        >
-          <div
-            class="channel-header__title dropdown"
-          >
-            <div
-              class="channel-header__icons"
-            >
-              <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
-              >
-                <i
-                  class="icon icon-file-text-outline"
-                />
-              </button>
-              <div
-                class="channel-header__bot-filter"
-                style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
-              >
-                <input
-                  id="channelHeaderBotMessagesCheckbox"
-                  type="checkbox"
-                />
-                <label
-                  for="channelHeaderBotMessagesCheckbox"
-                  style="margin: 0px; cursor: pointer; font-size: 12px;"
-                >
-                  봇 메세지
-                </label>
-              </div>
-            </div>
-            <div
-              class="channel-header__description"
-              id="channelHeaderDescription"
-            >
-              <div
-                class="header-description__text"
-              >
-                <p
-                  class="markdown__paragraph-inline"
-                >
-                  header
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <button
-        aria-label="Open in new window"
-        class="btn btn-icon btn-sm PopoutButton channel-header__icon"
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
       </button>
       <button
-        aria-label="View Info"
-        class="channel-header__icon"
-        id="channel-info-btn"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
       </button>
     </div>
   </div>
@@ -683,33 +755,28 @@ exports[`components/ChannelHeader should render archived view 1`] = `
               class="channel-header__icons"
             >
               <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
+              </button>
+              <button
+                aria-label="View 0 members"
+                class="channel-member-stack btn btn-icon btn-xs"
+                data-testid="channelMemberStack"
+                type="button"
+              >
+                <span
+                  class="channel-member-stack__count"
+                  data-testid="channelMemberStack-count"
+                >
+                  -
+                </span>
               </button>
               <div
                 class="channel-header__bot-filter"
@@ -762,6 +829,82 @@ exports[`components/ChannelHeader should render archived view 1`] = `
         <i
           class="Icon-clPswv hCFmLO icon-information-outline"
         />
+      </button>
+    </div>
+    <div
+      class="channel-header-tabs"
+      role="tablist"
+    >
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
       </button>
     </div>
   </div>
@@ -797,7 +940,8 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             >
               <button
                 aria-label="Unmute"
-                class="channel-header__mute inactive btn btn-icon btn-xs"
+                class="channel-header__mute btn btn-icon btn-xs inactive"
+                data-testid="channelHeaderBellButton"
                 id="toggleMute"
               >
                 <i
@@ -806,33 +950,17 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                 />
               </button>
               <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
+                aria-label="View 0 members"
+                class="channel-member-stack btn btn-icon btn-xs"
+                data-testid="channelMemberStack"
+                type="button"
               >
                 <span
-                  class="channel-header__members-icon-wrapper"
+                  class="channel-member-stack__count"
+                  data-testid="channelMemberStack-count"
                 >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
+                  -
                 </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
-              >
-                <i
-                  class="icon icon-file-text-outline"
-                />
               </button>
               <div
                 class="channel-header__bot-filter"
@@ -887,117 +1015,80 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         />
       </button>
     </div>
-  </div>
-</div>
-`;
-
-exports[`components/ChannelHeader should render not active channel files 1`] = `
-<div>
-  <div
-    aria-label="channel header region"
-    class="channel-header alt a11y__region"
-    data-a11y-sort-order="8"
-    data-channelid="channel_id"
-    id="channel-header"
-    role="banner"
-    tabindex="-1"
-  >
     <div
-      class="flex-parent"
+      class="channel-header-tabs"
+      role="tablist"
     >
-      <div
-        class="flex-child"
-      >
-        <div
-          class="channel-header__info"
-          id="channelHeaderInfo"
-        >
-          <div
-            class="channel-header__title dropdown"
-          >
-            <div
-              class="channel-header__icons"
-            >
-              <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
-              >
-                <i
-                  class="icon icon-file-text-outline"
-                />
-              </button>
-              <div
-                class="channel-header__bot-filter"
-                style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
-              >
-                <input
-                  id="channelHeaderBotMessagesCheckbox"
-                  type="checkbox"
-                />
-                <label
-                  for="channelHeaderBotMessagesCheckbox"
-                  style="margin: 0px; cursor: pointer; font-size: 12px;"
-                >
-                  봇 메세지
-                </label>
-              </div>
-            </div>
-            <div
-              class="channel-header__description"
-              id="channelHeaderDescription"
-            >
-              <div
-                class="header-description__text"
-              >
-                <p
-                  class="markdown__paragraph-inline"
-                >
-                  header
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <button
-        aria-label="Open in new window"
-        class="btn btn-icon btn-sm PopoutButton channel-header__icon"
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
       </button>
       <button
-        aria-label="View Info"
-        class="channel-header__icon"
-        id="channel-info-btn"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
       </button>
     </div>
   </div>
@@ -1032,12 +1123,14 @@ exports[`components/ChannelHeader should render properly when custom status is e
               class="channel-header__icons"
             >
               <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
               </button>
               <div
@@ -1107,6 +1200,82 @@ exports[`components/ChannelHeader should render properly when custom status is e
         />
       </button>
     </div>
+    <div
+      class="channel-header-tabs"
+      role="tablist"
+    >
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
+      </button>
+    </div>
   </div>
 </div>
 `;
@@ -1139,12 +1308,14 @@ exports[`components/ChannelHeader should render properly when custom status is s
               class="channel-header__icons"
             >
               <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
               </button>
               <div
@@ -1217,6 +1388,82 @@ exports[`components/ChannelHeader should render properly when custom status is s
         />
       </button>
     </div>
+    <div
+      class="channel-header-tabs"
+      role="tablist"
+    >
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
+      </button>
+    </div>
   </div>
 </div>
 `;
@@ -1249,33 +1496,28 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
               class="channel-header__icons"
             >
               <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
+              </button>
+              <button
+                aria-label="View 0 members"
+                class="channel-member-stack btn btn-icon btn-xs"
+                data-testid="channelMemberStack"
+                type="button"
+              >
+                <span
+                  class="channel-member-stack__count"
+                  data-testid="channelMemberStack-count"
+                >
+                  -
+                </span>
               </button>
               <div
                 class="channel-header__bot-filter"
@@ -1328,6 +1570,82 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
         <i
           class="Icon-clPswv hCFmLO icon-information-outline"
         />
+      </button>
+    </div>
+    <div
+      class="channel-header-tabs"
+      role="tablist"
+    >
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
       </button>
     </div>
   </div>
@@ -1362,33 +1680,28 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               class="channel-header__icons"
             >
               <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
+              </button>
+              <button
+                aria-label="View 0 members"
+                class="channel-member-stack btn btn-icon btn-xs"
+                data-testid="channelMemberStack"
+                type="button"
+              >
+                <span
+                  class="channel-member-stack__count"
+                  data-testid="channelMemberStack-count"
+                >
+                  -
+                </span>
               </button>
               <div
                 class="channel-header__bot-filter"
@@ -1443,6 +1756,82 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         />
       </button>
     </div>
+    <div
+      class="channel-header-tabs"
+      role="tablist"
+    >
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
+      </button>
+    </div>
   </div>
 </div>
 `;
@@ -1475,33 +1864,28 @@ exports[`components/ChannelHeader should render properly when populated with cha
               class="channel-header__icons"
             >
               <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
+              </button>
+              <button
+                aria-label="View 0 members"
+                class="channel-member-stack btn btn-icon btn-xs"
+                data-testid="channelMemberStack"
+                type="button"
+              >
+                <span
+                  class="channel-member-stack__count"
+                  data-testid="channelMemberStack-count"
+                >
+                  -
+                </span>
               </button>
               <div
                 class="channel-header__bot-filter"
@@ -1556,6 +1940,82 @@ exports[`components/ChannelHeader should render properly when populated with cha
         />
       </button>
     </div>
+    <div
+      class="channel-header-tabs"
+      role="tablist"
+    >
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
+      </button>
+    </div>
   </div>
 </div>
 `;
@@ -1588,39 +2048,49 @@ exports[`components/ChannelHeader should render properly when there are pending 
               class="channel-header__icons"
             >
               <button
-                aria-label="Members — pending join requests"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                  <span
-                    aria-hidden="true"
-                    class="channel-header__join-request-badge"
-                    data-testid="channelHeaderJoinRequestBadge"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
               </button>
+              <button
+                aria-label="View 0 members"
+                class="channel-member-stack btn btn-icon btn-xs"
+                data-testid="channelMemberStack"
+                type="button"
+              >
+                <span
+                  class="channel-member-stack__count"
+                  data-testid="channelMemberStack-count"
+                >
+                  -
+                </span>
+                <span
+                  aria-hidden="true"
+                  class="channel-header__join-request-badge"
+                  data-testid="channelHeaderJoinRequestBadge"
+                />
+              </button>
+              <div
+                class="channel-header__bot-filter"
+                style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
+              >
+                <input
+                  id="channelHeaderBotMessagesCheckbox"
+                  type="checkbox"
+                />
+                <label
+                  for="channelHeaderBotMessagesCheckbox"
+                  style="margin: 0px; cursor: pointer; font-size: 12px;"
+                >
+                  봇 메세지
+                </label>
+              </div>
             </div>
             <div
               class="channel-header__description"
@@ -1657,6 +2127,82 @@ exports[`components/ChannelHeader should render properly when there are pending 
         <i
           class="Icon-clPswv hCFmLO icon-information-outline"
         />
+      </button>
+    </div>
+    <div
+      class="channel-header-tabs"
+      role="tablist"
+    >
+      <button
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
       </button>
     </div>
   </div>
@@ -1691,33 +2237,28 @@ exports[`components/ChannelHeader should render shared view 1`] = `
               class="channel-header__icons"
             >
               <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
+                aria-label="Mute Channel"
+                class="channel-header__mute btn btn-icon btn-xs"
+                data-testid="channelHeaderBellButton"
+                id="toggleMute"
               >
                 <i
-                  class="icon icon-file-text-outline"
+                  aria-hidden="true"
+                  class="icon icon-bell-outline"
                 />
+              </button>
+              <button
+                aria-label="View 0 members"
+                class="channel-member-stack btn btn-icon btn-xs"
+                data-testid="channelMemberStack"
+                type="button"
+              >
+                <span
+                  class="channel-member-stack__count"
+                  data-testid="channelMemberStack-count"
+                >
+                  -
+                </span>
               </button>
               <div
                 class="channel-header__bot-filter"
@@ -1772,133 +2313,80 @@ exports[`components/ChannelHeader should render shared view 1`] = `
         />
       </button>
     </div>
-  </div>
-</div>
-`;
-
-exports[`components/ChannelHeader should render the pinned icon with the pinned posts count 1`] = `
-<div>
-  <div
-    aria-label="channel header region"
-    class="channel-header alt a11y__region"
-    data-a11y-sort-order="8"
-    data-channelid="channel_id"
-    id="channel-header"
-    role="banner"
-    tabindex="-1"
-  >
     <div
-      class="flex-parent"
+      class="channel-header-tabs"
+      role="tablist"
     >
-      <div
-        class="flex-child"
-      >
-        <div
-          class="channel-header__info"
-          id="channelHeaderInfo"
-        >
-          <div
-            class="channel-header__title dropdown"
-          >
-            <div
-              class="channel-header__icons"
-            >
-              <button
-                aria-label="Members"
-                class="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="member_rhs"
-              >
-                <span
-                  class="channel-header__members-icon-wrapper"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="icon icon-account-outline channel-header__members"
-                  />
-                </span>
-                <span
-                  class="icon__text"
-                  id="channelMemberCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Pinned messages"
-                class="channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-                id="channelHeaderPinButton"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-pin-outline channel-header__pin"
-                />
-                <span
-                  class="icon__text"
-                  id="channelPinnedPostCountText"
-                >
-                  2
-                </span>
-              </button>
-              <button
-                aria-label="Channel files"
-                class="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-                id="channelHeaderFilesButton"
-              >
-                <i
-                  class="icon icon-file-text-outline"
-                />
-              </button>
-              <div
-                class="channel-header__bot-filter"
-                style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
-              >
-                <input
-                  id="channelHeaderBotMessagesCheckbox"
-                  type="checkbox"
-                />
-                <label
-                  for="channelHeaderBotMessagesCheckbox"
-                  style="margin: 0px; cursor: pointer; font-size: 12px;"
-                >
-                  봇 메세지
-                </label>
-              </div>
-            </div>
-            <div
-              class="channel-header__description"
-              id="channelHeaderDescription"
-            >
-              <div
-                class="header-description__text"
-              >
-                <p
-                  class="markdown__paragraph-inline"
-                >
-                  header
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <button
-        aria-label="Open in new window"
-        class="btn btn-icon btn-sm PopoutButton channel-header__icon"
+        aria-selected="true"
+        class="channel-header-tabs__tab active"
+        id="channelHeaderTab-messages"
+        role="tab"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20,2A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H6L2,22V4C2,2.89 2.9,2 4,2H20M4,4V17.17L5.17,16H20V4H4M6,7H18V9H6V7M6,11H15V13H6V11Z"
+          />
+        </svg>
+        Messages
       </button>
       <button
-        aria-label="View Info"
-        class="channel-header__icon"
-        id="channel-info-btn"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-files"
+        role="tab"
+        type="button"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z"
+          />
+        </svg>
+        Files
+      </button>
+      <button
+        aria-selected="false"
+        class="channel-header-tabs__tab"
+        id="channelHeaderTab-pinned"
+        role="tab"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.706,9.801L20.707,8.8l-6.492-6.504c-0.002-0.002-0.004-0.004-0.006-0.006c-0.392-0.389-1.024-0.387-1.413,0.006C12.794,2.298,12.792,2.3,12.79,2.302c-0.388,0.392-0.386,1.026,0.006,1.415l0.3,0.29L8.651,8.41
+	C6.958,8.199,5.238,8.426,3.657,9.07C3.335,9.185,3.094,9.457,3.018,9.79c-0.064,0.333,0.045,0.676,0.29,0.911l4.243,4.25
+	L3.5,19.001l-1,2.499l2.5-1l4.049-4.048l4.247,4.255c0.245,0.241,0.595,0.339,0.929,0.26c0.333-0.076,0.605-0.318,0.719-0.64
+	c0.643-1.584,0.87-3.306,0.659-5.003l4.395-4.403l0.29,0.3c0.392,0.392,1.027,0.392,1.418,0
+	C22.098,10.829,22.098,10.193,21.706,9.801z M13.765,14.274c-0.262,0.262-0.358,0.646-0.25,1.001c0.235,0.926,0.235,1.896,0,2.822
+	l-7.61-7.626c0.924-0.235,1.892-0.235,2.817,0c0.354,0.108,0.738,0.012,0.999-0.25l4.784-4.803l4.055,4.063L13.765,14.274z"
+          />
+        </svg>
+        Pinned
       </button>
     </div>
   </div>
