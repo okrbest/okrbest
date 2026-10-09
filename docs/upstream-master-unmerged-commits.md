@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-08 21:20
+- 갱신일: 2026-10-09 16:57
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 350개
+- 남은 커밋: 343개
 
-**마지막 반영 커밋:** `9ea90ca8` | [Backport i18n packaging and locale fallback fixes (#38148)](https://github.com/mattermost/mattermost/commit/9ea90ca862df152a8adf4d86a06c323b4415f901) | 2026-08-26
+**마지막 반영 커밋:** `441e45a9` | [\[MM-63470\] Fix messages being sent to the previous channel after /msg or Cmd+K (#37928)](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3) | 2026-08-27
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 85b0227d | [E2E/Playwright: Upgrade playwright@1.62 and its deps (#38014)](https://github.com/mattermost/mattermost/commit/85b0227d1d741e436b7e179cc839820a91279921) | 2026-08-27 |
-| c4a2e085 | [fix tests with file server host (#38138)](https://github.com/mattermost/mattermost/commit/c4a2e085ec0bc674d5ff2316a059c48db196a05e) | 2026-08-27 |
-| cda301a7 | [MM-69945: Align post type validation across post and scheduled post paths (#38054)](https://github.com/mattermost/mattermost/commit/cda301a7b06c9ad78b484d922dee5e82a061d8be) | 2026-08-27 |
-| 87c84ef1 | [MM-70018: Remove unused config fields for v12 (#37743)](https://github.com/mattermost/mattermost/commit/87c84ef1772e85e45c4a338b199a4b668fffb4aa) | 2026-08-27 |
-| 1361e922 | [Prepackage mattermost-plugin-agents v2.6.0. (#38159)](https://github.com/mattermost/mattermost/commit/1361e92299e25be1328820e5ba5fb92c987fafd6) | 2026-08-27 |
-| 82d81775 | [Graduate account deactivation and user status away timeout to Site Configuration > Users and Teams (#38025)](https://github.com/mattermost/mattermost/commit/82d8177517a5648119ad38e072200a247e3d7dba) | 2026-08-27 |
-| 245e311a | [\[MM-57807\] Graduate Hardened Mode out of Experimental Features (#38022)](https://github.com/mattermost/mattermost/commit/245e311a41a789a282cf13b4685084fe07c89947) | 2026-08-27 |
-| 441e45a9 | [\[MM-63470\] Fix messages being sent to the previous channel after /msg or Cmd+K (#37928)](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3) | 2026-08-27 |
 | ab32bb0b | [MM-70366: Add a readOnly mode to WysiwygEditor (#38141)](https://github.com/mattermost/mattermost/commit/ab32bb0bc62da2e6ed2ad9fa613806e4dfa33c4d) | 2026-08-28 |
 | 50241b42 | [docs(P15): reconcile authored docs drift through fips-migration (#38181)](https://github.com/mattermost/mattermost/commit/50241b4293e9d98c3e393b6fc095d365f2655987) | 2026-08-28 |
 | d8073d1b | [\[MM-70248\] Bump mattermost/pdf to cap PDF text extraction (#38179)](https://github.com/mattermost/mattermost/commit/d8073d1b9f860ae264a148068e00429bb30387a1) | 2026-08-28 |
@@ -361,6 +353,7 @@
 | 33411b9d | [fix(app): scope received_group to group readers (#38299)](https://github.com/mattermost/mattermost/commit/33411b9d3ced672f94765eb58f3ebd25e1cecc43) | 2026-10-08 |
 | 6746e2f5 | [\[MM-70779\] Make the number part of a hyphenated term findable in Postgres search (#38704)](https://github.com/mattermost/mattermost/commit/6746e2f5d9fb824f3ed1575352f90961826f96f2) | 2026-10-08 |
 | acf6e7bd | [Add dot release docs for server v11.7.12 (ESR) (#39057)](https://github.com/mattermost/mattermost/commit/acf6e7bd22224cafcb847dabd6b2bf83505805d1) | 2026-10-08 |
+| 4d94455a | [Sync document language with active user locale (#38625)](https://github.com/mattermost/mattermost/commit/4d94455ab041c0eed6676064cd8b033e9912fc5b) | 2026-10-08 |
 
 ## 제외된 커밋
 
@@ -764,6 +757,8 @@
 | c3a5a087 | [\[MM-70086\] Compare user attributes against channel attributes in access rules (#37755)](https://github.com/mattermost/mattermost/commit/c3a5a087d7f40b201656f19ff6fc149f1547eb97) | 제외한 property 시스템 v2 계보(48f2fd08·3fa87760 Linked Properties·017a7102 Rank) 위에 얹힌 신규 대형 기능이라 반영할 토대가 없다. ABAC 규칙에서 사용자 속성을 채널 속성(resource.attributes.*)과 비교하게 하는 81파일 +5287/-481로, 핵심인 DB 마이그레이션 000216(AttributeView → UserAttributeView·ChannelAttributeView 분리)이 PropertyFields.ObjectType 컬럼으로 user/channel을 가르고 rank 타입을 다루는데 우리 PropertyFields에는 ObjectType 컬럼이 없어(우리 마이그레이션에서 ObjectType은 자동번역 테이블뿐) 우리 DB에서 그대로 실패한다. HEAD 부재 경로 20개 — classification_markings/*(제외한 2b7b398a 분류 표시 계보), user_properties_rank_values*(Rank 계보), properties_user.ts, channel_attribute_target·test_channel_picker, migration 000216 테스트 등. 새 플래그 ResourceAttributesInPolicies(기본 false)도 이 토대를 전제한다. 후속 채널 속성 커밋(7206a383·94c163f8·24ef18fd·f1cf5341, 계층 속성 85372e3a 등)도 같은 사유로 연쇄 제외 대상. private-module 태그 해당 없음. 재검토 조건: property 시스템 v2 도입을 결정할 때 — 그때 이 커밋과 채널 속성 후속을 묶어 spec으로 가져간다. |
 
 | f21b0299 | [Bumping prepackaged Boards version to 9.4.0 (#38131)](https://github.com/mattermost/mattermost/commit/f21b0299d326fe0a90cadb10a68160374350af03) | 공식 Boards 번들 버전 올림(9.3.1 → 9.4.0, 일반·FIPS)을 받지 않는다 — 1bfa2e51(Boards 9.3.1) 제외에서 정한 방침 적용. 우리 Boards(okrbest/okrbest-plugin-boards)는 공식과 플러그인 ID(focalboard)가 같은 포크라, server/Makefile PLUGIN_PACKAGES가 더 높은 공식 버전을 번들하면 서버 재시작 때 processPrepackagedPlugin이 우리 플러그인을 공식 것으로 덮어쓴다(과도기 번들 목록이라 파일 저장소까지 교체). 우리 Makefile은 boards-v9.3.0·agents-v2.4.2에 머물러 있어 upstream 문맥(9.3.1·2.5.1)과도 어긋난다. Agents 10804f80 제외와 같은 근거. 번들 목록에서 Boards·Agents를 빼는 결정이 나면 그 정책을 따른다. |
+
+| 1361e922 | [Prepackage mattermost-plugin-agents v2.6.0. (#38159)](https://github.com/mattermost/mattermost/commit/1361e92299e25be1328820e5ba5fb92c987fafd6) | 공식 Agents 번들 버전 올림(v2.5.1 → v2.6.0)을 멈춘다 — 10804f80(v2.5.1) 제외와 같은 사유. 우리 Agents 포크(okrbest/okrbest-plugin-agents)는 공식과 같은 플러그인 ID mattermost-ai이고, server/Makefile PLUGIN_PACKAGES는 plugins.releases.mattermost.com의 공식판을 번들한다(우리 포크 번들 경로 없음). 재시작 때 processPrepackagedPlugin이 더 높은 번들 버전을 설치하므로 번들을 올리면 우리 포크를 덮어쓸 위험이 커진다(1bfa2e51 방침). 우리 Makefile은 v2.4.2 유지(일반 166행·FIPS 181행) — 그래서 merge-tree CONFLICT. 후속 443c6fdf(v2.6.1)·05553d08(v2.8.0)·751b8cb6(v2.9.0)도 같은 사유 대상. |
 
 ## spec 전환 커밋
 
