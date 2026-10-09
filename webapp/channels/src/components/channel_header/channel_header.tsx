@@ -319,7 +319,7 @@ class ChannelHeader extends React.PureComponent<Props> {
                     id='toggleMute'
                     data-testid='channelHeaderBellButton'
                     onClick={this.toggleMute}
-                    className={classNames('channel-header__mute btn btn-icon btn-xs', {inactive: isChannelMuted})}
+                    className={classNames('channel-header__mute channel-header__icon btn btn-icon btn-sm', {inactive: isChannelMuted})}
                     aria-label={this.props.intl.formatMessage(
                         isChannelMuted ? {id: 'channelHeader.unmute', defaultMessage: 'Unmute'} : {id: 'channelHeader.mute', defaultMessage: 'Mute Channel'},
                     )}

@@ -1,7 +1,10 @@
-// 멤버 아바타 스택 — 겹친 아바타와 인원수를 한 버튼에 담는다
+// 멤버 아바타 스택 — 겹친 아바타와 인원수를 한 버튼에 담는다.
+// 이웃 아이콘(channel-header__icon, 32px)과 높이·간격을 맞추되 내용 폭만큼 늘어난다.
 .channel-member-stack {
     display: flex;
+    width: auto;
     align-items: center;
+    padding: 0 6px;
     gap: 4px;
 
     .channel-member-stack__avatars {
