@@ -46,6 +46,7 @@
 | 사용자 입력 표시 설정을 Posts로 승격 | [0bff02c8](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) (#38023) | 코드는 그대로, docs 2개는 버렸다. en id 이동을 따라 ko 5키를 새 id로 옮기고 나뉜 예시 키 1개를 채웠다 — 아래 참조 |
 | Channel Viewed 웹소켓 설정을 Web Server로 승격 | [4c6c5a06](https://github.com/mattermost/mattermost/commit/4c6c5a063fefa1ec4484f62e1a209ec79711da13) (#38026) | 코드는 그대로, docs 2개는 버렸고 ko 2키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리 |
 | 계정 비활성화·자리 비움 시간초과를 Users and Teams로 승격 | [82d81775](https://github.com/mattermost/mattermost/commit/82d8177517a5648119ad38e072200a247e3d7dba) (#38025) | docs 3개는 버렸고 리브랜드 충돌은 upstream 삭제를 따랐다. ko 5키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리 |
+| Hardened Mode를 Web Server로 승격 | [245e311a](https://github.com/mattermost/mattermost/commit/245e311a41a789a282cf13b4685084fe07c89947) (#38022) | 설정 키가 `EnableHardenedMode`로 바뀐다(마이그레이션 포함). 새 en 문구의 "Mattermost"를 OKR.BEST로 바꿨고 ko 2키를 옮겼다 — `0bff02c8` 항목 아래 참조 |
 | Email 로그인 버튼 색상 설정 제거 | [925a09a5](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) (#38021) | 코드는 그대로, docs 1개는 버렸고 webapp ko 6키를 지웠다 — 아래 참조 |
 | 신고 메시지 노출 범위 보고서 | [fb87397d](https://github.com/mattermost/mattermost/commit/fb87397dbaeacf2578ab5f9ab69a0ee3860f9e80) (#37809) | 34파일을 받으며 제외한 개명 계보(`f1b9aa05`)에 걸린 id 1개·문구 2줄·테스트 3줄을 우리 용어로 바꾸고, en은 신규 키만 골라 받았다 — 아래 참조 |
 | store 메서드에 요청 로거 | [a7c68624](https://github.com/mattermost/mattermost/commit/a7c686249728bf75e6b3da69b2227fd68065181b) (#37648) | `post_store.go` 충돌에서 제외한 CJK 검색 함수 둘을 버리고 `search()` 시그니처에 `logger`만 더했다 — 아래 참조 |
@@ -1412,6 +1413,23 @@ upstream 삭제를 따랐다. 새 en 문구에는 제품명이 없다. ko는 5�
 `go test ./public/model/ ./config/`·api4 `TestGetConfig`·`TestUpdateConfig`·`TestPatchConfig` 통과.
 `i18n-check-empty`가 orphaned 8개로 실패하지만 8개 모두 master에서 이미 orphaned다(team 버튼·사이드바 계열, 이 커밋과 무관).
 이 커밋이 새로 만든 orphaned는 0개다.
+
+**같은 처리 + 리브랜드 — `245e311a`** ([MM-57807] Graduate Hardened Mode out of Experimental Features, #38022, 2026-10-09 반영):
+Hardened Mode가 Experimental에서 Environment > Web Server로 옮겨지고 `access` 태그가 `environment_web_server`로 바뀌었다.
+**설정 키 이름이 바뀐다** — `ServiceSettings.ExperimentalEnableHardenedMode` → `EnableHardenedMode`. 옛 필드는 deprecated(`json:",omitempty"`)로
+남고 `SetDefaults`가 새 키가 nil일 때 옛 값을 옮긴다(`TestServiceSettingsHardenedModeMigration` 4개 통과). 옛 키를 읽던 서버 3곳은 upstream이
+모두 바꿨고, 포크에만 있는 사용처는 없다. 우리가 지운 `docs/main/` mdx 2개는 버렸다.
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `admin_definition.tsx`·`en.json` 충돌 | 옛 블록 삭제 | 삭제를 따름 | 옛 설명의 리브랜드 문구("hardened mode for OKR.BEST")가 삭제 블록과 겹쳤다 |
+| 새 `admin.service.hardenedModeDesc` (tsx `defaultMessage`·en.json) | "Enables a hardened mode for **Mattermost** that…" | "…for **OKR.BEST** that…" | **`82d81775`와 달리 새 문구에 제품명이 있다.** 원칙 IV 리브랜드 |
+| `ko.json` | (커밋에 없음) | `admin.experimental.experimentalEnableHardenedMode.{title,desc}` → `admin.service.hardenedMode{Title,Desc}`, 문구 그대로 | ko 설명에 이미 "OKR.BEST"가 있다 |
+
+되돌릴 때 주의: 이 커밋 이후 콘솔에서 저장하면 config에는 `EnableHardenedMode`만 남는다. revert하면 서버가 옛 키를 다시 읽으므로 켜 둔 값이 `false`로 돌아간다.
+검증: `go test ./public/model/ ./config/ ./channels/web/`, api4 `TestCreatePost`·`TestCreatePostWithOAuthClient`·`TestUpdatePost`·`TestPatchPost`,
+app `HardenedMode`·`TestCreatePost` 통과. `admin_definition_*` 11 suites 통과, `admin_console_index` 2건은 같은 기준선 실패.
+eslint 오류 0(경고: 새 줄의 upstream `eslint-disable-line formatjs/enforce-placeholders`가 쓰이지 않음 — upstream 그대로 둠).
 
 ## Email 로그인 버튼 색상 설정 제거 — docs를 버리고 ko 6키를 지웠다
 
