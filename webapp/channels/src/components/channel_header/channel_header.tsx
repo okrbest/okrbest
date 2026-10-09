@@ -360,8 +360,6 @@ class ChannelHeader extends React.PureComponent<Props> {
                                 <div
                                     className='channel-header__icons'
                                 >
-                                    {muteTrigger}
-                                    {memberListButton}
                                     <div
                                         className='channel-header__bot-filter'
                                         style={{display: 'flex', alignItems: 'center', gap: '4px', marginLeft: '8px'}}
@@ -404,6 +402,8 @@ class ChannelHeader extends React.PureComponent<Props> {
                             </div>
                         </div>
                     </div>
+                    {memberListButton}
+                    {muteTrigger}
                     <ChannelHeaderPlug
                         channel={channel}
                         channelMember={channelMember}

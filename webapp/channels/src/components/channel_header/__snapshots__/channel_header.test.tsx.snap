@@ -27,17 +27,6 @@ exports[`components/ChannelHeader should match snapshot with last active display
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -85,6 +74,17 @@ exports[`components/ChannelHeader should match snapshot with last active display
           </div>
         </div>
       </div>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -212,17 +212,6 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -259,6 +248,17 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
           </div>
         </div>
       </div>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -386,30 +386,6 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
-              <button
-                aria-label="View 0 members"
-                class="channel-member-stack btn btn-icon btn-xs"
-                data-testid="channelMemberStack"
-                type="button"
-              >
-                <span
-                  class="channel-member-stack__count"
-                  data-testid="channelMemberStack-count"
-                >
-                  -
-                </span>
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -443,6 +419,30 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           </div>
         </div>
       </div>
+      <button
+        aria-label="View 0 members"
+        class="channel-member-stack btn btn-icon btn-xs"
+        data-testid="channelMemberStack"
+        type="button"
+      >
+        <span
+          class="channel-member-stack__count"
+          data-testid="channelMemberStack-count"
+        >
+          -
+        </span>
+      </button>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -570,30 +570,6 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
-              <button
-                aria-label="View 0 members"
-                class="channel-member-stack btn btn-icon btn-xs"
-                data-testid="channelMemberStack"
-                type="button"
-              >
-                <span
-                  class="channel-member-stack__count"
-                  data-testid="channelMemberStack-count"
-                >
-                  -
-                </span>
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -627,6 +603,30 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           </div>
         </div>
       </div>
+      <button
+        aria-label="View 0 members"
+        class="channel-member-stack btn btn-icon btn-xs"
+        data-testid="channelMemberStack"
+        type="button"
+      >
+        <span
+          class="channel-member-stack__count"
+          data-testid="channelMemberStack-count"
+        >
+          -
+        </span>
+      </button>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -754,30 +754,6 @@ exports[`components/ChannelHeader should render archived view 1`] = `
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
-              <button
-                aria-label="View 0 members"
-                class="channel-member-stack btn btn-icon btn-xs"
-                data-testid="channelMemberStack"
-                type="button"
-              >
-                <span
-                  class="channel-member-stack__count"
-                  data-testid="channelMemberStack-count"
-                >
-                  -
-                </span>
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -811,6 +787,30 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           </div>
         </div>
       </div>
+      <button
+        aria-label="View 0 members"
+        class="channel-member-stack btn btn-icon btn-xs"
+        data-testid="channelMemberStack"
+        type="button"
+      >
+        <span
+          class="channel-member-stack__count"
+          data-testid="channelMemberStack-count"
+        >
+          -
+        </span>
+      </button>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -938,30 +938,6 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Unmute"
-                class="channel-header__mute btn btn-icon btn-xs inactive"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-off-outline"
-                />
-              </button>
-              <button
-                aria-label="View 0 members"
-                class="channel-member-stack btn btn-icon btn-xs"
-                data-testid="channelMemberStack"
-                type="button"
-              >
-                <span
-                  class="channel-member-stack__count"
-                  data-testid="channelMemberStack-count"
-                >
-                  -
-                </span>
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -995,6 +971,30 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           </div>
         </div>
       </div>
+      <button
+        aria-label="View 0 members"
+        class="channel-member-stack btn btn-icon btn-xs"
+        data-testid="channelMemberStack"
+        type="button"
+      >
+        <span
+          class="channel-member-stack__count"
+          data-testid="channelMemberStack-count"
+        >
+          -
+        </span>
+      </button>
+      <button
+        aria-label="Unmute"
+        class="channel-header__mute btn btn-icon btn-xs inactive"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-off-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -1122,17 +1122,6 @@ exports[`components/ChannelHeader should render properly when custom status is e
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -1180,6 +1169,17 @@ exports[`components/ChannelHeader should render properly when custom status is e
           </div>
         </div>
       </div>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -1307,17 +1307,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -1368,6 +1357,17 @@ exports[`components/ChannelHeader should render properly when custom status is s
           </div>
         </div>
       </div>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -1495,30 +1495,6 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
-              <button
-                aria-label="View 0 members"
-                class="channel-member-stack btn btn-icon btn-xs"
-                data-testid="channelMemberStack"
-                type="button"
-              >
-                <span
-                  class="channel-member-stack__count"
-                  data-testid="channelMemberStack-count"
-                >
-                  -
-                </span>
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -1552,6 +1528,30 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
           </div>
         </div>
       </div>
+      <button
+        aria-label="View 0 members"
+        class="channel-member-stack btn btn-icon btn-xs"
+        data-testid="channelMemberStack"
+        type="button"
+      >
+        <span
+          class="channel-member-stack__count"
+          data-testid="channelMemberStack-count"
+        >
+          -
+        </span>
+      </button>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -1679,30 +1679,6 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
-              <button
-                aria-label="View 0 members"
-                class="channel-member-stack btn btn-icon btn-xs"
-                data-testid="channelMemberStack"
-                type="button"
-              >
-                <span
-                  class="channel-member-stack__count"
-                  data-testid="channelMemberStack-count"
-                >
-                  -
-                </span>
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -1736,6 +1712,30 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           </div>
         </div>
       </div>
+      <button
+        aria-label="View 0 members"
+        class="channel-member-stack btn btn-icon btn-xs"
+        data-testid="channelMemberStack"
+        type="button"
+      >
+        <span
+          class="channel-member-stack__count"
+          data-testid="channelMemberStack-count"
+        >
+          -
+        </span>
+      </button>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -1863,30 +1863,6 @@ exports[`components/ChannelHeader should render properly when populated with cha
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
-              <button
-                aria-label="View 0 members"
-                class="channel-member-stack btn btn-icon btn-xs"
-                data-testid="channelMemberStack"
-                type="button"
-              >
-                <span
-                  class="channel-member-stack__count"
-                  data-testid="channelMemberStack-count"
-                >
-                  -
-                </span>
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -1920,6 +1896,30 @@ exports[`components/ChannelHeader should render properly when populated with cha
           </div>
         </div>
       </div>
+      <button
+        aria-label="View 0 members"
+        class="channel-member-stack btn btn-icon btn-xs"
+        data-testid="channelMemberStack"
+        type="button"
+      >
+        <span
+          class="channel-member-stack__count"
+          data-testid="channelMemberStack-count"
+        >
+          -
+        </span>
+      </button>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -2047,35 +2047,6 @@ exports[`components/ChannelHeader should render properly when there are pending 
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
-              <button
-                aria-label="View 0 members"
-                class="channel-member-stack btn btn-icon btn-xs"
-                data-testid="channelMemberStack"
-                type="button"
-              >
-                <span
-                  class="channel-member-stack__count"
-                  data-testid="channelMemberStack-count"
-                >
-                  -
-                </span>
-                <span
-                  aria-hidden="true"
-                  class="channel-header__join-request-badge"
-                  data-testid="channelHeaderJoinRequestBadge"
-                />
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -2109,6 +2080,35 @@ exports[`components/ChannelHeader should render properly when there are pending 
           </div>
         </div>
       </div>
+      <button
+        aria-label="View 0 members"
+        class="channel-member-stack btn btn-icon btn-xs"
+        data-testid="channelMemberStack"
+        type="button"
+      >
+        <span
+          class="channel-member-stack__count"
+          data-testid="channelMemberStack-count"
+        >
+          -
+        </span>
+        <span
+          aria-hidden="true"
+          class="channel-header__join-request-badge"
+          data-testid="channelHeaderJoinRequestBadge"
+        />
+      </button>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
@@ -2236,30 +2236,6 @@ exports[`components/ChannelHeader should render shared view 1`] = `
             <div
               class="channel-header__icons"
             >
-              <button
-                aria-label="Mute Channel"
-                class="channel-header__mute btn btn-icon btn-xs"
-                data-testid="channelHeaderBellButton"
-                id="toggleMute"
-              >
-                <i
-                  aria-hidden="true"
-                  class="icon icon-bell-outline"
-                />
-              </button>
-              <button
-                aria-label="View 0 members"
-                class="channel-member-stack btn btn-icon btn-xs"
-                data-testid="channelMemberStack"
-                type="button"
-              >
-                <span
-                  class="channel-member-stack__count"
-                  data-testid="channelMemberStack-count"
-                >
-                  -
-                </span>
-              </button>
               <div
                 class="channel-header__bot-filter"
                 style="display: flex; align-items: center; gap: 4px; margin-left: 8px;"
@@ -2293,6 +2269,30 @@ exports[`components/ChannelHeader should render shared view 1`] = `
           </div>
         </div>
       </div>
+      <button
+        aria-label="View 0 members"
+        class="channel-member-stack btn btn-icon btn-xs"
+        data-testid="channelMemberStack"
+        type="button"
+      >
+        <span
+          class="channel-member-stack__count"
+          data-testid="channelMemberStack-count"
+        >
+          -
+        </span>
+      </button>
+      <button
+        aria-label="Mute Channel"
+        class="channel-header__mute btn btn-icon btn-xs"
+        data-testid="channelHeaderBellButton"
+        id="toggleMute"
+      >
+        <i
+          aria-hidden="true"
+          class="icon icon-bell-outline"
+        />
+      </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
