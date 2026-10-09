@@ -62,6 +62,7 @@
 | 채널 설정이 공백 섞인 저장값에 미저장 경고를 띄우는 버그 | [9b4ab46c](https://github.com/mattermost/mattermost/commit/9b4ab46cc200e8e07fbec8475d2354dce5fcff60) (#38115) | 변경 감지 통합은 받고 Managed Categories 두 줄을 뺐다. 우리 `handleSave`의 저장 후 fallback을 `''`→저장값으로 고쳤고 DM 헤더 테스트 1개는 버렸다 — 아래 참조 |
 | Global Relay 사용자 지정 EML 헤더 설정 | [4608b024](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) (#38010) | 설정·검증·콘솔 UI는 받았으나 헤더를 쓰는 EML 작성기가 비공개 모듈이라 비활성(private-module 등재). docs 1개를 버리고 새 스냅숏 1개를 포크 렌더링으로 재생성 — 아래 참조 |
 | Playwright 1.62 업그레이드 | [85b0227d](https://github.com/mattermost/mattermost/commit/85b0227d1d741e436b7e179cc839820a91279921) (#38014) | docs 3개를 버렸다. e2e FeatureFlags는 우리 서버에 있는 플래그만 받아 6개를 뺐고, lock은 우리 것을 기준으로 다시 만들었다 — 아래 참조 |
+| v12 미사용 설정 필드 제거 | [87c84ef1](https://github.com/mattermost/mattermost/commit/87c84ef1772e85e45c4a338b199a4b668fffb4aa) (#37743) | 11개 모두 받았다. 충돌은 `TeamSettings` 정렬 1곳. 제외·spec 커밋 206개 중 이 필드를 기능적으로 쓰는 커밋은 없다 — 아래 참조 |
 
 ---
 
@@ -1769,6 +1770,69 @@ MoveThreads Cypress 스펙 4개 삭제(우리도 `6086676938`에서 플래그를
 
 - 제외한 계보(분류 표시·Global Attributes·Managed Categories·property)를 들이면 해당 플래그를 `default_config.ts`에 더한다.
 - 다음 Playwright 업그레이드 커밋도 lock은 같은 방식(우리 lock 기준 재생성)으로 처리한다.
+
+## v12 미사용 설정 필드 제거 — 11개 모두 받았고 제외 계보와 엮이지 않는다
+
+**upstream**: [`87c84ef1`](https://github.com/mattermost/mattermost/commit/87c84ef1772e85e45c4a338b199a4b668fffb4aa)
+(MM-70018: Remove unused config fields for v12, #37743) — 23파일 +93/-178, 2026-10-09 반영
+
+**받은 것.** config 필드 11개 제거와 그 검증·기본값·diff·sanitize·테스트 정리, api4 ES 연결 테스트 핸들러의 nil 우회,
+server en 3키, webapp 타입 3필드, e2e 기본 설정, 새 테스트 `TestFileStoreUnknownConfigKeys`(옛 키는 로드 때 무시하고 저장 때 지운다).
+
+| 필드 | upstream 근거 |
+|---|---|
+| `ElasticsearchSettings.BulkIndexingTimeWindowSeconds` | v8.0 제거 예정 |
+| `ClusterSettings.EnableExperimentalGossipEncryption` | `EnableGossipEncryption`으로 대체 |
+| `ExperimentalSettings.ClientSideCertEnable` | 인증서 인증 제거 뒤 항상 false |
+| `TeamSettings.ExperimentalViewArchivedChannels` | 항상 true |
+| `CloudSettings.CWSMock` | 읽는 곳 없음 |
+| `PluginSettings.ChimeraOAuthProxyURL` | v8.0부터 미사용 |
+| `DataRetentionSettings.EnableBoardsDeletion`·`BoardsRetentionDays` | #24231에서 deprecated |
+| `SqlSettings.AtRestEncryptKey` | 생성·검증만 하고 암호화에 쓰지 않음 |
+| `NativeAppSettings.EnableIntuneMAM` | `IntuneSettings.Enable`로 대체 |
+| `GuestAccountsSettings.AllowEmailAccounts` | 테스트만 씀 |
+
+### 바꾼 것
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| `server/public/model/config.go` `TeamSettings` 구조체 | `ExperimentalViewArchivedChannels` 삭제 + 정렬 | 우리 블록에서 그 필드와 Deprecated 주석만 지우고 gofmt | 우리는 `EnableChannelCategorySorting`을 `ExperimentalSettings.ExperimentalChannelCategorySorting`으로 옮겨 정렬 공백이 달랐다. 의미 차이 없음 |
+
+upstream도 e2e 기본 설정(Cypress JSON 2개, Playwright `default_config.ts`)과 webapp 타입에 `ClientSideCertEnable`·
+`EnableBoardsDeletion`·`BoardsRetentionDays`·`ChimeraOAuthProxyURL`·`CWSMock`을 남겼다. 우리도 똑같이 남겼다.
+`server/config/client.go`의 `props["CWSMock"]`와 `selectors/cloud.ts`의 `isCwsMockMode`는 빌드 상수 `model.MockCWS`에서
+오는 클라이언트 prop이라 이번에 지운 필드와 다르다. upstream 최신 master에도 남아 있다.
+
+### 제외·spec 계보와 엮이는가?
+
+ledger 제외·spec 전환 부록의 커밋 206개 diff에서 11개 필드를 찾았다. 6개가 걸렸고 **기능적으로 쓰는 커밋은 없다.**
+
+| 커밋 | 부록 | 필드와의 관계 |
+|---|---|---|
+| `1d3bbc63`·`6417c934`·`eee6722e`·`f091e95e` | 제외 | `docs/` 문서 사이트가 필드 이름을 언급할 뿐이다. 우리는 그 문서 사이트가 없다 |
+| `2ada8d76` 공개 채널 메시지 검색 | spec | ES 구조체 정렬이 바뀌며 `BulkIndexingTimeWindowSeconds` 줄이 같이 움직였다. 기능은 이 필드를 쓰지 않는다 |
+| `e3fbf871` Go 1.26.2 | spec(010, 이행 완료) | `NewPointer(x)`→`new(x)` 기계적 치환이 이 필드 줄에도 걸렸다 |
+
+나중에 이 커밋을 받으면 이미 지운 줄을 고치려다 충돌이 난다. 해소는 그 줄을 지우는 것으로 끝난다.
+필드를 남겨 두는 쪽이 불리하다. 이후 upstream 커밋은 필드가 없다는 전제로 `config.go`·테스트·타입을 고치기 때문이다.
+
+### 검증
+
+- 남은 참조: upstream과 같은 e2e·타입 5필드 외에 없다(`git grep`)
+- `go build ./...`, 접촉 패키지 `go vet` 통과
+- `go test ./public/model/ ./config/ ./scripts/config_generator/` 통과, `TestFileStoreUnknownConfigKeys` 2개 하위 테스트 통과
+- api4 `TestElasticsearch*`·`TestGetConfig`·`TestUpdateConfig`·`TestPatchConfig`·`TestCreateChannel`·`TestGetPublicChannelsByIdsForTeam`·
+  `TestCreateUser`·`TestCreateUserWebSocketEvent`, app `TestPluginAPIGetConfig`·`TestPluginAPIGetUnsanitizedConfig` 통과
+- `webapp/platform/types` 빌드 통과. webapp 소스에서 지운 타입 필드를 쓰는 곳 없음
+
+### i18n 후속
+
+server en에서 지운 3키 중 `model.config.is_valid.encrypt_sql.app_error` 하나가 server `ko.json`에 남아 orphaned다.
+나머지 2키(`client_side_cert_enable`, `experimental_view_archived_channels`)는 ko에 원래 없었다.
+
+### 되돌릴 조건
+
+- 없음. 제외 계보를 들일 때 위 표의 충돌만 처리한다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
