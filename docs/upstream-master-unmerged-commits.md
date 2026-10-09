@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-09 16:57
+- 갱신일: 2026-10-09 23:34
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 343개
+- 남은 커밋: 338개
 
-**마지막 반영 커밋:** `441e45a9` | [\[MM-63470\] Fix messages being sent to the previous channel after /msg or Cmd+K (#37928)](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3) | 2026-08-27
+**마지막 반영 커밋:** `dbf28993` | [\[MM-67123\] Prevent mention clicks in preview from submitting the draft (#38114)](https://github.com/mattermost/mattermost/commit/dbf2899370d6adc64b92c9f57ae06352b6c505e0) | 2026-08-28
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| ab32bb0b | [MM-70366: Add a readOnly mode to WysiwygEditor (#38141)](https://github.com/mattermost/mattermost/commit/ab32bb0bc62da2e6ed2ad9fa613806e4dfa33c4d) | 2026-08-28 |
-| 50241b42 | [docs(P15): reconcile authored docs drift through fips-migration (#38181)](https://github.com/mattermost/mattermost/commit/50241b4293e9d98c3e393b6fc095d365f2655987) | 2026-08-28 |
-| d8073d1b | [\[MM-70248\] Bump mattermost/pdf to cap PDF text extraction (#38179)](https://github.com/mattermost/mattermost/commit/d8073d1b9f860ae264a148068e00429bb30387a1) | 2026-08-28 |
-| e86491ad | [MM 70120 channel attributes foundation (#37881)](https://github.com/mattermost/mattermost/commit/e86491adacd19f856a29227742735d503f358931) | 2026-08-28 |
-| f8a5beb1 | [Deduplicate System Console config isDisabled dependencies (#38124)](https://github.com/mattermost/mattermost/commit/f8a5beb1755d97953e2c5161a94da08a32d83f1f) | 2026-08-28 |
-| dbf28993 | [\[MM-67123\] Prevent mention clicks in preview from submitting the draft (#38114)](https://github.com/mattermost/mattermost/commit/dbf2899370d6adc64b92c9f57ae06352b6c505e0) | 2026-08-28 |
 | c8b1cc00 | [MM-68283 - Add render-time ABAC permission decisions for file upload/download (#36820)](https://github.com/mattermost/mattermost/commit/c8b1cc0046c9ab53de4cb33804a7b4bc5cd03a83) | 2026-08-29 |
 | c57bd5a8 | [\[MM-70230\] Migrate App.GetUser to request context (#37923)](https://github.com/mattermost/mattermost/commit/c57bd5a8466ffb943748b02e8ce27d56f40df569) | 2026-08-31 |
 | 3bf2d07f | [feat(docs): boost documentation results in Algolia search ranking (#38202)](https://github.com/mattermost/mattermost/commit/3bf2d07fd016456f9a51c2318ae58b9f084751d3) | 2026-08-31 |
@@ -354,6 +348,7 @@
 | 6746e2f5 | [\[MM-70779\] Make the number part of a hyphenated term findable in Postgres search (#38704)](https://github.com/mattermost/mattermost/commit/6746e2f5d9fb824f3ed1575352f90961826f96f2) | 2026-10-08 |
 | acf6e7bd | [Add dot release docs for server v11.7.12 (ESR) (#39057)](https://github.com/mattermost/mattermost/commit/acf6e7bd22224cafcb847dabd6b2bf83505805d1) | 2026-10-08 |
 | 4d94455a | [Sync document language with active user locale (#38625)](https://github.com/mattermost/mattermost/commit/4d94455ab041c0eed6676064cd8b033e9912fc5b) | 2026-10-08 |
+| 18c34098 | [MM-70639: Fix flaky TestGetMattermostLog under fully parallel tests (#38513)](https://github.com/mattermost/mattermost/commit/18c34098b13ba9b78c9613c517b913ef0a330650) | 2026-10-09 |
 
 ## 제외된 커밋
 
@@ -759,6 +754,12 @@
 | f21b0299 | [Bumping prepackaged Boards version to 9.4.0 (#38131)](https://github.com/mattermost/mattermost/commit/f21b0299d326fe0a90cadb10a68160374350af03) | 공식 Boards 번들 버전 올림(9.3.1 → 9.4.0, 일반·FIPS)을 받지 않는다 — 1bfa2e51(Boards 9.3.1) 제외에서 정한 방침 적용. 우리 Boards(okrbest/okrbest-plugin-boards)는 공식과 플러그인 ID(focalboard)가 같은 포크라, server/Makefile PLUGIN_PACKAGES가 더 높은 공식 버전을 번들하면 서버 재시작 때 processPrepackagedPlugin이 우리 플러그인을 공식 것으로 덮어쓴다(과도기 번들 목록이라 파일 저장소까지 교체). 우리 Makefile은 boards-v9.3.0·agents-v2.4.2에 머물러 있어 upstream 문맥(9.3.1·2.5.1)과도 어긋난다. Agents 10804f80 제외와 같은 근거. 번들 목록에서 Boards·Agents를 빼는 결정이 나면 그 정책을 따른다. |
 
 | 1361e922 | [Prepackage mattermost-plugin-agents v2.6.0. (#38159)](https://github.com/mattermost/mattermost/commit/1361e92299e25be1328820e5ba5fb92c987fafd6) | 공식 Agents 번들 버전 올림(v2.5.1 → v2.6.0)을 멈춘다 — 10804f80(v2.5.1) 제외와 같은 사유. 우리 Agents 포크(okrbest/okrbest-plugin-agents)는 공식과 같은 플러그인 ID mattermost-ai이고, server/Makefile PLUGIN_PACKAGES는 plugins.releases.mattermost.com의 공식판을 번들한다(우리 포크 번들 경로 없음). 재시작 때 processPrepackagedPlugin이 더 높은 번들 버전을 설치하므로 번들을 올리면 우리 포크를 덮어쓸 위험이 커진다(1bfa2e51 방침). 우리 Makefile은 v2.4.2 유지(일반 166행·FIPS 181행) — 그래서 merge-tree CONFLICT. 후속 443c6fdf(v2.6.1)·05553d08(v2.8.0)·751b8cb6(v2.9.0)도 같은 사유 대상. |
+
+| ab32bb0b | [MM-70366: Add a readOnly mode to WysiwygEditor (#38141)](https://github.com/mattermost/mattermost/commit/ab32bb0bc62da2e6ed2ad9fa613806e4dfa33c4d) | 제외한 TipTap WYSIWYG 작성기 0fa2713b(MM-67755, #36143) 계보의 기능 추가라 고칠 대상이 없다(MISSING PATHS 3/3: wysiwyg_editor.tsx·wysiwyg_editor.test.tsx·platform/shared/src/types/global/editor.ts). 우리는 작성기를 자체 Lexical 구현(components/lexical_editor/, 9fae005295 계보)으로 확정했다(사용자 결정, 2026-09-17). editor.ts는 플러그인 공개 에디터 타입으로 b9cea257 제외 계보. b56f4332·46102626 제외와 같은 사유. |
+
+| 50241b42 | [docs(P15): reconcile authored docs drift through fips-migration (#38181)](https://github.com/mattermost/mattermost/commit/50241b4293e9d98c3e393b6fc095d365f2655987) | 문서 모노레포 이관(mattermost/docs → docs/main/)의 드리프트 정리 계열(P15) — 터치 24파일 전부 docs/main/·docs/site/라 우리 트리에 없다(MISSING PATHS 24/24). 문서 사이트 도입 1d3bbc63(#37330)을 제외했고, 같은 계열 P13d f091e95e·P13e f88a8b21·P13g bf487943·P13h 1b33301d 제외와 같은 사유. 코드·i18n 변경 없음. |
+
+| e86491ad | [MM 70120 channel attributes foundation (#37881)](https://github.com/mattermost/mattermost/commit/e86491adacd19f856a29227742735d503f358931) | 제외한 property 시스템 v2(PSAv2) 계보 위에 선 채널 속성(Smart Labels·배너) 기반 작업이라 반영할 토대가 없다. 터치 10파일 중 7파일이 우리 트리에 없다(MISSING PATHS 7/10): api4/properties.go(+test)는 48f2fd08(Integrated Boards MVP) 도입, app/properties/access_control_attribute_validation.go·model/property_field_attrs_validation.go(+test)는 9f1fe90b(Migrate CPA to the v2 Property System) 도입, 신규 app/cpa_value_audit_test.go는 3b64a2ac(Property owners) 계보. 남는 feature_flags.go·feature_flags_test.go·types/config.ts의 FeatureFlags.ChannelAttributes(기본 false)는 우리에게 없는 Properties API만 여는 플래그라 받아도 아무 일도 하지 않는다. 채널 속성 계보의 c3a5a087(#37755) 제외와 같은 결. |
 
 ## spec 전환 커밋
 
