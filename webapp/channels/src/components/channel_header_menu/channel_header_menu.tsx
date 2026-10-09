@@ -8,6 +8,7 @@ import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
+import DotsVerticalIcon from '@mattermost/compass-icons/components/dots-vertical';
 import type {UserProfile} from '@mattermost/types/users';
 
 import {
@@ -24,7 +25,6 @@ import {
 
 import {getChannelHeaderMenuPluginComponents} from 'selectors/plugins';
 
-import {getIsChannelBookmarksEnabled} from 'components/channel_bookmarks/utils';
 import * as Menu from 'components/menu';
 
 import {Constants} from 'utils/constants';
@@ -42,6 +42,9 @@ import ChannelHeaderTitleDirect from '../channel_header/channel_header_title_dir
 import ChannelHeaderTitleGroup from '../channel_header/channel_header_title_group';
 
 type Props = {
+
+    // 'title'은 채널명 드롭다운(기존), 'kebab'은 헤더 우측 ⋮ — 같은 메뉴의 두 진입점
+    trigger?: 'title' | 'kebab';
     dmUser?: UserProfile;
     gmMembers?: UserProfile[];
     archivedIcon?: JSX.Element;
@@ -49,7 +52,7 @@ type Props = {
     isMobile?: boolean;
 };
 
-export default function ChannelHeaderMenu({dmUser, gmMembers, isMobile, archivedIcon, sharedIcon}: Props): JSX.Element | null {
+export default function ChannelHeaderMenu({dmUser, gmMembers, isMobile, archivedIcon, sharedIcon, trigger = 'title'}: Props): JSX.Element | null {
     const intl = useIntl();
 
     const user = useSelector(getCurrentUser);
@@ -59,10 +62,7 @@ export default function ChannelHeaderMenu({dmUser, gmMembers, isMobile, archived
     const isMuted = useSelector(isCurrentChannelMuted);
     const isLicensedForLDAPGroups = useSelector(getLicense).LDAPGroups === 'true';
     const pluginMenuItems = useSelector(getChannelHeaderMenuPluginComponents);
-    const isChannelBookmarksEnabled = useSelector(getIsChannelBookmarksEnabled);
     const isChannelAutotranslated = useSelector((state: GlobalState) => (channel?.id ? getChannelAutotranslation(state, channel.id) : false));
-
-    const isReadonly = false;
 
     if (!channel) {
         return null;
@@ -114,7 +114,13 @@ export default function ChannelHeaderMenu({dmUser, gmMembers, isMobile, archived
             menuButtonTooltip={{
                 text: channelTitle as string,
             }}
-            menuButton={{
+            menuButton={trigger === 'kebab' ? {
+                id: 'channelHeaderKebabButton',
+                dataTestId: 'channelHeaderKebabButton',
+                class: classNames('channel-header__icon btn btn-icon btn-xs'),
+                children: <DotsVerticalIcon size={18}/>,
+                'aria-label': ariaLabel.toLowerCase(),
+            } : {
                 id: 'channelHeaderDropdownButton',
                 class: classNames('channel-header__trigger style--none'),
                 children: (
@@ -156,7 +162,6 @@ export default function ChannelHeaderMenu({dmUser, gmMembers, isMobile, archived
                     pluginItems={pluginItems}
                     isFavorite={isFavorite}
                     isMobile={isMobile || false}
-                    isChannelBookmarksEnabled={isChannelBookmarksEnabled}
                 />
             )}
             {isGroup && (
@@ -167,7 +172,6 @@ export default function ChannelHeaderMenu({dmUser, gmMembers, isMobile, archived
                     pluginItems={pluginItems}
                     isFavorite={isFavorite}
                     isMobile={isMobile || false}
-                    isChannelBookmarksEnabled={isChannelBookmarksEnabled}
                 />
             )}
             {(!isDirect && !isGroup) && (
@@ -179,9 +183,7 @@ export default function ChannelHeaderMenu({dmUser, gmMembers, isMobile, archived
                     isFavorite={isFavorite}
                     isMobile={isMobile || false}
                     isDefault={isDefault}
-                    isReadonly={isReadonly}
                     isLicensedForLDAPGroups={isLicensedForLDAPGroups}
-                    isChannelBookmarksEnabled={isChannelBookmarksEnabled}
                     isChannelAutotranslated={isChannelAutotranslated}
                 />
             )}

@@ -29,10 +29,9 @@ interface Props extends Menu.FirstMenuItemProps {
     isMobile: boolean;
     isFavorite: boolean;
     pluginItems: ReactNode[];
-    isChannelBookmarksEnabled: boolean;
 }
 
-const ChannelHeaderDirectMenu = ({channel, user, isMuted, isMobile, isFavorite, pluginItems, isChannelBookmarksEnabled, ...rest}: Props) => {
+const ChannelHeaderDirectMenu = ({channel, user, isMuted, isMobile, isFavorite, pluginItems, ...rest}: Props) => {
     return (
         <>
             <MenuItemToggleInfo
