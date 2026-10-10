@@ -1,0 +1,73 @@
+// 채널 북마크 패널 — 파일 패널과 같은 명도 층·타이포 체계(014)를 따른다
+.channel-bookmarks-rhs {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+
+    .channel-bookmarks-rhs__body {
+        overflow: auto;
+        flex: 1;
+        padding: 12px 16px;
+    }
+
+    .channel-bookmarks-rhs__empty {
+        padding: 24px 8px;
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .channel-bookmarks-rhs__list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .channel-bookmarks-rhs__item {
+        margin-bottom: 4px;
+    }
+
+    .channel-bookmarks-rhs__link {
+        display: flex;
+        align-items: center;
+        padding: 8px 10px;
+        border-radius: 4px;
+        color: var(--center-channel-color);
+        gap: 8px;
+        text-decoration: none;
+
+        &:hover {
+            background: rgba(var(--center-channel-color-rgb), 0.06);
+            color: var(--center-channel-color);
+            text-decoration: none;
+        }
+    }
+
+    .channel-bookmarks-rhs__icon {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+    }
+
+    .channel-bookmarks-rhs__name {
+        overflow: hidden;
+        max-width: 55%;
+        flex-shrink: 0;
+        font-size: 14px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .channel-bookmarks-rhs__url {
+        overflow: hidden;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .channel-bookmarks-rhs__add {
+        margin-top: 8px;
+    }
+}

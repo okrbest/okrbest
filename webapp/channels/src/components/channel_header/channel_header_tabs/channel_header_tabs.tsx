@@ -15,13 +15,9 @@ import {
 
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 
-import {closeRightHandSide, showChannelFiles, showPinnedPosts} from 'actions/views/rhs';
+import {closeRightHandSide, showChannelBookmarks, showChannelFiles, showPinnedPosts} from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
 
-import {
-    isBookmarksBarCollapsed,
-    toggleBookmarksBarCollapsed,
-} from 'components/channel_bookmarks/bookmark_bar_collapse';
 import {getIsChannelBookmarksEnabled} from 'components/channel_bookmarks/utils';
 
 import {RHSStates} from 'utils/constants';
@@ -34,7 +30,7 @@ type Props = {
     channelId: string;
 };
 
-// Slack식 채널 콘텐츠 탭 줄 — 탭 활성은 전부 RHS·북마크 바 상태에서 파생한다.
+// Slack식 채널 콘텐츠 탭 줄 — 탭 활성은 전부 RHS 상태에서 파생한다.
 // 내부 상태를 두지 않으므로 패널을 어떤 경로로 닫아도 탭이 함께 돌아온다.
 export default function ChannelHeaderTabs({channelId}: Props) {
     const dispatch = useDispatch();
@@ -42,12 +38,11 @@ export default function ChannelHeaderTabs({channelId}: Props) {
     const rhsState = useSelector(getRhsState);
     const pinnedCount = useSelector((state: GlobalState) => getAllChannelStats(state)[channelId]?.pinnedpost_count || 0);
     const bookmarksEnabled = useSelector(getIsChannelBookmarksEnabled);
-    const bookmarksCollapsed = useSelector((state: GlobalState) => isBookmarksBarCollapsed(state, channelId));
 
     const filesActive = rhsState === RHSStates.CHANNEL_FILES;
     const pinnedActive = rhsState === RHSStates.PIN;
+    const bookmarksActive = rhsState === RHSStates.CHANNEL_BOOKMARKS;
     const messagesActive = !rhsState;
-    const bookmarksActive = bookmarksEnabled && !bookmarksCollapsed;
 
     const handleMessages = useCallback(() => {
         if (rhsState) {
@@ -73,8 +68,12 @@ export default function ChannelHeaderTabs({channelId}: Props) {
     }, [dispatch, channelId, pinnedActive]);
 
     const handleBookmarks = useCallback(() => {
-        dispatch(toggleBookmarksBarCollapsed(channelId));
-    }, [dispatch, channelId]);
+        if (bookmarksActive) {
+            dispatch(closeRightHandSide());
+        } else {
+            dispatch(showChannelBookmarks(channelId));
+        }
+    }, [dispatch, channelId, bookmarksActive]);
 
     return (
         <div
