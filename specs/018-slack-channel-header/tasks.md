@@ -221,3 +221,9 @@ US2(우측 재구성)는 그 위에 독립적으로 얹는다. 커밋은 작업 
 eslint·stylelint 0 에러, i18n-extract:check 통과. `src/actions/views/channel.test.js`
 실패 23건은 멤버 필터 기능이 getPosts 인자를 늘린 데서 온 **기존 결함**
 (내 diff는 해당 파일 무접촉)으로 기준선에 기록한다.
+
+### 4차 피드백 — 탭 아래 북마크 바 제거
+
+패널(RHS)이 생기면서 바는 중복 노출이 됐다 — channel_view의 바 렌더와 prop
+배선을 제거했다(바 컴포넌트 원형은 유지). TDD RED→GREEN(channel_view 6/6),
+check-types 11건=기준선, E2E 실측: 바 미노출·패널 2건 정상.
