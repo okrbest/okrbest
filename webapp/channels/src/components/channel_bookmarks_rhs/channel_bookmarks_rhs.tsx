@@ -14,7 +14,7 @@ import {closeRightHandSide} from 'actions/views/rhs';
 
 import {DynamicLink, useBookmarkLink} from 'components/channel_bookmarks/bookmark_item_content';
 import {useBookmarkAddActions} from 'components/channel_bookmarks/channel_bookmarks_menu';
-import {MAX_BOOKMARKS_PER_CHANNEL, useChannelBookmarkPermission, useChannelBookmarks} from 'components/channel_bookmarks/utils';
+import {MAX_BOOKMARKS_PER_CHANNEL, useCanUploadFiles, useChannelBookmarkPermission, useChannelBookmarks} from 'components/channel_bookmarks/utils';
 
 import './channel_bookmarks_rhs.scss';
 
@@ -29,7 +29,8 @@ export default function ChannelBookmarksRhs() {
 
     const {bookmarks, order} = useChannelBookmarks(channelId);
     const canAdd = useChannelBookmarkPermission(channelId, 'add');
-    const {handleCreateLink} = useBookmarkAddActions(channelId);
+    const canUploadFiles = useCanUploadFiles();
+    const {handleCreateLink, handleCreateFile} = useBookmarkAddActions(channelId);
 
     if (!channel) {
         return null;
@@ -105,20 +106,38 @@ export default function ChannelBookmarksRhs() {
                     </ul>
                 )}
                 {canAdd && !limitReached && (
-                    <button
-                        type='button'
-                        className='channel-bookmarks-rhs__add btn btn-tertiary btn-sm'
-                        onClick={() => handleCreateLink()}
-                    >
-                        <i
-                            className='icon icon-plus'
-                            aria-hidden={true}
-                        />
-                        <FormattedMessage
-                            id='channel_bookmarks.addBookmark'
-                            defaultMessage='Add a bookmark'
-                        />
-                    </button>
+                    <div className='channel-bookmarks-rhs__actions'>
+                        <button
+                            type='button'
+                            className='channel-bookmarks-rhs__add btn btn-tertiary btn-sm'
+                            onClick={() => handleCreateLink()}
+                        >
+                            <i
+                                className='icon icon-link-variant'
+                                aria-hidden={true}
+                            />
+                            <FormattedMessage
+                                id='channel_bookmarks.addLink'
+                                defaultMessage='Add a link'
+                            />
+                        </button>
+                        {canUploadFiles && (
+                            <button
+                                type='button'
+                                className='channel-bookmarks-rhs__add btn btn-tertiary btn-sm'
+                                onClick={() => handleCreateFile()}
+                            >
+                                <i
+                                    className='icon icon-paperclip'
+                                    aria-hidden={true}
+                                />
+                                <FormattedMessage
+                                    id='channel_bookmarks.attachFile'
+                                    defaultMessage='Attach a file'
+                                />
+                            </button>
+                        )}
+                    </div>
                 )}
             </div>
         </div>

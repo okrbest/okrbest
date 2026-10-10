@@ -21,7 +21,23 @@ jest.mock('actions/channel_bookmarks', () => ({
     reorderBookmark: jest.fn(() => ({type: 'MOCK_REORDER'})),
 }));
 
+jest.mock('components/channel_bookmarks/utils', () => ({
+    ...jest.requireActual('components/channel_bookmarks/utils'),
+    useChannelBookmarkPermission: jest.fn(() => true),
+    useCanUploadFiles: jest.fn(() => true),
+}));
+
+jest.mock('components/channel_bookmarks/channel_bookmarks_menu', () => ({
+    ...jest.requireActual('components/channel_bookmarks/channel_bookmarks_menu'),
+    useBookmarkAddActions: jest.fn(),
+}));
+
 const {closeRightHandSide} = jest.requireMock('actions/views/rhs');
+const {useChannelBookmarkPermission, useCanUploadFiles} = jest.requireMock('components/channel_bookmarks/utils');
+const {useBookmarkAddActions} = jest.requireMock('components/channel_bookmarks/channel_bookmarks_menu');
+
+const handleCreateLink = jest.fn();
+const handleCreateFile = jest.fn();
 
 describe('components/channel_bookmarks_rhs', () => {
     const channelId = 'channel-id-1';
@@ -66,6 +82,9 @@ describe('components/channel_bookmarks_rhs', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        useChannelBookmarkPermission.mockReturnValue(true);
+        useCanUploadFiles.mockReturnValue(true);
+        useBookmarkAddActions.mockReturnValue({handleCreateLink, handleCreateFile});
     });
 
     it('제목과 채널명, 북마크 링크 목록을 정렬 순서대로 렌더한다', () => {
@@ -98,5 +117,33 @@ describe('components/channel_bookmarks_rhs', () => {
         await userEvent.click(screen.getByLabelText(/Close/i));
 
         expect(closeRightHandSide).toHaveBeenCalled();
+    });
+
+    it('추가 권한이 있으면 링크 추가와 파일 첨부 버튼이 각각 동작한다', async () => {
+        renderWithContext(<ChannelBookmarksRhs/>, stateWith());
+
+        await userEvent.click(screen.getByRole('button', {name: /Add a link/}));
+        expect(handleCreateLink).toHaveBeenCalled();
+
+        await userEvent.click(screen.getByRole('button', {name: /Attach a file/}));
+        expect(handleCreateFile).toHaveBeenCalled();
+    });
+
+    it('파일 업로드가 막힌 서버에서는 파일 첨부 버튼이 없다', () => {
+        useCanUploadFiles.mockReturnValue(false);
+
+        renderWithContext(<ChannelBookmarksRhs/>, stateWith());
+
+        expect(screen.getByRole('button', {name: /Add a link/})).toBeInTheDocument();
+        expect(screen.queryByRole('button', {name: /Attach a file/})).not.toBeInTheDocument();
+    });
+
+    it('추가 권한이 없으면 추가 버튼이 없다', () => {
+        useChannelBookmarkPermission.mockReturnValue(false);
+
+        renderWithContext(<ChannelBookmarksRhs/>, stateWith());
+
+        expect(screen.queryByRole('button', {name: /Add a link/})).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', {name: /Attach a file/})).not.toBeInTheDocument();
     });
 });
