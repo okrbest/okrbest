@@ -67,14 +67,14 @@ const ChannelBookmarksSubmenu = (props: Props) => {
             labels={(
                 <FormattedMessage
                     id='channel_menu.bookmarks'
-                    defaultMessage='Bookmarks Bar'
+                    defaultMessage='Bookmarks'
                 />
             )}
             trailingElements={(
                 <ChevronRightIcon size={16}/>
             )}
             menuId={`channel-menu-${channelId}-menu`}
-            menuAriaLabel={formatMessage({id: 'channel_menu.bookmarks', defaultMessage: 'Bookmarks Bar'})}
+            menuAriaLabel={formatMessage({id: 'channel_menu.bookmarks', defaultMessage: 'Bookmarks'})}
         >
             <Menu.Item
                 id={`channel-menu-${channelId}-bookmarks-link`}
