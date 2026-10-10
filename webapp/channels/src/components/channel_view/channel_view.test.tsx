@@ -57,7 +57,6 @@ describe('components/channel_view', () => {
         isCloud: false,
         goToLastViewedChannel: jest.fn(),
         isFirstAdmin: false,
-        isChannelBookmarksEnabled: false,
         missingChannelRole: false,
         fetchIsRestrictedDM: jest.fn(),
         canRestrictDirectMessage: false,
@@ -135,14 +134,11 @@ describe('components/channel_view', () => {
         expect(baseProps.fetchIsRestrictedDM).toHaveBeenCalledTimes(1);
     });
 
-    test('북마크 기능이 켜져 있으면 북마크 바를 렌더한다', () => {
+    test('북마크 바는 더 이상 렌더하지 않는다 — 북마크는 우측 패널(RHS)에서만 보여준다', () => {
         renderWithContext(
-            <ChannelView
-                {...baseProps}
-                isChannelBookmarksEnabled={true}
-            />,
+            <ChannelView {...baseProps}/>,
         );
 
-        expect(screen.getByTestId('channel-bookmarks-bar')).toBeInTheDocument();
+        expect(screen.queryByTestId('channel-bookmarks-bar')).not.toBeInTheDocument();
     });
 });

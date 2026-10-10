@@ -9,7 +9,6 @@ import {Button} from '@mattermost/shared/components/button';
 
 import AdvancedCreatePost from 'components/advanced_create_post';
 import ChannelBanner from 'components/channel_banner/channel_banner';
-import ChannelBookmarks from 'components/channel_bookmarks';
 import ChannelHeader from 'components/channel_header';
 import deferComponentRender from 'components/deferComponentRender';
 import {DropOverlayIdCenterChannel, FileUploadOverlay} from 'components/file_upload_overlay/file_upload_overlay';
@@ -222,7 +221,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 />
                 <ChannelHeader/>
                 <ChannelBanner channelId={this.props.channelId}/>
-                {this.props.isChannelBookmarksEnabled && <ChannelBookmarks channelId={this.props.channelId}/>}
+                {/* 북마크 바 제거 — 북마크는 헤더 탭의 우측 패널(RHS)에서만 보여준다 (018 3차 피드백) */}
                 <DeferredPostView
                     channelId={this.props.channelId}
                     focusedPostId={this.state.focusedPostId}

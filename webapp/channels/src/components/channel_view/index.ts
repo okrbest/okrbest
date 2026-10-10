@@ -20,8 +20,6 @@ import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 
-import {getIsChannelBookmarksEnabled} from 'components/channel_bookmarks/utils';
-
 import type {GlobalState} from 'types/store';
 
 import ChannelView from './channel_view';
@@ -50,7 +48,6 @@ function mapStateToProps(state: GlobalState) {
         isFirstAdmin: isFirstAdmin(state),
         canRestrictDirectMessage: config.RestrictDirectMessage === 'team' && (channel?.type === 'D' || channel?.type === 'G'),
         restrictDirectMessage: channel ? state.entities.channels.restrictedDMs[channel.id] : false,
-        isChannelBookmarksEnabled: getIsChannelBookmarksEnabled(state),
         missingChannelRole,
     };
 }
