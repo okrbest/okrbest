@@ -58,7 +58,6 @@ describe('components/channel_view', () => {
         goToLastViewedChannel: jest.fn(),
         isFirstAdmin: false,
         isChannelBookmarksEnabled: false,
-        isChannelBookmarksBarCollapsed: false,
         missingChannelRole: false,
         fetchIsRestrictedDM: jest.fn(),
         canRestrictDirectMessage: false,
@@ -136,27 +135,14 @@ describe('components/channel_view', () => {
         expect(baseProps.fetchIsRestrictedDM).toHaveBeenCalledTimes(1);
     });
 
-    test('북마크 바는 접기 상태가 아니면 렌더된다', () => {
+    test('북마크 기능이 켜져 있으면 북마크 바를 렌더한다', () => {
         renderWithContext(
             <ChannelView
                 {...baseProps}
                 isChannelBookmarksEnabled={true}
-                isChannelBookmarksBarCollapsed={false}
             />,
         );
 
         expect(screen.getByTestId('channel-bookmarks-bar')).toBeInTheDocument();
-    });
-
-    test('접기 상태면 북마크 바를 렌더하지 않는다', () => {
-        renderWithContext(
-            <ChannelView
-                {...baseProps}
-                isChannelBookmarksEnabled={true}
-                isChannelBookmarksBarCollapsed={true}
-            />,
-        );
-
-        expect(screen.queryByTestId('channel-bookmarks-bar')).not.toBeInTheDocument();
     });
 });

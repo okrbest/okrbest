@@ -290,6 +290,26 @@ export function showChannelMembers(channelId: string, inEditingMode = false): Ac
     };
 }
 
+// 채널 북마크 패널 — 멤버 패널과 같은 전환 규칙 (okrbest 018 탭 줄)
+export function showChannelBookmarks(channelId: string): ActionFuncAsync<boolean> {
+    return async (dispatch, getState) => {
+        const state = getState();
+
+        let previousRhsState = getRhsState(state);
+        if (previousRhsState === RHSStates.CHANNEL_BOOKMARKS) {
+            previousRhsState = getPreviousRhsState(state);
+        }
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            channelId,
+            state: RHSStates.CHANNEL_BOOKMARKS,
+            previousRhsState,
+        });
+
+        return {data: true};
+    };
+}
+
 export function hideRHSPlugin(pluggableId: string): ActionFunc<boolean> {
     return (dispatch, getState) => {
         const state = getState();
@@ -629,6 +649,10 @@ export function openAtPrevious(previous: any): ThunkActionFunc<unknown> {
         if (previous.isChannelMembers) {
             const currentChannelId = getCurrentChannelId(getState());
             return dispatch(showChannelMembers(currentChannelId));
+        }
+        if (previous.isChannelBookmarks) {
+            const currentChannelId = getCurrentChannelId(getState());
+            return dispatch(showChannelBookmarks(currentChannelId));
         }
         if (previous.isMentionSearch) {
             return dispatch(showMentions());

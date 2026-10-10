@@ -4215,6 +4215,8 @@
   "channel_banner.banner_text.placeholder": "Channel banner text",
   "channel_banner.label.name": "Channel Banner",
   "channel_banner.label.subtext": "When enabled, a customized banner will display at the top of the channel.",
+  "channel_bookmarks_rhs.empty": "No bookmarks yet. Add links or files to keep them handy for everyone in the channel.",
+  "channel_bookmarks_rhs.header.title": "Bookmarks",
   "channel_bookmarks.addBookmark": "Add a bookmark",
   "channel_bookmarks.addBookmarkLimitReached": "Cannot add more than {limit} bookmarks",
   "channel_bookmarks.addLink": "Add a link",

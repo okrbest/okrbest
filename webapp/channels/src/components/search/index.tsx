@@ -47,6 +47,7 @@ function mapStateToProps(state: GlobalState) {
             RHSStates.PLUGIN,
             RHSStates.CHANNEL_INFO,
             RHSStates.CHANNEL_MEMBERS,
+            RHSStates.CHANNEL_BOOKMARKS,
             RHSStates.EDIT_HISTORY,
             RHSStates.NOTIFICATION_HISTORY,
         ].includes(rhsState)),

@@ -154,8 +154,8 @@ exports[`components/ChannelHeader should match snapshot with last active display
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -350,8 +350,8 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -556,8 +556,8 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -762,8 +762,8 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -968,8 +968,8 @@ exports[`components/ChannelHeader should render archived view 1`] = `
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -1174,8 +1174,8 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -1381,8 +1381,8 @@ exports[`components/ChannelHeader should render properly when custom status is e
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -1591,8 +1591,8 @@ exports[`components/ChannelHeader should render properly when custom status is s
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -1797,8 +1797,8 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -2003,8 +2003,8 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -2209,8 +2209,8 @@ exports[`components/ChannelHeader should render properly when populated with cha
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -2420,8 +2420,8 @@ exports[`components/ChannelHeader should render properly when there are pending 
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"
@@ -2626,8 +2626,8 @@ exports[`components/ChannelHeader should render shared view 1`] = `
         Files
       </button>
       <button
-        aria-selected="true"
-        class="channel-header-tabs__tab active"
+        aria-selected="false"
+        class="channel-header-tabs__tab"
         id="channelHeaderTab-bookmarks"
         role="tab"
         type="button"

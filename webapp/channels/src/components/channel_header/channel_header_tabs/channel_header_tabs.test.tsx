@@ -15,6 +15,7 @@ import ChannelHeaderTabs from './channel_header_tabs';
 jest.mock('actions/views/rhs', () => ({
     showPinnedPosts: jest.fn(() => ({type: 'MOCK_SHOW_PINNED'})),
     showChannelFiles: jest.fn(() => ({type: 'MOCK_SHOW_FILES'})),
+    showChannelBookmarks: jest.fn(() => ({type: 'MOCK_SHOW_BOOKMARKS'})),
     closeRightHandSide: jest.fn(() => ({type: 'MOCK_CLOSE_RHS'})),
 }));
 
@@ -23,14 +24,8 @@ jest.mock('components/channel_bookmarks/utils', () => ({
     getIsChannelBookmarksEnabled: jest.fn(() => true),
 }));
 
-jest.mock('../../channel_bookmarks/bookmark_bar_collapse', () => ({
-    ...jest.requireActual('../../channel_bookmarks/bookmark_bar_collapse'),
-    toggleBookmarksBarCollapsed: jest.fn(() => ({type: 'MOCK_TOGGLE_BOOKMARKS'})),
-}));
-
-const {showPinnedPosts, showChannelFiles, closeRightHandSide} = jest.requireMock('actions/views/rhs');
+const {showPinnedPosts, showChannelFiles, showChannelBookmarks, closeRightHandSide} = jest.requireMock('actions/views/rhs');
 const {getIsChannelBookmarksEnabled} = jest.requireMock('components/channel_bookmarks/utils');
-const {toggleBookmarksBarCollapsed} = jest.requireMock('../../channel_bookmarks/bookmark_bar_collapse');
 
 describe('components/channel_header/channel_header_tabs', () => {
     const channelId = 'channel-id-1';
@@ -68,7 +63,7 @@ describe('components/channel_header/channel_header_tabs', () => {
         const messages = screen.getByRole('tab', {name: /Messages/});
         expect(messages).toHaveAttribute('aria-selected', 'true');
         expect(screen.getByRole('tab', {name: /Files/})).toHaveAttribute('aria-selected', 'false');
-        expect(screen.getByRole('tab', {name: /Bookmarks/})).toBeInTheDocument();
+        expect(screen.getByRole('tab', {name: /Bookmarks/})).toHaveAttribute('aria-selected', 'false');
         expect(screen.getByRole('tab', {name: /Pinned/})).toHaveAttribute('aria-selected', 'false');
     });
 
@@ -141,12 +136,24 @@ describe('components/channel_header/channel_header_tabs', () => {
         expect(closeRightHandSide).not.toHaveBeenCalled();
     });
 
-    it('북마크 탭 클릭은 접기 토글을 디스패치한다', async () => {
+    it('북마크 탭 클릭은 북마크 패널(RHS)을 연다', async () => {
         renderWithContext(<ChannelHeaderTabs channelId={channelId}/>, stateWith());
 
         await userEvent.click(screen.getByRole('tab', {name: /Bookmarks/}));
 
-        expect(toggleBookmarksBarCollapsed).toHaveBeenCalledWith(channelId);
+        expect(showChannelBookmarks).toHaveBeenCalledWith(channelId);
+    });
+
+    it('북마크 패널이 열려 있으면 북마크 탭만 선택이고, 다시 클릭하면 닫는다 (토글)', async () => {
+        renderWithContext(<ChannelHeaderTabs channelId={channelId}/>, stateWith({rhsState: RHSStates.CHANNEL_BOOKMARKS}));
+
+        expect(screen.getByRole('tab', {name: /Bookmarks/})).toHaveAttribute('aria-selected', 'true');
+        expect(screen.getByRole('tab', {name: /Messages/})).toHaveAttribute('aria-selected', 'false');
+
+        await userEvent.click(screen.getByRole('tab', {name: /Bookmarks/}));
+
+        expect(closeRightHandSide).toHaveBeenCalled();
+        expect(showChannelBookmarks).not.toHaveBeenCalled();
     });
 
     it('북마크 기능이 꺼진 서버에서는 북마크 탭이 없다', () => {

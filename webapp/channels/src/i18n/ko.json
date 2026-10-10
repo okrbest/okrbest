@@ -3816,6 +3816,8 @@
   "channel_banner.banner_text.placeholder": "채널 배너 텍스트",
   "channel_banner.label.name": "채널 배너",
   "channel_banner.label.subtext": "이 기능을 활성화하면 채널 상단에 맞춤 배너가 표시됩니다.",
+  "channel_bookmarks_rhs.empty": "아직 북마크가 없습니다. 링크나 파일을 추가해 채널 구성원 모두가 바로 찾게 하세요.",
+  "channel_bookmarks_rhs.header.title": "북마크",
   "channel_bookmarks.addBookmark": "북마크 추가하기",
   "channel_bookmarks.addBookmarkLimitReached": "{limit} 북마크를 2개 이상 추가할 수 없습니다.",
   "channel_bookmarks.addLink": "링크 추가하기",
