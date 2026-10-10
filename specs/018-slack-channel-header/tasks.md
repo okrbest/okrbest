@@ -210,3 +210,14 @@ US2(우측 재구성)는 그 위에 독립적으로 얹는다. 커밋은 작업 
 | check-types | 11건 | 기준선 11건과 동일 목록, 접촉 파일 0건 |
 | eslint·stylelint | 0 에러 | 동일 |
 | server 북마크 테스트 | `TestListChannelBookmarksForChannelAuditsNonMemberAccess` 1건 실패 | **기준선(변경 전 코드)에서도 동일 실패** — stash 후 재실행으로 증명, 본 변경과 무관 |
+
+### 3차 피드백 — 북마크 탭을 RHS 패널로 (`664da5fd82`)
+
+| 항목 | 원인 | 조치 | 증거 |
+|---|---|---|---|
+| "북마크도 파일처럼 우측 패널로" | 북마크 탭만 바 접기 토글이라 동작이 다르고, 바 펼침 기본값 탓에 탭 밑줄이 두 개로 보임 | `RHSStates.CHANNEL_BOOKMARKS` + `showChannelBookmarks` + `ChannelBookmarksRhs` 패널 신설. 탭 활성은 전부 RHS 상태에서 파생 — 한 번에 한 탭만 활성. 바 접기 모듈 제거, 바는 상시 노출 복원 | TDD RED→GREEN(탭 3·패널 3), E2E 실측: 패널 제목 "북마크"+항목 2건, 파일↔북마크 전환, 재클릭 닫힘, aria 동기화, 바 상시 노출 |
+
+게이트: 접촉 스위트 346/346, 스냅샷 13건 갱신, check-types 11건=기준선 동일,
+eslint·stylelint 0 에러, i18n-extract:check 통과. `src/actions/views/channel.test.js`
+실패 23건은 멤버 필터 기능이 getPosts 인자를 늘린 데서 온 **기존 결함**
+(내 diff는 해당 파일 무접촉)으로 기준선에 기록한다.
