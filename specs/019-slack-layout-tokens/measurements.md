@@ -378,3 +378,9 @@ Slack view_header 별 버튼 실측: **28×28 r8, 글리프 svg 20** (우측 그
 StarOutline/Star SVG 전환(TDD 3건 RED→GREEN — 상태 단언은 testid로),
 크기 override는 upstream `.btn.channel-header__favorites`(24 고정)를
 okrbest 레이어에서 덮음.
+
+## 020 병합 게이트 (기준선 diff)
+
+lint 목록 동일 · Jest 실패 138 동일(통과 +6 = 020 신규 테스트) · types는
+게이트에서 신규 2건(IconComponentProps 미존재 import, menuButtonTooltip
+shortcut 미지원)을 적발해 수정 후 기준선 11건과 동일 목록 복원.
