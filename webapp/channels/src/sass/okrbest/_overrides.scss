@@ -112,8 +112,8 @@ body.app__body {
     border-top: 1px solid rgba(var(--sidebar-header-text-color-rgb), 0.12);
 
     .userAccountMenu_menuButton {
-        padding: 2px;
-        border-radius: 7px;
+        padding: 0;
+        border-radius: var(--radius-m);
         margin-inline-start: 0;
 
         &:hover,
@@ -125,11 +125,12 @@ body.app__body {
             background: rgba(var(--sidebar-text-rgb), 0.16);
         }
 
-        // Slack식 둥근 사각 아바타
+        // Slack식 둥근 사각 아바타 — 레일 리듬(36×36, radius 8)과 통일
+        // (Slack 프로필 버튼 실측: 아바타 36 r8, 019 measurements 7절)
         .Avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: var(--okr-radius-ms);
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-m);
         }
 
         // 상태 점: 아바타 우하단에 겹치고, 사이드바 배경색 링을 두른다
