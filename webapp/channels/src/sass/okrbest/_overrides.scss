@@ -307,3 +307,49 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
         0 1px 3px rgba(0, 0, 0, 0.08);
     line-height: 28px;
 }
+
+// ---------------------------------------------------------------------------
+// 메시지 호버 액션 바 — Slack CSS 원본 추출 (019 measurements 17절):
+// 패널 pad 4·radius 12·헤어라인(0.13)+드롭섀도, 버튼 32 radius 8.
+// 기존: radius 4·보더 0.2(탁함)·빠른 이모지 버튼 16px(타깃 하한 24 미달).
+// ---------------------------------------------------------------------------
+.post-menu.post-menu {
+    padding: var(--okr-space-1);
+    border-radius: 12px;
+
+    .post-menu__item {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-m);
+    }
+
+    .post-menu__item--wide {
+        width: auto;
+    }
+
+    // 빠른 반응 이모지 — 래퍼를 32 타깃으로, 글리프 16→20
+    .post-menu__item.post-menu__emoticon {
+        display: flex;
+        width: 32px;
+        height: 32px;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-m);
+        margin: 0;
+
+        .emoticon--post-menu {
+            width: 20px;
+            height: 20px;
+            background-size: contain;
+        }
+    }
+}
+
+.post:hover .post-menu.post-menu,
+.post.post--hovered .post-menu.post-menu,
+.post.a11y--active .post-menu.post-menu {
+    border-color: transparent;
+    box-shadow:
+        0 0 0 1px rgba(var(--center-channel-color-rgb), 0.13),
+        0 1px 3px rgba(0, 0, 0, 0.08);
+}

@@ -324,3 +324,24 @@ Menu v2 전역(`menu_menuStyled`) 적용 — 채널 메뉴·팀 드롭다운·�
 
 비고: post_time 스위트 실패 8건은 변경 stash 후에도 동일 실패 — 기존 결함
 (12h 포맷 기대 불일치), 본 변경과 무관.
+
+## 17. 메시지 호버 액션 바 (020 아이콘 개선 10)
+
+### Slack 정의 (DOM 비노출로 CSS 원본에서 추출)
+
+| 항목 | 값 |
+|---|---|
+| 패널 `.c-message_actions__group` | padding **4**, radius **12**, bg 흰색, **헤어라인 0 0 0 1px (29,28,29,.13) + 0 1px 3px #00000014** — 보더 없음 |
+| 버튼 `.c-message_actions__button` | 높이 **32**, radius **8**, font-size 18 |
+
+### okrbest — 개선 전 → 후 (실측)
+
+| 항목 | 전 | 후 |
+|---|---|---|
+| 패널 | radius 4, **보더 0.2 + elevation-1** (탁한 윤곽) | radius **12**, 보더 투명 + **Slack 헤어라인·드롭섀도** |
+| 아이콘 버튼 | 28, radius 4 | **32, radius 8** |
+| 빠른 반응 이모지 | 버튼 **16×16** (WCAG 타깃 하한 24 미달), 간격 12 혼재 | 래퍼 **32 타깃** + 글리프 **20**, 간격 균일 |
+
+특이도 기록: upstream은 `.post:hover .post-menu`(0,2,1)로 hover 시
+보더 0.2·elevation을 덧씌운다 — 같은 hover 체인에 `.post-menu.post-menu`
+병기(0,3,1)로 덮었다.
