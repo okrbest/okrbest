@@ -174,3 +174,14 @@ OnActivate·OnConfigurationChange에서 nil 역참조 SIGSEGV → 반복 크래�
 | 아바타 | 32, radius 6 — 레일 36 리듬에서 혼자 이탈 | **36, radius 8** (`--radius-m`) |
 | 버튼 래퍼 | padding 2 + radius 7(예외 값) | padding 0 + radius 8 — **7px 예외 소멸** (data-model 예외 표에서 제거) |
 | 상태 점 | 우하단 -4/-4 겹침 | 유지 (Slack과 같은 취지) |
+
+## 8. 아이콘 실태 스캔 (채널 화면 1회 표집, 2026-10-11)
+
+| 소스 | okrbest 분포 | Slack 분포 (1절) |
+|---|---|---|
+| 폰트(i.icon) | 12×2 · 16×2 · **18×12** · 30×1 | — (폰트 아이콘 없음) |
+| SVG | 12×2 · 14×4 · 16×5 · **18×17** · 20×4 · 32×1 | **16×24 · 20×20** (+15×5 · 18×3) |
+
+판정: Slack은 16/20 두 단계 집중 + 단일 SVG 소스, okrbest는 다섯 단계
+분산 + 폰트/SVG 이중 소스. 최빈 18은 Slack 리듬에 없는 크기다 →
+usage-guide "아이콘 규칙" 신설, `--okr-icon-toolbar`(18) 강등.
