@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-09 23:34
+- 갱신일: 2026-10-11 18:25
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 338개
+- 남은 커밋: 339개
 
-**마지막 반영 커밋:** `dbf28993` | [\[MM-67123\] Prevent mention clicks in preview from submitting the draft (#38114)](https://github.com/mattermost/mattermost/commit/dbf2899370d6adc64b92c9f57ae06352b6c505e0) | 2026-08-28
+**마지막 반영 커밋:** `c8b1cc00` | [MM-68283 - Add render-time ABAC permission decisions for file upload/download (#36820)](https://github.com/mattermost/mattermost/commit/c8b1cc0046c9ab53de4cb33804a7b4bc5cd03a83) | 2026-08-29
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| c8b1cc00 | [MM-68283 - Add render-time ABAC permission decisions for file upload/download (#36820)](https://github.com/mattermost/mattermost/commit/c8b1cc0046c9ab53de4cb33804a7b4bc5cd03a83) | 2026-08-29 |
 | c57bd5a8 | [\[MM-70230\] Migrate App.GetUser to request context (#37923)](https://github.com/mattermost/mattermost/commit/c57bd5a8466ffb943748b02e8ce27d56f40df569) | 2026-08-31 |
 | 3bf2d07f | [feat(docs): boost documentation results in Algolia search ranking (#38202)](https://github.com/mattermost/mattermost/commit/3bf2d07fd016456f9a51c2318ae58b9f084751d3) | 2026-08-31 |
 | 4ce99ddd | [Mm 70167 channel attribute assignment (#37933)](https://github.com/mattermost/mattermost/commit/4ce99ddd38636bb6916613efc892606db3fe75f9) | 2026-08-31 |
@@ -349,6 +348,8 @@
 | acf6e7bd | [Add dot release docs for server v11.7.12 (ESR) (#39057)](https://github.com/mattermost/mattermost/commit/acf6e7bd22224cafcb847dabd6b2bf83505805d1) | 2026-10-08 |
 | 4d94455a | [Sync document language with active user locale (#38625)](https://github.com/mattermost/mattermost/commit/4d94455ab041c0eed6676064cd8b033e9912fc5b) | 2026-10-08 |
 | 18c34098 | [MM-70639: Fix flaky TestGetMattermostLog under fully parallel tests (#38513)](https://github.com/mattermost/mattermost/commit/18c34098b13ba9b78c9613c517b913ef0a330650) | 2026-10-09 |
+| c307d634 | [Skip the setup project's ABAC seeding on upgrade paths (#39084)](https://github.com/mattermost/mattermost/commit/c307d634d6ed9d090385e2b7dc5981c36e233805) | 2026-10-09 |
+| 47eebd55 | [MM-70615: Update connection string formatting in configuration output and logs (#38644)](https://github.com/mattermost/mattermost/commit/47eebd5530c0485391efa77915965b4b7317f16c) | 2026-10-09 |
 
 ## 제외된 커밋
 
@@ -817,3 +818,4 @@
 | c7eff700 | [ABAC: plugin-keyed resource types, trusted plugin PAP/CEL APIs, and AuthZEN-style decision API (#37509)](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) | github.com/mattermost/enterprise/access_control — 플러그인 ABAC API(EvaluateAccessControl·PAP·CEL 8개)를 adapt로 반영했으나 정책 엔진(PDP/PAP)이 비공개 모듈에만 있어 비활성이다. pluginAccessControlAvailable()이 Channels().AccessControl nil에서 거짓을 돌려줘 플러그인 호출은 전부 '사용 불가'로 끝난다(EA 라이선스·EnableAttributeBasedAccessControl도 요구). 46417611·3a820143과 같은 조건으로, einterfaces.AccessControlServiceInterface를 자체 구현해 등록하면 활성화된다. |
 | fbf8402d | [\[MM-65680\] Add new configuration 'AttributeRefreshIntervalSeconds' to Access Control (#37854)](https://github.com/mattermost/mattermost/commit/fbf8402d4bce027823d7788c8f48401d839f8b31) | github.com/mattermost/enterprise/access_control — AccessControlSettings.AttributeRefreshIntervalSeconds(기본 30초, 0 이상) config 필드·검증·en.json 키만 cherry-pick으로 반영. 이 값을 읽어 DB AttributeView 새로고침 빈도를 제한하는 로직은 upstream-master OSS 트리 전체에 참조 0건(config 정의·테스트 픽스처·타입뿐)이라 비공개 모듈에 있는 것으로 판단 — 우리 빌드에서는 설정만 존재하고 동작하지 않는다. 8a9aacb0(SyncJobIntervalSeconds)과 같은 패턴. |
 | 4608b024 | [\[MM-70291\] Add Global Relay custom EML header setting (#38010)](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) | Global Relay EML 사용자 지정 헤더(CustomHeaderName·CustomHeaderValue) — 설정·검증·콘솔 UI는 adapt로 반영했으나 헤더를 EML에 쓰는 코드가 github.com/mattermost/enterprise/message_export/global_relay_export(비공개)에만 있어 발동하지 않는다. 자체 Global Relay 작성기 구현 시 이 설정을 그대로 쓰면 된다. |
+| c8b1cc00 | [MM-68283 - Add render-time ABAC permission decisions for file upload/download (#36820)](https://github.com/mattermost/mattermost/commit/c8b1cc0046c9ab53de4cb33804a7b4bc5cd03a83) | `github.com/mattermost/enterprise/access_control` — 렌더 시점 파일 권한 판정(업로드 버튼 비활성·첨부 가림 즉시 반영). 결정 API(POST /api/v4/access_control/decisions/actions/search)·ETag epoch·localcache epoch 캐시·웹앱 useRenderPermission·업로드 버튼 aria-disabled를 adapt로 모두 반영했으나(18220d7c), ALLOW/DENY를 판정하는 PDP가 비공개 모듈에만 있어 우리 빌드에서는 ch.AccessControl이 nil이다(server/enterprise/external_imports.go:38, //go:build enterprise, server/go.mod에 해당 모듈 없음). 그래서 SearchAllowedActionsForCurrentUser가 acs == nil 분기에서 DefaultWhenInactive(true)를 돌려 업로드·다운로드가 늘 '허용'으로 렌더된다 — 기존 동작을 바꾸지 않는 비활성이다. AppendABACEtag도 EnableAttributeBasedAccessControl(기본 false)이 꺼져 있으면 기존 ETag를 그대로 돌려준다. 웹앱은 FeatureFlagPermissionPolicies(기본 true)일 때 채널마다 결정 API를 1회 더 부른다. 같은 계보의 ba1cec51(리소스 수준 권한 정책, 이 커밋의 직접 선행)·4da11e81·46417611·6a3b21eb와 동일 처리. 자체 PDP를 RegisterAccessControlServiceInterface로 등록하면 그대로 활성화되며, 그때 신규 e2e 3개 스펙(file_permissions_render/live_updates/edge_cases)으로 확인한다. property v2 부재로 버린 훅은 docs/upstream-adapted-divergences.md 참조. |

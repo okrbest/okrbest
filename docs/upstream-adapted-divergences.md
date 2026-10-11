@@ -28,6 +28,7 @@
 | `41cec566` 공유 채널 플래그 제거 | [9e3d8efc](https://github.com/mattermost/mattermost/commit/9e3d8efc1a62b53e883a5a08ce3552c7c9fc896d) (#37154) | 충돌 넷이 전부 우리 Lexical 개명·자체 프로퍼티에서 왔다 — 아래 참조 |
 | `469e1e26` 권한 정책 편집기 Simple 모드 | [be8f7fe0](https://github.com/mattermost/mattermost/commit/be8f7fe02f65a506b1734e13eb68e44902d8bd80) (#37267) | 랭크 연산자 테스트 넷을 버렸다 — 우리 shared.tsx에 랭크 계보가 없다 — 아래 참조 |
 | `2bfb351e` 플러그인이 코어 모달을 id로 연다 | [379959ba](https://github.com/mattermost/mattermost/commit/379959ba32abf832be77195e4a72789a923f1f99) (#37339) | squash에 섞인 에디터 공개(#37514)를 뺐다 — Tiptap 에디터가 우리에게 없다 — 아래 참조 |
+| `18220d7c` ABAC 렌더 시점 파일 권한 판정 | [c8b1cc00](https://github.com/mattermost/mattermost/commit/c8b1cc0046c9ab53de4cb33804a7b4bc5cd03a83) (#36820) | 제외한 property v2 훅·캐시를 버리고 epoch 무효화를 CPA 경로에 다시 걸었다 — 아래 참조 |
 | `666f5d95` 채널 접근 표시 끄기 설정 | [8d10e91d](https://github.com/mattermost/mattermost/commit/8d10e91d3899f35ed8272f1c0d4a88f352ad8be6) (#37519) | `AccessControlSettings`의 세션 속성 필드 둘이 없어 충돌 7파일 — 복원 체크리스트 포함 — 아래 참조 |
 | `7f77ce32` 이메일 사용자 프로필 잠금·초대 이름 지정 | [2851af05](https://github.com/mattermost/mattermost/commit/2851af059d62cb3eebe73debdaa812d5fa440a94) (#37458) | 직위는 우리 조직 역할 읽기 전용 유지, 가입 화면의 우리 이름·성 입력칸을 미리 채우고 잠갔다 — 아래 참조 |
 | `8b87a1b0` 팀 ABAC 멤버십 동기화·사용자 화면 | [3a820143](https://github.com/mattermost/mattermost/commit/3a820143a1a5384172386a6c728e65825696a1e0) (#37054) | 120파일을 받으며 제외 계보에 걸린 7곳을 우리 트리에 맞췄다. 잡 policy_id 필터 2줄은 버렸다 — 복원 체크리스트 포함 — 아래 참조 |
@@ -1935,7 +1936,7 @@ jsdom 탐침에서 두 채널 모두 비어 있지 않은 draft를 둔 채 A→B
 - 게시물·스레드·고정 게시물 ETag에 정책 epoch·사용자 속성 epoch를 붙이는 `AppendABACEtag`, `GetPostsEtag(channelID, userID, …)` 시그니처 변경
 - localcache epoch 캐시 2종(`AccessControlPolicyEtag`·`UserPropertyValuesEpoch`)과 클러스터 이벤트 2종, sqlstore `GetEtagEpoch`·`GetUserPropertyValuesEpoch`
 - `attributeBasedAccessControlEnabled()` 술어, ABAC 토글 시 캐시를 비우는 설정 리스너, `invalidateAttributeViewCache`와 `attributeViewNeedsRefresh`
-- 웹앱 render_permissions 스토어·`useRenderPermission`·업로드 버튼 `aria-disabled`·WS 이벤트, e2e 스펙 재편(4개 신설)
+- 웹앱 render_permissions 스토어·`useRenderPermission`·업로드 버튼 `aria-disabled`·WS 이벤트, e2e 스펙 재편(`render`·`live_updates`·`edge_cases` 3개 신설, `download`·`upload_combined` 삭제)
 
 **엔진이 없어 발동하지 않는다.** 우리 빌드는 `ch.AccessControl == nil`이라 결정 API가 언제나
 `DefaultWhenInactive: true`(허용)를 돌려준다. `EnableAttributeBasedAccessControl` 기본값이 꺼져 있어
@@ -1968,7 +1969,7 @@ ETag도 기존 값 그대로다. 웹앱은 `FeatureFlagPermissionPolicies`(기�
 | `DeletePropertyValue` 무효화 | 지운 값의 `TargetType`·`TargetID`로 한 사용자만 | `invalidateAllUserAttributeCaches()`로 전체 | 우리 함수는 `valueID`만 받는다. upstream은 v2 코드에서 값을 먼저 읽어 둔다. 호출자가 플러그인 API 하나뿐이라 조회 쿼리를 늘리지 않고 넓게 비운다 |
 | `UpsertPropertyValues` 무효화 인자 | `result` | `upsertedValues` | 변수명만 다르다 |
 | `property_value_test.go` | 기존 파일에 테스트 추가 | 파일 신설, `TestInvalidateUserPropertyValuesEpochs_GatedOnABAC`만 담음 | 우리 트리에는 이 테스트 파일이 없었다. 상수는 위와 같이 바꿨다 |
-| e2e `file_permissions.spec.ts` | (upstream은 이미 `file_permissions_download.spec.ts`로 나눈 뒤 이번에 삭제) | 우리 단일 스위트를 지우고 upstream 4개 스펙 + `helpers.ts`를 받았다 | upstream이 스위트를 다시 짰다. 신규 스펙의 의존(`enableABAC`·`support.ts` 함수·CPA 헬퍼)은 전부 우리 트리에 있다 |
+| e2e `file_permissions.spec.ts` | (upstream은 이미 `file_permissions_download.spec.ts`로 나눈 뒤 이번에 삭제) | 우리 단일 스위트를 지우고 upstream 3개 스펙 + `helpers.ts`를 받았다 | upstream이 스위트를 다시 짰다. 신규 스펙의 의존(`enableABAC`·`support.ts` 함수·CPA 헬퍼)은 전부 우리 트리에 있다 |
 
 **가드 테스트 (포크 신규).** `TestCPAFieldMutationsMarkAttributeViewStale`는 `PatchCPAField`·`DeleteCPAField`가 AttributeView를 stale로 표시하는지 확인한다.
 - 훅 없음(RED): 두 서브테스트 모두 `Should be true` 실패
@@ -1986,7 +1987,7 @@ ETag도 기존 값 그대로다. 웹앱은 `FeatureFlagPermissionPolicies`(기�
 
 - property v2 계보를 들이면 CPA 경로의 훅 2개를 지우고 upstream의 `UpdatePropertyFields`·`DeletePropertyField` 훅으로 옮긴다. 같이 PropertyField 캐시도 받는다.
 - `DeletePropertyValue`가 값을 미리 읽게 되면 대상 사용자 한 명만 비우도록 바꾼다.
-- 자체 ABAC 엔진을 `RegisterAccessControlServiceInterface`로 등록하면 결정 API·ETag·업로드 버튼이 그대로 발동한다. 그때 e2e 4개 스펙을 돌려 확인한다.
+- 자체 ABAC 엔진을 `RegisterAccessControlServiceInterface`로 등록하면 결정 API·ETag·업로드 버튼이 그대로 발동한다. 그때 e2e 3개 스펙을 돌려 확인한다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
