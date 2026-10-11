@@ -1,23 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import classNames from 'classnames';
 import React from 'react';
-import {defineMessages, injectIntl} from 'react-intl';
+import {defineMessages, injectIntl, FormattedMessage} from 'react-intl';
 import type {IntlShape} from 'react-intl';
 
+import {CheckIcon, ChevronDownIcon} from '@mattermost/compass-icons/components';
 import {ShortcutKeys} from '@mattermost/shared/components/shortcut_key';
-import {WithTooltip} from '@mattermost/shared/components/tooltip';
+
+import * as Menu from 'components/menu';
 
 import Constants from 'utils/constants';
 import * as Keyboard from 'utils/keyboard';
 
 const messages = defineMessages({
-    disableTooltip: {
+    filter: {
+        id: 'sidebar_left.channel_filter.filter',
+        defaultMessage: 'Filter',
+    },
+    showAllChannels: {
         id: 'sidebar_left.channel_filter.showAllChannels',
         defaultMessage: 'Show all channels',
     },
-    enableTooltip: {
+    filterByUnread: {
         id: 'sidebar_left.channel_filter.filterByUnread',
         defaultMessage: 'Filter by unread',
     },
@@ -36,6 +41,9 @@ type Props = {
     };
 };
 
+// Slack 벤치마크(spec 019 measurements 18절) — 아이콘만으로는 기능이 안
+// 읽힌다. "필터" 라벨+체브론을 노출하고, 옵션은 Menu v2 드롭다운으로 고른다
+// (리스트 디자인은 020-8의 전역 메뉴 개선을 그대로 받는다).
 export class ChannelFilter extends React.PureComponent<Props> {
     componentDidMount() {
         document.addEventListener('keydown', this.handleUnreadFilterKeyPress);
@@ -45,49 +53,94 @@ export class ChannelFilter extends React.PureComponent<Props> {
         document.removeEventListener('keydown', this.handleUnreadFilterKeyPress);
     }
 
-    handleUnreadFilterClick = (e?: React.MouseEvent) => {
-        e?.preventDefault();
-        e?.stopPropagation();
-        this.toggleUnreadFilter();
-    };
-
     handleUnreadFilterKeyPress = (e: KeyboardEvent) => {
         if (Keyboard.cmdOrCtrlPressed(e) && e.shiftKey && Keyboard.isKeyPressed(e, Constants.KeyCodes.U)) {
             e.preventDefault();
             e.stopPropagation();
-            this.toggleUnreadFilter();
+            this.props.actions.setUnreadFilterEnabled(!this.props.unreadFilterEnabled);
         }
     };
 
-    toggleUnreadFilter = () => {
-        const {unreadFilterEnabled} = this.props;
-
-        this.props.actions.setUnreadFilterEnabled(!unreadFilterEnabled);
+    setFilter = (enabled: boolean) => {
+        if (enabled !== this.props.unreadFilterEnabled) {
+            this.props.actions.setUnreadFilterEnabled(enabled);
+        }
     };
 
     render() {
         const {intl, unreadFilterEnabled} = this.props;
 
-        const unreadsAriaLabel = intl.formatMessage({id: 'sidebar_left.channel_filter.filterUnreadAria', defaultMessage: 'unreads filter'});
+        const check = (
+            <CheckIcon
+                size={18}
+                aria-hidden={true}
+            />
+        );
 
         return (
             <div className='SidebarFilters'>
-                <WithTooltip
-                    title={unreadFilterEnabled ? messages.disableTooltip : messages.enableTooltip}
-                    shortcut={shortcut}
+                <Menu.Container
+                    menuButton={{
+                        id: 'sidebarFilterMenuButton',
+                        dataTestId: 'sidebar-unread-filter-button',
+                        class: 'SidebarFilters_filterButton',
+                        'aria-label': intl.formatMessage({id: 'sidebar_left.channel_filter.filterUnreadAria', defaultMessage: 'unreads filter'}),
+                        children: (
+                            <>
+                                <i
+                                    className='icon icon-filter-variant'
+                                    aria-hidden={true}
+                                />
+                                <span className='SidebarFilters_filterLabel'>
+                                    {intl.formatMessage(messages.filter)}
+                                </span>
+                                <ChevronDownIcon
+                                    size={14}
+                                    aria-hidden={true}
+                                />
+                            </>
+                        ),
+                    }}
+                    menuButtonTooltip={{
+                        text: unreadFilterEnabled ? intl.formatMessage(messages.showAllChannels) : intl.formatMessage(messages.filterByUnread),
+                        shortcut,
+                    }}
+                    menu={{
+                        id: 'sidebarFilterMenu',
+                        'aria-label': intl.formatMessage(messages.filter),
+                    }}
                 >
-                    <a
-                        href='#'
-                        className={classNames('SidebarFilters_filterButton', {
-                            active: unreadFilterEnabled,
-                        })}
-                        data-testid='sidebar-unread-filter-button'
-                        onClick={this.toggleUnreadFilter}
-                        aria-label={unreadsAriaLabel}
-                    >
-                        <i className='icon icon-filter-variant'/>
-                    </a>
-                </WithTooltip>
+                    <Menu.Item
+                        id='channelFilterShowAll'
+                        aria-checked={!unreadFilterEnabled}
+                        role='menuitemradio'
+                        onClick={() => this.setFilter(false)}
+                        labels={(
+                            <FormattedMessage
+                                id='sidebar_left.channel_filter.showAllChannels'
+                                defaultMessage='Show all channels'
+                            />
+                        )}
+                        trailingElements={!unreadFilterEnabled && (
+                            <span data-testid='channelFilter-check-all'>{check}</span>
+                        )}
+                    />
+                    <Menu.Item
+                        id='channelFilterUnread'
+                        aria-checked={unreadFilterEnabled}
+                        role='menuitemradio'
+                        onClick={() => this.setFilter(true)}
+                        labels={(
+                            <FormattedMessage
+                                id='sidebar_left.channel_filter.filterByUnread'
+                                defaultMessage='Filter by unread'
+                            />
+                        )}
+                        trailingElements={unreadFilterEnabled && (
+                            <span data-testid='channelFilter-check-unread'>{check}</span>
+                        )}
+                    />
+                </Menu.Container>
             </div>
         );
     }
