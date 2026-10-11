@@ -2,15 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {useIntl} from 'react-intl';
+import type {MessageDescriptor} from 'react-intl';
 
-import {FilterVariantIcon} from '@mattermost/compass-icons/components';
-import {WithTooltip} from '@mattermost/shared/components/tooltip';
+import {CheckIcon, ChevronDownIcon, FilterVariantIcon} from '@mattermost/compass-icons/components';
 
-import {IconContainer} from 'components/advanced_text_editor/formatting_bar/formatting_icon';
+import * as Menu from 'components/menu';
 import type {SearchFilterType} from 'components/search/types';
-import Menu from 'components/widgets/menu/menu';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import './files_filter_menu.scss';
 
@@ -19,85 +17,79 @@ type Props = {
     onFilter: (filter: SearchFilterType) => void;
 };
 
+// Slack 필터 벤치마크 (spec 019 measurements 18절) — 아이콘만으로는 기능이
+// 안 읽힌다. "필터" 라벨+체브론 알약과 Menu v2 라디오 리스트로 통일한다
+// (사이드바 필터 020-11과 같은 문법).
+const FILTER_OPTIONS: Array<{value: SearchFilterType; message: MessageDescriptor}> = [
+    {value: 'all', message: {id: 'channel_info_rhs.menu.files.filter.all_file_types', defaultMessage: 'All file types'}},
+    {value: 'documents', message: {id: 'channel_info_rhs.menu.files.filter.documents', defaultMessage: 'Documents'}},
+    {value: 'spreadsheets', message: {id: 'channel_info_rhs.menu.files.filter.spreadsheets', defaultMessage: 'Spreadsheets'}},
+    {value: 'presentations', message: {id: 'channel_info_rhs.menu.files.filter.presentations', defaultMessage: 'Presentations'}},
+    {value: 'code', message: {id: 'channel_info_rhs.menu.files.filter.code', defaultMessage: 'Code'}},
+    {value: 'images', message: {id: 'channel_info_rhs.menu.files.filter.images', defaultMessage: 'Images'}},
+    {value: 'audio', message: {id: 'channel_info_rhs.menu.files.filter.audio', defaultMessage: 'Audio'}},
+    {value: 'video', message: {id: 'channel_info_rhs.menu.files.filter.videos', defaultMessage: 'Videos'}},
+];
+
 export default function FilesFilterMenu(props: Props): JSX.Element {
     const intl = useIntl();
+
     return (
         <div className='FilesFilterMenu'>
-            <MenuWrapper>
-                <WithTooltip
-                    title={
-                        <FormattedMessage
-                            id='channel_info_rhs.menu.files.filter'
-                            defaultMessage='Filter'
-                        />}
-                >
-                    <IconContainer
-                        id='filesFilterButton'
-                        className='action-icon dots-icon'
-                        type='button'
-                    >
-                        {props.selectedFilter !== 'all' && <i className='icon-dot'/>}
-                        <FilterVariantIcon
-                            size={18}
-                            color='currentColor'
-                        />
-                    </IconContainer>
-                </WithTooltip>
-
-                <Menu
-                    ariaLabel={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.file_menu', defaultMessage: 'file menu'})}
-                    openLeft={true}
-                >
-                    <Menu.ItemAction
-                        ariaLabel={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.all_file_types', defaultMessage: 'All file types'})}
-                        text={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.all_file_types', defaultMessage: 'All file types'})}
-                        onClick={() => props.onFilter('all')}
-                        icon={props.selectedFilter === 'all' ? <i className='icon icon-check'/> : null}
+            <Menu.Container
+                menuButton={{
+                    id: 'filesFilterButton',
+                    dataTestId: 'filesFilterButton',
+                    class: 'FilesFilterMenu_button',
+                    'aria-label': intl.formatMessage({id: 'channel_info_rhs.menu.files.filter', defaultMessage: 'Filter'}),
+                    children: (
+                        <>
+                            <FilterVariantIcon
+                                size={16}
+                                color='currentColor'
+                                aria-hidden={true}
+                            />
+                            <span className='FilesFilterMenu_label'>
+                                {intl.formatMessage({id: 'channel_info_rhs.menu.files.filter', defaultMessage: 'Filter'})}
+                            </span>
+                            <ChevronDownIcon
+                                size={14}
+                                aria-hidden={true}
+                            />
+                            {props.selectedFilter !== 'all' && (
+                                <i
+                                    className='icon-dot'
+                                    data-testid='filesFilter-activeDot'
+                                    aria-hidden={true}
+                                />
+                            )}
+                        </>
+                    ),
+                }}
+                menu={{
+                    id: 'filesFilterMenu',
+                    'aria-label': intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.file_menu', defaultMessage: 'file menu'}),
+                }}
+            >
+                {FILTER_OPTIONS.map(({value, message}) => (
+                    <Menu.Item
+                        key={value}
+                        id={`filesFilter-${value}`}
+                        role='menuitemradio'
+                        aria-checked={props.selectedFilter === value}
+                        onClick={() => props.onFilter(value)}
+                        labels={<span>{intl.formatMessage(message)}</span>}
+                        trailingElements={props.selectedFilter === value && (
+                            <span data-testid={`filesFilter-check-${value}`}>
+                                <CheckIcon
+                                    size={18}
+                                    aria-hidden={true}
+                                />
+                            </span>
+                        )}
                     />
-                    <Menu.ItemAction
-                        ariaLabel={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.documents', defaultMessage: 'Documents'})}
-                        text={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.documents', defaultMessage: 'Documents'})}
-                        onClick={() => props.onFilter('documents')}
-                        icon={props.selectedFilter === 'documents' ? <i className='icon icon-check'/> : null}
-                    />
-                    <Menu.ItemAction
-                        ariaLabel={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.spreadsheets', defaultMessage: 'Spreadsheets'})}
-                        text={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.spreadsheets', defaultMessage: 'Spreadsheets'})}
-                        onClick={() => props.onFilter('spreadsheets')}
-                        icon={props.selectedFilter === 'spreadsheets' ? <i className='icon icon-check'/> : null}
-                    />
-                    <Menu.ItemAction
-                        ariaLabel={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.presentations', defaultMessage: 'Presentations'})}
-                        text={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.presentations', defaultMessage: 'Presentations'})}
-                        onClick={() => props.onFilter('presentations')}
-                        icon={props.selectedFilter === 'presentations' ? <i className='icon icon-check'/> : null}
-                    />
-                    <Menu.ItemAction
-                        ariaLabel={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.code', defaultMessage: 'Code'})}
-                        text={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.code', defaultMessage: 'Code'})}
-                        onClick={() => props.onFilter('code')}
-                        icon={props.selectedFilter === 'code' ? <i className='icon icon-check'/> : null}
-                    />
-                    <Menu.ItemAction
-                        ariaLabel={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.images', defaultMessage: 'Images'})}
-                        text={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.images', defaultMessage: 'Images'})}
-                        onClick={() => props.onFilter('images')}
-                        icon={props.selectedFilter === 'images' ? <i className='icon icon-check'/> : null}
-                    />
-                    <Menu.ItemAction
-                        ariaLabel={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.audio', defaultMessage: 'Audio'})}
-                        text={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.audio', defaultMessage: 'Audio'})}
-                        onClick={() => props.onFilter('audio')}
-                        icon={props.selectedFilter === 'audio' ? <i className='icon icon-check'/> : null}
-                    />
-                    <Menu.ItemAction
-                        ariaLabel={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.videos', defaultMessage: 'Videos'})}
-                        text={intl.formatMessage({id: 'channel_info_rhs.menu.files.filter.videos', defaultMessage: 'Videos'})}
-                        onClick={() => props.onFilter('video')}
-                        icon={props.selectedFilter === 'video' ? <i className='icon icon-check'/> : null}
-                    />
-                </Menu>
-            </MenuWrapper>
+                ))}
+            </Menu.Container>
         </div>
     );
 }

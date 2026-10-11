@@ -44,31 +44,52 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
     <div
       class="FilesFilterMenu"
     >
-      <div
-        class="MenuWrapper "
+      <button
+        aria-controls="filesFilterMenu"
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-label="Filter"
+        class="FilesFilterMenu_button"
+        data-testid="filesFilterButton"
+        id="filesFilterButton"
       >
-        <button
-          class="IconContainer-hXitkr fFJEfD action-icon dots-icon"
-          id="filesFilterButton"
-          type="button"
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="16"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <i
-            class="icon-dot"
+          <path
+            d="M6,13H18V11H6M3,6V8H21V6M10,18H14V16H10V18Z"
           />
-          <svg
-            fill="currentColor"
-            height="18"
-            version="1.1"
-            viewBox="0 0 24 24"
-            width="18"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6,13H18V11H6M3,6V8H21V6M10,18H14V16H10V18Z"
-            />
-          </svg>
-        </button>
-      </div>
+        </svg>
+        <span
+          class="FilesFilterMenu_label"
+        >
+          Filter
+        </span>
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
+          />
+        </svg>
+        <i
+          aria-hidden="true"
+          class="icon-dot"
+          data-testid="filesFilter-activeDot"
+        />
+      </button>
     </div>
   </div>
 </div>
@@ -148,31 +169,52 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
     <div
       class="FilesFilterMenu"
     >
-      <div
-        class="MenuWrapper "
+      <button
+        aria-controls="filesFilterMenu"
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-label="Filter"
+        class="FilesFilterMenu_button"
+        data-testid="filesFilterButton"
+        id="filesFilterButton"
       >
-        <button
-          class="IconContainer-hXitkr fFJEfD action-icon dots-icon"
-          id="filesFilterButton"
-          type="button"
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="16"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <i
-            class="icon-dot"
+          <path
+            d="M6,13H18V11H6M3,6V8H21V6M10,18H14V16H10V18Z"
           />
-          <svg
-            fill="currentColor"
-            height="18"
-            version="1.1"
-            viewBox="0 0 24 24"
-            width="18"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6,13H18V11H6M3,6V8H21V6M10,18H14V16H10V18Z"
-            />
-          </svg>
-        </button>
-      </div>
+        </svg>
+        <span
+          class="FilesFilterMenu_label"
+        >
+          Filter
+        </span>
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="14"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
+          />
+        </svg>
+        <i
+          aria-hidden="true"
+          class="icon-dot"
+          data-testid="filesFilter-activeDot"
+        />
+      </button>
     </div>
   </div>
 </div>
