@@ -6,7 +6,6 @@ import {defineMessages, injectIntl, FormattedMessage} from 'react-intl';
 import type {IntlShape} from 'react-intl';
 
 import {CheckIcon, ChevronDownIcon} from '@mattermost/compass-icons/components';
-import {ShortcutKeys} from '@mattermost/shared/components/shortcut_key';
 
 import * as Menu from 'components/menu';
 
@@ -27,11 +26,6 @@ const messages = defineMessages({
         defaultMessage: 'Filter by unread',
     },
 });
-
-const shortcut = {
-    default: [ShortcutKeys.ctrl, ShortcutKeys.shift, 'U'],
-    mac: [ShortcutKeys.cmd, ShortcutKeys.shift, 'U'],
-};
 
 type Props = {
     intl: IntlShape;
@@ -103,7 +97,6 @@ export class ChannelFilter extends React.PureComponent<Props> {
                     }}
                     menuButtonTooltip={{
                         text: unreadFilterEnabled ? intl.formatMessage(messages.showAllChannels) : intl.formatMessage(messages.filterByUnread),
-                        shortcut,
                     }}
                     menu={{
                         id: 'sidebarFilterMenu',

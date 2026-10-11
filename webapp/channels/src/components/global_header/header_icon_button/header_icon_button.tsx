@@ -5,14 +5,13 @@ import classNames from 'classnames';
 import React from 'react';
 
 import {BellOutlineIcon, HelpCircleOutlineIcon} from '@mattermost/compass-icons/components';
-import type {IconComponentProps} from '@mattermost/compass-icons/components';
 
 import './header_icon_button.scss';
 
 // okrbest 아이콘 규칙 4항 — 폰트 글리프 대신 SVG(선명도). 글리프 20은
 // Slack 상단 버튼 실측 (019 measurements 9절). 매핑에 없는 아이콘은
 // 기존 폰트 렌더로 후방 호환한다.
-const SVG_GLYPHS: Record<string, React.FC<IconComponentProps>> = {
+const SVG_GLYPHS: Record<string, React.ComponentType<React.ComponentProps<typeof HelpCircleOutlineIcon>>> = {
     'help-circle-outline': HelpCircleOutlineIcon,
     'bell-outline': BellOutlineIcon,
 };
