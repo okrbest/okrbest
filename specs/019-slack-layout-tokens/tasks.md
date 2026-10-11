@@ -209,3 +209,17 @@ MVP = US1 (기준표 정본). US2가 코드 소비 증명, US3가 전파 장치�
   그대로 보여준 사례다 — RED를 보지 않았으면 빈 검사기를 커밋했다.
 - Figma 킷 프레임 좌표 유도값(메뉴 행 38, 아이콘 24 빈발)은 실측과 어긋나
   기각했다 — 킷은 variables로 등록된 토큰만 신뢰한다 (measurements 2절).
+
+## 추가 작업 — 레일 파일럿 적용 (사용자 요청, 2026-10-11)
+
+병합 전 "공통 디자인 실제 개선" 요청으로 좌측 레일(팀 버튼·제품 버튼)에
+토큰을 소비하는 첫 파일럿을 적용했다. 실측·개선표는 measurements.md 5절.
+
+- [x] TA01 레일 실측 — okrbest 현재값과 Slack 탭 레일(버튼 52×68, 알약
+      36×36 radius 8, 라벨 11/700, 글리프 20) 실측
+- [x] TA02 boards 플러그인 크래시 수리 — BoardsRetentionDays nil 가드
+      (okrbest-plugin-boards 커밋), 재패킹 설치, 기동 확인
+- [x] TA03 레일 개선 — `_team-sidebar.scss`의 017 포크 블록에 Slack 문법
+      적용: active=아이콘 알약, 라벨 11/600(활성 700), 팀 아이콘 36 radius 8,
+      간격 토큰화. 실측 검증: 세 버튼 64 리듬·말줄임 0, stylelint 0,
+      team_sidebar jest 17/17

@@ -24,20 +24,21 @@
         padding: 16px 0 6px;
     }
 
-    // 레일 팀 버튼 — 팀 전환 진입점임을 알리는 셰브론 배지·라벨·스택·unread 점
+    // 레일 팀 버튼 — 팀 전환 진입점임을 알리는 셰브론 배지·라벨·스택·unread 점.
+    // 크기 리듬은 Slack 탭 레일 실측(019 measurements: 알약 36·radius 8·라벨 bold)
     .rail-team-button {
         display: flex;
         width: 56px;
         flex-direction: column;
         align-items: center;
-        padding: 8px 2px 6px;
+        padding: var(--okr-space-1) 0;
         border: none;
-        border-radius: 8px;
-        margin: 4px auto 0;
+        border-radius: var(--radius-m);
+        margin: var(--okr-space-1) auto 0;
         background: transparent;
         color: var(--sidebar-header-text-color);
         cursor: pointer;
-        gap: 3px;
+        gap: var(--okr-space-1);
         opacity: 0.9;
 
         &:hover,
@@ -49,6 +50,20 @@
         .rail-team-button__avatar {
             position: relative;
             display: inline-flex;
+        }
+
+        // 현재 팀 아이콘을 Slack 워크스페이스 아이콘 리듬(36×36, radius 8)으로
+        .rail-team-button__current .TeamIcon {
+            width: 36px;
+            min-width: 36px;
+            height: 36px;
+
+            .TeamIcon__content {
+                width: 36px;
+                min-width: 36px;
+                height: 36px;
+                border-radius: var(--radius-m);
+            }
         }
 
         // 다른 팀 아바타가 뒤에 살짝 겹쳐 "여러 팀 중 하나"임을 암시한다
@@ -113,20 +128,25 @@
         .rail-team-button__label {
             overflow: hidden;
             max-width: 100%;
-            font-size: 10px;
-            line-height: 14px;
+
+            /* Slack 탭 레일 라벨 실측 11px/700 — 레일 전용 타입 */
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 16px;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
     }
 
-    // Slack식 기능 버튼 레일 — 제품 버튼(아이콘+라벨)을 세로로 쌓는다
+    // Slack식 기능 버튼 레일 — 제품 버튼(아이콘+라벨)을 세로로 쌓는다.
+    // Slack 실측(019): 활성 신호는 버튼 전체가 아니라 36×36 radius-8
+    // 아이콘 알약 배경이고, 라벨은 bold로 함께 짙어진다
     .rail-products {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 4px 0 8px;
-        gap: 4px;
+        padding: var(--okr-space-1) 0 var(--okr-space-2);
+        gap: var(--okr-space-1);
     }
 
     .rail-product-button {
@@ -134,10 +154,10 @@
         width: 56px;
         flex-direction: column;
         align-items: center;
-        padding: 6px 2px;
-        border-radius: 8px;
+        padding: var(--okr-space-1) 0;
+        border-radius: var(--radius-m);
         color: var(--sidebar-header-text-color);
-        gap: 2px;
+        gap: var(--okr-space-1);
         opacity: 0.73;
         transition: all 0.15s ease;
 
@@ -148,17 +168,35 @@
             text-decoration: none;
         }
 
-        &.active {
-            background: rgba(var(--sidebar-text-rgb), 0.16);
-            opacity: 1;
+        &:hover .rail-product-button__icon {
+            background: rgba(var(--sidebar-text-rgb), 0.08);
         }
 
+        &.active {
+            opacity: 1;
+
+            .rail-product-button__icon {
+                background: rgba(var(--sidebar-text-rgb), 0.16);
+            }
+
+            .rail-product-button__label {
+                font-weight: 700;
+            }
+        }
+
+        // Slack 아이콘 알약: 36×36, radius 8, 글리프 20 (--okr-icon-main)
         .rail-product-button__icon {
             display: flex;
+            width: 36px;
+            height: 36px;
             align-items: center;
             justify-content: center;
+            border-radius: var(--radius-m);
+            transition: background-color var(--okr-anim-fast) linear;
 
             svg {
+                width: var(--okr-icon-main);
+                height: var(--okr-icon-main);
                 fill: currentColor;
             }
         }
@@ -166,8 +204,11 @@
         .rail-product-button__label {
             overflow: hidden;
             max-width: 100%;
-            font-size: 10px;
-            line-height: 14px;
+
+            /* Slack 탭 레일 라벨 실측 11px/700 — 레일 전용 타입 */
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 16px;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
