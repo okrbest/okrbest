@@ -230,3 +230,24 @@ body.app__body {
 #RightControlsContainer .HeaderIconButton i {
     font-size: 20px;
 }
+
+// ---------------------------------------------------------------------------
+// 툴팁 — Slack 실측 (019 measurements 10절): radius 8, padding 8 12,
+// 글자 13/700/18, bg #1D1C1D (화살표 fill 동기). 원본은
+// platform/shared tooltip css — upstream 파일 대신 여기서 덮는다.
+// ---------------------------------------------------------------------------
+div.tooltipContainer {
+    padding: 8px 12px;
+    border-radius: var(--radius-m);
+    background: #1d1c1d;
+
+    > svg {
+        fill: #1d1c1d;
+    }
+}
+
+div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .tooltipContentTitle {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 18px;
+}
