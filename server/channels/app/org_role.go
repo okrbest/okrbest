@@ -568,7 +568,7 @@ func (a *App) syncUserOrgProfileToProps(rctx request.CTX, item *model.UserOrgPro
 		mlog.String("extra_positions", strings.Join(item.ExtraPositions, ",")),
 	)
 
-	user, appErr := a.GetUser(item.UserID)
+	user, appErr := a.GetUser(rctx, item.UserID)
 	if appErr != nil {
 		rctx.Logger().Warn("failed to load user to sync org profile props",
 			mlog.String("user_id", item.UserID),

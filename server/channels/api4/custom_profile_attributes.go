@@ -214,7 +214,7 @@ func patchCPAValues(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	userID := c.AppContext.Session().UserId
-	if !c.App.SessionHasPermissionToUser(*c.AppContext.Session(), userID) {
+	if !c.App.SessionHasPermissionToUser(c.AppContext, *c.AppContext.Session(), userID) {
 		c.SetPermissionError(model.PermissionEditOtherUsers)
 		return
 	}
@@ -322,7 +322,7 @@ func patchCPAValuesForUser(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 	userID := c.Params.UserId
 
-	if !c.App.SessionHasPermissionToUser(*c.AppContext.Session(), userID) {
+	if !c.App.SessionHasPermissionToUser(c.AppContext, *c.AppContext.Session(), userID) {
 		c.SetPermissionError(model.PermissionEditOtherUsers)
 		return
 	}

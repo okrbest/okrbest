@@ -101,7 +101,7 @@ func TestDutyDefinitionLifecycle(t *testing.T) {
 		})
 		require.Nil(t, appErr)
 
-		user, appErr := th.App.GetUser(th.BasicUser2.Id)
+		user, appErr := th.App.GetUser(th.Context, th.BasicUser2.Id)
 		require.Nil(t, appErr)
 		require.Equal(t, "true", user.Props["is_ceo"])
 
@@ -111,7 +111,7 @@ func TestDutyDefinitionLifecycle(t *testing.T) {
 			UserID: th.BasicUser2.Id,
 		})
 		require.Nil(t, appErr)
-		user, appErr = th.App.GetUser(th.BasicUser2.Id)
+		user, appErr = th.App.GetUser(th.Context, th.BasicUser2.Id)
 		require.Nil(t, appErr)
 		require.Equal(t, "false", user.Props["is_ceo"])
 	})

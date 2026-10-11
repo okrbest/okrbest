@@ -67,6 +67,7 @@
 | Playwright 1.62 업그레이드 | [85b0227d](https://github.com/mattermost/mattermost/commit/85b0227d1d741e436b7e179cc839820a91279921) (#38014) | docs 3개를 버렸다. e2e FeatureFlags는 우리 서버에 있는 플래그만 받아 6개를 뺐고, lock은 우리 것을 기준으로 다시 만들었다 — 아래 참조 |
 | v12 미사용 설정 필드 제거 | [87c84ef1](https://github.com/mattermost/mattermost/commit/87c84ef1772e85e45c4a338b199a4b668fffb4aa) (#37743) | 11개 모두 받았다. 충돌은 `TeamSettings` 정렬 1곳. 제외·spec 커밋 206개 중 이 필드를 기능적으로 쓰는 커밋은 없다 — 아래 참조 |
 | 채널 전환 뒤 이전 채널로 전송되는 버그 | [441e45a9](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3) (#37928) | 수정은 받고 우리 `draftRef` 즉시 갱신에도 같은 가드를 걸었다(가드 테스트 신규). upstream jest 4건은 Lexical 하네스에서 입력이 안 들어가 red로 남는다 — 아래 참조 |
+| App.GetUser·HasPermissionTo를 request context로 이관 | [c57bd5a8](https://github.com/mattermost/mattermost/commit/c57bd5a8466ffb943748b02e8ce27d56f40df569) (#37923) | rctx 치환은 받고, 충돌 블록 8곳과 없는 파일 4개(Scheduled Recaps 한도·property v2 계보)는 버렸다. 포크 전용 호출자 6곳에 rctx를 넘겼다 — 아래 참조 |
 
 ---
 
@@ -1988,6 +1989,57 @@ ETag도 기존 값 그대로다. 웹앱은 `FeatureFlagPermissionPolicies`(기�
 - property v2 계보를 들이면 CPA 경로의 훅 2개를 지우고 upstream의 `UpdatePropertyFields`·`DeletePropertyField` 훅으로 옮긴다. 같이 PropertyField 캐시도 받는다.
 - `DeletePropertyValue`가 값을 미리 읽게 되면 대상 사용자 한 명만 비우도록 바꾼다.
 - 자체 ABAC 엔진을 `RegisterAccessControlServiceInterface`로 등록하면 결정 API·ETag·업로드 버튼이 그대로 발동한다. 그때 e2e 3개 스펙을 돌려 확인한다.
+---
+
+## App.GetUser request context 이관 — 제외 계보의 충돌 블록을 버리고 포크 호출자 6곳을 고쳤다
+
+**upstream**: [`c57bd5a8`](https://github.com/mattermost/mattermost/commit/c57bd5a8466ffb943748b02e8ce27d56f40df569)
+([MM-70230] Migrate App.GetUser to request context, #37923) — 99파일 +503/-499, 2026-10-11 반영
+
+**받은 것.** MM-56633 store-context 캠페인의 기계적 치환을 그대로 받았다.
+- `App.GetUser`·`App.HasPermissionTo` 첫 인자에 `rctx request.CTX` 추가
+- 이를 부르던 `SessionHasPermissionToUser`, `ValidateDesktopToken`, `GenerateMfaSecret`·`ActivateMfa`·`DeactivateMfa`,
+  `UpdateHashedPasswordByUserId`, `VerifyUserEmail`, `CreateTermsOfService`, `GetCustomStatus` 등에도 rctx 추가
+- 플러그인 API `GetUser`·`GetUserCustomStatus`·`HasPermissionTo`는 공개 시그니처를 유지하고 `PluginAPI.ctx`를 넘긴다
+- app·api4·slashcommands·mmctl·테스트 헬퍼(`getUserFromDB`)의 호출자 치환
+
+### 버린 것 — 제외한 계보의 코드라 받을 자리가 없다
+
+충돌 블록의 upstream 쪽은 전부 이 커밋의 변경분이 아니라 문맥으로 딸려 온 제외 계보 코드였다. HEAD 쪽을
+남겼고, 같은 파일의 자동 병합분(rctx 치환)은 유지했다.
+
+| upstream 자리 | 버린 내용 | 이유 |
+|---|---|---|
+| `app/recap_limits.go`, `app/scheduled_recap.go` (우리에게 없음) | 파일 전체의 rctx 치환 | 제외한 25f3a75c(Scheduled Recaps, #35495)가 만든 파일이다 |
+| `app/recap.go` 충돌 4곳 | `SaveRecapIfUnderDailyLimit` 분기, `RegenerateRecap` 한도·쿨다운 검사, `getRemainingPostsForRecap` 호출, 한도 오류·쿨다운·토큰 추정 헬퍼 일습 | 같은 25f3a75c의 Recap 한도 기능이다. 우리 `fetchPostsForRecap`의 `GetUser` 치환 1줄만 받았다 |
+| `api4/recap.go` 충돌 1곳 | `getRecapLimitStatus` 핸들러 | 같은 계보다. upstream 변경은 이 핸들러 안의 1줄이었다 |
+| `app/properties/access_control_attribute_validation(_test).go` (우리에게 없음) | `PermissionChecker` 타입에 rctx 추가 | 제외한 property v2 계보(9f1fe90b → 3b64a2ac)의 파일이다 |
+| `app/authorization.go` 충돌 1곳 | `SessionHasPermissionToEditPropertyField` 외 property field 권한 함수 11개 | 같은 property v2 계보(e8632bd4 admin 권한 레벨 등)다 |
+| `app/server.go` 충돌 1곳 | CPA 훅 등록 블록(라이선스·접근 제어·속성 검증·값 감사·필드 한도·세션 속성·타입 변경 정리) | 같은 계보다. upstream 변경은 이 안의 `permChecker` 2줄이었다 |
+
+### 바꾼 것 — 포크 전용 호출자에 rctx를 넘겼다
+
+upstream에 없는 코드라 커밋이 치환하지 못했다. 모두 rctx가 이미 스코프에 있어 그대로 넘겼다.
+
+| 자리 | 우리 처리 | 출처 |
+|---|---|---|
+| `app/org_role.go` `syncUserOrgProfileToProps` | `a.GetUser(rctx, item.UserID)` | 포크 조직 역할 기능 |
+| `app/org_role_test.go` 2곳 | `th.App.GetUser(th.Context, …)` | 같은 기능의 테스트 |
+| `app/post.go` `GetRecentMentionsForUser` | `a.GetUser(rctx, userID)` | 포크 최근 멘션(888f6d7837, #203) |
+| `api4/post.go` `getRecentMentionsForUser` | `SessionHasPermissionToUser(c.AppContext, …)` | 같은 기능 |
+| `api4/custom_profile_attributes.go` `patchCPAValues`·`patchCPAValuesForUser` | `SessionHasPermissionToUser(c.AppContext, …)` | upstream은 property v2 계보에서 이 검사를 `SessionHasPermissionToSetPropertyFieldValues`로 바꿨다. 우리는 그 계보를 제외해 옛 검사가 남아 있다 |
+
+### 검증
+
+- `go build ./...`·`go vet ./...` 통과. 포크 호출자 6곳은 이 두 명령으로 찾았다
+- app 대상 테스트 통과: `GetUser`·`HasPermissionTo`·`SessionHasPermissionToUser`·MFA·`VerifyUserEmail`·약관·커스텀 상태·조직 역할·최근 멘션·데스크톱 토큰·Recap 계열(`-run` 정규식)
+- api4 대상 테스트 통과: 위 계열 + CPA 핸들러
+- `app/slashcommands` 패키지 전체 통과
+
+### 되돌릴 조건
+
+- Scheduled Recaps(25f3a75c)를 들이면 버린 Recap 한도 코드가 그 커밋과 함께 들어온다. 이 커밋을 다시 볼 필요는 없다 — 그 시점 우리 트리의 `GetUser`가 이미 rctx 시그니처라 25f3a75c adapt 때 호출만 맞추면 된다.
+- property v2 계보를 들이면 `api4/custom_profile_attributes.go`의 `SessionHasPermissionToUser` 검사가 upstream의 property field 권한 검사로 바뀐다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
