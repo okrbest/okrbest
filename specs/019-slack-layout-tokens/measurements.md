@@ -185,3 +185,21 @@ OnActivate·OnConfigurationChange에서 nil 역참조 SIGSEGV → 반복 크래�
 판정: Slack은 16/20 두 단계 집중 + 단일 SVG 소스, okrbest는 다섯 단계
 분산 + 폰트/SVG 이중 소스. 최빈 18은 Slack 리듬에 없는 크기다 →
 usage-guide "아이콘 규칙" 신설, `--okr-icon-toolbar`(18) 강등.
+
+## 9. 상단 검색바·도움말 버튼 (020 아이콘 개선 2)
+
+### Slack 상단(top nav) 실측
+
+| 지점 | 값 |
+|---|---|
+| 검색바 | 높이 28, radius 4, **글자 15px** |
+| 도움말 버튼 | 26×26, radius 4, **글리프 20** — **화면 우측 끝**(rightGap 8), 검색바와 분리 |
+| 상단 내비 버튼 공통 | 26×26 · 글리프 20 |
+
+### okrbest — 개선 전 → 후 (실측)
+
+| 항목 | 전 | 후 |
+|---|---|---|
+| 도움말 위치 | 중앙 그룹(검색바 바로 옆, left 951) | **우측 끝 그룹**(알림 히스토리 왼쪽, left 1212) — center_controls→right_controls 이동 |
+| 도움말 글리프 | 16 (폰트 i) | **20** (`#RightControlsContainer .HeaderIconButton i`) — 버튼 28 유지 |
+| 검색바 글자 | 12/500 | **15/400** (base 단계) — 높이 28·radius 4는 이미 Slack과 일치해 유지 |

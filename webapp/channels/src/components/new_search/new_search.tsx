@@ -82,8 +82,10 @@ const NewSearchContainer = styled.div`
     width: 100%;
     background-color: rgba(var(--sidebar-text-rgb), 0.08);
     color: var(--sidebar-text);
-    font-size: 12px;
-    font-weight: 500;
+
+    /* Slack 상단 검색 실측 15/400 (019 measurements 9절) */
+    font-size: 15px;
+    font-weight: 400;
     border-radius: var(--radius-s);
     border: none;
     padding: 4px;

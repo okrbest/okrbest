@@ -12,6 +12,8 @@ import {isChannels} from 'utils/products';
 import NotificationHistoryButton from './notification_history_button/notification_history_button';
 import PlanUpgradeButton from './plan_upgrade_button';
 
+import UserGuideDropdown from '../center_controls/user_guide_dropdown';
+
 const RightControlsContainer = styled.div`
     display: flex;
     align-items: center;
@@ -39,6 +41,8 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
             <PlanUpgradeButton/>
             {isChannels(productId) ? (
                 <>
+                    {/* Slack 벤치마크: 도움말은 우측 끝 그룹 (019 measurements 9절) */}
+                    <UserGuideDropdown/>
                     <NotificationHistoryButton/>
                 </>
             ) : (
