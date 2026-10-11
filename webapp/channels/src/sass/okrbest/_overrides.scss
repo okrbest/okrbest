@@ -251,3 +251,22 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
     font-weight: 700;
     line-height: 18px;
 }
+
+// ---------------------------------------------------------------------------
+// 채널 헤더 우측 운영 그룹 — Slack view_header 실측 (019 measurements):
+// 버튼 사이 gap 4 균일(기존 8/8/4/4 혼재), 버튼 radius 8, 글리프 svg 20.
+// ---------------------------------------------------------------------------
+.channel-header .flex-parent {
+    gap: var(--okr-space-1);
+
+    > .channel-header__icon,
+    > button,
+    > div > .channel-header__icon {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .channel-header__icon {
+        border-radius: var(--radius-m);
+    }
+}

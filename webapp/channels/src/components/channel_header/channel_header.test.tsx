@@ -340,7 +340,10 @@ describe('components/ChannelHeader', () => {
             renderWithContext(<ChannelHeader {...props}/>);
 
             const bell = screen.getByTestId('channelHeaderBellButton');
-            expect(bell.querySelector('.icon-bell-off-outline')).toBeInTheDocument();
+
+            // 글리프는 SVG(아이콘 규칙 4항) — 뮤트 상태는 aria-label로 구분된다
+            expect(bell.querySelector('svg')).toBeInTheDocument();
+            expect(bell.querySelector('i')).not.toBeInTheDocument();
         });
 
         test('더보기(⋮) 버튼이 채널 메뉴를 연다', async () => {
