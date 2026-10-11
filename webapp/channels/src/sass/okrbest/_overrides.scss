@@ -362,12 +362,11 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
     display: inline-flex;
     width: auto;
     height: 28px;
+    flex-shrink: 0;
     align-items: center;
     padding: 0 var(--okr-space-2) 0 var(--okr-space-2);
     border-radius: 14px;
     gap: var(--okr-space-1);
-
-    flex-shrink: 0;
 
     .SidebarFilters_filterLabel {
         font-size: 13px;
@@ -394,4 +393,148 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
     svg {
         display: block;
     }
+}
+
+// ---------------------------------------------------------------------------
+// 글로벌 스레드 목록 — Slack threads 뷰 실측 (019 measurements 21절).
+// 작성자 15/700(Slack sender 15/900), 메타 12/400 75%, 본문 15/400/22.
+// upstream thread_item.scss와 번들 순서가 엇갈리므로 .ThreadList 병기로
+// 특이도를 올려 이긴다 (020 패턴).
+// ---------------------------------------------------------------------------
+.ThreadList .ThreadItem {
+    padding: var(--okr-space-5) var(--okr-space-6);
+
+    > .thread-item-header {
+        margin: 0 0 var(--okr-space-2);
+        font-size: 15px;
+        gap: var(--okr-space-2);
+        line-height: 22px;
+
+        > time {
+            line-height: 22px;
+        }
+    }
+
+    .ThreadItem__author {
+        font-weight: 700;
+    }
+
+    // 채널 칩 — 10px Tag는 한글이 안 읽힌다. Slack 채널 라벨 톤(12/600)으로.
+    .ThreadItem__tags .Tag {
+        padding: 1px 6px;
+        border-radius: var(--radius-s);
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+        text-transform: none;
+    }
+
+    // 미리보기 2줄 — Slack 본문 행간 22에 맞춰 클램프 높이도 22×2로.
+    // 다중 블록 메시지는 블록 여백(p 기본 margin) 때문에 둘째 블록이
+    // 반 줄 잘려 보였다. 블록 여백을 0으로 눌러 22px 격자에 정확히
+    // 2줄만 보이게 한다.
+    div.preview {
+        height: 44px;
+        margin: 0 0 var(--okr-space-3);
+        line-height: 22px;
+
+        > * {
+            margin: 0;
+        }
+
+        p,
+        li {
+            line-height: 22px;
+        }
+
+        // 제목 마크다운(#)이 원래 크기로 커지면 목록 리듬이 깨진다 —
+        // 미리보기에선 본문 크기로 평탄화한다.
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 22px;
+        }
+
+        blockquote {
+            margin: 0;
+        }
+    }
+
+    .activity {
+        font-size: 13px;
+        line-height: 20px;
+    }
+
+    // 읽지않음 신호 — slate 테마의 sidebar-text-active-border는 회색이라
+    // 중앙 영역에서 신호가 죽는다. 본문 쪽 강조색(button-bg)으로 통일한다.
+    .dot-unreads {
+        background: var(--button-bg);
+    }
+
+    &.has-unreads .activity {
+        color: var(--button-bg);
+    }
+
+    // 읽지않음 점을 좌패딩(24px) 안쪽 중앙에 앉힌다.
+    .indicator {
+        left: -24px;
+        width: 24px;
+    }
+
+    &.is-selected {
+        background: rgba(var(--button-bg-rgb), 0.08);
+
+        &:hover,
+        &:focus {
+            background: rgba(var(--button-bg-rgb), 0.12);
+        }
+    }
+
+    .menu-anchor {
+        top: var(--okr-space-4);
+        right: var(--okr-space-4);
+    }
+}
+
+// 탭 알약 — 사이드바·파일 필터 알약 문법(h28·r14·13/600)과 통일.
+// 알약 안 텍스트는 플렉스 중앙 정렬로 — 인라인 흐름에선 점(dot)의
+// vertical-align이 줄 상자를 키워 글자가 아래로 밀렸다.
+.ThreadList .Header .tab-button-wrapper .Button {
+    display: inline-flex;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--okr-space-3);
+    border-radius: 14px;
+
+    .Button_label {
+        display: inline-flex;
+        align-items: center;
+        font-size: 13px;
+        line-height: 16px;
+    }
+
+    // 읽지않음 점 — absolute(top 6/right 6)가 알약 패딩과 겹쳐 글자를
+    // 침범했다. 라벨 뒤 플렉스 흐름의 superscript(상단 정렬)로.
+    .dot {
+        position: static;
+        width: 6px;
+        height: 6px;
+        align-self: flex-start;
+        margin-top: 1px;
+        margin-left: var(--okr-space-1);
+        background: var(--button-bg);
+    }
+}
+
+// 모두 읽음 아이콘 — 주요 축 20으로 (toolbar18 강등 규칙).
+.ThreadList .Header .right-anchor .Button svg {
+    width: 20px;
+    height: 20px;
 }

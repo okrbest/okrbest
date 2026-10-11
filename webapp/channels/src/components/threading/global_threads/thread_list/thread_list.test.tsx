@@ -108,7 +108,7 @@ describe('components/threading/global_threads/thread_list', () => {
             <ThreadList {...props}/>,
         );
 
-        await userEvent.click(screen.getByRole('tab', {name: 'Followed threads'}));
+        await userEvent.click(screen.getByRole('tab', {name: 'All'}));
         expect(props.setFilter).toHaveBeenCalledWith('');
     });
 

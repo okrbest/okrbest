@@ -7186,6 +7186,7 @@
   "texteditor.rewrite.summarize": "Summarize",
   "thread_popout.title": "Thread - {channelName} - {teamName} - {serverName}",
   "thread_popout.title.dm": "Thread - {channelName} - {serverName}",
+  "threading.filters.all": "All",
   "threading.filters.unreads": "Unreads",
   "threading.following": "Following",
   "threading.footer.lastReplyAt": "Last reply {formatted}",
