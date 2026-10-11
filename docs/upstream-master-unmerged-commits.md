@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-11 18:25
+- 갱신일: 2026-10-11 22:43
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 339개
+- 남은 커밋: 336개
 
-**마지막 반영 커밋:** `c8b1cc00` | [MM-68283 - Add render-time ABAC permission decisions for file upload/download (#36820)](https://github.com/mattermost/mattermost/commit/c8b1cc0046c9ab53de4cb33804a7b4bc5cd03a83) | 2026-08-29
+**마지막 반영 커밋:** `4ce99ddd` | [Mm 70167 channel attribute assignment (#37933)](https://github.com/mattermost/mattermost/commit/4ce99ddd38636bb6916613efc892606db3fe75f9) | 2026-08-31
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| c57bd5a8 | [\[MM-70230\] Migrate App.GetUser to request context (#37923)](https://github.com/mattermost/mattermost/commit/c57bd5a8466ffb943748b02e8ce27d56f40df569) | 2026-08-31 |
-| 3bf2d07f | [feat(docs): boost documentation results in Algolia search ranking (#38202)](https://github.com/mattermost/mattermost/commit/3bf2d07fd016456f9a51c2318ae58b9f084751d3) | 2026-08-31 |
-| 4ce99ddd | [Mm 70167 channel attribute assignment (#37933)](https://github.com/mattermost/mattermost/commit/4ce99ddd38636bb6916613efc892606db3fe75f9) | 2026-08-31 |
 | c059bd33 | [docs: give specialized personas a distinct visual tier on the homepage (#38205)](https://github.com/mattermost/mattermost/commit/c059bd33eaf5f69397ae56fab8a0bd58e0b46101) | 2026-08-31 |
 | 0d1ce90d | [\[MM-70250\] Remove unused GET bulk reactions endpoint (#38174)](https://github.com/mattermost/mattermost/commit/0d1ce90d72122d3047345c022bf236d5c0f6a13e) | 2026-08-31 |
 | 25c84214 | [MM-69537 Fix places where suggestion results are incorrectly mutated (#38175)](https://github.com/mattermost/mattermost/commit/25c84214b7eeea6ea89b91847643cc80b35c62ac) | 2026-08-31 |
@@ -761,6 +758,10 @@
 | 50241b42 | [docs(P15): reconcile authored docs drift through fips-migration (#38181)](https://github.com/mattermost/mattermost/commit/50241b4293e9d98c3e393b6fc095d365f2655987) | 문서 모노레포 이관(mattermost/docs → docs/main/)의 드리프트 정리 계열(P15) — 터치 24파일 전부 docs/main/·docs/site/라 우리 트리에 없다(MISSING PATHS 24/24). 문서 사이트 도입 1d3bbc63(#37330)을 제외했고, 같은 계열 P13d f091e95e·P13e f88a8b21·P13g bf487943·P13h 1b33301d 제외와 같은 사유. 코드·i18n 변경 없음. |
 
 | e86491ad | [MM 70120 channel attributes foundation (#37881)](https://github.com/mattermost/mattermost/commit/e86491adacd19f856a29227742735d503f358931) | 제외한 property 시스템 v2(PSAv2) 계보 위에 선 채널 속성(Smart Labels·배너) 기반 작업이라 반영할 토대가 없다. 터치 10파일 중 7파일이 우리 트리에 없다(MISSING PATHS 7/10): api4/properties.go(+test)는 48f2fd08(Integrated Boards MVP) 도입, app/properties/access_control_attribute_validation.go·model/property_field_attrs_validation.go(+test)는 9f1fe90b(Migrate CPA to the v2 Property System) 도입, 신규 app/cpa_value_audit_test.go는 3b64a2ac(Property owners) 계보. 남는 feature_flags.go·feature_flags_test.go·types/config.ts의 FeatureFlags.ChannelAttributes(기본 false)는 우리에게 없는 Properties API만 여는 플래그라 받아도 아무 일도 하지 않는다. 채널 속성 계보의 c3a5a087(#37755) 제외와 같은 결. |
+
+| 3bf2d07f | [feat(docs): boost documentation results in Algolia search ranking (#38202)](https://github.com/mattermost/mattermost/commit/3bf2d07fd016456f9a51c2318ae58b9f084751d3) | 제외한 문서 사이트 계보(1d3bbc63 docs-experimental 이관 → dd69d06d Docusaurus·Algolia 설정)의 후속이라 반영할 대상이 없다. 유일한 터치 경로 docs/site/docusaurus.config.ts가 우리 트리에 없다(merge-tree modify/delete, MISSING PATHS 1/1). 내용은 Algolia optionalFilters로 documentation > developers > API reference 순 가중치를 주는 7줄 설정이며, 리브랜드 충실성(constitution 원칙 IV)상 Mattermost 제품 문서 사이트를 받지 않는다는 뿌리 결정이 그대로 유효하다. |
+
+| 4ce99ddd | [Mm 70167 channel attribute assignment (#37933)](https://github.com/mattermost/mattermost/commit/4ce99ddd38636bb6916613efc892606db3fe75f9) | 제외한 e86491ad(MM-70120 channel attributes foundation, #37881)의 채널 속성 계보와 분류 표시 계보(2b7b398a → 6083cc22 → 23b4d827)의 후속이라 반영할 토대가 없다. 채널 생성 시 속성 지정(new_channel_modal의 ChannelAttributesForm, useChannelAttributes·useChannelLabels 훅, 채널 속성 셀렉터), WS property_values_updated 4종 페이로드 분기, CLASSIFICATIONS_GROUP_NAME→ACCESS_CONTROL_PROPERTY_GROUP 교체로 27파일 +1828/-99(웹앱·e2e만). 실측 — CLASSIFICATIONS_GROUP_NAME·handlePropertyValuesUpdated·PROPERTY_VALUES_DELETED grep 0건, new_channel_modal.tsx에 classif 0건, mattermost-redux selectors/entities/properties.ts·constants/properties.ts 부재, MISSING PATHS 20개 이상(classification_markings·channel_attributes 일습, 훅 5종, e2e 2개). 충돌 파일 websocket_actions.ts·channel_settings_configuration_tab.tsx의 변경도 우리에게 없는 분류 표시 코드 수정뿐이고, 남는 new_channel_modal 연결과 en.json 6키는 부재 셀렉터·훅·폼에 의존해 단독 반영이 불가능하다. property v2 계보를 들일 때 e86491ad와 함께 재검토한다. |
 
 ## spec 전환 커밋
 
