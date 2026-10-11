@@ -109,7 +109,9 @@ function VirtualizedThreadList({
                                 itemCount={data.ids.length}
                                 itemData={data}
                                 itemKey={itemKey}
-                                itemSize={133}
+                                // 021 스레드 목록 개선 — 행 패딩 20/24, 헤더 아래 8,
+                                // 미리보기 44 + 아래 12, 메타 20 (sass/okrbest 21절과 한 쌍)
+                                itemSize={148}
                                 style={style}
                                 width={width}
                                 className='virtualized-thread-list'

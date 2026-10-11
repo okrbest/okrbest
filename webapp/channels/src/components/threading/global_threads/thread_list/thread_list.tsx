@@ -212,9 +212,11 @@ const ThreadList = ({
                                 isActive={currentFilter === ThreadFilter.none}
                                 {...tabProps[0]}
                             >
+                                {/* 021: 탭 쌍을 "전체/읽지 않음"으로 — "팔로우한 스레드/읽지 않음"은
+                                  필터 쌍으로 안 읽힌다. 뷰 제목은 모바일 헤더(globalThreads.heading)가 유지한다. */}
                                 <FormattedMessage
-                                    id='globalThreads.heading'
-                                    defaultMessage='Followed threads'
+                                    id='threading.filters.all'
+                                    defaultMessage='All'
                                 />
                             </Button>
                         </div>

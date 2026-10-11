@@ -35,7 +35,7 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
                 <span
                   class="Button_label"
                 >
-                  Followed threads
+                  All
                 </span>
               </button>
             </div>
