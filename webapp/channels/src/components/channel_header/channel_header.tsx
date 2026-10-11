@@ -7,6 +7,7 @@ import type {MouseEvent, ReactNode, RefObject} from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import type {WrappedComponentProps} from 'react-intl';
 
+import {BellOffOutlineIcon, BellOutlineIcon} from '@mattermost/compass-icons/components';
 import {WithTooltip} from '@mattermost/shared/components/tooltip';
 
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
@@ -324,10 +325,19 @@ class ChannelHeader extends React.PureComponent<Props> {
                         isChannelMuted ? {id: 'channelHeader.unmute', defaultMessage: 'Unmute'} : {id: 'channelHeader.mute', defaultMessage: 'Mute Channel'},
                     )}
                 >
-                    <i
-                        className={classNames('icon', isChannelMuted ? 'icon-bell-off-outline' : 'icon-bell-outline')}
-                        aria-hidden={true}
-                    />
+                    {isChannelMuted ? (
+                        <BellOffOutlineIcon
+                            size={20}
+                            color='currentColor'
+                            aria-hidden={true}
+                        />
+                    ) : (
+                        <BellOutlineIcon
+                            size={20}
+                            color='currentColor'
+                            aria-hidden={true}
+                        />
+                    )}
                 </button>
             </WithTooltip>
         );

@@ -80,29 +80,57 @@ exports[`components/ChannelHeader should match snapshot with last active display
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -276,29 +304,57 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -482,29 +538,57 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -688,29 +772,57 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -894,29 +1006,57 @@ exports[`components/ChannelHeader should render archived view 1`] = `
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -1100,29 +1240,57 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-off-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M22.11,21.46L2.39,1.73L1.11,3L5.83,7.72C5.29,8.73 5,9.86 5,11V17L3,19V20H18.11L20.84,22.73L22.11,21.46M7,18V11C7,10.39 7.11,9.79 7.34,9.23L16.11,18H7M10,21H14A2,2 0 0,1 12,23A2,2 0 0,1 10,21M8.29,5.09C8.82,4.75 9.4,4.5 10,4.29C10,4.19 10,4.1 10,4A2,2 0 0,1 12,2A2,2 0 0,1 14,4C14,4.1 14,4.19 14,4.29C16.97,5.17 19,7.9 19,11V15.8L17,13.8V11A5,5 0 0,0 12,6C11.22,6 10.45,6.2 9.76,6.56L8.29,5.09Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -1307,29 +1475,57 @@ exports[`components/ChannelHeader should render properly when custom status is e
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -1517,29 +1713,57 @@ exports[`components/ChannelHeader should render properly when custom status is s
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -1723,29 +1947,57 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -1929,29 +2181,57 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -2135,29 +2415,57 @@ exports[`components/ChannelHeader should render properly when populated with cha
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -2346,29 +2654,57 @@ exports[`components/ChannelHeader should render properly when there are pending 
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div
@@ -2552,29 +2888,57 @@ exports[`components/ChannelHeader should render shared view 1`] = `
         data-testid="channelHeaderBellButton"
         id="toggleMute"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-bell-outline"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 21H14C14 22.1 13.1 23 12 23S10 22.1 10 21M21 19V20H3V19L5 17V11C5 7.9 7 5.2 10 4.3V4C10 2.9 10.9 2 12 2S14 2.9 14 4V4.3C17 5.2 19 7.9 19 11V17L21 19M17 11C17 8.2 14.8 6 12 6S7 8.2 7 11V18H17V11Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="Open in new window"
         class="btn btn-icon btn-sm PopoutButton channel-header__icon"
         type="button"
       >
-        <i
+        <svg
           aria-hidden="true"
-          class="icon icon-dock-window"
-        />
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 18V20H4A2 2 0 0 1 2 18V8H4V18M22 6V14A2 2 0 0 1 20 16H8A2 2 0 0 1 6 14V6A2 2 0 0 1 8 4H20A2 2 0 0 1 22 6M20 6H8V14H20Z"
+          />
+        </svg>
       </button>
       <button
         aria-label="View Info"
         class="channel-header__icon"
         id="channel-info-btn"
       >
-        <i
-          class="Icon-clPswv hCFmLO icon-information-outline"
-        />
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          height="20"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
       </button>
     </div>
     <div

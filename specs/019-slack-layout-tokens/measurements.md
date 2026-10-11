@@ -225,3 +225,17 @@ usage-guide "아이콘 규칙" 신설, `--okr-icon-toolbar`(18) 강등.
 
 툴팁 원본은 platform/shared의 전역 CSS — upstream 파일 대신 okrbest
 레이어에서 `div.tooltipContainer` 특이도로 덮었다.
+
+## 11. 채널 헤더 우측 운영 그룹 (020 아이콘 개선 4)
+
+Slack view_header 기준(버튼 radius 8·글리프 svg 20·gap 4 — 1절 실측).
+
+| 항목 | 전 | 후 (실측) |
+|---|---|---|
+| 글리프 | 폰트 i fs18 ×3(벨·팝아웃·정보) + svg 18(케밥) 혼재 | **compass SVG 20 통일** (BellOutline/BellOffOutline·DockWindow·InformationOutline·DotsVertical) |
+| 버튼 간격 | 8/8/4/4 혼재 | **4 균일** (`--okr-space-1`, flex-parent gap + margin 제거) |
+| 버튼 radius | 4 | **8** (`--radius-m`) |
+
+멤버 스택(아바타 콘텐츠)은 글리프 규칙 대상 아님 — 크기 32·radius 8만 공유.
+PopoutButton은 공용 컴포넌트라 스레드 패널·검색 헤더의 같은 버튼도 함께
+개선된다.
