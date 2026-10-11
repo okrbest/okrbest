@@ -138,8 +138,10 @@ describe('ChannelHeaderTitleFavorite Component', () => {
         expect(button).toHaveClass('inactive');
         expect(button).toHaveAttribute('aria-label', ADD_TO_FAVORITES_LABEL);
 
-        const icon = button.querySelector('i');
-        expect(icon).toHaveClass('icon-star-outline');
+        // 글리프는 SVG(아이콘 규칙 4항) — 상태는 data-testid로 구분한다
+        expect(button.querySelector('svg')).toBeInTheDocument();
+        expect(button.querySelector('i')).not.toBeInTheDocument();
+        expect(button.querySelector('[data-testid="favoriteStarOutline"]')).toBeInTheDocument();
     });
 
     it('should render "Remove from Favorites" button when favorite', () => {
@@ -153,8 +155,8 @@ describe('ChannelHeaderTitleFavorite Component', () => {
         expect(button).toHaveClass('active');
         expect(button).toHaveAttribute('aria-label', REMOVE_FROM_FAVORITES_LABEL);
 
-        const icon = button.querySelector('i');
-        expect(icon).toHaveClass('icon-star');
+        expect(button.querySelector('svg')).toBeInTheDocument();
+        expect(button.querySelector('[data-testid="favoriteStarFilled"]')).toBeInTheDocument();
     });
 
     it('should have correct aria-label and icon based on isFavorite', () => {
@@ -166,8 +168,7 @@ describe('ChannelHeaderTitleFavorite Component', () => {
 
         let button = screen.getByRole('button', {name: ADD_TO_FAVORITES_REGEX});
         expect(button).toHaveAttribute('aria-label', ADD_TO_FAVORITES_LABEL);
-        let icon = button.querySelector('i');
-        expect(icon).toHaveClass('icon-star-outline');
+        expect(button.querySelector('[data-testid="favoriteStarOutline"]')).toBeInTheDocument();
 
         // Reset mocks to simulate favorite state
         jest.clearAllMocks();
@@ -182,8 +183,7 @@ describe('ChannelHeaderTitleFavorite Component', () => {
 
         button = screen.getByRole('button', {name: REMOVE_FROM_FAVORITES_REGEX});
         expect(button).toHaveAttribute('aria-label', REMOVE_FROM_FAVORITES_LABEL);
-        icon = button.querySelector('i');
-        expect(icon).toHaveClass('icon-star');
+        expect(button.querySelector('[data-testid="favoriteStarFilled"]')).toBeInTheDocument();
     });
 
     it('should dispatch A11yFocusEvent after toggling favorite', async () => {
