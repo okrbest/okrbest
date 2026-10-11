@@ -43,6 +43,14 @@ community 워크스페이스, playwright-slack 세션, `getComputedStyle`/
 | 메뉴 행 `[role="menuitem"]` | 높이 **28**, padding 좌우 **24**, 글자 15/행간 28 |
 | 구분선 | 총 17px (여백 8+선 1+여백 8) |
 
+### 간격 보강 실측 (2차)
+
+| 지점 | 값 |
+|---|---|
+| 채널 탭 줄 `channel_tab_bar` | padding-left **16** |
+| 채널 머리말 `p-message_pane__foreword` | margin-bottom **16** |
+| 32px 간격 | 이 화면에서 미발견 — `--okr-space-7`은 그리드 상한 보간으로 유지 |
+
 ### 아이콘 크기 분포 (화면 전체 svg, 채널 화면 1회 표집)
 
 | 크기 | 개수 |
