@@ -27,6 +27,7 @@ import PluginTypes from './plugins';
 import PostTypes from './posts';
 import PreferenceTypes from './preferences';
 import RecapTypes from './recaps';
+import RenderPermissionTypes from './render_permissions';
 import RoleTypes from './roles';
 import SchemeTypes from './schemes';
 import ScheduledPostTypes from './scheudled_posts';
@@ -70,6 +71,7 @@ export {
     SharedChannelTypes,
     ContentFlaggingTypes,
     AgentTypes,
+    RenderPermissionTypes,
     WebSocketTypes,
 };
 

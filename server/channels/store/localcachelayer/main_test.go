@@ -219,6 +219,14 @@ func getMockStore(t *testing.T) *mocks.Store {
 	mockSessionAttributeStore := mocks.SessionAttributeStore{}
 	mockStore.On("SessionAttribute").Return(&mockSessionAttributeStore)
 
+	mockAccessControlPolicyStore := mocks.AccessControlPolicyStore{}
+	mockAccessControlPolicyStore.On("GetEtagEpoch", mock.Anything, "channel-id").Return("100-1", nil)
+	mockStore.On("AccessControlPolicy").Return(&mockAccessControlPolicyStore)
+
+	mockAttributesStore := mocks.AttributesStore{}
+	mockAttributesStore.On("GetUserPropertyValuesEpoch", mock.Anything, "user-id").Return("200-1", nil)
+	mockStore.On("Attributes").Return(&mockAttributesStore)
+
 	mockReadReceiptStore := &mocks.ReadReceiptStore{}
 	mockStore.On("ReadReceipt").Return(mockReadReceiptStore)
 

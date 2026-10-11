@@ -173,6 +173,10 @@ func (a *App) PatchCPAField(rctx request.CTX, fieldID string, patch *model.Prope
 		}
 	}
 
+	// Renaming or re-ranking an option rewrites what the matview materializes, none of it touching
+	// the rows the per-user epoch is computed from.
+	a.invalidateAllUserAttributeCaches()
+
 	cpaField, err := model.NewCPAFieldFromPropertyField(patchedField)
 	if err != nil {
 		return nil, model.NewAppError("PatchCPAField", "app.custom_profile_attributes.property_field_conversion.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
@@ -209,6 +213,10 @@ func (a *App) DeleteCPAField(rctx request.CTX, id string) *model.AppError {
 			return model.NewAppError("DeleteCPAField", "app.custom_profile_attributes.property_field_delete.app_error", nil, "", http.StatusInternalServerError).Wrap(appErr)
 		}
 	}
+
+	// The matview filters out soft-deleted fields, so this attribute disappears from every subject
+	// while PropertyValues stays untouched and the per-user epoch cannot see it.
+	a.invalidateAllUserAttributeCaches()
 
 	message := model.NewWebSocketEvent(model.WebsocketEventCPAFieldDeleted, "", "", "", nil, "")
 	message.Add("field_id", id)
