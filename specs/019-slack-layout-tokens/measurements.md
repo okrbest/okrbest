@@ -203,3 +203,25 @@ usage-guide "아이콘 규칙" 신설, `--okr-icon-toolbar`(18) 강등.
 | 도움말 위치 | 중앙 그룹(검색바 바로 옆, left 951) | **우측 끝 그룹**(알림 히스토리 왼쪽, left 1212) — center_controls→right_controls 이동 |
 | 도움말 글리프 | 16 (폰트 i) | **20** (`#RightControlsContainer .HeaderIconButton i`) — 버튼 28 유지 |
 | 검색바 글자 | 12/500 | **15/400** (base 단계) — 높이 28·radius 4는 이미 Slack과 일치해 유지 |
+
+## 10. 툴팁·상단 버튼 글리프 선명도 (020 아이콘 개선 3)
+
+### Slack 툴팁 실측 (`.c-tooltip__tip`)
+
+| 항목 | 값 |
+|---|---|
+| 배경 | `#1D1C1D`, radius **8** |
+| 패딩 | **8px 12px** |
+| 글자 | **13px / 700 / lh 18**, 흰색 |
+| 버튼과 간격 | 8 (okrbest OFFSET 8과 이미 일치) |
+| 화살표 | 있음 (작음) |
+
+### okrbest — 개선 전 → 후 (실측)
+
+| 항목 | 전 | 후 |
+|---|---|---|
+| 툴팁 | radius 4, pad 4/8, 12px/600, bg #000 | **radius 8, pad 8/12, 13px/700, bg #1D1C1D** (화살표 fill 동기) — 전역 적용 |
+| 상단 버튼 글리프 | 폰트 i (흐릿) | **compass SVG 20** (help·bell — HeaderIconButton에 SVG 매핑, 미등록 아이콘은 폰트 후방 호환) |
+
+툴팁 원본은 platform/shared의 전역 CSS — upstream 파일 대신 okrbest
+레이어에서 `div.tooltipContainer` 특이도로 덮었다.
