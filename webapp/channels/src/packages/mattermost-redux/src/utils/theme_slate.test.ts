@@ -34,8 +34,11 @@ describe('slate theme (spec 014 US1)', () => {
         expect(slate).toBeDefined();
         expect(slate.type).toBe('Slate');
         expect(slate.sidebarBg).toBe('#fdfdfd');
-        expect(slate.sidebarHeaderBg).toBe('#eaeaea');
-        expect(slate.sidebarTeamBarBg).toBe('#eaeaea');
+        // 2026-10 재실측(019 measurements 13절): Slack Gray의 레일·상단은
+        // 반투명 합성으로 중앙값 #D8D8DA — #EAEAEA는 너무 밝아 크롬 위계가
+        // Slack의 절반이었다 (D8→FC 단차 36 vs EA→FD 단차 19)
+        expect(slate.sidebarHeaderBg).toBe('#d8d8da');
+        expect(slate.sidebarTeamBarBg).toBe('#d8d8da');
         expect(slate.centerChannelBg).toBe('#ffffff');
     });
 

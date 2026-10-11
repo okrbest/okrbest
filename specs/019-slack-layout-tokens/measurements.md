@@ -256,3 +256,27 @@ PopoutButton은 공용 컴포넌트라 스레드 패널·검색 헤더의 같은
 |---|---|---|
 | 버튼 폭 | **32 고정** — `.btn.btn-icon.btn-sm`의 고정 폭(0,3,0)이 `.channel-member-stack`(0,1,0)의 `width: auto`를 이겨 카운트가 버튼 밖으로 넘쳐 벨과 겹침 | `&.btn.btn-icon.btn-sm` 병기(0,4,0)로 **width auto** — 내용 폭 77, 카운트 버튼 안, 벨과 4px 분리 |
 | 카운트 | 12px/600 | **13px/700** (Slack 실측) |
+
+## 13. Slate 크롬 명도 재검증 (020 아이콘 개선 6 — 사용자 요청)
+
+Slack Gray의 상단·레일은 반투명 유리 레이어라 단일 픽셀이 흔들린다 —
+영역 중앙값(순수 파이썬 PNG 디코드, step 3 표집)으로 대표색을 산출했다.
+
+| 영역 | Slack Gray (중앙값) | okrbest Slate (기존) | 판정 |
+|---|---|---|---|
+| 탭 레일 / 팀 레일 | **#D8D8DA** | #EAEAEA | **우리가 과하게 밝음** |
+| 상단(top nav) | #D8~E7 띠 (합성 변동) | #EAEAEA | 〃 |
+| 사이드바 | #FCFCFC | #FDFDFD | 근사 일치 |
+| 본문 | #FFFFFF | #FFFFFF | 일치 |
+| 사이드바 글자 | rgba(29,28,29,0.8) | #474647 | 근사 일치 (014) |
+| 선택 행 반전 | #333133 / #F8F8F8 | 동일 | 일치 (014) |
+
+**원인 진단**: 크롬↔사이드바 명도 단차가 Slack 36(D8→FC)인데 우리는
+19(EA→FD) — 3단 위계의 간격이 절반이라 화면이 "들떠" 보였다. 014 당시
+#EAEAEA 실측은 반투명 레이어의 밝은 지점을 잡은 오측으로 판단.
+
+**조치**: slate의 `sidebarHeaderBg`·`sidebarTeamBarBg` #EAEAEA → **#D8D8DA**.
+가드 테스트(theme_slate.test.ts) 선갱신 RED→GREEN, 대비 재검증 —
+`#1d1c1d` on `#D8D8DA` ≈ 11.7:1, 014 대비 회귀 스위트(theme_presets_contrast
+포함 41/41)·theme_provider 18/18 통과. 브라우저 실측 `--sidebar-teambar-bg
+= #d8d8da` 확인, 3단 위계 복원.
