@@ -98,3 +98,35 @@ community 워크스페이스, playwright-slack 세션, `getComputedStyle`/
 - radius-ms 6: 사이드바 행 실측으로 근거 강화.
 - 균형표: 15 글자 옆 인라인 아이콘은 **16**(사이드바 실측 — 후보 18에서
   수정), 독립 버튼 글리프는 20(28버튼 실측).
+
+## 5. 좌측 레일 실측·개선 (사용자 요청 추가 작업)
+
+### Slack 탭 레일 실측
+
+| 지점 | 값 |
+|---|---|
+| 레일 | 폭 70, 상단 패딩 8 |
+| 버튼 `.p-tab_rail__button` | **52×68**, radius 4, 버튼 간격 0 |
+| 아이콘 알약 `__icon` | **36×36, radius 8** — active 배경 rgba(29,28,29,0.13). 활성 신호는 버튼 전체가 아니라 알약 |
+| 글리프 | 20×20 |
+| 라벨 | **11px / lh 12 / weight 700** — 활성 시 bold |
+| 워크스페이스 아이콘 radius | `clamp(4px, min(22.222%, 12px), 12px)` → 36px 기준 8 |
+
+### okrbest 레일 — 개선 전 → 후 (실측)
+
+| 항목 | 전 | 후 |
+|---|---|---|
+| 제품 버튼 | 56×48, active=버튼 전체 배경 | 56×**64**, active=**36×36 radius-8 알약** 배경 + 라벨 bold, hover도 알약 |
+| 글리프 | 20 (리터럴) | 20 = `--okr-icon-main` |
+| 라벨 | 10px/400 | **11px/600, 활성 700** (Slack 실측 타입 — 말줄임 0 실측 확인) |
+| 팀 버튼 | 56×71, 아이콘 40 | 56×**64**(제품과 동일 리듬), 아이콘 **36×36 radius 8** |
+| 간격 | gap 2~4, pad 혼재 | `--okr-space-1/2` 토큰 |
+
+### 부수 수리 — boards 플러그인 크래시
+
+실측 전제(플러그인 설치 상태)가 깨져 있었다: upstream이 서버 모델에서
+`DataRetentionSettings.BoardsRetentionDays`를 제거해 boards 플러그인이
+OnActivate·OnConfigurationChange에서 nil 역참조 SIGSEGV → 반복 크래시 후
+자동 비활성. okrbest-plugin-boards에 nil 가드 2곳을 넣고 서버 바이너리만
+재빌드·재패킹해 복구 ("Boards product successfully started" 확인, 플러그인
+리포 커밋 2건).
