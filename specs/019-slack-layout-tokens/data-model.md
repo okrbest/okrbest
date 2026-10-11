@@ -14,7 +14,7 @@
 | `--okr-space-1` | 4px | 아이콘↔글자 사이, 헤더 인접 요소 gap | Slack view-header gap 4 실측 | 확정 |
 | `--okr-space-2` | 8px | 형제 버튼 사이, 행 내부 좌우 소여백 | Slack 사이드바 행 padR 8·gap 8, 메시지 상하 8 실측; WCAG 인접 타깃 8px | 확정 |
 | `--okr-space-3` | 12px | 패널·헤더 우측 패딩, 검색창 좌 패딩 | Slack 헤더 padR 12, 검색 padL 12 실측 | 확정 |
-| `--okr-space-4` | 16px | 섹션 내부 패딩 (중간 단계) | 실측 지점 없음 — 그리드 보간 | 보간 |
+| `--okr-space-4` | 16px | 탭 줄 좌 패딩, 섹션 내부 패딩 | Slack channel_tab_bar padding-left 16·머리말 블록 margin-bottom 16 실측 | 확정 |
 | `--okr-space-5` | 20px | 본문 콘텐츠 좌우 패딩 | Slack 메시지 거터 좌우 20 실측 | 확정 |
 | `--okr-space-6` | 24px | 메뉴 행 좌우 패딩, 사이드바 들여쓰기 | Slack 메뉴 행 pad 0 24, 사이드바 padL 24 실측 | 확정 |
 | `--okr-space-7` | 32px | 큰 구획 사이 | 실측 지점 없음 — 그리드 보간 | 보간 |

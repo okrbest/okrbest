@@ -110,11 +110,11 @@
 
 **Independent Test**: 샘플 3건을 가이드만 보고 풀어 기준표와 3/3 일치 (SC-005).
 
-- [ ] T014 [US3] 사용 가이드 작성 —
+- [x] T014 [US3] 사용 가이드 작성 —
       `specs/019-slack-layout-tokens/usage-guide.md`: 기준표 요약,
       아이콘↔폰트 균형표(12→14, 13→16, 15→18, 18→20 — T005 확정값 기준),
       간격 단계 선택 절차, 예외 등록 절차, 검사 스크립트 사용법
-- [ ] T015 [US3] 가이드 단독 사용성 검증 — quickstart 6절의 샘플 3건을
+- [x] T015 [US3] 가이드 단독 사용성 검증 — quickstart 6절의 샘플 3건을
       가이드만 참조해 풀고 기준표와 대조, 3/3 일치를 기록. 불일치가 나오면
       가이드를 고치고 재검 (SC-005)
 
@@ -122,8 +122,8 @@
 
 ## Phase 6: Polish & 완료 검증
 
-- [ ] T016 [P] stylelint — 신설·수정 SCSS에 `npx stylelint` 0 에러
-- [ ] T017 CLAUDE.md 참조 확인 — agent 컨텍스트 3면이 019 plan을 가리키는지
+- [x] T016 [P] stylelint — 신설·수정 SCSS에 `npx stylelint` 0 에러
+- [x] T017 CLAUDE.md 참조 확인 — agent 컨텍스트 3면이 019 plan을 가리키는지
       재확인 (plan 단계에서 갱신됨 — 드리프트만 점검)
 
 ### 완료 검증 (고정 — 지우지 않는다)
