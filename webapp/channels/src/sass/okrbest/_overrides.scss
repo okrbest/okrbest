@@ -294,3 +294,16 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
     font-size: 13px;
     line-height: 18px;
 }
+
+// ---------------------------------------------------------------------------
+// 날짜 구분 알약 — Slack 실측 (019 measurements 16절): h 28, pad 0 16,
+// 헤어라인(0.13 1px) + 드롭섀도(0 1px 3px 0.08). 윤곽 없는 기존 알약이
+// 흰 본문 위에서 선 위에 떠 보이지 않던 것을 교정한다.
+// ---------------------------------------------------------------------------
+.Separator .separator__text.separator__text {
+    padding: 0 var(--okr-space-4);
+    box-shadow:
+        0 0 0 1px rgba(var(--center-channel-color-rgb), 0.13),
+        0 1px 3px rgba(0, 0, 0, 0.08);
+    line-height: 28px;
+}
