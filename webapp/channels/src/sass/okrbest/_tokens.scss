@@ -1,0 +1,38 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+// OKR.Best 레이아웃 리듬 토큰 (spec 019, Slack 실측 기준표).
+// 정본 표와 실측 근거: specs/019-slack-layout-tokens/data-model.md,
+// measurements.md. 값 변경은 기준표 갱신(근거 포함)과 함께만 한다.
+// 색·투명도는 여기 두지 않는다 — 이 파일은 길이 전용이다 (계약 불변 조건 1).
+:root {
+    // 간격 — 4px 그리드 (Slack 실측: 헤더 gap 4, 행 내부 8, 헤더 우측 12,
+    // 메시지 좌우 20, 메뉴 좌우 24; 16·32는 그리드 보간 단계)
+    --okr-space-1: 4px;
+    --okr-space-2: 8px;
+    --okr-space-3: 12px;
+    --okr-space-4: 16px;
+    --okr-space-5: 20px;
+    --okr-space-6: 24px;
+    --okr-space-7: 32px;
+
+    // 아이콘 크기 — Slack svg 분포의 양대 축 16/20 + MM 관례 14/18
+    --okr-icon-inline: 14px;
+    --okr-icon-aux: 16px;
+    --okr-icon-toolbar: 18px;
+    --okr-icon-main: 20px;
+
+    // 버튼 타깃 — WCAG 2.2 AA 하한 24, Slack 헤더 버튼 28, MM btn-sm 32
+    --okr-target-s: 24px;
+    --okr-target-m: 28px;
+    --okr-target-l: 32px;
+
+    // 행 높이 — Slack의 만능 행 28 (사이드바·메뉴·검색창 실측)
+    --okr-row-sidebar: 28px;
+    --okr-row-menu: 28px;
+    --okr-row-input: 28px;
+
+    // 모서리 보강 — upstream --radius-s(4)·--radius-m(8) 사이 한 단계
+    // (Slack 사이드바 행·Figma 킷 radius_medium 실측 6)
+    --okr-radius-ms: 6px;
+}

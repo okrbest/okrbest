@@ -15,4 +15,6 @@
 @include meta.load-css('admin_console_base/module');
 
 // OKR.Best fork-only layer — must stay last (spec 014, FR-019)
+// tokens(019 레이아웃 기준표)를 overrides보다 먼저 로드한다
+@include meta.load-css('okrbest/tokens');
 @include meta.load-css('okrbest/overrides');
