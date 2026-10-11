@@ -79,23 +79,23 @@
 **Independent Test**: 치환 전후 실측 JSON diff 공란 (SC-002), 검사 스크립트
 위반 0 + RED 증거 (SC-004).
 
-- [ ] T009 [US2] 치환 대상 전수 조사 — `sass/okrbest/*.scss`,
+- [x] T009 [US2] 치환 대상 전수 조사 — `sass/okrbest/*.scss`,
       `channel_header_tabs.scss`, `channel_member_stack.scss`,
       `channel_bookmarks_rhs.scss` + grep 스캔(포크 신설 SCSS 전체)에서 px
       리터럴을 전수 목록화해 data-model 7절 표를 완성 (위치·현재 값·대응
       토큰/예외)
-- [ ] T010 [US2] 치환 전 실측 — 치환 대상별 셀렉터로
+- [x] T010 [US2] 치환 전 실측 — 치환 대상별 셀렉터로
       `scripts/okrbest/measure-layout.mjs`(신설)를 만들어 computed 값·bounding
       box를 `/tmp/baseline-layout.json`으로 저장 (원칙 III의 "전" 증거, R5).
       실행 형태: 로그인 세션이 필요하므로 Playwright 기반(로그인 포함)으로
       작성 — quickstart 2절의 `node` 호출은 이 스크립트의 래퍼 실행이다
-- [ ] T011 [US2] 무변화 치환 — 목록 전 항목을 동일 렌더 값의 토큰 참조로
+- [x] T011 [US2] 무변화 치환 — 목록 전 항목을 동일 렌더 값의 토큰 참조로
       교체 (`var(--okr-…)`), 값 변경 금지. 비그리드 값은 data-model 6절
       예외 표에 등록 (7px 포함)
-- [ ] T012 [US2] 치환 후 실측 — measure-layout.mjs 재실행 →
+- [x] T012 [US2] 치환 후 실측 — measure-layout.mjs 재실행 →
       `/tmp/baseline-layout.json`과 diff 공란 확인, 결과를 tasks.md 하단에
       기록 (SC-002)
-- [ ] T013 [US2] 전수 검사 스크립트 — `scripts/okrbest/check-layout-tokens.sh`
+- [x] T013 [US2] 전수 검사 스크립트 — `scripts/okrbest/check-layout-tokens.sh`
       신설: 대상 SCSS의 px 리터럴을 허용값(토큰 값 ∪ 예외 목록)과 대조해
       위반을 파일:줄로 보고, 비0 종료. **RED 먼저**: 위반 샘플(5px)을 임시
       삽입해 비0 종료를 확인·기록한 뒤 원복 (원칙 III, SC-004)

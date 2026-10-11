@@ -129,7 +129,7 @@ body.app__body {
         .Avatar {
             width: 32px;
             height: 32px;
-            border-radius: 6px;
+            border-radius: var(--okr-radius-ms);
         }
 
         // 상태 점: 아바타 우하단에 겹치고, 사이드바 배경색 링을 두른다
@@ -162,7 +162,7 @@ body.app__body {
 // 차지하고 +·토글을 우측에 한 쌍으로 묶는다. 두 버튼 크기도 48px로 통일.
 #SidebarContainer .sidebarHeaderContainer {
     justify-content: flex-start;
-    gap: 4px;
+    gap: var(--okr-space-1);
 
     > :first-child {
         min-width: 0;
@@ -185,7 +185,7 @@ body.app__body {
     height: 48px;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
+    border-radius: var(--okr-radius-ms);
     margin-left: 2px;
     color: rgba(var(--sidebar-text-rgb), 0.72);
 
