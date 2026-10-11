@@ -317,7 +317,7 @@ func (a *App) fetchPostsForRecap(rctx request.CTX, channelID string, lastViewedA
 
 	// Enrich with usernames
 	for _, post := range posts {
-		user, _ := a.GetUser(post.UserId)
+		user, _ := a.GetUser(rctx, post.UserId)
 		if user != nil {
 			if post.Props == nil {
 				post.Props = make(model.StringInterface)
