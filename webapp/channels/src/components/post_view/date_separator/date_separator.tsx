@@ -12,6 +12,16 @@ const DATE_RANGES = [
     RelativeRanges.YESTERDAY_TITLE_CASE,
 ];
 
+// Slack 날짜 구분 벤치마크 (spec 019 measurements 16절) — 요일을 병기한다.
+// 당해 연도는 연도를 생략한다 ("10월 8일 목요일" / "Friday, January 12, 2018").
+const useDate = ({value}: {value: Date}) => {
+    const sameYear = value.getFullYear() === new Date().getFullYear();
+    if (sameYear) {
+        return {weekday: 'long', month: 'long', day: 'numeric'} as const;
+    }
+    return {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'} as const;
+};
+
 type Props = {
     date: number | Date;
 };
@@ -22,6 +32,7 @@ const DateSeparator: FC<Props> = ({date}) => {
             <Timestamp
                 value={date}
                 useTime={false}
+                useDate={useDate}
                 useSemanticOutput={false}
                 ranges={DATE_RANGES}
             />
