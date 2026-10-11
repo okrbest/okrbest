@@ -155,3 +155,22 @@ OnActivate·OnConfigurationChange에서 nil 역참조 SIGSEGV → 반복 크래�
 더블로 라벨 타이포(14/12)·leading 18px을 (0,4,0) 특이도로 주입한다 —
 `.teamListMenuItem.MuiMenuItem-root …` 병기로 (0,4,1) 확보해 덮었다
 (순서로는 못 이김 — 런타임 주입).
+
+## 7. 레일 프로필 버튼 실측·검증 (사용자 요청 추가 작업 3)
+
+### Slack 프로필 버튼 실측 (`.p-ia__nav__user__button`)
+
+| 지점 | 값 |
+|---|---|
+| 버튼 = 아바타 | **36×36**, radius clamp → **8** (팀 아이콘·탭 알약과 동일 리듬) |
+| 배치 | 레일 수평 중앙, 하단 여백 24 |
+| presence 점 | 우하단 겹침 (래퍼 20, +6/+6) |
+
+### okrbest — 검증 결과와 조치
+
+| 항목 | 전 | 후 |
+|---|---|---|
+| 배치 | 수평 중앙·하단 고정 — **이미 Slack과 동일** (레일 전 요소 중심 33px 일치) | 유지 |
+| 아바타 | 32, radius 6 — 레일 36 리듬에서 혼자 이탈 | **36, radius 8** (`--radius-m`) |
+| 버튼 래퍼 | padding 2 + radius 7(예외 값) | padding 0 + radius 8 — **7px 예외 소멸** (data-model 예외 표에서 제거) |
+| 상태 점 | 우하단 -4/-4 겹침 | 유지 (Slack과 같은 취지) |
