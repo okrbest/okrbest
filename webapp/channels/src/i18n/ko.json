@@ -6201,6 +6201,7 @@
   "sidebar_left.add_channel_dropdown.createNewChannel": "새로운 채널 생성",
   "sidebar_left.addChannelsCta": "채널 추가",
   "sidebar_left.channel_filter.filterByUnread": "읽지 않은 항목으로 필터링",
+  "sidebar_left.channel_filter.filter": "필터",
   "sidebar_left.channel_filter.filterUnreadAria": "읽지 않은 항목 필터",
   "sidebar_left.channel_filter.showAllChannels": "모든 채널 보기",
   "sidebar_left.channel_navigator.channelSwitcherLabel": "빠른 채널 전환기능",

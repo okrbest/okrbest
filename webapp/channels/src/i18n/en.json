@@ -6817,6 +6817,7 @@
   "sidebar_left.add_channel_dropdown.browseChannels": "Browse channels",
   "sidebar_left.add_channel_dropdown.createNewChannel": "Create new channel",
   "sidebar_left.addChannelsCta": "Add Channels",
+  "sidebar_left.channel_filter.filter": "Filter",
   "sidebar_left.channel_filter.filterByUnread": "Filter by unread",
   "sidebar_left.channel_filter.filterUnreadAria": "unreads filter",
   "sidebar_left.channel_filter.showAllChannels": "Show all channels",

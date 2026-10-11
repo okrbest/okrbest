@@ -353,3 +353,30 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
         0 0 0 1px rgba(var(--center-channel-color-rgb), 0.13),
         0 1px 3px rgba(0, 0, 0, 0.08);
 }
+
+// ---------------------------------------------------------------------------
+// 사이드바 필터 버튼 — Slack 필터 버튼 벤치마크 (019 measurements 18절):
+// 아이콘+라벨+체브론 알약. 기존 정사각 아이콘 버튼 규칙을 가변 폭으로 푼다.
+// ---------------------------------------------------------------------------
+#SidebarContainer .SidebarFilters .SidebarFilters_filterButton {
+    display: inline-flex;
+    width: auto;
+    height: 28px;
+    align-items: center;
+    padding: 0 var(--okr-space-2) 0 var(--okr-space-2);
+    border-radius: 14px;
+    gap: var(--okr-space-1);
+
+    flex-shrink: 0;
+
+    .SidebarFilters_filterLabel {
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 16px;
+        white-space: nowrap;
+    }
+
+    .icon-filter-variant {
+        font-size: 16px;
+    }
+}
