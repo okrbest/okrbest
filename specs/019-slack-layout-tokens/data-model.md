@@ -77,7 +77,11 @@ upstream `--radius-*` 체계는 손대지 않는다 — 빠진 6px 한 단계만
 | 1px | 구분선, 테두리 | 그리드 미적용 대상 |
 | 2px | 포커스 링, 활성 인디케이터, 아바타 테두리 | 〃 |
 | 50% / 9999px | 원형·알약 | 형태 표현 — 길이 아님 |
-| 6px·7px (radius) | 기존 okrbest 모서리 | radius는 간격 그리드 대상 아님 — 6은 `--okr-radius-ms`로 토큰화, 7px 1곳은 무변화 원칙상 예외 유지(②에서 재결정) |
+| 5px | 탭 아이콘↔라벨 gap (`channel_header_tabs.scss`) | ②헤더에서 4로 재결정 예정 — 019는 무변화 유지 |
+| 6px | 탭 줄 상단 오프셋·탭 내부 상하 패딩·멤버 스택 좌우 패딩 | ②헤더에서 재설계 예정 |
+| 7px (radius) | 프로필 버튼 모서리 (`_overrides.scss:116`) | ②에서 6(`--okr-radius-ms`) 통일 검토 |
+| 10px | 탭 좌우 패딩·북마크 행 좌우·사이드바 푸터 상단 | ②·④에서 8 또는 12로 재결정 예정 |
+| 14px (간격) | 사이드바 푸터 하단 패딩 | 아이콘 토큰 14와 별개 용도 — ③에서 재결정 |
 
 구현 중 치환 전수 조사에서 새 예외가 나오면 용도와 함께 이 표에 추가한다.
 용도 없는 값은 예외로 등록할 수 없다.
@@ -88,10 +92,26 @@ upstream `--radius-*` 체계는 손대지 않는다 — 빠진 6px 한 단계만
 `channel_member_stack.scss`, `channel_bookmarks_rhs.scss` + grep 스캔 추가
 발견분. 알려진 선발대 (figma-token-audit.md 4절):
 
-| 위치 | 현재 값 | 대응 토큰(예정) |
-|---|---|---|
-| `_overrides.scss:116` | `border-radius: 7px` | 예외 유지 (7절) |
-| `_overrides.scss:132` | `border-radius: 6px` | `--okr-radius-ms` |
-| `_overrides.scss:188` | `border-radius: 6px` | `--okr-radius-ms` |
+2026-10-11 전수 조사(T009)·치환(T011) 결과. 처리 구분 — **치환**: `var()` 참조로
+교체(15곳), **리터럴**: 그리드 위 값이라 계약 충족·가독성 때문에 유지,
+**예외**: 7절 등록. 치환 전후 실측 diff 공란 (SC-002, quickstart 2절).
 
-전수 목록은 T009가 채우고, 항목마다 치환 후 실측 결과를 붙인다.
+| 위치 | 값 | 처리 |
+|---|---|---|
+| `_overrides.scss` Avatar radius 6 | 6px | 치환 `--okr-radius-ms` |
+| `_overrides.scss` ChannelSidebarToggle radius 6 | 6px | 치환 `--okr-radius-ms` |
+| `_overrides.scss` sidebarHeaderContainer gap 4 | 4px | 치환 `--okr-space-1` |
+| `_overrides.scss:111` 푸터 `padding: 10px 0 14px` | 10·14 | 예외 (7절) |
+| `_overrides.scss:116` 프로필 radius 7 | 7px | 예외 (7절) |
+| `_overrides.scss` 아바타 32·레일 버튼 48·오프셋 -4·margin 2 | 그리드 위 | 리터럴 유지 |
+| `channel_header_tabs.scss` `padding: 0 16px` | 16 | 치환 `--okr-space-4` |
+| `channel_header_tabs.scss` `gap: 4px` | 4 | 치환 `--okr-space-1` |
+| `channel_header_tabs.scss` 탭 radius 4·배지 radius 8 | 4·8 | 치환 `--radius-s`/`--radius-m` |
+| `channel_header_tabs.scss` `margin: 6px -12px 0`·`padding: 6px 10px 8px`·`gap: 5px`·인셋 6·배지 `0 6px` | 5·6·10 | 예외 (7절), 8·12는 리터럴 |
+| `channel_member_stack.scss` `gap: 4px` | 4 | 치환 `--okr-space-1` |
+| `channel_member_stack.scss` `padding: 0 6px`·겹침 -8 | 6·8 | 6 예외, -8 리터럴 |
+| `channel_bookmarks_rhs.scss` body `12px 16px`·empty `24px 8px`·item 4·link radius 4·gap 8·actions 8·8 | 전부 단계값 | 치환 7곳 (`--okr-space-1/2/3/4/6`, `--radius-s`) |
+| `channel_bookmarks_rhs.scss` link `padding: 8px 10px` | 10 | 예외 (7절), 8은 리터럴 |
+
+비검사 영역(길이 토큰 범위 밖): font-size·line-height(014 타입 체계),
+box-shadow(효과). `_tokens.scss` 자신은 정의부라 검사 제외.
