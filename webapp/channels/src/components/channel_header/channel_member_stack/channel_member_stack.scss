@@ -1,11 +1,17 @@
 // 멤버 아바타 스택 — 겹친 아바타와 인원수를 한 버튼에 담는다.
-// 이웃 아이콘(channel-header__icon, 32px)과 높이·간격을 맞추되 내용 폭만큼 늘어난다.
+// 이웃 아이콘(channel-header__icon, 32px)과 높이를 맞추되 내용 폭만큼 늘어난다.
+// btn-icon.btn-sm의 고정 폭 32px이 더 높은 특이도로 이겨 카운트가 버튼 밖으로
+// 넘쳐 벨과 겹치던 것을 같은 체인 병기로 덮는다 (019 measurements 12절).
 .channel-member-stack {
     display: flex;
-    width: auto;
     align-items: center;
-    padding: 0 6px;
     gap: var(--okr-space-1);
+
+    &.btn.btn-icon.btn-sm {
+        width: auto;
+        min-width: 32px;
+        padding: 0 var(--okr-space-2) 0 6px;
+    }
 
     .channel-member-stack__avatars {
         display: inline-flex;
@@ -20,9 +26,11 @@
         }
     }
 
+    // Slack 아바타 스택 카운트 실측 13/700 (019 measurements 12절)
     .channel-member-stack__count {
-        font-size: 12px;
-        font-weight: 600;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 20px;
     }
 
     &.channel-member-stack--active {
