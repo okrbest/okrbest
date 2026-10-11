@@ -130,3 +130,28 @@ OnActivate·OnConfigurationChange에서 nil 역참조 SIGSEGV → 반복 크래�
 자동 비활성. okrbest-plugin-boards에 nil 가드 2곳을 넣고 서버 바이너리만
 재빌드·재패킹해 복구 ("Boards product successfully started" 확인, 플러그인
 리포 커밋 2건).
+
+## 6. 팀 드롭다운 실측·개선 (사용자 요청 추가 작업 2)
+
+### Slack 워크스페이스 전환 메뉴 실측
+
+| 지점 | 값 |
+|---|---|
+| 메뉴 | 폭 360, 행 높이 **52**, 행 좌우 패딩 16 |
+| 워크스페이스 아이콘 | **36**, radius clamp(4px, 22.222%, 12px) → 36px 기준 **8** |
+| 이름 | **15px / 700 / lh 22** |
+| 부제(워크스페이스 URL) | **13px / 400 / lh 18** — 2줄 구성 |
+
+### okrbest 팀 드롭다운 — 개선 전 → 후 (실측)
+
+| 항목 | 전 | 후 |
+|---|---|---|
+| 아이콘 | 24, radius 6 | **36, radius 8** (레일·Slack 동일 리듬) |
+| 이름 | 14/600 1줄 | **15/700** + **부제 `/{팀핸들}` 13px muted** 2줄 (Slack의 URL 부제 대응) |
+| 행 높이 | ~36 | **56** (Slack 52 대응 — 2줄 자연 높이) |
+| leading 간격 | 10px | `--okr-space-3`(12) |
+
+구현 메모: Menu.Item(styled-components)이 `.hash.MuiMenuItem-root` 셀프
+더블로 라벨 타이포(14/12)·leading 18px을 (0,4,0) 특이도로 주입한다 —
+`.teamListMenuItem.MuiMenuItem-root …` 병기로 (0,4,1) 확보해 덮었다
+(순서로는 못 이김 — 런타임 주입).
