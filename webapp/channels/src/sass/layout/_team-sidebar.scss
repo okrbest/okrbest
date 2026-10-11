@@ -199,6 +199,19 @@
                 height: var(--okr-icon-main);
                 fill: currentColor;
             }
+
+            // 획 보강 — 글리프가 fill 기반(stroke 없음)이라 외곽선을 덧입혀
+            // 굵힌다. 안쪽 투명부를 잠식하므로 1.0 이상 금지, 이 버튼 선택자
+            // 한정 (usage-guide 아이콘 규칙 5항)
+            svg path {
+                stroke: currentColor;
+                stroke-width: 0.6;
+                stroke-linejoin: round;
+            }
+        }
+
+        &.active .rail-product-button__icon svg path {
+            stroke-width: 0.8;
         }
 
         .rail-product-button__label {
