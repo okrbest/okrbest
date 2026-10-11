@@ -127,6 +127,15 @@ describe('components/widgets/team_list_menu', () => {
         expect(screen.queryByTestId(`teamListMenuItem-check-${teamB.id}`)).not.toBeInTheDocument();
     });
 
+    it('should show the team handle as a secondary label (Slack benchmark)', async () => {
+        renderInMenu(baseState);
+        await openMenu();
+
+        expect(screen.getByText('/team-a')).toBeInTheDocument();
+        expect(screen.getByText('/team-b')).toBeInTheDocument();
+        expect(screen.getByText('/team-c')).toBeInTheDocument();
+    });
+
     it('should show a team icon on the left of every team item', async () => {
         renderInMenu(baseState);
         await openMenu();
@@ -154,7 +163,7 @@ describe('components/widgets/team_list_menu', () => {
         renderInMenu(baseState);
         await openMenu();
 
-        await userEvent.click(screen.getByRole('menuitem', {name: 'Team B'}));
+        await userEvent.click(screen.getByRole('menuitem', {name: /Team B/}));
 
         // Menu.Item defers onClick until the menu has closed
         await waitFor(() => {
@@ -168,7 +177,7 @@ describe('components/widgets/team_list_menu', () => {
         renderInMenu(baseState);
         await openMenu();
 
-        await userEvent.click(screen.getByRole('menuitem', {name: 'Team B'}));
+        await userEvent.click(screen.getByRole('menuitem', {name: /Team B/}));
 
         // 제품 안에서는 URL 이동 없이 팀 객체를 넘겨 selectTeam만 일어나야 한다
         await waitFor(() => {

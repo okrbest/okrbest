@@ -98,7 +98,12 @@ export default function TeamListMenu() {
                             )}
                         </span>
                     )}
-                    labels={<span className='teamListMenuItem__name'>{team.display_name}</span>}
+                    labels={(
+                        <>
+                            <span className='teamListMenuItem__name'>{team.display_name}</span>
+                            <span className='teamListMenuItem__handle'>{`/${team.name}`}</span>
+                        </>
+                    )}
                     trailingElements={team.id === currentTeamId && (
                         <CheckIcon
                             size={18}

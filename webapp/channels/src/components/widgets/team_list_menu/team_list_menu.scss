@@ -1,15 +1,29 @@
-// 팀 목록 메뉴 — 팀 아이콘을 왼쪽에 두고 팀 이름을 본문보다 한 단계 크게 보여준다
+// 팀 목록 메뉴 — Slack 워크스페이스 전환 메뉴 실측(019 measurements 6절)을
+// 따른다: 아이콘 36 radius 8, 이름 15/700/22, 부제(핸들) 13/400/18, 2줄 행
 .teamListMenuItem {
-    .teamListMenuItem__name {
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 20px;
+    // Menu.Item(styled-components)이 `.hash.MuiMenuItem-root` 셀프 더블로
+    // 특이도를 (0,4,0)까지 올려 주입하므로, .MuiMenuItem-root를 병기해
+    // (0,4,1)로 덮는다 (런타임 주입이라 순서로는 못 이김)
+    &.MuiMenuItem-root > .label-elements > span.teamListMenuItem__name {
+        color: var(--center-channel-color);
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 22px;
     }
 
-    .leading-element {
+    &.MuiMenuItem-root > .label-elements > span.teamListMenuItem__handle {
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 18px;
+    }
+
+    &.MuiMenuItem-root > div.leading-element {
         display: flex;
+        width: auto;
+        height: auto;
         align-items: center;
-        margin-right: 10px;
+        margin-right: var(--okr-space-3);
     }
 
     .teamListMenuItem__icon {
@@ -31,21 +45,21 @@
     }
 
     // TeamIcon은 어두운 레일(sidebar 변수) 기준이라 밝은 메뉴 안에서는
-    // 크기(24px)와 색을 본문(center-channel) 변수로 맞춘다
+    // 크기(36px — 레일·Slack과 동일 리듬)와 색을 본문 변수로 맞춘다
     .TeamIcon,
     .TeamIcon.TeamIcon__xxs,
     .TeamIcon__content,
     .TeamIcon__image {
-        width: 24px;
-        min-width: 24px;
-        height: 24px;
+        width: 36px;
+        min-width: 36px;
+        height: 36px;
     }
 
     .TeamIcon {
         flex-shrink: 0;
 
         .TeamIcon__content {
-            border-radius: 6px;
+            border-radius: var(--radius-m);
             background-color: rgba(var(--center-channel-color-rgb), 0.12);
 
             // 흰 바탕 팀 로고 이미지도 경계가 보이게
@@ -53,8 +67,9 @@
             color: var(--center-channel-color);
         }
 
-        .TeamIcon__initials__sm {
-            font-size: 11px;
+        .TeamIcon__initials__sm,
+        .TeamIcon__initials__xxs {
+            font-size: 14px;
         }
     }
 }
