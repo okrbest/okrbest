@@ -270,3 +270,27 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
         border-radius: var(--radius-m);
     }
 }
+
+// ---------------------------------------------------------------------------
+// 팝업 메뉴 (Menu v2 전역) — Slack 메뉴 실측 (019 measurements 15절):
+// 좌우 여백 24, 글자 15, 부제 13, 메뉴 폭 하한 240, radius 8.
+// MUI styled가 셀프 더블(0,4,0)로 주입하므로 동급 이상 특이도로 덮는다.
+// ---------------------------------------------------------------------------
+.menu_menuStyled.MuiPopover-root.MuiModal-root .MuiPaper-root.MuiPaper-root {
+    min-width: 240px;
+    border-radius: var(--radius-m);
+}
+
+.menu_menuStyled .MuiMenuItem-root.MuiMenuItem-root {
+    padding: 6px var(--okr-space-6);
+}
+
+.menu_menuStyled .MuiMenuItem-root > div.label-elements > :first-child {
+    font-size: 15px;
+    line-height: 22px;
+}
+
+.menu_menuStyled .MuiMenuItem-root > div.label-elements > :last-child:not(:first-child) {
+    font-size: 13px;
+    line-height: 18px;
+}
