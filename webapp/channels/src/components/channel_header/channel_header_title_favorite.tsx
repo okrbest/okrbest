@@ -6,6 +6,7 @@ import React, {memo, useCallback, useRef} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
+import {StarIcon, StarOutlineIcon} from '@mattermost/compass-icons/components';
 import {WithTooltip} from '@mattermost/shared/components/tooltip';
 
 import {favoriteChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
@@ -82,7 +83,23 @@ const ChannelHeaderTitleFavorite = () => {
                 aria-label={ariaLabel}
                 ref={favIconRef}
             >
-                <i className={classNames('icon', {'icon-star': isFavorite, 'icon-star-outline': !isFavorite})}/>
+                {isFavorite ? (
+                    <span data-testid='favoriteStarFilled'>
+                        <StarIcon
+                            size={20}
+                            color='currentColor'
+                            aria-hidden={true}
+                        />
+                    </span>
+                ) : (
+                    <span data-testid='favoriteStarOutline'>
+                        <StarOutlineIcon
+                            size={20}
+                            color='currentColor'
+                            aria-hidden={true}
+                        />
+                    </span>
+                )}
             </button>
         </WithTooltip>
     );

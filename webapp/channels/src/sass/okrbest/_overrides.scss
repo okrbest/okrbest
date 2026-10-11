@@ -380,3 +380,18 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
         font-size: 16px;
     }
 }
+
+// ---------------------------------------------------------------------------
+// 채널 제목 옆 즐겨찾기 별 — Slack view_header 별 실측 (28×28 r8, 글리프 20).
+// upstream .btn.channel-header__favorites가 24·r4·폰트 18을 고정한다.
+// ---------------------------------------------------------------------------
+.channel-header .btn.channel-header__favorites {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: var(--radius-m);
+
+    svg {
+        display: block;
+    }
+}

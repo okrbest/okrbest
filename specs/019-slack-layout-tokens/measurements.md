@@ -370,3 +370,11 @@ ID 체인으로 덮었다.
 | 버튼 | 32 아이콘만 + 우상단 점 | **`≡ 필터 ⌄` 알약 78×28 r14**, 활성 점 유지 |
 | 리스트 | 구형 widgets/menu (파란 글자·좌측 체크·좁은 여백) | **Menu v2 라디오** 8개 유형 + trailing 체크 — 020-8 전역 메뉴 디자인 자동 적용 |
 | 시맨틱 | ItemAction | menuitemradio + aria-checked (TDD 5건 RED→GREEN) |
+
+## 20. 채널 제목 즐겨찾기 별 (020 아이콘 개선 13)
+
+Slack view_header 별 버튼 실측: **28×28 r8, 글리프 svg 20** (우측 그룹과
+동일 문법). okrbest: 24×24 r4·폰트 i 18 → 동일 스펙으로. 글리프는
+StarOutline/Star SVG 전환(TDD 3건 RED→GREEN — 상태 단언은 testid로),
+크기 override는 upstream `.btn.channel-header__favorites`(24 고정)를
+okrbest 레이어에서 덮음.
