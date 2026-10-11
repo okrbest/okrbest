@@ -1925,6 +1925,70 @@ jsdom 탐침에서 두 채널 모두 비어 있지 않은 draft를 둔 채 A→B
 - `draftRef` 즉시 갱신(`c60016e92d`)을 없애면 가드도 함께 지운다.
 ---
 
+## ABAC 렌더 시점 파일 권한 판정 — property v2 훅은 버리고 CPA 경로에 다시 걸었다
+
+**upstream**: [`c8b1cc00`](https://github.com/mattermost/mattermost/commit/c8b1cc0046c9ab53de4cb33804a7b4bc5cd03a83)
+(MM-68283 - Add render-time ABAC permission decisions for file upload/download, #36820) — 79파일 +4695/-710, 2026-10-11 반영
+
+**받은 것.** 기능 본체는 그대로 받았다.
+- 결정 API `POST /api/v4/access_control/decisions/actions/search`, `app/access_control_decision.go`, `model/access_control_decision.go`
+- 게시물·스레드·고정 게시물 ETag에 정책 epoch·사용자 속성 epoch를 붙이는 `AppendABACEtag`, `GetPostsEtag(channelID, userID, …)` 시그니처 변경
+- localcache epoch 캐시 2종(`AccessControlPolicyEtag`·`UserPropertyValuesEpoch`)과 클러스터 이벤트 2종, sqlstore `GetEtagEpoch`·`GetUserPropertyValuesEpoch`
+- `attributeBasedAccessControlEnabled()` 술어, ABAC 토글 시 캐시를 비우는 설정 리스너, `invalidateAttributeViewCache`와 `attributeViewNeedsRefresh`
+- 웹앱 render_permissions 스토어·`useRenderPermission`·업로드 버튼 `aria-disabled`·WS 이벤트, e2e 스펙 재편(4개 신설)
+
+**엔진이 없어 발동하지 않는다.** 우리 빌드는 `ch.AccessControl == nil`이라 결정 API가 언제나
+`DefaultWhenInactive: true`(허용)를 돌려준다. `EnableAttributeBasedAccessControl` 기본값이 꺼져 있어
+ETag도 기존 값 그대로다. 웹앱은 `FeatureFlagPermissionPolicies`(기본 true)일 때 채널마다 결정 API를
+한 번 부른다 — 응답은 항상 허용이라 화면은 바뀌지 않고 요청만 1회 는다. 비공개 모듈 부록에 같은 사유로 올렸다.
+
+### 버린 것 — 제외한 계보의 코드라 받을 자리가 없다
+
+| upstream 자리 | 버린 내용 | 이유 |
+|---|---|---|
+| `app/property_field.go` `UpdatePropertyFields`·`DeletePropertyField`의 훅, `anyUserObjectType` | 필드 수정·삭제 시 `invalidateAllUserAttributeCaches()` | property v2(48f2fd08 → 9f1fe90b) 시그니처다. 우리 `UpdatePropertyField`는 얇은 래퍼라 `bypassProtectedCheck`·`clearedIDs`·`ObjectType`이 없다. 대신 CPA 경로에 걸었다(아래) |
+| `app/property_value.go` `resolveValueBroadcastParams`와 WS 브로드캐스트 블록 | 값 변경 WS 이벤트 | 같은 계보의 PSAv2 브로드캐스트다. 훅 호출 줄만 받았다 |
+| `localcachelayer/layer.go` PropertyField 캐시 일습 | 상수·필드·생성·클러스터 핸들러·`PropertyField()`·`Invalidate` 줄 | 같은 계보의 캐시다. epoch 캐시 2종만 받았다 |
+| `localcachelayer/main_test.go` `mockPropertyFieldStore` | PropertyField 목 | 위와 같다 |
+| `app/access_control.go` `ResourceAttributesInPoliciesEnabled` | 채널 속성 정책 플래그 술어 | 미반영 커밋의 문맥이다. 이번 커밋의 변경분이 아니다 |
+| `app/access_control_test.go` `TestGetAccessControlFieldsAutocompleteNativeAttributes` | 고유 속성 자동완성 테스트 | 제외한 Phase 5(84a554b2)의 테스트다 |
+| `app/post_test.go` `TestGetPostsForView` | 게시물 조회 테스트 | 우리에게 없는 `GetPostsForView` 대상이다. 충돌 블록에 문맥으로 딸려 왔다 |
+| `metrics.go` 클러스터 이벤트 목록 | `ClusterEventUpdateSessionAttributes`·`ClusterEventInvalidateCacheForPropertyFields` | 우리 model에 없는 이벤트다. 신규 epoch 이벤트 2종만 넣었다 |
+| `api/v4/source/definitions.yaml` | Recap 계열 스키마 6종 | 충돌 블록에 딸려 온 미반영 커밋 문맥이다. ABAC 스키마 7종만 받았다 |
+| `e2e-tests/playwright/lib/src/index.ts` | `wysiwyg_helpers`·`TextInputSetting` export | 이번 커밋 변경분은 `expectFilesVisible`·`expectFilesRedacted` 한 줄이다. `TextInputSetting`은 이미 있다 |
+| 웹앱 `store.ts`·`initial_state.ts`·`reducers/entities/index.ts` | `properties` 상태, `ScheduledRecap`·`RecapLimitStatus` 타입 | 충돌 블록 문맥이다. `renderPermissions`만 넣었다 |
+| `websocket_actions.ts` import | `getFeatureFlagValue` | 우리 파일에서 쓰지 않는다 |
+
+### 바꾼 것 — 우리 트리에 맞춰 다시 걸었다
+
+| 자리 | upstream | 우리 처리 | 이유 |
+|---|---|---|---|
+| 필드 변경 무효화 | `UpdatePropertyFields`·`DeletePropertyField`에서 `ObjectType == user`일 때 | `PatchCPAField`(갱신 성공 직후)·`DeleteCPAField`(삭제 성공 직후)에서 무조건 | 우리 트리의 사용자 속성은 CPA 그룹뿐이고 필드에 `ObjectType`이 없다. CPA 필드 = 사용자 속성 필드다 |
+| `invalidateUserPropertyValuesEpoch(s)`의 대상 판정 | `model.PropertyFieldObjectTypeUser` | `model.PropertyValueTargetTypeUser` | 상수가 v2에만 있다. 값은 둘 다 `"user"`라 의미가 같다 |
+| `DeletePropertyValue` 무효화 | 지운 값의 `TargetType`·`TargetID`로 한 사용자만 | `invalidateAllUserAttributeCaches()`로 전체 | 우리 함수는 `valueID`만 받는다. upstream은 v2 코드에서 값을 먼저 읽어 둔다. 호출자가 플러그인 API 하나뿐이라 조회 쿼리를 늘리지 않고 넓게 비운다 |
+| `UpsertPropertyValues` 무효화 인자 | `result` | `upsertedValues` | 변수명만 다르다 |
+| `property_value_test.go` | 기존 파일에 테스트 추가 | 파일 신설, `TestInvalidateUserPropertyValuesEpochs_GatedOnABAC`만 담음 | 우리 트리에는 이 테스트 파일이 없었다. 상수는 위와 같이 바꿨다 |
+| e2e `file_permissions.spec.ts` | (upstream은 이미 `file_permissions_download.spec.ts`로 나눈 뒤 이번에 삭제) | 우리 단일 스위트를 지우고 upstream 4개 스펙 + `helpers.ts`를 받았다 | upstream이 스위트를 다시 짰다. 신규 스펙의 의존(`enableABAC`·`support.ts` 함수·CPA 헬퍼)은 전부 우리 트리에 있다 |
+
+**가드 테스트 (포크 신규).** `TestCPAFieldMutationsMarkAttributeViewStale`는 `PatchCPAField`·`DeleteCPAField`가 AttributeView를 stale로 표시하는지 확인한다.
+- 훅 없음(RED): 두 서브테스트 모두 `Should be true` 실패
+- 훅 적용(GREEN): 통과
+
+### 검증
+
+- 서버 대상 테스트 통과: app의 신규 ABAC 테스트 6종 + CPA 가드 + `TestPatchCPAField`·`TestDeleteCPAField`, sqlstore `GetEtagEpoch` 4건, localcache epoch 캐시 6건, api4의 결정 API·파일·게시물 ETag 경로
+- localcache 패키지 전체 통과(기준선 실패 `BackfillSchemeId` 제외)
+- `make migrations-extract`·`make store-layers`·`make mocks` 재실행 후 변경 0건
+- 웹앱 jest 7개 suite 209건 통과. `check-types` 11건은 모두 기준선 파일(ldap 마법사·lexical·post_view)이다. 접촉 파일 eslint 오류 0건
+- e2e 신규 스펙은 실행하지 않았다. ABAC 엔진이 없어 정책 판정 자체가 일어나지 않는다
+
+### 되돌릴 조건
+
+- property v2 계보를 들이면 CPA 경로의 훅 2개를 지우고 upstream의 `UpdatePropertyFields`·`DeletePropertyField` 훅으로 옮긴다. 같이 PropertyField 캐시도 받는다.
+- `DeletePropertyValue`가 값을 미리 읽게 되면 대상 사용자 한 명만 비우도록 바꾼다.
+- 자체 ABAC 엔진을 `RegisterAccessControlServiceInterface`로 등록하면 결정 API·ETag·업로드 버튼이 그대로 발동한다. 그때 e2e 4개 스펙을 돌려 확인한다.
+---
+
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
 
 adapt 커밋이 아니라 포크 고유 설계 변경이다. upstream 파일을 인라인으로 고친

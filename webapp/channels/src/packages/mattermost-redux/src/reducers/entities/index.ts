@@ -23,6 +23,7 @@ import limits from './limits';
 import posts from './posts';
 import preferences from './preferences';
 import recaps from './recaps';
+import renderPermissions from './render_permissions';
 import roles from './roles';
 import scheduledPosts from './scheduled_posts';
 import schemes from './schemes';
@@ -65,4 +66,5 @@ export default combineReducers({
     scheduledPosts,
     sharedChannels,
     contentFlagging,
+    renderPermissions,
 });

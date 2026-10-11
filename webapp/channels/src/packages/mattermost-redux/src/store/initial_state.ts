@@ -241,6 +241,11 @@ const state: GlobalState = {
             byChannelOrThreadId: {},
         },
         contentFlagging: {},
+        renderPermissions: {
+            byResource: {},
+            invalidatedAt: 0,
+            invalidatedAtByResource: {},
+        },
     },
     errors: [],
     requests: {

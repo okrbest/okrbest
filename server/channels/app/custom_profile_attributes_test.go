@@ -1262,3 +1262,38 @@ func TestCreatePropertyField_BypassesCPANameValidation_ExpectedBehavior(t *testi
 
 	_ = th.App.DeleteCPAField(rctx, created.ID)
 }
+
+// Field mutations change what every subject resolves to without touching a PropertyValues row, so
+// the per-user epoch can't see them; the CPA field paths must mark the AttributeView stale instead.
+func TestCPAFieldMutationsMarkAttributeViewStale(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+	ch := th.App.Srv().Channels()
+
+	rctx := th.emptyContextWithCallerID(anonymousCallerId)
+
+	newField, err := model.NewCPAFieldFromPropertyField(&model.PropertyField{
+		Name: celSafeName(),
+		Type: model.PropertyFieldTypeText,
+	})
+	require.NoError(t, err)
+
+	createdField, appErr := th.App.CreateCPAField(rctx, newField)
+	require.Nil(t, appErr)
+
+	t.Run("patch marks the view stale", func(t *testing.T) {
+		ch.attributeViewRefreshLast = time.Now()
+
+		_, appErr := th.App.PatchCPAField(rctx, createdField.ID, &model.PropertyFieldPatch{Name: model.NewPointer(celSafeName())})
+		require.Nil(t, appErr)
+
+		require.True(t, ch.attributeViewRefreshLast.IsZero())
+	})
+
+	t.Run("delete marks the view stale", func(t *testing.T) {
+		ch.attributeViewRefreshLast = time.Now()
+
+		require.Nil(t, th.App.DeleteCPAField(rctx, createdField.ID))
+
+		require.True(t, ch.attributeViewRefreshLast.IsZero())
+	})
+}
