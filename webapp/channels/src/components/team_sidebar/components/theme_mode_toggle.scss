@@ -1,0 +1,40 @@
+// 테마 전환 토글 (024) — 레일 하단 프로필 바로 위.
+// Slack "집중 모드 켜기" 버튼 실측: 36×36 완전 원형(r18), 상시 배경
+// rgba(29,28,29,0.13), 글리프 20. 상시 원형 배경이 버튼 존재감을 만든다.
+.ThemeModeToggle {
+    display: flex;
+    justify-content: center;
+
+    .ThemeModeToggle_button {
+        display: flex;
+        width: 36px;
+        height: 36px;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        background: rgba(var(--sidebar-header-text-color-rgb), 0.13);
+        color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
+        cursor: pointer;
+
+        &:hover,
+        &[aria-expanded='true'] {
+            background: rgba(var(--sidebar-header-text-color-rgb), 0.2);
+            color: var(--sidebar-header-text-color);
+        }
+
+        svg {
+            display: block;
+        }
+    }
+}
+
+// 글리프 획 보강 — fill 기반 MDI 패스에 stroke를 덧대 선을 굵힌다
+// (019 usage-guide 아이콘 규칙: 0.6 기본·0.8 강조, 1.0 이상 금지).
+// 메뉴는 포털로 뜨므로 글리프 클래스에 직접 건다. 라이트 모드 해는
+// 처음부터 stroke 기반(strokeWidth 2)이라 보강 대상에서 제외한다.
+.ThemeModeToggle_glyph:not(.ThemeModeToggle_glyph--stroke) path {
+    stroke: currentColor;
+    stroke-width: 0.8;
+}

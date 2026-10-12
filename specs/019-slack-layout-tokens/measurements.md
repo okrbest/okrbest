@@ -498,3 +498,27 @@ CTA 정렬 점검 (023): 멤버 초대 버튼 안 래퍼(__inviteMembersLhsButto
 자체 padding 15를 더해 아이콘이 이중으로 밀렸다(32+15=47). 내부 패딩 0으로
 교정. 실측 — 채널 추가·멤버 초대 모두 아이콘 x32/텍스트 x65 일치,
 채널 행(30/61)과 같은 열 리듬.
+
+## 23. 테마 모드 토글 (024)
+
+레일 하단 프로필 바로 위, 라이트=Slate / 다크=Onyx 고정 매핑 +
+시스템 모드(prefers-color-scheme 추종). 버튼 36 r8(레일 리듬), 글리프
+20(해·달·모니터 — compass에 없어 MDI 24×24 패스 인라인). Menu v2
+menuitemradio 3항목 + 체크. 모드는 display_settings/okr_theme_mode
+preference로 저장, 테마 적용은 기존 saveTheme('' = 전팀) 경로 재사용.
+시스템 모드일 때만 matchMedia change 리스너가 살아 있고, 마운트 시
+불일치도 한 번 교정한다.
+
+버튼 디자인 (사용자 피드백): Slack "집중 모드 켜기" 버튼 실측 —
+**36×36 완전 원형(r18), 상시 배경 rgba(29,28,29,0.13), 글리프 20**,
+버튼 리듬 52(36+16). 상시 원형 배경으로 교정 (hover 0.2). 선택 후 메뉴가
+안 닫히던 것은 Menu v2가 menuitemradio를 기본 유지하기 때문 —
+forceCloseOnSelect로 즉시 닫기 (TDD RED→GREEN). 글리프는 019 획 보강
+기법(stroke 0.8 — 강조 단계)으로 굵힘, 메뉴가 포털이라 글리프 클래스에
+직접 걸었다. 라이트 모드 해는 사용자 지정으로 중앙 원 + 8개 라운드
+광선의 stroke 기반(Lucide sun 문법, strokeWidth 2)으로 교체 — fill 보강
+규칙에서 제외.
+
+검증 — TDD 6건 RED→GREEN, 브라우저 실주행: 다크 선택 → Onyx 전면 적용,
+시스템 선택 후 OS 에뮬레이션 다크/라이트 왕복 → sidebar-bg #202228(Onyx)
+↔ #fdfdfd(Slate) 자동 전환, 토글은 프로필 위 8px 간격 세로 스택.

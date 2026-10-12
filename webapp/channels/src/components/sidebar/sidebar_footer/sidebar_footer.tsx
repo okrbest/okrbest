@@ -3,13 +3,16 @@
 
 import React from 'react';
 
+import ThemeModeToggle from 'components/team_sidebar/components/theme_mode_toggle';
 import UserAccountMenu from 'components/user_account_menu';
 
 // OKR.BEST (Slack 벤치마크): 프로필·상태 관리 버튼을 글로벌 헤더 우측 상단 대신
 // 항상 표시되는 채널 사이드바 좌측 하단에 둔다. 메뉴는 위로 열린다.
+// 테마 전환 토글(024)이 프로필 바로 위에 선다.
 const SidebarFooter = () => {
     return (
         <div className='SidebarFooter'>
+            <ThemeModeToggle/>
             <UserAccountMenu openUp={true}/>
         </div>
     );
