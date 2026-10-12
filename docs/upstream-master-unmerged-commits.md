@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-12 15:22
+- 갱신일: 2026-10-12 16:34
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 312개
+- 남은 커밋: 306개
 
-**마지막 반영 커밋:** `a8dd85fe` | [\[MM-69948\] Validate roles on team member role updates (#38186)](https://github.com/mattermost/mattermost/commit/a8dd85fe1c53d657c31f94a2179e085e6935f046) | 2026-09-01
+**마지막 반영 커밋:** `9939a55a` | [MM-69706: remove the ChannelBookmarks feature flag compatibility shim (#38291)](https://github.com/mattermost/mattermost/commit/9939a55ac2c22e9a62465c8f772fabb9f2e8e61d) | 2026-09-02
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b6243db3 | [\[MM-70506\] Apply request body size limit to plugin requests (#38229)](https://github.com/mattermost/mattermost/commit/b6243db3d27e7a02e6b75b4c842aa329b873752e) | 2026-09-02 |
-| dc7f63b4 | [MM-70247: bump msgpack fork to cap byte-string allocation paths (#37980)](https://github.com/mattermost/mattermost/commit/dc7f63b4fc3cf7afcb9d9c03fadb478adcabb691) | 2026-09-02 |
-| cfab0366 | [ABAC: plugin policy self-inclusion and editor/test robustness (#37926)](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) | 2026-09-02 |
-| 235bddba | [Hand Cypress E2E deps to workers as a run-scoped artifact (#38253)](https://github.com/mattermost/mattermost/commit/235bddbae0c4c387c07b918f4bf59d0ebeb6001c) | 2026-09-02 |
-| f6f27191 | [Fix props, refs and keys that React was warning about (#38238)](https://github.com/mattermost/mattermost/commit/f6f2719165ffb132e351342add570f3b1b6fd07a) | 2026-09-02 |
-| 9939a55a | [MM-69706: remove the ChannelBookmarks feature flag compatibility shim (#38291)](https://github.com/mattermost/mattermost/commit/9939a55ac2c22e9a62465c8f772fabb9f2e8e61d) | 2026-09-02 |
 | d81b68fa | [E2E/Cypress: fix flaky emoji picker reaction helper (#38225)](https://github.com/mattermost/mattermost/commit/d81b68faa574ddd714d7c43bfa17417068c11639) | 2026-09-03 |
 | d348eab9 | [\[Docs Revamp Feedback\] Restructure the Deployment Guide, and fix sidebar placement, labels, and ordering (#38217)](https://github.com/mattermost/mattermost/commit/d348eab976a083bd077346a219d803d46c0bb8c3) | 2026-09-03 |
 | c0ee2b2e | [MM-70215: Adjust status response serialization (#37916)](https://github.com/mattermost/mattermost/commit/c0ee2b2e25912fbfde78bb9fd4b9540f3afd08b5) | 2026-09-03 |
@@ -748,6 +742,8 @@
 | 40e282b9 | [\[Docs Revamp Feedback\] Fix admonition styling, card grid, oversized images, and TOC duplicates (#38180)](https://github.com/mattermost/mattermost/commit/40e282b95b6108de01c19e30a9a2121b96787f9b) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 개편 피드백 반영이라 대상이 없다. 56파일 +1244/-908이 전부 docs/main/·docs/site/·docs/pdf/ 아래(admonition 스타일·카드 그리드·과대 이미지·TOC 중복 수정)이고 우리 트리에 없다(MISSING PATHS, merge-tree modify/delete). 코드·i18n 변경 없음. c059bd33·50241b42·3bf2d07f 제외와 같은 사유. |
 
 | 5650f8eb | [\[MM-69864\]\[MM-69870\] Edit existing attributes and persist Applies-to add/remove on Save (#38056)](https://github.com/mattermost/mattermost/commit/5650f8eb049fc9d79e0bed165b4b927a57bc043d) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 #37580 → 4ec0fe9c·63077696·844d3370·338dc6c7·ddee8289)의 후속이라 얹을 토대가 없다. 기존 속성 편집·Applies-to 추가/제거 저장·제거 경고 모달을 넣는 18파일 +2275/-593인데 MISSING PATHS 16/18 — components/admin_console/global_attributes/ 디렉터리 전체와 playwright global_attributes 스펙이 우리 트리에 없다. 남는 admin_definition.tsx(+12)·en.json(+14)·constants.tsx(+1)도 이 화면 배선·문구라 단독으로 받으면 없는 컴포넌트를 가리킨다. 뿌리는 property 시스템 v2(48f2fd08 → 9f1fe90b) 제외. 후속 65f8ca23(#38409)도 같은 사유 대상. |
+
+| 235bddba | [Hand Cypress E2E deps to workers as a run-scoped artifact (#38253)](https://github.com/mattermost/mattermost/commit/235bddbae0c4c387c07b918f4bf59d0ebeb6001c) | 고칠 대상 prep-deps 잡이 우리 트리에 없다 — test system IO 계보(91de3d23 adapt → 33ddd8a4·c3322b3a·8eb97fa6·1d1580cb·2d05d063·bd0d8866·c77efb5a exclude)의 연장. Mattermost 저장소 10GB Actions 캐시 한도 문제로 Cypress deps 핸드오프를 공유 캐시에서 run 범위 artifact로 바꾸는 3파일 +87/-23(신규 pack/unpack-cypress-deps action 2개 + e2e-tests-cypress-template.yml)인데, prep-deps는 제외한 bd0d8866(#37413)에서 생겼고 우리 템플릿에는 0회 등장한다(upstream 이전 대비 +559/-244 갈라짐, merge-tree CONFLICT). 이 워크플로는 Mattermost Argo Events로만 트리거돼 우리 저장소 실행 기록이 없다. 후속 1cf3c871(#38261 Cypress 캐시 워밍)도 같은 사유 대상. |
 
 ## spec 전환 커밋
 
