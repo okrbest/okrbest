@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-11 22:43
+- 갱신일: 2026-10-12 11:24
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 336개
+- 남은 커밋: 330개
 
-**마지막 반영 커밋:** `4ce99ddd` | [Mm 70167 channel attribute assignment (#37933)](https://github.com/mattermost/mattermost/commit/4ce99ddd38636bb6916613efc892606db3fe75f9) | 2026-08-31
+**마지막 반영 커밋:** `679dcd7e` | [\[MM-70524\] Fix advanced text editor issue with rootID (#38244)](https://github.com/mattermost/mattermost/commit/679dcd7e1653320dbffa0a9a664f196f406362e3) | 2026-08-31
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| c059bd33 | [docs: give specialized personas a distinct visual tier on the homepage (#38205)](https://github.com/mattermost/mattermost/commit/c059bd33eaf5f69397ae56fab8a0bd58e0b46101) | 2026-08-31 |
-| 0d1ce90d | [\[MM-70250\] Remove unused GET bulk reactions endpoint (#38174)](https://github.com/mattermost/mattermost/commit/0d1ce90d72122d3047345c022bf236d5c0f6a13e) | 2026-08-31 |
-| 25c84214 | [MM-69537 Fix places where suggestion results are incorrectly mutated (#38175)](https://github.com/mattermost/mattermost/commit/25c84214b7eeea6ea89b91847643cc80b35c62ac) | 2026-08-31 |
-| 9de33037 | [MM-70076 - include native user attribute fields in ABAC policy listings (#38136)](https://github.com/mattermost/mattermost/commit/9de33037326535e4f165de398c2cfabe0318ce4e) | 2026-08-31 |
-| 35242cbe | [\[MM-70208\] Require client secret re-entry when validating or saving outgoing OAuth connections (#38168)](https://github.com/mattermost/mattermost/commit/35242cbed7bf3e379801312b9077acc8edffcd78) | 2026-08-31 |
-| 443c6fdf | [Prepackage mattermost-plugin-agents v2.6.1. (#38242)](https://github.com/mattermost/mattermost/commit/443c6fdf275c48d5b0646e6f191aed68fc646236) | 2026-08-31 |
-| 679dcd7e | [\[MM-70524\] Fix advanced text editor issue with rootID (#38244)](https://github.com/mattermost/mattermost/commit/679dcd7e1653320dbffa0a9a664f196f406362e3) | 2026-08-31 |
 | 460f20b2 | [MM-70227: Adjust error detail formatting in session and OAuth flows (#37915)](https://github.com/mattermost/mattermost/commit/460f20b2eeecb7bd92184c396430c91056ea4ef7) | 2026-09-01 |
 | 40e282b9 | [\[Docs Revamp Feedback\] Fix admonition styling, card grid, oversized images, and TOC duplicates (#38180)](https://github.com/mattermost/mattermost/commit/40e282b95b6108de01c19e30a9a2121b96787f9b) | 2026-09-01 |
 | 8edfbbad | [\[MM-70429\] Increase interactive dialog title max length to 80 (#38140)](https://github.com/mattermost/mattermost/commit/8edfbbade7ec03f8194c323d852d5f731aaa2a56) | 2026-09-01 |
@@ -347,6 +340,7 @@
 | 18c34098 | [MM-70639: Fix flaky TestGetMattermostLog under fully parallel tests (#38513)](https://github.com/mattermost/mattermost/commit/18c34098b13ba9b78c9613c517b913ef0a330650) | 2026-10-09 |
 | c307d634 | [Skip the setup project's ABAC seeding on upgrade paths (#39084)](https://github.com/mattermost/mattermost/commit/c307d634d6ed9d090385e2b7dc5981c36e233805) | 2026-10-09 |
 | 47eebd55 | [MM-70615: Update connection string formatting in configuration output and logs (#38644)](https://github.com/mattermost/mattermost/commit/47eebd5530c0485391efa77915965b4b7317f16c) | 2026-10-09 |
+| 5dec0b82 | [E2E/Playwright: Reset leaked config and roles before each test (#39091)](https://github.com/mattermost/mattermost/commit/5dec0b8255726d0ae21717ef2b5e4f3d3a0ba3ba) | 2026-10-12 |
 
 ## 제외된 커밋
 
@@ -763,6 +757,12 @@
 
 | 4ce99ddd | [Mm 70167 channel attribute assignment (#37933)](https://github.com/mattermost/mattermost/commit/4ce99ddd38636bb6916613efc892606db3fe75f9) | 제외한 e86491ad(MM-70120 channel attributes foundation, #37881)의 채널 속성 계보와 분류 표시 계보(2b7b398a → 6083cc22 → 23b4d827)의 후속이라 반영할 토대가 없다. 채널 생성 시 속성 지정(new_channel_modal의 ChannelAttributesForm, useChannelAttributes·useChannelLabels 훅, 채널 속성 셀렉터), WS property_values_updated 4종 페이로드 분기, CLASSIFICATIONS_GROUP_NAME→ACCESS_CONTROL_PROPERTY_GROUP 교체로 27파일 +1828/-99(웹앱·e2e만). 실측 — CLASSIFICATIONS_GROUP_NAME·handlePropertyValuesUpdated·PROPERTY_VALUES_DELETED grep 0건, new_channel_modal.tsx에 classif 0건, mattermost-redux selectors/entities/properties.ts·constants/properties.ts 부재, MISSING PATHS 20개 이상(classification_markings·channel_attributes 일습, 훅 5종, e2e 2개). 충돌 파일 websocket_actions.ts·channel_settings_configuration_tab.tsx의 변경도 우리에게 없는 분류 표시 코드 수정뿐이고, 남는 new_channel_modal 연결과 en.json 6키는 부재 셀렉터·훅·폼에 의존해 단독 반영이 불가능하다. property v2 계보를 들일 때 e86491ad와 함께 재검토한다. |
 
+| c059bd33 | [docs: give specialized personas a distinct visual tier on the homepage (#38205)](https://github.com/mattermost/mattermost/commit/c059bd33eaf5f69397ae56fab8a0bd58e0b46101) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. 터치 4파일(docs/main/index.mdx, docs/pdf/styles/print.css, docs/site/src/components/CardGrid/index.tsx·styles.module.css)이 전부 우리 트리에 없다(MISSING PATHS 4/4, merge-tree modify/delete). 내용은 홈페이지 보조 페르소나 링크를 CardGrid compact 칩으로 바꾸고 PDF print CSS를 맞추는 +152/-7이며, 코드·i18n 변경은 없다. 50241b42·3bf2d07f 제외와 같은 사유. |
+
+| 9de33037 | [MM-70076 - include native user attribute fields in ABAC policy listings (#38136)](https://github.com/mattermost/mattermost/commit/9de33037326535e4f165de398c2cfabe0318ce4e) | 제외한 ABAC 고유 속성 Phase 5(84a554b2 #37133)에 의존해 컴파일이 깨진다. GetAccessControlPolicyAttributes가 property store NotFound 시 model.NativeUserAttributeFields()의 고유 필드(user.email/verified/isbot/createat)를 통과시키는 2파일 +124/-8인데, 그 함수와 테스트가 쓰는 NativeAttributePropertyField{Email,IsBot,Verified} 상수가 우리 트리에 0건이다(정의처 server/public/model/native_attributes.go가 84a554b2 소산, property v2 필드 부재로 제외). merge-tree는 CLEAN이라 텍스트 신호만으론 드러나지 않는다. 같은 계보 Phase 6(17c77e27)도 같은 사유로 제외했다. 나머지 변경(인자명 channelID→resourceID, 테스트 maps.Clone)은 동작 변화가 없다. 재검토 조건: property v2·Phase 5 도입 시 함께 반영. |
+
+| 443c6fdf | [Prepackage mattermost-plugin-agents v2.6.1. (#38242)](https://github.com/mattermost/mattermost/commit/443c6fdf275c48d5b0646e6f191aed68fc646236) | 공식 Agents 번들 버전 올림(v2.6.0 → v2.6.1)을 멈춘다 — 1361e922(v2.6.0)·10804f80(v2.5.1) 제외와 같은 사유이며 1361e922 제외 사유가 이 커밋을 후속 대상으로 지목해 두었다. 우리 Agents 포크(okrbest/okrbest-plugin-agents)는 공식과 같은 플러그인 ID mattermost-ai이고, server/Makefile PLUGIN_PACKAGES는 공식판을 번들하므로 재시작 때 processPrepackagedPlugin이 더 높은 번들 버전으로 우리 포크를 덮어쓸 위험이 커진다(1bfa2e51 방침). 우리 Makefile은 v2.4.2 유지(일반 166행·FIPS 181행) — merge-tree CONFLICT의 원인. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -820,3 +820,4 @@
 | fbf8402d | [\[MM-65680\] Add new configuration 'AttributeRefreshIntervalSeconds' to Access Control (#37854)](https://github.com/mattermost/mattermost/commit/fbf8402d4bce027823d7788c8f48401d839f8b31) | github.com/mattermost/enterprise/access_control — AccessControlSettings.AttributeRefreshIntervalSeconds(기본 30초, 0 이상) config 필드·검증·en.json 키만 cherry-pick으로 반영. 이 값을 읽어 DB AttributeView 새로고침 빈도를 제한하는 로직은 upstream-master OSS 트리 전체에 참조 0건(config 정의·테스트 픽스처·타입뿐)이라 비공개 모듈에 있는 것으로 판단 — 우리 빌드에서는 설정만 존재하고 동작하지 않는다. 8a9aacb0(SyncJobIntervalSeconds)과 같은 패턴. |
 | 4608b024 | [\[MM-70291\] Add Global Relay custom EML header setting (#38010)](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) | Global Relay EML 사용자 지정 헤더(CustomHeaderName·CustomHeaderValue) — 설정·검증·콘솔 UI는 adapt로 반영했으나 헤더를 EML에 쓰는 코드가 github.com/mattermost/enterprise/message_export/global_relay_export(비공개)에만 있어 발동하지 않는다. 자체 Global Relay 작성기 구현 시 이 설정을 그대로 쓰면 된다. |
 | c8b1cc00 | [MM-68283 - Add render-time ABAC permission decisions for file upload/download (#36820)](https://github.com/mattermost/mattermost/commit/c8b1cc0046c9ab53de4cb33804a7b4bc5cd03a83) | `github.com/mattermost/enterprise/access_control` — 렌더 시점 파일 권한 판정(업로드 버튼 비활성·첨부 가림 즉시 반영). 결정 API(POST /api/v4/access_control/decisions/actions/search)·ETag epoch·localcache epoch 캐시·웹앱 useRenderPermission·업로드 버튼 aria-disabled를 adapt로 모두 반영했으나(18220d7c), ALLOW/DENY를 판정하는 PDP가 비공개 모듈에만 있어 우리 빌드에서는 ch.AccessControl이 nil이다(server/enterprise/external_imports.go:38, //go:build enterprise, server/go.mod에 해당 모듈 없음). 그래서 SearchAllowedActionsForCurrentUser가 acs == nil 분기에서 DefaultWhenInactive(true)를 돌려 업로드·다운로드가 늘 '허용'으로 렌더된다 — 기존 동작을 바꾸지 않는 비활성이다. AppendABACEtag도 EnableAttributeBasedAccessControl(기본 false)이 꺼져 있으면 기존 ETag를 그대로 돌려준다. 웹앱은 FeatureFlagPermissionPolicies(기본 true)일 때 채널마다 결정 API를 1회 더 부른다. 같은 계보의 ba1cec51(리소스 수준 권한 정책, 이 커밋의 직접 선행)·4da11e81·46417611·6a3b21eb와 동일 처리. 자체 PDP를 RegisterAccessControlServiceInterface로 등록하면 그대로 활성화되며, 그때 신규 e2e 3개 스펙(file_permissions_render/live_updates/edge_cases)으로 확인한다. property v2 부재로 버린 훅은 docs/upstream-adapted-divergences.md 참조. |
+| 9de33037 | [MM-70076 - include native user attribute fields in ABAC policy listings (#38136)](https://github.com/mattermost/mattermost/commit/9de33037326535e4f165de398c2cfabe0318ce4e) | ABAC 정책 속성 목록에 고유 사용자 속성을 포함하는 작업. 되살리려면 property v2 계보와 Phase 5(84a554b2) 반영이 선행돼야 하고, 정책 평가 엔진은 비공개 github.com/mattermost/enterprise/access_control에만 있어(ch.AccessControl nil) 자체 구현이 필요하다. Phase 2(0dccdfb0)·4(c9b42e93)·6(17c77e27)과 같은 제약. |
