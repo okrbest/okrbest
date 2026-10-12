@@ -158,9 +158,11 @@ describe('components/sidebar/sidebar_category', () => {
 
         const {container} = renderWithDnd(<SidebarCategory {...props}/>);
 
-        // Favorites category with no channels should not render
-        expect(screen.queryByText('Favorites')).not.toBeInTheDocument();
-        expect(document.querySelector('.SidebarChannelGroup')).not.toBeInTheDocument();
+        // 022: 빈 즐겨찾기도 기본 카테고리로 항상 표시한다 (Slack 문법 —
+        // 헤더 + "여기로 끌어오세요" 드롭 안내)
+        expect(screen.getByText('FAVORITES')).toBeInTheDocument();
+        expect(document.querySelector('.SidebarChannelGroup')).toBeInTheDocument();
+        expect(screen.getByText('Drag channels here...')).toBeInTheDocument();
         expect(container).toMatchSnapshot();
     });
 

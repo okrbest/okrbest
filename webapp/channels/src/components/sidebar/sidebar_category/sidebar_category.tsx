@@ -160,7 +160,9 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     renderNewDropBox = (isDraggingOver: boolean) => {
         const {draggingState, category, isNewCategory, channelIds} = this.props;
 
-        if (!isNewCategory || channelIds?.length) {
+        // 빈 즐겨찾기도 새 카테고리처럼 드롭 안내를 보여준다 (022)
+        const showsDropBox = isNewCategory || category.type === CategoryTypes.FAVORITES;
+        if (!showsDropBox || channelIds?.length) {
             return null;
         }
 
@@ -236,9 +238,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             return null;
         }
 
-        if (category.type === CategoryTypes.FAVORITES && !channelIds?.length) {
-            return null;
-        }
+        // 022: 빈 즐겨찾기도 기본 카테고리로 항상 표시한다 (Slack 문법 —
+        // 헤더 + 드롭 안내가 "여기로 끌어 놓으세요" 역할을 한다).
 
         const renderedChannels = channelIds.map(this.renderChannel);
 
