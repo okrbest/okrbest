@@ -646,3 +646,9 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
 #SidebarContainer .SidebarChannelGroup #inviteMembersButton {
     padding-left: 32px;
 }
+
+// 멤버 초대 버튼 안 래퍼가 자체 padding 15를 더해 아이콘이 이중으로
+// 밀린다(32+15=47) — 내부 패딩을 0으로 눌러 채널 추가와 같은 열에 세운다.
+#SidebarContainer .SidebarChannelGroup #inviteMembersButton .SidebarChannelNavigator__inviteMembersLhsButton {
+    padding-left: 0;
+}
