@@ -105,11 +105,15 @@ body.app__body {
 
 .team-sidebar .SidebarFooter {
     display: flex;
+
+    // 테마 토글(024)이 프로필 바로 위 — 세로 스택
+    flex-direction: column;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
     padding: 10px 0 14px;
     border-top: 1px solid rgba(var(--sidebar-header-text-color-rgb), 0.12);
+    gap: var(--okr-space-2);
 
     .userAccountMenu_menuButton {
         padding: 0;
