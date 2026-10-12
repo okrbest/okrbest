@@ -433,3 +433,20 @@ vertical-align 방식은 줄 상자를 키워 알약 안 글자가 아래로 밀
 특이도: upstream thread_item.scss와 번들 순서가 엇갈리므로 전 규칙에
 `.ThreadList` 병기(+1 클래스)로 승급. 테스트 데이터는 로컬 서버에
 thread-alice/thread-bob 사용자와 hr-chatbot 스레드 4건을 시드했다.
+
+## 22. 사이드바 카테고리 명칭 (022)
+
+Slack 섹션 헤더 실측 (flex community, `.p-channel_sidebar__section_heading`):
+행 28 (pad 0 8, margin 0 8), 라벨 **15/500** rgba(29,28,29,0.8),
+**text-transform none·letter-spacing normal**, 토글 16×16 r4.
+
+| 항목 | 전 | 후 (실측) |
+|---|---|---|
+| 라벨 | **12/600 UPPERCASE ls 0.6px** (한글 저가독) | **15/500**, 변형·자간 없음 |
+| 행·버튼 높이 | 32 | **28** (--okr-row-sidebar) |
+| 카테고리 메뉴 버튼 | 28 + margin 2 (32행 센터) | margin 0 16 0 0 (28행 정합) |
+| 색 | var(--sidebar-text) | 유지 (서식만 이식) |
+
+위계: 채널명(15/600 진한 색) vs 카테고리(15/500 흐린 색) — Slack과 같은
+"같은 크기, 굵기·명도로 구분" 문법. upstream `#SidebarContainer` 체인과
+특이도 동률을 피하려고 클래스 병기(1,3,0)/(1,2,0 병기)/(1,4,0 병기).
