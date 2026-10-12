@@ -486,3 +486,10 @@ margin-top space-6. 실측: 간격 24, 평소 체브론 0/아이콘 1(left 동�
 rgba(29,28,29,0.13)). 섹션끼리는 선 없이 24px만. 적용 — SidebarNavContainer
 border-top 1px rgba(sidebar-text,0.13) + margin-top 12 + 첫 그룹 래퍼
 padding-top 12. 실측: 고정 메뉴 bottom→선 12, 선→첫 카테고리 13.
+
+빈 즐겨찾기 상시 표시 (022 후속 3): Slack은 즐겨찾기 섹션을 항상 보여주고
+빈 상태엔 "중요한 사항은 여기로 끌어 놓으세요" 안내를 둔다. upstream은
+빈 favorites를 return null로 숨겼다 — 조기 반환을 제거하고 새 카테고리용
+드롭 안내(newDropBox)를 빈 favorites에도 재사용. TDD: 기존 "미표시" 고정
+테스트를 새 기대(헤더+드롭 안내 표시)로 교체해 RED 확인 후 GREEN,
+스냅샷 2건 갱신(1건은 rbd 자동 id 카운터 밀림의 부수 효과).
