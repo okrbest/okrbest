@@ -459,3 +459,30 @@ message-text-outline. 아이콘이 끼면 upstream "체브론+라벨" 인접 선
 정적 헤더(읽지 않은 항목)는 체브론이 없어 아이콘이 들여쓰기 16을 맡는다.
 TDD: 테스트 6건 신설(RED 5건 확인 후 GREEN), sidebar_category 스냅샷 5건
 갱신. 실측 — svg 16, gap 4, 수직 중앙 오프셋 0.
+
+토글·아이콘 한 슬롯 전환 + 카테고리 간격 (022 후속 2): Slack 섹션 헤더의
+expandContainer 실측 — 한 16px 슬롯에 이모지(opacity 1)와 체브론(opacity 0)이
+겹쳐 있고 호버 시 전환된다. 같은 문법으로 특성 아이콘(평소)↔체브론
+(호버·focus-visible·접힘)을 opacity 전환, margin -16으로 겹침. 접기 불가
+(hide-arrow)면 아이콘만 상시. 카테고리 사이 간격은 Slack 섹션 스페이서
+실측 24px(우리 현행 0) — `.SidebarChannelGroup + .SidebarChannelGroup`
+margin-top space-6. 실측: 간격 24, 평소 체브론 0/아이콘 1(left 동일 66),
+접힘 시 체브론 1(회전)/아이콘 0, 펼침 복귀 정상.
+
+들여쓰기 교정 (사용자 피드백): 토글·아이콘 슬롯이 사이드바 경계에 밀착
+(x=0) → groupButton padding-left space-4로 채널 행 아이콘 열(x=17)과 정렬
+(실측 x=16). 정적 헤더의 아이콘 margin-left 16 규칙은 공통 패딩으로 대체.
+
+계단 들여쓰기 (사용자 피드백 2차): Slack 실측 — 섹션 토글 x16·라벨 x40,
+채널 아이콘 x32·채널명 x56. 리스트가 카테고리보다 **한 단(+16) 더
+들어간다**. 우리는 아이콘 열이 평행(16/17)이라 계층이 안 읽혔다.
+적용 — 카테고리 아이콘 gap 4→8(라벨 x40, Slack 일치), 카테고리 콘텐츠
+안 행 padding-left 19→32(아이콘 x30), CTA(채널 추가·멤버 초대) 15→32.
+상단 고정 메뉴(스레드 등)는 카테고리 밖이라 제외(x18 유지).
+실측 — 카테고리 16/40, 채널 30/61, CTA 32.
+
+고정 메뉴↔카테고리 경계 (사용자 피드백 3차): Slack 실측 — 고정 리스트와
+첫 섹션 사이 24px 스페이서 안에 헤어라인 구분선(위 12/선 1/아래 11,
+rgba(29,28,29,0.13)). 섹션끼리는 선 없이 24px만. 적용 — SidebarNavContainer
+border-top 1px rgba(sidebar-text,0.13) + margin-top 12 + 첫 그룹 래퍼
+padding-top 12. 실측: 고정 메뉴 bottom→선 12, 선→첫 카테고리 13.

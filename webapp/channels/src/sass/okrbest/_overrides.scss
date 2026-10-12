@@ -556,6 +556,9 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
 
 #SidebarContainer .SidebarChannelGroupHeader_groupButton.SidebarChannelGroupHeader_groupButton {
     height: var(--okr-row-sidebar);
+
+    // 토글·아이콘 슬롯이 사이드바 경계에 붙지 않게 — 채널 행 아이콘 열(≈16)과 정렬
+    padding-left: var(--okr-space-4);
     font-size: 15px;
     font-weight: 500;
     letter-spacing: normal;
@@ -569,7 +572,9 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
     display: flex;
     flex-shrink: 0;
     align-items: center;
-    margin-right: var(--okr-space-1);
+
+    // Slack 섹션 라벨 x=40 (슬롯 16+16+gap 8)
+    margin-right: var(--okr-space-2);
 
     svg {
         display: block;
@@ -580,7 +585,64 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
     padding-left: 0;
 }
 
-// 정적 헤더(읽지 않은 항목)는 체브론이 없어 아이콘이 행의 들여쓰기를 맡는다.
-#SidebarContainer .SidebarChannelGroupHeader--static .SidebarChannelGroupHeader_icon {
-    margin-left: 16px;
+// 정적 헤더(읽지 않은 항목)의 들여쓰기는 groupButton 공통 padding-left가 맡는다.
+
+// ---------------------------------------------------------------------------
+// 카테고리 토글·아이콘 한 슬롯 전환 (022 후속) — Slack 섹션 헤더 문법:
+// 한 16px 슬롯에 특성 아이콘(평소)과 접힘 체브론(호버·포커스·접힘)을
+// 겹쳐 두고 opacity로 전환한다 (Slack expandContainer 실측: emoji 1 /
+// chevron 0 겹침). 접기 불가(hide-arrow)면 아이콘만 상시.
+// ---------------------------------------------------------------------------
+#SidebarContainer .SidebarChannelGroupHeader_groupButton i.icon-chevron-down:has(+ .SidebarChannelGroupHeader_icon) {
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+
+    // 아이콘을 같은 슬롯 위로 당겨 겹친다
+    + .SidebarChannelGroupHeader_icon {
+        margin-left: -16px;
+        opacity: 1;
+        transition: opacity 0.15s ease-in-out;
+    }
+}
+
+#SidebarContainer .SidebarChannelGroupHeader:hover .SidebarChannelGroupHeader_groupButton i.icon-chevron-down:not(.hide-arrow):has(+ .SidebarChannelGroupHeader_icon),
+#SidebarContainer .SidebarChannelGroupHeader_groupButton:focus-visible i.icon-chevron-down:not(.hide-arrow):has(+ .SidebarChannelGroupHeader_icon),
+#SidebarContainer .SidebarChannelGroupHeader_groupButton[aria-expanded='false'] i.icon-chevron-down:not(.hide-arrow):has(+ .SidebarChannelGroupHeader_icon) {
+    opacity: 1;
+
+    + .SidebarChannelGroupHeader_icon {
+        opacity: 0;
+    }
+}
+
+// 카테고리 사이 간격 — Slack 섹션 스페이서 실측 24px (우리 현행 0).
+#SidebarContainer .SidebarChannelGroup + .SidebarChannelGroup {
+    margin-top: var(--okr-space-6);
+}
+
+// 고정 메뉴(읽지 않은 항목~보관된 메시지)와 카테고리 영역 경계 —
+// Slack 실측: 24px 스페이서 안에 헤어라인(위 12 / 선 1 / 아래 11,
+// rgba(29,28,29,0.13)). 섹션끼리는 선 없이 24px만.
+#SidebarContainer .SidebarNavContainer {
+    border-top: 1px solid rgba(var(--sidebar-text-rgb), 0.13);
+    margin-top: var(--okr-space-3);
+}
+
+#SidebarContainer .SidebarNavContainer .simplebar-content > div:first-child {
+    padding-top: var(--okr-space-3);
+}
+
+// 카테고리 안 리스트 계단 들여쓰기 — Slack 실측: 토글 x16 → 채널 아이콘
+// x32(+16), 라벨 x40 → 채널명 x56(+16). 우리는 아이콘 열이 평행(16/17)이라
+// 계층이 안 읽혔다. 카테고리 콘텐츠 안의 행만 한 단 들여쓴다 (상단 고정
+// 메뉴는 카테고리 밖이므로 제외).
+#SidebarContainer .SidebarChannelGroup_content .SidebarChannel .SidebarLink {
+    padding-left: 32px;
+}
+
+// 카테고리 안 CTA 행(채널 추가·멤버 초대)도 같은 단으로 들여쓴다
+// (CTA는 content 래퍼 밖, SidebarChannelGroup 직속이다).
+#SidebarContainer .SidebarChannelGroup #addChannelsCta,
+#SidebarContainer .SidebarChannelGroup #inviteMembersButton {
+    padding-left: 32px;
 }
