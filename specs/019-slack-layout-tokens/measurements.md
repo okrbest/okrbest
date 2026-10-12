@@ -450,3 +450,12 @@ Slack 섹션 헤더 실측 (flex community, `.p-channel_sidebar__section_heading
 위계: 채널명(15/600 진한 색) vs 카테고리(15/500 흐린 색) — Slack과 같은
 "같은 크기, 굵기·명도로 구분" 문법. upstream `#SidebarContainer` 체인과
 특이도 동률을 피하려고 클래스 병기(1,3,0)/(1,2,0 병기)/(1,4,0 병기).
+
+카테고리 특성 아이콘 (022 후속): 체브론·라벨 사이 16px 글리프(15px 라벨
+균형표), gap 4. 매핑 — 즐겨찾기 star-outline, 채널 pound(#), 개인 메시지
+account-multiple-outline, 사용자 카테고리 folder-outline, 읽지 않은 항목
+message-text-outline. 아이콘이 끼면 upstream "체브론+라벨" 인접 선택자가
+깨져 라벨 패딩 16이 되살아난다 — 아이콘 뒤 라벨 패딩을 병기 특이도로 0.
+정적 헤더(읽지 않은 항목)는 체브론이 없어 아이콘이 들여쓰기 16을 맡는다.
+TDD: 테스트 6건 신설(RED 5건 확인 후 GREEN), sidebar_category 스냅샷 5건
+갱신. 실측 — svg 16, gap 4, 수직 중앙 오프셋 0.
