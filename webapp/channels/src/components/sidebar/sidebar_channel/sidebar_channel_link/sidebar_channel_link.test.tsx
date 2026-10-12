@@ -41,6 +41,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         label: 'channel_label',
         icon: null,
         unreadMentions: 0,
+        unreadMsgs: 0,
         isUnread: false,
         isMuted: false,
         isChannelSelected: false,
@@ -65,6 +66,34 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         const merged = mergeObjects(baseProps, props);
         return renderWithContext(<SidebarChannelLink {...merged}/>);
     };
+
+    // 025: 일반 미읽음 수 뱃지 — 멘션 뱃지와 구분되는 보조 뱃지
+    describe('unread message count badge', () => {
+        test('멘션 없이 미읽음만 있으면 미읽음 수 뱃지를 보여준다', () => {
+            renderLink({isUnread: true, unreadMsgs: 5, unreadMentions: 0});
+
+            expect(screen.getByTestId('unreadMsgBadge')).toHaveTextContent('5');
+            expect(screen.queryByText('5', {selector: '#unreadMentions .unreadMentions'})).not.toBeInTheDocument();
+        });
+
+        test('멘션이 있으면 멘션 뱃지만 보여준다', () => {
+            renderLink({isUnread: true, unreadMsgs: 5, unreadMentions: 2});
+
+            expect(screen.queryByTestId('unreadMsgBadge')).not.toBeInTheDocument();
+        });
+
+        test('100건 이상은 99로 캡한다', () => {
+            renderLink({isUnread: true, unreadMsgs: 297, unreadMentions: 0});
+
+            expect(screen.getByTestId('unreadMsgBadge')).toHaveTextContent('99');
+        });
+
+        test('읽음 상태면 뱃지가 없다', () => {
+            renderLink({isUnread: false, unreadMsgs: 0, unreadMentions: 0});
+
+            expect(screen.queryByTestId('unreadMsgBadge')).not.toBeInTheDocument();
+        });
+    });
 
     test('should match snapshot', () => {
         const {container} = renderLink();

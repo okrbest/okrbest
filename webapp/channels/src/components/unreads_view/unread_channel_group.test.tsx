@@ -132,4 +132,51 @@ describe('components/unreads_view/unread_channel_group', () => {
         // useHistory는 전역 목(tests/react-router-dom_mock.ts)으로 대체된다
         expect((global as any).historyMock.push).toHaveBeenCalledWith('/team-name/channels/unread-channel');
     });
+
+    // 025: 미읽음 수 보조 뱃지 — 사이드바와 같은 표기 일관성
+    describe('unread message count badge', () => {
+        function stateWithUnread(messages: number, mentions = 0): DeepPartial<GlobalState> {
+            const state = getBaseState();
+            state.entities!.channels!.messageCounts = {[channel.id]: {total: messages + 4, root: messages + 4}};
+            state.entities!.channels!.myMembers = {
+                [channel.id]: TestHelper.getChannelMembershipMock({
+                    channel_id: channel.id,
+                    user_id: currentUserId,
+                    msg_count: 4,
+                    mention_count: mentions,
+                }),
+            };
+            return state;
+        }
+
+        test('멘션이 없으면 미읽음 수 뱃지를 보여준다', () => {
+            renderWithContext(
+                <UnreadChannelGroup {...baseProps}/>,
+                stateWithUnread(6),
+            );
+
+            expect(screen.getByTestId('unreadMsgBadge')).toHaveTextContent('6');
+        });
+
+        test('100건 이상은 99로 캡한다', () => {
+            renderWithContext(
+                <UnreadChannelGroup {...baseProps}/>,
+                stateWithUnread(150),
+            );
+
+            expect(screen.getByTestId('unreadMsgBadge')).toHaveTextContent('99');
+        });
+
+        test('멘션이 있으면 멘션 뱃지만 보여준다', () => {
+            renderWithContext(
+                <UnreadChannelGroup
+                    {...baseProps}
+                    mentionCount={5}
+                />,
+                stateWithUnread(6, 5),
+            );
+
+            expect(screen.queryByTestId('unreadMsgBadge')).not.toBeInTheDocument();
+        });
+    });
 });

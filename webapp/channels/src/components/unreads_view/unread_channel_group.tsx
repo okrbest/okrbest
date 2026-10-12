@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {shallowEqual, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
 import type {Channel} from '@mattermost/types/channels';
 
-import {isChannelAutotranslated} from 'mattermost-redux/selectors/entities/channels';
+import {isChannelAutotranslated, makeGetChannelUnreadCount} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
@@ -45,6 +45,8 @@ const UnreadChannelGroup = ({
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     const currentUserId = useSelector(getCurrentUserId);
+    const getUnreadCount = useMemo(() => makeGetChannelUnreadCount(), []);
+    const unreadMsgs = useSelector((state: GlobalState) => getUnreadCount(state, channel.id).messages);
     const channelUrl = useSelector((state: GlobalState) => getChannelURL(state, channel, channel.team_id));
     const autotranslated = useSelector((state: GlobalState) => isChannelAutotranslated(state, channel.id));
     const posts = useSelector(
@@ -91,6 +93,15 @@ const UnreadChannelGroup = ({
                 </button>
                 {mentionCount > 0 && (
                     <ChannelMentionBadge unreadMentions={mentionCount}/>
+                )}
+                {/* 025: 멘션이 없을 때 일반 미읽음 수 — 사이드바 뱃지와 같은 표기 (99 캡) */}
+                {mentionCount === 0 && unreadMsgs > 0 && (
+                    <span
+                        className='badge unreadMsgBadge'
+                        data-testid='unreadMsgBadge'
+                    >
+                        {Math.min(unreadMsgs, 99)}
+                    </span>
                 )}
                 <div className='UnreadChannelGroup__actions'>
                     {actions}
