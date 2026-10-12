@@ -522,3 +522,32 @@ forceCloseOnSelect로 즉시 닫기 (TDD RED→GREEN). 글리프는 019 획 보�
 검증 — TDD 6건 RED→GREEN, 브라우저 실주행: 다크 선택 → Onyx 전면 적용,
 시스템 선택 후 OS 에뮬레이션 다크/라이트 왕복 → sidebar-bg #202228(Onyx)
 ↔ #fdfdfd(Slate) 자동 전환, 토글은 프로필 위 8px 간격 세로 스택.
+
+## 24. 미읽음 수 보조 뱃지 (025)
+
+멘션 수만 숫자로 보여주는 upstream 규칙에 더해, 멘션이 없을 때 일반
+미읽음 수를 **파랑 틴트 뱃지**로 표시한다 — 글자 var(--link-color)
+(Slate #1264A3 / Onyx 밝은 #5D89EA: 두 테마 모두 "읽기 좋은 파랑"으로
+설계된 변수), 틴트 rgba(--button-bg-rgb, 0.14). link-color-rgb는 테마
+유틸이 hex 문자열로 넣어 rgba()가 깨지므로 트리플 보장 변수만 rgba에
+쓴다. 활성 행은 반전색 유지. 멘션 뱃지(Slate 빨강 #C01343 / Onyx 파랑
+#3C66C4 불투명 필)와는 색상(라이트)·필/틴트 명도(다크)로 구분.
+실측 — Slate: bg rgba(18,100,163,.14)+#1264A3, Onyx: bg
+rgba(60,102,196,.14)+#5D89EA (양 테마 전환 왕복 확인). 100건 이상은 99로 캡. 멘션이 생기면
+기존 강조색 멘션 뱃지가 우선하고 회색 뱃지는 사라진다(두 뱃지 동시 노출
+금지). 데이터는 calculateUnreadCount의 messages — sidebar_channel_link
+connector에 이미 연결돼 있던 unreadMsgs를 렌더에 연결만 했다.
+TDD 4건(RED 2 양성 케이스 확인→GREEN 17/17), 실측 — 미읽음 3건 채널에
+회색 "3" 뱃지 + 굵은 채널명, 멘션 뱃지 부재.
+
+읽지 않은 항목 페이지 일관성 (사용자 피드백): 중앙 뷰(unreads_view)의
+채널 그룹 머리글에도 같은 뱃지 — 멘션 0이면 파랑 틴트 미읽음 수(99 캡),
+멘션 있으면 기존 멘션 뱃지. makeGetChannelUnreadCount를 컴포넌트에서
+직접 구독. TDD 3건(RED 2→GREEN 8/8). 실측 — 머리글 뱃지
+rgba(18,100,163,.14)+#1264A3, 사이드바와 표기 일치.
+
+멘션 뱃지 색 통일 (사용자 피드백): 중앙 영역에선 부트스트랩 .badge
+기본색(회색)이 새어 나와 멘션 뱃지가 사이드바(테마 mention-bg)와
+달랐다 — `.UnreadChannelGroup #unreadMentions.badge`에 var(--mention-bg)/
+var(--mention-color). 실측 — 페이지·사이드바 멘션 뱃지 모두
+rgb(192,19,67)+흰 글자(Slate), 변수 기반이라 Onyx(#3C66C4)도 자동.

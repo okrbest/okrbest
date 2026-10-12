@@ -656,3 +656,35 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
 #SidebarContainer .SidebarChannelGroup #inviteMembersButton .SidebarChannelNavigator__inviteMembersLhsButton {
     padding-left: 0;
 }
+
+// ---------------------------------------------------------------------------
+// 미읽음 수 보조 뱃지 (025) — 멘션 뱃지(필)와 구분되는 파랑 틴트.
+// 멘션이 없을 때만 일반 미읽음 수를 보여준다 (100건 이상은 99).
+// 글자는 link-color — 두 테마 모두 "그 테마에서 읽기 좋은 파랑"으로
+// 설계된 변수 (Slate #1264A3, Onyx는 어두운 사이드바 위 밝은 #5D89EA).
+// 틴트는 button-bg-rgb 기반 — link-color-rgb는 테마 유틸이 hex 문자열로
+// 넣어 rgba()가 깨진다(트리플 보장 변수만 rgba에 쓴다).
+// Onyx의 멘션 뱃지(#3C66C4 불투명 필)와는 필/틴트 명도 차로 구분된다.
+// ---------------------------------------------------------------------------
+#SidebarContainer .SidebarChannel .unreadMsgBadge.badge {
+    background: rgba(var(--button-bg-rgb), 0.14);
+    color: var(--link-color);
+}
+
+// 읽지 않은 항목 페이지(중앙 영역)의 그룹 머리글에도 같은 표기.
+.UnreadChannelGroup .unreadMsgBadge.badge {
+    background: rgba(var(--button-bg-rgb), 0.14);
+    color: var(--link-color);
+}
+
+// 멘션 뱃지도 사이드바와 같은 테마 멘션 색으로 — 중앙 영역에선
+// 부트스트랩 .badge 기본색(회색)이 새어 나와 표기가 어긋났다.
+.UnreadChannelGroup #unreadMentions.badge {
+    background: var(--mention-bg);
+    color: var(--mention-color);
+}
+
+#SidebarContainer .SidebarChannel.active .unreadMsgBadge.badge {
+    background: rgba(var(--sidebar-text-active-color-rgb), 0.16);
+    color: var(--sidebar-text-active-color);
+}

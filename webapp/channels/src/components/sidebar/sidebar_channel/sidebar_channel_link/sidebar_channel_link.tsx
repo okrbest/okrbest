@@ -49,6 +49,11 @@ type Props = WrappedComponentProps & {
     unreadMentions: number;
 
     /**
+     * 025: Number of unread messages in this channel (mention 외 일반 미읽음)
+     */
+    unreadMsgs: number;
+
+    /**
      * Whether or not the channel is shown as unread
      */
     isUnread: boolean;
@@ -276,6 +281,15 @@ export class SidebarChannelLink extends React.PureComponent<Props, State> {
                     hasUrgent={hasUrgent}
                     tooltip={hasUrgent ? messages.urgentMentionTooltip : undefined}
                 />
+                {/* 025: 멘션이 없을 때 일반 미읽음 수를 보조 뱃지로 (100건 이상은 99) */}
+                {unreadMentions === 0 && this.props.isUnread && this.props.unreadMsgs > 0 && (
+                    <span
+                        className='badge unreadMsgBadge'
+                        data-testid='unreadMsgBadge'
+                    >
+                        {Math.min(this.props.unreadMsgs, 99)}
+                    </span>
+                )}
                 {this.props.hasPendingJoinRequests && (
                     <span
                         className='SidebarChannelLink__join-request-dot'
