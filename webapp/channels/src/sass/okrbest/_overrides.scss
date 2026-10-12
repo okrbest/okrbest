@@ -688,3 +688,60 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
     background: rgba(var(--sidebar-text-active-color-rgb), 0.16);
     color: var(--sidebar-text-active-color);
 }
+
+// ---------------------------------------------------------------------------
+// 프로필 팝오버 (026) — Slack 프로필 패널 실측: 이름 22/900, 상태 15/400,
+// 버튼 h36 r8 15/700. 팝오버 스케일로 번역 — 아바타는 전앱 r8 리듬
+// (레일·프로필 버튼·워크스페이스 아이콘과 동일), 컨테이너는 공통 표면
+// 문법(r8 + 헤어라인·드롭섀도). 색은 현행 유지.
+// ---------------------------------------------------------------------------
+.user-profile-popover.user-profile-popover {
+    border-color: transparent;
+    border-radius: var(--radius-m);
+    box-shadow:
+        0 0 0 1px rgba(var(--center-channel-color-rgb), 0.13),
+        0 8px 24px rgba(0, 0, 0, 0.12);
+
+    // 원형 아바타 → 둥근 사각 r8 (017 레일 리듬)
+    .Avatar,
+    .user-profile-popover__heading img,
+    img.Avatar {
+        border-radius: var(--radius-m);
+    }
+
+    // 이름 — Slack 22(/900) 위계, 우리 폰트 체계로 700.
+    // upstream 콘텐츠 체인과 동률이라 클래스 병기로 승급한다.
+    .user-profile-popover__heading.user-profile-popover__heading,
+    .user-profile-popover__heading.user-profile-popover__heading p {
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 30px;
+    }
+
+    // 부제(@username·부서) — 본문 15, 흐린 색
+    .user-profile-popover__non-heading {
+        color: rgba(var(--center-channel-color-rgb), 0.75);
+        font-size: 15px;
+        line-height: 22px;
+    }
+
+    // 캡션 라벨(현지 시간 등) 11 → 12 (타입 스케일 정합).
+    // upstream time-status 체인(0,4,0)과 동률·순서 패배라 (0,5,0)로 승급.
+    .user-popover__subtitle.user-popover__subtitle.user-popover__subtitle {
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    // 버튼 — Slack h36 r8 15
+    .btn.btn-sm {
+        height: 36px;
+        border-radius: var(--radius-m);
+        font-size: 15px;
+        line-height: 20px;
+    }
+
+    .btn.btn-icon.btn-sm {
+        width: 36px;
+        padding: 0;
+    }
+}
