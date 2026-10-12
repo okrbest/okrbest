@@ -3,32 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-12 11:24
+- 갱신일: 2026-10-12 15:22
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 330개
+- 남은 커밋: 312개
 
-**마지막 반영 커밋:** `679dcd7e` | [\[MM-70524\] Fix advanced text editor issue with rootID (#38244)](https://github.com/mattermost/mattermost/commit/679dcd7e1653320dbffa0a9a664f196f406362e3) | 2026-08-31
+**마지막 반영 커밋:** `a8dd85fe` | [\[MM-69948\] Validate roles on team member role updates (#38186)](https://github.com/mattermost/mattermost/commit/a8dd85fe1c53d657c31f94a2179e085e6935f046) | 2026-09-01
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 460f20b2 | [MM-70227: Adjust error detail formatting in session and OAuth flows (#37915)](https://github.com/mattermost/mattermost/commit/460f20b2eeecb7bd92184c396430c91056ea4ef7) | 2026-09-01 |
-| 40e282b9 | [\[Docs Revamp Feedback\] Fix admonition styling, card grid, oversized images, and TOC duplicates (#38180)](https://github.com/mattermost/mattermost/commit/40e282b95b6108de01c19e30a9a2121b96787f9b) | 2026-09-01 |
-| 8edfbbad | [\[MM-70429\] Increase interactive dialog title max length to 80 (#38140)](https://github.com/mattermost/mattermost/commit/8edfbbade7ec03f8194c323d852d5f731aaa2a56) | 2026-09-01 |
-| 885471e2 | [\[MM-70279\] Add plugin upload overwrite review panel (#37586)](https://github.com/mattermost/mattermost/commit/885471e28f2f8a337a4b4a734a46542442530321) | 2026-09-01 |
-| b11848a8 | [Fix flaky TestCopyEmojiImages (#38156)](https://github.com/mattermost/mattermost/commit/b11848a87c5440cdc84b6c69d6681fa7540aa410) | 2026-09-01 |
-| d8ef20f0 | [\[MM-70213\] Allow custom URI schemes in DCR redirect URI validation (#37917)](https://github.com/mattermost/mattermost/commit/d8ef20f0863d3c3d472ea89abc2de334b00c044b) | 2026-09-01 |
-| dd83cc14 | [Graduate email notification settings to Site Configuration > Notifications (#38024)](https://github.com/mattermost/mattermost/commit/dd83cc144d2e4bda6768a0ddbbdec3d3711f5138) | 2026-09-01 |
-| b3c66c7d | [MM-68613: raise post message size limit to 1MB (#37300)](https://github.com/mattermost/mattermost/commit/b3c66c7d17f1c55d7551a162fcac8455104918e0) | 2026-09-01 |
-| 3e3f8c76 | [\[MM-70507\] Filter OAuth endpoint requests that hit reserved IPs (#38222)](https://github.com/mattermost/mattermost/commit/3e3f8c769a15c53747c42fecfc811665ce021b17) | 2026-09-01 |
-| fbd8e482 | [Remove unused ABAC audit logging setting from system console (#38252)](https://github.com/mattermost/mattermost/commit/fbd8e482674188f92c074800443ceb6235cafaf5) | 2026-09-01 |
-| 7b21e93e | [Allow direct modifications to non-English translation files (#38218)](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) | 2026-09-01 |
-| 5650f8eb | [\[MM-69864\]\[MM-69870\] Edit existing attributes and persist Applies-to add/remove on Save (#38056)](https://github.com/mattermost/mattermost/commit/5650f8eb049fc9d79e0bed165b4b927a57bc043d) | 2026-09-01 |
-| 756f4e81 | [Remove the remaining string refs (#38237)](https://github.com/mattermost/mattermost/commit/756f4e8101b196ece7583f8e67efb4ad2282593c) | 2026-09-01 |
-| 2a64b828 | [Take react-bootstrap's lifecycle fix and stop shipping a second react-dom (#38240)](https://github.com/mattermost/mattermost/commit/2a64b8283d692233527619c5902ef78d150836df) | 2026-09-01 |
-| 6e36dad9 | [Stop react-transition-group from calling findDOMNode (#38236)](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) | 2026-09-01 |
-| 864d7a9b | [Make PerformanceReporterController and PermissionSystemSchemeSettings safe to remount (#38239)](https://github.com/mattermost/mattermost/commit/864d7a9b96948fe95ce17c78d18472352bb9f27d) | 2026-09-01 |
-| ff806bff | [Avoid blank DMs / 0-count GMs in LHS (#37930)](https://github.com/mattermost/mattermost/commit/ff806bffa8d208ca8bd8f2976634f6c7d200ced8) | 2026-09-01 |
-| a8dd85fe | [\[MM-69948\] Validate roles on team member role updates (#38186)](https://github.com/mattermost/mattermost/commit/a8dd85fe1c53d657c31f94a2179e085e6935f046) | 2026-09-01 |
 | b6243db3 | [\[MM-70506\] Apply request body size limit to plugin requests (#38229)](https://github.com/mattermost/mattermost/commit/b6243db3d27e7a02e6b75b4c842aa329b873752e) | 2026-09-02 |
 | dc7f63b4 | [MM-70247: bump msgpack fork to cap byte-string allocation paths (#37980)](https://github.com/mattermost/mattermost/commit/dc7f63b4fc3cf7afcb9d9c03fadb478adcabb691) | 2026-09-02 |
 | cfab0366 | [ABAC: plugin policy self-inclusion and editor/test robustness (#37926)](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) | 2026-09-02 |
@@ -762,6 +744,10 @@
 | 9de33037 | [MM-70076 - include native user attribute fields in ABAC policy listings (#38136)](https://github.com/mattermost/mattermost/commit/9de33037326535e4f165de398c2cfabe0318ce4e) | 제외한 ABAC 고유 속성 Phase 5(84a554b2 #37133)에 의존해 컴파일이 깨진다. GetAccessControlPolicyAttributes가 property store NotFound 시 model.NativeUserAttributeFields()의 고유 필드(user.email/verified/isbot/createat)를 통과시키는 2파일 +124/-8인데, 그 함수와 테스트가 쓰는 NativeAttributePropertyField{Email,IsBot,Verified} 상수가 우리 트리에 0건이다(정의처 server/public/model/native_attributes.go가 84a554b2 소산, property v2 필드 부재로 제외). merge-tree는 CLEAN이라 텍스트 신호만으론 드러나지 않는다. 같은 계보 Phase 6(17c77e27)도 같은 사유로 제외했다. 나머지 변경(인자명 channelID→resourceID, 테스트 maps.Clone)은 동작 변화가 없다. 재검토 조건: property v2·Phase 5 도입 시 함께 반영. |
 
 | 443c6fdf | [Prepackage mattermost-plugin-agents v2.6.1. (#38242)](https://github.com/mattermost/mattermost/commit/443c6fdf275c48d5b0646e6f191aed68fc646236) | 공식 Agents 번들 버전 올림(v2.6.0 → v2.6.1)을 멈춘다 — 1361e922(v2.6.0)·10804f80(v2.5.1) 제외와 같은 사유이며 1361e922 제외 사유가 이 커밋을 후속 대상으로 지목해 두었다. 우리 Agents 포크(okrbest/okrbest-plugin-agents)는 공식과 같은 플러그인 ID mattermost-ai이고, server/Makefile PLUGIN_PACKAGES는 공식판을 번들하므로 재시작 때 processPrepackagedPlugin이 더 높은 번들 버전으로 우리 포크를 덮어쓸 위험이 커진다(1bfa2e51 방침). 우리 Makefile은 v2.4.2 유지(일반 166행·FIPS 181행) — merge-tree CONFLICT의 원인. |
+
+| 40e282b9 | [\[Docs Revamp Feedback\] Fix admonition styling, card grid, oversized images, and TOC duplicates (#38180)](https://github.com/mattermost/mattermost/commit/40e282b95b6108de01c19e30a9a2121b96787f9b) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 개편 피드백 반영이라 대상이 없다. 56파일 +1244/-908이 전부 docs/main/·docs/site/·docs/pdf/ 아래(admonition 스타일·카드 그리드·과대 이미지·TOC 중복 수정)이고 우리 트리에 없다(MISSING PATHS, merge-tree modify/delete). 코드·i18n 변경 없음. c059bd33·50241b42·3bf2d07f 제외와 같은 사유. |
+
+| 5650f8eb | [\[MM-69864\]\[MM-69870\] Edit existing attributes and persist Applies-to add/remove on Save (#38056)](https://github.com/mattermost/mattermost/commit/5650f8eb049fc9d79e0bed165b4b927a57bc043d) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 #37580 → 4ec0fe9c·63077696·844d3370·338dc6c7·ddee8289)의 후속이라 얹을 토대가 없다. 기존 속성 편집·Applies-to 추가/제거 저장·제거 경고 모달을 넣는 18파일 +2275/-593인데 MISSING PATHS 16/18 — components/admin_console/global_attributes/ 디렉터리 전체와 playwright global_attributes 스펙이 우리 트리에 없다. 남는 admin_definition.tsx(+12)·en.json(+14)·constants.tsx(+1)도 이 화면 배선·문구라 단독으로 받으면 없는 컴포넌트를 가리킨다. 뿌리는 property 시스템 v2(48f2fd08 → 9f1fe90b) 제외. 후속 65f8ca23(#38409)도 같은 사유 대상. |
 
 ## spec 전환 커밋
 
