@@ -538,3 +538,26 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
     width: 20px;
     height: 20px;
 }
+
+// ---------------------------------------------------------------------------
+// 사이드바 카테고리 명칭 — Slack 섹션 헤더 실측 (022, measurements 22절):
+// 행 28, 라벨 15/500, 대문자 변환·자간 없음. 12px 대문자+자간 0.6px은
+// 한글 라벨("채널"·"개인 메시지")이 안 읽힌다. 색·들여쓰기는 현행 유지.
+// upstream과 특이도 동률을 피하려고 클래스를 병기한다.
+// ---------------------------------------------------------------------------
+#SidebarContainer .SidebarChannelGroup .SidebarChannelGroupHeader.SidebarChannelGroupHeader {
+    height: var(--okr-row-sidebar);
+    text-transform: none;
+}
+
+#SidebarContainer .SidebarChannelGroup .SidebarChannelGroupHeader .SidebarMenu_menuButton.SidebarMenu_menuButton {
+    margin: 0 16px 0 0;
+}
+
+#SidebarContainer .SidebarChannelGroupHeader_groupButton.SidebarChannelGroupHeader_groupButton {
+    height: var(--okr-row-sidebar);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: normal;
+    text-transform: none;
+}
