@@ -561,3 +561,26 @@ div.tooltipContainer > .tooltipContent > .tooltipContentTitleContainer > .toolti
     letter-spacing: normal;
     text-transform: none;
 }
+
+// 카테고리 특성 아이콘 (022) — 체브론·라벨 사이 16px 글리프.
+// 아이콘이 끼면 upstream의 "체브론 + 라벨" 인접 선택자가 깨져 라벨이
+// 기본 패딩 16px을 되찾으므로, 아이콘 뒤 라벨의 패딩을 다시 0으로 민다.
+#SidebarContainer .SidebarChannelGroupHeader_groupButton .SidebarChannelGroupHeader_icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    margin-right: var(--okr-space-1);
+
+    svg {
+        display: block;
+    }
+}
+
+#SidebarContainer .SidebarChannelGroupHeader_groupButton .SidebarChannelGroupHeader_icon + .SidebarChannelGroupHeader_text.SidebarChannelGroupHeader_text {
+    padding-left: 0;
+}
+
+// 정적 헤더(읽지 않은 항목)는 체브론이 없어 아이콘이 행의 들여쓰기를 맡는다.
+#SidebarContainer .SidebarChannelGroupHeader--static .SidebarChannelGroupHeader_icon {
+    margin-left: 16px;
+}

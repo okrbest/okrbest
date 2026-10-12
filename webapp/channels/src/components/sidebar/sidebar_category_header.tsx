@@ -5,11 +5,49 @@ import classNames from 'classnames';
 import React from 'react';
 import type {DraggableProvidedDragHandleProps} from 'react-beautiful-dnd';
 
+import {
+    AccountMultipleOutlineIcon,
+    FolderOutlineIcon,
+    MessageTextOutlineIcon,
+    PoundIcon,
+    StarOutlineIcon,
+} from '@mattermost/compass-icons/components';
+
 import {wrapEmojis} from 'utils/emoji_utils';
+
+// 022: 카테고리 특성 아이콘 — 채널명 행의 타입 아이콘과 같은 문법.
+// 15px 라벨엔 16px 아이콘 (019 균형표).
+const CATEGORY_ICONS: Record<string, React.ComponentType<React.ComponentProps<typeof PoundIcon>>> = {
+    favorites: StarOutlineIcon,
+    channels: PoundIcon,
+    direct_messages: AccountMultipleOutlineIcon,
+    custom: FolderOutlineIcon,
+    unreads: MessageTextOutlineIcon,
+};
+
+function CategoryIcon({categoryType}: {categoryType?: string}) {
+    const Icon = categoryType ? CATEGORY_ICONS[categoryType] : undefined;
+    if (!Icon) {
+        return null;
+    }
+    return (
+        <span
+            className='SidebarChannelGroupHeader_icon'
+            data-testid={`categoryIcon-${categoryType}`}
+        >
+            <Icon
+                size={16}
+                color='currentColor'
+                aria-hidden={true}
+            />
+        </span>
+    );
+}
 
 type StaticProps = {
     children?: React.ReactNode;
     displayName: string;
+    categoryType?: string;
 };
 
 export const SidebarCategoryHeaderStatic = React.forwardRef((props: StaticProps, ref?: React.Ref<HTMLDivElement>) => {
@@ -19,6 +57,7 @@ export const SidebarCategoryHeaderStatic = React.forwardRef((props: StaticProps,
                 ref={ref}
                 className='SidebarChannelGroupHeader_groupButton'
             >
+                <CategoryIcon categoryType={props.categoryType}/>
                 <div className='SidebarChannelGroupHeader_text'>
                     {wrapEmojis(props.displayName)}
                 </div>
@@ -42,6 +81,7 @@ type Props = StaticProps & {
 export const SidebarCategoryHeader = React.forwardRef(({
     children,
     displayName,
+    categoryType,
     dragHandleProps,
     isCollapsed,
     isCollapsible = true,
@@ -75,6 +115,7 @@ export const SidebarCategoryHeader = React.forwardRef(({
                         'hide-arrow': !isCollapsible,
                     })}
                 />
+                <CategoryIcon categoryType={categoryType}/>
                 <div
                     className='SidebarChannelGroupHeader_text'
                     {...dragHandleProps}
