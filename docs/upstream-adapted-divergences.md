@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| OpenSearch 플러그인 감지(AWS) 수정 | [0760aee3](https://github.com/mattermost/mattermost/commit/0760aee32b79fe98997a76b9363648e0ea3a5dae) (#38280) | server 8파일은 그대로 받았고, 우리가 지운 `docs/main/` 문서 1개(로그 표 1줄)를 버렸다 — 아래 참조 |
 | React 경고 props·refs·keys 정리 | [f6f27191](https://github.com/mattermost/mattermost/commit/f6f2719165ffb132e351342add570f3b1b6fd07a) (#38238) | Tag forwardRef·suggestion dispatch 제거·워크스페이스 key는 받았다. 채널 헤더 메뉴 `isReadonly` 제거 2파일은 우리가 먼저 지워 버렸다 — 아래 참조 |
 
 ---
@@ -2144,6 +2145,34 @@ upstream에 없는 코드라 커밋이 치환하지 못했다. 모두 rctx가 �
 
 - Scheduled Recaps(25f3a75c)를 들이면 버린 Recap 한도 코드가 그 커밋과 함께 들어온다. 이 커밋을 다시 볼 필요는 없다 — 그 시점 우리 트리의 `GetUser`가 이미 rctx 시그니처라 25f3a75c adapt 때 호출만 맞추면 된다.
 - property v2 계보를 들이면 `api4/custom_profile_attributes.go`의 `SessionHasPermissionToUser` 검사가 upstream의 property field 권한 검사로 바뀐다.
+
+## OpenSearch 플러그인 감지(AWS) 수정 — server는 그대로 받고 docs 1개를 버렸다
+
+**upstream**: [`0760aee3`](https://github.com/mattermost/mattermost/commit/0760aee32b79fe98997a76b9363648e0ea3a5dae)
+([MM-70529] Fix OpenSearch plugin discovery on AWS, #38280) — 9파일 +69/-118, 2026-10-13 반영
+
+**받은 것.** server 8파일 전부.
+
+- ES·OpenSearch `fetchServerInfo`가 플러그인 목록을 `_nodes/plugins` 대신 `_cat/plugins`로 받는다. AWS OpenSearch는 nodes API가 플러그인 목록을 제대로 주지 않아, ICU가 있어도 시작을 거부했다.
+- 노드별 analysis-icu 사전 검사와 `ent.elasticsearch.analysis_icu_required` 오류를 없앴다. ICU 부재는 posts 인덱스 템플릿 생성 실패(`icu_tokenizer`)로 드러나고, 그 오류 문구에 "모든 노드에 analysis-icu 설치 확인" 안내를 붙였다.
+- 검색 엔진 watcher의 `Start() failed, will retry` 로그를 Warn에서 Error로 올렸다.
+
+선행 커밋 929a2e9e(#37873)는 이미 `2ff56a0ba5`로 반영돼 있어 서버 쪽은 자동 병합됐다. ko.json에는 지워진 `analysis_icu_required` 키가 원래 없어 orphaned가 생기지 않는다.
+`create_template_posts_if_not_exists.template_create_failed`는 영문 원문이 길어졌는데 ko는 옛 문구 그대로다(i18n 후속 대상).
+
+**버린 docs 내용** (우리가 지운 `docs/main/` 경로, 1d3bbc63 문서 사이트 계보 제외). 문서 사이트를 되살리면 아래를 다시 반영한다.
+
+| 파일 | upstream 변경 | 버린 내용 요지 |
+|---|---|---|
+| `docs/main/deployment-guide/scale/enterprise-search.mdx` (+1/-1) | 장애 시 로그 메시지 표의 1행 수준 변경 | `Search engine watcher: Start() failed, will retry` 행의 수준을 `Warn`에서 `Error`로 고쳤다. 설명(`next_backoff` 필드로 다음 재시도까지 시간 표시)은 그대로다. 위 watcher 코드 변경과 짝을 이루는 문서 수정이다 |
+
+**검증.** `go build ./...`, `go vet ./enterprise/elasticsearch/... ./channels/app/platform` 통과.
+httptest 기반 `TestStart*`·`TestCJK*`·`TestWrap*`(ES·OpenSearch)와 `TestRunSearchEngineWatcher` 통과.
+실제 ES가 필요한 suite 98건은 로컬에 ES·OpenSearch 컨테이너가 없어 `connection refused`로 실패한다. 반영 전 HEAD에서도 같은 98건이 실패해 목록 diff가 비었다.
+
+### 되돌릴 조건
+
+- 문서 사이트(1d3bbc63 계보)를 들이면 위 docs 1행을 다시 반영한다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
