@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| i18n 원문 4종의 영어 문법 제거 | [43b2ae87](https://github.com/mattermost/mattermost/commit/43b2ae87e06b06abe01f9382ec26899c54c31728) (#38228) | 코드·다른 로캘은 그대로. ko.json은 우리 파일 위에 upstream ko 변경을 다시 적용했고, `admin_definition_helpers.tsx`의 eslint-disable 주석 1줄은 넣지 않았다 — 아래 참조 |
 | EnableExperimentalLocales와 실험적 로캘 제거 | [e9379690](https://github.com/mattermost/mattermost/commit/e9379690d5873cbf65049fabaab22f1317696868) (#38219) | 코드·로캘 삭제는 그대로 받고 ko.json에서 지워진 2키를 우리 문구째 지웠다. docs 2개를 버렸다 — 아래 참조 |
 | 외부 링크 검사기 301 추적·GET 재시도·Zendesk 건너뛰기 | [d78e09b9](https://github.com/mattermost/mattermost/commit/d78e09b9a57ed794c32ac0c2c0067ebacc2037c3) (#38319) | 전부 받고, `shouldSkipUrlCheck`의 `FORMS_MATTERMOST_PATTERN` 검사 1줄만 뺐다(제외 계보 상수) — 아래 참조 |
 | Cypress·Playwright E2E 스펙 안정화 | [01fd4cfe](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba) (#38300) | 19파일은 받고, 제외·spec 계보에 걸린 Playwright 3파일의 변경을 버렸다 — 아래 참조 |
@@ -2200,6 +2201,30 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## i18n 원문 4종의 영어 문법 제거 — ko.json은 우리 파일 위에 다시 적용했다
+
+**upstream**: [`43b2ae87`](https://github.com/mattermost/mattermost/commit/43b2ae87e06b06abe01f9382ec26899c54c31728)
+(Stop encoding English grammar in four i18n source strings, #38228) — 28파일 +41/-107, 2026-10-13 반영
+
+**받은 것.** 코드 5파일(관리자 콘솔 툴팁의 `{article}` 제거와 `LicenseSkus` import 삭제, compliance export 3문구 ICU plural화,
+LDAP 그룹 속성 테스트 문구의 `#` 통합, 사용자 제거 버튼에 숫자 표시), en.json, 다른 로캘 카탈로그, Cypress MM-T1168 단언("1 message exported.").
+
+**ko.json 충돌.** 고칠 키 주변에 우리 리브랜드 문자열(`admin.cluster.version_mismatch_warning`의 "OKR.BEST" 등)이 있고 키 배치 순서도 달라 hunk가 붙지 않았다.
+우리 ko.json(HEAD)을 기준으로 upstream ko 변경을 그대로 다시 적용했다. 해당 6키의 우리 값은 upstream ko와 글자까지 같았다.
+
+| 키 | 처리 |
+|---|---|
+| `admin.complianceExport.messagesExportedCount`, `warningCount`, `warningCount.globalrelay` | 기존 한국어 문장을 `{count, plural, other {# …}}`로 감쌌다(렌더링 동일) |
+| `admin.ldap.groupAttributeTestSuccess`, `admin.sidebar.restricted_indicator.tooltip.message.blocked` | upstream처럼 삭제 — 새 원문 구조에 맞지 않는 번역이라 영어로 표시된다. **i18n 후속(missing) 대상** |
+| `admin.team_channel_settings.removeConfirmModal.remove` | upstream도 ko를 건드리지 않아 그대로(숫자 없는 기존 문구) |
+
+**버린 것.** `admin_definition_helpers.tsx`의 `// eslint-disable-next-line formatjs/enforce-placeholders -- Placeholders provided in RestrictedIndicator` 주석 1줄.
+우리 파일에는 원래 이 주석이 없었고(충돌 원인), 넣지 않아도 eslint 결과가 반영 전과 같다. 새 문구(`This feature requires …`)만 받았다.
+
+**검증.** jest `message_export_settings`·`restricted_indicator`·`remove_confirm_modal`·`ldap_text_setting`·`ldap_wizard`·`admin_definition` 13 suites 78 tests, 스냅샷 5 통과.
+webapp tsc 오류 목록이 반영 전과 같다(11건). 변경 5파일 eslint 규칙 위반 목록이 파일별로 반영 전과 같다. `i18n-extract:check` 통과.
+`i18n-check-empty` orphaned는 기존 8건 그대로, missing은 725→727(위 2키).
 
 ## 실험적 로캘 제거 — ko.json 2키를 지우고 docs 2개를 버렸다
 
