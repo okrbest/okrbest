@@ -1,0 +1,74 @@
+=== baseline @ ea20fa2bff Tue Oct 13 15:00:53 KST 2026 ===
+--- npm run check ---
+/home/sdh/okrbest/okrbest/webapp/channels/src/utils/local_storage.ts
+   47:9  error  Unexpected console statement  no-console
+   92:9  error  Unexpected console statement  no-console
+  109:9  error  Unexpected console statement  no-console
+  138:9  error  Unexpected console statement  no-console
+  160:9  error  Unexpected console statement  no-console
+  205:9  error  Unexpected console statement  no-console
+
+✖ 104 problems (104 errors, 0 warnings)
+  13 errors and 0 warnings potentially fixable with the `--fix` option.
+
+npm error Lifecycle script `check:eslint` failed with error:
+npm error code 1
+npm error path /home/sdh/okrbest/okrbest/webapp/channels
+npm error workspace mattermost-webapp@11.11.0
+npm error location /home/sdh/okrbest/okrbest/webapp/channels
+npm error command failed
+npm error command sh -c eslint ./src eslint.config.mjs --quiet --cache
+npm error Lifecycle script `check` failed with error:
+npm error code 1
+npm error path /home/sdh/okrbest/okrbest/webapp/channels
+npm error workspace mattermost-webapp@11.11.0
+npm error location /home/sdh/okrbest/okrbest/webapp/channels
+npm error command failed
+npm error command sh -c npm run check:eslint && npm run check:stylelint
+--- npm run check-types ---
+src/components/tours/onboarding_tour/invite_people_tour_tip.tsx(7,35): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/tours/onboarding_tour/send_message_tour_tip.tsx(7,35): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/trial_benefits_modal/trial_benefits_modal.tsx(10,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/user_account_menu/user_account_custom_status_menuitem.tsx(10,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/user_groups_modal/user_groups_modal.tsx(7,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/user_settings/modal/user_settings_modal.tsx(8,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/view_user_group_modal/view_user_group_modal.tsx(8,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/tests/react_testing_utils.test.tsx(9,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+npm error Lifecycle script `check-types` failed with error:
+npm error code 2
+npm error path /home/sdh/okrbest/okrbest/webapp/channels
+npm error workspace mattermost-webapp@11.11.0
+npm error location /home/sdh/okrbest/okrbest/webapp/channels
+npm error command failed
+npm error command sh -c tsc -b
+--- npm run test ---
+  ● components/sidebar/channel_filter › 버튼 클릭은 필터 옵션 메뉴를 연다
+
+    Unexpected console errors:
+    	- (error) Warning: React does not recognize the `slotProps` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `slotprops` instead. If you accidentally passed it from a parent component, remove it from the DOM element.
+
+      132 |         }
+      133 |
+    > 134 |         throw new Error(message);
+          |               ^
+      135 |     }
+      136 |
+      137 |     warnSpy.mockReset();
+
+      at Object.<anonymous> (src/tests/setup_jest.ts:134:15)
+
+
+Snapshot Summary
+ › 12 snapshots failed from 3 test suites. Inspect your code changes or run `npm test -- -u` to update them.
+
+Test Suites: 50 failed, 1 skipped, 1153 passed, 1203 of 1204 total
+Tests:       164 failed, 11 skipped, 12037 passed, 12212 total
+Snapshots:   12 failed, 1279 passed, 1291 total
+Time:        299.853 s, estimated 324 s
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path /home/sdh/okrbest/okrbest/webapp/channels
+npm error workspace mattermost-webapp@11.11.0
+npm error location /home/sdh/okrbest/okrbest/webapp/channels
+npm error command failed
+npm error command sh -c cross-env TZ=Etc/UTC LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 jest --silent

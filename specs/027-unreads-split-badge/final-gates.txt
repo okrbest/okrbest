@@ -1,0 +1,147 @@
+=== final gates @ ea20fa2bff Tue Oct 13 15:12:02 KST 2026 ===
+--- npm run check ---
+/home/sdh/okrbest/okrbest/webapp/channels/src/utils/local_storage.ts
+   47:9  error  Unexpected console statement  no-console
+   92:9  error  Unexpected console statement  no-console
+  109:9  error  Unexpected console statement  no-console
+  138:9  error  Unexpected console statement  no-console
+  160:9  error  Unexpected console statement  no-console
+  205:9  error  Unexpected console statement  no-console
+
+✖ 104 problems (104 errors, 0 warnings)
+  13 errors and 0 warnings potentially fixable with the `--fix` option.
+
+npm error Lifecycle script `check:eslint` failed with error:
+npm error code 1
+npm error path /home/sdh/okrbest/okrbest/webapp/channels
+npm error workspace mattermost-webapp@11.11.0
+npm error location /home/sdh/okrbest/okrbest/webapp/channels
+npm error command failed
+npm error command sh -c eslint ./src eslint.config.mjs --quiet --cache
+npm error Lifecycle script `check` failed with error:
+npm error code 1
+npm error path /home/sdh/okrbest/okrbest/webapp/channels
+npm error workspace mattermost-webapp@11.11.0
+npm error location /home/sdh/okrbest/okrbest/webapp/channels
+npm error command failed
+npm error command sh -c npm run check:eslint && npm run check:stylelint
+--- npm run check-types ---
+src/components/tours/onboarding_tour/invite_people_tour_tip.tsx(7,35): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/tours/onboarding_tour/send_message_tour_tip.tsx(7,35): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/trial_benefits_modal/trial_benefits_modal.tsx(10,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/user_account_menu/user_account_custom_status_menuitem.tsx(10,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/user_groups_modal/user_groups_modal.tsx(7,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/user_settings/modal/user_settings_modal.tsx(8,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/components/view_user_group_modal/view_user_group_modal.tsx(8,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+src/tests/react_testing_utils.test.tsx(9,28): error TS2307: Cannot find module '@mattermost/components' or its corresponding type declarations.
+npm error Lifecycle script `check-types` failed with error:
+npm error code 1
+npm error path /home/sdh/okrbest/okrbest/webapp/channels
+npm error workspace mattermost-webapp@11.11.0
+npm error location /home/sdh/okrbest/okrbest/webapp/channels
+npm error command failed
+npm error command sh -c tsc -b
+--- npm run test (FAIL list + summary) ---
+FAIL src/components/admin_console/access_control/modals/simulate_access/simulate_access_modal.test.tsx (12.806 s)
+FAIL src/components/channel_settings_modal/channel_settings_configuration_tab.test.tsx (5.786 s)
+FAIL src/components/advanced_text_editor/advanced_text_editor.test.tsx
+FAIL src/components/profile_popover/profile_popover.test.tsx
+FAIL src/utils/admin_console_index.test.tsx
+FAIL src/components/threading/global_threads/thread_menu/thread_menu.test.tsx
+FAIL src/components/sidebar/sidebar_channel/sidebar_channel_menu/sidebar_channel_menu.test.tsx
+FAIL src/components/admin_console/manage_teams_modal/manage_teams_dropdown.test.tsx
+FAIL src/components/admin_console/system_properties/user_properties_dot_menu.test.tsx
+FAIL src/components/browse_channels/browse_channels.test.tsx
+FAIL src/components/menu/menu.test.tsx
+FAIL src/components/dot_menu/dot_menu.test.tsx
+FAIL src/components/create_recap_modal/create_recap_modal.test.tsx
+FAIL src/components/admin_console/access_control/policies.test.tsx
+FAIL src/components/admin_console/access_control/editors/table_editor/table_editor_channel_admin.test.tsx
+FAIL src/components/admin_console/secure_connections/secure_connection_row.test.tsx
+FAIL src/components/admin_console/org_role_management/org_role_management.test.tsx (42.555 s)
+FAIL src/components/channel_header/channel_header.test.tsx
+FAIL src/components/search_results/files_filter_menu.test.tsx
+FAIL src/components/sidebar/channel_filter/channel_filter.test.tsx
+FAIL src/components/sidebar/sidebar_header/sidebar_team_menu.test.tsx
+FAIL src/components/widgets/team_list_menu/team_list_menu.test.tsx
+FAIL src/components/common/agents/agent_dropdown.test.tsx
+FAIL src/components/channel_settings_modal/share_channel_with_workspaces/add_workspace_dropdown.test.tsx
+FAIL src/components/channel_settings_modal/share_channel_with_workspaces/share_channel_with_workspaces.test.tsx
+FAIL src/components/sidebar/add_channels_cta_button.test.tsx
+FAIL src/components/admin_console/system_properties/user_properties_type_menu.test.tsx
+FAIL src/components/team_sidebar/components/theme_mode_toggle.test.tsx
+FAIL src/components/team_sidebar/components/rail_team_button.test.tsx
+FAIL src/components/sidebar/sidebar_category/sidebar_category_menu/index.test.tsx
+FAIL src/components/properties_card_view/propertyValueRenderer/user_property_renderer/userPropertyRenderer.test.tsx
+FAIL src/components/about_build_modal/about_build_modal.test.tsx
+FAIL src/components/suggestion/suggestion_box/suggestion_box.test.jsx
+FAIL src/components/more_direct_channels/list/index.test.ts
+FAIL src/components/preparing_workspace/invite_members.test.tsx
+FAIL src/components/more_direct_channels/index.test.tsx
+FAIL src/actions/views/channel.test.js
+FAIL src/components/admin_console/custom_terms_of_service_settings/custom_terms_of_service_settings.test.tsx
+FAIL src/components/lexical_editor/lexical_text_editor.integration.test.tsx
+FAIL src/components/lexical_editor/lexical_text_editor.test.tsx
+FAIL src/components/profile_popover/profile_popover_call_button_wrapper/index.test.tsx
+FAIL src/components/suggestion/at_mention_provider/at_mention_provider.test.tsx
+FAIL src/components/post_view/post_time/post_time.test.tsx
+FAIL src/packages/mattermost-redux/src/selectors/entities/channels.test.ts
+FAIL src/utils/markdown/index.test.ts
+FAIL src/packages/mattermost-redux/src/selectors/entities/users.test.ts
+FAIL src/packages/mattermost-redux/src/utils/user_utils.test.ts
+FAIL src/utils/local_storage.test.ts
+FAIL src/components/lexical_editor/utils/apply_mention_replacement.test.ts
+FAIL src/packages/mattermost-redux/src/actions/channel_categories.test.js (241.32 s)
+FAIL src/components/admin_console/access_control/modals/simulate_access/simulate_access_modal.test.tsx (12.806 s)
+FAIL src/components/channel_settings_modal/channel_settings_configuration_tab.test.tsx (5.786 s)
+FAIL src/components/advanced_text_editor/advanced_text_editor.test.tsx
+FAIL src/components/profile_popover/profile_popover.test.tsx
+FAIL src/utils/admin_console_index.test.tsx
+FAIL src/components/threading/global_threads/thread_menu/thread_menu.test.tsx
+FAIL src/components/sidebar/sidebar_channel/sidebar_channel_menu/sidebar_channel_menu.test.tsx
+FAIL src/components/admin_console/manage_teams_modal/manage_teams_dropdown.test.tsx
+FAIL src/components/admin_console/system_properties/user_properties_dot_menu.test.tsx
+FAIL src/components/browse_channels/browse_channels.test.tsx
+FAIL src/components/menu/menu.test.tsx
+FAIL src/components/dot_menu/dot_menu.test.tsx
+FAIL src/components/create_recap_modal/create_recap_modal.test.tsx
+FAIL src/components/admin_console/access_control/policies.test.tsx
+FAIL src/components/admin_console/access_control/editors/table_editor/table_editor_channel_admin.test.tsx
+FAIL src/components/admin_console/secure_connections/secure_connection_row.test.tsx
+FAIL src/components/admin_console/org_role_management/org_role_management.test.tsx (42.555 s)
+FAIL src/components/channel_header/channel_header.test.tsx
+FAIL src/components/search_results/files_filter_menu.test.tsx
+FAIL src/components/sidebar/channel_filter/channel_filter.test.tsx
+FAIL src/components/sidebar/sidebar_header/sidebar_team_menu.test.tsx
+FAIL src/components/widgets/team_list_menu/team_list_menu.test.tsx
+FAIL src/components/common/agents/agent_dropdown.test.tsx
+FAIL src/components/channel_settings_modal/share_channel_with_workspaces/add_workspace_dropdown.test.tsx
+FAIL src/components/channel_settings_modal/share_channel_with_workspaces/share_channel_with_workspaces.test.tsx
+FAIL src/components/sidebar/add_channels_cta_button.test.tsx
+FAIL src/components/admin_console/system_properties/user_properties_type_menu.test.tsx
+FAIL src/components/team_sidebar/components/theme_mode_toggle.test.tsx
+FAIL src/components/team_sidebar/components/rail_team_button.test.tsx
+FAIL src/components/sidebar/sidebar_category/sidebar_category_menu/index.test.tsx
+FAIL src/components/properties_card_view/propertyValueRenderer/user_property_renderer/userPropertyRenderer.test.tsx
+FAIL src/components/about_build_modal/about_build_modal.test.tsx
+FAIL src/components/suggestion/suggestion_box/suggestion_box.test.jsx
+FAIL src/components/more_direct_channels/list/index.test.ts
+FAIL src/components/preparing_workspace/invite_members.test.tsx
+FAIL src/components/more_direct_channels/index.test.tsx
+FAIL src/actions/views/channel.test.js
+FAIL src/components/admin_console/custom_terms_of_service_settings/custom_terms_of_service_settings.test.tsx
+FAIL src/components/lexical_editor/lexical_text_editor.integration.test.tsx
+FAIL src/components/lexical_editor/lexical_text_editor.test.tsx
+FAIL src/components/profile_popover/profile_popover_call_button_wrapper/index.test.tsx
+FAIL src/components/suggestion/at_mention_provider/at_mention_provider.test.tsx
+FAIL src/components/post_view/post_time/post_time.test.tsx
+FAIL src/packages/mattermost-redux/src/selectors/entities/channels.test.ts
+FAIL src/utils/markdown/index.test.ts
+FAIL src/packages/mattermost-redux/src/selectors/entities/users.test.ts
+FAIL src/packages/mattermost-redux/src/utils/user_utils.test.ts
+FAIL src/utils/local_storage.test.ts
+FAIL src/components/lexical_editor/utils/apply_mention_replacement.test.ts
+FAIL src/packages/mattermost-redux/src/actions/channel_categories.test.js (241.32 s)
+Test Suites: 50 failed, 1 skipped, 1154 passed, 1204 of 1205 total
+Tests:       164 failed, 11 skipped, 12050 passed, 12225 total
+Snapshots:   12 failed, 1279 passed, 1291 total
