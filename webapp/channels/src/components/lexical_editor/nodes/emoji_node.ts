@@ -45,7 +45,7 @@ function getCustomEmojiSpanStyle(imageUrl: string): React.CSSProperties {
     };
 }
 
-function createCustomEmojiImageSpan(emojiName: string, imageUrl: string): React.ReactElement {
+function createCustomEmojiImageSpan(emojiName: string, imageUrl: string): React.ReactElement<any> {
     return React.createElement(
         'span',
         {
@@ -77,7 +77,7 @@ function LexicalCustomEmojiDecorator({emojiName, emojiImageUrl}: {emojiName: str
     );
 }
 
-export class EmojiNode extends DecoratorNode<React.ReactElement> {
+export class EmojiNode extends DecoratorNode<React.ReactElement<any>> {
     __emojiName: string;
     __emojiUnicode: string;
     __emojiImageUrl: string;
@@ -202,7 +202,7 @@ export class EmojiNode extends DecoratorNode<React.ReactElement> {
         };
     }
 
-    decorate(): React.ReactElement {
+    decorate(): React.ReactElement<any> {
         if (this.isCustomEmoji()) {
             if (this.__emojiImageUrl) {
                 return createCustomEmojiImageSpan(this.__emojiName, this.__emojiImageUrl);

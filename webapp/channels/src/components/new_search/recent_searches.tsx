@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {format} from 'date-fns';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, type JSX} from 'react';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
 

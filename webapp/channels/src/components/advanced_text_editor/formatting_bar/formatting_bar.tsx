@@ -3,7 +3,7 @@
 
 import {useFloating, offset, useClick, useDismiss, useInteractions} from '@floating-ui/react';
 import classNames from 'classnames';
-import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {memo, useCallback, useEffect, useMemo, useState, type JSX} from 'react';
 import {useIntl} from 'react-intl';
 import {CSSTransition} from 'react-transition-group';
 import styled from 'styled-components';
@@ -128,7 +128,7 @@ interface FormattingBarProps {
      * controls that enhance the message,
      * e.g: message priority picker
      */
-    additionalControls?: React.ReactNodeArray;
+    additionalControls?: readonly React.ReactNode[];
 
     /**
      * AI actions menu rendered at the far left of the formatting bar

@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| React 19 타입 codemod | [80fc4302](https://github.com/mattermost/mattermost/commit/80fc4302ae33a94ee0cd9664d9bb6ac1f6561201) (#38313) | diff를 받지 않고 같은 codemod 3종을 우리 트리 전체에 다시 돌렸다(포크 전용 파일 포함 380파일). 버린 것 없음 — 아래 참조 |
 | FileInfo·Channels 대량 색인 쿼리 최적화 | [a66e9c03](https://github.com/mattermost/mattermost/commit/a66e9c034bb00a06984373d12ac6fd8bedd27aa3) (#38206) | 행 비교 최적화는 받고, 충돌 문맥의 보드 채널 타입 필터 1줄(제외 계보)은 넣지 않았다 — 아래 참조 |
 | floating-ui·MUI(v5 내)·react-day-picker 업그레이드 | [502cf7e3](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38) (#38337) | 의존성·코드·lock·e2e는 그대로 받고, `sidebar_channel_menu` 스냅숏의 해시 갱신만 버렸다(우리 해시가 달라 기준선 실패 중) — 아래 참조 |
 | i18n 원문 4종의 영어 문법 제거 | [43b2ae87](https://github.com/mattermost/mattermost/commit/43b2ae87e06b06abe01f9382ec26899c54c31728) (#38228) | 코드·다른 로캘은 그대로. ko.json은 우리 파일 위에 upstream ko 변경을 다시 적용했고, `admin_definition_helpers.tsx`의 eslint-disable 주석 1줄은 넣지 않았다 — 아래 참조 |
@@ -2203,6 +2204,28 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## React 19 타입 codemod — upstream diff 대신 codemod를 우리 트리에 다시 돌렸다
+
+**upstream**: [`80fc4302`](https://github.com/mattermost/mattermost/commit/80fc4302ae33a94ee0cd9664d9bb6ac1f6561201)
+(Apply React 19 type codemods ahead of the upgrade, #38313) — 393파일 +418/-406, 2026-10-13 반영
+
+**왜 diff를 받지 않았나.** cherry-pick은 충돌 28파일·MISSING 18파일이었고, 무엇보다 포크 전용 컴포넌트가 빠진다.
+반영 전 우리 웹앱에서 전역 `JSX.*`를 쓰는 파일이 344개였다. upstream diff만 받으면 React 19 업그레이드 때 포크 파일만 깨진다.
+
+**한 일.** upstream 커밋 메시지의 명령을 `types-react-codemod@3.5.3`으로 `./channels/src ./platform`에 그대로 실행했다 —
+`scoped-jsx`(337파일), `react-element-default-any-props`(32), `deprecated-react-node-array`(16). 결과 380파일 +401/-397.
+후처리도 upstream과 같게 맞췄다.
+- 바뀐 줄에 한해 react import 중괄호 간격 제거, `ReadonlyArray<T>` → `readonly T[]`, 큰따옴표 import 3줄 → 작은따옴표.
+- react import 중복(`import/no-duplicates`) 40파일: `type JSX`를 값 import에서 빼 기존 `import type {…} from 'react'`에 알파벳 위치로 합쳤다(upstream이 손으로 한 방식).
+- import 순서 3파일(`admin_console/types.ts`·`plugins/export.ts`·`utils/admin_console_index.tsx`)과 `core_menu_options.tsx`의 `Array<React.ReactElement<any>>`는 upstream 결과와 같은 위치·형태로 고쳤다.
+- `eslint --fix` 일괄 적용은 쓰지 않았다 — codemod와 무관한 삼항 줄바꿈 71줄까지 바꿔 되돌렸다.
+
+**남은 `React.JSX.*`** 5파일(`audit_logging/index.tsx`, `permission_group.tsx`, `permission_row.tsx`, `create_user_groups_modal.test.tsx`, `types/store/plugins.ts`)은 이미 scoped 형태라 손대지 않았다.
+
+**검증.** 전역 `JSX.*` 사용 0. webapp tsc 오류 목록이 반영 전과 같다(13건). platform types·client·components·shared·mattermost-redux tsc 0.
+바뀐 380파일의 eslint 오류 목록이 HEAD와 같다(61건 — lexical_editor `no-underscore-dangle` 60, `license_settings.tsx` 미사용 `useIntl` 1).
+jest 샘플(header·user_list_row·send_button·plugins/export·menu_items) 15 suites 93 tests 통과.
 
 ## 대량 색인 쿼리 최적화 — 보드 채널 타입 필터는 넣지 않았다
 
