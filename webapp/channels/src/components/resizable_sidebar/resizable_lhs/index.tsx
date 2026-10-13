@@ -15,6 +15,8 @@ function ResizableLhs({
     children,
     id,
     className,
+    onMouseEnter,
+    onMouseLeave,
 }: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -23,6 +25,11 @@ function ResizableLhs({
             id={id}
             className={className}
             ref={containerRef}
+
+            // okrbest: 채널 사이드바 접힘(peek)이 컨테이너 호버 이탈로 닫힌다 —
+            // sidebar.tsx가 넘기는 마우스 핸들러를 DOM까지 전달해야 한다
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
         >
             {children}
             <ResizableDivider
