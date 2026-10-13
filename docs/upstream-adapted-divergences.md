@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| Cypress·Playwright E2E 스펙 안정화 | [01fd4cfe](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba) (#38300) | 19파일은 받고, 제외·spec 계보에 걸린 Playwright 3파일의 변경을 버렸다 — 아래 참조 |
 | OpenSearch 플러그인 감지(AWS) 수정 | [0760aee3](https://github.com/mattermost/mattermost/commit/0760aee32b79fe98997a76b9363648e0ea3a5dae) (#38280) | server 8파일은 그대로 받았고, 우리가 지운 `docs/main/` 문서 1개(로그 표 1줄)를 버렸다 — 아래 참조 |
 | React 경고 props·refs·keys 정리 | [f6f27191](https://github.com/mattermost/mattermost/commit/f6f2719165ffb132e351342add570f3b1b6fd07a) (#38238) | Tag forwardRef·suggestion dispatch 제거·워크스페이스 key는 받았다. 채널 헤더 메뉴 `isReadonly` 제거 2파일은 우리가 먼저 지워 버렸다 — 아래 참조 |
 
@@ -2173,6 +2174,30 @@ httptest 기반 `TestStart*`·`TestCJK*`·`TestWrap*`(ES·OpenSearch)와 `TestRu
 ### 되돌릴 조건
 
 - 문서 사이트(1d3bbc63 계보)를 들이면 위 docs 1행을 다시 반영한다.
+
+## Cypress·Playwright E2E 스펙 안정화 — 제외·spec 계보에 걸린 3파일은 버렸다
+
+**upstream**: [`01fd4cfe`](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba)
+(Stabilize flaky Cypress and Playwright E2E specs, #38300) — 22파일 +375/-283, 2026-10-13 반영
+
+**받은 것.** 자동 병합된 19파일(Cypress 10, Playwright 9). 고정 timeout을 준비 상태 단언으로 바꾸고,
+비밀번호 재설정 메뉴 타깃팅·멘션 배지 격리·이미지 비율 fixture·BoR·ABAC 메뉴 대기를 고쳤다. Cypress는 smtp·DB URL을 환경변수에서 읽는다.
+
+**버린 것** (충돌 3파일 모두 우리 쪽 유지).
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `playwright/lib/src/ui/components/channels/post_create.ts` | `postMessage`의 첨부를 `filechooser` 대신 `input[type=file]`에 `setInputFiles`로 넣고, 업로드 API 응답(`uploadResponsePromise`)을 미리보기 확인 **전에** 기다린다. `waitUntilFilePreviewContains`를 `waitUntil` 폴링에서 `expect(...).toHaveCount`로 바꾸고 `duration`·`waitUntil` import를 지웠다. `toggleBurnOnRead`는 `toBeVisible` 대신 `toBeAttached`+`toBeEnabled`로 기다린다 | `uploadResponsePromise`는 제외한 `b052f346`(#36054 E2E 샤딩 전면 개편)에서 들어온 코드라 우리 파일에 없다. 우리는 옛 `filechooser` 방식 그대로다 | `b052f346`을 들이거나 첨부 업로드 flake가 실제로 문제 되면 위 세 변경을 직접 이식한다(업로드 응답 대기는 `page.waitForResponse('/api/v4/files' POST 2xx)`) |
+| `playwright/specs/functional/channels/content_flagging/deletion-report/deletion-report.spec.ts` | 플래그된 게시물 제거를 API(`removeFlaggedPost`) 대신 UI 흐름(`setReportCardByPostID`→`openViewDetails`→`clickRemoveMessage`→`enterConfirmationComment`→`confirmRemoveWithoutReport`)으로 바꾸고, 마지막 첨부 파일명 단언을 지웠다. 주석을 `// #` 형식으로 맞췄다 | `confirmRemoveWithoutReport`는 spec 전환한 `f0360a83`(#36340 Data spillage report UI)의 메서드라 우리 lib에 없다(받으면 tsc 실패). 우리 테스트는 `test.fixme`로 꺼져 있다 | `f0360a83` spec 구현 때 upstream 형태로 교체한다 |
+| `playwright/specs/functional/system_console/single_channel_guests.spec.ts` | 다중 채널 게스트 테스트에서 카운트를 읽는 `readGuestCount`(게스트 설정 patch→reload→숫자 추출)를 만들고 `expect.poll`(최대 180초)로 기준값과 +1 증가를 기다린다 | 우리 파일은 원본 `461db711` 버전이라 이후 upstream 구조 개편(358줄 추가/434줄 삭제 규모 차이)을 받지 않았다. 해당 테스트 블록의 위치·헬퍼가 달라 hunk가 붙지 않는다 | 이 스펙을 upstream 구조로 다시 맞추는 커밋을 들일 때 함께 반영한다. 카운트 지연 flake가 보이면 `expect.poll` 패턴만 이식한다 |
+
+**검증.** Playwright lib 재빌드 후 `tsc -b`(루트+workspaces) 오류 목록이 반영 전과 같다(11건, 전부 기존). Cypress `tsc -b` 오류 목록도 같다(10건).
+변경 19파일 eslint 오류 0(경고 1 — `popover_fields.spec.ts`의 기존 TODO 주석). 새 Cypress fixture 참조(`image-small-height.png`·`image-small-width.png`)는 모두 있다.
+E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널 스펙은 포크 격차로 기준선 실패).
+
+### 되돌릴 조건
+
+- 위 표의 "되살릴 조건" 참조.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
