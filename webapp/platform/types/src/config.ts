@@ -60,7 +60,6 @@ export type ClientConfig = {
     EnableCustomEmoji: string;
     EnableCustomGroups: string;
     EnableCustomUserStatuses: string;
-    EnableExperimentalLocales: string;
     EnableUserStatuses: string;
     EnableLastActiveTime: string;
     EnableTimedDND: string;
@@ -773,7 +772,6 @@ export type LocalizationSettings = {
     DefaultServerLocale: string;
     DefaultClientLocale: string;
     AvailableLocales: string;
-    EnableExperimentalLocales: boolean;
 };
 
 export type AutoTranslationSettings = {

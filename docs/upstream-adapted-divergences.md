@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| EnableExperimentalLocales와 실험적 로캘 제거 | [e9379690](https://github.com/mattermost/mattermost/commit/e9379690d5873cbf65049fabaab22f1317696868) (#38219) | 코드·로캘 삭제는 그대로 받고 ko.json에서 지워진 2키를 우리 문구째 지웠다. docs 2개를 버렸다 — 아래 참조 |
 | 외부 링크 검사기 301 추적·GET 재시도·Zendesk 건너뛰기 | [d78e09b9](https://github.com/mattermost/mattermost/commit/d78e09b9a57ed794c32ac0c2c0067ebacc2037c3) (#38319) | 전부 받고, `shouldSkipUrlCheck`의 `FORMS_MATTERMOST_PATTERN` 검사 1줄만 뺐다(제외 계보 상수) — 아래 참조 |
 | Cypress·Playwright E2E 스펙 안정화 | [01fd4cfe](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba) (#38300) | 19파일은 받고, 제외·spec 계보에 걸린 Playwright 3파일의 변경을 버렸다 — 아래 참조 |
 | OpenSearch 플러그인 감지(AWS) 수정 | [0760aee3](https://github.com/mattermost/mattermost/commit/0760aee32b79fe98997a76b9363648e0ea3a5dae) (#38280) | server 8파일은 그대로 받았고, 우리가 지운 `docs/main/` 문서 1개(로그 표 1줄)를 버렸다 — 아래 참조 |
@@ -2199,6 +2200,33 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## 실험적 로캘 제거 — ko.json 2키를 지우고 docs 2개를 버렸다
+
+**upstream**: [`e9379690`](https://github.com/mattermost/mattermost/commit/e9379690d5873cbf65049fabaab22f1317696868)
+(Remove EnableExperimentalLocales and the experimental locales, #38219) — 101파일 +39/-125154, 2026-10-13 반영
+
+**받은 것.** 지원 22개 언어 밖의 로캘 카탈로그 삭제(webapp 42·server 33개 — 남은 카탈로그는 각 22개, ko 포함).
+`LocalizationSettings.EnableExperimentalLocales` 필드·기본값·client prop·TS 타입·콘솔 토글·playwright 기본 설정 제거.
+`getAllLanguages()` 무인자화, `getLanguageInfo`가 지원 언어 맵을 직접 읽음, `langIDs`·`langLabels`·`webapp/scripts/langmap.mjs` 삭제, `imports.ts` 재생성.
+커밋 메시지 앞부분(비영문 번역 파일 검사 완화)은 이미 `7b21e93e`(#38218)로 받았고 이 커밋 diff에는 없다.
+
+**충돌 해결.** `webapp/channels/src/i18n/ko.json` — upstream이 지운 `admin.general.localization.enableExperimentalLocales{Description,Title}`의
+우리 번역 문구("참으로 설정하면 사용자가 실험적인(예: 개발 중인) 언어를 선택할 수 있습니다", "실험적 언어 활성화")가 upstream ko와 달라 충돌했다.
+두 키를 지웠다(남기면 orphaned). 다른 ko 문자열은 건드리지 않았다.
+
+**버린 docs 내용** (우리가 지운 `docs/main/` 경로, 1d3bbc63 문서 사이트 계보 제외). 문서 사이트를 되살리면 아래를 다시 반영한다.
+
+| 파일 | upstream 변경 | 버린 내용 요지 |
+|---|---|---|
+| `docs/main/administration-guide/configure/site-configuration-settings.mdx` (-26) | `### Enable experimental locales` 절 삭제 | 설명("진행 중 언어를 켜 번역 공백 확인"), true/false 표(System Config `Site Configuration > Localization`, `config.json` `LocalizationSettings > EnableExperimentalLocales > false`, 환경변수 `MM_LOCALIZATIONETTINGS_ENABLEEXPERIMENTALLOCALES` — 원문 오타 그대로), Note 4개(Cloud는 Account Manager 요청, 미번역은 US English 표시, web·desktop 문자열만 영향, 언어 설정 문서 링크)를 지웠다 |
+| `docs/main/administration-guide/manage/admin/autotranslation.mdx` (+1/-1) | Languages allowed 설명 문단에서 한 문장 삭제 | "The `EnableExperimentalLocales` setting can make additional locale codes available." 문장만 뺐다. 나머지(AvailableLocales가 비면 전체 지원 언어, zh-Hans 베타 안내)는 그대로 |
+
+**검증.** server `go build ./...`, `go test ./config ./public/model -run 'Client|Localization|Config'` 통과.
+`npm run gen-lang-imports`로 다시 만든 `imports.ts`가 커밋본과 같다. jest `src/i18n`(6) + `schema_admin_settings`·`auto_translation`·`localization`·`admin_definition` 13 suites 94 tests 통과.
+webapp tsc 오류 목록이 반영 전과 같다(11건, 전부 기존). 변경 파일 eslint 오류 0.
+`i18n-check-empty`는 orphaned 8건으로 실패하지만 반영 전 HEAD도 같은 8건이다(`product_menu_item.open_in_new_tab`, `team.button.*` 등 — 이번 변경 무관).
+`/webapp/scripts`가 CODEOWNERS 보호 경로라 PR 병합에 `--admin`이 필요하다.
 
 ## 외부 링크 검사기 개선 — forms.mattermost.com 건너뛰기만 뺐다
 
