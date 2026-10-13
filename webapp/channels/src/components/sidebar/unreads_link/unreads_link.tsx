@@ -10,6 +10,8 @@ import {matchPath, useLocation, Link} from 'react-router-dom';
 import {getUnreadStatusInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
+import {getSplitUnreadCountsInCurrentTeam} from 'selectors/unreads';
+
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
 
 import './unreads_link.scss';
@@ -22,9 +24,12 @@ const UnreadsLink = () => {
     const unreadStatus = useSelector(getUnreadStatusInCurrentTeam);
     const teamUrl = useSelector(getCurrentRelativeTeamUrl);
 
+    // okrbest(027): 멘션·DM·GM 수와 일반 채널 미읽음 수를 구분 병기한다.
+    // mentions는 unreadStatus의 number 값과 항상 같다 (selectors/unreads.ts 참조)
+    const {mentions, messages} = useSelector(getSplitUnreadCountsInCurrentTeam);
+
     const isActive = Boolean(matchPath(pathname, {path: '/:team/unreads'}));
     const hasUnreads = Boolean(unreadStatus);
-    const mentionCount = typeof unreadStatus === 'number' ? unreadStatus : 0;
 
     return (
         <ul className='SidebarUnreads NavGroupContent nav nav-pills__container'>
@@ -54,8 +59,17 @@ const UnreadsLink = () => {
                             />
                         </span>
                     </div>
-                    {mentionCount > 0 && (
-                        <ChannelMentionBadge unreadMentions={mentionCount}/>
+                    {/* okrbest(027): 일반 뱃지(파랑 틴트, 025 표기)가 왼쪽, 멘션 뱃지가 오른쪽 끝 (100건 이상은 99) */}
+                    {messages > 0 && (
+                        <span
+                            className='badge unreadMsgBadge'
+                            data-testid='unreadMsgBadge'
+                        >
+                            {Math.min(messages, 99)}
+                        </span>
+                    )}
+                    {mentions > 0 && (
+                        <ChannelMentionBadge unreadMentions={mentions}/>
                     )}
                 </Link>
             </li>
