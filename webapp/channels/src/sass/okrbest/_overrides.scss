@@ -56,6 +56,16 @@ body.app__body {
         fill: var(--sidebar-text-active-color);
     }
 
+    // 활성(반전) 행의 채널 옵션(⋯) 버튼 — 기본 색(--sidebar-text)이 반전 배경과
+    // 겹쳐 보이지 않는다 (Slate #474647 on #333133, Onyx #fff on #f8f8f8).
+    // hover·focus·active까지 명시해 기본 규칙의 :hover를 확실히 이긴다.
+    .SidebarChannel.active .SidebarMenu_menuButton,
+    .SidebarChannel.active .SidebarMenu_menuButton:hover,
+    .SidebarChannel.active .SidebarMenu_menuButton:focus,
+    .SidebarChannel.active .SidebarMenu_menuButton:active {
+        color: var(--sidebar-text-active-color);
+    }
+
     // 배경 전환은 즉각적으로 (Slack 80ms)
     .SidebarChannel .SidebarLink {
         transition: background-color var(--okr-anim-fast) linear;
