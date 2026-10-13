@@ -3,28 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-13 10:40
+- 갱신일: 2026-10-13 13:43
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 296개
+- 남은 커밋: 282개
 
-**마지막 반영 커밋:** `4086261f` | [docs: fix 10 legacy redirect gaps and two bugs in the external link checker (#38318)](https://github.com/mattermost/mattermost/commit/4086261f0090bc337d0fd7c715fdb9c0334d3fc1) | 2026-09-03
+**마지막 반영 커밋:** `b3946ef5` | [\[MM-69862\]\[MM-69867\] Lock Definition and Applies-to for plugin-owned attributes (#38268)](https://github.com/mattermost/mattermost/commit/b3946ef5e2b85a27d365af2592cf1262de6a665e) | 2026-09-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 01fd4cfe | [Stabilize flaky Cypress and Playwright E2E specs (#38300)](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba) | 2026-09-04 |
-| 240b9bed | [\[MM-70274\] Add permissions migration so upgraded installs can access the System Console Recaps page (#38058)](https://github.com/mattermost/mattermost/commit/240b9bed8b371430dd112e2ff51eaf336ce4fd0f) | 2026-09-04 |
-| 97813196 | [docs: unescape HTML entities inside markdown code spans (#38329)](https://github.com/mattermost/mattermost/commit/97813196cddd289c6be33804ad62952f544d938e) | 2026-09-04 |
-| 3bd85d0a | [\[MM-69882\] Decouple pin/unpin from ServiceSettings.PostEditTimeLimit (#38296)](https://github.com/mattermost/mattermost/commit/3bd85d0a93e06085d133dc7ede45ccaba76026c2) | 2026-09-04 |
-| 53e6ffa8 | [Block link previews after redirects to restricted domains (#36665)](https://github.com/mattermost/mattermost/commit/53e6ffa876a500c7b75358cfd350002690227fa0) | 2026-09-04 |
-| d78e09b9 | [fix(check-external-links): follow 301s, route GET-fallback through the loop, skip Zendesk (#38319)](https://github.com/mattermost/mattermost/commit/d78e09b9a57ed794c32ac0c2c0067ebacc2037c3) | 2026-09-04 |
-| bbd208cf | [chore(ci): bump pr-test-analysis toolkit ref to pick up claude-code-action v1.0.210 (#38335)](https://github.com/mattermost/mattermost/commit/bbd208cffdc23be2bfd86e2338a1bc4b591247c2) | 2026-09-04 |
-| e9379690 | [Remove EnableExperimentalLocales and the experimental locales (#38219)](https://github.com/mattermost/mattermost/commit/e9379690d5873cbf65049fabaab22f1317696868) | 2026-09-04 |
-| 43b2ae87 | [Stop encoding English grammar in four i18n source strings (#38228)](https://github.com/mattermost/mattermost/commit/43b2ae87e06b06abe01f9382ec26899c54c31728) | 2026-09-04 |
-| 9905a827 | [Skip flaky TestLicenseFromBytesEnvironmentMismatch (MM-70560) (#38297)](https://github.com/mattermost/mattermost/commit/9905a827e2a0d69b7f55424b503c56b0670de042) | 2026-09-04 |
-| 1807e4b6 | [\[MM-70273\] Validate and limit mention_keys notify prop (#38121)](https://github.com/mattermost/mattermost/commit/1807e4b68183e1462bb535b726f4fec3a8980004) | 2026-09-04 |
-| 791fc09b | [Test and lint mmgotool in CI (#38338)](https://github.com/mattermost/mattermost/commit/791fc09b5dab6ef8de5b96673656ee05e5984ef7) | 2026-09-04 |
-| 1b6a5797 | [Sync Cloud Agent Go toolchain with server/.go-version (1.26.7) (#38298)](https://github.com/mattermost/mattermost/commit/1b6a5797592f082933f630a2bf44e4a3a4a6d88f) | 2026-09-04 |
-| b3946ef5 | [\[MM-69862\]\[MM-69867\] Lock Definition and Applies-to for plugin-owned attributes (#38268)](https://github.com/mattermost/mattermost/commit/b3946ef5e2b85a27d365af2592cf1262de6a665e) | 2026-09-04 |
 | 502cf7e3 | [Bump @floating-ui/react, MUI (within v5) and react-day-picker for React 19 support (#38337)](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38) | 2026-09-05 |
 | 0019ecc5 | [(1) - Feature post delivery audit setting (#37882)](https://github.com/mattermost/mattermost/commit/0019ecc531dfef227d5f7523d41f8443d47227e1) | 2026-09-07 |
 | 86088592 | [fix(e2e): repoint markdown image tests off the deleted docs.mattermost.com asset (#38330)](https://github.com/mattermost/mattermost/commit/86088592790eb63047bee73cd82390aae0c3e27b) | 2026-09-07 |
@@ -748,6 +734,16 @@
 | 1cf3c871 | [Warm the Cypress deps cache from master and prefer it over the artifact (#38261)](https://github.com/mattermost/mattermost/commit/1cf3c87173c287c3a03c0b102a520e828f0eeff4) | 제외한 부모 커밋 235bddba(#38253 Hand Cypress E2E deps to workers as a run-scoped artifact)의 직접 후속이라 반영할 토대가 없다 — test system IO 계보(91de3d23 adapt → 33ddd8a4·c3322b3a·8eb97fa6·1d1580cb·2d05d063·bd0d8866·c77efb5a exclude)의 연장. master에서 Cypress deps Actions 캐시를 데우는 신규 워크플로(e2e-ci-cache-warm-cypress-deps.yml)와 restore-cypress-deps 액션을 추가하고 prep-deps가 lookup-only로 캐시/artifact 경로를 고르게 하는 5파일 +204/-10. 우리 e2e-tests-cypress-template.yml에 prep-deps 잡이 없고 pack/unpack-cypress-deps·restore-e2e-npm-cache 액션도 부재(modify/delete CONFLICT 2 + 템플릿 내용 CONFLICT). 코드·i18n 무접촉. 계보 재도입 시 235bddba부터 함께 재검토. |
 
 | 4086261f | [docs: fix 10 legacy redirect gaps and two bugs in the external link checker (#38318)](https://github.com/mattermost/mattermost/commit/4086261f0090bc337d0fd7c715fdb9c0334d3fc1) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. Docusaurus 리다이렉트 표 docs/site/sidebars/active-redirects.json에 mattermost.com/pl/* 단축 링크가 가리키는 옛 Sphinx URL 10개 추가(_meta.active 747→757, bbd00c4f 후속) — 터치 1파일이 우리 트리에 없다(modify/delete CONFLICT). 커밋 메시지의 check-external-links 수정 2건(301 추적·Zendesk 호스트 skip)은 squash된 최종 diff에 없어 우리 webapp/scripts/check-external-links.mjs는 영향 없음. |
+
+| 240b9bed | [\[MM-70274\] Add permissions migration so upgraded installs can access the System Console Recaps page (#38058)](https://github.com/mattermost/mattermost/commit/240b9bed8b371430dd112e2ff51eaf336ce4fd0f) | [보류성 제외 — 25f3a75c와 함께 재검토] 보류성 제외한 25f3a75c([MM-67163] Scheduled Recaps, #35495)의 직접 후속이라 반영할 토대가 없다. 부여 대상 권한 model.PermissionSysconsoleReadAiRecaps·PermissionSysconsoleWriteAiRecaps가 25f3a75c에서 생겨 우리 트리에 없다(grep 0건) — merge-tree는 CLEAN이지만 그대로 반영하면 서버 빌드 실패(미정의 식별자 2개). 내용은 업그레이드 설치의 system_admin에게 두 권한을 주는 일회성 마이그레이션 add_ai_recaps_permissions(permissions_migrations.go·테스트·testlib mock·model/migration.go 키, 4파일 +124). 25f3a75c를 들일 때 이 커밋도 함께 반영해야 기존 설치에서 Recaps 콘솔 페이지가 보인다. |
+
+| 97813196 | [docs: unescape HTML entities inside markdown code spans (#38329)](https://github.com/mattermost/mattermost/commit/97813196cddd289c6be33804ad62952f544d938e) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. RST→MDX 이관 때 백틱 코드 안에 남은 &lt;/&gt;를 <placeholder>로 되돌리고 URL 스키마 표기 1곳을 고친 정리 — 터치 29파일(+110/-110)이 전부 docs/main/*.mdx로 우리 트리에 없다(modify/delete CONFLICT). 코드·i18n 무접촉. |
+
+| bbd208cf | [chore(ci): bump pr-test-analysis toolkit ref to pick up claude-code-action v1.0.210 (#38335)](https://github.com/mattermost/mattermost/commit/bbd208cffdc23be2bfd86e2338a1bc4b591247c2) | 제외한 e6b8e12f(SEC-9862 Add CI check for test analysis, #35555) 계보의 후속이라 반영할 대상이 없다. Mattermost 조직 전용 워크플로 .github/workflows/pr-test-analysis.yml의 외부 toolkit ref를 b51a481e로 올려 claude-code-action v1.0.70→v1.0.210(Bun 캐시 409 경고 해소) — 터치 1파일이 우리 트리에 없다(modify/delete CONFLICT). 가드가 head.repo.full_name == 'mattermost/mattermost'로 하드코딩돼 우리 저장소에선 항상 skip. |
+
+| 1b6a5797 | [Sync Cloud Agent Go toolchain with server/.go-version (1.26.7) (#38298)](https://github.com/mattermost/mattermost/commit/1b6a5797592f082933f630a2bf44e4a3a4a6d88f) | 제외한 11b55b77(Document Mattermost cloud startup flow, #36559) 계보의 후속이라 반영할 대상이 없다. Mattermost 사내 Cursor Cloud Agent 환경의 Go(1.25.9→1.26.7)·Node 버전을 server/.go-version·.nvmrc에 맞추고 불일치 시 설치 훅이 재설치하게 하는 3파일 +175/-14 — .cursor/Dockerfile·README.md·scripts/cloud-agent-install.sh가 전부 우리 트리에 없다(modify/delete CONFLICT). 우리 자체 .cursor 레이아웃(plans·rules·skills)과도 무관. |
+
+| b3946ef5 | [\[MM-69862\]\[MM-69867\] Lock Definition and Applies-to for plugin-owned attributes (#38268)](https://github.com/mattermost/mattermost/commit/b3946ef5e2b85a27d365af2592cf1262de6a665e) | 제외한 Global Attributes 계보(38b66d22 #37580 접근 게이트 → 4ec0fe9c #37608 목록 화면, 기반 property 시스템 v2 48f2fd08·템플릿 ObjectType 3fa87760)의 후속이라 반영할 대상이 없다. 플러그인 소유 속성의 편집 페이지를 읽기 전용으로 열고(정의 컨트롤 잠금·Managed by 패널·Applies-to 읽기 전용·목록 View attribute), 잠금 툴팁 키보드 접근·orphaned 문구·플러그인 상태 조회 경합을 고치는 17파일 +879/-138. admin_console/global_attributes/* 15파일이 우리 트리에 없다(MISSING PATHS). 공용 훅 use_field_orphaned.ts의 신규 usePluginInventoryLoaded는 그 화면 전용이라 받으면 미사용 코드가 되고, en.json 16문구도 없는 화면의 것. 계보를 들일 때 함께 재검토. |
 
 ## spec 전환 커밋
 
