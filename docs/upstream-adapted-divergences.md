@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| 외부 링크 검사기 301 추적·GET 재시도·Zendesk 건너뛰기 | [d78e09b9](https://github.com/mattermost/mattermost/commit/d78e09b9a57ed794c32ac0c2c0067ebacc2037c3) (#38319) | 전부 받고, `shouldSkipUrlCheck`의 `FORMS_MATTERMOST_PATTERN` 검사 1줄만 뺐다(제외 계보 상수) — 아래 참조 |
 | Cypress·Playwright E2E 스펙 안정화 | [01fd4cfe](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba) (#38300) | 19파일은 받고, 제외·spec 계보에 걸린 Playwright 3파일의 변경을 버렸다 — 아래 참조 |
 | OpenSearch 플러그인 감지(AWS) 수정 | [0760aee3](https://github.com/mattermost/mattermost/commit/0760aee32b79fe98997a76b9363648e0ea3a5dae) (#38280) | server 8파일은 그대로 받았고, 우리가 지운 `docs/main/` 문서 1개(로그 표 1줄)를 버렸다 — 아래 참조 |
 | React 경고 props·refs·keys 정리 | [f6f27191](https://github.com/mattermost/mattermost/commit/f6f2719165ffb132e351342add570f3b1b6fd07a) (#38238) | Tag forwardRef·suggestion dispatch 제거·워크스페이스 key는 받았다. 채널 헤더 메뉴 `isReadonly` 제거 2파일은 우리가 먼저 지워 버렸다 — 아래 참조 |
@@ -2198,6 +2199,27 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## 외부 링크 검사기 개선 — forms.mattermost.com 건너뛰기만 뺐다
+
+**upstream**: [`d78e09b9`](https://github.com/mattermost/mattermost/commit/d78e09b9a57ed794c32ac0c2c0067ebacc2037c3)
+(fix(check-external-links): follow 301s, route GET-fallback through the loop, skip Zendesk, #38319) — `webapp/scripts/check-external-links.mjs` +43/-22, 2026-10-13 반영
+
+**받은 것.** 301도 최종 목적지까지 따라간다(리다이렉트 끝의 404를 잡는다). HEAD 405/403 뒤 GET 재시도 응답도 같은 리다이렉트 루프를 탄다.
+응답 본문을 `try/finally`로 매번 `cancel()`해 소켓을 풀어 준다. `UNCRAWLABLE_HOSTS`(`support.mattermost.com`)를 새로 두고 건너뛴다.
+
+**버린 것.**
+
+| 위치 | upstream 코드 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `shouldSkipUrlCheck()` 첫 조건 | `PUSH_SERVER_PATTERN.test(url) \|\| FORMS_MATTERMOST_PATTERN.test(url)` | `FORMS_MATTERMOST_PATTERN`(`/^https?:\/\/forms\.mattermost\.com\//i`, 마케팅 폼은 느리거나 봇 UA를 막아 CI에서 확인 불가)은 제외한 `b052f346`(#36054 E2E 샤딩 전면 개편)이 넣은 상수라 우리 파일에 없다. 그대로 받으면 ReferenceError. 우리는 `PUSH_SERVER_PATTERN.test(url)`만 남겼다 | 우리 웹앱 링크 중 forms.mattermost.com이 거짓 실패를 내면 상수 정의와 이 조건을 함께 이식한다 |
+
+**검증.** `node --check` 통과. 반영 전·후 스크립트를 실제로 돌렸다(2026-10-13, 웹앱 고유 URL 86개). 둘 다 exit 0·깨진 링크 0.
+검사 대상이 80개에서 78개로 줄었는데 빠진 2개가 `support.mattermost.com` URL(`hc/en-us/articles/4413183568276`, `hc/en-us/requests/new`)이다.
+301 체인을 끝까지 따라가도 새로 깨진 링크는 없다. 비permalink 경고 58개는 반영 전과 같다.
+
+참고: 우리 `webapp-ci.yml`의 `check-external-links` 잡은 `needs: check-lint`라 check-lint가 구조적으로 실패하는 동안 CI에서 돌지 않는다. 로컬 `npm run check-external-links`에서만 의미가 있다.
+`/webapp/scripts`는 CODEOWNERS 보호 경로라 이 커밋이 든 PR은 `--admin` 병합이 필요하다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
