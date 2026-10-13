@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| FileInfo·Channels 대량 색인 쿼리 최적화 | [a66e9c03](https://github.com/mattermost/mattermost/commit/a66e9c034bb00a06984373d12ac6fd8bedd27aa3) (#38206) | 행 비교 최적화는 받고, 충돌 문맥의 보드 채널 타입 필터 1줄(제외 계보)은 넣지 않았다 — 아래 참조 |
 | floating-ui·MUI(v5 내)·react-day-picker 업그레이드 | [502cf7e3](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38) (#38337) | 의존성·코드·lock·e2e는 그대로 받고, `sidebar_channel_menu` 스냅숏의 해시 갱신만 버렸다(우리 해시가 달라 기준선 실패 중) — 아래 참조 |
 | i18n 원문 4종의 영어 문법 제거 | [43b2ae87](https://github.com/mattermost/mattermost/commit/43b2ae87e06b06abe01f9382ec26899c54c31728) (#38228) | 코드·다른 로캘은 그대로. ko.json은 우리 파일 위에 upstream ko 변경을 다시 적용했고, `admin_definition_helpers.tsx`의 eslint-disable 주석 1줄은 넣지 않았다 — 아래 참조 |
 | EnableExperimentalLocales와 실험적 로캘 제거 | [e9379690](https://github.com/mattermost/mattermost/commit/e9379690d5873cbf65049fabaab22f1317696868) (#38219) | 코드·로캘 삭제는 그대로 받고 ko.json에서 지워진 2키를 우리 문구째 지웠다. docs 2개를 버렸다 — 아래 참조 |
@@ -2202,6 +2203,23 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## 대량 색인 쿼리 최적화 — 보드 채널 타입 필터는 넣지 않았다
+
+**upstream**: [`a66e9c03`](https://github.com/mattermost/mattermost/commit/a66e9c034bb00a06984373d12ac6fd8bedd27aa3)
+(MM-70511: Optimize FileInfo and Channels bulk-indexing queries, #38206) — 2파일 +2/-14, 2026-10-13 반영
+
+**받은 것.** `GetChannelsBatchForIndexing`·`GetFilesBatchForIndexing`의 페이지 조건을
+`CreateAt > t OR (CreateAt = t AND Id > id)`에서 행 비교 `(CreateAt, Id) > (?, ?)`로 바꿨다. 결과는 같고 PostgreSQL이 복합 인덱스로 범위 탐색할 수 있다.
+`file_info_store.go`는 자동 병합, `channel_store.go`는 우리 함수에 같은 치환을 직접 적용했다.
+
+**넣지 않은 것.**
+
+| 위치 | upstream 코드 | 넣지 않은 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `sqlstore/channel_store.go` `GetChannelsBatchForIndexing` | 행 비교 바로 뒤의 `Where(sq.Eq{"Type": messageChannelTypes})` — 메시지 채널 타입(O·P·D·G)만 색인 | 이 커밋의 변경이 아니라 충돌 문맥이다. 제외한 `323841e9`(#35887 Add board channel types BO/BP for Integrated Boards, 48f2fd08 계보)가 넣은 줄이라 우리 트리에 없고, 우리에겐 보드 채널 타입이 없어 걸러 낼 대상도 없다 | Integrated Boards 계보(48f2fd08·323841e9)를 들이면 그 커밋과 함께 들어온다 |
+
+**검증.** `go build ./channels/store/...` 통과, `TestChannelStore/PostgreSQL/GetChannelsBatchForIndexing`·`TestFileInfoStore/PostgreSQL/GetFilesBatchForIndexing` PASS.
 
 ## floating-ui·MUI·react-day-picker 업그레이드 — 스냅숏 해시 갱신만 버렸다
 
