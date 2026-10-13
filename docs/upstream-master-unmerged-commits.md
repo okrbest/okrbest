@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-13 13:43
+- 갱신일: 2026-10-13 14:25
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 282개
 
-**마지막 반영 커밋:** `b3946ef5` | [\[MM-69862\]\[MM-69867\] Lock Definition and Applies-to for plugin-owned attributes (#38268)](https://github.com/mattermost/mattermost/commit/b3946ef5e2b85a27d365af2592cf1262de6a665e) | 2026-09-04
+**마지막 반영 커밋:** `502cf7e3` | [Bump @floating-ui/react, MUI (within v5) and react-day-picker for React 19 support (#38337)](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38) | 2026-09-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 502cf7e3 | [Bump @floating-ui/react, MUI (within v5) and react-day-picker for React 19 support (#38337)](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38) | 2026-09-05 |
 | 0019ecc5 | [(1) - Feature post delivery audit setting (#37882)](https://github.com/mattermost/mattermost/commit/0019ecc531dfef227d5f7523d41f8443d47227e1) | 2026-09-07 |
 | 86088592 | [fix(e2e): repoint markdown image tests off the deleted docs.mattermost.com asset (#38330)](https://github.com/mattermost/mattermost/commit/86088592790eb63047bee73cd82390aae0c3e27b) | 2026-09-07 |
 | d7880054 | [\[MM-70278\] Add enable button for disabled plugin settings (#37588)](https://github.com/mattermost/mattermost/commit/d7880054f7a36c9cae1333079e66a7475143048f) | 2026-09-07 |
@@ -293,6 +292,7 @@
 | 7def4747 | [\[MM-71120\] Allow mmctl config set to set a list setting to exactly one value (#39107)](https://github.com/mattermost/mattermost/commit/7def47474a8f969de826eaa55364c0f51d5ac6a6) | 2026-10-12 |
 | 8a378be8 | [docs: add OCI Marketplace quick start evaluation guide (#38959)](https://github.com/mattermost/mattermost/commit/8a378be804d9ff0bf331507dddd494943868c1ed) | 2026-10-12 |
 | 2b64fd09 | [Add Compass UI guidance for agents (#38938)](https://github.com/mattermost/mattermost/commit/2b64fd09d3839007887662c191bd5d7af113a385) | 2026-10-12 |
+| 0c66f929 | [\[MM-71128\] Render attachment fields that have a title but an empty value (#39112)](https://github.com/mattermost/mattermost/commit/0c66f929d073c9c75140f6a89537dc6c50a11a38) | 2026-10-13 |
 
 ## 제외된 커밋
 
