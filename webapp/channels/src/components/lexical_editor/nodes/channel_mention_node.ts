@@ -18,7 +18,7 @@ export type SerializedChannelMentionNode = Spread<
     SerializedLexicalNode
 >;
 
-export class ChannelMentionNode extends DecoratorNode<React.ReactElement> {
+export class ChannelMentionNode extends DecoratorNode<React.ReactElement<any>> {
     __channelName: string;
     __displayName: string;
 
@@ -102,7 +102,7 @@ export class ChannelMentionNode extends DecoratorNode<React.ReactElement> {
         };
     }
 
-    decorate(): React.ReactElement {
+    decorate(): React.ReactElement<any> {
         return React.createElement(
             'span',
             {className: 'channel-mention-node', 'data-channel': this.__channelName},

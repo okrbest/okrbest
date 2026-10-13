@@ -17,7 +17,7 @@ import {imageURLForUser} from 'utils/utils';
 import {SuggestionContainer} from '../suggestion';
 import type {SuggestionProps} from '../suggestion';
 
-function itemToName(item: Channel, currentUserId: string): {icon: React.ReactElement; name: string; description: string} | null {
+function itemToName(item: Channel, currentUserId: string): {icon: React.ReactElement<any>; name: string; description: string} | null {
     if (item.type === Constants.DM_CHANNEL) {
         const profilePicture = (
             <Avatar

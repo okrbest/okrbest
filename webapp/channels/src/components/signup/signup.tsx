@@ -898,7 +898,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                             formatMessage(
                                                 {id: 'signup.terms_and_privacy.checkmark.text', defaultMessage: 'I agree to the <termsOfUseLink>Acceptable Use Policy</termsOfUseLink> and the <privacyPolicyLink>Privacy Policy</privacyPolicyLink>'},
                                                 {
-                                                    privacyPolicyLink: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                                                    privacyPolicyLink: (chunks: React.ReactNode | readonly React.ReactNode[]) => (
                                                         <ExternalLink
                                                             href={PrivacyPolicyLink as string}
                                                             location='signup-privacy-policy'
@@ -906,7 +906,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                                             {chunks}
                                                         </ExternalLink>
                                                     ),
-                                                    termsOfUseLink: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                                                    termsOfUseLink: (chunks: React.ReactNode | readonly React.ReactNode[]) => (
                                                         <ExternalLink
                                                             href={TermsOfServiceLink as string}
                                                             location='signup-terms-of-use'

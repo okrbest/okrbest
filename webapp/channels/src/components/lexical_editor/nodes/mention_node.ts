@@ -18,7 +18,7 @@ export type SerializedMentionNode = Spread<
     SerializedLexicalNode
 >;
 
-export class MentionNode extends DecoratorNode<React.ReactElement> {
+export class MentionNode extends DecoratorNode<React.ReactElement<any>> {
     __username: string;
     __displayName: string;
 
@@ -102,7 +102,7 @@ export class MentionNode extends DecoratorNode<React.ReactElement> {
         };
     }
 
-    decorate(): React.ReactElement {
+    decorate(): React.ReactElement<any> {
         return React.createElement(
             'span',
             {className: 'mention-node', 'data-mention': this.__username},
