@@ -43,6 +43,9 @@ export function useAppBodyClass() {
     const {pathname} = useLocation();
     const themed = !isBackstageRoute(pathname);
 
+    // okrbest: 보드·플레이북 제품이 언마운트 클린업에서 app__body를 지운다.
+    // pathname을 의존성에 넣어 경로가 바뀔 때마다 다시 붙인다 — React는 같은
+    // 커밋에서 모든 cleanup 뒤에 setup을 실행하므로 제품의 제거 뒤에 복구된다.
     useEffect(() => {
         if (!themed) {
             return undefined;
@@ -53,7 +56,7 @@ export function useAppBodyClass() {
         return () => {
             document.body.classList.remove('app__body');
         };
-    }, [themed]);
+    }, [themed, pathname]);
 }
 
 /**
