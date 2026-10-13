@@ -9,6 +9,9 @@ export default class InfoSettings {
     readonly nameInput: Locator;
     readonly purposeInput: Locator;
     readonly headerInput: Locator;
+    readonly urlLabel: Locator;
+    readonly urlEditButton: Locator;
+    readonly urlInput: Locator;
     readonly saveChangesPanel: Locator;
 
     constructor(container: Locator) {
@@ -19,6 +22,9 @@ export default class InfoSettings {
         // so match on the shared prefix instead of the full upstream string.
         this.purposeInput = container.getByPlaceholder(/^Enter a purpose/);
         this.headerInput = container.getByPlaceholder(/^Enter a header/);
+        this.urlLabel = container.getByTestId('urlInputLabel');
+        this.urlEditButton = container.getByRole('button', {name: 'Edit'});
+        this.urlInput = container.getByTestId('channelURLInput');
         this.saveChangesPanel = container.locator('.SaveChangesPanel');
     }
 
@@ -35,6 +41,14 @@ export default class InfoSettings {
     async updateHeader(header: string) {
         await expect(this.headerInput).toBeVisible();
         await this.headerInput.fill(header);
+    }
+
+    async updateUrl(url: string) {
+        await expect(this.urlEditButton).toBeVisible();
+        await this.urlEditButton.click();
+        await expect(this.urlInput).toBeVisible();
+        await this.urlInput.clear();
+        await this.urlInput.fill(url);
     }
 
     async updatePurpose(purpose: string) {
