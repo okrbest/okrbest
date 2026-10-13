@@ -60,6 +60,21 @@ describe('useAppBodyClass', () => {
         expect(document.body.classList.contains('app__body')).toBe(false);
     });
 
+    // okrbest: 보드·플레이북 제품이 언마운트 클린업에서 호스트 소유 app__body를
+    // 지운다 — 경로가 바뀌면 호스트가 클래스를 복구해야 테마가 풀리지 않는다.
+    it('restores app__body when a product removed it during navigation', () => {
+        const {history} = renderUseAppBodyClass('/myteam/channels/town-square');
+
+        expect(document.body.classList.contains('app__body')).toBe(true);
+
+        act(() => {
+            document.body.classList.remove('app__body');
+            history.push('/myteam/channels/off-topic');
+        });
+
+        expect(document.body.classList.contains('app__body')).toBe(true);
+    });
+
     it('toggles app__body as the route changes', () => {
         const {history} = renderUseAppBodyClass('/myteam/channels/town-square');
 
