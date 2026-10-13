@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| floating-ui·MUI(v5 내)·react-day-picker 업그레이드 | [502cf7e3](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38) (#38337) | 의존성·코드·lock·e2e는 그대로 받고, `sidebar_channel_menu` 스냅숏의 해시 갱신만 버렸다(우리 해시가 달라 기준선 실패 중) — 아래 참조 |
 | i18n 원문 4종의 영어 문법 제거 | [43b2ae87](https://github.com/mattermost/mattermost/commit/43b2ae87e06b06abe01f9382ec26899c54c31728) (#38228) | 코드·다른 로캘은 그대로. ko.json은 우리 파일 위에 upstream ko 변경을 다시 적용했고, `admin_definition_helpers.tsx`의 eslint-disable 주석 1줄은 넣지 않았다 — 아래 참조 |
 | EnableExperimentalLocales와 실험적 로캘 제거 | [e9379690](https://github.com/mattermost/mattermost/commit/e9379690d5873cbf65049fabaab22f1317696868) (#38219) | 코드·로캘 삭제는 그대로 받고 ko.json에서 지워진 2키를 우리 문구째 지웠다. docs 2개를 버렸다 — 아래 참조 |
 | 외부 링크 검사기 301 추적·GET 재시도·Zendesk 건너뛰기 | [d78e09b9](https://github.com/mattermost/mattermost/commit/d78e09b9a57ed794c32ac0c2c0067ebacc2037c3) (#38319) | 전부 받고, `shouldSkipUrlCheck`의 `FORMS_MATTERMOST_PATTERN` 검사 1줄만 뺐다(제외 계보 상수) — 아래 참조 |
@@ -2201,6 +2202,30 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## floating-ui·MUI·react-day-picker 업그레이드 — 스냅숏 해시 갱신만 버렸다
+
+**upstream**: [`502cf7e3`](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38)
+(Bump @floating-ui/react, MUI (within v5) and react-day-picker for React 19 support, #38337) — 13파일 +245/-276, 2026-10-13 반영
+
+**받은 것.** `@floating-ui/react` 0.26.6→0.27.20(channels·platform/shared), `@mui/material` 5.11.16→5.18.0, `@mui/base` 5.0.0-alpha.127→beta.70,
+`@mui/styled-engine-sc` 5.11.11→5.14.12, `react-day-picker` 8.3.6→8.10.2와 package-lock. `menu.tsx` Popover backdrop slotProps 새 구조(+`@ts-expect-error` 제거),
+`session_attribute_editor.tsx` React 내장 `useId`, `drafts_and_schedule_posts.scss` `MuiBadge-badge`→`base-Badge-badge`, Playwright `day_picker.ts` 헬퍼와 예약 모달·검색 박스, Cypress 커스텀 상태 만료 스펙 2개.
+lock은 upstream 반영본 그대로다 — `npm install`로 맞춰 보니 바뀐 것이 `"peer": true` 3줄 삭제(churn)뿐이라 버렸다.
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `sidebar_channel_menu/__snapshots__/sidebar_channel_menu.test.tsx.snap` | styled-components 해시 갱신 2종(`MuiDivider-root-ermPAM jKcMpH`→`dEdkzM` 38곳, `MuiPopover-paper-mFrfA diqnhj`→`kbkePd` 10곳) | 우리 스냅숏은 포크 스타일 차이로 해시부터 다르다(`MuiDivider-root-erLDeF cViEdA`, `MuiPopover-paper-neeJt dhYXvw`). 치환할 대상이 없고, 이 스위트 10건은 master에서도 실패하는 기준선이다 | 이 스냅숏 기준선 실패를 정리할 때 `-u`로 우리 트리 기준 재생성 |
+
+**포크 SCSS 주의.** `widgets/team_list_menu/team_list_menu.scss`(`.MuiMenuItem-root`)와 `sass/okrbest/_overrides.scss`(`.MuiPopover-root`·`.MuiModal-root`·`.MuiPaper-root`·`.MuiMenuItem-root`)는
+`@mui/material` 클래스 이름에 기댄다. v5 안 업그레이드라 이름은 유지되지만 시각 확인은 하지 않았다 — 팀 목록 메뉴·메뉴 팝오버 수동 점검 권장.
+
+**검증.** 설치 버전 5종 모두 목표 버전 확인. jest(menu·sidebar_channel_menu·session_attribute_editor·drafts·date_picker·custom_status·schedule_post·datetime) 25 suites:
+실패 10건(전부 `sidebar_channel_menu` 스냅숏)이 반영 전과 이름까지 같다. MUI 클래스가 든 스냅숏 스위트(2개) 결과도 같다.
+webapp tsc 오류 목록 동일(11건), platform/shared tsc 0, eslint 규칙 위반은 `menu.tsx`에서 1건 줄었다(나머지 동일), stylelint 통과, Playwright·Cypress tsc 목록 동일.
+CODEOWNERS 보호 경로(package.json 2·package-lock) 접촉 — PR 병합에 `--admin` 필요.
 
 ## i18n 원문 4종의 영어 문법 제거 — ko.json은 우리 파일 위에 다시 적용했다
 
