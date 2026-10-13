@@ -3,27 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-13 14:25
+- 갱신일: 2026-10-13 16:54
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 282개
+- 남은 커밋: 271개
 
-**마지막 반영 커밋:** `502cf7e3` | [Bump @floating-ui/react, MUI (within v5) and react-day-picker for React 19 support (#38337)](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38) | 2026-09-05
+**마지막 반영 커밋:** `597d9c42` | [docs/site: add legacy Sphinx URL redirects for 281 URLs, fix 3 broken targets (#38387)](https://github.com/mattermost/mattermost/commit/597d9c429602d119552b4a7cc7c2b50ce41f895b) | 2026-09-07
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 0019ecc5 | [(1) - Feature post delivery audit setting (#37882)](https://github.com/mattermost/mattermost/commit/0019ecc531dfef227d5f7523d41f8443d47227e1) | 2026-09-07 |
-| 86088592 | [fix(e2e): repoint markdown image tests off the deleted docs.mattermost.com asset (#38330)](https://github.com/mattermost/mattermost/commit/86088592790eb63047bee73cd82390aae0c3e27b) | 2026-09-07 |
-| d7880054 | [\[MM-70278\] Add enable button for disabled plugin settings (#37588)](https://github.com/mattermost/mattermost/commit/d7880054f7a36c9cae1333079e66a7475143048f) | 2026-09-07 |
-| 8b5045c2 | [Ensure we only warm the node_modules cache from the master branch (#38342)](https://github.com/mattermost/mattermost/commit/8b5045c27bcd86d923033ad94818f2962bb302e6) | 2026-09-07 |
-| 94d6a203 | [MM-70228: Adjust LDAP test connection validation (#37913)](https://github.com/mattermost/mattermost/commit/94d6a203950611e96f58dc85c88b75461126c9c2) | 2026-09-07 |
-| cd9bcb00 | [chore(ci): warm Go module and build cache daily, restore read-only in CI (#38285)](https://github.com/mattermost/mattermost/commit/cd9bcb005e8304bdb8fc19ae8611894b78faf650) | 2026-09-07 |
-| 15abf327 | [\[MM-67612\] Show the default channel URL as read-only instead of failing the save (#38110)](https://github.com/mattermost/mattermost/commit/15abf3275f745e0d5869ffc79c71a93b6206f51d) | 2026-09-07 |
-| b4b70b92 | [MM-70570 - Fix flaky ESC blur test by enabling fake timers (#38316)](https://github.com/mattermost/mattermost/commit/b4b70b92180da05225f398ed6fee8e496e91565b) | 2026-09-07 |
-| 2266df0c | [\[MM-68319\] Stop capping OutgoingIntegrationRequestsTimeout at 30 seconds (#38103)](https://github.com/mattermost/mattermost/commit/2266df0c33c84ce66f62e1dfd0b1479732b47ce7) | 2026-09-07 |
-| 3ed4cb03 | [chore: Update NOTICE.txt file with updated dependencies (#38376)](https://github.com/mattermost/mattermost/commit/3ed4cb03b3e9a6ac0eb7cd3730b476bafa93c413) | 2026-09-07 |
-| 53aaf6a4 | [Move changelog generation automation to server repo (#38113)](https://github.com/mattermost/mattermost/commit/53aaf6a4a8e75b23c7eea031f1b49cdce1710767) | 2026-09-07 |
-| f301b531 | [Update latest version to 12.0.0 (#38378)](https://github.com/mattermost/mattermost/commit/f301b5310e9b841392e4c262c49ab7c3ae615304) | 2026-09-07 |
-| 597d9c42 | [docs/site: add legacy Sphinx URL redirects for 281 URLs, fix 3 broken targets (#38387)](https://github.com/mattermost/mattermost/commit/597d9c429602d119552b4a7cc7c2b50ce41f895b) | 2026-09-07 |
 | 03a30e91 | [\[MM-70592\] Fix read-only settings for section-based plugins without a footer (#38384)](https://github.com/mattermost/mattermost/commit/03a30e91831c241ff9d82ee4b203fd19968e664a) | 2026-09-08 |
 | 904ee27f | [docs: emit redirect stubs at both <from>/index.html and <from>.html (#38389)](https://github.com/mattermost/mattermost/commit/904ee27f26e09fffd309bf2aac4fd7f99b9dd265) | 2026-09-08 |
 | d611ca8f | [chore: always render with createRoot and drop the EnableConcurrentReact flag (#38391)](https://github.com/mattermost/mattermost/commit/d611ca8f4ad014b69d1349612a34eb0a4b49bc7d) | 2026-09-08 |
@@ -293,6 +280,8 @@
 | 8a378be8 | [docs: add OCI Marketplace quick start evaluation guide (#38959)](https://github.com/mattermost/mattermost/commit/8a378be804d9ff0bf331507dddd494943868c1ed) | 2026-10-12 |
 | 2b64fd09 | [Add Compass UI guidance for agents (#38938)](https://github.com/mattermost/mattermost/commit/2b64fd09d3839007887662c191bd5d7af113a385) | 2026-10-12 |
 | 0c66f929 | [\[MM-71128\] Render attachment fields that have a title but an empty value (#39112)](https://github.com/mattermost/mattermost/commit/0c66f929d073c9c75140f6a89537dc6c50a11a38) | 2026-10-13 |
+| 07b79a10 | [Deprecate ServiceNow plugin: remove from prepackaged plugins, onboarding, and docs (#39105)](https://github.com/mattermost/mattermost/commit/07b79a1087cdcf654ffa335f29a3394feb318a2a) | 2026-10-13 |
+| bbb7145c | [Add Mobile v2.44.1 dot release docs (#39102)](https://github.com/mattermost/mattermost/commit/bbb7145c53780e1daf7e872bddc68e52f3c681f2) | 2026-10-13 |
 
 ## 제외된 커밋
 
@@ -744,6 +733,14 @@
 | 1b6a5797 | [Sync Cloud Agent Go toolchain with server/.go-version (1.26.7) (#38298)](https://github.com/mattermost/mattermost/commit/1b6a5797592f082933f630a2bf44e4a3a4a6d88f) | 제외한 11b55b77(Document Mattermost cloud startup flow, #36559) 계보의 후속이라 반영할 대상이 없다. Mattermost 사내 Cursor Cloud Agent 환경의 Go(1.25.9→1.26.7)·Node 버전을 server/.go-version·.nvmrc에 맞추고 불일치 시 설치 훅이 재설치하게 하는 3파일 +175/-14 — .cursor/Dockerfile·README.md·scripts/cloud-agent-install.sh가 전부 우리 트리에 없다(modify/delete CONFLICT). 우리 자체 .cursor 레이아웃(plans·rules·skills)과도 무관. |
 
 | b3946ef5 | [\[MM-69862\]\[MM-69867\] Lock Definition and Applies-to for plugin-owned attributes (#38268)](https://github.com/mattermost/mattermost/commit/b3946ef5e2b85a27d365af2592cf1262de6a665e) | 제외한 Global Attributes 계보(38b66d22 #37580 접근 게이트 → 4ec0fe9c #37608 목록 화면, 기반 property 시스템 v2 48f2fd08·템플릿 ObjectType 3fa87760)의 후속이라 반영할 대상이 없다. 플러그인 소유 속성의 편집 페이지를 읽기 전용으로 열고(정의 컨트롤 잠금·Managed by 패널·Applies-to 읽기 전용·목록 View attribute), 잠금 툴팁 키보드 접근·orphaned 문구·플러그인 상태 조회 경합을 고치는 17파일 +879/-138. admin_console/global_attributes/* 15파일이 우리 트리에 없다(MISSING PATHS). 공용 훅 use_field_orphaned.ts의 신규 usePluginInventoryLoaded는 그 화면 전용이라 받으면 미사용 코드가 되고, en.json 16문구도 없는 화면의 것. 계보를 들일 때 함께 재검토. |
+
+| 0019ecc5 | [(1) - Feature post delivery audit setting (#37882)](https://github.com/mattermost/mattermost/commit/0019ecc531dfef227d5f7523d41f8443d47227e1) | [보류성 제외 — 재검토 조건 명시] 신규 대형 기능 '게시물 전달 감사(Post Delivery Tracking)' — 지정 채널(또는 전체)의 게시물 전달(WebSocket·푸시·이메일·이메일 배치·웹훅·플러그인 훅)을 감사 로그로 남긴다. 95파일 +5625/-69: 새 설정 DeliveryTrackingSettings, feature flag PostDeliveryTracking(기본 false), /api/v4/delivery_tracking API·OpenAPI, DB 마이그레이션 000218_create_post_delivery_tracking_channels(migrations.list 보호 경로), DeliveryTrackingStore 전 계층(sql·localcache·retry·timer·mocks), 전달 경로별 기록 훅, 콘텐츠 플래깅 설정 화면의 Delivery tracking 섹션, i18n server 36·webapp 14줄. 지금 받지 않는 이유: (1) API·기록이 FeatureFlags.PostDeliveryTracking과 MinimumEnterpriseAdvancedLicense 이중 게이트라 우리 환경에선 비활성, (2) spec 기준(>15파일·>500줄·DB 마이그레이션·EA 티어 신규 기능) 충족, (3) merge-tree CONFLICT 10파일(api4/api.go, app/server.go, sqlstore/store.go, store/store.go, model/config.go, content_flagging_settings.tsx, webapp en.json, redux general.ts·test, platform/types config.ts)과 생성물(migrations.list·store layers·mocks) 재생성 필요. 재검토 조건: 게시물 전달 감사가 필요해지거나 이 기능을 전제로 한 후속 커밋이 막힐 때 — 그때는 spec으로 전환해 EA 라이선스 게이트 처리 방식을 함께 설계한다. |
+
+| 8b5045c2 | [Ensure we only warm the node_modules cache from the master branch (#38342)](https://github.com/mattermost/mattermost/commit/8b5045c27bcd86d923033ad94818f2962bb302e6) | 제외한 c3726ccb(chore(ci): warm node and npm caches daily, #37393 — test system IO 계보 2d05d063 후속) 계보의 후속이라 반영할 대상이 없다. .github/workflows/webapp-ci-cache-warm.yml의 warm 잡에 if: github.ref == 'refs/heads/master'를 더해 master에서만 캐시를 데우게 하는 1줄 — 대상 워크플로가 우리 트리에 없다(modify/delete CONFLICT). 코드·i18n 무접촉. |
+
+| 53aaf6a4 | [Move changelog generation automation to server repo (#38113)](https://github.com/mattermost/mattermost/commit/53aaf6a4a8e75b23c7eea031f1b49cdce1710767) | Mattermost 릴리스 운영 전용 자동화라 우리 저장소에서 동작할 수 없다. 수동 실행 워크플로 .github/workflows/generate-changelog.yml(+130)과 .github/scripts/generate_changelog.py(+480) 신설 — milestone PR의 릴리스 노트를 mattermost/mattermost·비공개 mattermost/enterprise에서 모아 LLM으로 changelog를 만들고 docs/main/product-overview/mattermost-v11-changelog.mdx에 PR을 연다. 실행에 Mattermost 소유 GitHub App 자격증명 2벌(CHANGELOG_READ/WRITE_CLIENT_ID·PRIVATE_KEY, owner: mattermost)과 비공개 enterprise 저장소 접근이 필요하고, 결과물 대상 docs/main/은 제외한 문서 사이트 계보(1d3bbc63)라 트리에 없다. 같은 성격의 조직 전용 운영 자동화(e6b8e12f pr-test-analysis, 9091791e 릴리스 문서 CODEOWNERS)와 같은 처리. |
+
+| 597d9c42 | [docs/site: add legacy Sphinx URL redirects for 281 URLs, fix 3 broken targets (#38387)](https://github.com/mattermost/mattermost/commit/597d9c429602d119552b4a7cc7c2b50ce41f895b) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. Docusaurus 리다이렉트 표 docs/site/sidebars/active-redirects.json에 옛 Sphinx URL 281개 추가·대상 3개 수정(+1128/-4, bbd00c4f·4086261f 후속) — 터치 1파일이 우리 트리에 없다(modify/delete CONFLICT). 코드·i18n 무접촉. |
 
 ## spec 전환 커밋
 
