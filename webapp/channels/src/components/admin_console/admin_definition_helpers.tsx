@@ -121,7 +121,7 @@ export const getRestrictedIndicator = (displayBlocked = false, minimumPlanRequir
             minimumPlanRequiredForFeature={minimumPlanRequiredForFeature}
             tooltipMessageBlocked={defineMessage({
                 id: 'admin.sidebar.restricted_indicator.tooltip.message.blocked',
-                defaultMessage: 'This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial',
+                defaultMessage: 'This feature requires {minimumPlanRequiredForFeature}, available with an upgrade or free {trialLength}-day trial',
             })}
         />
     ),
