@@ -3,29 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-12 16:34
+- 갱신일: 2026-10-13 10:40
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 306개
+- 남은 커밋: 296개
 
-**마지막 반영 커밋:** `9939a55a` | [MM-69706: remove the ChannelBookmarks feature flag compatibility shim (#38291)](https://github.com/mattermost/mattermost/commit/9939a55ac2c22e9a62465c8f772fabb9f2e8e61d) | 2026-09-02
+**마지막 반영 커밋:** `4086261f` | [docs: fix 10 legacy redirect gaps and two bugs in the external link checker (#38318)](https://github.com/mattermost/mattermost/commit/4086261f0090bc337d0fd7c715fdb9c0334d3fc1) | 2026-09-03
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| d81b68fa | [E2E/Cypress: fix flaky emoji picker reaction helper (#38225)](https://github.com/mattermost/mattermost/commit/d81b68faa574ddd714d7c43bfa17417068c11639) | 2026-09-03 |
-| d348eab9 | [\[Docs Revamp Feedback\] Restructure the Deployment Guide, and fix sidebar placement, labels, and ordering (#38217)](https://github.com/mattermost/mattermost/commit/d348eab976a083bd077346a219d803d46c0bb8c3) | 2026-09-03 |
-| c0ee2b2e | [MM-70215: Adjust status response serialization (#37916)](https://github.com/mattermost/mattermost/commit/c0ee2b2e25912fbfde78bb9fd4b9540f3afd08b5) | 2026-09-03 |
-| 10edb2d2 | [chore: extract install-<tool> Makefile targets (#38284)](https://github.com/mattermost/mattermost/commit/10edb2d29a810827253abee2cec7eaa7a8745268) | 2026-09-03 |
-| e34eceaa | [MM-69994: Fix user endpoint request handling (#37699)](https://github.com/mattermost/mattermost/commit/e34eceaa3432e42b7495a350b503b23014626348) | 2026-09-03 |
-| e379ae17 | [fix(docs): apply Algolia searchParameters on the full search page (#38308)](https://github.com/mattermost/mattermost/commit/e379ae1710f66195346cea85e1dbd92b55b93e56) | 2026-09-03 |
-| bea96f4e | [docs: fix incorrect GPO policy name for desktop auto-updater (#38310)](https://github.com/mattermost/mattermost/commit/bea96f4e818ccb0755f581651820f6ee3221f350) | 2026-09-03 |
-| 76b47c3b | [Fix flaky TestSendMailPlainText (#38309)](https://github.com/mattermost/mattermost/commit/76b47c3ba9ca333ada289264e9e9900f77ae36c3) | 2026-09-03 |
-| 0760aee3 | [\[MM-70529\] Fix OpenSearch plugin discovery on AWS (#38280)](https://github.com/mattermost/mattermost/commit/0760aee32b79fe98997a76b9363648e0ea3a5dae) | 2026-09-03 |
-| 24e436e7 | [\[Docs Revamp Feedback\] Match landing page titles to the TOC, and keep the sidebar on persona pages (#38301)](https://github.com/mattermost/mattermost/commit/24e436e7ae2a6a45866c9612da3981ea21b2b540) | 2026-09-03 |
-| 8f6d17d8 | [Tag the build server image on its Node version (#38281)](https://github.com/mattermost/mattermost/commit/8f6d17d875e990645f3b5842815f6277a301683d) | 2026-09-03 |
-| bbd00c4f | [docs: add 6 missing legacy redirect entries to active-redirects.json (#38317)](https://github.com/mattermost/mattermost/commit/bbd00c4f3599c55d4f802d396060b38554334a90) | 2026-09-03 |
-| 1cf3c871 | [Warm the Cypress deps cache from master and prefer it over the artifact (#38261)](https://github.com/mattermost/mattermost/commit/1cf3c87173c287c3a03c0b102a520e828f0eeff4) | 2026-09-03 |
-| f6eda181 | [feat: enable React concurrent rendering by default (#38312)](https://github.com/mattermost/mattermost/commit/f6eda181e1b265b330959ec73e0298534fc259c3) | 2026-09-03 |
-| 4086261f | [docs: fix 10 legacy redirect gaps and two bugs in the external link checker (#38318)](https://github.com/mattermost/mattermost/commit/4086261f0090bc337d0fd7c715fdb9c0334d3fc1) | 2026-09-03 |
 | 01fd4cfe | [Stabilize flaky Cypress and Playwright E2E specs (#38300)](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba) | 2026-09-04 |
 | 240b9bed | [\[MM-70274\] Add permissions migration so upgraded installs can access the System Console Recaps page (#38058)](https://github.com/mattermost/mattermost/commit/240b9bed8b371430dd112e2ff51eaf336ce4fd0f) | 2026-09-04 |
 | 97813196 | [docs: unescape HTML entities inside markdown code spans (#38329)](https://github.com/mattermost/mattermost/commit/97813196cddd289c6be33804ad62952f544d938e) | 2026-09-04 |
@@ -317,6 +302,11 @@
 | c307d634 | [Skip the setup project's ABAC seeding on upgrade paths (#39084)](https://github.com/mattermost/mattermost/commit/c307d634d6ed9d090385e2b7dc5981c36e233805) | 2026-10-09 |
 | 47eebd55 | [MM-70615: Update connection string formatting in configuration output and logs (#38644)](https://github.com/mattermost/mattermost/commit/47eebd5530c0485391efa77915965b4b7317f16c) | 2026-10-09 |
 | 5dec0b82 | [E2E/Playwright: Reset leaked config and roles before each test (#39091)](https://github.com/mattermost/mattermost/commit/5dec0b8255726d0ae21717ef2b5e4f3d3a0ba3ba) | 2026-10-12 |
+| 52492303 | [chore: Update NOTICE.txt file with updated dependencies (#39103)](https://github.com/mattermost/mattermost/commit/52492303f5dd4aaff8121318423cc7d41f3ace5d) | 2026-10-12 |
+| 701f4143 | [\[MM-62275\] Add plugin testhelper package for integration testing with testcontainers (#35643)](https://github.com/mattermost/mattermost/commit/701f4143c68f00ccf4dd1b82fd42cfa8bca01d84) | 2026-10-12 |
+| 7def4747 | [\[MM-71120\] Allow mmctl config set to set a list setting to exactly one value (#39107)](https://github.com/mattermost/mattermost/commit/7def47474a8f969de826eaa55364c0f51d5ac6a6) | 2026-10-12 |
+| 8a378be8 | [docs: add OCI Marketplace quick start evaluation guide (#38959)](https://github.com/mattermost/mattermost/commit/8a378be804d9ff0bf331507dddd494943868c1ed) | 2026-10-12 |
+| 2b64fd09 | [Add Compass UI guidance for agents (#38938)](https://github.com/mattermost/mattermost/commit/2b64fd09d3839007887662c191bd5d7af113a385) | 2026-10-12 |
 
 ## 제외된 커밋
 
@@ -744,6 +734,20 @@
 | 5650f8eb | [\[MM-69864\]\[MM-69870\] Edit existing attributes and persist Applies-to add/remove on Save (#38056)](https://github.com/mattermost/mattermost/commit/5650f8eb049fc9d79e0bed165b4b927a57bc043d) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 #37580 → 4ec0fe9c·63077696·844d3370·338dc6c7·ddee8289)의 후속이라 얹을 토대가 없다. 기존 속성 편집·Applies-to 추가/제거 저장·제거 경고 모달을 넣는 18파일 +2275/-593인데 MISSING PATHS 16/18 — components/admin_console/global_attributes/ 디렉터리 전체와 playwright global_attributes 스펙이 우리 트리에 없다. 남는 admin_definition.tsx(+12)·en.json(+14)·constants.tsx(+1)도 이 화면 배선·문구라 단독으로 받으면 없는 컴포넌트를 가리킨다. 뿌리는 property 시스템 v2(48f2fd08 → 9f1fe90b) 제외. 후속 65f8ca23(#38409)도 같은 사유 대상. |
 
 | 235bddba | [Hand Cypress E2E deps to workers as a run-scoped artifact (#38253)](https://github.com/mattermost/mattermost/commit/235bddbae0c4c387c07b918f4bf59d0ebeb6001c) | 고칠 대상 prep-deps 잡이 우리 트리에 없다 — test system IO 계보(91de3d23 adapt → 33ddd8a4·c3322b3a·8eb97fa6·1d1580cb·2d05d063·bd0d8866·c77efb5a exclude)의 연장. Mattermost 저장소 10GB Actions 캐시 한도 문제로 Cypress deps 핸드오프를 공유 캐시에서 run 범위 artifact로 바꾸는 3파일 +87/-23(신규 pack/unpack-cypress-deps action 2개 + e2e-tests-cypress-template.yml)인데, prep-deps는 제외한 bd0d8866(#37413)에서 생겼고 우리 템플릿에는 0회 등장한다(upstream 이전 대비 +559/-244 갈라짐, merge-tree CONFLICT). 이 워크플로는 Mattermost Argo Events로만 트리거돼 우리 저장소 실행 기록이 없다. 후속 1cf3c871(#38261 Cypress 캐시 워밍)도 같은 사유 대상. |
+
+| d348eab9 | [\[Docs Revamp Feedback\] Restructure the Deployment Guide, and fix sidebar placement, labels, and ordering (#38217)](https://github.com/mattermost/mattermost/commit/d348eab976a083bd077346a219d803d46c0bb8c3) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 개편 피드백(Docs Revamp Feedback 시리즈, 40e282b9 #38180 후속)이라 반영할 대상이 없다. 210파일 +2470/-2622가 전부 docs/main/·docs/site/·docs/pdf/로 우리 트리에 없다(MISSING PATHS 전부). Deployment Guide 재구성·사이드바 라벨/순서·리다이렉트 갱신뿐이며 코드·i18n 무접촉. 문서 사이트 도입 시 1d3bbc63부터 계보째 재검토. |
+
+| e379ae17 | [fix(docs): apply Algolia searchParameters on the full search page (#38308)](https://github.com/mattermost/mattermost/commit/e379ae1710f66195346cea85e1dbd92b55b93e56) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. Docusaurus 테마 SearchPage를 eject해 Algolia searchParameters(#38202 optionalFilters)를 /search 전체 검색 페이지에도 넘기는 수정 — 터치 2파일(docs/site/src/theme/SearchPage/index.tsx·styles.module.css, +743)이 전부 신규 파일이고 docs/site/ 자체가 우리 트리에 없다. cherry-pick하면 사이트 본체 없는 고아 파일만 생긴다. 코드·i18n 무접촉. |
+
+| bea96f4e | [docs: fix incorrect GPO policy name for desktop auto-updater (#38310)](https://github.com/mattermost/mattermost/commit/bea96f4e818ccb0755f581651820f6ee3221f350) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. 데스크톱 GPO 이름 오기(EnableAutoUpdates→EnableAutoUpdater) 문서 수정(mattermost/docs#9164 포팅) — 터치 2파일(docs/main/deployment-guide/desktop/*.mdx)이 우리 트리에 없다(modify/delete CONFLICT). GPO는 데스크톱 앱 소관이라 server/webapp 코드에 해당 문자열 없음. |
+
+| 24e436e7 | [\[Docs Revamp Feedback\] Match landing page titles to the TOC, and keep the sidebar on persona pages (#38301)](https://github.com/mattermost/mattermost/commit/24e436e7ae2a6a45866c9612da3981ea21b2b540) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 개편 피드백(Docs Revamp Feedback 시리즈, d348eab9·40e282b9 후속)이라 반영할 대상이 없다. 랜딩 페이지 제목을 TOC와 일치, for/ 페르소나 페이지에 displayed_sidebar 부착, SRE Start here 카드 순서 조정 — 터치 13파일(docs/main/ 12, docs/site/scripts/gen-documentation-sidebar.mjs 1)이 전부 우리 트리에 없다(MISSING PATHS 13/13). 코드·i18n 무접촉. |
+
+| bbd00c4f | [docs: add 6 missing legacy redirect entries to active-redirects.json (#38317)](https://github.com/mattermost/mattermost/commit/bbd00c4f3599c55d4f802d396060b38554334a90) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. Docusaurus 리다이렉트 표 docs/site/sidebars/active-redirects.json에 옛 Sphinx URL 6개 추가(_meta.active 741→747) — 터치 1파일이 우리 트리에 없다(modify/delete CONFLICT). docs.mattermost.com 사이트 설정이라 우리 webapp 링크 동작과 무관. |
+
+| 1cf3c871 | [Warm the Cypress deps cache from master and prefer it over the artifact (#38261)](https://github.com/mattermost/mattermost/commit/1cf3c87173c287c3a03c0b102a520e828f0eeff4) | 제외한 부모 커밋 235bddba(#38253 Hand Cypress E2E deps to workers as a run-scoped artifact)의 직접 후속이라 반영할 토대가 없다 — test system IO 계보(91de3d23 adapt → 33ddd8a4·c3322b3a·8eb97fa6·1d1580cb·2d05d063·bd0d8866·c77efb5a exclude)의 연장. master에서 Cypress deps Actions 캐시를 데우는 신규 워크플로(e2e-ci-cache-warm-cypress-deps.yml)와 restore-cypress-deps 액션을 추가하고 prep-deps가 lookup-only로 캐시/artifact 경로를 고르게 하는 5파일 +204/-10. 우리 e2e-tests-cypress-template.yml에 prep-deps 잡이 없고 pack/unpack-cypress-deps·restore-e2e-npm-cache 액션도 부재(modify/delete CONFLICT 2 + 템플릿 내용 CONFLICT). 코드·i18n 무접촉. 계보 재도입 시 235bddba부터 함께 재검토. |
+
+| 4086261f | [docs: fix 10 legacy redirect gaps and two bugs in the external link checker (#38318)](https://github.com/mattermost/mattermost/commit/4086261f0090bc337d0fd7c715fdb9c0334d3fc1) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. Docusaurus 리다이렉트 표 docs/site/sidebars/active-redirects.json에 mattermost.com/pl/* 단축 링크가 가리키는 옛 Sphinx URL 10개 추가(_meta.active 747→757, bbd00c4f 후속) — 터치 1파일이 우리 트리에 없다(modify/delete CONFLICT). 커밋 메시지의 check-external-links 수정 2건(301 추적·Zendesk 호스트 skip)은 squash된 최종 diff에 없어 우리 webapp/scripts/check-external-links.mjs는 영향 없음. |
 
 ## spec 전환 커밋
 
