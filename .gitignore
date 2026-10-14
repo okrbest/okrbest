@@ -180,6 +180,15 @@ CLAUDE.md
 # Cursor가 만드는 스크래치 — 정본은 specs/<NNN>/
 .cursor/plans/
 
+# Python bytecode / cache
+# .claude/skills/ 예외로 스킬 소스는 추적하지만, 실행 시 생기는 __pycache__·*.pyc 는 제외한다.
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
 # superpowers (local scratch; spec-kit specs/ is canonical)
 docs/superpowers/
 
