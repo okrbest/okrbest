@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| FileInfo·Channels (CreateAt, Id) 인덱스 | [a40861c4](https://github.com/mattermost/mattermost/commit/a40861c41413c3ce36f549741f9cb4a1a5fe166d) (#38398) | 마이그레이션 000219·000220은 그대로 받았다. `migrations.list` 충돌 문맥의 000218(보류한 전달 감사)은 넣지 않아 번호 공백이 생긴다 — 아래 참조 |
 | 서버·웹앱 번역 카탈로그 검사기 | [5e6f509f](https://github.com/mattermost/mattermost/commit/5e6f509f36b6518d8df166c01fa606441629dab4) (#38231) | 검사기·CI·다른 언어 정리는 받고, 우리 ko.json 2개에 대한 upstream 정리(webapp 113키·server 51키)는 버렸다. 검사기 기준 결함은 후속 i18n 작업 — 아래 참조 |
 | react-beautiful-dnd → @hello-pangea/dnd | [7eebdb8f](https://github.com/mattermost/mattermost/commit/7eebdb8f9411ae2d4bd11d5a2ae03d65d7b0552f) (#38320) | 교체는 받고, 우리에게 없는 파일 3개(rank 속성 모달·팀 버튼)와 포크가 재작성한 팀 레일 hunk를 버렸다. 포크에만 남은 `list_table.tsx`는 직접 옮겼다 — 아래 참조 |
 | React 19 타입 codemod | [80fc4302](https://github.com/mattermost/mattermost/commit/80fc4302ae33a94ee0cd9664d9bb6ac1f6561201) (#38313) | diff를 받지 않고 같은 codemod 3종을 우리 트리 전체에 다시 돌렸다(포크 전용 파일 포함 380파일). 버린 것 없음 — 아래 참조 |
@@ -2206,6 +2207,22 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## (CreateAt, Id) 인덱스 — 마이그레이션 번호 000216·000218이 비어 있다
+
+**upstream**: [`a40861c4`](https://github.com/mattermost/mattermost/commit/a40861c41413c3ce36f549741f9cb4a1a5fe166d)
+(MM-70511: Add (CreateAt, Id) indices on FileInfo, Channels, #38398) — 6파일 +14/-1, 2026-10-14 반영
+
+**받은 것.** `000219_add_fileinfo_createat_id_index`·`000220_add_channels_createat_id_index`(둘 다 `CREATE INDEX CONCURRENTLY IF NOT EXISTS`, nontransactional),
+`schema_dump_test.go`의 Channels 인덱스 기대값 13 → 14. 09-08에 받은 `a66e9c03`(행 비교 쿼리)이 이 인덱스로 범위 탐색한다.
+
+**충돌 해결.** `migrations.list`의 upstream 문맥에 `000218_create_post_delivery_tracking_channels`가 있다 — 보류성 제외한 `0019ecc5`(#37882 게시물 전달 감사)의 마이그레이션이다.
+우리 목록 끝(000217)에 000219·000220 네 줄만 더했고 `make migrations-extract`로 다시 만든 결과와 같다.
+
+**번호 공백 주의.** 우리 마이그레이션은 000216(제외 계보)과 000218(보류)이 비어 있다.
+`0019ecc5`를 나중에 들이면 000218이 이미 적용된 000219·000220보다 낮은 번호로 뒤늦게 들어온다 — 그때 morph가 미적용 하위 버전을 적용하는지 로컬 PG로 먼저 확인한다.
+
+**검증.** `go build ./...`, `TestGetSchemaDefinition`(로컬 PG에 마이그레이션 적용 후 Channels 인덱스 14개·`idx_channels_create_at_id` 정의 확인), `TestMigratorPreMigrate`·`TestMigration*` 통과.
 
 ## 번역 카탈로그 검사기 — 도구만 받고 우리 ko는 그대로 두었다
 
