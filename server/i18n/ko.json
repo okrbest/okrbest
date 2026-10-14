@@ -2809,15 +2809,15 @@
     "translation": "삭제하기 전에 DB에서 엑세스 토큰을 받을 수 없습니다."
   },
   {
-    "id": "api.oauth.singup_with_oauth.disabled.app_error",
+    "id": "api.oauth.signup_with_oauth.disabled.app_error",
     "translation": "사용자 가입이 비활성화 되어있습니다."
   },
   {
-    "id": "api.oauth.singup_with_oauth.expired_link.app_error",
+    "id": "api.oauth.signup_with_oauth.expired_link.app_error",
     "translation": "가입 링크가 만료되었습니다."
   },
   {
-    "id": "api.oauth.singup_with_oauth.invalid_link.app_error",
+    "id": "api.oauth.signup_with_oauth.invalid_link.app_error",
     "translation": "유효하지 않은 가입 링크입니다."
   },
   {
@@ -7807,7 +7807,7 @@
     "translation": "지속 알림 게시물 삭제에 실패했습니다"
   },
   {
-    "id": "app.post_prority.get_for_post.app_error",
+    "id": "app.post_priority.get_for_post.app_error",
     "translation": "게시물의 우선순위를 가져올 수 없습니다"
   },
   {
@@ -7983,7 +7983,7 @@
     "translation": "데이터베이스에서 게시물의 우선순위 데이터를 영구 삭제하지 못했습니다."
   },
   {
-    "id": "app.post_prority.get_for_post_with_context.app_error",
+    "id": "app.post_priority.get_for_post_with_context.app_error",
     "translation": "컨텍스트를 사용해 게시물의 우선순위를 가져올 수 없습니다"
   },
   {
@@ -8023,7 +8023,7 @@
     "translation": "환경설정을 업데이트하는 중 오류가 발생했습니다"
   },
   {
-    "id": "app.prepackged-plugin.invalid_version.app_error",
+    "id": "app.prepackaged-plugin.invalid_version.app_error",
     "translation": "사전 패키지 플러그인 버전을 구문 분석할 수 없습니다"
   },
   {
@@ -10209,11 +10209,11 @@
     "translation": "현재 라이선스에서 사용할 수 없는 기능입니다"
   },
   {
-    "id": "manaultesting.manual_test.parse.app_error",
+    "id": "manualtesting.manual_test.parse.app_error",
     "translation": "URL을 파싱할 수 없습니다."
   },
   {
-    "id": "manaultesting.test_autolink.unable.app_error",
+    "id": "manualtesting.test_autolink.unable.app_error",
     "translation": "채널을 불러올 수 없습니다."
   },
   {

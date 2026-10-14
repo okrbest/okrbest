@@ -121,6 +121,7 @@
 | Health Dashboard PR28 Site health 화면 | [85b6fc1a](https://github.com/mattermost/mattermost/commit/85b6fc1ac751261a3c9e3c6ba21072a00e80160f) (#38943) | 화면·redux·서버 렌더 필드는 그대로 받았다. `client4.ts` 충돌 문맥의 delivery tracking 경로·메서드 3개(제외한 `0019ecc5` 계보)를 버렸다 — 아래 참조 |
 | Health Dashboard PR30 Site health·Workspace Optimization 택일 | [86b88d6f](https://github.com/mattermost/mattermost/commit/86b88d6f2532aedc18085af23273bdc32adb085c) (#39076) | 제품 코드는 그대로 받았다. 새 `admin_sidebar.test.tsx` 3건이 항상 펼쳐진 사이드바를 전제해, 우리 쪽에서는 Reporting URL에서 렌더하도록 고쳤다 — 아래 참조 |
 | server 영어 오타·문법 수정 | [43b5abce](https://github.com/mattermost/mattermost/commit/43b5abce4e03e89a054e54f95f4634e25409686d) (#39144) | 57건 문구를 모두 받았다. 그중 3건은 제외한 개명 계보(`f1b9aa05`) 때문에 우리 `app.content_flagging.*` 키로 옮겼고, 충돌 문맥의 `app.data_spillage.*` 키는 버렸다 — 아래 참조 |
+| 철자 틀린 메시지 id 개명 | [8ebb3781](https://github.com/mattermost/mattermost/commit/8ebb3781be0cb424ed191c0a676c9de7d99c0296) (#39145) | 코드와 자동 병합된 언어 카탈로그는 그대로 받았다. 충돌한 en·ko·en-AU 4파일은 upstream 결과 대신 우리 판에서 키 이름만 바꿨고, 지운 언어 7개의 카탈로그 14파일을 버렸다 — 아래 참조 |
 
 ---
 
@@ -3706,3 +3707,31 @@ jest 9 suite 93건·스냅샷 12건(health_dashboard·admin_definition_health_da
 **후속 sync 주의.** 이후 upstream 서버 문자열 커밋이 `app.data_spillage.*` 키를 고치면 같은 방식으로 `app.content_flagging.*`에 옮긴다.
 
 **검증.** upstream 수정 전·후 en.json과 우리 en.json을 id 단위로 대조하는 스크립트로 57건 모두 새 문구임을 확인(`data_spillage`→`content_flagging` 대응 포함). 변경 규모 +58/-58로 upstream과 같고, id 줄 변경 0, `app.data_spillage` 출현 수 78로 반영 전과 같다. JSON 유효, `make i18n-check`·`go test ./public/shared/i18n/...` 통과.
+
+---
+
+## 철자 틀린 메시지 id 개명 — 충돌 카탈로그는 우리 판에서 키만 바꿨다
+
+**upstream**: [`8ebb3781`](https://github.com/mattermost/mattermost/commit/8ebb3781be0cb424ed191c0a676c9de7d99c0296)
+(Rename misspelled message ids across code and all locale catalogs, #39145) — 69파일, 2026-10-21 반영(사용자 결정 adapt)
+
+**받은 것.** webapp 20개·server 8개 id 개명(`dange_range→date_range`, `successfull→successful`, `wanring→warning`, `Gropus→Groups`, `singup→signup`, `post_prority→post_priority`,
+`prepackged→prepackaged`, `manaultesting→manualtesting` 등). 코드 15파일과 자동 병합된 언어 카탈로그(server·webapp의 bg·de·es·fa·fr·hu·it·ja·nl·pl·pt-BR·ro·ru·sv·tr·uk·vi·zh-CN·zh-TW, webapp en-AU, server en)는 upstream 결과 그대로다.
+
+**우리 맞춤.** 내용 충돌한 4파일 — `webapp/channels/src/i18n/en.json`·`ko.json`, `server/i18n/ko.json`·`en-AU.json` — 은 우리 문구·번역이 upstream과 갈라져 충돌했다(특히 ko).
+upstream 쪽으로 풀면 우리 ko 번역을 upstream ko로 덮어쓰게 되므로(constitution 원칙 V), **HEAD판에서 출발해 개명 맵 28개로 키 이름만 바꿨다.** 값과 항목 순서는 우리 것 그대로다.
+충돌 hunk에 딸려 온 upstream 문맥(우리에게 없는 키, upstream ko 문구)은 하나도 들이지 않았다.
+
+**버린 것.**
+
+| 파일 | 버린 이유 | 되살릴 조건 |
+|---|---|---|
+| `server/i18n/{cs,da,fi,hr,lt,nb-NO,pt}.json`, `webapp/channels/src/i18n/{cs,da,fi,hr,lt,nb-NO,pt}.json` | 우리가 지운 언어 카탈로그(modify/delete). "WebserverMode `uncompressed` 통일" 절과 같은 처리 | 해당 언어를 되살릴 때 |
+
+**후속 sync 주의.** 이후 upstream 커밋이 옛 id(`successfull` 등)를 문맥으로 달고 오는 일은 없어진다. 반대로 이 개명 이전 upstream 판을 기준으로 한 우리 자체 변경이 있다면 새 id로 맞춘다(현재 코드 참조 0건 확인).
+
+**검증.** 4파일 모두 "HEAD판에 개명 맵을 적용한 결과"와 정확히 같음을 스크립트로 확인(옛 id 0, 새 id webapp 20·server 8, server는 항목 순서까지 동일). 병합 후 트리에서 코드의 옛 id 참조 0건.
+`npm run i18n-extract:check` 통과(en.json 순서까지 코드 추출 결과와 일치), `check-empty-translations` orphaned 8건(기준선 그대로), `make i18n-check` 통과.
+`go build ./...`, `go vet ./channels/manualtesting/ ./channels/web/`, `go test ./channels/app/ -run 'PostPriority|Team|Prepackaged|Plugin'`, `./channels/web/ -run OAuth` 통과.
+jest(`npm run test`, TZ=UTC) 30 suite 중 28 통과·스냅샷 55건 통과. 나머지 둘 — `channel_intro_message`는 로컬에 빠져 있던 `fflate`(package.json·lock에는 있음)를 `--no-save`로 설치한 뒤 통과,
+`advanced_text_editor.test.tsx`는 15 실패/8 통과로 개명 전 HEAD와 실패 목록이 같다(기준선).
