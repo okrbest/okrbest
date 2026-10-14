@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-14 15:36
+- 갱신일: 2026-10-14 16:04
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 249개
+- 남은 커밋: 248개
 
-**마지막 반영 커밋:** `84ea31fc` | [Skip flaky TestGetMattermostLog (MM-70639) (#38446)](https://github.com/mattermost/mattermost/commit/84ea31fcad59dad963097588f0316258cc7caa7d) | 2026-09-12
+**마지막 반영 커밋:** `5dd13c95` | [MM-69223: V12 - Default-strip post identity props and reinject under verified authority (#37872)](https://github.com/mattermost/mattermost/commit/5dd13c953b2dcd7534154cc5c473559d5ee6d37a) | 2026-09-13
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 5dd13c95 | [MM-69223: V12 - Default-strip post identity props and reinject under verified authority (#37872)](https://github.com/mattermost/mattermost/commit/5dd13c953b2dcd7534154cc5c473559d5ee6d37a) | 2026-09-13 |
 | 012e6dda | [File download policy enforcement for content reviewers (#38245)](https://github.com/mattermost/mattermost/commit/012e6dda5d685760f8e91c1f9fb54b3a9a789079) | 2026-09-14 |
 | e594b211 | [MM-70619: Add live Security Updates bulletin to product docs (#38427)](https://github.com/mattermost/mattermost/commit/e594b2116ce7bacf76c0173f306ac68a35a1f140) | 2026-09-14 |
 | 438af259 | [MM-69969: re-work file attachment when serving draft and edit history file metadata (#38048)](https://github.com/mattermost/mattermost/commit/438af2598398efdaf46056d46b3ac7324464d4eb) | 2026-09-14 |
