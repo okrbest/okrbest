@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| 번역 용어집 i18n/glossary | [fa302bf9](https://github.com/mattermost/mattermost/commit/fa302bf9e62335d78c9a4a6f71e8beb19b678be4) (#38410) | 21개 언어 용어집은 그대로 받고 `ko.json`의 브랜드 항목 2개만 리브랜드 기준으로 고쳤다 — 아래 참조 |
 | 플러그인 파일 동작 정책 API | [db126654](https://github.com/mattermost/mattermost/commit/db12665463b46b44e161a3fdb69e52fd7dd95acd) (#38321) | 생산 코드·생성 코드는 그대로. 새 테스트의 `SessionAttribute().Refresh` 호출에서 `updatedAt` 인자를 뺐다(제외한 Session Attributes 계보 시그니처) — 아래 참조 |
 | React 19 대비 독립 수정 | [786d22bc](https://github.com/mattermost/mattermost/commit/786d22bce34973ab3ea040cb996c66d27364fa26) (#38390) | Card 수정은 우리 형태(`expanded`만)로 옮겼고, 없는 테스트 1개를 버렸다. 우리 파일에서 쓰이지 않게 된 `act` import를 지웠다 — 아래 참조 |
 | FileInfo·Channels (CreateAt, Id) 인덱스 | [a40861c4](https://github.com/mattermost/mattermost/commit/a40861c41413c3ce36f549741f9cb4a1a5fe166d) (#38398) | 마이그레이션 000219·000220은 그대로 받았다. `migrations.list` 충돌 문맥의 000218(보류한 전달 감사)은 넣지 않아 번호 공백이 생긴다 — 아래 참조 |
@@ -2209,6 +2210,25 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## 번역 용어집 — ko 브랜드 항목만 OKR.BEST로 바꿨다
+
+**upstream**: [`fa302bf9`](https://github.com/mattermost/mattermost/commit/fa302bf9e62335d78c9a4a6f71e8beb19b678be4)
+(Add i18n/glossary: core terminology for 21 supported locales, #38410) — 23파일 +10140, 2026-10-14 반영
+
+**받은 것.** `i18n/glossary/`(README, 용어 인벤토리 `en.json`, 21개 언어 `<locale>.json`) — 핵심 제품 용어 123개의 정의·품사·번역 금지 여부와 언어별 번역어·주의점.
+AI 번역 프롬프트용 참고 자료라 빌드·런타임에 연결되지 않는다. 우리 ko 번역 후속 작업(카탈로그 결함 정리·누락 번역)의 용어 기준으로 쓸 수 있다.
+
+**바꾼 것.**
+
+| 위치 | upstream 값 | 우리 값 | 이유 |
+|---|---|---|---|
+| `ko.json` `Mattermost` | target `Mattermost` | target `OKR.BEST` + note(제품명은 OKR.BEST, 저작권 표기·회사 고유명사는 원문 유지) | 원칙 IV 리브랜드. 그대로 두면 번역 프롬프트가 ko 문장에 "Mattermost"를 퍼뜨린다 |
+| `ko.json` `Mattermost Cloud` | target `Mattermost Cloud` | target 유지 + note(Mattermost 운영 서비스 고유명사, 우리 제품을 가리키면 OKR.BEST) | 서비스 고유명사는 원문, 우리 제품 지칭은 리브랜드 |
+| `README.md` | — | 위 변경을 알리는 okrbest 한 줄 추가 | 용어집을 쓰는 사람이 차이를 알도록 |
+
+`en.json`(용어 인벤토리)과 ko 외 20개 언어는 upstream 그대로다(`Mattermost` 번역 금지 정의 포함 — 우리가 관리하지 않는 언어).
+upstream이 용어집을 갱신하면 위 ko 두 항목에서 충돌할 수 있다. 그때 우리 값을 지킨다.
 
 ## 플러그인 파일 동작 정책 API — 테스트의 store 호출 인자 하나만 맞췄다
 
