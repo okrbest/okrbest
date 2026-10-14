@@ -313,7 +313,7 @@
   },
   {
     "id": "api.channel.create_channel.direct_channel.app_error",
-    "translation": "개인 메시지 채널을 만들기 위해서는 반드시 createDirectChannel API 서비스를 이용해야 합니다."
+    "translation": "다이렉트 메시지 채널을 만들기 위해서는 반드시 createDirectChannel API 서비스를 이용해야 합니다."
   },
   {
     "id": "api.channel.create_channel.direct_channel.remote_restricted.app_error",
@@ -405,7 +405,7 @@
   },
   {
     "id": "api.channel.leave.direct.app_error",
-    "translation": "개인 메시지 채널은 나갈 수 없습니다."
+    "translation": "다이렉트 메시지 채널은 나갈 수 없습니다."
   },
   {
     "id": "api.channel.leave.left",
@@ -785,7 +785,7 @@
   },
   {
     "id": "api.command_channel_purpose.direct_group.app_error",
-    "translation": "개인 메시지의 설명은 설정할 수 없습니다. 머리글을 설정하려면 /header 를 사용하세요."
+    "translation": "다이렉트 메시지의 설명은 설정할 수 없습니다. 머리글을 설정하려면 /header 를 사용하세요."
   },
   {
     "id": "api.command_channel_purpose.hint",
@@ -825,7 +825,7 @@
   },
   {
     "id": "api.command_channel_rename.direct_group.app_error",
-    "translation": "개인 메시지 채널의 이름은 변경 할 수 없습니다."
+    "translation": "다이렉트 메시지 채널의 이름은 변경 할 수 없습니다."
   },
   {
     "id": "api.command_channel_rename.hint",
@@ -1207,7 +1207,7 @@
   },
   {
     "id": "api.command_msg.desc",
-    "translation": "유저에게 개인 메시지 전송"
+    "translation": "유저에게 다이렉트 메시지 전송"
   },
   {
     "id": "api.command_msg.dm_fail.app_error",
@@ -1231,7 +1231,7 @@
   },
   {
     "id": "api.command_msg.permission.app_error",
-    "translation": "해당 사용자에게 개인 메시지를 보낼 권한이 없습니다."
+    "translation": "해당 사용자에게 다이렉트 메시지를 보낼 권한이 없습니다."
   },
   {
     "id": "api.command_mute.desc",
@@ -1451,7 +1451,7 @@
   },
   {
     "id": "api.command_remove.direct_group.app_error",
-    "translation": "개인 메시지 채널에서 다른 사용자를 제거할 수 없습니다."
+    "translation": "다이렉트 메시지 채널에서 다른 사용자를 제거할 수 없습니다."
   },
   {
     "id": "api.command_remove.group_constrained_user_denied",
@@ -2808,7 +2808,7 @@
   },
   {
     "id": "api.push_notification.title.collapsed_threads_dm",
-    "translation": "개인 메시지에서 답글"
+    "translation": "다이렉트 메시지에서 답글"
   },
   {
     "id": "api.push_notifications.message.parse.app_error",
@@ -6144,7 +6144,7 @@
   },
   {
     "id": "app.notification.subject.direct.full",
-    "translation": "[{{.SiteName}}] {{.SenderDisplayName}} (으)로부터 {{.Year}}년 {{.Month}} {{.Day}}일에 새로운 개인 메시지가 왔습니다"
+    "translation": "[{{.SiteName}}] {{.SenderDisplayName}} (으)로부터 {{.Year}}년 {{.Month}} {{.Day}}일에 새로운 다이렉트 메시지가 왔습니다"
   },
   {
     "id": "app.notification.subject.group_message.full",
