@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| React 19 업그레이드 | [4322d9e9](https://github.com/mattermost/mattermost/commit/4322d9e9a2dbef25b3860ec2279afd6634ceb61f) (#38311) | 의존성·진입점·플러그인 호환·codemod는 받았다. 제외 계보 파일 5개의 변경을 버렸고, 포크 Lexical 편집기·이미지 확대·게시물 목록은 우리 코드에 React 19 ref 타입만 입혔다 — 아래 참조 |
 | 콘텐츠 검토자 파일 다운로드 정책 적용 | [012e6dda](https://github.com/mattermost/mattermost/commit/012e6dda5d685760f8e91c1f9fb54b3a9a789079) (#38245) | 서버 코드는 받되 `postReviewerMessage`는 우리 rctx 없는 호출 형태를 유지했다. 세션 속성 테스트 1개를 우리 세션 속성 구조에 맞게 다시 썼고, docs 1개를 버렸다 — 아래 참조 |
 | 게시물 신원 props 기본 제거 후 검증 경로에서 재주입(v12) | [5dd13c95](https://github.com/mattermost/mattermost/commit/5dd13c953b2dcd7534154cc5c473559d5ee6d37a) (#37872) | 서버 코드·테스트 23파일은 그대로 받고, 우리 트리에 없는 문서 3개를 버렸다 — 아래 참조 |
 | 플러그인 HTTP context 전파 | [afc8def8](https://github.com/mattermost/mattermost/commit/afc8def801504c8ec5db8f60f3c42d16dfcc0493) (#38354) | 서버 코드·테스트 9파일은 그대로 받고, 우리가 지운 `docs/develop/` 문서 1개(플러그인 요청 취소 가이드)를 버렸다 — 아래 참조 |
@@ -2214,6 +2215,51 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## React 19 업그레이드 — 포크 편집기는 우리 코드에 타입만 입혔다
+
+**upstream**: [`4322d9e9`](https://github.com/mattermost/mattermost/commit/4322d9e9a2dbef25b3860ec2279afd6634ceb61f)
+(Update the web app to React 19, #38311) — 154파일 +530/-458, 2026-10-14 반영
+
+**받은 것.** react·react-dom·react-is·@types 19.2.8(webapp 루트에도 고정해 사본 하나), @mui·@floating-ui·react-day-picker 상향,
+`@types/react-bootstrap` 패치, `createRoot` 단일 진입(webapp 쪽 `EnableConcurrentReact` 분기 제거), 플러그인용 `window.ReactDOM`에
+react-dom과 react-dom/client를 합친 객체 노출, 툴팁 자식 ref를 `props.ref`로 읽기, `useThreadRouting.clear()` 가드, codemod 잔여분, 스냅샷 재기록, E2E 안정화.
+
+**버린 것** (제외한 계보의 파일이라 우리 트리에 없다).
+
+| 파일 | upstream 변경 | 출처 계보 | 되살릴 조건 |
+|---|---|---|---|
+| `admin_console/global_attributes/attribute_details/attribute_plugin_source.tsx` | `__ownedIds` → `ownedIds` | Global Attributes·property v2(38b66d22·48f2fd08) | 계보 도입 시 |
+| `admin_console/global_attributes/classification_attribute/classification_attribute.tsx` | `import React, {type JSX}` | 채널 속성 표시(75a26632) | 계보 도입 시 |
+| `advanced_text_editor/wysiwyg_editor/wysiwyg_suggestion_list.tsx` | `type JSX` import, `inputRef`를 `RefObject<HTMLDivElement \| null>`로 | TipTap WYSIWYG(0fa2713b) — 우리는 Lexical | 없음(우리 편집기로 대체) |
+| `platform/shared/src/types/global/editor.ts` | `inputRef?: RefObject<HTMLDivElement \| null>` | 379959ba adapt에서 버린 에디터 공개 | 에디터 공개 도입 시 |
+| `e2e-tests/playwright/.../abac/policies/ranked_operators.spec.ts` | 주석 1줄 삭제 | rank 속성(017a7102) | 계보 도입 시 |
+
+**우리 코드를 유지하고 React 19 타입만 입힌 곳.**
+
+| 파일 | upstream | 우리 |
+|---|---|---|
+| `advanced_text_editor/advanced_text_editor.tsx` | `textboxRef`·`wysiwygRef`·`formattingBarRef` | `lexicalEditorRef` 유지, timeout ref만 `useRef(undefined)` |
+| `advanced_text_editor/use_{key_handler,plugin_items,rewrite,textbox_focus,upload_files}.tsx` | `RefObject<TextboxClass \| null>` 등 | `RefObject<LexicalTextEditorHandle \| null>` |
+| `advanced_text_editor/use_{orientation_handler,editor_emoji_picker}.tsx` (충돌 없음, tsc가 잡음) | — | 같은 타입 보정 |
+| `file_preview_modal/image_preview.tsx` | `<a>`·`<span>` 래퍼 ref 타입 | 우리 끌기·휠·키보드 확대 구현(36df58b028) 그대로 |
+| `post_view/post_list_virtualized/post_list_virtualized.tsx` | ref 2개 `\| null` | 우리 `postListContentRef`까지 3개 `\| null` |
+
+**포크 전용 코드 보정** (React 19 `useRef` 인자 필수·`RefObject` null 포함 때문).
+`admin_console/org_role_management/org_role_management_body.tsx`의 타이머 ref 2개를 `useRef<number | undefined>(undefined)`로,
+`file_preview_modal/file_preview_modal.test.tsx`의 키보드 확대 helper 인자를 `RefObject<FilePreviewModal | null>`로.
+
+**그 밖.** `package.json`은 우리 `lexical` 고정과 upstream `react`·`react-dom` 고정을 둘 다 두고, `package-lock.json`은 upstream 것에서 `npm install`로 다시 만들었다.
+`sidebar_category` 스냅샷은 우리 미읽음 뱃지(025) 때문에 충돌해 jest로 다시 기록했다(useId 형식 `:r0:` → `_r_0_`).
+포크 전용 코드에서 React 19가 없앤 API(함수형 `defaultProps`, `ReactDOM.render`, `findDOMNode`, legacy context, 문자열 ref, `react-dom/test-utils`)는 0건이다.
+`suggestion_box.jsx`의 `propTypes`는 React 19가 무시할 뿐 동작은 같다.
+
+**운영 주의.** 동시성 렌더링이 항상 켜진다. 비상 스위치였던 `EnableConcurrentReact`가 webapp에서 사라졌다.
+포크 플러그인(Boards·Agents)은 React 18로 빌드됐으므로 `window.ReactDOM` 호환 경로에 기댄다 — 배포 전 플러그인을 켜고 확인한다.
+
+**검증.** `npm ls`로 react·react-dom이 19.2.8 하나만 해석됨을 확인. `@lexical/react` 0.40의 peer는 `>=17.x`.
+webapp tsc는 기준선 13건과 같다(보정 전 신규 17건은 모두 위 포크 전용 타입). 접촉 디렉터리 108곳의 jest(1062 스위트)를
+React 18 HEAD와 같은 범위로 돌려 실패 목록을 diff했다 — 양쪽 다 118건, 차이 0. 바뀐 파일의 eslint 오류 6건은 HEAD에서도 같다.
 
 ## 콘텐츠 검토자 파일 다운로드 정책 — 세션 속성 테스트를 다시 썼다
 
