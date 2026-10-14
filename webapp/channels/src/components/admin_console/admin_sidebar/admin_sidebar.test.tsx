@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {createMemoryHistory} from 'history';
 import React from 'react';
 
 import type {ExperimentalSettings, PluginSettings, SSOSettings, Office365Settings} from '@mattermost/types/config';
@@ -140,6 +141,40 @@ describe('components/AdminSidebar', () => {
         };
         renderWithContext(<AdminSidebar {...props}/>);
         expect(screen.queryByText('Workspace Optimization')).not.toBeInTheDocument();
+    });
+
+    describe('Site health and Workspace Optimization', () => {
+        const renderSidebar = (skuShortName: string, healthDashboard: boolean) => {
+            const props = {
+                ...defaultProps,
+                license: {IsLicensed: 'true', SkuShortName: skuShortName},
+                config: {
+                    ...defaultProps.config,
+                    FeatureFlags: {HealthDashboard: healthDashboard},
+                },
+            };
+
+            // okrbest의 사이드바는 현재 URL이 속한 카테고리의 하위 항목만 그린다(upstream b052f346의 Route 제거를 받지 않았다).
+            renderWithContext(<AdminSidebar {...props}/>, {}, {history: createMemoryHistory({initialEntries: ['/admin_console/reporting']})});
+        };
+
+        test('shows Site health and not Workspace Optimization with the flag on and an Enterprise license', () => {
+            renderSidebar('enterprise', true);
+            expect(screen.getByText('Site health')).toBeInTheDocument();
+            expect(screen.queryByText('Workspace Optimization')).not.toBeInTheDocument();
+        });
+
+        test('shows Workspace Optimization and not Site health with the flag off', () => {
+            renderSidebar('enterprise', false);
+            expect(screen.getByText('Workspace Optimization')).toBeInTheDocument();
+            expect(screen.queryByText('Site health')).not.toBeInTheDocument();
+        });
+
+        test('shows Workspace Optimization and not Site health with the flag on below Enterprise', () => {
+            renderSidebar('professional', true);
+            expect(screen.getByText('Workspace Optimization')).toBeInTheDocument();
+            expect(screen.queryByText('Site health')).not.toBeInTheDocument();
+        });
     });
 
     test('should match snapshot, no access', () => {
