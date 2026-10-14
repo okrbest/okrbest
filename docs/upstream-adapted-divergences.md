@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| 플러그인 HTTP context 전파 | [afc8def8](https://github.com/mattermost/mattermost/commit/afc8def801504c8ec5db8f60f3c42d16dfcc0493) (#38354) | 서버 코드·테스트 9파일은 그대로 받고, 우리가 지운 `docs/develop/` 문서 1개(플러그인 요청 취소 가이드)를 버렸다 — 아래 참조 |
 | 시스템 콘솔 사이드바 헤더 메뉴 잘림 | [bff707df](https://github.com/mattermost/mattermost/commit/bff707dff4e0e4e669b17246f7507784ced7d375) (#38418) | scss·새 스펙은 그대로. Playwright 헤더 POM에는 `menu`·`openMenu()`만 넣고 충돌 문맥의 About 메뉴 항목(제외 계보)은 넣지 않았다 — 아래 참조 |
 | 번역 용어집 i18n/glossary | [fa302bf9](https://github.com/mattermost/mattermost/commit/fa302bf9e62335d78c9a4a6f71e8beb19b678be4) (#38410) | 21개 언어 용어집은 그대로 받고 `ko.json`의 브랜드 항목 2개만 리브랜드 기준으로 고쳤다 — 아래 참조 |
 | 플러그인 파일 동작 정책 API | [db126654](https://github.com/mattermost/mattermost/commit/db12665463b46b44e161a3fdb69e52fd7dd95acd) (#38321) | 생산 코드·생성 코드는 그대로. 새 테스트의 `SessionAttribute().Refresh` 호출에서 `updatedAt` 인자를 뺐다(제외한 Session Attributes 계보 시그니처) — 아래 참조 |
@@ -2211,6 +2212,25 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## 플러그인 HTTP context 전파 — 개발자 문서 1개를 버렸다
+
+**upstream**: [`afc8def8`](https://github.com/mattermost/mattermost/commit/afc8def801504c8ec5db8f60f3c42d16dfcc0493)
+([MM-70573] Propagate context through plugin HTTP, #38354) — 10파일 +1936/-94, 2026-10-14 반영
+
+**받은 것.** 서버→플러그인(`ServeHTTP`)·플러그인 간(`PluginHTTP`) 요청의 deadline과 명시적 취소를 RPC로 전달한다.
+새 `public/plugin/context_rpc.go`(deadline 메타데이터 + 취소 신호 스트림, context 값은 전달하지 않음), `client_rpc.go`·`app/plugin_api.go`·`response_transfer.go`(스트림 정리·응답 writer 종료 동기화),
+`plugin/api.go`·`pluginapi/plugins.go` 주석, 테스트(`context_rpc_test.go`·`response_transfer_test.go`·`plugin_api_test.go`).
+대상 플러그인이 옛 런타임으로 빌드됐으면 legacy 동작(context 미전달)을 유지한다 — 우리 Boards·Agents 포크 플러그인은 재빌드 전까지 이 경로다.
+
+**버린 docs 내용** (우리 트리에 없는 `docs/develop/`, 제외한 문서 사이트 계보 1d3bbc63). 문서 사이트를 되살리거나 플러그인 개발 가이드를 따로 둘 때 다시 반영한다.
+
+| 파일 | upstream 변경 | 버린 내용 요지 |
+|---|---|---|
+| `docs/develop/integrate/plugins/components/server/best-practices.md` (+8) | "How should plugins handle request cancellation?" 절 추가 | 오래 걸리는 `ServeHTTP` 핸들러는 `r.Context()`를 하위 작업에 넘기고 취소되면 멈춘다. v12.0 이상은 context-aware 런타임으로 빌드된 대상 플러그인에 deadline·취소를 전달한다. 플러그인 간 호출은 `http.NewRequestWithContext`·`req.WithContext`로 참여하고, 헤더 도착 전에 취소되면 `PluginHTTP`가 `nil`을 돌려주며(`request.Context().Err()`로 확인), 도착 후면 본문 읽기가 `context.Canceled`·`DeadlineExceeded`를 낸다. 응답 본문은 평소처럼 닫는다. context 값은 전달되지 않으니 헤더나 `plugin.Context`를 쓴다. 끝까지 취소가 필요한 플러그인은 최소 서버 버전을 v12.0으로 선언한다 |
+
+**검증.** `go build ./...`, `go vet ./public/plugin ./channels/app` 통과. `go test ./public/plugin/...` 통과(context_rpc_test 포함).
+app `PluginHTTP|ServePluginRequest|ResponseTransfer|TestPluginAPI` 통과. `make pluginapi` 재생성 diff 없음.
 
 ## 시스템 콘솔 사이드바 헤더 메뉴 — POM에 About 항목은 넣지 않았다
 
