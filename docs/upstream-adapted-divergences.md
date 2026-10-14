@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| 시스템 콘솔 사이드바 헤더 메뉴 잘림 | [bff707df](https://github.com/mattermost/mattermost/commit/bff707dff4e0e4e669b17246f7507784ced7d375) (#38418) | scss·새 스펙은 그대로. Playwright 헤더 POM에는 `menu`·`openMenu()`만 넣고 충돌 문맥의 About 메뉴 항목(제외 계보)은 넣지 않았다 — 아래 참조 |
 | 번역 용어집 i18n/glossary | [fa302bf9](https://github.com/mattermost/mattermost/commit/fa302bf9e62335d78c9a4a6f71e8beb19b678be4) (#38410) | 21개 언어 용어집은 그대로 받고 `ko.json`의 브랜드 항목 2개만 리브랜드 기준으로 고쳤다 — 아래 참조 |
 | 플러그인 파일 동작 정책 API | [db126654](https://github.com/mattermost/mattermost/commit/db12665463b46b44e161a3fdb69e52fd7dd95acd) (#38321) | 생산 코드·생성 코드는 그대로. 새 테스트의 `SessionAttribute().Refresh` 호출에서 `updatedAt` 인자를 뺐다(제외한 Session Attributes 계보 시그니처) — 아래 참조 |
 | React 19 대비 독립 수정 | [786d22bc](https://github.com/mattermost/mattermost/commit/786d22bce34973ab3ea040cb996c66d27364fa26) (#38390) | Card 수정은 우리 형태(`expanded`만)로 옮겼고, 없는 테스트 1개를 버렸다. 우리 파일에서 쓰이지 않게 된 `act` import를 지웠다 — 아래 참조 |
@@ -2210,6 +2211,22 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## 시스템 콘솔 사이드바 헤더 메뉴 — POM에 About 항목은 넣지 않았다
+
+**upstream**: [`bff707df`](https://github.com/mattermost/mattermost/commit/bff707dff4e0e4e669b17246f7507784ced7d375)
+([MM-70614] Stop the System Console sidebar from clipping its header menu scroll bar, #38418) — 3파일 +145/-4, 2026-10-14 반영
+
+**받은 것.** `_admin-console.scss`의 `.admin-sidebar` `overflow: clip` → `overflow-x: visible; overflow-y: clip`(헤더 드롭다운이 220px 사이드바 밖으로 그려진다),
+새 Playwright 스펙 `system_console/sidebar_header_menu.spec.ts`, POM `sidebar_header.ts`의 `menu` locator와 `openMenu()`.
+
+**넣지 않은 것.** POM 충돌 문맥에 있던 About 메뉴 부분이다. 이 커밋의 변경이 아니라 제외한 `fe9a36e8`(#38367 E2E 롤링 업그레이드 하네스)이 넣은 코드라 우리 파일에 없다.
+
+| 위치 | upstream 코드 | 넣지 않은 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `playwright/lib/src/ui/components/system_console/sidebar_header.ts` | `readonly aboutMenuItem: Locator`, `this.aboutMenuItem = container.page().getByRole('menuitem', {name: /^About /})`와 주석 "Rendered in a portal at the page level once the menu is open.", `openAbout(): Promise<AboutBuildModal>`(메뉴를 열고 About을 눌러 `about_build_modal` POM 반환) | `fe9a36e8` 소산이고 `about_build_modal.ts` POM도 우리에게 없다. 새 스펙은 `openMenu()`만 쓴다 | `fe9a36e8`을 들이거나 About 모달 E2E가 필요할 때 함께 이식 |
+
+**검증.** Playwright lib 재빌드 후 tsc 오류 목록이 기준선과 같다(11건). 변경 2파일 eslint 오류 0. `_admin-console.scss` stylelint 통과.
 
 ## 번역 용어집 — ko 브랜드 항목만 OKR.BEST로 바꿨다
 
