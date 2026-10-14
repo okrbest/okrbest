@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
+import type {DropResult} from '@hello-pangea/dnd';
 import type {SortDirection, Table} from '@tanstack/react-table';
 import {flexRender} from '@tanstack/react-table';
 import classNames from 'classnames';
 import React, {useMemo} from 'react';
 import type {AriaAttributes, MouseEvent, ReactNode} from 'react';
-import type {DropResult} from 'react-beautiful-dnd';
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import {FormattedMessage, defineMessages, useIntl} from 'react-intl';
 import ReactSelect, {components} from 'react-select';
 import type {IndicatorsContainerProps, OnChangeValue} from 'react-select';
