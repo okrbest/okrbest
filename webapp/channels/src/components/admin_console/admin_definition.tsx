@@ -93,6 +93,7 @@ import UserAttributesFeatureDiscovery from './feature_discovery/features/user_at
 import FeatureFlags, {messages as featureFlagsMessages} from './feature_flags';
 import GroupDetails from './group_settings/group_details';
 import GroupSettings from './group_settings/group_settings';
+import HealthDashboard from './health_dashboard';
 import IPFiltering from './ip_filtering';
 import LDAPWizard from './ldap_wizard';
 import LicenseSettings from './license_settings';
@@ -367,6 +368,19 @@ const AdminDefinition: AdminDefinitionType = {
         sectionTitle: defineMessage({id: 'admin.sidebar.reporting', defaultMessage: 'Reporting'}),
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.REPORTING)),
         subsections: {
+            site_health: {
+                url: 'reporting/site_health',
+                title: defineMessage({id: 'admin.sidebar.siteHealth', defaultMessage: 'Site health'}),
+                schema: {
+                    id: 'HealthDashboard',
+                    component: HealthDashboard,
+                },
+                isHidden: it.any(
+                    it.configIsFalse('FeatureFlags', 'HealthDashboard'),
+                    it.not(it.minLicenseTier(LicenseSkus.Enterprise)),
+                    it.not(it.isSystemAdmin),
+                ),
+            },
             workspace_optimization: {
                 url: 'reporting/workspace_optimization',
                 title: defineMessage({id: 'admin.sidebar.workspaceOptimization', defaultMessage: 'Workspace Optimization'}),
