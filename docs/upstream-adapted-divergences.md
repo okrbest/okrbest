@@ -119,6 +119,7 @@
 | webapp 영어 오타·문법 수정 | [6b5a174f](https://github.com/mattermost/mattermost/commit/6b5a174f733f3193f8b532a3259396b6c33d9c94) (#39127) | 리브랜드 줄 충돌은 우리 문구(OKR.BEST) 위에 오타 수정만 옮겼다. 키보드 단축키 콜론 1건과 없는 Playwright 스펙 2개를 버렸다 — 아래 참조 |
 | 파일 검색 끄기 설정 노출 | [c205c6c6](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98) (#39059) | upstream이 가리는 헤더 Files 버튼이 우리에게 없어, 우리 Slack식 헤더의 Files 탭에 같은 `canSearchFiles` 조건을 걸었다(테스트 동반). docs 2개·옛 헤더 테스트 hunk를 버렸다 — 아래 참조 |
 | Health Dashboard PR28 Site health 화면 | [85b6fc1a](https://github.com/mattermost/mattermost/commit/85b6fc1ac751261a3c9e3c6ba21072a00e80160f) (#38943) | 화면·redux·서버 렌더 필드는 그대로 받았다. `client4.ts` 충돌 문맥의 delivery tracking 경로·메서드 3개(제외한 `0019ecc5` 계보)를 버렸다 — 아래 참조 |
+| Health Dashboard PR30 Site health·Workspace Optimization 택일 | [86b88d6f](https://github.com/mattermost/mattermost/commit/86b88d6f2532aedc18085af23273bdc32adb085c) (#39076) | 제품 코드는 그대로 받았다. 새 `admin_sidebar.test.tsx` 3건이 항상 펼쳐진 사이드바를 전제해, 우리 쪽에서는 Reporting URL에서 렌더하도록 고쳤다 — 아래 참조 |
 
 ---
 
@@ -3657,3 +3658,26 @@ delivery tracking 문맥을 달고 오면 같은 방식으로 문맥만 버린�
 
 **검증.** `go build ./...`, `go test ./public/model/ -run HealthFinding`, `./platform/shared/healthcheck/...`(rules/platform 포함), `./channels/api4/ -run TestGetHealthFindings` 통과.
 jest 9 suite 93건·스냅샷 12건(health_dashboard·admin_definition_health_dashboard·admin_sidebar·redux health 4종) 통과. eslint 오류 0(경고 7건은 upstream 원본 그대로), `platform/client` `tsc --noEmit` 통과.
+
+---
+
+## Health Dashboard PR30 — 사이드바 테스트를 Reporting URL에서 렌더한다
+
+**upstream**: [`86b88d6f`](https://github.com/mattermost/mattermost/commit/86b88d6f2532aedc18085af23273bdc32adb085c)
+([MM-71110] Health Dashboard PR30: show Site health or Workspace Optimization, never both, #39076) — 5파일 +201/-40, 2026-10-21 반영(사용자 결정 cherry-pick, 커밋 직후 검증에서 테스트 맞춤이 필요해 adapt로 전환). 연작 전체 반영 결정(A)의 한 편.
+
+**받은 것.** `admin_definition.tsx`의 `siteHealthHidden`·`workspaceOptimizationHidden` 공용 판정, 서버 `api4/health_dashboard_test.go`·`app/health_check_test.go` 테스트 보강,
+`admin_definition_health_dashboard.test.tsx`. 제품 코드는 upstream과 같다.
+
+**우리 맞춤.** upstream은 `b052f3463a`(#36054)에서 `admin_sidebar_category.tsx`의 `<Route path={link}>`를 걷어내 사이드바 하위 항목을 늘 그린다.
+우리는 그 커밋을 제외하면서 이 제거도 받지 않았다(ledger 제외 사유 참조). 그래서 우리 사이드바는 현재 URL이 속한 카테고리의 하위 항목만 그린다.
+`admin_sidebar.test.tsx`에 새로 들어온 `describe('Site health and Workspace Optimization')` 3건은 기본 URL(`/`)에서 렌더해 Reporting 항목을 찾지 못하고 실패했다.
+
+| 파일 | upstream | 우리 | 되돌릴 조건 |
+|---|---|---|---|
+| `webapp/channels/src/components/admin_console/admin_sidebar/admin_sidebar.test.tsx` | `renderWithContext(<AdminSidebar {...props}/>)` | `renderWithContext(<AdminSidebar {...props}/>, {}, {history: createMemoryHistory({initialEntries: ['/admin_console/reporting']})})`와 이유 주석, `history`의 `createMemoryHistory` import | `<Route path={link}>` 제거를 받으면 upstream 형태로 되돌린다 |
+
+**후속 sync 주의.** 이후 upstream `admin_sidebar.test.tsx`에 카테고리 하위 항목을 찾는 테스트가 들어오면 같은 이유로 실패한다. 그 카테고리 URL을 history로 넘긴다.
+
+**검증.** 맞춤 전 3건 실패(`Unable to find an element with the text: Site health` / `Workspace Optimization`), 맞춤 후 `admin_sidebar` 2 suite·`admin_definition_health_dashboard` 30건·스냅샷 12건 통과, eslint 오류 0.
+서버 `go test ./channels/api4/ -run 'TestHealthDashboardAccess|TestGetHealthFindings'`, `./channels/app/ -run TestRunHealthCheck` 통과.
