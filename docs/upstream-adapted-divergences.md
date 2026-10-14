@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| react-beautiful-dnd → @hello-pangea/dnd | [7eebdb8f](https://github.com/mattermost/mattermost/commit/7eebdb8f9411ae2d4bd11d5a2ae03d65d7b0552f) (#38320) | 교체는 받고, 우리에게 없는 파일 3개(rank 속성 모달·팀 버튼)와 포크가 재작성한 팀 레일 hunk를 버렸다. 포크에만 남은 `list_table.tsx`는 직접 옮겼다 — 아래 참조 |
 | React 19 타입 codemod | [80fc4302](https://github.com/mattermost/mattermost/commit/80fc4302ae33a94ee0cd9664d9bb6ac1f6561201) (#38313) | diff를 받지 않고 같은 codemod 3종을 우리 트리 전체에 다시 돌렸다(포크 전용 파일 포함 380파일). 버린 것 없음 — 아래 참조 |
 | FileInfo·Channels 대량 색인 쿼리 최적화 | [a66e9c03](https://github.com/mattermost/mattermost/commit/a66e9c034bb00a06984373d12ac6fd8bedd27aa3) (#38206) | 행 비교 최적화는 받고, 충돌 문맥의 보드 채널 타입 필터 1줄(제외 계보)은 넣지 않았다 — 아래 참조 |
 | floating-ui·MUI(v5 내)·react-day-picker 업그레이드 | [502cf7e3](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38) (#38337) | 의존성·코드·lock·e2e는 그대로 받고, `sidebar_channel_menu` 스냅숏의 해시 갱신만 버렸다(우리 해시가 달라 기준선 실패 중) — 아래 참조 |
@@ -2204,6 +2205,36 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## react-beautiful-dnd 교체 — 없는 파일과 팀 레일 hunk는 버리고 list_table은 직접 옮겼다
+
+**upstream**: [`7eebdb8f`](https://github.com/mattermost/mattermost/commit/7eebdb8f9411ae2d4bd11d5a2ae03d65d7b0552f)
+(Migrate from react-beautiful-dnd to @hello-pangea/dnd, #38320) — 21파일 +134/-249, 2026-10-14 반영
+
+**받은 것.** `@hello-pangea/dnd` 18.0.1로 교체(channels package.json·package-lock), 루트 `package.json`의 `react-beautiful-dnd` → `react-redux` override 삭제,
+`patches/react-beautiful-dnd+13.1.1.patch`(109줄) 삭제, 사이드바 6파일 import 교체, `sidebar_list.tsx`의 DOM 셀렉터 `data-rbd-*` → `data-rfd-*`와
+실제 DOM으로 onBeforeCapture·onDragStart를 검증하는 새 테스트, `webpack.config.js` module federation 공유 이름, `_sidebar-left.scss` 주석, Cypress 셀렉터 2스펙.
+`sidebar_list` 스냅숏은 자동 병합, `sidebar_category` 스냅숏은 우리 스냅숏(포크 사이드바 아이콘 등 반영본)을 기준으로 이 스위트만 `-u`로 재생성했다 —
+차이는 라이브러리가 붙이는 id 값 형식(`rbd-hidden-text-0-…` → `rfd-hidden-text-:r0:-…`, context id)뿐이다.
+
+**포크에서 직접 바꾼 것.** `admin_console/list_table/list_table.tsx`(CPA 속성 순서 드래그)는 아직 `react-beautiful-dnd`를 썼다.
+upstream은 이 파일을 pragmatic-dnd 훅(`use_list_table_dnd`)으로 옮겼는데 그 커밋 `076370e6`(#36518 Board Attributes, 48f2fd08 계보)을 제외해 이 커밋에 해당 hunk가 없다.
+패키지를 지우면 빌드가 깨지므로 import 두 줄을 `@hello-pangea/dnd`로 바꾸고 import 순서를 맞췄다(API 동일).
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `admin_console/system_properties/ranked_schema_modal.tsx` | `DropResult`·`DragDropContext`·`Draggable`·`Droppable` import를 `@hello-pangea/dnd`로 교체 | 우리 트리에 없는 파일 — 제외한 `017a7102`(#36809 Add rank property field type, property v2 계보)이 만든 rank 속성 정렬 모달 | `017a7102`를 들이면 그때 `@hello-pangea/dnd`로 들인다 |
+| `admin_console/system_properties/ranked_schema_modal.scss` | 주석의 `react-beautiful-dnd` → `@hello-pangea/dnd` | 위와 같음 | 위와 같음 |
+| `team_sidebar/components/team_button.tsx` | `Draggable` import 교체 | 포크가 `f95ba5a8`(좌측 네비게이션 Slack식 재구성)에서 지운 파일 — 팀 레일은 `rail_team_button`으로 바뀌었고 드래그 정렬이 없다 | 팀 레일에 드래그 정렬을 다시 넣을 때 `@hello-pangea/dnd`로 구현 |
+| `team_sidebar/team_sidebar.tsx` | `DragDropContext`·`Droppable`·`DroppableProvided`·`DropResult` import 교체 | 포크 재작성본에는 dnd 사용이 없다. 충돌(react-intl import 문맥)도 이 때문이라 우리 파일을 그대로 유지했다 | 위와 같음 |
+
+**검증.** 설치 후 `@hello-pangea/dnd` 18.0.1, `node_modules/react-beautiful-dnd` 없음, 소스·설정에 `react-beautiful-dnd` import 0(주석 출처 링크만 남음).
+lock은 upstream 반영본 그대로(npm install의 `"peer": true` churn은 버림).
+jest sidebar·list_table·team_sidebar·system_properties·channel_sidebar 36 suites: 실패 10건(`sidebar_channel_menu` 기준선)이 반영 전과 이름까지 같고 새 DOM 드래그 테스트 포함 264 통과.
+webapp tsc 기준선 동일, 변경 파일 eslint 오류 0. 사이드바·CPA 속성 드래그 수동 확인은 하지 않았다.
+CODEOWNERS 보호 경로(`webapp/package.json`·`webapp/channels/package.json`·`webapp/package-lock.json`) 접촉 — PR 병합에 `--admin` 필요.
 
 ## React 19 타입 codemod — upstream diff 대신 codemod를 우리 트리에 다시 돌렸다
 
