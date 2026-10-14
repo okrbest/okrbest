@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| 서버·웹앱 번역 카탈로그 검사기 | [5e6f509f](https://github.com/mattermost/mattermost/commit/5e6f509f36b6518d8df166c01fa606441629dab4) (#38231) | 검사기·CI·다른 언어 정리는 받고, 우리 ko.json 2개에 대한 upstream 정리(webapp 113키·server 51키)는 버렸다. 검사기 기준 결함은 후속 i18n 작업 — 아래 참조 |
 | react-beautiful-dnd → @hello-pangea/dnd | [7eebdb8f](https://github.com/mattermost/mattermost/commit/7eebdb8f9411ae2d4bd11d5a2ae03d65d7b0552f) (#38320) | 교체는 받고, 우리에게 없는 파일 3개(rank 속성 모달·팀 버튼)와 포크가 재작성한 팀 레일 hunk를 버렸다. 포크에만 남은 `list_table.tsx`는 직접 옮겼다 — 아래 참조 |
 | React 19 타입 codemod | [80fc4302](https://github.com/mattermost/mattermost/commit/80fc4302ae33a94ee0cd9664d9bb6ac1f6561201) (#38313) | diff를 받지 않고 같은 codemod 3종을 우리 트리 전체에 다시 돌렸다(포크 전용 파일 포함 380파일). 버린 것 없음 — 아래 참조 |
 | FileInfo·Channels 대량 색인 쿼리 최적화 | [a66e9c03](https://github.com/mattermost/mattermost/commit/a66e9c034bb00a06984373d12ac6fd8bedd27aa3) (#38206) | 행 비교 최적화는 받고, 충돌 문맥의 보드 채널 타입 필터 1줄(제외 계보)은 넣지 않았다 — 아래 참조 |
@@ -2205,6 +2206,37 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## 번역 카탈로그 검사기 — 도구만 받고 우리 ko는 그대로 두었다
+
+**upstream**: [`5e6f509f`](https://github.com/mattermost/mattermost/commit/5e6f509f36b6518d8df166c01fa606441629dab4)
+(Add deterministic i18n checkers for the server and webapp locale catalogs, #38231) — 52파일 +1558/-7857, 2026-10-14 반영
+
+**받은 것.** 웹앱 `scripts/check_icu.mjs`·`check_icu.test.js`(`i18n-verify-translations` 스크립트 교체), 서버 `mmgotool i18n verify`·`i18n_verify_test.go`·go.mod(go-i18n),
+`make i18n-verify`, `i18n-ci-template.yml`의 `buildenv`·`verify-webapp`·`verify-server` 잡과 `i18n-ci-pr.yml` 경로 필터, ko 외 20개 언어 카탈로그 정리(upstream Weblate 소유).
+`verify-webapp` 잡의 `webapp-setup` 호출에서 `with: read-only: "true"`를 뺐다 — 우리 `webapp-setup` 액션에는 입력이 없다(`read-only`는 제외한 c3726ccb 캐시 계보 소산).
+`webapp/channels/package.json` 충돌은 우리 i18n 스크립트 줄(따옴표·`localizeAndFormatMessage`·`i18n-sync-report`)을 유지하고 `i18n-verify-translations`만 새 명령으로 바꿨다.
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `webapp/channels/src/i18n/ko.json` | 검사기에 걸린 ko 113키 정리(108키 삭제·5키 수정) | 우리 ko는 OKR.BEST 리브랜드·자체 번역으로 갈라져 113키 중 18키만 upstream 기존 값과 같았다. 원칙 V대로 우리 문자열을 지켰다 | 후속 i18n 작업에서 검사기 결과를 기준으로 우리 문장을 고친다 |
+| `server/i18n/ko.json` | ko 51키 삭제 | 51키 중 23키만 같고 9키는 우리에게 없었다. 같은 이유 | 위와 같음 |
+
+**우리 카탈로그 검사 결과(2026-10-14, 반영 직후).** 새 CI 잡 2개는 이 결함이 정리될 때까지 실패한다(필수 체크 아님).
+
+| | 웹앱(`node scripts/check_icu.mjs src/i18n --warn-missing-keys`) | 서버(`make i18n-verify`) |
+|---|---|---|
+| 21개 언어 합계 | 1,404건 | 806건 |
+| en.json에 없는 남은 키 | 1,160 | 760 |
+| 원문에 없는 변수·태그 / 빠진 변수 | 130 / 104 | 템플릿 토큰 6 |
+| 기타 | plural 격하 6, ICU 따옴표 함정 3, 파싱 실패 1 | 해당 언어에 없는 plural 범주 7 |
+| ko | 77(남은 키 8 포함) | 102(남은 키 89, plural 범주 7, 템플릿 토큰 6) |
+
+남은 키는 우리가 받지 않았거나 지운 기능의 키가 다른 언어에 남은 것이라 기계적으로 지우면 된다. 실제 번역 결함(웹앱 244·서버 13)은 렌더링 예외·링크 누락을 일으킬 수 있다.
+
+**검증.** `tools/mmgotool` build·vet·test 통과, 웹앱 `check_icu.test.js` 38 tests 통과. 웹앱에서 파서가 hoist된 2.4.0으로 잡히지만(커밋 메시지의 2.11.4 고정은 최종 diff에 없다) 자체 테스트는 통과한다.
 
 ## react-beautiful-dnd 교체 — 없는 파일과 팀 레일 hunk는 버리고 list_table은 직접 옮겼다
 
