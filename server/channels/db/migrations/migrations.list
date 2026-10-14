@@ -379,3 +379,7 @@ channels/db/migrations/postgres/000215_drop_channelmembers_autotranslation_colum
 channels/db/migrations/postgres/000215_drop_channelmembers_autotranslation_column.up.sql
 channels/db/migrations/postgres/000217_resize_message_columns.down.sql
 channels/db/migrations/postgres/000217_resize_message_columns.up.sql
+channels/db/migrations/postgres/000219_add_fileinfo_createat_id_index.down.sql
+channels/db/migrations/postgres/000219_add_fileinfo_createat_id_index.up.sql
+channels/db/migrations/postgres/000220_add_channels_createat_id_index.down.sql
+channels/db/migrations/postgres/000220_add_channels_createat_id_index.up.sql
