@@ -7,6 +7,7 @@ import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHistory, useLocation, matchPath} from 'react-router-dom';
 
+import {close as closeLhs} from 'actions/views/lhs';
 import {closeRightHandSide, showFlaggedPosts} from 'actions/views/rhs';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 
@@ -29,6 +30,11 @@ function SidebarSavedPostsLink() {
 
     const handleClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
+
+        // 모바일 햄버거(LHS)는 채널 전환 시에만 자동으로 닫힌다. 정적 링크도 동일하게 닫는다.
+        // 보관된 메시지는 RHS를 열므로 LHS를 닫지 않으면 모바일에서 RHS가 LHS를 가려 다른 메뉴가 반응하지 않는다.
+        dispatch(closeLhs());
+
         if (isActive) {
             dispatch(closeRightHandSide());
         } else {

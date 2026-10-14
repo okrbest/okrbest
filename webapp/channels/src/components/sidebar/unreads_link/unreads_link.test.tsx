@@ -5,7 +5,7 @@ import React from 'react';
 
 import type {DeepPartial} from '@mattermost/types/utilities';
 
-import {renderWithContext, screen} from 'tests/react_testing_utils';
+import {renderWithContext, screen, userEvent} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
 import type {GlobalState} from 'types/store';
@@ -81,6 +81,17 @@ describe('components/sidebar/unreads_link', () => {
 
         expect(screen.getByRole('link', {name: /Unreads/})).toBeInTheDocument();
         expect(screen.queryByText('0')).not.toBeInTheDocument();
+    });
+
+    test('클릭하면 모바일 LHS(햄버거 메뉴)를 닫는다', async () => {
+        const state = getState(false);
+        state.views = {lhs: {isOpen: true}};
+
+        const {store} = renderWithContext(<UnreadsLink/>, state);
+
+        await userEvent.click(screen.getByRole('link', {name: /Unreads/}));
+
+        expect(store.getState().views.lhs.isOpen).toBe(false);
     });
 
     // 027: 멘션·DM·GM 수와 일반 미읽음 수를 구분 병기한다
