@@ -72,6 +72,7 @@
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
+| 콘텐츠 검토자 파일 다운로드 정책 적용 | [012e6dda](https://github.com/mattermost/mattermost/commit/012e6dda5d685760f8e91c1f9fb54b3a9a789079) (#38245) | 서버 코드는 받되 `postReviewerMessage`는 우리 rctx 없는 호출 형태를 유지했다. 세션 속성 테스트 1개를 우리 세션 속성 구조에 맞게 다시 썼고, docs 1개를 버렸다 — 아래 참조 |
 | 게시물 신원 props 기본 제거 후 검증 경로에서 재주입(v12) | [5dd13c95](https://github.com/mattermost/mattermost/commit/5dd13c953b2dcd7534154cc5c473559d5ee6d37a) (#37872) | 서버 코드·테스트 23파일은 그대로 받고, 우리 트리에 없는 문서 3개를 버렸다 — 아래 참조 |
 | 플러그인 HTTP context 전파 | [afc8def8](https://github.com/mattermost/mattermost/commit/afc8def801504c8ec5db8f60f3c42d16dfcc0493) (#38354) | 서버 코드·테스트 9파일은 그대로 받고, 우리가 지운 `docs/develop/` 문서 1개(플러그인 요청 취소 가이드)를 버렸다 — 아래 참조 |
 | 시스템 콘솔 사이드바 헤더 메뉴 잘림 | [bff707df](https://github.com/mattermost/mattermost/commit/bff707dff4e0e4e669b17246f7507784ced7d375) (#38418) | scss·새 스펙은 그대로. Playwright 헤더 POM에는 `menu`·`openMenu()`만 넣고 충돌 문맥의 About 메뉴 항목(제외 계보)은 넣지 않았다 — 아래 참조 |
@@ -2213,6 +2214,35 @@ E2E 실주행은 하지 않았다(Cypress는 로컬 미운영, Playwright 채널
 ### 되돌릴 조건
 
 - 위 표의 "되살릴 조건" 참조.
+
+## 콘텐츠 검토자 파일 다운로드 정책 — 세션 속성 테스트를 다시 썼다
+
+**upstream**: [`012e6dda`](https://github.com/mattermost/mattermost/commit/012e6dda5d685760f8e91c1f9fb54b3a9a789079)
+(File download policy enforcement for content reviewers, #38245) — 8파일 +690/-59, 2026-10-14 반영
+
+**받은 것.** 데이터 유출 보고서 생성 때 검토자에게도 채널 파일 다운로드 정책(ABAC)을 적용한다 — 정책에 막히면 첨부를 빼고 `ATTACHMENTS_OMITTED.txt`를 넣으며,
+그 검토자에게만 안내를 보낸다(`postReviewerMessage`에 `targetReviewerId` 인자). api4·app 코드와 테스트, server en.json 6키. 콘텐츠 플래깅은 EA 라이선스 기능이라 우리 환경에선 비활성이다.
+
+**충돌 해결.** `app/content_flagging.go` `postReviewerMessage` — upstream은 `GetContentFlaggingMappedFields(rctx, groupId)`를 부르는데 우리 함수엔 `rctx` 인자가 없다
+(`a3e171f7` property field 읽기 rctx 이관 중 property 본체를 받지 않음). 우리 호출 형태를 두고 새 인자 `targetReviewerId`만 더했다.
+
+**다시 쓴 테스트.** `api4/content_flagging_report_test.go` `TestGenerateFlaggedPostReportEvaluatesSessionAttributes`.
+
+| 항목 | upstream | 우리 | 이유 |
+|---|---|---|---|
+| 세션 속성 키 | `SessionAttributesPropertyFieldVPNActive`("true"/"false") | `SessionAttributesPropertyFieldIPAddress` | `vpn_active`와 3인자 `SessionAttribute().Refresh`는 제외한 `684ddb32`(Session Attributes MVF) 소산이라 컴파일되지 않는다 |
+| 값 주입 | 테스트가 `Refresh`로 미리 기록 | 기록하지 않고 보고서 요청 자체의 IP를 쓴다 | 우리 세션 속성은 모두 요청에서 수집되는 값(user_agent_*, ip_address)이라 인증 요청마다 실제 요청 값으로 덮어써진다. 미리 넣은 값은 판정 시점에 사라진다 |
+| 정책 mock | `vpn_active == "true"`이면 허용 | 허용 조건을 하위 테스트마다 넘긴다 — 포함 케이스는 `ip_address`가 비어 있지 않으면, 제외 케이스는 `ip_address == "198.51.100.7"`(실제 요청 IP와 다름)이면 허용 | 세션 속성이 PDP 판정 대상에 실려야만 포함 케이스가 통과한다는 원래 의도를 유지 |
+
+대조 실험: 이 테스트의 `cfg.FeatureFlags.SessionAttributes`를 false로 바꾸면 포함 케이스가 실패한다(세션 속성이 판정 대상에 실리지 않음) — 테스트가 실제로 세션 속성 전달을 검증한다.
+
+**버린 docs 내용** (우리 트리에 없는 `docs/main/`, 제외한 문서 사이트 계보 1d3bbc63).
+
+| 파일 | upstream 변경 | 버린 내용 요지 |
+|---|---|---|
+| `docs/main/administration-guide/manage/admin/content-flagging.mdx` (+28/-1) | "File attachments and download policies" 절 추가 등 | 채널·시스템 권한 정책으로 파일 다운로드를 제한한 배포에서는 보고서 생성 전에 요청한 검토자를 격리된 메시지의 채널에 대해 파일 다운로드 동작으로 평가한다. 막혀도 보고서 생성은 막지 않아 메시지와 검토 기록은 남길 수 있다. 첨부를 뺐다는 사실을 세 곳에서 알린다(보고서 안 `ATTACHMENTS_OMITTED.txt`, Data Spillage Bot 알림 문구 등). 아카이브 구조도에 `ATTACHMENTS_OMITTED.txt` 추가. Note: 권한 정책은 Enterprise Advanced 라이선스와 `PermissionPolicies` 플래그가 필요하고, 쓰지 않는 곳에선 이 절이 적용되지 않는다 |
+
+**검증.** `go build ./...`, `go vet ./channels/app ./channels/api4` 통과. app `ContentFlagging|FlaggedPost|DeletionReport|ReviewerMessage`와 api4 `ContentFlagging|FlaggedPost` 통과(다시 쓴 테스트의 두 하위 케이스 포함).
 
 ## 게시물 신원 props 보호 — 문서 3개를 버렸다
 
