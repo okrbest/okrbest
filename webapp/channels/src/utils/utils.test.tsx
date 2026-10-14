@@ -3,10 +3,12 @@
 
 import type React from 'react';
 
+import {Preferences} from 'mattermost-redux/constants';
+
 import * as i18nSelectors from 'selectors/i18n';
 
 import {FileTypes} from './constants';
-import {getFileType, getSuggestionBoxAlgn, localizeMessage, makeIsEligibleForClick} from './utils';
+import {applyTheme, getFileType, getSuggestionBoxAlgn, localizeMessage, makeIsEligibleForClick} from './utils';
 
 describe('Utils.localizeMessage', () => {
     jest.spyOn(i18nSelectors, 'getCurrentLocale').mockReturnValue('en');
@@ -397,6 +399,33 @@ describe('Utils.getSuggestionBoxAlgn', () => {
             lineHeight: 24,
             placementShift: true,
         });
+    });
+});
+
+// okrbest (028): SCSS가 body[data-theme-type] 속성 선택자로 테마를 분기한다.
+// 계약 정본: specs/028-rail-icon-accents/contracts/ui-rail-product-button.md C1
+describe('Utils.applyTheme', () => {
+    afterEach(() => {
+        delete document.body.dataset.themeType;
+    });
+
+    // jsdom(nwsapi)은 changeCss의 중첩 속성 선택자를 파싱하지 못해 도중에
+    // throw한다. dataset 설정은 applyTheme 첫머리라 그 전에 끝난다 — throw는
+    // 잡고 dataset만 검증한다.
+    const applyThemeIgnoringJsdomLimits = (theme: typeof Preferences.THEMES[keyof typeof Preferences.THEMES]) => {
+        try {
+            applyTheme(theme);
+        } catch {
+            // jsdom 한정 선택자 파싱 실패 — 브라우저에서는 발생하지 않는다
+        }
+    };
+
+    test('should expose the theme type on body for CSS theme branching', () => {
+        applyThemeIgnoringJsdomLimits(Preferences.THEMES.onyx);
+        expect(document.body.dataset.themeType).toBe('Onyx');
+
+        applyThemeIgnoringJsdomLimits(Preferences.THEMES.slate);
+        expect(document.body.dataset.themeType).toBe('Slate');
     });
 });
 

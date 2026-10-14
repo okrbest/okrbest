@@ -1,0 +1,95 @@
+
+src/components/category_modal.scss
+  6:5  ✖  Expected "margin-bottom" to come before "line-height"  order/properties-order
+  7:5  ✖  Expected "margin-top" to come before "margin-bottom"   order/properties-order
+
+src/components/boards_modal/boards_modal.scss
+   6:5   ✖  Expected "width" to come before "max-width"         order/properties-order
+  12:9   ✖  Expected "overflow" to come before "border-radius"  order/properties-order
+  21:9   ✖  Expected "height" to come before "max-height"       order/properties-order
+  23:9   ✖  Expected "overflow" to come before "padding"        order/properties-order
+  35:9   ✖  Expected "width" to come before "max-width"         order/properties-order
+  41:13  ✖  Expected "height" to come before "border-radius"    order/properties-order
+  50:9   ✖  Expected "max-height" to come before "margin"       order/properties-order
+  57:9   ✖  Expected "right" to come before "left"              order/properties-order
+  60:9   ✖  Expected "max-width" to come before "margin"        order/properties-order
+  61:9   ✖  Expected "width" to come before "max-width"         order/properties-order
+
+src/components/file_preview_modal/file_preview_modal.scss
+  37:9  ✖  Expected "height" to come before "box-sizing"  order/properties-order
+
+src/components/file_preview_modal/image_preview.scss
+  15:5  ✖  Expected "align-items" to come before "justify-content"  order/properties-order
+  16:5  ✖  Expected "width" to come before "align-items"            order/properties-order
+  40:9  ✖  Expected "max-width" to come before "flex"               order/properties-order
+
+src/components/lexical_editor/lexical_text_editor.scss
+   33:9   ✖  Expected "font-size" to come before "outline"              order/properties-order
+   35:9   ✖  Expected "color" to come before "line-height"              order/properties-order
+   38:9   ✖  Expected "white-space" to come before "word-wrap"          order/properties-order
+   39:9   ✖  Expected "caret-color" to come before "white-space"        order/properties-order
+   43:13  ✖  Expected "color" to come before "content"                  order/properties-order
+   45:13  ✖  Expected "position" to come before "pointer-events"        order/properties-order
+   77:13  ✖  Expected "color" to come before "font-style"               order/properties-order
+   87:13  ✖  Expected "opacity" to come before "text-decoration"        order/properties-order
+   97:13  ✖  Expected "color" to come before "font-size"                order/properties-order
+  105:13  ✖  Expected "padding" to come before "margin"                 order/properties-order
+  115:13  ✖  Expected "border" to come before "margin"                  order/properties-order
+  122:13  ✖  Expected "overflow-x" to come before "white-space"         order/properties-order
+  180:13  ✖  Expected "border-bottom" to come before "text-decoration"  order/properties-order
+  191:13  ✖  Expected "width" to come before "border-collapse"          order/properties-order
+  193:13  ✖  Expected "border-radius" to come before "margin"           order/properties-order
+  194:13  ✖  Expected "overflow" to come before "border-radius"         order/properties-order
+  200:13  ✖  Expected "padding" to come before "border"                 order/properties-order
+  201:13  ✖  Expected "min-width" to come before "padding"              order/properties-order
+  207:13  ✖  Expected "background" to come before "font-weight"         order/properties-order
+  213:9   ✖  Expected "cursor" to come before "opacity"                 order/properties-order
+  219:5   ✖  Expected "padding" to come before "margin"                 order/properties-order
+
+src/components/notification_history_panel/notification_history_panel.scss
+    7:5  ✖  Expected "height" to come before "flex-direction"      order/properties-order
+   13:9  ✖  Expected "font-weight" to come before "gap"            order/properties-order
+   20:9  ✖  Expected "min-width" to come before "justify-content"  order/properties-order
+   89:9  ✖  Expected "padding" to come before "gap"                order/properties-order
+  111:5  ✖  Expected "padding" to come before "gap"                order/properties-order
+  146:5  ✖  Expected "width" to come before "justify-content"      order/properties-order
+  164:5  ✖  Expected "min-width" to come before "flex-direction"   order/properties-order
+  202:5  ✖  Expected "margin-top" to come before "gap"             order/properties-order
+  238:5  ✖  Expected "width" to come before "justify-content"      order/properties-order
+
+src/components/search_results/search_results.scss
+  33:9  ✖  Expected "padding" to come before "gap"  order/properties-order
+
+src/sass/layout/_markdown.scss
+  384:5  ✖  Unexpected empty comment  scss/comment-no-empty
+  389:5  ✖  Unexpected empty comment  scss/comment-no-empty
+
+src/sass/layout/_webhooks.scss
+  115:13  ✖  Expected "max-width" to come before "margin"  order/properties-order
+
+src/components/lexical_editor/utils/suggestion_list.scss
+   5:5   ✖  Expected "right" to come before "left"                     order/properties-order
+   8:5   ✖  Expected "background" to come before "overflow-y"          order/properties-order
+   9:5   ✖  Expected "border" to come before "background"              order/properties-order
+  12:5   ✖  Expected "z-index" to come before "border-radius"          order/properties-order
+  18:9   ✖  Expected "color" to come before "font-weight"              order/properties-order
+  26:9   ✖  Expected "color" to come before "font-weight"              order/properties-order
+  28:9   ✖  Expected "letter-spacing" to come before "text-transform"  order/properties-order
+  32:13  ✖  Expected "border-top" to come before "margin-top"          order/properties-order
+  33:13  ✖  Expected "padding-top" to come before "border-top"         order/properties-order
+  60:9   ✖  Expected "width" to come before "flex-shrink"              order/properties-order
+  62:9   ✖  Expected "display" to come before "height"                 order/properties-order
+  82:9   ✖  Expected "width" to come before "justify-content"          order/properties-order
+  87:9   ✖  Expected "font-size" to come before "font-weight"          order/properties-order
+  88:9   ✖  Expected "color" to come before "font-size"                order/properties-order
+  93:9   ✖  Expected "color" to come before "font-weight"              order/properties-order
+  99:9   ✖  Expected "margin-left" to come before "font-size"          order/properties-order
+
+src/components/sidebar/sidebar_mentions_link/sidebar_mentions_link.scss
+  7:9  ✖  Expected "border" to come before "background"  order/properties-order
+
+src/components/sidebar/sidebar_saved_posts_link/sidebar_saved_posts_link.scss
+  7:9  ✖  Expected "border" to come before "background"  order/properties-order
+
+✖ 68 problems (68 errors, 0 warnings)
+

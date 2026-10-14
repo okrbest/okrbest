@@ -357,6 +357,11 @@ export function toRgbValues(hexStr: string): string {
 }
 
 export function applyTheme(theme: Theme) {
+    // okrbest (028): SCSS가 body[data-theme-type] 속성 선택자로 테마를 분기한다
+    // (예: 레일 알약의 Onyx 색). 이후 호출(cssVars 등)이 실패해도 속성은
+    // 남아야 하므로 첫머리에 둔다. 계약: specs/028-rail-icon-accents/contracts/
+    document.body.dataset.themeType = theme.type;
+
     DesktopApp.updateTheme({...theme, isUsingSystemTheme: false});
 
     if (theme.centerChannelColor) {
