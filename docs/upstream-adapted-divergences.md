@@ -120,6 +120,7 @@
 | 파일 검색 끄기 설정 노출 | [c205c6c6](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98) (#39059) | upstream이 가리는 헤더 Files 버튼이 우리에게 없어, 우리 Slack식 헤더의 Files 탭에 같은 `canSearchFiles` 조건을 걸었다(테스트 동반). docs 2개·옛 헤더 테스트 hunk를 버렸다 — 아래 참조 |
 | Health Dashboard PR28 Site health 화면 | [85b6fc1a](https://github.com/mattermost/mattermost/commit/85b6fc1ac751261a3c9e3c6ba21072a00e80160f) (#38943) | 화면·redux·서버 렌더 필드는 그대로 받았다. `client4.ts` 충돌 문맥의 delivery tracking 경로·메서드 3개(제외한 `0019ecc5` 계보)를 버렸다 — 아래 참조 |
 | Health Dashboard PR30 Site health·Workspace Optimization 택일 | [86b88d6f](https://github.com/mattermost/mattermost/commit/86b88d6f2532aedc18085af23273bdc32adb085c) (#39076) | 제품 코드는 그대로 받았다. 새 `admin_sidebar.test.tsx` 3건이 항상 펼쳐진 사이드바를 전제해, 우리 쪽에서는 Reporting URL에서 렌더하도록 고쳤다 — 아래 참조 |
+| server 영어 오타·문법 수정 | [43b5abce](https://github.com/mattermost/mattermost/commit/43b5abce4e03e89a054e54f95f4634e25409686d) (#39144) | 57건 문구를 모두 받았다. 그중 3건은 제외한 개명 계보(`f1b9aa05`) 때문에 우리 `app.content_flagging.*` 키로 옮겼고, 충돌 문맥의 `app.data_spillage.*` 키는 버렸다 — 아래 참조 |
 
 ---
 
@@ -3681,3 +3682,27 @@ jest 9 suite 93건·스냅샷 12건(health_dashboard·admin_definition_health_da
 
 **검증.** 맞춤 전 3건 실패(`Unable to find an element with the text: Site health` / `Workspace Optimization`), 맞춤 후 `admin_sidebar` 2 suite·`admin_definition_health_dashboard` 30건·스냅샷 12건 통과, eslint 오류 0.
 서버 `go test ./channels/api4/ -run 'TestHealthDashboardAccess|TestGetHealthFindings'`, `./channels/app/ -run TestRunHealthCheck` 통과.
+
+---
+
+## server 영어 오타·문법 수정 — content_flagging 키 3개로 옮겼다
+
+**upstream**: [`43b5abce`](https://github.com/mattermost/mattermost/commit/43b5abce4e03e89a054e54f95f4634e25409686d)
+(Fix English typos and grammar in server source strings, #39144) — `server/i18n/en.json` 1파일 +58/-58, 2026-10-21 반영(사용자 결정 adapt). webapp 짝 커밋은 `6b5a174f`(위 "webapp 영어 오타·문법 수정").
+
+**받은 것.** 영문 메시지 57건의 수정. 반영 전 57건 모두 우리 문구가 upstream 수정 전 원문과 같았다(리브랜드 줄 없음). 54건은 자동 병합, 3건은 아래처럼 옮겼다.
+
+**우리 맞춤.** upstream은 `f1b9aa05`(#35407)에서 Content Flagging 키를 `app.data_spillage.*`로 개명했다. 우리는 그 커밋을 제외해 `app.content_flagging.*`을 유지한다.
+
+| upstream 키 | 우리 키 | 바뀐 문구 |
+|---|---|---|
+| `app.data_spillage.search_sysadmin_reviewers.app_error` | `app.content_flagging.search_sysadmin_reviewers.app_error` | "Failed to search the search term in System Admin Reviewers." → "Failed to search for System Admin Reviewers." |
+| `app.data_spillage.search_team_admin_reviewers.app_error` | `app.content_flagging.search_team_admin_reviewers.app_error` | "… in Team Admin Reviewers." → "Failed to search for Team Admin Reviewers." |
+| `app.data_spillage.search_team_reviewers.app_error` | `app.content_flagging.search_team_reviewers.app_error` | "… in Team Reviewers." → "Failed to search for Team Reviewers." |
+
+**버린 것.** 충돌 hunk에 딸려 온 `app.data_spillage.save_reviewer_settings`·`search_common_reviewers`·`search_property_fields`·`search_property_values`·`search_reviewer_posts`·`search_status_property`·`set_thread_replies_properties` 등 개명 키 블록(이 커밋의 변경이 아니라 문맥). 우리에게는 같은 뜻의 `app.content_flagging.*` 키가 따로 있다.
+되살릴 조건: `f1b9aa05` 개명 계보를 받을 때.
+
+**후속 sync 주의.** 이후 upstream 서버 문자열 커밋이 `app.data_spillage.*` 키를 고치면 같은 방식으로 `app.content_flagging.*`에 옮긴다.
+
+**검증.** upstream 수정 전·후 en.json과 우리 en.json을 id 단위로 대조하는 스크립트로 57건 모두 새 문구임을 확인(`data_spillage`→`content_flagging` 대응 포함). 변경 규모 +58/-58로 upstream과 같고, id 줄 변경 0, `app.data_spillage` 출현 수 78로 반영 전과 같다. JSON 유효, `make i18n-check`·`go test ./public/shared/i18n/...` 통과.
