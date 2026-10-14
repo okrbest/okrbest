@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-14 16:04
+- 갱신일: 2026-10-15 00:45
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 248개
 
-**마지막 반영 커밋:** `5dd13c95` | [MM-69223: V12 - Default-strip post identity props and reinject under verified authority (#37872)](https://github.com/mattermost/mattermost/commit/5dd13c953b2dcd7534154cc5c473559d5ee6d37a) | 2026-09-13
+**마지막 반영 커밋:** `4322d9e9` | [Update the web app to React 19 (#38311)](https://github.com/mattermost/mattermost/commit/4322d9e9a2dbef25b3860ec2279afd6634ceb61f) | 2026-09-14
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 012e6dda | [File download policy enforcement for content reviewers (#38245)](https://github.com/mattermost/mattermost/commit/012e6dda5d685760f8e91c1f9fb54b3a9a789079) | 2026-09-14 |
-| e594b211 | [MM-70619: Add live Security Updates bulletin to product docs (#38427)](https://github.com/mattermost/mattermost/commit/e594b2116ce7bacf76c0173f306ac68a35a1f140) | 2026-09-14 |
-| 438af259 | [MM-69969: re-work file attachment when serving draft and edit history file metadata (#38048)](https://github.com/mattermost/mattermost/commit/438af2598398efdaf46056d46b3ac7324464d4eb) | 2026-09-14 |
-| f29d0431 | [chore: Update NOTICE.txt file with updated dependencies (#38530)](https://github.com/mattermost/mattermost/commit/f29d0431de2dccaf8535024be76396dfa12da29b) | 2026-09-14 |
-| 797148b6 | [Fix stale merge defect from #38048 (#38529)](https://github.com/mattermost/mattermost/commit/797148b6c31082cea398f05aecefaa649db8d73c) | 2026-09-14 |
-| 4322d9e9 | [Update the web app to React 19 (#38311)](https://github.com/mattermost/mattermost/commit/4322d9e9a2dbef25b3860ec2279afd6634ceb61f) | 2026-09-14 |
 | f801461e | [\[MM-70612\] Add temporary plugin React DOM root logging (#38454)](https://github.com/mattermost/mattermost/commit/f801461e2bab10e34b2369088b158461e6b19667) | 2026-09-14 |
 | 846df3d3 | [Rename Global Attributes System Console section to Attribute Management (#38485)](https://github.com/mattermost/mattermost/commit/846df3d3f3e29375bad1342af0d194651239df82) | 2026-09-14 |
 | 98371929 | [\[MM-70678\] Prevent plugin startup failures from blocking the web app (#38486)](https://github.com/mattermost/mattermost/commit/98371929edae113a6af7a7f73b964c1a6378168b) | 2026-09-14 |
@@ -259,6 +253,12 @@
 | 6b5a174f | [Fix English typos and grammar in webapp source strings (#39127)](https://github.com/mattermost/mattermost/commit/6b5a174f733f3193f8b532a3259396b6c33d9c94) | 2026-10-13 |
 | c205c6c6 | [Expose EnableFileSearch in the System Console and hide file search UI when disabled (#39059)](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98) | 2026-10-13 |
 | 83806a3f | [Point localization docs at the AI translation pipeline. (#38968)](https://github.com/mattermost/mattermost/commit/83806a3f73a8672601bd0491c4b4ab658bf056da) | 2026-10-14 |
+| 85b6fc1a | [\[MM-71079\] Health Dashboard PR28: System Console page (read-only) (#38943)](https://github.com/mattermost/mattermost/commit/85b6fc1ac751261a3c9e3c6ba21072a00e80160f) | 2026-10-14 |
+| b145b936 | [\[MM-71107\] Health Dashboard PR29: mute UI and muted-findings list (#39064)](https://github.com/mattermost/mattermost/commit/b145b9369b5e1136400f3d43785c4409ae4b7e43) | 2026-10-14 |
+| 86b88d6f | [\[MM-71110\] Health Dashboard PR30: show Site health or Workspace Optimization, never both (#39076)](https://github.com/mattermost/mattermost/commit/86b88d6f2532aedc18085af23273bdc32adb085c) | 2026-10-14 |
+| e219f6ed | [Update latest minor version to 12.1.0 (#39135)](https://github.com/mattermost/mattermost/commit/e219f6edf1b1783d0bd5f7eca56203817b0f7cf1) | 2026-10-14 |
+| f59fe7f9 | [Add ElasticsearchSettings.EnableFileIndexing to disable file indexing (#39058)](https://github.com/mattermost/mattermost/commit/f59fe7f939e4ef88b4e14fb1511c8aecd623f58e) | 2026-10-14 |
+| a25d89cb | [drip: AppError -> error: custom status emoji (#39133)](https://github.com/mattermost/mattermost/commit/a25d89cb0e3a4ff6b1275874c641b0e3aa51a24a) | 2026-10-14 |
 
 ## 제외된 커밋
 
@@ -738,6 +738,8 @@
 | 65f8ca23 | [\[MM-69869\] Applies to: per-resource configuration (Users) (#38409)](https://github.com/mattermost/mattermost/commit/65f8ca23aacc6f960d1dd22e7a4665ed774644aa) | 제외한 property 시스템 v2(48f2fd08)·Global Attributes(38b66d22·4ec0fe9c) 계보의 후속이라 반영할 토대가 없다 — 시스템 콘솔 Manage Attributes의 'Applies to'를 리소스별(Users)로 설정하는 UI·서버 검증, 19파일 +1196/-141. MISSING PATHS 12개에 server/channels/api4/properties.go(48f2fd08 소산)와 admin_console/global_attributes/* 전체, E2E global_attributes 스펙이 들어 있다. 09-04 b3946ef5·09-09 75a26632와 같은 계보. 섞인 webapp/package-lock.json 변경(peer 플래그 churn 78줄)은 upstream이 실수로 판정해 2477c3ba(#38488)로 되돌렸다. |
 
 | 2477c3ba | [Revert unintended package-lock.json changes from #38409 (#38488)](https://github.com/mattermost/mattermost/commit/2477c3bac152740b8b4d2d3522183d8240f00168) | 제외한 65f8ca23(#38409)이 실수로 넣은 webapp/package-lock.json의 peer 플래그 churn을 되돌리는 커밋이라 우리에겐 대상이 없다 — 65f8ca23^와 2477c3ba 사이 package-lock diff가 0줄(두 커밋 합산 무변화). 우리 lock에는 그 churn이 들어온 적이 없어 그대로 받으면 무관한 줄이 들어가 충돌한다(merge-tree CONFLICT). |
+
+| e594b211 | [MM-70619: Add live Security Updates bulletin to product docs (#38427)](https://github.com/mattermost/mattermost/commit/e594b2116ce7bacf76c0173f306ac68a35a1f140) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. Security Guide에 버전별로 필터하는 실시간 보안 업데이트 게시판을 추가(마케팅 사이트 게시판 대체) — 12파일 +1486/-5가 전부 docs/main 5·docs/site 6·docs/pdf 1로 우리 트리에 없다(modify/delete CONFLICT). 코드·i18n 무접촉. |
 
 ## spec 전환 커밋
 
