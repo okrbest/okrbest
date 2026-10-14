@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-14 11:58
+- 갱신일: 2026-10-14 13:30
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 265개
+- 남은 커밋: 260개
 
-**마지막 반영 커밋:** `75a26632` | [MM-70180 — Channel attributes: display, banner, and post-creation editing (#38267)](https://github.com/mattermost/mattermost/commit/75a266320e04a046e6798226ce193316475f99c6) | 2026-09-09
+**마지막 반영 커밋:** `db126654` | [MM-70203: add plugin file action policy API (#38321)](https://github.com/mattermost/mattermost/commit/db12665463b46b44e161a3fdb69e52fd7dd95acd) | 2026-09-10
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| e4cfcd95 | [Stabilize ranked operators Playwright spec attribute selection (#38415)](https://github.com/mattermost/mattermost/commit/e4cfcd9561a8c3ab7472a5dc2fd4e28a512d1f1e) | 2026-09-10 |
-| 87168644 | [Update v12.0 and Mobile v2.45 deprecation notices (#38382)](https://github.com/mattermost/mattermost/commit/87168644a48fa66f0229a64d1706a3223c465cea) | 2026-09-10 |
-| d20de412 | [Clarify that the LDAP Admin Filter applies only at AD/LDAP sign-in (#38453)](https://github.com/mattermost/mattermost/commit/d20de4128b0d6dcd562b7959fa232cfbc3ef8f22) | 2026-09-10 |
-| 1da64def | [Fix cloud preview modal sitting at the bottom of the page. (#38455)](https://github.com/mattermost/mattermost/commit/1da64deffcfe790ca059e4254d4a1d7986afca08) | 2026-09-10 |
-| db126654 | [MM-70203: add plugin file action policy API (#38321)](https://github.com/mattermost/mattermost/commit/db12665463b46b44e161a3fdb69e52fd7dd95acd) | 2026-09-10 |
 | a73cce0d | [Use sidebar title class for category drag handles in Cypress (#38417)](https://github.com/mattermost/mattermost/commit/a73cce0d03afc26b194813d1b7e9c47a3dafc0cd) | 2026-09-11 |
 | d588f0a9 | [\[MM-69859\] Allow admins to change a user's profile picture from the System Console (#37562)](https://github.com/mattermost/mattermost/commit/d588f0a95ad05b11ad081f42f2d90ea2323d46d8) | 2026-09-11 |
 | fa302bf9 | [Add i18n/glossary: core terminology for 21 supported locales (#38410)](https://github.com/mattermost/mattermost/commit/fa302bf9e62335d78c9a4a6f71e8beb19b678be4) | 2026-09-11 |
@@ -745,6 +740,12 @@
 | 59cd9d62 | [Clone missing enterprise checkout in Cloud Agent install (#38117)](https://github.com/mattermost/mattermost/commit/59cd9d628259cfaab3ef55aad25c421aca493de4) | 제외한 11b55b77(Cursor Cloud Agent 환경, #36559)·1b6a5797 계보의 후속이라 반영할 대상이 없다. 사내 Cloud Agent 설치 훅이 비공개 mattermost/enterprise를 직접 clone하게 하는 변경 — .cursor/scripts/cloud-agent-install.sh(+261)·.cursor/README.md·.cursor/cursor.md는 우리 트리에 없다(modify/delete CONFLICT). AGENTS.md hunk(Cursor 섹션을 .cursor/AGENTS.md 참조로 교체)는 우리 AGENTS.md가 포크 자체 문서(spec-kit 관리)라 해당 섹션이 없다. server/Makefile의 -include config.override.mk를 맨 위로 옮기는 hunk는 Cloud Agent의 $HOME/enterprise 감지용이고 우리는 config.override.mk를 쓰지 않는다 — 위치 이동은 override의 = 할당을 뒤의 Makefile 기본값이 덮어쓸 수 있어 이득 없이 동작만 바뀐다. override로 enterprise 경로를 지정하게 되면 그 hunk만 재검토. |
 
 | 75a26632 | [MM-70180 — Channel attributes: display, banner, and post-creation editing (#38267)](https://github.com/mattermost/mattermost/commit/75a266320e04a046e6798226ce193316475f99c6) | 제외한 property 시스템 v2(48f2fd08 Integrated Boards 계보)·분류 표시(2b7b398a·6083cc22 등)·Global Attributes(38b66d22·4ec0fe9c) 계보 위에 얹힌 신규 대형 기능 '채널 속성(Channel attributes)'이라 반영할 토대가 없다 — 128파일 +14683/-354. 채널 헤더 라벨·Channel Info 섹션·속성 토큰으로 구성하는 채널 배너, 생성 후 편집과 변경 정책 선택기, 필수 속성 서버 강제, 분류 단일 지정 화면, 시스템 콘솔 설정, E2E 전체. MISSING PATHS 20개에 server/channels/api4/properties.go(48f2fd08 소산), app/properties/access_control_attribute_validation.go, model/property_field_attrs_validation.go, webapp admin_console/classification_markings/*, E2E system_attributes/global_attributes가 들어 있다. 09-04에 제외한 b3946ef5(플러그인 소유 속성 잠금)와 같은 계보의 본체. 계보를 들이기로 하면 property v2부터 spec으로 함께 다룬다. |
+
+| e4cfcd95 | [Stabilize ranked operators Playwright spec attribute selection (#38415)](https://github.com/mattermost/mattermost/commit/e4cfcd9561a8c3ab7472a5dc2fd4e28a512d1f1e) | 제외한 017a7102([MM-69055] Add rank property field type, #36809 — property v2·분류 표시 계보) 계보의 Playwright 스펙 안정화라 대상이 없다. ABAC 정책 편집기에서 rank 속성을 메뉴 필터링 후 force 없이 클릭하고 남은 MUI 오버레이를 닫은 뒤 기본 연산자 'is at least'를 확인하도록 고친 1파일 +34/-19 — e2e-tests/playwright/specs/functional/system_console/abac/policies/ranked_operators.spec.ts가 우리 트리에 없다(modify/delete CONFLICT). 테스트 전용. |
+
+| 87168644 | [Update v12.0 and Mobile v2.45 deprecation notices (#38382)](https://github.com/mattermost/mattermost/commit/87168644a48fa66f0229a64d1706a3223c465cea) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. 지원 중단 안내 페이지 docs/main/product-overview/deprecated-features.mdx의 v12.0·Mobile v2.45 항목 문구 수정(+2/-3) — 대상 파일이 우리 트리에 없다(modify/delete CONFLICT). 코드·i18n 무접촉. |
+
+| d20de412 | [Clarify that the LDAP Admin Filter applies only at AD/LDAP sign-in (#38453)](https://github.com/mattermost/mattermost/commit/d20de4128b0d6dcd562b7959fa232cfbc3ef8f22) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. AD/LDAP Admin Filter가 AD/LDAP 로그인 때만 평가되고(정기 동기화에서 미평가) SAML 사용자에겐 EnableSyncWithLdap을 켜도 적용되지 않는다는 문서 정정 — docs/main/ 3파일(authentication-configuration-settings·ad-ldap·sso-saml, +10/-1)이 우리 트리에 없다(modify/delete CONFLICT). 코드 무변경. 운영 참고: 이 동작은 우리 서버에도 같다(SAML 사용자의 관리자 지정은 SAML Admin Attribute). |
 
 ## spec 전환 커밋
 
