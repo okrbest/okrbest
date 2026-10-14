@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-13 16:54
+- 갱신일: 2026-10-14 09:47
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 271개
+- 남은 커밋: 276개
 
-**마지막 반영 커밋:** `597d9c42` | [docs/site: add legacy Sphinx URL redirects for 281 URLs, fix 3 broken targets (#38387)](https://github.com/mattermost/mattermost/commit/597d9c429602d119552b4a7cc7c2b50ce41f895b) | 2026-09-07
+**마지막 반영 커밋:** `3b88476e` | [Add a test pinning supportedLocales to the shipped catalogs (#38408)](https://github.com/mattermost/mattermost/commit/3b88476e31c2da7d6d7f81b4cd52cbf5e28dc841) | 2026-09-08
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 03a30e91 | [\[MM-70592\] Fix read-only settings for section-based plugins without a footer (#38384)](https://github.com/mattermost/mattermost/commit/03a30e91831c241ff9d82ee4b203fd19968e664a) | 2026-09-08 |
-| 904ee27f | [docs: emit redirect stubs at both <from>/index.html and <from>.html (#38389)](https://github.com/mattermost/mattermost/commit/904ee27f26e09fffd309bf2aac4fd7f99b9dd265) | 2026-09-08 |
-| d611ca8f | [chore: always render with createRoot and drop the EnableConcurrentReact flag (#38391)](https://github.com/mattermost/mattermost/commit/d611ca8f4ad014b69d1349612a34eb0a4b49bc7d) | 2026-09-08 |
-| 9c8d4164 | [MM-70074: Fix output formatting issue in mmctl (#37794)](https://github.com/mattermost/mattermost/commit/9c8d4164abd4e3dd585b97ab2f7efcf11b2fc141) | 2026-09-08 |
-| 0d79d720 | [Bumping prepackaged version of the zoom plugin to v1.13.1 (#38339)](https://github.com/mattermost/mattermost/commit/0d79d72074449c335eb8cd421e4c8dbd99636a8a) | 2026-09-08 |
-| a66e9c03 | [MM-70511: Optimize FileInfo and Channels bulk-indexing queries (#38206)](https://github.com/mattermost/mattermost/commit/a66e9c034bb00a06984373d12ac6fd8bedd27aa3) | 2026-09-08 |
-| 80fc4302 | [Apply React 19 type codemods ahead of the upgrade (#38313)](https://github.com/mattermost/mattermost/commit/80fc4302ae33a94ee0cd9664d9bb6ac1f6561201) | 2026-09-08 |
-| 7eebdb8f | [Migrate from react-beautiful-dnd to @hello-pangea/dnd (#38320)](https://github.com/mattermost/mattermost/commit/7eebdb8f9411ae2d4bd11d5a2ae03d65d7b0552f) | 2026-09-08 |
-| d2cec875 | [\[MM-68252\] Close the schedule message menu after picking a time on mobile web (#38288)](https://github.com/mattermost/mattermost/commit/d2cec875b88225b04f97f877f8bc7a3342d39779) | 2026-09-08 |
-| 5e6f509f | [Add deterministic i18n checkers for the server and webapp locale catalogs (#38231)](https://github.com/mattermost/mattermost/commit/5e6f509f36b6518d8df166c01fa606441629dab4) | 2026-09-08 |
-| 3b88476e | [Add a test pinning supportedLocales to the shipped catalogs (#38408)](https://github.com/mattermost/mattermost/commit/3b88476e31c2da7d6d7f81b4cd52cbf5e28dc841) | 2026-09-08 |
 | fe9a36e8 | [E2E/Playwright: rolling upgrade tests (#38367)](https://github.com/mattermost/mattermost/commit/fe9a36e80e2c8dd6ebed04b897640c51a994f983) | 2026-09-09 |
 | 050c5c80 | [chore: update dependencies in cypress (#38016)](https://github.com/mattermost/mattermost/commit/050c5c80400044eb8526c8d40b3fa82ceae28cc5) | 2026-09-09 |
 | e75e823f | [E2E/Playwright: Migrate active Cypress tests (batch 1 of 4) (#37454)](https://github.com/mattermost/mattermost/commit/e75e823ff2ad0d373ea3f7ed60c86e45966608a2) | 2026-09-09 |
@@ -282,6 +271,22 @@
 | 0c66f929 | [\[MM-71128\] Render attachment fields that have a title but an empty value (#39112)](https://github.com/mattermost/mattermost/commit/0c66f929d073c9c75140f6a89537dc6c50a11a38) | 2026-10-13 |
 | 07b79a10 | [Deprecate ServiceNow plugin: remove from prepackaged plugins, onboarding, and docs (#39105)](https://github.com/mattermost/mattermost/commit/07b79a1087cdcf654ffa335f29a3394feb318a2a) | 2026-10-13 |
 | bbb7145c | [Add Mobile v2.44.1 dot release docs (#39102)](https://github.com/mattermost/mattermost/commit/bbb7145c53780e1daf7e872bddc68e52f3c681f2) | 2026-10-13 |
+| ac8ef7e6 | [drip: AppError -> error: ldap test bind password (#39055)](https://github.com/mattermost/mattermost/commit/ac8ef7e6838783aad36fbd033b478da95f4ffcf3) | 2026-10-13 |
+| f19875dd | [Show an unavailable auto-translation AI service in the System Console (#38921)](https://github.com/mattermost/mattermost/commit/f19875ddec806f736cfd3c5ac94814a57d927e82) | 2026-10-13 |
+| 6320b80c | [Keep previously valid configurations starting on v12 (#39003)](https://github.com/mattermost/mattermost/commit/6320b80c1ad283fc126f08b4466e4fdb0c420e55) | 2026-10-13 |
+| 1bd55398 | [docs: convert the 25 largest docs rasters to gated WebP (#39008)](https://github.com/mattermost/mattermost/commit/1bd553986a385a6f6a1d283bde3a110b7f871109) | 2026-10-13 |
+| c57df45d | [docs: self-host fonts, images, and OpenAPI icons; block build egress (#39092)](https://github.com/mattermost/mattermost/commit/c57df45d9c101b37725f5fcd0d0aa437aa4e211f) | 2026-10-13 |
+| 7b0312b4 | [MM-71106 Fix empty Unreads threads list when unread count is non-zero (#39090)](https://github.com/mattermost/mattermost/commit/7b0312b46e6e8ed641afe446a28f29b1692011cc) | 2026-10-13 |
+| 2a023372 | [MM-70854 - add documentation for channel attributes feature (#38924)](https://github.com/mattermost/mattermost/commit/2a0233721a113b7f2eeb20fc2bf3949a796b41a2) | 2026-10-13 |
+| c1216d87 | [MM-70918: Fix flaky TestGetLogsSkipSendPathValidation cleanup race (#39097)](https://github.com/mattermost/mattermost/commit/c1216d87a26097ec5797c3c82dc8cb3c3a513c78) | 2026-10-13 |
+| 38ff39c3 | [Fix config change checker false release notes after PR base retarget (#38985)](https://github.com/mattermost/mattermost/commit/38ff39c323b803a2b17a8822d685cf80401f673b) | 2026-10-13 |
+| 359fc924 | [Standardize WebserverMode on uncompressed instead of nogzip (#39116)](https://github.com/mattermost/mattermost/commit/359fc92417a9da2f671b5d6c04c71c202faf7963) | 2026-10-13 |
+| f434bd9d | [docs: ship offline documentation in the release tarball (#38957)](https://github.com/mattermost/mattermost/commit/f434bd9da65ff1af2eae845d9f872a064229a915) | 2026-10-13 |
+| bf379803 | [docs: replace animated GIF docs with H.264 Video (#39009)](https://github.com/mattermost/mattermost/commit/bf379803cf30063aa068d607cfae879b5d7dedc9) | 2026-10-13 |
+| 047fffb3 | [Make SystemPolicyIndicator messages whole translatable sentences (#38967)](https://github.com/mattermost/mattermost/commit/047fffb3138c394c981c1ceb3bb559e42a1446ce) | 2026-10-13 |
+| 6b5a174f | [Fix English typos and grammar in webapp source strings (#39127)](https://github.com/mattermost/mattermost/commit/6b5a174f733f3193f8b532a3259396b6c33d9c94) | 2026-10-13 |
+| c205c6c6 | [Expose EnableFileSearch in the System Console and hide file search UI when disabled (#39059)](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98) | 2026-10-13 |
+| 83806a3f | [Point localization docs at the AI translation pipeline. (#38968)](https://github.com/mattermost/mattermost/commit/83806a3f73a8672601bd0491c4b4ab658bf056da) | 2026-10-14 |
 
 ## 제외된 커밋
 
@@ -741,6 +746,8 @@
 | 53aaf6a4 | [Move changelog generation automation to server repo (#38113)](https://github.com/mattermost/mattermost/commit/53aaf6a4a8e75b23c7eea031f1b49cdce1710767) | Mattermost 릴리스 운영 전용 자동화라 우리 저장소에서 동작할 수 없다. 수동 실행 워크플로 .github/workflows/generate-changelog.yml(+130)과 .github/scripts/generate_changelog.py(+480) 신설 — milestone PR의 릴리스 노트를 mattermost/mattermost·비공개 mattermost/enterprise에서 모아 LLM으로 changelog를 만들고 docs/main/product-overview/mattermost-v11-changelog.mdx에 PR을 연다. 실행에 Mattermost 소유 GitHub App 자격증명 2벌(CHANGELOG_READ/WRITE_CLIENT_ID·PRIVATE_KEY, owner: mattermost)과 비공개 enterprise 저장소 접근이 필요하고, 결과물 대상 docs/main/은 제외한 문서 사이트 계보(1d3bbc63)라 트리에 없다. 같은 성격의 조직 전용 운영 자동화(e6b8e12f pr-test-analysis, 9091791e 릴리스 문서 CODEOWNERS)와 같은 처리. |
 
 | 597d9c42 | [docs/site: add legacy Sphinx URL redirects for 281 URLs, fix 3 broken targets (#38387)](https://github.com/mattermost/mattermost/commit/597d9c429602d119552b4a7cc7c2b50ce41f895b) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. Docusaurus 리다이렉트 표 docs/site/sidebars/active-redirects.json에 옛 Sphinx URL 281개 추가·대상 3개 수정(+1128/-4, bbd00c4f·4086261f 후속) — 터치 1파일이 우리 트리에 없다(modify/delete CONFLICT). 코드·i18n 무접촉. |
+
+| 904ee27f | [docs: emit redirect stubs at both <from>/index.html and <from>.html (#38389)](https://github.com/mattermost/mattermost/commit/904ee27f26e09fffd309bf2aac4fd7f99b9dd265) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. Docusaurus 빌드 후처리로 리다이렉트 스텁을 <from>/index.html과 <from>.html 양쪽에 내보내는 스크립트(docs/site/scripts/duplicate-redirect-stubs.mjs +67)와 docs/site/package.json 1줄 — docs/site/가 우리 트리에 없다(modify/delete CONFLICT). 코드·i18n 무접촉. |
 
 ## spec 전환 커밋
 
