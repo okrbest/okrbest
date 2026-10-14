@@ -1,0 +1,50 @@
+FAIL src/actions/views/channel.test.js
+FAIL src/actions/views/channel.test.js
+FAIL src/components/about_build_modal/about_build_modal.test.tsx
+FAIL src/components/about_build_modal/about_build_modal.test.tsx
+FAIL src/components/admin_console/custom_terms_of_service_settings/custom_terms_of_service_settings.test.tsx
+FAIL src/components/admin_console/custom_terms_of_service_settings/custom_terms_of_service_settings.test.tsx
+FAIL src/components/admin_console/org_role_management/org_role_management.test.tsx (44.688 s)
+FAIL src/components/admin_console/org_role_management/org_role_management.test.tsx (44.688 s)
+FAIL src/components/advanced_text_editor/advanced_text_editor.test.tsx
+FAIL src/components/advanced_text_editor/advanced_text_editor.test.tsx
+FAIL src/components/lexical_editor/lexical_text_editor.integration.test.tsx
+FAIL src/components/lexical_editor/lexical_text_editor.integration.test.tsx
+FAIL src/components/lexical_editor/lexical_text_editor.test.tsx
+FAIL src/components/lexical_editor/lexical_text_editor.test.tsx
+FAIL src/components/lexical_editor/utils/apply_mention_replacement.test.ts
+FAIL src/components/lexical_editor/utils/apply_mention_replacement.test.ts
+FAIL src/components/more_direct_channels/index.test.tsx
+FAIL src/components/more_direct_channels/index.test.tsx
+FAIL src/components/more_direct_channels/list/index.test.ts
+FAIL src/components/more_direct_channels/list/index.test.ts
+FAIL src/components/post_view/post_time/post_time.test.tsx
+FAIL src/components/post_view/post_time/post_time.test.tsx
+FAIL src/components/preparing_workspace/invite_members.test.tsx
+FAIL src/components/preparing_workspace/invite_members.test.tsx
+FAIL src/components/profile_popover/profile_popover.test.tsx
+FAIL src/components/profile_popover/profile_popover.test.tsx
+FAIL src/components/profile_popover/profile_popover_call_button_wrapper/index.test.tsx
+FAIL src/components/profile_popover/profile_popover_call_button_wrapper/index.test.tsx
+FAIL src/components/properties_card_view/propertyValueRenderer/user_property_renderer/userPropertyRenderer.test.tsx
+FAIL src/components/properties_card_view/propertyValueRenderer/user_property_renderer/userPropertyRenderer.test.tsx
+FAIL src/components/sidebar/sidebar_channel/sidebar_channel_menu/sidebar_channel_menu.test.tsx
+FAIL src/components/sidebar/sidebar_channel/sidebar_channel_menu/sidebar_channel_menu.test.tsx
+FAIL src/components/suggestion/at_mention_provider/at_mention_provider.test.tsx
+FAIL src/components/suggestion/at_mention_provider/at_mention_provider.test.tsx
+FAIL src/components/suggestion/suggestion_box/suggestion_box.test.jsx
+FAIL src/components/suggestion/suggestion_box/suggestion_box.test.jsx
+FAIL src/packages/mattermost-redux/src/actions/channel_categories.test.js (262.873 s)
+FAIL src/packages/mattermost-redux/src/actions/channel_categories.test.js (262.873 s)
+FAIL src/packages/mattermost-redux/src/selectors/entities/channels.test.ts
+FAIL src/packages/mattermost-redux/src/selectors/entities/channels.test.ts
+FAIL src/packages/mattermost-redux/src/selectors/entities/users.test.ts
+FAIL src/packages/mattermost-redux/src/selectors/entities/users.test.ts
+FAIL src/packages/mattermost-redux/src/utils/user_utils.test.ts
+FAIL src/packages/mattermost-redux/src/utils/user_utils.test.ts
+FAIL src/utils/admin_console_index.test.tsx
+FAIL src/utils/admin_console_index.test.tsx
+FAIL src/utils/local_storage.test.ts
+FAIL src/utils/local_storage.test.ts
+FAIL src/utils/markdown/index.test.ts
+FAIL src/utils/markdown/index.test.ts

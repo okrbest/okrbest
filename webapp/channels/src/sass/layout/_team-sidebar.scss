@@ -149,6 +149,8 @@
         gap: var(--okr-space-1);
     }
 
+    // 버튼 전체 반투명(0.73)은 쓰지 않는다 — 틴트·솔리드 색이 설계값
+    // 그대로 보여야 한다 (028 FR-005). 라벨 위계는 굵기(600/700)가 담당한다.
     .rail-product-button {
         display: flex;
         width: 56px;
@@ -158,33 +160,35 @@
         border-radius: var(--radius-m);
         color: var(--sidebar-header-text-color);
         gap: var(--okr-space-1);
-        opacity: 0.73;
         transition: all 0.15s ease;
 
         &:hover,
         &:focus {
             color: var(--sidebar-header-text-color);
-            opacity: 1;
             text-decoration: none;
         }
 
-        &:hover .rail-product-button__icon {
-            background: rgba(var(--sidebar-text-rgb), 0.08);
+        // hover/focus는 파랑이 살짝 어두워진다 (028 FR-006)
+        &:hover .rail-product-button__icon,
+        &:focus .rail-product-button__icon {
+            background: #075eeb;
         }
 
-        &.active {
-            opacity: 1;
-
-            .rail-product-button__icon {
-                background: rgba(var(--sidebar-text-rgb), 0.16);
-            }
-
-            .rail-product-button__label {
-                font-weight: 700;
-            }
+        // 선택 상태 — 비비드 인디고 솔리드 (028, data-model.md 상태 표).
+        // hover와 같은 특이도이므로 hover 규칙보다 뒤에 둬 솔리드를 지킨다.
+        // 흰 아이콘 대비 6.3:1 — 두 테마 공용 (spec 028 research R2)
+        &.active .rail-product-button__icon {
+            background: #4f46e5;
         }
 
-        // Slack 아이콘 알약: 36×36, radius 8, 글리프 20 (--okr-icon-main)
+        &.active .rail-product-button__label {
+            font-weight: 700;
+        }
+
+        // 아이콘 알약: 36×36, radius 8. 평상시 비비드 파랑 솔리드 + 흰 아이콘
+        // (028 FR-001 — 사용자 레퍼런스 실측색 #0866FF, 흰 아이콘 대비 4.8:1,
+        // 두 테마 공용이라 테마 변수를 쓰지 않는다). 아이콘 색은 __icon 한정 —
+        // 버튼 레벨에 걸면 라벨까지 샌다
         .rail-product-button__icon {
             display: flex;
             width: 36px;
@@ -192,11 +196,16 @@
             align-items: center;
             justify-content: center;
             border-radius: var(--radius-m);
+            background: #0866ff;
+            color: var(--neutral-0);
             transition: background-color var(--okr-anim-fast) linear;
 
+            // 글리프 28 — 알약(36)에 꽉 차 보이게 (28/36 ≈ 78%, 028 FR-004).
+            // --okr-icon-rail(24) 토큰은 019 기준표 정본이라 바꾸지 않고
+            // 이 블록에서만 오버라이드한다 (research R3)
             svg {
-                width: var(--okr-icon-rail);
-                height: var(--okr-icon-rail);
+                width: 28px;
+                height: 28px;
                 fill: currentColor;
             }
 
@@ -205,8 +214,8 @@
             // 한정 (usage-guide 아이콘 규칙 5항)
             svg path {
                 stroke: currentColor;
-                stroke-width: 0.6;
                 stroke-linejoin: round;
+                stroke-width: 0.6;
             }
         }
 

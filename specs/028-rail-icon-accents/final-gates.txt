@@ -1,0 +1,5 @@
+=== final gates @ adac397bea Wed Oct 14 16:57:23 KST 2026 ===
+[eslint+tsc] diff baseline-lint-types.txt final-lint-types.txt => IDENTICAL (no output)
+[jest] Test Suites: 25 failed, 1 skipped, 1184 passed / Tests: 139 failed, 11 skipped, 12160 passed (baseline 12159+1=신규 applyTheme 테스트)
+[jest] diff base-fails vs final-fails => IDENTICAL
+[stylelint] _team-sidebar.scss exit 0; repo-wide 68 errors pre-existing (stylelint-preexisting.txt, 미접촉 파일만)
