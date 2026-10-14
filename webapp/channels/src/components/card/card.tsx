@@ -23,8 +23,9 @@ export default class Card extends React.PureComponent<Props> {
         const {expanded, children} = this.props;
 
         const childrenWithProps = Children.map(children, (child) => {
-            // Checking isValidElement is the safe way and avoids a TS error too.
-            if (isValidElement<{expanded?: boolean}>(child)) {
+            // Only Header and Body understand these; forwarding them to any other
+            // child leaks them onto a host element as unknown DOM attributes.
+            if (isValidElement<{expanded?: boolean}>(child) && (child.type === CardHeader || child.type === CardBody)) {
                 return cloneElement(child, {expanded});
             }
             return child;
