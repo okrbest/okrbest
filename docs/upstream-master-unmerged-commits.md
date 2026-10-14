@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-14 09:47
+- 갱신일: 2026-10-14 11:58
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 276개
+- 남은 커밋: 265개
 
-**마지막 반영 커밋:** `3b88476e` | [Add a test pinning supportedLocales to the shipped catalogs (#38408)](https://github.com/mattermost/mattermost/commit/3b88476e31c2da7d6d7f81b4cd52cbf5e28dc841) | 2026-09-08
+**마지막 반영 커밋:** `75a26632` | [MM-70180 — Channel attributes: display, banner, and post-creation editing (#38267)](https://github.com/mattermost/mattermost/commit/75a266320e04a046e6798226ce193316475f99c6) | 2026-09-09
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| fe9a36e8 | [E2E/Playwright: rolling upgrade tests (#38367)](https://github.com/mattermost/mattermost/commit/fe9a36e80e2c8dd6ebed04b897640c51a994f983) | 2026-09-09 |
-| 050c5c80 | [chore: update dependencies in cypress (#38016)](https://github.com/mattermost/mattermost/commit/050c5c80400044eb8526c8d40b3fa82ceae28cc5) | 2026-09-09 |
-| e75e823f | [E2E/Playwright: Migrate active Cypress tests (batch 1 of 4) (#37454)](https://github.com/mattermost/mattermost/commit/e75e823ff2ad0d373ea3f7ed60c86e45966608a2) | 2026-09-09 |
-| bca77a77 | [Select the French language label the code actually renders (#38407)](https://github.com/mattermost/mattermost/commit/bca77a7764a589a3cab0d4fd3694890c3a008d10) | 2026-09-09 |
-| ea98f361 | [MM-70543: Cap single image previews at 700px wide (#38406)](https://github.com/mattermost/mattermost/commit/ea98f361ca56aef179f8091e23ae4d4bdce4783d) | 2026-09-09 |
-| a40861c4 | [MM-70511: Add (CreateAt, Id) indices on FileInfo, Channels (#38398)](https://github.com/mattermost/mattermost/commit/a40861c41413c3ce36f549741f9cb4a1a5fe166d) | 2026-09-09 |
-| f45e25d5 | [MM-69997: Fix bulk import account handling (#37718)](https://github.com/mattermost/mattermost/commit/f45e25d54b17da5ec666c68c0e807b84a1078414) | 2026-09-09 |
-| 1c738a29 | [Hide the System Console Recaps page unless EnableAIRecaps is on (#38331)](https://github.com/mattermost/mattermost/commit/1c738a29fcf412710d69c348d01c54fac6923c0a) | 2026-09-09 |
-| 786d22bc | [Land the React 19 fixes that stand on their own, ahead of the upgrade (#38390)](https://github.com/mattermost/mattermost/commit/786d22bce34973ab3ea040cb996c66d27364fa26) | 2026-09-09 |
-| 59cd9d62 | [Clone missing enterprise checkout in Cloud Agent install (#38117)](https://github.com/mattermost/mattermost/commit/59cd9d628259cfaab3ef55aad25c421aca493de4) | 2026-09-09 |
-| 75a26632 | [MM-70180 — Channel attributes: display, banner, and post-creation editing (#38267)](https://github.com/mattermost/mattermost/commit/75a266320e04a046e6798226ce193316475f99c6) | 2026-09-09 |
 | e4cfcd95 | [Stabilize ranked operators Playwright spec attribute selection (#38415)](https://github.com/mattermost/mattermost/commit/e4cfcd9561a8c3ab7472a5dc2fd4e28a512d1f1e) | 2026-09-10 |
 | 87168644 | [Update v12.0 and Mobile v2.45 deprecation notices (#38382)](https://github.com/mattermost/mattermost/commit/87168644a48fa66f0229a64d1706a3223c465cea) | 2026-09-10 |
 | d20de412 | [Clarify that the LDAP Admin Filter applies only at AD/LDAP sign-in (#38453)](https://github.com/mattermost/mattermost/commit/d20de4128b0d6dcd562b7959fa232cfbc3ef8f22) | 2026-09-10 |
@@ -748,6 +737,14 @@
 | 597d9c42 | [docs/site: add legacy Sphinx URL redirects for 281 URLs, fix 3 broken targets (#38387)](https://github.com/mattermost/mattermost/commit/597d9c429602d119552b4a7cc7c2b50ce41f895b) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. Docusaurus 리다이렉트 표 docs/site/sidebars/active-redirects.json에 옛 Sphinx URL 281개 추가·대상 3개 수정(+1128/-4, bbd00c4f·4086261f 후속) — 터치 1파일이 우리 트리에 없다(modify/delete CONFLICT). 코드·i18n 무접촉. |
 
 | 904ee27f | [docs: emit redirect stubs at both <from>/index.html and <from>.html (#38389)](https://github.com/mattermost/mattermost/commit/904ee27f26e09fffd309bf2aac4fd7f99b9dd265) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. Docusaurus 빌드 후처리로 리다이렉트 스텁을 <from>/index.html과 <from>.html 양쪽에 내보내는 스크립트(docs/site/scripts/duplicate-redirect-stubs.mjs +67)와 docs/site/package.json 1줄 — docs/site/가 우리 트리에 없다(modify/delete CONFLICT). 코드·i18n 무접촉. |
+
+| fe9a36e8 | [E2E/Playwright: rolling upgrade tests (#38367)](https://github.com/mattermost/mattermost/commit/fe9a36e80e2c8dd6ebed04b897640c51a994f983) | Mattermost 공식 이미지·지원 정책 기준의 E2E 롤링 업그레이드 하네스라 우리에게 얻는 것이 없다 — 76파일 +3588/-293. upgrade-from/swap-to/to Playwright 프로젝트, 출발 버전을 Mattermost 공개 지원 정책(최근 3 minor + ESR)에서 해석하는 resolve_upgrade_matrix.mjs, 롤링 업그레이드 워크플로 2개 신설과 e2e-tests-* 5개 수정, 컨테이너 교체 시 상태를 유지하도록 lib 스택 변경(config를 Postgres에, data를 .mattermost_data/ bind mount)과 그로 드러난 스펙 25개 수정. 반영하지 않는 근거 — (1) OKR.BEST 이미지의 업그레이드 경로를 검증하지 않는다, (2) 우리 e2e-tests-* 워크플로는 상위 호출자가 없어 PR 체크 E2E 잡이 0건이고 Playwright 채널 스펙은 포크 격차로 기준선 실패(b052f346 E2E 샤딩 전면 개편 exclude와 같은 사유), (3) merge-tree CONFLICT 13파일과 없는 경로(.cursor/cursor.md, 제외한 11b55b77 계보). 섞인 스펙·페이지 객체 수정이 필요해지면 그때 골라 이식한다. 이후 upstream Playwright 커밋이 lib 변경(upgrade_env·filestore·post 페이지 객체)을 전제로 하면 충돌이 커질 수 있음에 유의. |
+
+| 1c738a29 | [Hide the System Console Recaps page unless EnableAIRecaps is on (#38331)](https://github.com/mattermost/mattermost/commit/1c738a29fcf412710d69c348d01c54fac6923c0a) | [보류성 제외 — 25f3a75c·240b9bed와 함께 재검토] 고칠 대상인 시스템 콘솔 Recaps 섹션(admin_definition.tsx의 recaps: site_config/recaps, RESOURCE_KEYS.SITE.AI_RECAPS)이 우리 트리에 없다(grep 0건) — 보류성 제외한 25f3a75c(Scheduled Recaps, #35495)가 만든 화면이다. 내용은 isHidden에 it.configIsFalse('FeatureFlags','EnableAIRecaps')를 더해 기능 플래그가 꺼져 있으면 권한이 있어도 페이지를 숨기고(새 admin_definition_recaps.test.tsx), admin_sidebar 스냅숏에서 Recaps 항목을 지운다. merge-tree CONFLICT 2파일(admin_definition.tsx, admin_sidebar 스냅숏)은 대상 부재 탓. 이 커밋은 25f3a75c 보류 사유 (1) '콘솔 화면이 기능 스위치와 무관하게 권한만으로 노출'을 해소하므로, 25f3a75c를 들일 때 240b9bed(권한 마이그레이션)와 함께 반드시 반영한다. |
+
+| 59cd9d62 | [Clone missing enterprise checkout in Cloud Agent install (#38117)](https://github.com/mattermost/mattermost/commit/59cd9d628259cfaab3ef55aad25c421aca493de4) | 제외한 11b55b77(Cursor Cloud Agent 환경, #36559)·1b6a5797 계보의 후속이라 반영할 대상이 없다. 사내 Cloud Agent 설치 훅이 비공개 mattermost/enterprise를 직접 clone하게 하는 변경 — .cursor/scripts/cloud-agent-install.sh(+261)·.cursor/README.md·.cursor/cursor.md는 우리 트리에 없다(modify/delete CONFLICT). AGENTS.md hunk(Cursor 섹션을 .cursor/AGENTS.md 참조로 교체)는 우리 AGENTS.md가 포크 자체 문서(spec-kit 관리)라 해당 섹션이 없다. server/Makefile의 -include config.override.mk를 맨 위로 옮기는 hunk는 Cloud Agent의 $HOME/enterprise 감지용이고 우리는 config.override.mk를 쓰지 않는다 — 위치 이동은 override의 = 할당을 뒤의 Makefile 기본값이 덮어쓸 수 있어 이득 없이 동작만 바뀐다. override로 enterprise 경로를 지정하게 되면 그 hunk만 재검토. |
+
+| 75a26632 | [MM-70180 — Channel attributes: display, banner, and post-creation editing (#38267)](https://github.com/mattermost/mattermost/commit/75a266320e04a046e6798226ce193316475f99c6) | 제외한 property 시스템 v2(48f2fd08 Integrated Boards 계보)·분류 표시(2b7b398a·6083cc22 등)·Global Attributes(38b66d22·4ec0fe9c) 계보 위에 얹힌 신규 대형 기능 '채널 속성(Channel attributes)'이라 반영할 토대가 없다 — 128파일 +14683/-354. 채널 헤더 라벨·Channel Info 섹션·속성 토큰으로 구성하는 채널 배너, 생성 후 편집과 변경 정책 선택기, 필수 속성 서버 강제, 분류 단일 지정 화면, 시스템 콘솔 설정, E2E 전체. MISSING PATHS 20개에 server/channels/api4/properties.go(48f2fd08 소산), app/properties/access_control_attribute_validation.go, model/property_field_attrs_validation.go, webapp admin_console/classification_markings/*, E2E system_attributes/global_attributes가 들어 있다. 09-04에 제외한 b3946ef5(플러그인 소유 속성 잠금)와 같은 계보의 본체. 계보를 들이기로 하면 property v2부터 spec으로 함께 다룬다. |
 
 ## spec 전환 커밋
 
