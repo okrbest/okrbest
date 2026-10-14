@@ -88,6 +88,7 @@ import type {
     GroupStats,
     GroupMember,
 } from '@mattermost/types/groups';
+import type {HealthFindingFilter, HealthFindingList} from '@mattermost/types/health';
 import type {PostActionResponse} from '@mattermost/types/integration_actions';
 import type {
     Command,
@@ -585,6 +586,10 @@ export default class Client4 {
 
     getContentFlaggingRoute() {
         return `${this.getBaseRoute()}/content_flagging`;
+    }
+
+    getHealthFindingsRoute() {
+        return `${this.getBaseRoute()}/health/findings`;
     }
 
     getCSRFFromCookie() {
@@ -5386,6 +5391,13 @@ export default class Client4 {
     getAdminContentFlaggingConfig = () => {
         return this.doFetch<ContentFlaggingSettings>(
             `${this.getContentFlaggingRoute()}/config`,
+            {method: 'get'},
+        );
+    };
+
+    getHealthFindings = (filter: HealthFindingFilter = {}) => {
+        return this.doFetch<HealthFindingList>(
+            `${this.getHealthFindingsRoute()}${buildQueryString(filter)}`,
             {method: 'get'},
         );
     };

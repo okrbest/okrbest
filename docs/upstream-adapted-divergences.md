@@ -118,6 +118,7 @@
 | SystemPolicyIndicator 완결 문장화 | [047fffb3](https://github.com/mattermost/mattermost/commit/047fffb3138c394c981c1ceb3bb559e42a1446ce) (#38967) | 컴포넌트·en·21개 언어는 받고, ko는 옛 키 11개(우리가 다듬은 6개 포함)를 지우고 새 키 12개에 upstream ko 번역을 넣었다. 없는 언어 7개를 버렸다 — 아래 참조 |
 | webapp 영어 오타·문법 수정 | [6b5a174f](https://github.com/mattermost/mattermost/commit/6b5a174f733f3193f8b532a3259396b6c33d9c94) (#39127) | 리브랜드 줄 충돌은 우리 문구(OKR.BEST) 위에 오타 수정만 옮겼다. 키보드 단축키 콜론 1건과 없는 Playwright 스펙 2개를 버렸다 — 아래 참조 |
 | 파일 검색 끄기 설정 노출 | [c205c6c6](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98) (#39059) | upstream이 가리는 헤더 Files 버튼이 우리에게 없어, 우리 Slack식 헤더의 Files 탭에 같은 `canSearchFiles` 조건을 걸었다(테스트 동반). docs 2개·옛 헤더 테스트 hunk를 버렸다 — 아래 참조 |
+| Health Dashboard PR28 Site health 화면 | [85b6fc1a](https://github.com/mattermost/mattermost/commit/85b6fc1ac751261a3c9e3c6ba21072a00e80160f) (#38943) | 화면·redux·서버 렌더 필드는 그대로 받았다. `client4.ts` 충돌 문맥의 delivery tracking 경로·메서드 3개(제외한 `0019ecc5` 계보)를 버렸다 — 아래 참조 |
 
 ---
 
@@ -3632,3 +3633,27 @@ upstream 오타 수정("Users sessions" → "User sessions")이 겹친 것이다
 | `docs/main/administration-guide/configure/experimental-configuration-settings.mdx`·`site-configuration-settings.mdx` | EnableFileSearch 설명을 실험 설정 문서에서 파일 공유 설정 문서로 이동 | 제외한 `1d3bbc63` 문서 사이트 계보 | 해당 없음 |
 
 **검증.** jest 55 suite(헤더·탭·채널 정보 RHS·새 검색·검색 힌트·검색 결과·rhs/command/post 액션·채널 뷰) 통과, 헤더 스냅샷 13건 유지, eslint 0 오류, 서버 빌드·`go test ./config/` 통과.
+
+---
+
+## Health Dashboard PR28 — `client4.ts`의 delivery tracking 문맥을 버렸다
+
+**upstream**: [`85b6fc1a`](https://github.com/mattermost/mattermost/commit/85b6fc1ac751261a3c9e3c6ba21072a00e80160f)
+([MM-71079] Health Dashboard PR28: System Console page (read-only), #38943) — 47파일 +3271/-13, 2026-10-21 반영(사용자 결정 adapt). 연작 전체 반영 결정(A)의 한 편.
+
+**받은 것.** System Console > Reporting의 읽기 전용 Site health 화면(`admin_console/health_dashboard/` 컴포넌트·scss·테스트), redux health action·reducer·selector·utils,
+`Client4.getHealthFindingsRoute`·`getHealthFindings`, 타입 `@mattermost/types/health`, `admin_definition.tsx` 메뉴(플래그 `HealthDashboard`·Enterprise·시스템 관리자 조건),
+`admin_sidebar`의 시스템 관리자 전달, 서버 `HealthFinding.DocsURL`·`ConsolePath` 렌더 필드, SiteURL 규칙의 `rules/cluster` → `rules/platform` 이동, en 키, Playwright smoke 스펙.
+플래그 기본값이 `false`라 기본 상태에서는 메뉴가 보이지 않는다.
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `webapp/platform/client/src/client4.ts` | `getHealthFindingsRoute()` 앞의 `getDeliveryTrackingRoute()`, `getHealthFindings` 앞의 `getDeliveryTrackingConfig`·`saveDeliveryTrackingConfig` (이 커밋의 변경이 아니라 충돌 hunk에 딸려 온 문맥) | 게시물 전달 감사 기능(`0019ecc5`, #37882)을 보류성 제외해 우리 서버에 `/api/v4/delivery_tracking` 라우트가 없다. 받으면 호출처 없는 메서드가 생긴다 | `0019ecc5` 계보를 받을 때 그 커밋이 함께 넣는다 |
+
+health 추가분은 delivery tracking 자리 대신 `getContentFlaggingRoute()` 뒤, `getAdminContentFlaggingConfig` 뒤에 놓였다. 후속 sync에서 이 부근 hunk가
+delivery tracking 문맥을 달고 오면 같은 방식으로 문맥만 버린다.
+
+**검증.** `go build ./...`, `go test ./public/model/ -run HealthFinding`, `./platform/shared/healthcheck/...`(rules/platform 포함), `./channels/api4/ -run TestGetHealthFindings` 통과.
+jest 9 suite 93건·스냅샷 12건(health_dashboard·admin_definition_health_dashboard·admin_sidebar·redux health 4종) 통과. eslint 오류 0(경고 7건은 upstream 원본 그대로), `platform/client` `tsc --noEmit` 통과.
