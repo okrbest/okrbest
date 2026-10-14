@@ -13,6 +13,7 @@ export default class SystemConsoleSidebarHeader {
     readonly title: Locator;
     readonly userName: Locator;
     readonly menuButton: Locator;
+    readonly menu: Locator;
 
     constructor(container: Locator) {
         this.container = container;
@@ -20,10 +21,20 @@ export default class SystemConsoleSidebarHeader {
         this.title = container.getByText('System Console');
         this.userName = container.getByText(/^@/);
         this.menuButton = container.getByRole('button', {name: 'Menu Icon'});
+        this.menu = container.getByRole('menu');
     }
 
     async toBeVisible() {
         await expect(this.container).toBeVisible();
         await expect(this.title).toBeVisible();
+    }
+
+    /**
+     * Opens the sidebar header's menu and returns the menu list.
+     */
+    async openMenu(): Promise<Locator> {
+        await this.menuButton.click();
+        await expect(this.menu).toBeVisible();
+        return this.menu;
     }
 }
