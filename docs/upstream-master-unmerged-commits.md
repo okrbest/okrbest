@@ -3,23 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-14 13:30
+- 갱신일: 2026-10-14 15:18
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 260개
+- 남은 커밋: 251개
 
-**마지막 반영 커밋:** `db126654` | [MM-70203: add plugin file action policy API (#38321)](https://github.com/mattermost/mattermost/commit/db12665463b46b44e161a3fdb69e52fd7dd95acd) | 2026-09-10
+**마지막 반영 커밋:** `afc8def8` | [\[MM-70573\] Propagate context through plugin HTTP (#38354)](https://github.com/mattermost/mattermost/commit/afc8def801504c8ec5db8f60f3c42d16dfcc0493) | 2026-09-11
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| a73cce0d | [Use sidebar title class for category drag handles in Cypress (#38417)](https://github.com/mattermost/mattermost/commit/a73cce0d03afc26b194813d1b7e9c47a3dafc0cd) | 2026-09-11 |
-| d588f0a9 | [\[MM-69859\] Allow admins to change a user's profile picture from the System Console (#37562)](https://github.com/mattermost/mattermost/commit/d588f0a95ad05b11ad081f42f2d90ea2323d46d8) | 2026-09-11 |
-| fa302bf9 | [Add i18n/glossary: core terminology for 21 supported locales (#38410)](https://github.com/mattermost/mattermost/commit/fa302bf9e62335d78c9a4a6f71e8beb19b678be4) | 2026-09-11 |
-| bff707df | [\[MM-70614\] Stop the System Console sidebar from clipping its header menu scroll bar (#38418)](https://github.com/mattermost/mattermost/commit/bff707dff4e0e4e669b17246f7507784ced7d375) | 2026-09-11 |
-| 044a60f7 | [\[MM-69349\] Validate additional server config settings (#37657)](https://github.com/mattermost/mattermost/commit/044a60f70c8d1c0bbc893a8a263f0a92b55caaa2) | 2026-09-11 |
-| 65f8ca23 | [\[MM-69869\] Applies to: per-resource configuration (Users) (#38409)](https://github.com/mattermost/mattermost/commit/65f8ca23aacc6f960d1dd22e7a4665ed774644aa) | 2026-09-11 |
-| 2477c3ba | [Revert unintended package-lock.json changes from #38409 (#38488)](https://github.com/mattermost/mattermost/commit/2477c3bac152740b8b4d2d3522183d8240f00168) | 2026-09-11 |
-| 5c299244 | [Add checkbox_group and checkbox_matrix interactive dialog elements (#37656)](https://github.com/mattermost/mattermost/commit/5c2992443ce0080301eb40a2777d5316df70b317) | 2026-09-11 |
-| afc8def8 | [\[MM-70573\] Propagate context through plugin HTTP (#38354)](https://github.com/mattermost/mattermost/commit/afc8def801504c8ec5db8f60f3c42d16dfcc0493) | 2026-09-11 |
 | 83faa165 | [Replace unlisted minio/minio image with Chainguard minio (#38495)](https://github.com/mattermost/mattermost/commit/83faa165e33eacbbe7b95737ad4d7c2670ba368c) | 2026-09-12 |
 | 84ea31fc | [Skip flaky TestGetMattermostLog (MM-70639) (#38446)](https://github.com/mattermost/mattermost/commit/84ea31fcad59dad963097588f0316258cc7caa7d) | 2026-09-12 |
 | 5dd13c95 | [MM-69223: V12 - Default-strip post identity props and reinject under verified authority (#37872)](https://github.com/mattermost/mattermost/commit/5dd13c953b2dcd7534154cc5c473559d5ee6d37a) | 2026-09-13 |
@@ -746,6 +737,10 @@
 | 87168644 | [Update v12.0 and Mobile v2.45 deprecation notices (#38382)](https://github.com/mattermost/mattermost/commit/87168644a48fa66f0229a64d1706a3223c465cea) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. 지원 중단 안내 페이지 docs/main/product-overview/deprecated-features.mdx의 v12.0·Mobile v2.45 항목 문구 수정(+2/-3) — 대상 파일이 우리 트리에 없다(modify/delete CONFLICT). 코드·i18n 무접촉. |
 
 | d20de412 | [Clarify that the LDAP Admin Filter applies only at AD/LDAP sign-in (#38453)](https://github.com/mattermost/mattermost/commit/d20de4128b0d6dcd562b7959fa232cfbc3ef8f22) | 제외한 문서 사이트 계보(1d3bbc63 #37330 docs 모노레포 이관)의 후속이라 반영할 대상이 없다. AD/LDAP Admin Filter가 AD/LDAP 로그인 때만 평가되고(정기 동기화에서 미평가) SAML 사용자에겐 EnableSyncWithLdap을 켜도 적용되지 않는다는 문서 정정 — docs/main/ 3파일(authentication-configuration-settings·ad-ldap·sso-saml, +10/-1)이 우리 트리에 없다(modify/delete CONFLICT). 코드 무변경. 운영 참고: 이 동작은 우리 서버에도 같다(SAML 사용자의 관리자 지정은 SAML Admin Attribute). |
+
+| 65f8ca23 | [\[MM-69869\] Applies to: per-resource configuration (Users) (#38409)](https://github.com/mattermost/mattermost/commit/65f8ca23aacc6f960d1dd22e7a4665ed774644aa) | 제외한 property 시스템 v2(48f2fd08)·Global Attributes(38b66d22·4ec0fe9c) 계보의 후속이라 반영할 토대가 없다 — 시스템 콘솔 Manage Attributes의 'Applies to'를 리소스별(Users)로 설정하는 UI·서버 검증, 19파일 +1196/-141. MISSING PATHS 12개에 server/channels/api4/properties.go(48f2fd08 소산)와 admin_console/global_attributes/* 전체, E2E global_attributes 스펙이 들어 있다. 09-04 b3946ef5·09-09 75a26632와 같은 계보. 섞인 webapp/package-lock.json 변경(peer 플래그 churn 78줄)은 upstream이 실수로 판정해 2477c3ba(#38488)로 되돌렸다. |
+
+| 2477c3ba | [Revert unintended package-lock.json changes from #38409 (#38488)](https://github.com/mattermost/mattermost/commit/2477c3bac152740b8b4d2d3522183d8240f00168) | 제외한 65f8ca23(#38409)이 실수로 넣은 webapp/package-lock.json의 peer 플래그 churn을 되돌리는 커밋이라 우리에겐 대상이 없다 — 65f8ca23^와 2477c3ba 사이 package-lock diff가 0줄(두 커밋 합산 무변화). 우리 lock에는 그 churn이 들어온 적이 없어 그대로 받으면 무관한 줄이 들어가 충돌한다(merge-tree CONFLICT). |
 
 ## spec 전환 커밋
 
