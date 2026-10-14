@@ -11,6 +11,7 @@ import {getThreadCounts} from 'mattermost-redux/actions/threads';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 
+import {close as closeLhs} from 'actions/views/lhs';
 import {closeRightHandSide} from 'actions/views/rhs';
 import {getIsRhsOpen} from 'selectors/rhs';
 
@@ -49,6 +50,9 @@ const GlobalThreadsLink = () => {
         e.stopPropagation();
 
         performance.mark(Mark.GlobalThreadsLinkClicked);
+
+        // 모바일 햄버거(LHS)는 채널 전환 시에만 자동으로 닫힌다. 정적 링크도 동일하게 닫는다.
+        dispatch(closeLhs());
 
         if (rhsOpen) {
             dispatch(closeRightHandSide());

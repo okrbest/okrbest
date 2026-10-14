@@ -11,6 +11,7 @@ import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/pre
 import {getCurrentTeamMembership} from 'mattermost-redux/selectors/entities/teams';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 
+import {close as closeLhs} from 'actions/views/lhs';
 import {closeRightHandSide, showMentions} from 'actions/views/rhs';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 
@@ -39,6 +40,11 @@ function SidebarMentionsLink() {
 
     const handleClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
+
+        // 모바일 햄버거(LHS)는 채널 전환 시에만 자동으로 닫힌다. 정적 링크도 동일하게 닫는다.
+        // 멘션은 RHS를 열므로 LHS를 닫지 않으면 모바일에서 RHS가 LHS를 가려 다른 메뉴가 반응하지 않는다.
+        dispatch(closeLhs());
+
         if (isActive) {
             dispatch(closeRightHandSide());
         } else {

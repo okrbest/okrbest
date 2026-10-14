@@ -17,6 +17,7 @@ import {
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getDrafts} from 'actions/views/drafts';
+import {close as closeLhs} from 'actions/views/lhs';
 import {makeGetDraftsCount} from 'selectors/drafts';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
@@ -67,6 +68,11 @@ function DraftsLink() {
     const urlMatches = Boolean(isDraftUrlMatch || isScheduledPostUrlMatch);
 
     const isNavLinkActive = useCallback(() => urlMatches, [urlMatches]);
+
+    // 모바일 햄버거(LHS)는 채널 전환 시에만 자동으로 닫힌다. 정적 링크도 동일하게 닫는다.
+    const handleClick = useCallback(() => {
+        dispatch(closeLhs());
+    }, [dispatch]);
 
     useEffect(() => {
         if (syncedDraftsAllowedAndEnabled) {
@@ -127,6 +133,7 @@ function DraftsLink() {
                     className='SidebarLink sidebar-item'
                     tabIndex={0}
                     isActive={isNavLinkActive}
+                    onClick={handleClick}
                 >
                     <i
                         data-testid='sendPostIcon'

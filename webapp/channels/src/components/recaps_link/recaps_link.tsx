@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {defineMessage, FormattedMessage, useIntl} from 'react-intl';
-import {shallowEqual, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {Link, useLocation, matchPath, useRouteMatch} from 'react-router-dom';
 
 import {AlertOutlineIcon, CreationOutlineIcon} from '@mattermost/compass-icons/components';
@@ -13,6 +13,8 @@ import {WithTooltip} from '@mattermost/shared/components/tooltip';
 import {getUnreadFinishedRecapsBadge} from 'mattermost-redux/selectors/entities/recaps';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
+import {close as closeLhs} from 'actions/views/lhs';
 
 import useGetFeatureFlagValue from 'components/common/hooks/useGetFeatureFlagValue';
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
@@ -26,6 +28,7 @@ const failedTooltip = defineMessage({
 
 const RecapsLink = () => {
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
     const {url} = useRouteMatch();
     const {pathname} = useLocation();
     const currentTeamId = useSelector(getCurrentTeamId);
@@ -34,6 +37,11 @@ const RecapsLink = () => {
     const enableAIRecaps = useGetFeatureFlagValue('EnableAIRecaps');
 
     const inRecaps = matchPath(pathname, {path: '/:team/recaps/:recapId?'}) != null;
+
+    // 모바일 햄버거(LHS)는 채널 전환 시에만 자동으로 닫힌다. 정적 링크도 동일하게 닫는다.
+    const handleClick = useCallback(() => {
+        dispatch(closeLhs());
+    }, [dispatch]);
 
     if (!currentTeamId || !currentUserId || enableAIRecaps !== 'true') {
         return null;
@@ -59,6 +67,7 @@ const RecapsLink = () => {
                         'unread-title': hasUnread,
                     })}
                     tabIndex={0}
+                    onClick={handleClick}
                 >
                     <span className='icon'>
                         <CreationOutlineIcon size={18}/>
