@@ -377,8 +377,9 @@ func patchChannel(c *Context, w http.ResponseWriter, r *http.Request) {
 	updatingProperties := patch.DisplayName != nil || patch.Name != nil || patch.Header != nil || patch.Purpose != nil || patch.GroupConstrained != nil
 	updatingAutoTranslation := patch.AutoTranslation != nil
 	updatingDiscoverable := patch.Discoverable != nil
+	updatingDisableJoinLeaveMessages := patch.DisableJoinLeaveMessages != nil
 
-	if !updatingProperties && !updatingAutoTranslation && patch.BannerInfo == nil && !updatingDiscoverable {
+	if !updatingProperties && !updatingAutoTranslation && patch.BannerInfo == nil && !updatingDiscoverable && !updatingDisableJoinLeaveMessages {
 		c.Err = model.NewAppError("patchChannel", "api.channel.patch_update_channel.no_changes.app_error", nil, "", http.StatusBadRequest)
 		return
 	}
@@ -416,9 +417,14 @@ func patchChannel(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if updatingDisableJoinLeaveMessages && (oldChannel.Type == model.ChannelTypeGroup || oldChannel.Type == model.ChannelTypeDirect) {
+		c.Err = model.NewAppError("patchChannel", "api.channel.patch_update_channel.update_direct_or_group_messages_not_allowed.app_error", nil, "", http.StatusBadRequest)
+		return
+	}
+
 	switch oldChannel.Type {
 	case model.ChannelTypeOpen:
-		if updatingProperties {
+		if updatingProperties || updatingDisableJoinLeaveMessages {
 			if ok, _ := c.App.SessionHasPermissionToChannel(c.AppContext, *c.AppContext.Session(), c.Params.ChannelId, model.PermissionManagePublicChannelProperties); !ok {
 				c.SetPermissionError(model.PermissionManagePublicChannelProperties)
 				return
@@ -432,7 +438,7 @@ func patchChannel(c *Context, w http.ResponseWriter, r *http.Request) {
 		}
 
 	case model.ChannelTypePrivate:
-		if updatingProperties {
+		if updatingProperties || updatingDisableJoinLeaveMessages {
 			if ok, _ := c.App.SessionHasPermissionToChannel(c.AppContext, *c.AppContext.Session(), c.Params.ChannelId, model.PermissionManagePrivateChannelProperties); !ok {
 				c.SetPermissionError(model.PermissionManagePrivateChannelProperties)
 				return
