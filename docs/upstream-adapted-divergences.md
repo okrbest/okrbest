@@ -123,6 +123,7 @@
 | server 영어 오타·문법 수정 | [43b5abce](https://github.com/mattermost/mattermost/commit/43b5abce4e03e89a054e54f95f4634e25409686d) (#39144) | 57건 문구를 모두 받았다. 그중 3건은 제외한 개명 계보(`f1b9aa05`) 때문에 우리 `app.content_flagging.*` 키로 옮겼고, 충돌 문맥의 `app.data_spillage.*` 키는 버렸다 — 아래 참조 |
 | 철자 틀린 메시지 id 개명 | [8ebb3781](https://github.com/mattermost/mattermost/commit/8ebb3781be0cb424ed191c0a676c9de7d99c0296) (#39145) | 코드와 자동 병합된 언어 카탈로그는 그대로 받았다. 충돌한 en·ko·en-AU 4파일은 upstream 결과 대신 우리 판에서 키 이름만 바꿨고, 지운 언어 7개의 카탈로그 14파일을 버렸다 — 아래 참조 |
 | 로그 경로 루트 강제(기능 플래그) | [abf088ca](https://github.com/mattermost/mattermost/commit/abf088ca912c4b1f0969804596eb3820faf56f5a) (#38634) | 서버 코드는 그대로 받았다. 충돌 문맥의 `PostDeliveryTracking`(제외한 `0019ecc5`)과 `TestIsAuditLevelActive`를 버리고, 그 커밋이 넣던 `slices` import를 `config/logger.go`에 직접 추가했다 — 아래 참조 |
+| 새·수정 문구 일괄 번역 | [5c246f54](https://github.com/mattermost/mattermost/commit/5c246f54fd761f99828c7320d2d74ce0b1f3b119) (#38945) | `f5b9b0ed` 선례대로 조건부 추가만 받고, "우리 값 = upstream 옛 값"인 수정도 받았다. server ko 3건은 우리 값을 지켰고 ko 신규 2건을 OKR.BEST로 바꿨다 — 아래 참조 |
 
 ---
 
@@ -3762,3 +3763,37 @@ jest(`npm run test`, TZ=UTC) 30 suite 중 28 통과·스냅샷 55건 통과. 나
 `LogSettings.FileLocation` 경고가 테스트가 읽는 로그 파일에 덧붙는다. upstream도 같았고 `20aadca1`(#39198)로 고쳤다. 우리는 사용자 결정으로 그 커밋을 순서를 당겨 바로 다음에 반영했다.
 
 **검증.** `go build ./...`, `go vet ./config/ ./channels/app/platform/ ./public/model/`, `go test ./config/ -run Log`, `./public/model/ -run FeatureFlag` 통과. platform 테스트는 `20aadca1` 반영 뒤 함께 확인(그 커밋 본문 참조).
+
+---
+
+## 새·수정 문구 일괄 번역 — 조건부 추가에 "옛 값과 같은 수정"을 더했다
+
+**upstream**: [`5c246f54`](https://github.com/mattermost/mattermost/commit/5c246f54fd761f99828c7320d2d74ce0b1f3b119)
+(Translate the new and corrected source strings into all locales, #38945) — 60파일 +8675/-325, 2026-10-21 반영(사용자 결정 adapt)
+
+**받은 방식.** 위 "21개 언어 카탈로그 누락 채우기"(`f5b9b0ed`)의 조건 넷을 그대로 썼다(새로 추가된 키 / 우리 en에 있음 / 우리 로캘에 없음 / en 원문 일치). 이번에는 여기에 둘을 더했다.
+
+- **수정**: upstream이 기존 번역을 고친 키는 **우리 값이 upstream 옛 값과 같고 en 원문도 같을 때만** 새 값으로 바꿨다. 우리가 직접 번역한 값(옛 값과 다름)은 지켰다(원칙 V).
+- **삭제**: upstream이 지운 키 중 우리 en에도 없는 것(webapp `onboarding_wizard.plugins.servicenow`·`.tooltip`, 우리가 받은 `809b04d2` ServiceNow 제거 이후 남은 extra key)만 지웠다.
+
+반영 수: webapp 로캘당 추가 95·수정 0~1·삭제 0~2, server 로캘당 추가 37·수정 2~7. 버린 것: 우리 en에 없는 키(webapp 43~44·server 7, 제외 계보), en 원문이 다른 키(webapp 0~1).
+
+**ko 처리.**
+
+| 처리 | 키 |
+|---|---|
+| 수정 받음 (우리 = 옛 값) | webapp `admin.system_users.date_range_selector.menuButtonAriaLabel`("표시할 열을 선택" → "날짜 범위를 선택", en과 맞춤), server `app.health_finding.mute.app_error`·`mute.not_found`·`unmute.app_error`·`unmute.not_found`("상태 점검 결과" → "발견 사항", Site health 용어 통일) |
+| 우리 값 유지 (우리 ≠ 옛 값) | server `api.shared_channel.invite_remote_to_channel_error`, `api.shared_channel.uninvite_remote_to_channel_error`, `app.team.get_by_scheme.app_error` — 마지막은 우리 값이 "채널"이라 en("teams")과 어긋나는 오역이지만, 사용자 결정으로 이번에는 유지했다(별도 수정 대상) |
+| 신규 키 리브랜드 | webapp `call_options.audio_sub` "Mattermost 통화" → "OKR.BEST 통화", server `health.rule.site_url_http.remediation` "Mattermost를 HTTPS로…" → "OKR.BEST를 HTTPS로…" |
+| 신규 키 Mattermost 유지 | server `health.rule.push_test_proxy.message` — 실제 Mattermost 사의 테스트 푸시 프록시 `push-test.mattermost.com`을 가리킨다 |
+
+**코드.** `call_options_menu.tsx` description 추가와 en.json description 6개, `health_dashboard_test.go`(번역 없는 언어 fr → sw)는 그대로 받았다. `call_button.tsx`는 우리 판(compass-ui 대신 `button`)의 같은 `FormattedMessage`에 description 한 줄만 넣었다.
+지운 언어 7개(cs·da·fi·hr·lt·nb-NO·pt)의 server·webapp 카탈로그 14파일은 버렸다.
+
+**결과.** ko 누락 webapp 99 → 4, server 233 → 196. orphaned 변화 없음(webapp 8).
+
+**검증.** 2026-10-21. 반영 로그(ADD/MOD/REM) 밖의 키 유실·값 변경 0건(42파일 전수 비교, en.json description 6개만 자동 병합). 새로 생긴 extra key 0건.
+`check_icu`의 extra/오류 줄은 826 → 822(ServiceNow extra key 정리, 출력 형식상 밀려 나온 기존 줄 외 신규 없음). `i18n-extract:check`·server `make i18n-check` 통과.
+`TestGetHealthFindingsRendering`·`TestHealthDashboard*`·slashcommands·`public/shared/i18n` 통과. `call_options_menu.test.tsx`의 "Start Call" 라벨 2건 실패는 반영 전 HEAD와 같다(기준선).
+
+**다음에 만날 자리.** 이후 일괄 번역 커밋도 이 절의 조건(추가 넷 + 옛 값 일치 수정 + en에 없는 키 삭제)으로 받는다.
