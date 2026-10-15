@@ -92,6 +92,7 @@ export type Channel = {
     default_category_name?: string;
     autotranslation?: boolean;
     discoverable?: boolean;
+    disable_join_leave_messages?: boolean;
 };
 
 export type ServerChannel = Channel & {

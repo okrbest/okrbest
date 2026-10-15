@@ -96,6 +96,7 @@
 | 플러그인에 호스트 JSX 런타임 노출 | [e97df5b6](https://github.com/mattermost/mattermost/commit/e97df5b6e18a227cf9aa3cf47317f44672d9eaef) (#38489) | 코드 3파일은 그대로 받고 `docs/develop/` 플러그인 개발자 문서 2개(제외한 문서 사이트 계보)를 버렸다. 포크 플러그인 빌드 설정에 쓸 요지를 남긴다 — 아래 참조 |
 | 남은 JS 테스트 TS 이관 | [d1666572](https://github.com/mattermost/mattermost/commit/d16665723616ee8b63a127816cbad2022668354f) (#38493) | 34개 이관은 받고, 제외 계보(Managed Categories·채널 설정 탭)의 테스트 2개와 import 1개를 버렸다. 자동 병합된 포크 전용 테스트 3곳에 타입을 맞췄다 — 아래 참조 |
 | Global Relay 발신자 주소 설정 | [69f0f2c2](https://github.com/mattermost/mattermost/commit/69f0f2c22cfb346566bc02ad67347bd65a7cabdf) (#38451) | 설정·검증·콘솔 UI는 그대로 받고 docs/main mdx 1개를 버렸다. 설정을 쓰는 EML 작성기가 비공개 모듈이라 발동하지 않는다 — 아래 참조 |
+| 채널별 입장·퇴장 메시지 끄기 (spec 029) | [5de31f8e](https://github.com/mattermost/mattermost/commit/5de31f8e868f61636ee9d556176cd6ab5f956f2b) (#37314) | sync에서 spec으로 넘겨 반영. 36파일을 upstream 줄 그대로 들이고, 포크 FilterUserIds를 같은 쿼리에 나란히 붙였다. 제외 계보 문맥 8곳을 버렸고 포크 테스트 3개는 포크 전용 새 파일에 뒀다 — 아래 참조 |
 
 ---
 
@@ -2744,6 +2745,39 @@ production React 19에는 `jsxDEV`가 없어서, 그 자리를 `jsx`/`jsxs`로 �
 
 **검증.** 2026-10-15. `go test ./public/model -run 'Config|GlobalRelay|MessageExport'` 통과.
 webapp `message_export_settings.test.tsx`(Node 24)는 14건과 스냅숏 5개가 모두 통과했다.
+---
+
+## 채널별 입장·퇴장 메시지 끄기 — upstream 줄을 그대로 두고 포크 필터를 끝에 붙였다
+
+**upstream**: [`5de31f8e`](https://github.com/mattermost/mattermost/commit/5de31f8e868f61636ee9d556176cd6ab5f956f2b)
+(MM-68909: Add per-channel setting to disable join/leave system messages, #37314) — 36파일 +2220/-229, 2026-10-15 반영. `/speckit-sync`에서 spec으로 넘겼고 `specs/029-join-leave-toggle/`에서 구현했다.
+
+**방침.** 나중 sync에서 충돌이 나지 않게 upstream 줄을 글자 그대로 두고, 포크 코드는 그 **뒤에** 붙였다.
+- `model.GetPostsOptions`·`GetPostsSinceOptions`: upstream 필드 블록을 그대로 쓰고 포크 `FilterUserIds`를 블록 끝 한 줄로 옮겼다(gofmt 정렬도 upstream과 같다).
+- `post_store.go`의 `getRootPosts`·`getParentsPosts`: upstream 시그니처 뒤에 `filterUserIds []string`을 붙였다. SQL 문자열은 upstream 절(`membershipExcludeP` 등) 뒤에 포크 `userIdCondition`을 잇는다. 포크의 `params` 구성은 손대지 않았다.
+- `GetPostsSince` 원시 SQL: `membershipExcludeClause + userIdFilter` 순서.
+- `getPostsAround`: upstream이 `conditions` 변수를 `query.Where` 체인으로 바꿨다. 텍스트 병합 뒤 포크 FilterUserIds 블록이 `undefined: conditions`로 컴파일에 실패해, 같은 체인 형태로 옮겼다.
+- 마이그레이션은 upstream과 같은 번호·이름 `000221_add_disable_join_leave_messages_to_channels`. `migrations.list`·store layers·mocks는 생성기로 다시 만들었다.
+
+**버린 것 — 전부 제외 계보의 충돌 문맥이다.**
+
+| 위치 | upstream 코드 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `server/public/model/channel.go` `ChannelPatch`·`ChannelPatch.Auditable()` | `ManagedCategoryName`·`DefaultCategoryName` patch 필드와 감사 키 | Managed Categories(`69fbaece`·`01219efb`) 제외 | 그 계보를 받을 때 |
+| `server/channels/api4/channel.go` `patchChannel` | 빈 patch 조건의 `!updatingManagedCategory &&` | 같음 | 같음 |
+| `server/channels/app/post.go` | `GetPostsForView` 함수 전체 | Integrated Boards(`48f2fd08`) 제외 — 함수가 없다 | 그 계보를 받을 때. `populateGetPostsOptionsMembershipFilter` 호출을 함께 넣는다 |
+| `server/channels/store/sqlstore/post_store.go` 상단 | `quotedStringsRegex`·`wildCardRegex` 선언 | 포크 LIKE 검색(`6eecf5ee32`)이 지웠고 쓰는 곳이 없다 | 없음 |
+| `server/channels/store/storetest/post_store.go` 등록 목록 | `GetPostsSinceForSyncExcludedPostTypes` 줄 | Integrated Boards 제외 — 함수가 없다 | 그 계보를 받을 때 |
+| `webapp/platform/types/src/channels.ts` | `property_values` 필드와 주석 | 채널 속성(`75a26632`) 제외 | 그 계보를 받을 때 |
+| `webapp/.../channel_settings_configuration_tab.tsx` | Classification 조건(`hasClassificationChanges`·`canManageClassification`·`selectedClassificationId`·분류 배너 덮어쓰기 블록·의존성 `initialClassificationState`·`initialIsChannelAutotranslated`) | Classification Markings(`2b7b398a`·`6083cc22`) 제외 | 그 계보를 받을 때 |
+| `e2e-tests/playwright/lib/.../configuration_settings.ts` | 배너 토큰 편집기 헬퍼 묶음 | 채널 속성 배너(`75a26632`) 제외 | 같음 |
+
+**포크 테스트(upstream 파일 밖).** upstream 테스트 파일에는 upstream hunk만 넣었다.
+- `server/channels/store/sqlstore/post_store_filter_user_ids_membership_test.go` — FilterUserIds × 숨김 결합(CRT 경로)
+- `server/channels/app/notification_history_join_leave_test.go` — 숨김 채널의 포크 알림 히스토리(#167) 기록 규칙
+- `webapp/.../reducers/entities/posts_bot_filter_boundary.test.ts` — 봇 필터로 빈 페이지가 와도 경계 플래그를 세우지 않음
+
+**함께 찾은 포크 기존 버그(이번 변경과 무관, 고치지 않음).** CRT를 끈 채 사용자 필터로 첫 페이지를 부르면 `getParentsPosts`가 `pq: invalid input syntax for type bigint`로 실패한다. `params` 순서가 SQL 플레이스홀더 순서와 다르다. 같은 경로의 `getRootPosts`(`skipFetchThreads=false`)는 별칭 없는 `FROM Posts`에 `p.UserId` 조건을 붙인다.
 ---
 
 ## spec 014 — Slack 디자인 벤치마킹 (포크 자체 기능, 2026-10-06)
