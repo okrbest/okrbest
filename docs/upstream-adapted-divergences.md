@@ -122,6 +122,7 @@
 | Health Dashboard PR30 Site health·Workspace Optimization 택일 | [86b88d6f](https://github.com/mattermost/mattermost/commit/86b88d6f2532aedc18085af23273bdc32adb085c) (#39076) | 제품 코드는 그대로 받았다. 새 `admin_sidebar.test.tsx` 3건이 항상 펼쳐진 사이드바를 전제해, 우리 쪽에서는 Reporting URL에서 렌더하도록 고쳤다 — 아래 참조 |
 | server 영어 오타·문법 수정 | [43b5abce](https://github.com/mattermost/mattermost/commit/43b5abce4e03e89a054e54f95f4634e25409686d) (#39144) | 57건 문구를 모두 받았다. 그중 3건은 제외한 개명 계보(`f1b9aa05`) 때문에 우리 `app.content_flagging.*` 키로 옮겼고, 충돌 문맥의 `app.data_spillage.*` 키는 버렸다 — 아래 참조 |
 | 철자 틀린 메시지 id 개명 | [8ebb3781](https://github.com/mattermost/mattermost/commit/8ebb3781be0cb424ed191c0a676c9de7d99c0296) (#39145) | 코드와 자동 병합된 언어 카탈로그는 그대로 받았다. 충돌한 en·ko·en-AU 4파일은 upstream 결과 대신 우리 판에서 키 이름만 바꿨고, 지운 언어 7개의 카탈로그 14파일을 버렸다 — 아래 참조 |
+| 로그 경로 루트 강제(기능 플래그) | [abf088ca](https://github.com/mattermost/mattermost/commit/abf088ca912c4b1f0969804596eb3820faf56f5a) (#38634) | 서버 코드는 그대로 받았다. 충돌 문맥의 `PostDeliveryTracking`(제외한 `0019ecc5`)과 `TestIsAuditLevelActive`를 버리고, 그 커밋이 넣던 `slices` import를 `config/logger.go`에 직접 추가했다 — 아래 참조 |
 
 ---
 
@@ -3735,3 +3736,29 @@ upstream 쪽으로 풀면 우리 ko 번역을 upstream ko로 덮어쓰게 되므
 `go build ./...`, `go vet ./channels/manualtesting/ ./channels/web/`, `go test ./channels/app/ -run 'PostPriority|Team|Prepackaged|Plugin'`, `./channels/web/ -run OAuth` 통과.
 jest(`npm run test`, TZ=UTC) 30 suite 중 28 통과·스냅샷 55건 통과. 나머지 둘 — `channel_intro_message`는 로컬에 빠져 있던 `fflate`(package.json·lock에는 있음)를 `--no-save`로 설치한 뒤 통과,
 `advanced_text_editor.test.tsx`는 15 실패/8 통과로 개명 전 HEAD와 실패 목록이 같다(기준선).
+
+---
+
+## 로그 경로 루트 강제 — 제외한 게시물 전달 감사 문맥을 걷어냈다
+
+**upstream**: [`abf088ca`](https://github.com/mattermost/mattermost/commit/abf088ca912c4b1f0969804596eb3820faf56f5a)
+(MM-70595: Enforce log path root behind a feature flag, #38634) — 13파일 +596/-25, 2026-10-21 반영(사용자 결정 adapt)
+
+**받은 것.** 기능 플래그 `EnforceLogPathRoot`(기본 꺼짐), `config.ValidateLogPaths`·`IsLogPathEnforcementEnabled`·`LogPathOutsideRootWarning`(`WarnIfLogPathsOutsideRoot` 대체),
+`platform/log.go` `initLogging`의 시작·재로드 검사, `platform/config.go` `SaveConfig`의 400 거부, `ValidateLogFilePath`의 루트 쪽 symlink 해석 수정, en 키 `app.save_config.log_path_outside_root.app_error`, 테스트.
+
+**우리 맞춤.** 이 커밋 바로 앞에 upstream이 넣은 게시물 전달 감사(`0019ecc5`, #37882 — 보류성 제외)가 같은 자리에 있어 셋이 충돌했고, 하나는 import 의존이었다.
+
+| 파일 | upstream | 우리 | 되돌릴 조건 |
+|---|---|---|---|
+| `server/public/model/feature_flags.go` | `PostDeliveryTracking` 필드·주석·기본값 뒤에 `EnforceLogPathRoot` | `EnforceLogPathRoot`만 `RecurringScheduledPosts` 뒤에 | `0019ecc5`를 받을 때 그 필드를 앞에 넣는다 |
+| `server/channels/app/platform/testdata/support_packet/sanitized_config.json` | `"PostDeliveryTracking": false,` 뒤에 `"EnforceLogPathRoot": false,` | `"EnforceLogPathRoot": false,`만 | 같음 |
+| `server/config/logger_test.go` | `TestIsAuditLevelActive`(`0019ecc5`) 뒤에 새 테스트 3개 | 새 테스트 3개(`TestIsLogPathEnforcementEnabled`·`TestValidateLogPaths`·`TestValidateLogFilePathSymlinkResolution`)만 — 우리에게 `IsAuditLevelActive`가 없다 | 같음 |
+| `server/config/logger.go` | import에 `maps`만 추가(`slices`는 `0019ecc5`가 이미 넣음) | `maps`·`slices` 둘 다 추가 — `slices.Sorted(maps.Keys(...))`가 필요 | `0019ecc5`를 받을 때 그 커밋의 `slices` import 추가는 이미 있는 것으로 처리 |
+
+**버린 것.** `e2e-tests/playwright/lib/src/server/default_feature_flags.ts`(제외한 `5dec0b82`가 만든 파일), 문서 2개(`1d3bbc63` 계보). 되살릴 조건: 각 계보를 받을 때.
+
+**후속 sync 주의.** 이 커밋 직후 `TestGetAdvancedLogs/path_validation_prevents_reading_files_outside_log_directory`가 결정적으로 실패한다 — 새로 검사하는
+`LogSettings.FileLocation` 경고가 테스트가 읽는 로그 파일에 덧붙는다. upstream도 같았고 `20aadca1`(#39198)로 고쳤다. 우리는 사용자 결정으로 그 커밋을 순서를 당겨 바로 다음에 반영했다.
+
+**검증.** `go build ./...`, `go vet ./config/ ./channels/app/platform/ ./public/model/`, `go test ./config/ -run Log`, `./public/model/ -run FeatureFlag` 통과. platform 테스트는 `20aadca1` 반영 뒤 함께 확인(그 커밋 본문 참조).

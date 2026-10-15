@@ -727,6 +727,7 @@
         "ClusterGracefulDrain": false,
         "EnableMFIPluginSignaturePublicKey": false,
         "RecurringScheduledPosts": false,
+        "EnforceLogPathRoot": false,
         "HealthDashboard": false
     }
 }
