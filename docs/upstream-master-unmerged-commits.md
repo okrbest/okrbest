@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-15 14:47
+- 갱신일: 2026-10-15 23:10
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 244개
+- 남은 커밋: 243개
 
-**마지막 반영 커밋:** `5b866b8c` | [Add collapsible section support to interactive dialogs (#37341)](https://github.com/mattermost/mattermost/commit/5b866b8c22de69f68e025d4a08163bc68d6d3f3c) | 2026-09-14
+**마지막 반영 커밋:** `41c482b4` | [Enable single team and channel migrations between instances (#37868)](https://github.com/mattermost/mattermost/commit/41c482b497c5236878019689bc202914f8425f40) | 2026-09-15
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 46bfb717 | [add new ephemeral mode audit logging endpoints (#37715)](https://github.com/mattermost/mattermost/commit/46bfb71725b710702dabfdd2df8a719bb520e716) | 2026-09-15 |
-| 41cdeab3 | [Add dot release docs for server v11.10.2, v11.9.2, v11.7.11 (#38388)](https://github.com/mattermost/mattermost/commit/41cdeab36c818050cfd3409e18a50ef03bc9aebf) | 2026-09-15 |
-| 791ab8f0 | [MM-70627: Convert loops to range-over-int (#38474)](https://github.com/mattermost/mattermost/commit/791ab8f0f4f8ba1c66b7d241c4e732eb48257144) | 2026-09-15 |
-| 68c4bb52 | [MM-70626: Migrate sort to slices (#38473)](https://github.com/mattermost/mattermost/commit/68c4bb52e5e094d7c26f627f949973040c9c56a7) | 2026-09-15 |
-| 1e0a76ee | [MM-70575: Support paid `add-on` plugin licenses (#38327)](https://github.com/mattermost/mattermost/commit/1e0a76ee9a41ef2de19745e74e97178844b245df) | 2026-09-15 |
-| 0576319d | [MM-61876: Add Playwright tests for message priority cases (#38289)](https://github.com/mattermost/mattermost/commit/0576319d9bfbc323e797b435055015ab33e78c03) | 2026-09-15 |
-| d9ab8dd0 | [\[MM-47076\] Migrate "components/suggestion/suggestion_box" and its tests to Typescript (#38490)](https://github.com/mattermost/mattermost/commit/d9ab8dd076601fb00815c4b5ce4b3416ad0311b6) | 2026-09-15 |
-| 41c482b4 | [Enable single team and channel migrations between instances (#37868)](https://github.com/mattermost/mattermost/commit/41c482b497c5236878019689bc202914f8425f40) | 2026-09-15 |
 | 216766a8 | [\[MM-70677\] Remove dead useUpdateOnVisibilityChange hook and phantom @popperjs/core import (#38484)](https://github.com/mattermost/mattermost/commit/216766a810511b9ca9782bced490f72b23a3edf7) | 2026-09-16 |
 | b3fee0f5 | [Port v11.11 documentation updates from mattermost/docs (#38133)](https://github.com/mattermost/mattermost/commit/b3fee0f5750efc6dd25e16fb2faa3513bb44f172) | 2026-09-16 |
 | 035e5461 | [Polish channel attributes in the header, thread RHS, and System Console (#38535)](https://github.com/mattermost/mattermost/commit/035e5461ef4e33167657498468e4627b81837453) | 2026-09-16 |
@@ -255,6 +247,13 @@
 | 43648990 | [\[MM-71174\] Show the delete error from /secure-connection remove instead of NOT FOUND (#39156)](https://github.com/mattermost/mattermost/commit/43648990004451a8e2f7f65d097fb4e51befdf02) | 2026-10-14 |
 | 668f1017 | [\[MM-71173\] Fix /secure-connection remove error handling and add tests (#39157)](https://github.com/mattermost/mattermost/commit/668f1017e2df5678cc0259c1a32c4d90c7443056) | 2026-10-15 |
 | 7536cfc5 | [Add Mobile v2.45 docs (#39101)](https://github.com/mattermost/mattermost/commit/7536cfc54cef5144a7d28caaccb886e34dc91e18) | 2026-10-15 |
+| d2949d56 | [Desktop App v6.2.4 and v6.3.1 dot release docs (#38533)](https://github.com/mattermost/mattermost/commit/d2949d567a6f557439871f6b48d96e97b87d116b) | 2026-10-15 |
+| abf088ca | [MM-70595: Enforce log path root behind a feature flag (#38634)](https://github.com/mattermost/mattermost/commit/abf088ca912c4b1f0969804596eb3820faf56f5a) | 2026-10-15 |
+| 57ebd8f5 | [E2E/Playwright: fix upgrade-to swap resolving the wrong image in workers (#39178)](https://github.com/mattermost/mattermost/commit/57ebd8f5316fb29f2032b8ed54d81f4c4d377515) | 2026-10-15 |
+| 97bb58ec | [Migrate radio settings to Compass Radio (#39039)](https://github.com/mattermost/mattermost/commit/97bb58ec75f6b99af68a37cb3698e24347dd645e) | 2026-10-15 |
+| fbc17416 | [Add PropertySyncer: shared AD/LDAP and SAML sync for text, select and multiselect user attributes (#38931)](https://github.com/mattermost/mattermost/commit/fbc1741663c1e3722c8c214ce420d043acc6c4a5) | 2026-10-15 |
+| aa1e25bd | [MM-70268: Time out stalled OpenSearch bulk indexing requests (#39151)](https://github.com/mattermost/mattermost/commit/aa1e25bd8f481545d2e602120cd4a120fb6cd93f) | 2026-10-15 |
+| 3f146efe | [\[MM-70867\] Pin post edit and delete handler reads to the master DB (#38714)](https://github.com/mattermost/mattermost/commit/3f146efe8387ac5f7dbf0bc39ab6031e273de65e) | 2026-10-15 |
 
 ## 제외된 커밋
 
@@ -741,6 +740,8 @@
 
 | cfa66f0e | [docs: advertise Playbooks as Entry + Enterprise + Enterprise Advanced only (#38532)](https://github.com/mattermost/mattermost/commit/cfa66f0ea57ddf1b607addb22f4d906882936f0d) | 제외한 1d3bbc63(feat(docs): move docs-experimental content into monorepo docs/, #37330 — 리브랜드 충실성 원칙 IV로 제외)의 문서 사이트 계보라 고칠 대상이 없다. Playbooks 요금제 배지를 all-commercial→entry-ent로 바꿔 Professional 플랜 광고를 빼는 Mattermost 상업 정책 변경(docs/main/end-user-guide/workflow-automation/*.mdx 9개)과 docs/site PlanAvailability 배지의 'plans' 중복 표기 수정(endsWith→includes) 1줄, 10파일 +10/-10. 터치 파일 10개 전부 우리 트리에 없다(docs/main·docs/site 디렉터리 부재, merge-tree modify/delete). Mattermost 요금제 광고는 OKR.BEST 제품과 무관하고 우리 Playbooks는 자체 포크 플러그인으로 운영한다. |
 
+| 41cdeab3 | [Add dot release docs for server v11.10.2, v11.9.2, v11.7.11 (#38388)](https://github.com/mattermost/mattermost/commit/41cdeab36c818050cfd3409e18a50ef03bc9aebf) | 제외한 1d3bbc63(feat(docs): move docs-experimental content into monorepo docs/, #37330 — 리브랜드 충실성 원칙 IV로 제외)의 문서 사이트 계보라 고칠 대상이 없다. Mattermost 서버 v11.10.2·v11.9.2·v11.7.11 패치 릴리스 문서(변경 로그·릴리스 표·버전 아카이브·RHEL/tar 설치 가이드의 다운로드 버전) 갱신으로 docs/main 5파일 +108/-44, 코드 변경 없음. docs/main 디렉터리가 우리 트리에 없고(merge-tree modify/delete), 내용도 Mattermost 자체 릴리스 이력이라 OKR.BEST와 무관하다. 같은 성격의 릴리스 문서 커밋(acf6e7bd·bbb7145c·d2949d56 등)도 같은 판정 대상. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -761,6 +762,8 @@
 | a8c2307b | [E2E/Playwright: Add testcontainers to playwright-lib (#37570)](https://github.com/mattermost/mattermost/commit/a8c2307bee9bd60a3a0f72a658f32599b44cab0b) | **✅ 구현 완료 (2026-10-03, PR #450, specs/013-e2e-testcontainers-stack)** — 결정 다섯은 전부 확정했다: (1) 서버 이미지는 로컬 빌드 + SERVER_IMAGE, 미지정 시 폴백하지 않고 던지는 가드를 test_config.ts에 두고 default_images.ts는 upstream 그대로. 이미지 생성은 script/build_server_image.sh. (2) 서비스 범위는 upstream 전체 유지(개발 compose가 이미 같은 서비스를 다 갖고 있다). (3) 의존 5개 upstream 버전 그대로, allowScripts는 3개가 아니라 6개. (4) docker-compose는 개발용으로 남기고 e2e만 수렴(임의 포트라 충돌 0). (5) 워크플로는 미반영(우리 +471/-243, 보호 경로). 실측 — 스택 기동 138초, 재사용 5초, 게이트 신규 실패 0건, 서버 Build Hash가 브랜치 HEAD와 일치. 남은 제약 — 브라우저 스펙은 아직 통과하지 못한다(웹앱 프로덕션 번들의 jsxDEV, Lexical의 data-testid 부재 — 둘 다 범위 밖, docs/upstream-adapted-divergences.md 참조). **후속 4cd57370은 이제 처리 가능하다** — 우리가 teardown 스텝 없는 upstream 최종 형태로 세웠다. 원 분석: (84파일 +10064/-377, 테스트 전용 — server 변경·DB 마이그레이션 없음. Playwright e2e가 의존 서비스를 컨테이너로 직접 띄우게 하는 인프라. 구성 — lib/src/containers/ 52파일 +6759(stack.ts 657줄 오케스트레이터, 서비스별 컨테이너, Keycloak realm export 2333줄·웹훅 서버 JS 1607줄 에셋), specs 18파일 +483/-55, e2e 기타 13파일 +2801/-300(package-lock +2589, testcontainers_up/down 스크립트), 워크플로 1파일 +21/-14. MISSING 57/84 — containers 디렉터리 전체가 신규. 신규 npm 의존 5개(lib/package.json) — testcontainers 12.0.4, @testcontainers/postgresql 12.0.4, @azure/storage-blob, ldapts, minio. 네이티브 빌드 동반으로 allowScripts에 cpu-features·ssh2·protobufjs 추가. 띄우는 서비스 — Postgres 14, Inbucket, OpenLDAP, Keycloak 23, minio, Azurite, Elasticsearch 9(Dockerfile 빌드), OpenSearch 3(Dockerfile 빌드). 결정 필요 다섯 — (1) 서버 이미지: default_images.ts의 MATTERMOST_SERVER_IMAGE가 mattermostdevelopment/mattermost-enterprise-edition:master라 그대로 돌리면 Mattermost 서버를 테스트한다. SERVER_IMAGE env(testConfig.serverImage) 오버라이드로 충분한지, okrbest 서버 이미지를 빌드·발행할지. (2) 서비스 범위: Keycloak/OpenLDAP이 우리 인증 구성과 맞는지, Elasticsearch/OpenSearch·Azurite/minio가 필요한지. (3) npm 의존 5개 도입 정책과 allowScripts 허용 범위(네이티브 빌드 ssh2·cpu-features). (4) 기존 docker-compose 개발 환경과의 관계 — 우리 로컬에 mattermost-postgres·inbucket·minio·azurite가 이미 돌고 있어 중복·대체 판단 필요. (5) CI 배선 — .github/workflows/e2e-tests-playwright-template.yml이 우리 쪽 +471/-243 갈라져 있고(91de3d23 test system IO adapt에서 757줄 미반영) PR에서 e2e가 실행되지 않는다. 우선순위 높음 — 후속 커밋 5건 이상이 이 인프라에 의존한다: 4cd57370(teardown 제거, 바로 다음 대상), 0785004b(MM-65803 post list scrolling strict E2E), fe9a36e8(rolling upgrade tests), 9ef79330(graph custom attribute type), 67c177a4(SSO/Auth E2E infra — Keycloak·LDAP helpers·testcontainers support), 8bfa298a(password·MFA·auth tests). 제외하면 그 커밋들이 토대를 잃고 매번 같은 분석을 반복한다) |
 
 | 5de31f8e | [MM-68909: Add per-channel setting to disable join/leave system messages (#37314)](https://github.com/mattermost/mattermost/commit/5de31f8e868f61636ee9d556176cd6ab5f956f2b) | 채널별 입퇴장 메시지 끄기 (가칭) — 마이그레이션 000221·36파일 +2220. 포크 FilterUserIds(1ed781bb96·9dd43c541d)와 post_store 8곳 병합, getPostsAround의 conditions 변수 제거로 생기는 컴파일 함정, 제외 계보(Managed Categories·GetPostsForView·Classification·property_values) 문맥 제거 필요 |
+
+| 41c482b4 | [Enable single team and channel migrations between instances (#37868)](https://github.com/mattermost/mattermost/commit/41c482b497c5236878019689bc202914f8425f40) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 54파일 +11472(테스트 약 8.6k). bulk export --team/--channel, import --destination-team, 채널 import 시 비활성 껍데기 계정(props.importedInactive)·첫 로그인 해제, 답글 멱등·재개·import 보고서, post·reaction·thread store 신규 조회, webapp imported-inactive 태그(포크 표시 규칙 컴포넌트 profile_popover·at_mention_suggestion·user_profile에 추가). 우리 대량 사용자 가져오기(docs/mattermost-bulk-user-import-guide.md) 경로의 회귀 확인 필요. 충돌은 .gitignore·export_test.go 2곳 |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
