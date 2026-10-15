@@ -179,6 +179,7 @@ const StartCallMenuButton = ({className, ...props}: MenuButtonComponentProps) =>
             <FormattedMessage
                 id='call_button.start_call'
                 defaultMessage='Start call'
+                description='Label on the channel header button that opens a menu of ways to call the other user in a DM: a Mattermost call or a phone call.'
             />
         </span>
         <ChevronDownIcon color='inherit'/>
