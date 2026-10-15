@@ -35,7 +35,7 @@ upstream이 건드리는 36파일마다 포크 전용 커밋(upstream PR 번호 
 
 ## R3. post_store의 두 필터를 어떻게 합치나?
 
-- **Decision**: 함수 시그니처에 두 인자를 나란히 둔다. 순서는 upstream 인자를 우리 인자 **뒤**에 붙인다. 예: `getRootPosts(channelId, offset, limit, skipFetchThreads, includeDeleted, filterUserIds []string, excludeMembershipSystemPosts bool)`.
+- **Decision**: 함수 시그니처에 두 인자를 나란히 둔다. **구현 때 순서를 바꿨다(2026-10-15)**: upstream 시그니처를 글자 그대로 두고 포크 인자를 **맨 끝**에 붙인다. 예: `getRootPosts(channelId, offset, limit, skipFetchThreads, includeDeleted, excludeMembershipSystemPosts bool, filterUserIds []string)`. 모델 구조체도 같은 원칙으로 upstream 필드 블록 끝에 `FilterUserIds`를 둔다. upstream 줄이 앞부분까지 같아서 이후 sync의 충돌 범위가 줄어든다
   - upstream의 제외 절(`membershipSystemPostsExcludeSQLClause`)은 플레이스홀더가 없는 리터럴(`AND p.Type NOT IN ('system_join_channel', …)`)이다. 그래서 우리 동적 `params` 순서를 건드리지 않고, 우리 `userIdCondition` 옆에 문자열로 이어 붙인다.
   - `GetPostsSince`의 원시 SQL도 같은 방식으로 `userIdFilter` 뒤에 `membershipExcludeClause`를 붙인다.
 - **의미 충돌(텍스트 병합은 통과, 컴파일 실패)**: upstream이 `getPostsAround`에서 `conditions := sq.And{…}`를 없애고 `query = query.Where(…)` 체인으로 바꿨다. 우리 FilterUserIds 블록(`conditions = append(conditions, sq.Eq{"p.UserId": …})`, `sq.NotLike{"p.Type": "system_%"}`)은 그대로 남아 `undefined: conditions`가 난다. 이 블록을 `query = query.Where(sq.Eq{"p.UserId": options.FilterUserIds}).Where(sq.NotLike{"p.Type": model.PostSystemMessagePrefix + "%"})`로 옮긴다. upstream과 같은 체인 형태다.
