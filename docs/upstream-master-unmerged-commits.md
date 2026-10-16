@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-16 16:34
+- 갱신일: 2026-10-16 16:47
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 205개
+- 남은 커밋: 204개
 
-**마지막 반영 커밋:** `6ee80ce0` | [Temporarily disable Documentation Impact Review workflow (#38659)](https://github.com/mattermost/mattermost/commit/6ee80ce049fe86c5bff11b8dde6c391414f253a8) | 2026-09-19
+**마지막 반영 커밋:** `80a0d4da` | [Fix flaky TestChannelStore/LocalCache+PostgreSQL/ReactionDelete/Delete (#38657)](https://github.com/mattermost/mattermost/commit/80a0d4da72887d2e1b54ba1947d5cbc74f89b894) | 2026-09-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 80a0d4da | [Fix flaky TestChannelStore/LocalCache+PostgreSQL/ReactionDelete/Delete (#38657)](https://github.com/mattermost/mattermost/commit/80a0d4da72887d2e1b54ba1947d5cbc74f89b894) | 2026-09-20 |
 | ecc7898a | [Use NewTestPassword in import tests so FIPS CI passes (#38664)](https://github.com/mattermost/mattermost/commit/ecc7898a5080a213fb7d09f092099b514dc77aed) | 2026-09-21 |
 | 8fdc8380 | [MM-69853: sanitize channel mentions in permalink previews (#37811)](https://github.com/mattermost/mattermost/commit/8fdc83806cd09d14d91f080ee2a0b9f910f65f7f) | 2026-09-21 |
 | b26462b2 | [Bumping prepackaged github version to v3.0.0 (#38671)](https://github.com/mattermost/mattermost/commit/b26462b2916da75508c011f371b836006fcf42bd) | 2026-09-21 |
