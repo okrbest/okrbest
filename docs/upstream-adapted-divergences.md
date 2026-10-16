@@ -124,6 +124,7 @@
 | 철자 틀린 메시지 id 개명 | [8ebb3781](https://github.com/mattermost/mattermost/commit/8ebb3781be0cb424ed191c0a676c9de7d99c0296) (#39145) | 코드와 자동 병합된 언어 카탈로그는 그대로 받았다. 충돌한 en·ko·en-AU 4파일은 upstream 결과 대신 우리 판에서 키 이름만 바꿨고, 지운 언어 7개의 카탈로그 14파일을 버렸다 — 아래 참조 |
 | 로그 경로 루트 강제(기능 플래그) | [abf088ca](https://github.com/mattermost/mattermost/commit/abf088ca912c4b1f0969804596eb3820faf56f5a) (#38634) | 서버 코드는 그대로 받았다. 충돌 문맥의 `PostDeliveryTracking`(제외한 `0019ecc5`)과 `TestIsAuditLevelActive`를 버리고, 그 커밋이 넣던 `slices` import를 `config/logger.go`에 직접 추가했다 — 아래 참조 |
 | 새·수정 문구 일괄 번역 | [5c246f54](https://github.com/mattermost/mattermost/commit/5c246f54fd761f99828c7320d2d74ce0b1f3b119) (#38945) | `f5b9b0ed` 선례대로 조건부 추가만 받고, "우리 값 = upstream 옛 값"인 수정도 받았다. server ko 3건은 우리 값을 지켰고 ko 신규 2건을 OKR.BEST로 바꿨다 — 아래 참조 |
+| 하드코딩 영어 라벨 정리 + pt-BR 보강 | [0d4385d1](https://github.com/mattermost/mattermost/commit/0d4385d1259da280837c6b6826c784bc03468284) (#39113) | 코드는 그대로 받았다. en.json은 우리 판에 새 15키를 넣고, 카탈로그는 `5c246f54` 절의 조건으로 반영했다 — 아래 참조 |
 
 ---
 
@@ -3797,3 +3798,20 @@ jest(`npm run test`, TZ=UTC) 30 suite 중 28 통과·스냅샷 55건 통과. 나
 `TestGetHealthFindingsRendering`·`TestHealthDashboard*`·slashcommands·`public/shared/i18n` 통과. `call_options_menu.test.tsx`의 "Start Call" 라벨 2건 실패는 반영 전 HEAD와 같다(기준선).
 
 **다음에 만날 자리.** 이후 일괄 번역 커밋도 이 절의 조건(추가 넷 + 옛 값 일치 수정 + en에 없는 키 삭제)으로 받는다.
+
+---
+
+## 하드코딩 영어 라벨 정리 + pt-BR 보강 — 카탈로그는 앞 절의 조건으로
+
+**upstream**: [`0d4385d1`](https://github.com/mattermost/mattermost/commit/0d4385d1259da280837c6b6826c784bc03468284)
+(Fix Brazilian Portuguese gaps and hardcoded English web labels, #39113) — 57파일 +689/-150, 2026-10-21 반영(사용자 결정 adapt)
+
+**받은 것.** 웹앱 28개 컴포넌트의 하드코딩 aria-label·placeholder·로딩 문구를 번역 키로 바꾼 코드(자동 병합 그대로), 새 en 키 16개.
+
+**우리 맞춤.** en.json이 충돌해 새 키가 빠졌으므로, 우리 판에 upstream 새 15키를 upstream 순서 위치에 넣고 `forward_post_modal.channel_select.placeholder`(원문 동일, 우리에게 이미 있음)에 description만 반영했다.
+그 뒤 각 언어 카탈로그는 위 "새·수정 문구 일괄 번역" 절의 조건 그대로 반영했다 — ko 추가 15(기존 1키는 우리 번역 "채널 또는 사용자 선택" 유지), pt-BR 추가 16·수정 59(우리 en 원문이 다른 4건 유지),
+나머지 언어 추가 16. 커밋에 섞여 있던 `5c246f54`(#38945) squash분은 이미 반영돼 변화가 없다. 지운 언어 7개 카탈로그는 버렸다. 리브랜드 대상 문자열 없음.
+
+**검증.** 2026-10-21. 반영 로그 밖의 키 유실·값 변경 0건(webapp 22파일 전수 비교). `i18n-extract:check` 통과, ko 누락 4(변화 없음)·orphaned 8(기존).
+접촉 디렉터리 24개 jest 51 suite 중 49 통과 — `add_groups_to_channel_modal`·`add_groups_to_team_modal`의 `renderOption` 스냅샷 5건 실패는 반영 전 HEAD와 같다(기준선).
+접촉 파일 eslint 오류 0, `tsc` 52건은 기준선과 같고 접촉 파일 0건.
