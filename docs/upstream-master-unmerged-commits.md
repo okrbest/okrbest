@@ -3,27 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-16 22:43
+- 갱신일: 2026-10-17 00:24
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 197개
+- 남은 커밋: 186개
 
-**마지막 반영 커밋:** `50a91ddb` | [\[MM-70833\] Stop dimming the Classification row in Attribute Management (#38693)](https://github.com/mattermost/mattermost/commit/50a91ddb2a004bcd95f8f200e350c87ff53b2178) | 2026-09-21
+**마지막 반영 커밋:** `97143428` | [Paint Attribute Management after template fields load (#38646)](https://github.com/mattermost/mattermost/commit/971434284737a8a6c9da6a5364dd598c849a29ae) | 2026-09-22
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 2ddcee9f | [\[MM-70758\] Health Dashboard PR03: section-type vocabulary (#38582)](https://github.com/mattermost/mattermost/commit/2ddcee9f9543a89f56744b7b336cef0b12807636) | 2026-09-22 |
-| 4974f1f7 | [\[MM-70759\] Health Dashboard engine-types (PR04+PR05): rule + snapshot types (#38583)](https://github.com/mattermost/mattermost/commit/4974f1f7c776fff8b1d4c46a41ffbe27cdbbc7ed) | 2026-09-22 |
-| 909cadce | [\[MM-70760\] Health Dashboard PR06: rule evaluation engine (#38585)](https://github.com/mattermost/mattermost/commit/909cadce5e26397239122222273a660b33a62d5e) | 2026-09-22 |
-| 9900413b | [security: bump dependencies (#38705)](https://github.com/mattermost/mattermost/commit/9900413b43fd6653d2a101e8afa8e3f088cdbfa7) | 2026-09-22 |
-| efad2e0a | [Allow Oxide mobile device IDs for push session registration. (#38706)](https://github.com/mattermost/mattermost/commit/efad2e0a912440f792f8b5167e32c662854c1e31) | 2026-09-22 |
-| 493723d4 | [\[MM-70784\] Health Dashboard PR07: FindingStore interface + in-memory store (#38631)](https://github.com/mattermost/mattermost/commit/493723d4001af32c0fd76cd8ac51dd522a69131e) | 2026-09-22 |
-| 289d5e5e | [Update Playbooks plugin to v2.12.0 (incl. FIPS) (#38700)](https://github.com/mattermost/mattermost/commit/289d5e5e86711603cd4f62955fc7e197871b8b36) | 2026-09-22 |
-| 8a3fcb5a | [MM-70065: Update direct channel targeting for incoming webhooks (#38681)](https://github.com/mattermost/mattermost/commit/8a3fcb5a65a99a5ffa9df73233bf15bba268800a) | 2026-09-22 |
-| bb72eeb7 | [Allow to hydrate posts with their attributes (#38134)](https://github.com/mattermost/mattermost/commit/bb72eeb7b23438efbec04a224b28b00d4552af64) | 2026-09-22 |
-| dc8e580f | [Add Documentation issue template (#38658)](https://github.com/mattermost/mattermost/commit/dc8e580fa5c1523376a9a36740c56dc148270e87) | 2026-09-22 |
-| 2b3f2e20 | [\[MM-61452\] Align invite modal channel autocomplete row spacing and slug with the post composer (#38602)](https://github.com/mattermost/mattermost/commit/2b3f2e2026c40eb86e7c7fbfd4b2626888d453f3) | 2026-09-22 |
-| 9b320fbe | [\[MM-70819\] Stop channel header attribute chips blanking on unrelated edits (#38653)](https://github.com/mattermost/mattermost/commit/9b320fbe1ec1595eda6ac7320b438577acee921d) | 2026-09-22 |
-| 97143428 | [Paint Attribute Management after template fields load (#38646)](https://github.com/mattermost/mattermost/commit/971434284737a8a6c9da6a5364dd598c849a29ae) | 2026-09-22 |
 | 579c0bd9 | [\[MM-70785\] Health Dashboard PR08: health_findings migration + SQL FindingStore (#38632)](https://github.com/mattermost/mattermost/commit/579c0bd96b61629b83ea379a276859f3d85d2f25) | 2026-09-23 |
 | 6249c96b | [Bumping the prepackaged MS Calendar version to v2.0.0 (#38672)](https://github.com/mattermost/mattermost/commit/6249c96b019ba646a8c2bcb5ea9b35dd83e8de37) | 2026-09-23 |
 | bc7bb75c | [Fix MySQL 8.4+ authentication docs for PostgreSQL migration and server requirements (#38679)](https://github.com/mattermost/mattermost/commit/bc7bb75ce16544448b1cc498abfe2217ef14bfc2) | 2026-09-23 |
@@ -208,6 +195,8 @@
 | 678386ea | [\[MM-70287\] Add user_created to SAML/OAuth SSO audit events (#38006)](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) | 2026-10-16 |
 | b11aeee7 | [Fix double focus borders on Compass form fields and buttons (#39071)](https://github.com/mattermost/mattermost/commit/b11aeee7661900b65ff2cc350fb7c09583c0a9f7) | 2026-10-16 |
 | 1320229c | [\[MM-71111\] Health Dashboard PR27: version currency and ESR/EOL rules (#39075)](https://github.com/mattermost/mattermost/commit/1320229c1b458ade0bda1f66a16db8b83f5ee544) | 2026-10-16 |
+| 14ee0ae9 | [Add Attributes to Bot Accounts (#39121)](https://github.com/mattermost/mattermost/commit/14ee0ae9a330c5fecf268731959c16a4c081e8be) | 2026-10-16 |
+| 3d291f7f | [Include deleted replies in thread updatesOnly responses (#39026)](https://github.com/mattermost/mattermost/commit/3d291f7fd08b3d3814ec67fbb9edc75268790902) | 2026-10-16 |
 
 ## 제외된 커밋
 
@@ -743,6 +732,16 @@
 | f0b63f8e | [\[MM-70832\] Match attribute accordion top padding to the gap between fields (#38689)](https://github.com/mattermost/mattermost/commit/f0b63f8ed11ea4b375f940e76eea189c6f8cd657) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 → … → 846df3d3·0c3717c9·acc409f2·e5c0b8a5)의 Applies-to 아코디언 본문(.AttributeAppliesToItem__body) 위쪽 여백을 4px→24px로 늘려 필드 간격과 맞추는 스타일 조정(1파일 +3/-1)이라 대상이 없다. 유일한 접촉 파일 admin_console/global_attributes/attribute_details/attribute_applies_to_item.scss가 우리 트리에 없다. 재검토 조건은 Global Attributes 계보를 도입하기로 할 때다. |
 
 | 50a91ddb | [\[MM-70833\] Stop dimming the Classification row in Attribute Management (#38693)](https://github.com/mattermost/mattermost/commit/50a91ddb2a004bcd95f8f200e350c87ff53b2178) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 → … → 846df3d3·0c3717c9·acc409f2·e5c0b8a5·f0b63f8e)와 분류 표시 계보(2b7b398a 계열)가 만나는 목록 화면에서 Classification 행 흐림 표시 스타일·분기를 지우는 UI 수정(4파일 +50/-91)이라 대상이 없다. 4파일 전부(admin_console/global_attributes/global_attributes_table.tsx·.scss·.test.tsx, e2e global_attributes_listing.spec.ts)가 우리 트리에 없다. 재검토 조건은 Global Attributes 계보를 도입하기로 할 때다. |
+
+| 289d5e5e | [Update Playbooks plugin to v2.12.0 (incl. FIPS) (#38700)](https://github.com/mattermost/mattermost/commit/289d5e5e86711603cd4f62955fc7e197871b8b36) | 공식 Playbooks 번들 버전 올림(2.11.1→2.12.0, 일반판·FIPS판 PLUGIN_PACKAGES 2줄)이라 Boards·Agents와 같은 덮어쓰기 사유로 받지 않는다. 우리에게 포크 플러그인 okrbest/okrbest-plugin-playbooks(플러그인 ID playbooks, 공식과 동일, 2026-02-05 표시 이름 개선 등 포크 작업, upstream 마지막 병합 2025-12-22)가 있다. 서버는 기동 시 processPrepackagedPlugin이 설치본보다 높은 번들 버전을 로컬 설치하므로 공식판 번들은 포크판을 덮어쓴다(과도기 목록 transitionallyPrepackagedPlugins에는 없어 파일 저장소 교체는 아니지만 로컬 설치는 교체). 이미 번들된 2.11.1의 덮어쓰기 위험은 남는다 — 운영 서버가 포크판·공식판 중 무엇을 쓰는지와 PLUGIN_PACKAGES에서 공식 Playbooks를 뺄지는 Boards·Agents와 함께 별도 결정 대상. 공식 Playbooks 라이선스는 Apache-2.0(라이선스 사유 아님). 후속 26ee3a47(Playbooks v2.12.1, #38853)도 같은 판정 대상. |
+
+| bb72eeb7 | [Allow to hydrate posts with their attributes (#38134)](https://github.com/mattermost/mattermost/commit/bb72eeb7b23438efbec04a224b28b00d4552af64) | 제외한 게시물 속성(post attributes) 계보(뿌리 36af1ee5 Post attributes feature flag group #37829, 그 아래 property 시스템 v2 48f2fd08·9c684e63 계보)의 후속이라 얹을 토대가 없다. 게시물 조회에 속성 값 채우기 옵션(includePropertyGroups)을 GET /posts/{id}·채널 게시물·스레드에 추가하고, 대상별 속성 필드 개수 제한, SearchPropertyValues의 master 조회 옵션, webapp client 옵션을 더하는 37파일 +1471/-125. merge-tree 충돌 20곳 중 11곳이 modify/delete로 우리에게 없는 파일(api4/properties.go·view.go, app/properties/field_limit.go·access_control_attribute_validation.go, app/property_errors.go, model/post_attributes.go, api/v4/source/views.yaml 등). 섞인 공통 조각(master 조회 옵션·필드 개수 제한)도 property v2 저장소·함수 위에 있어 떼어 받을 수 없다. 09-21 acc409f2(#38684)와 같은 계보. |
+
+| dc8e580f | [Add Documentation issue template (#38658)](https://github.com/mattermost/mattermost/commit/dc8e580fa5c1523376a9a36740c56dc148270e87) | Mattermost 문서 사이트용 GitHub 이슈 템플릿(.github/ISSUE_TEMPLATE/documentation_issue.yml +53)이라 받지 않는다. 템플릿이 docs.mattermost.com·mattermost/mattermost 이슈 목록·Mattermost 핸드북 링크를 담고 있는데, 우리는 이슈 템플릿을 리브랜드했고(96ad56ab8e Change brand — bug_report.yml을 한국어 OKR.BEST용으로) 문서 사이트(1d3bbc63)도 제외해 신고할 대상이 없다. 리브랜드 충실성(원칙 IV). |
+
+| 9b320fbe | [\[MM-70819\] Stop channel header attribute chips blanking on unrelated edits (#38653)](https://github.com/mattermost/mattermost/commit/9b320fbe1ec1595eda6ac7320b438577acee921d) | 제외한 채널 속성 계보(75a26632 MM-70180 Channel attributes: display, banner, and post-creation editing, #38267 — property v2·분류 표시·Global Attributes 계보 위)의 후속이라 고칠 대상이 없다. 채널 헤더의 속성 칩이 무관한 편집·드롭다운 열기에도 잠깐 사라지던 문제를 use_labels_overflow의 재측정 기준(배열 객체→칩 ID)으로 고치는 webapp 2파일(+159/-5). components/channel_attributes/ 디렉터리 자체가 우리에게 없다(modify/delete 2건). |
+
+| 97143428 | [Paint Attribute Management after template fields load (#38646)](https://github.com/mattermost/mattermost/commit/971434284737a8a6c9da6a5364dd598c849a29ae) | 제외한 Global Attributes(Attribute Management) 계보(뿌리 38b66d22 #37580 → 4ec0fe9c·846df3d3 등, property v2 48f2fd08 위)의 후속이라 고칠 대상이 없다. Attribute Management 표를 템플릿 필드 로드 직후 먼저 그리고 사용자·게시물·채널 범위를 뒤에서 이어 불러오는 webapp 2파일(global_attributes_table.tsx +49/-19, 테스트 +115). admin_console/global_attributes/ 디렉터리가 우리에게 없다(modify/delete 2건). |
 
 ## spec 전환 커밋
 
