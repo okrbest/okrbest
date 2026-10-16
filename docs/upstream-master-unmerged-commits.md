@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-16 15:45
+- 갱신일: 2026-10-16 16:34
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 210개
+- 남은 커밋: 205개
 
-**마지막 반영 커밋:** `cc273232` | [MM-70806: Keep hierarchical value dropdown chevron at a fixed size (#38652)](https://github.com/mattermost/mattermost/commit/cc27323262db6414ce5794d4161e7a5b2def87ee) | 2026-09-18
+**마지막 반영 커밋:** `6ee80ce0` | [Temporarily disable Documentation Impact Review workflow (#38659)](https://github.com/mattermost/mattermost/commit/6ee80ce049fe86c5bff11b8dde6c391414f253a8) | 2026-09-19
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 3aa8aa2c | [E2E/Playwright: Migrate active Cypress tests batch 2 (#37455)](https://github.com/mattermost/mattermost/commit/3aa8aa2c37ae7aedcdc0de1fe8f2430510d2f922) | 2026-09-19 |
-| fa5a5a99 | [\[E2E/Playwright\] Add OpenID Connect login and System Console tests (#38517)](https://github.com/mattermost/mattermost/commit/fa5a5a997f1296047c643654dcd3ac1ebdc57a6e) | 2026-09-19 |
-| c43fcbce | [\[E2E/Playwright\] Add SAML and SAML+LDAP tests and delete ported Cypress specs (#38518)](https://github.com/mattermost/mattermost/commit/c43fcbce0eb9500375e638af08aae8264ae7e7d1) | 2026-09-19 |
-| 2edc236f | [\[E2E/Playwright\] Add LDAP login, filter, and System Console tests (#38516)](https://github.com/mattermost/mattermost/commit/2edc236f238bc5e21d0e223046bfdbb0210d63a3) | 2026-09-19 |
-| 6ee80ce0 | [Temporarily disable Documentation Impact Review workflow (#38659)](https://github.com/mattermost/mattermost/commit/6ee80ce049fe86c5bff11b8dde6c391414f253a8) | 2026-09-19 |
 | 80a0d4da | [Fix flaky TestChannelStore/LocalCache+PostgreSQL/ReactionDelete/Delete (#38657)](https://github.com/mattermost/mattermost/commit/80a0d4da72887d2e1b54ba1947d5cbc74f89b894) | 2026-09-20 |
 | ecc7898a | [Use NewTestPassword in import tests so FIPS CI passes (#38664)](https://github.com/mattermost/mattermost/commit/ecc7898a5080a213fb7d09f092099b514dc77aed) | 2026-09-21 |
 | 8fdc8380 | [MM-69853: sanitize channel mentions in permalink previews (#37811)](https://github.com/mattermost/mattermost/commit/8fdc83806cd09d14d91f080ee2a0b9f910f65f7f) | 2026-09-21 |
@@ -740,6 +735,8 @@
 | 619043e1 | [Fix AD/LDAP docs: manual deactivation not supported for LDAP users (#38614)](https://github.com/mattermost/mattermost/commit/619043e14685f96cf675b246a1afbae8f3a51602) | AD/LDAP 관리자 문서에서 'LDAP 사용자를 시스템 콘솔에서 수동 비활성화할 수 있다'는 잘못된 설명을 바로잡는 문서 변경(1파일 +3/-6)이라 반영할 대상이 없다. 유일한 접촉 파일 docs/main/administration-guide/onboard/ad-ldap.mdx가 우리 트리에 없다(merge-tree modify/delete). docs/main/을 만든 1d3bbc63을 리브랜드 충실성(constitution 원칙 IV)으로 제외했다. 코드 경로 접촉 0건. Mattermost 문서 제외 계열(1d3bbc63·b3fee0f5·ffe6ebcb·206629e7·f44434ef 등)과 같은 갈래이며, 재검토 조건은 okrbest 문서 사이트를 구축하기로 할 때다. |
 
 | cc273232 | [MM-70806: Keep hierarchical value dropdown chevron at a fixed size (#38652)](https://github.com/mattermost/mattermost/commit/cc27323262db6414ce5794d4161e7a5b2def87ee) | 제외한 85372e3a(계층형 속성 webapp, graph 타입)가 들여오는 계층형 값 선택 메뉴의 스타일 수정이라 대상이 없다. 내용은 펼침 화살표(chevron)가 내용 길이에 따라 크기가 변하지 않게 고정하는 것(1파일 +6). 유일한 접촉 파일 webapp/channels/src/components/property_fields/hierarchical_value_menu/hierarchical_value_menu.scss가 우리 트리에 없다. graph 속성 제외 계열(9ef79330·85372e3a·d283cc63)과 같은 갈래이며, 재검토 조건은 property 시스템 v2와 graph 타입을 도입하기로 할 때다. |
+
+| 6ee80ce0 | [Temporarily disable Documentation Impact Review workflow (#38659)](https://github.com/mattermost/mattermost/commit/6ee80ce049fe86c5bff11b8dde6c391414f253a8) | 제외한 Documentation Impact Review 워크플로(45f54a0e #35358 계보 21건 — Mattermost 문서 인프라)의 트리거를 pull_request에서 workflow_dispatch로 바꿔 임시 비활성화하는 커밋(1파일 +5/-4)이라 끌 대상이 없다. 유일한 접촉 파일 .github/workflows/docs-impact-review.yml이 우리 트리에 없다(merge-tree modify/delete). upstream이 끄는 이유도 문서가 모노레포 docs/로 이관됐는데 워크플로가 레거시 mattermost/docs RST 트리를 분석하기 때문인데, 우리는 그 이관(1d3bbc63)도 제외했다. 코드·CI 영향 0건. 재검토 조건은 okrbest 문서 사이트와 문서 영향도 검토 체계를 구축하기로 할 때다. |
 
 ## spec 전환 커밋
 
