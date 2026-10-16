@@ -6,7 +6,7 @@ import React, {
     useRef,
 } from 'react';
 import {useIntl} from 'react-intl';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {GenericModal} from '@mattermost/components';
 import type {Channel} from '@mattermost/types/channels';
@@ -16,10 +16,6 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig, getLicense, isChannelPermissionPoliciesEnabled} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 
-import {
-    setShowPreviewOnChannelSettingsHeaderModal,
-    setShowPreviewOnChannelSettingsPurposeModal,
-} from 'actions/views/textbox';
 import {isChannelAccessControlEnabled} from 'selectors/general';
 
 import {focusElement} from 'utils/a11y_utils';
@@ -86,7 +82,6 @@ function getFirstVisibleTab(shouldShowInfoTab: boolean, shouldShowAccessRulesTab
 
 function ChannelSettingsModal({channelId, isOpen, onExited, focusOriginElement}: ChannelSettingsModalProps) {
     const {formatMessage} = useIntl();
-    const dispatch = useDispatch();
     const channel = useSelector((state: GlobalState) => getChannel(state, channelId)) as Channel;
     const isDMorGM = channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL;
     const channelBannerEnabled = isMinimumEnterpriseAdvancedLicense(useSelector(getLicense));
@@ -236,9 +231,6 @@ function ChannelSettingsModal({channelId, isOpen, onExited, focusOriginElement}:
     };
 
     const handleHideConfirm = () => {
-        // Reset preview states to false when closing the modal
-        dispatch(setShowPreviewOnChannelSettingsHeaderModal(false));
-        dispatch(setShowPreviewOnChannelSettingsPurposeModal(false));
         setShow(false);
     };
 
