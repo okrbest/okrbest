@@ -99,6 +99,7 @@
 | 채널별 입장·퇴장 메시지 끄기 (spec 029) | [5de31f8e](https://github.com/mattermost/mattermost/commit/5de31f8e868f61636ee9d556176cd6ab5f956f2b) (#37314) | sync에서 spec으로 넘겨 반영. 36파일을 upstream 줄 그대로 들이고, 포크 FilterUserIds를 같은 쿼리에 나란히 붙였다. 제외 계보 문맥 8곳을 버렸고 포크 테스트 3개는 포크 전용 새 파일에 뒀다 — 아래 참조 |
 | sort → slices 이관 | [68c4bb52](https://github.com/mattermost/mattermost/commit/68c4bb52e5e094d7c26f627f949973040c9c56a7) (#38473) | 이관과 govet `sortSlices`는 받았다. 보류했던 `concurrentIndex` vet 규칙도 Makefile을 upstream과 맞추며 함께 켰다. 제외 계보(CPA v2·property) 2곳을 버리고 우리 CPA v1 정렬 1곳을 직접 옮겼다 — 아래 참조 |
 | Health Dashboard PR08 health_findings 저장소 | [579c0bd9](https://github.com/mattermost/mattermost/commit/579c0bd96b61629b83ea379a276859f3d85d2f25) (#38632) | 마이그레이션 000231·000232와 SQL 저장소는 그대로 받았다. 충돌 문맥의 000230(제외 계보)과 mock store의 `View()` 접근자를 버렸고, 000230은 빈 번호로 남는다 — 아래 참조 |
+| ABAC 사용자 속성 GetSubject 캐시 | [371582e1](https://github.com/mattermost/mattermost/commit/371582e1674541acef3a80afd5e1790ba8bfb664) (#38691) | 캐시·무효화·클러스터 이벤트는 그대로 받고, localcache `GetSubject`를 우리 property v1 시그니처(대상 유형 인자 없음)로 맞췄다. 채널 대상 통과 분기와 그 테스트를 버렸다 — 아래 참조 |
 
 ---
 
@@ -2747,6 +2748,26 @@ production React 19에는 `jsxDEV`가 없어서, 그 자리를 `jsx`/`jsxs`로 �
 
 **검증.** 2026-10-15. `go test ./public/model -run 'Config|GlobalRelay|MessageExport'` 통과.
 webapp `message_export_settings.test.tsx`(Node 24)는 14건과 스냅숏 5개가 모두 통과했다.
+---
+
+## ABAC GetSubject 캐시 — 우리 v1 시그니처로 맞췄다
+
+**upstream**: [`371582e1`](https://github.com/mattermost/mattermost/commit/371582e1674541acef3a80afd5e1790ba8bfb664)
+(Implement cache for GetSubject to cache CPA user attributes, #38691) — 13파일 +226, 2026-10-17 반영
+
+**받은 것.** localcache 레이어의 사용자 속성 Subject 캐시(사용자 ID 키, 복사본 반환, not-found 미캐시), `InvalidateUserAttributes`·`ClearUserAttributesCache`와 `property_value.go`의 무효화 호출, 클러스터 이벤트 `inv_user_attributes`, 메트릭, store 인터페이스·생성 레이어·mock.
+우리 CPA v1 경로도 새 무효화를 모두 거친다. 값 변경은 `PatchCPAValue(s)`→`UpsertPropertyValues`, 값 삭제는 `DeleteCPAValues`→`DeletePropertyValuesForTarget`, 필드 변경은 `invalidateAllUserAttributeCaches`를 탄다.
+
+**맞춘 것과 버린 것.**
+
+| 위치 | upstream | 우리 | 이유 | 되살릴 조건 |
+|---|---|---|---|---|
+| `localcachelayer/attributes_layer.go` `GetSubject` | `(rctx, ID, groupID, objectType string)`, `objectType != model.PropertyFieldObjectTypeUser`면 캐시 없이 통과 | `(rctx, ID, groupID string)`, 분기 없음 | 우리 `AttributesStore.GetSubject`는 property v1 시그니처(대상 유형 인자 없음)이고 `PropertyFieldObjectType*` 상수가 없다(제외한 property v2 계보). 호출처는 사용자 대상인 `BuildAccessControlSubject` 하나뿐이라 분기가 필요 없다 | property v2를 받을 때 upstream 원형으로 교체 |
+| `attributes_layer_test.go` | "GetSubject not cached for channel object type" 하위 테스트와 `model` import, 다른 하위 테스트의 `model.PropertyFieldObjectTypeUser` 인자 | 하위 테스트·import 삭제, 인자 3개로 | 같음 | 같음 |
+| `main_test.go` mock | `GetSubject` mock 2줄(user·channel, objectType 인자)과 `fakeChannelSubject` | user mock 1줄(인자 3개)만 | 같음 | 같음 |
+
+**검증.** 2026-10-17. `go build ./...`, `go vet`, localcachelayer `TestAttributesStoreCache`(7건)와 app `PropertyValue|CPA|CustomProfileAttribute|AccessControl` 통과.
+캐시 저장 줄을 지운 변형에서는 "cached on second call"과 "returns a clone" 2건이 실패한다. 생성물을 다시 만들어도 추가 변경이 없다.
 ---
 
 ## Health Dashboard PR08 — 000230 빈 번호와 mock View 접근자

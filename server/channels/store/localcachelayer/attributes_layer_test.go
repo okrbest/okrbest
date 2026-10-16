@@ -66,4 +66,68 @@ func TestAttributesStoreCache(t *testing.T) {
 		require.NoError(t, err)
 		mockStore.Attributes().(*mocks.AttributesStore).AssertNumberOfCalls(t, "GetUserPropertyValuesEpoch", 2)
 	})
+
+	groupID := "group-id"
+
+	t.Run("GetSubject cached on second call for user object type", func(t *testing.T) {
+		mockStore := getMockStore(t)
+		cachedStore, err := NewLocalCacheLayer(mockStore, nil, nil, getMockCacheProvider(), logger)
+		require.NoError(t, err)
+
+		subject, err := cachedStore.Attributes().GetSubject(rctx, userID, groupID)
+		require.NoError(t, err)
+		assert.Equal(t, "Engineering", subject.Attributes["department"])
+		mockStore.Attributes().(*mocks.AttributesStore).AssertNumberOfCalls(t, "GetSubject", 1)
+
+		subject, err = cachedStore.Attributes().GetSubject(rctx, userID, groupID)
+		require.NoError(t, err)
+		assert.Equal(t, "Engineering", subject.Attributes["department"])
+		mockStore.Attributes().(*mocks.AttributesStore).AssertNumberOfCalls(t, "GetSubject", 1)
+	})
+
+	t.Run("InvalidateUserAttributes forces a re-query", func(t *testing.T) {
+		mockStore := getMockStore(t)
+		cachedStore, err := NewLocalCacheLayer(mockStore, nil, nil, getMockCacheProvider(), logger)
+		require.NoError(t, err)
+
+		_, err = cachedStore.Attributes().GetSubject(rctx, userID, groupID)
+		require.NoError(t, err)
+		mockStore.Attributes().(*mocks.AttributesStore).AssertNumberOfCalls(t, "GetSubject", 1)
+
+		cachedStore.Attributes().InvalidateUserAttributes(userID)
+
+		_, err = cachedStore.Attributes().GetSubject(rctx, userID, groupID)
+		require.NoError(t, err)
+		mockStore.Attributes().(*mocks.AttributesStore).AssertNumberOfCalls(t, "GetSubject", 2)
+	})
+
+	t.Run("ClearUserAttributesCache forces a re-query", func(t *testing.T) {
+		mockStore := getMockStore(t)
+		cachedStore, err := NewLocalCacheLayer(mockStore, nil, nil, getMockCacheProvider(), logger)
+		require.NoError(t, err)
+
+		_, err = cachedStore.Attributes().GetSubject(rctx, userID, groupID)
+		require.NoError(t, err)
+		mockStore.Attributes().(*mocks.AttributesStore).AssertNumberOfCalls(t, "GetSubject", 1)
+
+		cachedStore.Attributes().ClearUserAttributesCache()
+
+		_, err = cachedStore.Attributes().GetSubject(rctx, userID, groupID)
+		require.NoError(t, err)
+		mockStore.Attributes().(*mocks.AttributesStore).AssertNumberOfCalls(t, "GetSubject", 2)
+	})
+
+	t.Run("GetSubject returns a clone of the cached attributes map", func(t *testing.T) {
+		mockStore := getMockStore(t)
+		cachedStore, err := NewLocalCacheLayer(mockStore, nil, nil, getMockCacheProvider(), logger)
+		require.NoError(t, err)
+
+		first, err := cachedStore.Attributes().GetSubject(rctx, userID, groupID)
+		require.NoError(t, err)
+		first.Attributes["department"] = "Mutated"
+
+		second, err := cachedStore.Attributes().GetSubject(rctx, userID, groupID)
+		require.NoError(t, err)
+		assert.Equal(t, "Engineering", second.Attributes["department"])
+	})
 }
