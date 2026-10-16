@@ -3,30 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-17 00:24
+- 갱신일: 2026-10-17 01:32
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 186개
+- 남은 커밋: 170개
 
-**마지막 반영 커밋:** `97143428` | [Paint Attribute Management after template fields load (#38646)](https://github.com/mattermost/mattermost/commit/971434284737a8a6c9da6a5364dd598c849a29ae) | 2026-09-22
+**마지막 반영 커밋:** `163baf03` | [Portal hierarchical parent search suggestions out of the value menu (#38688)](https://github.com/mattermost/mattermost/commit/163baf0351e8c307c57c09074cd758ade6c76509) | 2026-09-23
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 579c0bd9 | [\[MM-70785\] Health Dashboard PR08: health_findings migration + SQL FindingStore (#38632)](https://github.com/mattermost/mattermost/commit/579c0bd96b61629b83ea379a276859f3d85d2f25) | 2026-09-23 |
-| 6249c96b | [Bumping the prepackaged MS Calendar version to v2.0.0 (#38672)](https://github.com/mattermost/mattermost/commit/6249c96b019ba646a8c2bcb5ea9b35dd83e8de37) | 2026-09-23 |
-| bc7bb75c | [Fix MySQL 8.4+ authentication docs for PostgreSQL migration and server requirements (#38679)](https://github.com/mattermost/mattermost/commit/bc7bb75ce16544448b1cc498abfe2217ef14bfc2) | 2026-09-23 |
-| da316ef0 | [\[MM-70786\] Health Dashboard PR09 (core): reconcile + unknown state machine (#38670)](https://github.com/mattermost/mattermost/commit/da316ef0acb96f728f20014f2bb4886c06ba28c6) | 2026-09-23 |
-| 6cd323d1 | [\[MM-70787\] Health Dashboard PR10: mute + finding GC (#38675)](https://github.com/mattermost/mattermost/commit/6cd323d1544b679697f103361f31809a0e2f2c50) | 2026-09-23 |
-| ab7d2b5d | [\[MM-70804\] Stop the attribute Type menu offering conversions to or from Hierarchical (#38697)](https://github.com/mattermost/mattermost/commit/ab7d2b5db5ec0f076e98ac8aabc7216e9d003b0d) | 2026-09-23 |
-| e9a8793d | [\[MM-70834\] Align graph child draft with same-level siblings (#38701)](https://github.com/mattermost/mattermost/commit/e9a8793d555a58f40771f21d02757883c81c330b) | 2026-09-23 |
-| 86ee66a9 | [Add workflow to auto-label docs PRs for editor review (#38717)](https://github.com/mattermost/mattermost/commit/86ee66a92d9187ab7e1144007d72039b9fdc1cf3) | 2026-09-23 |
-| ffce664c | [Add workspace organization guide and retire channel naming conventions page (#38598)](https://github.com/mattermost/mattermost/commit/ffce664cf5d21bbaabc9b6ca4553d2be9140a2bf) | 2026-09-23 |
-| be1bfe55 | [Show selected hierarchical attribute values in the profile popover (#38685)](https://github.com/mattermost/mattermost/commit/be1bfe55a3aee7fc114323844e4b29e3b0aab6cb) | 2026-09-23 |
-| 371582e1 | [Implement cache for GetSubject to cache CPA user attributes (#38691)](https://github.com/mattermost/mattermost/commit/371582e1674541acef3a80afd5e1790ba8bfb664) | 2026-09-23 |
-| 8ddcd797 | [Fix K8s HA upgrade doc FAQ claiming manual DB schema migration (#38678)](https://github.com/mattermost/mattermost/commit/8ddcd797c7a5801c04831fbbd9104193d1c6015a) | 2026-09-23 |
-| df20dd76 | [Show out-of-office notice above DM composer (#38635)](https://github.com/mattermost/mattermost/commit/df20dd76df11a6e8ff7d0b9da010a54fc90a736e) | 2026-09-23 |
-| b94495ff | [\[MM-59493\] Accept all 2xx responses from slash command integrations instead of only 200 OK (#38603)](https://github.com/mattermost/mattermost/commit/b94495ffc9e21960768853eec8166cdcf1f5786d) | 2026-09-23 |
-| 53211e45 | [\[MM-61861\] Hide "Manage roles" for guests so "Promote to member" is the only promotion path (#38606)](https://github.com/mattermost/mattermost/commit/53211e45b6e63e99a5cc64d1ce1b344e3b64cc51) | 2026-09-23 |
-| 163baf03 | [Portal hierarchical parent search suggestions out of the value menu (#38688)](https://github.com/mattermost/mattermost/commit/163baf0351e8c307c57c09074cd758ade6c76509) | 2026-09-23 |
 | 913291dd | [\[MM-55271\] Switch Product Menu doesn't follow standard accessible keyboard behavior (#38561)](https://github.com/mattermost/mattermost/commit/913291dd0518d0c3b022d453b23981e7070a03b0) | 2026-09-24 |
 | 6d5b018c | [fix: align sharedchannel-test deps with the server module (#38760)](https://github.com/mattermost/mattermost/commit/6d5b018cdfcdcff90c3e0413d842a4bcf7f4109d) | 2026-09-24 |
 | cb4254cc | [Bump prepackage Boards plugin version to 10.0.0 (#38759)](https://github.com/mattermost/mattermost/commit/cb4254cc2d14902227540a29aafa0eeb15da5171) | 2026-09-24 |
@@ -742,6 +726,22 @@
 | 9b320fbe | [\[MM-70819\] Stop channel header attribute chips blanking on unrelated edits (#38653)](https://github.com/mattermost/mattermost/commit/9b320fbe1ec1595eda6ac7320b438577acee921d) | 제외한 채널 속성 계보(75a26632 MM-70180 Channel attributes: display, banner, and post-creation editing, #38267 — property v2·분류 표시·Global Attributes 계보 위)의 후속이라 고칠 대상이 없다. 채널 헤더의 속성 칩이 무관한 편집·드롭다운 열기에도 잠깐 사라지던 문제를 use_labels_overflow의 재측정 기준(배열 객체→칩 ID)으로 고치는 webapp 2파일(+159/-5). components/channel_attributes/ 디렉터리 자체가 우리에게 없다(modify/delete 2건). |
 
 | 97143428 | [Paint Attribute Management after template fields load (#38646)](https://github.com/mattermost/mattermost/commit/971434284737a8a6c9da6a5364dd598c849a29ae) | 제외한 Global Attributes(Attribute Management) 계보(뿌리 38b66d22 #37580 → 4ec0fe9c·846df3d3 등, property v2 48f2fd08 위)의 후속이라 고칠 대상이 없다. Attribute Management 표를 템플릿 필드 로드 직후 먼저 그리고 사용자·게시물·채널 범위를 뒤에서 이어 불러오는 webapp 2파일(global_attributes_table.tsx +49/-19, 테스트 +115). admin_console/global_attributes/ 디렉터리가 우리에게 없다(modify/delete 2건). |
+
+| bc7bb75c | [Fix MySQL 8.4+ authentication docs for PostgreSQL migration and server requirements (#38679)](https://github.com/mattermost/mattermost/commit/bc7bb75ce16544448b1cc498abfe2217ef14bfc2) | 제외한 1d3bbc63(문서 사이트 이관, #37330 — 원칙 IV)의 문서 사이트 계보라 고칠 대상이 없다. MySQL 8.4+에서 PostgreSQL로 옮길 때의 인증 설정과 서버 요구사항 문서를 고치는 docs/main 3파일 +24/-8, 코드 변경 없음. 세 파일 모두 우리 트리에 없다(merge-tree modify/delete 3건). |
+
+| ab7d2b5d | [\[MM-70804\] Stop the attribute Type menu offering conversions to or from Hierarchical (#38697)](https://github.com/mattermost/mattermost/commit/ab7d2b5db5ec0f076e98ac8aabc7216e9d003b0d) | 제외한 Global Attributes(Attribute Management) 계보(뿌리 38b66d22 #37580, property v2 48f2fd08 위)의 후속이라 고칠 대상이 없다. 속성 편집 화면 유형 메뉴에서 계층형(Hierarchical)과의 상호 변환 선택지를 없애는 webapp 3파일(attribute_details.tsx +34/-4, 테스트 +130, en.json 1키). admin_console/global_attributes/attribute_details/가 우리에게 없다(modify/delete 2건). en.json 키도 쓸 곳이 없다. |
+
+| e9a8793d | [\[MM-70834\] Align graph child draft with same-level siblings (#38701)](https://github.com/mattermost/mattermost/commit/e9a8793d555a58f40771f21d02757883c81c330b) | 제외한 Global Attributes(Attribute Management) 계보(뿌리 38b66d22 #37580)의 후속이라 고칠 대상이 없다. 계층형 속성 값 그래프에서 새 하위 항목 입력칸을 같은 단계 형제와 정렬하는 webapp 3파일(attribute_details/graph/draft_forms.tsx·graph_values.scss·테스트, +56/-8). 디렉터리가 우리에게 없다(modify/delete 3건). |
+
+| 86ee66a9 | [Add workflow to auto-label docs PRs for editor review (#38717)](https://github.com/mattermost/mattermost/commit/86ee66a92d9187ab7e1144007d72039b9fdc1cf3) | Mattermost 문서 편집팀 리뷰 절차용 GitHub Actions(.github/workflows/docs-editor-review-label.yml +34)라 받지 않는다. docs/**를 바꾸는 PR에 '2: Editor Review' 레이블을 붙이는데, 우리 docs/에는 Mattermost 문서 사이트(1d3bbc63 제외) 대신 sync ledger·divergences 같은 운영 문서가 있어 거의 모든 sync PR에서 실행된다. 우리 저장소에는 그 레이블이 없어(gh label list 확인) gh pr edit --add-label이 실패하고 PR마다 실패 체크가 하나 늘어난다. |
+
+| ffce664c | [Add workspace organization guide and retire channel naming conventions page (#38598)](https://github.com/mattermost/mattermost/commit/ffce664cf5d21bbaabc9b6ca4553d2be9140a2bf) | 제외한 1d3bbc63(문서 사이트 이관, #37330 — 원칙 IV)의 문서 사이트 계보라 고칠 대상이 없다. 워크스페이스 구성 가이드 신설과 채널 명명 규칙 페이지 폐기, 17파일 +306/-201이 모두 docs/main·docs/pdf·docs/site(문서·사이드바·리다이렉트·이미지 3장)이고 코드 변경 없음. merge-tree 충돌 12건 전부 modify/delete. |
+
+| be1bfe55 | [Show selected hierarchical attribute values in the profile popover (#38685)](https://github.com/mattermost/mattermost/commit/be1bfe55a3aee7fc114323844e4b29e3b0aab6cb) | 제외한 계층형(graph) 사용자 속성 계보(9ef79330 #37851 graph custom attribute type, 85372e3a #38481 Hierarchical attributes webapp support, d283cc63 #38611)의 후속이라 얹을 토대가 없다. 프로필 팝오버에 계층형 속성 값을 이름으로 보여 주는 webapp 4파일 +321(profile_popover_custom_attributes.tsx +8, 신규 profile_popover_graph_attribute.tsx·테스트). 의존하는 @mattermost/types/properties의 supportsHierarchy와 components/property_fields/graph/가 우리에게 없다. profile_popover_custom_attributes.tsx 충돌 1곳은 포크의 사용자 속성 표시 변경과 겹친 것. |
+
+| 8ddcd797 | [Fix K8s HA upgrade doc FAQ claiming manual DB schema migration (#38678)](https://github.com/mattermost/mattermost/commit/8ddcd797c7a5801c04831fbbd9104193d1c6015a) | 제외한 1d3bbc63(문서 사이트 이관, #37330 — 원칙 IV)의 문서 사이트 계보라 고칠 대상이 없다. Kubernetes HA 업그레이드 문서 FAQ의 'DB 스키마 마이그레이션 수동 실행' 오기를 고치는 docs/main 1파일 +1/-1, 코드 변경 없음. 파일이 우리 트리에 없다. |
+
+| 163baf03 | [Portal hierarchical parent search suggestions out of the value menu (#38688)](https://github.com/mattermost/mattermost/commit/163baf0351e8c307c57c09074cd758ade6c76509) | 제외한 Global Attributes(Attribute Management, 뿌리 38b66d22 #37580)·계층형 속성(9ef79330 #37851, 85372e3a #38481) 계보의 후속이라 고칠 대상이 없다. 계층형 속성 편집 화면의 상위 항목 검색 제안을 값 메뉴 밖(portal)으로 띄우는 5파일 +354/-103(attribute_details/graph/edge_list.tsx·parents_pane.scss·테스트, Playwright global_attributes 스펙). 5파일 모두 우리에게 없다(modify/delete). 같은 화면의 ab7d2b5d·e9a8793d와 같은 판정. |
 
 ## spec 전환 커밋
 
