@@ -3,28 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-16 16:47
+- 갱신일: 2026-10-16 22:43
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 204개
+- 남은 커밋: 197개
 
-**마지막 반영 커밋:** `80a0d4da` | [Fix flaky TestChannelStore/LocalCache+PostgreSQL/ReactionDelete/Delete (#38657)](https://github.com/mattermost/mattermost/commit/80a0d4da72887d2e1b54ba1947d5cbc74f89b894) | 2026-09-20
+**마지막 반영 커밋:** `50a91ddb` | [\[MM-70833\] Stop dimming the Classification row in Attribute Management (#38693)](https://github.com/mattermost/mattermost/commit/50a91ddb2a004bcd95f8f200e350c87ff53b2178) | 2026-09-21
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| ecc7898a | [Use NewTestPassword in import tests so FIPS CI passes (#38664)](https://github.com/mattermost/mattermost/commit/ecc7898a5080a213fb7d09f092099b514dc77aed) | 2026-09-21 |
-| 8fdc8380 | [MM-69853: sanitize channel mentions in permalink previews (#37811)](https://github.com/mattermost/mattermost/commit/8fdc83806cd09d14d91f080ee2a0b9f910f65f7f) | 2026-09-21 |
-| b26462b2 | [Bumping prepackaged github version to v3.0.0 (#38671)](https://github.com/mattermost/mattermost/commit/b26462b2916da75508c011f371b836006fcf42bd) | 2026-09-21 |
-| b2a68c93 | [Add the creator property field permission level (#38129)](https://github.com/mattermost/mattermost/commit/b2a68c93cc1753d000281854535a55b4bb76e4dd) | 2026-09-21 |
-| 1768b4ed | [chore: Update NOTICE.txt file with updated dependencies (#38676)](https://github.com/mattermost/mattermost/commit/1768b4ed7a21cdcdccb7eadf85c4fadcd8d129bb) | 2026-09-21 |
-| 10369708 | [\[MM-70289\] Fix multi-byte (CJK) input in the AI Rewrite custom prompt (#38007)](https://github.com/mattermost/mattermost/commit/1036970840a7e6a7c7ffac637c6e05e19ee72ee9) | 2026-09-21 |
-| 3a1952f1 | [Skip flaky TestInterpluginPluginHTTPContext (#38633)](https://github.com/mattermost/mattermost/commit/3a1952f177c20091d47df53993a9cb98dbd3b5da) | 2026-09-21 |
-| bef024ab | [\[MM-70519\] Prioritize the DM with the matched person in the quick switcher (#38224)](https://github.com/mattermost/mattermost/commit/bef024abbe1c2f5c322ec7da869fe3e1355df50f) | 2026-09-21 |
-| 2ba31db3 | [MM-70293 Add LegalHold plugin v1.1.6 to prepackage list (#38648)](https://github.com/mattermost/mattermost/commit/2ba31db3191b2ab3bf4f04f31e601f77d8c03df1) | 2026-09-21 |
-| 0c3717c9 | [Add Phone and URL attribute types to Attribute Management (#38610)](https://github.com/mattermost/mattermost/commit/0c3717c9eeec207eb405164509ba4d4a2599a4bd) | 2026-09-21 |
-| acc409f2 | [\[MM-70810\] Hide the Posts resource in Global Attributes behind the PostAttributes feature flag (#38684)](https://github.com/mattermost/mattermost/commit/acc409f21d3679d937f3e1d739a521e440ce9fde) | 2026-09-21 |
-| e5c0b8a5 | [Cascade matching display_name to linked fields when renaming a global attribute (#38647)](https://github.com/mattermost/mattermost/commit/e5c0b8a5caa021c535eb43fa13033ac095cbbf10) | 2026-09-21 |
-| f0b63f8e | [\[MM-70832\] Match attribute accordion top padding to the gap between fields (#38689)](https://github.com/mattermost/mattermost/commit/f0b63f8ed11ea4b375f940e76eea189c6f8cd657) | 2026-09-21 |
-| 50a91ddb | [\[MM-70833\] Stop dimming the Classification row in Attribute Management (#38693)](https://github.com/mattermost/mattermost/commit/50a91ddb2a004bcd95f8f200e350c87ff53b2178) | 2026-09-21 |
 | 2ddcee9f | [\[MM-70758\] Health Dashboard PR03: section-type vocabulary (#38582)](https://github.com/mattermost/mattermost/commit/2ddcee9f9543a89f56744b7b336cef0b12807636) | 2026-09-22 |
 | 4974f1f7 | [\[MM-70759\] Health Dashboard engine-types (PR04+PR05): rule + snapshot types (#38583)](https://github.com/mattermost/mattermost/commit/4974f1f7c776fff8b1d4c46a41ffbe27cdbbc7ed) | 2026-09-22 |
 | 909cadce | [\[MM-70760\] Health Dashboard PR06: rule evaluation engine (#38585)](https://github.com/mattermost/mattermost/commit/909cadce5e26397239122222273a660b33a62d5e) | 2026-09-22 |
@@ -215,6 +201,13 @@
 | 0d4385d1 | [Fix Brazilian Portuguese gaps and hardcoded English web labels (#39113)](https://github.com/mattermost/mattermost/commit/0d4385d1259da280837c6b6826c784bc03468284) | 2026-10-15 |
 | 20aadca1 | [Fix flaky TestGetAdvancedLogs (#39198)](https://github.com/mattermost/mattermost/commit/20aadca11ac613d4fac33a3780c55a613a33570e) | 2026-10-15 |
 | cce5b9d5 | [\[MM-71182\] Show translated errors from /secure-connection accept and status instead of raw error text (#39205)](https://github.com/mattermost/mattermost/commit/cce5b9d552d53b98b85279f9882dbdba6b11dc40) | 2026-10-16 |
+| e95c338e | [MM-71184: Offer Go's default TLS key exchange groups (#39202)](https://github.com/mattermost/mattermost/commit/e95c338ebbe0283fc83195c1828a2e4d1b974af2) | 2026-10-16 |
+| 4bea6b09 | [Move textbox preview toggles from Redux to component state (#39152)](https://github.com/mattermost/mattermost/commit/4bea6b09ee621888cd6db58d3e326a9955b5da66) | 2026-10-16 |
+| f24e2d4c | [Add v12.0 release notes (#38573)](https://github.com/mattermost/mattermost/commit/f24e2d4ce36ed0e88ead1778761fd20d8ea31db3) | 2026-10-16 |
+| d11cd7d0 | [MM-69498: Add docs for post delivery audit logging (#38424)](https://github.com/mattermost/mattermost/commit/d11cd7d08a18600193e1eab274022fe120696f5c) | 2026-10-16 |
+| 678386ea | [\[MM-70287\] Add user_created to SAML/OAuth SSO audit events (#38006)](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) | 2026-10-16 |
+| b11aeee7 | [Fix double focus borders on Compass form fields and buttons (#39071)](https://github.com/mattermost/mattermost/commit/b11aeee7661900b65ff2cc350fb7c09583c0a9f7) | 2026-10-16 |
+| 1320229c | [\[MM-71111\] Health Dashboard PR27: version currency and ESR/EOL rules (#39075)](https://github.com/mattermost/mattermost/commit/1320229c1b458ade0bda1f66a16db8b83f5ee544) | 2026-10-16 |
 
 ## 제외된 커밋
 
@@ -737,6 +730,20 @@
 
 | 6ee80ce0 | [Temporarily disable Documentation Impact Review workflow (#38659)](https://github.com/mattermost/mattermost/commit/6ee80ce049fe86c5bff11b8dde6c391414f253a8) | 제외한 Documentation Impact Review 워크플로(45f54a0e #35358 계보 21건 — Mattermost 문서 인프라)의 트리거를 pull_request에서 workflow_dispatch로 바꿔 임시 비활성화하는 커밋(1파일 +5/-4)이라 끌 대상이 없다. 유일한 접촉 파일 .github/workflows/docs-impact-review.yml이 우리 트리에 없다(merge-tree modify/delete). upstream이 끄는 이유도 문서가 모노레포 docs/로 이관됐는데 워크플로가 레거시 mattermost/docs RST 트리를 분석하기 때문인데, 우리는 그 이관(1d3bbc63)도 제외했다. 코드·CI 영향 0건. 재검토 조건은 okrbest 문서 사이트와 문서 영향도 검토 체계를 구축하기로 할 때다. |
 
+| b2a68c93 | [Add the creator property field permission level (#38129)](https://github.com/mattermost/mattermost/commit/b2a68c93cc1753d000281854535a55b4bb76e4dd) | 제외한 property 시스템 v2 계보(48f2fd08·9f1fe90b 등)의 필드 권한 수준(permission_level) 체계에 creator 수준을 추가하는 커밋이라 확장할 토대가 없다. 내용은 모델(property_field.go)·권한 판정(authorization.go +69)에 creator(값 작성자만 수정 가능)를 넣고 DB 마이그레이션 000230(ALTER TYPE permission_level ADD VALUE 'creator')·API 문서·테스트 약 1400줄을 추가하는 것(11파일 +1584/-10). 우리 property_field.go에 PermissionLevel grep 0건, 마이그레이션에 permission_level 타입이 없어 ALTER TYPE 대상이 없으므로 받으면 마이그레이션이 실패하고, authorization.go에도 PropertyField grep 0건이다. MISSING 5파일(api4/properties_test.go, app/property_field_helpers_test.go, api/v4/source/properties.yaml, 000230 up/down)도 같은 계보 산물이거나 이 커밋의 신규 파일. 같은 권한 수준 영역의 6c7e55f2(범위 관리자 권한 수준 지정)도 제외했다. 재검토 조건은 property 시스템 v2를 도입하기로 할 때다. |
+
+| 2ba31db3 | [MM-70293 Add LegalHold plugin v1.1.6 to prepackage list (#38648)](https://github.com/mattermost/mattermost/commit/2ba31db3191b2ab3bf4f04f31e601f77d8c03df1) | Legal Hold 플러그인 v1.1.6을 사전 번들 목록(server/Makefile PLUGIN_PACKAGES)에 넣고 관리자 문서 2개(docs/main/administration-guide/comply/legal-hold.mdx·integrations-guide/popular-integrations.mdx — 우리 트리에 없음, 1d3bbc63 제외)를 갱신하는 커밋인데, 플러그인 라이선스 때문에 번들하지 않는다. 저장소 mattermost/mattermost-plugin-legal-hold는 공개지만 LICENSE가 Mattermost Source Available License라 운영 사용에 유효한 Mattermost Enterprise 계약이 필요하고, 개발·테스트 목적 외 복사·게시·배포·재라이선스·판매를 금지한다. PLUGIN_PACKAGES에 넣으면 패키징 시 바이너리를 우리 배포물에 포함하므로 이 배포 금지에 걸릴 수 있다. 코드상으로도 v1.1.6 server/plugin.go OnActivate가 pluginapi.IsEnterpriseLicensedOrDevelopment를 검사해 Enterprise 라이선스(Entry SKU 제외)가 없으면 'this plugin requires an Enterprise license'로 활성화를 거부한다(min_server_version 6.2.1). 즉 계약 없이는 켤 수 없는 플러그인을 라이선스 위험만 지고 싣는 셈이다. 후속 영향 없음 — 이 커밋 이후 upstream-master에서 legal hold 관련 커밋은 docs/pdf 목차 한 줄 삭제(9fa53220)뿐이고, server·webapp 코어에는 LegalHold 코드가 전 이력에 없다(플러그인 전용 기능). 참고 — 기존 번들 중 channel-export·msteams-meetings도 GitHub 라이선스가 NOASSERTION(비표준)이라 같은 계열일 수 있어 별도 점검 대상이다. 재검토 조건은 Mattermost Enterprise 계약을 갖추거나 Legal Hold를 자체 구현하기로 할 때. |
+
+| 0c3717c9 | [Add Phone and URL attribute types to Attribute Management (#38610)](https://github.com/mattermost/mattermost/commit/0c3717c9eeec207eb405164509ba4d4a2599a4bd) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 → … → 846df3d3)의 새 속성 화면에 Phone·URL 타입을 추가하는 커밋이라 대상이 없다(12파일, webapp만). 11파일이 admin_console/global_attributes/**·관련 테스트로 우리 트리에 없고, 유일하게 존재하는 webapp en.json은 키 3개 추가라 쓸 화면 없이 미사용 키와 ko 누락만 생긴다. 우리 CPA(User Attributes, system_properties)에는 Phone·URL 타입이 이미 있다 — 이 커밋은 그것을 Global Attributes 화면으로 옮기는 작업이다. 재검토 조건은 Global Attributes 계보를 도입하기로 할 때다. |
+
+| acc409f2 | [\[MM-70810\] Hide the Posts resource in Global Attributes behind the PostAttributes feature flag (#38684)](https://github.com/mattermost/mattermost/commit/acc409f21d3679d937f3e1d739a521e440ce9fde) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 → … → 846df3d3·0c3717c9)의 Applies-to에서 Posts 리소스 선택지를 PostAttributes 피처 플래그 뒤로 숨기는 커밋(신규 훅 use_allowed_resource_types.ts, 8파일 +244/-79)이라 대상이 없다. 8파일 전부(admin_console/global_attributes/** 7개와 global_attributes_form.spec.ts e2e)가 우리 트리에 없다. 재검토 조건은 Global Attributes 계보를 도입하기로 할 때다. |
+
+| e5c0b8a5 | [Cascade matching display_name to linked fields when renaming a global attribute (#38647)](https://github.com/mattermost/mattermost/commit/e5c0b8a5caa021c535eb43fa13033ac095cbbf10) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 → … → 846df3d3·0c3717c9·acc409f2)에서 전역 속성 이름 변경 시 연결된 리소스별 필드 중 이름이 같은 필드의 display_name을 함께 바꾸는 커밋(4파일 +313/-28)이라 대상이 없다. 3파일(admin_console/global_attributes/attribute_details/attribute_details.tsx·_test, e2e global_attributes_form.spec.ts)이 우리 트리에 없고, 유일하게 존재하는 webapp en.json은 admin.global_attributes.attribute_details.save_error.applies_to_display_name_save_failed 키 1개 추가라 쓸 화면 없이 미사용 키와 ko 누락만 생긴다. 재검토 조건은 Global Attributes 계보를 도입하기로 할 때다. |
+
+| f0b63f8e | [\[MM-70832\] Match attribute accordion top padding to the gap between fields (#38689)](https://github.com/mattermost/mattermost/commit/f0b63f8ed11ea4b375f940e76eea189c6f8cd657) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 → … → 846df3d3·0c3717c9·acc409f2·e5c0b8a5)의 Applies-to 아코디언 본문(.AttributeAppliesToItem__body) 위쪽 여백을 4px→24px로 늘려 필드 간격과 맞추는 스타일 조정(1파일 +3/-1)이라 대상이 없다. 유일한 접촉 파일 admin_console/global_attributes/attribute_details/attribute_applies_to_item.scss가 우리 트리에 없다. 재검토 조건은 Global Attributes 계보를 도입하기로 할 때다. |
+
+| 50a91ddb | [\[MM-70833\] Stop dimming the Classification row in Attribute Management (#38693)](https://github.com/mattermost/mattermost/commit/50a91ddb2a004bcd95f8f200e350c87ff53b2178) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 → … → 846df3d3·0c3717c9·acc409f2·e5c0b8a5·f0b63f8e)와 분류 표시 계보(2b7b398a 계열)가 만나는 목록 화면에서 Classification 행 흐림 표시 스타일·분기를 지우는 UI 수정(4파일 +50/-91)이라 대상이 없다. 4파일 전부(admin_console/global_attributes/global_attributes_table.tsx·.scss·.test.tsx, e2e global_attributes_listing.spec.ts)가 우리 트리에 없다. 재검토 조건은 Global Attributes 계보를 도입하기로 할 때다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -759,6 +766,8 @@
 | 5de31f8e | [MM-68909: Add per-channel setting to disable join/leave system messages (#37314)](https://github.com/mattermost/mattermost/commit/5de31f8e868f61636ee9d556176cd6ab5f956f2b) | 채널별 입퇴장 메시지 끄기 (가칭) — 마이그레이션 000221·36파일 +2220. 포크 FilterUserIds(1ed781bb96·9dd43c541d)와 post_store 8곳 병합, getPostsAround의 conditions 변수 제거로 생기는 컴파일 함정, 제외 계보(Managed Categories·GetPostsForView·Classification·property_values) 문맥 제거 필요 |
 
 | 41c482b4 | [Enable single team and channel migrations between instances (#37868)](https://github.com/mattermost/mattermost/commit/41c482b497c5236878019689bc202914f8425f40) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 54파일 +11472(테스트 약 8.6k). bulk export --team/--channel, import --destination-team, 채널 import 시 비활성 껍데기 계정(props.importedInactive)·첫 로그인 해제, 답글 멱등·재개·import 보고서, post·reaction·thread store 신규 조회, webapp imported-inactive 태그(포크 표시 규칙 컴포넌트 profile_popover·at_mention_suggestion·user_profile에 추가). 우리 대량 사용자 가져오기(docs/mattermost-bulk-user-import-guide.md) 경로의 회귀 확인 필요. 충돌은 .gitignore·export_test.go 2곳 |
+
+| ecc7898a | [Use NewTestPassword in import tests so FIPS CI passes (#38664)](https://github.com/mattermost/mattermost/commit/ecc7898a5080a213fb7d09f092099b514dc77aed) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 41c482b4의 후속 테스트 수정. 41c482b4가 들여오는 TestImportUsernamRemap(import_functions_test.go)·TestBulkImportKeepsLinesAfterNonFatalWorkerError(migration_test.go)의 CreateUser 픽스처 비밀번호 3곳을 model.NewTestPassword()로 바꿔 FIPS 14자 최소 길이를 통과시킨다. spec 구현 시 함께 반영하고 커밋 본문에 두 Upstream 링크를 넣는다 |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
@@ -800,3 +809,4 @@
 | c8b1cc00 | [MM-68283 - Add render-time ABAC permission decisions for file upload/download (#36820)](https://github.com/mattermost/mattermost/commit/c8b1cc0046c9ab53de4cb33804a7b4bc5cd03a83) | `github.com/mattermost/enterprise/access_control` — 렌더 시점 파일 권한 판정(업로드 버튼 비활성·첨부 가림 즉시 반영). 결정 API(POST /api/v4/access_control/decisions/actions/search)·ETag epoch·localcache epoch 캐시·웹앱 useRenderPermission·업로드 버튼 aria-disabled를 adapt로 모두 반영했으나(18220d7c), ALLOW/DENY를 판정하는 PDP가 비공개 모듈에만 있어 우리 빌드에서는 ch.AccessControl이 nil이다(server/enterprise/external_imports.go:38, //go:build enterprise, server/go.mod에 해당 모듈 없음). 그래서 SearchAllowedActionsForCurrentUser가 acs == nil 분기에서 DefaultWhenInactive(true)를 돌려 업로드·다운로드가 늘 '허용'으로 렌더된다 — 기존 동작을 바꾸지 않는 비활성이다. AppendABACEtag도 EnableAttributeBasedAccessControl(기본 false)이 꺼져 있으면 기존 ETag를 그대로 돌려준다. 웹앱은 FeatureFlagPermissionPolicies(기본 true)일 때 채널마다 결정 API를 1회 더 부른다. 같은 계보의 ba1cec51(리소스 수준 권한 정책, 이 커밋의 직접 선행)·4da11e81·46417611·6a3b21eb와 동일 처리. 자체 PDP를 RegisterAccessControlServiceInterface로 등록하면 그대로 활성화되며, 그때 신규 e2e 3개 스펙(file_permissions_render/live_updates/edge_cases)으로 확인한다. property v2 부재로 버린 훅은 docs/upstream-adapted-divergences.md 참조. |
 | 9de33037 | [MM-70076 - include native user attribute fields in ABAC policy listings (#38136)](https://github.com/mattermost/mattermost/commit/9de33037326535e4f165de398c2cfabe0318ce4e) | ABAC 정책 속성 목록에 고유 사용자 속성을 포함하는 작업. 되살리려면 property v2 계보와 Phase 5(84a554b2) 반영이 선행돼야 하고, 정책 평가 엔진은 비공개 github.com/mattermost/enterprise/access_control에만 있어(ch.AccessControl nil) 자체 구현이 필요하다. Phase 2(0dccdfb0)·4(c9b42e93)·6(17c77e27)과 같은 제약. |
 | 69f0f2c2 | [\[MM-70642\] Add Global Relay SenderAddress config setting (#38451)](https://github.com/mattermost/mattermost/commit/69f0f2c22cfb346566bc02ad67347bd65a7cabdf) | Global Relay 고정 발신자 주소(SenderAddress) — 설정·검증·콘솔 UI는 adapt로 반영했으나 이 값을 EML From·SMTP envelope sender로 쓰는 코드가 github.com/mattermost/enterprise/message_export/global_relay_export(비공개)에만 있어 발동하지 않는다. 4608b024(사용자 지정 헤더)와 같은 구조. 자체 Global Relay 작성기 구현 시 이 설정을 그대로 쓰면 된다. |
+| 2ba31db3 | [MM-70293 Add LegalHold plugin v1.1.6 to prepackage list (#38648)](https://github.com/mattermost/mattermost/commit/2ba31db3191b2ab3bf4f04f31e601f77d8c03df1) | Legal Hold (eDiscovery 법적 보존) — 엄밀히는 비공개 모듈이 아니라 공개 저장소 mattermost/mattermost-plugin-legal-hold이지만 Mattermost Source Available License라 Enterprise 계약 없이 운영 사용·재배포 불가, 플러그인도 Enterprise 라이선스 검사로 활성화를 거부한다. 기능(사용자·기간별 메시지·파일 보존과 내보내기)이 필요하면 자체 구현 대상 |
