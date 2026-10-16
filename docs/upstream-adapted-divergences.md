@@ -125,6 +125,7 @@
 | 로그 경로 루트 강제(기능 플래그) | [abf088ca](https://github.com/mattermost/mattermost/commit/abf088ca912c4b1f0969804596eb3820faf56f5a) (#38634) | 서버 코드는 그대로 받았다. 충돌 문맥의 `PostDeliveryTracking`(제외한 `0019ecc5`)과 `TestIsAuditLevelActive`를 버리고, 그 커밋이 넣던 `slices` import를 `config/logger.go`에 직접 추가했다 — 아래 참조 |
 | 새·수정 문구 일괄 번역 | [5c246f54](https://github.com/mattermost/mattermost/commit/5c246f54fd761f99828c7320d2d74ce0b1f3b119) (#38945) | `f5b9b0ed` 선례대로 조건부 추가만 받고, "우리 값 = upstream 옛 값"인 수정도 받았다. server ko 3건은 우리 값을 지켰고 ko 신규 2건을 OKR.BEST로 바꿨다 — 아래 참조 |
 | 하드코딩 영어 라벨 정리 + pt-BR 보강 | [0d4385d1](https://github.com/mattermost/mattermost/commit/0d4385d1259da280837c6b6826c784bc03468284) (#39113) | 코드는 그대로 받았다. en.json은 우리 판에 새 15키를 넣고, 카탈로그는 `5c246f54` 절의 조건으로 반영했다 — 아래 참조 |
+| SAML/OAuth 감사 이벤트 user_created | [678386ea](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) (#38006) | 서버 코드는 그대로 받았다. SAML 쪽은 구현체가 비공개 enterprise라 인터페이스만 바뀌고 동작하지 않는다. 감사 로그 스키마 문서를 버렸다 — 아래 참조 |
 
 ---
 
@@ -3815,3 +3816,25 @@ jest(`npm run test`, TZ=UTC) 30 suite 중 28 통과·스냅샷 55건 통과. 나
 **검증.** 2026-10-21. 반영 로그 밖의 키 유실·값 변경 0건(webapp 22파일 전수 비교). `i18n-extract:check` 통과, ko 누락 4(변화 없음)·orphaned 8(기존).
 접촉 디렉터리 24개 jest 51 suite 중 49 통과 — `add_groups_to_channel_modal`·`add_groups_to_team_modal`의 `renderOption` 스냅샷 5건 실패는 반영 전 HEAD와 같다(기준선).
 접촉 파일 eslint 오류 0, `tsc` 52건은 기준선과 같고 접촉 파일 0건.
+
+---
+
+## SAML/OAuth 감사 이벤트 user_created — SAML은 인터페이스만, 문서는 버렸다
+
+**upstream**: [`678386ea`](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98)
+([MM-70287] Add user_created to SAML/OAuth SSO audit events, #38006) — 10파일 +203/-60, 2026-10-21 반영(사용자 결정 adapt)
+
+**받은 것.** `app.CreateOAuthUser`·`LoginByOAuth`·`CompleteOAuth`의 `userWasCreated bool` 반환, `web/oauth.go`·`web/saml.go`의 감사 메타 `user_created`(로그인 실패 시에도 기록),
+`einterfaces.SamlInterface.DoLogin` 시그니처(`userWasCreated bool` 추가)와 mock, 테스트. 바뀌는 함수의 호출부는 모두 이 커밋 안에서 함께 바뀌며 포크 자체 호출은 없다.
+
+**동작 차이.** OAuth(Google·GitLab·OpenID 등)는 공개 코드라 그대로 동작한다. SAML은 `SamlInterface` 구현이 Mattermost 비공개 enterprise 저장소에만 있어 우리 트리에는
+인터페이스·mock뿐이다 — 시그니처는 맞췄지만 SAML 로그인 자체가 비활성이라 `user_created`도 기록되지 않는다. ledger "Mattermost 비공개 사설 모듈 커밋" 표에 함께 올렸다.
+SAML을 자체 구현하게 되면 `DoLogin`이 생성 여부를 돌려주도록 이 시그니처를 따라야 한다(계정은 만들었으나 후속 단계가 실패한 경우 user와 err를 함께 돌려줄 수 있다는 주석 계약 포함).
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/administration-guide/comply/embedded-json-audit-log-schema.mdx` | `completeSaml`·`completeOAuth` 감사 이벤트 설명에 "`meta.user_created`는 JIT로 새 계정을 만든 로그인에서 true" 문장 추가(2줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 해당 없음 |
+
+**검증.** `go build ./...`, `go vet ./channels/app/ ./channels/web/ ./einterfaces/...`, `go test ./channels/app/ -run 'OAuth|CreateOAuthUser|LoginByOAuth'`, `./channels/web/ -run 'Saml|OAuth'` 통과.
