@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-17 23:02
+- 갱신일: 2026-10-17 23:35
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 157개
+- 남은 커밋: 156개
 
-**마지막 반영 커밋:** `3a1f5f0d` | [Add AI persona review pipeline for docs PRs (#38144)](https://github.com/mattermost/mattermost/commit/3a1f5f0da1868dd2d67a7b8d91ffd6333357354f) | 2026-09-25
+**마지막 반영 커밋:** `1f33d75c` | [System console LHS UI update (#26966)](https://github.com/mattermost/mattermost/commit/1f33d75c0c2f9d26cd9be109ae66b24c0bc3f28b) | 2026-09-26
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 1f33d75c | [System console LHS UI update (#26966)](https://github.com/mattermost/mattermost/commit/1f33d75c0c2f9d26cd9be109ae66b24c0bc3f28b) | 2026-09-26 |
 | b5c970cd | [\[E2E/Playwright\] Add login and auth-policy tests and delete ported Cypress specs (#38519)](https://github.com/mattermost/mattermost/commit/b5c970cdbb4a6b007d373421d5511747e520cf43) | 2026-09-28 |
 | 8bfa298a | [\[E2E/Playwright\] Add password, MFA, authentication-method, and claim tests (#38520)](https://github.com/mattermost/mattermost/commit/8bfa298a54cba976311164492f4be9e62a039389) | 2026-09-28 |
 | 27c501d2 | [Replace docs impact review with self-clearing gap detection (#38177)](https://github.com/mattermost/mattermost/commit/27c501d217266608a917c163690505d14d75df66) | 2026-09-28 |
