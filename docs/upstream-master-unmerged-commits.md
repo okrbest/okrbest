@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-17 01:32
+- 갱신일: 2026-10-17 22:41
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 170개
+- 남은 커밋: 164개
 
-**마지막 반영 커밋:** `163baf03` | [Portal hierarchical parent search suggestions out of the value menu (#38688)](https://github.com/mattermost/mattermost/commit/163baf0351e8c307c57c09074cd758ade6c76509) | 2026-09-23
+**마지막 반영 커밋:** `1cfdf883` | [\[MM-70788\] Fix flaky interplugin context test (#38682)](https://github.com/mattermost/mattermost/commit/1cfdf883d21718988f16c2aac7ea6e56a28eaa6c) | 2026-09-24
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 913291dd | [\[MM-55271\] Switch Product Menu doesn't follow standard accessible keyboard behavior (#38561)](https://github.com/mattermost/mattermost/commit/913291dd0518d0c3b022d453b23981e7070a03b0) | 2026-09-24 |
-| 6d5b018c | [fix: align sharedchannel-test deps with the server module (#38760)](https://github.com/mattermost/mattermost/commit/6d5b018cdfcdcff90c3e0413d842a4bcf7f4109d) | 2026-09-24 |
-| cb4254cc | [Bump prepackage Boards plugin version to 10.0.0 (#38759)](https://github.com/mattermost/mattermost/commit/cb4254cc2d14902227540a29aafa0eeb15da5171) | 2026-09-24 |
-| 923df3de | [docs: migrate developers.mattermost.com links to docs.mattermost.com/developers (#38660)](https://github.com/mattermost/mattermost/commit/923df3deba0c852772c8b9fd7f225a15f1fe5246) | 2026-09-24 |
-| 76ad4213 | [Add dot release docs for server v11.11.1 (#38725)](https://github.com/mattermost/mattermost/commit/76ad4213c924f6b459f83a6bab89adff3c290afd) | 2026-09-24 |
-| b60e47f9 | [Update pgloader docs for caching_sha2_password support (#38768)](https://github.com/mattermost/mattermost/commit/b60e47f9ae183d161dd473f783b9465279777a69) | 2026-09-24 |
-| adbf5510 | [\[MM-70907\] Cancel all leader tasks on Channels.Stop (#38766)](https://github.com/mattermost/mattermost/commit/adbf55108481172a9195ad91f3038df8c5202ec5) | 2026-09-24 |
-| 18a91d90 | [Enable SessionAttributes feature flag by default (#38771)](https://github.com/mattermost/mattermost/commit/18a91d90f0ed6527d2d23dbf79d0d918474f1898) | 2026-09-24 |
-| 4cd9cbfc | [\[MM-58530\] Report unhandled promise rejections and move global error handling out of entry.tsx (#38730)](https://github.com/mattermost/mattermost/commit/4cd9cbfc6c3852c5cdc5b0a4c8e938533afbcd76) | 2026-09-24 |
-| 3f00dfdb | [MM-70088: rework team filter handling in the users listing endpoint (#38718)](https://github.com/mattermost/mattermost/commit/3f00dfdba498a0fcad3bd9224fc19b823acbb708) | 2026-09-24 |
-| 1cfdf883 | [\[MM-70788\] Fix flaky interplugin context test (#38682)](https://github.com/mattermost/mattermost/commit/1cfdf883d21718988f16c2aac7ea6e56a28eaa6c) | 2026-09-24 |
 | b20499b5 | [Bumping prepackaged version of MS Teams Meetings plugin to v3.0.0 (#38770)](https://github.com/mattermost/mattermost/commit/b20499b51166cfe20390b74b4ce890c6f3052438) | 2026-09-25 |
 | f76792bb | [docs(site): make IMEDiagram content-driven with variant toggle (#38593)](https://github.com/mattermost/mattermost/commit/f76792bb97038c37d09639803f67c0c8675744ca) | 2026-09-25 |
 | 5b398474 | [Session attributes docs (#38553)](https://github.com/mattermost/mattermost/commit/5b398474642e8c63dd30e71445046fd2e3392b2b) | 2026-09-25 |
@@ -181,6 +170,11 @@
 | 1320229c | [\[MM-71111\] Health Dashboard PR27: version currency and ESR/EOL rules (#39075)](https://github.com/mattermost/mattermost/commit/1320229c1b458ade0bda1f66a16db8b83f5ee544) | 2026-10-16 |
 | 14ee0ae9 | [Add Attributes to Bot Accounts (#39121)](https://github.com/mattermost/mattermost/commit/14ee0ae9a330c5fecf268731959c16a4c081e8be) | 2026-10-16 |
 | 3d291f7f | [Include deleted replies in thread updatesOnly responses (#39026)](https://github.com/mattermost/mattermost/commit/3d291f7fd08b3d3814ec67fbb9edc75268790902) | 2026-10-16 |
+| f5485a5c | [\[MM-71178\] Support quoted values with spaces in slash command args (#39161)](https://github.com/mattermost/mattermost/commit/f5485a5c6e3c65542e35077cc6777ad197617709) | 2026-10-16 |
+| 356bdc7d | [docs: scope AI documentation drafts to the merged change (#39211)](https://github.com/mattermost/mattermost/commit/356bdc7d9b42aece875cc37271877a3e2576f4dc) | 2026-10-16 |
+| d11343f0 | [\[MM-71181\] Clean up the saved secure connection when invite creation fails (#39233)](https://github.com/mattermost/mattermost/commit/d11343f03a07c9d41250fa95753c938f6dc89a9a) | 2026-10-17 |
+| cdc7fd28 | [\[MM-71191\] Translate /secure-connection accept transport, response and remote rejection errors (#39232)](https://github.com/mattermost/mattermost/commit/cdc7fd28e74c39a3899cb2e50c7fb36597db1648) | 2026-10-17 |
+| 2d52d2b0 | [\[MM-71060\] Health Dashboard: read the license from Support Packet diagnostics (#39214)](https://github.com/mattermost/mattermost/commit/2d52d2b00d7a109a7dc89c6af252cdb027d6c3c9) | 2026-10-17 |
 
 ## 제외된 커밋
 
@@ -742,6 +736,18 @@
 | 8ddcd797 | [Fix K8s HA upgrade doc FAQ claiming manual DB schema migration (#38678)](https://github.com/mattermost/mattermost/commit/8ddcd797c7a5801c04831fbbd9104193d1c6015a) | 제외한 1d3bbc63(문서 사이트 이관, #37330 — 원칙 IV)의 문서 사이트 계보라 고칠 대상이 없다. Kubernetes HA 업그레이드 문서 FAQ의 'DB 스키마 마이그레이션 수동 실행' 오기를 고치는 docs/main 1파일 +1/-1, 코드 변경 없음. 파일이 우리 트리에 없다. |
 
 | 163baf03 | [Portal hierarchical parent search suggestions out of the value menu (#38688)](https://github.com/mattermost/mattermost/commit/163baf0351e8c307c57c09074cd758ade6c76509) | 제외한 Global Attributes(Attribute Management, 뿌리 38b66d22 #37580)·계층형 속성(9ef79330 #37851, 85372e3a #38481) 계보의 후속이라 고칠 대상이 없다. 계층형 속성 편집 화면의 상위 항목 검색 제안을 값 메뉴 밖(portal)으로 띄우는 5파일 +354/-103(attribute_details/graph/edge_list.tsx·parents_pane.scss·테스트, Playwright global_attributes 스펙). 5파일 모두 우리에게 없다(modify/delete). 같은 화면의 ab7d2b5d·e9a8793d와 같은 판정. |
+
+| 913291dd | [\[MM-55271\] Switch Product Menu doesn't follow standard accessible keyboard behavior (#38561)](https://github.com/mattermost/mattermost/commit/913291dd0518d0c3b022d453b23981e7070a03b0) | product switcher를 spec 017(f95ba5a8d7, Slack식 레일·팀 드롭다운)에서 제거·대체함 — 재작성 대상 product_menu 컴포넌트·상태가 포크에 없고, 주변 변경(Menu min/maxWidth, useGetLimits 등)도 이 메뉴 전용 |
+
+| cb4254cc | [Bump prepackage Boards plugin version to 10.0.0 (#38759)](https://github.com/mattermost/mattermost/commit/cb4254cc2d14902227540a29aafa0eeb15da5171) | 공식 Boards 번들 버전 올림(9.4.0 → 10.0.0, 일반·FIPS)을 받지 않는다 — 1bfa2e51(9.3.1)·f21b0299(9.4.0) 제외에서 정한 방침 적용. 우리 Boards(okrbest/okrbest-plugin-boards)는 공식과 플러그인 ID(focalboard)가 같은 포크라, 더 높은 공식 번들이 서버 재시작 때 processPrepackagedPlugin·과도기 저장 경로로 우리 플러그인을 덮어쓴다. master 번들은 9.3.0 유지. |
+
+| 923df3de | [docs: migrate developers.mattermost.com links to docs.mattermost.com/developers (#38660)](https://github.com/mattermost/mattermost/commit/923df3deba0c852772c8b9fd7f225a15f1fe5246) | 제외한 1d3bbc63(feat(docs): move docs-experimental content into monorepo docs/, #37330)의 후속이라 고칠 대상이 없음 — 49파일 전부 docs/main/ 하위인데 우리 트리에 docs/main/ 자체가 없다(Mattermost 제품 문서 사이트는 리브랜드 충실성 원칙 IV상 받지 않음). 70b62d9e와 같은 계보. |
+
+| 76ad4213 | [Add dot release docs for server v11.11.1 (#38725)](https://github.com/mattermost/mattermost/commit/76ad4213c924f6b459f83a6bab89adff3c290afd) | 제외한 1d3bbc63(docs/ 이관, #37330)의 후속이라 대상이 없음 — Mattermost v11.11.1 dot release 문서(배포 가이드·릴리스 표·버전 아카이브·changelog)로 전 파일이 docs/main/ 하위인데 우리 트리에 docs/main/이 없다(리브랜드 충실성 원칙 IV). 923df3de·70b62d9e와 같은 계보. |
+
+| b60e47f9 | [Update pgloader docs for caching_sha2_password support (#38768)](https://github.com/mattermost/mattermost/commit/b60e47f9ae183d161dd473f783b9465279777a69) | 제외한 1d3bbc63(docs/ 이관, #37330)의 후속이라 대상이 없음 — pgloader caching_sha2_password 지원 반영 문서 4파일이 전부 docs/main/ 하위인데 우리 트리에 docs/main/이 없다(리브랜드 충실성 원칙 IV). 923df3de·70b62d9e와 같은 계보. |
+
+| 18a91d90 | [Enable SessionAttributes feature flag by default (#38771)](https://github.com/mattermost/mattermost/commit/18a91d90f0ed6527d2d23dbf79d0d918474f1898) | Session Attributes MVF(684ddb32, #36934) 제외 결정의 연쇄 — upstream은 MVF 본체·콘솔 관리 화면(57fe965a·3b99b6c9 등, 전부 제외)이 갖춰져 플래그를 켰으나 우리 트리에는 bf53cd3345(#36511)의 user agent 수집 조각만 남아 있다. 켜면 E-Advanced 라이선스 서버에서 소비처 없는 세션 속성 DB 쓰기만 요청마다 생긴다. 기본값 false 유지. Session Attributes를 제품에 넣기로 하면 spec 안에서 함께 켠다. |
 
 ## spec 전환 커밋
 
