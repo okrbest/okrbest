@@ -1,3 +1,6 @@
+# okrbest 이미지 Dockerfile (okrbest-deploy 의 dev/prd/starter 워크플로우 공통).
+# 앱 바이너리/클라이언트를 builder 가 아닌 최종 스테이지에서 별도 레이어로 복사해,
+# 변경된 레이어만 레지스트리에 push 되게 한다. (2026-10, Dockerfile.dev 에서 검증 후 통합)
 # First stage - Ubuntu with document processing dependencies and curl for downloading
 FROM ubuntu:noble-20251013@sha256:c35e29c9450151419d9448b0fd75374fec4fff364a27f176fb458d472dfc9e54 AS builder
 # Setting bash as our shell, and enabling pipefail option
@@ -42,13 +45,9 @@ RUN rm -f /mattermost/bin/mattermost \
 # && rm -rf /mattermost/i18n/*
 #  && rm -f /mattermost/config/config.json
 
-# Copy the new mattermost server and client
-COPY --chown=mattermost:mattermost --chmod=755 dist/server/mattermost /mattermost/bin/mattermost
-COPY --chown=mattermost:mattermost --chmod=755 dist/server/mmctl /mattermost/bin/mmctl
-# dist/client/* (와일드카드)는 하위 디렉터리를 평탄화한다 — files/ 안의 폰트·CSS 171개가
-# /mattermost/client 최상위로 쏟아져 /static/files/... 가 전부 404가 된다.
-# 디렉터리를 통째로 넘겨야 구조가 보존된다.
-COPY --chown=mattermost:mattermost dist/client /mattermost/client
+# 앱 바이너리와 클라이언트는 여기서 복사하지 않는다 (최종 스테이지에서 별도 레이어로 복사).
+# builder 단계에서 덮어쓰면 아래 `COPY --from=builder /mattermost` 레이어 전체가 매 빌드마다
+# 바뀌어 수백 MB가 매번 push된다.
 # COPY --chown=mattermost:mattermost --chmod=755 ../i18n/* /mattermost/i18n
 # COPY --chown=mattermost:mattermost --chmod=755 ../config/config.json /mattermost/config/config.json
 
@@ -82,8 +81,18 @@ COPY --from=builder /usr/lib/libwv.so* /usr/lib/
 COPY --from=builder /usr/lib/libtidy.so* /usr/lib/
 COPY --from=builder /usr/lib/libfontconfig.so* /usr/lib/
 
-# Copy mattermost from builder stage
+# 1) 바뀌지 않는 부분(업스트림 패키지·prepackaged 플러그인): 빌드 캐시가 유지되면
+#    같은 레이어 digest가 나와 push 시 "Layer already exists"로 건너뛴다.
 COPY --from=builder --chown=2000:2000 /mattermost /mattermost
+
+# 2) 매 빌드마다 바뀌는 부분만 별도 레이어로 올린다. push되는 양이 이 세 레이어로 줄어든다.
+#    passwd 복사 전이라 사용자 이름 대신 숫자 UID/GID(2000)를 쓴다.
+#    dist/client/* (와일드카드)는 하위 디렉터리를 평탄화한다 — files/ 안의 폰트·CSS가
+#    /mattermost/client 최상위로 쏟아져 /static/files/... 가 전부 404가 된다.
+#    디렉터리를 통째로 넘겨야 구조가 보존된다.
+COPY --chown=2000:2000 --chmod=755 dist/server/mattermost /mattermost/bin/mattermost
+COPY --chown=2000:2000 --chmod=755 dist/server/mmctl /mattermost/bin/mmctl
+COPY --chown=2000:2000 dist/client /mattermost/client
 
 # Copy passwd including mattermost user
 COPY  passwd /etc/passwd
