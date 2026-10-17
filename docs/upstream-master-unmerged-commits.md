@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-17 22:41
+- 갱신일: 2026-10-17 23:02
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 164개
+- 남은 커밋: 157개
 
-**마지막 반영 커밋:** `1cfdf883` | [\[MM-70788\] Fix flaky interplugin context test (#38682)](https://github.com/mattermost/mattermost/commit/1cfdf883d21718988f16c2aac7ea6e56a28eaa6c) | 2026-09-24
+**마지막 반영 커밋:** `3a1f5f0d` | [Add AI persona review pipeline for docs PRs (#38144)](https://github.com/mattermost/mattermost/commit/3a1f5f0da1868dd2d67a7b8d91ffd6333357354f) | 2026-09-25
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b20499b5 | [Bumping prepackaged version of MS Teams Meetings plugin to v3.0.0 (#38770)](https://github.com/mattermost/mattermost/commit/b20499b51166cfe20390b74b4ce890c6f3052438) | 2026-09-25 |
-| f76792bb | [docs(site): make IMEDiagram content-driven with variant toggle (#38593)](https://github.com/mattermost/mattermost/commit/f76792bb97038c37d09639803f67c0c8675744ca) | 2026-09-25 |
-| 5b398474 | [Session attributes docs (#38553)](https://github.com/mattermost/mattermost/commit/5b398474642e8c63dd30e71445046fd2e3392b2b) | 2026-09-25 |
-| d584e926 | [docs(site): render IME diagram PNG on PRs that touch it (#38782)](https://github.com/mattermost/mattermost/commit/d584e9264579391221db079dd328106a2632b6a8) | 2026-09-25 |
-| 9026858e | [docs-ime-render: replace npx wait-on with curl poll (#38787)](https://github.com/mattermost/mattermost/commit/9026858eb61bc4418dd9071a287cba07aaf9dd2f) | 2026-09-25 |
-| 3b20966b | [MM-69996: Fix session cache invalidation not fully propagating to websocket connections (#37716)](https://github.com/mattermost/mattermost/commit/3b20966b6108e4fdb58773d8409ae4e37ca31001) | 2026-09-25 |
-| 3a1f5f0d | [Add AI persona review pipeline for docs PRs (#38144)](https://github.com/mattermost/mattermost/commit/3a1f5f0da1868dd2d67a7b8d91ffd6333357354f) | 2026-09-25 |
 | 1f33d75c | [System console LHS UI update (#26966)](https://github.com/mattermost/mattermost/commit/1f33d75c0c2f9d26cd9be109ae66b24c0bc3f28b) | 2026-09-26 |
 | b5c970cd | [\[E2E/Playwright\] Add login and auth-policy tests and delete ported Cypress specs (#38519)](https://github.com/mattermost/mattermost/commit/b5c970cdbb4a6b007d373421d5511747e520cf43) | 2026-09-28 |
 | 8bfa298a | [\[E2E/Playwright\] Add password, MFA, authentication-method, and claim tests (#38520)](https://github.com/mattermost/mattermost/commit/8bfa298a54cba976311164492f4be9e62a039389) | 2026-09-28 |
@@ -748,6 +741,18 @@
 | b60e47f9 | [Update pgloader docs for caching_sha2_password support (#38768)](https://github.com/mattermost/mattermost/commit/b60e47f9ae183d161dd473f783b9465279777a69) | 제외한 1d3bbc63(docs/ 이관, #37330)의 후속이라 대상이 없음 — pgloader caching_sha2_password 지원 반영 문서 4파일이 전부 docs/main/ 하위인데 우리 트리에 docs/main/이 없다(리브랜드 충실성 원칙 IV). 923df3de·70b62d9e와 같은 계보. |
 
 | 18a91d90 | [Enable SessionAttributes feature flag by default (#38771)](https://github.com/mattermost/mattermost/commit/18a91d90f0ed6527d2d23dbf79d0d918474f1898) | Session Attributes MVF(684ddb32, #36934) 제외 결정의 연쇄 — upstream은 MVF 본체·콘솔 관리 화면(57fe965a·3b99b6c9 등, 전부 제외)이 갖춰져 플래그를 켰으나 우리 트리에는 bf53cd3345(#36511)의 user agent 수집 조각만 남아 있다. 켜면 E-Advanced 라이선스 서버에서 소비처 없는 세션 속성 DB 쓰기만 요청마다 생긴다. 기본값 false 유지. Session Attributes를 제품에 넣기로 하면 spec 안에서 함께 켠다. |
+
+| b20499b5 | [Bumping prepackaged version of MS Teams Meetings plugin to v3.0.0 (#38770)](https://github.com/mattermost/mattermost/commit/b20499b51166cfe20390b74b4ce890c6f3052438) | MS Teams Meetings 번들 버전 올림(v2.4.1 → v3.0.0)을 받지 않는다 — 2ba31db3(Legal Hold 번들) 제외와 같은 라이선스 사유. mattermost-plugin-msteams-meetings의 LICENSE.txt는 Mattermost Source Available License(spdx NOASSERTION, 2026-10-17 원문 확인)로 운영 사용에 Enterprise 구독이 필요하고 개발·테스트 외 배포를 금지한다. v2.4.1·v3.0.0 태그 모두 같은 라이선스. 현재 번들된 v2.4.1의 제거 여부는 별도 결정 대상. |
+
+| f76792bb | [docs(site): make IMEDiagram content-driven with variant toggle (#38593)](https://github.com/mattermost/mattermost/commit/f76792bb97038c37d09639803f67c0c8675744ca) | 제외한 1d3bbc63(docs/ 이관, #37330)의 후속이라 대상이 없음 — IME 다이어그램(Mattermost FedGov 마케팅 변형·영업 자료 브랜드 에셋) 개편 50파일이 전부 docs/site/ 하위인데 우리 트리에 docs/site/가 없다(merge-tree modify/delete, 리브랜드 충실성 원칙 IV). 923df3de·70b62d9e와 같은 계보. |
+
+| 5b398474 | [Session attributes docs (#38553)](https://github.com/mattermost/mattermost/commit/5b398474642e8c63dd30e71445046fd2e3392b2b) | 제외한 1d3bbc63(docs/ 이관, #37330)의 후속이라 대상이 없음 — 10파일이 전부 docs/main/·docs/site/ 하위인데 우리 트리에 둘 다 없다. 내용도 제외한 Session Attributes MVF(684ddb32, #36934)의 관리자 문서라 설명할 기능이 없다. |
+
+| d584e926 | [docs(site): render IME diagram PNG on PRs that touch it (#38782)](https://github.com/mattermost/mattermost/commit/d584e9264579391221db079dd328106a2632b6a8) | 제외한 1d3bbc63(docs/ 이관)·f76792bb(IMEDiagram)의 후속 — IME 다이어그램 PNG를 렌더해 master에 자동 커밋하는 docs-ime-render.yml 워크플로와 docs/site/ 스크립트·PNG를 추가하는데, 렌더 대상 docs/site/가 없어 워크플로가 동작할 수 없다(Mattermost 마케팅용 산출물). |
+
+| 9026858e | [docs-ime-render: replace npx wait-on with curl poll (#38787)](https://github.com/mattermost/mattermost/commit/9026858eb61bc4418dd9071a287cba07aaf9dd2f) | 제외한 d584e926(docs-ime-render 워크플로, #38782)의 수정이라 대상 워크플로가 없다 — npx wait-on을 curl 폴링으로 바꾸는 1파일 변경. 1d3bbc63 docs/ 이관 계보. |
+
+| 3a1f5f0d | [Add AI persona review pipeline for docs PRs (#38144)](https://github.com/mattermost/mattermost/commit/3a1f5f0da1868dd2d67a7b8d91ffd6333357354f) | 제외한 1d3bbc63(docs/ 이관, #37330) 계보 — docs/main·docs/develop·docs/api 변경을 AI 페르소나 6명이 리뷰하는 CI 파이프라인(.github/prompts·scripts/docs-ai·workflow 24파일)인데 리뷰 대상 트리가 우리에게 없어 트리거되지 않는다. 페르소나 규칙도 Mattermost 브랜드 보이스·PlanAvailability·영업 관점 기준이라 리브랜드(OKR.BEST)·한국어 문서 체계(constitution 원칙 VIII)와 맞지 않는다. ANTHROPIC_API_KEY 미설정 시 no-op. |
 
 ## spec 전환 커밋
 
