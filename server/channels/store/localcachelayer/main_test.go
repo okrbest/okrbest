@@ -227,6 +227,7 @@ func getMockStore(t *testing.T) *mocks.Store {
 	mockAttributesStore.On("GetUserPropertyValuesEpoch", mock.Anything, "user-id").Return("200-1", nil)
 	fakeSubject := model.Subject{ID: "user-id", Type: "user", Attributes: map[string]any{"department": "Engineering"}}
 	mockAttributesStore.On("GetSubject", mock.Anything, "user-id", "group-id").Return(&fakeSubject, nil)
+	mockAttributesStore.On("GetSubject", mock.Anything, "no-attributes-user-id", "group-id").Return(nil, store.NewErrNotFound("Attributes", "no-attributes-user-id"))
 	mockStore.On("Attributes").Return(&mockAttributesStore)
 
 	mockReadReceiptStore := &mocks.ReadReceiptStore{}
