@@ -3,28 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-18 17:31
+- 갱신일: 2026-10-19 00:32
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 146개
+- 남은 커밋: 133개
 
-**마지막 반영 커밋:** `6e4c923e` | [MM-70890: Don't copy ldap/saml sync attrs to non-user linked fields (#38774)](https://github.com/mattermost/mattermost/commit/6e4c923eb2f1ceafcc9491c607396060d9ec405b) | 2026-09-28
+**마지막 반영 커밋:** `26ee3a47` | [Update Playbooks plugin to v2.12.1 (incl. FIPS) (#38853)](https://github.com/mattermost/mattermost/commit/26ee3a470639ea19573f0bf23af7e1e6048cfa8b) | 2026-09-29
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| a938826d | [Allow system-level resources in render-time action search (#38745)](https://github.com/mattermost/mattermost/commit/a938826dda9e55e43e6fde65ace9add072984025) | 2026-09-29 |
-| 53a9536f | [Cache a blank subject for users without attributes to avoid unnecessary DB hits (#38744)](https://github.com/mattermost/mattermost/commit/53a9536f81c5288392e74a340f1209bb803680e0) | 2026-09-29 |
-| f1cf5341 | [\[MM-70897\] Show channel header attributes on a thread opened from the Threads view (#38792)](https://github.com/mattermost/mattermost/commit/f1cf534107168df16c6752139e0242fa40563a84) | 2026-09-29 |
-| 7dc8c5f7 | [Update manage-user-surveys.mdx (#38754)](https://github.com/mattermost/mattermost/commit/7dc8c5f72bc1e2e3a180ce23d72f0815dab6a189) | 2026-09-29 |
-| 258d6ce8 | [MM-70676: Rework file metadata preparation for post retrieval, channel bookmarks, and notification delivery (#38444)](https://github.com/mattermost/mattermost/commit/258d6ce8c1e045c3a92b6aaa68ede818ff44dbc8) | 2026-09-29 |
-| d038ccd2 | [Render English from each message's defaultMessage, not en.json (#38494)](https://github.com/mattermost/mattermost/commit/d038ccd2aa7ba98c8ba73c96eefca6e831980319) | 2026-09-29 |
-| 47b00703 | [Give every en.json entry a translator-facing description (#38411)](https://github.com/mattermost/mattermost/commit/47b00703d1cb4853bdb7492f78338b77df1bd0c4) | 2026-09-29 |
-| 2a6eba42 | [Add a Slack migration overview for teams evaluating a move (#38801)](https://github.com/mattermost/mattermost/commit/2a6eba426feacbea5267a5af452f91affbe82e05) | 2026-09-29 |
-| c7ae0e63 | [\[MM-60727\] Update relative date separators when the local day changes (#38832)](https://github.com/mattermost/mattermost/commit/c7ae0e632138639da734be3ac480e087f314bd18) | 2026-09-29 |
-| 0d48bb83 | [\[MM-70857\] Stop Classification Markings adopting or colliding with same-named attribute fields (#38699)](https://github.com/mattermost/mattermost/commit/0d48bb838aaa25e451968e3de7d4532b477f2456) | 2026-09-29 |
-| e4decb8e | [Apply the signed-in user's theme on the full-page error screen. (#38812)](https://github.com/mattermost/mattermost/commit/e4decb8e1e6fa21ccb976bd3d6146b117b0b79d4) | 2026-09-29 |
 | cc0611f2 | [Fix flaky TestSearchAllChannels (#38859)](https://github.com/mattermost/mattermost/commit/cc0611f2ee9c8d8c012bb3631133d6d51e069068) | 2026-09-30 |
-| 8583dffb | [MM-70691 Disallow Burn-on-Read for weekly repeating scheduled posts (#38777)](https://github.com/mattermost/mattermost/commit/8583dffb7e67621fea7b86d2c2c1043b03e9f4b7) | 2026-09-29 |
-| 26ee3a47 | [Update Playbooks plugin to v2.12.1 (incl. FIPS) (#38853)](https://github.com/mattermost/mattermost/commit/26ee3a470639ea19573f0bf23af7e1e6048cfa8b) | 2026-09-29 |
 | ef6957a5 | [Fix flaky post-list scroll and Global Attributes menu-height Playwright specs (#38871)](https://github.com/mattermost/mattermost/commit/ef6957a5f3a14534932857733cfc91fc311987bd) | 2026-09-30 |
 | 9176425f | [Bumping prepackaged Jira version to v5.0.0 (#38851)](https://github.com/mattermost/mattermost/commit/9176425f82c265e2fceef0e5010a8bc1e0a94264) | 2026-09-30 |
 | 73562bd0 | [MM-70272: Add aggregate size and depth limits to archive and Slack import extraction (#38009)](https://github.com/mattermost/mattermost/commit/73562bd08c7428bf8a7caab5424e24565a20bd0c) | 2026-09-30 |
@@ -758,6 +745,16 @@
 | 03e5d908 | [\[MM-70936\] Show a "Managed by" indicator on the Applies-to Users card when an attribute is synced via SAML or AD/LDAP (#38800)](https://github.com/mattermost/mattermost/commit/03e5d9083d2de65f5e0c43287f092fc04f8138a9) | 제외한 Global Attributes(Attribute Management) 계보(뿌리 38b66d22 #37580, property v2 48f2fd08 위 — 0c3717c9·acc409f2·e5c0b8a5·f0b63f8e 등)의 기능 추가라 대상이 없다. 내용은 AD/LDAP·SAML 동기화 속성의 Applies to > Users 카드에 'Managed by' 줄과 'Not editable in Mattermost.'를 보여 주고, Type select를 공용 AttributeSelect로 추출·external_source.ts 분리(16파일 +709/-122). 16파일 중 15개(admin_console/global_attributes/**, global_attributes_form.spec.ts)가 우리 트리에 없고, 유일하게 있는 webapp en.json은 키 3개(...applies_to.item.user.managed_by.*) 추가라 쓸 화면 없이 미사용 키와 ko 누락만 생긴다(0c3717c9와 같은 구조). 우리가 쓰는 CPA 화면(custom_profile_attributes)은 건드리지 않아 옮겨 적용할 대상도 없다. |
 
 | 6e4c923e | [MM-70890: Don't copy ldap/saml sync attrs to non-user linked fields (#38774)](https://github.com/mattermost/mattermost/commit/6e4c923eb2f1ceafcc9491c607396060d9ec405b) | 제외한 property v2(48f2fd08·9f1fe90b)·Global Attributes 계보의 버그 수정이라 고칠 대상이 없고, 마이그레이션이 우리 스키마를 깨뜨린다. 내용은 템플릿→linked field 생성 시 attrs.ldap/saml을 ObjectType=user일 때만 복사(그 외 제거)해 checkSyncLock 403을 막고, 000233_strip_sync_attrs_from_non_user_fields로 기존 데이터 정리. 우리 property_field.go(247줄)에는 linked field 복사 로직·LinkedFieldID·checkSyncLock이 없고, PropertyFields 테이블에 ObjectType 컬럼이 없어(000129 원형, 마이그레이션 전체에 ObjectType 0건) up SQL의 WHERE ObjectType != 'user'가 column does not exist로 실패해 서버 기동이 막힌다. 우리 CPA는 같은 테이블 attrs.ldap/saml로 동기화를 표시하므로 이런 정리 SQL은 받지 않는다. |
+
+| f1cf5341 | [\[MM-70897\] Show channel header attributes on a thread opened from the Threads view (#38792)](https://github.com/mattermost/mattermost/commit/f1cf534107168df16c6752139e0242fa40563a84) | 제외한 채널 속성 계보(e86491ad foundation → 4ce99ddd → 75a26632 MM-70180 → 035e5461 → bea18569·d283cc63·9b320fbe, property v2·분류 표시·Global Attributes 위)의 화면 확장이라 대상이 없다. 내용은 전역 Threads·스레드 팝아웃의 ThreadPane 헤더에 채널 속성 칩을 비대화형(+N 접힘)으로 표시하고, useChannelLabels surface를 ChannelLabelSurface enum으로 바꾸는 것(14파일 +482/-41). components/channel_attributes/**·common/hooks/useChannelLabels.ts·Playwright channel_attributes POM·스펙이 우리 트리에 없고(실측), 존재하는 channel_header.tsx·rhs_header_post.tsx·thread_pane.tsx의 변경 줄도 전부 우리에게 없는 ChannelAttributeLabels 사용부다(우리 채널 헤더는 Slack식 재구성 b1914c9d66 계열). |
+
+| 7dc8c5f7 | [Update manage-user-surveys.mdx (#38754)](https://github.com/mattermost/mattermost/commit/7dc8c5f72bc1e2e3a180ce23d72f0815dab6a189) | 제외한 1d3bbc63(docs/ 이관, #37330)의 후속이라 대상이 없다 — 유일한 파일 docs/main/administration-guide/configure/manage-user-surveys.mdx가 우리 트리에 없다. 내용은 오타 1자 수정(recieve→receive). User Survey 플러그인은 번들하지만(server/Makefile user-survey-v1.1.1) 우리 자체 문서에 같은 문구가 없다. |
+
+| 2a6eba42 | [Add a Slack migration overview for teams evaluating a move (#38801)](https://github.com/mattermost/mattermost/commit/2a6eba426feacbea5267a5af452f91affbe82e05) | 제외한 1d3bbc63(docs/ 이관, #37330)의 후속이라 대상이 없다 — 7파일이 전부 docs/main/administration-guide/onboard/**·docs/site/**(사이드바 생성 스크립트·리다이렉트·CSS)라 우리 트리에 없다. 내용은 Slack 대비 Mattermost Enterprise Advanced 기능 비교 개요 페이지(slack-migration-overview.mdx +113) 신설과 기존 Slack 이전 문서 연결로, Mattermost 제품·라이선스 영업 문서라 원칙 IV상 그대로 쓸 수 없다. |
+
+| 0d48bb83 | [\[MM-70857\] Stop Classification Markings adopting or colliding with same-named attribute fields (#38699)](https://github.com/mattermost/mattermost/commit/0d48bb838aaa25e451968e3de7d4532b477f2456) | 제외한 분류 표시 계보(2b7b398a #35934 Classification Markings 콘솔 → 6083cc22·23b4d827·0d0dd16d·50a91ddb)와 Global Attributes 계보(38b66d22 → 3348d7df·03e5d908 등, property v2 48f2fd08 위)가 만나는 지점의 버그 수정이라 고칠 대상이 없다. 내용은 Classification Markings가 같은 이름의 사용자·채널 속성을 가져다 쓰거나 충돌하지 않게 생성을 막고 안내하는 것(11파일 +933/-307). 11파일 중 10개(admin_console/classification_markings/**·global_attributes/**·Playwright 분류 헬퍼 2개)가 우리 트리에 없고, 유일하게 있는 webapp en.json은 admin.classification_markings.conflict.* 키 8개 추가라 쓸 화면 없이 미사용 키·ko 누락만 생긴다. |
+
+| 26ee3a47 | [Update Playbooks plugin to v2.12.1 (incl. FIPS) (#38853)](https://github.com/mattermost/mattermost/commit/26ee3a470639ea19573f0bf23af7e1e6048cfa8b) | 공식 Playbooks 번들 버전 올림(2.12.0 → 2.12.1, 일반·FIPS server/Makefile 2줄)을 받지 않는다 — 289d5e5e(2.12.0) 제외와 같은 사유. 우리 포크 okrbest/okrbest-plugin-playbooks는 공식과 같은 플러그인 ID playbooks라, 더 높은 공식 번들이 서버 재시작 때 processPrepackagedPlugin으로 우리 플러그인을 덮어쓴다. master 번들은 2.11.1(및 2.11.1%2B329b65c-fips) 유지. 번들 목록에서 빼는 결정은 별도 판단 대기. |
 
 ## spec 전환 커밋
 
