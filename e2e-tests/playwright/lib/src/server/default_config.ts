@@ -101,6 +101,8 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
             GiphySdkKey: 's0glxvzVg9azvPipKxcPLpXV0q1x1fVP',
             EnableTesting: true,
             AllowedUntrustedInternalConnections: 'localhost 127.0.0.1',
+            EnableMultifactorAuthentication: false,
+            EnforceMultifactorAuthentication: false,
         },
         TeamSettings: {
             EnableOpenServer: true,
