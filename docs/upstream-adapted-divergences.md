@@ -100,6 +100,7 @@
 | sort → slices 이관 | [68c4bb52](https://github.com/mattermost/mattermost/commit/68c4bb52e5e094d7c26f627f949973040c9c56a7) (#38473) | 이관과 govet `sortSlices`는 받았다. 보류했던 `concurrentIndex` vet 규칙도 Makefile을 upstream과 맞추며 함께 켰다. 제외 계보(CPA v2·property) 2곳을 버리고 우리 CPA v1 정렬 1곳을 직접 옮겼다 — 아래 참조 |
 | Health Dashboard PR08 health_findings 저장소 | [579c0bd9](https://github.com/mattermost/mattermost/commit/579c0bd96b61629b83ea379a276859f3d85d2f25) (#38632) | 마이그레이션 000231·000232와 SQL 저장소는 그대로 받았다. 충돌 문맥의 000230(제외 계보)과 mock store의 `View()` 접근자를 버렸고, 000230은 빈 번호로 남는다 — 아래 참조 |
 | ABAC 사용자 속성 GetSubject 캐시 | [371582e1](https://github.com/mattermost/mattermost/commit/371582e1674541acef3a80afd5e1790ba8bfb664) (#38691) | 캐시·무효화·클러스터 이벤트는 그대로 받고, localcache `GetSubject`를 우리 property v1 시그니처(대상 유형 인자 없음)로 맞췄다. 채널 대상 통과 분기와 그 테스트를 버렸다 — 아래 참조 |
+| en.json 번역자용 description | [47b00703](https://github.com/mattermost/mattermost/commit/47b00703d1cb4853bdb7492f78338b77df1bd0c4) (#38411) | 도구는 그대로 받고 두 en.json은 upstream 본문 대신 우리 키·문구로 새 형식을 재생성했다. 포크 전용 키 399개는 빈 설명. 우리 `check-empty-translations.js`를 새 형식에 맞췄다 — 아래 참조 |
 
 ---
 
@@ -3115,3 +3116,24 @@ upstream은 기존 GM에 멤버를 추가하면 새 GM을 만들어 이력이 �
 
 **다음에 만날 자리.** GM 멤버 추가·`more_direct_channels`를 다루는 upstream e2e·UI 커밋은 같은 차이로
 충돌하거나 반대 동작을 단언한다 — 우리 GM 유지 동작을 기준으로 맞춘다.
+
+---
+
+## en.json 번역자용 description — 카탈로그를 재생성했다
+
+**upstream**: [`47b00703`](https://github.com/mattermost/mattermost/commit/47b00703d1cb4853bdb7492f78338b77df1bd0c4)
+(Give every en.json entry a translator-facing description, #38411) — 10파일 +41440/-12150, 2026-10-18 반영
+
+**받은 것.** `formatter.js`(설명 이어붙이기·비리터럴 defaultMessage 거부), `check_icu.mjs`(+테스트), `tools/mmgotool` `Translation.Description`(+`i18n_extract_test.go`),
+`commercial_support_modal.tsx`(런타임 라벨을 FormattedMessage에서 꺼냄), `server/AGENTS.md`·`CLAUDE.OPTIONAL.md` 안내 문단.
+
+**맞춘 것과 버린 것.**
+
+| 위치 | upstream | 우리 | 이유 | 되살릴 조건 |
+|---|---|---|---|---|
+| `webapp/channels/src/i18n/en.json`·`server/i18n/en.json` 본문 | upstream 카탈로그 전체(설명 포함) | 우리 키·문구를 그대로 두고 새 형식으로 재생성. 설명은 같은 id의 upstream 설명을 가져오고(webapp 7,697·server 3,308), 포크 전용 키(webapp 295·server 104)는 `""` | upstream 본문에는 제외한 기능 키가 있고 우리 포크 키·리브랜드 문구가 없다. 병합 대신 재생성이 안전하다 | 해당 없음 — 이후는 추출기가 설명을 이어붙인다 |
+| `webapp/channels/scripts/check-empty-translations.js` (우리 도구) | — | `normalizeCatalog`가 `{defaultMessage, description}`도 평면으로 편다 | 그대로 두면 `--since`의 changed 판정이 문자열과 객체를 비교해 번역된 키 전부를 잘못 보고한다. 설명만 바뀐 키도 changed로 세지 않는다 | — |
+
+**검증.** 2026-10-18. `i18n-extract:check` 통과(재생성본 = 추출기 출력). 도구 jest 58건(새 3건은 수정 전 실패 확인), `go test ./tools/mmgotool/...`, server `i18n clean-empty --check` 통과.
+변경 전과 출력이 같은 기존 실패: `i18n-verify-translations`(다른 언어 누락 51,832건), server `i18n verify`(806건), `i18n-check-empty`(ko orphaned 8건), server `i18n extract` 재실행 시 키 164개 삭제·30개 추가 차이(enterprise 키 등, 변경 전 HEAD와 동일).
+

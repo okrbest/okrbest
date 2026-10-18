@@ -64,6 +64,12 @@ describe('normalizeCatalog', () => {
     test('flattens an empty server catalog', () => {
         expect(normalizeCatalog([])).toEqual({});
     });
+
+    test('flattens the webapp en.json {defaultMessage, description} format', () => {
+        const raw = {'a.b': {defaultMessage: 'Hello', description: 'Greeting on the landing page.'}};
+
+        expect(normalizeCatalog(raw)).toEqual({'a.b': 'Hello'});
+    });
 });
 
 describe('analyzeCatalogs', () => {
@@ -120,6 +126,25 @@ describe('analyzeCatalogs', () => {
         const ko = [{id: 'April', translation: '4월'}];
 
         expect(analyzeCatalogs({en, ko}).missingKeys).toEqual(['May']);
+    });
+
+    test('compares a flat base catalog against the described en.json format by string', () => {
+        const baseEn = {'a.b': 'Hello', 'a.c': 'World'};
+        const en = {
+            'a.b': {defaultMessage: 'Hello', description: 'Greeting.'},
+            'a.c': {defaultMessage: 'World there', description: 'Noun.'},
+        };
+        const ko = {'a.b': '안녕', 'a.c': '세상'};
+
+        expect(analyzeCatalogs({en, ko, baseEn}).changedKeys).toEqual(['a.c']);
+    });
+
+    test('ignores description-only edits when reporting changed keys', () => {
+        const baseEn = {'a.b': {defaultMessage: 'Hello', description: ''}};
+        const en = {'a.b': {defaultMessage: 'Hello', description: 'Greeting.'}};
+        const ko = {'a.b': '안녕'};
+
+        expect(analyzeCatalogs({en, ko, baseEn}).changedKeys).toEqual([]);
     });
 });
 
