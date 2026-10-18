@@ -2768,6 +2768,12 @@ webapp `message_export_settings.test.tsx`(Node 24)는 14건과 스냅숏 5개가
 
 **검증.** 2026-10-17. `go build ./...`, `go vet`, localcachelayer `TestAttributesStoreCache`(7건)와 app `PropertyValue|CPA|CustomProfileAttribute|AccessControl` 통과.
 캐시 저장 줄을 지운 변형에서는 "cached on second call"과 "returns a clone" 2건이 실패한다. 생성물을 다시 만들어도 추가 변경이 없다.
+
+**후속 — 빈 subject 캐시.** [`53a9536f`](https://github.com/mattermost/mattermost/commit/53a9536f81c5288392e74a340f1209bb803680e0)
+(Cache a blank subject for users without attributes, #38744) — 2026-10-18 반영. store의 `ErrNotFound`를 빈 subject로 바꿔 캐시한다(위 "not-found 미캐시"를 뒤집음).
+우리 시그니처를 유지해 같은 방식으로 맞췄다. 빈 subject의 `Type`은 `PropertyFieldObjectTypeUser` 상수가 없어 호출처 `BuildAccessControlSubject`와 같은 `"user"` 문자열로 썼고,
+테스트·mock은 인자 3개로 옮겼다. upstream 문맥의 채널 대상 테스트·mock은 위와 같은 이유로 다시 버렸다.
+호출처는 이미 not-found를 같은 빈 subject로 처리하므로 판정은 그대로다. 검증: 구현 전 새 하위 테스트 실패 확인 → 구현 후 `TestAttributesStoreCache` 8건, app `AccessControl|Attribute|CPA|Subject` 통과.
 ---
 
 ## Health Dashboard PR08 — 000230 빈 번호와 mock View 접근자

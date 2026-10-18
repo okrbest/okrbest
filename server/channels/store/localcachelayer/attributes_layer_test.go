@@ -85,6 +85,25 @@ func TestAttributesStoreCache(t *testing.T) {
 		mockStore.Attributes().(*mocks.AttributesStore).AssertNumberOfCalls(t, "GetSubject", 1)
 	})
 
+	t.Run("GetSubject caches an empty subject for a user with no attributes", func(t *testing.T) {
+		mockStore := getMockStore(t)
+		cachedStore, err := NewLocalCacheLayer(mockStore, nil, nil, getMockCacheProvider(), logger)
+		require.NoError(t, err)
+
+		noAttributesUserID := "no-attributes-user-id"
+		subject, err := cachedStore.Attributes().GetSubject(rctx, noAttributesUserID, groupID)
+		require.NoError(t, err)
+		assert.Equal(t, noAttributesUserID, subject.ID)
+		assert.Empty(t, subject.Attributes)
+		mockStore.Attributes().(*mocks.AttributesStore).AssertNumberOfCalls(t, "GetSubject", 1)
+
+		subject, err = cachedStore.Attributes().GetSubject(rctx, noAttributesUserID, groupID)
+		require.NoError(t, err)
+		assert.Equal(t, noAttributesUserID, subject.ID)
+		assert.Empty(t, subject.Attributes)
+		mockStore.Attributes().(*mocks.AttributesStore).AssertNumberOfCalls(t, "GetSubject", 1)
+	})
+
 	t.Run("InvalidateUserAttributes forces a re-query", func(t *testing.T) {
 		mockStore := getMockStore(t)
 		cachedStore, err := NewLocalCacheLayer(mockStore, nil, nil, getMockCacheProvider(), logger)
