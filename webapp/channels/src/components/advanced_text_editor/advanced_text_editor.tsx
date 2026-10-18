@@ -55,11 +55,12 @@ import Constants, {
 } from 'utils/constants';
 import {canUploadFiles as canUploadFilesAccordingToConfig} from 'utils/file_utils';
 import type {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
+import {getDraftRepeatDisabledReason} from 'utils/scheduled_post_repeat';
 import {allAtMentions} from 'utils/text_formatting';
 
 import type {GlobalState} from 'types/store';
 import type {PostDraft} from 'types/store/draft';
-import {draftHasAttachments, isPostDraftEmpty} from 'types/store/draft';
+import {isPostDraftEmpty} from 'types/store/draft';
 
 import AIActionsMenu from './ai_actions_menu';
 import DoNotDisturbWarning from './do_not_disturb_warning';
@@ -613,7 +614,7 @@ const AdvancedTextEditor = ({
             disabled={disableSendButton}
             handleSubmit={handleSubmitPostAndScheduledMessage}
             channelId={channelId}
-            allowRecurring={!draftHasAttachments(draft)}
+            repeatDisabledReason={getDraftRepeatDisabledReason(draft)}
         />
     );
 
