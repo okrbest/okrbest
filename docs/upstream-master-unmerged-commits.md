@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-17 23:35
+- 갱신일: 2026-10-18 17:31
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 156개
+- 남은 커밋: 146개
 
-**마지막 반영 커밋:** `1f33d75c` | [System console LHS UI update (#26966)](https://github.com/mattermost/mattermost/commit/1f33d75c0c2f9d26cd9be109ae66b24c0bc3f28b) | 2026-09-26
+**마지막 반영 커밋:** `6e4c923e` | [MM-70890: Don't copy ldap/saml sync attrs to non-user linked fields (#38774)](https://github.com/mattermost/mattermost/commit/6e4c923eb2f1ceafcc9491c607396060d9ec405b) | 2026-09-28
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b5c970cd | [\[E2E/Playwright\] Add login and auth-policy tests and delete ported Cypress specs (#38519)](https://github.com/mattermost/mattermost/commit/b5c970cdbb4a6b007d373421d5511747e520cf43) | 2026-09-28 |
-| 8bfa298a | [\[E2E/Playwright\] Add password, MFA, authentication-method, and claim tests (#38520)](https://github.com/mattermost/mattermost/commit/8bfa298a54cba976311164492f4be9e62a039389) | 2026-09-28 |
-| 27c501d2 | [Replace docs impact review with self-clearing gap detection (#38177)](https://github.com/mattermost/mattermost/commit/27c501d217266608a917c163690505d14d75df66) | 2026-09-28 |
-| 20f5e648 | [Fix MM-T1773 for FIPS builds' longer min password requirement (#38807)](https://github.com/mattermost/mattermost/commit/20f5e648e5cc0d53dafa220f8674f777ad361d1b) | 2026-09-28 |
-| 905bf730 | [Fix errors in AD/LDAP documentation (#38426)](https://github.com/mattermost/mattermost/commit/905bf730081b3986c5ada27cec0a7de2c86a2ec9) | 2026-09-28 |
-| 05553d08 | [Prepackage mattermost-plugin-agents v2.8.0 (#38793)](https://github.com/mattermost/mattermost/commit/05553d083cd8b9a92ccbcddca6202896ce60c4ae) | 2026-09-28 |
-| 5427f6b0 | [Draft docs from merged Docs/Needed via author personas (#38764)](https://github.com/mattermost/mattermost/commit/5427f6b024fd0c79638c7bd552f7e94283ff06a5) | 2026-09-28 |
-| 3348d7df | [Move Session Attributes under Attribute Management in System Console (#38799)](https://github.com/mattermost/mattermost/commit/3348d7dfd1e4b657ef3303889cabd2b0a107c6a5) | 2026-09-28 |
-| 70658e18 | [Add @mattermost/compass-ui@0.1.0-alpha.10 and migrate ConfirmModal buttons (#38153)](https://github.com/mattermost/mattermost/commit/70658e18d4c6234765af050d051fb1a8a7b2e31f) | 2026-09-28 |
-| 03e5d908 | [\[MM-70936\] Show a "Managed by" indicator on the Applies-to Users card when an attribute is synced via SAML or AD/LDAP (#38800)](https://github.com/mattermost/mattermost/commit/03e5d9083d2de65f5e0c43287f092fc04f8138a9) | 2026-09-28 |
-| 6e4c923e | [MM-70890: Don't copy ldap/saml sync attrs to non-user linked fields (#38774)](https://github.com/mattermost/mattermost/commit/6e4c923eb2f1ceafcc9491c607396060d9ec405b) | 2026-09-28 |
 | a938826d | [Allow system-level resources in render-time action search (#38745)](https://github.com/mattermost/mattermost/commit/a938826dda9e55e43e6fde65ace9add072984025) | 2026-09-29 |
 | 53a9536f | [Cache a blank subject for users without attributes to avoid unnecessary DB hits (#38744)](https://github.com/mattermost/mattermost/commit/53a9536f81c5288392e74a340f1209bb803680e0) | 2026-09-29 |
 | f1cf5341 | [\[MM-70897\] Show channel header attributes on a thread opened from the Threads view (#38792)](https://github.com/mattermost/mattermost/commit/f1cf534107168df16c6752139e0242fa40563a84) | 2026-09-29 |
@@ -167,6 +156,7 @@
 | d11343f0 | [\[MM-71181\] Clean up the saved secure connection when invite creation fails (#39233)](https://github.com/mattermost/mattermost/commit/d11343f03a07c9d41250fa95753c938f6dc89a9a) | 2026-10-17 |
 | cdc7fd28 | [\[MM-71191\] Translate /secure-connection accept transport, response and remote rejection errors (#39232)](https://github.com/mattermost/mattermost/commit/cdc7fd28e74c39a3899cb2e50c7fb36597db1648) | 2026-10-17 |
 | 2d52d2b0 | [\[MM-71060\] Health Dashboard: read the license from Support Packet diagnostics (#39214)](https://github.com/mattermost/mattermost/commit/2d52d2b00d7a109a7dc89c6af252cdb027d6c3c9) | 2026-10-17 |
+| f5227e66 | [\[MM-71096\] Apply incoming DeleteAt when receiving synced reactions (#39239)](https://github.com/mattermost/mattermost/commit/f5227e664f4b37437c8b110912dbf1c71e07c812) | 2026-10-17 |
 
 ## 제외된 커밋
 
@@ -752,6 +742,22 @@
 | 9026858e | [docs-ime-render: replace npx wait-on with curl poll (#38787)](https://github.com/mattermost/mattermost/commit/9026858eb61bc4418dd9071a287cba07aaf9dd2f) | 제외한 d584e926(docs-ime-render 워크플로, #38782)의 수정이라 대상 워크플로가 없다 — npx wait-on을 curl 폴링으로 바꾸는 1파일 변경. 1d3bbc63 docs/ 이관 계보. |
 
 | 3a1f5f0d | [Add AI persona review pipeline for docs PRs (#38144)](https://github.com/mattermost/mattermost/commit/3a1f5f0da1868dd2d67a7b8d91ffd6333357354f) | 제외한 1d3bbc63(docs/ 이관, #37330) 계보 — docs/main·docs/develop·docs/api 변경을 AI 페르소나 6명이 리뷰하는 CI 파이프라인(.github/prompts·scripts/docs-ai·workflow 24파일)인데 리뷰 대상 트리가 우리에게 없어 트리거되지 않는다. 페르소나 규칙도 Mattermost 브랜드 보이스·PlanAvailability·영업 관점 기준이라 리브랜드(OKR.BEST)·한국어 문서 체계(constitution 원칙 VIII)와 맞지 않는다. ANTHROPIC_API_KEY 미설정 시 no-op. |
+
+| 27c501d2 | [Replace docs impact review with self-clearing gap detection (#38177)](https://github.com/mattermost/mattermost/commit/27c501d217266608a917c163690505d14d75df66) | 부모 계보 45f54a0e(docs impact review, #35358)·3a1f5f0d(AI 페르소나 리뷰 파이프라인, #38144) 제외의 연쇄 — 19파일(.github/scripts/docs-ai/**, .github/prompts/**, docs-gap.yml·docs-impact-review.yml·docs-review.yml)이 전부 우리 트리에 없다(실측). 내용은 docs-impact-review.yml을 지우고 PR 코드·문서 diff를 Claude로 판정해 Docs/Needed 라벨을 붙이고 떼는 docs-gap.yml과 docs-ai/gap 모듈을 추가하는 것으로, ANTHROPIC_API_KEY·Mattermost 라벨 체계와 우리에게 없는 docs/ 사이트(1d3bbc63 제외)를 전제한다. 후속 5427f6b0·4f932a45도 같은 근거. |
+
+| 905bf730 | [Fix errors in AD/LDAP documentation (#38426)](https://github.com/mattermost/mattermost/commit/905bf730081b3986c5ada27cec0a7de2c86a2ec9) | 제외한 1d3bbc63(docs/ 이관, #37330)의 후속이라 대상이 없다 — 2파일(docs/main/administration-guide/onboard/ad-ldap.mdx·ad-ldap-groups-synchronization.mdx)이 우리 트리에 없다. 내용은 존재하지 않는 mmctl ldap sync --include-removed-members 플래그 안내 삭제와, v10.9 'Re-add Removed Members on Sync' 설정을 반영한 그룹 동기화 FAQ 정정. 우리 문서·코드에 같은 오류 없음 확인(--include-removed-members 언급 0건, mmctl ldap.go에도 플래그 없음). |
+
+| 05553d08 | [Prepackage mattermost-plugin-agents v2.8.0 (#38793)](https://github.com/mattermost/mattermost/commit/05553d083cd8b9a92ccbcddca6202896ce60c4ae) | 공식 Agents 번들 버전 올림(v2.6.1 → v2.8.0, 일반·FIPS server/Makefile 2줄)을 받지 않는다 — 10804f80(v2.5.1)·1361e922(v2.6.0)·443c6fdf(v2.6.1) 제외와 같은 사유. 우리 Agents 포크(okrbest/okrbest-plugin-agents)는 공식과 같은 플러그인 ID mattermost-ai라, 더 높은 공식 번들이 서버 재시작 때 processPrepackagedPlugin으로 우리 플러그인을 덮어쓴다. master 번들은 v2.4.2(및 v2.4.2%2B1305067-fips) 유지. 후속 751b8cb6(v2.9.0)도 같은 사유 대상. 번들 목록에서 아예 빼는 결정은 별도 판단 대기. |
+
+| 5427f6b0 | [Draft docs from merged Docs/Needed via author personas (#38764)](https://github.com/mattermost/mattermost/commit/5427f6b024fd0c79638c7bd552f7e94283ff06a5) | 제외한 docs 자동화 계보(891b59d4 docs-needed #36282·3a1f5f0d 페르소나 리뷰 #38144·27c501d2 docs-gap #38177)와 1d3bbc63(docs/ 이관) 위에 얹힌 기능이라 대상이 없다 — 18파일(.github/scripts/docs-ai/writer/**·lib/**, .github/prompts/docs-writer.md·conventions.md, docs-needed.yml 삭제·docs-writer-merged-pr.yml 신설)이 전부 우리 트리에 없다(실측). 내용은 Docs/Needed가 남은 채 병합된 PR에서 gap 고정 댓글을 읽어 페르소나별로 Claude가 MDX 초안을 써 docs/pr-<n> 초안 PR을 열고, 닫히면 Docs/Done으로 라벨을 바꾸는 워크플로로, ANTHROPIC_API_KEY·GitHub App 토큰·DOCS_AI_BOT_LOGIN을 전제한다. 후속 4f932a45도 같은 근거. |
+
+| 3348d7df | [Move Session Attributes under Attribute Management in System Console (#38799)](https://github.com/mattermost/mattermost/commit/3348d7dfd1e4b657ef3303889cabd2b0a107c6a5) | 제외한 Session Attributes MVF(684ddb32 #36934·콘솔 화면 57fe965a·3b99b6c9·플래그 18a91d90)와 Attribute Management 계보(38b66d22 #37580 → ed04a0fd·388f9b07 등)가 만나는 콘솔 메뉴 순서 조정이라 대상이 없다. 내용은 admin_definition.tsx의 session_attributes·session_attributes_feature_discovery 항목을 global_attributes 바로 뒤로 옮기고(+65/-38) admin_sidebar.test.tsx에 순서 검증을 더하는 것. 우리 System Attributes 섹션에는 옮길 session_attributes도 기준점 global_attributes(·board_attributes)도 없어(실측) 실행 가능한 변경이 0줄이고, 추가 테스트는 두 메뉴가 없어 반드시 실패한다. |
+
+| 70658e18 | [Add @mattermost/compass-ui@0.1.0-alpha.10 and migrate ConfirmModal buttons (#38153)](https://github.com/mattermost/mattermost/commit/70658e18d4c6234765af050d051fb1a8a7b2e31f) | Compass 디자인 시스템(@mattermost/compass-ui@0.1.0-alpha.10) 도입을 받지 않는다(2026-10-18 사용자 결정). (1) 라이선스 미확인 — npm 패키지에 license 필드·LICENSE 파일이 없고(alpha.16까지 동일), 원본 mattermost/compass-design도 GitHub license null·LICENSE 없음. webapp 번들로 재배포하면 원칙 IV·Legal Hold/MS Teams Meetings 거부 기준에 걸린다(compass-icons는 MIT라 무관). (2) 디자인 방향 — 패키지에 channels-sidebar·global-header·admin-console-sidebar·message-actions 등이 이미 있어 upstream은 UI 전반을 Compass로 이관할 계획인데, 우리는 해당 영역을 Slack식으로 자체 개편했다(spec 014 b0e83b60dd, 좌측 네비 f95ba5a8d7). 내용은 entry.tsx 전역 CSS 로드, ConfirmModal 확인 버튼을 compass Button으로 교체(56곳 사용), compass-icons 0.1.61→0.1.63, 스냅샷 갱신. 기술 호환성 자체는 문제없음(Button이 --button-bg 등 테마 변수 사용). 후속 922a900b·2b64fd09·97bb58ec·b11aeee7도 같은 사유 대상. 라이선스가 붙고 Compass 수용을 결정하면 재검토. |
+
+| 03e5d908 | [\[MM-70936\] Show a "Managed by" indicator on the Applies-to Users card when an attribute is synced via SAML or AD/LDAP (#38800)](https://github.com/mattermost/mattermost/commit/03e5d9083d2de65f5e0c43287f092fc04f8138a9) | 제외한 Global Attributes(Attribute Management) 계보(뿌리 38b66d22 #37580, property v2 48f2fd08 위 — 0c3717c9·acc409f2·e5c0b8a5·f0b63f8e 등)의 기능 추가라 대상이 없다. 내용은 AD/LDAP·SAML 동기화 속성의 Applies to > Users 카드에 'Managed by' 줄과 'Not editable in Mattermost.'를 보여 주고, Type select를 공용 AttributeSelect로 추출·external_source.ts 분리(16파일 +709/-122). 16파일 중 15개(admin_console/global_attributes/**, global_attributes_form.spec.ts)가 우리 트리에 없고, 유일하게 있는 webapp en.json은 키 3개(...applies_to.item.user.managed_by.*) 추가라 쓸 화면 없이 미사용 키와 ko 누락만 생긴다(0c3717c9와 같은 구조). 우리가 쓰는 CPA 화면(custom_profile_attributes)은 건드리지 않아 옮겨 적용할 대상도 없다. |
+
+| 6e4c923e | [MM-70890: Don't copy ldap/saml sync attrs to non-user linked fields (#38774)](https://github.com/mattermost/mattermost/commit/6e4c923eb2f1ceafcc9491c607396060d9ec405b) | 제외한 property v2(48f2fd08·9f1fe90b)·Global Attributes 계보의 버그 수정이라 고칠 대상이 없고, 마이그레이션이 우리 스키마를 깨뜨린다. 내용은 템플릿→linked field 생성 시 attrs.ldap/saml을 ObjectType=user일 때만 복사(그 외 제거)해 checkSyncLock 403을 막고, 000233_strip_sync_attrs_from_non_user_fields로 기존 데이터 정리. 우리 property_field.go(247줄)에는 linked field 복사 로직·LinkedFieldID·checkSyncLock이 없고, PropertyFields 테이블에 ObjectType 컬럼이 없어(000129 원형, 마이그레이션 전체에 ObjectType 0건) up SQL의 WHERE ObjectType != 'user'가 column does not exist로 실패해 서버 기동이 막힌다. 우리 CPA는 같은 테이블 attrs.ldap/saml로 동기화를 표시하므로 이런 정리 SQL은 받지 않는다. |
 
 ## spec 전환 커밋
 
