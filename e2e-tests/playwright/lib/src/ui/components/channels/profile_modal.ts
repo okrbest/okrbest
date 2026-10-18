@@ -4,7 +4,7 @@
 import type {Locator} from '@playwright/test';
 import {expect} from '@playwright/test';
 
-export type ProfileSection = 'name' | 'username';
+export type ProfileSection = 'name' | 'username' | 'email';
 
 export default class ProfileModal {
     readonly container: Locator;
@@ -24,6 +24,11 @@ export default class ProfileModal {
     readonly lastNameInput;
     readonly usernameInput;
     readonly sectionHeadings;
+
+    readonly primaryEmailInput;
+    readonly confirmEmailInput;
+    readonly currentPasswordInput;
+    readonly domainRestrictionError;
 
     constructor(container: Locator) {
         this.container = container;
@@ -45,6 +50,13 @@ export default class ProfileModal {
         this.lastNameInput = container.getByRole('textbox', {name: 'Last Name'});
         this.usernameInput = container.getByRole('textbox', {name: 'Username'});
         this.sectionHeadings = this.profileSettingsTab.container.getByTestId('section-min').getByRole('heading');
+
+        this.primaryEmailInput = container.locator('#primaryEmail');
+        this.confirmEmailInput = container.locator('#confirmEmail');
+        this.currentPasswordInput = container.locator('#currentPassword');
+        this.domainRestrictionError = container.getByText(
+            'The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.',
+        );
     }
 
     async toBeVisible() {
@@ -106,6 +118,14 @@ export default class ProfileModal {
 
     getAttributeInput(label: string) {
         return this.profileSettingsTab.container.getByRole('textbox', {name: label, exact: true});
+    }
+
+    async changeEmail(email: string, password: string) {
+        await this.openSection('email');
+        await this.primaryEmailInput.fill(email);
+        await this.confirmEmailInput.fill(email);
+        await this.currentPasswordInput.fill(password);
+        await this.saveButton.click();
     }
 }
 

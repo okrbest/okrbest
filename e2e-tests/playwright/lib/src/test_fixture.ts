@@ -33,6 +33,7 @@ import {
     deleteKeycloakUser,
     deleteLdapUser,
     enableAIBridgeTestMode,
+    enableUserMfa,
     listMinioObjectKeys,
     ensureMinio,
     ensureAzurite,
@@ -164,6 +165,7 @@ export class PlaywrightExtended {
     readonly keycloakSamlDescriptorUrl;
     readonly openidServerConfig;
     readonly ensureKeycloakOpenId;
+    readonly enableUserMfa;
     readonly ensureServerEnv;
     readonly ensureSiteUrl;
     readonly elasticsearchServerConfig;
@@ -219,6 +221,8 @@ export class PlaywrightExtended {
     readonly loginPage;
     readonly landingLoginPage;
     readonly signupPage;
+    readonly selectTeamPage;
+    readonly verifyEmailPage;
     readonly resetPasswordPage;
     readonly keycloakLoginPage;
     readonly errorPage;
@@ -276,6 +280,7 @@ export class PlaywrightExtended {
         this.keycloakSamlDescriptorUrl = keycloakSamlDescriptorUrl;
         this.openidServerConfig = openidServerConfig;
         this.ensureKeycloakOpenId = ensureKeycloakOpenId;
+        this.enableUserMfa = enableUserMfa;
         this.ensureServerEnv = ensureServerEnv;
         this.ensureSiteUrl = ensureSiteUrl;
         this.elasticsearchServerConfig = elasticsearchServerConfig;
@@ -303,6 +308,8 @@ export class PlaywrightExtended {
         this.loginPage = new pages.LoginPage(page);
         this.landingLoginPage = new pages.LandingLoginPage(page, isMobile);
         this.signupPage = new pages.SignupPage(page);
+        this.selectTeamPage = new pages.SelectTeamPage(page);
+        this.verifyEmailPage = new pages.VerifyEmailPage(page);
         this.resetPasswordPage = new pages.ResetPasswordPage(page);
         this.keycloakLoginPage = new pages.KeycloakLoginPage(page);
         this.errorPage = new pages.ErrorPage(page);

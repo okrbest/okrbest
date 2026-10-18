@@ -22,6 +22,8 @@ import FeatureDiscovery from '@/ui/components/system_console/sections/system_use
 import PluginManagement from '@/ui/components/system_console/sections/plugins/plugin_management';
 import OpenIdConnect from '@/ui/components/system_console/sections/authentication/openid_connect';
 import AdLdap from '@/ui/components/system_console/sections/authentication/ad_ldap';
+import PasswordSettings from '@/ui/components/system_console/sections/authentication/password';
+import PublicLinks from '@/ui/components/system_console/sections/site_configuration/public_links';
 import {testConfig} from '@/test_config';
 
 export default class SystemConsolePage {
@@ -63,6 +65,8 @@ export default class SystemConsolePage {
     // Authentication
     readonly openIdConnect: OpenIdConnect;
     readonly adLdap: AdLdap;
+    readonly passwordSettings: PasswordSettings;
+    readonly publicLinks: PublicLinks;
 
     // Same page after logging out of the System Console
     readonly loginPage: LoginPage;
@@ -108,6 +112,8 @@ export default class SystemConsolePage {
         // Authentication
         this.openIdConnect = new OpenIdConnect(adminConsoleWrapper);
         this.adLdap = new AdLdap(adminConsoleWrapper);
+        this.passwordSettings = new PasswordSettings(adminConsoleWrapper);
+        this.publicLinks = new PublicLinks(adminConsoleWrapper);
 
         this.loginPage = new LoginPage(page);
     }
@@ -140,6 +146,16 @@ export default class SystemConsolePage {
     async gotoAdLdap() {
         await this.page.goto(new URL('/admin_console/authentication/ldap', testConfig.baseURL).href);
         await this.adLdap.toBeVisible();
+    }
+
+    async gotoPasswordSettings() {
+        await this.page.goto(new URL('/admin_console/authentication/password', testConfig.baseURL).href);
+        await this.passwordSettings.toBeVisible();
+    }
+
+    async gotoPublicLinks() {
+        await this.page.goto(new URL('/admin_console/site_config/public_links', testConfig.baseURL).href);
+        await this.publicLinks.toBeVisible();
     }
 
     async logOut() {
