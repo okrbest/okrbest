@@ -45,12 +45,15 @@ const CATALOGS = {
 const MAX_PRINTED_KEYS = 20;
 
 /**
- * The webapp catalogs are {id: message} objects, the server catalogs are
- * [{id, translation}] arrays. Both collapse to a plain key/value map.
+ * The webapp locale catalogs are {id: message} objects, the webapp en.json is
+ * {id: {defaultMessage, description}}, and the server catalogs are
+ * [{id, translation}] arrays. All collapse to a plain key/value map, so a
+ * description-only edit never reads as a changed English source.
  */
 function normalizeCatalog(raw) {
     if (!Array.isArray(raw)) {
-        return raw;
+        return Object.fromEntries(Object.entries(raw).map(([key, entry]) =>
+            [key, (entry && typeof entry === 'object') ? entry.defaultMessage : entry]));
     }
 
     return raw.reduce((acc, entry) => {
