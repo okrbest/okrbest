@@ -32,6 +32,7 @@ import {
     createUserWithAttributes,
     deleteKeycloakUser,
     deleteLdapUser,
+    disableMfa,
     enableAIBridgeTestMode,
     enableUserMfa,
     listMinioObjectKeys,
@@ -166,6 +167,7 @@ export class PlaywrightExtended {
     readonly openidServerConfig;
     readonly ensureKeycloakOpenId;
     readonly enableUserMfa;
+    readonly disableMfa;
     readonly ensureServerEnv;
     readonly ensureSiteUrl;
     readonly elasticsearchServerConfig;
@@ -223,9 +225,15 @@ export class PlaywrightExtended {
     readonly signupPage;
     readonly selectTeamPage;
     readonly verifyEmailPage;
+    readonly mfaSetupPage;
     readonly resetPasswordPage;
     readonly keycloakLoginPage;
     readonly errorPage;
+    readonly emailToOAuthPage;
+    readonly oauthToEmailPage;
+    readonly emailToLdapPage;
+    readonly ldapToEmailPage;
+
     // Same default page as above, post-login, for specs that authenticate it directly.
     readonly channelsPage;
 
@@ -281,6 +289,7 @@ export class PlaywrightExtended {
         this.openidServerConfig = openidServerConfig;
         this.ensureKeycloakOpenId = ensureKeycloakOpenId;
         this.enableUserMfa = enableUserMfa;
+        this.disableMfa = disableMfa;
         this.ensureServerEnv = ensureServerEnv;
         this.ensureSiteUrl = ensureSiteUrl;
         this.elasticsearchServerConfig = elasticsearchServerConfig;
@@ -310,9 +319,15 @@ export class PlaywrightExtended {
         this.signupPage = new pages.SignupPage(page);
         this.selectTeamPage = new pages.SelectTeamPage(page);
         this.verifyEmailPage = new pages.VerifyEmailPage(page);
+        this.mfaSetupPage = new pages.MfaSetupPage(page);
         this.resetPasswordPage = new pages.ResetPasswordPage(page);
         this.keycloakLoginPage = new pages.KeycloakLoginPage(page);
         this.errorPage = new pages.ErrorPage(page);
+        this.emailToOAuthPage = new pages.EmailToOAuthPage(page);
+        this.oauthToEmailPage = new pages.OAuthToEmailPage(page);
+        this.emailToLdapPage = new pages.EmailToLdapPage(page);
+        this.ldapToEmailPage = new pages.LdapToEmailPage(page);
+
         // Same default page as above, post-login
         this.channelsPage = new pages.ChannelsPage(page);
 

@@ -73,6 +73,6 @@ export {ensureServerEnv, ensureSiteUrl} from './server_env';
 export {ensureLocalFile} from './filestore';
 export {ensurePostgresSearch} from './postgres_search';
 export {ensureFeatureFlag} from './feature_flags';
-export {generateTotp, enableUserMfa} from './mfa';
-export {runMmctl, ensureMmctl} from './mmctl';
+export {generateTotp, enableUserMfa, disableMfa} from './mfa';
+export {runMmctl, runMmctlLocal, ensureMmctl} from './mmctl';
 export type {MmctlResult} from './mmctl';
