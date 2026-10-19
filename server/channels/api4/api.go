@@ -168,6 +168,8 @@ type Routes struct {
 
 	ContentFlagging *mux.Router // 'api/v4/content_flagging'
 
+	HealthFindings *mux.Router // 'api/v4/health/findings'
+
 	Agents      *mux.Router // 'api/v4/agents'
 	LLMServices *mux.Router // 'api/v4/llmservices'
 }
@@ -322,6 +324,8 @@ func Init(srv *app.Server) (*API, error) {
 
 	api.BaseRoutes.ContentFlagging = api.BaseRoutes.APIRoot.PathPrefix("/content_flagging").Subrouter()
 
+	api.BaseRoutes.HealthFindings = api.BaseRoutes.APIRoot.PathPrefix("/health/findings").Subrouter()
+
 	api.BaseRoutes.Agents = api.BaseRoutes.APIRoot.PathPrefix("/agents").Subrouter()
 	api.BaseRoutes.LLMServices = api.BaseRoutes.APIRoot.PathPrefix("/llmservices").Subrouter()
 
@@ -382,6 +386,7 @@ func Init(srv *app.Server) (*API, error) {
 	api.InitAccessControlPolicy()
 	api.InitContentFlagging()
 	api.InitNotificationHistory()
+	api.InitHealthDashboard()
 	api.InitAgents()
 
 	// If we allow testing then listen for manual testing URL hits
@@ -474,6 +479,8 @@ func InitLocal(srv *app.Server) *API {
 	api.BaseRoutes.AccessControlPolicies = api.BaseRoutes.APIRoot.PathPrefix("/access_control_policies").Subrouter()
 	api.BaseRoutes.AccessControlPolicy = api.BaseRoutes.APIRoot.PathPrefix("/access_control_policies/{policy_id:[A-Za-z0-9]+}").Subrouter()
 
+	api.BaseRoutes.HealthFindings = api.BaseRoutes.APIRoot.PathPrefix("/health/findings").Subrouter()
+
 	api.InitUserLocal()
 	api.InitTeamLocal()
 	api.InitChannelLocal()
@@ -497,6 +504,7 @@ func InitLocal(srv *app.Server) *API {
 	api.InitCustomProfileAttributesLocal()
 	api.InitAccessControlPolicyLocal()
 	api.InitStatusLocal()
+	api.InitHealthDashboardLocal()
 
 	srv.LocalRouter.Handle("/api/v4/{anything:.*}", http.HandlerFunc(api.Handle404))
 
