@@ -3887,3 +3887,28 @@ LDAP 테스트 연결에서 `*AppError`가 아닌 오류가 나면 응답 오류
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
 | `docs/main/deployment-guide/software-hardware-requirements.mdx` | PC 웹 브라우저 지원 표의 Firefox 행(자체 호스팅·Cloud)을 v140+에서 v153+로(2줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+
+---
+
+## 번역 오류 일괄 수정·용어집 — 지운 언어와 우리 다듬은 문구는 건너뛰었다
+
+**upstream**: [`57ea425e`](https://github.com/mattermost/mattermost/commit/57ea425e5a95784d9089b007f671142c5f00182e)
+(Fix existing translation errors and add glossary terms, #39207) — 69파일 +1031/-368, 2026-10-22 반영(사용자 결정 adapt)
+
+**받은 것.** 54파일. 충돌한 webapp 카탈로그 12개는 텍스트 병합 대신 키 단위로 적용했다 — 우리 값이 upstream 변경 전 값과 같은 키만 upstream 값으로 바꿨다
+(de 4·en-AU 2·en 1·ja 8·ko 2·nl 4·pl 4·ro 25·ru 3·sv 58·tr 5·zh-CN 120). 나머지 언어 카탈로그·server 카탈로그·용어집 새 용어 6개는 자동 병합 그대로.
+`push_settings.tsx`의 TPNS 도움말 수정(태그 `linkHPNS`→`linkTPNS`, 문구 "Test Push Notification Service")은 받되 우리 리브랜드 앱 이름(OKR.BEST iOS·Android app)은 유지했다.
+en.json `admin.email.mtpnsHelp`도 같은 방식(defaultMessage·description의 태그와 서비스명만 바꿈).
+
+**버린 것.**
+
+| 대상 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| cs·da·fi·hr·lt·nb-NO·pt 카탈로그(webapp 7)·용어집 7·`server/i18n/pt.json` | 각 언어 번역 수정·용어집 새 용어 | 우리가 지운 언어라 파일이 없다(modify/delete) | 해당 언어를 되살릴 때 |
+| ko `admin.email.agreeHPNS` | "나는 Mattermost Hosted Push Notification Service의 서비스 약관 및 개인 정보 보호 정책을 이해하고 동의합니다" | 우리 문구("OKR.BEST Hosted Push Notification Service의 이용약관과 개인정보 처리방침에 동의합니다")가 리브랜드·다듬은 것이라 보존(원칙 V) | 해당 없음 |
+| ko `admin.email.mhpnsHelp` | "Mattermost iOS 앱… 다운로드하십시오" 띄어쓰기·"app"→"앱" 정리 | 우리 문구가 이미 OKR.BEST·"~하세요"체로 다듬어져 있다 | 해당 없음 |
+| ko `admin.email.mtpnsHelp` 문구 | upstream 문구로 교체 | 우리 문구 보존. **태그만 `<linkHPNS>`→`<linkTPNS>`로 바꿨다** — tsx가 `linkTPNS`만 넘기므로 안 바꾸면 링크가 깨진다 | 해당 없음 |
+| ro 3키·sv 1키 (`admin.global_attributes.*` plugin 표기) | "plugin-ul"→"pluginul", "pluginen"→"pluginet" | 제외한 Global Attributes 계보 키라 우리 카탈로그에 없다 | Global Attributes 계보를 반영할 때 |
+
+**검증.** 2026-10-22. 바꾼 JSON 전부 파싱 통과, `mtpnsHelp`에 `linkHPNS`가 남은 언어 0, `i18n-extract:check` 통과,
+`i18n-check-empty` ko orphaned 8·missing 4(기존과 같음), `push_settings` jest 2 테스트·스냅샷 2 통과.
