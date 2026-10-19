@@ -3,31 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-19 13:37
+- 갱신일: 2026-10-19 14:52
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 110개
+- 남은 커밋: 94개
 
-**마지막 반영 커밋:** `2e626276` | [Restructure Slack migration guide end to end (#37911)](https://github.com/mattermost/mattermost/commit/2e6262768eccdb47be1ca2caaef00e61826d5f1c) | 2026-10-01
+**마지막 반영 커밋:** `85e95437` | [\[MM-70822\] Explain the blocked section switch while editing a channel permission rule (#38751)](https://github.com/mattermost/mattermost/commit/85e95437ab3e7632017cd3cf2ec06e4785467ae7) | 2026-10-02
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 964b09b8 | [\[MM-70903\] Health Dashboard PR12: leader-only hourly health check task (#38761)](https://github.com/mattermost/mattermost/commit/964b09b8b925e9f1398c0481ccb6b60b444538f9) | 2026-10-02 |
-| ede699c3 | [\[MM-70909\] Health Dashboard PR13: MVP config rules (push notifications + SiteURL) (#38769)](https://github.com/mattermost/mattermost/commit/ede699c3c6596c5bc6fc8d2d20b97a49ee7e4405) | 2026-10-02 |
-| 1638ff81 | [ci: bump glibc-openssl-fips digests for Docker FIPS build (#38949)](https://github.com/mattermost/mattermost/commit/1638ff81b52bc950db5f96a664866ec9b6f37d32) | 2026-10-02 |
-| 60328d1e | [\[MM-70984\] Health Dashboard PR14: REST API + mmctl health check (#38808)](https://github.com/mattermost/mattermost/commit/60328d1ed00f5d95cece4f476d3ca1b0e2966975) | 2026-10-02 |
-| cb7a69a1 | [Align channel attribute chips and fix header label flicker (#38841)](https://github.com/mattermost/mattermost/commit/cb7a69a1b8b845c4e65f0736307d322252c4d3f5) | 2026-10-02 |
-| cab734d8 | [Document Attribute Management (Global Attributes) for v12.0 (#38835)](https://github.com/mattermost/mattermost/commit/cab734d851d42fb7beb00edf6a1126244e26586c) | 2026-10-02 |
-| b03b5f38 | [MM-70412: Fix SAML IdP metadata pre-fill failing on cacheDuration (#38858)](https://github.com/mattermost/mattermost/commit/b03b5f381c413ff51a5db2e057ad0e7087929f4e) | 2026-10-02 |
-| 742dbc48 | [Show ABAC Audit settings in System Console (#38789)](https://github.com/mattermost/mattermost/commit/742dbc4870af54736485b8744970140d2a61bbab) | 2026-10-02 |
-| 27670761 | [Fetch the team by name when a thread popout opens without it (#38034)](https://github.com/mattermost/mattermost/commit/27670761518a3d147fd747f6c7b6e18cc7419d77) | 2026-10-02 |
-| 49b6ccd6 | [\[MM-71050\] Render tel: links in messages as phone pills (#38901)](https://github.com/mattermost/mattermost/commit/49b6ccd6c4bda389ca3e89fea9621af26bcba1c8) | 2026-10-02 |
-| a58fb920 | [\[MM-70895\] Warn when an attribute shares a name with another attribute's user field (#38863)](https://github.com/mattermost/mattermost/commit/a58fb920213213dea1cff73aa2c1f2a7cdffed15) | 2026-10-02 |
-| 6d0f48dd | [Only reject atmos/camo image proxy type when the image proxy is enabled (#38926)](https://github.com/mattermost/mattermost/commit/6d0f48dd0263f99951e04c3cad50924c481d94f9) | 2026-10-02 |
-| 922a900b | [Bump @mattermost/compass-ui to 0.1.0-alpha.13 (#38963)](https://github.com/mattermost/mattermost/commit/922a900b8a2c3fe9b607bf1299723d1498725361) | 2026-10-02 |
-| 5f01389e | [\[MM-70891\] Show and protect integration-owned attributes in Attribute Management (#38850)](https://github.com/mattermost/mattermost/commit/5f01389e995b1a7fe03085fe3f478bafdb801ecc) | 2026-10-02 |
-| 70c1732d | [Bring back eight dropped locales as (Experimental) languages and fill their catalogs (#38944)](https://github.com/mattermost/mattermost/commit/70c1732d783fde4cbc7a88632721f4e134a57ec4) | 2026-10-02 |
-| 6338ffdc | [MM-71075: enable ChannelAttributes by default in feature flags (#38937)](https://github.com/mattermost/mattermost/commit/6338ffdc768e8eedcb8604a11e4207347911787e) | 2026-10-03 |
-| 85e95437 | [\[MM-70822\] Explain the blocked section switch while editing a channel permission rule (#38751)](https://github.com/mattermost/mattermost/commit/85e95437ab3e7632017cd3cf2ec06e4785467ae7) | 2026-10-02 |
 | af4c3cfd | [Fix flaky autotranslation e2e tests and duplicate "AI Actions" button (#38965)](https://github.com/mattermost/mattermost/commit/af4c3cfde668e006981efa29ba740791eb03fb13) | 2026-10-03 |
 | 05a293c6 | [E2E/Test: Fix failing tests (#38981)](https://github.com/mattermost/mattermost/commit/05a293c603f9909565a8793148a5f7a08b4d3274) | 2026-10-04 |
 | 9e386cb9 | [docs: resolve raw HTML link and image paths through useBaseUrl (#38958)](https://github.com/mattermost/mattermost/commit/9e386cb9937f05f97cb42c9fef5b1c0d13832c42) | 2026-10-04 |
@@ -121,6 +104,7 @@
 | 2d52d2b0 | [\[MM-71060\] Health Dashboard: read the license from Support Packet diagnostics (#39214)](https://github.com/mattermost/mattermost/commit/2d52d2b00d7a109a7dc89c6af252cdb027d6c3c9) | 2026-10-17 |
 | f5227e66 | [\[MM-71096\] Apply incoming DeleteAt when receiving synced reactions (#39239)](https://github.com/mattermost/mattermost/commit/f5227e664f4b37437c8b110912dbf1c71e07c812) | 2026-10-17 |
 | f38678d0 | [\[MM-71099\] Health Dashboard PR22: rules for cluster, deployment and network (#39022)](https://github.com/mattermost/mattermost/commit/f38678d08d67a4d21ea3821f78b530ea7f8f8ec2) | 2026-10-18 |
+| 3051bab1 | [update Calls to v1.12.6 (#39219)](https://github.com/mattermost/mattermost/commit/3051bab1b244265bd0cb0b6de16fec0fb2148de6) | 2026-10-19 |
 
 ## 제외된 커밋
 
@@ -750,6 +734,18 @@
 | ac3b3318 | [\[MM-71072\] Fix broken Security Bulletin signup link on Security Updates docs page (#38928)](https://github.com/mattermost/mattermost/commit/ac3b331878d44700bdb2feeed81d2c2709577ed4) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. docs/main/security-guide/security-updates.mdx 1줄로 Security Bulletin 구독 링크(mattermost.com/security-updates/#sign-up, 문서로 301 순환)를 responsible disclosure 페이지의 Security Bulletin 섹션으로 바꾼다. docs/main/이 HEAD에 없고(modify/delete), 내용도 Mattermost 사 보안 공지 구독이라 OKR.BEST 문서로 옮길 대상이 아니다. private-module 해당 없음. |
 
 | 2e626276 | [Restructure Slack migration guide end to end (#37911)](https://github.com/mattermost/mattermost/commit/2e6262768eccdb47be1ca2caaef00e61826d5f1c) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. Slack 마이그레이션 가이드(docs/main/administration-guide/onboard/migrate-from-slack.mdx)를 준비→내보내기→변환→가져오기 흐름으로 재작성하고 Rocket.Chat 가이드 연결 문구를 고치는 2파일 +450/-253, 코드 변경 없음. 두 파일 모두 HEAD에 없다(modify/delete). 내장 Slack 가져오기 API·CLI 제거(f112b9a7)는 받았고 그때도 관련 docs mdx는 버렸다. private-module 해당 없음. |
+
+| cb7a69a1 | [Align channel attribute chips and fix header label flicker (#38841)](https://github.com/mattermost/mattermost/commit/cb7a69a1b8b845c4e65f0736307d322252c4d3f5) | 제외한 채널 속성 계보(e86491ad → … → 7206a384·24ef18fd)와 graph 속성 계보(9ef79330·85372e3a)의 UI 다듬기라 대상이 없다. 47파일 +772/-340: 계층형·select·rank 칩을 AttributeChip으로 통일, 헤더 라벨 overflow 측정 안정화(use_labels_overflow), 칩 닫기 버튼 노출 조건, 다중 선택 바깥 클릭·키보드 칩 제거 수정, 21개 언어에서 channel_attributes.info.clear 삭제. 실측: components/channel_attributes/*·property_fields/hierarchical_value_menu/*·table_editor_graph.test.tsx·e2e channel_attributes/* 등 17파일이 HEAD에 없고, system_user_detail.tsx hunk는 우리에게 없는 graph 속성 선택기(cpa-graph-button-*) 라벨 처리, 삭제 키 channel_attributes.info.clear는 우리 en·ko에 원래 없다. 섞인 공용 수정 없음. private-module 해당 없음. 재검토 조건: property 시스템 v2와 채널 속성·graph 속성 계보를 도입할 때. |
+
+| cab734d8 | [Document Attribute Management (Global Attributes) for v12.0 (#38835)](https://github.com/mattermost/mattermost/commit/cab734d851d42fb7beb00edf6a1126244e26586c) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보이고, 다루는 기능도 제외한 Global Attributes(Attribute Management) 계보(38b66d22 등)라 두 겹으로 대상이 없다. v12.0용 attribute-management.mdx 신규(+142)와 docs/main 관리자 문서 8개 링크·문구, docs/site 사이드바 생성 스크립트 수정, 10파일 +159/-9 — 전부 HEAD에 없다(modify/delete). private-module 해당 없음. |
+
+| a58fb920 | [\[MM-70895\] Warn when an attribute shares a name with another attribute's user field (#38863)](https://github.com/mattermost/mattermost/commit/a58fb920213213dea1cff73aa2c1f2a7cdffed15) | 제외한 Global Attributes(Attribute Management) 계보(38b66d22 등)와 Classification Markings 계보(2b7b398a 등, 기반 property 시스템 v2 미도입)의 UI라 대상이 없다. 속성 이름이 다른 속성(템플릿)에 연결된 user 필드 이름과 겹칠 때 표·상세·Applies-to 카드·분류 속성 화면에 경고를 띄우고 Users 적용 메뉴를 막는 21파일 webapp 전용 변경(name_conflict.ts 신규). 실측: 코드 20파일이 전부 HEAD에 없다(admin_console/global_attributes/*, admin_console/classification_markings/*; merge-tree의 channel_bookmarks_rhs/name_conflict.ts는 이름 변경 감지의 오짝). 남는 en.json 7키도 전부 이 계보 화면 문구. private-module 해당 없음. 재검토 조건: property v2와 Global Attributes·Classification 계보를 도입할 때. |
+
+| 922a900b | [Bump @mattermost/compass-ui to 0.1.0-alpha.13 (#38963)](https://github.com/mattermost/mattermost/commit/922a900b8a2c3fe9b607bf1299723d1498725361) | Compass 디자인 시스템 패키지 범프(@mattermost/compass-ui 0.1.0-alpha.10 → alpha.13, webapp/channels/package.json 1줄 + package-lock)를 받지 않는다 — 도입 커밋 70658e18(#38153)을 2026-10-18 사용자 결정으로 제외했고(라이선스 미확인: npm·원본 저장소 모두 license 필드·LICENSE 없음, 원칙 IV / 디자인 방향: 해당 UI를 Slack식으로 자체 개편, spec 014) 그 제외 사유가 이 커밋을 후속 대상으로 명시했다. 실측: 우리 package.json·lock에 compass-ui가 없고 소스 import 0건이라 올릴 대상이 없다(merge-tree CONFLICT). private-module 해당 없음. 재검토 조건: compass-ui 라이선스가 명시되고 Compass 도입을 결정할 때(70658e18부터). |
+
+| 5f01389e | [\[MM-70891\] Show and protect integration-owned attributes in Attribute Management (#38850)](https://github.com/mattermost/mattermost/commit/5f01389e995b1a7fe03085fe3f478bafdb801ecc) | 제외한 Global Attributes(Attribute Management) 계보와 Property owners(3b64a2ac, property 시스템 v2 계보) 위에 선 변경이라 대상이 없다. 통합(플러그인 등) 소유 속성을 소유자 표시와 함께 보여 주고 편집·삭제·적용 대상 변경을 막는 26파일 +1760/-160(server 4·webapp 21·en.json 48줄). 실측: 22파일이 HEAD에 없다(admin_console/global_attributes/**, server properties/access_control_attribute_validation.go·access_control_owners_test.go). 남은 server properties/access_control.go는 고치려는 callerOwnerIdentity·isListedOwner가 우리에게 없고(grep 0건), webapp utils/properties.ts는 새로 import하는 PropertyFieldOwner의 출처 @mattermost/types/properties_user(076370e6, 제외)가 없다. 섞인 공용 수정 없음. private-module 해당 없음. 재검토 조건: property v2·owners(3b64a2ac)·Global Attributes 계보를 도입할 때. |
+
+| 6338ffdc | [MM-71075: enable ChannelAttributes by default in feature flags (#38937)](https://github.com/mattermost/mattermost/commit/6338ffdc768e8eedcb8604a11e4207347911787e) | 뒤집을 FeatureFlags.ChannelAttributes가 우리에게 없다(grep 0건, 7c457d07 golden 재생성 때도 upstream 전용 필드로 확인). 채널 속성 계보 전체를 제외했다(e86491ad foundation → … → 7206a384·24ef18fd·cb7a69a1, 기반 property 시스템 v2 미도입). SetDefaults 1줄과 테스트(2파일 +3/-6)뿐이라 반영할 실체가 0줄이고 merge-tree CONFLICT도 그 필드 부재에서 온다 — 94c163f8(graph·리소스 플래그 기본값)과 같은 처리. private-module 해당 없음. 재검토 조건: 채널 속성 계보를 도입할 때 기본값을 함께 정한다. |
 
 ## spec 전환 커밋
 
