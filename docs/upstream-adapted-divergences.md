@@ -3871,3 +3871,19 @@ LDAP 테스트 연결에서 `*AppError`가 아닌 오류가 나면 응답 오류
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
 | `server/channels/app/delivery_tracking_config.go` | `validateTrackedChannelIDs` 반환형을 `*model.AppError`에서 `error`로 바꾸고, `SaveDeliveryTrackingConfig`가 `model.AsAppError(err)`로 감싸 반환(3줄) | 보류성 제외한 `0019ecc5`(#37882 게시물 전달 감사 Post Delivery Tracking)가 만든 파일이라 우리에게 없다(modify/delete) | `0019ecc5` 계보를 반영할 때 이 반환형 변경까지 함께 적용 |
+
+---
+
+## 최소 지원 Firefox 버전 153 — 요구사항 문서만 버렸다
+
+**upstream**: [`640b099b`](https://github.com/mattermost/mattermost/commit/640b099b643ab2063b553e346425aac98cecb324)
+(Update minimum supported Firefox version, #39253) — 2파일 +3/-3, 2026-10-22 반영(사용자 결정 adapt)
+
+**받은 것.** `server/i18n/en.json`의 `web.error.unsupported_browser.min_browser_version.firefox`를 "Version 140+"에서 "Version 153+"로. 브라우저 검사 코드는 바뀌지 않는다.
+우리 ko.json 같은 키는 "버전 119+"로 이전 갱신(119→140)부터 밀려 있다 — i18n 후속에서 맞춘다.
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/deployment-guide/software-hardware-requirements.mdx` | PC 웹 브라우저 지원 표의 Firefox 행(자체 호스팅·Cloud)을 v140+에서 v153+로(2줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
