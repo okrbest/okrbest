@@ -3912,3 +3912,21 @@ en.json `admin.email.mtpnsHelp`도 같은 방식(defaultMessage·description의 
 
 **검증.** 2026-10-22. 바꾼 JSON 전부 파싱 통과, `mtpnsHelp`에 `linkHPNS`가 남은 언어 0, `i18n-extract:check` 통과,
 `i18n-check-empty` ko orphaned 8·missing 4(기존과 같음), `push_settings` jest 2 테스트·스냅샷 2 통과.
+
+---
+
+## 체크박스 다이얼로그·채널별 입장/퇴장 메시지 문서 — API 문서 2줄만 받았다
+
+**upstream**: [`e7e0ee99`](https://github.com/mattermost/mattermost/commit/e7e0ee99d2127fa2ca28f9895a6a2110c5288bae)
+(Docs: interactive dialog checkbox elements and per-channel join/leave messages, #39260) — 5파일 +143/-3, 2026-10-22 반영(사용자 결정 adapt)
+
+**받은 것.** `api/v4/source/actions.yaml`에서 `checkbox_group`·`checkbox_matrix`의 "minimum server version"을 11.10에서 12.0으로(2줄). 기능(28227e2962 #37656)은 이미 받았다.
+
+**버린 것.** 모두 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete). 문서 사이트를 되살릴 때 다시 반영한다.
+
+| 파일 | upstream 변경 |
+|---|---|
+| `docs/develop/integrate/plugins/interactive-dialogs/index.md` | `checkbox_group`(옵션 최대 50, `default`는 쉼표 구분, 제출값은 배열)·`checkbox_matrix`(`matrix_config`의 rows·columns, 최대 30행·10열, `row_selection`) 요소 설명과 예제(+116) |
+| `docs/main/end-user-guide/collaborate/join-leave-channels.mdx` | "채널에서 입장·퇴장 메시지 숨기기" 절 신설 — 채널 설정 > Configuration의 **Join/Leave System Messages** 끄기, 기본은 채널 멤버 누구나 변경(관리 권한은 Manage Channel Settings), 사용자별 설정과 달리 채널 전체에 적용, 숨겨도 메시지는 저장됨, DM·그룹 메시지 불가, 추가된 사용자 알림은 유지(+22). 우리 구현(6fb605eab9)과 대조할 때 참고 |
+| `docs/main/end-user-guide/preferences/manage-advanced-options.mdx` | 사용자별 Enable Join/Leave Messages 설명에 채널별 설정 안내 추가(+2) |
+| `docs/main/administration-guide/configure/site-configuration-settings.mdx` | 관련 설정 설명 1줄 수정 |
