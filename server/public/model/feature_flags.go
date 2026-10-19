@@ -122,6 +122,10 @@ type FeatureFlags struct {
 
 	// FEATURE_FLAG_REMOVAL: RecurringScheduledPosts - Remove this when the feature is GA.
 	RecurringScheduledPosts bool
+
+	// HealthDashboard replaces the Workspace Optimization dashboard with the rules-driven
+	// Health Dashboard. Off by default.
+	HealthDashboard bool
 }
 
 func (f *FeatureFlags) SetDefaults() {
@@ -173,6 +177,8 @@ func (f *FeatureFlags) SetDefaults() {
 	f.EnableMFIPluginSignaturePublicKey = true
 
 	f.RecurringScheduledPosts = false
+
+	f.HealthDashboard = false
 }
 
 // isValid rejects feature flag combinations that are no longer supported.
