@@ -101,6 +101,7 @@
 | Health Dashboard PR08 health_findings 저장소 | [579c0bd9](https://github.com/mattermost/mattermost/commit/579c0bd96b61629b83ea379a276859f3d85d2f25) (#38632) | 마이그레이션 000231·000232와 SQL 저장소는 그대로 받았다. 충돌 문맥의 000230(제외 계보)과 mock store의 `View()` 접근자를 버렸고, 000230은 빈 번호로 남는다 — 아래 참조 |
 | ABAC 사용자 속성 GetSubject 캐시 | [371582e1](https://github.com/mattermost/mattermost/commit/371582e1674541acef3a80afd5e1790ba8bfb664) (#38691) | 캐시·무효화·클러스터 이벤트는 그대로 받고, localcache `GetSubject`를 우리 property v1 시그니처(대상 유형 인자 없음)로 맞췄다. 채널 대상 통과 분기와 그 테스트를 버렸다 — 아래 참조 |
 | en.json 번역자용 description | [47b00703](https://github.com/mattermost/mattermost/commit/47b00703d1cb4853bdb7492f78338b77df1bd0c4) (#38411) | 도구는 그대로 받고 두 en.json은 upstream 본문 대신 우리 키·문구로 새 형식을 재생성했다. 포크 전용 키 399개는 빈 설명. 우리 `check-empty-translations.js`를 새 형식에 맞췄다 — 아래 참조 |
+| post-list 스크롤·Global Attributes 메뉴 높이 Playwright 플레이크 | [ef6957a5](https://github.com/mattermost/mattermost/commit/ef6957a5f3a14534932857733cfc91fc311987bd) (#38871) | post_list 초기 스크롤 스펙 2개는 그대로 받고, 제외한 Global Attributes 계보의 `global_attributes_form.spec.ts` 변경(높이 안정화 헬퍼)을 버렸다 — 아래 참조 |
 
 ---
 
@@ -3137,3 +3138,22 @@ upstream은 기존 GM에 멤버를 추가하면 새 GM을 만들어 이력이 �
 **검증.** 2026-10-18. `i18n-extract:check` 통과(재생성본 = 추출기 출력). 도구 jest 58건(새 3건은 수정 전 실패 확인), `go test ./tools/mmgotool/...`, server `i18n clean-empty --check` 통과.
 변경 전과 출력이 같은 기존 실패: `i18n-verify-translations`(다른 언어 누락 51,832건), server `i18n verify`(806건), `i18n-check-empty`(ko orphaned 8건), server `i18n extract` 재실행 시 키 164개 삭제·30개 추가 차이(enterprise 키 등, 변경 전 HEAD와 동일).
 
+---
+
+## post-list 스크롤 Playwright 플레이크 — Global Attributes 스펙 변경은 버렸다
+
+**upstream**: [`ef6957a5`](https://github.com/mattermost/mattermost/commit/ef6957a5f3a14534932857733cfc91fc311987bd)
+(Fix flaky post-list scroll and Global Attributes menu-height Playwright specs, #38871) — 3파일 +68/-4, 2026-10-19 반영
+
+**받은 것.** `specs/functional/channels/post_list/initial_scroll_read.spec.ts`·`initial_scroll_unread.spec.ts`.
+'with multiple pages of post previews' 케이스에서 마지막 게시물의 `postPreview`가 뜰 때까지 기다린 뒤 watcher를 `reset()`한다
+(`settleAfterPermalinkPreviewsLoad`). 퍼머링크 미리보기가 비동기로 렌더되며 생기는 정상적인 높이 변화를 예상 밖 스크롤로 세지 않는다.
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `playwright/specs/functional/system_console/global_attributes/global_attributes_form.spec.ts` | `Locator` 타입 import 추가. 부모 속성 pane 높이를 `getBoundingClientRect()` 한 번 읽기 대신 `waitForStableRectHeight`(연속 두 번 같은 값이 나올 때까지 `expect.poll`, timeout 2초, 간격 50·100·150·300ms)로 읽어 grow 전환·포커스 전환 도중 값을 재지 않게 했다. 헬퍼는 파일 끝에 새로 정의 | 파일이 HEAD에 없다(modify/delete 충돌). Global Attributes(Attribute Management) 계보 전체를 제외했다 — 뿌리 `38b66d22`(#37580), 목록 페이지 `4ec0fe9c`(#37608) 등, 기반인 property 시스템 v2(`48f2fd08`) 미도입. 받으면 존재하지 않는 UI를 검사하는 스펙이 되살아난다 | property 시스템 v2와 Global Attributes 계보를 들일 때 upstream 최신 스펙째 받는다. 다른 스펙에서 전환 중 높이 측정 flake가 보이면 `waitForStableRectHeight` 헬퍼만 이식한다 |
+
+**검증.** Playwright `npm run tsc` 오류 목록이 반영 전후 같다(393건, 전부 기존 — 두 스펙의 `createTestPost` 기준선 오류 포함).
+변경 2파일 eslint·prettier 통과. E2E 실주행은 하지 않았다(Playwright 채널 스펙은 포크 격차로 기준선 실패).
