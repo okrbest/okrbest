@@ -105,6 +105,7 @@
 | 아카이브 추출 총량·깊이 상한 (MM-70272) | [73562bd0](https://github.com/mattermost/mattermost/commit/73562bd08c7428bf8a7caab5424e24565a20bd0c) (#38009) | 예산·깊이·항목 상한과 ctx 즉시 해제는 받았다. 오래된 PR 병합이 되돌린 upstream 수정 3건(ctx 오류 단락·로그 파일명 제거·동시성 테스트 플레이크 수정)과 테스트 6건은 우리 쪽을 지켰다 — 아래 참조 |
 | Health Dashboard PR02 Support Packet typed struct | [7c457d07](https://github.com/mattermost/mattermost/commit/7c457d07c849ec41486f39bc2291e6e15a0e6c0d) (#38732) | 코드·golden 6개는 그대로 받고, 설정 구조체 모양을 담는 `sanitized_config.json` golden만 우리 `model.Config`·`FeatureFlags`로 다시 생성했다 — 아래 참조 |
 | ABAC 게시물 ETag에 세션 속성 epoch | [cbdd84fb](https://github.com/mattermost/mattermost/commit/cbdd84fbfba4ccd6324f0d335a66d07a9cfbf530) (#38821) | ETag 쪽(시그니처 rctx화·세션 epoch·호출부 7곳)은 그대로 받고, `SessionAttributeStore.GetEpoch`는 우리 초기판 store(`Refresh(id, attrs)` 2인자, 키별 timestamp 없음)에 맞게 다시 썼다 — 아래 참조 |
+| Attribute Management 목록 권한·분류 게이트·동기화 출처 전파 | [f747d624](https://github.com/mattermost/mattermost/commit/f747d6242a6d32eb9ac406f0b992384bf2f7857d) (#38830) | 본체 12파일(제외한 Global Attributes 계보, `manage_attributes` 링크 포함)은 버리고, 섞인 server en.json description 1줄(`eaeebdc9` 이모지 키)만 받았다 — 아래 참조 |
 
 ---
 
@@ -3259,3 +3260,22 @@ store 7파일 충돌을 모두 우리 쪽으로 두고 아래를 새로 썼다.
 
 **다음에 만날 자리.** Session Attributes MVF 계보를 들이면 store를 upstream 형태(3인자 `Refresh`·키별 timestamp)로 바꾸고 이 `GetEpoch`를
 upstream 구현으로 교체한다. 그 전에 `SessionAttributeStore`를 건드리는 upstream 커밋은 이 표의 차이로 충돌한다.
+
+---
+
+## Attribute Management 수정 — server en.json description 1줄만 받았다
+
+**upstream**: [`f747d624`](https://github.com/mattermost/mattermost/commit/f747d6242a6d32eb9ac406f0b992384bf2f7857d)
+(Fix Attribute Management listing permissions, Classification license gate, and sync-source cascade, #38830) — 13파일 +339/-55, 2026-10-19 반영
+
+**받은 것.** `server/i18n/en.json`의 `api.emoji.upload.large_image.too_large_to_process.app_error`에 번역자용 `description` 추가(직전 `eaeebdc9`가 만든 키).
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `admin_console/global_attributes/*` 6개, e2e `system_console/global_attributes/*` 2개 | 비 sysadmin 읽기 전용 목록, Classification 행 Enterprise Advanced 게이트·숨김, 템플릿 LDAP/SAML 동기화 출처를 연결된 Users 필드로 PATCH 전파, e2e | HEAD에 없다(modify/delete). Global Attributes(Attribute Management) 계보 전체를 제외했다 — `38b66d22`·`4ec0fe9c`·`846df3d3` 등, property 시스템 v2(`48f2fd08`) 미도입 | 이 계보를 들일 때 upstream 최신 상태로 받는다 |
+| `admin_definition.tsx`, `access_control/policy_details/policy_details.tsx`, `permission_policies/policy_details/permission_policy_details.tsx` | ABAC 도움말·빈 상태 CTA 링크를 `/admin_console/system_attributes/user_attributes` → `…/manage_attributes`, `<a>` → `<Link>`, 문구 'User Attributes' → 'Attribute Management' | `manage_attributes` 페이지가 우리에게 없다(grep 0건). 우리 링크는 실제로 있는 `user_attributes`(CPA 관리 화면)를 가리켜야 한다 | 위와 같음 — Attribute Management가 들어오면 링크도 옮긴다 |
+| `webapp/channels/src/i18n/en.json` | `admin.accesscontrol.enableDesc` 문구("define attributes in the … section")·링크 라벨 'Attribute Management' | 위 링크 변경과 한 묶음 | 위와 같음 |
+
+**검증.** 2026-10-19. server en.json JSON 파싱 통과, `make i18n-check` 통과. `make i18n-verify`는 반영 전과 같은 806건(기존 다른 언어 누락).
