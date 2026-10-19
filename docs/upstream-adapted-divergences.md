@@ -3854,3 +3854,20 @@ SAML을 자체 구현하게 되면 `DoLogin`이 생성 여부를 돌려주도록
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
 | `docs/main/deployment-guide/scale/enterprise-search.mdx` | "기본 DB 검색은 게시물 약 250만 건부터 성능 저하"를 "약 200만 건"으로 고침(1줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+
+---
+
+## drip: delivery tracking AppError → error — 전달 감사 설정 파일만 버렸다
+
+**upstream**: [`b25056d4`](https://github.com/mattermost/mattermost/commit/b25056d4ea9eddc726b45daffd4d8936201aaedc)
+(drip: AppError -> error: delivery tracking, #39171) — 7파일 +82/-14, 2026-10-22 반영(사용자 결정 adapt)
+
+**받은 것.** 6파일 전부. `model.AsAppError`(오류 체인의 `*AppError`를 꺼내거나 `model.app_error.internal_error` 500으로 감싼다)와 테스트,
+`web.Context.SetError`와 테스트, `app/ldap.go`의 `TestLdapConnection`·`TestLdapDiagnostics`가 `AsAppError`를 쓰도록 한 변경, en.json 새 키 1개.
+LDAP 테스트 연결에서 `*AppError`가 아닌 오류가 나면 응답 오류 ID가 `ent.ldap.app_error`에서 `model.app_error.internal_error`로 바뀐다(상태 500 동일, upstream과 같음).
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `server/channels/app/delivery_tracking_config.go` | `validateTrackedChannelIDs` 반환형을 `*model.AppError`에서 `error`로 바꾸고, `SaveDeliveryTrackingConfig`가 `model.AsAppError(err)`로 감싸 반환(3줄) | 보류성 제외한 `0019ecc5`(#37882 게시물 전달 감사 Post Delivery Tracking)가 만든 파일이라 우리에게 없다(modify/delete) | `0019ecc5` 계보를 반영할 때 이 반환형 변경까지 함께 적용 |
