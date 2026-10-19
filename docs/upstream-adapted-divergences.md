@@ -107,6 +107,7 @@
 | ABAC 게시물 ETag에 세션 속성 epoch | [cbdd84fb](https://github.com/mattermost/mattermost/commit/cbdd84fbfba4ccd6324f0d335a66d07a9cfbf530) (#38821) | ETag 쪽(시그니처 rctx화·세션 epoch·호출부 7곳)은 그대로 받고, `SessionAttributeStore.GetEpoch`는 우리 초기판 store(`Refresh(id, attrs)` 2인자, 키별 timestamp 없음)에 맞게 다시 썼다 — 아래 참조 |
 | Attribute Management 목록 권한·분류 게이트·동기화 출처 전파 | [f747d624](https://github.com/mattermost/mattermost/commit/f747d6242a6d32eb9ac406f0b992384bf2f7857d) (#38830) | 본체 12파일(제외한 Global Attributes 계보, `manage_attributes` 링크 포함)은 버리고, 섞인 server en.json description 1줄(`eaeebdc9` 이모지 키)만 받았다 — 아래 참조 |
 | ABAC 권한 정책 Burn-on-Read | [91b4450e](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) (#38656) | server 전부(`HasPermissionToChannelAction` 개명 포함)와 webapp 훅·초안·예약·콘솔은 받고, 우리 Lexical ATE에 `isDraftSendable`을 이식했다. docs 4·TipTap 2·없는 list spec 1과 컴파일되지 않는 BoR ABAC e2e 4개를 버렸다. PDP가 비공개 모듈이라 비활성(private-module 등재) — 아래 참조 |
+| 21개 언어 카탈로그 누락 채우기 | [f5b9b0ed](https://github.com/mattermost/mattermost/commit/f5b9b0ed4742ffac6dba6bb0f20680fe92b93b87) (#38904) | 파일을 통째로 받지 않고, 이 커밋이 추가한 키 중 우리 en에 있고·우리 로캘에 없고·en 원문이 같은 것만 42파일에 더했다. 기존 값은 하나도 바꾸지 않았다. ko 신규 24건은 OKR.BEST로 리브랜드 — 아래 참조 |
 
 ---
 
@@ -3322,3 +3323,38 @@ webapp — `useCreateBurnOnReadAccess`(MVP 셀렉터 `canUserSendBurnOnRead` 제
 webapp `check-types` 오류는 반영 전과 같은 파일들(13건, 미접촉), 변경 파일 eslint 오류는 ATE 기존 4건뿐. `i18n-extract:check`·server `make i18n-check` 통과.
 Playwright tsc(lib 재빌드 후) 남은 11건은 모두 기존. 이 과정에서 로컬 `node_modules/react-bootstrap`이 옛 fork 커밋(react-overlays ^0.9.3 요구)으로 남아
 jest suite가 돌지 않는 것을 찾아 재설치했다(lock 변경 없음).
+
+---
+
+## 21개 언어 카탈로그 누락 채우기 — 조건을 건 추가만 받았다
+
+**upstream**: [`f5b9b0ed`](https://github.com/mattermost/mattermost/commit/f5b9b0ed4742ffac6dba6bb0f20680fe92b93b87)
+(Fill the gaps in the 21 locale catalogs, #38904) — 42파일 +158,940/-17, 2026-10-19 반영
+
+**받은 방식.** server·webapp 각 21개 로캘에서 키를 **추가만** 했다. 키 하나는 아래를 모두 만족할 때만 넣었다.
+
+1. 이 커밋이 그 로캘에 새로 추가한 키다(부모에 없음).
+2. 우리 en 카탈로그에 그 키가 있다 — 없으면 제외 계보(property v2·Global Attributes·Boards 등)의 키라 orphaned가 된다.
+3. 우리 로캘에 그 키가 아직 없다 — 기존 번역(특히 우리 ko)을 덮어쓰지 않는다(원칙 V).
+4. 우리 en 원문이 upstream en(이 커밋 시점)과 같다 — 원문이 다르면 번역 뜻이 어긋난다.
+
+순서는 각 파일의 기존 순서를 지키고, 새 키는 upstream 파일 기준 바로 다음 키 앞에 끼웠다. 추가 수는 webapp ko 754·server ko 646을 포함해
+로캘마다 다르다(예: webapp it 4,305, server it 1,731). 받지 않은 것은 로캘당 webapp 약 580~780키·server 약 120~330키(우리 en에 없음)와
+원문이 다른 키(webapp 로캘당 3~148개, server 로캘당 1개)다.
+
+**버린 변경 1건.** webapp ko `adminConsole.list.table.exactTime` 값을 `{date, date, long}에` → `{date, date, long} 에`로 띄우는 변경 — 한국어 조사는 붙여 쓰므로 우리 값(`4aa82f6f` 반영 때 넣은 것)을 지켰다.
+
+**ko 리브랜드(신규 키만).** 우리 ko 관례(en이 Mattermost여도 ko는 OKR.BEST, 실측 155건 대 18건)에 따라 신규 26건 중 24건을 바꿨다.
+
+| 처리 | 키 |
+|---|---|
+| `Mattermost` → `OKR.BEST` | webapp 데스크톱 앱 최소 버전, SMTP·LDAP·외부 TLS 검증 끄기 경고 3건, Azure 엔드포인트 설명(예시 호스트 `acmemattermost`는 그대로), 라이선스 차이 배너 7건(플랜명 OKR.BEST Enterprise 등), 모바일 임시 모드 안내, OpenID `preferred_username`, `bots.managed_by.system`, Google SSO 사용자 이름 안내 / server 게스트 매직 링크 2건, Intune 로그인 안내 |
+| 브랜드 없이 | webapp `app.agents.bridge.*` 4건 → "Agents 플러그인…"(우리 기존 표기), server `app.export.generate_presigned_url.direct_download.app_error` → "Cloud에서만" |
+| `Mattermost` 유지 | `admin.plugin.addOn.notLicensedWarning`(애드온 구매처가 실제로 Mattermost 계정 팀), `model.config.is_valid.atmos_camo_image_proxy_removed.app_error`("Mattermost v12.0에서 제거" — upstream 버전 이력) |
+
+**결과.** ko 누락 webapp 763 → 9, server 845 → 199. orphaned는 변화 없음(webapp 8·server 90, 기존).
+
+**검증.** 2026-10-19. 기존 키 유실·값 변경 0건(42파일 전수 비교). `check_icu` 오류 목록이 반영 전과 한 줄도 다르지 않다(1404건), missing-key 경고는 50,534 → 7,030.
+`i18n-extract:check` 통과, server `make i18n-check` 통과, `make i18n-verify`는 반영 전과 같은 806건.
+
+**다음에 만날 자리.** upstream의 다음 카탈로그 일괄 갱신(Weblate 포함)도 같은 조건으로 받는다 — 파일을 통째로 받으면 우리 en에 없는 키가 orphaned·extra key가 된다.
