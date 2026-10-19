@@ -106,6 +106,7 @@
 | Health Dashboard PR02 Support Packet typed struct | [7c457d07](https://github.com/mattermost/mattermost/commit/7c457d07c849ec41486f39bc2291e6e15a0e6c0d) (#38732) | 코드·golden 6개는 그대로 받고, 설정 구조체 모양을 담는 `sanitized_config.json` golden만 우리 `model.Config`·`FeatureFlags`로 다시 생성했다 — 아래 참조 |
 | ABAC 게시물 ETag에 세션 속성 epoch | [cbdd84fb](https://github.com/mattermost/mattermost/commit/cbdd84fbfba4ccd6324f0d335a66d07a9cfbf530) (#38821) | ETag 쪽(시그니처 rctx화·세션 epoch·호출부 7곳)은 그대로 받고, `SessionAttributeStore.GetEpoch`는 우리 초기판 store(`Refresh(id, attrs)` 2인자, 키별 timestamp 없음)에 맞게 다시 썼다 — 아래 참조 |
 | Attribute Management 목록 권한·분류 게이트·동기화 출처 전파 | [f747d624](https://github.com/mattermost/mattermost/commit/f747d6242a6d32eb9ac406f0b992384bf2f7857d) (#38830) | 본체 12파일(제외한 Global Attributes 계보, `manage_attributes` 링크 포함)은 버리고, 섞인 server en.json description 1줄(`eaeebdc9` 이모지 키)만 받았다 — 아래 참조 |
+| ABAC 권한 정책 Burn-on-Read | [91b4450e](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) (#38656) | server 전부(`HasPermissionToChannelAction` 개명 포함)와 webapp 훅·초안·예약·콘솔은 받고, 우리 Lexical ATE에 `isDraftSendable`을 이식했다. docs 4·TipTap 2·없는 list spec 1과 컴파일되지 않는 BoR ABAC e2e 4개를 버렸다. PDP가 비공개 모듈이라 비활성(private-module 등재) — 아래 참조 |
 
 ---
 
@@ -3279,3 +3280,45 @@ upstream 구현으로 교체한다. 그 전에 `SessionAttributeStore`를 건드
 | `webapp/channels/src/i18n/en.json` | `admin.accesscontrol.enableDesc` 문구("define attributes in the … section")·링크 라벨 'Attribute Management' | 위 링크 변경과 한 묶음 | 위와 같음 |
 
 **검증.** 2026-10-19. server en.json JSON 파싱 통과, `make i18n-check` 통과. `make i18n-verify`는 반영 전과 같은 806건(기존 다른 언어 누락).
+
+---
+
+## ABAC 권한 정책 Burn-on-Read — Lexical ATE에 전송 가능 판정을 이식했다
+
+**upstream**: [`91b4450e`](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75)
+([MM-70692] New ABAC Permission Policy: Burn on Read, #38656) — 55파일 +2126/-172, 2026-10-19 반영
+
+**받은 것.** server — 동작 `create_burn_on_read_post`(v0.3·v0.4 허용 목록), `HasPermissionToFileAction` → `HasPermissionToChannelAction` 개명과
+호출부(api4 file·post·channel_bookmark·content_flagging_report, app post_metadata·web_broadcast_hooks·plugin_api, platform `SuiteIFace`·mock),
+BoR 작성 시 정책 검사(403 `api.post.create_post.burn_on_read.abac_denied.app_error`), 예약 게시물 수정 시 type을 저장값으로 고정,
+렌더 시점 판정 대상에 BoR 추가, 테스트. 플러그인 API 이름 `HasPermissionToFileAction`은 upstream처럼 그대로 두었다.
+webapp — `useCreateBurnOnReadAccess`(MVP 셀렉터 `canUserSendBurnOnRead` 제거), `useBurnOnRead`의 `isBurnOnReadSendable`, 초안 행·예약 게시물
+버튼 비활성, 시스템 콘솔·채널 설정 정책 탭의 BoR 항목, 테스트. e2e — `post_create.ts` POM, `abac/support.ts`의 BoR 권한 항목.
+
+**우리 코드에 맞춘 것.**
+
+| 위치 | upstream | 우리 |
+|---|---|---|
+| `server/channels/api4/post_utils.go` | `postCardTypeCheckWithContext` 뒤에 BoR 검사 | 우리는 그 함수를 뺐다 — BoR 검사·주석만 넣었다 |
+| `server/channels/app/authorization.go` | `hasPropertyFieldScopeAccess`(제외 계보) 뒤의 함수 개명 | 개명 hunk만 우리 위치(`HasPermissionToChannelMemberCount` 뒤)에 옮겼다 |
+| `advanced_text_editor.tsx` | `useBurnOnRead(…, showPreview, false)`, `isDraftSendable = isValidPersistentNotifications && burnOnReadSendable` | 우리 호출 인자(`false, false`)와 Lexical 핸들러(`handleLexicalChange` 등)를 지키고 `isBurnOnReadSendable`·`isDraftSendable`만 더했다. 전송 버튼·`handleSubmitWrapper`·`useKeyHandler`는 자동 병합 |
+| `use_key_handler.tsx` | deps의 `textboxRef` | 우리 `editorRef`(Lexical) |
+
+**버린 것.**
+
+| 파일 | 버린 이유 | 되살릴 조건 |
+|---|---|---|
+| `docs/main/**/*.mdx` 4개 | 제외한 문서 사이트 계보(`1d3bbc63`) | 해당 없음 |
+| `e2e …/wysiwyg_editor.ts`, `…/wysiwyg_editor/composing.spec.ts` | 제외한 TipTap 편집기 계보 | TipTap 도입 시 |
+| `e2e …/abac/policies/permission_policies_list.spec.ts` | 우리 트리에 없는 스펙(1줄 변경) | 그 스펙을 들일 때 |
+| `e2e …/abac/burn_on_read/` 4개(edge_cases·policy_scope·scheduled_post·helpers) | 우리 트리에서 컴파일되지 않는다 — `licenseTier`(우리 playwright-lib에 없음), `@mattermost/types/properties_user`(제외한 `076370e6` 계보), `support.ts`의 `getUserAttributeFieldByName`·`adminClient` 옵션 부재 | 위 lib·support 헬퍼를 들인 뒤 upstream 최신본으로 받는다 |
+
+**비활성.** 정책 판정(PDP)은 비공개 `github.com/mattermost/enterprise/access_control`에 있다. 우리 빌드에서는 ABAC가 비활성이라
+`HasPermissionToChannelAction`이 항상 허용하고, 렌더 판정도 `DefaultWhenInactive: true`라 BoR 작성은 지금과 같다(private-module 등재).
+
+**검증.** 2026-10-19. 새 jest 2건(`advanced_text_editor.test.tsx` › burn-on-read policy)을 먼저 넣고 이식 전(`isDraftSendable = isValidPersistentNotifications`)
+"disables send…" 실패를 확인한 뒤 이식으로 통과. ATE suite의 다른 실패 15건은 반영 전과 같다(기존 Lexical 하네스). BoR 관련 jest 28 suite 338건 통과.
+`go build ./...`·`go vet` 통과, `public/model`·`channels/app`(access control decision·broadcast hook)·`channels/api4`(BoR·scheduled post·access control) 통과.
+webapp `check-types` 오류는 반영 전과 같은 파일들(13건, 미접촉), 변경 파일 eslint 오류는 ATE 기존 4건뿐. `i18n-extract:check`·server `make i18n-check` 통과.
+Playwright tsc(lib 재빌드 후) 남은 11건은 모두 기존. 이 과정에서 로컬 `node_modules/react-bootstrap`이 옛 fork 커밋(react-overlays ^0.9.3 요구)으로 남아
+jest suite가 돌지 않는 것을 찾아 재설치했다(lock 변경 없음).

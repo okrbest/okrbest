@@ -377,6 +377,7 @@ const AdvancedTextEditor = ({
     const {
         labels: burnOnReadLabels,
         additionalControl: burnOnReadAdditionalControl,
+        isBurnOnReadSendable: burnOnReadSendable,
     } = useBurnOnRead(draft, handleDraftChange, focusTextbox, false, false);
     const [handleSubmit, errorClass] = useSubmit(
         draft,
@@ -488,6 +489,8 @@ const AdvancedTextEditor = ({
         }, {instant: true});
     }, [handleDraftChange]);
 
+    const isDraftSendable = isValidPersistentNotifications && burnOnReadSendable;
+
     const handleSubmitWrapper = useCallback(() => {
         const isEmptyPost = isPostDraftEmpty(draft);
 
@@ -505,14 +508,22 @@ const AdvancedTextEditor = ({
             return;
         }
 
+        // useKeyHandler prevents submits already when draft isn't sendable,
+        // but wysiwyg editor does not useKeyHandler, so check here too.
+        // Don't gate in edit mode because that could break the ability to remove mentions
+        // on an existing post with persistent notifications
+        if (!isInEditMode && !isDraftSendable) {
+            return;
+        }
+
         handleSubmitWithErrorHandling();
-    }, [dispatch, draft, handleSubmitWithErrorHandling, isInEditMode, isRHS]);
+    }, [dispatch, draft, handleSubmitWithErrorHandling, isInEditMode, isRHS, isDraftSendable]);
 
     useKeyHandler(
         draft,
         channelId,
         rootId,
-        isValidPersistentNotifications,
+        isDraftSendable,
         location,
         lexicalEditorRef,
         showFormattingBar,
@@ -608,7 +619,7 @@ const AdvancedTextEditor = ({
         };
     }, [channelId, rootId]);
 
-    const disableSendButton = Boolean(isDisabled || (!draft.message.trim().length && !draft.fileInfos.length)) || !isValidPersistentNotifications;
+    const disableSendButton = Boolean(isDisabled || (!draft.message.trim().length && !draft.fileInfos.length)) || !isDraftSendable;
     const sendButton = readOnlyChannel || isInEditMode ? null : (
         <SendButton
             disabled={disableSendButton}
