@@ -104,6 +104,7 @@
 | post-list 스크롤·Global Attributes 메뉴 높이 Playwright 플레이크 | [ef6957a5](https://github.com/mattermost/mattermost/commit/ef6957a5f3a14534932857733cfc91fc311987bd) (#38871) | post_list 초기 스크롤 스펙 2개는 그대로 받고, 제외한 Global Attributes 계보의 `global_attributes_form.spec.ts` 변경(높이 안정화 헬퍼)을 버렸다 — 아래 참조 |
 | 아카이브 추출 총량·깊이 상한 (MM-70272) | [73562bd0](https://github.com/mattermost/mattermost/commit/73562bd08c7428bf8a7caab5424e24565a20bd0c) (#38009) | 예산·깊이·항목 상한과 ctx 즉시 해제는 받았다. 오래된 PR 병합이 되돌린 upstream 수정 3건(ctx 오류 단락·로그 파일명 제거·동시성 테스트 플레이크 수정)과 테스트 6건은 우리 쪽을 지켰다 — 아래 참조 |
 | Health Dashboard PR02 Support Packet typed struct | [7c457d07](https://github.com/mattermost/mattermost/commit/7c457d07c849ec41486f39bc2291e6e15a0e6c0d) (#38732) | 코드·golden 6개는 그대로 받고, 설정 구조체 모양을 담는 `sanitized_config.json` golden만 우리 `model.Config`·`FeatureFlags`로 다시 생성했다 — 아래 참조 |
+| ABAC 게시물 ETag에 세션 속성 epoch | [cbdd84fb](https://github.com/mattermost/mattermost/commit/cbdd84fbfba4ccd6324f0d335a66d07a9cfbf530) (#38821) | ETag 쪽(시그니처 rctx화·세션 epoch·호출부 7곳)은 그대로 받고, `SessionAttributeStore.GetEpoch`는 우리 초기판 store(`Refresh(id, attrs)` 2인자, 키별 timestamp 없음)에 맞게 다시 썼다 — 아래 참조 |
 
 ---
 
@@ -3225,3 +3226,36 @@ docextractor를 건드리는 후속 커밋은 위 4곳 문맥이 upstream과 다
 
 **다음에 만날 자리.** upstream이 `model.Config`나 `FeatureFlags`에 필드를 더하거나 빼는 커밋마다 이 golden에 hunk가 생긴다.
 upstream hunk를 받지 말고, 그 커밋을 반영한 뒤 같은 방법으로 다시 생성한다(테스트 입력으로 `supportPacketConfigFile` 출력을 기록).
+
+---
+
+## ABAC 게시물 ETag 세션 속성 epoch — `GetEpoch`를 우리 초기판 store에 다시 썼다
+
+**upstream**: [`cbdd84fb`](https://github.com/mattermost/mattermost/commit/cbdd84fbfba4ccd6324f0d335a66d07a9cfbf530)
+([MM-70993] Include session attributes in the ABAC post ETag, #38821) — 11파일 +198/-21, 2026-10-19 반영
+
+**받은 것.** `App.AppendABACEtag(rctx, base, channelID)`·`App.GetPostsEtag(rctx, channel, collapsedThreads)` 시그니처(사용자는 세션에서 읽는다),
+ETag 꼬리의 세션 epoch(`base.policy.cpa.session`), api4 호출부 7곳(`post.go` 6, `channel.go` 1), `TestAppendABACEtag` 갱신 3건.
+
+**다시 쓴 것.** upstream store는 제외한 Session Attributes MVF(`684ddb32` 계보)의 형태다 — `Refresh(sessionID, attrs, updatedAt)`, 키별
+`Timestamps`, `Invalidate`·`Clear`. 우리 store는 그 이전 초기판(`bf53cd3345`, #36511)이라 `Refresh(sessionID, attrs)`가 맵을 통째로 바꾼다.
+store 7파일 충돌을 모두 우리 쪽으로 두고 아래를 새로 썼다.
+
+| 위치 | upstream | 우리 |
+|---|---|---|
+| `store.SessionAttributeStore` | `GetEpoch` 추가(+ 기존 `Invalidate`·`Clear`) | `GetEpoch`만 추가 |
+| localcache `sessionAttributeEntry.ChangedAt` | 키마다 `updatedAt`과 비교해, 값이 바뀐 키가 있을 때 그 `updatedAt`을 기록 | `Refresh`가 기존 맵과 `reflect.DeepEqual`로 비교해 다를 때만 `model.GetMillis()`를 기록. 같은 밀리초 안의 연속 변경은 `기존+1`로 올려 epoch가 겹치지 않게 했다 |
+| sqlstore `GetEpoch` | `"0"` | 같음 |
+| retry·timer layer, mock | 생성 코드 | `make store-layers`·`make store-mocks`로 다시 생성(`GetEpoch`만 추가) |
+| 테스트 | `Refresh(…, 1000)` 3인자, 정확한 epoch 숫자(`"1000"`) 단언, `SessionAttributesPropertyFieldClientVersion` | 2인자 `Refresh`, epoch는 바뀜/안 바뀜으로 단언, 우리 상수(`IPAddress`·`UserAgentBrowserName`·`UserAgentBrowserVersion`) |
+
+**우리 빌드에서의 영향.** 세션 속성은 `FeatureFlags.SessionAttributes`(기본 false)와 Enterprise Advanced 라이선스가 있을 때만 수집되고
+소비처는 비공개 ABAC 엔진이다. 평소 세션 epoch는 `"0"`(세션 있음) 또는 `unknown`(세션 없음)이라 ETag 값만 한 칸 길어진다.
+
+**검증.** 2026-10-19. 테스트를 먼저 고친 뒤 `"0"` stub으로 실패를 확인했다 — localcache `GetEpoch advances only when a value changes`
+(`Should not be: "0"`), app `TestAppendABACEtag/changes_only_when_a_session_attribute_value_changes`. 구현 후 둘 다 통과.
+`go build ./...`·`go vet` 통과, api4 ETag 경로 테스트(`TestGetPostsForChannel`·`TestGetPost`·`TestGetPostThread`·`TestGetPinnedPosts` 등) 통과.
+`store/retrylayer`(`TestRetry/on_regular_error_should_not_retry`)와 `store/localcachelayer`(`TestRoleStore/.../BackfillSchemeId`) 실패는 반영 전과 같다.
+
+**다음에 만날 자리.** Session Attributes MVF 계보를 들이면 store를 upstream 형태(3인자 `Refresh`·키별 timestamp)로 바꾸고 이 `GetEpoch`를
+upstream 구현으로 교체한다. 그 전에 `SessionAttributeStore`를 건드리는 upstream 커밋은 이 표의 차이로 충돌한다.
