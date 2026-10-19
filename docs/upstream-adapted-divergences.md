@@ -102,6 +102,7 @@
 | ABAC 사용자 속성 GetSubject 캐시 | [371582e1](https://github.com/mattermost/mattermost/commit/371582e1674541acef3a80afd5e1790ba8bfb664) (#38691) | 캐시·무효화·클러스터 이벤트는 그대로 받고, localcache `GetSubject`를 우리 property v1 시그니처(대상 유형 인자 없음)로 맞췄다. 채널 대상 통과 분기와 그 테스트를 버렸다 — 아래 참조 |
 | en.json 번역자용 description | [47b00703](https://github.com/mattermost/mattermost/commit/47b00703d1cb4853bdb7492f78338b77df1bd0c4) (#38411) | 도구는 그대로 받고 두 en.json은 upstream 본문 대신 우리 키·문구로 새 형식을 재생성했다. 포크 전용 키 399개는 빈 설명. 우리 `check-empty-translations.js`를 새 형식에 맞췄다 — 아래 참조 |
 | post-list 스크롤·Global Attributes 메뉴 높이 Playwright 플레이크 | [ef6957a5](https://github.com/mattermost/mattermost/commit/ef6957a5f3a14534932857733cfc91fc311987bd) (#38871) | post_list 초기 스크롤 스펙 2개는 그대로 받고, 제외한 Global Attributes 계보의 `global_attributes_form.spec.ts` 변경(높이 안정화 헬퍼)을 버렸다 — 아래 참조 |
+| 아카이브 추출 총량·깊이 상한 (MM-70272) | [73562bd0](https://github.com/mattermost/mattermost/commit/73562bd08c7428bf8a7caab5424e24565a20bd0c) (#38009) | 예산·깊이·항목 상한과 ctx 즉시 해제는 받았다. 오래된 PR 병합이 되돌린 upstream 수정 3건(ctx 오류 단락·로그 파일명 제거·동시성 테스트 플레이크 수정)과 테스트 6건은 우리 쪽을 지켰다 — 아래 참조 |
 
 ---
 
@@ -3157,3 +3158,41 @@ upstream은 기존 GM에 멤버를 추가하면 새 GM을 만들어 이력이 �
 
 **검증.** Playwright `npm run tsc` 오류 목록이 반영 전후 같다(393건, 전부 기존 — 두 스펙의 `createTestPost` 기준선 오류 포함).
 변경 2파일 eslint·prettier 통과. E2E 실주행은 하지 않았다(Playwright 채널 스펙은 포크 격차로 기준선 실패).
+
+---
+
+## 아카이브 추출 총량·깊이 상한 — upstream이 되돌린 반영분 3건을 지켰다
+
+**upstream**: [`73562bd0`](https://github.com/mattermost/mattermost/commit/73562bd08c7428bf8a7caab5424e24565a20bd0c)
+(MM-70272: Add aggregate size and depth limits to archive and Slack import extraction, #38009) — 13파일 +339/-272, 2026-10-19 반영
+
+**받은 것.** `ExtractionBudget`(중첩 아카이브 전체가 바이트 예산 1MB를 나눠 쓴다)과 `Extractor.Extract`의 `budget` 인자, 깊이 상한
+`defaultMaxArchiveDepth`(5)와 `ExtractSettings.MaxArchiveDepth`, 단계별 항목 상한 `maxArchiveEntries`(1000), 크기 초과 항목을
+잘라서 쓰고 예산을 소진하는 처리, `Ctx`만 있어도(Timeout 없이) 취소 즉시 호출자를 푸는 `extractWithTimeout`, 새 테스트
+(`TestArchiveExtractorEntryLimit`·`BudgetLimit`·`DepthLimit`, `TestExtractContextCancellation`), ABAC 파일 권한 e2e의 퍼머링크 미리보기 대기.
+제목의 Slack 가져오기 500MB 상한은 diff에 없다(내장 Slack 가져오기는 `f112b9a7`로 이미 제거).
+
+**왜 adapt인가.** 이 PR은 오래된 브랜치에서 병합돼, squash diff가 그 사이 upstream이 넣은 코드를 **지운다**. merge-tree는 CLEAN이지만
+의미 충돌이다. `git log -S`로 각 코드의 도입 커밋과 이 커밋에서의 삭제를 확인했다. upstream-master(2026-10-18)에는 docextractor
+후속 커밋이 없다 — upstream은 아직 이 회귀를 고치지 않았다.
+
+| 지킨 것 | 도입한 upstream 커밋 (우리 반영) | upstream이 이 커밋에서 한 일 | 우리 처리 |
+|---|---|---|---|
+| `combineExtractor`가 `context.Canceled`·`DeadlineExceeded`를 받으면 다음 추출기로 넘어가지 않고 반환 | `9230eb6f` MM-69725 (#37579, 우리 `6ae6909fc1`) | 단락 삭제 | 복원. 새 테스트 `TestCombineExtractorStopsOnContextError` |
+| `archiveExtractor`가 하위 추출의 ctx 오류를 `error extracting archive entry: %w`로 전파 | `2021503f` (#37987, 우리 `8238ba6c70`) | 전파 삭제 — 취소돼도 다음 항목을 계속 걷는다 | 새 예산 로직 앞에 복원 |
+| `combine.go` Warn 로그에 파일명을 남기지 않음 | `2021503f` (#37987) | `mlog.String("file_name", filename)` 재도입 | 뺐다. 새 테스트 `TestCombineExtractorWarnOmitsFileName` |
+| `TestExtractConcurrency`의 `waitForExtractionSlotsIdle` | `0b034ca9` (#37527, 우리 `8570895ef3`) | 헬퍼·호출 삭제, 서브테스트 앞 `resetExtractionConcurrencyForTest(1)`로 대체 | 우리 판 유지(테스트 자체는 MM-70109로 skip 상태) |
+| `ExtractSettings.Ctx`·`Timeout`, `extractWithTimeout` 주석 | `9230eb6f` | "converter는 context를 모른다"는 옛 설명으로 되돌림 | 현재 동작(PDF 추출기는 취소를 따른다, 자식 context는 반환 시 취소)으로 다시 썼다 |
+
+**되살린 테스트.** `TestPdfCancelledContext`, `TestExtractWithTimeout`(2), `TestExtractWithExtraExtractors`의 취소 서브테스트 2개,
+`TestArchiveExtractorErrorOmitsEntryName`의 ctx 오류 서브테스트 2개 — 모두 `budget` 인자만 더했다.
+`TestArchiveExtractorErrorOmitsEntryName`의 "entry read failure" 서브테스트는 버렸다. 크기 초과가 오류라는 전제인데,
+upstream이 크기 초과를 의도적으로 "잘라서 계속"으로 바꿨다(이제 오류가 나지 않는다).
+
+**검증.** 2026-10-19. 되살린·새 테스트를 먼저 넣고 실패를 확인했다 — `TestArchiveExtractorErrorOmitsEntryName` 2건,
+`TestCombineExtractorStopsOnContextError` 2건, `TestCombineExtractorWarnOmitsFileName`(로그에 `"file_name":"confidential-customer-list.txt"`).
+복원 후 `go test -race ./platform/services/docextractor/...` 통과, `go build ./...`·`go vet` 통과, `go test ./channels/app -run 'Extract|ContentExtraction|FileInfo'` 통과.
+Playwright tsc 오류 목록은 반영 전과 같다(e2e 스펙의 기존 `adminClient` 오류 4건이 행 번호만 +7).
+
+**다음에 만날 자리.** upstream이 같은 회귀를 고치는 커밋을 내면 우리에게는 no-op이거나 문맥 충돌이다 — 우리 쪽이 이미 그 형태다.
+docextractor를 건드리는 후속 커밋은 위 4곳 문맥이 upstream과 다르다는 점을 감안한다.
