@@ -11,6 +11,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import {onSubmit} from 'actions/views/create_comment';
 import {removeDraft, updateDraft} from 'actions/views/drafts';
 
+import {useCreateBurnOnReadAccess} from 'components/common/hooks/useCreateBurnOnReadAccess';
 import type {FileUpload} from 'components/file_upload/file_upload';
 import type Textbox from 'components/textbox/textbox';
 
@@ -33,6 +34,10 @@ jest.mock('actions/views/drafts', () => ({
 jest.mock('actions/views/create_comment', () => ({
     ...jest.requireActual('actions/views/create_comment'),
     onSubmit: jest.fn(() => () => Promise.resolve({data: true})),
+}));
+
+jest.mock('components/common/hooks/useCreateBurnOnReadAccess', () => ({
+    useCreateBurnOnReadAccess: jest.fn(() => true),
 }));
 
 jest.mock('utils/exec_commands.ts', () => ({
@@ -927,6 +932,46 @@ describe('components/avanced_text_editor/advanced_text_editor', () => {
 
         expect(mockedRemoveDraft).not.toHaveBeenCalled();
         expect(mockedUpdateDraft).not.toHaveBeenCalled();
+    });
+
+    describe('burn-on-read policy', () => {
+        const borDraftState = mergeObjects(initialState, {
+            entities: {
+                general: {
+                    config: {EnableBurnOnRead: 'true'},
+                    license: {IsLicensed: 'true', SkuShortName: 'advanced'},
+                },
+            },
+            storage: {
+                storage: {
+                    [StoragePrefixes.DRAFT + channelId]: {
+                        value: TestHelper.getPostDraftMock({
+                            channelId,
+                            message: 'a burn-on-read draft',
+                            type: PostTypes.BURN_ON_READ as PostType,
+                        }),
+                    },
+                },
+            },
+        });
+
+        afterEach(() => {
+            jest.mocked(useCreateBurnOnReadAccess).mockReturnValue(true);
+        });
+
+        it('disables send for a lingering burn-on-read draft once the policy denies it', () => {
+            jest.mocked(useCreateBurnOnReadAccess).mockReturnValue(false);
+
+            renderWithContext(<AdvancedTextEditor {...baseProps}/>, borDraftState);
+
+            expect(screen.getByTestId('SendMessageButton')).toBeDisabled();
+        });
+
+        it('keeps send enabled for a burn-on-read draft the policy allows', () => {
+            renderWithContext(<AdvancedTextEditor {...baseProps}/>, borDraftState);
+
+            expect(screen.getByTestId('SendMessageButton')).not.toBeDisabled();
+        });
     });
 
     it('should show @mention warning when a mention exists in the message', () => {
