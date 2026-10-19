@@ -26,3 +26,7 @@ func (s *SqlSessionAttributeStore) Refresh(_ string, _ map[string]any) error {
 func (s *SqlSessionAttributeStore) Get(_ string) (map[string]any, error) {
 	return map[string]any{}, nil
 }
+
+func (s *SqlSessionAttributeStore) GetEpoch(_ string) (string, error) {
+	return "0", nil
+}

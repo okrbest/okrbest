@@ -55,6 +55,48 @@ func TestSessionAttributeStoreCache(t *testing.T) {
 		require.Equal(t, "Firefox", got[model.SessionAttributesPropertyFieldUserAgentBrowserName])
 	})
 
+	t.Run("GetEpoch advances only when a value changes", func(t *testing.T) {
+		mockStore := getMockStore(t)
+		mockCacheProvider := getMockCacheProvider()
+		cachedStore, err := NewLocalCacheLayer(mockStore, nil, nil, mockCacheProvider, logger)
+		require.NoError(t, err)
+
+		sessionID := model.NewId()
+		epoch, err := cachedStore.SessionAttribute().GetEpoch(sessionID)
+		require.NoError(t, err)
+		require.Equal(t, "0", epoch)
+
+		require.NoError(t, cachedStore.SessionAttribute().Refresh(sessionID, map[string]any{
+			model.SessionAttributesPropertyFieldIPAddress: "192.0.2.10",
+		}))
+		first, err := cachedStore.SessionAttribute().GetEpoch(sessionID)
+		require.NoError(t, err)
+		require.NotEqual(t, "0", first)
+
+		require.NoError(t, cachedStore.SessionAttribute().Refresh(sessionID, map[string]any{
+			model.SessionAttributesPropertyFieldIPAddress: "192.0.2.10",
+		}))
+		unchanged, err := cachedStore.SessionAttribute().GetEpoch(sessionID)
+		require.NoError(t, err)
+		require.Equal(t, first, unchanged, "refreshing with the same values must not advance the epoch")
+
+		require.NoError(t, cachedStore.SessionAttribute().Refresh(sessionID, map[string]any{
+			model.SessionAttributesPropertyFieldIPAddress:            "192.0.2.10",
+			model.SessionAttributesPropertyFieldUserAgentBrowserName: "Chrome",
+		}))
+		added, err := cachedStore.SessionAttribute().GetEpoch(sessionID)
+		require.NoError(t, err)
+		require.NotEqual(t, first, added, "a new attribute must advance the epoch")
+
+		// Back-to-back changes in the same millisecond must still advance it.
+		require.NoError(t, cachedStore.SessionAttribute().Refresh(sessionID, map[string]any{
+			model.SessionAttributesPropertyFieldIPAddress: "203.0.113.42",
+		}))
+		changed, err := cachedStore.SessionAttribute().GetEpoch(sessionID)
+		require.NoError(t, err)
+		require.NotEqual(t, added, changed, "a changed value must advance the epoch")
+	})
+
 	t.Run("Get on missing session returns ErrKeyNotFound", func(t *testing.T) {
 		mockStore := getMockStore(t)
 		mockCacheProvider := getMockCacheProvider()

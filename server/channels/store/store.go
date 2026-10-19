@@ -1271,6 +1271,7 @@ type AttributesStore interface {
 type SessionAttributeStore interface {
 	Refresh(sessionID string, attrs map[string]any) error
 	Get(sessionID string) (map[string]any, error)
+	GetEpoch(sessionID string) (string, error)
 }
 
 type AutoTranslationStore interface {
