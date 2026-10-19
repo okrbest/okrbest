@@ -725,6 +725,7 @@
         "MmBlocksEnabled": false,
         "ClusterGracefulDrain": false,
         "EnableMFIPluginSignaturePublicKey": false,
-        "RecurringScheduledPosts": false
+        "RecurringScheduledPosts": false,
+        "HealthDashboard": false
     }
 }
