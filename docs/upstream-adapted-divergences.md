@@ -3838,3 +3838,19 @@ SAML을 자체 구현하게 되면 `DoLogin`이 생성 여부를 돌려주도록
 | `docs/main/administration-guide/comply/embedded-json-audit-log-schema.mdx` | `completeSaml`·`completeOAuth` 감사 이벤트 설명에 "`meta.user_created`는 JIT로 새 계정을 만든 로그인에서 true" 문장 추가(2줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 해당 없음 |
 
 **검증.** `go build ./...`, `go vet ./channels/app/ ./channels/web/ ./einterfaces/...`, `go test ./channels/app/ -run 'OAuth|CreateOAuthUser|LoginByOAuth'`, `./channels/web/ -run 'Saml|OAuth'` 통과.
+
+---
+
+## Health Dashboard PR19 데이터베이스 규칙 — 문서 1줄만 버렸다
+
+**upstream**: [`353f76fe`](https://github.com/mattermost/mattermost/commit/353f76fe3008b87cb56c9072263d85e37d69d6c1)
+([MM-71101] Health Dashboard PR19: rules for database, #39021) — 33파일 +1442/-16, 2026-10-22 반영(사용자 결정 adapt)
+
+**받은 것.** 문서를 뺀 32파일 전부. `rules/database/` 규칙 10파일, support packet 진단 항목, `model.MinimumPostgresMajorVersion`(15) 상수와 `sqlstore/store.go`의
+`minimumRequiredPostgresVersion` 계산식 변경(값 150000 동일), en.json 새 키, 테스트 데이터. 코드는 upstream과 같다.
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/deployment-guide/scale/enterprise-search.mdx` | "기본 DB 검색은 게시물 약 250만 건부터 성능 저하"를 "약 200만 건"으로 고침(1줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
