@@ -103,6 +103,7 @@
 | en.json 번역자용 description | [47b00703](https://github.com/mattermost/mattermost/commit/47b00703d1cb4853bdb7492f78338b77df1bd0c4) (#38411) | 도구는 그대로 받고 두 en.json은 upstream 본문 대신 우리 키·문구로 새 형식을 재생성했다. 포크 전용 키 399개는 빈 설명. 우리 `check-empty-translations.js`를 새 형식에 맞췄다 — 아래 참조 |
 | post-list 스크롤·Global Attributes 메뉴 높이 Playwright 플레이크 | [ef6957a5](https://github.com/mattermost/mattermost/commit/ef6957a5f3a14534932857733cfc91fc311987bd) (#38871) | post_list 초기 스크롤 스펙 2개는 그대로 받고, 제외한 Global Attributes 계보의 `global_attributes_form.spec.ts` 변경(높이 안정화 헬퍼)을 버렸다 — 아래 참조 |
 | 아카이브 추출 총량·깊이 상한 (MM-70272) | [73562bd0](https://github.com/mattermost/mattermost/commit/73562bd08c7428bf8a7caab5424e24565a20bd0c) (#38009) | 예산·깊이·항목 상한과 ctx 즉시 해제는 받았다. 오래된 PR 병합이 되돌린 upstream 수정 3건(ctx 오류 단락·로그 파일명 제거·동시성 테스트 플레이크 수정)과 테스트 6건은 우리 쪽을 지켰다 — 아래 참조 |
+| Health Dashboard PR02 Support Packet typed struct | [7c457d07](https://github.com/mattermost/mattermost/commit/7c457d07c849ec41486f39bc2291e6e15a0e6c0d) (#38732) | 코드·golden 6개는 그대로 받고, 설정 구조체 모양을 담는 `sanitized_config.json` golden만 우리 `model.Config`·`FeatureFlags`로 다시 생성했다 — 아래 참조 |
 
 ---
 
@@ -3196,3 +3197,31 @@ Playwright tsc 오류 목록은 반영 전과 같다(e2e 스펙의 기존 `admin
 
 **다음에 만날 자리.** upstream이 같은 회귀를 고치는 커밋을 내면 우리에게는 no-op이거나 문맥 충돌이다 — 우리 쪽이 이미 그 형태다.
 docextractor를 건드리는 후속 커밋은 위 4곳 문맥이 upstream과 다르다는 점을 감안한다.
+
+---
+
+## Health Dashboard PR02 — `sanitized_config.json` golden을 우리 구조체로 다시 만들었다
+
+**upstream**: [`7c457d07`](https://github.com/mattermost/mattermost/commit/7c457d07c849ec41486f39bc2291e6e15a0e6c0d)
+(Health Dashboard PR02: support packet collectors return typed structs, #38732) — 11파일 +1513/-190, 2026-10-19 반영
+
+**받은 것.** 수집기가 typed struct를 반환하고 섹션별 직렬화 함수(`supportPacketDiagnosticsFile`·`supportPacketConfigFile` 등)를 쓰는
+리팩터 4파일, golden 6개(`platform/testdata/support_packet/diagnostics.yaml`, `app/testdata/support_packet/` jobs·metadata·permissions·plugins·stats).
+
+**바꾼 것.** `server/channels/app/platform/testdata/support_packet/sanitized_config.json`(`TestSupportPacketMarshalGolden/config`).
+이 golden은 거의 빈 `model.Config`·`FeatureFlags`를 통째로 직렬화한 것이라 **설정 구조체의 필드 목록** 자체를 담는다.
+테스트와 같은 입력으로 `supportPacketConfigFile`을 호출해 나온 출력을 그대로 기록했다(+4/-32). 차이는 구조체 차이뿐이다.
+
+| 구분 | 필드 |
+|---|---|
+| upstream에만 (제외·보류 계보) | `DeliveryTrackingSettings`(Enable·EnableForAllChannels), `AIRecapSettings`(9필드), `TrustProxyDeviceIdentityHeader`·`EnforceDeviceIDConsistency`, 플래그 `NotificationMonitoring`·`ClassificationMarkings`·`IntegratedBoards`·`EnableDocs`·`CJKSearch`·`ManagedChannelCategories`·`PostAttributes`·`PropertyFieldRank`·`PropertyFieldGraph`·`ChannelAttributes`·`ChannelAttributesRequired`·`ResourceAttributesInPolicies`·`PostDeliveryTracking` |
+| 우리에게만 | 플래그 `EnableOrgRoleManagement`·`EnableLexicalEditor` |
+| 이름 차이 | upstream `EnableChannelCategorySorting` ↔ 우리 `ExperimentalChannelCategorySorting` |
+
+**검증.** 2026-10-19, `TZ=UTC`. 다시 생성하기 전 `TestSupportPacketMarshalGolden/config` 실패를 확인했다.
+`channels/app/platform`(`-run 'SupportPacket|GetSupportPacket'`)은 실패 목록이 반영 전과 같다(39건). 모두 macOS 로컬 환경 실패로,
+`fstatat /dev/fd: bad file descriptor`와 `/var`→`/private/var` 심볼릭 링크로 로그 경로가 logging root 밖으로 판정되는 문제다.
+`channels/app`(`-run SupportPacket`)도 반영 전과 같은 `TestGenerateSupportPacket` 5건(같은 원인의 `warning.txt`)이다. 새 golden 테스트는 모두 통과.
+
+**다음에 만날 자리.** upstream이 `model.Config`나 `FeatureFlags`에 필드를 더하거나 빼는 커밋마다 이 golden에 hunk가 생긴다.
+upstream hunk를 받지 말고, 그 커밋을 반영한 뒤 같은 방법으로 다시 생성한다(테스트 입력으로 `supportPacketConfigFile` 출력을 기록).
