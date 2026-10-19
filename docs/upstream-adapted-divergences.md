@@ -108,6 +108,7 @@
 | Attribute Management 목록 권한·분류 게이트·동기화 출처 전파 | [f747d624](https://github.com/mattermost/mattermost/commit/f747d6242a6d32eb9ac406f0b992384bf2f7857d) (#38830) | 본체 12파일(제외한 Global Attributes 계보, `manage_attributes` 링크 포함)은 버리고, 섞인 server en.json description 1줄(`eaeebdc9` 이모지 키)만 받았다 — 아래 참조 |
 | ABAC 권한 정책 Burn-on-Read | [91b4450e](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) (#38656) | server 전부(`HasPermissionToChannelAction` 개명 포함)와 webapp 훅·초안·예약·콘솔은 받고, 우리 Lexical ATE에 `isDraftSendable`을 이식했다. docs 4·TipTap 2·없는 list spec 1과 컴파일되지 않는 BoR ABAC e2e 4개를 버렸다. PDP가 비공개 모듈이라 비활성(private-module 등재) — 아래 참조 |
 | 21개 언어 카탈로그 누락 채우기 | [f5b9b0ed](https://github.com/mattermost/mattermost/commit/f5b9b0ed4742ffac6dba6bb0f20680fe92b93b87) (#38904) | 파일을 통째로 받지 않고, 이 커밋이 추가한 키 중 우리 en에 있고·우리 로캘에 없고·en 원문이 같은 것만 42파일에 더했다. 기존 값은 하나도 바꾸지 않았다. ko 신규 24건은 OKR.BEST로 리브랜드 — 아래 참조 |
+| 실험적 언어 8개 복원 | [70c1732d](https://github.com/mattermost/mattermost/commit/70c1732d783fde4cbc7a88632721f4e134a57ec4) (#38944) | 검사기 완화(extra key → 경고)와 테스트 예시 교체 6파일만 받고, 8개 언어 카탈로그·용어집·등록 코드·en description·docs는 버렸다(2026-10-19 사용자 결정) — 아래 참조 |
 
 ---
 
@@ -3362,3 +3363,27 @@ jest suite가 돌지 않는 것을 찾아 재설치했다(lock 변경 없음).
 `i18n-extract:check` 통과, server `make i18n-check` 통과, `make i18n-verify`는 반영 전과 같은 806건.
 
 **다음에 만날 자리.** upstream의 다음 카탈로그 일괄 갱신(Weblate 포함)도 같은 조건으로 받는다 — 파일을 통째로 받으면 우리 en에 없는 키가 orphaned·extra key가 된다.
+
+---
+
+## 실험적 언어 8개 복원 — 검사기 완화만 받았다
+
+**upstream**: [`70c1732d`](https://github.com/mattermost/mattermost/commit/70c1732d783fde4cbc7a88632721f4e134a57ec4)
+(Bring back eight dropped locales as (Experimental) languages and fill their catalogs, #38944) — 37파일 +188,827/-50, 2026-10-19 반영
+
+**받은 것(6파일).** webapp `scripts/check_icu.mjs`(+테스트)와 server `tools/mmgotool/commands/i18n.go`(+`i18n_verify_test.go`)가
+"en.json에 없는 여분 키/id"를 **오류에서 경고로** 낮춘다. `user_settings/display/index.test.tsx`·`i18n/i18n.test.ts`의 "지원하지 않는 언어" 예시를
+`cs`에서 `xx`·`fy`로 바꿨다(우리도 cs를 지원하지 않으므로 의미는 같다).
+
+**버린 것(2026-10-19 사용자 결정, adapt-A).**
+
+| 대상 | 이유 | 되살릴 조건 |
+|---|---|---|
+| 8개 언어(da·cs·hr·lt·nb-NO·pt·fi·be) server·webapp 카탈로그 16개, `i18n/glossary/<lang>.json` 8개, 등록 코드(`webapp i18n.ts`·`imports.ts`, server `supportedLocales`) | 지원 언어 확대는 제품 결정이다. 앞서 받은 `e9379690`(실험적 언어 제거)의 상태를 유지한다. 카탈로그에는 우리 en에 없는 제외 계보 키와 "Mattermost" 표기(da만 308곳)가 그대로 있다 | 이 언어들을 지원하기로 하면 이 커밋의 카탈로그를 `f5b9b0ed` 조건(우리 en에 있고 원문이 같은 키만)으로 걸러 받고 등록 코드를 들인다 |
+| `webapp/channels/src/i18n/en.json` description 9개 | 전부 Classification Markings·채널 속성 배너 키라 우리 en에 없다(제외 계보) | 해당 계보 도입 시 |
+| docs mdx 3개 | 문서 사이트 계보(`1d3bbc63`) | 해당 없음 |
+
+**효과.** 로컬 실측(2026-10-19): webapp `check_icu --warn-missing-keys` 오류 1,404 → 244, server `make i18n-verify` 오류 806 → 20.
+줄어든 것은 전부 extra-key 오류다(제외 계보 키가 다른 언어 파일에 남은 것). 남은 오류는 ICU 변수·태그 불일치 등 실제 결함이다.
+
+**검증.** jest 3 suite 52건(검사기·display·i18n) 통과, `go test ./tools/mmgotool/...` 통과, ko orphaned는 기존 8건 그대로.
