@@ -3,33 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-19 00:32
+- 갱신일: 2026-10-19 12:50
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 133개
+- 남은 커밋: 115개
 
-**마지막 반영 커밋:** `26ee3a47` | [Update Playbooks plugin to v2.12.1 (incl. FIPS) (#38853)](https://github.com/mattermost/mattermost/commit/26ee3a470639ea19573f0bf23af7e1e6048cfa8b) | 2026-09-29
+**마지막 반영 커밋:** `1a6759a6` | [Make CPA create/patch/delete template-aware (#38834)](https://github.com/mattermost/mattermost/commit/1a6759a60f4826387f9250e031f558c9b39a6ede) | 2026-09-30
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| cc0611f2 | [Fix flaky TestSearchAllChannels (#38859)](https://github.com/mattermost/mattermost/commit/cc0611f2ee9c8d8c012bb3631133d6d51e069068) | 2026-09-30 |
-| ef6957a5 | [Fix flaky post-list scroll and Global Attributes menu-height Playwright specs (#38871)](https://github.com/mattermost/mattermost/commit/ef6957a5f3a14534932857733cfc91fc311987bd) | 2026-09-30 |
-| 9176425f | [Bumping prepackaged Jira version to v5.0.0 (#38851)](https://github.com/mattermost/mattermost/commit/9176425f82c265e2fceef0e5010a8bc1e0a94264) | 2026-09-30 |
-| 73562bd0 | [MM-70272: Add aggregate size and depth limits to archive and Slack import extraction (#38009)](https://github.com/mattermost/mattermost/commit/73562bd08c7428bf8a7caab5424e24565a20bd0c) | 2026-09-30 |
-| 1bd281bf | [\[MM-70880\] Health Dashboard PR01: pointer-ize SupportPacketStats + Stat accessor (#38729)](https://github.com/mattermost/mattermost/commit/1bd281bfbace2000dbd102e17fdb1f2b205720b6) | 2026-09-30 |
-| 7c457d07 | [\[MM-70881\] Health Dashboard PR02: support packet collectors return typed structs (#38732)](https://github.com/mattermost/mattermost/commit/7c457d07c849ec41486f39bc2291e6e15a0e6c0d) | 2026-09-30 |
-| d2914954 | [\[MM-70882\] Health Dashboard PR11: live snapshot provider (#38734)](https://github.com/mattermost/mattermost/commit/d2914954e068b23012853a3ce16073408f27d653) | 2026-09-30 |
-| 3ba2add3 | [\[MM-70902\] Health Dashboard PR11b: leader diagnostics with per-section errors (#38758)](https://github.com/mattermost/mattermost/commit/3ba2add35efe861a7b4c07dd8dc3202a1f3e4c67) | 2026-09-30 |
-| 7206a384 | [Mm 70889 channel attributes fix (#38747)](https://github.com/mattermost/mattermost/commit/7206a38470ee4091dc594859b1a4055a60e56362) | 2026-09-30 |
-| 4aa82f6f | [Don't ship empty strings as valid translations (#38412)](https://github.com/mattermost/mattermost/commit/4aa82f6f13868bc328761cc4ba1cefc251a4186e) | 2026-09-30 |
-| cbdd84fb | [\[MM-70993\] Include session attributes in the ABAC post ETag (#38821)](https://github.com/mattermost/mattermost/commit/cbdd84fbfba4ccd6324f0d335a66d07a9cfbf530) | 2026-09-30 |
-| eaeebdc9 | [MM-69851: update emoji image processing to use the shared image decoder (#38716)](https://github.com/mattermost/mattermost/commit/eaeebdc94fe27ce294a3ece78796ba415db0a530) | 2026-09-30 |
-| 94c163f8 | [Default graph attributes and channel resource policies on (#38824)](https://github.com/mattermost/mattermost/commit/94c163f808bc30ef5692d33269e0a971d08da872) | 2026-09-30 |
-| 0f35dda9 | [Gate rolling-upgrade E2E on master/release merges by changed files (#38873)](https://github.com/mattermost/mattermost/commit/0f35dda92b8e9b10ed42241d2f4dee83e1b9b5a6) | 2026-10-01 |
-| f747d624 | [Fix Attribute Management listing permissions, Classification license gate, and sync-source cascade (#38830)](https://github.com/mattermost/mattermost/commit/f747d6242a6d32eb9ac406f0b992384bf2f7857d) | 2026-09-30 |
-| 24ef18fd | [MM-70812: Lock integration-managed channel attribute values in the channel RHS (#38802)](https://github.com/mattermost/mattermost/commit/24ef18fda7ca58b8ef59c8dd880fd17bccabe12b) | 2026-09-30 |
-| 91b4450e | [\[MM-70692\] New ABAC Permission Policy: Burn on Read (#38656)](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) | 2026-09-30 |
-| 2ab94cca | [Docs: document Aurora reader endpoint vs instance endpoints for DataSourceReplicas (#38817)](https://github.com/mattermost/mattermost/commit/2ab94ccaabe9a7d9595cc31376e37c5f127a8956) | 2026-10-01 |
-| 1a6759a6 | [Make CPA create/patch/delete template-aware (#38834)](https://github.com/mattermost/mattermost/commit/1a6759a60f4826387f9250e031f558c9b39a6ede) | 2026-09-30 |
 | 751b8cb6 | [Prepackage mattermost-plugin-agents v2.9.0 (#38898)](https://github.com/mattermost/mattermost/commit/751b8cb67b946baecb991b6ce5c04a5caecc39fe) | 2026-10-01 |
 | f5b9b0ed | [Fill the gaps in the 21 locale catalogs (#38904)](https://github.com/mattermost/mattermost/commit/f5b9b0ed4742ffac6dba6bb0f20680fe92b93b87) | 2026-10-01 |
 | e4966419 | [MM-68613: avoid locking posts while resizing message column (#38815)](https://github.com/mattermost/mattermost/commit/e496641946089308c04bb29bb09d2aaebbdafe1c) | 2026-10-01 |
@@ -144,6 +125,7 @@
 | cdc7fd28 | [\[MM-71191\] Translate /secure-connection accept transport, response and remote rejection errors (#39232)](https://github.com/mattermost/mattermost/commit/cdc7fd28e74c39a3899cb2e50c7fb36597db1648) | 2026-10-17 |
 | 2d52d2b0 | [\[MM-71060\] Health Dashboard: read the license from Support Packet diagnostics (#39214)](https://github.com/mattermost/mattermost/commit/2d52d2b00d7a109a7dc89c6af252cdb027d6c3c9) | 2026-10-17 |
 | f5227e66 | [\[MM-71096\] Apply incoming DeleteAt when receiving synced reactions (#39239)](https://github.com/mattermost/mattermost/commit/f5227e664f4b37437c8b110912dbf1c71e07c812) | 2026-10-17 |
+| f38678d0 | [\[MM-71099\] Health Dashboard PR22: rules for cluster, deployment and network (#39022)](https://github.com/mattermost/mattermost/commit/f38678d08d67a4d21ea3821f78b530ea7f8f8ec2) | 2026-10-18 |
 
 ## 제외된 커밋
 
@@ -756,6 +738,18 @@
 
 | 26ee3a47 | [Update Playbooks plugin to v2.12.1 (incl. FIPS) (#38853)](https://github.com/mattermost/mattermost/commit/26ee3a470639ea19573f0bf23af7e1e6048cfa8b) | 공식 Playbooks 번들 버전 올림(2.12.0 → 2.12.1, 일반·FIPS server/Makefile 2줄)을 받지 않는다 — 289d5e5e(2.12.0) 제외와 같은 사유. 우리 포크 okrbest/okrbest-plugin-playbooks는 공식과 같은 플러그인 ID playbooks라, 더 높은 공식 번들이 서버 재시작 때 processPrepackagedPlugin으로 우리 플러그인을 덮어쓴다. master 번들은 2.11.1(및 2.11.1%2B329b65c-fips) 유지. 번들 목록에서 빼는 결정은 별도 판단 대기. |
 
+| 7206a384 | [Mm 70889 channel attributes fix (#38747)](https://github.com/mattermost/mattermost/commit/7206a38470ee4091dc594859b1a4055a60e56362) | 제외한 채널 속성 계보(e86491ad MM-70120 foundation → 4ce99ddd → 75a26632 → 035e5461 → bea18569 → d283cc63 → 9b320fbe → f1cf5341, 기반 property 시스템 v2 미도입)의 UX·버그 수정이라 반영할 토대가 없다. 60파일 +2955/-593 중 약 45파일이 HEAD에 없다(components/channel_attributes/*, admin_console/global_attributes/*·classification_markings/*, useChannelClassificationBanner, redux selectors/entities/properties.ts, e2e channel_attributes/*·global_attributes/*). 남는 파일도 전부 이 계보에 기댄다 — channel_banner.tsx(renderBannerTemplate·useChannelAttributes·useResolvedChannelAttributes import), channel_settings_info_tab.tsx(ChannelInfoAttributes), channel_settings_configuration_tab.tsx(분류 필드명·hasAttributeToken·isBlankTemplate; 우리 파일은 channel_attributes 참조 0건), en.json 신규 키 전부 channel_attributes.*·속성 배너용. server의 ChannelBannerInfo.AttributeBannerDisabled(+Patch·테스트)는 속성 배너 opt-out 필드라 소비처가 없다. 일반 배너용 수정도 없다 — 빈 배너 텍스트 검증은 우리 레거시 경로에 이미 'Banner text is required'로 있고, 새 문구 banner_text.empty_error는 속성 배너 토글 안내용. private-module 해당 없음. 재검토 조건: property 시스템 v2와 채널 속성 계보를 도입할 때. |
+
+| 94c163f8 | [Default graph attributes and channel resource policies on (#38824)](https://github.com/mattermost/mattermost/commit/94c163f808bc30ef5692d33269e0a971d08da872) | 뒤집을 플래그 둘이 우리 FeatureFlags에 없다(server·webapp grep 0건, 7c457d07 golden 재생성 때도 upstream 전용 필드로 확인). PropertyFieldGraph는 제외한 graph 속성 계보 9ef79330(#37851)이, ResourceAttributesInPolicies는 제외한 c3a5a087(MM-70086 사용자↔채널 속성 비교, #37755 — property 시스템 v2·PropertyFields.ObjectType 부재로 마이그레이션 000216이 우리 DB에서 실패)이 만든 필드다. SetDefaults 2줄과 테스트 2개(+12/-4)뿐이라 반영할 실체가 0줄이고, merge-tree CONFLICT 2건도 그 필드 부재에서 온다. private-module 해당 없음. 재검토 조건: graph 속성 또는 채널 리소스 속성 계보를 도입할 때 기본값을 함께 정한다. |
+
+| 0f35dda9 | [Gate rolling-upgrade E2E on master/release merges by changed files (#38873)](https://github.com/mattermost/mattermost/commit/0f35dda92b8e9b10ed42241d2f4dee83e1b9b5a6) | 제외한 롤링 업그레이드 하네스 fe9a36e8(E2E/Playwright: rolling upgrade tests, #38367 — Mattermost 공식 이미지·지원 정책 기준이라 얻을 것이 없음)의 CI 게이트라 켜 줄 대상이 없다. e2e-tests-on-merge.yml에 check-changes 작업을 더해 병합 커밋이 업그레이드 하네스·rolling-upgrade 워크플로·서버 마이그레이션/version.go를 건드리면 playwright 작업 2개에 run_rolling_upgrades=true를 넘기고 e2e-tests-workflows.md를 고치는 2파일 +56/-5. 실측: e2e-tests-playwright-rolling-upgrades*.yml 워크플로가 우리 .github/workflows/에 없고, 우리 e2e-tests-playwright.yml에 run_rolling_upgrades 입력이 없어(grep 0건) 받으면 없는 입력을 넘겨 워크플로 검증 오류가 난다. 우리 e2e-tests-on-merge.yml(-24)·e2e-tests-workflows.md(-152)도 같은 계보로 이미 갈라져 merge-tree CONFLICT 2건. CODEOWNERS 보호 경로(.github/workflows/e2e-tests-on-merge.yml). private-module 해당 없음. 재검토 조건: fe9a36e8 하네스를 도입할 때. |
+
+| 24ef18fd | [MM-70812: Lock integration-managed channel attribute values in the channel RHS (#38802)](https://github.com/mattermost/mattermost/commit/24ef18fda7ca58b8ef59c8dd880fd17bccabe12b) | 제외한 채널 속성 계보(e86491ad MM-70120 foundation → 4ce99ddd → 75a26632 → 035e5461 → … → f1cf5341 → 7206a384, 기반 property 시스템 v2 미도입)의 RHS 편집 잠금 수정이라 대상이 없다. 9파일 +372/-8 webapp 전용: Channel Info 속성 패널이 permission_values만 보던 편집 가능 판정에 통합 소유 필드(attrs.protected+source_plugin_id, attrs.owners, attrs.ldap/saml) 판정 isPropertyFieldSourceManaged를 더하고 자물쇠를 띄운다. 실측: 핵심 3파일 mattermost-redux/src/utils/property_utils.ts·common/hooks/useCanSetChannelAttributes.ts·channel_attributes/channel_info_attributes.tsx와 e2e channel_attributes/*가 HEAD에 없고, 판정이 기대는 attrs.owners는 제외한 3b64a2ac(Property owners) 산물, 새 en 키도 channel_attributes.info.locked_source_managed. 섞인 공용 수정 없음. private-module 해당 없음. 재검토 조건: property 시스템 v2와 채널 속성 계보를 도입할 때. |
+
+| 2ab94cca | [Docs: document Aurora reader endpoint vs instance endpoints for DataSourceReplicas (#38817)](https://github.com/mattermost/mattermost/commit/2ab94ccaabe9a7d9595cc31376e37c5f127a8956) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. 고가용성 배포 가이드 docs/main/deployment-guide/server/high-availability-cluster-based-deployment.mdx 1파일(+42/-8)에서 Aurora DataSourceReplicas 권고를 개별 reader 인스턴스 엔드포인트 단일안에서 클러스터 reader 엔드포인트(+짧은 ConnMaxLifetimeMilliseconds)·인스턴스 엔드포인트 두 안의 장단점 비교로 바꾸고, 커넥션 풀이 DataSourceReplicas 항목마다 잡힌다는 점과 max_connections 산정을 명확히 한다. 코드 변경 없음. docs/main/ 디렉터리가 HEAD에 없다(modify/delete). Aurora 운영 지침이 필요하면 원문을 참고한다. private-module 해당 없음. |
+
+| 1a6759a6 | [Make CPA create/patch/delete template-aware (#38834)](https://github.com/mattermost/mattermost/commit/1a6759a60f4826387f9250e031f558c9b39a6ede) | 제외한 Linked Properties(3fa87760 #35808, property 시스템 v2 계보)와 CPA→Global Attributes template 이전(3db1a9ad #38537 — 받으면 우리 CPA v1 관리 화면이 퇴행) 계보를 전제한다. 커밋 메시지는 squash 과정의 2필드(template+linked user field) 설계를 설명하지만 최종 diff는 7파일 +485/-18: server patchCPAField·deleteCPAField가 existingField.LinkedFieldID가 있으면 400 api.custom_profile_attributes.linked_field.app_error로 거부, webapp CPA(LDAP/SAML 매핑) 화면이 linked_field_id 필드를 property-field API로 template·user 각각 패치하고 비 text 연결 필드에 동기화 불가 안내(admin.customProfileAttributes.linkedNonText), 신규 e2e ldap/user_attributes_sync.spec.ts. 실측: model.PropertyField에 LinkedFieldID가 없어(grep 0건) server 가드가 컴파일되지 않고, webapp은 없는 admin_console/global_attributes/constants를 import한다. merge-tree CONFLICT 3건(CPA api·test, server en.json)도 그 부재에서 온다. 섞인 공용 수정 없음. private-module 해당 없음. 재검토 조건: property 시스템 v2·Linked Properties를 도입할 때 3db1a9ad와 함께. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -822,3 +816,4 @@
 | 9de33037 | [MM-70076 - include native user attribute fields in ABAC policy listings (#38136)](https://github.com/mattermost/mattermost/commit/9de33037326535e4f165de398c2cfabe0318ce4e) | ABAC 정책 속성 목록에 고유 사용자 속성을 포함하는 작업. 되살리려면 property v2 계보와 Phase 5(84a554b2) 반영이 선행돼야 하고, 정책 평가 엔진은 비공개 github.com/mattermost/enterprise/access_control에만 있어(ch.AccessControl nil) 자체 구현이 필요하다. Phase 2(0dccdfb0)·4(c9b42e93)·6(17c77e27)과 같은 제약. |
 | 69f0f2c2 | [\[MM-70642\] Add Global Relay SenderAddress config setting (#38451)](https://github.com/mattermost/mattermost/commit/69f0f2c22cfb346566bc02ad67347bd65a7cabdf) | Global Relay 고정 발신자 주소(SenderAddress) — 설정·검증·콘솔 UI는 adapt로 반영했으나 이 값을 EML From·SMTP envelope sender로 쓰는 코드가 github.com/mattermost/enterprise/message_export/global_relay_export(비공개)에만 있어 발동하지 않는다. 4608b024(사용자 지정 헤더)와 같은 구조. 자체 Global Relay 작성기 구현 시 이 설정을 그대로 쓰면 된다. |
 | 2ba31db3 | [MM-70293 Add LegalHold plugin v1.1.6 to prepackage list (#38648)](https://github.com/mattermost/mattermost/commit/2ba31db3191b2ab3bf4f04f31e601f77d8c03df1) | Legal Hold (eDiscovery 법적 보존) — 엄밀히는 비공개 모듈이 아니라 공개 저장소 mattermost/mattermost-plugin-legal-hold이지만 Mattermost Source Available License라 Enterprise 계약 없이 운영 사용·재배포 불가, 플러그인도 Enterprise 라이선스 검사로 활성화를 거부한다. 기능(사용자·기간별 메시지·파일 보존과 내보내기)이 필요하면 자체 구현 대상 |
+| 91b4450e | [\[MM-70692\] New ABAC Permission Policy: Burn on Read (#38656)](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) | github.com/mattermost/enterprise/access_control — Burn-on-Read 작성 권한 정책(create_burn_on_read_post)의 판정 본체(PDP)가 비공개 모듈에 있다. 서버 검사·렌더 판정·콘솔 UI·초안 차단은 adapt로 받았으나 ABAC 비활성이라 HasPermissionToChannelAction이 항상 허용해 기능이 발동하지 않는다. 자체 구현 시 정책 엔진의 채널 리소스 action 평가가 필요. |
