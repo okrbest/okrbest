@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-19 12:50
+- 갱신일: 2026-10-19 13:37
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 115개
+- 남은 커밋: 110개
 
-**마지막 반영 커밋:** `1a6759a6` | [Make CPA create/patch/delete template-aware (#38834)](https://github.com/mattermost/mattermost/commit/1a6759a60f4826387f9250e031f558c9b39a6ede) | 2026-09-30
+**마지막 반영 커밋:** `2e626276` | [Restructure Slack migration guide end to end (#37911)](https://github.com/mattermost/mattermost/commit/2e6262768eccdb47be1ca2caaef00e61826d5f1c) | 2026-10-01
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 751b8cb6 | [Prepackage mattermost-plugin-agents v2.9.0 (#38898)](https://github.com/mattermost/mattermost/commit/751b8cb67b946baecb991b6ce5c04a5caecc39fe) | 2026-10-01 |
-| f5b9b0ed | [Fill the gaps in the 21 locale catalogs (#38904)](https://github.com/mattermost/mattermost/commit/f5b9b0ed4742ffac6dba6bb0f20680fe92b93b87) | 2026-10-01 |
-| e4966419 | [MM-68613: avoid locking posts while resizing message column (#38815)](https://github.com/mattermost/mattermost/commit/e496641946089308c04bb29bb09d2aaebbdafe1c) | 2026-10-01 |
-| ac3b3318 | [\[MM-71072\] Fix broken Security Bulletin signup link on Security Updates docs page (#38928)](https://github.com/mattermost/mattermost/commit/ac3b331878d44700bdb2feeed81d2c2709577ed4) | 2026-10-01 |
-| 2e626276 | [Restructure Slack migration guide end to end (#37911)](https://github.com/mattermost/mattermost/commit/2e6262768eccdb47be1ca2caaef00e61826d5f1c) | 2026-10-01 |
 | 964b09b8 | [\[MM-70903\] Health Dashboard PR12: leader-only hourly health check task (#38761)](https://github.com/mattermost/mattermost/commit/964b09b8b925e9f1398c0481ccb6b60b444538f9) | 2026-10-02 |
 | ede699c3 | [\[MM-70909\] Health Dashboard PR13: MVP config rules (push notifications + SiteURL) (#38769)](https://github.com/mattermost/mattermost/commit/ede699c3c6596c5bc6fc8d2d20b97a49ee7e4405) | 2026-10-02 |
 | 1638ff81 | [ci: bump glibc-openssl-fips digests for Docker FIPS build (#38949)](https://github.com/mattermost/mattermost/commit/1638ff81b52bc950db5f96a664866ec9b6f37d32) | 2026-10-02 |
@@ -749,6 +744,12 @@
 | 2ab94cca | [Docs: document Aurora reader endpoint vs instance endpoints for DataSourceReplicas (#38817)](https://github.com/mattermost/mattermost/commit/2ab94ccaabe9a7d9595cc31376e37c5f127a8956) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. 고가용성 배포 가이드 docs/main/deployment-guide/server/high-availability-cluster-based-deployment.mdx 1파일(+42/-8)에서 Aurora DataSourceReplicas 권고를 개별 reader 인스턴스 엔드포인트 단일안에서 클러스터 reader 엔드포인트(+짧은 ConnMaxLifetimeMilliseconds)·인스턴스 엔드포인트 두 안의 장단점 비교로 바꾸고, 커넥션 풀이 DataSourceReplicas 항목마다 잡힌다는 점과 max_connections 산정을 명확히 한다. 코드 변경 없음. docs/main/ 디렉터리가 HEAD에 없다(modify/delete). Aurora 운영 지침이 필요하면 원문을 참고한다. private-module 해당 없음. |
 
 | 1a6759a6 | [Make CPA create/patch/delete template-aware (#38834)](https://github.com/mattermost/mattermost/commit/1a6759a60f4826387f9250e031f558c9b39a6ede) | 제외한 Linked Properties(3fa87760 #35808, property 시스템 v2 계보)와 CPA→Global Attributes template 이전(3db1a9ad #38537 — 받으면 우리 CPA v1 관리 화면이 퇴행) 계보를 전제한다. 커밋 메시지는 squash 과정의 2필드(template+linked user field) 설계를 설명하지만 최종 diff는 7파일 +485/-18: server patchCPAField·deleteCPAField가 existingField.LinkedFieldID가 있으면 400 api.custom_profile_attributes.linked_field.app_error로 거부, webapp CPA(LDAP/SAML 매핑) 화면이 linked_field_id 필드를 property-field API로 template·user 각각 패치하고 비 text 연결 필드에 동기화 불가 안내(admin.customProfileAttributes.linkedNonText), 신규 e2e ldap/user_attributes_sync.spec.ts. 실측: model.PropertyField에 LinkedFieldID가 없어(grep 0건) server 가드가 컴파일되지 않고, webapp은 없는 admin_console/global_attributes/constants를 import한다. merge-tree CONFLICT 3건(CPA api·test, server en.json)도 그 부재에서 온다. 섞인 공용 수정 없음. private-module 해당 없음. 재검토 조건: property 시스템 v2·Linked Properties를 도입할 때 3db1a9ad와 함께. |
+
+| 751b8cb6 | [Prepackage mattermost-plugin-agents v2.9.0 (#38898)](https://github.com/mattermost/mattermost/commit/751b8cb67b946baecb991b6ce5c04a5caecc39fe) | 공식 Agents 번들 버전 올림(v2.8.0 → v2.9.0, 일반·FIPS server/Makefile 2줄 + docs/vendor/mattermost-plugin-agents 서브모듈 포인터)을 받지 않는다 — 10804f80(v2.5.1)·1361e922(v2.6.0)·443c6fdf(v2.6.1)·05553d08(v2.8.0) 제외와 같은 사유이며 05553d08 제외 사유가 이 커밋을 후속 대상으로 지목해 두었다. 우리 Agents 포크(okrbest/okrbest-plugin-agents)는 공식과 같은 플러그인 ID mattermost-ai라 더 높은 공식 번들이 재시작 때 processPrepackagedPlugin으로 우리 플러그인을 덮어쓴다(1bfa2e51 방침). master 번들은 v2.4.2(및 v2.4.2%2B1305067-fips) 유지 — 그래서 diff 문맥(v2.8.0)이 맞지 않는다. docs/vendor 서브모듈은 제외한 문서 계보. 번들 목록에서 빼는 결정은 별도 판단 대기. |
+
+| ac3b3318 | [\[MM-71072\] Fix broken Security Bulletin signup link on Security Updates docs page (#38928)](https://github.com/mattermost/mattermost/commit/ac3b331878d44700bdb2feeed81d2c2709577ed4) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. docs/main/security-guide/security-updates.mdx 1줄로 Security Bulletin 구독 링크(mattermost.com/security-updates/#sign-up, 문서로 301 순환)를 responsible disclosure 페이지의 Security Bulletin 섹션으로 바꾼다. docs/main/이 HEAD에 없고(modify/delete), 내용도 Mattermost 사 보안 공지 구독이라 OKR.BEST 문서로 옮길 대상이 아니다. private-module 해당 없음. |
+
+| 2e626276 | [Restructure Slack migration guide end to end (#37911)](https://github.com/mattermost/mattermost/commit/2e6262768eccdb47be1ca2caaef00e61826d5f1c) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. Slack 마이그레이션 가이드(docs/main/administration-guide/onboard/migrate-from-slack.mdx)를 준비→내보내기→변환→가져오기 흐름으로 재작성하고 Rocket.Chat 가이드 연결 문구를 고치는 2파일 +450/-253, 코드 변경 없음. 두 파일 모두 HEAD에 없다(modify/delete). 내장 Slack 가져오기 API·CLI 제거(f112b9a7)는 받았고 그때도 관련 docs mdx는 버렸다. private-module 해당 없음. |
 
 ## spec 전환 커밋
 
