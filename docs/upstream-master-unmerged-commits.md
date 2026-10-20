@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-20 13:28
+- 갱신일: 2026-10-20 14:26
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 103개
 
-**마지막 반영 커밋:** `f396b69a` | [\[MM-71090\] Health Dashboard: don't persist never-fired checks as resolved (#38982)](https://github.com/mattermost/mattermost/commit/f396b69a359af5f1065a480a8fbc393afa16a3d9) | 2026-10-06
+**마지막 반영 커밋:** `e8d7f37e` | [\[MM-71076\] Calls: Add phone call options menu to the call button in DMs and profile popover (#38941)](https://github.com/mattermost/mattermost/commit/e8d7f37e923dc4d3582cdb83aefee751eab7bdba) | 2026-10-07
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 0584e1b3 | [Bump mattermost/pdf for content-stream array parsing fix (#38781)](https://github.com/mattermost/mattermost/commit/0584e1b30b494aa9ea48515d3e3b1f738c2909be) | 2026-10-07 |
-| dc88bb3d | [MM-70922: Download media gallery attachments as a single zip (#38879)](https://github.com/mattermost/mattermost/commit/dc88bb3d50b4ee4cde7f4555a84276a291612ead) | 2026-10-07 |
-| e8d7f37e | [\[MM-71076\] Calls: Add phone call options menu to the call button in DMs and profile popover (#38941)](https://github.com/mattermost/mattermost/commit/e8d7f37e923dc4d3582cdb83aefee751eab7bdba) | 2026-10-07 |
 | 5b28e9b1 | [docs: add Evaluators persona and Quick Start Evaluation folder (#38974)](https://github.com/mattermost/mattermost/commit/5b28e9b1600c877711b9ee3894df767f337a2997) | 2026-10-08 |
 | 33411b9d | [fix(app): scope received_group to group readers (#38299)](https://github.com/mattermost/mattermost/commit/33411b9d3ced672f94765eb58f3ebd25e1cecc43) | 2026-10-08 |
 | 6746e2f5 | [\[MM-70779\] Make the number part of a hyphenated term findable in Postgres search (#38704)](https://github.com/mattermost/mattermost/commit/6746e2f5d9fb824f3ed1575352f90961826f96f2) | 2026-10-08 |
@@ -114,6 +111,9 @@
 | 5c012a11 | [\[MM-61894\] Keep markdown formatting when pasting text copied from a message (#38287)](https://github.com/mattermost/mattermost/commit/5c012a1184e3a70709e7541e90308897303f4368) | 2026-10-19 |
 | aeccde2d | [\[MM-69961\] Fix login being blocked for all users when Guest Access is disabled while Magic Link stays enabled (#38749)](https://github.com/mattermost/mattermost/commit/aeccde2d90b2045f18dad28d51b770192037d04f) | 2026-10-19 |
 | 9df98424 | [Render URL too long errors inline to stop the redirect loop (#38286)](https://github.com/mattermost/mattermost/commit/9df984246f2d4f39d4e9c3042570cb33ff11289d) | 2026-10-19 |
+| bbe3f718 | [\[MM-71216\] Apply incoming AcknowledgedAt when receiving synced acknowledgements (#39240)](https://github.com/mattermost/mattermost/commit/bbe3f71849bb293820a8519022245330c9270c97) | 2026-10-20 |
+| d430bb29 | [SEC-11251 Add Playwright subpath deployment E2E testing (#38833)](https://github.com/mattermost/mattermost/commit/d430bb294fbf949cdf7a0e968e5a5f34c9cba866) | 2026-10-20 |
+| 9b1c4fd5 | [\[MM-71057\] Health Dashboard PR18: rules for auth and identity (#38917)](https://github.com/mattermost/mattermost/commit/9b1c4fd558694ddc3bfb453bb979e00c66066f56) | 2026-10-20 |
 
 ## 제외된 커밋
 
