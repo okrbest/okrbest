@@ -114,6 +114,7 @@
 | Calls 전화 걸기 메뉴 | [e8d7f37e](https://github.com/mattermost/mattermost/commit/e8d7f37e923dc4d3582cdb83aefee751eab7bdba) (#38941) | compass-ui 메뉴 트리거를 일반 버튼으로, `properties_user` import를 `properties`로, `menu.tsx`는 타입 확장만 이식. 기능은 Calls v1.12.5라 비활성 — 아래 참조 |
 | 업그레이드 경로 ABAC 시딩 건너뛰기 | [c307d634](https://github.com/mattermost/mattermost/commit/c307d634d6ed9d090385e2b7dc5981c36e233805) (#39084) | 스펙이 `ensureUserAttributes`로 속성을 직접 준비하는 2줄만 받고, 우리에게 없는 업그레이드 하네스 쪽 4파일을 버렸다 — 아래 참조 |
 | ServiceNow 플러그인 제외 | [07b79a10](https://github.com/mattermost/mattermost/commit/07b79a1087cdcf654ffa335f29a3394feb318a2a) (#39105) | 번들 목록·설정 마법사·아이콘·en 키 2개 삭제는 받고 ko 키 2개를 함께 지웠다. Makefile은 우리 번들 버전(playbooks v2.11.1 등)을 유지. docs 11파일을 버렸다 — 아래 참조 |
+| WebserverMode `uncompressed` 통일 | [359fc924](https://github.com/mattermost/mattermost/commit/359fc92417a9da2f671b5d6c04c71c202faf7963) (#39116) | 서버 검증·보정·ko 포함 26파일은 받고, 우리에게 없는 실험적 언어 server 카탈로그 7개의 메시지 1줄씩을 버렸다 — 아래 참조 |
 
 ---
 
@@ -3515,3 +3516,31 @@ reload 전후에 설정을 다시 적용해 병렬 worker의 `initSetup()` 초�
 | `docs/site/sidebars/active-redirects.json` | `/integrations-guide/servicenow` → `/integrations-guide/popular-integrations` 리다이렉트 추가 | 옛 URL 보존 | 같음 |
 
 **검증.** 변경 파일 eslint 오류 0, `i18n-check-empty`의 orphaned 8건은 기존 기준선과 같고 servicenow 키 없음. `preparing_workspace` jest 18건 중 `invite_members` "should match snapshot when it is cloud" 1건 실패 — 변경 전 코드에서도 같은 실패(기준선).
+
+---
+
+## WebserverMode `uncompressed` 통일 — 없는 언어 카탈로그 7개를 버렸다
+
+**upstream**: [`359fc924`](https://github.com/mattermost/mattermost/commit/359fc92417a9da2f671b5d6c04c71c202faf7963)
+(Standardize WebserverMode on uncompressed instead of nogzip, #39116) — 33파일 +49/-39, 2026-10-20 반영(사용자 결정 adapt)
+
+**고친 버그(우리에게도 있었다).** 시스템 콘솔 드롭다운(`admin_definition.tsx`)은 원래 `uncompressed`를 저장하는데, v12 검증(`32afca67` 반영)은
+`gzip`·`nogzip`·`disabled`만 허용해 콘솔에서 "압축 안 함"을 저장하면 서버가 거부했다.
+
+**받은 것(26파일).** `server/public/model/config.go` 검증 허용값을 `uncompressed`로, `server/config/utils.go` `fixWebserverMode`의 보정 대상도
+`uncompressed`로(기존 `nogzip` 설정은 시작 시 경고와 함께 `uncompressed`로 보정된다 — 직전에 받은 `6320b80c`의 보정 함수), api4·config 테스트,
+server `en.json`과 우리가 가진 언어 카탈로그 19개의 오류 메시지(ko 포함 — 우리 ko 값이 upstream 직전 문구와 같아 그대로 적용).
+
+**버린 것** — 2026-10-19 `70c1732d` adapt에서 들이지 않은 실험적 언어의 server 카탈로그라 파일이 없다.
+
+| 파일 | upstream 변경 | 바뀐 문구(upstream 결과) | 되살릴 조건 |
+|---|---|---|---|
+| `server/i18n/cs.json` | `model.config.is_valid.webserver_mode.app_error`의 `'nogzip'` → `'uncompressed'` | "Neplatný režim webového serveru {{.Value}}. Musí být 'gzip', 'uncompressed' nebo 'disabled'." | 이 언어를 지원하기로 하면(70c1732d 카탈로그 수용 시) 이 문구로 맞춘다 |
+| `server/i18n/da.json` | `model.config.is_valid.webserver_mode.app_error`의 `'nogzip'` → `'uncompressed'` | "Ugyldig webservertilstand {{.Value}}. Skal være 'gzip', 'uncompressed' eller 'disabled'." | 이 언어를 지원하기로 하면(70c1732d 카탈로그 수용 시) 이 문구로 맞춘다 |
+| `server/i18n/fi.json` | `model.config.is_valid.webserver_mode.app_error`의 `'nogzip'` → `'uncompressed'` | "Virheellinen web-palvelimen tila {{.Value}}. On oltava 'gzip', 'uncompressed' tai 'disabled'." | 이 언어를 지원하기로 하면(70c1732d 카탈로그 수용 시) 이 문구로 맞춘다 |
+| `server/i18n/hr.json` | `model.config.is_valid.webserver_mode.app_error`의 `'nogzip'` → `'uncompressed'` | "Neispravan način rada web servera {{.Value}}. Mora biti 'gzip', 'uncompressed' ili 'disabled'." | 이 언어를 지원하기로 하면(70c1732d 카탈로그 수용 시) 이 문구로 맞춘다 |
+| `server/i18n/lt.json` | `model.config.is_valid.webserver_mode.app_error`의 `'nogzip'` → `'uncompressed'` | "Netinkamas žiniatinklio serverio režimas {{.Value}}. Turi būti 'gzip', 'uncompressed' arba 'disabled'." | 이 언어를 지원하기로 하면(70c1732d 카탈로그 수용 시) 이 문구로 맞춘다 |
+| `server/i18n/nb-NO.json` | `model.config.is_valid.webserver_mode.app_error`의 `'nogzip'` → `'uncompressed'` | "Ugyldig webservermodus {{.Value}}. Må være 'gzip', 'uncompressed' eller 'disabled'." | 이 언어를 지원하기로 하면(70c1732d 카탈로그 수용 시) 이 문구로 맞춘다 |
+| `server/i18n/pt.json` | `model.config.is_valid.webserver_mode.app_error`의 `'nogzip'` → `'uncompressed'` | "Modo do servidor web {{.Value}} inválido. Deve ser 'gzip', 'uncompressed' ou 'disabled'." | 이 언어를 지원하기로 하면(70c1732d 카탈로그 수용 시) 이 문구로 맞춘다 |
+
+**검증.** 서버 전체 빌드, `go test ./config/`, `public/model` config 테스트, api4 `TestAPIHandlersWithGzip` 통과, `make i18n-check` 통과. 남은 `nogzip` 참조 0건.

@@ -13851,7 +13851,7 @@
   },
   {
     "id": "model.config.is_valid.webserver_mode.app_error",
-    "translation": "Ongeldige webservermodus {{.Value}}. Moet 'gzip', 'nogzip' of 'disabled' zijn."
+    "translation": "Ongeldige webservermodus {{.Value}}. Moet 'gzip', 'uncompressed' of 'disabled' zijn."
   },
   {
     "id": "model.user.is_valid.mention_keys.app_error",

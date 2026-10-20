@@ -13179,7 +13179,7 @@
   },
   {
     "id": "model.config.is_valid.webserver_mode.app_error",
-    "translation": "Mode du serveur web {{.Value}} invalide. Doit être 'gzip', 'nogzip' ou 'disabled'."
+    "translation": "Mode du serveur web {{.Value}} invalide. Doit être 'gzip', 'uncompressed' ou 'disabled'."
   },
   {
     "id": "model.emoji.system_emoji_name.app_error",
