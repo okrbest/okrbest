@@ -3,20 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-20 15:38
+- 갱신일: 2026-10-20 16:14
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 96개
+- 남은 커밋: 90개
 
-**마지막 반영 커밋:** `47eebd55` | [MM-70615: Update connection string formatting in configuration output and logs (#38644)](https://github.com/mattermost/mattermost/commit/47eebd5530c0485391efa77915965b4b7317f16c) | 2026-10-09
+**마지막 반영 커밋:** `2b64fd09` | [Add Compass UI guidance for agents (#38938)](https://github.com/mattermost/mattermost/commit/2b64fd09d3839007887662c191bd5d7af113a385) | 2026-10-12
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 5dec0b82 | [E2E/Playwright: Reset leaked config and roles before each test (#39091)](https://github.com/mattermost/mattermost/commit/5dec0b8255726d0ae21717ef2b5e4f3d3a0ba3ba) | 2026-10-12 |
-| 52492303 | [chore: Update NOTICE.txt file with updated dependencies (#39103)](https://github.com/mattermost/mattermost/commit/52492303f5dd4aaff8121318423cc7d41f3ace5d) | 2026-10-12 |
-| 701f4143 | [\[MM-62275\] Add plugin testhelper package for integration testing with testcontainers (#35643)](https://github.com/mattermost/mattermost/commit/701f4143c68f00ccf4dd1b82fd42cfa8bca01d84) | 2026-10-12 |
-| 7def4747 | [\[MM-71120\] Allow mmctl config set to set a list setting to exactly one value (#39107)](https://github.com/mattermost/mattermost/commit/7def47474a8f969de826eaa55364c0f51d5ac6a6) | 2026-10-12 |
-| 8a378be8 | [docs: add OCI Marketplace quick start evaluation guide (#38959)](https://github.com/mattermost/mattermost/commit/8a378be804d9ff0bf331507dddd494943868c1ed) | 2026-10-12 |
-| 2b64fd09 | [Add Compass UI guidance for agents (#38938)](https://github.com/mattermost/mattermost/commit/2b64fd09d3839007887662c191bd5d7af113a385) | 2026-10-12 |
 | 0c66f929 | [\[MM-71128\] Render attachment fields that have a title but an empty value (#39112)](https://github.com/mattermost/mattermost/commit/0c66f929d073c9c75140f6a89537dc6c50a11a38) | 2026-10-13 |
 | 07b79a10 | [Deprecate ServiceNow plugin: remove from prepackaged plugins, onboarding, and docs (#39105)](https://github.com/mattermost/mattermost/commit/07b79a1087cdcf654ffa335f29a3394feb318a2a) | 2026-10-13 |
 | bbb7145c | [Add Mobile v2.44.1 dot release docs (#39102)](https://github.com/mattermost/mattermost/commit/bbb7145c53780e1daf7e872bddc68e52f3c681f2) | 2026-10-13 |
@@ -764,6 +758,12 @@
 | 6746e2f5 | [\[MM-70779\] Make the number part of a hyphenated term findable in Postgres search (#38704)](https://github.com/mattermost/mattermost/commit/6746e2f5d9fb824f3ed1575352f90961826f96f2) | Postgres FTS가 flight-12345의 숫자를 lexeme '-12345'로 색인해 '12345' 검색이 빗나가는 문제를, 숫자 항 N을 to_tsquery용 '(N\|-N)'으로 바꾸는 expandNumericTerms(sqlstore/utils.go)로 고치는 커밋이다. 우리 post 검색은 자체 커밋 6eecf5ee32(한글 형태소 검색 오류 수정)로 to_tsquery를 ILIKE 부분문자열 매칭으로 바꿨으므로 upstream이 2줄을 꽂는 wildCardRegex·to_tsquery 경로가 없고, '12345'는 ILIKE '%12345%'로 이미 flight-12345를 찾는다(버그 부재). 헬퍼는 호출처가 없어 unused lint에 걸린다. 공유 테스트 testSearchNumberInHyphenatedTerm 9개 중 '1234는 flight-12345를 못 찾아야 함'·'1234* 와일드카드' 2개는 우리 ILIKE 의미와 구조적으로 맞지 않는다. 선례: 01a7d5d9(하이픈 복합어) adapt 때 FTS 전용 부분을 ILIKE 경로에 맞추고 불가 서브테스트를 skip했다. |
 
 | acf6e7bd | [Add dot release docs for server v11.7.12 (ESR) (#39057)](https://github.com/mattermost/mattermost/commit/acf6e7bd22224cafcb847dabd6b2bf83505805d1) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. server v11.7.12(ESR) 점 릴리스 변경 이력 추가와 버전 보관 목록·서버 릴리스 표·RHEL/tar 배포 가이드의 다운로드 버전 갱신이다(docs/main 5파일 +37/-13). 파일 전부 우리 트리에 없고, Mattermost 공식 릴리스·다운로드 안내라 우리 배포물과도 무관하다. |
+
+| 5dec0b82 | [E2E/Playwright: Reset leaked config and roles before each test (#39091)](https://github.com/mattermost/mattermost/commit/5dec0b8255726d0ae21717ef2b5e4f3d3a0ba3ba) | 병렬 실행에서 테스트 간 서버 설정·역할 누출을 막으려 매 테스트 전 config·roles를 기본값으로 되돌리는 Playwright 인프라 전면 개편이다(85파일 +2032/-2031). lib/src/server에 reset_config·reset_config_with·patch_config·roles·lockout·admin_lockout·migrations·default_server_env·default_feature_flags 신설, default_config.ts 재작성(849줄), testcontainers 스택에 port·lock·orphans·global_setup_failure 추가, 스펙 수십 개 이관, server Makefile default-feature-flags 타깃과 default_feature_flags_generator 신설·default_permissions_generator가 Playwright TS도 출력. 반영하지 않는 근거 — (1) 27파일이 우리에게 없고 lib 핵심 9파일(mattermost_container·stack·global_setup·index·default_config·server/index·init·playwright_client·test_fixture)과 스펙 5개가 내용 충돌한다. (2) 이 개편은 exclude한 b052f346(#36054 fullyParallel 전면 개편)과 우리가 들이지 않은 업그레이드 하네스(testcontainers lib 반영 시 제외) 위에 서 있다. (3) 우리 e2e는 PR 체크에서 돌지 않고(e2e 잡 0건) 로컬 Playwright도 post_textbox testid 부재 등으로 채널 스펙 대부분이 실패해, 병렬 간 설정 누출은 아직 겪을 수 없는 단계의 문제다. 제품 동작 영향 없음. 재검토 조건: Playwright 격차를 본격 해소할 때 b052f346 계보와 함께 다시 본다. |
+
+| 8a378be8 | [docs: add OCI Marketplace quick start evaluation guide (#38959)](https://github.com/mattermost/mattermost/commit/8a378be804d9ff0bf331507dddd494943868c1ed) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. Oracle Cloud(OCI) Marketplace 체험 가이드 oci-marketplace.mdx를 새로 쓰고 Quick Start Evaluation 폴더(제외한 5b28e9b1 #38974가 만듦)의 다른 가이드 4개·평가자 페르소나 링크를 고친다(docs/main 6파일 +98/-6). 파일 전부 우리 트리에 없고, Mattermost 공식 Marketplace 배포 안내라 우리 배포물과도 무관하다. |
+
+| 2b64fd09 | [Add Compass UI guidance for agents (#38938)](https://github.com/mattermost/mattermost/commit/2b64fd09d3839007887662c191bd5d7af113a385) | webapp 에이전트·개발 지침 5파일(AGENTS.md·CLAUDE.OPTIONAL.md 3개·STYLE_GUIDE.md)을 '새 UI는 @mattermost/compass-ui 우선(Button·Icon 슬롯·Compass 토큰)'으로 바꾸는 커밋인데, compass-ui는 우리가 제외한 패키지다 — 70658e18(#38153)·922a900b exclude(npm·원본 저장소 모두 라이선스 없음, Compass 이관 대상 영역은 spec 014로 자체 개편). 받으면 에이전트가 우리 의존성에 없는 compass-ui를 import하도록 안내받아 빌드가 깨지는 코드를 만든다. 현행 지침(@mattermost/shared의 Button·WithTooltip 우선)이 우리 상태와 맞다. compass-ui를 수용하면 그때 함께 들인다. |
 
 ## spec 전환 커밋
 
