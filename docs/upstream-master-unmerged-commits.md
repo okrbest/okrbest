@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-20 11:40
+- 갱신일: 2026-10-20 13:28
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 107개
+- 남은 커밋: 103개
 
-**마지막 반영 커밋:** `7532e0ba` | [chore: Update NOTICE.txt file with updated dependencies (#38997)](https://github.com/mattermost/mattermost/commit/7532e0bad8f458131c05291f9e97412875f05d17) | 2026-10-05
+**마지막 반영 커밋:** `f396b69a` | [\[MM-71090\] Health Dashboard: don't persist never-fired checks as resolved (#38982)](https://github.com/mattermost/mattermost/commit/f396b69a359af5f1065a480a8fbc393afa16a3d9) | 2026-10-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b2ce71db | [Remove the Belarusian language (#39014)](https://github.com/mattermost/mattermost/commit/b2ce71db9c18e547ab0c8b042361798201c0f735) | 2026-10-06 |
-| 20ef077c | [\[MM-71001\] Health Dashboard PR15: packet snapshot provider + mmctl health check --packet (#38838)](https://github.com/mattermost/mattermost/commit/20ef077c5d9e80565bd44fe51081803ffa5e3d2c) | 2026-10-06 |
-| c9c44767 | [\[MM-71036\] Health Dashboard PR01b: pointer-ize Support Packet diagnostics fields that can fail (#38888)](https://github.com/mattermost/mattermost/commit/c9c447677bf41242aafa1e16629e18d39b1bc0c8) | 2026-10-06 |
-| f396b69a | [\[MM-71090\] Health Dashboard: don't persist never-fired checks as resolved (#38982)](https://github.com/mattermost/mattermost/commit/f396b69a359af5f1065a480a8fbc393afa16a3d9) | 2026-10-06 |
 | 0584e1b3 | [Bump mattermost/pdf for content-stream array parsing fix (#38781)](https://github.com/mattermost/mattermost/commit/0584e1b30b494aa9ea48515d3e3b1f738c2909be) | 2026-10-07 |
 | dc88bb3d | [MM-70922: Download media gallery attachments as a single zip (#38879)](https://github.com/mattermost/mattermost/commit/dc88bb3d50b4ee4cde7f4555a84276a291612ead) | 2026-10-07 |
 | e8d7f37e | [\[MM-71076\] Calls: Add phone call options menu to the call button in DMs and profile popover (#38941)](https://github.com/mattermost/mattermost/commit/e8d7f37e923dc4d3582cdb83aefee751eab7bdba) | 2026-10-07 |
@@ -767,6 +763,8 @@
 | 9fa53220 | [docs: retire unused Puppeteer PDF pipeline (#39007)](https://github.com/mattermost/mattermost/commit/9fa532208d5585a2a6b872388a243873cabe2aea) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV) 계보의 docs/pdf Puppeteer PDF 파이프라인(16파일)을 지우는 커밋이라 대상이 없다. 함께 정리하는 .github/prompts/docs-writer.md·.github/scripts/docs-ai/writer/paths.mjs 각 1줄도 제외한 docs 자동화 계보(5427f6b0 등)의 파일이라 우리에게 없다. .gitignore에서 지우는 docs/pdf/build/·docs/pdf/node_modules/ 두 줄도 우리 .gitignore에는 원래 없어 반영할 diff가 0줄이다. |
 
 | 7532e0ba | [chore: Update NOTICE.txt file with updated dependencies (#38997)](https://github.com/mattermost/mattermost/commit/7532e0bad8f458131c05291f9e97412875f05d17) | NOTICE.txt에 @mattermost/compass-ui 고지 1건(10줄)만 추가하는 자동 커밋인데, 우리는 그 패키지를 번들하지 않는다 — compass-ui 도입 70658e18(#38153)·버전 올림 922a900b를 exclude했다(npm·원본 저장소 모두 라이선스 없음, Compass 이관 대상 영역은 spec 014로 자체 개편). webapp package.json·package-lock.json 어디에도 compass-ui가 없어, 받으면 배포하지 않는 패키지를 고지하게 된다. compass-ui를 들이면 그때 NOTICE 항목을 함께 넣는다. |
+
+| b2ce71db | [Remove the Belarusian language (#39014)](https://github.com/mattermost/mattermost/commit/b2ce71db9c18e547ab0c8b042361798201c0f735) | 벨라루스어(be) 카탈로그·용어집·supportedLocales·webapp languages/imports 항목을 지우는 커밋인데, 우리 트리에는 be가 처음부터 없어 반영할 diff가 0줄이다. upstream이 be를 다시 넣은 70c1732d(#38944, 실험적 언어 8개 복원)를 2026-10-19 adapt하면서 8개 언어(da·cs·hr·lt·nb-NO·pt·fi·be) 카탈로그·등록 코드를 사용자 결정으로 버렸고, 8ff13fd4(실험적 언어 제거) 상태를 유지 중이다. merge-tree 충돌은 지울 줄의 주변 문맥(fi·pt 등록)이 우리에게 없어서 생긴 것이다. docs mdx 2개는 제외한 1d3bbc63 문서 사이트 계보라 없다. |
 
 ## spec 전환 커밋
 
