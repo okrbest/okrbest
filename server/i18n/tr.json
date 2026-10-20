@@ -13271,7 +13271,7 @@
   },
   {
     "id": "model.config.is_valid.webserver_mode.app_error",
-    "translation": "Site sunucusu kipi geçersiz: {{.Value}}. 'gzip', 'nogzip' ya da 'disabled' olmalıdır."
+    "translation": "Site sunucusu kipi geçersiz: {{.Value}}. 'gzip', 'uncompressed' ya da 'disabled' olmalıdır."
   },
   {
     "id": "model.user.is_valid.mention_keys.app_error",

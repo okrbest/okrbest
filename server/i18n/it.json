@@ -13184,7 +13184,7 @@
   },
   {
     "id": "model.config.is_valid.webserver_mode.app_error",
-    "translation": "Modalità del server web {{.Value}} non valida. Deve essere 'gzip', 'nogzip' o 'disabled'."
+    "translation": "Modalità del server web {{.Value}} non valida. Deve essere 'gzip', 'uncompressed' o 'disabled'."
   },
   {
     "id": "model.emoji.system_emoji_name.app_error",
