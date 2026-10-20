@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-19 14:52
+- 갱신일: 2026-10-20 10:18
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 94개
+- 남은 커밋: 114개
 
-**마지막 반영 커밋:** `85e95437` | [\[MM-70822\] Explain the blocked section switch while editing a channel permission rule (#38751)](https://github.com/mattermost/mattermost/commit/85e95437ab3e7632017cd3cf2ec06e4785467ae7) | 2026-10-02
+**마지막 반영 커밋:** `af4c3cfd` | [Fix flaky autotranslation e2e tests and duplicate "AI Actions" button (#38965)](https://github.com/mattermost/mattermost/commit/af4c3cfde668e006981efa29ba740791eb03fb13) | 2026-10-03
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| af4c3cfd | [Fix flaky autotranslation e2e tests and duplicate "AI Actions" button (#38965)](https://github.com/mattermost/mattermost/commit/af4c3cfde668e006981efa29ba740791eb03fb13) | 2026-10-03 |
 | 05a293c6 | [E2E/Test: Fix failing tests (#38981)](https://github.com/mattermost/mattermost/commit/05a293c603f9909565a8793148a5f7a08b4d3274) | 2026-10-04 |
 | 9e386cb9 | [docs: resolve raw HTML link and image paths through useBaseUrl (#38958)](https://github.com/mattermost/mattermost/commit/9e386cb9937f05f97cb42c9fef5b1c0d13832c42) | 2026-10-04 |
 | e32d8734 | [Request docs-draft review from a human when the source PR author is a bot (#38987)](https://github.com/mattermost/mattermost/commit/e32d8734cb082a1cc4ffed6eb827342d28b1fc8f) | 2026-10-05 |
@@ -105,6 +104,27 @@
 | f5227e66 | [\[MM-71096\] Apply incoming DeleteAt when receiving synced reactions (#39239)](https://github.com/mattermost/mattermost/commit/f5227e664f4b37437c8b110912dbf1c71e07c812) | 2026-10-17 |
 | f38678d0 | [\[MM-71099\] Health Dashboard PR22: rules for cluster, deployment and network (#39022)](https://github.com/mattermost/mattermost/commit/f38678d08d67a4d21ea3821f78b530ea7f8f8ec2) | 2026-10-18 |
 | 3051bab1 | [update Calls to v1.12.6 (#39219)](https://github.com/mattermost/mattermost/commit/3051bab1b244265bd0cb0b6de16fec0fb2148de6) | 2026-10-19 |
+| 03f584b7 | [test(e2e): add pw.ensureDemoPlugin fixture, dedupe demo plugin URL (#38918)](https://github.com/mattermost/mattermost/commit/03f584b735f8f778c0f69becfc8fbd39acce7b8d) | 2026-10-19 |
+| f491fb92 | [\[MM-71058\] Health Dashboard PR20: rules for search (#38913)](https://github.com/mattermost/mattermost/commit/f491fb92998edd08f8459a1f733b28e6df506254) | 2026-10-19 |
+| 353f76fe | [\[MM-71101\] Health Dashboard PR19: rules for database (#39021)](https://github.com/mattermost/mattermost/commit/353f76fe3008b87cb56c9072263d85e37d69d6c1) | 2026-10-19 |
+| 08cf1105 | [\[MM-71060\] Health Dashboard PR23: rules for notifications and messaging (#38912)](https://github.com/mattermost/mattermost/commit/08cf1105ab4a837e7fc4b2e75563323ffe531f3b) | 2026-10-19 |
+| c77a59ea | [Add dot release docs for server v11.11.2, v11.10.3 and v11.7.13 (ESR) (#39004)](https://github.com/mattermost/mattermost/commit/c77a59ea33f37ed26bb643d93fed32c0c45c1330) | 2026-10-19 |
+| acb011f1 | [\[MM-71100\] Health Dashboard PR25: rules for platform, filestore, logging and plugins (#39020)](https://github.com/mattermost/mattermost/commit/acb011f1eaa4d748f569a761f5c71d837ac3da6d) | 2026-10-19 |
+| a21d6019 | [Add a hub channel broadcast benchmark (#38991)](https://github.com/mattermost/mattermost/commit/a21d6019b50153eb41b40dd6b4937b08c82bb24d) | 2026-10-19 |
+| 7df5e304 | [\[MM-71059\] Health Dashboard PR21: rules for jobs (#38914)](https://github.com/mattermost/mattermost/commit/7df5e30433abcb515a5db7a1b67ad7fe8d4b0dd9) | 2026-10-19 |
+| f79ba36e | [Skip flaky TestDoSetupContentFlaggingProperties (MM-71223) (#39249)](https://github.com/mattermost/mattermost/commit/f79ba36eedb5c01386bb1087d4dc925f233ebcc5) | 2026-10-19 |
+| 2657f709 | [\[MM-71062\] Health Dashboard PR26: rules for license and seats (#38916)](https://github.com/mattermost/mattermost/commit/2657f70938a2df359fff2531165c2e68d1bfd7e7) | 2026-10-19 |
+| b25056d4 | [drip: AppError -> error: delivery tracking (#39171)](https://github.com/mattermost/mattermost/commit/b25056d4ea9eddc726b45daffd4d8936201aaedc) | 2026-10-19 |
+| 640b099b | [Update minimum supported Firefox version (#39253)](https://github.com/mattermost/mattermost/commit/640b099b643ab2063b553e346425aac98cecb324) | 2026-10-19 |
+| 2de97aee | [\[MM-69775\] Delete the server-side draft when sending from the Drafts panel (#38861)](https://github.com/mattermost/mattermost/commit/2de97aee85bc472367e0606c49aa24d4e4b5ad03) | 2026-10-19 |
+| 57ea425e | [Fix existing translation errors and add glossary terms (#39207)](https://github.com/mattermost/mattermost/commit/57ea425e5a95784d9089b007f671142c5f00182e) | 2026-10-19 |
+| 70a7b86b | [Resolve Jest src imports from rootDir only (#39150)](https://github.com/mattermost/mattermost/commit/70a7b86bb159092f2ef33b059656c128dcacb4b4) | 2026-10-19 |
+| e7e0ee99 | [Docs: interactive dialog checkbox elements and per-channel join/leave messages (#39260)](https://github.com/mattermost/mattermost/commit/e7e0ee99d2127fa2ca28f9895a6a2110c5288bae) | 2026-10-19 |
+| b4484b20 | [\[MM-71061\] Health Dashboard PR24: rules for compliance and data governance (#38915)](https://github.com/mattermost/mattermost/commit/b4484b200a99e2bbebc626b7af3d87a4685d9c34) | 2026-10-19 |
+| 06f070f3 | [\[MM-70052\] Fix group search returning nothing when the term starts with "@" (#38748)](https://github.com/mattermost/mattermost/commit/06f070f339f51a535933c17c43a132eaa31684f9) | 2026-10-19 |
+| 5c012a11 | [\[MM-61894\] Keep markdown formatting when pasting text copied from a message (#38287)](https://github.com/mattermost/mattermost/commit/5c012a1184e3a70709e7541e90308897303f4368) | 2026-10-19 |
+| aeccde2d | [\[MM-69961\] Fix login being blocked for all users when Guest Access is disabled while Magic Link stays enabled (#38749)](https://github.com/mattermost/mattermost/commit/aeccde2d90b2045f18dad28d51b770192037d04f) | 2026-10-19 |
+| 9df98424 | [Render URL too long errors inline to stop the redirect loop (#38286)](https://github.com/mattermost/mattermost/commit/9df984246f2d4f39d4e9c3042570cb33ff11289d) | 2026-10-19 |
 
 ## 제외된 커밋
 
