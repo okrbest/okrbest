@@ -115,6 +115,7 @@
 | 업그레이드 경로 ABAC 시딩 건너뛰기 | [c307d634](https://github.com/mattermost/mattermost/commit/c307d634d6ed9d090385e2b7dc5981c36e233805) (#39084) | 스펙이 `ensureUserAttributes`로 속성을 직접 준비하는 2줄만 받고, 우리에게 없는 업그레이드 하네스 쪽 4파일을 버렸다 — 아래 참조 |
 | ServiceNow 플러그인 제외 | [07b79a10](https://github.com/mattermost/mattermost/commit/07b79a1087cdcf654ffa335f29a3394feb318a2a) (#39105) | 번들 목록·설정 마법사·아이콘·en 키 2개 삭제는 받고 ko 키 2개를 함께 지웠다. Makefile은 우리 번들 버전(playbooks v2.11.1 등)을 유지. docs 11파일을 버렸다 — 아래 참조 |
 | WebserverMode `uncompressed` 통일 | [359fc924](https://github.com/mattermost/mattermost/commit/359fc92417a9da2f671b5d6c04c71c202faf7963) (#39116) | 서버 검증·보정·ko 포함 26파일은 받고, 우리에게 없는 실험적 언어 server 카탈로그 7개의 메시지 1줄씩을 버렸다 — 아래 참조 |
+| SystemPolicyIndicator 완결 문장화 | [047fffb3](https://github.com/mattermost/mattermost/commit/047fffb3138c394c981c1ceb3bb559e42a1446ce) (#38967) | 컴포넌트·en·21개 언어는 받고, ko는 옛 키 11개(우리가 다듬은 6개 포함)를 지우고 새 키 12개에 upstream ko 번역을 넣었다. 없는 언어 7개를 버렸다 — 아래 참조 |
 
 ---
 
@@ -3544,3 +3545,41 @@ server `en.json`과 우리가 가진 언어 카탈로그 19개의 오류 메시�
 | `server/i18n/pt.json` | `model.config.is_valid.webserver_mode.app_error`의 `'nogzip'` → `'uncompressed'` | "Modo do servidor web {{.Value}} inválido. Deve ser 'gzip', 'uncompressed' ou 'disabled'." | 이 언어를 지원하기로 하면(70c1732d 카탈로그 수용 시) 이 문구로 맞춘다 |
 
 **검증.** 서버 전체 빌드, `go test ./config/`, `public/model` config 테스트, api4 `TestAPIHandlersWithGzip` 통과, `make i18n-check` 통과. 남은 `nogzip` 참조 0건.
+
+---
+
+## SystemPolicyIndicator 완결 문장화 — ko 옛 문구를 지우고 upstream ko를 받았다
+
+**upstream**: [`047fffb3`](https://github.com/mattermost/mattermost/commit/047fffb3138c394c981c1ceb3bb559e42a1446ce)
+(Make SystemPolicyIndicator messages whole translatable sentences, #38967) — 31파일 +542/-495, 2026-10-20 반영(사용자 결정 adapt)
+
+**받은 것.** `webapp/channels/src/components/system_policy_indicator/system_policy_indicator.tsx`(+테스트) — 메시지를 `resourceType` ICU `select`로 완결 문장화,
+정책 이름은 `FormattedList`, "N개 더" aria-label은 복수형, Unknown Policy·영역 aria-label 번역. `en.json`과 우리가 가진 언어 카탈로그 21개(옛 키 17개 삭제·새 키 12개 추가).
+
+**ko 처리.** 충돌 — upstream이 옛 키를 전부 지우므로 우리 ko 옛 값은 보존할 자리가 없다. ko의 `system_policy_indicator.*` 옛 키 11개를 지우고
+새 키 12개(`title.single/multiple`, `summary.*`, `description.*`, `description_with_names.*`, `more_policies`, `more_policies_aria_label`, `details_aria_label`, `unknown_policy`)에
+upstream ko 번역을 그대로 넣었다(키 집합 en과 일치 확인). 새 문구가 우리 문체와 어긋나면 별도 작업으로 다듬는다.
+
+지운 우리 ko 옛 값 — 앞의 6개는 우리가 upstream 문구를 다듬어 둔 것이다("여기서 설정하는 … 규칙은 이 정책에 더해 적용됩니다" 문체):
+
+| 키 | 지운 우리 ko 값 |
+|---|---|
+| `base_message_membership` | 이 {resourceType}에 시스템 수준 멤버십 {policyText}이(가) 적용되어 있습니다 |
+| `description_with_membership_policies` | 이 {resourceType}에 시스템 수준 멤버십 정책이 적용되어 있습니다{policySuffix}. 여기서 설정하는 멤버십 규칙은 이 정책들에 더해 적용됩니다. |
+| `description_with_membership_policy` | 이 {resourceType}에 시스템 수준 멤버십 정책이 적용되어 있습니다{policySuffix}. 여기서 설정하는 멤버십 규칙은 이 정책에 더해 적용됩니다. |
+| `description_with_policy` | 이 {resourceType}에 시스템 수준 액세스 정책이 적용되어 있습니다{policySuffix}. 여기서 설정하는 액세스 규칙은 이 정책에 더해 적용됩니다. |
+| `multiple_membership_policies_title` | 이 {resourceType}에 여러 시스템 멤버십 정책이 적용됨 |
+| `single_membership_policy_title` | 이 {resourceType}에 시스템 멤버십 정책이 적용됨 |
+| `base_message` | 이 {resourceType} 에는 시스템 수준 액세스 {policyText} 가 적용되었습니다. |
+| `description_with_policies` | 이 {resourceType} 에는 시스템 수준 액세스 정책이 적용됩니다. {policyList}. 여기에서 설정한 모든 사용자 지정 액세스 규칙이 이 정책과 함께 적용됩니다. |
+| `more_policies` | {count} 더 보기 (새 값: {count}개 더) |
+| `multiple_policies_title` | 여러 시스템 액세스 정책이 여기에 적용됩니다. {resourceType} |
+| `single_policy_title` | 여기에 적용된 시스템 액세스 정책 {resourceType} |
+
+**버린 것** — 2026-10-19 `70c1732d` adapt에서 들이지 않은 실험적 언어의 webapp 카탈로그라 파일이 없다.
+
+| 파일 | upstream 변경 | 되살릴 조건 |
+|---|---|---|
+| `webapp/channels/src/i18n/cs.json`·`da.json`·`fi.json`·`hr.json`·`lt.json`·`nb-NO.json`·`pt.json` | 각 언어의 `system_policy_indicator.*` 옛 키 삭제·새 키 12개 번역 추가(cs +23/-·나머지 +21/-) | 이 언어를 지원하기로 하면 그 시점 upstream 카탈로그에서 새 키를 받는다 |
+
+**검증.** `system_policy_indicator` jest 19건 통과, eslint 0 오류, `check-empty-translations` orphaned 8건(기존 기준선, 이 키 없음), `check_icu` 이 키 오류 0건.
