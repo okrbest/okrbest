@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-20 10:29
+- 갱신일: 2026-10-20 11:40
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 112개
+- 남은 커밋: 107개
 
-**마지막 반영 커밋:** `9e386cb9` | [docs: resolve raw HTML link and image paths through useBaseUrl (#38958)](https://github.com/mattermost/mattermost/commit/9e386cb9937f05f97cb42c9fef5b1c0d13832c42) | 2026-10-04
+**마지막 반영 커밋:** `7532e0ba` | [chore: Update NOTICE.txt file with updated dependencies (#38997)](https://github.com/mattermost/mattermost/commit/7532e0bad8f458131c05291f9e97412875f05d17) | 2026-10-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| e32d8734 | [Request docs-draft review from a human when the source PR author is a bot (#38987)](https://github.com/mattermost/mattermost/commit/e32d8734cb082a1cc4ffed6eb827342d28b1fc8f) | 2026-10-05 |
-| bce346e7 | [MM-70640: Update EXIF metadata handling when reading image orientation (#38739)](https://github.com/mattermost/mattermost/commit/bce346e7948d2f36bb2b2416c6af74d618870e22) | 2026-10-05 |
-| f132e4af | [\[MM-70991\] Bump moment-timezone to 0.6.4 for the 2026 time zone changes (#38849)](https://github.com/mattermost/mattermost/commit/f132e4afd3fa9191631b009e80726e2c932c3dfb) | 2026-10-05 |
-| 9fa53220 | [docs: retire unused Puppeteer PDF pipeline (#39007)](https://github.com/mattermost/mattermost/commit/9fa532208d5585a2a6b872388a243873cabe2aea) | 2026-10-05 |
-| 7532e0ba | [chore: Update NOTICE.txt file with updated dependencies (#38997)](https://github.com/mattermost/mattermost/commit/7532e0bad8f458131c05291f9e97412875f05d17) | 2026-10-05 |
 | b2ce71db | [Remove the Belarusian language (#39014)](https://github.com/mattermost/mattermost/commit/b2ce71db9c18e547ab0c8b042361798201c0f735) | 2026-10-06 |
 | 20ef077c | [\[MM-71001\] Health Dashboard PR15: packet snapshot provider + mmctl health check --packet (#38838)](https://github.com/mattermost/mattermost/commit/20ef077c5d9e80565bd44fe51081803ffa5e3d2c) | 2026-10-06 |
 | c9c44767 | [\[MM-71036\] Health Dashboard PR01b: pointer-ize Support Packet diagnostics fields that can fail (#38888)](https://github.com/mattermost/mattermost/commit/c9c447677bf41242aafa1e16629e18d39b1bc0c8) | 2026-10-06 |
@@ -766,6 +761,12 @@
 | 6338ffdc | [MM-71075: enable ChannelAttributes by default in feature flags (#38937)](https://github.com/mattermost/mattermost/commit/6338ffdc768e8eedcb8604a11e4207347911787e) | 뒤집을 FeatureFlags.ChannelAttributes가 우리에게 없다(grep 0건, 7c457d07 golden 재생성 때도 upstream 전용 필드로 확인). 채널 속성 계보 전체를 제외했다(e86491ad foundation → … → 7206a384·24ef18fd·cb7a69a1, 기반 property 시스템 v2 미도입). SetDefaults 1줄과 테스트(2파일 +3/-6)뿐이라 반영할 실체가 0줄이고 merge-tree CONFLICT도 그 필드 부재에서 온다 — 94c163f8(graph·리소스 플래그 기본값)과 같은 처리. private-module 해당 없음. 재검토 조건: 채널 속성 계보를 도입할 때 기본값을 함께 정한다. |
 
 | 9e386cb9 | [docs: resolve raw HTML link and image paths through useBaseUrl (#38958)](https://github.com/mattermost/mattermost/commit/9e386cb9937f05f97cb42c9fef5b1c0d13832c42) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. docs/main 22개 mdx의 raw <a href="/..."> 221개와 docs/develop의 <img src="/img/..."> 3개를 useBaseUrl('/...')로 바꾸고(baseUrl이 /가 아닐 때 링크 깨짐 방지), docs/site/scripts/check-base-url-attrs.mjs 검사를 docs/site/package.json prebuild에 거는 커밋이다. 25파일 전부(docs/main·docs/develop·docs/site) 우리 트리에 없다. 문서 사이트 계보를 들이면 그 시점 upstream 문서에 이 수정이 이미 포함된다. |
+
+| e32d8734 | [Request docs-draft review from a human when the source PR author is a bot (#38987)](https://github.com/mattermost/mattermost/commit/e32d8734cb082a1cc4ffed6eb827342d28b1fc8f) | 제외한 5427f6b0(Draft docs from merged Docs/Needed via author personas, #38764)이 만든 .github/workflows/docs-writer-merged-pr.yml을 고치는 커밋이라 대상이 없다. 원본 PR 작성자가 봇이면 문서 초안 리뷰를 봇 대신 원본 PR의 사람 리뷰어(없으면 requested_reviewers)에게 요청하고, 조회 실패 시에도 초안 작성을 계속한다(+38/-2). 선행 docs 자동화 계보(891b59d4·3a1f5f0d·27c501d2)와 1d3bbc63(docs/ 이관 — 리브랜드 충실성 원칙 IV) 모두 제외 상태다. 계보를 들이면 그 시점 upstream 워크플로에 포함된다. |
+
+| 9fa53220 | [docs: retire unused Puppeteer PDF pipeline (#39007)](https://github.com/mattermost/mattermost/commit/9fa532208d5585a2a6b872388a243873cabe2aea) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV) 계보의 docs/pdf Puppeteer PDF 파이프라인(16파일)을 지우는 커밋이라 대상이 없다. 함께 정리하는 .github/prompts/docs-writer.md·.github/scripts/docs-ai/writer/paths.mjs 각 1줄도 제외한 docs 자동화 계보(5427f6b0 등)의 파일이라 우리에게 없다. .gitignore에서 지우는 docs/pdf/build/·docs/pdf/node_modules/ 두 줄도 우리 .gitignore에는 원래 없어 반영할 diff가 0줄이다. |
+
+| 7532e0ba | [chore: Update NOTICE.txt file with updated dependencies (#38997)](https://github.com/mattermost/mattermost/commit/7532e0bad8f458131c05291f9e97412875f05d17) | NOTICE.txt에 @mattermost/compass-ui 고지 1건(10줄)만 추가하는 자동 커밋인데, 우리는 그 패키지를 번들하지 않는다 — compass-ui 도입 70658e18(#38153)·버전 올림 922a900b를 exclude했다(npm·원본 저장소 모두 라이선스 없음, Compass 이관 대상 영역은 spec 014로 자체 개편). webapp package.json·package-lock.json 어디에도 compass-ui가 없어, 받으면 배포하지 않는 패키지를 고지하게 된다. compass-ui를 들이면 그때 NOTICE 항목을 함께 넣는다. |
 
 ## spec 전환 커밋
 
