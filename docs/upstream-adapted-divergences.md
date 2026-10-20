@@ -111,6 +111,7 @@
 | 실험적 언어 8개 복원 | [70c1732d](https://github.com/mattermost/mattermost/commit/70c1732d783fde4cbc7a88632721f4e134a57ec4) (#38944) | 검사기 완화(extra key → 경고)와 테스트 예시 교체 6파일만 받고, 8개 언어 카탈로그·용어집·등록 코드·en description·docs는 버렸다(2026-10-19 사용자 결정) — 아래 참조 |
 | autotranslation 플레이크·AI Actions 중복 버튼 | [af4c3cfd](https://github.com/mattermost/mattermost/commit/af4c3cfde668e006981efa29ba740791eb03fb13) (#38965) | `ai_actions_menu.tsx`와 `autotranslation.spec.ts`는 그대로 받고, 우리에게 없는 `autotranslation_ui.spec.ts` 수정을 버렸다 — 아래 참조 |
 | Playwright 플래그 헬퍼·실패 테스트 수정 | [05a293c6](https://github.com/mattermost/mattermost/commit/05a293c603f9909565a8793148a5f7a08b4d3274) (#38981) | `ensureFeatureFlag` 맵 지원·`skipIfFeatureFlagNotSet` 삭제 등 9파일을 받고, `channel_banner.spec.ts`(우리에게 없는 ChannelAttributes 플래그)·루트 `AGENTS.md`와 제외 계보 스펙 28개를 버렸다 — 아래 참조 |
+| Calls 전화 걸기 메뉴 | [e8d7f37e](https://github.com/mattermost/mattermost/commit/e8d7f37e923dc4d3582cdb83aefee751eab7bdba) (#38941) | compass-ui 메뉴 트리거를 일반 버튼으로, `properties_user` import를 `properties`로, `menu.tsx`는 타입 확장만 이식. 기능은 Calls v1.12.5라 비활성 — 아래 참조 |
 
 ---
 
@@ -3434,3 +3435,29 @@ reload 전후에 설정을 다시 적용해 병렬 worker의 `initSetup()` 초�
 | 제외 계보 스펙 28개 | 대부분 `skipIfFeatureFlagNotSet(flag, true)` → `ensureFeatureFlag` 기계적 치환(인접 호출은 맵 하나로 합침). `managed_categories.spec.ts` 다수를 `test.fixme`로, `channel_classification.spec.ts`는 `ChannelAttributes`를 강제 off | channel_attributes 9, global_attributes 9, categories 3(default·managed·managed_flag_off), channel_classification, board_attributes/setup, abac resource_attributes 3(graph_sync·masking·helpers)·policies/graph_operators·burn_on_read/helpers, `e2e-tests/playwright/AGENTS.md`. 전부 우리 트리에 없다 | 각 계보를 들일 때 그 시점의 upstream 스펙을 받으면 된다. 이 커밋의 치환을 따로 되살릴 필요는 없다 |
 
 **검증.** playwright lib 재빌드 후 `tsc --noEmit` 오류 11건 — 반영 전과 같은 목록(전부 기존 파손), 수정 파일 0건. 수정 파일 eslint·prettier 통과. 포크 격차로 실제 Playwright 실행은 하지 않았다.
+
+---
+
+## Calls 전화 걸기 메뉴 — compass-ui 트리거를 일반 버튼으로 바꿨다
+
+**upstream**: [`e8d7f37e`](https://github.com/mattermost/mattermost/commit/e8d7f37e923dc4d3582cdb83aefee751eab7bdba)
+(Calls: Add phone call options menu to the call button in DMs and profile popover, #38941) — 20파일 +751/-69, 2026-10-20 반영
+
+**받은 것.** `components/call_options_menu/` 7파일, 플러그인 API `registerCallButtonAction`의 `phoneAction`(`registry.ts`·`types/store/plugins.ts`),
+`isCallsPhoneDialingEnabled` 셀렉터, 프로필 팝오버 통화 로직의 공용 훅(`useCanStartCall`·`useStartDMCall`) 추출, webapp `en.json` 키.
+**비활성이다** — 우리가 번들하는 Calls 플러그인 v1.12.5는 `phoneAction`을 등록하지 않고 `EnableSIPOutbound`도 없다. 메뉴는 나타나지 않고 통화 버튼은 기존대로 동작한다.
+
+**바꾼 것.**
+
+| 파일 | upstream | 우리 | 이유 |
+|---|---|---|---|
+| `webapp/channels/src/plugins/call_button/call_button.tsx` | `StartCallMenuButton`을 `@mattermost/compass-ui`의 `Button`(quaternary·small)·`Icon`으로 만든다 | 같은 자리의 기존 드롭다운처럼 `<button className='style--none call-button dropdown'>` + compass-icons `PhoneIcon`·`ChevronDownIcon` + `call-button-label`. 문구 `call_button.start_call`은 그대로 | compass-ui는 라이선스가 없어 exclude했다(`70658e18`). 되살릴 조건: compass-ui 수용 시 upstream 형태로 되돌린다 |
+| `call_options_menu/use_phone_call_options.ts`·`call_options_menu.test.tsx` | `@mattermost/types/properties_user`에서 `UserPropertyField` | `@mattermost/types/properties` | `properties_user` 분리는 exclude한 `076370e6`(Board Attributes, PSAv2) 계보 산물 |
+| `webapp/channels/src/components/menu/menu.tsx` | 같은 커밋이 타입 확장(+10/-2) | 타입 확장만 손으로 넣었다 — `ButtonHTMLAttributes`·`ComponentType`·`Ref` import, `MenuButtonComponentProps`, `as`에 컴포넌트 허용, `children` 선택 | 우리 `menu.tsx`에 다른 계보 변경(`onMouseDown`·`allowTriggerInteraction`·`minWidth` 등)이 없어 문맥 충돌. 렌더 코드는 원래 `as`를 JSX 컴포넌트로 쓴다 |
+
+**버린 것.** `docs/main/end-user-guide/collaborate/make-calls.mdx`(+30, 전화 걸기 사용 안내) — 제외한 `1d3bbc63` 문서 사이트 계보.
+
+**검증.** `check-types` 기준선과 같은 13건, 접촉 파일 eslint 오류 0. jest 16 suite 중 실패 8건은 전부 레이블 `Start Call` 조회 실패다 —
+우리 `profile_popover_call_button_wrapper`가 여전히 `webapp.mattermost.feature.start_call`("Start call")을 쓰고, upstream은 `db55f9fa43`에서 `user_profile.call.start`("Start Call")로 바꿨다(그 hunk 누락).
+기존 기준선 6건(profile_popover 3·wrapper 3)에 이 커밋의 새 테스트 `call_options_menu.test.tsx` "keeps the plain button…" 2건이 같은 원인으로 더해졌다.
+레이블을 upstream에 맞추면 8건이 함께 풀린다(ko 키 이동 동반).
