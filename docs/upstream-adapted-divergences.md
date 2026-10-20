@@ -3952,3 +3952,29 @@ en.json `admin.email.mtpnsHelp`도 같은 방식(defaultMessage·description의 
 
 **검증.** `server/public`에서 `go mod tidy -diff` 변화 없음. `server`는 enterprise 빌드 태그 파일이 비공개 `github.com/mattermost/enterprise/*`를 import해
 `go mod tidy`를 돌릴 수 없다(upstream도 enterprise 저장소 없이는 같다) — 대신 빌드·vet·표본 테스트로 확인했다.
+
+---
+
+## 사용자 영구 삭제가 데이터 전부를 지우게 — Scheduled Recaps 부분만 버렸다
+
+**upstream**: [`de9d77e4`](https://github.com/mattermost/mattermost/commit/de9d77e456ce61b1b6f2ab71758f1adea7121026)
+([MM-65788] Make PermanentDeleteUser delete all of a user's data, #38773) — 48파일 +2351/-227, 2026-10-22 반영(사용자 결정 adapt)
+
+**받은 것.** 45파일. `app.PermanentDeleteUser`가 시작 전에 master에서 게시물 수를 세서 한도(1만) 초과면 아무것도 지우지 않고 거부하고,
+안전장치가 9천 건에서 걸리던 오차를 고친다. 그동안 남던 사용자 데이터 16개 테이블(Status·ChannelMemberHistory·Sidebar*·ProductNoticeViewState·
+ThreadMemberships·PostAcknowledgements·ReadReceipts·PostReminders·UploadSessions·NotifyAdmin·UserTermsOfService·CommandWebhooks·DesktopTokens·
+SharedChannelUsers·OAuthAuthData 등)과 PropertyValues·Recaps·RecapChannels·ChannelJoinRequests를 함께 지운다. 각 sqlstore의 `PermanentDeleteByUser`,
+store 인터페이스, mocks, 테스트, en.json(삭제 13키·추가 3키 — 삭제 키는 우리 코드에서 쓰지 않음을 확인).
+retrylayer·timerlayer는 충돌을 손으로 풀지 않고 `make store-layers`로 다시 생성했다(`make mocks`는 변화 없음).
+
+**버린 것.**
+
+| 대상 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `server/channels/store/sqlstore/scheduled_recap_store.go`·`_test.go`, `storetest/mocks/ScheduledRecapStore.go` | `ScheduledRecapStore.PermanentDeleteByUser` 구현·테스트·mock | 보류성 제외한 `25f3a75c`(#35495 Scheduled Recaps)의 store라 파일이 없다(modify/delete) | `25f3a75c` 계보를 반영할 때 |
+| `server/channels/store/store.go` 충돌 구간 | upstream 문맥에 딸린 RecapStore 확장 메서드 3개(CountForUserSince·SumTotalMessageCountForUserSince·GetLastCompletedManualRecap)와 `ScheduledRecapStore` 인터페이스 | 우리가 받지 않은 Recaps 확장·Scheduled Recaps 계보. `RecapStore.PermanentDeleteByUser` 추가는 받았다 | 위와 같다 |
+| `server/channels/app/user.go` | `ss.ScheduledRecap().PermanentDeleteByUser(userID)` 호출과 "Scheduled recaps go before recaps" 주석 | 위와 같다 | 위와 같다 — Recap 삭제보다 **먼저** 넣어야 한다(스케줄러가 recap을 계속 만든다) |
+| `server/channels/app/user_test.go` | 정리 대상 표의 `"ScheduledRecaps"`, ScheduledRecap 픽스처, Recap 픽스처의 `ScheduledRecapId` | 위와 같다(우리 `model.Recap`에 `ScheduledRecapId`가 없다) | 위와 같다 |
+
+**포크 쪽 남은 빈틈(별도 작업).** 포크 기능 알림 히스토리(d429d6f781 #167)의 `NotificationHistories`는 이 수정 뒤에도 지워지지 않는다(정리 잡도 없다).
+sync와 분리해 별도 브랜치에서 TDD로 `PermanentDeleteByUser`를 추가하기로 했다(사용자 결정).
