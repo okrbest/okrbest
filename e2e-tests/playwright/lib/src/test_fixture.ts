@@ -33,6 +33,7 @@ import {
     deleteLdapUser,
     disableMfa,
     enableAIBridgeTestMode,
+    ensureChannelIntroActions,
     enableUserMfa,
     listMinioObjectKeys,
     ensureMinio,
@@ -134,6 +135,7 @@ export class PlaywrightExtended {
     readonly getFileFromAsset;
 
     // ./server
+    readonly ensureChannelIntroActions;
     readonly ensurePluginsLoaded;
     readonly getAdminClient;
     readonly mergeWithOnPremServerConfig;
@@ -254,6 +256,7 @@ export class PlaywrightExtended {
         this.getFileFromAsset = getFileFromAsset;
 
         // ./server
+        this.ensureChannelIntroActions = ensureChannelIntroActions;
         this.ensurePluginsLoaded = ensurePluginsLoaded;
         this.initSetup = initSetup;
         this.getAdminClient = getAdminClient;
