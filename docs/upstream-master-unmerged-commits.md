@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-20 15:01
+- 갱신일: 2026-10-20 15:38
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 99개
+- 남은 커밋: 96개
 
-**마지막 반영 커밋:** `4d94455a` | [Sync document language with active user locale (#38625)](https://github.com/mattermost/mattermost/commit/4d94455ab041c0eed6676064cd8b033e9912fc5b) | 2026-10-08
+**마지막 반영 커밋:** `47eebd55` | [MM-70615: Update connection string formatting in configuration output and logs (#38644)](https://github.com/mattermost/mattermost/commit/47eebd5530c0485391efa77915965b4b7317f16c) | 2026-10-09
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 18c34098 | [MM-70639: Fix flaky TestGetMattermostLog under fully parallel tests (#38513)](https://github.com/mattermost/mattermost/commit/18c34098b13ba9b78c9613c517b913ef0a330650) | 2026-10-09 |
-| c307d634 | [Skip the setup project's ABAC seeding on upgrade paths (#39084)](https://github.com/mattermost/mattermost/commit/c307d634d6ed9d090385e2b7dc5981c36e233805) | 2026-10-09 |
-| 47eebd55 | [MM-70615: Update connection string formatting in configuration output and logs (#38644)](https://github.com/mattermost/mattermost/commit/47eebd5530c0485391efa77915965b4b7317f16c) | 2026-10-09 |
 | 5dec0b82 | [E2E/Playwright: Reset leaked config and roles before each test (#39091)](https://github.com/mattermost/mattermost/commit/5dec0b8255726d0ae21717ef2b5e4f3d3a0ba3ba) | 2026-10-12 |
 | 52492303 | [chore: Update NOTICE.txt file with updated dependencies (#39103)](https://github.com/mattermost/mattermost/commit/52492303f5dd4aaff8121318423cc7d41f3ace5d) | 2026-10-12 |
 | 701f4143 | [\[MM-62275\] Add plugin testhelper package for integration testing with testcontainers (#35643)](https://github.com/mattermost/mattermost/commit/701f4143c68f00ccf4dd1b82fd42cfa8bca01d84) | 2026-10-12 |
