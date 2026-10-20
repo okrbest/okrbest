@@ -117,6 +117,7 @@
 | WebserverMode `uncompressed` 통일 | [359fc924](https://github.com/mattermost/mattermost/commit/359fc92417a9da2f671b5d6c04c71c202faf7963) (#39116) | 서버 검증·보정·ko 포함 26파일은 받고, 우리에게 없는 실험적 언어 server 카탈로그 7개의 메시지 1줄씩을 버렸다 — 아래 참조 |
 | SystemPolicyIndicator 완결 문장화 | [047fffb3](https://github.com/mattermost/mattermost/commit/047fffb3138c394c981c1ceb3bb559e42a1446ce) (#38967) | 컴포넌트·en·21개 언어는 받고, ko는 옛 키 11개(우리가 다듬은 6개 포함)를 지우고 새 키 12개에 upstream ko 번역을 넣었다. 없는 언어 7개를 버렸다 — 아래 참조 |
 | webapp 영어 오타·문법 수정 | [6b5a174f](https://github.com/mattermost/mattermost/commit/6b5a174f733f3193f8b532a3259396b6c33d9c94) (#39127) | 리브랜드 줄 충돌은 우리 문구(OKR.BEST) 위에 오타 수정만 옮겼다. 키보드 단축키 콜론 1건과 없는 Playwright 스펙 2개를 버렸다 — 아래 참조 |
+| 파일 검색 끄기 설정 노출 | [c205c6c6](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98) (#39059) | upstream이 가리는 헤더 Files 버튼이 우리에게 없어, 우리 Slack식 헤더의 Files 탭에 같은 `canSearchFiles` 조건을 걸었다(테스트 동반). docs 2개·옛 헤더 테스트 hunk를 버렸다 — 아래 참조 |
 
 ---
 
@@ -3605,3 +3606,29 @@ upstream 오타 수정("Users sessions" → "User sessions")이 겹친 것이다
 | `e2e-tests/playwright/specs/functional/system_console/abac/policies/permission_policies_create_form.spec.ts`·`permission_policies_create_save.spec.ts` | 바뀐 문구에 맞춘 단언 수정 각 1줄 | 두 스펙 모두 우리 트리에 없다 | 해당 스펙을 들일 때 그 시점 upstream 판을 받는다 |
 
 **검증.** 변경 테스트·스냅샷과 충돌 컴포넌트 jest 11 suite 128건·스냅샷 39건 통과, 충돌 해소 파일 eslint 오류 0, `check-empty-translations` orphaned 8건(기준선 그대로).
+
+---
+
+## 파일 검색 끄기 설정 노출 — 우리 Files 탭에도 조건을 걸었다
+
+**upstream**: [`c205c6c6`](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98)
+(Expose EnableFileSearch in the System Console and hide file search UI when disabled, #39059) — 27파일 +227/-79, 2026-10-20 반영(사용자 결정 adapt)
+
+**받은 것.** 서버가 클라이언트 설정에 `EnableFileSearch`를 내보내고 시스템 콘솔 권한 태그를 붙인다. 시스템 콘솔 파일 공유 화면에 토글, 새 헬퍼
+`canSearchFiles`(첨부 허용 && 파일 검색 허용)로 검색 결과 Files 탭·검색창 유형 선택·검색 힌트·채널 정보 RHS 메뉴를 가리고 파일 검색 API 호출도 막는다. en 키 2개.
+
+**우리 맞춤(포크 기능).** upstream이 가리는 채널 헤더의 `channelHeaderFilesButton`은 우리 Slack식 헤더 재구성(`b1914c9d`)에서 사라졌고,
+대신 `webapp/channels/src/components/channel_header/channel_header_tabs/channel_header_tabs.tsx`의 Files 탭이 그 역할을 한다. 그대로 두면 파일 검색을 꺼도
+우리 Files 탭만 남으므로, 탭에 `useSelector((state) => canSearchFiles(getConfig(state)))` 조건을 걸었다.
+- 테스트: `channel_header_tabs.test.tsx`에 "파일 검색이 꺼져 있으면 파일 탭을 그리지 않는다"를 먼저 추가해 실패를 확인한 뒤 구현했다. 기존 테스트 상태에 config(`EnableFileAttachments`·`EnableFileSearch`)를 넣었다.
+- `channel_header.test.tsx`는 store config 없이 헤더를 그리므로 탭이 사라져 스냅샷 13건이 깨졌다 — `utils/file_utils`의 `canSearchFiles`를 true로 mock해 기존 스냅샷을 유지했다.
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `webapp/channels/src/components/channel_header/channel_header.tsx` | `{this.props.isFileAttachmentsEnabled &&` 헤더 Files 버튼을 `canSearchFiles`로 | 그 버튼이 우리 헤더에 없다(위 맞춤으로 대체) | 해당 없음 |
+| `webapp/channels/src/components/channel_header/channel_header.test.tsx` | 옛 채널 파일 스냅샷 테스트 3개 주변 문맥 + 새 테스트 "should not render the channel files button when file search is disabled" | 우리는 `b1914c9d`에서 그 테스트들을 지웠고, 새 테스트가 찾는 `channelHeaderFilesButton`이 우리에게 없어 늘 통과하는 빈 검사가 된다(대신 탭 테스트를 추가) | 해당 없음 |
+| `docs/main/administration-guide/configure/experimental-configuration-settings.mdx`·`site-configuration-settings.mdx` | EnableFileSearch 설명을 실험 설정 문서에서 파일 공유 설정 문서로 이동 | 제외한 `1d3bbc63` 문서 사이트 계보 | 해당 없음 |
+
+**검증.** jest 55 suite(헤더·탭·채널 정보 RHS·새 검색·검색 힌트·검색 결과·rhs/command/post 액션·채널 뷰) 통과, 헤더 스냅샷 13건 유지, eslint 0 오류, 서버 빌드·`go test ./config/` 통과.

@@ -30,9 +30,15 @@ const {getIsChannelBookmarksEnabled} = jest.requireMock('components/channel_book
 describe('components/channel_header/channel_header_tabs', () => {
     const channelId = 'channel-id-1';
 
-    function stateWith(overrides: {rhsState?: string | null; pinnedCount?: number} = {}): DeepPartial<GlobalState> {
+    function stateWith(overrides: {rhsState?: string | null; pinnedCount?: number; enableFileSearch?: string} = {}): DeepPartial<GlobalState> {
         return {
             entities: {
+                general: {
+                    config: {
+                        EnableFileAttachments: 'true',
+                        EnableFileSearch: overrides.enableFileSearch ?? 'true',
+                    },
+                },
                 channels: {
                     stats: {
                         [channelId]: {
@@ -65,6 +71,13 @@ describe('components/channel_header/channel_header_tabs', () => {
         expect(screen.getByRole('tab', {name: /Files/})).toHaveAttribute('aria-selected', 'false');
         expect(screen.getByRole('tab', {name: /Bookmarks/})).toHaveAttribute('aria-selected', 'false');
         expect(screen.getByRole('tab', {name: /Pinned/})).toHaveAttribute('aria-selected', 'false');
+    });
+
+    it('파일 검색이 꺼져 있으면 파일 탭을 그리지 않는다', () => {
+        renderWithContext(<ChannelHeaderTabs channelId={channelId}/>, stateWith({enableFileSearch: 'false'}));
+
+        expect(screen.queryByRole('tab', {name: /Files/})).not.toBeInTheDocument();
+        expect(screen.getByRole('tab', {name: /Messages/})).toBeInTheDocument();
     });
 
     it('파일 패널이 열려 있으면 파일 탭만 선택이다', () => {

@@ -14,6 +14,7 @@ import {
 } from '@mattermost/compass-icons/components';
 
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {closeRightHandSide, showChannelBookmarks, showChannelFiles, showPinnedPosts} from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
@@ -21,6 +22,7 @@ import {getRhsState} from 'selectors/rhs';
 import {getIsChannelBookmarksEnabled} from 'components/channel_bookmarks/utils';
 
 import {RHSStates} from 'utils/constants';
+import {canSearchFiles} from 'utils/file_utils';
 
 import type {GlobalState} from 'types/store';
 
@@ -38,6 +40,7 @@ export default function ChannelHeaderTabs({channelId}: Props) {
     const rhsState = useSelector(getRhsState);
     const pinnedCount = useSelector((state: GlobalState) => getAllChannelStats(state)[channelId]?.pinnedpost_count || 0);
     const bookmarksEnabled = useSelector(getIsChannelBookmarksEnabled);
+    const filesEnabled = useSelector((state: GlobalState) => canSearchFiles(getConfig(state)));
 
     const filesActive = rhsState === RHSStates.CHANNEL_FILES;
     const pinnedActive = rhsState === RHSStates.PIN;
@@ -97,23 +100,25 @@ export default function ChannelHeaderTabs({channelId}: Props) {
                     defaultMessage='Messages'
                 />
             </button>
-            <button
-                type='button'
-                role='tab'
-                id='channelHeaderTab-files'
-                aria-selected={filesActive}
-                className={classNames('channel-header-tabs__tab', {active: filesActive})}
-                onClick={handleFiles}
-            >
-                <FileTextOutlineIcon
-                    size={14}
-                    aria-hidden='true'
-                />
-                <FormattedMessage
-                    id='channel_header.tabs.files'
-                    defaultMessage='Files'
-                />
-            </button>
+            {filesEnabled && (
+                <button
+                    type='button'
+                    role='tab'
+                    id='channelHeaderTab-files'
+                    aria-selected={filesActive}
+                    className={classNames('channel-header-tabs__tab', {active: filesActive})}
+                    onClick={handleFiles}
+                >
+                    <FileTextOutlineIcon
+                        size={14}
+                        aria-hidden='true'
+                    />
+                    <FormattedMessage
+                        id='channel_header.tabs.files'
+                        defaultMessage='Files'
+                    />
+                </button>
+            )}
             {bookmarksEnabled && (
                 <button
                     type='button'

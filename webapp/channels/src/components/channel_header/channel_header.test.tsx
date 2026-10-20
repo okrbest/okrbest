@@ -12,6 +12,13 @@ import {TestHelper} from 'utils/test_helper';
 
 import ChannelHeader from './channel_header';
 
+// The channel header's content tabs read file-search availability from the store config, which these
+// tests render without; keep the Files tab visible as on a server with file search on.
+jest.mock('utils/file_utils', () => ({
+    ...jest.requireActual('utils/file_utils'),
+    canSearchFiles: () => true,
+}));
+
 describe('components/ChannelHeader', () => {
     const baseProps = {
         actions: {
@@ -30,7 +37,7 @@ describe('components/ChannelHeader', () => {
         currentUser: TestHelper.getUserMock({}),
         isCustomStatusEnabled: false,
         isCustomStatusExpired: false,
-        isFileAttachmentsEnabled: true,
+        canSearchFiles: true,
         lastActivityTimestamp: 1632146562846,
         isLastActiveEnabled: true,
         memberCount: 2,
