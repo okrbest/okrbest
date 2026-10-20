@@ -3,32 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-20 16:14
+- 갱신일: 2026-10-20 20:40
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 90개
+- 남은 커밋: 76개
 
-**마지막 반영 커밋:** `2b64fd09` | [Add Compass UI guidance for agents (#38938)](https://github.com/mattermost/mattermost/commit/2b64fd09d3839007887662c191bd5d7af113a385) | 2026-10-12
+**마지막 반영 커밋:** `c205c6c6` | [Expose EnableFileSearch in the System Console and hide file search UI when disabled (#39059)](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98) | 2026-10-13
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 0c66f929 | [\[MM-71128\] Render attachment fields that have a title but an empty value (#39112)](https://github.com/mattermost/mattermost/commit/0c66f929d073c9c75140f6a89537dc6c50a11a38) | 2026-10-13 |
-| 07b79a10 | [Deprecate ServiceNow plugin: remove from prepackaged plugins, onboarding, and docs (#39105)](https://github.com/mattermost/mattermost/commit/07b79a1087cdcf654ffa335f29a3394feb318a2a) | 2026-10-13 |
-| bbb7145c | [Add Mobile v2.44.1 dot release docs (#39102)](https://github.com/mattermost/mattermost/commit/bbb7145c53780e1daf7e872bddc68e52f3c681f2) | 2026-10-13 |
-| ac8ef7e6 | [drip: AppError -> error: ldap test bind password (#39055)](https://github.com/mattermost/mattermost/commit/ac8ef7e6838783aad36fbd033b478da95f4ffcf3) | 2026-10-13 |
-| f19875dd | [Show an unavailable auto-translation AI service in the System Console (#38921)](https://github.com/mattermost/mattermost/commit/f19875ddec806f736cfd3c5ac94814a57d927e82) | 2026-10-13 |
-| 6320b80c | [Keep previously valid configurations starting on v12 (#39003)](https://github.com/mattermost/mattermost/commit/6320b80c1ad283fc126f08b4466e4fdb0c420e55) | 2026-10-13 |
-| 1bd55398 | [docs: convert the 25 largest docs rasters to gated WebP (#39008)](https://github.com/mattermost/mattermost/commit/1bd553986a385a6f6a1d283bde3a110b7f871109) | 2026-10-13 |
-| c57df45d | [docs: self-host fonts, images, and OpenAPI icons; block build egress (#39092)](https://github.com/mattermost/mattermost/commit/c57df45d9c101b37725f5fcd0d0aa437aa4e211f) | 2026-10-13 |
-| 7b0312b4 | [MM-71106 Fix empty Unreads threads list when unread count is non-zero (#39090)](https://github.com/mattermost/mattermost/commit/7b0312b46e6e8ed641afe446a28f29b1692011cc) | 2026-10-13 |
-| 2a023372 | [MM-70854 - add documentation for channel attributes feature (#38924)](https://github.com/mattermost/mattermost/commit/2a0233721a113b7f2eeb20fc2bf3949a796b41a2) | 2026-10-13 |
-| c1216d87 | [MM-70918: Fix flaky TestGetLogsSkipSendPathValidation cleanup race (#39097)](https://github.com/mattermost/mattermost/commit/c1216d87a26097ec5797c3c82dc8cb3c3a513c78) | 2026-10-13 |
-| 38ff39c3 | [Fix config change checker false release notes after PR base retarget (#38985)](https://github.com/mattermost/mattermost/commit/38ff39c323b803a2b17a8822d685cf80401f673b) | 2026-10-13 |
-| 359fc924 | [Standardize WebserverMode on uncompressed instead of nogzip (#39116)](https://github.com/mattermost/mattermost/commit/359fc92417a9da2f671b5d6c04c71c202faf7963) | 2026-10-13 |
-| f434bd9d | [docs: ship offline documentation in the release tarball (#38957)](https://github.com/mattermost/mattermost/commit/f434bd9da65ff1af2eae845d9f872a064229a915) | 2026-10-13 |
-| bf379803 | [docs: replace animated GIF docs with H.264 Video (#39009)](https://github.com/mattermost/mattermost/commit/bf379803cf30063aa068d607cfae879b5d7dedc9) | 2026-10-13 |
-| 047fffb3 | [Make SystemPolicyIndicator messages whole translatable sentences (#38967)](https://github.com/mattermost/mattermost/commit/047fffb3138c394c981c1ceb3bb559e42a1446ce) | 2026-10-13 |
-| 6b5a174f | [Fix English typos and grammar in webapp source strings (#39127)](https://github.com/mattermost/mattermost/commit/6b5a174f733f3193f8b532a3259396b6c33d9c94) | 2026-10-13 |
-| c205c6c6 | [Expose EnableFileSearch in the System Console and hide file search UI when disabled (#39059)](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98) | 2026-10-13 |
 | 83806a3f | [Point localization docs at the AI translation pipeline. (#38968)](https://github.com/mattermost/mattermost/commit/83806a3f73a8672601bd0491c4b4ab658bf056da) | 2026-10-14 |
 | 85b6fc1a | [\[MM-71079\] Health Dashboard PR28: System Console page (read-only) (#38943)](https://github.com/mattermost/mattermost/commit/85b6fc1ac751261a3c9e3c6ba21072a00e80160f) | 2026-10-14 |
 | b145b936 | [\[MM-71107\] Health Dashboard PR29: mute UI and muted-findings list (#39064)](https://github.com/mattermost/mattermost/commit/b145b9369b5e1136400f3d43785c4409ae4b7e43) | 2026-10-14 |
@@ -101,6 +83,10 @@
 | d430bb29 | [SEC-11251 Add Playwright subpath deployment E2E testing (#38833)](https://github.com/mattermost/mattermost/commit/d430bb294fbf949cdf7a0e968e5a5f34c9cba866) | 2026-10-20 |
 | 9b1c4fd5 | [\[MM-71057\] Health Dashboard PR18: rules for auth and identity (#38917)](https://github.com/mattermost/mattermost/commit/9b1c4fd558694ddc3bfb453bb979e00c66066f56) | 2026-10-20 |
 | 3cef243d | [\[MM-71188\] Fix slash command autocomplete splitting single and curly quoted values (#39235)](https://github.com/mattermost/mattermost/commit/3cef243d18161650029b35600ef521bbd8c77abc) | 2026-10-20 |
+| 5ab80bea | [\[MM-71255\] Deduplicate healthcheck rule helpers and add missing license gates (#39288)](https://github.com/mattermost/mattermost/commit/5ab80bea865ce2f4635ba419e7e83c134d5f2952) | 2026-10-20 |
+| 05aa23fc | [Skip flaky TestGenerateFlaggedPostReportAttachmentsOmittedAudit (#39274)](https://github.com/mattermost/mattermost/commit/05aa23fcaed0c5d1ad1937bed3ab8ecf35c55950) | 2026-10-20 |
+| 47725455 | [Bumping prepackaged Dataminr plugin version to v3.0.0 (#39291)](https://github.com/mattermost/mattermost/commit/4772545518ff6feceec349824142e944f57647be) | 2026-10-20 |
+| be207f89 | [Stop forcing SizeAwareImage containers to display:block (#39216)](https://github.com/mattermost/mattermost/commit/be207f89725df343da628e859d1ef25acde02fbc) | 2026-10-20 |
 
 ## 제외된 커밋
 
@@ -764,6 +750,18 @@
 | 8a378be8 | [docs: add OCI Marketplace quick start evaluation guide (#38959)](https://github.com/mattermost/mattermost/commit/8a378be804d9ff0bf331507dddd494943868c1ed) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. Oracle Cloud(OCI) Marketplace 체험 가이드 oci-marketplace.mdx를 새로 쓰고 Quick Start Evaluation 폴더(제외한 5b28e9b1 #38974가 만듦)의 다른 가이드 4개·평가자 페르소나 링크를 고친다(docs/main 6파일 +98/-6). 파일 전부 우리 트리에 없고, Mattermost 공식 Marketplace 배포 안내라 우리 배포물과도 무관하다. |
 
 | 2b64fd09 | [Add Compass UI guidance for agents (#38938)](https://github.com/mattermost/mattermost/commit/2b64fd09d3839007887662c191bd5d7af113a385) | webapp 에이전트·개발 지침 5파일(AGENTS.md·CLAUDE.OPTIONAL.md 3개·STYLE_GUIDE.md)을 '새 UI는 @mattermost/compass-ui 우선(Button·Icon 슬롯·Compass 토큰)'으로 바꾸는 커밋인데, compass-ui는 우리가 제외한 패키지다 — 70658e18(#38153)·922a900b exclude(npm·원본 저장소 모두 라이선스 없음, Compass 이관 대상 영역은 spec 014로 자체 개편). 받으면 에이전트가 우리 의존성에 없는 compass-ui를 import하도록 안내받아 빌드가 깨지는 코드를 만든다. 현행 지침(@mattermost/shared의 Button·WithTooltip 우선)이 우리 상태와 맞다. compass-ui를 수용하면 그때 함께 들인다. |
+
+| bbb7145c | [Add Mobile v2.44.1 dot release docs (#39102)](https://github.com/mattermost/mattermost/commit/bbb7145c53780e1daf7e872bddc68e52f3c681f2) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. Mattermost 모바일 앱 v2.44.1 점 릴리스 변경 이력(mobile-app-changelog.mdx)과 모바일 릴리스 표 갱신이다(docs/main 2파일 +17/-1). 파일이 우리 트리에 없고, Mattermost 공식 모바일 릴리스 안내라 우리 배포물과도 무관하다. |
+
+| 1bd55398 | [docs: convert the 25 largest docs rasters to gated WebP (#39008)](https://github.com/mattermost/mattermost/commit/1bd553986a385a6f6a1d283bde3a110b7f871109) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. 문서 사이트의 가장 큰 래스터 이미지 25개를 WebP로 바꾸고 mdx 참조를 고친다(75파일 +35/-35, 전부 docs/ 아래). 파일 전부 우리 트리에 없다. |
+
+| c57df45d | [docs: self-host fonts, images, and OpenAPI icons; block build egress (#39092)](https://github.com/mattermost/mattermost/commit/c57df45d9c101b37725f5fcd0d0aa437aa4e211f) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. 문서 빌드가 외부 CDN에 접속하지 않도록 글꼴·이미지·OpenAPI 아이콘을 저장소에 두고, .github/workflows/docs-ci.yaml에 빌드 중 외부 네트워크 차단을 추가한다(69파일 +1566/-45). docs/ 68파일은 우리에게 없고, docs-ci.yaml도 제외한 dd69d06d(문서 사이트 CI, #37402)·1b27d5d7(docs CD, #37421) 계보라 없다. |
+
+| 2a023372 | [MM-70854 - add documentation for channel attributes feature (#38924)](https://github.com/mattermost/mattermost/commit/2a0233721a113b7f2eeb20fc2bf3949a796b41a2) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보이고, 다루는 기능도 우리가 들이지 않은 ChannelAttributes 계보(우리 feature_flags.go에 ChannelAttributes 플래그 없음)라 두 겹으로 대상이 없다. channel-attributes.mdx 관리자 문서 신설, 채널 배너 문서·사이드바 갱신(docs 5파일 +176/-3), 파일 전부 우리 트리에 없다. |
+
+| f434bd9d | [docs: ship offline documentation in the release tarball (#38957)](https://github.com/mattermost/mattermost/commit/f434bd9da65ff1af2eae845d9f872a064229a915) | 문서 사이트(Docusaurus) 빌드를 릴리스 tarball의 client/_documentation에 넣고 서버가 /_documentation으로 제공하며 mattermost docs CLI를 추가하는 기능이다(7파일 +752/-7: docs/scripts/build-offline-bundle.py·README, server/build/release.mk의 DOCS_BUNDLE 풀기, channels/web/docs.go·테스트, cmd/mattermost/commands/docs.go, web/static.go의 setStaticSecurityHeaders 추출·라우트). 담을 내용물이 우리가 제외한 1d3bbc63(docs/ 이관, 리브랜드 충실성 원칙 IV) 문서 사이트라 DOCS_BUNDLE이 항상 비어 제공할 문서가 없고, 넣는다 해도 OKR.BEST 배포물에 Mattermost 브랜드 설치 가이드를 싣게 된다. 받으면 빈 /_documentation 경로와 CLI만 늘어난다. static.go 보안 헤더 추출은 동작 동일한 정리라 단독 가치가 작다. |
+
+| bf379803 | [docs: replace animated GIF docs with H.264 Video (#39009)](https://github.com/mattermost/mattermost/commit/bf379803cf30063aa068d607cfae879b5d7dedc9) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. 문서 사이트의 애니메이션 GIF를 H.264 동영상으로 교체하고 mdx 참조를 고친다(160파일 +303/-64, 전부 docs/ 아래). 파일 전부 우리 트리에 없다. |
 
 ## spec 전환 커밋
 
