@@ -354,6 +354,10 @@ export default class PluginRegistry {
      * - button - A React element to use as the main button to be displayed in case of a single registration.
      * - dropdownButton -A React element to use as the dropdown button to be displayed in case of multiple registrations.
      * - action - A function called when the button is clicked, passed the channel and channel member as arguments.
+     * - phoneAction - Optional. A function that places an outbound phone call, passed the number, the user it
+     *   belongs to, and the label and ID of the profile attribute it came from. When given, and the other person
+     *   in a DM or profile popover has a phone number, the call button opens a menu offering a call through
+     *   action or a phone call to each number.
      * Returns an unique identifier
      * Minimum required version: 6.5
      */
@@ -363,18 +367,21 @@ export default class PluginRegistry {
         'action',
         'icon',
         'dropdownText',
+        'phoneAction',
     ], ({
         button,
         dropdownButton,
         action,
         icon,
         dropdownText,
+        phoneAction,
     }: {
         button: ReactResolvable;
         dropdownButton: ReactResolvable;
         action: CallButtonAction['action'];
         icon: ReactResolvable;
         dropdownText: ReactResolvable;
+        phoneAction?: CallButtonAction['phoneAction'];
     }) => {
         const id = generateId();
 
@@ -386,6 +393,7 @@ export default class PluginRegistry {
             icon: resolveReactElement(icon),
             dropdownText: resolveReactElement(dropdownText),
             action,
+            phoneAction,
         };
 
         this.dispatchPluginComponentWithData('CallButton', data);
