@@ -6033,8 +6033,6 @@
   "onboarding_wizard.plugins.jira": "Jira",
   "onboarding_wizard.plugins.jira.tooltip": "OKR.BEST에서 Jira 티켓 생성, Jira의 중요 업데이트 알림 받기",
   "onboarding_wizard.plugins.marketplace": "워크스페이스 설정이 완료되면 더 많은 도구를 추가할 수 있습니다. 사용 가능한 모든 통합을 보려면 <a>마켓플레이스를 방문하세요.</a>",
-  "onboarding_wizard.plugins.servicenow": "ServiceNow",
-  "onboarding_wizard.plugins.servicenow.tooltip": "이 플러그인은 OKR.BEST와 ServiceNow 간의 통합을 제공합니다.",
   "onboarding_wizard.plugins.zoom": "Zoom",
   "onboarding_wizard.plugins.zoom.tooltip": "OKR.BEST에서 한 번의 클릭으로 Zoom 음성 및 화상 회의 시작",
   "onboarding_wizard.previous": "이전",
