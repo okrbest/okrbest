@@ -116,6 +116,7 @@
 | ServiceNow 플러그인 제외 | [07b79a10](https://github.com/mattermost/mattermost/commit/07b79a1087cdcf654ffa335f29a3394feb318a2a) (#39105) | 번들 목록·설정 마법사·아이콘·en 키 2개 삭제는 받고 ko 키 2개를 함께 지웠다. Makefile은 우리 번들 버전(playbooks v2.11.1 등)을 유지. docs 11파일을 버렸다 — 아래 참조 |
 | WebserverMode `uncompressed` 통일 | [359fc924](https://github.com/mattermost/mattermost/commit/359fc92417a9da2f671b5d6c04c71c202faf7963) (#39116) | 서버 검증·보정·ko 포함 26파일은 받고, 우리에게 없는 실험적 언어 server 카탈로그 7개의 메시지 1줄씩을 버렸다 — 아래 참조 |
 | SystemPolicyIndicator 완결 문장화 | [047fffb3](https://github.com/mattermost/mattermost/commit/047fffb3138c394c981c1ceb3bb559e42a1446ce) (#38967) | 컴포넌트·en·21개 언어는 받고, ko는 옛 키 11개(우리가 다듬은 6개 포함)를 지우고 새 키 12개에 upstream ko 번역을 넣었다. 없는 언어 7개를 버렸다 — 아래 참조 |
+| webapp 영어 오타·문법 수정 | [6b5a174f](https://github.com/mattermost/mattermost/commit/6b5a174f733f3193f8b532a3259396b6c33d9c94) (#39127) | 리브랜드 줄 충돌은 우리 문구(OKR.BEST) 위에 오타 수정만 옮겼다. 키보드 단축키 콜론 1건과 없는 Playwright 스펙 2개를 버렸다 — 아래 참조 |
 
 ---
 
@@ -3583,3 +3584,24 @@ upstream ko 번역을 그대로 넣었다(키 집합 en과 일치 확인). 새 �
 | `webapp/channels/src/i18n/cs.json`·`da.json`·`fi.json`·`hr.json`·`lt.json`·`nb-NO.json`·`pt.json` | 각 언어의 `system_policy_indicator.*` 옛 키 삭제·새 키 12개 번역 추가(cs +23/-·나머지 +21/-) | 이 언어를 지원하기로 하면 그 시점 upstream 카탈로그에서 새 키를 받는다 |
 
 **검증.** `system_policy_indicator` jest 19건 통과, eslint 0 오류, `check-empty-translations` orphaned 8건(기존 기준선, 이 키 없음), `check_icu` 이 키 오류 0건.
+
+---
+
+## webapp 영어 오타·문법 수정 — 리브랜드 줄에 수정만 옮겼다
+
+**upstream**: [`6b5a174f`](https://github.com/mattermost/mattermost/commit/6b5a174f733f3193f8b532a3259396b6c33d9c94)
+(Fix English typos and grammar in webapp source strings, #39127) — 45파일 +144/-144, 2026-10-20 반영(사용자 결정 adapt)
+
+**충돌 해소 방식.** 10파일이 충돌했다. 원인은 같은 줄에 우리 리브랜드(예: `admin.service.extendSessionLengthActivity.helpText`의 "OKR.BEST client")와
+upstream 오타 수정("Users sessions" → "User sessions")이 겹친 것이다. 충돌 hunk마다 upstream의 base→수정 토큰 차이만 우리 줄에 옮겨 적었다(OKR.BEST 2곳 보존 확인).
+`admin.service.outgoingOAuthConnectionsDesc`는 우리 줄에 upstream의 eslint-disable 주석이 없어 문구만 바꿨다("set up oauth connections" → "the configured OAuth connections").
+새로 들어온 "Mattermost" 3곳은 기존 소문자 "mattermost enterprise"를 "Mattermost Enterprise"로 고친 것뿐이다(license_diff_view·permission_policy_details·en.json, en은 Mattermost 표기 관례).
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `webapp/channels/src/components/keyboard_shortcuts/keyboard_shortcuts_sequence/keyboard_shortcuts.ts`·`en.json` `shortcuts.msgs.markdown.unordered` | `'Bulleted List\tShift|Alt|8'` → `'Bulleted List:\tShift|Alt|8'`(콜론 추가) | 우리 문구는 `'Bulleted List'`로 단축키 표기 형식부터 다르다 | 단축키 표기를 upstream 형식으로 되돌릴 때 |
+| `e2e-tests/playwright/specs/functional/system_console/abac/policies/permission_policies_create_form.spec.ts`·`permission_policies_create_save.spec.ts` | 바뀐 문구에 맞춘 단언 수정 각 1줄 | 두 스펙 모두 우리 트리에 없다 | 해당 스펙을 들일 때 그 시점 upstream 판을 받는다 |
+
+**검증.** 변경 테스트·스냅샷과 충돌 컴포넌트 jest 11 suite 128건·스냅샷 39건 통과, 충돌 해소 파일 eslint 오류 0, `check-empty-translations` orphaned 8건(기준선 그대로).
