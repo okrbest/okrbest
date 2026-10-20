@@ -110,6 +110,7 @@
 | 21개 언어 카탈로그 누락 채우기 | [f5b9b0ed](https://github.com/mattermost/mattermost/commit/f5b9b0ed4742ffac6dba6bb0f20680fe92b93b87) (#38904) | 파일을 통째로 받지 않고, 이 커밋이 추가한 키 중 우리 en에 있고·우리 로캘에 없고·en 원문이 같은 것만 42파일에 더했다. 기존 값은 하나도 바꾸지 않았다. ko 신규 24건은 OKR.BEST로 리브랜드 — 아래 참조 |
 | 실험적 언어 8개 복원 | [70c1732d](https://github.com/mattermost/mattermost/commit/70c1732d783fde4cbc7a88632721f4e134a57ec4) (#38944) | 검사기 완화(extra key → 경고)와 테스트 예시 교체 6파일만 받고, 8개 언어 카탈로그·용어집·등록 코드·en description·docs는 버렸다(2026-10-19 사용자 결정) — 아래 참조 |
 | autotranslation 플레이크·AI Actions 중복 버튼 | [af4c3cfd](https://github.com/mattermost/mattermost/commit/af4c3cfde668e006981efa29ba740791eb03fb13) (#38965) | `ai_actions_menu.tsx`와 `autotranslation.spec.ts`는 그대로 받고, 우리에게 없는 `autotranslation_ui.spec.ts` 수정을 버렸다 — 아래 참조 |
+| Playwright 플래그 헬퍼·실패 테스트 수정 | [05a293c6](https://github.com/mattermost/mattermost/commit/05a293c603f9909565a8793148a5f7a08b4d3274) (#38981) | `ensureFeatureFlag` 맵 지원·`skipIfFeatureFlagNotSet` 삭제 등 9파일을 받고, `channel_banner.spec.ts`(우리에게 없는 ChannelAttributes 플래그)·루트 `AGENTS.md`와 제외 계보 스펙 28개를 버렸다 — 아래 참조 |
 
 ---
 
@@ -3408,3 +3409,28 @@ reload 전후에 설정을 다시 적용해 병렬 worker의 `initSetup()` 초�
 | 파일 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
 | `e2e-tests/playwright/specs/functional/channels/autotranslation/autotranslation_ui.spec.ts` | 같은 "unsupported language" 테스트(462행 부근)를 `autotranslation.spec.ts`와 똑같이 고친다 | `userClient` 구조분해 제거, `patchMe({locale: 'fr'})` 삭제, `targetLanguages` `['en','es']` → `['es','de']`(설명 주석 4줄), reload 뒤 `enableAutotranslationConfig` + `waitUntil(AutoTranslationSettings.Enable)` 재적용 블록 추가, 기존 주석의 "French locale" 설명을 "'es'/'de'가 기본 'en'을 포함하지 않는다"로 교체 | 이 파일은 upstream `b052f346`(#36054 fullyParallel E2E 개편)이 `autotranslation.spec.ts`에서 쪼개 만든 것이다. 그 커밋을 exclude했으므로 우리에게 없다. 그 계보를 들이면 이 수정도 같은 형태로 함께 넣는다 |
+
+---
+
+## Playwright 플래그 헬퍼·실패 테스트 수정 — 없는 ChannelAttributes 플래그를 끄는 변경을 버렸다
+
+**upstream**: [`05a293c6`](https://github.com/mattermost/mattermost/commit/05a293c603f9909565a8793148a5f7a08b4d3274)
+(E2E/Test: Fix failing tests, #38981) — 39파일 +798/-661, 2026-10-20 반영
+
+**받은 것(9파일).**
+- `lib/src/server/feature_flags.ts`: `ensureFeatureFlag`가 `(이름, 값)`과 `{이름: 값}` 맵을 둘 다 받는다. 어긋난 플래그만 모아 서버를 한 번 재시작하고, 재시작 뒤 새 `adminClient`로 확인한다.
+- `lib/src/flag.ts`·`test_fixture.ts`: `skipIfFeatureFlagNotSet`을 지웠다. 우리 트리의 호출처는 `channel_perm_rules_v0_4.spec.ts`·`discoverable_channels.spec.ts` 둘뿐이고, 둘 다 `ensureFeatureFlag`로 바꿨다.
+- `discoverable_channels.spec.ts`: Browse Channels 경로 테스트를 `test.fixme`(@knownIssue)로 표시했다. `browse_channels.tsx`에서 검색 fetch와 `loadDiscoverableChannels()`가 경쟁하는 버그가 우리 코드에도 그대로 있다.
+- `lib/src/ui/components/channels/profile_modal.ts`: Cancel 버튼을 `getByTestId('cancelButton')`으로 찾는다(우리 `setting_item_max.tsx`에 testid가 있다).
+- `attribute_settings_behavior.spec.ts`: 테스트가 만든 CPA 필드를 `afterEach`에서 지운다. **타입 하나를 바꿨다** — upstream이 import하는 `CpaFieldsMap`은 exclude한 `b052f346`(#36054)이 만든 타입이라 우리 helpers에 없다. 우리 helpers가 반환하는 `Record<string, UserPropertyField>`로 바꿨다. 우리 `setupCustomProfileAttributeFields`는 기존 필드가 있으면 그것을 통째로 돌려주고, `deleteCustomProfileAttributes`는 맵 전체를 지운다. 우리 다른 CPA 스펙(`custom_attributes`·`user_settings`·`attribute_order_and_popover`)의 정리 방식과 같다.
+- `initial_scroll_read.spec.ts`·`post_height.spec.ts`: 퍼머링크 미리보기 대기 타임아웃만 늘렸다.
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `e2e-tests/playwright/specs/functional/channels/channel_banner/channel_banner.spec.ts` | 테스트 7개 맨 앞에 `await pw.ensureFeatureFlag('ChannelAttributes', false)`를 넣는다(첫 테스트에는 "레거시 AdvancedTextbox 배너 편집기는 ChannelAttributes가 꺼져 있어야 렌더된다" 주석 2줄) | 우리 `feature_flags.go`에는 `ChannelAttributes` 플래그가 없다. 받으면 재시작 뒤에도 값이 `undefined`라서 `ensureFeatureFlag`가 예외를 던지고 7개 테스트가 전부 skip된다. 우리 배너 설정 탭은 이 플래그로 편집기를 가르지 않는다 | ChannelAttributes 계보(채널 속성·배너 편집기 교체)를 들일 때 함께 넣는다 |
+| `AGENTS.md` (루트) | import 목록에 `@e2e-tests/playwright/AGENTS.md` 한 줄을 추가한다 | 그 파일이 우리에게 없다(exclude한 계보에서 생겼다) | `e2e-tests/playwright/AGENTS.md`를 들일 때 |
+| 제외 계보 스펙 28개 | 대부분 `skipIfFeatureFlagNotSet(flag, true)` → `ensureFeatureFlag` 기계적 치환(인접 호출은 맵 하나로 합침). `managed_categories.spec.ts` 다수를 `test.fixme`로, `channel_classification.spec.ts`는 `ChannelAttributes`를 강제 off | channel_attributes 9, global_attributes 9, categories 3(default·managed·managed_flag_off), channel_classification, board_attributes/setup, abac resource_attributes 3(graph_sync·masking·helpers)·policies/graph_operators·burn_on_read/helpers, `e2e-tests/playwright/AGENTS.md`. 전부 우리 트리에 없다 | 각 계보를 들일 때 그 시점의 upstream 스펙을 받으면 된다. 이 커밋의 치환을 따로 되살릴 필요는 없다 |
+
+**검증.** playwright lib 재빌드 후 `tsc --noEmit` 오류 11건 — 반영 전과 같은 목록(전부 기존 파손), 수정 파일 0건. 수정 파일 eslint·prettier 통과. 포크 격차로 실제 Playwright 실행은 하지 않았다.
