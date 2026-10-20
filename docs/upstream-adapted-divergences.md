@@ -112,6 +112,7 @@
 | autotranslation 플레이크·AI Actions 중복 버튼 | [af4c3cfd](https://github.com/mattermost/mattermost/commit/af4c3cfde668e006981efa29ba740791eb03fb13) (#38965) | `ai_actions_menu.tsx`와 `autotranslation.spec.ts`는 그대로 받고, 우리에게 없는 `autotranslation_ui.spec.ts` 수정을 버렸다 — 아래 참조 |
 | Playwright 플래그 헬퍼·실패 테스트 수정 | [05a293c6](https://github.com/mattermost/mattermost/commit/05a293c603f9909565a8793148a5f7a08b4d3274) (#38981) | `ensureFeatureFlag` 맵 지원·`skipIfFeatureFlagNotSet` 삭제 등 9파일을 받고, `channel_banner.spec.ts`(우리에게 없는 ChannelAttributes 플래그)·루트 `AGENTS.md`와 제외 계보 스펙 28개를 버렸다 — 아래 참조 |
 | Calls 전화 걸기 메뉴 | [e8d7f37e](https://github.com/mattermost/mattermost/commit/e8d7f37e923dc4d3582cdb83aefee751eab7bdba) (#38941) | compass-ui 메뉴 트리거를 일반 버튼으로, `properties_user` import를 `properties`로, `menu.tsx`는 타입 확장만 이식. 기능은 Calls v1.12.5라 비활성 — 아래 참조 |
+| 업그레이드 경로 ABAC 시딩 건너뛰기 | [c307d634](https://github.com/mattermost/mattermost/commit/c307d634d6ed9d090385e2b7dc5981c36e233805) (#39084) | 스펙이 `ensureUserAttributes`로 속성을 직접 준비하는 2줄만 받고, 우리에게 없는 업그레이드 하네스 쪽 4파일을 버렸다 — 아래 참조 |
 
 ---
 
@@ -3461,3 +3462,25 @@ reload 전후에 설정을 다시 적용해 병렬 worker의 `initSetup()` 초�
 우리 `profile_popover_call_button_wrapper`가 여전히 `webapp.mattermost.feature.start_call`("Start call")을 쓰고, upstream은 `db55f9fa43`에서 `user_profile.call.start`("Start Call")로 바꿨다(그 hunk 누락).
 기존 기준선 6건(profile_popover 3·wrapper 3)에 이 커밋의 새 테스트 `call_options_menu.test.tsx` "keeps the plain button…" 2건이 같은 원인으로 더해졌다.
 레이블을 upstream에 맞추면 8건이 함께 풀린다(ko 키 이동 동반).
+
+---
+
+## 업그레이드 경로 ABAC 시딩 건너뛰기 — 하네스 없이 스펙 2줄만 받았다
+
+**upstream**: [`c307d634`](https://github.com/mattermost/mattermost/commit/c307d634d6ed9d090385e2b7dc5981c36e233805)
+(Skip the setup project's ABAC seeding on upgrade paths, #39084) — 5파일 +28/-5, 2026-10-20 반영
+
+**받은 것.** `e2e-tests/playwright/specs/functional/system_console/abac/policy_management/edit_action_navigation.spec.ts` —
+두 테스트가 `initSetup()` 직후 `ensureUserAttributes(adminClient)`로 필요한 사용자 속성을 직접 준비한다.
+우리 `specs/test_setup.ts`에는 upstream의 "ensure ABAC is configured" 시딩 단계가 처음부터 없으므로, 스펙이 자급하는 편이 우리에게 더 맞다.
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `e2e-tests/playwright/lib/src/upgrade_env.ts` | `exportUpgradePathProjectSelection()` 추가(+17) — 선택된 업그레이드 프로젝트를 환경변수로 내보내 worker가 `isUpgradePathProjectSelected()`를 판정하게 한다 | 파일 자체가 우리에게 없다 | 업그레이드 경로 하네스(testcontainers lib 반영 때 들이지 않음)를 들일 때 |
+| `e2e-tests/playwright/lib/src/index.ts` | 위 함수 export 1줄 | 우리 index.ts에 upgrade export 블록이 없다 | 같음 |
+| `e2e-tests/playwright/playwright.config.ts` | 위 함수 import·호출(+3) | 우리 config에 upgrade 코드가 없다 | 같음 |
+| `e2e-tests/playwright/specs/test_setup.ts` | "ensure ABAC is configured" 단계의 upgrade 건너뛰기 주석 갱신(업그레이드 후 속성이 Global Attribute 템플릿에 묶여 CPA API로 수정·삭제 불가) | 우리 test_setup에 그 단계가 없다 | ABAC 시딩 단계를 들일 때 upstream 형태로 |
+
+**검증.** 수정 파일 eslint·prettier 통과, playwright `tsc` 오류 11건 — 기존 기준선과 같고 수정 파일 0건.
