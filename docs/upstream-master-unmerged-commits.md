@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-20 10:18
+- 갱신일: 2026-10-20 10:29
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 114개
+- 남은 커밋: 112개
 
-**마지막 반영 커밋:** `af4c3cfd` | [Fix flaky autotranslation e2e tests and duplicate "AI Actions" button (#38965)](https://github.com/mattermost/mattermost/commit/af4c3cfde668e006981efa29ba740791eb03fb13) | 2026-10-03
+**마지막 반영 커밋:** `9e386cb9` | [docs: resolve raw HTML link and image paths through useBaseUrl (#38958)](https://github.com/mattermost/mattermost/commit/9e386cb9937f05f97cb42c9fef5b1c0d13832c42) | 2026-10-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 05a293c6 | [E2E/Test: Fix failing tests (#38981)](https://github.com/mattermost/mattermost/commit/05a293c603f9909565a8793148a5f7a08b4d3274) | 2026-10-04 |
-| 9e386cb9 | [docs: resolve raw HTML link and image paths through useBaseUrl (#38958)](https://github.com/mattermost/mattermost/commit/9e386cb9937f05f97cb42c9fef5b1c0d13832c42) | 2026-10-04 |
 | e32d8734 | [Request docs-draft review from a human when the source PR author is a bot (#38987)](https://github.com/mattermost/mattermost/commit/e32d8734cb082a1cc4ffed6eb827342d28b1fc8f) | 2026-10-05 |
 | bce346e7 | [MM-70640: Update EXIF metadata handling when reading image orientation (#38739)](https://github.com/mattermost/mattermost/commit/bce346e7948d2f36bb2b2416c6af74d618870e22) | 2026-10-05 |
 | f132e4af | [\[MM-70991\] Bump moment-timezone to 0.6.4 for the 2026 time zone changes (#38849)](https://github.com/mattermost/mattermost/commit/f132e4afd3fa9191631b009e80726e2c932c3dfb) | 2026-10-05 |
@@ -766,6 +764,8 @@
 | 5f01389e | [\[MM-70891\] Show and protect integration-owned attributes in Attribute Management (#38850)](https://github.com/mattermost/mattermost/commit/5f01389e995b1a7fe03085fe3f478bafdb801ecc) | 제외한 Global Attributes(Attribute Management) 계보와 Property owners(3b64a2ac, property 시스템 v2 계보) 위에 선 변경이라 대상이 없다. 통합(플러그인 등) 소유 속성을 소유자 표시와 함께 보여 주고 편집·삭제·적용 대상 변경을 막는 26파일 +1760/-160(server 4·webapp 21·en.json 48줄). 실측: 22파일이 HEAD에 없다(admin_console/global_attributes/**, server properties/access_control_attribute_validation.go·access_control_owners_test.go). 남은 server properties/access_control.go는 고치려는 callerOwnerIdentity·isListedOwner가 우리에게 없고(grep 0건), webapp utils/properties.ts는 새로 import하는 PropertyFieldOwner의 출처 @mattermost/types/properties_user(076370e6, 제외)가 없다. 섞인 공용 수정 없음. private-module 해당 없음. 재검토 조건: property v2·owners(3b64a2ac)·Global Attributes 계보를 도입할 때. |
 
 | 6338ffdc | [MM-71075: enable ChannelAttributes by default in feature flags (#38937)](https://github.com/mattermost/mattermost/commit/6338ffdc768e8eedcb8604a11e4207347911787e) | 뒤집을 FeatureFlags.ChannelAttributes가 우리에게 없다(grep 0건, 7c457d07 golden 재생성 때도 upstream 전용 필드로 확인). 채널 속성 계보 전체를 제외했다(e86491ad foundation → … → 7206a384·24ef18fd·cb7a69a1, 기반 property 시스템 v2 미도입). SetDefaults 1줄과 테스트(2파일 +3/-6)뿐이라 반영할 실체가 0줄이고 merge-tree CONFLICT도 그 필드 부재에서 온다 — 94c163f8(graph·리소스 플래그 기본값)과 같은 처리. private-module 해당 없음. 재검토 조건: 채널 속성 계보를 도입할 때 기본값을 함께 정한다. |
+
+| 9e386cb9 | [docs: resolve raw HTML link and image paths through useBaseUrl (#38958)](https://github.com/mattermost/mattermost/commit/9e386cb9937f05f97cb42c9fef5b1c0d13832c42) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. docs/main 22개 mdx의 raw <a href="/..."> 221개와 docs/develop의 <img src="/img/..."> 3개를 useBaseUrl('/...')로 바꾸고(baseUrl이 /가 아닐 때 링크 깨짐 방지), docs/site/scripts/check-base-url-attrs.mjs 검사를 docs/site/package.json prebuild에 거는 커밋이다. 25파일 전부(docs/main·docs/develop·docs/site) 우리 트리에 없다. 문서 사이트 계보를 들이면 그 시점 upstream 문서에 이 수정이 이미 포함된다. |
 
 ## spec 전환 커밋
 
