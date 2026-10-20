@@ -3930,3 +3930,25 @@ en.json `admin.email.mtpnsHelp`도 같은 방식(defaultMessage·description의 
 | `docs/main/end-user-guide/collaborate/join-leave-channels.mdx` | "채널에서 입장·퇴장 메시지 숨기기" 절 신설 — 채널 설정 > Configuration의 **Join/Leave System Messages** 끄기, 기본은 채널 멤버 누구나 변경(관리 권한은 Manage Channel Settings), 사용자별 설정과 달리 채널 전체에 적용, 숨겨도 메시지는 저장됨, DM·그룹 메시지 불가, 추가된 사용자 알림은 유지(+22). 우리 구현(6fb605eab9)과 대조할 때 참고 |
 | `docs/main/end-user-guide/preferences/manage-advanced-options.mdx` | 사용자별 Enable Join/Leave Messages 설명에 채널별 설정 안내 추가(+2) |
 | `docs/main/administration-guide/configure/site-configuration-settings.mdx` | 관련 설정 설명 1줄 수정 |
+
+---
+
+## 2026-10 월간 서버 의존성 업데이트 — blang/semver와 e2e 워크플로 잡 이름은 버렸다
+
+**upstream**: [`491e853f`](https://github.com/mattermost/mattermost/commit/491e853f7b6495c065ec2745702c5d0f6509b553)
+(Monthly maintenance (2026-10): Update server dependencies, #39220) — 6파일 +395/-435, 2026-10-22 반영(사용자 결정 adapt)
+
+**받은 것.** `server/go.mod`·`go.sum`, `server/public/go.mod`·`go.sum`의 버전 갱신 전부(aws-sdk-go-v2 v1.43→v1.47 등, `go` 지시문·toolchain 변화 없음).
+`server/go.mod`는 충돌 구간(aws-sdk-go-v2·bep/imagemeta 블록)만 upstream 쪽으로 풀었다. 그래서 upstream과의 기존 포크 차이 두 가지 —
+`blang/semver/v4` 부재와 `hashicorp/golang-lru/v2`의 `// indirect` — 가 그대로 남는다.
+
+**버린 것.**
+
+| 대상 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `server/go.mod`의 `github.com/blang/semver/v4 v4.0.0` (require 블록) | upstream require에 있는 직접 의존 | 우리 Go 코드 어디에서도 import하지 않아 우리 go.mod에 원래 없다 — upstream에서 우리가 받지 않은 코드가 쓰는 모듈 | 이 모듈을 import하는 upstream 코드를 반영할 때 `go get`으로 추가 |
+| `.github/workflows/e2e-tests-cypress-template.yml` | 잡 이름 `dispatch-run-${{ matrix.worker_index }}` → `dispatch-run-cypress-${{ inputs.server_edition }}-${{ matrix.worker_index }}` (name·gh-job-name 2줄) | CODEOWNERS 보호 경로이고, upstream이 받지 않은 `prep-deps` 캐시 잡 문맥과 충돌한다. upstream CI 상태 보고용 표기라 우리 CI 동작과 무관 | 우리 e2e CI를 upstream 템플릿에 맞출 때 |
+| `.github/workflows/e2e-tests-playwright-template.yml` | 잡 이름 → `dispatch-run-playwright-${{ inputs.server_edition }}-${{ inputs.playwright_project }}-${{ matrix.worker_index }}` (2줄) | 위와 같다 | 위와 같다 |
+
+**검증.** `server/public`에서 `go mod tidy -diff` 변화 없음. `server`는 enterprise 빌드 태그 파일이 비공개 `github.com/mattermost/enterprise/*`를 import해
+`go mod tidy`를 돌릴 수 없다(upstream도 enterprise 저장소 없이는 같다) — 대신 빌드·vet·표본 테스트로 확인했다.
