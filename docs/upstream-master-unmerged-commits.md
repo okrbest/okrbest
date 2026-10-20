@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-20 14:26
+- 갱신일: 2026-10-20 15:01
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 103개
+- 남은 커밋: 99개
 
-**마지막 반영 커밋:** `e8d7f37e` | [\[MM-71076\] Calls: Add phone call options menu to the call button in DMs and profile popover (#38941)](https://github.com/mattermost/mattermost/commit/e8d7f37e923dc4d3582cdb83aefee751eab7bdba) | 2026-10-07
+**마지막 반영 커밋:** `4d94455a` | [Sync document language with active user locale (#38625)](https://github.com/mattermost/mattermost/commit/4d94455ab041c0eed6676064cd8b033e9912fc5b) | 2026-10-08
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 5b28e9b1 | [docs: add Evaluators persona and Quick Start Evaluation folder (#38974)](https://github.com/mattermost/mattermost/commit/5b28e9b1600c877711b9ee3894df767f337a2997) | 2026-10-08 |
-| 33411b9d | [fix(app): scope received_group to group readers (#38299)](https://github.com/mattermost/mattermost/commit/33411b9d3ced672f94765eb58f3ebd25e1cecc43) | 2026-10-08 |
-| 6746e2f5 | [\[MM-70779\] Make the number part of a hyphenated term findable in Postgres search (#38704)](https://github.com/mattermost/mattermost/commit/6746e2f5d9fb824f3ed1575352f90961826f96f2) | 2026-10-08 |
-| acf6e7bd | [Add dot release docs for server v11.7.12 (ESR) (#39057)](https://github.com/mattermost/mattermost/commit/acf6e7bd22224cafcb847dabd6b2bf83505805d1) | 2026-10-08 |
-| 4d94455a | [Sync document language with active user locale (#38625)](https://github.com/mattermost/mattermost/commit/4d94455ab041c0eed6676064cd8b033e9912fc5b) | 2026-10-08 |
 | 18c34098 | [MM-70639: Fix flaky TestGetMattermostLog under fully parallel tests (#38513)](https://github.com/mattermost/mattermost/commit/18c34098b13ba9b78c9613c517b913ef0a330650) | 2026-10-09 |
 | c307d634 | [Skip the setup project's ABAC seeding on upgrade paths (#39084)](https://github.com/mattermost/mattermost/commit/c307d634d6ed9d090385e2b7dc5981c36e233805) | 2026-10-09 |
 | 47eebd55 | [MM-70615: Update connection string formatting in configuration output and logs (#38644)](https://github.com/mattermost/mattermost/commit/47eebd5530c0485391efa77915965b4b7317f16c) | 2026-10-09 |
@@ -114,6 +109,7 @@
 | bbe3f718 | [\[MM-71216\] Apply incoming AcknowledgedAt when receiving synced acknowledgements (#39240)](https://github.com/mattermost/mattermost/commit/bbe3f71849bb293820a8519022245330c9270c97) | 2026-10-20 |
 | d430bb29 | [SEC-11251 Add Playwright subpath deployment E2E testing (#38833)](https://github.com/mattermost/mattermost/commit/d430bb294fbf949cdf7a0e968e5a5f34c9cba866) | 2026-10-20 |
 | 9b1c4fd5 | [\[MM-71057\] Health Dashboard PR18: rules for auth and identity (#38917)](https://github.com/mattermost/mattermost/commit/9b1c4fd558694ddc3bfb453bb979e00c66066f56) | 2026-10-20 |
+| 3cef243d | [\[MM-71188\] Fix slash command autocomplete splitting single and curly quoted values (#39235)](https://github.com/mattermost/mattermost/commit/3cef243d18161650029b35600ef521bbd8c77abc) | 2026-10-20 |
 
 ## 제외된 커밋
 
@@ -765,6 +761,12 @@
 | 7532e0ba | [chore: Update NOTICE.txt file with updated dependencies (#38997)](https://github.com/mattermost/mattermost/commit/7532e0bad8f458131c05291f9e97412875f05d17) | NOTICE.txt에 @mattermost/compass-ui 고지 1건(10줄)만 추가하는 자동 커밋인데, 우리는 그 패키지를 번들하지 않는다 — compass-ui 도입 70658e18(#38153)·버전 올림 922a900b를 exclude했다(npm·원본 저장소 모두 라이선스 없음, Compass 이관 대상 영역은 spec 014로 자체 개편). webapp package.json·package-lock.json 어디에도 compass-ui가 없어, 받으면 배포하지 않는 패키지를 고지하게 된다. compass-ui를 들이면 그때 NOTICE 항목을 함께 넣는다. |
 
 | b2ce71db | [Remove the Belarusian language (#39014)](https://github.com/mattermost/mattermost/commit/b2ce71db9c18e547ab0c8b042361798201c0f735) | 벨라루스어(be) 카탈로그·용어집·supportedLocales·webapp languages/imports 항목을 지우는 커밋인데, 우리 트리에는 be가 처음부터 없어 반영할 diff가 0줄이다. upstream이 be를 다시 넣은 70c1732d(#38944, 실험적 언어 8개 복원)를 2026-10-19 adapt하면서 8개 언어(da·cs·hr·lt·nb-NO·pt·fi·be) 카탈로그·등록 코드를 사용자 결정으로 버렸고, 8ff13fd4(실험적 언어 제거) 상태를 유지 중이다. merge-tree 충돌은 지울 줄의 주변 문맥(fi·pt 등록)이 우리에게 없어서 생긴 것이다. docs mdx 2개는 제외한 1d3bbc63 문서 사이트 계보라 없다. |
+
+| 5b28e9b1 | [docs: add Evaluators persona and Quick Start Evaluation folder (#38974)](https://github.com/mattermost/mattermost/commit/5b28e9b1600c877711b9ee3894df767f337a2997) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. Evaluators 페르소나·Quick Start Evaluation 문서 폴더와 TryMattermostCTA 체험 유도 컴포넌트, docs/site 사이드바·리다이렉트 설정을 추가하는 커밋이다(11파일 +193/-44). 파일 전부(docs/main·docs/site) 우리 트리에 없고, CTA 자체가 Mattermost 브랜드 마케팅이다. |
+
+| 6746e2f5 | [\[MM-70779\] Make the number part of a hyphenated term findable in Postgres search (#38704)](https://github.com/mattermost/mattermost/commit/6746e2f5d9fb824f3ed1575352f90961826f96f2) | Postgres FTS가 flight-12345의 숫자를 lexeme '-12345'로 색인해 '12345' 검색이 빗나가는 문제를, 숫자 항 N을 to_tsquery용 '(N\|-N)'으로 바꾸는 expandNumericTerms(sqlstore/utils.go)로 고치는 커밋이다. 우리 post 검색은 자체 커밋 6eecf5ee32(한글 형태소 검색 오류 수정)로 to_tsquery를 ILIKE 부분문자열 매칭으로 바꿨으므로 upstream이 2줄을 꽂는 wildCardRegex·to_tsquery 경로가 없고, '12345'는 ILIKE '%12345%'로 이미 flight-12345를 찾는다(버그 부재). 헬퍼는 호출처가 없어 unused lint에 걸린다. 공유 테스트 testSearchNumberInHyphenatedTerm 9개 중 '1234는 flight-12345를 못 찾아야 함'·'1234* 와일드카드' 2개는 우리 ILIKE 의미와 구조적으로 맞지 않는다. 선례: 01a7d5d9(하이픈 복합어) adapt 때 FTS 전용 부분을 ILIKE 경로에 맞추고 불가 서브테스트를 skip했다. |
+
+| acf6e7bd | [Add dot release docs for server v11.7.12 (ESR) (#39057)](https://github.com/mattermost/mattermost/commit/acf6e7bd22224cafcb847dabd6b2bf83505805d1) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. server v11.7.12(ESR) 점 릴리스 변경 이력 추가와 버전 보관 목록·서버 릴리스 표·RHEL/tar 배포 가이드의 다운로드 버전 갱신이다(docs/main 5파일 +37/-13). 파일 전부 우리 트리에 없고, Mattermost 공식 릴리스·다운로드 안내라 우리 배포물과도 무관하다. |
 
 ## spec 전환 커밋
 
