@@ -127,3 +127,4 @@ report.xml
 go.*.orig
 config.override.mk
 docker-compose.override.yaml
+/tests/big_testplugin.tar.gz
