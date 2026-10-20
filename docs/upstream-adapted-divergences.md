@@ -109,6 +109,7 @@
 | ABAC 권한 정책 Burn-on-Read | [91b4450e](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) (#38656) | server 전부(`HasPermissionToChannelAction` 개명 포함)와 webapp 훅·초안·예약·콘솔은 받고, 우리 Lexical ATE에 `isDraftSendable`을 이식했다. docs 4·TipTap 2·없는 list spec 1과 컴파일되지 않는 BoR ABAC e2e 4개를 버렸다. PDP가 비공개 모듈이라 비활성(private-module 등재) — 아래 참조 |
 | 21개 언어 카탈로그 누락 채우기 | [f5b9b0ed](https://github.com/mattermost/mattermost/commit/f5b9b0ed4742ffac6dba6bb0f20680fe92b93b87) (#38904) | 파일을 통째로 받지 않고, 이 커밋이 추가한 키 중 우리 en에 있고·우리 로캘에 없고·en 원문이 같은 것만 42파일에 더했다. 기존 값은 하나도 바꾸지 않았다. ko 신규 24건은 OKR.BEST로 리브랜드 — 아래 참조 |
 | 실험적 언어 8개 복원 | [70c1732d](https://github.com/mattermost/mattermost/commit/70c1732d783fde4cbc7a88632721f4e134a57ec4) (#38944) | 검사기 완화(extra key → 경고)와 테스트 예시 교체 6파일만 받고, 8개 언어 카탈로그·용어집·등록 코드·en description·docs는 버렸다(2026-10-19 사용자 결정) — 아래 참조 |
+| autotranslation 플레이크·AI Actions 중복 버튼 | [af4c3cfd](https://github.com/mattermost/mattermost/commit/af4c3cfde668e006981efa29ba740791eb03fb13) (#38965) | `ai_actions_menu.tsx`와 `autotranslation.spec.ts`는 그대로 받고, 우리에게 없는 `autotranslation_ui.spec.ts` 수정을 버렸다 — 아래 참조 |
 
 ---
 
@@ -3387,3 +3388,23 @@ jest suite가 돌지 않는 것을 찾아 재설치했다(lock 변경 없음).
 줄어든 것은 전부 extra-key 오류다(제외 계보 키가 다른 언어 파일에 남은 것). 남은 오류는 ICU 변수·태그 불일치 등 실제 결함이다.
 
 **검증.** jest 3 suite 52건(검사기·display·i18n) 통과, `go test ./tools/mmgotool/...` 통과, ko orphaned는 기존 8건 그대로.
+
+---
+
+## autotranslation 플레이크·AI Actions 중복 버튼 — 없는 UI 스펙 수정을 버렸다
+
+**upstream**: [`af4c3cfd`](https://github.com/mattermost/mattermost/commit/af4c3cfde668e006981efa29ba740791eb03fb13)
+(Fix flaky autotranslation e2e tests and duplicate "AI Actions" button, #38965) — 3파일 +50/-15, 2026-10-20 반영
+
+**받은 것(2파일).** `webapp/channels/src/components/advanced_text_editor/ai_actions_menu.tsx`는 aria-label "AI Actions"를
+바깥 메뉴 트리거(`Menu.Container`, role=button)로 옮기고, 안쪽 `IconContainer` 버튼에 `aria-hidden`·`tabIndex=-1`을 준다.
+같은 이름의 버튼이 둘 노출되던 문제가 없어진다. 우리 자체 스펙 `e2e-tests/playwright/specs/functional/channels/ai/rewrite_korean.spec.ts`의
+`getByRole('button', {name: 'AI Actions'})`도 이제 하나만 찾는다.
+`autotranslation.spec.ts`의 "unsupported language" 테스트는 사용자 locale을 `fr`로 바꾸지 않고 대상 언어를 `['es', 'de']`로 둔다.
+reload 전후에 설정을 다시 적용해 병렬 worker의 `initSetup()` 초기화를 견딘다.
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `e2e-tests/playwright/specs/functional/channels/autotranslation/autotranslation_ui.spec.ts` | 같은 "unsupported language" 테스트(462행 부근)를 `autotranslation.spec.ts`와 똑같이 고친다 | `userClient` 구조분해 제거, `patchMe({locale: 'fr'})` 삭제, `targetLanguages` `['en','es']` → `['es','de']`(설명 주석 4줄), reload 뒤 `enableAutotranslationConfig` + `waitUntil(AutoTranslationSettings.Enable)` 재적용 블록 추가, 기존 주석의 "French locale" 설명을 "'es'/'de'가 기본 'en'을 포함하지 않는다"로 교체 | 이 파일은 upstream `b052f346`(#36054 fullyParallel E2E 개편)이 `autotranslation.spec.ts`에서 쪼개 만든 것이다. 그 커밋을 exclude했으므로 우리에게 없다. 그 계보를 들이면 이 수정도 같은 형태로 함께 넣는다 |
