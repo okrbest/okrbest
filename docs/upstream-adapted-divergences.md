@@ -113,6 +113,7 @@
 | Playwright 플래그 헬퍼·실패 테스트 수정 | [05a293c6](https://github.com/mattermost/mattermost/commit/05a293c603f9909565a8793148a5f7a08b4d3274) (#38981) | `ensureFeatureFlag` 맵 지원·`skipIfFeatureFlagNotSet` 삭제 등 9파일을 받고, `channel_banner.spec.ts`(우리에게 없는 ChannelAttributes 플래그)·루트 `AGENTS.md`와 제외 계보 스펙 28개를 버렸다 — 아래 참조 |
 | Calls 전화 걸기 메뉴 | [e8d7f37e](https://github.com/mattermost/mattermost/commit/e8d7f37e923dc4d3582cdb83aefee751eab7bdba) (#38941) | compass-ui 메뉴 트리거를 일반 버튼으로, `properties_user` import를 `properties`로, `menu.tsx`는 타입 확장만 이식. 기능은 Calls v1.12.5라 비활성 — 아래 참조 |
 | 업그레이드 경로 ABAC 시딩 건너뛰기 | [c307d634](https://github.com/mattermost/mattermost/commit/c307d634d6ed9d090385e2b7dc5981c36e233805) (#39084) | 스펙이 `ensureUserAttributes`로 속성을 직접 준비하는 2줄만 받고, 우리에게 없는 업그레이드 하네스 쪽 4파일을 버렸다 — 아래 참조 |
+| ServiceNow 플러그인 제외 | [07b79a10](https://github.com/mattermost/mattermost/commit/07b79a1087cdcf654ffa335f29a3394feb318a2a) (#39105) | 번들 목록·설정 마법사·아이콘·en 키 2개 삭제는 받고 ko 키 2개를 함께 지웠다. Makefile은 우리 번들 버전(playbooks v2.11.1 등)을 유지. docs 11파일을 버렸다 — 아래 참조 |
 
 ---
 
@@ -3484,3 +3485,33 @@ reload 전후에 설정을 다시 적용해 병렬 worker의 `initSetup()` 초�
 | `e2e-tests/playwright/specs/test_setup.ts` | "ensure ABAC is configured" 단계의 upgrade 건너뛰기 주석 갱신(업그레이드 후 속성이 Global Attribute 템플릿에 묶여 CPA API로 수정·삭제 불가) | 우리 test_setup에 그 단계가 없다 | ABAC 시딩 단계를 들일 때 upstream 형태로 |
 
 **검증.** 수정 파일 eslint·prettier 통과, playwright `tsc` 오류 11건 — 기존 기준선과 같고 수정 파일 0건.
+
+---
+
+## ServiceNow 플러그인 제외 — 제품 쪽만 받고 문서 11파일을 버렸다
+
+**upstream**: [`07b79a10`](https://github.com/mattermost/mattermost/commit/07b79a1087cdcf654ffa335f29a3394feb318a2a)
+(Deprecate ServiceNow plugin: remove from prepackaged plugins, onboarding, and docs, #39105) — 16파일 +10/-219, 2026-10-20 반영(사용자 결정 adapt)
+
+**받은 것.**
+- `server/Makefile`: `PLUGIN_PACKAGES += mattermost-plugin-servicenow-v2.4.0` 삭제. 충돌 — upstream 문맥은 playbooks v2.12.1이지만 우리 번들 버전(playbooks v2.11.1, agents v2.4.2, boards v9.3.0, msteams-meetings v2.4.1)은 그대로 두고 servicenow 줄만 지웠다.
+- `webapp/channels/src/components/preparing_workspace/plugins.tsx`·`steps.ts`: 설정 마법사 플러그인 단계의 ServiceNow 카드·옵션 삭제. 충돌 — 우리 카드의 tooltip defaultMessage가 upstream과 달라('ServiceNow tooltip') 문맥이 어긋났을 뿐, 블록 통째 삭제로 해소.
+- `webapp/channels/src/components/common/svg_images_components/servicenow_svg.tsx` 삭제.
+- webapp `en.json`: `onboarding_wizard.plugins.servicenow`·`.tooltip` 삭제.
+- **ko 정리(우리 추가분)**: `webapp/channels/src/i18n/ko.json`의 같은 두 키를 함께 삭제했다 — en에서만 지우면 orphaned가 되어 `i18n-check-empty`가 CI를 막는다. 지운 ko 값: "ServiceNow", "이 플러그인은 OKR.BEST와 ServiceNow 간의 통합을 제공합니다."(우리 리브랜드 문구).
+
+기존 설치에서 이미 켠 ServiceNow 플러그인은 그대로 남는다(번들 제외는 새 설치·설정 마법사에만 영향). 플러그인 저장소는 Apache-2.0·비보관(2026-10-20 확인)이라 라이선스 사유가 아니라 upstream의 제품 결정이다.
+
+**버린 것** — 제외한 `1d3bbc63`(docs/ 이관, 원칙 IV) 문서 사이트 계보라 전부 우리에게 없다.
+
+| 파일 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/integrations-guide/servicenow.mdx` | 파일 삭제(-153) | ServiceNow 연동 가이드 전체 | 해당 없음(문서 사이트 미수용) |
+| `docs/main/administration-guide/configure/plugins-configuration-settings.mdx` | -7 | 시스템 콘솔 플러그인 설정의 ServiceNow 항목 | 같음 |
+| `docs/main/administration-guide/onboard/migrate-from-slack.mdx` | 1줄 수정 | Slack Marketplace 앱 대체표의 예시 목록에서 ServiceNow 제거 | 같음 |
+| `docs/main/end-user-guide/collaborate/extend-mattermost-with-integrations.mdx`, `integrations-guide/popular-integrations.mdx`, `product-overview/cloud-supported-integrations.mdx` | 각 -1 | 연동 목록의 ServiceNow 줄 | 같음 |
+| `docs/main/index.mdx`, `integrations-guide/plugins.mdx`, `product-overview/plans.mdx` | 각 1줄 수정 | 사전 번들 연동 예시 문장에서 ServiceNow 링크를 빼고 Jenkins 등으로 교체 | 같음 |
+| `docs/site/scripts/gen-documentation-sidebar.mjs` | 사이드바 생성 목록에서 `'servicenow'` 제거 | 문서 사이드바 | 같음 |
+| `docs/site/sidebars/active-redirects.json` | `/integrations-guide/servicenow` → `/integrations-guide/popular-integrations` 리다이렉트 추가 | 옛 URL 보존 | 같음 |
+
+**검증.** 변경 파일 eslint 오류 0, `i18n-check-empty`의 orphaned 8건은 기존 기준선과 같고 servicenow 키 없음. `preparing_workspace` jest 18건 중 `invite_members` "should match snapshot when it is cloud" 1건 실패 — 변경 전 코드에서도 같은 실패(기준선).
