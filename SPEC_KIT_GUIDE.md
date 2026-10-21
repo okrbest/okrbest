@@ -324,9 +324,9 @@ sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플
 근거로 제시** (server: `make check-style` + `make test-server`, webapp:
 `npm run check` + `npm run check-types` + `npm run test`) ② webapp은 npm workspaces
 전용 ③ **실패를 본 테스트만 인정** ④ 라이선스·리브랜드 충실성
-(`spec-docs/rebrand.md`) ⑤ i18n `en.json`+`ko.json` 동기화 ⑥ 작업당 브랜치 +
-Conventional Commits + PR (rebase 전용) ⑦ Spec 주도 워크플로 — 구현 규율은 호출해야
-걸린다 ⑧ 명세 문서 언어와 문체.
+(`spec-docs/rebrand.md`) ⑤ i18n `en.json`+`ko.json` 동기화 ⑥ 작업당 브랜치(구현
+시작 전 생성) + Conventional Commits + PR (rebase 전용) ⑦ Spec 주도 워크플로 —
+구현 규율은 호출해야 걸린다 ⑧ 명세 문서 언어와 문체.
 전문: [constitution.md](.specify/memory/constitution.md)
 
 ---

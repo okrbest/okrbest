@@ -24,6 +24,11 @@ split and combined workflow. Project rules live in
 목록 diff**, 종단 판정은 quickstart.md 실주행과 SC-### 실측값. 증거가 없으면 완료가
 아니다 (원칙 I·III).
 
+**코드 변경은 작업 브랜치를 먼저 만들고 시작한다 (원칙 VI).** 버그 수정처럼 spec
+파이프라인을 타지 않는 작업도 같다 — systematic-debugging·TDD로 들어가기 전에
+브랜치부터 만든다. `master` 체크아웃 위에서 편집하지 않으며, 병합은 PR 경유
+rebase merge 전용이다.
+
 Upstream(mattermost/mattermost) 커밋 선별 반영은 `$speckit-sync`를 사용한다.
 미반영 목록(ledger)은 `docs/upstream-master-unmerged-commits.md`.
 
