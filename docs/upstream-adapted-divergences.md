@@ -3999,3 +3999,18 @@ sync와 분리해 별도 브랜치에서 TDD로 `PermanentDeleteByUser`를 추�
 
 **검증.** 2026-10-22. jest `admin_console/server_logs` 8 스위트 152건 통과, 변경 TS eslint 오류 0·SCSS stylelint 통과,
 `i18n-extract:check` 통과, `i18n-check-empty` ko orphaned 8(기존 그대로)·missing 84(새 키 80 추가).
+
+---
+
+## 다이얼로그 grid 배치·너비 지정 — 개발자 문서만 버렸다
+
+**upstream**: [`79e74485`](https://github.com/mattermost/mattermost/commit/79e7448565b46c272b18d18af2f9869d1c36423c)
+(Lay dialog elements out as a grid, and let a dialog pick its width, #39082) — 22파일 +2595/-18, 2026-10-22 반영(사용자 결정 adapt)
+
+**받은 것.** 문서 1개를 뺀 21파일 전부(model Dialog/DialogElement 필드·검증, `apps_form_grid`, apps_form·dialog_conversion·types 확장, SCSS, Cypress·jest·go 테스트).
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/develop/integrate/plugins/interactive-dialogs/index.md` | (+123) 다이얼로그 `size`(`small`·`medium`·`large`, 기본 small, 서버 12.1+) 설명과 "Dialog width" 절, collapsible의 `subtype: "grid"`(서버 12.1+) "Grid layout" 절 — 자식 컨테이너가 행·그 자식이 셀, 열 머리는 첫 행에서 가져오고 셀은 위치로 열에 맞춘다(행에서 요소를 빼면 뒤 요소가 왼쪽으로 밀림, 짧은 행은 오른쪽 채움, 긴 행은 표를 넓힘), 셀 이름은 grid 전체에서 유일해야 셀별 오류가 정확히 붙는다(`cell_<row>_<column>` 권장), 알 수 없는 subtype은 서버 로그에 남기고 세로 배치로 되돌아감 | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
