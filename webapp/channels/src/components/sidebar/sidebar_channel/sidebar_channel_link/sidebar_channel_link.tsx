@@ -80,6 +80,7 @@ type Props = WrappedComponentProps & {
 
     actions: {
         markMostRecentPostInChannelAsUnread: (channelId: string) => void;
+        closeLhs: () => void;
         clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
         multiSelectChannelAdd: (channelId: string) => void;
@@ -186,6 +187,10 @@ export class SidebarChannelLink extends React.PureComponent<Props, State> {
             this.props.actions.markMostRecentPostInChannelAsUnread(this.props.channel.id);
         } else {
             this.props.actions.clearChannelSelection();
+
+            // 모바일 햄버거(LHS)는 채널 ID 변경에만 반응해 닫히므로, 이미 열려
+            // 있는 채널을 다시 클릭한 경우에도 닫히도록 클릭 시점에 직접 닫는다.
+            this.props.actions.closeLhs();
         }
     };
 
