@@ -3978,3 +3978,24 @@ retrylayer·timerlayer는 충돌을 손으로 풀지 않고 `make store-layers`�
 
 **포크 쪽 남은 빈틈(별도 작업).** 포크 기능 알림 히스토리(d429d6f781 #167)의 `NotificationHistories`는 이 수정 뒤에도 지워지지 않는다(정리 잡도 없다).
 sync와 분리해 별도 브랜치에서 TDD로 `PermanentDeleteByUser`를 추가하기로 했다(사용자 결정).
+
+---
+
+## 시스템 콘솔 서버 로그 화면 재설계 — 문서만 버리고 ko orphan 18키를 정리했다
+
+**upstream**: [`82b042b9`](https://github.com/mattermost/mattermost/commit/82b042b9b2afbd2bcf59545ee2d99191d5b487ad)
+(Redesign and refactor system console logs view, #35569) — 33파일 +5609/-1479, 2026-10-22 반영(사용자 결정 adapt)
+
+**받은 것.** 문서 1개를 뺀 32파일 전부(로그 행 펼침 목록·평문 보기·형식 메뉴·키보드 안내·클립보드·폴링 훅, 기존 전체 로그 모달 제거, jest·Playwright).
+**우리 맞춤.** upstream이 webapp en.json에서 지운 18키(`admin.logs.*` 13개, `admin.server_logs.CopyLog`·`DataCopied`·`LogEvent`, `admin.log.Level`,
+`admin.channel_settings.channel_list.no_logs_found`)가 우리 ko.json에 모두 있어 그대로 두면 orphaned가 18개 늘어 `i18n-check-empty`가 CI를 막는다 — ko.json에서 같은 18키를 지웠다.
+새 키 80개의 ko 번역은 i18n 후속으로 넘긴다.
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/administration-guide/configure/reporting-configuration-settings.mdx` | 서버 로그 화면 설명을 새 UI에 맞춰 고침(5줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+
+**검증.** 2026-10-22. jest `admin_console/server_logs` 8 스위트 152건 통과, 변경 TS eslint 오류 0·SCSS stylelint 통과,
+`i18n-extract:check` 통과, `i18n-check-empty` ko orphaned 8(기존 그대로)·missing 84(새 키 80 추가).
