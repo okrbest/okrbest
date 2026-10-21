@@ -9,10 +9,11 @@ import type {ChannelType} from '@mattermost/types/channels';
 import SidebarChannelLink from 'components/sidebar/sidebar_channel/sidebar_channel_link/sidebar_channel_link';
 
 import mergeObjects from 'packages/mattermost-redux/test/merge_objects';
-import {renderWithContext, screen, userEvent, waitFor} from 'tests/react_testing_utils';
+import {fireEvent, renderWithContext, screen, userEvent, waitFor} from 'tests/react_testing_utils';
 
 const isDesktopAppMock = jest.mocked(isDesktopApp);
 jest.mock('@mattermost/shared/utils/user_agent', () => ({
+    ...jest.requireActual('@mattermost/shared/utils/user_agent'),
     isDesktopApp: jest.fn(),
 }));
 
@@ -56,6 +57,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
             multiSelectChannelTo: jest.fn(),
             clearChannelSelection: jest.fn(),
             openLhs: jest.fn(),
+            closeLhs: jest.fn(),
             unsetEditingPost: jest.fn(),
             closeRightHandSide: jest.fn(),
             fetchChannelRemotes: jest.fn(),
@@ -92,6 +94,34 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
             renderLink({isUnread: false, unreadMsgs: 0, unreadMentions: 0});
 
             expect(screen.queryByTestId('unreadMsgBadge')).not.toBeInTheDocument();
+        });
+    });
+
+    // 모바일 햄버거(LHS)는 채널 ID 변경에만 반응해 닫히므로, 같은 채널을
+    // 다시 클릭하면 닫히지 않는 버그가 있었다. 클릭 시점에 직접 닫는다.
+    describe('LHS close on channel click', () => {
+        test('일반 클릭이면 closeLhs를 호출한다', () => {
+            renderLink();
+
+            fireEvent.click(screen.getByRole('link'));
+
+            expect(baseProps.actions.closeLhs).toHaveBeenCalled();
+        });
+
+        test('Ctrl 다중 선택 클릭이면 closeLhs를 호출하지 않는다', () => {
+            renderLink();
+
+            fireEvent.click(screen.getByRole('link'), {ctrlKey: true});
+
+            expect(baseProps.actions.closeLhs).not.toHaveBeenCalled();
+        });
+
+        test('Shift 다중 선택 클릭이면 closeLhs를 호출하지 않는다', () => {
+            renderLink();
+
+            fireEvent.click(screen.getByRole('link'), {shiftKey: true});
+
+            expect(baseProps.actions.closeLhs).not.toHaveBeenCalled();
         });
     });
 

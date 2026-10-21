@@ -20,6 +20,7 @@ import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {markMostRecentPostInChannelAsUnread, unsetEditingPost} from 'actions/post_actions';
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
+import {close as closeLhs} from 'actions/views/lhs';
 import {closeRightHandSide} from 'actions/views/rhs';
 import {getFirstChannelName} from 'selectors/onboarding';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
@@ -100,6 +101,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators({
             markMostRecentPostInChannelAsUnread,
             unsetEditingPost,
+            closeLhs,
             clearChannelSelection,
             multiSelectChannelTo,
             multiSelectChannelAdd,
