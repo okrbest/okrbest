@@ -3,30 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-21 11:38
+- 갱신일: 2026-10-21 14:04
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 72개
+- 남은 커밋: 59개
 
-**마지막 반영 커밋:** `43648990` | [\[MM-71174\] Show the delete error from /secure-connection remove instead of NOT FOUND (#39156)](https://github.com/mattermost/mattermost/commit/43648990004451a8e2f7f65d097fb4e51befdf02) | 2026-10-14
+**마지막 반영 커밋:** `20aadca1` | [Fix flaky TestGetAdvancedLogs (#39198)](https://github.com/mattermost/mattermost/commit/20aadca11ac613d4fac33a3780c55a613a33570e) | 2026-10-15
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 668f1017 | [\[MM-71173\] Fix /secure-connection remove error handling and add tests (#39157)](https://github.com/mattermost/mattermost/commit/668f1017e2df5678cc0259c1a32c4d90c7443056) | 2026-10-15 |
-| 7536cfc5 | [Add Mobile v2.45 docs (#39101)](https://github.com/mattermost/mattermost/commit/7536cfc54cef5144a7d28caaccb886e34dc91e18) | 2026-10-15 |
-| d2949d56 | [Desktop App v6.2.4 and v6.3.1 dot release docs (#38533)](https://github.com/mattermost/mattermost/commit/d2949d567a6f557439871f6b48d96e97b87d116b) | 2026-10-15 |
-| abf088ca | [MM-70595: Enforce log path root behind a feature flag (#38634)](https://github.com/mattermost/mattermost/commit/abf088ca912c4b1f0969804596eb3820faf56f5a) | 2026-10-15 |
-| 57ebd8f5 | [E2E/Playwright: fix upgrade-to swap resolving the wrong image in workers (#39178)](https://github.com/mattermost/mattermost/commit/57ebd8f5316fb29f2032b8ed54d81f4c4d377515) | 2026-10-15 |
-| 97bb58ec | [Migrate radio settings to Compass Radio (#39039)](https://github.com/mattermost/mattermost/commit/97bb58ec75f6b99af68a37cb3698e24347dd645e) | 2026-10-15 |
-| fbc17416 | [Add PropertySyncer: shared AD/LDAP and SAML sync for text, select and multiselect user attributes (#38931)](https://github.com/mattermost/mattermost/commit/fbc1741663c1e3722c8c214ce420d043acc6c4a5) | 2026-10-15 |
-| aa1e25bd | [MM-70268: Time out stalled OpenSearch bulk indexing requests (#39151)](https://github.com/mattermost/mattermost/commit/aa1e25bd8f481545d2e602120cd4a120fb6cd93f) | 2026-10-15 |
-| 3f146efe | [\[MM-70867\] Pin post edit and delete handler reads to the master DB (#38714)](https://github.com/mattermost/mattermost/commit/3f146efe8387ac5f7dbf0bc39ab6031e273de65e) | 2026-10-15 |
-| e22b4b57 | [\[MM-71176\] Add unit tests for /secure-connection and /share-channel slash command handlers (#39158)](https://github.com/mattermost/mattermost/commit/e22b4b571dd5c9324b4d3688e9fae663b17b64e7) | 2026-10-15 |
-| 4b32c6f0 | [MM-70921: Fix rich text editor parity with posted messages (#38852)](https://github.com/mattermost/mattermost/commit/4b32c6f092d84602989d78a5eda768d2b1856c76) | 2026-10-15 |
-| b97dd5fe | [\[MM-71177\] Show translated errors from /secure-connection create instead of raw AppError text (#39160)](https://github.com/mattermost/mattermost/commit/b97dd5fecc299a513bd6ed6ed5eb84d5d892fd06) | 2026-10-15 |
-| 80e24d42 | [Fix English source strings and descriptions that translators flagged (#39204)](https://github.com/mattermost/mattermost/commit/80e24d42c7691124448016e92f069f93996465f9) | 2026-10-15 |
-| 5c246f54 | [Translate the new and corrected source strings into all locales (#38945)](https://github.com/mattermost/mattermost/commit/5c246f54fd761f99828c7320d2d74ce0b1f3b119) | 2026-10-15 |
-| 0d4385d1 | [Fix Brazilian Portuguese gaps and hardcoded English web labels (#39113)](https://github.com/mattermost/mattermost/commit/0d4385d1259da280837c6b6826c784bc03468284) | 2026-10-15 |
-| 20aadca1 | [Fix flaky TestGetAdvancedLogs (#39198)](https://github.com/mattermost/mattermost/commit/20aadca11ac613d4fac33a3780c55a613a33570e) | 2026-10-15 |
 | cce5b9d5 | [\[MM-71182\] Show translated errors from /secure-connection accept and status instead of raw error text (#39205)](https://github.com/mattermost/mattermost/commit/cce5b9d552d53b98b85279f9882dbdba6b11dc40) | 2026-10-16 |
 | e95c338e | [MM-71184: Offer Go's default TLS key exchange groups (#39202)](https://github.com/mattermost/mattermost/commit/e95c338ebbe0283fc83195c1828a2e4d1b974af2) | 2026-10-16 |
 | 4bea6b09 | [Move textbox preview toggles from Redux to component state (#39152)](https://github.com/mattermost/mattermost/commit/4bea6b09ee621888cd6db58d3e326a9955b5da66) | 2026-10-16 |
@@ -83,6 +67,9 @@
 | de9d77e4 | [\[MM-65788\] Make PermanentDeleteUser delete all of a user's data (#38773)](https://github.com/mattermost/mattermost/commit/de9d77e456ce61b1b6f2ab71758f1adea7121026) | 2026-10-20 |
 | 926f347b | [ Interactive dialogs: refresh parent on return, submit_buttons, action button descriptions (#39155)](https://github.com/mattermost/mattermost/commit/926f347bd52fb1e6c37a59644444a7bae7b68d24) | 2026-10-20 |
 | 4d716b67 | [fix(e2e): repair master flakes from the channel intro user limit and tour-tip pulse rings (#38986)](https://github.com/mattermost/mattermost/commit/4d716b67f91c6153a22689ad58b6b99b5d81507f) | 2026-10-21 |
+| d0d6f36d | [Docs: Increase interactive dialog title max length to 80 (#39278)](https://github.com/mattermost/mattermost/commit/d0d6f36df142ce980bc55b30a794e6066cdca793) | 2026-10-20 |
+| 459a3af4 | [Docs: Clarify validated TLS and S3 configuration values (#39284)](https://github.com/mattermost/mattermost/commit/459a3af42be8f2681aec07d2f8b2c79c630b547b) | 2026-10-20 |
+| 578fbba5 | [Docs: Remove obsolete v12 config settings (#39276)](https://github.com/mattermost/mattermost/commit/578fbba586ce01f3439882eefb236c6dab34a8cc) | 2026-10-20 |
 
 ## 제외된 커밋
 
@@ -764,6 +751,18 @@
 | 4f932a45 | [fix(docs-ai): draft pages when the source PR has no milestone (#39126)](https://github.com/mattermost/mattermost/commit/4f932a451950a51f7bf6c69ff4aaf6fc19171299) | 제외한 5427f6b0(docs writer, #38764)의 후속 수정이라 대상이 없다 — 6파일(.github/scripts/docs-ai/README.md·writer/author-loop.mjs·files.mjs·run.mjs·writer.test.mjs, .github/workflows/docs-writer-merged-pr.yml)이 전부 우리 트리에 없다(실측). 내용은 원본 PR에 마일스톤이 없을 때 docs writer가 중단하지 않고 버전 앵커를 편집자 판단으로 남긴 채 초안을 쓰게 하는 것으로, 제외한 docs 자동화 계보(3a1f5f0d·27c501d2·5427f6b0)와 1d3bbc63(docs/ 이관) 위에 있다. 27c501d2·5427f6b0 제외 사유에 예고한 대로 같은 근거. |
 
 | e2e0c6f3 | [MM-70825: Allow channel-attribute targets for "has any of" / "has all of" on graph attributes (#38816)](https://github.com/mattermost/mattermost/commit/e2e0c6f3cde8d0c8a70752c2484765a70f93c3cf) | 제외한 graph 속성 계보(9ef79330 #37851·85372e3a #38481·d283cc63)와 사용자↔채널 속성 비교 계보(c3a5a087 #37755) 위의 ABAC 표 편집기 수정이라 대상 코드가 없다 — graph 사용자 속성의 has any of/has all of에 채널 속성(resource.attributes.*) 대상을 허용하도록 operatorSupportsChannelTarget에서 속성 타입 인자를 빼는 것인데, 우리 access_control/editors/shared.tsx·table_editor/table_editor.tsx에 isGraphOperator·operatorSupportsChannelTarget·targetAttribute·resource.attributes가 모두 0건이다(실측). table_editor_graph.test.tsx(9ef79330 생성)는 modify/delete. 섞인 e2e 변경(autotranslation.spec.ts·autotranslation_ui.spec.ts 영어 단언 → 프랑스어 8줄씩)은 같은 테스트 주석과 모순되는 실수이고 다음 upstream 커밋 668f1017(#39157)이 정확히 되돌려 순변화 0이다(autotranslation_ui.spec.ts는 제외한 b052f346 생성이라 우리에게 없음). 재검토 조건: graph 속성 계보를 들일 때. |
+
+| 7536cfc5 | [Add Mobile v2.45 docs (#39101)](https://github.com/mattermost/mattermost/commit/7536cfc54cef5144a7d28caaccb886e34dc91e18) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV) 계보의 문서 6파일(docs/main/administration-guide/upgrade/important-upgrade-notes.mdx·open-source-components.mdx, docs/main/deployment-guide/software-hardware-requirements.mdx, docs/main/product-overview/deprecated-features.mdx·mattermost-mobile-releases.mdx·mobile-app-changelog.mdx)이 전부 우리 트리에 없다(실측). 내용은 Mattermost 모바일 앱 v2.45 변경 기록·릴리스 표·최소 사양(iOS 18/Android 11)·업그레이드 주의사항이다. open-source-components.mdx의 NOTICE 1줄은 모바일 앱 저장소 NOTICE로 가는 문서 링크라 우리 NOTICE.txt·copyright 변경(원칙 IV 반영 대상)이 아니다. |
+
+| d2949d56 | [Desktop App v6.2.4 and v6.3.1 dot release docs (#38533)](https://github.com/mattermost/mattermost/commit/d2949d567a6f557439871f6b48d96e97b87d116b) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV) 계보의 문서 4파일(docs/main/deployment-guide/desktop/desktop-msi-installer-and-group-policy-install.mdx·linux-desktop-install.mdx, docs/main/product-overview/desktop-app-changelog.mdx·mattermost-desktop-releases.mdx)이 전부 우리 트리에 없다(실측). 내용은 Mattermost 데스크톱 앱 v6.2.4·v6.3.1 점 릴리스의 다운로드·SBOM 링크와 설치 안내 버전 참조 갱신이라 받을 실체가 없다. |
+
+| 57ebd8f5 | [E2E/Playwright: fix upgrade-to swap resolving the wrong image in workers (#39178)](https://github.com/mattermost/mattermost/commit/57ebd8f5316fb29f2032b8ed54d81f4c4d377515) | 제외한 fe9a36e8(E2E/Playwright 롤링 업그레이드 테스트, #38367)의 하네스 후속 수정이라 대상이 없다 — upgrade-to/swap-to 단계 판정을 worker 프로세스에서도 맞게 하려 isUpgrade*ProjectSelected를 환경 변수 인지형 isUpgrade*ProjectActive로 바꾸는 것(4파일 +47/-11). upgrade_env.ts는 fe9a36e8이 만든 파일이라 우리에게 없고(modify/delete), 나머지 lib 3파일(containers/mattermost_container.ts·stack.ts, test_config.ts)도 우리 판에는 upgrade_env import와 upgrade·swap 분기가 0건이라 바꿀 호출부가 없다(실측, 충돌 3건의 원인). 제품 코드 영향 없음. 재검토 조건: 업그레이드 하네스를 들일 때. |
+
+| 97bb58ec | [Migrate radio settings to Compass Radio (#39039)](https://github.com/mattermost/mattermost/commit/97bb58ec75f6b99af68a37cb3698e24347dd645e) | 제외한 @mattermost/compass-ui 도입 계보(70658e18 #38153 — 2026-10-18 사용자 결정: npm·원본 저장소 모두 license 필드·LICENSE 없음(원칙 IV), 해당 UI는 spec 014로 Slack식 자체 개편; 후속 922a900b·7532e0ba·2b64fd09도 제외) 위의 이관이라 받지 않는다. 내용은 시스템 콘솔 RadioSetting·BooleanSetting·RadioButtonGroup, 계정 설정(테마·표시·알림·사이드바·고급), 플러그인 RadioOption의 네이티브 라디오를 @mattermost/compass-ui/components/radio로 바꾸고 Bootstrap .radio 래퍼·패딩을 정리하는 것(74파일 +9235/-4394, 대부분 스냅샷). 핵심이 compass-ui Radio import라 패키지 없이 adapt하면 변경의 의미가 사라진다. 실측: 우리 package.json·lock에 compass-ui 0건, 소스 참조는 call_button.tsx의 미배포 주석뿐. CONFLICT 9건(package.json·lock, 우리에게 없는 delivery_tracking_section·wysiwyg_editor_section·plugins/settings_schema/controls/radio·테스트, 모달 스냅샷 2, radio_option.tsx). 재검토 조건: compass-ui 라이선스가 확인돼 도입을 다시 결정할 때(후속 b11aeee7 Compass 포커스 테두리도 같은 계보). |
+
+| fbc17416 | [Add PropertySyncer: shared AD/LDAP and SAML sync for text, select and multiselect user attributes (#38931)](https://github.com/mattermost/mattermost/commit/fbc1741663c1e3722c8c214ce420d043acc6c4a5) | 제외한 property 시스템 v2 계보(9f1fe90b Migrate CPA to the v2 Property System #36180 → 38b66d22 Global Attributes·c3a5a087·e86491ad·e8632bd4 등) 위의 신규 대형 기능이라 반영할 토대가 없다. 내용은 AD/LDAP·SAML 사용자 속성 동기화 공용 엔진 PropertySyncer(text·select·multiselect, 옵션 이름 대응·낙관적 동시성으로 옵션 생성·미참조 옵션 정리), PropertyFieldType.SupportsExternalSync·sync 출처 상수, UpdatePropertyFieldsOpts.ExpectedUpdateAts, 동기화 필드 옵션 잠금, PropertyValueStore.GetReferencedOptionIDs와 DB 마이그레이션 000235_create_property_values_groupid_fieldid_index(85파일 +3654/-533, spec 기준 초과). 실측: 핵심 파일 property_field_attrs_validation.go·access_control_attribute_validation.go(9f1fe90b 생성) 포함 21파일이 우리 트리에 없고 HEAD 기준 CONFLICT 52건. 호출부는 enterprise LDAP·SAML 패키지. 마이그레이션 000235는 우리 쪽 빈 번호로 남는다(000230과 같은 처리). 재검토 조건: property 시스템 v2를 들이기로 할 때. |
+
+| 4b32c6f0 | [MM-70921: Fix rich text editor parity with posted messages (#38852)](https://github.com/mattermost/mattermost/commit/4b32c6f092d84602989d78a5eda768d2b1856c76) | 제외한 TipTap WYSIWYG 작성기 0fa2713b(MM-67755, #36143 — 우리는 작성기를 Lexical로 자체 구현, 2026-09-17 사용자 결정) 계보의 게시 메시지 일치 수정이라 고칠 대상이 없다. 22파일 +1582/-304 중 advanced_text_editor/wysiwyg_editor/ 16파일과 e2e wysiwyg_editor/autocomplete.spec.ts가 우리 트리에 없고(실측), advanced_text_editor.tsx 충돌도 @tiptap/react·WysiwygEditor 문맥이다. 편집기 밖 4파일도 반영하지 않는다 — (1) thread_list.tsx의 contenteditable 포커스 시 ↑/↓ 스레드 이동 차단은 우리가 Lexical 답글창용으로 이미 넣었다(충돌 원인). (2) utils.tsx 테마 CSS pre:not(.hljs)와 (3) _markdown.scss .WysiwygEditor는 TipTap 요소를 겨냥해 우리에게 효과가 없다(우리 코드 블록은 pre 안의 div.hljs, code_block.tsx). (4) utils/paste.tsx isKnownTargetForPaste의 contenteditable 가드는 우리 Lexical ContentEditable도 id(post_textbox 등)를 받아 document pasteHandler가 Lexical에서도 도는 현재 동작을 바꾸는 변경이라, Lexical 붙여넣기(표·HTML 링크·GitHub 코드 블록)와 MarkdownPastePlugin 중복 처리 여부를 따로 확인한 뒤 결정할 대상으로 남긴다. |
 
 ## spec 전환 커밋
 
