@@ -3,27 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-20 20:40
+- 갱신일: 2026-10-21 11:38
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 76개
+- 남은 커밋: 72개
 
-**마지막 반영 커밋:** `c205c6c6` | [Expose EnableFileSearch in the System Console and hide file search UI when disabled (#39059)](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98) | 2026-10-13
+**마지막 반영 커밋:** `43648990` | [\[MM-71174\] Show the delete error from /secure-connection remove instead of NOT FOUND (#39156)](https://github.com/mattermost/mattermost/commit/43648990004451a8e2f7f65d097fb4e51befdf02) | 2026-10-14
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 83806a3f | [Point localization docs at the AI translation pipeline. (#38968)](https://github.com/mattermost/mattermost/commit/83806a3f73a8672601bd0491c4b4ab658bf056da) | 2026-10-14 |
-| 85b6fc1a | [\[MM-71079\] Health Dashboard PR28: System Console page (read-only) (#38943)](https://github.com/mattermost/mattermost/commit/85b6fc1ac751261a3c9e3c6ba21072a00e80160f) | 2026-10-14 |
-| b145b936 | [\[MM-71107\] Health Dashboard PR29: mute UI and muted-findings list (#39064)](https://github.com/mattermost/mattermost/commit/b145b9369b5e1136400f3d43785c4409ae4b7e43) | 2026-10-14 |
-| 86b88d6f | [\[MM-71110\] Health Dashboard PR30: show Site health or Workspace Optimization, never both (#39076)](https://github.com/mattermost/mattermost/commit/86b88d6f2532aedc18085af23273bdc32adb085c) | 2026-10-14 |
-| e219f6ed | [Update latest minor version to 12.1.0 (#39135)](https://github.com/mattermost/mattermost/commit/e219f6edf1b1783d0bd5f7eca56203817b0f7cf1) | 2026-10-14 |
-| f59fe7f9 | [Add ElasticsearchSettings.EnableFileIndexing to disable file indexing (#39058)](https://github.com/mattermost/mattermost/commit/f59fe7f939e4ef88b4e14fb1511c8aecd623f58e) | 2026-10-14 |
-| a25d89cb | [drip: AppError -> error: custom status emoji (#39133)](https://github.com/mattermost/mattermost/commit/a25d89cb0e3a4ff6b1275874c641b0e3aa51a24a) | 2026-10-14 |
-| 43b5abce | [Fix English typos and grammar in server source strings (#39144)](https://github.com/mattermost/mattermost/commit/43b5abce4e03e89a054e54f95f4634e25409686d) | 2026-10-14 |
-| 8ebb3781 | [Rename misspelled message ids across code and all locale catalogs (#39145)](https://github.com/mattermost/mattermost/commit/8ebb3781be0cb424ed191c0a676c9de7d99c0296) | 2026-10-14 |
-| 4f932a45 | [fix(docs-ai): draft pages when the source PR has no milestone (#39126)](https://github.com/mattermost/mattermost/commit/4f932a451950a51f7bf6c69ff4aaf6fc19171299) | 2026-10-14 |
-| e2e0c6f3 | [MM-70825: Allow channel-attribute targets for "has any of" / "has all of" on graph attributes (#38816)](https://github.com/mattermost/mattermost/commit/e2e0c6f3cde8d0c8a70752c2484765a70f93c3cf) | 2026-10-14 |
-| 52a346d9 | [Localize the result word in the secure-connection remove response (#39146)](https://github.com/mattermost/mattermost/commit/52a346d9b7c2742e94bc478953f44c14923a75de) | 2026-10-14 |
-| 43648990 | [\[MM-71174\] Show the delete error from /secure-connection remove instead of NOT FOUND (#39156)](https://github.com/mattermost/mattermost/commit/43648990004451a8e2f7f65d097fb4e51befdf02) | 2026-10-14 |
 | 668f1017 | [\[MM-71173\] Fix /secure-connection remove error handling and add tests (#39157)](https://github.com/mattermost/mattermost/commit/668f1017e2df5678cc0259c1a32c4d90c7443056) | 2026-10-15 |
 | 7536cfc5 | [Add Mobile v2.45 docs (#39101)](https://github.com/mattermost/mattermost/commit/7536cfc54cef5144a7d28caaccb886e34dc91e18) | 2026-10-15 |
 | d2949d56 | [Desktop App v6.2.4 and v6.3.1 dot release docs (#38533)](https://github.com/mattermost/mattermost/commit/d2949d567a6f557439871f6b48d96e97b87d116b) | 2026-10-15 |
@@ -87,6 +74,15 @@
 | 05aa23fc | [Skip flaky TestGenerateFlaggedPostReportAttachmentsOmittedAudit (#39274)](https://github.com/mattermost/mattermost/commit/05aa23fcaed0c5d1ad1937bed3ab8ecf35c55950) | 2026-10-20 |
 | 47725455 | [Bumping prepackaged Dataminr plugin version to v3.0.0 (#39291)](https://github.com/mattermost/mattermost/commit/4772545518ff6feceec349824142e944f57647be) | 2026-10-20 |
 | be207f89 | [Stop forcing SizeAwareImage containers to display:block (#39216)](https://github.com/mattermost/mattermost/commit/be207f89725df343da628e859d1ef25acde02fbc) | 2026-10-20 |
+| b0ddc5a1 | [Add Conflicts Babysit workflow to dispatch conflicting PRs to a Cursor agent (#39272)](https://github.com/mattermost/mattermost/commit/b0ddc5a13a62afe63781a29ad3d410179d24699c) | 2026-10-20 |
+| 5f4342d7 | [drip: AppError -> error: delivery tracking config (#39285)](https://github.com/mattermost/mattermost/commit/5f4342d7f8303c425a5787dc568381a6549b0233) | 2026-10-20 |
+| 491e853f | [Monthly maintenance (2026-10): Update server dependencies (#39220)](https://github.com/mattermost/mattermost/commit/491e853f7b6495c065ec2745702c5d0f6509b553) | 2026-10-20 |
+| f292f95d | [ci(docs-preview): avoid spurious failures from superseded runs (#39123)](https://github.com/mattermost/mattermost/commit/f292f95d5afa792d7b9f71e4b47d92bc0d139770) | 2026-10-20 |
+| a0ce1806 | [Apply the current team theme on backstage pages (#38804)](https://github.com/mattermost/mattermost/commit/a0ce180676836506459cf2ff301535c357285d51) | 2026-10-20 |
+| 46ed1184 | [Stricter i18n catalog checkers (#39275)](https://github.com/mattermost/mattermost/commit/46ed11842ed7bf81a1e6e7679bc0959b3c2a7d87) | 2026-10-20 |
+| de9d77e4 | [\[MM-65788\] Make PermanentDeleteUser delete all of a user's data (#38773)](https://github.com/mattermost/mattermost/commit/de9d77e456ce61b1b6f2ab71758f1adea7121026) | 2026-10-20 |
+| 926f347b | [ Interactive dialogs: refresh parent on return, submit_buttons, action button descriptions (#39155)](https://github.com/mattermost/mattermost/commit/926f347bd52fb1e6c37a59644444a7bae7b68d24) | 2026-10-20 |
+| 4d716b67 | [fix(e2e): repair master flakes from the channel intro user limit and tour-tip pulse rings (#38986)](https://github.com/mattermost/mattermost/commit/4d716b67f91c6153a22689ad58b6b99b5d81507f) | 2026-10-21 |
 
 ## 제외된 커밋
 
@@ -762,6 +758,12 @@
 | f434bd9d | [docs: ship offline documentation in the release tarball (#38957)](https://github.com/mattermost/mattermost/commit/f434bd9da65ff1af2eae845d9f872a064229a915) | 문서 사이트(Docusaurus) 빌드를 릴리스 tarball의 client/_documentation에 넣고 서버가 /_documentation으로 제공하며 mattermost docs CLI를 추가하는 기능이다(7파일 +752/-7: docs/scripts/build-offline-bundle.py·README, server/build/release.mk의 DOCS_BUNDLE 풀기, channels/web/docs.go·테스트, cmd/mattermost/commands/docs.go, web/static.go의 setStaticSecurityHeaders 추출·라우트). 담을 내용물이 우리가 제외한 1d3bbc63(docs/ 이관, 리브랜드 충실성 원칙 IV) 문서 사이트라 DOCS_BUNDLE이 항상 비어 제공할 문서가 없고, 넣는다 해도 OKR.BEST 배포물에 Mattermost 브랜드 설치 가이드를 싣게 된다. 받으면 빈 /_documentation 경로와 CLI만 늘어난다. static.go 보안 헤더 추출은 동작 동일한 정리라 단독 가치가 작다. |
 
 | bf379803 | [docs: replace animated GIF docs with H.264 Video (#39009)](https://github.com/mattermost/mattermost/commit/bf379803cf30063aa068d607cfae879b5d7dedc9) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. 문서 사이트의 애니메이션 GIF를 H.264 동영상으로 교체하고 mdx 참조를 고친다(160파일 +303/-64, 전부 docs/ 아래). 파일 전부 우리 트리에 없다. |
+
+| 83806a3f | [Point localization docs at the AI translation pipeline. (#38968)](https://github.com/mattermost/mattermost/commit/83806a3f73a8672601bd0491c4b4ab658bf056da) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV) 계보의 문서 3파일(docs/develop/contribute/more-info/getting-started/contributions-without-ticket.md, docs/develop/contribute/why-contribute/index.md, docs/main/product-overview/deprecated-features.mdx)이 전부 우리 트리에 없다(실측 modify/delete). 내용은 기여자 안내를 Weblate에서 Mattermost 핸드북 localization 페이지로 돌리는 링크 정리라 받을 실체가 없다. |
+
+| 4f932a45 | [fix(docs-ai): draft pages when the source PR has no milestone (#39126)](https://github.com/mattermost/mattermost/commit/4f932a451950a51f7bf6c69ff4aaf6fc19171299) | 제외한 5427f6b0(docs writer, #38764)의 후속 수정이라 대상이 없다 — 6파일(.github/scripts/docs-ai/README.md·writer/author-loop.mjs·files.mjs·run.mjs·writer.test.mjs, .github/workflows/docs-writer-merged-pr.yml)이 전부 우리 트리에 없다(실측). 내용은 원본 PR에 마일스톤이 없을 때 docs writer가 중단하지 않고 버전 앵커를 편집자 판단으로 남긴 채 초안을 쓰게 하는 것으로, 제외한 docs 자동화 계보(3a1f5f0d·27c501d2·5427f6b0)와 1d3bbc63(docs/ 이관) 위에 있다. 27c501d2·5427f6b0 제외 사유에 예고한 대로 같은 근거. |
+
+| e2e0c6f3 | [MM-70825: Allow channel-attribute targets for "has any of" / "has all of" on graph attributes (#38816)](https://github.com/mattermost/mattermost/commit/e2e0c6f3cde8d0c8a70752c2484765a70f93c3cf) | 제외한 graph 속성 계보(9ef79330 #37851·85372e3a #38481·d283cc63)와 사용자↔채널 속성 비교 계보(c3a5a087 #37755) 위의 ABAC 표 편집기 수정이라 대상 코드가 없다 — graph 사용자 속성의 has any of/has all of에 채널 속성(resource.attributes.*) 대상을 허용하도록 operatorSupportsChannelTarget에서 속성 타입 인자를 빼는 것인데, 우리 access_control/editors/shared.tsx·table_editor/table_editor.tsx에 isGraphOperator·operatorSupportsChannelTarget·targetAttribute·resource.attributes가 모두 0건이다(실측). table_editor_graph.test.tsx(9ef79330 생성)는 modify/delete. 섞인 e2e 변경(autotranslation.spec.ts·autotranslation_ui.spec.ts 영어 단언 → 프랑스어 8줄씩)은 같은 테스트 주석과 모순되는 실수이고 다음 upstream 커밋 668f1017(#39157)이 정확히 되돌려 순변화 0이다(autotranslation_ui.spec.ts는 제외한 b052f346 생성이라 우리에게 없음). 재검토 조건: graph 속성 계보를 들일 때. |
 
 ## spec 전환 커밋
 
