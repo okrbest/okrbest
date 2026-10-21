@@ -728,6 +728,7 @@
         "EnableMFIPluginSignaturePublicKey": false,
         "RecurringScheduledPosts": false,
         "EnforceLogPathRoot": false,
-        "HealthDashboard": false
+        "HealthDashboard": false,
+        "EnableBrotliCompression": false
     }
 }

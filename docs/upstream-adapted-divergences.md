@@ -4014,3 +4014,23 @@ sync와 분리해 별도 브랜치에서 TDD로 `PermanentDeleteByUser`를 추�
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
 | `docs/develop/integrate/plugins/interactive-dialogs/index.md` | (+123) 다이얼로그 `size`(`small`·`medium`·`large`, 기본 small, 서버 12.1+) 설명과 "Dialog width" 절, collapsible의 `subtype: "grid"`(서버 12.1+) "Grid layout" 절 — 자식 컨테이너가 행·그 자식이 셀, 열 머리는 첫 행에서 가져오고 셀은 위치로 열에 맞춘다(행에서 요소를 빼면 뒤 요소가 왼쪽으로 밀림, 짧은 행은 오른쪽 채움, 긴 행은 표를 넓힘), 셀 이름은 grid 전체에서 유일해야 셀별 오류가 정확히 붙는다(`cell_<row>_<column>` 권장), 알 수 없는 subtype은 서버 로그에 남기고 세로 배치로 되돌아감 | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+
+---
+
+## Brotli 응답 압축 — e2e 플래그 목록과 OpenID 속성 동기화 플래그는 버렸다
+
+**upstream**: [`269bdfd0`](https://github.com/mattermost/mattermost/commit/269bdfd0f00d38fcbdd271a88e874862aece4854)
+(Add Brotli response compression behind a new webserver mode, #38637) — 25파일 +1388/-51, 2026-10-22 반영(사용자 결정 adapt)
+
+**받은 것.** 24파일. `api4/brotli.go`·`compression.go`(Brotli 협상, 미지원 클라이언트는 gzip), `ServiceSettings.CompressResponses()`·`CompressResponsesWithBrotli()` 도우미,
+feature flag `EnableBrotliCompression`(기본 false — 기본 동작 변화 없음), 새 의존성 `github.com/molecule-man/go-brrr` v1.3.0(MIT)과 `NOTICE.txt` 고지(원칙 IV),
+FIPS 비밀번호 길이 테스트 수정, 테스트·벤치마크.
+**우리 맞춤.** `model/feature_flags.go` 충돌 구간에서 `EnableBrotliCompression`만 넣고 같은 구간의 `OpenIdAttributeSync`(필드·기본값 true)는 넣지 않았다 —
+`85b7d85b`(#38939 OIDC 속성 동기화)를 제외했기 때문. `support_packet/sanitized_config.json` 테스트 데이터도 우리 플래그 목록 끝에 `EnableBrotliCompression`만 추가했다.
+
+**버린 것.**
+
+| 대상 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `e2e-tests/playwright/lib/src/server/default_feature_flags.ts` | e2e 기본 플래그 목록에 `EnableBrotliCompression` 1줄 | 제외한 `5dec0b82`(Playwright 리셋 개편) 계보 파일이라 우리에게 없다(modify/delete) | `5dec0b82` 계보를 반영할 때 |
+| `model/feature_flags.go`·`sanitized_config.json`의 `OpenIdAttributeSync` | 충돌 문맥에 딸린 OIDC 속성 동기화 kill switch | 제외한 `85b7d85b`(#38939)의 플래그 | `85b7d85b`를 반영할 때 |
