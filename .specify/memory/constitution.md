@@ -1,20 +1,23 @@
 <!--
 Sync Impact Report
-- Version change: 1.3.0 → 1.3.1 (PATCH — 원칙 VI 문구 명확화, 의미 변경 없음)
+- Version change: 1.3.0 → 1.4.0 (MINOR — 원칙 VI 실질 확장: 브랜치 선행 생성 신설 + 병합 방식 문구 명확화)
 - Modified principles:
-  - VI. 집중 브랜치 + Conventional Commits + PR — sync 예외 문단에만 있던 병합 방식
-    (rebase merge 한정, squash·merge commit 금지)을 일반 조항으로 승격. 저장소 병합
-    설정(merge commit·squash 비활성)과 SPEC_KIT_GUIDE 요약("rebase 전용")은 이미
-    전체 PR에 rebase만 적용하고 있었으므로 실질 규칙 변경이 아니라 정본 문구 명확화다.
-    예외 문단에는 sync 특유의 근거(`Upstream:` 참조 소실 방지)만 남긴다
+  - VI. 집중 브랜치 + Conventional Commits + PR — 두 가지를 바꾼다.
+    (1) 병합 방식(rebase merge 한정, squash·merge commit 금지)을 sync 예외 문단에서
+        일반 조항으로 승격. 저장소 병합 설정(merge commit·squash 비활성)과
+        SPEC_KIT_GUIDE 요약("rebase 전용")이 이미 전체 PR에 적용하고 있었으므로
+        문구 명확화에 해당한다.
+    (2) "브랜치는 구현 시작 전에 만든다"를 신설. 기존 문면은 커밋 시점만 규제해서,
+        master 체크아웃 위에서 편집하다 커밋 직전에 브랜치를 만드는 패턴이 합법이었다.
+        spec 파이프라인을 타지 않는 버그 수정 경로에서 실제로 재현된 간극을 봉합한다
+        (실질 확장 — MINOR).
 - Added sections: 없음
 - Removed sections: 없음
-- 이전 개정(1.2.0 → 1.3.0)에서 변경된 원칙:
-  - VIII 신설(문체 정본), I·III 증거 요구형 확장, VII 사실 정정
 - Templates requiring updates:
-  - ✅ SPEC_KIT_GUIDE.md ("(rebase 전용)" 요약 — 이미 일치, 수정 불필요)
-  - ✅ CLAUDE.md / AGENTS.md / .cursor/rules/okrbest-workflow.mdc (병합 방식 언급 없음, 수정 불필요)
-  - ✅ .specify/templates/* (병합 방식 언급 없음, 수정 불필요)
+  - ✅ CLAUDE.md / AGENTS.md (Workflow 절에 압축본 추가 — 이번 개정에서 반영)
+  - ✅ .cursor/rules/okrbest-workflow.mdc (구현 규율 절에 압축본 추가 — 이번 개정에서 반영)
+  - ✅ SPEC_KIT_GUIDE.md (constitution 요약 ⑥ 갱신 — 이번 개정에서 반영)
+  - ✅ .specify/templates/* (병합·브랜치 방식 언급 없음, 수정 불필요)
 - Follow-up TODOs: 없음
 - 배선 검사: bash .specify/scripts/bash/check-workflow-wiring.sh
 -->
@@ -110,6 +113,12 @@ npm이 유일한 패키지 매니저다 (`webapp/package.json` workspaces: `chan
 마이그레이션 디렉터리와 CI 설정은 CODEOWNERS 보호 경로(`@okrbest/okrbest`)이므로
 변경 시 신중히 검토한다.
 
+**브랜치는 구현 시작 전에 만든다.** 기준은 커밋 시점이 아니라 첫 파일 편집
+시점이다. 버그 수정처럼 spec 파이프라인을 타지 않는 작업도 같다 — `master`
+체크아웃 위에서 편집하다 커밋 직전에 브랜치를 만드는 패턴은 이 원칙 위반이다.
+준수 여부는 reflog로 확인할 수 있다: 구현이 진행된 구간의 HEAD는 작업 브랜치여야
+한다.
+
 예외: upstream 선별 반영 커밋(`Upstream:` 참조 포함)은 추적성 보존을 위해 원본
 커밋 제목을 유지할 수 있으며(Conventional Commits 접두사 면제), sync PR은 여러
 upstream 커밋을 묶을 수 있다. rebase merge 한정은 sync PR에서 특히 중요하다 —
@@ -198,4 +207,4 @@ PATCH: 문구 명확화). 모든 PR·리뷰는 원칙 준수를 확인해야 하
 위반이 아니게 되어 지켜지지 않는다. 원칙을 쓰거나 고칠 때 스스로 묻는다 — 이 원칙을
 어겼는지 무엇으로 확인하나? 답이 없으면 그 원칙은 장식이다.
 
-**Version**: 1.3.1 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-10-21
+**Version**: 1.4.0 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-10-21
