@@ -1,22 +1,20 @@
 <!--
 Sync Impact Report
-- Version change: 1.2.0 → 1.3.0 (MINOR — 원칙 VIII 신설, 원칙 I·III을 증거 요구형으로 확장, 원칙 VII 사실 정정)
+- Version change: 1.3.0 → 1.3.1 (PATCH — 원칙 VI 문구 명확화, 의미 변경 없음)
 - Modified principles:
-  - I. 패키지별 품질 게이트 — "통과해야 한다"에 게이트 출력 제시와 기준선 diff 판정을 추가
-  - III. 동작 변경 시 테스트 동반 — "테스트를 동반한다"를 "실패 출력을 남긴 뒤에만 완료로 표시한다"로 교체
-  - VII. Spec 주도 개발 워크플로 — "superpowers가 런타임에 집행한다"는 서술이 사실과 달라 정정.
-    훅은 using-superpowers만 주입하며 개별 규율은 speckit-implement가 호출한다
-- Added sections:
-  - VIII. 명세 문서 언어와 문체 (NEW) — 문체 규칙의 정본을 여기 한 곳에 둔다
+  - VI. 집중 브랜치 + Conventional Commits + PR — sync 예외 문단에만 있던 병합 방식
+    (rebase merge 한정, squash·merge commit 금지)을 일반 조항으로 승격. 저장소 병합
+    설정(merge commit·squash 비활성)과 SPEC_KIT_GUIDE 요약("rebase 전용")은 이미
+    전체 PR에 rebase만 적용하고 있었으므로 실질 규칙 변경이 아니라 정본 문구 명확화다.
+    예외 문단에는 sync 특유의 근거(`Upstream:` 참조 소실 방지)만 남긴다
+- Added sections: 없음
 - Removed sections: 없음
-- 이전 개정(1.1.0 → 1.2.0)에서 변경된 원칙:
-  - V. i18n 동기화 — sync 중 en.json만 변경된 경우 ko.json 반영을 보고 후 별도 작업으로 미루는 예외 추가
+- 이전 개정(1.2.0 → 1.3.0)에서 변경된 원칙:
+  - VIII 신설(문체 정본), I·III 증거 요구형 확장, VII 사실 정정
 - Templates requiring updates:
-  - ✅ .specify/templates/tasks-template.md (완료 검증 3종 고정 — 이번 개정에서 반영)
-  - ✅ .claude/.agents/.cursor의 speckit-implement SKILL.md (구현 규율 배선 — 이번 개정에서 반영)
-  - ✅ CLAUDE.md / AGENTS.md / .cursor/rules/okrbest-workflow.mdc (원칙 VII·VIII 참조 — 이번 개정에서 반영)
-  - ✅ .specify/templates/plan-template.md (Constitution Check — 범용 게이트, 수정 불필요)
-  - ✅ .specify/templates/spec-template.md (수정 불필요)
+  - ✅ SPEC_KIT_GUIDE.md ("(rebase 전용)" 요약 — 이미 일치, 수정 불필요)
+  - ✅ CLAUDE.md / AGENTS.md / .cursor/rules/okrbest-workflow.mdc (병합 방식 언급 없음, 수정 불필요)
+  - ✅ .specify/templates/* (병합 방식 언급 없음, 수정 불필요)
 - Follow-up TODOs: 없음
 - 배선 검사: bash .specify/scripts/bash/check-workflow-wiring.sh
 -->
@@ -103,16 +101,19 @@ npm이 유일한 패키지 매니저다 (`webapp/package.json` workspaces: `chan
 
 ### VI. 집중 브랜치 + Conventional Commits + PR
 
-`master` 직접 커밋 금지. 작업당 브랜치 1개, PR 경유 머지. 커밋 메시지는
-Conventional Commits 접두사(`feat:`, `fix:`, `docs:`, `refactor:`, `chore:`)를
-사용하며 본문은 한국어 허용(기존 관례). PR은 집중적·최소 범위로 유지하고 무관한
-리팩터·설정 변경을 섞지 않는다. DB 마이그레이션 디렉터리와 CI 설정은 CODEOWNERS
-보호 경로(`@okrbest/okrbest`)이므로 변경 시 신중히 검토한다.
+`master` 직접 커밋 금지. 작업당 브랜치 1개, PR 경유 머지. 병합은 커밋별
+제목·본문이 보존되는 **rebase merge로 한정한다** — squash·merge commit 금지.
+저장소 병합 설정이 rebase만 허용하도록 집행하며, 설정이 어긋나면 이 조항이
+기준이다. 커밋 메시지는 Conventional Commits 접두사(`feat:`, `fix:`, `docs:`,
+`refactor:`, `chore:`)를 사용하며 본문은 한국어 허용(기존 관례). PR은
+집중적·최소 범위로 유지하고 무관한 리팩터·설정 변경을 섞지 않는다. DB
+마이그레이션 디렉터리와 CI 설정은 CODEOWNERS 보호 경로(`@okrbest/okrbest`)이므로
+변경 시 신중히 검토한다.
 
 예외: upstream 선별 반영 커밋(`Upstream:` 참조 포함)은 추적성 보존을 위해 원본
 커밋 제목을 유지할 수 있으며(Conventional Commits 접두사 면제), sync PR은 여러
-upstream 커밋을 묶을 수 있다. 이때 병합은 커밋별 제목·본문이 보존되는 rebase
-merge로 한정한다(squash 금지 — `Upstream:` 참조 소실 방지).
+upstream 커밋을 묶을 수 있다. rebase merge 한정은 sync PR에서 특히 중요하다 —
+squash하면 커밋별 `Upstream:` 참조가 소실되어 반영 추적이 끊긴다.
 
 ### VII. Spec 주도 개발 워크플로
 
@@ -197,4 +198,4 @@ PATCH: 문구 명확화). 모든 PR·리뷰는 원칙 준수를 확인해야 하
 위반이 아니게 되어 지켜지지 않는다. 원칙을 쓰거나 고칠 때 스스로 묻는다 — 이 원칙을
 어겼는지 무엇으로 확인하나? 답이 없으면 그 원칙은 장식이다.
 
-**Version**: 1.3.0 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-08-10
+**Version**: 1.3.1 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-10-21
