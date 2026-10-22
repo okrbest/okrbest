@@ -3,34 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-22 14:42
+- 갱신일: 2026-10-22 16:26
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 37개
+- 남은 커밋: 19개
 
-**마지막 반영 커밋:** `9df98424` | [Render URL too long errors inline to stop the redirect loop (#38286)](https://github.com/mattermost/mattermost/commit/9df984246f2d4f39d4e9c3042570cb33ff11289d) | 2026-10-19
+**마지막 반영 커밋:** `578fbba5` | [Docs: Remove obsolete v12 config settings (#39276)](https://github.com/mattermost/mattermost/commit/578fbba586ce01f3439882eefb236c6dab34a8cc) | 2026-10-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| bbe3f718 | [\[MM-71216\] Apply incoming AcknowledgedAt when receiving synced acknowledgements (#39240)](https://github.com/mattermost/mattermost/commit/bbe3f71849bb293820a8519022245330c9270c97) | 2026-10-20 |
-| d430bb29 | [SEC-11251 Add Playwright subpath deployment E2E testing (#38833)](https://github.com/mattermost/mattermost/commit/d430bb294fbf949cdf7a0e968e5a5f34c9cba866) | 2026-10-20 |
-| 9b1c4fd5 | [\[MM-71057\] Health Dashboard PR18: rules for auth and identity (#38917)](https://github.com/mattermost/mattermost/commit/9b1c4fd558694ddc3bfb453bb979e00c66066f56) | 2026-10-20 |
-| 3cef243d | [\[MM-71188\] Fix slash command autocomplete splitting single and curly quoted values (#39235)](https://github.com/mattermost/mattermost/commit/3cef243d18161650029b35600ef521bbd8c77abc) | 2026-10-20 |
-| 5ab80bea | [\[MM-71255\] Deduplicate healthcheck rule helpers and add missing license gates (#39288)](https://github.com/mattermost/mattermost/commit/5ab80bea865ce2f4635ba419e7e83c134d5f2952) | 2026-10-20 |
-| 05aa23fc | [Skip flaky TestGenerateFlaggedPostReportAttachmentsOmittedAudit (#39274)](https://github.com/mattermost/mattermost/commit/05aa23fcaed0c5d1ad1937bed3ab8ecf35c55950) | 2026-10-20 |
-| 47725455 | [Bumping prepackaged Dataminr plugin version to v3.0.0 (#39291)](https://github.com/mattermost/mattermost/commit/4772545518ff6feceec349824142e944f57647be) | 2026-10-20 |
-| be207f89 | [Stop forcing SizeAwareImage containers to display:block (#39216)](https://github.com/mattermost/mattermost/commit/be207f89725df343da628e859d1ef25acde02fbc) | 2026-10-20 |
-| b0ddc5a1 | [Add Conflicts Babysit workflow to dispatch conflicting PRs to a Cursor agent (#39272)](https://github.com/mattermost/mattermost/commit/b0ddc5a13a62afe63781a29ad3d410179d24699c) | 2026-10-20 |
-| 5f4342d7 | [drip: AppError -> error: delivery tracking config (#39285)](https://github.com/mattermost/mattermost/commit/5f4342d7f8303c425a5787dc568381a6549b0233) | 2026-10-20 |
-| 491e853f | [Monthly maintenance (2026-10): Update server dependencies (#39220)](https://github.com/mattermost/mattermost/commit/491e853f7b6495c065ec2745702c5d0f6509b553) | 2026-10-20 |
-| f292f95d | [ci(docs-preview): avoid spurious failures from superseded runs (#39123)](https://github.com/mattermost/mattermost/commit/f292f95d5afa792d7b9f71e4b47d92bc0d139770) | 2026-10-20 |
-| a0ce1806 | [Apply the current team theme on backstage pages (#38804)](https://github.com/mattermost/mattermost/commit/a0ce180676836506459cf2ff301535c357285d51) | 2026-10-20 |
-| 46ed1184 | [Stricter i18n catalog checkers (#39275)](https://github.com/mattermost/mattermost/commit/46ed11842ed7bf81a1e6e7679bc0959b3c2a7d87) | 2026-10-20 |
-| de9d77e4 | [\[MM-65788\] Make PermanentDeleteUser delete all of a user's data (#38773)](https://github.com/mattermost/mattermost/commit/de9d77e456ce61b1b6f2ab71758f1adea7121026) | 2026-10-20 |
-| 926f347b | [ Interactive dialogs: refresh parent on return, submit_buttons, action button descriptions (#39155)](https://github.com/mattermost/mattermost/commit/926f347bd52fb1e6c37a59644444a7bae7b68d24) | 2026-10-20 |
 | 4d716b67 | [fix(e2e): repair master flakes from the channel intro user limit and tour-tip pulse rings (#38986)](https://github.com/mattermost/mattermost/commit/4d716b67f91c6153a22689ad58b6b99b5d81507f) | 2026-10-21 |
-| d0d6f36d | [Docs: Increase interactive dialog title max length to 80 (#39278)](https://github.com/mattermost/mattermost/commit/d0d6f36df142ce980bc55b30a794e6066cdca793) | 2026-10-20 |
-| 459a3af4 | [Docs: Clarify validated TLS and S3 configuration values (#39284)](https://github.com/mattermost/mattermost/commit/459a3af42be8f2681aec07d2f8b2c79c630b547b) | 2026-10-20 |
-| 578fbba5 | [Docs: Remove obsolete v12 config settings (#39276)](https://github.com/mattermost/mattermost/commit/578fbba586ce01f3439882eefb236c6dab34a8cc) | 2026-10-20 |
 | 346c94f0 | [Normalize changelog generator output, handle major-version rollover, and keep reviewer edits on reruns (#38478)](https://github.com/mattermost/mattermost/commit/346c94f0d621426beef4286a3612cf7e945f463e) | 2026-10-21 |
 | 82b042b9 | [Redesign and refactor system console logs view (#35569)](https://github.com/mattermost/mattermost/commit/82b042b9b2afbd2bcf59545ee2d99191d5b487ad) | 2026-10-21 |
 | 0cfb066f | [drip: AppError -> error: password migration (#39312)](https://github.com/mattermost/mattermost/commit/0cfb066fe4c4d59521a07dc81979a7b71198ea2d) | 2026-10-21 |
@@ -48,6 +29,7 @@
 | 269bdfd0 | [Add Brotli response compression behind a new webserver mode (#38637)](https://github.com/mattermost/mattermost/commit/269bdfd0f00d38fcbdd271a88e874862aece4854) | 2026-10-22 |
 | 9c92a61a | [Bump Go version to v1.26.10 (#39328)](https://github.com/mattermost/mattermost/commit/9c92a61a566a9647e2bd2ebb3277071072fa5510) | 2026-10-21 |
 | 5a5cbfc3 | [Point the help menu at bundled documentation (#39335)](https://github.com/mattermost/mattermost/commit/5a5cbfc306bb943ae8a6a9bb2f5cac85474d7189) | 2026-10-21 |
+| 8e9d552a | [Fix up unusable email settings and translate db command config errors (#39302)](https://github.com/mattermost/mattermost/commit/8e9d552aaeff187fb91b024f9d444ceccd643a75) | 2026-10-22 |
 
 ## 제외된 커밋
 
@@ -755,6 +737,24 @@
 | 03f584b7 | [test(e2e): add pw.ensureDemoPlugin fixture, dedupe demo plugin URL (#38918)](https://github.com/mattermost/mattermost/commit/03f584b735f8f778c0f69becfc8fbd39acce7b8d) | 제외한 5dec0b82(#39091 Playwright config·roles 리셋 개편, b052f346 fullyParallel 계보) 위의 e2e 인프라 정리 — lib index·server/index·test_fixture·demo_plugin helpers를 5dec0b82가 먼저 고쳐 25파일 중 lib 핵심과 데모 스펙 다수가 충돌하고 upgrade_fixtures.ts는 우리에게 없다. 제품 코드 무접촉, 우리 e2e는 PR 체크에서 돌지 않는다. 재검토: Playwright 격차 해소 시 5dec0b82 계보와 함께. |
 
 | c77a59ea | [Add dot release docs for server v11.11.2, v11.10.3 and v11.7.13 (ESR) (#39004)](https://github.com/mattermost/mattermost/commit/c77a59ea33f37ed26bb643d93fed32c0c45c1330) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. Mattermost server v11.11.2·v11.10.3·v11.7.13(ESR) 점 릴리스 문서 5파일(docs/main/ 설치 문서 다운로드 버전·릴리스 표·v11 changelog·version-archive) 모두 우리 트리에 없다. acf6e7bd(#39057)와 같은 사유. |
+
+| d430bb29 | [SEC-11251 Add Playwright subpath deployment E2E testing (#38833)](https://github.com/mattermost/mattermost/commit/d430bb294fbf949cdf7a0e968e5a5f34c9cba866) | 제외한 5dec0b82(#39091 Playwright config·roles 리셋 개편, b052f346 fullyParallel 계보) 위에 testcontainers subpath(nginx 프록시) 지원을 얹는 e2e 이관 — 66파일 중 lib 핵심 10개(stack·mattermost_container·test_config·test_fixture·index·server/index·browser_context·POM 2)·package-lock·CI 워크플로 3개(CODEOWNERS 보호 경로)가 충돌하고 제외한 Global Attributes 스펙 2개는 우리에게 없다. 제품 코드 무접촉, 우리 e2e는 PR 체크에서 돌지 않는다. 03f584b7(#38918)과 같은 사유. 재검토: Playwright 격차 해소 시 5dec0b82 계보와 함께. |
+
+| 47725455 | [Bumping prepackaged Dataminr plugin version to v3.0.0 (#39291)](https://github.com/mattermost/mattermost/commit/4772545518ff6feceec349824142e944f57647be) | 라이선스 미확인 플러그인의 메이저 업 — 원본 저장소 mattermost/mattermost-plugin-dataminr가 비공개(GitHub API 404·조직 검색 0건)라 LICENSE 원문을 확인할 수 없고, 배포 tarball(v2.0.0·v3.0.0)에도 플러그인 LICENSE가 없다(main.js.LICENSE.txt는 서드파티 JS 고지). 번들 플러그인 추가·메이저 업은 라이선스 확인 후 반영한다는 원칙(Legal Hold 2ba31db3·msteams-meetings b20499b5 제외와 같은 기준). v3.0.0은 min_server_version 12.0.0. 현재 번들 v2.0.0(a5b628c6c8 #38111, 점검 원칙 이전 반영)의 유지 여부는 msteams-meetings·channel-export와 함께 별도 결정 대기. 재검토: 라이선스가 확인되면. |
+
+| b0ddc5a1 | [Add Conflicts Babysit workflow to dispatch conflicting PRs to a Cursor agent (#39272)](https://github.com/mattermost/mattermost/commit/b0ddc5a13a62afe63781a29ad3d410179d24699c) | Mattermost 사내 Cursor 자동화 전용 CI — master push마다 AI/ConflictsBabysit 라벨의 충돌 PR을 사내 Cursor webhook(시크릿 CURSOR_CONFLICTS_WEBHOOK_URL·TOKEN)으로 보낸다. 우리에겐 webhook·시크릿·라벨이 없어 무동작 잡만 늘고 새 워크플로가 CODEOWNERS 보호 경로에 생긴다. 5ddd76ec·66894045·11b55b77(사내 Cursor 도구)과 같은 사유. |
+
+| 5f4342d7 | [drip: AppError -> error: delivery tracking config (#39285)](https://github.com/mattermost/mattermost/commit/5f4342d7f8303c425a5787dc568381a6549b0233) | 보류성 제외한 0019ecc5(#37882 게시물 전달 감사 Post Delivery Tracking)가 만든 파일만 고친다 — 3파일(api4/delivery_tracking.go·app/delivery_tracking_config.go·_test.go) 모두 우리에게 없다(modify/delete). SaveDeliveryTrackingConfig 반환형 AppError→error drip. 공용 도우미(model.AsAppError)는 b25056d4(#39171) adapt로 이미 받았다. 재검토: 0019ecc5 계보 반영 시 함께. |
+
+| f292f95d | [ci(docs-preview): avoid spurious failures from superseded runs (#39123)](https://github.com/mattermost/mattermost/commit/f292f95d5afa792d7b9f71e4b47d92bc0d139770) | 제외한 docs PR 미리보기 워크플로(33eb5b1a #37440·2d8a5f94 #37491, 문서 사이트 1d3bbc63 계보)의 후속 수정 — 3파일(.github/workflows/docs-preview*.yml) 모두 우리 트리에 없다(modify/delete). |
+
+| a0ce1806 | [Apply the current team theme on backstage pages (#38804)](https://github.com/mattermost/mattermost/commit/a0ce180676836506459cf2ff301535c357285d51) | 제외한 @mattermost/compass-ui(70658e18 #38153 — npm·원본 저장소 모두 라이선스 없음, 원칙 IV; 해당 UI는 spec 014로 자체 개편)에 의존한다 — delete_integration_link가 compass-ui SectionNotice, integrations가 compass-ui Illustration·일러스트 4종(bot-accounts·incoming/outgoing-webhook·slash-commands)을 import하고, 새 SVG 2개(oauth_applications_svg·outgoing_oauth_connections_svg)는 compass-ui illustrations/oauth.svg를 복사한 것이다. 그대로 받으면 jest·빌드가 'Cannot find module @mattermost/compass-ui'로 깨진다. 테마 부분(backstage 경로에서도 app__body 유지)만 떼면 SCSS가 새 카드 마크업을 전제해 레이아웃이 어긋날 수 있어 부분 반영도 하지 않는다. 잃는 것: 통합·커스텀 이모지 페이지가 사용자 테마를 따르는 개선(계속 밝은 팔레트). 우리 테마 복구 수정 aea9506346(useAppBodyClass [pathname])은 영향 없음. 재검토: compass-ui 라이선스가 붙거나 backstage 테마를 자체 구현(spec)할 때. |
+
+| d0d6f36d | [Docs: Increase interactive dialog title max length to 80 (#39278)](https://github.com/mattermost/mattermost/commit/d0d6f36df142ce980bc55b30a794e6066cdca793) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. docs/develop/.../interactive-dialogs/index.md의 다이얼로그 제목 최대 길이 80 표기 1줄(modify/delete). 기능 1eb3eb6cfc(#38140)는 이미 받았다. |
+
+| 459a3af4 | [Docs: Clarify validated TLS and S3 configuration values (#39284)](https://github.com/mattermost/mattermost/commit/459a3af42be8f2681aec07d2f8b2c79c630b547b) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. docs/main/administration-guide/configure/*.mdx 5개에 TLS·S3 설정값 허용 범위를 명시하는 문서 수정(modify/delete). |
+
+| 578fbba5 | [Docs: Remove obsolete v12 config settings (#39276)](https://github.com/mattermost/mattermost/commit/578fbba586ce01f3439882eefb236c6dab34a8cc) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. v12에서 없어진 설정을 docs/main/** 13파일에서 지우는 문서 정리(modify/delete). 코드 쪽 설정 제거 df010785c7(#37743)는 이미 받았다. |
 
 ## spec 전환 커밋
 
