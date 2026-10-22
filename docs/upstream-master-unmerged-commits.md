@@ -3,22 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-21 14:04
+- 갱신일: 2026-10-22 09:53
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 59개
+- 남은 커밋: 68개
 
-**마지막 반영 커밋:** `20aadca1` | [Fix flaky TestGetAdvancedLogs (#39198)](https://github.com/mattermost/mattermost/commit/20aadca11ac613d4fac33a3780c55a613a33570e) | 2026-10-15
+**마지막 반영 커밋:** `1320229c` | [\[MM-71111\] Health Dashboard PR27: version currency and ESR/EOL rules (#39075)](https://github.com/mattermost/mattermost/commit/1320229c1b458ade0bda1f66a16db8b83f5ee544) | 2026-10-16
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| cce5b9d5 | [\[MM-71182\] Show translated errors from /secure-connection accept and status instead of raw error text (#39205)](https://github.com/mattermost/mattermost/commit/cce5b9d552d53b98b85279f9882dbdba6b11dc40) | 2026-10-16 |
-| e95c338e | [MM-71184: Offer Go's default TLS key exchange groups (#39202)](https://github.com/mattermost/mattermost/commit/e95c338ebbe0283fc83195c1828a2e4d1b974af2) | 2026-10-16 |
-| 4bea6b09 | [Move textbox preview toggles from Redux to component state (#39152)](https://github.com/mattermost/mattermost/commit/4bea6b09ee621888cd6db58d3e326a9955b5da66) | 2026-10-16 |
-| f24e2d4c | [Add v12.0 release notes (#38573)](https://github.com/mattermost/mattermost/commit/f24e2d4ce36ed0e88ead1778761fd20d8ea31db3) | 2026-10-16 |
-| d11cd7d0 | [MM-69498: Add docs for post delivery audit logging (#38424)](https://github.com/mattermost/mattermost/commit/d11cd7d08a18600193e1eab274022fe120696f5c) | 2026-10-16 |
-| 678386ea | [\[MM-70287\] Add user_created to SAML/OAuth SSO audit events (#38006)](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) | 2026-10-16 |
-| b11aeee7 | [Fix double focus borders on Compass form fields and buttons (#39071)](https://github.com/mattermost/mattermost/commit/b11aeee7661900b65ff2cc350fb7c09583c0a9f7) | 2026-10-16 |
-| 1320229c | [\[MM-71111\] Health Dashboard PR27: version currency and ESR/EOL rules (#39075)](https://github.com/mattermost/mattermost/commit/1320229c1b458ade0bda1f66a16db8b83f5ee544) | 2026-10-16 |
 | 14ee0ae9 | [Add Attributes to Bot Accounts (#39121)](https://github.com/mattermost/mattermost/commit/14ee0ae9a330c5fecf268731959c16a4c081e8be) | 2026-10-16 |
 | 3d291f7f | [Include deleted replies in thread updatesOnly responses (#39026)](https://github.com/mattermost/mattermost/commit/3d291f7fd08b3d3814ec67fbb9edc75268790902) | 2026-10-16 |
 | f5485a5c | [\[MM-71178\] Support quoted values with spaces in slash command args (#39161)](https://github.com/mattermost/mattermost/commit/f5485a5c6e3c65542e35077cc6777ad197617709) | 2026-10-16 |
@@ -70,6 +62,23 @@
 | d0d6f36d | [Docs: Increase interactive dialog title max length to 80 (#39278)](https://github.com/mattermost/mattermost/commit/d0d6f36df142ce980bc55b30a794e6066cdca793) | 2026-10-20 |
 | 459a3af4 | [Docs: Clarify validated TLS and S3 configuration values (#39284)](https://github.com/mattermost/mattermost/commit/459a3af42be8f2681aec07d2f8b2c79c630b547b) | 2026-10-20 |
 | 578fbba5 | [Docs: Remove obsolete v12 config settings (#39276)](https://github.com/mattermost/mattermost/commit/578fbba586ce01f3439882eefb236c6dab34a8cc) | 2026-10-20 |
+| 346c94f0 | [Normalize changelog generator output, handle major-version rollover, and keep reviewer edits on reruns (#38478)](https://github.com/mattermost/mattermost/commit/346c94f0d621426beef4286a3612cf7e945f463e) | 2026-10-21 |
+| 82b042b9 | [Redesign and refactor system console logs view (#35569)](https://github.com/mattermost/mattermost/commit/82b042b9b2afbd2bcf59545ee2d99191d5b487ad) | 2026-10-21 |
+| 0cfb066f | [drip: AppError -> error: password migration (#39312)](https://github.com/mattermost/mattermost/commit/0cfb066fe4c4d59521a07dc81979a7b71198ea2d) | 2026-10-21 |
+| d87f9bee | [\[MM-71163\] Enable the metrics plugin by default when Performance Monitoring is enabled (#39142)](https://github.com/mattermost/mattermost/commit/d87f9beedb208942bb1d170e70351e3b94427cea) | 2026-10-21 |
+| e3d074ff | [Migrate Toggle to Compass Switch (#39038)](https://github.com/mattermost/mattermost/commit/e3d074ff02b01bb7d4dee4deddbe6cc8e5c7163b) | 2026-10-21 |
+| cbdf4c77 | [Migrate FeatureDiscovery to Compass FeatureDiscoveryPanel (#39051)](https://github.com/mattermost/mattermost/commit/cbdf4c779b68fce3152cee05e70d7b7d9a041e90) | 2026-10-21 |
+| d2b72e47 | [docs: redirect /_documentation to /_documentation/ (#39314)](https://github.com/mattermost/mattermost/commit/d2b72e4789ea5d543f5cb88c7d71efe1dc717152) | 2026-10-21 |
+| 85b7d85b | [Sync user attributes from OpenID Connect claims (#38939)](https://github.com/mattermost/mattermost/commit/85b7d85b57bb407ac695048dc231457ae5d01857) | 2026-10-21 |
+| 4ca793bd | [Monthly maintenance (2026-10): Update webapp dependencies (#39222)](https://github.com/mattermost/mattermost/commit/4ca793bd9e78bc5b6055a7e0e4560849792f7dbe) | 2026-10-21 |
+| 5cc80da7 | [Redact unreleased phone calling docs added in #38941 (#39325)](https://github.com/mattermost/mattermost/commit/5cc80da7626ef0e9d16d23e6ca5aeff0c66dab01) | 2026-10-21 |
+| 79e74485 | [Lay dialog elements out as a grid, and let a dialog pick its width (#39082)](https://github.com/mattermost/mattermost/commit/79e7448565b46c272b18d18af2f9869d1c36423c) | 2026-10-21 |
+| bf26bf10 | [MM-71295: Fix endless DB query loop in RemoveNotifications with multiple groups (#39323)](https://github.com/mattermost/mattermost/commit/bf26bf10fe6e6e7de9bb4f0700a1b8fa7b742e75) | 2026-10-21 |
+| d8bd035d | [Migrate progress bars to Compass ProgressBar (#39031)](https://github.com/mattermost/mattermost/commit/d8bd035df0d3b65044b186505393219f109c9373) | 2026-10-21 |
+| 27700f99 | [\[MM-70811\] Live-update User Management when an attribute is set to admin-managed (#38654)](https://github.com/mattermost/mattermost/commit/27700f99a328888647f3c62d0e38a2f866ca5ab3) | 2026-10-21 |
+| 269bdfd0 | [Add Brotli response compression behind a new webserver mode (#38637)](https://github.com/mattermost/mattermost/commit/269bdfd0f00d38fcbdd271a88e874862aece4854) | 2026-10-22 |
+| 9c92a61a | [Bump Go version to v1.26.10 (#39328)](https://github.com/mattermost/mattermost/commit/9c92a61a566a9647e2bd2ebb3277071072fa5510) | 2026-10-21 |
+| 5a5cbfc3 | [Point the help menu at bundled documentation (#39335)](https://github.com/mattermost/mattermost/commit/5a5cbfc306bb943ae8a6a9bb2f5cac85474d7189) | 2026-10-21 |
 
 ## 제외된 커밋
 
@@ -764,6 +773,12 @@
 
 | 4b32c6f0 | [MM-70921: Fix rich text editor parity with posted messages (#38852)](https://github.com/mattermost/mattermost/commit/4b32c6f092d84602989d78a5eda768d2b1856c76) | 제외한 TipTap WYSIWYG 작성기 0fa2713b(MM-67755, #36143 — 우리는 작성기를 Lexical로 자체 구현, 2026-09-17 사용자 결정) 계보의 게시 메시지 일치 수정이라 고칠 대상이 없다. 22파일 +1582/-304 중 advanced_text_editor/wysiwyg_editor/ 16파일과 e2e wysiwyg_editor/autocomplete.spec.ts가 우리 트리에 없고(실측), advanced_text_editor.tsx 충돌도 @tiptap/react·WysiwygEditor 문맥이다. 편집기 밖 4파일도 반영하지 않는다 — (1) thread_list.tsx의 contenteditable 포커스 시 ↑/↓ 스레드 이동 차단은 우리가 Lexical 답글창용으로 이미 넣었다(충돌 원인). (2) utils.tsx 테마 CSS pre:not(.hljs)와 (3) _markdown.scss .WysiwygEditor는 TipTap 요소를 겨냥해 우리에게 효과가 없다(우리 코드 블록은 pre 안의 div.hljs, code_block.tsx). (4) utils/paste.tsx isKnownTargetForPaste의 contenteditable 가드는 우리 Lexical ContentEditable도 id(post_textbox 등)를 받아 document pasteHandler가 Lexical에서도 도는 현재 동작을 바꾸는 변경이라, Lexical 붙여넣기(표·HTML 링크·GitHub 코드 블록)와 MarkdownPastePlugin 중복 처리 여부를 따로 확인한 뒤 결정할 대상으로 남긴다. |
 
+| f24e2d4c | [Add v12.0 release notes (#38573)](https://github.com/mattermost/mattermost/commit/f24e2d4ce36ed0e88ead1778761fd20d8ea31db3) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV) 계보의 문서 사이트 커밋이라 대상이 없다 — 25파일(docs/main/**.mdx 릴리스 노트·모바일 v2.45 변경 기록·version-archive, docs/site/scripts/gen-documentation-sidebar.mjs, docs/site/static/images/image-proxy.png 삭제)이 전부 우리 트리에 없다(실측). 코드 변경 없음. 내용은 Mattermost v12.0 제품 릴리스 노트라 우리 버전 번호(12.x 추종)와 무관하게 받을 실체가 없다. |
+
+| d11cd7d0 | [MM-69498: Add docs for post delivery audit logging (#38424)](https://github.com/mattermost/mattermost/commit/d11cd7d08a18600193e1eab274022fe120696f5c) | 이중으로 대상이 없다 — (1) 8파일(docs/main/administration-guide/** compliance·logging·content-flagging mdx, docs/site/scripts/gen-documentation-sidebar.mjs 등)이 제외한 1d3bbc63 문서 사이트 계보라 전부 우리 트리에 없고(실측), (2) 설명하는 기능(게시물 전달 감사 로깅, postDelivered·updateDeliveryTrackingConfig 감사 이벤트, audit-delivery(104) 로그 레벨)이 보류성 제외한 0019ecc5(#37882)라 우리 제품에 없다. |
+
+| b11aeee7 | [Fix double focus borders on Compass form fields and buttons (#39071)](https://github.com/mattermost/mattermost/commit/b11aeee7661900b65ff2cc350fb7c09583c0a9f7) | 제외한 @mattermost/compass-ui 도입 계보(70658e18 #38153 — 2026-10-18 사용자 결정: 라이선스 미확인(원칙 IV)·spec 014 자체 개편; 97bb58ec Compass Radio 제외 때 예고) 위의 CSS라 받지 않는다. 내용은 Compass 컴포넌트가 자체 포커스 링을 그리므로 웹앱 .a11y--focused 그림자를 끄는 _modifiers.scss 셀렉터 9개(+14). 실측: 겨냥하는 Compass 클래스(_text-input__wrapper·_button--emphasis- 등)가 우리 소스에 0건이라 얻는 것이 없고, 오히려 button[class*="_action-button"] 부분 일치가 우리 작성창 파일 첨부 버튼 AdvancedTextEditor__action-button(file_upload.tsx)에 걸려 키보드 포커스 링이 사라지는 접근성 저하가 생긴다(upstream도 같은 부작용). 재검토 조건: compass-ui를 들일 때, 그때도 _action-button 셀렉터는 좁혀야 한다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -831,3 +846,4 @@
 | 69f0f2c2 | [\[MM-70642\] Add Global Relay SenderAddress config setting (#38451)](https://github.com/mattermost/mattermost/commit/69f0f2c22cfb346566bc02ad67347bd65a7cabdf) | Global Relay 고정 발신자 주소(SenderAddress) — 설정·검증·콘솔 UI는 adapt로 반영했으나 이 값을 EML From·SMTP envelope sender로 쓰는 코드가 github.com/mattermost/enterprise/message_export/global_relay_export(비공개)에만 있어 발동하지 않는다. 4608b024(사용자 지정 헤더)와 같은 구조. 자체 Global Relay 작성기 구현 시 이 설정을 그대로 쓰면 된다. |
 | 2ba31db3 | [MM-70293 Add LegalHold plugin v1.1.6 to prepackage list (#38648)](https://github.com/mattermost/mattermost/commit/2ba31db3191b2ab3bf4f04f31e601f77d8c03df1) | Legal Hold (eDiscovery 법적 보존) — 엄밀히는 비공개 모듈이 아니라 공개 저장소 mattermost/mattermost-plugin-legal-hold이지만 Mattermost Source Available License라 Enterprise 계약 없이 운영 사용·재배포 불가, 플러그인도 Enterprise 라이선스 검사로 활성화를 거부한다. 기능(사용자·기간별 메시지·파일 보존과 내보내기)이 필요하면 자체 구현 대상 |
 | 91b4450e | [\[MM-70692\] New ABAC Permission Policy: Burn on Read (#38656)](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) | github.com/mattermost/enterprise/access_control — Burn-on-Read 작성 권한 정책(create_burn_on_read_post)의 판정 본체(PDP)가 비공개 모듈에 있다. 서버 검사·렌더 판정·콘솔 UI·초안 차단은 adapt로 받았으나 ABAC 비활성이라 HasPermissionToChannelAction이 항상 허용해 기능이 발동하지 않는다. 자체 구현 시 정책 엔진의 채널 리소스 action 평가가 필요. |
+| 678386ea | [\[MM-70287\] Add user_created to SAML/OAuth SSO audit events (#38006)](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) | SAML 로그인 JIT 계정 생성 여부(userWasCreated) 반환 — einterfaces.SamlInterface.DoLogin 시그니처만 반영(우리 트리엔 인터페이스·mock뿐), 실제 구현은 비공개 enterprise SAML 패키지. OAuth 쪽은 공개 코드라 동작한다. SAML 자체 구현 시 이 시그니처·주석 계약을 따른다. |
