@@ -3,33 +3,22 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-22 16:26
+- 갱신일: 2026-10-23 00:33
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 19개
+- 남은 커밋: 8개
 
-**마지막 반영 커밋:** `578fbba5` | [Docs: Remove obsolete v12 config settings (#39276)](https://github.com/mattermost/mattermost/commit/578fbba586ce01f3439882eefb236c6dab34a8cc) | 2026-10-20
+**마지막 반영 커밋:** `269bdfd0` | [Add Brotli response compression behind a new webserver mode (#38637)](https://github.com/mattermost/mattermost/commit/269bdfd0f00d38fcbdd271a88e874862aece4854) | 2026-10-22
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 4d716b67 | [fix(e2e): repair master flakes from the channel intro user limit and tour-tip pulse rings (#38986)](https://github.com/mattermost/mattermost/commit/4d716b67f91c6153a22689ad58b6b99b5d81507f) | 2026-10-21 |
-| 346c94f0 | [Normalize changelog generator output, handle major-version rollover, and keep reviewer edits on reruns (#38478)](https://github.com/mattermost/mattermost/commit/346c94f0d621426beef4286a3612cf7e945f463e) | 2026-10-21 |
-| 82b042b9 | [Redesign and refactor system console logs view (#35569)](https://github.com/mattermost/mattermost/commit/82b042b9b2afbd2bcf59545ee2d99191d5b487ad) | 2026-10-21 |
-| 0cfb066f | [drip: AppError -> error: password migration (#39312)](https://github.com/mattermost/mattermost/commit/0cfb066fe4c4d59521a07dc81979a7b71198ea2d) | 2026-10-21 |
-| d87f9bee | [\[MM-71163\] Enable the metrics plugin by default when Performance Monitoring is enabled (#39142)](https://github.com/mattermost/mattermost/commit/d87f9beedb208942bb1d170e70351e3b94427cea) | 2026-10-21 |
-| e3d074ff | [Migrate Toggle to Compass Switch (#39038)](https://github.com/mattermost/mattermost/commit/e3d074ff02b01bb7d4dee4deddbe6cc8e5c7163b) | 2026-10-21 |
-| cbdf4c77 | [Migrate FeatureDiscovery to Compass FeatureDiscoveryPanel (#39051)](https://github.com/mattermost/mattermost/commit/cbdf4c779b68fce3152cee05e70d7b7d9a041e90) | 2026-10-21 |
-| d2b72e47 | [docs: redirect /_documentation to /_documentation/ (#39314)](https://github.com/mattermost/mattermost/commit/d2b72e4789ea5d543f5cb88c7d71efe1dc717152) | 2026-10-21 |
-| 85b7d85b | [Sync user attributes from OpenID Connect claims (#38939)](https://github.com/mattermost/mattermost/commit/85b7d85b57bb407ac695048dc231457ae5d01857) | 2026-10-21 |
-| 4ca793bd | [Monthly maintenance (2026-10): Update webapp dependencies (#39222)](https://github.com/mattermost/mattermost/commit/4ca793bd9e78bc5b6055a7e0e4560849792f7dbe) | 2026-10-21 |
-| 5cc80da7 | [Redact unreleased phone calling docs added in #38941 (#39325)](https://github.com/mattermost/mattermost/commit/5cc80da7626ef0e9d16d23e6ca5aeff0c66dab01) | 2026-10-21 |
-| 79e74485 | [Lay dialog elements out as a grid, and let a dialog pick its width (#39082)](https://github.com/mattermost/mattermost/commit/79e7448565b46c272b18d18af2f9869d1c36423c) | 2026-10-21 |
-| bf26bf10 | [MM-71295: Fix endless DB query loop in RemoveNotifications with multiple groups (#39323)](https://github.com/mattermost/mattermost/commit/bf26bf10fe6e6e7de9bb4f0700a1b8fa7b742e75) | 2026-10-21 |
-| d8bd035d | [Migrate progress bars to Compass ProgressBar (#39031)](https://github.com/mattermost/mattermost/commit/d8bd035df0d3b65044b186505393219f109c9373) | 2026-10-21 |
-| 27700f99 | [\[MM-70811\] Live-update User Management when an attribute is set to admin-managed (#38654)](https://github.com/mattermost/mattermost/commit/27700f99a328888647f3c62d0e38a2f866ca5ab3) | 2026-10-21 |
-| 269bdfd0 | [Add Brotli response compression behind a new webserver mode (#38637)](https://github.com/mattermost/mattermost/commit/269bdfd0f00d38fcbdd271a88e874862aece4854) | 2026-10-22 |
 | 9c92a61a | [Bump Go version to v1.26.10 (#39328)](https://github.com/mattermost/mattermost/commit/9c92a61a566a9647e2bd2ebb3277071072fa5510) | 2026-10-21 |
 | 5a5cbfc3 | [Point the help menu at bundled documentation (#39335)](https://github.com/mattermost/mattermost/commit/5a5cbfc306bb943ae8a6a9bb2f5cac85474d7189) | 2026-10-21 |
 | 8e9d552a | [Fix up unusable email settings and translate db command config errors (#39302)](https://github.com/mattermost/mattermost/commit/8e9d552aaeff187fb91b024f9d444ceccd643a75) | 2026-10-22 |
+| b4c43b05 | [Migrate SectionNotice to Compass UI (#39042)](https://github.com/mattermost/mattermost/commit/b4c43b05e7285ff4e60bfe80d01d3a4b886d2ee4) | 2026-10-22 |
+| 7281188f | [Migrate checkUserPassword from *model.AppError to error. (#39346)](https://github.com/mattermost/mattermost/commit/7281188fba9bc712c4e59b5ad7d069721801fbcd) | 2026-10-22 |
+| b099be32 | [Make post acknowledgements UpdateAt tests deterministic (#39363)](https://github.com/mattermost/mattermost/commit/b099be32470788a6f91fd8eb165fccb422f3c48d) | 2026-10-22 |
+| 8c5f17ec | [Clarify when the OnSAMLLogin plugin hook is invoked (#39345)](https://github.com/mattermost/mattermost/commit/8c5f17ec0a4ff39b63feda446dbb12d1eefb7999) | 2026-10-22 |
+| aace7ab1 | [\[MM-71043\] Drop IdpMetadataURL from the SAML support packet tests (#39293)](https://github.com/mattermost/mattermost/commit/aace7ab1f3fda18d59bcf094fc8a6ecb7dbf96a3) | 2026-10-22 |
 
 ## 제외된 커밋
 
@@ -756,6 +745,22 @@
 
 | 578fbba5 | [Docs: Remove obsolete v12 config settings (#39276)](https://github.com/mattermost/mattermost/commit/578fbba586ce01f3439882eefb236c6dab34a8cc) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. v12에서 없어진 설정을 docs/main/** 13파일에서 지우는 문서 정리(modify/delete). 코드 쪽 설정 제거 df010785c7(#37743)는 이미 받았다. |
 
+| 346c94f0 | [Normalize changelog generator output, handle major-version rollover, and keep reviewer edits on reruns (#38478)](https://github.com/mattermost/mattermost/commit/346c94f0d621426beef4286a3612cf7e945f463e) | 제외한 53aaf6a4(#38113 changelog 생성 자동화 이관 — Mattermost 릴리스 운영 전용)의 후속 개선. 3파일(.github/scripts/generate_changelog.py·test, .github/workflows/generate-changelog.yml) 모두 우리 트리에 없고(modify/delete), 사내 GitHub App 시크릿(CHANGELOG_READ/WRITE_PRIVATE_KEY)·ANTHROPIC_API_KEY가 필요하며 출력 대상 docs/main/**도 제외한 1d3bbc63 문서 사이트다. |
+
+| e3d074ff | [Migrate Toggle to Compass Switch (#39038)](https://github.com/mattermost/mattermost/commit/e3d074ff02b01bb7d4dee4deddbe6cc8e5c7163b) | 제외한 @mattermost/compass-ui 도입 계보(70658e18 #38153 — npm·원본 저장소 모두 라이선스 없음(원칙 IV), 해당 UI는 spec 014로 자체 개편)의 Compass 컴포넌트 이관 — 앱 전반 Toggle을 compass-ui Switch로 교체(import 17곳, 76파일 +1953/-2020). 받으면 compass-ui 모듈 부재로 빌드가 깨진다. 922a900b·97bb58ec와 같은 사유. |
+
+| cbdf4c77 | [Migrate FeatureDiscovery to Compass FeatureDiscoveryPanel (#39051)](https://github.com/mattermost/mattermost/commit/cbdf4c779b68fce3152cee05e70d7b7d9a041e90) | 제외한 @mattermost/compass-ui 도입 계보(70658e18 #38153 — npm·원본 저장소 모두 라이선스 없음(원칙 IV), 해당 UI는 spec 014로 자체 개편)의 Compass 컴포넌트 이관 — 시스템 콘솔 FeatureDiscovery를 compass-ui FeatureDiscoveryPanel·Button으로 교체(import 3곳, 13파일 +314/-280). 받으면 compass-ui 모듈 부재로 빌드가 깨진다. |
+
+| d2b72e47 | [docs: redirect /_documentation to /_documentation/ (#39314)](https://github.com/mattermost/mattermost/commit/d2b72e4789ea5d543f5cb88c7d71efe1dc717152) | 제외한 f434bd9d(#38957 오프라인 문서를 릴리스 tarball에 넣고 서버가 /_documentation으로 제공 — 1d3bbc63 문서 사이트 계보)의 후속 수정. static.go의 DocsURLPrefix docs 핸들러가 우리 서버에 없어 /_documentation → /_documentation/ 리다이렉트(4줄)를 얹을 라우트가 없다. |
+
+| 85b7d85b | [Sync user attributes from OpenID Connect claims (#38939)](https://github.com/mattermost/mattermost/commit/85b7d85b57bb407ac695048dc231457ae5d01857) | 제외한 property 시스템 v2 계보(9f1fe90b #36180 CPA→v2·fbc17416 #38931 PropertySyncer)·Global Attributes·#39121 user_attribute_fields 위의 신규 기능 — MISSING PATHS 20여 개(app/property_sync.go·model/property_sync.go·properties/access_control_attribute_validation.go·model/property_field_attrs_validation.go·global_attributes/attribute_details/* 등)가 그 계보 파일이다. OIDC claim(ID 토큰·userinfo)으로 사용자 속성을 동기화하는 기능. 92파일 +2789/-531. |
+
+| 5cc80da7 | [Redact unreleased phone calling docs added in #38941 (#39325)](https://github.com/mattermost/mattermost/commit/5cc80da7626ef0e9d16d23e6ca5aeff0c66dab01) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. docs/main/end-user-guide/collaborate/make-calls.mdx에서 미출시 전화 통화 문서 31줄을 지우는 수정(modify/delete). |
+
+| d8bd035d | [Migrate progress bars to Compass ProgressBar (#39031)](https://github.com/mattermost/mattermost/commit/d8bd035df0d3b65044b186505393219f109c9373) | 제외한 @mattermost/compass-ui 도입 계보(70658e18 #38153 — npm·원본 저장소 모두 라이선스 없음(원칙 IV), 해당 UI는 spec 014로 자체 개편)의 Compass 컴포넌트 이관 — 진행 막대를 compass-ui ProgressBar로 교체(import 9곳, 15파일 +89/-198). 받으면 compass-ui 모듈 부재로 빌드가 깨진다. |
+
+| 27700f99 | [\[MM-70811\] Live-update User Management when an attribute is set to admin-managed (#38654)](https://github.com/mattermost/mattermost/commit/27700f99a328888647f3c62d0e38a2f866ca5ab3) | 제외한 Global Attributes·Session Attributes·property 시스템 v2(9f1fe90b #36180 계보) 위의 후속 — MISSING PATHS 8개(global_attributes/attribute_details/*·utils·global_attributes_table, session_attributes POM·스펙, property_fields_websocket.test.ts)가 그 계보 파일이고 websocket_actions.ts 변경도 PSAv2 property field 이벤트 처리다. 속성을 관리자 관리로 바꿀 때 사용자 관리 화면을 실시간 갱신하는 기능(11파일 +757/-23). |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -780,6 +785,8 @@
 | 41c482b4 | [Enable single team and channel migrations between instances (#37868)](https://github.com/mattermost/mattermost/commit/41c482b497c5236878019689bc202914f8425f40) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 54파일 +11472(테스트 약 8.6k). bulk export --team/--channel, import --destination-team, 채널 import 시 비활성 껍데기 계정(props.importedInactive)·첫 로그인 해제, 답글 멱등·재개·import 보고서, post·reaction·thread store 신규 조회, webapp imported-inactive 태그(포크 표시 규칙 컴포넌트 profile_popover·at_mention_suggestion·user_profile에 추가). 우리 대량 사용자 가져오기(docs/mattermost-bulk-user-import-guide.md) 경로의 회귀 확인 필요. 충돌은 .gitignore·export_test.go 2곳 |
 
 | ecc7898a | [Use NewTestPassword in import tests so FIPS CI passes (#38664)](https://github.com/mattermost/mattermost/commit/ecc7898a5080a213fb7d09f092099b514dc77aed) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 41c482b4의 후속 테스트 수정. 41c482b4가 들여오는 TestImportUsernamRemap(import_functions_test.go)·TestBulkImportKeepsLinesAfterNonFatalWorkerError(migration_test.go)의 CreateUser 픽스처 비밀번호 3곳을 model.NewTestPassword()로 바꿔 FIPS 14자 최소 길이를 통과시킨다. spec 구현 시 함께 반영하고 커밋 본문에 두 Upstream 링크를 넣는다 |
+
+| 4ca793bd | [Monthly maintenance (2026-10): Update webapp dependencies (#39222)](https://github.com/mattermost/mattermost/commit/4ca793bd9e78bc5b6055a7e0e4560849792f7dbe) | webapp-deps-2026-10 (별도 유지보수 작업: package.json 3개 버전 옮기기·TipTap/compass-ui 제외·npm install로 lock 재생성·스냅샷 검토·check-types/jest 기준선 비교) |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
@@ -824,3 +831,4 @@
 | 2ba31db3 | [MM-70293 Add LegalHold plugin v1.1.6 to prepackage list (#38648)](https://github.com/mattermost/mattermost/commit/2ba31db3191b2ab3bf4f04f31e601f77d8c03df1) | Legal Hold (eDiscovery 법적 보존) — 엄밀히는 비공개 모듈이 아니라 공개 저장소 mattermost/mattermost-plugin-legal-hold이지만 Mattermost Source Available License라 Enterprise 계약 없이 운영 사용·재배포 불가, 플러그인도 Enterprise 라이선스 검사로 활성화를 거부한다. 기능(사용자·기간별 메시지·파일 보존과 내보내기)이 필요하면 자체 구현 대상 |
 | 91b4450e | [\[MM-70692\] New ABAC Permission Policy: Burn on Read (#38656)](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) | github.com/mattermost/enterprise/access_control — Burn-on-Read 작성 권한 정책(create_burn_on_read_post)의 판정 본체(PDP)가 비공개 모듈에 있다. 서버 검사·렌더 판정·콘솔 UI·초안 차단은 adapt로 받았으나 ABAC 비활성이라 HasPermissionToChannelAction이 항상 허용해 기능이 발동하지 않는다. 자체 구현 시 정책 엔진의 채널 리소스 action 평가가 필요. |
 | 678386ea | [\[MM-70287\] Add user_created to SAML/OAuth SSO audit events (#38006)](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) | SAML 로그인 JIT 계정 생성 여부(userWasCreated) 반환 — einterfaces.SamlInterface.DoLogin 시그니처만 반영(우리 트리엔 인터페이스·mock뿐), 실제 구현은 비공개 enterprise SAML 패키지. OAuth 쪽은 공개 코드라 동작한다. SAML 자체 구현 시 이 시그니처·주석 계약을 따른다. |
+| 85b7d85b | [Sync user attributes from OpenID Connect claims (#38939)](https://github.com/mattermost/mattermost/commit/85b7d85b57bb407ac695048dc231457ae5d01857) | OIDC claim → 사용자 속성 동기화. einterfaces.OAuthClaimsProvider(GetClaimValues) 구현은 비공개 github.com/mattermost/enterprise/oauth/openid에 있어야 한다 — 우리 OpenID 프로바이더 자체가 비공개 모듈. |
