@@ -3,36 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-22 11:36
+- 갱신일: 2026-10-22 14:42
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 59개
+- 남은 커밋: 37개
 
-**마지막 반영 커밋:** `f38678d0` | [\[MM-71099\] Health Dashboard PR22: rules for cluster, deployment and network (#39022)](https://github.com/mattermost/mattermost/commit/f38678d08d67a4d21ea3821f78b530ea7f8f8ec2) | 2026-10-18
+**마지막 반영 커밋:** `9df98424` | [Render URL too long errors inline to stop the redirect loop (#38286)](https://github.com/mattermost/mattermost/commit/9df984246f2d4f39d4e9c3042570cb33ff11289d) | 2026-10-19
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 3051bab1 | [update Calls to v1.12.6 (#39219)](https://github.com/mattermost/mattermost/commit/3051bab1b244265bd0cb0b6de16fec0fb2148de6) | 2026-10-19 |
-| 03f584b7 | [test(e2e): add pw.ensureDemoPlugin fixture, dedupe demo plugin URL (#38918)](https://github.com/mattermost/mattermost/commit/03f584b735f8f778c0f69becfc8fbd39acce7b8d) | 2026-10-19 |
-| f491fb92 | [\[MM-71058\] Health Dashboard PR20: rules for search (#38913)](https://github.com/mattermost/mattermost/commit/f491fb92998edd08f8459a1f733b28e6df506254) | 2026-10-19 |
-| 353f76fe | [\[MM-71101\] Health Dashboard PR19: rules for database (#39021)](https://github.com/mattermost/mattermost/commit/353f76fe3008b87cb56c9072263d85e37d69d6c1) | 2026-10-19 |
-| 08cf1105 | [\[MM-71060\] Health Dashboard PR23: rules for notifications and messaging (#38912)](https://github.com/mattermost/mattermost/commit/08cf1105ab4a837e7fc4b2e75563323ffe531f3b) | 2026-10-19 |
-| c77a59ea | [Add dot release docs for server v11.11.2, v11.10.3 and v11.7.13 (ESR) (#39004)](https://github.com/mattermost/mattermost/commit/c77a59ea33f37ed26bb643d93fed32c0c45c1330) | 2026-10-19 |
-| acb011f1 | [\[MM-71100\] Health Dashboard PR25: rules for platform, filestore, logging and plugins (#39020)](https://github.com/mattermost/mattermost/commit/acb011f1eaa4d748f569a761f5c71d837ac3da6d) | 2026-10-19 |
-| a21d6019 | [Add a hub channel broadcast benchmark (#38991)](https://github.com/mattermost/mattermost/commit/a21d6019b50153eb41b40dd6b4937b08c82bb24d) | 2026-10-19 |
-| 7df5e304 | [\[MM-71059\] Health Dashboard PR21: rules for jobs (#38914)](https://github.com/mattermost/mattermost/commit/7df5e30433abcb515a5db7a1b67ad7fe8d4b0dd9) | 2026-10-19 |
-| f79ba36e | [Skip flaky TestDoSetupContentFlaggingProperties (MM-71223) (#39249)](https://github.com/mattermost/mattermost/commit/f79ba36eedb5c01386bb1087d4dc925f233ebcc5) | 2026-10-19 |
-| 2657f709 | [\[MM-71062\] Health Dashboard PR26: rules for license and seats (#38916)](https://github.com/mattermost/mattermost/commit/2657f70938a2df359fff2531165c2e68d1bfd7e7) | 2026-10-19 |
-| b25056d4 | [drip: AppError -> error: delivery tracking (#39171)](https://github.com/mattermost/mattermost/commit/b25056d4ea9eddc726b45daffd4d8936201aaedc) | 2026-10-19 |
-| 640b099b | [Update minimum supported Firefox version (#39253)](https://github.com/mattermost/mattermost/commit/640b099b643ab2063b553e346425aac98cecb324) | 2026-10-19 |
-| 2de97aee | [\[MM-69775\] Delete the server-side draft when sending from the Drafts panel (#38861)](https://github.com/mattermost/mattermost/commit/2de97aee85bc472367e0606c49aa24d4e4b5ad03) | 2026-10-19 |
-| 57ea425e | [Fix existing translation errors and add glossary terms (#39207)](https://github.com/mattermost/mattermost/commit/57ea425e5a95784d9089b007f671142c5f00182e) | 2026-10-19 |
-| 70a7b86b | [Resolve Jest src imports from rootDir only (#39150)](https://github.com/mattermost/mattermost/commit/70a7b86bb159092f2ef33b059656c128dcacb4b4) | 2026-10-19 |
-| e7e0ee99 | [Docs: interactive dialog checkbox elements and per-channel join/leave messages (#39260)](https://github.com/mattermost/mattermost/commit/e7e0ee99d2127fa2ca28f9895a6a2110c5288bae) | 2026-10-19 |
-| b4484b20 | [\[MM-71061\] Health Dashboard PR24: rules for compliance and data governance (#38915)](https://github.com/mattermost/mattermost/commit/b4484b200a99e2bbebc626b7af3d87a4685d9c34) | 2026-10-19 |
-| 06f070f3 | [\[MM-70052\] Fix group search returning nothing when the term starts with "@" (#38748)](https://github.com/mattermost/mattermost/commit/06f070f339f51a535933c17c43a132eaa31684f9) | 2026-10-19 |
-| 5c012a11 | [\[MM-61894\] Keep markdown formatting when pasting text copied from a message (#38287)](https://github.com/mattermost/mattermost/commit/5c012a1184e3a70709e7541e90308897303f4368) | 2026-10-19 |
-| aeccde2d | [\[MM-69961\] Fix login being blocked for all users when Guest Access is disabled while Magic Link stays enabled (#38749)](https://github.com/mattermost/mattermost/commit/aeccde2d90b2045f18dad28d51b770192037d04f) | 2026-10-19 |
-| 9df98424 | [Render URL too long errors inline to stop the redirect loop (#38286)](https://github.com/mattermost/mattermost/commit/9df984246f2d4f39d4e9c3042570cb33ff11289d) | 2026-10-19 |
 | bbe3f718 | [\[MM-71216\] Apply incoming AcknowledgedAt when receiving synced acknowledgements (#39240)](https://github.com/mattermost/mattermost/commit/bbe3f71849bb293820a8519022245330c9270c97) | 2026-10-20 |
 | d430bb29 | [SEC-11251 Add Playwright subpath deployment E2E testing (#38833)](https://github.com/mattermost/mattermost/commit/d430bb294fbf949cdf7a0e968e5a5f34c9cba866) | 2026-10-20 |
 | 9b1c4fd5 | [\[MM-71057\] Health Dashboard PR18: rules for auth and identity (#38917)](https://github.com/mattermost/mattermost/commit/9b1c4fd558694ddc3bfb453bb979e00c66066f56) | 2026-10-20 |
@@ -773,6 +751,10 @@
 | 14ee0ae9 | [Add Attributes to Bot Accounts (#39121)](https://github.com/mattermost/mattermost/commit/14ee0ae9a330c5fecf268731959c16a4c081e8be) | 제외한 property 시스템 v2(PSAv2) 계보(1eb4c62c·e86491ad·65f8ca23 등) 위의 신규 기능. server 변경은 우리 트리에 없는 cpaPatchValues·hasTargetAccess·api4/properties.go를 고치고, 우리 CPA는 v1 구조(patchCPAValuesForUser가 edit_other_users로 직접 검사)라 봇 관리자 쓰기 권한 확장을 얹을 곳이 없다. webapp(봇 속성 섹션·공용 user_attribute_fields 편집기)만 받으면 비관리자 저장이 403으로 깨진다. 46파일 +6031/-868. |
 
 | 356bdc7d | [docs: scope AI documentation drafts to the merged change (#39211)](https://github.com/mattermost/mattermost/commit/356bdc7d9b42aece875cc37271877a3e2576f4dc) | 제외한 docs 자동화 계보(5427f6b0 docs writer #38764·3a1f5f0d #38144·27c501d2 #38177, 뿌리 1d3bbc63 docs/ 이관 #37330)의 후속. 11파일 전부 우리 트리에 없는 .github/prompts/docs-writer.md·.github/scripts/docs-ai/**를 고친다 — Mattermost 문서 사이트용 AI 초안 PR 범위·형식 조정이라 okrbest와 무관. 4f932a45(#39126)와 같은 사유. |
+
+| 03f584b7 | [test(e2e): add pw.ensureDemoPlugin fixture, dedupe demo plugin URL (#38918)](https://github.com/mattermost/mattermost/commit/03f584b735f8f778c0f69becfc8fbd39acce7b8d) | 제외한 5dec0b82(#39091 Playwright config·roles 리셋 개편, b052f346 fullyParallel 계보) 위의 e2e 인프라 정리 — lib index·server/index·test_fixture·demo_plugin helpers를 5dec0b82가 먼저 고쳐 25파일 중 lib 핵심과 데모 스펙 다수가 충돌하고 upgrade_fixtures.ts는 우리에게 없다. 제품 코드 무접촉, 우리 e2e는 PR 체크에서 돌지 않는다. 재검토: Playwright 격차 해소 시 5dec0b82 계보와 함께. |
+
+| c77a59ea | [Add dot release docs for server v11.11.2, v11.10.3 and v11.7.13 (ESR) (#39004)](https://github.com/mattermost/mattermost/commit/c77a59ea33f37ed26bb643d93fed32c0c45c1330) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. Mattermost server v11.11.2·v11.10.3·v11.7.13(ESR) 점 릴리스 문서 5파일(docs/main/ 설치 문서 다운로드 버전·릴리스 표·v11 changelog·version-archive) 모두 우리 트리에 없다. acf6e7bd(#39057)와 같은 사유. |
 
 ## spec 전환 커밋
 
