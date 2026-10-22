@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-22 09:53
+- 갱신일: 2026-10-22 10:45
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 68개
+- 남은 커밋: 64개
 
-**마지막 반영 커밋:** `1320229c` | [\[MM-71111\] Health Dashboard PR27: version currency and ESR/EOL rules (#39075)](https://github.com/mattermost/mattermost/commit/1320229c1b458ade0bda1f66a16db8b83f5ee544) | 2026-10-16
+**마지막 반영 커밋:** `356bdc7d` | [docs: scope AI documentation drafts to the merged change (#39211)](https://github.com/mattermost/mattermost/commit/356bdc7d9b42aece875cc37271877a3e2576f4dc) | 2026-10-16
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 14ee0ae9 | [Add Attributes to Bot Accounts (#39121)](https://github.com/mattermost/mattermost/commit/14ee0ae9a330c5fecf268731959c16a4c081e8be) | 2026-10-16 |
-| 3d291f7f | [Include deleted replies in thread updatesOnly responses (#39026)](https://github.com/mattermost/mattermost/commit/3d291f7fd08b3d3814ec67fbb9edc75268790902) | 2026-10-16 |
-| f5485a5c | [\[MM-71178\] Support quoted values with spaces in slash command args (#39161)](https://github.com/mattermost/mattermost/commit/f5485a5c6e3c65542e35077cc6777ad197617709) | 2026-10-16 |
-| 356bdc7d | [docs: scope AI documentation drafts to the merged change (#39211)](https://github.com/mattermost/mattermost/commit/356bdc7d9b42aece875cc37271877a3e2576f4dc) | 2026-10-16 |
 | d11343f0 | [\[MM-71181\] Clean up the saved secure connection when invite creation fails (#39233)](https://github.com/mattermost/mattermost/commit/d11343f03a07c9d41250fa95753c938f6dc89a9a) | 2026-10-17 |
 | cdc7fd28 | [\[MM-71191\] Translate /secure-connection accept transport, response and remote rejection errors (#39232)](https://github.com/mattermost/mattermost/commit/cdc7fd28e74c39a3899cb2e50c7fb36597db1648) | 2026-10-17 |
 | 2d52d2b0 | [\[MM-71060\] Health Dashboard: read the license from Support Packet diagnostics (#39214)](https://github.com/mattermost/mattermost/commit/2d52d2b00d7a109a7dc89c6af252cdb027d6c3c9) | 2026-10-17 |
@@ -778,6 +774,10 @@
 | d11cd7d0 | [MM-69498: Add docs for post delivery audit logging (#38424)](https://github.com/mattermost/mattermost/commit/d11cd7d08a18600193e1eab274022fe120696f5c) | 이중으로 대상이 없다 — (1) 8파일(docs/main/administration-guide/** compliance·logging·content-flagging mdx, docs/site/scripts/gen-documentation-sidebar.mjs 등)이 제외한 1d3bbc63 문서 사이트 계보라 전부 우리 트리에 없고(실측), (2) 설명하는 기능(게시물 전달 감사 로깅, postDelivered·updateDeliveryTrackingConfig 감사 이벤트, audit-delivery(104) 로그 레벨)이 보류성 제외한 0019ecc5(#37882)라 우리 제품에 없다. |
 
 | b11aeee7 | [Fix double focus borders on Compass form fields and buttons (#39071)](https://github.com/mattermost/mattermost/commit/b11aeee7661900b65ff2cc350fb7c09583c0a9f7) | 제외한 @mattermost/compass-ui 도입 계보(70658e18 #38153 — 2026-10-18 사용자 결정: 라이선스 미확인(원칙 IV)·spec 014 자체 개편; 97bb58ec Compass Radio 제외 때 예고) 위의 CSS라 받지 않는다. 내용은 Compass 컴포넌트가 자체 포커스 링을 그리므로 웹앱 .a11y--focused 그림자를 끄는 _modifiers.scss 셀렉터 9개(+14). 실측: 겨냥하는 Compass 클래스(_text-input__wrapper·_button--emphasis- 등)가 우리 소스에 0건이라 얻는 것이 없고, 오히려 button[class*="_action-button"] 부분 일치가 우리 작성창 파일 첨부 버튼 AdvancedTextEditor__action-button(file_upload.tsx)에 걸려 키보드 포커스 링이 사라지는 접근성 저하가 생긴다(upstream도 같은 부작용). 재검토 조건: compass-ui를 들일 때, 그때도 _action-button 셀렉터는 좁혀야 한다. |
+
+| 14ee0ae9 | [Add Attributes to Bot Accounts (#39121)](https://github.com/mattermost/mattermost/commit/14ee0ae9a330c5fecf268731959c16a4c081e8be) | 제외한 property 시스템 v2(PSAv2) 계보(1eb4c62c·e86491ad·65f8ca23 등) 위의 신규 기능. server 변경은 우리 트리에 없는 cpaPatchValues·hasTargetAccess·api4/properties.go를 고치고, 우리 CPA는 v1 구조(patchCPAValuesForUser가 edit_other_users로 직접 검사)라 봇 관리자 쓰기 권한 확장을 얹을 곳이 없다. webapp(봇 속성 섹션·공용 user_attribute_fields 편집기)만 받으면 비관리자 저장이 403으로 깨진다. 46파일 +6031/-868. |
+
+| 356bdc7d | [docs: scope AI documentation drafts to the merged change (#39211)](https://github.com/mattermost/mattermost/commit/356bdc7d9b42aece875cc37271877a3e2576f4dc) | 제외한 docs 자동화 계보(5427f6b0 docs writer #38764·3a1f5f0d #38144·27c501d2 #38177, 뿌리 1d3bbc63 docs/ 이관 #37330)의 후속. 11파일 전부 우리 트리에 없는 .github/prompts/docs-writer.md·.github/scripts/docs-ai/**를 고친다 — Mattermost 문서 사이트용 AI 초안 PR 범위·형식 조정이라 okrbest와 무관. 4f932a45(#39126)와 같은 사유. |
 
 ## spec 전환 커밋
 
