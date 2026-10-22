@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-22 11:21
+- 갱신일: 2026-10-22 11:36
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 60개
+- 남은 커밋: 59개
 
-**마지막 반영 커밋:** `f5227e66` | [\[MM-71096\] Apply incoming DeleteAt when receiving synced reactions (#39239)](https://github.com/mattermost/mattermost/commit/f5227e664f4b37437c8b110912dbf1c71e07c812) | 2026-10-17
+**마지막 반영 커밋:** `f38678d0` | [\[MM-71099\] Health Dashboard PR22: rules for cluster, deployment and network (#39022)](https://github.com/mattermost/mattermost/commit/f38678d08d67a4d21ea3821f78b530ea7f8f8ec2) | 2026-10-18
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f38678d0 | [\[MM-71099\] Health Dashboard PR22: rules for cluster, deployment and network (#39022)](https://github.com/mattermost/mattermost/commit/f38678d08d67a4d21ea3821f78b530ea7f8f8ec2) | 2026-10-18 |
 | 3051bab1 | [update Calls to v1.12.6 (#39219)](https://github.com/mattermost/mattermost/commit/3051bab1b244265bd0cb0b6de16fec0fb2148de6) | 2026-10-19 |
 | 03f584b7 | [test(e2e): add pw.ensureDemoPlugin fixture, dedupe demo plugin URL (#38918)](https://github.com/mattermost/mattermost/commit/03f584b735f8f778c0f69becfc8fbd39acce7b8d) | 2026-10-19 |
 | f491fb92 | [\[MM-71058\] Health Dashboard PR20: rules for search (#38913)](https://github.com/mattermost/mattermost/commit/f491fb92998edd08f8459a1f733b28e6df506254) | 2026-10-19 |
