@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-22 10:45
+- 갱신일: 2026-10-22 11:21
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 64개
+- 남은 커밋: 60개
 
-**마지막 반영 커밋:** `356bdc7d` | [docs: scope AI documentation drafts to the merged change (#39211)](https://github.com/mattermost/mattermost/commit/356bdc7d9b42aece875cc37271877a3e2576f4dc) | 2026-10-16
+**마지막 반영 커밋:** `f5227e66` | [\[MM-71096\] Apply incoming DeleteAt when receiving synced reactions (#39239)](https://github.com/mattermost/mattermost/commit/f5227e664f4b37437c8b110912dbf1c71e07c812) | 2026-10-17
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| d11343f0 | [\[MM-71181\] Clean up the saved secure connection when invite creation fails (#39233)](https://github.com/mattermost/mattermost/commit/d11343f03a07c9d41250fa95753c938f6dc89a9a) | 2026-10-17 |
-| cdc7fd28 | [\[MM-71191\] Translate /secure-connection accept transport, response and remote rejection errors (#39232)](https://github.com/mattermost/mattermost/commit/cdc7fd28e74c39a3899cb2e50c7fb36597db1648) | 2026-10-17 |
-| 2d52d2b0 | [\[MM-71060\] Health Dashboard: read the license from Support Packet diagnostics (#39214)](https://github.com/mattermost/mattermost/commit/2d52d2b00d7a109a7dc89c6af252cdb027d6c3c9) | 2026-10-17 |
-| f5227e66 | [\[MM-71096\] Apply incoming DeleteAt when receiving synced reactions (#39239)](https://github.com/mattermost/mattermost/commit/f5227e664f4b37437c8b110912dbf1c71e07c812) | 2026-10-17 |
 | f38678d0 | [\[MM-71099\] Health Dashboard PR22: rules for cluster, deployment and network (#39022)](https://github.com/mattermost/mattermost/commit/f38678d08d67a4d21ea3821f78b530ea7f8f8ec2) | 2026-10-18 |
 | 3051bab1 | [update Calls to v1.12.6 (#39219)](https://github.com/mattermost/mattermost/commit/3051bab1b244265bd0cb0b6de16fec0fb2148de6) | 2026-10-19 |
 | 03f584b7 | [test(e2e): add pw.ensureDemoPlugin fixture, dedupe demo plugin URL (#38918)](https://github.com/mattermost/mattermost/commit/03f584b735f8f778c0f69becfc8fbd39acce7b8d) | 2026-10-19 |
