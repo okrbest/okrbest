@@ -4034,3 +4034,25 @@ FIPS 비밀번호 길이 테스트 수정, 테스트·벤치마크.
 |---|---|---|---|
 | `e2e-tests/playwright/lib/src/server/default_feature_flags.ts` | e2e 기본 플래그 목록에 `EnableBrotliCompression` 1줄 | 제외한 `5dec0b82`(Playwright 리셋 개편) 계보 파일이라 우리에게 없다(modify/delete) | `5dec0b82` 계보를 반영할 때 |
 | `model/feature_flags.go`·`sanitized_config.json`의 `OpenIdAttributeSync` | 충돌 문맥에 딸린 OIDC 속성 동기화 kill switch | 제외한 `85b7d85b`(#38939)의 플래그 | `85b7d85b`를 반영할 때 |
+
+---
+
+## 번역 규칙 도구 — 없는 로케일 7개와 read-only 입력은 버렸고, ko 리브랜드 예외를 더했다
+
+**upstream**: [`58b104ca`](https://github.com/mattermost/mattermost/commit/58b104cac39cc2d3addfa9e782096efc0cdf9c4e)
+(The rules a new translation is held to, #39299) — 18파일 +1184/-52, 2026-10-23 반영(사용자 결정 adapt)
+
+**받은 것.** 18파일 전부. `i18n/scripts/`(rules·glossary·catalogs·repo 라이브러리, `check_glossary.mjs`, 테스트), `i18n/style.json`, `server_plurals.json`과
+mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-verify-all`, CI 통합 job `verify`.
+**우리 맞춤.**
+- `check_glossary.mjs`에 `REBRANDED_TARGETS = {ko: {Mattermost: 'OKR.BEST'}}` 예외를 넣었다. upstream 규칙("doNotTranslate 용어의 target은 그 용어 자체")이
+  우리 `glossary/ko.json`의 리브랜드 target과 부딪쳐서다(원칙 IV). 테스트 `accepts the okrbest rebrand target and nothing else`가 다른 대체어는 계속 거부함을 고정한다.
+- `glossary/README.md` 충돌은 upstream 새 문장과 우리 okrbest 메모를 둘 다 남겼다.
+
+**버린 것.**
+
+| 대상 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `i18n/scripts/lib/server_plurals.json`의 `cs`·`da`·`fi`·`hr`·`lt`·`nb-NO`·`pt` | go-i18n 복수형 표 29개 로케일 | 우리는 21개 로케일만 둔다(`26c2875411` adapt 때 8개 실험 언어를 버린 사용자 결정). 카탈로그 없는 로케일이 있으면 `TestServerPluralTableMatchesGoI18n`이 실패한다 | 실험 언어를 되살릴 때 |
+| `i18n/style.json`의 `da`·`nb-NO` | 존댓말·반말 규칙 | 같은 사유 — `check_glossary`가 "no catalog has this locale"로 실패한다 | 같음 |
+| `i18n-ci-template.yml`의 `webapp-setup` `read-only: "true"` | CI 캐시 읽기 전용 복원 | 그 입력을 만든 `2d05d063`(#37182)을 제외해 우리 action에 입력이 없다 | `2d05d063` 계보를 반영할 때 |
