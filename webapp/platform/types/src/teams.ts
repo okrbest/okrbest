@@ -157,3 +157,24 @@ export type MemberInviteProfile = {
     first_name: string;
     last_name: string;
 };
+
+export type MemberRegistration = {
+    email: string;
+    name: string;
+    password: string;
+};
+
+export type MemberRegistrationStatus = 'created_and_added' | 'existing_added' | 'already_member' | 'failed';
+
+export type MemberRegistrationResult = {
+    email: string;
+    status: MemberRegistrationStatus;
+    user_id?: string;
+    member?: TeamMembership;
+
+    // Unlike ServerError, error uses field names directly from model.AppError on the server
+    error?: {
+        id: string;
+        message: string;
+    };
+};

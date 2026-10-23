@@ -139,6 +139,8 @@ import type {RemoteClusterInfo, SharedChannelRemote} from '@mattermost/types/sha
 import type {
     GetTeamMembersOpts,
     MemberInviteProfile,
+    MemberRegistration,
+    MemberRegistrationResult,
     Team,
     TeamInviteWithError,
     TeamMembership,
@@ -1682,6 +1684,13 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getTeamRoute(teamId)}/invite-guests/email`,
             {method: 'post', body: JSON.stringify({emails, channels: channelIds, message})},
+        );
+    };
+
+    registerTeamMembers = (teamId: string, registrations: MemberRegistration[]) => {
+        return this.doFetch<MemberRegistrationResult[]>(
+            `${this.getTeamMembersRoute(teamId)}/register`,
+            {method: 'post', body: JSON.stringify(registrations)},
         );
     };
 

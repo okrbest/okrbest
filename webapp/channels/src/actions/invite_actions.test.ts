@@ -6,7 +6,7 @@ import type {UserProfile} from '@mattermost/types/users';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
+import {sendMembersInvites, sendGuestsInvites, registerMembersDirectly} from 'actions/invite_actions';
 
 import mockStore from 'tests/test_store';
 import {ConsolePages} from 'utils/constants';
@@ -39,6 +39,26 @@ const mockSendEmailInvitesCalls: Array<{team: string; emails: string[]; profiles
 
 jest.mock('mattermost-redux/actions/teams', () => ({
     getTeamMembersByIds: () => ({type: 'MOCK_RECEIVED_ME'}),
+    registerTeamMembers: (team: string, rows: Array<{email: string; name: string; password: string}>) => {
+        if (team === 'request-error') {
+            return {type: 'MOCK_RECEIVED_ME', error: {message: '(From server) direct registration failed.'}};
+        }
+        return {
+            type: 'MOCK_RECEIVED_ME',
+            data: rows.map((row) => {
+                if (row.email.startsWith('fail')) {
+                    return {email: row.email, status: 'failed', error: {id: 'some.error', message: '(From server) row failed.'}};
+                }
+                if (row.email.startsWith('existing')) {
+                    return {email: row.email, status: 'existing_added', user_id: 'existing-user-id'};
+                }
+                if (row.email.startsWith('member')) {
+                    return {email: row.email, status: 'already_member', user_id: 'member-user-id'};
+                }
+                return {email: row.email, status: 'created_and_added', user_id: 'new-user-id'};
+            }),
+        };
+    },
     sendEmailInvitesToTeamGracefully: (team: string, emails: string[], profiles?: unknown) => {
         mockSendEmailInvitesCalls.push({team, emails, profiles});
         if (team === 'incorrect-default-smtp') {
@@ -913,6 +933,48 @@ describe('actions/invite_actions', () => {
                     notSent: [],
                 },
             });
+        });
+    });
+});
+
+describe('actions/invite_actions/registerMembersDirectly', () => {
+    const store = mockStore({});
+
+    it('maps per-row statuses to sent and notSent', async () => {
+        const rows = [
+            {email: 'new@example.com', name: '홍길동', password: 'Pass!2345'},
+            {email: 'existing@example.com', name: '기존', password: 'Pass!2345'},
+            {email: 'member@example.com', name: '멤버', password: 'Pass!2345'},
+            {email: 'fail@example.com', name: '실패', password: 'Pass!2345'},
+        ];
+        const response = await store.dispatch(registerMembersDirectly('correct', rows));
+        const data = response.data!;
+
+        expect(data.sent.map((r) => ('email' in r ? r.email : ''))).toEqual([
+            'new@example.com',
+            'existing@example.com',
+            'member@example.com',
+        ]);
+        expect(data.notSent).toHaveLength(1);
+        expect(data.notSent[0]).toMatchObject({
+            email: 'fail@example.com',
+            reason: '(From server) row failed.',
+        });
+    });
+
+    it('puts every row into notSent when the request itself fails', async () => {
+        const rows = [
+            {email: 'new@example.com', name: '홍길동', password: 'Pass!2345'},
+            {email: 'new2@example.com', name: '둘째', password: 'Pass!2345'},
+        ];
+        const response = await store.dispatch(registerMembersDirectly('request-error', rows));
+        const data = response.data!;
+
+        expect(data.sent).toHaveLength(0);
+        expect(data.notSent).toHaveLength(2);
+        expect(data.notSent[0]).toMatchObject({
+            email: 'new@example.com',
+            reason: '(From server) direct registration failed.',
         });
     });
 });

@@ -13,7 +13,7 @@ import {regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {Permissions} from 'mattermost-redux/constants';
 import {getCurrentChannel, getChannelsInCurrentTeam, getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense, getPasswordConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam, getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -23,6 +23,7 @@ import {
     sendMembersInvites,
     sendGuestsInvites,
     sendMembersInvitesToChannels,
+    registerMembersDirectly,
 } from 'actions/invite_actions';
 
 import {makeAsyncComponent} from 'components/async_load';
@@ -78,6 +79,9 @@ export function mapStateToProps(state: GlobalState, props: OwnProps) {
 
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
 
+    const canDirectRegister = config.EnableDirectMemberRegistration === 'true' &&
+        Boolean(haveICurrentTeamPermission(state, Permissions.REGISTER_TEAM_MEMBERS));
+
     const guestMagicLinkEnabled = config.EnableGuestMagicLink === 'true';
     const canInviteGuestsWithMagicLink = canInviteGuests && guestMagicLinkEnabled;
 
@@ -93,6 +97,8 @@ export function mapStateToProps(state: GlobalState, props: OwnProps) {
         currentChannel,
         townSquareDisplayName,
         canInviteGuestsWithMagicLink,
+        canDirectRegister,
+        passwordConfig: getPasswordConfig(state),
     };
 }
 
@@ -102,6 +108,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             sendGuestsInvites,
             sendMembersInvites,
             sendMembersInvitesToChannels,
+            registerMembersDirectly,
             regenerateTeamInviteId,
             searchProfiles,
             searchChannels,
