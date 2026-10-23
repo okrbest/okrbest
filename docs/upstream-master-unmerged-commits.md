@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-23 14:01
+- 갱신일: 2026-10-23 14:15
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1개
+- 남은 커밋: 0개
 
-**마지막 반영 커밋:** `58b104ca` | [The rules a new translation is held to (#39299)](https://github.com/mattermost/mattermost/commit/58b104cac39cc2d3addfa9e782096efc0cdf9c4e) | 2026-10-22
+**마지막 반영 커밋:** `8003be3b` | [fix(e2e): restore CollapsedThreads in the per-test config reset (#39377)](https://github.com/mattermost/mattermost/commit/8003be3bb3120a3190957c55a46c89b81ec25f05) | 2026-10-23
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 8003be3b | [fix(e2e): restore CollapsedThreads in the per-test config reset (#39377)](https://github.com/mattermost/mattermost/commit/8003be3bb3120a3190957c55a46c89b81ec25f05) | 2026-10-23 |
 
 ## 제외된 커밋
 
@@ -761,6 +760,8 @@
 | 246a047c | [Add dot release docs for server v12.0.1, v11.11.3, v11.10.4, v11.7.14 (ESR) and v10.11.25 (ESR) (#39357)](https://github.com/mattermost/mattermost/commit/246a047c6831aa694aa21b68e44c10474cf57ef8) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. 2026-10-22 Mattermost server 점 릴리스 5종(v12.0.1, v11.11.3, v11.10.4, v11.7.14 ESR, v10.11.25 ESR)의 changelog·다운로드/SBOM/아카이브 링크·SHA-256 체크섬과 RHEL·tar 배포 가이드 버전 링크를 갱신하는 문서 7파일(docs/main/**/*.mdx, +93/-60)이 전부 우리 트리에 없다(MISSING 7/7, CONFLICT 6건 모두 modify/delete). 직전 점 릴리스 문서 c77a59ea(#39004)와 같은 사유다. 내용도 Mattermost 배포물의 릴리스 노트·체크섬이라 OKR.BEST 배포물과 맞지 않는다. 제품 코드·CI 변경 0건이라 반영하지 않아도 제품 공백이 없다. |
 
 | 30919494 | [Migrate checkboxes to Compass Checkbox (full stack) (#39040)](https://github.com/mattermost/mattermost/commit/309194942d4c16e45f1820e5b5f054dd5cc5a31a) | webapp 전 영역의 체크박스(시스템 콘솔 채널 모더레이션·멤버 관리·데이터 보존 정책, 사용자 알림 설정, 인터랙티브 다이얼로그 등)를 @mattermost/compass-ui Checkbox로 바꾸는 Compass 이관(83파일 +4805/-3124, compass-ui 언급 46곳, 스냅샷 대량·SCSS 4개·e2e 로케이터 8개, 서버 변경 0건). b4c43b05(SectionNotice Compass 이관)와 같은 연작이다. 우리 트리에 compass-ui 의존성이 없다 — 도입 커밋 70658e18(#38153)을 2026-10-18에 exclude했고, 그때 사용자 결정으로 compass-ui 도입·이관 커밋은 모두 exclude한다. 사유는 (1) compass-ui가 npm·원본 저장소 어디에도 라이선스가 없어 번들 재배포가 불가하고, (2) upstream이 Compass로 옮기려는 사이드바·헤더 영역을 우리가 Slack식으로 자체 개편했기 때문이다(spec 014). 커밋 본질이 자체 체크박스를 Compass로 대체하는 것이라 adapt로 살릴 조각이 없다. MISSING PATHS 8개(classification_markings, filter_checkbox, global_attributes 등)도 우리가 받지 않은 기능 파일이다. compass-ui에 라이선스가 붙고 Compass 수용을 결정하면 재검토한다. |
+
+| 8003be3b | [fix(e2e): restore CollapsedThreads in the per-test config reset (#39377)](https://github.com/mattermost/mattermost/commit/8003be3bb3120a3190957c55a46c89b81ec25f05) | 제외한 5dec0b82(#39091 Playwright config·roles 리셋 개편)의 후속 수정이라 고칠 기구가 없다. upstream은 매 테스트 전 onPremServerConfig로 설정을 되돌리는데 그 목록에 CollapsedThreads가 빠져 스레드 접기를 끈 스펙의 상태가 뒤 스펙으로 새던 문제를 CollapsedThreads: ALWAYS_ON 1줄과 import로 막는다(1파일 +3, e2e-tests/playwright/lib/src/server/default_config.ts). 우리 트리에는 per-test 리셋이 없고, 5dec0b82가 없앤 전체 defaultServerConfig가 남아 242행에 이미 CollapsedThreads: CollapsedThreads.ALWAYS_ON(22행 import 포함)이 있으며 init.ts:39의 getOnPremServerConfig()로 서버에 적용된다. 반영해도 같은 값이 한 번 더 들어갈 뿐이고 주석은 없는 기구를 설명하게 된다. merge-tree CONFLICT는 5dec0b82 이후 모양의 import·문맥 차이다. 5dec0b82 계보를 반영할 때 함께 재검토한다. |
 
 ## spec 전환 커밋
 
