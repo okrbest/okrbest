@@ -1472,10 +1472,6 @@
     "translation": "보안 연결에 사용할 표시 이름"
   },
   {
-    "id": "api.command_remote.encrypt_invitation.error",
-    "translation": "초대를 암호화할 수 없습니다: {{.Error}}"
-  },
-  {
     "id": "api.command_remote.fetch_status.error",
     "translation": "보안 연결을 가져올 수 없습니다: {{.Error}}"
   },
@@ -2084,14 +2080,6 @@
     "translation": "사용자 속성 필드 패치가 유효하지 않습니다"
   },
   {
-    "id": "api.custom_profile_attributes.field_conversion_error",
-    "translation": "속성 필드를 사용자 정의 프로필 특성 필드로 변환할 수 없습니다"
-  },
-  {
-    "id": "api.custom_profile_attributes.field_not_found",
-    "translation": "존재하지 않는 필드를 수정하려고 합니다"
-  },
-  {
     "id": "api.custom_profile_attributes.license_error",
     "translation": "사용자 정의 프로필 특성에 라이센스가 없습니다."
   },
@@ -2524,10 +2512,6 @@
   {
     "id": "api.license.add_license.unique_users.app_error",
     "translation": "이 라이선스는 시스템에 {{.Count}}명의 고유 사용자들이 있을 때, {{.Users}}명의 사용자를 지원합니다. 고유 사용자는 이메일 주소로 구분됩니다. 사용자 수는 리포팅 -> 사이트 통계에서 확인할 수 있습니다."
-  },
-  {
-    "id": "api.license.client.old_format.app_error",
-    "translation": "클라이언트 라이선스를 위한 새로운 형식은 아직 지원하지 않습니다. 명령문에서 format=old 를 명시해 주세요."
   },
   {
     "id": "api.license.remove_expired_license.failed.error",
@@ -3570,82 +3554,6 @@
     "translation": "원격 채널에서 초대를 제거할 수 없습니다."
   },
   {
-    "id": "api.slackimport.slack_add_bot_user.unable_import",
-    "translation": "{{.Username}} 슬랙 봇 계정을 추가할 수 없습니다.\n"
-  },
-  {
-    "id": "api.slackimport.slack_add_channels.added",
-    "translation": "\n채널 추가되었습니다:\n"
-  },
-  {
-    "id": "api.slackimport.slack_add_channels.failed_to_add_user",
-    "translation": "슬랙 사용자 {{.Username}}을(를) 채널에 추가할 수 없습니다.\n"
-  },
-  {
-    "id": "api.slackimport.slack_add_channels.import_failed",
-    "translation": "슬랙 채널 {{.DisplayName}}을(를) 임포트할 수 없습니다.\n"
-  },
-  {
-    "id": "api.slackimport.slack_add_channels.merge",
-    "translation": "Slack채널 {{.DisplayName}}이(가) 이미 OKR.BEST채널에 활성상태로 존재합니다. 두 채널은 통합되었습니다.\r\n"
-  },
-  {
-    "id": "api.slackimport.slack_add_users.created",
-    "translation": "\n사용자가 생성되었습니다:\n"
-  },
-  {
-    "id": "api.slackimport.slack_add_users.merge_existing",
-    "translation": "전자우편 {{.Email}}, 사용자 ID {{.Username}}를 통해 Slack 사용자와 OKR.BEST에 존재하는 사용자를 통합했습니다.\n"
-  },
-  {
-    "id": "api.slackimport.slack_add_users.merge_existing_failed",
-    "translation": "전자우편 {{.Email}}, 사용자 ID {{.Username}}를 통해 Slack 사용자와 OKR.BEST에 존재하는 사용자를 통합했지만 팀에 추가하지는 못했습니다.\n"
-  },
-  {
-    "id": "api.slackimport.slack_add_users.missing_email_address",
-    "translation": "사용자 {{.Username}}은(는) Slack 추출 정보에 이메일 주소가 없습니다. 임시로 {{.Email}}을(를) 플레이스홀더로 사용합니다. 사용자는 시스템에 접속하여 전자우편 주소를 변경해야 합니다.\n"
-  },
-  {
-    "id": "api.slackimport.slack_add_users.unable_import",
-    "translation": "불러올 수 없는 Slack사용자 입니다: {{.Username}}\n"
-  },
-  {
-    "id": "api.slackimport.slack_import.log",
-    "translation": "Slack에서 가져오기 Log\n"
-  },
-  {
-    "id": "api.slackimport.slack_import.note1",
-    "translation": "- 몇몇 메시지는 이 불러오기 프로그램을 지원하지 않기 때문에 불러올 수 없을 수 없습니다.\n"
-  },
-  {
-    "id": "api.slackimport.slack_import.note2",
-    "translation": "- Slack bot 메시지는 최근 지원하지 않습니다.\n"
-  },
-  {
-    "id": "api.slackimport.slack_import.note3",
-    "translation": "- 서버 로그에서 찾을 수 있는 추가적인 오류들.\n"
-  },
-  {
-    "id": "api.slackimport.slack_import.notes",
-    "translation": "\n알림:\n"
-  },
-  {
-    "id": "api.slackimport.slack_import.open.app_error",
-    "translation": "{{.Filename}} 파일을 열 수 없습니다.\n"
-  },
-  {
-    "id": "api.slackimport.slack_import.team_fail",
-    "translation": "불러오기 할 팀을 가져올 수 없습니다.\n"
-  },
-  {
-    "id": "api.slackimport.slack_import.zip.app_error",
-    "translation": "Slack에서 불러온 zip파일을 열 수 없습니다.\n"
-  },
-  {
-    "id": "api.slackimport.slack_import.zip.file_too_large",
-    "translation": "Slack 가져오기를 처리하기에는 zip 압축파일의 {{.Filename}}이(가) 너무 큽니다\r\n"
-  },
-  {
     "id": "api.status.user_not_found.app_error",
     "translation": "사용자를 찾을 수 업습니다."
   },
@@ -3728,38 +3636,6 @@
   {
     "id": "api.team.get_team_icon.read_file.app_error",
     "translation": "팀 아이콘 파일을 읽을 수 없습니다."
-  },
-  {
-    "id": "api.team.import_team.array.app_error",
-    "translation": "요청의 'file' 배열이 비어있습니다."
-  },
-  {
-    "id": "api.team.import_team.integer.app_error",
-    "translation": "Filesize가 정수가 아닙니다."
-  },
-  {
-    "id": "api.team.import_team.no_file.app_error",
-    "translation": "요청의 'file' 항목에 파일이 없습니다."
-  },
-  {
-    "id": "api.team.import_team.no_import_from.app_error",
-    "translation": "잘못된 리퀘스트: importFrom필드가 존재하지 않습니다."
-  },
-  {
-    "id": "api.team.import_team.open.app_error",
-    "translation": "파일을 열 수 없습니다."
-  },
-  {
-    "id": "api.team.import_team.parse.app_error",
-    "translation": "multipart 폼을 가져올수 없습니다."
-  },
-  {
-    "id": "api.team.import_team.unavailable.app_error",
-    "translation": "잘못된 리퀘스트: filesize필드가 존재하지 않습니다."
-  },
-  {
-    "id": "api.team.import_team.unknown_import_from.app_error",
-    "translation": "알 수 없는 가져오기 소스입니다."
   },
   {
     "id": "api.team.invalidate_all_email_invites.app_error",
@@ -4482,10 +4358,6 @@
     "translation": "zip 파일 생성 오류"
   },
   {
-    "id": "api.unable_to_read_file_from_backend",
-    "translation": "백엔드에서 파일을 읽는 중 오류가 발생했습니다"
-  },
-  {
     "id": "api.unmarshal_error",
     "translation": "언마샬링에 실패했습니다."
   },
@@ -5110,18 +4982,6 @@
     "translation": "이메일 확인에서 토큰 데이터를 구문 분석하는 데 실패했습니다"
   },
   {
-    "id": "api.user.view_archived_channels.get_posts_for_channel.app_error",
-    "translation": "보관된 채널의 게시물을 검색할 수 없습니다"
-  },
-  {
-    "id": "api.user.view_archived_channels.get_users_in_channel.app_error",
-    "translation": "보관된 채널의 사용자를 검색할 수 없습니다"
-  },
-  {
-    "id": "api.user.view_archived_channels.list_channel_bookmarks_for_channel.app_error",
-    "translation": "보관된 채널의 북마크를 검색할 수 없습니다"
-  },
-  {
     "id": "api.web_socket.connect.upgrade.app_error",
     "translation": "CORS로 인해 URL이 차단되었습니다. URL: {{.BlockedOrigin}}"
   },
@@ -5232,10 +5092,6 @@
   {
     "id": "app.audit.get.limit.app_error",
     "translation": "페이지 매김 제한을 초과했습니다."
-  },
-  {
-    "id": "app.audit.permanent_delete_by_user.app_error",
-    "translation": "감사 내역을 삭제하는 중 오류가 발생했습니다."
   },
   {
     "id": "app.audit.save.saving.app_error",
@@ -5642,10 +5498,6 @@
     "translation": "채널을 찾을 수 없습니다."
   },
   {
-    "id": "app.channel.get_channels_batch_for_indexing.get.app_error",
-    "translation": "인덱싱을 위한 채널 배치를 가져올 수 없습니다."
-  },
-  {
     "id": "app.channel.get_channels_by_ids.app_error",
     "translation": "ID로 채널을 가져올 수 없습니다."
   },
@@ -5776,10 +5628,6 @@
   {
     "id": "app.channel.permanent_delete.app_error",
     "translation": "채널을 삭제할 수 없습니다."
-  },
-  {
-    "id": "app.channel.permanent_delete_members_by_user.app_error",
-    "translation": "채널 멤버를 제거할 수 없습니다."
   },
   {
     "id": "app.channel.pinned_posts.app_error",
@@ -6326,10 +6174,6 @@
     "translation": "임시보관함을 저장할 수 없습니다."
   },
   {
-    "id": "app.drafts.permanent_delete_by_user.app_error",
-    "translation": "사용자의 임시보관함을 삭제할 수 없습니다."
-  },
-  {
     "id": "app.email.no_rate_limiter.app_error",
     "translation": "속도 제한기가 설정되지 않았습니다."
   },
@@ -6822,10 +6666,6 @@
     "translation": "옵션이 있는 파일 정보를 가져올 수 없습니다."
   },
   {
-    "id": "app.file_info.permanent_delete_by_user.app_error",
-    "translation": "사용자의 첨부 파일을 삭제할 수 없습니다."
-  },
-  {
     "id": "app.file_info.permanent_delete_for_post.app_error",
     "translation": "게시물의 파일을 영구적으로 삭제하지 못했습니다."
   },
@@ -6876,10 +6716,6 @@
   {
     "id": "app.group.no_rows",
     "translation": "일치하는 그룹을 찾을 수 없습니다."
-  },
-  {
-    "id": "app.group.permanent_delete_members_by_user.app_error",
-    "translation": "UserID \"{{.UserId}}\"의 그룹 멤버를 제거할 수 없습니다."
   },
   {
     "id": "app.group.uniqueness_error",
@@ -7782,10 +7618,6 @@
     "translation": "OAuth2 앱을 찾는 중 오류가 발생했습니다."
   },
   {
-    "id": "app.oauth.permanent_delete_auth_data_by_user.app_error",
-    "translation": "인증 코드를 제거할 수 없습니다."
-  },
-  {
     "id": "app.oauth.remove_access_data.app_error",
     "translation": "액세스 토큰을 제거할 수 없습니다."
   },
@@ -7912,10 +7744,6 @@
   {
     "id": "app.plugin.filesystem.app_error",
     "translation": "파일 시스템 오류가 발생했습니다."
-  },
-  {
-    "id": "app.plugin.flag_managed.app_error",
-    "translation": "플러그인을 파일 저장소에서 관리되도록 설정할 수 없습니다."
   },
   {
     "id": "app.plugin.get_cluster_plugin_statuses.app_error",
@@ -8122,10 +7950,6 @@
     "translation": "다이렉트 메시지를 가져올 수 없습니다."
   },
   {
-    "id": "app.post.get_files_batch_for_indexing.get.app_error",
-    "translation": "인덱싱을 위한 파일 배치를 가져올 수 없습니다."
-  },
-  {
     "id": "app.post.get_flagged_posts.app_error",
     "translation": "깃발 표시된 게시물을 가져올 수 없습니다."
   },
@@ -8144,10 +7968,6 @@
   {
     "id": "app.post.get_posts_around.get.app_error",
     "translation": "채널의 게시물을 가져올 수 없습니다."
-  },
-  {
-    "id": "app.post.get_posts_batch_for_indexing.get.app_error",
-    "translation": "인덱싱을 위한 게시물 배치를 가져올 수 없습니다."
   },
   {
     "id": "app.post.get_posts_created_at.app_error",
@@ -8196,10 +8016,6 @@
   {
     "id": "app.post.permanent_delete_by_channel.app_error",
     "translation": "채널의 게시물을 삭제할 수 없습니다."
-  },
-  {
-    "id": "app.post.permanent_delete_by_user.app_error",
-    "translation": "사용자의 게시물을 삭제할 게시물을 선택할 수 없습니다."
   },
   {
     "id": "app.post.permanent_delete_post.error",
@@ -8542,10 +8358,6 @@
     "translation": "환경설정을 찾는 중 오류가 발생했습니다"
   },
   {
-    "id": "app.preference.permanent_delete_by_user.app_error",
-    "translation": "환경설정을 삭제하는 중 오류가 발생했습니다"
-  },
-  {
     "id": "app.preference.save.updating.app_error",
     "translation": "환경설정을 업데이트하는 중 오류가 발생했습니다"
   },
@@ -8660,10 +8472,6 @@
   {
     "id": "app.reaction.get_for_post.app_error",
     "translation": "게시물의 반응을 가져올 수 없습니다"
-  },
-  {
-    "id": "app.reaction.permanent_delete_by_user.app_error",
-    "translation": "사용자의 반응을 삭제할 수 없습니다"
   },
   {
     "id": "app.reaction.save.save.app_error",
@@ -8844,10 +8652,6 @@
     "translation": {
       "other": "예약된 게시물 {{.Count}}개를 보내지 못했습니다."
     }
-  },
-  {
-    "id": "app.scheduled_post.permanent_delete_by_user.app_error",
-    "translation": "사용자의 예약된 게시물을 삭제할 수 없습니다"
   },
   {
     "id": "app.scheduled_post.private_channel",
@@ -9558,10 +9362,6 @@
     "translation": "사용자 {{.Count}}명의 삭제를 끝내지 못했습니다: {{.Usernames}}. 계속하려면 명령을 다시 실행하세요."
   },
   {
-    "id": "app.user.permanentdeleteuser.internal_error",
-    "translation": "사용자를 삭제할 수 없습니다."
-  },
-  {
     "id": "app.user.promote_guest.user_update.app_error",
     "translation": "사용자를 업데이트할 수 없습니다."
   },
@@ -9766,15 +9566,7 @@
     "translation": "웹훅을 삭제할 수 없습니다."
   },
   {
-    "id": "app.webhooks.permanent_delete_incoming_by_user.app_error",
-    "translation": "웹훅을 삭제할 수 없습니다."
-  },
-  {
     "id": "app.webhooks.permanent_delete_outgoing_by_channel.app_error",
-    "translation": "웹훅을 삭제할 수 없습니다."
-  },
-  {
-    "id": "app.webhooks.permanent_delete_outgoing_by_user.app_error",
     "translation": "웹훅을 삭제할 수 없습니다."
   },
   {
@@ -9804,174 +9596,6 @@
   {
     "id": "basic_security_check.url.too_long_error",
     "translation": "URL이 너무 깁니다"
-  },
-  {
-    "id": "bleveengine.already_started.error",
-    "translation": "Bleve가 이미 시작되었습니다"
-  },
-  {
-    "id": "bleveengine.create_channel_index.error",
-    "translation": "bleve 채널 인덱스를 생성하는 중 오류가 발생했습니다"
-  },
-  {
-    "id": "bleveengine.create_file_index.error",
-    "translation": "bleve 파일 인덱스를 생성하는 중 오류가 발생했습니다"
-  },
-  {
-    "id": "bleveengine.create_post_index.error",
-    "translation": "bleve 게시물 인덱스를 생성하는 중 오류가 발생했습니다"
-  },
-  {
-    "id": "bleveengine.create_user_index.error",
-    "translation": "bleve 사용자 인덱스를 생성하는 중 오류가 발생했습니다"
-  },
-  {
-    "id": "bleveengine.delete_channel.error",
-    "translation": "채널을 삭제하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.delete_channel_posts.error",
-    "translation": "채널 게시물을 삭제하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.delete_file.error",
-    "translation": "파일을 삭제하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.delete_files_batch.error",
-    "translation": "파일들을 삭제하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.delete_post.error",
-    "translation": "게시물을 삭제하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.delete_post_files.error",
-    "translation": "게시물 파일들을 삭제하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.delete_user.error",
-    "translation": "사용자를 삭제하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.delete_user_files.error",
-    "translation": "사용자 파일들을 삭제하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.delete_user_posts.error",
-    "translation": "사용자 게시물을 삭제하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.index_channel.error",
-    "translation": "채널을 인덱싱하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.index_file.error",
-    "translation": "파일을 인덱싱하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.index_post.error",
-    "translation": "게시물을 인덱싱하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.index_user.error",
-    "translation": "사용자를 인덱싱하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.indexer.do_job.bulk_index_channels.batch_error",
-    "translation": "채널 배치를 인덱싱하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.indexer.do_job.bulk_index_files.batch_error",
-    "translation": "파일 배치를 인덱싱하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.indexer.do_job.bulk_index_posts.batch_error",
-    "translation": "게시물 배치를 인덱싱하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.indexer.do_job.bulk_index_users.batch_error",
-    "translation": "사용자 배치를 인덱싱하는 데 실패했습니다"
-  },
-  {
-    "id": "bleveengine.indexer.do_job.engine_inactive",
-    "translation": "Bleve 인덱스 작업을 실행하는 데 실패했습니다: 엔진이 비활성화되어 있습니다"
-  },
-  {
-    "id": "bleveengine.indexer.do_job.get_oldest_entity.error",
-    "translation": "데이터베이스에서 가장 오래된 엔티티(사용자, 채널 또는 게시물)를 검색할 수 없습니다"
-  },
-  {
-    "id": "bleveengine.indexer.do_job.parse_end_time.error",
-    "translation": "종료 시간을 파싱하는 데 Bleve 인덱싱 워커가 실패했습니다."
-  },
-  {
-    "id": "bleveengine.indexer.do_job.parse_start_time.error",
-    "translation": "시작 시간을 파싱하는 데 Bleve 인덱싱 워커가 실패했습니다."
-  },
-  {
-    "id": "bleveengine.indexer.index_batch.nothing_left_to_index.error",
-    "translation": "모든 엔티티가 완료되었을 때 새 배치를 인덱싱하려고 시도했습니다."
-  },
-  {
-    "id": "bleveengine.purge_channel_index.error",
-    "translation": "채널 인덱스를 삭제하는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.purge_file_index.error",
-    "translation": "파일 인덱스를 삭제하는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.purge_list.not_implemented",
-    "translation": "Bleve에서는 삭제 목록 기능을 사용할 수 없습니다."
-  },
-  {
-    "id": "bleveengine.purge_post_index.error",
-    "translation": "게시물 인덱스를 삭제하는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.purge_user_index.error",
-    "translation": "사용자 인덱스를 삭제하는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.search_channels.error",
-    "translation": "채널 검색을 완료하는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.search_files.error",
-    "translation": "파일 검색을 완료하는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.search_posts.error",
-    "translation": "게시물 검색을 완료하는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.search_users_in_channel.nuchan.error",
-    "translation": "사용자 검색을 완료하는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.search_users_in_channel.uchan.error",
-    "translation": "사용자 검색을 완료하는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.search_users_in_team.error",
-    "translation": "사용자 검색을 완료하는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.stop_channel_index.error",
-    "translation": "채널 인덱스를 닫는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.stop_file_index.error",
-    "translation": "파일 인덱스를 닫는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.stop_post_index.error",
-    "translation": "게시물 인덱스를 닫는 데 실패했습니다."
-  },
-  {
-    "id": "bleveengine.stop_user_index.error",
-    "translation": "사용자 인덱스를 닫는 데 실패했습니다."
   },
   {
     "id": "brand.save_brand_image.check_image_limits.app_error",
@@ -10368,10 +9992,6 @@
   {
     "id": "ent.elasticsearch.indexer.index_batch.nothing_left_to_index.error",
     "translation": "모든 엔티티가 완료되었을 때 새 배치를 인덱싱하려고 시도합니다"
-  },
-  {
-    "id": "ent.elasticsearch.max_version.app_error",
-    "translation": "{{.Backend}} 버전 {{.Version}}이(가) 지원되는 최대 버전 {{.MaxVersion}}보다 높습니다"
   },
   {
     "id": "ent.elasticsearch.not_started.error",
@@ -10832,10 +10452,6 @@
   {
     "id": "error",
     "translation": "오류"
-  },
-  {
-    "id": "generic_modal.close",
-    "translation": "닫기"
   },
   {
     "id": "group_not_associated_to_synced_team",
@@ -11466,30 +11082,6 @@
     "translation": "유효하지 않은 타임아웃 값 {{.Value}}입니다. 양수여야 합니다."
   },
   {
-    "id": "model.config.is_valid.atmos_camo_image_proxy_options.app_error",
-    "translation": "atmos/camo에 대한 RemoteImageProxyOptions이 유효하지 않습니다. 공유 키로 설정되어야 합니다."
-  },
-  {
-    "id": "model.config.is_valid.atmos_camo_image_proxy_url.app_error",
-    "translation": "atmos/camo에 대한 RemoteImageProxyURL이 유효하지 않습니다. 공유 키로 설정되어야 합니다."
-  },
-  {
-    "id": "model.config.is_valid.bleve_search.bulk_indexing_batch_size.app_error",
-    "translation": "Bleve 일괄 인덱싱 배치 크기는 최소 {{.BatchSize}} 이상이어야 합니다."
-  },
-  {
-    "id": "model.config.is_valid.bleve_search.enable_autocomplete.app_error",
-    "translation": "Bleve 자동완성 활성화가 true로 설정된 경우 Bleve 인덱싱 활성화도 true로 설정되어야 합니다."
-  },
-  {
-    "id": "model.config.is_valid.bleve_search.enable_searching.app_error",
-    "translation": "Bleve 검색 활성화가 true로 설정된 경우 Bleve 인덱싱 활성화도 true로 설정되어야 합니다."
-  },
-  {
-    "id": "model.config.is_valid.bleve_search.filename.app_error",
-    "translation": "Bleve 인덱싱 활성화가 true로 설정된 경우 Bleve IndexingDir 설정이 필요합니다."
-  },
-  {
     "id": "model.config.is_valid.cache_type.app_error",
     "translation": "캐시 유형은 lru 또는 redis여야 합니다."
   },
@@ -11624,10 +11216,6 @@
   {
     "id": "model.config.is_valid.experimental_audit_settings.file_name_is_directory",
     "translation": "파일 이름은 디렉터리일 수 없습니다."
-  },
-  {
-    "id": "model.config.is_valid.encrypt_sql.app_error",
-    "translation": "SQL 설정의 저장 시 암호화 키가 유효하지 않습니다. 32자 이상이어야 합니다."
   },
   {
     "id": "model.config.is_valid.export.directory.app_error",
@@ -13500,10 +13088,6 @@
   {
     "id": "plugin_reattach_request.is_valid.plugin_reattach_config.app_error",
     "translation": "플러그인 재연결 설정이 누락되었습니다."
-  },
-  {
-    "id": "searchengine.bleve.disabled.error",
-    "translation": "Bleve 인덱스 삭제 오류: 엔진이 비활성화되었습니다."
   },
   {
     "id": "sharedchannel.cannot_deliver_post",
