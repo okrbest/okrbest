@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {renderWithContext, screen, userEvent, waitFor} from 'tests/react_testing_utils';
+import {fireEvent, renderWithContext, screen, userEvent, waitFor} from 'tests/react_testing_utils';
 import {isValidPassword} from 'utils/password';
 import {TestHelper} from 'utils/test_helper';
 
@@ -175,5 +175,58 @@ describe('DirectRegisterView CSV tab', () => {
 
         await userEvent.click(screen.getByTestId('direct-register-tab-csv'));
         expect(screen.getByTestId('direct-register-template')).toBeInTheDocument();
+    });
+});
+
+describe('DirectRegisterView CSV dropzone', () => {
+    const passwordConfig = {
+        minimumLength: 8,
+        requireLowercase: true,
+        requireUppercase: true,
+        requireNumber: true,
+        requireSymbol: true,
+    };
+
+    const baseProps = {
+        currentTeam: TestHelper.getTeamMock({display_name: 'OKR팀'}),
+        passwordConfig,
+        registerMembers: jest.fn(),
+        onDirtyChange: jest.fn(),
+        headerClass: 'header',
+        footerClass: 'footer',
+        onClose: jest.fn(),
+    };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('shows a dropzone and the selected file name after choosing a file', async () => {
+        renderWithContext(<DirectRegisterView {...baseProps}/>);
+
+        await userEvent.click(screen.getByTestId('direct-register-tab-csv'));
+        expect(screen.getByTestId('direct-register-dropzone')).toBeInTheDocument();
+
+        const file = new File(['이메일,이름,임시비밀번호\nhong@example.com,홍길동,Abcd!2345'], 'members.csv', {type: 'text/csv'});
+        await userEvent.upload(screen.getByTestId('direct-register-file'), file);
+
+        await waitFor(() => {
+            expect(screen.getByTestId('direct-register-dropzone')).toHaveTextContent('members.csv');
+        });
+    });
+
+    it('accepts a file dropped onto the dropzone', async () => {
+        renderWithContext(<DirectRegisterView {...baseProps}/>);
+
+        await userEvent.click(screen.getByTestId('direct-register-tab-csv'));
+        const dropzone = screen.getByTestId('direct-register-dropzone');
+        const file = new File(['이메일,이름,임시비밀번호\nhong@example.com,홍길동,Abcd!2345'], 'dropped.csv', {type: 'text/csv'});
+
+        fireEvent.drop(dropzone, {dataTransfer: {files: [file]}});
+
+        await waitFor(() => {
+            expect(screen.getByTestId('direct-register-preview')).toBeInTheDocument();
+        });
+        expect(screen.getByTestId('direct-register-csv-submit')).toBeEnabled();
     });
 });

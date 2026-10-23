@@ -23519,6 +23519,14 @@
     "defaultMessage": "Download result CSV",
     "description": ""
   },
+  "invite_modal.direct_register.dropzone": {
+    "defaultMessage": "Drag and drop a CSV file here, or click to select one",
+    "description": ""
+  },
+  "invite_modal.direct_register.dropzone_selected": {
+    "defaultMessage": "{filename} — click to choose a different file",
+    "description": ""
+  },
   "invite_modal.direct_register.email": {
     "defaultMessage": "Email (used to sign in)",
     "description": ""
