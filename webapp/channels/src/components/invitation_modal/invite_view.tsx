@@ -32,6 +32,8 @@ import {isValidUsername} from 'utils/utils';
 
 import AddToChannels, {defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import type {CustomMessageProps, InviteChannels} from './add_to_channels';
+import {InviteMethod, InviteMethodSelector} from './direct_register_view';
+import type {InviteMethodType} from './direct_register_view';
 import InviteAs, {InviteType} from './invite_as';
 import MemberProfileInputs from './member_profile_inputs';
 import OverageUsersBannerNotice from './overage_users_banner_notice';
@@ -91,6 +93,8 @@ export type Props = InviteState & {
     toggleGuestMagicLink: () => void;
     lockProfileFieldsForEmailUsers: LockProfileFieldsSetting;
     onProfileChange: (profile: MemberInviteProfile) => void;
+    canDirectRegister?: boolean;
+    onInviteMethodChange?: (method: InviteMethodType) => void;
 };
 
 export default function InviteView(props: Props) {
@@ -275,6 +279,12 @@ export default function InviteView(props: Props) {
                 />
             </Modal.Header>
             <Modal.Body className='overflow-visible'>
+                {props.canDirectRegister && props.onInviteMethodChange && (
+                    <InviteMethodSelector
+                        method={InviteMethod.INVITE}
+                        onMethodChange={props.onInviteMethodChange}
+                    />
+                )}
                 {props.membershipPolicyEnforced && (
                     <div
                         className='InviteView__policyBanner'

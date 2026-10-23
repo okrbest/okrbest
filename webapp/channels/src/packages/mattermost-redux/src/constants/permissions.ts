@@ -4,6 +4,7 @@
 const values = {
     INVITE_USER: 'invite_user',
     ADD_USER_TO_TEAM: 'add_user_to_team',
+    REGISTER_TEAM_MEMBERS: 'register_team_members',
     MANAGE_SLASH_COMMANDS: 'manage_slash_commands',
     MANAGE_OWN_SLASH_COMMANDS: 'manage_own_slash_commands',
     MANAGE_OTHERS_SLASH_COMMANDS: 'manage_others_slash_commands',

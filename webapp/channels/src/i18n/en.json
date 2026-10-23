@@ -15383,6 +15383,14 @@
     "defaultMessage": "Delete Account Link:",
     "description": "Admin console label for the text input holding the URL of the Delete Account link in user profile security settings; ends with a colon."
   },
+  "admin.team.directMemberRegistrationDescription": {
+    "defaultMessage": "When true, Team Admins can directly create member accounts (email, name, temporary password) and add them to their team without sending invitations. Applies to Email-based accounts only.",
+    "description": ""
+  },
+  "admin.team.directMemberRegistrationTitle": {
+    "defaultMessage": "Enable Direct Member Registration: ",
+    "description": ""
+  },
   "admin.team.emailInvitationsDescription": {
     "defaultMessage": "When true, users can invite others to the system using email.",
     "description": "Admin console help text for the 'Enable Email Invitations' toggle."
@@ -23479,6 +23487,130 @@
     "defaultMessage": "team invite link {inviteURL}",
     "description": "Accessibility label for the copy invite link button in the invite modal; {inviteURL} is the full invite URL."
   },
+  "invite_modal.direct_register.csv_file": {
+    "defaultMessage": "CSV file (columns: email, name, temporary password)",
+    "description": ""
+  },
+  "invite_modal.direct_register.csv_header_email": {
+    "defaultMessage": "email",
+    "description": ""
+  },
+  "invite_modal.direct_register.csv_header_name": {
+    "defaultMessage": "name",
+    "description": ""
+  },
+  "invite_modal.direct_register.csv_header_password": {
+    "defaultMessage": "temporary_password",
+    "description": ""
+  },
+  "invite_modal.direct_register.csv_header_reason": {
+    "defaultMessage": "reason",
+    "description": ""
+  },
+  "invite_modal.direct_register.csv_header_result": {
+    "defaultMessage": "result",
+    "description": ""
+  },
+  "invite_modal.direct_register.csv_submit": {
+    "defaultMessage": "Register {validCount} members ({errorCount} rows excluded)",
+    "description": ""
+  },
+  "invite_modal.direct_register.download_results": {
+    "defaultMessage": "Download result CSV",
+    "description": ""
+  },
+  "invite_modal.direct_register.email": {
+    "defaultMessage": "Email (used to sign in)",
+    "description": ""
+  },
+  "invite_modal.direct_register.file_too_many_rows": {
+    "defaultMessage": "Too many rows in this file. Up to {max} members can be registered at once.",
+    "description": ""
+  },
+  "invite_modal.direct_register.file_unparseable": {
+    "defaultMessage": "This file could not be read as CSV. Save it as UTF-8 CSV and try again.",
+    "description": ""
+  },
+  "invite_modal.direct_register.generate": {
+    "defaultMessage": "Generate",
+    "description": ""
+  },
+  "invite_modal.direct_register.method_direct": {
+    "defaultMessage": "Register directly",
+    "description": ""
+  },
+  "invite_modal.direct_register.method_invite": {
+    "defaultMessage": "Send invitations",
+    "description": ""
+  },
+  "invite_modal.direct_register.method_title": {
+    "defaultMessage": "How would you like to add members?",
+    "description": ""
+  },
+  "invite_modal.direct_register.name": {
+    "defaultMessage": "Name",
+    "description": ""
+  },
+  "invite_modal.direct_register.password": {
+    "defaultMessage": "Temporary password",
+    "description": ""
+  },
+  "invite_modal.direct_register.result_failed": {
+    "defaultMessage": "Failed",
+    "description": ""
+  },
+  "invite_modal.direct_register.result_ok": {
+    "defaultMessage": "Registered",
+    "description": ""
+  },
+  "invite_modal.direct_register.row_duplicate": {
+    "defaultMessage": "Duplicate email in this file",
+    "description": ""
+  },
+  "invite_modal.direct_register.row_invalid_email": {
+    "defaultMessage": "Invalid email format",
+    "description": ""
+  },
+  "invite_modal.direct_register.row_invalid_password": {
+    "defaultMessage": "Password does not meet the policy",
+    "description": ""
+  },
+  "invite_modal.direct_register.row_missing_fields": {
+    "defaultMessage": "Missing values",
+    "description": ""
+  },
+  "invite_modal.direct_register.row_status": {
+    "defaultMessage": "Status",
+    "description": ""
+  },
+  "invite_modal.direct_register.row_valid": {
+    "defaultMessage": "Valid",
+    "description": ""
+  },
+  "invite_modal.direct_register.submit": {
+    "defaultMessage": "Create account and add to team",
+    "description": ""
+  },
+  "invite_modal.direct_register.tab_csv": {
+    "defaultMessage": "CSV bulk registration",
+    "description": ""
+  },
+  "invite_modal.direct_register.tab_single": {
+    "defaultMessage": "One member",
+    "description": ""
+  },
+  "invite_modal.direct_register.template": {
+    "defaultMessage": "Download CSV template",
+    "description": ""
+  },
+  "invite_modal.direct_register.template_header": {
+    "defaultMessage": "email,name,temporary_password",
+    "description": ""
+  },
+  "invite_modal.direct_register.title": {
+    "defaultMessage": "Register members to {team_name}",
+    "description": ""
+  },
   "invite_modal.example_channel": {
     "defaultMessage": "e.g. {channel_name}",
     "description": "Placeholder text in the channel picker of the Invite People modal; {channel_name} is a real channel name used as an example."
@@ -23571,6 +23703,10 @@
     "defaultMessage": "This username is reserved.",
     "description": "Validation error under the username field in the invite modal when the entered username is reserved by the system."
   },
+  "invite_modal.registered": {
+    "defaultMessage": "Members registered to {team_name}",
+    "description": ""
+  },
   "invite_modal.restricted_invite_guest.post_trial_description": {
     "defaultMessage": "Collaborate with users outside of your organization while tightly controlling their access to channels and team members. Upgrade to the Professional plan to create unlimited user groups.",
     "description": "Body of the upsell modal shown to admins after their trial ended, explaining the guest accounts feature and asking them to upgrade."
@@ -23626,6 +23762,10 @@
   "invite.members.invite-sent": {
     "defaultMessage": "An invitation email has been sent.",
     "description": "Per-invitee success line in the Invite People modal after a member invitation email is sent."
+  },
+  "invite.members.registered": {
+    "defaultMessage": "An account has been created and added to the team.",
+    "description": ""
   },
   "invite.members.unable-to-add-the-user-to-the-team": {
     "defaultMessage": "Unable to add the user to the team.",

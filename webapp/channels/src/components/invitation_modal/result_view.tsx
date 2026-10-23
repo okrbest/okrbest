@@ -7,8 +7,11 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {Button} from '@mattermost/shared/components/button';
+import type {MemberRegistration} from '@mattermost/types/teams';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
+
+import {serializeCsv} from 'utils/csv';
 
 import {InviteType} from './invite_as';
 import ResultTable from './result_table';
@@ -33,6 +36,11 @@ export const defaultResultState = deepFreeze({
 
 type Props = {
     inviteType: InviteType;
+    directRegister?: boolean;
+
+    // The rows the admin submitted (including temporary passwords), kept so
+    // the result CSV can hand the credentials over to the registered members.
+    registrations?: MemberRegistration[];
     currentTeamName: string;
     onDone: () => void;
     headerClass: string;
@@ -42,6 +50,52 @@ type Props = {
 
 export default function ResultView(props: Props) {
     const {formatMessage} = useIntl();
+
+    const reasonToText = (reason: InviteResult['reason']): string => {
+        if (typeof reason === 'string') {
+            return reason;
+        }
+        return formatMessage(reason, 'values' in reason ? reason.values as Record<string, string> : undefined);
+    };
+
+    const findByEmail = (rows: InviteResult[], email: string): InviteResult | undefined => {
+        return rows.find((row) => 'email' in row && row.email === email);
+    };
+
+    const downloadResultCsv = () => {
+        if (!props.registrations?.length) {
+            return;
+        }
+        const header = [
+            formatMessage({id: 'invite_modal.direct_register.csv_header_email', defaultMessage: 'email'}),
+            formatMessage({id: 'invite_modal.direct_register.csv_header_name', defaultMessage: 'name'}),
+            formatMessage({id: 'invite_modal.direct_register.csv_header_password', defaultMessage: 'temporary_password'}),
+            formatMessage({id: 'invite_modal.direct_register.csv_header_result', defaultMessage: 'result'}),
+            formatMessage({id: 'invite_modal.direct_register.csv_header_reason', defaultMessage: 'reason'}),
+        ];
+        const rows = props.registrations.map((registration) => {
+            const sentRow = findByEmail(props.sent, registration.email);
+            const notSentRow = findByEmail(props.notSent, registration.email);
+            const result = sentRow ?
+                formatMessage({id: 'invite_modal.direct_register.result_ok', defaultMessage: 'Registered'}) :
+                formatMessage({id: 'invite_modal.direct_register.result_failed', defaultMessage: 'Failed'});
+            const reason = sentRow ?? notSentRow;
+            return [
+                registration.email,
+                registration.name,
+                registration.password,
+                result,
+                reason ? reasonToText(reason.reason) : '',
+            ];
+        });
+        const blob = new Blob([serializeCsv([header, ...rows])], {type: 'text/csv;charset=utf-8'});
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = 'direct-register-results.csv';
+        anchor.click();
+        URL.revokeObjectURL(url);
+    };
     let inviteType;
     if (props.inviteType === InviteType.MEMBER) {
         inviteType = (
@@ -66,14 +120,22 @@ export default function ResultView(props: Props) {
                     id='invitation_modal_title'
                     className='modal-title'
                 >
-                    <FormattedMessage
-                        id='invite_modal.invited'
-                        defaultMessage='{inviteType} invited to {team_name}'
-                        values={{
-                            inviteType,
-                            team_name: props.currentTeamName,
-                        }}
-                    />
+                    {props.directRegister ? (
+                        <FormattedMessage
+                            id='invite_modal.registered'
+                            defaultMessage='Members registered to {team_name}'
+                            values={{team_name: props.currentTeamName}}
+                        />
+                    ) : (
+                        <FormattedMessage
+                            id='invite_modal.invited'
+                            defaultMessage='{inviteType} invited to {team_name}'
+                            values={{
+                                inviteType,
+                                team_name: props.currentTeamName,
+                            }}
+                        />
+                    )}
                 </h1>
             </Modal.Header>
             <Modal.Body>
@@ -91,6 +153,18 @@ export default function ResultView(props: Props) {
                 )}
             </Modal.Body>
             <Modal.Footer className={classNames('InviteView__footer', props.footerClass)}>
+                {props.directRegister && Boolean(props.registrations?.length) && (
+                    <Button
+                        onClick={downloadResultCsv}
+                        emphasis='tertiary'
+                        data-testid='result-download-csv'
+                    >
+                        <FormattedMessage
+                            id='invite_modal.direct_register.download_results'
+                            defaultMessage='Download result CSV'
+                        />
+                    </Button>
+                )}
                 <Button
                     onClick={props.inviteMore}
                     emphasis='tertiary'

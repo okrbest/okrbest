@@ -4,7 +4,7 @@
 import {defineMessage} from 'react-intl';
 
 import type {Channel, ChannelMembership} from '@mattermost/types/channels';
-import type {TeamMemberWithError, TeamInviteWithError, MemberInviteProfile} from '@mattermost/types/teams';
+import type {TeamMemberWithError, TeamInviteWithError, MemberInviteProfile, MemberRegistration} from '@mattermost/types/teams';
 import type {UserProfile} from '@mattermost/types/users';
 import type {RelationOneToOne} from '@mattermost/types/utilities';
 
@@ -151,6 +151,72 @@ export function sendMembersInvites(teamId: string, users: UserProfile[], emails:
                 notSent,
             },
         };
+    };
+}
+
+export function registerMembersDirectly(teamId: string, registrations: MemberRegistration[]): ActionFuncAsync<InviteResults> {
+    return async (dispatch) => {
+        const sent: InviteResult[] = [];
+        const notSent: InviteResult[] = [];
+
+        if (registrations.length === 0) {
+            return {data: {sent, notSent}};
+        }
+
+        const response = await dispatch(TeamActions.registerTeamMembers(teamId, registrations));
+        if (response.error) {
+            for (const registration of registrations) {
+                notSent.push({
+                    email: registration.email,
+                    reason: response.error.message,
+                });
+            }
+            return {data: {sent, notSent}};
+        }
+
+        const results = response.data || [];
+        for (const result of results) {
+            switch (result.status) {
+            case 'created_and_added':
+                sent.push({
+                    email: result.email,
+                    reason: defineMessage({
+                        id: 'invite.members.registered',
+                        defaultMessage: 'An account has been created and added to the team.',
+                    }),
+                });
+                break;
+            case 'existing_added':
+                sent.push({
+                    email: result.email,
+                    reason: defineMessage({
+                        id: 'invite.members.added-to-team',
+                        defaultMessage: 'This member has been added to the team.',
+                    }),
+                });
+                break;
+            case 'already_member':
+                sent.push({
+                    email: result.email,
+                    reason: defineMessage({
+                        id: 'invite.members.already-member',
+                        defaultMessage: 'This person is already a team member.',
+                    }),
+                });
+                break;
+            default:
+                notSent.push({
+                    email: result.email,
+                    reason: result.error ? result.error.message : defineMessage({
+                        id: 'invite.members.unable-to-add-the-user-to-the-team',
+                        defaultMessage: 'Unable to add the user to the team.',
+                    }),
+                });
+                break;
+            }
+        }
+
+        return {data: {sent, notSent}};
     };
 }
 

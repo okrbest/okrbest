@@ -7,11 +7,12 @@ import {defineMessages} from 'react-intl';
 import {GenericModal} from '@mattermost/components';
 import type {Channel} from '@mattermost/types/channels';
 import type {LockProfileFieldsSetting} from '@mattermost/types/config';
-import type {MemberInviteProfile, Team} from '@mattermost/types/teams';
+import type {MemberInviteProfile, MemberRegistration, Team} from '@mattermost/types/teams';
 import type {UserProfile} from '@mattermost/types/users';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {Client4} from 'mattermost-redux/client';
+import type {PasswordConfig} from 'mattermost-redux/selectors/entities/general';
 import type {ActionResult} from 'mattermost-redux/types/actions';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -21,6 +22,8 @@ import {isMembershipPolicyEnforced} from 'utils/channel_utils';
 import {Constants} from 'utils/constants';
 import {getEmailsToPreset, getProfileForEmail, setProfileForEmail, suggestMemberInviteProfile} from 'utils/member_invite_profiles';
 
+import DirectRegisterView, {InviteMethod} from './direct_register_view';
+import type {InviteMethodType} from './direct_register_view';
 import {InviteType} from './invite_as';
 import InviteView, {initializeInviteState} from './invite_view';
 import type {InviteState} from './invite_view';
@@ -74,6 +77,10 @@ export type Props = {
             message: string,
             profiles?: Record<string, MemberInviteProfile>,
         ) => Promise<ActionResult<InviteResults>>;
+        registerMembersDirectly: (
+            teamId: string,
+            registrations: MemberRegistration[],
+        ) => Promise<ActionResult<InviteResults>>;
     };
     currentTeam?: Team;
     currentChannel?: Channel;
@@ -86,6 +93,8 @@ export type Props = {
     canAddUsers: boolean;
     canInviteGuests: boolean;
     canInviteGuestsWithMagicLink: boolean;
+    canDirectRegister: boolean;
+    passwordConfig: PasswordConfig;
     onExited: () => void;
     channelToInvite?: Channel;
     initialValue?: string;
@@ -107,6 +116,9 @@ type State = {
     termWithoutResults: string | null;
     show: boolean;
     useGuestMagicLink: boolean;
+    inviteMethod: InviteMethodType;
+    directRegisterDirty: boolean;
+    directRegistrations: MemberRegistration[];
 };
 
 export default class InvitationModal extends React.PureComponent<Props, State> {
@@ -117,6 +129,9 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
         result: defaultResultState,
         show: true,
         useGuestMagicLink: false,
+        inviteMethod: InviteMethod.INVITE,
+        directRegisterDirty: false,
+        directRegistrations: [],
     });
     constructor(props: Props) {
         super(props);
@@ -276,6 +291,36 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
                 ...state.result,
                 sent: invites.sent,
                 notSent: invites.notSent,
+            },
+        }));
+    };
+
+    setInviteMethod = (inviteMethod: InviteMethodType) => {
+        if (this.state.inviteMethod !== inviteMethod) {
+            this.setState({inviteMethod, directRegisterDirty: false});
+        }
+    };
+
+    onDirectRegisterDirtyChange = (directRegisterDirty: boolean) => {
+        if (this.state.directRegisterDirty !== directRegisterDirty) {
+            this.setState({directRegisterDirty});
+        }
+    };
+
+    registerDirectly = async (registrations: MemberRegistration[]) => {
+        if (!this.props.currentTeam) {
+            return;
+        }
+        const result = await this.props.actions.registerMembersDirectly(this.props.currentTeam.id, registrations);
+        const results = result.data!;
+        this.setState((state: State) => ({
+            view: View.RESULT,
+            directRegisterDirty: false,
+            directRegistrations: registrations,
+            result: {
+                ...state.result,
+                sent: results.sent,
+                notSent: results.notSent,
             },
         }));
     };
@@ -481,6 +526,10 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
             return true;
         }
 
+        if (this.isDirectRegisterActive()) {
+            return this.state.directRegisterDirty ? 'static' : true;
+        }
+
         const emptyInvites = this.state.invite.usersEmails.length === 0 && this.state.invite.usersEmailsSearch === '';
         if (!emptyInvites) {
             return 'static';
@@ -492,6 +541,10 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
             }
         }
         return true;
+    };
+
+    isDirectRegisterActive = (): boolean => {
+        return this.props.canDirectRegister && this.state.inviteMethod === InviteMethod.DIRECT;
     };
 
     render() {
@@ -530,13 +583,31 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
                 toggleGuestMagicLink={this.toggleGuestMagicLink}
                 lockProfileFieldsForEmailUsers={this.props.lockProfileFieldsForEmailUsers}
                 onProfileChange={this.onProfileChange}
+                canDirectRegister={this.props.canDirectRegister}
+                onInviteMethodChange={this.setInviteMethod}
                 {...this.state.invite}
             />
         );
+        if (this.isDirectRegisterActive()) {
+            view = (
+                <DirectRegisterView
+                    currentTeam={this.props.currentTeam}
+                    passwordConfig={this.props.passwordConfig}
+                    registerMembers={this.registerDirectly}
+                    onDirtyChange={this.onDirectRegisterDirtyChange}
+                    onMethodChange={this.setInviteMethod}
+                    headerClass='InvitationModal__header'
+                    footerClass='InvitationModal__footer'
+                    onClose={this.handleHide}
+                />
+            );
+        }
         if (this.state.view === View.RESULT) {
             view = (
                 <ResultView
                     inviteType={this.state.invite.inviteType}
+                    directRegister={this.isDirectRegisterActive()}
+                    registrations={this.state.directRegistrations}
                     currentTeamName={this.props.currentTeam.display_name}
                     onDone={this.handleHide}
                     inviteMore={this.inviteMore}

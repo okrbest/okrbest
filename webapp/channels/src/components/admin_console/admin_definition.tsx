@@ -4184,6 +4184,13 @@ const AdminDefinition: AdminDefinitionType = {
                         },
                         {
                             type: 'bool',
+                            key: 'TeamSettings.EnableDirectMemberRegistration',
+                            label: defineMessage({id: 'admin.team.directMemberRegistrationTitle', defaultMessage: 'Enable Direct Member Registration: '}),
+                            help_text: defineMessage({id: 'admin.team.directMemberRegistrationDescription', defaultMessage: 'When true, Team Admins can directly create member accounts (email, name, temporary password) and add them to their team without sending invitations. Applies to Email-based accounts only.'}),
+                            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
+                        },
+                        {
+                            type: 'bool',
                             key: 'ServiceSettings.EnableEmailInvitations',
                             label: defineMessage({id: 'admin.team.emailInvitationsTitle', defaultMessage: 'Enable Email Invitations: '}),
                             help_text: defineMessage({id: 'admin.team.emailInvitationsDescription', defaultMessage: 'When true, users can invite others to the system using email.'}),

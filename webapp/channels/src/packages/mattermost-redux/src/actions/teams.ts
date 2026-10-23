@@ -6,7 +6,7 @@ import {batchActions} from 'redux-batched-actions';
 
 import type {AccessControlAttributes} from '@mattermost/types/access_control';
 import type {ServerError} from '@mattermost/types/errors';
-import type {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts, NotPagedTeamSearchOpts, PagedTeamSearchOpts, MemberInviteProfile} from '@mattermost/types/teams';
+import type {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts, NotPagedTeamSearchOpts, PagedTeamSearchOpts, MemberInviteProfile, MemberRegistration, MemberRegistrationResult} from '@mattermost/types/teams';
 import type {UserProfile} from '@mattermost/types/users';
 
 import {ChannelTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
@@ -514,6 +514,36 @@ export function addUsersToTeamGracefully(teamId: string, userIds: string[]): Act
         const addedMembers = result ? result.filter((m) => !m.error) : [];
         const profiles: Array<Partial<UserProfile>> = addedMembers.map((m) => ({id: m.user_id}));
         const members = addedMembers.map((m) => m.member);
+        dispatch(batchActions([
+            {
+                type: UserTypes.RECEIVED_PROFILES_LIST_IN_TEAM,
+                data: profiles,
+                id: teamId,
+            },
+            {
+                type: TeamTypes.RECEIVED_MEMBERS_IN_TEAM,
+                data: members,
+            },
+        ]));
+
+        return {data: result};
+    };
+}
+
+export function registerTeamMembers(teamId: string, registrations: MemberRegistration[]): ActionFuncAsync<MemberRegistrationResult[]> {
+    return async (dispatch, getState) => {
+        let result: MemberRegistrationResult[];
+        try {
+            result = await Client4.registerTeamMembers(teamId, registrations);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        const addedMembers = result ? result.filter((r) => !r.error && r.member) : [];
+        const profiles: Array<Partial<UserProfile>> = addedMembers.map((r) => ({id: r.user_id}));
+        const members = addedMembers.map((r) => r.member);
         dispatch(batchActions([
             {
                 type: UserTypes.RECEIVED_PROFILES_LIST_IN_TEAM,

@@ -275,6 +275,31 @@ describe('mapStateToProps', () => {
         expect(props.canInviteGuestsWithMagicLink).toBe(false);
     });
 
+    test('canDirectRegister requires both the config flag and the team permission', () => {
+        const makeState = (enableFlag: string, permissions: string[]) => ({
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                general: {
+                    ...initialState.entities.general,
+                    config: {
+                        ...initialState.entities.general.config,
+                        EnableDirectMemberRegistration: enableFlag,
+                    },
+                },
+                roles: {
+                    roles: {
+                        test_user_role: {permissions},
+                    },
+                },
+            },
+        } as unknown as GlobalState);
+
+        expect(mapStateToProps(makeState('true', [Permissions.REGISTER_TEAM_MEMBERS]), {}).canDirectRegister).toBe(true);
+        expect(mapStateToProps(makeState('false', [Permissions.REGISTER_TEAM_MEMBERS]), {}).canDirectRegister).toBe(false);
+        expect(mapStateToProps(makeState('true', []), {}).canDirectRegister).toBe(false);
+    });
+
     test('normalizes an unknown profile lock setting to none', () => {
         const testState = {
             ...initialState,

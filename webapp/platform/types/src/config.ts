@@ -91,6 +91,7 @@ export type ClientConfig = {
     EnableOAuthServiceProvider: string;
     EnableOutgoingOAuthConnections: string;
     EnableOpenServer: string;
+    EnableDirectMemberRegistration: string;
     EnableOutgoingWebhooks: string;
     EnablePostIconOverride: string;
     EnablePostUsernameOverride: string;
@@ -452,6 +453,7 @@ export type TeamSettings = {
     EnableCustomUserStatuses: boolean;
     EnableUserCreation: boolean;
     EnableOpenServer: boolean;
+    EnableDirectMemberRegistration: boolean;
     EnableUserDeactivation: boolean;
     RestrictCreationToDomains: string;
     EnableCustomBrand: boolean;
