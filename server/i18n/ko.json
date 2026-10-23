@@ -60,8 +60,16 @@
     "translation": "보관된 채널에서는 확인 메시지를 저장할 수 없습니다."
   },
   {
+    "id": "api.admin.add_certificate.app_error",
+    "translation": "인증서를 추가할 수 없습니다."
+  },
+  {
     "id": "api.admin.add_certificate.array.app_error",
     "translation": "요청된 '인증서' 항목의 파일이 없습니다."
+  },
+  {
+    "id": "api.admin.add_certificate.multiple_files.app_error",
+    "translation": "요청의 'certificate' 항목에 파일이 너무 많습니다."
   },
   {
     "id": "api.admin.add_certificate.no_file.app_error",
@@ -94,6 +102,10 @@
   {
     "id": "api.admin.ldap.not_available.app_error",
     "translation": "LDAP를 사용할 수 없습니다."
+  },
+  {
+    "id": "api.admin.remove_certificate.app_error",
+    "translation": "인증서를 제거할 수 없습니다."
   },
   {
     "id": "api.admin.remove_certificate.delete.app_error",
@@ -226,6 +238,10 @@
   {
     "id": "api.channel.add_user.to.channel.failed.deleted.app_error",
     "translation": "사용자가 팀에서 제거되어 채널에 추가할 수 없습니다."
+  },
+  {
+    "id": "api.channel.add_user.to.channel.rejected",
+    "translation": "사용자에게 채널에 참여하는 데 필요한 속성이 없습니다."
   },
   {
     "id": "api.channel.add_user_to_channel.type.app_error",
@@ -430,6 +446,14 @@
   {
     "id": "api.access_control_policy.channel_permission_policies.feature_disabled",
     "translation": "채널 수준 권한 정책 기능이 활성화되어 있지 않습니다."
+  },
+  {
+    "id": "api.access_control_policy.get_channels.limit.app_error",
+    "translation": "채널 조회 limit 값이 유효하지 않습니다."
+  },
+  {
+    "id": "api.access_control_policy.get_fields.limit.app_error",
+    "translation": "필드 조회 limit 값이 유효하지 않습니다."
   },
   {
     "id": "api.access_control_policy.permission_policies.feature_disabled",
@@ -664,6 +688,10 @@
     "translation": "채널이 보관 처리 혹은 삭제되었습니다."
   },
   {
+    "id": "api.channel.update_channel.not_allowed.app_error",
+    "translation": "정책이 적용된 채널은 업데이트할 수 없습니다."
+  },
+  {
     "id": "api.channel.update_channel.policy_enforced_type_conversion.app_error",
     "translation": "이 채널에는 속성 기반 멤버십 정책이 적용되어 있습니다. 공개와 비공개를 전환하려면 먼저 정책을 제거하세요."
   },
@@ -694,6 +722,10 @@
   {
     "id": "api.channel.update_channel_member_roles.scheme_role.app_error",
     "translation": "제공된 역할은 스키마에 의해 관리되고 있으므로 채널 구성원에 의해 직접 적용될 수 없습니다."
+  },
+  {
+    "id": "api.channel.update_channel_member_roles.unset_user_scheme.app_error",
+    "translation": "잘못된 채널 구성원 업데이트입니다. 채널 구성원에게는 항상 사용자 스키마 역할이 있어야 합니다."
   },
   {
     "id": "api.channel.update_channel_member_roles.user_and_guest.app_error",
@@ -1738,6 +1770,10 @@
     "translation": "공유 채널 서비스가 비활성화되었습니다."
   },
   {
+    "id": "api.command_share.service_inactive",
+    "translation": "공유 채널 서비스가 활성화되어 있지만 실행 중이 아닙니다."
+  },
+  {
     "id": "api.command_share.share_channel.error",
     "translation": "이 채널을 공유할 수 없습니다: {{.Error}}"
   },
@@ -1842,8 +1878,48 @@
     "translation": "서버 번역을 업데이트하는 중 오류가 발생했습니다."
   },
   {
+    "id": "api.content_flagging.error.comment_required",
+    "translation": "이 메시지를 신고하는 이유를 설명하는 댓글을 추가하세요."
+  },
+  {
+    "id": "api.content_flagging.error.comment_too_long",
+    "translation": "메시지 신고 사유는 {{.MaxLength}}자를 넘을 수 없습니다."
+  },
+  {
+    "id": "api.content_flagging.error.disabled",
+    "translation": "콘텐츠 신고 기능이 비활성화되어 있습니다."
+  },
+  {
+    "id": "api.content_flagging.error.invalid_channel_type",
+    "translation": "쪽지와 그룹 메시지 채널에서는 콘텐츠 신고를 사용할 수 없습니다."
+  },
+  {
     "id": "api.content_flagging.error.invalid_post_type",
     "translation": "'{{.PostType}}' 타입의 게시물은 신고할 수 없습니다."
+  },
+  {
+    "id": "api.content_flagging.error.license",
+    "translation": "현재 라이선스는 콘텐츠 신고를 지원하지 않습니다."
+  },
+  {
+    "id": "api.content_flagging.error.not_available_on_team",
+    "translation": "이 팀에서는 콘텐츠 신고 기능이 활성화되어 있지 않습니다."
+  },
+  {
+    "id": "api.content_flagging.error.post_not_in_progress",
+    "translation": "신고된 게시물을 유지하거나 삭제하려면 대기 중 또는 배정됨 상태여야 합니다."
+  },
+  {
+    "id": "api.content_flagging.error.reason_invalid",
+    "translation": "메시지 신고 사유를 알 수 없습니다."
+  },
+  {
+    "id": "api.content_flagging.error.reason_required",
+    "translation": "이 메시지를 신고하는 사유를 선택하세요."
+  },
+  {
+    "id": "api.content_flagging.error.user_not_reviewer",
+    "translation": "사용자가 콘텐츠 검토자가 아닙니다."
   },
   {
     "id": "api.context.404.app_error",
@@ -2004,6 +2080,10 @@
   {
     "id": "api.custom_groups.no_remote_id",
     "translation": "사용자 정의 그룹의 remote_id는 비어있어야 합니다"
+  },
+  {
+    "id": "api.custom_profile_attributes.invalid_field_patch",
+    "translation": "사용자 속성 필드 패치가 유효하지 않습니다"
   },
   {
     "id": "api.custom_profile_attributes.field_conversion_error",
@@ -2385,6 +2465,10 @@
     "translation": "이 작업 유형을 관리할 수 있는 권한이 없습니다."
   },
   {
+    "id": "api.ldap.invalid_test_type.app_error",
+    "translation": "유효하지 않은 테스트 유형입니다: {{.TestType}}"
+  },
+  {
     "id": "api.ldap_group.not_found",
     "translation": "ldap 그룹을 찾을 수 없습니다."
   },
@@ -2515,6 +2599,18 @@
   {
     "id": "api.command.move_command.creator_no_permission.app_error",
     "translation": "명령어를 이동할 권한이 없습니다"
+  },
+  {
+    "id": "api.command.named_args.single_quoted_flag",
+    "translation": "`{{.Near}}` 근처의 작은따옴표가 ` --` 앞에서 닫히지 않았습니다. 따옴표를 닫거나, 값에 ` --`가 들어 있으면 큰따옴표를 사용하세요."
+  },
+  {
+    "id": "api.command.named_args.unexpected_value",
+    "translation": "`{{.Near}}` 근처에 예상하지 못한 텍스트가 있습니다. 공백이 포함된 값은 따옴표로 감싸고, 값에 아포스트로피도 들어 있으면 큰따옴표를 사용하세요."
+  },
+  {
+    "id": "api.command.named_args.unterminated_quote",
+    "translation": "`{{.Near}}` 근처의 따옴표가 닫히지 않았습니다."
   },
   {
     "id": "api.command_mobile_logs.cross_user_unavailable.app_error",
@@ -2663,6 +2759,10 @@
   {
     "id": "api.license.add_license.wrong_environment_test.app_error",
     "translation": "이것은 테스트 또는 개발 라이선스이지만 이 서버는 프로덕션 환경에서 실행 중입니다. 테스트 또는 개발 라이선스는 테스트 또는 개발 서버에서만 사용할 수 있습니다."
+  },
+  {
+    "id": "api.license.load_metric.app_error",
+    "translation": "월간 활성 사용자 수를 계산할 수 없습니다."
   },
   {
     "id": "api.license.parse_license.parse_form.app_error",
@@ -3183,6 +3283,10 @@
     "translation": "원격 클러스터를 찾을 수 없습니다."
   },
   {
+    "id": "api.remote_cluster.import_not_allowed.app_error",
+    "translation": "원격 클러스터를 가져올 수 없습니다"
+  },
+  {
     "id": "api.remote_cluster.invalid_id.app_error",
     "translation": "유효하지 않은 id입니다."
   },
@@ -3419,6 +3523,26 @@
     "translation": "이 리캡에 접근할 권한이 없습니다."
   },
   {
+    "id": "api.remote_cluster.accept_invitation.expired.app_error",
+    "translation": "초대가 만료되었습니다. 원격 사이트에 새 초대를 요청하세요."
+  },
+  {
+    "id": "api.remote_cluster.accept_invitation.invalid_response.app_error",
+    "translation": "원격 사이트가 유효하지 않은 응답을 반환했습니다."
+  },
+  {
+    "id": "api.remote_cluster.accept_invitation.invalid_url.app_error",
+    "translation": "초대에 유효하지 않은 사이트 주소가 들어 있습니다: {{.URL}}"
+  },
+  {
+    "id": "api.remote_cluster.accept_invitation.rejected.app_error",
+    "translation": "원격 사이트가 초대를 거부했습니다."
+  },
+  {
+    "id": "api.remote_cluster.accept_invitation.unreachable.app_error",
+    "translation": "{{.URL}}의 원격 사이트에 연결할 수 없습니다."
+  },
+  {
     "id": "api.shared_channel.attachment.creator_id_required.app_error",
     "translation": "FileInfo.CreatorId가 필요합니다."
   },
@@ -3647,8 +3771,16 @@
     "translation": "이메일 초대 무효화 오류"
   },
   {
+    "id": "api.team.org_roles.feature_disabled.app_error",
+    "translation": "조직 역할 관리 기능이 비활성화되어 있습니다"
+  },
+  {
     "id": "api.team.invite_guests.channel_in_invalid_team.app_error",
     "translation": "초대의 채널은 초대의 팀의 일부여야 합니다."
+  },
+  {
+    "id": "api.team.invite_guests.policy_enforced_channel.app_error",
+    "translation": "이 채널은 사용자 속성 기반 액세스 제한이 있어 게스트 사용자를 초대할 수 없습니다."
   },
   {
     "id": "api.team.invite_guests_to_channels.disabled.error",
@@ -3801,6 +3933,10 @@
   {
     "id": "api.team.update_team_member_roles.guest_and_user.app_error",
     "translation": "사용자는 게스트 또는 사용자이지만 둘 다 될 수 없습니다."
+  },
+  {
+    "id": "api.team.update_team_member_roles.unset_user_scheme.app_error",
+    "translation": "잘못된 팀 구성원 업데이트입니다. 팀 구성원에게는 항상 사용자 스키마 역할이 있어야 합니다."
   },
   {
     "id": "api.team.update_team_member_roles.user_and_guest.app_error",
@@ -4431,6 +4567,10 @@
     "translation": "파일 업로드를 가져오지 못했습니다."
   },
   {
+    "id": "api.upload.invalid_type_for_shared_channel.app_error",
+    "translation": "파일을 업로드할 수 없습니다. 업로드 채널이 원격과 공유되어 있지 않습니다."
+  },
+  {
     "id": "api.upload.upload_data.invalid_content_length",
     "translation": "유효하지 않은 Content-Length입니다."
   },
@@ -4481,6 +4621,10 @@
   {
     "id": "api.user.authorize_oauth_user.response.app_error",
     "translation": "OAuth 서비스 제공자로부터 잘못된 응답을 받았습니다."
+  },
+  {
+    "id": "api.user.authorize_oauth_user.saml_hook_error.app_error",
+    "translation": "OnSamlLogin 훅에서 오류가 발생했습니다. 시스템 관리자에게 문의하세요."
   },
   {
     "id": "api.user.authorize_oauth_user.saml_response_too_long.app_error",
@@ -4579,6 +4723,10 @@
     "translation": "사용자를 생성할 수 없습니다. 유효하지 않은 초대입니다."
   },
   {
+    "id": "api.user.create_user.license_user_limits.exceeded",
+    "translation": "사용자를 생성할 수 없습니다. 서버가 라이선스 최대 사용자 수를 초과했습니다. 관리자에게 ERROR_LICENSED_USERS_LIMIT_EXCEEDED 코드를 알려 문의하세요."
+  },
+  {
     "id": "api.user.create_user.no_open_server",
     "translation": "이 서버는 개방형 가입을 허용하지 않습니다. 관리자에게 문의하세요."
   },
@@ -4641,6 +4789,10 @@
   {
     "id": "api.user.get_users.validation.app_error",
     "translation": "검증 중 역할을 가져오지 못했습니다."
+  },
+  {
+    "id": "api.user.get_users_not_in_abac_channel.access_control_unavailable.app_error",
+    "translation": "액세스 제어 서비스를 사용할 수 없습니다. ABAC 사용 채널에 대해 사용자를 필터링할 수 없습니다."
   },
   {
     "id": "api.user.invalidate_password_recovery_tokens.error",
@@ -4737,6 +4889,10 @@
   {
     "id": "api.user.login_by_oauth.parse.app_error",
     "translation": "{{.Service}} 사용자 객체에서 인증 데이터를 구문 분석할 수 없습니다."
+  },
+  {
+    "id": "api.user.login_cws.license.error",
+    "translation": "CWS 로그인이 금지되어 있습니다."
   },
   {
     "id": "api.user.login_ldap.not_available.app_error",
@@ -5031,12 +5187,20 @@
     "translation": "확인을 삭제할 수 없습니다."
   },
   {
+    "id": "app.acknowledgement.delete.missing_post.app_error",
+    "translation": "존재하지 않는 게시물의 확인은 삭제할 수 없습니다"
+  },
+  {
     "id": "app.acknowledgement.get.app_error",
     "translation": "확인을 가져올 수 없습니다."
   },
   {
     "id": "app.acknowledgement.getforpost.get.app_error",
     "translation": "게시물에 대한 확인을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.acknowledgement.save.missing_post.app_error",
+    "translation": "존재하지 않는 게시물에는 확인을 저장할 수 없습니다"
   },
   {
     "id": "app.acknowledgement.save.save.app_error",
@@ -5339,6 +5503,10 @@
     "translation": "세션 속성을 가져오지 못했습니다."
   },
   {
+    "id": "app.access_control.insufficient_permissions",
+    "translation": "이 액세스 제어 정책을 관리할 권한이 없습니다."
+  },
+  {
     "id": "app.access_control.plugin.evaluation_unavailable.app_error",
     "translation": "이 리소스에 대한 액세스 제어를 평가할 수 없습니다."
   },
@@ -5429,6 +5597,10 @@
   {
     "id": "app.channel.delete_channel.rejected_by_plugin",
     "translation": "플러그인이 채널 보관을 거부했습니다: {{.Reason}}"
+  },
+  {
+    "id": "app.channel.get.app_error",
+    "translation": "채널을 가져올 수 없습니다."
   },
   {
     "id": "app.channel.get.existing.app_error",
@@ -5751,6 +5923,18 @@
     "translation": "채널 멤버 기록을 기록하지 못했습니다. 기존 참가 기록을 업데이트하지 못했습니다."
   },
   {
+    "id": "app.cloud.preview_modal_bucket_url_not_configured",
+    "translation": "미리보기 버킷 URL이 설정되지 않았습니다"
+  },
+  {
+    "id": "app.cloud.preview_modal_data_fetch_error",
+    "translation": "미리보기 모달 데이터를 가져올 수 없습니다"
+  },
+  {
+    "id": "app.cloud.preview_modal_data_parse_error",
+    "translation": "미리보기 모달 데이터를 파싱할 수 없습니다"
+  },
+  {
     "id": "app.cloud.trial_plan_bot_message",
     "translation": "{{.WorkspaceName}} 워크스페이스의 {{.UsersNum}}명의 멤버가 다음에 대한 액세스를 위해 Enterprise 체험판 시작을 요청했습니다: "
   },
@@ -5851,6 +6035,158 @@
     "translation": "규정 준수 보고서를 저장하는 중 오류가 발생했습니다."
   },
   {
+    "id": "app.content_flagging.assign_reviewer.no_reviewer_field.app_error",
+    "translation": "Reviewer ID 속성 필드를 찾을 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.assign_reviewer.update_status_property_value.app_error",
+    "translation": "검토자를 지정하면서 Status 속성 값을 업데이트할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.assign_reviewer.upsert_property_value.app_error",
+    "translation": "신고된 게시물의 검토자를 지정할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.can_flag_post.in_progress",
+    "translation": "이미 신고된 게시물이라 신고할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.can_flag_post.removed",
+    "translation": "이전 신고 요청으로 삭제된 게시물이라 신고할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.can_flag_post.retained",
+    "translation": "이전 신고 요청에서 유지된 게시물이라 신고할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.can_flag_post.unknown",
+    "translation": "상태를 알 수 없는 게시물이라 신고할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.create_property_values.app_error",
+    "translation": "신고된 게시물의 속성 값을 저장할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.flag_post.marshal_comment.app_error",
+    "translation": "신고한 사용자의 댓글을 마샬링할 수 없습니다"
+  },
+  {
+    "id": "app.content_flagging.flag_post.marshal_reason.app_error",
+    "translation": "신고한 사용자의 사유를 마샬링할 수 없습니다"
+  },
+  {
+    "id": "app.content_flagging.flag_post_confirmation.message",
+    "translation": "@{{.username}}님의 메시지를 검토 대상으로 신고했습니다. 콘텐츠 검토자가 검토하면 알림을 받습니다. "
+  },
+  {
+    "id": "app.content_flagging.get_group.error",
+    "translation": "콘텐츠 신고 속성 그룹을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.get_reviewer_settings.app_error",
+    "translation": "데이터베이스에서 콘텐츠 검토자 설정을 가져올 수 없습니다"
+  },
+  {
+    "id": "app.content_flagging.get_status_property.app_error",
+    "translation": "Status 속성 필드를 가져올 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.get_thread_replies.app_error",
+    "translation": "신고된 게시물의 스레드 답글을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.get_users_in_team.app_error",
+    "translation": "팀에서 검토자를 검색할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.keep_flag_post.marshal_comment.app_error",
+    "translation": "검토자 댓글을 마샬링할 수 없습니다"
+  },
+  {
+    "id": "app.content_flagging.keep_post.status_update.app_error",
+    "translation": "신고된 게시물을 복원하면서 신고 상태를 업데이트할 수 없습니다 "
+  },
+  {
+    "id": "app.content_flagging.keep_post.undelete.app_error",
+    "translation": "신고된 게시물과 관련 데이터를 복원하는 중 데이터베이스의 게시물을 업데이트할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.marshal_property_values.app_error",
+    "translation": "WebSocket 이벤트로 보낼 콘텐츠 신고 속성 값을 마샬링할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.missing_flagged_post_id_field.app_error",
+    "translation": "Flagged Post ID 속성 필드를 찾을 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.missing_manage_by_field.app_error",
+    "translation": "Manage By 속성 필드를 찾을 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.missing_reporting_user_id_field.app_error",
+    "translation": "신고한 사용자 필드를 찾을 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.missing_reporting_user_id_property_value.app_error",
+    "translation": "신고한 사용자 필드의 값을 찾을 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.missing_status_field.app_error",
+    "translation": "Status 속성 필드를 찾을 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.no_status_property.app_error",
+    "translation": "신고되지 않은 게시물이라 신고된 게시물로 가져올 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.permanently_delete.marshal_comment.app_error",
+    "translation": "검토자 댓글을 마샬링할 수 없습니다"
+  },
+  {
+    "id": "app.content_flagging.permanently_delete.update_property_value.app_error",
+    "translation": "신고된 게시물을 영구 삭제하면서 신고 상태를 업데이트할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.save_reviewer_settings.app_error",
+    "translation": "콘텐츠 검토자 설정을 데이터베이스에 저장할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.search_common_reviewers.app_error",
+    "translation": "공통 검토자에서 검색어를 검색할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.search_property_fields.app_error",
+    "translation": "콘텐츠 신고 속성 필드를 검색할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.search_property_values.app_error",
+    "translation": "데이터베이스에서 게시물의 콘텐츠 신고 속성 값을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.search_reviewer_posts.app_error",
+    "translation": "신고된 게시물의 검토자 게시물을 검색할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.search_status_property.app_error",
+    "translation": "신고된 게시물의 속성 값을 검색할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.search_sysadmin_reviewers.app_error",
+    "translation": "시스템 관리자 검토자를 검색할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.search_team_admin_reviewers.app_error",
+    "translation": "팀 관리자 검토자를 검색할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.search_team_reviewers.app_error",
+    "translation": "팀 검토자를 검색할 수 없습니다."
+  },
+  {
+    "id": "app.content_flagging.set_thread_replies_properties.app_error",
+    "translation": "신고된 게시물의 스레드 답글에 속성 값을 설정할 수 없습니다."
+  },
+  {
     "id": "app.create_basic_user.save_member.app_error",
     "translation": "기본 팀 멤버십을 생성할 수 없습니다."
   },
@@ -5875,8 +6211,16 @@
     "translation": "사용자 정의 프로필 속성 그룹을 등록할 수 없습니다."
   },
   {
+    "id": "app.custom_profile_attributes.delete_property_values_for_user.app_error",
+    "translation": "사용자의 사용자 속성 값을 삭제할 수 없습니다"
+  },
+  {
     "id": "app.custom_profile_attributes.get_property_field.app_error",
     "translation": "사용자 정의 프로필 속성 필드를 가져올 수 없습니다."
+  },
+  {
+    "id": "app.custom_profile_attributes.get_property_value.app_error",
+    "translation": "사용자 속성 값을 가져올 수 없습니다"
   },
   {
     "id": "app.custom_profile_attributes.limit_reached.app_error",
@@ -5887,12 +6231,24 @@
     "translation": "사용자 정의 프로필 속성 값을 가져올 수 없습니다."
   },
   {
+    "id": "app.custom_profile_attributes.patch_field.app_error",
+    "translation": "사용자 속성 필드를 패치할 수 없습니다"
+  },
+  {
     "id": "app.custom_profile_attributes.property_field_conversion.app_error",
     "translation": "속성 필드를 사용자 정의 프로필 속성 필드로 변환할 수 없습니다."
   },
   {
     "id": "app.custom_profile_attributes.property_field_delete.app_error",
     "translation": "사용자 정의 프로필 속성 필드를 삭제할 수 없습니다."
+  },
+  {
+    "id": "app.custom_profile_attributes.property_field_is_managed.app_error",
+    "translation": "관리자가 관리하는 사용자 속성 필드의 값은 업데이트할 수 없습니다"
+  },
+  {
+    "id": "app.custom_profile_attributes.property_field_is_synced.app_error",
+    "translation": "동기화되는 사용자 속성 필드의 값은 업데이트할 수 없습니다"
   },
   {
     "id": "app.custom_profile_attributes.property_field_not_found.app_error",
@@ -5911,8 +6267,16 @@
     "translation": "유효하지 않은 속성 값 속성: {{.AttributeName}} ({{.Reason}})."
   },
   {
+    "id": "app.custom_profile_attributes.sanitize_and_validate.display_name_too_long.app_error",
+    "translation": "CPA 필드 display_name이 최대 길이 {{.MaxRunes}}자를 초과했습니다."
+  },
+  {
     "id": "app.custom_profile_attributes.search_property_fields.app_error",
     "translation": "사용자 정의 프로필 속성 필드를 검색할 수 없습니다."
+  },
+  {
+    "id": "app.custom_profile_attributes.validate_value.app_error",
+    "translation": "속성 값을 검증할 수 없습니다"
   },
   {
     "id": "app.delete_scheduled_post.delete_error",
@@ -6491,8 +6855,16 @@
     "translation": "예약된 게시물을 가져오는 중 오류가 발생했습니다."
   },
   {
+    "id": "app.group.create_syncable_memberships.error",
+    "translation": "그룹 동기화 대상의 멤버십을 생성할 수 없습니다."
+  },
+  {
     "id": "app.group.crud_permission",
     "translation": "해당 소스 유형에 대한 작업을 수행할 수 없습니다."
+  },
+  {
+    "id": "app.group.delete_invalid_syncable_memberships.error",
+    "translation": "유효하지 않은 그룹 동기화 대상 멤버십을 삭제할 수 없습니다."
   },
   {
     "id": "app.group.group_syncable_already_deleted",
@@ -6517,6 +6889,10 @@
   {
     "id": "app.group.uniqueness_error",
     "translation": "그룹 멤버가 이미 존재합니다."
+  },
+  {
+    "id": "app.group.user_not_found",
+    "translation": "그룹을 업데이트하는 중 오류가 발생했습니다. 사용자 이름이 \"{{.Username}}\"인 사용자를 찾을 수 없습니다."
   },
   {
     "id": "app.group.username_conflict",
@@ -6719,6 +7095,18 @@
     "translation": "데이터 가져오기 파일의 버전을 읽을 수 없습니다."
   },
   {
+    "id": "app.import.profile_image.open.app_error",
+    "translation": "프로필 이미지 파일을 열 수 없습니다: {{.FileName}}"
+  },
+  {
+    "id": "app.import.profile_image.read_data.app_error",
+    "translation": "프로필 이미지 데이터를 읽을 수 없습니다."
+  },
+  {
+    "id": "app.import.validate_attachment_import_data.invalid_path.error",
+    "translation": "첨부 파일 가져오기 데이터를 검증할 수 없습니다. 유효하지 않은 경로입니다: \"{{.Path}}\""
+  },
+  {
     "id": "app.import.validate_bot_import_data.owner_missing.error",
     "translation": "봇 소유자가 없습니다."
   },
@@ -6783,6 +7171,10 @@
     "translation": "다이렉트 채널은 멤버만 즐겨찾기할 수 있습니다. \"{{.Username}}\"은(는) 멤버가 아닙니다."
   },
   {
+    "id": "app.import.validate_direct_post_import_data.attachment.error",
+    "translation": "다이렉트 게시물의 첨부 파일 데이터를 검증할 수 없습니다."
+  },
+  {
     "id": "app.import.validate_direct_post_import_data.channel_members_required.error",
     "translation": "필수 다이렉트 게시물 속성이 누락되었습니다: channel_members"
   },
@@ -6811,6 +7203,10 @@
     "translation": "필수 다이렉트 게시물 속성이 누락되었습니다: message"
   },
   {
+    "id": "app.import.validate_direct_post_import_data.thread_follower.error",
+    "translation": "다이렉트 게시물의 스레드 팔로워 데이터를 검증할 수 없습니다."
+  },
+  {
     "id": "app.import.validate_direct_post_import_data.unknown_flagger.error",
     "translation": "다이렉트 게시물은 해당 채널의 멤버만 플래그를 지정할 수 있습니다. \"{{.Username}}\"은(는) 멤버가 아닙니다."
   },
@@ -6827,8 +7223,16 @@
     "translation": "가져올 이모지 이미지 필드가 누락되었거나 비어 있습니다."
   },
   {
+    "id": "app.import.validate_emoji_import_data.invalid_image_path.error",
+    "translation": "가져올 이모지의 image 필드 경로가 유효하지 않습니다: \"{{.Path}}\""
+  },
+  {
     "id": "app.import.validate_emoji_import_data.name_missing.error",
     "translation": "가져올 이모지 이름 필드가 누락되었거나 비어 있습니다."
+  },
+  {
+    "id": "app.import.validate_post_import_data.attachment.error",
+    "translation": "게시물 첨부 파일 데이터를 검증할 수 없습니다."
   },
   {
     "id": "app.import.validate_post_import_data.channel_missing.error",
@@ -6859,6 +7263,10 @@
     "translation": "필수 게시물 속성이 누락되었습니다: Team"
   },
   {
+    "id": "app.import.validate_post_import_data.thread_follower.error",
+    "translation": "게시물 스레드 팔로워 데이터를 검증할 수 없습니다."
+  },
+  {
     "id": "app.import.validate_post_import_data.user_missing.error",
     "translation": "필수 게시물 속성이 누락되었습니다: User"
   },
@@ -6885,6 +7293,10 @@
   {
     "id": "app.import.validate_reaction_import_data.user_missing.error",
     "translation": "필수 반응 속성이 누락되었습니다: User"
+  },
+  {
+    "id": "app.import.validate_reply_import_data.attachment.error",
+    "translation": "답글 첨부 파일 데이터를 검증할 수 없습니다."
   },
   {
     "id": "app.import.validate_reply_import_data.create_at_missing.error",
@@ -6987,6 +7399,14 @@
     "translation": "필수 팀 속성이 누락되었습니다: type."
   },
   {
+    "id": "app.import.validate_thread_follower_data.empty.error",
+    "translation": "가져올 팔로워 데이터가 비어 있습니다."
+  },
+  {
+    "id": "app.import.validate_thread_follower_data.user_missing.error",
+    "translation": "필수 팔로워 속성이 누락되었습니다: user."
+  },
+  {
     "id": "app.import.validate_user_channels_import_data.channel_name_missing.error",
     "translation": "사용자의 채널 멤버십에서 채널 이름이 누락되었습니다."
   },
@@ -7069,6 +7489,10 @@
   {
     "id": "app.import.validate_user_import_data.first_name_length.error",
     "translation": "사용자 ID가 너무 깁니다."
+  },
+  {
+    "id": "app.import.validate_user_import_data.invalid_image_path.error",
+    "translation": "사용자 프로필 이미지 경로가 유효하지 않습니다: \"{{.Path}}\""
   },
   {
     "id": "app.import.validate_user_import_data.last_name_length.error",
@@ -7217,6 +7641,18 @@
   {
     "id": "app.login.doLogin.updateLastLogin.error",
     "translation": "마지막 로그인 타임스탬프를 업데이트할 수 없습니다."
+  },
+  {
+    "id": "app.lookup_interactive_dialog.decode_json_error",
+    "translation": "대화형 대화 상자 조회의 JSON 응답을 디코딩하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "app.lookup_interactive_dialog.json_error",
+    "translation": "대화형 대화 상자 조회의 JSON 응답을 처리하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "app.lookup_interactive_dialog.read_body_error",
+    "translation": "대화형 대화 상자 조회의 응답 본문을 읽는 중 오류가 발생했습니다."
   },
   {
     "id": "app.member_count",
@@ -7431,8 +7867,28 @@
     "translation": "팀 기본 채널에는 멤버십 정책을 적용할 수 없습니다."
   },
   {
+    "id": "app.pap.access_control.channel_group_constrained",
+    "translation": "그룹으로 제한된 채널이라 액세스 제어 정책을 적용할 수 없습니다."
+  },
+  {
+    "id": "app.pap.access_control.channel_shared",
+    "translation": "공유 채널에는 액세스 제어 정책을 적용할 수 없습니다."
+  },
+  {
     "id": "app.pap.access_control.channel_type_not_supported",
     "translation": "액세스 제어 정책은 공개 채널과 비공개 채널에만 적용할 수 있습니다."
+  },
+  {
+    "id": "app.pap.access_control.insufficient_channel_permissions",
+    "translation": "이 채널의 액세스 제어를 관리할 권한이 없습니다."
+  },
+  {
+    "id": "app.pap.access_control.insufficient_permissions",
+    "translation": "이 액세스 제어 정책을 관리할 권한이 없습니다."
+  },
+  {
+    "id": "app.pap.assign_access_control_policy_to_channels.app_error",
+    "translation": "채널에 액세스 제어 정책을 할당할 수 없습니다."
   },
   {
     "id": "app.plugin.cluster.save_config.app_error",
@@ -7811,8 +8267,44 @@
     "translation": "팀에 액세스 제어 정책을 할당할 수 없습니다."
   },
   {
+    "id": "app.pap.check_expression.app_error",
+    "translation": "표현식을 검사할 수 없습니다."
+  },
+  {
+    "id": "app.pap.create_access_control_policy.app_error",
+    "translation": "액세스 제어 정책을 생성할 수 없습니다."
+  },
+  {
+    "id": "app.pap.delete_access_control_policy.app_error",
+    "translation": "액세스 제어 정책을 삭제할 수 없습니다."
+  },
+  {
+    "id": "app.pap.delete_policy.app_error",
+    "translation": "액세스 제어 정책을 삭제할 수 없습니다."
+  },
+  {
     "id": "app.pap.delete_policy.masked_values",
     "translation": "이 정책에는 볼 수 있는 권한이 없는 속성 값이 포함되어 있으므로 삭제할 수 없습니다."
+  },
+  {
+    "id": "app.pap.expression_to_visual_ast.app_error",
+    "translation": "표현식에서 시각적 AST를 생성할 수 없습니다."
+  },
+  {
+    "id": "app.pap.get_access_control_auto_complete.app_error",
+    "translation": "액세스 제어 자동 완성 항목을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.pap.get_all_access_control_policies.app_error",
+    "translation": "액세스 제어 정책을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.pap.get_channel_access_control_attributes.app_error",
+    "translation": "채널의 속성을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.pap.get_channel_members_to_remove.app_error",
+    "translation": "제거할 채널 구성원을 가져올 수 없습니다."
   },
   {
     "id": "app.pap.get_masked_visual_ast.app_error",
@@ -7821,6 +8313,14 @@
   {
     "id": "app.pap.get_policies_for_field_ids.app_error",
     "translation": "지정된 필드 ID에 대한 정책을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.pap.get_policy.app_error",
+    "translation": "액세스 제어 정책을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.pap.get_policy_attributes.app_error",
+    "translation": "정책의 속성을 가져올 수 없습니다."
   },
   {
     "id": "app.pap.get_team_members_to_remove.app_error",
@@ -7835,12 +8335,36 @@
     "translation": "채널의 액세스 제어 정책에 선언된 작업 집합을 불러올 수 없습니다."
   },
   {
+    "id": "app.pap.init.app_error",
+    "translation": "액세스 제어 서비스를 초기화할 수 없습니다."
+  },
+  {
+    "id": "app.pap.is_ready.app_error",
+    "translation": "액세스 제어 서비스가 아직 준비되지 않았습니다."
+  },
+  {
     "id": "app.pap.mask_expression.app_error",
     "translation": "정책 표현식을 마스킹할 수 없습니다."
   },
   {
     "id": "app.pap.merge_expression.app_error",
     "translation": "정책 표현식을 저장된 마스킹 값과 병합할 수 없습니다."
+  },
+  {
+    "id": "app.pap.missing_attribute.app_error",
+    "translation": "표현식에 속성이 누락되어 있습니다."
+  },
+  {
+    "id": "app.pap.normalize_policy.app_error",
+    "translation": "정책 표현식을 정규화할 수 없습니다."
+  },
+  {
+    "id": "app.pap.query_expression.app_error",
+    "translation": "표현식으로 조회할 수 없습니다."
+  },
+  {
+    "id": "app.pap.save_policy.app_error",
+    "translation": "액세스 제어 정책을 저장할 수 없습니다."
   },
   {
     "id": "app.pap.save_policy.forbidden",
@@ -7873,6 +8397,10 @@
   {
     "id": "app.pap.save_policy.self_exclusion",
     "translation": "이 정책의 조건 중 하나 이상을 충족하지 않습니다."
+  },
+  {
+    "id": "app.pap.search_access_control_policies.app_error",
+    "translation": "액세스 제어 정책을 검색할 수 없습니다."
   },
   {
     "id": "app.pap.simulate.attribute_refresh",
@@ -7923,12 +8451,20 @@
     "translation": "정책 유형 \"{{.Type}}\"은(는) 시뮬레이터에서 지원되지 않습니다."
   },
   {
+    "id": "app.pap.unassign_access_control_policy_from_channels.app_error",
+    "translation": "채널에서 액세스 제어 정책을 할당 해제할 수 없습니다."
+  },
+  {
     "id": "app.pap.unassign_access_control_policy_from_teams.app_error",
     "translation": "팀에서 액세스 제어 정책을 할당 해제할 수 없습니다."
   },
   {
     "id": "app.pap.update_access_control_policies_active.app_error",
     "translation": "액세스 제어 정책의 활성 상태를 업데이트할 수 없습니다."
+  },
+  {
+    "id": "app.pdp.access_evaluation.app_error",
+    "translation": "액세스 제어 정책을 평가하지 못했습니다."
   },
   {
     "id": "app.pdp.access_evaluation.permission_policy.app_error",
@@ -8021,6 +8557,106 @@
   {
     "id": "app.prepackaged-plugin.invalid_version.app_error",
     "translation": "사전 패키지 플러그인 버전을 구문 분석할 수 없습니다"
+  },
+  {
+    "id": "app.property.count_fields_for_group.app_error",
+    "translation": "그룹의 속성 필드 수를 계산할 수 없습니다."
+  },
+  {
+    "id": "app.property.count_fields_for_target.app_error",
+    "translation": "대상의 속성 필드 수를 계산할 수 없습니다."
+  },
+  {
+    "id": "app.property.create_field.app_error",
+    "translation": "속성 필드를 생성할 수 없습니다."
+  },
+  {
+    "id": "app.property.create_value.app_error",
+    "translation": "속성 값을 생성할 수 없습니다."
+  },
+  {
+    "id": "app.property.create_values.app_error",
+    "translation": "속성 값을 생성할 수 없습니다."
+  },
+  {
+    "id": "app.property.delete_field.app_error",
+    "translation": "속성 필드를 삭제할 수 없습니다."
+  },
+  {
+    "id": "app.property.delete_value.app_error",
+    "translation": "속성 값을 삭제할 수 없습니다."
+  },
+  {
+    "id": "app.property.delete_values_for_field.app_error",
+    "translation": "필드의 속성 값을 삭제할 수 없습니다."
+  },
+  {
+    "id": "app.property.delete_values_for_target.app_error",
+    "translation": "대상의 속성 값을 삭제할 수 없습니다."
+  },
+  {
+    "id": "app.property.get_field.app_error",
+    "translation": "속성 필드를 가져올 수 없습니다."
+  },
+  {
+    "id": "app.property.get_field_by_name.app_error",
+    "translation": "이름으로 속성 필드를 가져올 수 없습니다."
+  },
+  {
+    "id": "app.property.get_fields.app_error",
+    "translation": "속성 필드를 가져올 수 없습니다."
+  },
+  {
+    "id": "app.property.get_group.app_error",
+    "translation": "속성 그룹을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.property.get_value.app_error",
+    "translation": "속성 값을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.property.get_values.app_error",
+    "translation": "속성 값을 가져올 수 없습니다."
+  },
+  {
+    "id": "app.property.invalid_input.app_error",
+    "translation": "입력 값이 유효하지 않습니다."
+  },
+  {
+    "id": "app.property.register_group.app_error",
+    "translation": "속성 그룹을 등록할 수 없습니다."
+  },
+  {
+    "id": "app.property.search_fields.app_error",
+    "translation": "속성 필드를 검색할 수 없습니다."
+  },
+  {
+    "id": "app.property.search_values.app_error",
+    "translation": "속성 값을 검색할 수 없습니다."
+  },
+  {
+    "id": "app.property.update_field.app_error",
+    "translation": "속성 필드를 업데이트할 수 없습니다."
+  },
+  {
+    "id": "app.property.update_fields.app_error",
+    "translation": "속성 필드를 업데이트할 수 없습니다."
+  },
+  {
+    "id": "app.property.update_value.app_error",
+    "translation": "속성 값을 업데이트할 수 없습니다."
+  },
+  {
+    "id": "app.property.update_values.app_error",
+    "translation": "속성 값을 업데이트할 수 없습니다."
+  },
+  {
+    "id": "app.property.upsert_value.app_error",
+    "translation": "속성 값을 업데이트하거나 삽입할 수 없습니다."
+  },
+  {
+    "id": "app.property.upsert_values.app_error",
+    "translation": "속성 값을 업데이트하거나 삽입할 수 없습니다."
   },
   {
     "id": "app.reaction.delete_all_with_emoji_name.get_reactions.app_error",
@@ -8301,8 +8937,16 @@
     "translation": "해당 상태에 대한 항목이 존재하지 않습니다"
   },
   {
+    "id": "app.submit_interactive_dialog.decode_json_error",
+    "translation": "대화형 대화 상자 제출의 JSON 응답을 디코딩하는 중 오류가 발생했습니다."
+  },
+  {
     "id": "app.submit_interactive_dialog.json_error",
     "translation": "대화식 대화 상자에서 JSON 인코딩 오류가 발생하였습니다."
+  },
+  {
+    "id": "app.submit_interactive_dialog.read_body_error",
+    "translation": "대화형 대화 상자 제출의 응답 본문을 읽는 중 오류가 발생했습니다."
   },
   {
     "id": "app.system.complete_onboarding_request.app_error",
@@ -8311,6 +8955,10 @@
   {
     "id": "app.system.complete_onboarding_request.no_first_user",
     "translation": "온보딩은 시스템 관리자만 완료할 수 있습니다"
+  },
+  {
+    "id": "app.system.content_review_bot.bot_displayname",
+    "translation": "콘텐츠 검토"
   },
   {
     "id": "app.system.get_by_name.app_error",
@@ -8905,6 +9553,18 @@
     "translation": "기존 계정을 삭제할 수 없습니다."
   },
   {
+    "id": "app.user.permanent_delete.incomplete.app_error",
+    "translation": "계정을 비활성화하고 일부만 삭제했습니다. 삭제를 다시 실행해도 안전하며, 다시 실행하면 삭제가 끝납니다."
+  },
+  {
+    "id": "app.user.permanent_delete.post_limit.app_error",
+    "translation": "이번 실행에서 최대치인 게시물 {{.Max}}개를 삭제했습니다. 계정을 비활성화하고 일부만 삭제했습니다. 계속하려면 삭제를 다시 실행하세요."
+  },
+  {
+    "id": "app.user.permanent_delete_all.incomplete.app_error",
+    "translation": "사용자 {{.Count}}명의 삭제를 끝내지 못했습니다: {{.Usernames}}. 계속하려면 명령을 다시 실행하세요."
+  },
+  {
     "id": "app.user.permanentdeleteuser.internal_error",
     "translation": "사용자를 삭제할 수 없습니다."
   },
@@ -9345,6 +10005,14 @@
     "translation": "값:{{.Value}}을(를) int64로 파싱하는 데 실패했습니다"
   },
   {
+    "id": "ent.access_control.job_data_conversion.app_error",
+    "translation": "이전 작업에서 데이터를 추출하지 못했습니다."
+  },
+  {
+    "id": "ent.access_control.sync_job.app_error",
+    "translation": "액세스 제어 동기화 작업을 실행하지 못했습니다."
+  },
+  {
     "id": "ent.account_migration.get_all_failed",
     "translation": "사용자를 가져올 수 없습니다."
   },
@@ -9597,6 +10265,14 @@
     "translation": "{{.Backend}} 클라이언트 설정 실패"
   },
   {
+    "id": "ent.elasticsearch.create_processor.bulk_processor_create_failed",
+    "translation": "Elasticsearch 벌크 프로세서를 생성하지 못했습니다"
+  },
+  {
+    "id": "ent.elasticsearch.create_processor.sync_bulk_processor_create_failed",
+    "translation": "Elasticsearch 동기 벌크 프로세서를 생성하지 못했습니다"
+  },
+  {
     "id": "ent.elasticsearch.create_template_channels_if_not_exists.template_create_failed",
     "translation": "채널용 {{.Backend}} 템플릿 생성 실패"
   },
@@ -9833,6 +10509,14 @@
     "translation": "ldap 인터페이스가 nil입니다."
   },
   {
+    "id": "ent.ldap.connection.test_failed",
+    "translation": "LDAP 연결 테스트에 실패했습니다. Server: {{.Server}}:{{.Port}}, ConnectionSecurity: {{.ConnectionType}}, PrivateKeyFilename: {{.PrivateKeyFilename}}, PublicCertificateFilename: {{.PublicCertFilename}}, BindUsername: {{.BindUsername}}. 오류: {{.Error}}"
+  },
+  {
+    "id": "ent.ldap.cpa_field_mapping.list_error",
+    "translation": "CPA 필드를 가져오지 못했습니다"
+  },
+  {
     "id": "ent.ldap.create_fail",
     "translation": "LDAP 사용자를 생성할 수 없습니다."
   },
@@ -9847,6 +10531,10 @@
   {
     "id": "ent.ldap.do_login.certificate.app_error",
     "translation": "LDAP TLS 인증서 파일을 로드하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.ldap.do_login.invalid_id",
+    "translation": "유효하지 않은 AD/LDAP ID"
   },
   {
     "id": "ent.ldap.do_login.invalid_password.app_error",
@@ -9921,6 +10609,10 @@
     "translation": "크기 제한을 초과했습니다. 최대 페이지 크기 설정을 늘려보세요. 자세한 내용은 https://docs.mattermost.com/onboard/ad-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded 를 확인하세요."
   },
   {
+    "id": "ent.ldap.update_cpa.empty_attribute",
+    "translation": "LDAP 속성 값이 비어 있습니다"
+  },
+  {
     "id": "ent.ldap.validate_admin_filter.app_error",
     "translation": "잘못된 AD/LDAP 관리자 필터입니다."
   },
@@ -9939,6 +10631,10 @@
   {
     "id": "ent.ldap_groups.groups_search_error",
     "translation": "LDAP 그룹들을 검색하는 중 오류가 발생했습니다."
+  },
+  {
+    "id": "ent.ldap_groups.invalid_ldap_id",
+    "translation": "유효하지 않은 AD/LDAP ID"
   },
   {
     "id": "ent.ldap_groups.members_of_group_error",
@@ -10089,6 +10785,10 @@
     "translation": "ID 제공자 응답이 암호화되지 않아 SAML 로그인이 실패했습니다. 시스템 관리자에게 문의하세요."
   },
   {
+    "id": "ent.saml.cpa_field_mapping.list_error",
+    "translation": "CPA 필드를 가져오지 못했습니다"
+  },
+  {
     "id": "ent.saml.do_login.empty_response.app_error",
     "translation": "ID 제공자로부터 빈 응답을 받았습니다."
   },
@@ -10109,6 +10809,10 @@
     "translation": "라이선스가 SAML 인증을 지원하지 않습니다."
   },
   {
+    "id": "ent.saml.login.ldap_user_missing",
+    "translation": "SAML 사용자와 일치하는 사용자가 AD/LDAP 서버에 등록되어 있지 않습니다."
+  },
+  {
     "id": "ent.saml.metadata.app_error",
     "translation": "서비스 제공자 메타데이터를 빌드하는 중 오류가 발생했습니다."
   },
@@ -10123,6 +10827,10 @@
   {
     "id": "ent.saml.service_disable.app_error",
     "translation": "SAML이 설정되지 않았거나 서버에서 지원하지 않습니다"
+  },
+  {
+    "id": "ent.saml.update_cpa.empty_attribute_statement",
+    "translation": "SAML 어설션의 속성 문(attribute statement)이 유효하지 않습니다"
   },
   {
     "id": "ent.user.complete_switch_with_oauth.blank_email.app_error",
@@ -10203,6 +10911,10 @@
   {
     "id": "license_error.feature_unavailable",
     "translation": "현재 라이선스에서 사용할 수 없는 기능입니다"
+  },
+  {
+    "id": "license_error.feature_unavailable.specific",
+    "translation": "현재 라이선스에서는 {{.Feature}} 기능을 사용할 수 없습니다"
   },
   {
     "id": "manualtesting.manual_test.parse.app_error",
@@ -10361,6 +11073,10 @@
     "translation": "권한 정책은 다른 정책을 상속할 수 없습니다."
   },
   {
+    "id": "model.access_policy.inherit.version.app_error",
+    "translation": "액세스 제어 정책을 상속할 수 없습니다."
+  },
+  {
     "id": "model.access_policy.is_valid.actions.app_error",
     "translation": "동작이 유효하지 않습니다."
   },
@@ -10373,8 +11089,24 @@
     "translation": "권한 작업 규칙은 채널 정책에서만 허용됩니다."
   },
   {
+    "id": "model.access_policy.is_valid.id.app_error",
+    "translation": "정책 ID가 유효하지 않습니다."
+  },
+  {
+    "id": "model.access_policy.is_valid.imports.app_error",
+    "translation": "정책의 가져오기 항목이 유효하지 않습니다."
+  },
+  {
+    "id": "model.access_policy.is_valid.name.app_error",
+    "translation": "정책 이름이 유효하지 않습니다."
+  },
+  {
     "id": "model.access_policy.is_valid.plugin_type.app_error",
     "translation": "잘못된 액세스 제어 정책입니다. 유형이 유효한 플러그인 리소스 유형이 아닙니다."
+  },
+  {
+    "id": "model.access_policy.is_valid.revision.app_error",
+    "translation": "정책 리비전이 유효하지 않습니다."
   },
   {
     "id": "model.access_policy.is_valid.roles.app_error",
@@ -10387,6 +11119,10 @@
   {
     "id": "model.acknowledgement.is_valid.user_id.app_error",
     "translation": "유효하지 않은 사용자 ID입니다."
+  },
+  {
+    "id": "model.app_error.internal_error",
+    "translation": "내부 오류가 발생했습니다."
   },
   {
     "id": "model.authorize.is_valid.auth_code.app_error",
@@ -10455,6 +11191,10 @@
   {
     "id": "model.channel.is_valid.banner_info.background_color.empty.app_error",
     "translation": "채널 배너가 활성화된 경우 배너 색상은 비워둘 수 없습니다."
+  },
+  {
+    "id": "model.channel.is_valid.banner_info.background_color.invalid.app_error",
+    "translation": "채널 배너 색상은 유효한 16진수 색상이어야 합니다(예: #FF0000 또는 #F00)"
   },
   {
     "id": "model.channel.is_valid.banner_info.channel_type.app_error",
@@ -10829,6 +11569,10 @@
     "translation": "인덱싱이 활성화된 경우 검색 ConnectionUrl 설정이 제공되어야 합니다."
   },
   {
+    "id": "model.config.is_valid.elastic_search.empty_index_prefix.app_error",
+    "translation": "GlobalSearchPrefix가 설정된 경우 IndexPrefix는 비워 둘 수 없습니다."
+  },
+  {
     "id": "model.config.is_valid.elastic_search.enable_autocomplete.app_error",
     "translation": "{{.Autocomplete}}가 true로 설정된 경우 {{.EnableIndexing}} 설정도 true로 설정되어야 합니다."
   },
@@ -10839,6 +11583,10 @@
   {
     "id": "model.config.is_valid.elastic_search.ignored_indexes_dash_prefix.app_error",
     "translation": "삭제를 위한 무시된 인덱스는 대시로 시작할 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.elastic_search.incorrect_search_prefix.app_error",
+    "translation": "GlobalSearchPrefix {{.GlobalSearchPrefix}} 값은 IndexPrefix {{.IndexPrefix}} 값의 접두사여야 합니다."
   },
   {
     "id": "model.config.is_valid.elastic_search.invalid_backend.app_error",
@@ -10875,6 +11623,14 @@
   {
     "id": "model.config.is_valid.empty_redis_address.app_error",
     "translation": "redis 캐시 유형의 경우 RedisAddress가 지정되어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.experimental_audit_settings.file_name_empty",
+    "translation": "감사 파일 로깅이 활성화된 경우 파일 이름을 지정해야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.experimental_audit_settings.file_name_is_directory",
+    "translation": "파일 이름은 디렉터리일 수 없습니다."
   },
   {
     "id": "model.config.is_valid.encrypt_sql.app_error",
@@ -11103,6 +11859,22 @@
   {
     "id": "model.config.is_valid.read_timeout.app_error",
     "translation": "읽기 타임아웃 값이 유효하지 않습니다."
+  },
+  {
+    "id": "model.config.is_valid.report_a_problem_link.invalid.app_error",
+    "translation": "문제 보고 링크가 유효하지 않습니다. http:// 또는 https://로 시작하는 유효한 URL이어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.report_a_problem_link.missing.app_error",
+    "translation": "문제 보고 링크가 필요합니다."
+  },
+  {
+    "id": "model.config.is_valid.report_a_problem_mail.invalid.app_error",
+    "translation": "문제 보고 이메일이 유효하지 않습니다. 유효한 이메일 주소여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.report_a_problem_mail.missing.app_error",
+    "translation": "문제 보고 이메일이 필요합니다."
   },
   {
     "id": "model.config.is_valid.restrict_direct_message.app_error",
@@ -12129,6 +12901,14 @@
     "translation": "규칙의 역할이 유효하지 않습니다."
   },
   {
+    "id": "model.access_policy.is_valid.rules.app_error",
+    "translation": "규칙이 유효하지 않습니다."
+  },
+  {
+    "id": "model.access_policy.is_valid.rules_imports.app_error",
+    "translation": "정책은 규칙을 가져오거나 직접 정의해야 합니다."
+  },
+  {
     "id": "model.access_policy.is_valid.scope.app_error",
     "translation": "이 액세스 제어 정책의 범위 값이 유효하지 않습니다."
   },
@@ -12143,6 +12923,18 @@
   {
     "id": "model.access_policy.is_valid.session_attribute_on_membership.app_error",
     "translation": "멤버십 규칙은 세션 속성(user.session)을 참조할 수 없습니다. 대신 권한 정책을 사용하세요."
+  },
+  {
+    "id": "model.access_policy.is_valid.type.app_error",
+    "translation": "정책 유형이 유효하지 않습니다."
+  },
+  {
+    "id": "model.access_policy.is_valid.version.app_error",
+    "translation": "이 액세스 제어 정책에 유효하지 않은 버전입니다."
+  },
+  {
+    "id": "model.acknowledgement.is_valid.channel_id.app_error",
+    "translation": "채널 ID가 유효하지 않습니다."
   },
   {
     "id": "model.authorize.is_valid.code_challenge.app_error",
@@ -12353,6 +13145,10 @@
     "translation": "{{.Setting}}에는 경로 탐색 시퀀스(\"..\")를 사용할 수 없습니다. \"{{.Value}}\"이(가) 발견되었습니다."
   },
   {
+    "id": "model.config.is_valid.directory_whitespace.app_error",
+    "translation": "{{.Setting}} 값의 앞이나 뒤에 공백이 있습니다. 입력된 값: \"{{.Value}}\"."
+  },
+  {
     "id": "model.config.is_valid.elastic_search.enable_cjk_analyzers.app_error",
     "translation": "{{.EnableCJKAnalyzers}}이(가) true로 설정된 경우 {{.Searching}} 설정도 true로 설정해야 합니다"
   },
@@ -12411,6 +13207,10 @@
   {
     "id": "model.config.is_valid.intune_tenant_id_format.app_error",
     "translation": "Intune MAM 테넌트 ID는 유효한 UUID여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.invalid_redis_cache_prefix.app_error",
+    "translation": "Redis 캐시 접두사에는 ':', '*', '?', '[', ']', '\\'를 포함할 수 없습니다."
   },
   {
     "id": "model.config.is_valid.lock_profile_fields.app_error",
@@ -13045,6 +13845,10 @@
     "translation": "렌더링 결정에 지원되지 않는 작업입니다: {{.Action}}"
   },
   {
+    "id": "app.acknowledgement.batch_save.app_error",
+    "translation": "확인 객체를 일괄 저장할 수 없습니다"
+  },
+  {
     "id": "app.bot.createbot.reserved_username.app_error",
     "translation": "이 사용자 이름은 시스템 소유 봇용으로 예약되어 있습니다."
   },
@@ -13101,6 +13905,10 @@
     "translation": "이 사용자 이름은 시스템 소유 봇용으로 예약되어 있습니다."
   },
   {
+    "id": "app.user.update_active.license_user_limit.exceeded",
+    "translation": "사용자를 활성화할 수 없습니다. 서버가 라이선스 최대 사용자 수를 초과합니다. ERROR_LICENSED_USERS_LIMIT_EXCEEDED."
+  },
+  {
     "id": "app.user_access_token.bot_expired_deleted_notification",
     "translation": "봇 계정 @{{.BotUsername}}의 개인 액세스 토큰(\"{{.Description}}\")이 만료되어 제거되었습니다. 새 토큰을 만들려면 **통합 > 봇 계정**을 여세요."
   },
@@ -13129,6 +13937,10 @@
     "translation": "잘못된 주체 ID입니다."
   },
   {
+    "id": "model.access_policy.inherit.already_imported.app_error",
+    "translation": "상위 정책을 이미 가져왔습니다."
+  },
+  {
     "id": "model.access_policy.is_valid.rule_expression.app_error",
     "translation": "멤버십 규칙만 표현식을 생략할 수 있습니다."
   },
@@ -13155,6 +13967,18 @@
   {
     "id": "model.config.is_valid.connected_workspaces.batch_size.app_error",
     "translation": "{{.Setting}} 값은 양수여야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.content_flagging.common_reviewers_not_set.app_error",
+    "translation": "\"모든 팀에 동일한 검토자\"가 활성화된 경우 공통 검토자나 추가 검토자를 설정해야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.content_flagging.reasons_not_set.app_error",
+    "translation": "신고 사유는 비워 둘 수 없습니다."
+  },
+  {
+    "id": "model.config.is_valid.content_flagging.team_reviewers_not_set.app_error",
+    "translation": "팀에 \"활성화\"를 설정할 때는 팀 검토자나 추가 검토자를 설정해야 합니다."
   },
   {
     "id": "model.config.is_valid.elastic_search.index_replicas.app_error",
@@ -13191,6 +14015,18 @@
   {
     "id": "model.config.is_valid.non_negative_number.app_error",
     "translation": "{{.Setting}} 값은 음수가 아니어야 합니다."
+  },
+  {
+    "id": "model.config.is_valid.notification_settings.invalid_event",
+    "translation": "지정한 신고 이벤트가 유효하지 않습니다."
+  },
+  {
+    "id": "model.config.is_valid.notification_settings.invalid_target",
+    "translation": "지정한 신고 이벤트 대상이 유효하지 않습니다."
+  },
+  {
+    "id": "model.config.is_valid.notification_settings.reviewer_flagged_notification_disabled",
+    "translation": "검토자에 대한 새 신고 게시물 알림은 비활성화할 수 없습니다."
   },
   {
     "id": "model.config.is_valid.port.app_error",
@@ -13305,6 +14141,10 @@
     "translation": "서버 진단 정보를 사용할 수 없습니다."
   },
   {
+    "id": "health.reason.job_runs_unfinished",
+    "translation": "최근 실행이 아직 대기 중이거나 실행 중이거나 취소되어 이전 실행을 확인할 수 없습니다."
+  },
+  {
     "id": "health.reason.jobs_unavailable",
     "translation": "작업 기록을 사용할 수 없습니다."
   },
@@ -13323,6 +14163,698 @@
   {
     "id": "health.reason.stats_unavailable",
     "translation": "사용 통계를 사용할 수 없습니다."
+  },
+  {
+    "id": "health.rule.audit_log_off.message",
+    "translation": "활성화된 감사 로그 대상이 없고, 이 워크스페이스의 등록 사용자는 {{.users}}명입니다. 관리 작업, 로그인, 구성 변경이 별도의 감사 기록으로 남지 않습니다. 이는 규정 준수와 포렌식의 공백이며 안정성 위험은 아닙니다."
+  },
+  {
+    "id": "health.rule.audit_log_off.remediation",
+    "translation": "조직에 감사 요구 사항(금융 서비스, 의료, 국방, 규제 대상 공공 부문)이 있으면 System Console > Compliance > Audit Logging에서 감사 로깅을 활성화하거나 ExperimentalAuditSettings.AdvancedLoggingJSON에 감사 수준별 대상을 추가하고 로그 순환을 구성하세요. 해당하지 않으면 무시해도 됩니다."
+  },
+  {
+    "id": "health.rule.audit_log_off.title",
+    "translation": "감사 로깅이 꺼져 있습니다"
+  },
+  {
+    "id": "health.rule.bind_privileged_port.message",
+    "translation": "ServiceSettings.ListenAddress가 1024 미만인 {{.port}} 포트에 바인딩합니다. Linux에서 root로 실행하지 않는 OKR.BEST 서버는 바이너리에 CAP_NET_BIND_SERVICE 파일 capability가 있어야만 이 포트에 바인딩할 수 있습니다. 패키지를 업그레이드하면 바이너리가 교체되어 이 capability가 사라지므로, 다음 업그레이드 후 서버가 \"bind: permission denied\" 오류로 시작하지 못할 수 있습니다. 구성만으로는 capability를 어떻게 부여했는지 알 수 없으므로, systemd 유닛으로 부여한 뒤에도 이 경고는 계속 표시됩니다."
+  },
+  {
+    "id": "health.rule.bind_privileged_port.remediation",
+    "translation": "업그레이드 후에도 capability가 유지되도록 OKR.BEST systemd 유닛에 AmbientCapabilities=CAP_NET_BIND_SERVICE를 추가하거나, 업그레이드할 때마다 setcap CAP_NET_BIND_SERVICE=+eip /opt/mattermost/bin/mattermost를 다시 실행하세요. 또는 OKR.BEST 앞에 리버스 프록시를 두고 OKR.BEST는 8065 같은 높은 포트에 바인딩하세요."
+  },
+  {
+    "id": "health.rule.bind_privileged_port.title",
+    "translation": "서버가 특권 포트에 직접 바인딩합니다"
+  },
+  {
+    "id": "health.rule.cluster_bad_advertise.message",
+    "translation": "리더 노드가 {{.address}} 주소를 알립니다. 다른 노드는 이 주소로 리더에 접근할 수 없으므로 Gossip이 노드 하나짜리 클러스터를 구성하고 스플릿 브레인이 드러나지 않습니다."
+  },
+  {
+    "id": "health.rule.cluster_bad_advertise.remediation",
+    "translation": "ClusterSettings.AdvertiseAddress를 노드에 접근 가능한 IP 주소나 DNS 이름으로 설정하거나, 비워 두어 네트워크 인터페이스 주소를 사용하세요. 이 검사는 리더 노드의 구성만 읽으므로 모든 노드에서 설정을 확인하세요."
+  },
+  {
+    "id": "health.rule.cluster_bad_advertise.title",
+    "translation": "다른 노드에서 ClusterSettings.AdvertiseAddress에 접근할 수 없습니다"
+  },
+  {
+    "id": "health.rule.cluster_config_writable.message",
+    "translation": "구성은 각 노드의 파일에 저장되며 시스템 콘솔에서 변경할 수 있습니다. 변경 사항은 한 노드에 저장된 뒤 다른 노드로 최선 노력(best-effort) 방식으로 전파됩니다. 전파를 놓친 노드는 자기 파일을 그대로 유지하므로 노드 간 구성이 서로 달라질 수 있습니다."
+  },
+  {
+    "id": "health.rule.cluster_config_writable.remediation",
+    "translation": "ClusterSettings.ReadOnlyConfig를 true로 설정하고 모든 노드에서 구성 파일이나 환경 변수로 구성을 관리하거나, 구성을 데이터베이스로 옮기세요."
+  },
+  {
+    "id": "health.rule.cluster_config_writable.title",
+    "translation": "파일 기반 HA 클러스터에서 ClusterSettings.ReadOnlyConfig가 꺼져 있습니다"
+  },
+  {
+    "id": "health.rule.cluster_gossip_unencrypted.message",
+    "translation": "ClusterSettings.EnableGossipEncryption이 false이므로 클러스터 노드 간 트래픽이 암호화되지 않습니다."
+  },
+  {
+    "id": "health.rule.cluster_gossip_unencrypted.remediation",
+    "translation": "Gossip 암호화를 활성화한 뒤 유지 보수 시간에 모든 노드를 함께 다시 시작하세요. 암호화를 사용하는 노드와 사용하지 않는 노드는 서로 통신할 수 없으므로, 순차 재시작을 하면 마지막 노드가 다시 시작될 때까지 클러스터가 분리됩니다."
+  },
+  {
+    "id": "health.rule.cluster_gossip_unencrypted.title",
+    "translation": "HA 클러스터의 Gossip 통신이 암호화되지 않습니다"
+  },
+  {
+    "id": "health.rule.cluster_lru_cache.message",
+    "translation": "HA 환경에 등록 사용자가 {{.users}}명이며, 기본 인메모리 LRU 캐시를 쓰면 노드마다 캐시 사본을 따로 유지하고 Gossip으로 무효화합니다. 이 규모에서 캐시 무효화 트래픽을 줄이려면 사용자 100,000명 이상부터 Redis 사용을 권장합니다."
+  },
+  {
+    "id": "health.rule.cluster_lru_cache.remediation",
+    "translation": "CacheSettings.RedisAddress를 구성하고 CacheSettings.CacheType을 redis로 설정하는 방안을 검토하세요. Redis를 사용하려면 Cluster 기능이 포함된 라이선스가 필요합니다."
+  },
+  {
+    "id": "health.rule.cluster_lru_cache.title",
+    "translation": "대규모 환경에서는 Redis 캐시 백엔드를 검토하세요"
+  },
+  {
+    "id": "health.rule.cluster_single_node.message",
+    "translation": "의도한 HA 토폴로지가 실제로는 실행되고 있지 않습니다. 노드가 하나뿐이면 장애 조치가 되지 않고 스플릿 브레인 위험이 드러나지 않습니다."
+  },
+  {
+    "id": "health.rule.cluster_single_node.remediation",
+    "translation": "Gossip 연결(ClusterSettings.GossipPort)과 방화벽 규칙을 확인하고, 모든 앱 노드가 같은 ClusterName을 쓰는지 확인하세요. ClusterName이 비어 있어도 노드가 혼자 남으며, 이때 서버는 고가용성이 비활성화되었다는 로그를 남깁니다."
+  },
+  {
+    "id": "health.rule.cluster_single_node.title",
+    "translation": "고가용성이 켜져 있지만 클러스터에 노드가 하나뿐입니다"
+  },
+  {
+    "id": "health.rule.cluster_version_skew.message",
+    "translation": "클러스터 노드가 보고한 버전: {{.versions}}."
+  },
+  {
+    "id": "health.rule.cluster_version_skew.message.no_majority",
+    "translation": "노드가 여러 버전으로 나뉘어 있고 가장 많은 버전이 없으므로, 어떤 노드가 오래된 버전인지 판단할 수 없습니다."
+  },
+  {
+    "id": "health.rule.cluster_version_skew.message.node",
+    "translation": "이 노드는 {{.version}}을(를) 실행하지만 대부분의 노드는 {{.majority}}을(를) 실행합니다."
+  },
+  {
+    "id": "health.rule.cluster_version_skew.remediation",
+    "translation": "업그레이드 중이 아니라면 모든 노드를 같은 버전으로 업그레이드하고 노드끼리 Gossip으로 통신할 수 있는지 확인하세요."
+  },
+  {
+    "id": "health.rule.cluster_version_skew.title",
+    "translation": "클러스터에서 여러 OKR.BEST 버전이 감지되었습니다"
+  },
+  {
+    "id": "health.rule.compliance_no_dir.message",
+    "translation": "ComplianceSettings.Directory가 비어 있으므로 규정 준수 보고서가 서버 작업 디렉터리 아래의 compliance 폴더에 저장됩니다. 서버를 업그레이드하거나 컨테이너를 다시 빌드하면 이 보고서가 사라집니다."
+  },
+  {
+    "id": "health.rule.compliance_no_dir.remediation",
+    "translation": "System Console > Compliance > Compliance Monitoring에서 Compliance Report Directory(ComplianceSettings.Directory)를 쓰기 가능한 영구 경로로 설정하세요."
+  },
+  {
+    "id": "health.rule.compliance_no_dir.title",
+    "translation": "규정 준수 모니터링이 켜져 있지만 Directory 값이 비어 있습니다"
+  },
+  {
+    "id": "health.rule.db_ha_failover_storm_risk.message",
+    "translation": "각 노드는 주 데이터베이스에 대해 최대 MaxOpenConns개의 연결 풀을 유지합니다. 노드 {{.nodes}}개, MaxOpenConns={{.max_open}}이면 데이터베이스 장애 조치 때 새로 승격된 주 데이터베이스에 연결 시도가 최대 {{.burst}}건 동시에 몰릴 수 있으며, DataSource 호스트는 연결 풀러로 보이지 않습니다. 이 수가 데이터베이스의 max_connections를 넘으면 데이터베이스가 연결을 거부하고('sorry, too many clients already') 복구가 늦어집니다."
+  },
+  {
+    "id": "health.rule.db_ha_failover_storm_risk.remediation",
+    "translation": "모든 계층의 용량을 이 폭주 규모에 맞추세요. 가장 확실한 해결책은 max_connections만 올리는 대신 노드별 SqlSettings.MaxOpenConns를 낮추거나 데이터베이스 앞에 PgBouncer(트랜잭션 모드)를 두어 재연결 폭주를 흡수하는 것입니다. 연결마다 데이터베이스 메모리를 쓰므로 상한을 높이면 메모리가 부족해질 수 있습니다. max_connections를 올린다면 복제, 모니터링, 관리자 세션을 위해 폭주 규모보다 여유를 두세요. 장애 조치 때 노드를 시차를 두고 시작해도 폭주가 상한 아래로 유지됩니다."
+  },
+  {
+    "id": "health.rule.db_ha_failover_storm_risk.title",
+    "translation": "데이터베이스 장애 조치 때 연결 폭주가 생길 수 있습니다"
+  },
+  {
+    "id": "health.rule.db_idle_exceeds_open.message",
+    "translation": "SqlSettings.MaxIdleConns({{.max_idle}})가 MaxOpenConns({{.max_open}})보다 높게 설정되어 있습니다. Go의 database/sql 계층은 유휴 풀을 MaxOpenConns로 조용히 제한하므로 초과한 유휴 용량은 효과가 없습니다. 문제가 생기지는 않지만 값이 오해를 부르며, 보통 유휴 연결이 열린 연결을 넘을 수 없다는 점을 모른 채 풀을 조정했다는 뜻입니다."
+  },
+  {
+    "id": "health.rule.db_idle_exceeds_open.remediation",
+    "translation": "MaxIdleConns를 MaxOpenConns 이하로 설정하세요(일반적인 기준은 MaxOpenConns의 25-50%입니다)."
+  },
+  {
+    "id": "health.rule.db_idle_exceeds_open.title",
+    "translation": "MaxIdleConns가 MaxOpenConns보다 큽니다"
+  },
+  {
+    "id": "health.rule.db_max_open_conns_low.message",
+    "translation": "사용자 {{.users}}명에 MaxOpenConns={{.max_open}}이면 순간 부하가 몰릴 때 앱 쪽에서 요청이 대기열에 쌓일 수 있습니다. 현재 기본값은 100입니다(MaxIdleConns 50, 2:1 비율)."
+  },
+  {
+    "id": "health.rule.db_max_open_conns_low.remediation",
+    "translation": "앱 쪽 요청 대기가 관찰되면 모니터링한 필요량에 맞춰 SqlSettings.MaxOpenConns를 올리세요(기본값 100/50이 기준선입니다). 실제 데이터베이스 상한은 MaxOpenConns x 노드 수 x 데이터 소스 수이므로, 값을 올리기 전에 데이터베이스의 max_connections가 그 합계를 감당하는지 확인하세요."
+  },
+  {
+    "id": "health.rule.db_max_open_conns_low.title",
+    "translation": "이 사용자 규모에 비해 MaxOpenConns가 낮을 수 있습니다"
+  },
+  {
+    "id": "health.rule.db_no_read_replica.message",
+    "translation": "SqlSettings.DataSourceReplicas가 비어 있습니다. 사용자가 {{.users}}명이며 모든 읽기가 주 데이터베이스로 갑니다. 대규모 배포에는 읽기 복제본을 권장합니다."
+  },
+  {
+    "id": "health.rule.db_no_read_replica.remediation",
+    "translation": "읽기 복제본을 프로비저닝하고 SqlSettings.DataSourceReplicas에 추가하는 방안을 검토하세요."
+  },
+  {
+    "id": "health.rule.db_no_read_replica.title",
+    "translation": "구성된 읽기 복제본이 없습니다"
+  },
+  {
+    "id": "health.rule.db_no_search_replica.message",
+    "translation": "게시물이 {{.posts}}개이고 데이터베이스 검색을 사용하므로 주 데이터베이스와 복제본이 전문(full-text) 스캔을 떠안습니다. 이 규모에서는 CPU 부하와 검색 시간 초과가 발생합니다."
+  },
+  {
+    "id": "health.rule.db_no_search_replica.remediation",
+    "translation": "Elasticsearch 검색을 활성화(권장)하거나 SqlSettings.DataSourceSearchReplicas를 구성하세요."
+  },
+  {
+    "id": "health.rule.db_no_search_replica.title",
+    "translation": "검색 복제본이 없고 Elasticsearch 검색도 꺼져 있습니다"
+  },
+  {
+    "id": "health.rule.db_pool_saturated.message",
+    "translation": "주 데이터베이스 연결 {{.max_open}}개 중 {{.in_use}}개를 사용 중이며({{.percent}}%), MaxOpenConns의 90% 이상입니다. 새 쿼리가 대기열에 쌓이고 HTTP 지연 시간이 늘어납니다."
+  },
+  {
+    "id": "health.rule.db_pool_saturated.remediation",
+    "translation": "SqlSettings.MaxOpenConns와 데이터베이스의 max_connections를 올리세요. 오래 실행되는 쿼리도 조사하세요."
+  },
+  {
+    "id": "health.rule.db_pool_saturated.title",
+    "translation": "주 데이터베이스 연결 풀이 포화에 가깝습니다"
+  },
+  {
+    "id": "health.rule.db_postgres_unsupported.message",
+    "translation": "PostgreSQL {{.version}}은(는) 지원하는 최소 버전보다 낮습니다. OKR.BEST에는 PostgreSQL {{.minimum}} 이상이 필요합니다."
+  },
+  {
+    "id": "health.rule.db_postgres_unsupported.remediation",
+    "translation": "업그레이드를 계획하세요. 새 버전은 병렬 쿼리와 JSONB 성능도 더 좋습니다."
+  },
+  {
+    "id": "health.rule.db_postgres_unsupported.title",
+    "translation": "PostgreSQL 버전이 최소 지원 버전보다 낮습니다"
+  },
+  {
+    "id": "health.rule.db_query_timeout_high.message",
+    "translation": "QueryTimeout이 {{.timeout}}초로 설정되어 있습니다. 시간 제한이 길면 폭주한 쿼리가 그 시간 내내 잠금을 쥐고 있어 autovacuum, 스키마 마이그레이션, 같은 행을 기다리는 쓰기 작업이 막힙니다. 읽기 복제본이 없는 바쁜 데이터베이스에서는 위험이 더 커집니다."
+  },
+  {
+    "id": "health.rule.db_query_timeout_high.remediation",
+    "translation": "SqlSettings.QueryTimeout을 30으로 줄이세요. 느린 쿼리는 전역 상한을 올리지 말고 쿼리별로 따로 조사하세요."
+  },
+  {
+    "id": "health.rule.db_query_timeout_high.title",
+    "translation": "SqlSettings.QueryTimeout 값이 큽니다(기본값 30초)"
+  },
+  {
+    "id": "health.rule.db_replica_unused.message",
+    "translation": "DataSourceReplicas가 설정되어 있지만 접근 가능한 복제본이 없어 읽기 요청이 기본 데이터베이스로 넘어갑니다."
+  },
+  {
+    "id": "health.rule.db_replica_unused.remediation",
+    "translation": "복제본 DSN, 네트워크 접근성, 인증 정보를 확인하세요. 서버 로그에서 복제본 연결 경고도 확인하세요."
+  },
+  {
+    "id": "health.rule.db_replica_unused.title",
+    "translation": "읽기 복제본이 구성되어 있지만 접근할 수 있는 복제본이 없습니다"
+  },
+  {
+    "id": "health.rule.db_trace_on.message",
+    "translation": "모든 SQL 문이 로그에 기록됩니다. 이 기능은 디버깅 전용입니다. 켜 두면 디스크가 차고 쿼리 페이로드가 로그 파일에 기록됩니다."
+  },
+  {
+    "id": "health.rule.db_trace_on.remediation",
+    "translation": "디버깅 중이 아니면 SqlSettings.Trace를 false로 설정하세요."
+  },
+  {
+    "id": "health.rule.db_trace_on.title",
+    "translation": "SqlSettings.Trace가 켜져 있습니다"
+  },
+  {
+    "id": "health.rule.env_unsupported_os.message",
+    "translation": "서버가 {{.os}}에서 실행 중입니다. OKR.BEST는 프로덕션 환경으로 Linux를 지원합니다. 다른 운영 체제는 개발용으로만 적합합니다."
+  },
+  {
+    "id": "health.rule.env_unsupported_os.remediation",
+    "translation": "서버를 지원되는 Linux 배포판으로 옮기세요."
+  },
+  {
+    "id": "health.rule.env_unsupported_os.title",
+    "translation": "서버가 Linux가 아닌 운영 체제에서 실행 중입니다"
+  },
+  {
+    "id": "health.rule.es_live_batch_sync.message",
+    "translation": "새 게시물마다 별도 요청으로 즉시 색인됩니다. 바쁜 서버에서는 검색 클러스터에 과부하가 걸리고 색인이 지연됩니다."
+  },
+  {
+    "id": "health.rule.es_live_batch_sync.remediation",
+    "translation": "LiveIndexingBatchSize를 10~20 사이로 올리고, 관찰된 게시물 작성 속도에 맞춰 이 범위 안에서 조정하세요."
+  },
+  {
+    "id": "health.rule.es_live_batch_sync.title",
+    "translation": "Elasticsearch LiveIndexingBatchSize 값이 1입니다"
+  },
+  {
+    "id": "health.rule.es_live_batch_too_high.message",
+    "translation": "LiveIndexingBatchSize가 {{.size}}입니다. 큰 _bulk 요청은 검색 클러스터의 http.max_content_length를 넘어 413 오류로 실패할 수 있으며, 이 경우 재시도와 색인 지연이 생깁니다."
+  },
+  {
+    "id": "health.rule.es_live_batch_too_high.remediation",
+    "translation": "LiveIndexingBatchSize를 10~20 사이로 낮추세요. 매우 큰 배치가 의도된 것이면 검색 클러스터의 http.max_content_length를 올리세요."
+  },
+  {
+    "id": "health.rule.es_live_batch_too_high.title",
+    "translation": "Elasticsearch LiveIndexingBatchSize 값이 100보다 큽니다"
+  },
+  {
+    "id": "health.rule.es_localhost_url.message",
+    "translation": "ConnectionURL이 {{.host}}을(를) 가리킵니다. 각 앱 노드는 이 주소를 자기 자신으로 해석합니다. 로컬 검색 엔진이 없는 노드는 색인도 검색도 할 수 없습니다."
+  },
+  {
+    "id": "health.rule.es_localhost_url.remediation",
+    "translation": "ConnectionURL을 모든 앱 노드가 접근할 수 있는 호스트 이름이나 서비스 DNS 이름으로 설정하세요."
+  },
+  {
+    "id": "health.rule.es_localhost_url.title",
+    "translation": "Elasticsearch ConnectionURL이 localhost를 가리킵니다"
+  },
+  {
+    "id": "health.rule.es_missing_icu.message",
+    "translation": "검색 클러스터에서 analysis-icu 플러그인이 확인되지 않습니다. 게시물 색인 템플릿은 ICU 토크나이저와 노멀라이저를 사용하므로 이 플러그인이 없으면 게시물 색인이 실패할 수 있습니다."
+  },
+  {
+    "id": "health.rule.es_missing_icu.message.unavailable",
+    "translation": "서버가 검색 클러스터 버전을 읽지 못해 플러그인 목록을 수집하지 않았습니다."
+  },
+  {
+    "id": "health.rule.es_missing_icu.remediation",
+    "translation": "모든 검색 노드에 analysis-icu 플러그인을 설치(elasticsearch-plugin install analysis-icu 또는 opensearch-plugin install analysis-icu)한 뒤 노드를 다시 시작하세요. 다국어 검색뿐 아니라 게시물 색인에도 이 플러그인이 필요합니다."
+  },
+  {
+    "id": "health.rule.es_missing_icu.title",
+    "translation": "검색 엔진에 analysis-icu 플러그인이 없습니다"
+  },
+  {
+    "id": "health.rule.es_server_error.message",
+    "translation": "검색 엔진 연결 테스트가 실패했습니다: {{.error}}"
+  },
+  {
+    "id": "health.rule.es_server_error.message.no_fallback",
+    "translation": "검색 엔진 연결 테스트가 실패했고 데이터베이스 검색이 비활성화되어 있어 검색 결과가 나오지 않습니다: {{.error}}"
+  },
+  {
+    "id": "health.rule.es_server_error.remediation",
+    "translation": "ElasticsearchSettings.ConnectionURL 접근성, TLS, 인증 정보를 확인하세요. 검색 클러스터 상태(GET /_cluster/health)도 확인하세요."
+  },
+  {
+    "id": "health.rule.es_server_error.title",
+    "translation": "서버가 Elasticsearch 클러스터 오류를 보고합니다"
+  },
+  {
+    "id": "health.rule.es_skip_tls_verify.message",
+    "translation": "https 연결에서 SkipTLSVerification이 true이므로 서버가 검색 엔진의 인증서를 검증하지 않습니다. 신뢰할 수 있는 내부 네트워크에서는 괜찮지만, 그 밖의 환경에서는 중간자 공격을 막지 못합니다."
+  },
+  {
+    "id": "health.rule.es_skip_tls_verify.remediation",
+    "translation": "검색 엔드포인트가 신뢰할 수 없는 경로에 있으면 인증서가 검증되도록 해당 CA를 설치하고 SkipTLSVerification을 false로 설정하세요. 신뢰할 수 있는 내부 네트워크라면 이 설정이 의도된 것인지 확인하세요."
+  },
+  {
+    "id": "health.rule.es_skip_tls_verify.title",
+    "translation": "Elasticsearch 연결이 TLS 인증서 검증을 건너뜁니다"
+  },
+  {
+    "id": "health.rule.es_version_unsupported.message.too_new",
+    "translation": "{{.backend}} {{.version}}은(는) 지원되는 주 버전({{.min}}~{{.max}})보다 최신입니다. 이 버전을 지원하는 OKR.BEST 릴리스로 업그레이드하거나 검색 클러스터를 지원되는 버전으로 되돌리세요."
+  },
+  {
+    "id": "health.rule.es_version_unsupported.message.too_old",
+    "translation": "{{.backend}} {{.version}}은(는) 지원되는 주 버전({{.min}}~{{.max}})보다 오래되었습니다. 검색 클러스터를 지원되는 버전으로 업그레이드하세요."
+  },
+  {
+    "id": "health.rule.es_version_unsupported.message.unavailable",
+    "translation": "서버가 검색 클러스터에 연결하지 않아 검색 클러스터 버전을 수집하지 않았습니다."
+  },
+  {
+    "id": "health.rule.es_version_unsupported.message.unrecognized",
+    "translation": "검색 엔진 백엔드나 버전을 인식할 수 없습니다."
+  },
+  {
+    "id": "health.rule.es_version_unsupported.remediation",
+    "translation": "이 OKR.BEST 버전이 지원하는 주 버전의 검색 클러스터를 실행하세요."
+  },
+  {
+    "id": "health.rule.es_version_unsupported.title",
+    "translation": "검색 엔진 버전이 지원되지 않습니다"
+  },
+  {
+    "id": "health.rule.export_gr_timeout_low.message",
+    "translation": "GlobalRelaySettings.SMTPServerTimeout이 {{.value}}초입니다. 이 값은 내보내기가 Global Relay SMTP 서버 연결을 기다리는 시간의 상한이며, 30초 미만이면 연결이 느릴 때 전송이 실패합니다."
+  },
+  {
+    "id": "health.rule.export_gr_timeout_low.remediation",
+    "translation": "MessageExportSettings.GlobalRelaySettings.SMTPServerTimeout을 30초 이상으로 올리세요. 기본값은 1800입니다."
+  },
+  {
+    "id": "health.rule.export_gr_timeout_low.title",
+    "translation": "Global Relay SMTPServerTimeout 값이 30초 미만입니다"
+  },
+  {
+    "id": "health.rule.filestore_local_in_cluster.message",
+    "translation": "ClusterSettings.Enable이 켜진 상태에서 FileSettings.DriverName이 local이고 FileSettings.Directory가 {{.directory}}입니다. 클러스터에서는 이 디렉터리가 모든 노드에 똑같이 마운트된 공유 마운트(NFS, EFS, GlusterFS, CephFS)여야 합니다. 그렇지 않으면 한 노드에 업로드된 파일이 다른 노드에서 보이지 않습니다. 구성만으로는 디렉터리가 공유되는지 알 수 없으며, 노드가 자체 로컬 디스크에 쓰면서도 파일 저장소 연결 테스트를 통과할 수 있습니다."
+  },
+  {
+    "id": "health.rule.filestore_local_in_cluster.remediation",
+    "translation": "모든 앱 노드에서 FileSettings.Directory 경로로 findmnt를 실행하세요. 상대 경로는 OKR.BEST 작업 디렉터리(보통 /opt/mattermost)를 기준으로 해석됩니다. 모든 노드에 같은 원격 소스가 표시되어야 하고, OKR.BEST 사용자가 그곳에서 읽고 쓸 수 있어야 합니다. 디렉터리가 공유 마운트가 아니면 공유 마운트로 옮기거나 FileSettings.DriverName을 amazons3로 바꾸세요."
+  },
+  {
+    "id": "health.rule.filestore_local_in_cluster.title",
+    "translation": "고가용성 클러스터에서 로컬 파일 저장소를 사용합니다: 공유 마운트를 확인하세요"
+  },
+  {
+    "id": "health.rule.filestore_s3_no_bucket.message",
+    "translation": "FileSettings.AmazonS3Bucket이 비어 있어 파일 업로드가 실패합니다."
+  },
+  {
+    "id": "health.rule.filestore_s3_no_bucket.remediation",
+    "translation": "FileSettings.AmazonS3Bucket을 리전, 엔드포인트와 함께 설정하세요."
+  },
+  {
+    "id": "health.rule.filestore_s3_no_bucket.title",
+    "translation": "Amazon S3 파일 저장소를 선택했지만 버킷이 비어 있습니다"
+  },
+  {
+    "id": "health.rule.filestore_s3_ssl_off.message",
+    "translation": "FileSettings.AmazonS3SSL이 false이므로 서버와 S3 엔드포인트 사이에서 파일이 암호화되지 않은 상태로 전송됩니다."
+  },
+  {
+    "id": "health.rule.filestore_s3_ssl_off.remediation",
+    "translation": "엔드포인트가 일반 HTTP만 지원하는 경우가 아니면 FileSettings.AmazonS3SSL을 true로 설정하세요."
+  },
+  {
+    "id": "health.rule.filestore_s3_ssl_off.title",
+    "translation": "Amazon S3 SSL이 꺼져 있습니다"
+  },
+  {
+    "id": "health.rule.filestore_unreachable.message",
+    "translation": "서버가 파일 저장소에 연결할 수 없습니다: {{.error}}. 파일 업로드와 다운로드가 실패할 수 있습니다."
+  },
+  {
+    "id": "health.rule.filestore_unreachable.remediation",
+    "translation": "파일 저장소 설정을 확인한 뒤 시스템 콘솔 > 환경 > 파일 저장소에서 연결 테스트를 실행하세요. 로컬 저장소는 FileSettings.Directory가 존재하고 OKR.BEST 사용자가 쓸 수 있는지 확인하세요. Amazon S3는 버킷, 엔드포인트, 인증 정보를 확인하세요."
+  },
+  {
+    "id": "health.rule.filestore_unreachable.title",
+    "translation": "파일 저장소 연결 테스트에 실패했습니다"
+  },
+  {
+    "id": "health.rule.job_failed.message",
+    "translation": "마지막으로 완료된 {{.job_type}} 실행({{.job_id}})이 오류로 끝났습니다: {{.error}}"
+  },
+  {
+    "id": "health.rule.job_failed.message.no_error",
+    "translation": "마지막으로 완료된 {{.job_type}} 실행({{.job_id}})이 오류 메시지를 남기지 않고 오류로 끝났습니다."
+  },
+  {
+    "id": "health.rule.job_failed.remediation",
+    "translation": "작업 오류와 실패한 실행의 시작 시각 무렵 서버 로그를 검토해 원인을 찾으세요. 먼저 확인할 흔한 원인은 데이터베이스 부하, 연결 풀 한도, 네트워크 또는 장애 조치 이벤트, 문 실행 시간 제한입니다. 원인을 해결한 뒤 작업을 다시 실행하고 완료되는지 확인하세요. 실행이 성공하기 전까지는 이 작업이 맡은 일(디렉터리 동기화, 컴플라이언스 내보내기, 데이터 보존, 검색 색인)이 처리되지 않습니다."
+  },
+  {
+    "id": "health.rule.job_failed.title",
+    "translation": "최근 작업 실행이 실패했습니다"
+  },
+  {
+    "id": "health.rule.job_stuck.message",
+    "translation": "{{.job_type}} 작업 {{.job_id}}이(가) 진행 중으로 표시되어 있지만 {{.hours}}시간 동안 활동 기록이 없습니다. 보통 실행 도중 워커가 종료되었거나 스케줄러가 멈춘 경우입니다."
+  },
+  {
+    "id": "health.rule.job_stuck.remediation",
+    "translation": "시스템 콘솔의 해당 작업 페이지나 mmctl job cancel, 또는 API로 멈춘 작업을 취소하세요. 작업의 마지막 활동 시각 무렵 서버 로그를 확인한 뒤 다시 실행하세요."
+  },
+  {
+    "id": "health.rule.job_stuck.title",
+    "translation": "작업이 24시간 넘게 진행 중 상태로 멈춰 있습니다"
+  },
+  {
+    "id": "health.rule.job_wedged_at_zero.message",
+    "translation": "{{.job_type}} 작업 {{.job_id}}이(가) 한 시간 넘게 진행률을 보고하지 않았고 활동 기록도 없습니다. 보통 첫 배치 전에 워커가 종료되었거나 교착 상태에 빠졌거나 데이터베이스 연결이 끊긴 경우입니다."
+  },
+  {
+    "id": "health.rule.job_wedged_at_zero.remediation",
+    "translation": "시스템 콘솔의 해당 작업 페이지나 mmctl job cancel, 또는 API로 작업을 취소하세요. 작업 시작 시각부터 서버 로그에 패닉이나 연결 오류가 있는지 확인한 뒤 다시 실행하세요. 같은 문제가 반복되면 작업이 멈춰 있는 동안 메트릭 서버의 /debug/pprof/goroutine에서 고루틴 프로필을 수집하세요."
+  },
+  {
+    "id": "health.rule.job_wedged_at_zero.title",
+    "translation": "진행 중인 작업에 한 시간 넘게 진행률과 활동이 없습니다"
+  },
+  {
+    "id": "health.rule.ldap_id_is_email.message",
+    "translation": "IdAttribute가 {{.attribute}}입니다. OKR.BEST는 이 속성으로 각 계정을 디렉터리 항목과 연결하므로, 사용자의 이메일이 바뀌면(결혼, 브랜드 변경, 부서 이동) 연결이 끊어져 사용자가 기존 계정에 접근할 수 없습니다."
+  },
+  {
+    "id": "health.rule.ldap_id_is_email.remediation",
+    "translation": "IdAttribute를 objectGUID(AD)나 entryUUID(OpenLDAP) 같은 변하지 않는 속성으로 바꾼 뒤 mmctl ldap idmigrate로 기존 계정을 마이그레이션하세요."
+  },
+  {
+    "id": "health.rule.ldap_id_is_email.title",
+    "translation": "LDAP IdAttribute가 이메일 속성입니다"
+  },
+  {
+    "id": "health.rule.ldap_port_plain_mismatch.message",
+    "translation": "포트 636은 관례상 암시적 TLS(LDAPS)를 사용하지만 ConnectionSecurity가 None 또는 STARTTLS입니다. 이 조합은 대개 잘못된 구성이지만 TLS 종료 프록시 뒤에서는 유효할 수 있습니다. LDAP 로그인과 동기화가 성공하는지 확인하세요."
+  },
+  {
+    "id": "health.rule.ldap_port_plain_mismatch.remediation",
+    "translation": "LDAP 로그인이나 동기화가 실패하면 포트 636에 맞게 ConnectionSecurity를 TLS로 설정하세요. 정상 작동하면 변경할 필요가 없습니다."
+  },
+  {
+    "id": "health.rule.ldap_port_plain_mismatch.title",
+    "translation": "LDAP 포트 636이 ConnectionSecurity=TLS 없이 설정되어 있습니다"
+  },
+  {
+    "id": "health.rule.ldap_port_tls_mismatch.message",
+    "translation": "포트 389는 관례상 평문 또는 STARTTLS를 사용하고, 암시적 TLS(LDAPS)는 관례상 636을 사용합니다. 이 조합은 대개 잘못된 구성이지만 TLS 종료 프록시 뒤나 의도적으로 재구성한 서버에서는 유효할 수 있습니다. LDAP 로그인과 동기화가 성공하는지 확인하세요."
+  },
+  {
+    "id": "health.rule.ldap_port_tls_mismatch.remediation",
+    "translation": "LDAP 로그인이나 동기화가 실패하면 TLS에는 포트 636을 사용하거나, 포트 389에 맞게 ConnectionSecurity를 STARTTLS로 바꾸세요. 정상 작동하면 변경할 필요가 없습니다."
+  },
+  {
+    "id": "health.rule.ldap_port_tls_mismatch.title",
+    "translation": "LDAP 포트 389가 ConnectionSecurity=TLS로 설정되어 있습니다"
+  },
+  {
+    "id": "health.rule.ldap_probe_failed.message",
+    "translation": "리더 노드의 LDAP 테스트(연결, 바인딩, 사용자 검색)가 실패했습니다. LDAP 로그인과 동기화가 실패하고 있을 수 있습니다."
+  },
+  {
+    "id": "health.rule.ldap_probe_failed.remediation",
+    "translation": "오류 세부 정보를 확인한 뒤 LdapServer, LdapPort, ConnectionSecurity와 바인딩 자격 증명을 점검하고, OKR.BEST 서버가 LDAP 서버에 접근할 수 있는지 확인하세요. AD/LDAP 페이지의 연결 테스트로 다시 확인하세요."
+  },
+  {
+    "id": "health.rule.ldap_probe_failed.title",
+    "translation": "LDAP 연결 테스트에 실패했습니다"
+  },
+  {
+    "id": "health.rule.ldap_query_timeout_low.message",
+    "translation": "QueryTimeout이 {{.timeout}}초입니다. 시간 제한이 너무 짧으면 느린 디렉터리에서 LDAP 로그인과 동기화가 불필요하게 실패합니다."
+  },
+  {
+    "id": "health.rule.ldap_query_timeout_low.remediation",
+    "translation": "LdapSettings.QueryTimeout을 60초(기본값)로 올리세요."
+  },
+  {
+    "id": "health.rule.ldap_query_timeout_low.title",
+    "translation": "LDAP QueryTimeout 값이 10초 미만입니다"
+  },
+  {
+    "id": "health.rule.ldap_recommended_at_scale.message",
+    "translation": "활성 사용자 계정 {{.users}}개를 수동으로 관리하고 있습니다. OKR.BEST는 워크스페이스 사용자가 100명을 넘으면 Single Sign-On을 권장합니다. 이 규모에서 계정을 수동으로 관리하면 방치된 계정, 온보딩 지연, 퇴사자 정리 누락이 생기며, 모두 보안과 라이선스 위험이 됩니다."
+  },
+  {
+    "id": "health.rule.ldap_recommended_at_scale.remediation",
+    "translation": "OKR.BEST를 ID 공급자에 연결하세요. 디렉터리를 운영하면 AD/LDAP를, 그렇지 않으면 SAML이나 OpenID Connect를 사용하세요."
+  },
+  {
+    "id": "health.rule.ldap_recommended_at_scale.title",
+    "translation": "사용자가 100명을 넘었지만 Single Sign-On을 쓰지 않습니다"
+  },
+  {
+    "id": "health.rule.ldap_skip_cert.message",
+    "translation": "OKR.BEST가 LDAP 서버의 TLS 인증서를 검증하지 않으므로 디렉터리 연결이 중간자 공격에 노출됩니다. 개발과 테스트 용도로만 허용됩니다."
+  },
+  {
+    "id": "health.rule.ldap_skip_cert.remediation",
+    "translation": "OKR.BEST 서버에 LDAP 서버의 CA 체인을 설치하고 SkipCertificateVerification을 false로 설정하세요."
+  },
+  {
+    "id": "health.rule.ldap_skip_cert.title",
+    "translation": "LDAP SkipCertificateVerification이 켜져 있습니다"
+  },
+  {
+    "id": "health.rule.ldap_sync_duty_cycle.message",
+    "translation": "SyncIntervalMinutes가 {{.interval_minutes}}이고, 최근 LDAP 동기화 실행은 평균 {{.avg_run_seconds}}초로 간격의 {{.duty_pct}}%를 차지했습니다. 짧은 간격에서 실행이 길면 데이터베이스 부하가 계속 높고 복제 지연이 늘 수 있습니다."
+  },
+  {
+    "id": "health.rule.ldap_sync_duty_cycle.message.no_runs",
+    "translation": "소요 시간을 측정할 수 있는 LDAP 동기화 실행이 없습니다."
+  },
+  {
+    "id": "health.rule.ldap_sync_duty_cycle.remediation",
+    "translation": "LdapSettings.UserFilter와 BaseDN 범위를 좁혀 디렉터리 탐색 범위를 줄이거나 SyncIntervalMinutes를 늘리세요. 동기화 실행 시간이 간격의 25% 미만이 되도록 하세요."
+  },
+  {
+    "id": "health.rule.ldap_sync_duty_cycle.title",
+    "translation": "LDAP 동기화가 동기화 간격의 상당 부분 동안 실행됩니다"
+  },
+  {
+    "id": "health.rule.ldap_sync_no_basedn.message",
+    "translation": "LDAP 동기화는 BaseDN부터 디렉터리를 검색하므로, 이 값이 비어 있으면 업데이트할 사용자를 찾을 수 없습니다."
+  },
+  {
+    "id": "health.rule.ldap_sync_no_basedn.remediation",
+    "translation": "LdapSettings.BaseDN을 동기화할 디렉터리 루트로 설정하세요."
+  },
+  {
+    "id": "health.rule.ldap_sync_no_basedn.title",
+    "translation": "LDAP 동기화가 켜져 있지만 BaseDN이 비어 있습니다"
+  },
+  {
+    "id": "health.rule.license_expired.message",
+    "translation": "라이선스가 {{.expires_at}}에 만료되었습니다. 서버는 만료된 라이선스를 만료 10일 후 제거하며, 그러면 Enterprise 기능이 작동하지 않습니다."
+  },
+  {
+    "id": "health.rule.license_expired.message.trial",
+    "translation": "평가판 라이선스가 {{.expires_at}}에 만료되었습니다. 서버는 만료된 라이선스를 만료 10일 후 제거하며, 그러면 Enterprise 기능이 작동하지 않습니다."
+  },
+  {
+    "id": "health.rule.license_expired.remediation",
+    "translation": "새 라이선스를 받아 시스템 콘솔 > 정보 > 라이선스와 에디션에서 업로드하세요."
+  },
+  {
+    "id": "health.rule.license_expired.title",
+    "translation": "라이선스가 만료되었습니다"
+  },
+  {
+    "id": "health.rule.license_expiring.message",
+    "translation": "라이선스가 {{.expires_at}}에 만료됩니다."
+  },
+  {
+    "id": "health.rule.license_expiring.message.trial",
+    "translation": "평가판 라이선스가 {{.expires_at}}에 만료됩니다."
+  },
+  {
+    "id": "health.rule.license_expiring.remediation",
+    "translation": "현재 라이선스가 만료되기 전에 시스템 콘솔 > 정보 > 라이선스와 에디션에서 업로드할 수 있도록 지금 새 라이선스를 받으세요."
+  },
+  {
+    "id": "health.rule.license_expiring.title",
+    "translation": "라이선스가 30일 안에 만료됩니다"
+  },
+  {
+    "id": "health.rule.log_debug_prod.message",
+    "translation": "LogSettings.FileLevel이 {{.level}}입니다. 디버그 수준 파일 로깅은 로그 파일을 빠르게 키우고, 추가 세부 정보에 요청 페이로드가 포함될 수 있습니다. 문제 해결 중에는 괜찮지만 평상시 프로덕션 설정으로는 적합하지 않습니다."
+  },
+  {
+    "id": "health.rule.log_debug_prod.remediation",
+    "translation": "문제를 해결하는 중이 아니면 LogSettings.FileLevel을 INFO로 설정해 로그 양을 줄이세요."
+  },
+  {
+    "id": "health.rule.log_debug_prod.title",
+    "translation": "파일 로깅이 debug 또는 trace 수준입니다"
+  },
+  {
+    "id": "health.rule.log_file_off.message",
+    "translation": "LogSettings.EnableFile이 false이므로 서버가 로그 파일을 쓰지 않습니다. 외부 수집기가 stdout이나 journald를 수집하더라도 지원 패킷에 서버 로그가 포함되지 않아 기술 지원팀과의 문제 해결이 오래 걸립니다."
+  },
+  {
+    "id": "health.rule.log_file_off.remediation",
+    "translation": "LogSettings.EnableFile을 true로 설정하세요. 콘솔 로깅과 함께 작동하므로 기존 로그 수집기는 그대로 작동합니다."
+  },
+  {
+    "id": "health.rule.log_file_off.title",
+    "translation": "파일 로깅이 꺼져 있습니다"
+  },
+  {
+    "id": "health.rule.max_notifications_per_channel.message",
+    "translation": "TeamSettings.MaxNotificationsPerChannel이 {{.limit}}이므로 구성원이 수천 명인 채널에서도 @channel, @all, @here가 작동합니다. 이런 채널에서 채널 전체 멘션 한 번이면 알림 수천 개가 한꺼번에 발송되어 지연 시간이 급증합니다."
+  },
+  {
+    "id": "health.rule.max_notifications_per_channel.remediation",
+    "translation": "TeamSettings.MaxNotificationsPerChannel을 5000 이하로 낮추세요(기본값은 1000). 채널 구성원 수가 이 값에 도달하면 @channel, @all, @here가 비활성화되므로 큰 채널에서 이 멘션을 사용하는 팀과 먼저 협의하세요."
+  },
+  {
+    "id": "health.rule.max_notifications_per_channel.title",
+    "translation": "매우 큰 채널에서 채널 전체 멘션이 허용됩니다"
+  },
+  {
+    "id": "health.rule.metrics_off.message",
+    "translation": "MetricsSettings.Enable이 false입니다. 메트릭은 선택 사항이며 Prometheus를 운영하지 않는 배포도 많습니다. 데이터베이스 연결, HTTP 지연 시간, 고루틴 수를 런타임에 확인하려면 메트릭을 활성화하세요."
+  },
+  {
+    "id": "health.rule.metrics_off.remediation",
+    "translation": "Prometheus를 사용하면 MetricsSettings.Enable을 true로 설정하고 메트릭 리스너(기본 포트 8067)를 스크레이프하세요."
+  },
+  {
+    "id": "health.rule.metrics_off.title",
+    "translation": "Prometheus 메트릭이 꺼져 있습니다(선택 사항)"
+  },
+  {
+    "id": "health.rule.node_fd_exhaustion.message",
+    "translation": "서버 프로세스가 파일 디스크립터 {{.max}}개 중 {{.open}}개를 열고 있습니다. 한도에 도달하면 새 연결과 파일 작업이 실패합니다."
+  },
+  {
+    "id": "health.rule.node_fd_exhaustion.remediation",
+    "translation": "열린 파일 한도를 늘리세요. OKR.BEST systemd 유닛에서 LimitNOFILE을 설정하거나 컨테이너의 nofile ulimit를 높인 다음 서버를 다시 시작하세요."
+  },
+  {
+    "id": "health.rule.node_fd_exhaustion.title",
+    "translation": "파일 디스크립터가 거의 소진되었습니다"
+  },
+  {
+    "id": "health.rule.plugin_health_off.message",
+    "translation": "PluginSettings.EnableHealthCheck 값이 false이므로 충돌한 플러그인이 자동으로 다시 시작되지 않습니다."
+  },
+  {
+    "id": "health.rule.plugin_health_off.remediation",
+    "translation": "PluginSettings.EnableHealthCheck 값을 true로 설정하세요."
+  },
+  {
+    "id": "health.rule.plugin_health_off.title",
+    "translation": "플러그인 상태 점검이 꺼져 있습니다"
+  },
+  {
+    "id": "health.rule.plugin_not_running.message",
+    "translation": "다음 플러그인은 활성화되어 있지만 실행 중이 아닙니다: {{.plugins}}."
+  },
+  {
+    "id": "health.rule.plugin_not_running.remediation",
+    "translation": "시스템 콘솔 > 플러그인 > 플러그인 관리에서 목록에 있는 각 플러그인의 상태를 확인하고, 비활성화한 뒤 다시 활성화해 보세요. 플러그인이 시작에 실패했거나 플러그인 상태 점검으로 중지된 이유는 서버 로그에 기록됩니다."
+  },
+  {
+    "id": "health.rule.plugin_not_running.title",
+    "translation": "활성화된 플러그인이 실행되고 있지 않습니다"
+  },
+  {
+    "id": "health.rule.plugins_off.message",
+    "translation": "PluginSettings.Enable 값이 false이므로 어떤 플러그인도 실행되지 않습니다. 접근이 엄격히 제한된 일부 배포 환경에는 맞는 설정이지만, 의도하지 않은 경우가 많습니다."
+  },
+  {
+    "id": "health.rule.plugins_off.remediation",
+    "translation": "의도한 설정이 아니라면 PluginSettings.Enable 값을 true로 설정하세요."
+  },
+  {
+    "id": "health.rule.plugins_off.title",
+    "translation": "플러그인이 꺼져 있습니다"
   },
   {
     "id": "health.rule.push_bad_scheme.message.http",
@@ -13353,6 +14885,18 @@
     "translation": "푸시 알림이 활성화되어 있지만 PushNotificationServer 값이 비어 있습니다"
   },
   {
+    "id": "health.rule.push_id_only.message",
+    "translation": "PushNotificationContents 값이 full이므로 메시지 본문과 보낸 사람이 푸시 페이로드에 포함됩니다. 이 페이로드는 푸시 프록시와 Apple·Google 푸시 서비스를 거쳐 전달됩니다."
+  },
+  {
+    "id": "health.rule.push_id_only.remediation",
+    "translation": "푸시 개인정보 보호를 최대로 하려면 EmailSettings.PushNotificationContents 값을 id_loaded로 설정하세요. 메시지 ID만 전송되고, 모바일 앱이 서버에서 메시지 내용을 가져옵니다. 이 경우 알림이 도착할 때 모바일 기기가 서버에 접근할 수 있어야 하므로, VPN이나 내부 네트워크로만 접근할 수 있는 서버에서는 알림에 메시지 내용이 표시되지 않습니다. full을 의도적으로 선택했다면 이 발견 사항을 음소거하세요."
+  },
+  {
+    "id": "health.rule.push_id_only.title",
+    "translation": "푸시 알림에 메시지 전체 본문이 포함됩니다"
+  },
+  {
     "id": "health.rule.push_test_proxy.message",
     "translation": "push-test.mattermost.com 주소는 Mattermost의 테스트용 푸시 프록시입니다. SLA가 없고 처리량이 제한되며 프로덕션용으로 설계되지 않았습니다. 소규모 테스트 이외의 용도에서는 모바일 푸시 전송을 신뢰할 수 없습니다."
   },
@@ -13363,6 +14907,198 @@
   {
     "id": "health.rule.push_test_proxy.title",
     "translation": "PushNotificationServer 설정이 push-test.mattermost.com 주소를 가리킵니다"
+  },
+  {
+    "id": "health.rule.ratelimit_off_large.message",
+    "translation": "등록된 사용자가 {{.users}}명인데 RateLimitSettings.Enable 값이 false입니다. 속도 제한은 요청 폭주와 악의적이거나 오작동하는 클라이언트로부터 서버를 보호합니다. 사용자가 이만큼 많고 웹훅과 봇 통합까지 있으면, 잘못 구성된 클라이언트 하나가 API를 포화 상태로 만들 수 있습니다. OKR.BEST 기본 제공 속도 제한기는 소규모 배포(사용자 수백 명 이하)용으로 안내되어 있으므로, 규모가 크면 로드 밸런서나 API 게이트웨이에서 요청을 제한하는 편이 더 나은 경우가 많습니다."
+  },
+  {
+    "id": "health.rule.ratelimit_off_large.remediation",
+    "translation": "이 규모에 맞는 요청 제한을 적용하세요. OKR.BEST 기본 제공 속도 제한(시스템 콘솔 > 환경 > 속도 제한)을 쓰거나 로드 밸런서·게이트웨이에서 제한하면 됩니다."
+  },
+  {
+    "id": "health.rule.ratelimit_off_large.title",
+    "translation": "대규모 인스턴스에서 API 속도 제한이 꺼져 있습니다"
+  },
+  {
+    "id": "health.rule.ratelimit_store_small.message",
+    "translation": "RateLimitSettings.MemoryStoreSize 값은 {{.size}}인데 등록된 사용자는 {{.users}}명입니다. 속도 제한기는 최대 이 수만큼의 클라이언트만 추적합니다. 저장소가 가득 차면 가장 오래전에 확인된 클라이언트를 버리고, 그 클라이언트의 요청 할당량은 처음부터 다시 계산됩니다. 따라서 저장소가 작으면 속도 제한의 효과가 약해집니다."
+  },
+  {
+    "id": "health.rule.ratelimit_store_small.remediation",
+    "translation": "RateLimitSettings.MemoryStoreSize 값을 등록된 사용자 수 이상으로 늘리세요."
+  },
+  {
+    "id": "health.rule.ratelimit_store_small.title",
+    "translation": "속도 제한 메모리 저장소가 사용자 수보다 작습니다"
+  },
+  {
+    "id": "health.rule.retention_tight_batches.message",
+    "translation": "TimeBetweenBatchesMilliseconds 값은 {{.value}}입니다. 데이터 보존 작업은 삭제 배치 사이에 이 시간만큼 멈춰 데이터베이스가 실시간 트래픽을 처리할 여유를 줍니다. 100ms 미만이면 대량 삭제 중에 모든 사용자의 데이터베이스 응답이 느려질 수 있습니다."
+  },
+  {
+    "id": "health.rule.retention_tight_batches.remediation",
+    "translation": "구성에서 DataRetentionSettings.TimeBetweenBatchesMilliseconds 값을 100(기본값) 이상으로 늘리세요."
+  },
+  {
+    "id": "health.rule.retention_tight_batches.title",
+    "translation": "데이터 보존 TimeBetweenBatchesMilliseconds 값이 100 미만입니다"
+  },
+  {
+    "id": "health.rule.saml_encrypt_off.message",
+    "translation": "SAML 계층에서 어설션이 암호화되지 않은 채 전송됩니다. 연결은 여전히 TLS로 보호되므로 기본 보안 요건을 어긴 것은 아닙니다. 다만 IdP가 어설션 암호화를 지원한다면 활성화해 보안을 한 겹 더할 수 있습니다."
+  },
+  {
+    "id": "health.rule.saml_encrypt_off.remediation",
+    "translation": "IdP가 어설션 암호화를 지원한다면 SamlSettings.Encrypt를 활성화하고 서비스 공급자 개인 키와 공개 인증서를 구성하세요."
+  },
+  {
+    "id": "health.rule.saml_encrypt_off.title",
+    "translation": "SAML 어설션 암호화가 꺼져 있습니다"
+  },
+  {
+    "id": "health.rule.saml_id_is_email.message",
+    "translation": "IdAttribute가 비어 있거나 이메일 속성을 가리키므로 OKR.BEST가 이메일 주소로 SAML 계정을 식별합니다. IdP에서 사용자의 이메일이 바뀌면 기존 계정과의 연결이 끊어집니다."
+  },
+  {
+    "id": "health.rule.saml_id_is_email.remediation",
+    "translation": "IdP가 바뀌지 않는 식별자(objectGUID나 변경 불가능한 ID 등)를 보내도록 구성한 다음, SamlSettings.IdAttribute를 해당 속성 이름으로 설정하세요. 기존 계정은 자동으로 새 식별자로 옮겨집니다. 각 사용자가 다음에 로그인할 때 OKR.BEST가 이메일로 계정을 찾아 새 ID를 저장합니다."
+  },
+  {
+    "id": "health.rule.saml_id_is_email.title",
+    "translation": "SAML IdAttribute가 비어 있거나 이메일 속성입니다"
+  },
+  {
+    "id": "health.rule.saml_id_mutable.message",
+    "translation": "IdAttribute 값은 {{.attribute}}입니다. 사용자 이름, uid, 사용자 계정 이름(UPN)은 직원 사이에 재사용되는 경우가 많습니다. 이때 두 번째 사람이 첫 번째 사람의 OKR.BEST 계정을 물려받게 됩니다."
+  },
+  {
+    "id": "health.rule.saml_id_mutable.remediation",
+    "translation": "objectGUID(AD)나 변경 불가능한 ID(Microsoft Entra ID)처럼 다시 할당되지 않는 식별자를 사용하고, 식별자 재사용에 관한 IdP 정책을 검토하세요."
+  },
+  {
+    "id": "health.rule.saml_id_mutable.title",
+    "translation": "IdP에서 SAML IdAttribute 값을 다시 할당할 수 있습니다"
+  },
+  {
+    "id": "health.rule.saml_probe_failed.message",
+    "translation": "리더 노드에서 IdP 인증서와 IdP URL을 SAML 점검한 결과 실패했습니다. SAML 로그인이 작동하지 않을 가능성이 높습니다."
+  },
+  {
+    "id": "health.rule.saml_probe_failed.remediation",
+    "translation": "오류 세부 정보를 확인한 다음 SAML 설정에서 IdP 인증서(IdpCertificateFile)나 IdP URL(IdpURL)을 수정하세요. 인증서가 만료되었다면 IdP의 현재 서명 인증서를 업로드하세요."
+  },
+  {
+    "id": "health.rule.saml_probe_failed.title",
+    "translation": "SAML 구성 점검에 실패했습니다"
+  },
+  {
+    "id": "health.rule.saml_signature_sha1.message",
+    "translation": "SSO가 더 이상 권장되지 않는 SHA-1 서명 알고리즘을 사용합니다. 지금은 SSO가 작동하지만 일부 ID 공급자가 SHA-1을 거부하기 시작했습니다. 특히 IdP를 변경하거나 업그레이드하기 전에 호환성과 보안을 위해 개선 일정을 잡으세요."
+  },
+  {
+    "id": "health.rule.saml_signature_sha1.remediation",
+    "translation": "적절한 시점에 IdP와 협의해 SamlSettings.SignatureAlgorithm 값을 RSAwithSHA256으로 설정하세요."
+  },
+  {
+    "id": "health.rule.saml_signature_sha1.title",
+    "translation": "SAML SignatureAlgorithm이 SHA-1입니다"
+  },
+  {
+    "id": "health.rule.saml_verify_off.message",
+    "translation": "OKR.BEST가 IdP 서명을 확인하지 않고 SAML 응답을 수락하므로, 진짜 인증 응답과 위조된 응답을 구별할 수 없습니다."
+  },
+  {
+    "id": "health.rule.saml_verify_off.remediation",
+    "translation": "SamlSettings.Verify 값을 true로 설정하고 AssertionConsumerServiceURL이 설정되어 있는지 확인하세요. 서명 확인은 IdP 인증서가 올바르게 구성되어 있어야 작동하므로, IdP와 협의해 활성화하고 로그인을 테스트하세요."
+  },
+  {
+    "id": "health.rule.saml_verify_off.title",
+    "translation": "SAML 서명 확인이 꺼져 있습니다"
+  },
+  {
+    "id": "health.rule.scale_es_recommended.message",
+    "translation": "워크스페이스의 게시물은 {{.posts}}개이며 검색이 데이터베이스에서 실행됩니다. 게시물이 2,500,000개를 넘으면 Elasticsearch를 권장하고, 5,000,000개를 넘으면 필수입니다."
+  },
+  {
+    "id": "health.rule.scale_es_recommended.remediation",
+    "translation": "다음 대규모 성장 시기나 게시물 5,000,000개에 이르기 전에 Elasticsearch 배포를 계획하세요."
+  },
+  {
+    "id": "health.rule.scale_es_recommended.title",
+    "translation": "게시물 수가 Elasticsearch 권장 기준에 가까워지고 있습니다"
+  },
+  {
+    "id": "health.rule.scale_es_required.message",
+    "translation": "워크스페이스의 게시물은 {{.posts}}개이며 검색이 데이터베이스에서 실행됩니다. 이 규모에서는 검색이 느려지고 시간 초과와 데이터베이스 CPU 급증이 발생할 수 있습니다."
+  },
+  {
+    "id": "health.rule.scale_es_required.remediation",
+    "translation": "Elasticsearch나 OpenSearch를 배포하고 전체 초기 인덱싱을 실행한 다음 EnableIndexing, EnableSearching, EnableAutocomplete를 활성화하세요."
+  },
+  {
+    "id": "health.rule.scale_es_required.title",
+    "translation": "게시물이 5,000,000개를 넘으면 Elasticsearch가 필요합니다"
+  },
+  {
+    "id": "health.rule.search_unavailable.message",
+    "translation": "데이터베이스 검색이 비활성화되어 있고 Elasticsearch 검색도 꺼져 있습니다. 검색 결과가 나오지 않습니다."
+  },
+  {
+    "id": "health.rule.search_unavailable.remediation",
+    "translation": "config.json에서 SqlSettings.DisableDatabaseSearch 값을 false로 설정하거나(또는 MM_SQLSETTINGS_DISABLEDATABASESEARCH=false), Elasticsearch나 OpenSearch로 검색을 활성화하세요."
+  },
+  {
+    "id": "health.rule.search_unavailable.title",
+    "translation": "검색이 꺼져 있습니다"
+  },
+  {
+    "id": "health.rule.seats_limit_reached.message",
+    "translation": "라이선스 한도에 포함되는 사용자가 {{.used}}명으로, 한도인 {{.limit}}명에 도달했습니다. 좌석을 비우거나 추가하기 전까지 서버는 사용자를 새로 만들거나 다시 활성화하지 않습니다."
+  },
+  {
+    "id": "health.rule.seats_limit_reached.remediation",
+    "translation": "좌석을 추가로 구매하거나, 더 이상 접근할 필요가 없는 사용자를 비활성화해 좌석을 확보하세요."
+  },
+  {
+    "id": "health.rule.seats_limit_reached.title",
+    "translation": "라이선스 사용자 한도에 도달했습니다"
+  },
+  {
+    "id": "health.rule.seats_near_capacity.message",
+    "translation": "라이선스 좌석 {{.seats}}개 중 {{.used}}명이 사용 중입니다({{.percent}}%)."
+  },
+  {
+    "id": "health.rule.seats_near_capacity.remediation",
+    "translation": "사용자가 더 늘어날 예정이라면 라이선스가 가득 차기 전에 좌석 추가를 계획하세요. 더 이상 접근할 필요가 없는 사용자를 비활성화하면 좌석이 확보됩니다."
+  },
+  {
+    "id": "health.rule.seats_near_capacity.title",
+    "translation": "라이선스 좌석이 거의 찼습니다"
+  },
+  {
+    "id": "health.rule.seats_over_deployed.message",
+    "translation": "라이선스 좌석 {{.seats}}개 중 {{.used}}명이 사용 중입니다({{.percent}}%)."
+  },
+  {
+    "id": "health.rule.seats_over_deployed.remediation",
+    "translation": "좌석을 추가로 구매하거나, 더 이상 접근할 필요가 없는 사용자를 비활성화하세요. 비활성화된 사용자는 좌석을 차지하지 않습니다."
+  },
+  {
+    "id": "health.rule.seats_over_deployed.title",
+    "translation": "사용자 수가 라이선스 좌석 수보다 많습니다"
+  },
+  {
+    "id": "health.rule.session_extend_off.message",
+    "translation": "세션이 활동 여부와 관계없이 정해진 일정에 따라 만료되므로 활동 중인 사용자도 로그아웃됩니다. 대부분의 배포 환경에서는 활동 중인 사용자의 로그인을 유지하는 편이 좋습니다."
+  },
+  {
+    "id": "health.rule.session_extend_off.remediation",
+    "translation": "보안 정책에서 금지하지 않는다면 ServiceSettings.ExtendSessionLengthWithActivity를 활성화하세요."
+  },
+  {
+    "id": "health.rule.session_extend_off.title",
+    "translation": "ExtendSessionLengthWithActivity가 꺼져 있습니다"
   },
   {
     "id": "health.rule.site_url_empty.message",
@@ -13387,6 +15123,94 @@
   {
     "id": "health.rule.site_url_http.title",
     "translation": "SiteURL 설정에서 https://가 아닌 http:// 프로토콜을 사용합니다"
+  },
+  {
+    "id": "health.rule.smtp_unreachable.message",
+    "translation": "SMTP 서버 연결 테스트에 실패했습니다: {{.error}}"
+  },
+  {
+    "id": "health.rule.smtp_unreachable.remediation",
+    "translation": "이메일 알림, 초대, 비밀번호 재설정 이메일이 전달되지 않을 수 있습니다. 시스템 콘솔에서 SMTP 서버, 포트, 연결 보안, 자격 증명을 확인하고 OKR.BEST 서버가 SMTP 호스트에 접근할 수 있는지 확인한 다음 연결 테스트로 검증하세요."
+  },
+  {
+    "id": "health.rule.smtp_unreachable.title",
+    "translation": "SMTP 서버 연결 테스트에 실패했습니다"
+  },
+  {
+    "id": "health.rule.version.unknown.latest",
+    "translation": "최신 릴리스를 알 수 없습니다. 가져오지 못했거나 패킷에 기록되어 있지 않습니다."
+  },
+  {
+    "id": "health.rule.version.unknown.line",
+    "translation": "이 버전은 이 빌드의 릴리스 표에 없습니다. 더 최신 서버의 Support Packet을 평가하려면 더 최신 mmctl을 사용하세요."
+  },
+  {
+    "id": "health.rule.version.unknown.version",
+    "translation": "서버 버전을 알 수 없거나 인식할 수 없습니다."
+  },
+  {
+    "id": "health.rule.version_behind.message",
+    "translation": "{{.version}} 버전을 실행 중입니다. 최신 버전은 {{.latest}}로, 두 릴리스 이상 앞서 있습니다."
+  },
+  {
+    "id": "health.rule.version_behind.remediation",
+    "translation": "이 릴리스 라인의 지원이 끝나기 전에 최신 릴리스로 업그레이드를 계획하세요. 업그레이드 주기를 늦추려면 Extended Support Release로 전환하세요."
+  },
+  {
+    "id": "health.rule.version_behind.title",
+    "translation": "최신 릴리스보다 여러 릴리스 뒤처져 있습니다"
+  },
+  {
+    "id": "health.rule.version_behind_one.message",
+    "translation": "{{.version}} 버전을 실행 중입니다. 최신 버전은 {{.latest}}입니다."
+  },
+  {
+    "id": "health.rule.version_behind_one.remediation",
+    "translation": "최신 릴리스로 업그레이드를 계획하세요."
+  },
+  {
+    "id": "health.rule.version_behind_one.title",
+    "translation": "새 릴리스를 사용할 수 있습니다"
+  },
+  {
+    "id": "health.rule.version_eol.message",
+    "translation": "OKR.BEST {{.version}} 버전을 실행 중입니다. 이 릴리스 라인의 지원은 {{.eol_date}}에 종료되었습니다. 이 릴리스 라인에는 보안 패치가 더 이상 제공되지 않습니다."
+  },
+  {
+    "id": "health.rule.version_eol.message.below_floor",
+    "translation": "OKR.BEST {{.version}} 버전을 실행 중입니다. 더 이상 지원되지 않는 오래된 릴리스 라인입니다. 이 릴리스 라인에는 보안 패치가 더 이상 제공되지 않습니다."
+  },
+  {
+    "id": "health.rule.version_eol.message.below_floor_target",
+    "translation": "OKR.BEST {{.version}} 버전을 실행 중입니다. 더 이상 지원되지 않는 오래된 릴리스 라인입니다. 이 릴리스 라인에는 보안 패치가 더 이상 제공되지 않습니다. 지원되는 최신 Extended Support Release는 {{.target}}입니다."
+  },
+  {
+    "id": "health.rule.version_eol.message.latest",
+    "translation": "OKR.BEST {{.version}} 버전을 실행 중입니다. 이 릴리스 라인의 지원은 {{.eol_date}}에 종료되었습니다. 이 릴리스 라인에는 보안 패치가 더 이상 제공되지 않습니다. 최신 릴리스로 업그레이드하세요."
+  },
+  {
+    "id": "health.rule.version_eol.message.target",
+    "translation": "OKR.BEST {{.version}} 버전을 실행 중입니다. 이 릴리스 라인의 지원은 {{.eol_date}}에 종료되었습니다. 이 릴리스 라인에는 보안 패치가 더 이상 제공되지 않습니다. 지원되는 최신 Extended Support Release는 {{.target}}입니다."
+  },
+  {
+    "id": "health.rule.version_eol.remediation",
+    "translation": "지원되는 Extended Support Release나 최신 릴리스로 단계적 업그레이드를 계획하세요. 지원되는 버전은 https://docs.mattermost.com/product-overview/mattermost-server-releases.html 에서 확인하세요."
+  },
+  {
+    "id": "health.rule.version_eol.title",
+    "translation": "OKR.BEST 버전의 지원이 종료되었습니다"
+  },
+  {
+    "id": "health.rule.version_esr_near_eol.message",
+    "translation": "Extended Support Release {{.esr}}에서 {{.version}} 버전을 실행 중입니다. 보안 패치를 계속 받으려면 {{.eol_date}} 전에 업그레이드를 계획하세요."
+  },
+  {
+    "id": "health.rule.version_esr_near_eol.remediation",
+    "translation": "최신 릴리스나 다음 Extended Support Release로 업그레이드 일정을 잡으세요."
+  },
+  {
+    "id": "health.rule.version_esr_near_eol.title",
+    "translation": "Extended Support Release의 지원 종료가 다가옵니다"
   },
   {
     "id": "model.scheduled_post.is_valid.repeat_burn_on_read.app_error",
