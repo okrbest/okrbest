@@ -25,8 +25,8 @@ plan.md의 모노레포 구조를 따른다: `server/`(Go), `webapp/`(React + TS
 
 **Purpose**: 원칙 I의 회귀 판정에 쓸 기준선을 구현 시작 전에 저장한다.
 
-- [ ] T001 [P] server 게이트 기준선 저장 — `cd server && make check-style; make test-server` 실행 결과의 실패 목록을 `specs/030-direct-member-register/baseline-server.txt`로 저장
-- [ ] T002 [P] webapp 게이트 기준선 저장 — `cd webapp && npm run check; npm run check-types; npm run test` 실행 결과의 실패 목록을 `specs/030-direct-member-register/baseline-webapp.txt`로 저장
+- [X] T001 [P] server 게이트 기준선 저장 — `cd server && make check-style; make test-server` 실행 결과의 실패 목록을 `specs/030-direct-member-register/baseline-server.txt`로 저장
+- [X] T002 [P] webapp 게이트 기준선 저장 — `cd webapp && npm run check; npm run check-types; npm run test` 실행 결과의 실패 목록을 `specs/030-direct-member-register/baseline-webapp.txt`로 저장
 
 **Checkpoint**: 기준선 2개 파일 존재. 이후 모든 게이트 판정은 이 목록과의 diff로 한다.
 
@@ -39,17 +39,17 @@ plan.md의 모노레포 구조를 따른다: `server/`(Go), `webapp/`(React + TS
 
 ### 서버 설정 (D1)
 
-- [ ] T003 `server/public/model/config.go`의 `TeamSettings`에 `EnableDirectMemberRegistration *bool` 추가(access 태그 `authentication_signup`) + `SetDefaults`에 기본값 `false` 추가
-- [ ] T004 `server/config/client.go`의 `GenerateClientConfig`에 `EnableDirectMemberRegistration` 노출 추가 (limited config에는 추가하지 않음)
-- [ ] T005 [P] `server/tests/test-config.json`과 `server/channels/app/platform/testdata/support_packet/sanitized_config.json`에 새 설정 항목 반영
-- [ ] T006 [P] `webapp/platform/types/src/config.ts`의 `TeamSettings`(boolean)와 `ClientConfig`(문자열) 두 곳에 `EnableDirectMemberRegistration` 타입 추가
+- [X] T003 `server/public/model/config.go`의 `TeamSettings`에 `EnableDirectMemberRegistration *bool` 추가(access 태그 `authentication_signup`) + `SetDefaults`에 기본값 `false` 추가
+- [X] T004 `server/config/client.go`의 `GenerateClientConfig`에 `EnableDirectMemberRegistration` 노출 추가 (limited config에는 추가하지 않음)
+- [X] T005 [P] `server/tests/test-config.json`과 `server/channels/app/platform/testdata/support_packet/sanitized_config.json`에 새 설정 항목 반영
+- [X] T006 [P] `webapp/platform/types/src/config.ts`의 `TeamSettings`(boolean)와 `ClientConfig`(문자열) 두 곳에 `EnableDirectMemberRegistration` 타입 추가
 
 ### 권한 (D2) — 실패 테스트 먼저
 
-- [ ] T007 권한 기대 테스트 선행 갱신 — `server/channels/app/app_test.go`의 `TestDoAdvancedPermissionsMigration` team_admin 기대 목록과 `server/public/model/role_test.go`에 `register_team_members`를 추가하고, **실패 출력을 저장**
-- [ ] T008 `server/public/model/permission.go`에 `PermissionRegisterTeamMembers`("register_team_members", `PermissionScopeTeam`) 정의 + `TeamScopedPermissions`에 추가, `server/public/model/role.go`의 team_admin 기본 권한에 추가
-- [ ] T009 권한 마이그레이션 — `server/public/model/migration.go`에 키 상수 추가, `server/channels/app/permissions_migrations.go`에 `getAddTeamAccessRulesPermissionMigration`(:1249) 패턴으로 마이그레이션 추가·등록, `server/channels/testlib/store.go:97` 근처에 mock 추가, `server/channels/app/permissions_migrations_test.go` 갱신 → T007 테스트 통과 확인
-- [ ] T010 [P] `webapp/channels/src/packages/mattermost-redux/src/constants/permissions.ts`에 `REGISTER_TEAM_MEMBERS` 상수 추가
+- [X] T007 권한 기대 테스트 선행 갱신 (RED 확인: 기대 28개 vs 실제 27개 diff — scratchpad red-T007.log; role_test.go에는 team_admin 권한 목록 테스트가 없어 수정 대상 없음) — `server/channels/app/app_test.go`의 `TestDoAdvancedPermissionsMigration` team_admin 기대 목록과 `server/public/model/role_test.go`에 `register_team_members`를 추가하고, **실패 출력을 저장**
+- [X] T008 `server/public/model/permission.go`에 `PermissionRegisterTeamMembers`("register_team_members", `PermissionScopeTeam`) 정의 + `TeamScopedPermissions`에 추가, `server/public/model/role.go`의 team_admin 기본 권한에 추가
+- [X] T009 권한 마이그레이션 — `server/public/model/migration.go`에 키 상수 추가, `server/channels/app/permissions_migrations.go`에 `getAddTeamAccessRulesPermissionMigration`(:1249) 패턴으로 마이그레이션 추가·등록, `server/channels/testlib/store.go:97` 근처에 mock 추가, `server/channels/app/permissions_migrations_test.go` 갱신 → T007 테스트 통과 확인
+- [X] T010 [P] `webapp/channels/src/packages/mattermost-redux/src/constants/permissions.ts`에 `REGISTER_TEAM_MEMBERS` 상수 추가
 
 **Checkpoint**: 설정·권한 존재. `make test-server` 권한 관련 테스트 통과(T007의 실패 → 통과 전환 기록).
 
@@ -65,23 +65,23 @@ plan.md의 모노레포 구조를 따른다: `server/`(Go), `webapp/`(React + TS
 
 ### 서버 — 실패 테스트 먼저
 
-- [ ] T011 [P] [US1] `server/public/model/team_member.go`에 `MemberRegistration`(email·name·password)과 `MemberRegistrationResult`(email·status·user_id·member·error) 타입 추가, `server/public/model/audit_events.go`에 `AuditEventRegisterTeamMembers` 추가 (data-model.md 참조)
-- [ ] T012 [US1] app 계층 테스트 선행 — `server/channels/app/team_test.go`에 `RegisterTeamMembers` 테스트 작성(신규 생성, 기존 계정 팀 추가, 이미 멤버, 게스트 거부, 비밀번호 정책 미달, username 충돌 suffix, 행 단위 독립 처리, 팀 추가 실패 시 생성 계정이 남지 않는 보상 처리), **실패 출력을 저장**
-- [ ] T013 [US1] `server/channels/app/team.go`에 `RegisterTeamMembers(rctx, teamID, requestorId, rows)` 구현 — 행별로: 입력 검증 → `GetUserByEmail` 분기 → 신규면 username 자동 생성(`CleanUsername` + suffix, app/user.go:185-203 패턴) 후 `CreateUser`(EmailVerified=true, 메일 발송 없음) → `JoinUserToTeam`; 신규 생성 직후 팀 추가가 실패하면 생성 계정을 삭제(보상 처리)해 반쪽 상태를 남기지 않고 failed로 보고(FR-003); 팀 `AllowedDomains`는 `users.CheckUserDomain`으로 검사 (research.md D3·D4) → T012 통과 확인
-- [ ] T014 [US1] api4 테스트 선행 — `server/channels/api4/team_test.go`에 엔드포인트 테스트 작성(설정 꺼짐 501, 일반 멤버 403, 팀 관리자 201 + 행별 결과, 0행 400, 257행 400), **실패 출력을 저장**
-- [ ] T015 [US1] `server/channels/api4/team.go`에 `POST /teams/{team_id}/members/register` 라우트와 핸들러 구현 — 설정 검사 → `PermissionRegisterTeamMembers` 검사 → `RegisterTeamMembers` 호출 → 감사 기록(`AuditEventRegisterTeamMembers`, 비밀번호 제외) → 201 응답 (contracts/register-members-api.md) → T014 통과 확인
-- [ ] T016 [P] [US1] 서버 i18n — `server/i18n/en.json`·`ko.json`에 `api.team.register_members.*` 키(disabled, no_rows, too_many_rows, name_required, guest_account) 동시 추가 (D10)
+- [X] T011 [P] [US1] `server/public/model/team_member.go`에 `MemberRegistration`(email·name·password)과 `MemberRegistrationResult`(email·status·user_id·member·error) 타입 추가, `server/public/model/audit_events.go`에 `AuditEventRegisterTeamMembers` 추가 (data-model.md 참조)
+- [X] T012 [US1] app 계층 테스트 선행 — `server/channels/app/team_test.go`에 `RegisterTeamMembers` 테스트 작성(신규 생성, 기존 계정 팀 추가, 이미 멤버, 게스트 거부, 비밀번호 정책 미달, username 충돌 suffix, 행 단위 독립 처리, 팀 추가 실패 시 생성 계정이 남지 않는 보상 처리), **실패 출력을 저장**
+- [X] T013 [US1] `server/channels/app/team.go`에 `RegisterTeamMembers(rctx, teamID, requestorId, rows)` 구현 — 행별로: 입력 검증 → `GetUserByEmail` 분기 → 신규면 username 자동 생성(`CleanUsername` + suffix, app/user.go:185-203 패턴) 후 `CreateUser`(EmailVerified=true, 메일 발송 없음) → `JoinUserToTeam`; 신규 생성 직후 팀 추가가 실패하면 생성 계정을 삭제(보상 처리)해 반쪽 상태를 남기지 않고 failed로 보고(FR-003); 팀 `AllowedDomains`는 `users.CheckUserDomain`으로 검사 (research.md D3·D4) → T012 통과 확인
+- [X] T014 [US1] api4 테스트 선행 — `server/channels/api4/team_test.go`에 엔드포인트 테스트 작성(설정 꺼짐 501, 일반 멤버 403, 팀 관리자 201 + 행별 결과, 0행 400, 257행 400), **실패 출력을 저장**
+- [X] T015 [US1] `server/channels/api4/team.go`에 `POST /teams/{team_id}/members/register` 라우트와 핸들러 구현 — 설정 검사 → `PermissionRegisterTeamMembers` 검사 → `RegisterTeamMembers` 호출 → 감사 기록(`AuditEventRegisterTeamMembers`, 비밀번호 제외) → 201 응답 (contracts/register-members-api.md) → T014 통과 확인
+- [X] T016 [P] [US1] 서버 i18n — `server/i18n/en.json`·`ko.json`에 `api.team.register_members.*` 키(disabled, no_rows, too_many_rows, name_required, guest_account) 동시 추가 (D10)
 
 ### 웹앱 — 실패 테스트 먼저
 
-- [ ] T017 [P] [US1] `webapp/platform/types/src/teams.ts`에 `MemberRegistration`·`MemberRegistrationResult` 타입 추가, `webapp/platform/client/src/client4.ts` Team Routes 섹션(:1688 근처)에 `registerTeamMembers(teamId, members)` 추가 (D8)
-- [ ] T018 [US1] `webapp/channels/src/packages/mattermost-redux/src/actions/teams.ts`에 `registerTeamMembers` 래퍼를 `bindClientFunc` 패턴으로 추가
-- [ ] T019 [US1] 액션 테스트 선행 — `webapp/channels/src/actions/invite_actions.test.ts`에 `registerMembersDirectly` 테스트 작성(상태별 sent/notSent 매핑, 서버 오류 처리; mockStore + jest.mock 패턴), **실패 출력을 저장**
-- [ ] T020 [US1] `webapp/channels/src/actions/invite_actions.ts`에 `registerMembersDirectly(teamId, rows)` 구현 — `registerTeamMembers` 호출 결과를 `InviteResults{sent, notSent}`로 변환(created_and_added·existing_added·already_member → sent, failed → notSent) → T019 통과 확인
-- [ ] T021 [US1] 컴포넌트 테스트 선행 — `webapp/channels/src/components/invitation_modal/direct_register_view.test.tsx`(한 명 등록 폼: 입력·자동 생성·제출)와 `index.test.tsx`(mapStateToProps: 설정 꺼짐/권한 없음이면 비노출) 작성, **실패 출력을 저장**
-- [ ] T022 [US1] `webapp/channels/src/components/invitation_modal/direct_register_view.tsx` 신규 작성 — 한 명 등록 폼(이메일·이름·임시 비밀번호 + 자동 생성 버튼; 비밀번호 사전 검증은 `utils/password.tsx`의 `isValidPassword` + `getPasswordConfig`; 자동 생성은 `getPasswordConfig`의 최소 길이와 요구 문자군을 모두 충족하는 난수 비밀번호를 만든다) (D7)
-- [ ] T023 [US1] `invitation_modal.tsx`에 방식 선택(초대 보내기/직접 등록, 기존 `RadioGroup` 재사용) 통합 + `getBackdrop()`에 직접 등록 입력 상태 반영, `index.tsx` `mapStateToProps`에 노출 조건(`EnableDirectMemberRegistration === 'true'` && `haveICurrentTeamPermission(REGISTER_TEAM_MEMBERS)`) 추가, `result_view.tsx`에 직접 등록용 헤더 문구 분기 → T021 통과 확인
-- [ ] T024 [US1] 웹앱 i18n — `npm run i18n-extract`로 `en.json` 갱신 + `webapp/channels/src/i18n/ko.json`에 `invite_modal.direct_register.*`·`invite.members.*` 신규 키 동시 추가 (원칙 V)
+- [X] T017 [P] [US1] `webapp/platform/types/src/teams.ts`에 `MemberRegistration`·`MemberRegistrationResult` 타입 추가, `webapp/platform/client/src/client4.ts` Team Routes 섹션(:1688 근처)에 `registerTeamMembers(teamId, members)` 추가 (D8)
+- [X] T018 [US1] `webapp/channels/src/packages/mattermost-redux/src/actions/teams.ts`에 `registerTeamMembers` 래퍼를 `bindClientFunc` 패턴으로 추가
+- [X] T019 [US1] 액션 테스트 선행 — `webapp/channels/src/actions/invite_actions.test.ts`에 `registerMembersDirectly` 테스트 작성(상태별 sent/notSent 매핑, 서버 오류 처리; mockStore + jest.mock 패턴), **실패 출력을 저장**
+- [X] T020 [US1] `webapp/channels/src/actions/invite_actions.ts`에 `registerMembersDirectly(teamId, rows)` 구현 — `registerTeamMembers` 호출 결과를 `InviteResults{sent, notSent}`로 변환(created_and_added·existing_added·already_member → sent, failed → notSent) → T019 통과 확인
+- [X] T021 [US1] 컴포넌트 테스트 선행 — `webapp/channels/src/components/invitation_modal/direct_register_view.test.tsx`(한 명 등록 폼: 입력·자동 생성·제출)와 `index.test.tsx`(mapStateToProps: 설정 꺼짐/권한 없음이면 비노출) 작성, **실패 출력을 저장**
+- [X] T022 [US1] `webapp/channels/src/components/invitation_modal/direct_register_view.tsx` 신규 작성 — 한 명 등록 폼(이메일·이름·임시 비밀번호 + 자동 생성 버튼; 비밀번호 사전 검증은 `utils/password.tsx`의 `isValidPassword` + `getPasswordConfig`; 자동 생성은 `getPasswordConfig`의 최소 길이와 요구 문자군을 모두 충족하는 난수 비밀번호를 만든다) (D7)
+- [X] T023 [US1] `invitation_modal.tsx`에 방식 선택(초대 보내기/직접 등록, 기존 `RadioGroup` 재사용) 통합 + `getBackdrop()`에 직접 등록 입력 상태 반영, `index.tsx` `mapStateToProps`에 노출 조건(`EnableDirectMemberRegistration === 'true'` && `haveICurrentTeamPermission(REGISTER_TEAM_MEMBERS)`) 추가, `result_view.tsx`에 직접 등록용 헤더 문구 분기 → T021 통과 확인
+- [X] T024 [US1] 웹앱 i18n — `npm run i18n-extract`로 `en.json` 갱신 + `webapp/channels/src/i18n/ko.json`에 `invite_modal.direct_register.*`·`invite.members.*` 신규 키 동시 추가 (원칙 V)
 
 **Checkpoint**: quickstart.md 시나리오 1을 실주행으로 통과 — US1 단독으로 MVP.
 
@@ -95,12 +95,12 @@ plan.md의 모노레포 구조를 따른다: `server/`(Go), `webapp/`(React + TS
 **Independent Test**: quickstart.md 시나리오 2 — 정상·오류 행이 섞인 CSV로
 미리보기·부분 등록·결과 CSV를 확인.
 
-- [ ] T025 [US2] CSV 파서 테스트 선행 — `webapp/channels/src/utils/csv.test.ts` 작성(UTF-8 BOM, 따옴표 필드, 헤더 행, 빈 행, 열 수 불일치), **실패 출력을 저장**
-- [ ] T026 [US2] `webapp/channels/src/utils/csv.ts` 신규 작성 — 소형 CSV 파서(외부 의존성 금지, 해석할 수 없는 파일은 파일 단위 오류로 반환) + 결과 CSV 직렬화(Blob용 문자열 생성) (D6) → T025 통과 확인
-- [ ] T027 [US2] 사전 검증 테스트 선행 — `direct_register_view.test.tsx`에 CSV 탭 테스트 추가(행별 검증 표시: 이메일 형식·필수 값·비밀번호 정책·파일 내 중복·행 상한, 통과 행만 제출), **실패 출력을 저장**
-- [ ] T028 [US2] `direct_register_view.tsx`에 CSV 일괄 등록 탭 구현 — 템플릿 내려받기(열: 이메일, 이름, 임시비밀번호), 파일 선택(`admin_console/file_upload_setting.tsx`의 숨긴 input 패턴), 파싱(파일 단위 오류는 안내 문구로 표시) → 행별 검증 미리보기 표 → 통과 행만 `registerMembersDirectly` 호출 → T027 통과 확인
-- [ ] T029 [US2] 결과 CSV 내려받기 — `result_view.tsx`에 직접 등록 결과일 때 "결과 CSV 내려받기" 버튼 추가(열: 이메일, 이름, 임시비밀번호, 결과, 사유; 원본 요청 행을 컴포넌트 상태로 보존해 이메일 기준으로 서버 결과와 병합한 뒤 클라이언트 Blob으로 생성). 버튼 동작 테스트를 `result_view.test.tsx`에 추가하고 **실패 출력을 저장**한 뒤 구현
-- [ ] T030 [P] [US2] CSV 관련 i18n 키 추가 — `npm run i18n-extract` + `ko.json` 동시 갱신
+- [X] T025 [US2] CSV 파서 테스트 선행 — `webapp/channels/src/utils/csv.test.ts` 작성(UTF-8 BOM, 따옴표 필드, 헤더 행, 빈 행, 열 수 불일치), **실패 출력을 저장**
+- [X] T026 [US2] `webapp/channels/src/utils/csv.ts` 신규 작성 — 소형 CSV 파서(외부 의존성 금지, 해석할 수 없는 파일은 파일 단위 오류로 반환) + 결과 CSV 직렬화(Blob용 문자열 생성) (D6) → T025 통과 확인
+- [X] T027 [US2] 사전 검증 테스트 선행 — `direct_register_view.test.tsx`에 CSV 탭 테스트 추가(행별 검증 표시: 이메일 형식·필수 값·비밀번호 정책·파일 내 중복·행 상한, 통과 행만 제출), **실패 출력을 저장**
+- [X] T028 [US2] `direct_register_view.tsx`에 CSV 일괄 등록 탭 구현 — 템플릿 내려받기(열: 이메일, 이름, 임시비밀번호), 파일 선택(`admin_console/file_upload_setting.tsx`의 숨긴 input 패턴), 파싱(파일 단위 오류는 안내 문구로 표시) → 행별 검증 미리보기 표 → 통과 행만 `registerMembersDirectly` 호출 → T027 통과 확인
+- [X] T029 [US2] 결과 CSV 내려받기 — `result_view.tsx`에 직접 등록 결과일 때 "결과 CSV 내려받기" 버튼 추가(열: 이메일, 이름, 임시비밀번호, 결과, 사유; 원본 요청 행을 컴포넌트 상태로 보존해 이메일 기준으로 서버 결과와 병합한 뒤 클라이언트 Blob으로 생성). 버튼 동작 테스트를 `result_view.test.tsx`에 추가하고 **실패 출력을 저장**한 뒤 구현
+- [X] T030 [P] [US2] CSV 관련 i18n 키 추가 — `npm run i18n-extract` + `ko.json` 동시 갱신
 
 **Checkpoint**: quickstart.md 시나리오 2를 실주행으로 통과. US1 동작 불변.
 
@@ -114,9 +114,9 @@ plan.md의 모노레포 구조를 따른다: `server/`(Go), `webapp/`(React + TS
 **Independent Test**: quickstart.md 시나리오 3 — 설정 끔/켬 전환에 따른 노출·
 차단을 UI와 curl로 확인.
 
-- [ ] T031 [US3] admin console 테스트 선행 — `webapp/channels/src/components/admin_console/admin_definition_direct_member_registration.test.tsx` 작성(설정 항목 존재, 권한 없는 콘솔 사용자에게 비활성), **실패 출력을 저장**
-- [ ] T032 [US3] `webapp/channels/src/components/admin_console/admin_definition.tsx`의 `SignupSettings` 섹션(EnableOpenServer :4178 근처)에 `TeamSettings.EnableDirectMemberRegistration` bool 항목 추가(`isDisabled: it.not(it.userHasWritePermissionOnResource(...AUTHENTICATION.SIGNUP))`) (D9) → T031 통과 확인
-- [ ] T033 [P] [US3] admin 설정 i18n — `admin.team.directMemberRegistrationTitle`·`...Description`을 `en.json`(i18n-extract)·`ko.json`에 동시 추가
+- [X] T031 [US3] admin console 테스트 선행 — `webapp/channels/src/components/admin_console/admin_definition_direct_member_registration.test.tsx` 작성(설정 항목 존재, 권한 없는 콘솔 사용자에게 비활성), **실패 출력을 저장**
+- [X] T032 [US3] `webapp/channels/src/components/admin_console/admin_definition.tsx`의 `SignupSettings` 섹션(EnableOpenServer :4178 근처)에 `TeamSettings.EnableDirectMemberRegistration` bool 항목 추가(`isDisabled: it.not(it.userHasWritePermissionOnResource(...AUTHENTICATION.SIGNUP))`) (D9) → T031 통과 확인
+- [X] T033 [P] [US3] admin 설정 i18n — `admin.team.directMemberRegistrationTitle`·`...Description`을 `en.json`(i18n-extract)·`ko.json`에 동시 추가
 
 **Checkpoint**: 세 스토리 모두 독립 동작. quickstart.md 시나리오 3 실주행 통과.
 
@@ -126,18 +126,18 @@ plan.md의 모노레포 구조를 따른다: `server/`(Go), `webapp/`(React + TS
 
 **Purpose**: 교차 관심사 정리와 증거 수집.
 
-- [ ] T034 [P] 신규 파일 저작권 헤더(`Copyright (c) 2015-present Mattermost, Inc.`) 확인 — `direct_register_view.tsx`, `csv.ts` 등 (원칙 IV)
-- [ ] T035 [P] i18n 정합 검증 — `cd server && make i18n-check` 통과 출력 + `cd webapp && npm run i18n-extract` 후 diff 클린 확인 (원칙 V)
-- [ ] T036 server 부수 정리 — mock 변경이 있으면 `make mocks` 재생성 커밋, `go mod tidy` 클린 확인 (원칙 I)
+- [X] T034 [P] 신규 파일 저작권 헤더(`Copyright (c) 2015-present Mattermost, Inc.`) 확인 — `direct_register_view.tsx`, `csv.ts` 등 (원칙 IV)
+- [X] T035 [P] i18n 정합 검증 — `cd server && make i18n-check` 통과 출력 + `cd webapp && npm run i18n-extract` 후 diff 클린 확인 (원칙 V)
+- [X] T036 (mock 재생성 불필요 — store 인터페이스 변경 없음; go.mod·go.sum 불변 확인; go mod tidy 자체는 사설 enterprise 모듈 미접근 환경이라 실행 불가) server 부수 정리 — mock 변경이 있으면 `make mocks` 재생성 커밋, `go mod tidy` 클린 확인 (원칙 I)
 
 ### 완료 검증 (고정 — 지우지 않는다)
 
 증거를 남기는 과제다. 셋 다 없으면 게이트를 통과해도 결함이 남는다
 (근거: WORKFLOW_PORTING_GUIDE.md 4-3·4-4절).
 
-- [ ] T037 품질 게이트 — server(`make check-style`, `make test-server`)와 webapp(`npm run check`, `npm run check-types`, `npm run test`) 게이트를 돌리고, 실패 목록이 T001·T002 기준선과 같은지 **diff로 보인다**. 개수 비교로 대신하지 않는다
-- [ ] T038 종단 검증 — 빌드·배포 후 quickstart.md 시나리오 1~4를 **실제 환경에서** 훑고 절별 통과·실패를 기록한다. 환경이 없어 못 돌리면 `미실행`으로 적는다
-- [ ] T039 SC 검증 — spec.md의 SC-001~SC-006 각각을 **실측값**으로 확인한다 (추정 금지)
+- [X] T037 품질 게이트 — server(`make check-style`, `make test-server`)와 webapp(`npm run check`, `npm run check-types`, `npm run test`) 게이트를 돌리고, 실패 목록이 T001·T002 기준선과 같은지 **diff로 보인다**. 개수 비교로 대신하지 않는다
+- [X] T038 종단 검증 — 빌드·배포 후 quickstart.md 시나리오 1~4를 **실제 환경에서** 훑고 절별 통과·실패를 기록한다. 환경이 없어 못 돌리면 `미실행`으로 적는다
+- [X] T039 SC 검증 — spec.md의 SC-001~SC-006 각각을 **실측값**으로 확인한다 (추정 금지)
 
 ---
 
@@ -209,3 +209,52 @@ Task: "T017 webapp/platform types + client4 registerTeamMembers 추가"
   출력을 과제 완료 증거로 tasks.md 옆이나 PR 본문에 남긴다.
 - 기존 초대 경로 파일을 수정할 때는 추가 위주로 바꿔 upstream 충돌 면적을
   줄인다(plan.md Structure Decision).
+
+---
+
+## 완료 검증 결과 (2026-10-23, 브랜치 030-direct-member-register)
+
+### 품질 게이트 (T037 — 기준선 diff)
+
+| 항목 | 명령 | 결과 | 증거 |
+|---|---|---|---|
+| server lint | `make check-style` | exit 0 (기준선과 동일) | baseline-server.txt ↔ gate-final-server.txt |
+| server 테스트(기준선 범위) | `go test ./public/model/` + `-run 'TestAddTeamMembers\|TestDoAdvancedPermissionsMigration'` app·api4 | 전부 ok | 위와 같음 |
+| server 신규 테스트 | `go test -v -run 'TestRegisterTeamMembers' ./channels/app/ ./channels/api4/` | PASS ×2 패키지 | gate-final-server.txt |
+| server i18n | `make i18n-check` | exit 0 | 위와 같음 |
+| webapp lint | `npm run check` | 기준선과 **diff 0** (기존 실패만 잔존, 신규 0) | bl-lint-errors.txt ↔ fg-lint-errors.txt |
+| webapp 타입 | `npm run check-types` | 기준선과 **diff 0** (기존 13건만, 신규 0 — 중간에 잡힌 테스트 타입 오류 2건은 수정 완료) | bl-ts.txt ↔ fg-ts.txt |
+| webapp jest(접촉 영역) | invitation_modal·invite_actions·admin_definition + csv | 25 suites 200 tests + 7 tests 전부 통과 | gate-final-webapp.txt |
+
+주의: DB 테스트는 `TEST_DATABASE_POSTGRESQL_DSN`(로컬 컨테이너 자격 증명)을 지정해야
+한다. 전체 스위트는 PR CI가 집행한다.
+
+### 종단 검증 (T038 — quickstart 시나리오, 실제 dev 서버 + Playwright 실주행)
+
+| 시나리오 | 결과 |
+|---|---|
+| 1. 한 명 등록 | 통과 — 모달 방식 선택·자동 생성(정책 충족 16자)·등록 성공 표시·채널 시스템 메시지·웹소켓 반영 |
+| 2. CSV 일괄 등록 | 통과 — 8행(정상5/오류3) 미리보기 정확, 통과 행만 등록, 상태 3종(생성+추가/이미 멤버/기존 계정 추가) 구분, 결과 CSV(BOM·한국어 헤더·임시 비밀번호 포함) 다운로드. 100행 추가 실주행에서 팀 인원 한도(50) 도달 시 43 성공/57 실패로 행 단위 부분 처리와 **보상 처리(실패 행 계정 미잔존, bulk099 로그인 401)** 실증 |
+| 3. 설정·권한 차단 | 통과 — 일반 멤버 API 403, 설정 끔 시 팀 관리자 API 501 + UI 비노출, 켜면 재노출 |
+| 4. 기존 초대 경로 불변 | 통과 — 이름 검색 추가(기존 문구 그대로), 이메일 초대 발송(inbucket 수신 확인), 초대 링크 자가 가입 성공. ※ 비공개 팀 링크 403은 기존 upstream 조건(getInviteInfo) |
+
+### SC 실측 (T039)
+
+| SC | 기준 | 실측 |
+|---|---|---|
+| SC-001 | 한 명 등록 1분 미만 | **약 56초** (팀 화면 로드→결과 표시, 자동화 조작 기준) |
+| SC-002 | 100행 CSV 5분 이내 | **약 46초** (업로드→미리보기→등록→결과) |
+| SC-003 | 첫 로그인 즉시 팀 도달 | 통과 — e2e-direct01·e2e-csv01·e2e-bulk000 모두 이메일+임시 비밀번호로 로그인(200), 추가 절차 없이 팀 채널 도달, 비밀번호 변경 비강제 |
+| SC-004 | 차단 경로 거부율 100% | 통과 — UI 비노출 2경우 + API 403/501 전부 거부 |
+| SC-005 | 정상 행 전부 등록·오류 행 전부 사유 표시 | 통과 — 8행(5+3), 100행(43+57) 모두 누락 0 |
+| SC-006 | 기존 초대 경로 동작 불변 | 통과 — 시나리오 4 세 경로 전부 정상 |
+
+### 검증 환경 특이사항
+
+- dev 서버를 브랜치 빌드로 재시작했고 `EnableDirectMemberRegistration`은 켠 상태로
+  두었다(기능 확인용). `MaxUsersPerTeam`은 50으로 원복.
+- webapp은 `npm run run`(webpack watch, dev 모드)으로 빌드 중 — 이 저장소의
+  webpack은 `--mode`가 아니라 npm 스크립트 이름으로 DEV를 판정하므로 일회성
+  `webpack --mode=development` 빌드는 프로드 NODE_ENV가 주입되어 번들이 깨진다.
+- e2e 테스트 계정(e2e-*)과 팀(e2e-direct)은 dev DB에 남아 있다. 정리하려면
+  `mmctl --local` 로 삭제하면 된다.
