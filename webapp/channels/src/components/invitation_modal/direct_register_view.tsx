@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
@@ -229,6 +229,9 @@ export default function DirectRegisterView(props: Props) {
     const [password, setPassword] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [csv, setCsv] = useState<CsvState | null>(null);
+    const [csvFileName, setCsvFileName] = useState('');
+    const [dragOver, setDragOver] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const {onDirtyChange} = props;
     const reportDirty = useCallback((nextEmail: string, nextName: string, nextPassword: string) => {
@@ -274,11 +277,8 @@ export default function DirectRegisterView(props: Props) {
         }
     };
 
-    const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) {
-            return;
-        }
+    const readCsvFile = (file: File) => {
+        setCsvFileName(file.name);
         const reader = new FileReader();
         reader.onload = () => {
             const text = typeof reader.result === 'string' ? reader.result : '';
@@ -291,6 +291,13 @@ export default function DirectRegisterView(props: Props) {
             onDirtyChange(true);
         };
         reader.readAsText(file);
+    };
+
+    const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            readCsvFile(file);
+        }
     };
 
     const downloadTemplate = () => {
@@ -383,19 +390,63 @@ export default function DirectRegisterView(props: Props) {
 
     const csvForm = (
         <React.Fragment key='direct-register-csv'>
-            <div className='InviteView__sectionTitle'>
-                <FormattedMessage
-                    id='invite_modal.direct_register.csv_file'
-                    defaultMessage='CSV file (columns: email, name, temporary password)'
-                />
-            </div>
-            <div className='DirectRegisterView__fileRow'>
+            <div
+                className={classNames('DirectRegisterView__dropzone', {'DirectRegisterView__dropzone--active': dragOver})}
+                role='button'
+                tabIndex={0}
+                data-testid='direct-register-dropzone'
+                onClick={() => fileInputRef.current?.click()}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        fileInputRef.current?.click();
+                    }
+                }}
+                onDragOver={(e) => {
+                    e.preventDefault();
+                    setDragOver(true);
+                }}
+                onDragLeave={() => setDragOver(false)}
+                onDrop={(e) => {
+                    e.preventDefault();
+                    setDragOver(false);
+                    const file = e.dataTransfer?.files?.[0];
+                    if (file) {
+                        readCsvFile(file);
+                    }
+                }}
+            >
+                <div className='DirectRegisterView__dropzoneTitle'>
+                    {csvFileName ? (
+                        <FormattedMessage
+                            id='invite_modal.direct_register.dropzone_selected'
+                            defaultMessage='{filename} — click to choose a different file'
+                            values={{filename: csvFileName}}
+                        />
+                    ) : (
+                        <FormattedMessage
+                            id='invite_modal.direct_register.dropzone'
+                            defaultMessage='Drag and drop a CSV file here, or click to select one'
+                        />
+                    )}
+                </div>
+                <div className='DirectRegisterView__dropzoneHint'>
+                    <FormattedMessage
+                        id='invite_modal.direct_register.csv_file'
+                        defaultMessage='CSV file (columns: email, name, temporary password)'
+                    />
+                </div>
                 <input
+                    ref={fileInputRef}
+                    className='DirectRegisterView__fileInput'
                     type='file'
                     accept='.csv,text/csv'
                     data-testid='direct-register-file'
+                    onClick={(e) => e.stopPropagation()}
                     onChange={onFileSelected}
                 />
+            </div>
+            <div className='DirectRegisterView__templateRow'>
                 <Button
                     emphasis='link'
                     data-testid='direct-register-template'
