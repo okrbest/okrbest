@@ -3,27 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-23 10:51
+- 갱신일: 2026-10-23 14:01
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 13개
+- 남은 커밋: 1개
 
-**마지막 반영 커밋:** `5a5cbfc3` | [Point the help menu at bundled documentation (#39335)](https://github.com/mattermost/mattermost/commit/5a5cbfc306bb943ae8a6a9bb2f5cac85474d7189) | 2026-10-21
+**마지막 반영 커밋:** `58b104ca` | [The rules a new translation is held to (#39299)](https://github.com/mattermost/mattermost/commit/58b104cac39cc2d3addfa9e782096efc0cdf9c4e) | 2026-10-22
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 8e9d552a | [Fix up unusable email settings and translate db command config errors (#39302)](https://github.com/mattermost/mattermost/commit/8e9d552aaeff187fb91b024f9d444ceccd643a75) | 2026-10-22 |
-| b4c43b05 | [Migrate SectionNotice to Compass UI (#39042)](https://github.com/mattermost/mattermost/commit/b4c43b05e7285ff4e60bfe80d01d3a4b886d2ee4) | 2026-10-22 |
-| 7281188f | [Migrate checkUserPassword from *model.AppError to error. (#39346)](https://github.com/mattermost/mattermost/commit/7281188fba9bc712c4e59b5ad7d069721801fbcd) | 2026-10-22 |
-| b099be32 | [Make post acknowledgements UpdateAt tests deterministic (#39363)](https://github.com/mattermost/mattermost/commit/b099be32470788a6f91fd8eb165fccb422f3c48d) | 2026-10-22 |
-| 8c5f17ec | [Clarify when the OnSAMLLogin plugin hook is invoked (#39345)](https://github.com/mattermost/mattermost/commit/8c5f17ec0a4ff39b63feda446dbb12d1eefb7999) | 2026-10-22 |
-| aace7ab1 | [\[MM-71043\] Drop IdpMetadataURL from the SAML support packet tests (#39293)](https://github.com/mattermost/mattermost/commit/aace7ab1f3fda18d59bcf094fc8a6ecb7dbf96a3) | 2026-10-22 |
-| 246a047c | [Add dot release docs for server v12.0.1, v11.11.3, v11.10.4, v11.7.14 (ESR) and v10.11.25 (ESR) (#39357)](https://github.com/mattermost/mattermost/commit/246a047c6831aa694aa21b68e44c10474cf57ef8) | 2026-10-22 |
-| 30919494 | [Migrate checkboxes to Compass Checkbox (full stack) (#39040)](https://github.com/mattermost/mattermost/commit/309194942d4c16e45f1820e5b5f054dd5cc5a31a) | 2026-10-22 |
-| 9e874287 | [Reject Redis cache prefixes that could match another server's keys (#39329)](https://github.com/mattermost/mattermost/commit/9e8742871e279bb67bb242517fea4c76a74ce403) | 2026-10-22 |
-| 2be4e78e | [Fix flaky TestGetUserStatus/dnd_status_timed_restore_after_time_interval (#39354)](https://github.com/mattermost/mattermost/commit/2be4e78e2821981e32c82c1789858fe4ca3e5d41) | 2026-10-22 |
-| 049ec318 | [Add hideRoot to the thread viewer and publish the file preview modal (#39280)](https://github.com/mattermost/mattermost/commit/049ec31809afb48b6054a6c8c34e2e3d8319887c) | 2026-10-22 |
-| 019c89db | [\[MM-70939\] Improve tests for plugin identity and cancellation (#38822)](https://github.com/mattermost/mattermost/commit/019c89dbbeeaeed3bbec74893c96c7daa70f7a0d) | 2026-10-22 |
-| 58b104ca | [The rules a new translation is held to (#39299)](https://github.com/mattermost/mattermost/commit/58b104cac39cc2d3addfa9e782096efc0cdf9c4e) | 2026-10-22 |
+| 8003be3b | [fix(e2e): restore CollapsedThreads in the per-test config reset (#39377)](https://github.com/mattermost/mattermost/commit/8003be3bb3120a3190957c55a46c89b81ec25f05) | 2026-10-23 |
 
 ## 제외된 커밋
 
@@ -767,6 +755,12 @@
 | 27700f99 | [\[MM-70811\] Live-update User Management when an attribute is set to admin-managed (#38654)](https://github.com/mattermost/mattermost/commit/27700f99a328888647f3c62d0e38a2f866ca5ab3) | 제외한 Global Attributes·Session Attributes·property 시스템 v2(9f1fe90b #36180 계보) 위의 후속 — MISSING PATHS 8개(global_attributes/attribute_details/*·utils·global_attributes_table, session_attributes POM·스펙, property_fields_websocket.test.ts)가 그 계보 파일이고 websocket_actions.ts 변경도 PSAv2 property field 이벤트 처리다. 속성을 관리자 관리로 바꿀 때 사용자 관리 화면을 실시간 갱신하는 기능(11파일 +757/-23). |
 
 | 5a5cbfc3 | [Point the help menu at bundled documentation (#39335)](https://github.com/mattermost/mattermost/commit/5a5cbfc306bb943ae8a6a9bb2f5cac85474d7189) | 도움말 메뉴 user guide 링크를 서버 번들 문서 <SiteURL>/_documentation/로 바꾸고 서브패스·빈 SiteURL은 docs.mattermost.com으로 폴백하는 변경(6파일 +73/-10: user_guide_dropdown.tsx의 getMattermostDocumentationURL, index.ts siteURL prop, 테스트, en.json 문구 'Mattermost documentation', cypress 상수). /_documentation 라우트를 만든 f434bd9d(#38957 오프라인 문서 번들)와 후속 d2b72e47을 exclude해 우리 서버에 해당 경로가 없다(git grep _documentation 0건) — 반영하면 루트 SiteURL 배포의 도움말 링크가 404가 된다. 또 우리는 이 링크를 docs.okrbest.com·'OKR.BEST user guide'로 리브랜드했는데(user_guide_dropdown.tsx, e2e constants.js), 폴백이 docs.mattermost.com이라 리브랜드 충실성(원칙 IV)을 깨고, merge-tree CONFLICT 4건이 전부 이 리브랜드 줄이다. 번들이 없으면 기존 고정 외부 링크와 같아져 adapt로 살릴 조각이 없다. 자체 번들 문서를 도입하면 재검토한다. |
+
+| b4c43b05 | [Migrate SectionNotice to Compass UI (#39042)](https://github.com/mattermost/mattermost/commit/b4c43b05e7285ff4e60bfe80d01d3a4b886d2ee4) | components/section_notice 자체 컴포넌트를 없애고 모든 호출처를 @mattermost/compass-ui/components/section-notice로 바꾸며 compass-ui를 alpha.15→alpha.18로 올리는 Compass 이관(77파일 +2457/-2570, compass-ui 언급 45곳: 시스템 콘솔 스냅샷 다수·알림 설정·권한 정책 배너·e2e 로케이터). 우리 webapp/channels/package.json에 compass-ui가 없다 — 도입 커밋 70658e18(#38153)을 2026-10-18에 exclude했고, 그때 사용자 결정으로 compass-ui 도입·이관 커밋은 모두 exclude한다. 사유는 (1) compass-ui가 npm·원본 저장소 어디에도 라이선스가 없어 번들 재배포가 불가하고, (2) upstream이 Compass로 옮기려는 사이드바·헤더 영역을 우리가 Slack식으로 자체 개편했기 때문이다(spec 014). 커밋 본질이 자체 컴포넌트를 Compass로 대체하는 것이라 adapt로 살릴 조각이 없다. MISSING PATHS 8개(classification_markings, channel_attributes 배너 등)도 우리가 받지 않은 기능 파일이다. compass-ui에 라이선스가 붙고 Compass 수용을 결정하면 재검토한다. |
+
+| 246a047c | [Add dot release docs for server v12.0.1, v11.11.3, v11.10.4, v11.7.14 (ESR) and v10.11.25 (ESR) (#39357)](https://github.com/mattermost/mattermost/commit/246a047c6831aa694aa21b68e44c10474cf57ef8) | 제외한 1d3bbc63(docs/ 이관, #37330 — 리브랜드 충실성 원칙 IV)의 문서 사이트 계보라 대상이 없다. 2026-10-22 Mattermost server 점 릴리스 5종(v12.0.1, v11.11.3, v11.10.4, v11.7.14 ESR, v10.11.25 ESR)의 changelog·다운로드/SBOM/아카이브 링크·SHA-256 체크섬과 RHEL·tar 배포 가이드 버전 링크를 갱신하는 문서 7파일(docs/main/**/*.mdx, +93/-60)이 전부 우리 트리에 없다(MISSING 7/7, CONFLICT 6건 모두 modify/delete). 직전 점 릴리스 문서 c77a59ea(#39004)와 같은 사유다. 내용도 Mattermost 배포물의 릴리스 노트·체크섬이라 OKR.BEST 배포물과 맞지 않는다. 제품 코드·CI 변경 0건이라 반영하지 않아도 제품 공백이 없다. |
+
+| 30919494 | [Migrate checkboxes to Compass Checkbox (full stack) (#39040)](https://github.com/mattermost/mattermost/commit/309194942d4c16e45f1820e5b5f054dd5cc5a31a) | webapp 전 영역의 체크박스(시스템 콘솔 채널 모더레이션·멤버 관리·데이터 보존 정책, 사용자 알림 설정, 인터랙티브 다이얼로그 등)를 @mattermost/compass-ui Checkbox로 바꾸는 Compass 이관(83파일 +4805/-3124, compass-ui 언급 46곳, 스냅샷 대량·SCSS 4개·e2e 로케이터 8개, 서버 변경 0건). b4c43b05(SectionNotice Compass 이관)와 같은 연작이다. 우리 트리에 compass-ui 의존성이 없다 — 도입 커밋 70658e18(#38153)을 2026-10-18에 exclude했고, 그때 사용자 결정으로 compass-ui 도입·이관 커밋은 모두 exclude한다. 사유는 (1) compass-ui가 npm·원본 저장소 어디에도 라이선스가 없어 번들 재배포가 불가하고, (2) upstream이 Compass로 옮기려는 사이드바·헤더 영역을 우리가 Slack식으로 자체 개편했기 때문이다(spec 014). 커밋 본질이 자체 체크박스를 Compass로 대체하는 것이라 adapt로 살릴 조각이 없다. MISSING PATHS 8개(classification_markings, filter_checkbox, global_attributes 등)도 우리가 받지 않은 기능 파일이다. compass-ui에 라이선스가 붙고 Compass 수용을 결정하면 재검토한다. |
 
 ## spec 전환 커밋
 
