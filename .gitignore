@@ -195,6 +195,7 @@ __pycache__/
 
 # superpowers (local scratch; spec-kit specs/ is canonical)
 docs/superpowers/
+.superpowers/
 
 .analysis
 .worktrees
