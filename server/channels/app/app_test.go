@@ -177,6 +177,7 @@ func TestDoAdvancedPermissionsMigration(t *testing.T) {
 			model.PermissionManageTeam.Id,
 			model.PermissionManageTeamRoles.Id,
 			model.PermissionManageTeamAccessRules.Id,
+			model.PermissionRegisterTeamMembers.Id,
 			model.PermissionManageChannelRoles.Id,
 			model.PermissionManageOwnIncomingWebhooks.Id,
 			model.PermissionManageOthersIncomingWebhooks.Id,

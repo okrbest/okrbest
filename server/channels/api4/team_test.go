@@ -5462,3 +5462,75 @@ func TestGetAllTeamsDirectoryHiding(t *testing.T) {
 		require.NotContains(t, listTeamIDs(t, true), team.Id, "for_directory must hide a non-qualifying team even from an admin")
 	})
 }
+
+func TestRegisterTeamMembers(t *testing.T) {
+	mainHelper.Parallel(t)
+	th := Setup(t).InitBasic(t)
+
+	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.TeamSettings.EnableDirectMemberRegistration = true })
+
+	validRow := func() *model.MemberRegistration {
+		id := strings.ToLower(model.NewId())
+		return &model.MemberRegistration{
+			Email:    id + "@example.com",
+			Name:     "홍길동",
+			Password: model.NewTestPassword(),
+		}
+	}
+
+	t.Run("setting disabled returns 501", func(t *testing.T) {
+		th.App.UpdateConfig(func(cfg *model.Config) { *cfg.TeamSettings.EnableDirectMemberRegistration = false })
+		defer th.App.UpdateConfig(func(cfg *model.Config) { *cfg.TeamSettings.EnableDirectMemberRegistration = true })
+
+		_, resp, err := th.SystemAdminClient.RegisterTeamMembers(context.Background(), th.BasicTeam.Id, []*model.MemberRegistration{validRow()})
+		require.Error(t, err)
+		CheckNotImplementedStatus(t, resp)
+	})
+
+	t.Run("regular team member gets 403", func(t *testing.T) {
+		_, resp, err := th.Client.RegisterTeamMembers(context.Background(), th.BasicTeam.Id, []*model.MemberRegistration{validRow()})
+		require.Error(t, err)
+		CheckForbiddenStatus(t, resp)
+	})
+
+	t.Run("team admin registers members and gets per-row results", func(t *testing.T) {
+		th.UpdateUserToTeamAdmin(t, th.BasicUser, th.BasicTeam)
+		defer th.UpdateUserToNonTeamAdmin(t, th.BasicUser, th.BasicTeam)
+		th.LoginBasic(t)
+
+		newRow := validRow()
+		existing := th.CreateUser(t)
+		rows := []*model.MemberRegistration{
+			newRow,
+			{Email: existing.Email, Name: "기존계정", Password: model.NewTestPassword()},
+			{Email: th.BasicUser2.Email, Name: "이미멤버", Password: model.NewTestPassword()},
+			{Email: "invalid-email", Name: "형식오류", Password: model.NewTestPassword()},
+		}
+
+		results, resp, err := th.Client.RegisterTeamMembers(context.Background(), th.BasicTeam.Id, rows)
+		require.NoError(t, err)
+		CheckCreatedStatus(t, resp)
+		require.Len(t, results, 4)
+		require.Equal(t, model.MemberRegistrationStatusCreatedAndAdded, results[0].Status)
+		require.Equal(t, model.MemberRegistrationStatusExistingAdded, results[1].Status)
+		require.Equal(t, model.MemberRegistrationStatusAlreadyMember, results[2].Status)
+		require.Equal(t, model.MemberRegistrationStatusFailed, results[3].Status)
+		require.NotNil(t, results[3].Error)
+	})
+
+	t.Run("empty rows return 400", func(t *testing.T) {
+		_, resp, err := th.SystemAdminClient.RegisterTeamMembers(context.Background(), th.BasicTeam.Id, []*model.MemberRegistration{})
+		require.Error(t, err)
+		CheckBadRequestStatus(t, resp)
+	})
+
+	t.Run("more rows than the cap return 400", func(t *testing.T) {
+		rows := make([]*model.MemberRegistration, model.MemberRegistrationMaxRows+1)
+		for i := range rows {
+			rows[i] = validRow()
+		}
+		_, resp, err := th.SystemAdminClient.RegisterTeamMembers(context.Background(), th.BasicTeam.Id, rows)
+		require.Error(t, err)
+		CheckBadRequestStatus(t, resp)
+	})
+}

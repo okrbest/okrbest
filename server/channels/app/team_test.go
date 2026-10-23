@@ -2711,3 +2711,160 @@ func (r *limitedRewindReader) Seek(offset int64, whence int) (int64, error) {
 	}
 	return r.Reader.Seek(offset, whence)
 }
+
+func TestRegisterTeamMembers(t *testing.T) {
+	mainHelper.Parallel(t)
+	th := Setup(t).InitBasic(t)
+
+	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.TeamSettings.EnableDirectMemberRegistration = true })
+
+	validRow := func() *model.MemberRegistration {
+		id := strings.ToLower(model.NewId())
+		return &model.MemberRegistration{
+			Email:    id + "@example.com",
+			Name:     "홍길동",
+			Password: model.NewTestPassword(),
+		}
+	}
+
+	t.Run("setting disabled rejects the request", func(t *testing.T) {
+		th.App.UpdateConfig(func(cfg *model.Config) { *cfg.TeamSettings.EnableDirectMemberRegistration = false })
+		defer th.App.UpdateConfig(func(cfg *model.Config) { *cfg.TeamSettings.EnableDirectMemberRegistration = true })
+
+		_, appErr := th.App.RegisterTeamMembers(th.Context, th.BasicTeam.Id, th.BasicUser.Id, []*model.MemberRegistration{validRow()})
+		require.NotNil(t, appErr)
+		require.Equal(t, "api.team.register_members.disabled.app_error", appErr.Id)
+	})
+
+	t.Run("creates a new account and adds it to the team", func(t *testing.T) {
+		row := validRow()
+		results, appErr := th.App.RegisterTeamMembers(th.Context, th.BasicTeam.Id, th.BasicUser.Id, []*model.MemberRegistration{row})
+		require.Nil(t, appErr)
+		require.Len(t, results, 1)
+		require.Equal(t, model.MemberRegistrationStatusCreatedAndAdded, results[0].Status)
+		require.NotNil(t, results[0].Member)
+
+		user, userErr := th.App.GetUserByEmail(row.Email)
+		require.Nil(t, userErr)
+		require.True(t, user.EmailVerified, "directly registered accounts must not require email verification")
+		require.Equal(t, row.Name, user.FirstName)
+		require.Equal(t, strings.Split(row.Email, "@")[0], user.Username)
+
+		member, memberErr := th.App.GetTeamMember(th.Context, th.BasicTeam.Id, user.Id)
+		require.Nil(t, memberErr)
+		require.Equal(t, user.Id, member.UserId)
+	})
+
+	t.Run("existing account is only added to the team", func(t *testing.T) {
+		existing := th.CreateUser(t)
+		results, appErr := th.App.RegisterTeamMembers(th.Context, th.BasicTeam.Id, th.BasicUser.Id, []*model.MemberRegistration{{
+			Email:    existing.Email,
+			Name:     "기존계정",
+			Password: model.NewTestPassword(),
+		}})
+		require.Nil(t, appErr)
+		require.Len(t, results, 1)
+		require.Equal(t, model.MemberRegistrationStatusExistingAdded, results[0].Status)
+		require.Equal(t, existing.Id, results[0].UserId)
+	})
+
+	t.Run("existing team member reports already_member", func(t *testing.T) {
+		results, appErr := th.App.RegisterTeamMembers(th.Context, th.BasicTeam.Id, th.BasicUser.Id, []*model.MemberRegistration{{
+			Email:    th.BasicUser2.Email,
+			Name:     "이미멤버",
+			Password: model.NewTestPassword(),
+		}})
+		require.Nil(t, appErr)
+		require.Len(t, results, 1)
+		require.Equal(t, model.MemberRegistrationStatusAlreadyMember, results[0].Status)
+		require.Equal(t, th.BasicUser2.Id, results[0].UserId)
+	})
+
+	t.Run("guest account email fails the row", func(t *testing.T) {
+		guest := th.CreateGuest(t)
+		results, appErr := th.App.RegisterTeamMembers(th.Context, th.BasicTeam.Id, th.BasicUser.Id, []*model.MemberRegistration{{
+			Email:    guest.Email,
+			Name:     "게스트",
+			Password: model.NewTestPassword(),
+		}})
+		require.Nil(t, appErr)
+		require.Len(t, results, 1)
+		require.Equal(t, model.MemberRegistrationStatusFailed, results[0].Status)
+		require.NotNil(t, results[0].Error)
+		require.Equal(t, "api.team.register_members.guest_account.app_error", results[0].Error.Id)
+	})
+
+	t.Run("invalid password fails the row without creating the account", func(t *testing.T) {
+		row := validRow()
+		row.Password = "a"
+		results, appErr := th.App.RegisterTeamMembers(th.Context, th.BasicTeam.Id, th.BasicUser.Id, []*model.MemberRegistration{row})
+		require.Nil(t, appErr)
+		require.Len(t, results, 1)
+		require.Equal(t, model.MemberRegistrationStatusFailed, results[0].Status)
+		require.NotNil(t, results[0].Error)
+
+		_, userErr := th.App.GetUserByEmail(row.Email)
+		require.NotNil(t, userErr, "account must not be created when the password is rejected")
+	})
+
+	t.Run("missing name fails the row", func(t *testing.T) {
+		row := validRow()
+		row.Name = "   "
+		results, appErr := th.App.RegisterTeamMembers(th.Context, th.BasicTeam.Id, th.BasicUser.Id, []*model.MemberRegistration{row})
+		require.Nil(t, appErr)
+		require.Len(t, results, 1)
+		require.Equal(t, model.MemberRegistrationStatusFailed, results[0].Status)
+		require.Equal(t, "api.team.register_members.name_required.app_error", results[0].Error.Id)
+	})
+
+	t.Run("username collision gets a unique suffix", func(t *testing.T) {
+		existing := th.CreateUser(t)
+		row := &model.MemberRegistration{
+			Email:    existing.Username + "@example.com",
+			Name:     "충돌",
+			Password: model.NewTestPassword(),
+		}
+		results, appErr := th.App.RegisterTeamMembers(th.Context, th.BasicTeam.Id, th.BasicUser.Id, []*model.MemberRegistration{row})
+		require.Nil(t, appErr)
+		require.Len(t, results, 1)
+		require.Equal(t, model.MemberRegistrationStatusCreatedAndAdded, results[0].Status)
+
+		user, userErr := th.App.GetUserByEmail(row.Email)
+		require.Nil(t, userErr)
+		require.NotEqual(t, existing.Username, user.Username)
+		require.True(t, strings.HasPrefix(user.Username, existing.Username))
+	})
+
+	t.Run("rows are independent and a failed join deletes the created account", func(t *testing.T) {
+		id := model.NewId()
+		team := &model.Team{
+			DisplayName: "dn_" + id,
+			Name:        "name" + id,
+			Email:       "success+" + id + "@simulator.amazonses.com",
+			Type:        model.TeamOpen,
+		}
+		_, teamErr := th.App.CreateTeam(th.Context, team)
+		require.Nil(t, teamErr)
+
+		maxUsersPerTeam := th.App.Config().TeamSettings.MaxUsersPerTeam
+		defer func() {
+			th.App.UpdateConfig(func(cfg *model.Config) { cfg.TeamSettings.MaxUsersPerTeam = maxUsersPerTeam })
+			appErr := th.App.PermanentDeleteTeam(th.Context, team)
+			require.Nil(t, appErr)
+		}()
+		one := 1
+		th.App.UpdateConfig(func(cfg *model.Config) { cfg.TeamSettings.MaxUsersPerTeam = &one })
+
+		row1 := validRow()
+		row2 := validRow()
+		results, appErr := th.App.RegisterTeamMembers(th.Context, team.Id, th.BasicUser.Id, []*model.MemberRegistration{row1, row2})
+		require.Nil(t, appErr)
+		require.Len(t, results, 2)
+		require.Equal(t, model.MemberRegistrationStatusCreatedAndAdded, results[0].Status)
+		require.Equal(t, model.MemberRegistrationStatusFailed, results[1].Status)
+		require.NotNil(t, results[1].Error)
+
+		_, userErr := th.App.GetUserByEmail(row2.Email)
+		require.NotNil(t, userErr, "compensation must delete the account whose team join failed")
+	})
+}

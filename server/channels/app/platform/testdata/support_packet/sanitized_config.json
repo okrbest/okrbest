@@ -134,6 +134,7 @@
         "EnableJoinLeaveMessageByDefault": null,
         "EnableUserCreation": null,
         "EnableOpenServer": null,
+        "EnableDirectMemberRegistration": null,
         "EnableUserDeactivation": null,
         "RestrictCreationToDomains": null,
         "EnableCustomUserStatuses": null,

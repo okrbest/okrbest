@@ -3718,6 +3718,30 @@
     "translation": "본 채널은 %v 팀에서 이 팀으로 이동되었습니다."
   },
   {
+    "id": "api.team.register_members.disabled.app_error",
+    "translation": "이 서버에서는 팀 멤버 직접 등록이 비활성화되어 있습니다."
+  },
+  {
+    "id": "api.team.register_members.guest_account.app_error",
+    "translation": "이 이메일은 게스트 계정입니다. 팀에 추가하려면 시스템 관리자에게 일반 멤버 승격을 요청하세요."
+  },
+  {
+    "id": "api.team.register_members.name_required.app_error",
+    "translation": "등록할 멤버마다 이름을 입력해야 합니다."
+  },
+  {
+    "id": "api.team.register_members.no_rows.app_error",
+    "translation": "등록할 멤버가 없습니다."
+  },
+  {
+    "id": "api.team.register_members.too_many_rows.app_error",
+    "translation": "한 번에 등록할 수 있는 멤버 수({{.Max}}명)를 초과했습니다."
+  },
+  {
+    "id": "api.team.register_members.username_generation_failed.app_error",
+    "translation": "이 이메일로 고유한 사용자명을 만들 수 없습니다."
+  },
+  {
     "id": "api.team.remove_member.group_constrained.app_error",
     "translation": "그룹으로 제한된 팀에서 사용자를 제거할 수 없습니다."
   },

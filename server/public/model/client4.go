@@ -2526,6 +2526,17 @@ func (c *Client4) AddTeamMembers(ctx context.Context, teamId string, userIds []s
 	return DecodeJSONFromResponse[[]*TeamMember](r)
 }
 
+// RegisterTeamMembers directly registers member accounts (email, name,
+// temporary password) into a team and returns per-row results.
+func (c *Client4) RegisterTeamMembers(ctx context.Context, teamId string, registrations []*MemberRegistration) ([]*MemberRegistrationResult, *Response, error) {
+	r, err := c.doAPIPostJSON(ctx, c.teamMembersRoute(teamId).Join("register"), registrations)
+	if err != nil {
+		return nil, BuildResponse(r), err
+	}
+	defer closeBody(r)
+	return DecodeJSONFromResponse[[]*MemberRegistrationResult](r)
+}
+
 // AddTeamMembers adds a number of users to a team and returns the team members.
 func (c *Client4) AddTeamMembersGracefully(ctx context.Context, teamId string, userIds []string) ([]*TeamMemberWithError, *Response, error) {
 	var members []*TeamMember

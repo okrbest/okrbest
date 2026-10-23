@@ -74,6 +74,32 @@ type EmailInviteWithError struct {
 	Error *AppError `json:"error"`
 }
 
+const (
+	// MemberRegistrationMaxRows is the row cap for a single direct member registration request.
+	MemberRegistrationMaxRows = 256
+
+	MemberRegistrationStatusCreatedAndAdded = "created_and_added"
+	MemberRegistrationStatusExistingAdded   = "existing_added"
+	MemberRegistrationStatusAlreadyMember   = "already_member"
+	MemberRegistrationStatusFailed          = "failed"
+)
+
+//msgp:ignore MemberRegistration
+type MemberRegistration struct {
+	Email    string `json:"email"`
+	Name     string `json:"name"`
+	Password string `json:"password"`
+}
+
+//msgp:ignore MemberRegistrationResult
+type MemberRegistrationResult struct {
+	Email  string      `json:"email"`
+	Status string      `json:"status"`
+	UserId string      `json:"user_id,omitempty"`
+	Member *TeamMember `json:"member,omitempty"`
+	Error  *AppError   `json:"error,omitempty"`
+}
+
 //msgp:ignore TeamMembersGetOptions
 type TeamMembersGetOptions struct {
 	// Sort the team members. Accepts "Username", but defaults to "Id".
