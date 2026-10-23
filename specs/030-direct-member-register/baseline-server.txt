@@ -1,0 +1,29 @@
+# server baseline @ 017c76d02c 2026-10-23T14:51:12+09:00
+# 범위: check-style 전체 + 접촉 패키지 테스트(public/model 전체, app·api4는 인접 테스트 -run 필터)
+# 마감 게이트는 같은 명령을 재실행해 이 목록과 diff한다. 전체 스위트는 PR CI가 집행한다.
+
+## cmd: make check-style
+exit=0
+	-errorAssertions \
+
+## cmd: go test ./public/model/
+exit=0
+ok  	github.com/mattermost/mattermost/server/public/model	19.928s
+
+# 주의: DB 테스트는 TEST_DATABASE_POSTGRESQL_DSN='postgres://mmuser:okrbest!1234!@localhost:5432/mattermost_test?sslmode=disable&connect_timeout=10'
+# 를 지정해야 한다 (로컬 컨테이너 비밀번호가 기본값과 다름). 최초 측정의 FAIL은
+# DSN 미지정으로 인한 접속 실패였고, 아래는 DSN 지정 후 재측정 값이다.
+
+## cmd: go test -run 'TestAddTeamMembers|TestDoAdvancedPermissionsMigration' ./channels/app/
+exit=0 (매칭 1건)
+--- PASS: TestDoAdvancedPermissionsMigration (0.30s)
+ok  	github.com/mattermost/mattermost/server/v8/channels/app
+
+## cmd: go test -run 'TestAddTeamMembers' ./channels/api4/
+exit=0 (매칭 5건)
+--- PASS: TestAddTeamMembersGracefulABACError (0.82s)
+--- PASS: TestAddTeamMembersDomainConstrained (0.77s)
+--- PASS: TestAddTeamMembers (0.87s)
+--- PASS: TestAddTeamMembersGuestPermissions (0.70s)
+--- PASS: TestAddTeamMembersRoleDataSanitization (0.71s)
+ok  	github.com/mattermost/mattermost/server/v8/channels/api4	4.284s
