@@ -1158,8 +1158,7 @@
   {
     "id": "api.command_groupmsg.invalid_user.app_error",
     "translation": {
-      "one": "다음 사용자를 찾을 수 없습니다: {{.Users}}",
-      "other": "사용자를 찾을 수 없습니다 : {{.Users}}사용자들을 찾을 수 없습니다 : {{.Users}}"
+      "other": "사용자를 찾을 수 없습니다: {{.Users}}"
     }
   },
   {
@@ -1168,7 +1167,7 @@
   },
   {
     "id": "api.command_groupmsg.min_users.app_error",
-    "translation": "그룹 메시지는 최소 {{.MaxUsers}}명으로 제한되어 있습니다."
+    "translation": "그룹 메시지는 최소 {{.MinUsers}}명으로 제한되어 있습니다."
   },
   {
     "id": "api.command_groupmsg.name",
@@ -1249,7 +1248,6 @@
   {
     "id": "api.command_invite.user_already_in_channel.app_error",
     "translation": {
-      "one": "{{.FirstUser}}와 {{.Others}}가 {{.Channel}} 채널에 추가되었습니다.",
       "other": "{{.User}}는 이미 이 채널에 참여하고 있습니다."
     }
   },
@@ -2148,7 +2146,6 @@
   {
     "id": "api.email_batching.send_batched_email_notification.subject",
     "translation": {
-      "one": "[{{.SiteName}}] {{.Month}} {{.Day}}, {{.Year}} 에 새 알림이 왔습니다",
       "other": "[{{.SiteName}}] {{.Month}} {{.Day}}, {{.Year}} 에 새 알림들이 왔습니다"
     }
   },
@@ -3059,14 +3056,12 @@
   {
     "id": "api.post.get_message_for_notification.files_sent",
     "translation": {
-      "one": "{{.Count}}개 파일 발송됨: {{.Filenames}}",
       "other": "{{.Count}}개 파일 발송됨: {{.Filenames}}"
     }
   },
   {
     "id": "api.post.get_message_for_notification.images_sent",
     "translation": {
-      "one": "{{.Count}}개 이미지 발송됨: {{.Filenames}}",
       "other": "{{.Count}}개 이미지 발송됨: {{.Filenames}}"
     }
   },
@@ -3988,7 +3983,7 @@
   },
   {
     "id": "api.templates.cloud_welcome_email.invite_sub_info",
-    "translation": "이 링크를 공유하여 멤버를 초대하세요."
+    "translation": "이 링크를 공유하여 멤버를 {{.WorkSpace}}에 초대하세요:"
   },
   {
     "id": "api.templates.cloud_welcome_email.mm_apps",
@@ -4124,7 +4119,7 @@
   },
   {
     "id": "api.templates.email_footer_v2",
-    "translation": "© 2022 매터모스트 주식회사, 캘리포니아주 팔로알토시 리튼 애비뉴 530, 2층, 우편번호 94301"
+    "translation": "© 2015 - {{ .CurrentYear }} Mattermost, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303"
   },
   {
     "id": "api.templates.email_info1",
@@ -4200,11 +4195,11 @@
   },
   {
     "id": "api.templates.invite_team_and_channels_body.title",
-    "translation": "{{ .SenderName }}님이 {{ .ChannelsLen }}개의 채널에 초대했습니다"
+    "translation": "{{ .SenderName }}님이 {{ .TeamDisplayName }} 팀의 채널 {{ .ChannelsLen }}개에 초대했습니다"
   },
   {
     "id": "api.templates.invite_team_and_channels_subject",
-    "translation": "[{{ .SiteName }}] {{ .SenderName }}님이 {{ .ChannelsLen }}개의 채널에 초대했습니다"
+    "translation": "[{{ .SiteName }}] {{ .SenderName }}님이 {{ .TeamDisplayName }} 팀의 채널 {{ .ChannelsLen }}개에 초대했습니다"
   },
   {
     "id": "api.templates.ip_filters_changed.button",
@@ -4632,7 +4627,7 @@
   },
   {
     "id": "api.user.authorize_oauth_user.service.app_error",
-    "translation": "{{.Sevice}} 토큰 요청이 실패했습니다."
+    "translation": "{{.Service}} 토큰 요청이 실패했습니다."
   },
   {
     "id": "api.user.authorize_oauth_user.token_failed.app_error",
@@ -7724,7 +7719,7 @@
   },
   {
     "id": "app.notification.subject.group_message.full",
-    "translation": "[{{.SiteName}}] {{.SenderDisplayName}} (으)로부터 {{.Month}} {{.Day}}일, {{.Year}} 에 새로운 그룹 메시지가 왔습니다."
+    "translation": "[{{ .SiteName }}] {{.Month}} {{.Day}}일, {{.Year}} 에 {{ .ChannelName}}에서 새로운 그룹 메시지가 왔습니다."
   },
   {
     "id": "app.notification.subject.group_message.generic",
@@ -8841,14 +8836,12 @@
   {
     "id": "app.scheduled_post.failed_message_detail",
     "translation": {
-      "one": "- {{.ChannelName}} 채널에서 {{.Count}}개. 사유: {{.ErrorReason}}",
       "other": "- {{.ChannelName}} 채널에서 {{.Count}}개. 사유: {{.ErrorReason}}"
     }
   },
   {
     "id": "app.scheduled_post.failed_messages",
     "translation": {
-      "one": "예약된 게시물 {{.Count}}개를 보내지 못했습니다.",
       "other": "예약된 게시물 {{.Count}}개를 보내지 못했습니다."
     }
   },
