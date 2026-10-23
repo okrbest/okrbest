@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import classNames from 'classnames';
 import React, {useCallback, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
@@ -15,6 +16,8 @@ import RadioGroup from 'components/common/radio_group';
 
 import {parseCsv} from 'utils/csv';
 import {isValidPassword} from 'utils/password';
+
+import './direct_register_view.scss';
 
 // Keep in sync with model.MemberRegistrationMaxRows on the server.
 const MAX_CSV_ROWS = 256;
@@ -41,7 +44,7 @@ type InviteMethodSelectorProps = {
 export function InviteMethodSelector(props: InviteMethodSelectorProps) {
     return (
         <div className='DirectRegisterView__methodSelector'>
-            <div className='InviteView__sectionTitle'>
+            <div className='InviteView__sectionTitle InviteView__sectionTitle--first'>
                 <FormattedMessage
                     id='invite_modal.direct_register.method_title'
                     defaultMessage='How would you like to add members?'
@@ -310,7 +313,7 @@ export default function DirectRegisterView(props: Props) {
 
     const singleForm = (
         <React.Fragment key='direct-register-single'>
-            <div className='InviteView__sectionTitle InviteView__sectionTitle--first'>
+            <div className='InviteView__sectionTitle'>
                 <FormattedMessage
                     id='invite_modal.direct_register.email'
                     defaultMessage='Email (used to sign in)'
@@ -380,19 +383,19 @@ export default function DirectRegisterView(props: Props) {
 
     const csvForm = (
         <React.Fragment key='direct-register-csv'>
-            <div className='InviteView__sectionTitle InviteView__sectionTitle--first'>
+            <div className='InviteView__sectionTitle'>
                 <FormattedMessage
                     id='invite_modal.direct_register.csv_file'
                     defaultMessage='CSV file (columns: email, name, temporary password)'
                 />
             </div>
-            <input
-                type='file'
-                accept='.csv,text/csv'
-                data-testid='direct-register-file'
-                onChange={onFileSelected}
-            />
-            <div>
+            <div className='DirectRegisterView__fileRow'>
+                <input
+                    type='file'
+                    accept='.csv,text/csv'
+                    data-testid='direct-register-file'
+                    onChange={onFileSelected}
+                />
                 <Button
                     emphasis='link'
                     data-testid='direct-register-template'
@@ -428,52 +431,54 @@ export default function DirectRegisterView(props: Props) {
                 </div>
             )}
             {csv && !csv.fileError && (
-                <table
-                    className='DirectRegisterView__preview'
-                    data-testid='direct-register-preview'
-                >
-                    <thead>
-                        <tr>
-                            <th>
-                                <FormattedMessage
-                                    id='invite_modal.direct_register.email'
-                                    defaultMessage='Email (used to sign in)'
-                                />
-                            </th>
-                            <th>
-                                <FormattedMessage
-                                    id='invite_modal.direct_register.name'
-                                    defaultMessage='Name'
-                                />
-                            </th>
-                            <th>
-                                <FormattedMessage
-                                    id='invite_modal.direct_register.row_status'
-                                    defaultMessage='Status'
-                                />
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {csv.rows.map((row, i) => (
-                            <tr
-                                key={`${row.email}-${i}`}
-                                data-testid={`direct-register-row-${i}`}
-                            >
-                                <td>{row.email}</td>
-                                <td>{row.name}</td>
-                                <td>
-                                    {row.error ? csvRowErrorMessages[row.error] : (
-                                        <FormattedMessage
-                                            id='invite_modal.direct_register.row_valid'
-                                            defaultMessage='Valid'
-                                        />
-                                    )}
-                                </td>
+                <div className='DirectRegisterView__previewScroll'>
+                    <table
+                        className='DirectRegisterView__preview'
+                        data-testid='direct-register-preview'
+                    >
+                        <thead>
+                            <tr>
+                                <th>
+                                    <FormattedMessage
+                                        id='invite_modal.direct_register.email'
+                                        defaultMessage='Email (used to sign in)'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
+                                        id='invite_modal.direct_register.name'
+                                        defaultMessage='Name'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
+                                        id='invite_modal.direct_register.row_status'
+                                        defaultMessage='Status'
+                                    />
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {csv.rows.map((row, i) => (
+                                <tr
+                                    key={`${row.email}-${i}`}
+                                    data-testid={`direct-register-row-${i}`}
+                                >
+                                    <td>{row.email}</td>
+                                    <td>{row.name}</td>
+                                    <td>
+                                        {row.error ? csvRowErrorMessages[row.error] : (
+                                            <FormattedMessage
+                                                id='invite_modal.direct_register.row_valid'
+                                                defaultMessage='Valid'
+                                            />
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
         </React.Fragment>
     );
@@ -537,7 +542,7 @@ export default function DirectRegisterView(props: Props) {
                 </div>
                 {tab === RegisterTab.SINGLE ? singleForm : csvForm}
             </Modal.Body>
-            <Modal.Footer className={props.footerClass}>
+            <Modal.Footer className={classNames('InviteView__footer', 'DirectRegisterView__footer', props.footerClass)}>
                 {tab === RegisterTab.SINGLE ? (
                     <Button
                         emphasis='primary'

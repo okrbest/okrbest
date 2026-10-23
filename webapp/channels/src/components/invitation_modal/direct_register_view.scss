@@ -1,0 +1,84 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+.DirectRegisterView {
+    &__methodSelector {
+        margin-bottom: 16px;
+
+        .radio {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            &:first-child {
+                margin-top: 0;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &__tabs {
+        display: flex;
+        gap: 8px;
+    }
+
+    &__passwordRow {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        input {
+            flex: 1;
+        }
+    }
+
+    &__fileRow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    &__fileError {
+        margin-top: 16px;
+        color: var(--error-text);
+    }
+
+    &__previewScroll {
+        overflow: auto;
+        max-height: 240px;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+        border-radius: 4px;
+        margin-top: 16px;
+    }
+
+    &__preview {
+        width: 100%;
+        border-collapse: collapse;
+
+        th {
+            position: sticky;
+            top: 0;
+            background: var(--center-channel-bg);
+            font-weight: 600;
+        }
+
+        th,
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+            text-align: left;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+    }
+
+    &__footer {
+        justify-content: flex-end;
+    }
+}
