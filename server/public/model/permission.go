@@ -26,6 +26,7 @@ type Permission struct {
 
 var PermissionInviteUser *Permission
 var PermissionAddUserToTeam *Permission
+var PermissionRegisterTeamMembers *Permission
 
 // Deprecated: PermissionUseSlashCommands is not longer used. It's only kept for backwards compatibility.
 // See https://mattermost.atlassian.net/browse/MM-52574 for more details.
@@ -434,6 +435,12 @@ func initializePermissions() {
 		"add_user_to_team",
 		"authentication.permissions.add_user_to_team.name",
 		"authentication.permissions.add_user_to_team.description",
+		PermissionScopeTeam,
+	}
+	PermissionRegisterTeamMembers = &Permission{
+		"register_team_members",
+		"",
+		"",
 		PermissionScopeTeam,
 	}
 	PermissionUseSlashCommands = &Permission{
@@ -2568,6 +2575,7 @@ func initializePermissions() {
 	TeamScopedPermissions := []*Permission{
 		PermissionInviteUser,
 		PermissionAddUserToTeam,
+		PermissionRegisterTeamMembers,
 		PermissionManageOwnSlashCommands,
 		PermissionManageOthersSlashCommands,
 		PermissionCreatePublicChannel,

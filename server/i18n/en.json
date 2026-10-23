@@ -4750,6 +4750,36 @@
     "description": "System post message shown in a channel after it is moved to a different team; %v is the name of the team it came from."
   },
   {
+    "id": "api.team.register_members.disabled.app_error",
+    "translation": "Direct member registration is disabled on this server.",
+    "description": "API error when the direct member registration endpoint is called while the feature is turned off in the System Console."
+  },
+  {
+    "id": "api.team.register_members.guest_account.app_error",
+    "translation": "This email belongs to a guest account. Ask a System Admin to promote the guest before adding them to the team.",
+    "description": "Per-row error when directly registering a team member whose email belongs to an existing guest account."
+  },
+  {
+    "id": "api.team.register_members.name_required.app_error",
+    "translation": "A name is required for each member being registered.",
+    "description": "Per-row error when a direct member registration row is missing the name value."
+  },
+  {
+    "id": "api.team.register_members.no_rows.app_error",
+    "translation": "No members were provided to register.",
+    "description": "API error when the direct member registration request contains no rows."
+  },
+  {
+    "id": "api.team.register_members.too_many_rows.app_error",
+    "translation": "Too many members in one request. Up to {{.Max}} members can be registered at once.",
+    "description": "API error when a direct member registration request exceeds the per-request row cap; Max is the cap."
+  },
+  {
+    "id": "api.team.register_members.username_generation_failed.app_error",
+    "translation": "Unable to generate a unique username for this email.",
+    "description": "Per-row error when no unique username could be derived from the email during direct member registration."
+  },
+  {
     "id": "api.team.remove_member.group_constrained.app_error",
     "translation": "Unable to remove a user from a group-constrained team.",
     "description": "API error when removing a member from a team whose membership is managed by (LDAP/AD) group sync; members cannot be removed manually."

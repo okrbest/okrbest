@@ -57,6 +57,7 @@ func (api *API) InitTeam() {
 	api.BaseRoutes.TeamMembers.Handle("", api.APISessionRequired(addTeamMember)).Methods(http.MethodPost)
 	api.BaseRoutes.Teams.Handle("/members/invite", api.APISessionRequired(addUserToTeamFromInvite)).Methods(http.MethodPost)
 	api.BaseRoutes.TeamMembers.Handle("/batch", api.APISessionRequired(addTeamMembers)).Methods(http.MethodPost)
+	api.BaseRoutes.TeamMembers.Handle("/register", api.APISessionRequired(registerTeamMembers)).Methods(http.MethodPost)
 	api.BaseRoutes.TeamMember.Handle("", api.APISessionRequired(removeTeamMember)).Methods(http.MethodDelete)
 
 	api.BaseRoutes.TeamForUser.Handle("/unread", api.APISessionRequired(getTeamUnread)).Methods(http.MethodGet)
@@ -1132,6 +1133,76 @@ func addUserToTeamFromInvite(c *Context, w http.ResponseWriter, r *http.Request)
 
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(member); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
+}
+
+func registerTeamMembers(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.RequireTeamId()
+	if c.Err != nil {
+		return
+	}
+
+	if !*c.App.Config().TeamSettings.EnableDirectMemberRegistration {
+		c.Err = model.NewAppError("registerTeamMembers", "api.team.register_members.disabled.app_error", nil, "", http.StatusNotImplemented)
+		return
+	}
+
+	if !c.App.SessionHasPermissionToTeam(*c.AppContext.Session(), c.Params.TeamId, model.PermissionRegisterTeamMembers) {
+		c.SetPermissionError(model.PermissionRegisterTeamMembers)
+		return
+	}
+
+	var registrations []*model.MemberRegistration
+	if jsonErr := json.NewDecoder(r.Body).Decode(&registrations); jsonErr != nil {
+		c.SetInvalidParamWithErr("registrations", jsonErr)
+		return
+	}
+
+	if len(registrations) == 0 {
+		c.Err = model.NewAppError("registerTeamMembers", "api.team.register_members.no_rows.app_error", nil, "", http.StatusBadRequest)
+		return
+	}
+
+	if len(registrations) > model.MemberRegistrationMaxRows {
+		c.Err = model.NewAppError("registerTeamMembers", "api.team.register_members.too_many_rows.app_error", map[string]any{"Max": model.MemberRegistrationMaxRows}, "", http.StatusBadRequest)
+		return
+	}
+
+	team, teamErr := c.App.GetTeam(c.Params.TeamId)
+	if teamErr != nil {
+		c.Err = teamErr
+		return
+	}
+
+	auditRec := c.MakeAuditRecord(model.AuditEventRegisterTeamMembers, model.AuditStatusFail)
+	defer c.LogAuditRec(auditRec)
+	model.AddEventParameterAuditableToAuditRec(auditRec, "team", team)
+	auditRec.AddMeta("count", len(registrations))
+	// 임시 비밀번호는 감사 기록에 싣지 않는다 — 이메일 목록만 남긴다.
+	emails := make([]string, 0, len(registrations))
+	for _, registration := range registrations {
+		emails = append(emails, registration.Email)
+	}
+	auditRec.AddMeta("emails", emails)
+
+	results, appErr := c.App.RegisterTeamMembers(c.AppContext, c.Params.TeamId, c.AppContext.Session().UserId, registrations)
+	if appErr != nil {
+		c.Err = appErr
+		return
+	}
+
+	failed := 0
+	for _, result := range results {
+		if result.Status == model.MemberRegistrationStatusFailed {
+			failed++
+		}
+	}
+	auditRec.AddMeta("failed", failed)
+	auditRec.Success()
+
+	w.WriteHeader(http.StatusCreated)
+	if err := json.NewEncoder(w).Encode(results); err != nil {
 		c.Logger.Warn("Error while writing response", mlog.Err(err))
 	}
 }

@@ -402,6 +402,7 @@ const (
 	AuditEventAddTeamMember               = "addTeamMember"               // add member to team
 	AuditEventAddTeamMembers              = "addTeamMembers"              // add multiple members to team
 	AuditEventAddUserToTeamFromInvite     = "addUserToTeamFromInvite"     // add user to team using invitation link
+	AuditEventRegisterTeamMembers         = "registerTeamMembers"         // directly register member accounts into team
 	AuditEventCreateTeam                  = "createTeam"                  // create team
 	AuditEventDeleteTeam                  = "deleteTeam"                  // delete team
 	AuditEventInvalidateAllEmailInvites   = "invalidateAllEmailInvites"   // invalidate all pending email invitations

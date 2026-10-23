@@ -2628,6 +2628,7 @@ type TeamSettings struct {
 	EnableJoinLeaveMessageByDefault *bool   `access:"site_users_and_teams"`
 	EnableUserCreation              *bool   `access:"authentication_signup"`
 	EnableOpenServer                *bool   `access:"authentication_signup"`
+	EnableDirectMemberRegistration  *bool   `access:"authentication_signup"`
 	EnableUserDeactivation          *bool   `access:"site_users_and_teams"`
 	RestrictCreationToDomains       *string `access:"authentication_signup"` // telemetry: none
 	EnableCustomUserStatuses        *bool   `access:"site_users_and_teams"`
@@ -2668,6 +2669,10 @@ func (s *TeamSettings) SetDefaults() {
 
 	if s.EnableOpenServer == nil {
 		s.EnableOpenServer = new(false)
+	}
+
+	if s.EnableDirectMemberRegistration == nil {
+		s.EnableDirectMemberRegistration = new(false)
 	}
 
 	if s.RestrictCreationToDomains == nil {

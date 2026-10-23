@@ -67,4 +67,5 @@ const (
 	MigrationKeyAddEditFileAttachmentPermission        = "add_edit_file_attachment_permission"
 	MigrationKeyAddDiscoverableChannelPermissions      = "add_discoverable_channel_permissions"
 	MigrationRemoveImportTeamPermission                = "remove_import_team_permission"
+	MigrationKeyAddRegisterTeamMembersPermission       = "add_register_team_members_permission"
 )

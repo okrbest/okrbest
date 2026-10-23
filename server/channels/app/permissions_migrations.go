@@ -1260,6 +1260,20 @@ func (a *App) getAddTeamAccessRulesPermissionMigration() (permissionsMap, error)
 	}, nil
 }
 
+func (a *App) getAddRegisterTeamMembersPermissionMigration() (permissionsMap, error) {
+	return permissionsMap{
+		permissionTransformation{
+			On: permissionOr(
+				isRole(model.TeamAdminRoleId),
+				isRole(model.SystemAdminRoleId),
+			),
+			Add: []string{
+				model.PermissionRegisterTeamMembers.Id,
+			},
+		},
+	}, nil
+}
+
 func (a *App) getAddChannelAutoTranslationPermissionMigration() (permissionsMap, error) {
 	return permissionsMap{
 		permissionTransformation{
@@ -1418,6 +1432,7 @@ func (s *Server) doPermissionsMigrations() error {
 		{Key: model.MigrationKeyAddEditFileAttachmentPermission, Migration: a.getAddEditFileAttachmentPermissionMigration},
 		{Key: model.MigrationKeyAddDiscoverableChannelPermissions, Migration: a.getAddDiscoverableChannelPermissionsMigration},
 		{Key: model.MigrationRemoveImportTeamPermission, Migration: a.removeImportTeamPermissionMigration},
+		{Key: model.MigrationKeyAddRegisterTeamMembersPermission, Migration: a.getAddRegisterTeamMembersPermissionMigration},
 	}
 
 	roles, err := s.Store().Role().GetAll()

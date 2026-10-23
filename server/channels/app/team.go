@@ -1194,6 +1194,147 @@ func (a *App) AddTeamMembers(rctx request.CTX, teamID string, userIDs []string, 
 	return membersWithErrors, nil
 }
 
+// RegisterTeamMembers directly registers member accounts into a team: each row
+// either creates a new email/password account or reuses an existing one, then
+// adds it to the team. Rows are processed independently.
+func (a *App) RegisterTeamMembers(rctx request.CTX, teamID, userRequestorId string, registrations []*model.MemberRegistration) ([]*model.MemberRegistrationResult, *model.AppError) {
+	if !*a.Config().TeamSettings.EnableDirectMemberRegistration {
+		return nil, model.NewAppError("RegisterTeamMembers", "api.team.register_members.disabled.app_error", nil, "", http.StatusNotImplemented)
+	}
+
+	team, err := a.GetTeam(teamID)
+	if err != nil {
+		return nil, err
+	}
+
+	results := make([]*model.MemberRegistrationResult, 0, len(registrations))
+	for _, registration := range registrations {
+		results = append(results, a.registerTeamMember(rctx, team, registration, userRequestorId))
+	}
+
+	return results, nil
+}
+
+func (a *App) registerTeamMember(rctx request.CTX, team *model.Team, registration *model.MemberRegistration, userRequestorId string) *model.MemberRegistrationResult {
+	result := &model.MemberRegistrationResult{
+		Email:  registration.Email,
+		Status: model.MemberRegistrationStatusFailed,
+	}
+
+	email := strings.ToLower(strings.TrimSpace(registration.Email))
+	name := strings.TrimSpace(registration.Name)
+
+	if name == "" {
+		result.Error = model.NewAppError("RegisterTeamMembers", "api.team.register_members.name_required.app_error", nil, "email="+email, http.StatusBadRequest)
+		return result
+	}
+	if !model.IsValidEmail(email) {
+		result.Error = model.NewAppError("RegisterTeamMembers", "model.user.is_valid.email.app_error", nil, "email="+email, http.StatusBadRequest)
+		return result
+	}
+
+	if existing, getErr := a.GetUserByEmail(email); getErr == nil {
+		return a.registerExistingTeamMember(rctx, team, existing, result, userRequestorId)
+	}
+
+	if passwordErr := a.IsPasswordValid(rctx, registration.Password); passwordErr != nil {
+		result.Error = passwordErr
+		return result
+	}
+	if !users.CheckUserDomain(&model.User{Email: email}, team.AllowedDomains) {
+		result.Error = model.NewAppError("RegisterTeamMembers", "api.team.join_user_to_team.allowed_domains.app_error", nil, "email="+email, http.StatusBadRequest)
+		return result
+	}
+
+	username, usernameErr := a.generateUsernameFromEmail(rctx, email)
+	if usernameErr != nil {
+		result.Error = usernameErr
+		return result
+	}
+
+	user := &model.User{
+		Email:         email,
+		Username:      username,
+		FirstName:     name,
+		Password:      registration.Password,
+		EmailVerified: true,
+	}
+
+	ruser, createErr := a.CreateUser(rctx, user)
+	if createErr != nil {
+		result.Error = createErr
+		return result
+	}
+
+	member, joinErr := a.addRegisteredMemberToTeam(rctx, team, ruser, userRequestorId)
+	if joinErr != nil {
+		// 보상 처리: 계정만 생성되고 팀에 못 들어간 반쪽 상태를 남기지 않는다 (FR-003).
+		if deleteErr := a.PermanentDeleteUser(rctx, ruser); deleteErr != nil {
+			rctx.Logger().Error("Failed to delete user after team join failure during direct registration", mlog.String("user_id", ruser.Id), mlog.Err(deleteErr))
+		}
+		result.Error = joinErr
+		return result
+	}
+
+	result.Status = model.MemberRegistrationStatusCreatedAndAdded
+	result.UserId = ruser.Id
+	result.Member = member
+	return result
+}
+
+func (a *App) registerExistingTeamMember(rctx request.CTX, team *model.Team, user *model.User, result *model.MemberRegistrationResult, userRequestorId string) *model.MemberRegistrationResult {
+	if user.IsGuest() {
+		result.Error = model.NewAppError("RegisterTeamMembers", "api.team.register_members.guest_account.app_error", nil, "user_id="+user.Id, http.StatusBadRequest)
+		return result
+	}
+
+	if member, memberErr := a.GetTeamMember(rctx, team.Id, user.Id); memberErr == nil && member.DeleteAt == 0 {
+		result.Status = model.MemberRegistrationStatusAlreadyMember
+		result.UserId = user.Id
+		result.Member = member
+		return result
+	}
+
+	member, joinErr := a.addRegisteredMemberToTeam(rctx, team, user, userRequestorId)
+	if joinErr != nil {
+		result.Error = joinErr
+		return result
+	}
+
+	result.Status = model.MemberRegistrationStatusExistingAdded
+	result.UserId = user.Id
+	result.Member = member
+	return result
+}
+
+func (a *App) addRegisteredMemberToTeam(rctx request.CTX, team *model.Team, user *model.User, userRequestorId string) (*model.TeamMember, *model.AppError) {
+	member, joinErr := a.JoinUserToTeam(rctx, team, user, userRequestorId)
+	if joinErr != nil {
+		return nil, joinErr
+	}
+
+	message := model.NewWebSocketEvent(model.WebsocketEventAddedToTeam, "", "", user.Id, nil, "")
+	message.Add("team_id", team.Id)
+	message.Add("user_id", user.Id)
+	a.Publish(message)
+
+	return member, nil
+}
+
+// generateUsernameFromEmail derives a unique username from the local part of
+// the given email, appending a random suffix on collision.
+func (a *App) generateUsernameFromEmail(rctx request.CTX, email string) (string, *model.AppError) {
+	username := model.CleanUsername(rctx.Logger(), strings.Split(email, "@")[0])
+	originalUsername := username
+	for range 10 {
+		if _, usernameErr := a.GetUserByUsername(username); usernameErr != nil {
+			return username, nil
+		}
+		username = originalUsername + model.NewId()[0:8]
+	}
+	return "", model.NewAppError("RegisterTeamMembers", "api.team.register_members.username_generation_failed.app_error", nil, "email="+email, http.StatusInternalServerError)
+}
+
 func (a *App) AddTeamMemberByToken(rctx request.CTX, userID, tokenID string) (*model.TeamMember, *model.AppError) {
 	_, teamMember, err := a.AddUserToTeamByToken(rctx, userID, tokenID)
 	if err != nil {
