@@ -123,7 +123,21 @@ describe('components/TeamSettings', () => {
         await userEvent.click(saveButton);
 
         expect(patchTeam).toHaveBeenCalledTimes(1);
-        expect(patchTeam).toHaveBeenCalledWith({id: defaultProps.team?.id, display_name: 'new_team_name', description: defaultProps.team?.description});
+        expect(patchTeam).toHaveBeenCalledWith({id: defaultProps.team?.id, display_name: 'new_team_name', description: defaultProps.team?.description, landing_product: ''});
+    });
+
+    test('should call patchTeam with landing_product when landing screen is changed and saved', async () => {
+        renderWithContext(
+            <InfoTab {...defaultProps}/>,
+            {plugins: {plugins: {focalboard: {id: 'focalboard'}}, components: {Product: []}}} as any,
+        );
+
+        await userEvent.click(screen.getByRole('radio', {name: 'Boards'}));
+        const saveButton = screen.getByTestId('SaveChangesPanel__save-btn');
+        await userEvent.click(saveButton);
+
+        expect(patchTeam).toHaveBeenCalledTimes(1);
+        expect(patchTeam).toHaveBeenCalledWith({id: defaultProps.team?.id, display_name: defaultProps.team?.display_name, description: defaultProps.team?.description, landing_product: 'boards'});
     });
 
     test('should call patchTeam when team description is changed and clicked saved', async () => {
@@ -135,7 +149,7 @@ describe('components/TeamSettings', () => {
         await userEvent.click(saveButton);
 
         expect(patchTeam).toHaveBeenCalledTimes(1);
-        expect(patchTeam).toHaveBeenCalledWith({id: defaultProps.team?.id, display_name: defaultProps.team?.display_name, description: 'new_team_description'});
+        expect(patchTeam).toHaveBeenCalledWith({id: defaultProps.team?.id, display_name: defaultProps.team?.display_name, description: 'new_team_description', landing_product: ''});
     });
 
     test('should call patchTeam when team name and description are change and clicked saved', async () => {
@@ -150,6 +164,6 @@ describe('components/TeamSettings', () => {
         await userEvent.click(saveButton);
 
         expect(patchTeam).toHaveBeenCalledTimes(1);
-        expect(patchTeam).toHaveBeenCalledWith({id: defaultProps.team?.id, display_name: 'new_team_name', description: 'new_team_description'});
+        expect(patchTeam).toHaveBeenCalledWith({id: defaultProps.team?.id, display_name: 'new_team_name', description: 'new_team_description', landing_product: ''});
     });
 });

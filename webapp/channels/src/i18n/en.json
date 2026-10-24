@@ -21635,6 +21635,26 @@
     "defaultMessage": "Invite Code",
     "description": "Title of the Invite Code section in team settings; the code is part of the team invitation link."
   },
+  "general_tab.landingProduct": {
+    "defaultMessage": "First screen",
+    "description": "Setting row title in Team Settings > Info for the team's default landing screen after login."
+  },
+  "general_tab.landingProductBoards": {
+    "defaultMessage": "Boards",
+    "description": "Radio option for the team First screen setting; members land on Boards after login."
+  },
+  "general_tab.landingProductChannels": {
+    "defaultMessage": "Channels",
+    "description": "Radio option for the team First screen setting; members land on Channels after login (default)."
+  },
+  "general_tab.landingProductInfo": {
+    "defaultMessage": "The screen members land on after signing in. Members can pick their own first screen in Settings > Display, which overrides this default.",
+    "description": "Help text for the team First screen setting in Team Settings > Info."
+  },
+  "general_tab.landingProductPlaybooks": {
+    "defaultMessage": "Playbooks",
+    "description": "Radio option for the team First screen setting; members land on Playbooks after login."
+  },
   "general_tab.regenerate": {
     "defaultMessage": "Regenerate",
     "description": "Button in team settings that generates a new team invite code, invalidating the old invitation link; verb."
