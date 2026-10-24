@@ -9,12 +9,11 @@ import type {PreferenceType} from '@mattermost/types/preferences';
 
 import type {ActionResult} from 'mattermost-redux/types/actions';
 
-import {useGetPluginsActivationState} from 'plugins/useGetPluginsActivationState';
-
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import type SettingItemMinComponent from 'components/setting_item_min';
 
+import {useGetPluginsActivationState} from 'plugins/useGetPluginsActivationState';
 import {LandingProducts, Preferences} from 'utils/constants';
 
 const messages = defineMessages({
@@ -111,6 +110,7 @@ export default function LandingProductSection(props: Props) {
         } else if (areAllSectionsInactive) {
             minRef.current?.focus();
         }
+
         // 저장값 파생치는 active 전환 시점의 값으로 고정한다
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [active, areAllSectionsInactive]);
