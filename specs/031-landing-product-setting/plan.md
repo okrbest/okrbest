@@ -110,6 +110,7 @@ webapp/
 │   │   └── selectors/entities/preferences.ts  # getLandingPreference 셀렉터(테마 패턴)
 │   ├── selectors/landing.ts             # 최종 판정 셀렉터(개인>공통>팀>채널 + 가용성)
 │   ├── actions/global_actions.tsx       # redirectUserToDefaultTeam에 판정·이동 분기
+│   ├── components/root/root.tsx         # 제품 초기화 Promise 노출(리다이렉트 대기 배선)
 │   ├── components/user_settings/display/
 │   │   ├── index.ts                     # props 매핑
 │   │   ├── user_settings_display.tsx    # 섹션 등록
