@@ -93,8 +93,8 @@ name=`''`).
 **Independent Test**: A팀에만 보드, 공통은 채널 저장 → 마지막 사용 팀을 바꿔 가며
 재로그인해 도착 화면 비교.
 
-- [ ] T020 [US3] 팀별 저장 테스트 확장(RED) — `landing_product.test.tsx`에 추가: "모든 팀에 적용" 해제 시 `name=currentTeamId`로 저장, 체크 시 `name=''` 저장과 동시에 팀별 키 삭제(테마 `deleteTeamSpecificThemes` 의미론). **실패 출력 기록**
-- [ ] T021 [US3] 팀별 저장·체크박스 구현 — `landing_product.tsx`에 "모든 팀에 적용" 체크박스 추가(테마 `applyToAllTeams` 선례). i18n en/ko 동시. T020 전부 통과. 판정 셀렉터는 Phase 2에서 이미 2단 조회를 지원하므로 변경 없음
+- [X] T020 [US3] 팀별 저장 테스트 확장(RED) — `landing_product.test.tsx`에 추가: "모든 팀에 적용" 해제 시 `name=currentTeamId`로 저장, 체크 시 `name=''` 저장과 동시에 팀별 키 삭제(테마 `deleteTeamSpecificThemes` 의미론). **실패 출력 기록**
+- [X] T021 [US3] 팀별 저장·체크박스 구현 — `landing_product.tsx`에 "모든 팀에 적용" 체크박스 추가(테마 `applyToAllTeams` 선례). i18n en/ko 동시. T020 전부 통과. 판정 셀렉터는 Phase 2에서 이미 2단 조회를 지원하므로 변경 없음
 - [ ] T022 [US3] US3 수용 시나리오 실주행 — [quickstart.md](quickstart.md) 시나리오 3. 결과를 `evidence/us3.md`에 기록
 
 ---
