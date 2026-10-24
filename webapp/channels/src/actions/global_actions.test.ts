@@ -4,14 +4,15 @@
 import type {Team} from '@mattermost/types/teams';
 import type {UserProfile} from '@mattermost/types/users';
 
+import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
+
 import {redirectUserToDefaultTeam, toggleSideBarRightMenuAction, getTeamRedirectChannelIfIsAccesible} from 'actions/global_actions';
 import {close as closeLhs} from 'actions/views/lhs';
 import {closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
-import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
-import {waitForProductsInitialized} from 'plugins/products_initialized';
 import LocalStorageStore from 'stores/local_storage_store';
 import reduxStore from 'stores/redux_store';
 
+import {waitForProductsInitialized} from 'plugins/products_initialized';
 import mockStore from 'tests/test_store';
 import {getHistory} from 'utils/browser_history';
 import {LandingProducts, Preferences, suitePluginIds} from 'utils/constants';

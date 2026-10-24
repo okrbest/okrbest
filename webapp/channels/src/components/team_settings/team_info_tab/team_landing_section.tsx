@@ -5,11 +5,10 @@ import React, {useCallback} from 'react';
 import type {ChangeEvent} from 'react';
 import {defineMessages, useIntl} from 'react-intl';
 
-import {useGetPluginsActivationState} from 'plugins/useGetPluginsActivationState';
-
 import RadioSettingItem from 'components/widgets/modals/components/radio_setting_item';
 import type {FieldsetRadio} from 'components/widgets/modals/components/radio_setting_item';
 
+import {useGetPluginsActivationState} from 'plugins/useGetPluginsActivationState';
 import {LandingProducts} from 'utils/constants';
 
 const messages = defineMessages({

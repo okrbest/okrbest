@@ -35,7 +35,6 @@ import {clearUserCookie} from 'actions/views/cookie';
 import {close as closeLhs} from 'actions/views/lhs';
 import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
 import * as WebsocketActions from 'actions/websocket_actions';
-import {waitForProductsInitialized} from 'plugins/products_initialized';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getLandingProductURL, hasProductLandingCandidate, resolveLandingProduct} from 'selectors/landing';
 import {getIsRhsOpen, getPreviousRhsState, getRhsState} from 'selectors/rhs';
@@ -46,6 +45,7 @@ import store from 'stores/redux_store';
 import SubMenuModal from 'components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
 
 import WebSocketClient from 'client/web_websocket_client';
+import {waitForProductsInitialized} from 'plugins/products_initialized';
 import {getHistory} from 'utils/browser_history';
 import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers, PreviousViewedTypes, LandingProducts, LANDING_PRODUCT_INIT_TIMEOUT_MS} from 'utils/constants';
 import DesktopApp from 'utils/desktop_api';
@@ -322,7 +322,7 @@ export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, tea
     let teamChannels = getChannelsNameMapInTeam(state, team.id);
     if (!teamChannels || Object.keys(teamChannels).length === 0) {
         // This should be executed in pretty limited scenarios (empty teams)
-        await dispatch(fetchChannelsAndMembers(team.id)); // eslint-disable-line no-await-in-loop
+        await dispatch(fetchChannelsAndMembers(team.id));
         state = getState();
         teamChannels = getChannelsNameMapInTeam(state, team.id);
     }
@@ -342,7 +342,7 @@ export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, tea
 
     if (!channel || !channelMember) {
         // This should be executed in pretty limited scenarios (when the last visited channel in the team has been removed)
-        await dispatch(getChannelByNameAndTeamName(team.name, channelName)); // eslint-disable-line no-await-in-loop
+        await dispatch(getChannelByNameAndTeamName(team.name, channelName));
         state = getState();
         teamChannels = getChannelsNameMapInTeam(state, team.id);
         channel = teamChannels[channelName];
