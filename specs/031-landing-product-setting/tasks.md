@@ -26,8 +26,8 @@
 
 **Purpose**: 변경 전 실패 목록을 저장해 마감 때 diff로 회귀를 판정한다.
 
-- [ ] T001 [P] server 게이트 기준선 저장 — `cd server && make check-style && make test-server` 출력(실패 목록)을 `specs/031-landing-product-setting/evidence/baseline-server.md`에 기록. Go 테스트는 `TEST_DATABASE_POSTGRESQL_DSN` 필요(컨테이너 비밀번호는 `docker inspect`)
-- [ ] T002 [P] webapp 게이트 기준선 저장 — `cd webapp && npm run check && npm run check-types && npm run test` 출력(실패 목록)을 `specs/031-landing-product-setting/evidence/baseline-webapp.md`에 기록
+- [X] T001 [P] server 게이트 기준선 저장 — `cd server && make check-style && make test-server` 출력(실패 목록)을 `specs/031-landing-product-setting/evidence/baseline-server.md`에 기록. Go 테스트는 `TEST_DATABASE_POSTGRESQL_DSN` 필요(컨테이너 비밀번호는 `docker inspect`)
+- [X] T002 [P] webapp 게이트 기준선 저장 — `cd webapp && npm run check && npm run check-types && npm run test` 출력(실패 목록)을 `specs/031-landing-product-setting/evidence/baseline-webapp.md`에 기록
 
 ---
 
@@ -38,12 +38,12 @@
 
 **⚠️ CRITICAL**: 이 Phase 완료 전에는 사용자 스토리 작업을 시작하지 않는다.
 
-- [ ] T003 [P] preference·제품 상수 추가 — `webapp/channels/src/utils/constants.tsx`(기존 Preferences 상수 옆)에 category `landing_product`, 값 상수(`channels`/`boards`/`playbooks`), product 등록 대기 상한 5000ms. 규약은 [data-model.md](data-model.md) 엔티티 2
-- [ ] T004 [P] Team 타입 확장 — `webapp/platform/types/src/teams.ts`의 `Team`에 `landing_product?: string` 추가(서버 반영 전이므로 optional, 셀렉터는 부재를 `''`로 취급)
-- [ ] T005 판정 셀렉터 테스트 작성(RED) — `webapp/channels/src/selectors/landing.test.ts` 신규. [data-model.md](data-model.md) 판정 함수 기준으로 우선순위 4단계(팀별 개인 > 공통 개인 > 팀 기본 > 채널) × product 등록/미등록 매트릭스, 알 수 없는 value 무시 케이스. **실패 출력을 과제 완료 증거로 기록**
-- [ ] T006 판정 셀렉터 구현(GREEN) — `webapp/channels/src/selectors/landing.ts` 신규. `resolveLandingProduct(state, teamId)`. preference 2단 조회는 테마 선례(`getThemePreference`), 가용성은 `selectProducts`. T005 전부 통과
-- [ ] T007 리다이렉트 분기 테스트 작성(RED) — `webapp/channels/src/actions/global_actions` 기존 테스트 파일 확장. 케이스: ① 설정 없음 → 기존 채널 URL 불변(SC-004 고정) ② 판정 boards + product 등록됨 → `/boards` push ③ 판정 boards + 미등록 + 대기 상한 초과 → 채널로 대체, preference 변형 없음. **실패 출력 기록**
-- [ ] T008 리다이렉트 분기 구현(GREEN) — `webapp/channels/src/actions/global_actions.tsx`의 `redirectUserToDefaultTeam`: 도착 팀 확정 후 `resolveLandingProduct` 호출, 판정이 제품이면 `root.tsx`의 `initializeProducts`/`initializePlugins` 완료를 기다릴 수 있게 Promise를 노출·대기(상한 5초) 후 재판정, 제품이면 해당 baseURL push, 아니면 기존 채널 경로. 계약은 [contracts/api.md](contracts/api.md) §3. T007 전부 통과
+- [X] T003 [P] preference·제품 상수 추가 — `webapp/channels/src/utils/constants.tsx`(기존 Preferences 상수 옆)에 category `landing_product`, 값 상수(`channels`/`boards`/`playbooks`), product 등록 대기 상한 5000ms. 규약은 [data-model.md](data-model.md) 엔티티 2
+- [X] T004 [P] Team 타입 확장 — `webapp/platform/types/src/teams.ts`의 `Team`에 `landing_product?: string` 추가(서버 반영 전이므로 optional, 셀렉터는 부재를 `''`로 취급)
+- [X] T005 판정 셀렉터 테스트 작성(RED) — `webapp/channels/src/selectors/landing.test.ts` 신규. [data-model.md](data-model.md) 판정 함수 기준으로 우선순위 4단계(팀별 개인 > 공통 개인 > 팀 기본 > 채널) × product 등록/미등록 매트릭스, 알 수 없는 value 무시 케이스. **실패 출력을 과제 완료 증거로 기록**
+- [X] T006 판정 셀렉터 구현(GREEN) — `webapp/channels/src/selectors/landing.ts` 신규. `resolveLandingProduct(state, teamId)`. preference 2단 조회는 테마 선례(`getThemePreference`), 가용성은 `selectProducts`. T005 전부 통과
+- [X] T007 리다이렉트 분기 테스트 작성(RED) — `webapp/channels/src/actions/global_actions` 기존 테스트 파일 확장. 케이스: ① 설정 없음 → 기존 채널 URL 불변(SC-004 고정) ② 판정 boards + product 등록됨 → `/boards` push ③ 판정 boards + 미등록 + 대기 상한 초과 → 채널로 대체, preference 변형 없음. **실패 출력 기록**
+- [X] T008 리다이렉트 분기 구현(GREEN) — `webapp/channels/src/actions/global_actions.tsx`의 `redirectUserToDefaultTeam`: 도착 팀 확정 후 `resolveLandingProduct` 호출, 판정이 제품이면 `root.tsx`의 `initializeProducts`/`initializePlugins` 완료를 기다릴 수 있게 Promise를 노출·대기(상한 5초) 후 재판정, 제품이면 해당 baseURL push, 아니면 기존 채널 경로. 계약은 [contracts/api.md](contracts/api.md) §3. T007 전부 통과
 
 **Checkpoint**: 판정 엔진 완성 — 스토리 구현 시작 가능.
 

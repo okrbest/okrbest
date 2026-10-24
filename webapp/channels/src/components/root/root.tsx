@@ -29,6 +29,7 @@ import {WithUserTheme} from 'components/theme_provider';
 
 import webSocketClient from 'client/web_websocket_client';
 import {initializePlugins} from 'plugins';
+import {markProductsInitialized} from 'plugins/products_initialized';
 import 'utils/a11y_controller_instance';
 import {expirationScheduler} from 'utils/burn_on_read_expiration_scheduler';
 import {PageLoadContext, SCHEDULED_POST_URL_SUFFIX} from 'utils/constants';
@@ -109,6 +110,7 @@ export default class Root extends React.PureComponent<Props, State> {
             this.props.actions.initializeProducts(),
             initializePlugins(),
         ]).then(() => {
+            markProductsInitialized();
             this.setState({shouldMountAppRoutes: true});
         });
 
