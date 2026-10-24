@@ -11,7 +11,7 @@ Teams 테이블의 신규 컬럼. 팀의 모든 구성원이 읽고, `MANAGE_TEA
 | 컬럼 | `Teams.LandingProduct VARCHAR(32) NOT NULL DEFAULT ''` |
 | Go 모델 | `Team.LandingProduct string` + `TeamPatch.LandingProduct *string` (`server/public/model/team.go`) |
 | JSON | `landing_product` |
-| webapp 타입 | `Team.landing_product: string` (`webapp/platform/types/src/teams.ts`) |
+| webapp 타입 | `Team.landing_product?: string` (`webapp/platform/types/src/teams.ts`, optional — 컬럼 미반영 구서버 응답과의 호환) |
 | 허용 값 | `''`(채널, 기본) · `boards` · `playbooks` |
 | 검증 | `Team.IsValid()`에서 허용 값 외 거부 → patchTeam이 400 반환 |
 | Sanitize | 민감 정보 아님 — `Team.Sanitize()` 변경 없음, 모든 구성원에게 노출 |
