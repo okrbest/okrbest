@@ -38,3 +38,9 @@ Tests:       3 failed, 10 passed, 13 total
 Snapshots:   0 total
 Time:        1.324 s, estimated 2 s
 Ran all test suites matching src/actions/global_actions.
+
+Test Suites: 1 failed, 1 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        0.493 s
+Ran all test suites matching src/components/user_settings/display/landing_product.

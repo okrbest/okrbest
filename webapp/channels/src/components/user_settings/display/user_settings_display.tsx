@@ -24,6 +24,7 @@ import Constants from 'utils/constants';
 import {getBrowserTimezone} from 'utils/timezone';
 import {a11yFocus} from 'utils/utils';
 
+import LandingProductSetting from './landing_product';
 import ManageLanguages from './manage_languages';
 import ManageTimezones from './manage_timezones';
 import RenderEmoticonsAsEmoji from './render_emoticons_as_emoji';
@@ -1098,6 +1099,20 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             );
         }
 
+        const landingProductSection = (
+            <div>
+                <LandingProductSetting
+                    userId={this.props.user.id}
+                    adminMode={this.props.adminMode}
+                    userPreferences={this.props.userPreferences}
+                    active={this.props.activeSection === 'landingProduct'}
+                    areAllSectionsInactive={this.props.activeSection === ''}
+                    updateSection={this.updateSection}
+                />
+                <div className='divider-dark'/>
+            </div>
+        );
+
         let oneClickReactionsOnPostsSection;
         if (this.props.emojiPickerEnabled) {
             oneClickReactionsOnPostsSection = this.createSection({
@@ -1200,6 +1215,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     />
                     <div className='divider-dark first'/>
                     {themeSection}
+                    {landingProductSection}
                     {collapsedReplyThreads}
                     {clockSection}
                     {/* {teammateNameDisplaySection} */}
