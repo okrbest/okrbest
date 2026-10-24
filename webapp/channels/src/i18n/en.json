@@ -30799,6 +30799,10 @@
     "defaultMessage": "Display Settings Icon",
     "description": "Screen reader label for the icon next to the Display tab in the Settings modal."
   },
+  "user.settings.display.landingProduct.applyToAllTeams": {
+    "defaultMessage": "Apply to all my teams",
+    "description": "Checkbox for the First screen setting; apply the choice to every team instead of only the current team."
+  },
   "user.settings.display.landingProduct.boards": {
     "defaultMessage": "Boards",
     "description": "Radio option for the First screen setting; land on Boards after login."

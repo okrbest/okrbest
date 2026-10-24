@@ -7630,6 +7630,7 @@
   "user.settings.display.fixedWidthCentered": "고정 너비, 가운데",
   "user.settings.display.fullScreen": "전체 너비",
   "user.settings.display.icon": "화면 설정 아이콘",
+  "user.settings.display.landingProduct.applyToAllTeams": "모든 팀에 적용",
   "user.settings.display.landingProduct.boards": "보드",
   "user.settings.display.landingProduct.channels": "채널",
   "user.settings.display.landingProduct.description": "로그인하면 처음 여는 화면을 선택합니다.",
