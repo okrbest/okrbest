@@ -29,6 +29,7 @@ func TestTeamStore(t *testing.T, rctx request.CTX, ss store.Store) {
 	createDefaultRoles(ss)
 
 	t.Run("Save", func(t *testing.T) { testTeamStoreSave(t, rctx, ss) })
+	t.Run("LandingProductRoundTrip", func(t *testing.T) { testTeamStoreLandingProductRoundTrip(t, rctx, ss) })
 	t.Run("Update", func(t *testing.T) { testTeamStoreUpdate(t, rctx, ss) })
 	t.Run("Get", func(t *testing.T) { testTeamStoreGet(t, rctx, ss) })
 	t.Run("GetMany", func(t *testing.T) { testTeamStoreGetMany(t, rctx, ss) })
@@ -209,6 +210,39 @@ func testTeamStoreSave(t *testing.T, rctx request.CTX, ss store.Store) {
 	o1.Id = ""
 	_, err = ss.Team().Save(&o1)
 	require.Error(t, err, "should be unique domain")
+}
+
+func testTeamStoreLandingProductRoundTrip(t *testing.T, rctx request.CTX, ss store.Store) {
+	o1 := model.Team{}
+	o1.DisplayName = "DisplayName"
+	o1.Name = NewTestID()
+	o1.Email = MakeEmail()
+	o1.Type = model.TeamOpen
+	o1.LandingProduct = model.LandingProductBoards
+
+	saved, err := ss.Team().Save(&o1)
+	require.NoError(t, err, "couldn't save item")
+	require.Equal(t, model.LandingProductBoards, saved.LandingProduct, "LandingProduct should survive Save")
+
+	got, err := ss.Team().Get(saved.Id)
+	require.NoError(t, err)
+	require.Equal(t, model.LandingProductBoards, got.LandingProduct, "LandingProduct should survive Get")
+
+	got.LandingProduct = model.LandingProductPlaybooks
+	_, err = ss.Team().Update(got)
+	require.NoError(t, err)
+
+	got, err = ss.Team().Get(saved.Id)
+	require.NoError(t, err)
+	require.Equal(t, model.LandingProductPlaybooks, got.LandingProduct, "LandingProduct should survive Update")
+
+	got.LandingProduct = ""
+	_, err = ss.Team().Update(got)
+	require.NoError(t, err)
+
+	got, err = ss.Team().Get(saved.Id)
+	require.NoError(t, err)
+	require.Equal(t, "", got.LandingProduct, "LandingProduct should reset to empty")
 }
 
 func testTeamStoreUpdate(t *testing.T, rctx request.CTX, ss store.Store) {

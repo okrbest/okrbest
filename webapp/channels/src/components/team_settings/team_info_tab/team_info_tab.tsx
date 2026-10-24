@@ -13,6 +13,7 @@ import SaveChangesPanel, {type SaveChangesPanelState} from 'components/widgets/m
 import Constants from 'utils/constants';
 
 import TeamDescriptionSection from './team_description_section';
+import TeamLandingSection from './team_landing_section';
 import TeamNameSection from './team_name_section';
 import TeamPictureSection from './team_picture_section';
 
@@ -50,6 +51,7 @@ type Props = PropsFromRedux & OwnProps;
 const InfoTab = ({team, areThereUnsavedChanges, maxFileSize, showTabSwitchError, setShowTabSwitchError, setAreThereUnsavedChanges, actions}: Props) => {
     const [name, setName] = useState<Team['display_name']>(team.display_name);
     const [description, setDescription] = useState<Team['description']>(team.description);
+    const [landingProduct, setLandingProduct] = useState<string>(team.landing_product ?? '');
     const [teamIconFile, setTeamIconFile] = useState<File | undefined>();
     const [loading, setLoading] = useState<boolean>(false);
     const [imageClientError, setImageClientError] = useState<BaseSettingItemProps['error'] | undefined>();
@@ -57,7 +59,7 @@ const InfoTab = ({team, areThereUnsavedChanges, maxFileSize, showTabSwitchError,
     const [saveChangesPanelState, setSaveChangesPanelState] = useState<SaveChangesPanelState>();
 
     const handleNameDescriptionSubmit = useCallback(async (): Promise<boolean> => {
-        if (name.trim() === team.display_name && description === team.description) {
+        if (name.trim() === team.display_name && description === team.description && landingProduct === (team.landing_product ?? '')) {
             return true;
         }
 
@@ -69,12 +71,12 @@ const InfoTab = ({team, areThereUnsavedChanges, maxFileSize, showTabSwitchError,
             return false;
         }
         setNameClientError(undefined);
-        const {error} = await actions.patchTeam({id: team.id, display_name: name, description});
+        const {error} = await actions.patchTeam({id: team.id, display_name: name, description, landing_product: landingProduct});
         if (error) {
             return false;
         }
         return true;
-    }, [actions, description, name, team.description, team.display_name, team.id]);
+    }, [actions, description, landingProduct, name, team.description, team.display_name, team.id, team.landing_product]);
 
     const handleTeamIconSubmit = useCallback(async (): Promise<boolean> => {
         if (!teamIconFile) {
@@ -112,6 +114,7 @@ const InfoTab = ({team, areThereUnsavedChanges, maxFileSize, showTabSwitchError,
     const handleCancel = useCallback(() => {
         setName(team.display_name ?? team.name);
         setDescription(team.description);
+        setLandingProduct(team.landing_product ?? '');
         setTeamIconFile(undefined);
         setImageClientError(undefined);
         setNameClientError(undefined);
@@ -165,6 +168,12 @@ const InfoTab = ({team, areThereUnsavedChanges, maxFileSize, showTabSwitchError,
         setDescription(description);
     }, [setAreThereUnsavedChanges]);
 
+    const handleLandingProductChanges = useCallback((value: string) => {
+        setAreThereUnsavedChanges(true);
+        setSaveChangesPanelState('editing');
+        setLandingProduct(value);
+    }, [setAreThereUnsavedChanges]);
+
     return (
         <div
             className='modal-info-tab-content user-settings'
@@ -183,6 +192,10 @@ const InfoTab = ({team, areThereUnsavedChanges, maxFileSize, showTabSwitchError,
                     handleDescriptionChanges={handleDescriptionChanges}
                 />
             </div>
+            <TeamLandingSection
+                landingProduct={landingProduct}
+                handleLandingProductChanges={handleLandingProductChanges}
+            />
             <TeamPictureSection
                 team={team}
                 file={teamIconFile}

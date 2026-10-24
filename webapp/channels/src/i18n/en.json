@@ -21635,6 +21635,26 @@
     "defaultMessage": "Invite Code",
     "description": "Title of the Invite Code section in team settings; the code is part of the team invitation link."
   },
+  "general_tab.landingProduct": {
+    "defaultMessage": "First screen",
+    "description": "Setting row title in Team Settings > Info for the team's default landing screen after login."
+  },
+  "general_tab.landingProductBoards": {
+    "defaultMessage": "Boards",
+    "description": "Radio option for the team First screen setting; members land on Boards after login."
+  },
+  "general_tab.landingProductChannels": {
+    "defaultMessage": "Channels",
+    "description": "Radio option for the team First screen setting; members land on Channels after login (default)."
+  },
+  "general_tab.landingProductInfo": {
+    "defaultMessage": "The screen members land on after signing in. Members can pick their own first screen in Settings > Display, which overrides this default.",
+    "description": "Help text for the team First screen setting in Team Settings > Info."
+  },
+  "general_tab.landingProductPlaybooks": {
+    "defaultMessage": "Playbooks",
+    "description": "Radio option for the team First screen setting; members land on Playbooks after login."
+  },
   "general_tab.regenerate": {
     "defaultMessage": "Regenerate",
     "description": "Button in team settings that generates a new team invite code, invalidating the old invitation link; verb."
@@ -30778,6 +30798,34 @@
   "user.settings.display.icon": {
     "defaultMessage": "Display Settings Icon",
     "description": "Screen reader label for the icon next to the Display tab in the Settings modal."
+  },
+  "user.settings.display.landingProduct.applyToAllTeams": {
+    "defaultMessage": "Apply to all my teams",
+    "description": "Checkbox for the First screen setting; apply the choice to every team instead of only the current team."
+  },
+  "user.settings.display.landingProduct.boards": {
+    "defaultMessage": "Boards",
+    "description": "Radio option for the First screen setting; land on Boards after login."
+  },
+  "user.settings.display.landingProduct.channels": {
+    "defaultMessage": "Channels",
+    "description": "Radio option for the First screen setting; land on Channels after login."
+  },
+  "user.settings.display.landingProduct.description": {
+    "defaultMessage": "Choose which screen opens first after you log in.",
+    "description": "Help text for the First screen setting in Settings > Display."
+  },
+  "user.settings.display.landingProduct.followTeamDefault": {
+    "defaultMessage": "Team default",
+    "description": "Radio option for the First screen setting; follow the team's default landing screen."
+  },
+  "user.settings.display.landingProduct.playbooks": {
+    "defaultMessage": "Playbooks",
+    "description": "Radio option for the First screen setting; land on Playbooks after login."
+  },
+  "user.settings.display.landingProduct.title": {
+    "defaultMessage": "First screen",
+    "description": "Setting row title in Settings > Display for choosing the screen that opens after login."
   },
   "user.settings.display.language": {
     "defaultMessage": "Language",

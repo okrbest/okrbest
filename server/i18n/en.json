@@ -17727,6 +17727,11 @@
     "description": "API error when a team's invite ID (code used in invitation links) is empty."
   },
   {
+    "id": "model.team.is_valid.landing_product.app_error",
+    "translation": "Invalid landing screen. Allowed values: '', 'boards', 'playbooks'.",
+    "description": "API error when a team's default landing screen value is not one of the allowed products."
+  },
+  {
     "id": "model.team.is_valid.name.app_error",
     "translation": "Invalid name.",
     "description": "API error when a team's display name is empty or too long."

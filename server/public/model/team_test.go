@@ -142,6 +142,42 @@ func TestTeamPatch(t *testing.T) {
 	require.Equal(t, *p.GroupConstrained, *o.GroupConstrained)
 }
 
+func TestTeamPatchLandingProduct(t *testing.T) {
+	o := Team{Id: NewId()}
+
+	o.Patch(&TeamPatch{LandingProduct: NewPointer(LandingProductBoards)})
+	require.Equal(t, LandingProductBoards, o.LandingProduct, "LandingProduct did not update")
+
+	// 패치에 필드가 없으면 기존 값을 유지한다
+	o.Patch(&TeamPatch{})
+	require.Equal(t, LandingProductBoards, o.LandingProduct, "LandingProduct should be kept when patch omits it")
+
+	// 빈 값 패치는 채널(기본)로 되돌린다
+	o.Patch(&TeamPatch{LandingProduct: NewPointer("")})
+	require.Equal(t, "", o.LandingProduct, "LandingProduct should reset to empty")
+}
+
+func TestTeamIsValidLandingProduct(t *testing.T) {
+	o := Team{
+		Id:          NewId(),
+		CreateAt:    GetMillis(),
+		UpdateAt:    GetMillis(),
+		Email:       "corey+test@hulen.com",
+		DisplayName: "1234",
+		Name:        "zzzzz",
+		Type:        TeamOpen,
+		InviteId:    NewId(),
+	}
+
+	for _, allowed := range []string{"", LandingProductBoards, LandingProductPlaybooks} {
+		o.LandingProduct = allowed
+		require.Nil(t, o.IsValid(), "LandingProduct %q should be valid", allowed)
+	}
+
+	o.LandingProduct = "calendar"
+	require.NotNil(t, o.IsValid(), "unknown LandingProduct should be invalid")
+}
+
 func TestTeamHasPolicyAction(t *testing.T) {
 	t.Run("nil team returns false", func(t *testing.T) {
 		var team *Team

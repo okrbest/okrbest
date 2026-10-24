@@ -62,6 +62,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="collapsed_reply_threadsTitle"
             >
               Threaded Discussions
@@ -612,6 +651,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         class="divider-dark first"
       />
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
       <div>
         <div
           class="section-min"
@@ -1182,6 +1260,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="collapsed_reply_threadsTitle"
             >
               Threaded Discussions
@@ -1732,6 +1849,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         class="divider-dark first"
       />
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
       <div>
         <div
           class="section-min"
@@ -2302,6 +2458,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="collapsed_reply_threadsTitle"
             >
               Threaded Discussions
@@ -2778,6 +2973,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="collapsed_reply_threadsTitle"
             >
               Threaded Discussions
@@ -3238,6 +3472,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         class="divider-dark first"
       />
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
       <div>
         <div
           class="section-min"
@@ -3798,6 +4071,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         class="divider-dark first"
       />
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
       <div>
         <div
           class="section-min"
@@ -4380,6 +4692,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit a11y--active a11y--focused"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="collapsed_reply_threadsTitle"
             >
               Threaded Discussions
@@ -4887,6 +5238,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="collapsed_reply_threadsTitle"
             >
               Threaded Discussions
@@ -5384,6 +5774,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         class="divider-dark first"
       />
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
       <div>
         <div
           class="section-min"
@@ -5909,6 +6338,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="collapsed_reply_threadsTitle"
             >
               Threaded Discussions
@@ -6416,6 +6884,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="collapsed_reply_threadsTitle"
             >
               Threaded Discussions
@@ -6913,6 +7420,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should not show la
       <div
         class="divider-dark first"
       />
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="landingProductTitle"
+            >
+              First screen
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="landingProductTitle landingProductEdit"
+              class="color--link style--none section-min__edit"
+              id="landingProductEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="landingProductDesc"
+          >
+            Team default
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
       <div>
         <div
           class="section-min"

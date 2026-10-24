@@ -168,7 +168,20 @@ export const Preferences = {
     SINGLE_CHANNEL_GUEST_LIMIT_BANNER: 'sc_guest_limit_banner',
     TO_CLOUD_YEARLY_PLAN_NUDGE: 'to_cloud_yearly_plan_nudge',
     TO_PAID_PLAN_NUDGE: 'to_paid_plan_nudge',
+
+    // 로그인 랜딩 첫 화면: name은 팀 ID(팀별) 또는 ''(모든 팀 공통)
+    CATEGORY_LANDING_PRODUCT: 'landing_product',
 };
+
+// 로그인 랜딩 첫 화면 설정 값. preference·Team.landing_product가 공유한다.
+export const LandingProducts = {
+    CHANNELS: 'channels',
+    BOARDS: 'boards',
+    PLAYBOOKS: 'playbooks',
+};
+
+// 랜딩 판정이 제품(보드·플레이북)일 때 product 등록을 기다리는 상한
+export const LANDING_PRODUCT_INIT_TIMEOUT_MS = 5000;
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
 export const Touched = {

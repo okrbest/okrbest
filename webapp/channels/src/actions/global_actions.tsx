@@ -17,6 +17,7 @@ import {
     selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {fetchTeamScheduledPosts} from 'mattermost-redux/actions/scheduled_posts';
+import {selectTeam} from 'mattermost-redux/actions/teams';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {Preferences} from 'mattermost-redux/constants';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
@@ -35,6 +36,7 @@ import {close as closeLhs} from 'actions/views/lhs';
 import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
 import * as WebsocketActions from 'actions/websocket_actions';
 import {getCurrentLocale} from 'selectors/i18n';
+import {getLandingProductURL, hasProductLandingCandidate, resolveLandingProduct} from 'selectors/landing';
 import {getIsRhsOpen, getPreviousRhsState, getRhsState} from 'selectors/rhs';
 import BrowserStore from 'stores/browser_store';
 import LocalStorageStore from 'stores/local_storage_store';
@@ -43,8 +45,9 @@ import store from 'stores/redux_store';
 import SubMenuModal from 'components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
 
 import WebSocketClient from 'client/web_websocket_client';
+import {waitForProductsInitialized} from 'plugins/products_initialized';
 import {getHistory} from 'utils/browser_history';
-import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers, PreviousViewedTypes} from 'utils/constants';
+import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers, PreviousViewedTypes, LandingProducts, LANDING_PRODUCT_INIT_TIMEOUT_MS} from 'utils/constants';
 import DesktopApp from 'utils/desktop_api';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
 import * as Utils from 'utils/utils';
@@ -319,7 +322,7 @@ export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, tea
     let teamChannels = getChannelsNameMapInTeam(state, team.id);
     if (!teamChannels || Object.keys(teamChannels).length === 0) {
         // This should be executed in pretty limited scenarios (empty teams)
-        await dispatch(fetchChannelsAndMembers(team.id)); // eslint-disable-line no-await-in-loop
+        await dispatch(fetchChannelsAndMembers(team.id));
         state = getState();
         teamChannels = getChannelsNameMapInTeam(state, team.id);
     }
@@ -339,7 +342,7 @@ export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, tea
 
     if (!channel || !channelMember) {
         // This should be executed in pretty limited scenarios (when the last visited channel in the team has been removed)
-        await dispatch(getChannelByNameAndTeamName(team.name, channelName)); // eslint-disable-line no-await-in-loop
+        await dispatch(getChannelByNameAndTeamName(team.name, channelName));
         state = getState();
         teamChannels = getChannelsNameMapInTeam(state, team.id);
         channel = teamChannels[channelName];
@@ -356,6 +359,32 @@ export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, tea
         return channel;
     }
     return null;
+}
+
+// 도착 팀이 확정된 뒤, 첫 화면 설정이 제품(보드·플레이북)을 가리키면 그쪽으로 보낸다.
+// 저장값이 제품을 가리킬 때만 product 등록 완료를 기다리므로, 설정이 없는 로그인
+// 경로에는 지연이 없다. false를 돌려주면 호출자가 기존 채널 경로를 그대로 탄다.
+async function maybeRedirectToLandingProduct(team: Team, searchParams?: URLSearchParams): Promise<boolean> {
+    if (!hasProductLandingCandidate(getState(), team.id)) {
+        return false;
+    }
+
+    await waitForProductsInitialized(LANDING_PRODUCT_INIT_TIMEOUT_MS);
+
+    const state = getState();
+    const landing = resolveLandingProduct(state, team.id);
+    if (landing === LandingProducts.CHANNELS) {
+        return false;
+    }
+
+    const url = getLandingProductURL(state, landing);
+    if (!url) {
+        return false;
+    }
+
+    dispatch(selectTeam(team));
+    historyPushWithQueryParams(url, searchParams);
+    return true;
 }
 
 function historyPushWithQueryParams(path: string, queryParams?: URLSearchParams) {
@@ -412,6 +441,9 @@ export async function redirectUserToDefaultTeam(searchParams?: URLSearchParams) 
     if (team && team.delete_at === 0) {
         const channel = await getTeamRedirectChannelIfIsAccesible(user, team);
         if (channel) {
+            if (await maybeRedirectToLandingProduct(team, searchParams)) {
+                return;
+            }
             if (isScheduledPostsEnabled(state)) {
                 dispatch(fetchTeamScheduledPosts(team.id, true));
             }
@@ -427,6 +459,9 @@ export async function redirectUserToDefaultTeam(searchParams?: URLSearchParams) 
         // This should execute async behavior in a pretty limited set of situations, so shouldn't be a problem
         const channel = await getTeamRedirectChannelIfIsAccesible(user, myTeam); // eslint-disable-line no-await-in-loop
         if (channel) {
+            if (await maybeRedirectToLandingProduct(myTeam, searchParams)) { // eslint-disable-line no-await-in-loop
+                return;
+            }
             dispatch(selectChannel(channel.id));
             historyPushWithQueryParams(`/${myTeam.name}/channels/${channel.name}`, searchParams);
             return;
