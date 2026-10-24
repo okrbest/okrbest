@@ -43,6 +43,9 @@ export type Team = {
     policy_id?: string | null;
     last_team_icon_update?: number;
 
+    /** 로그인 랜딩 첫 화면 팀 기본값: ''(채널), 'boards', 'playbooks'. 컬럼 미반영 구서버 응답에는 없다. */
+    landing_product?: string;
+
     /**
      * True when an active team-type access control policy governs membership
      * of this team. Derived by the server on each read; never persisted.
