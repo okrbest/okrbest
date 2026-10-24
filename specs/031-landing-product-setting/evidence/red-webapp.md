@@ -44,3 +44,11 @@ Tests:       0 total
 Snapshots:   0 total
 Time:        0.493 s
 Ran all test suites matching src/components/user_settings/display/landing_product.
+
+      at Object.toHaveBeenCalledWith (src/components/team_settings/team_info_tab/team_info_tab.test.tsx:167:27)
+
+Test Suites: 2 failed, 2 total
+Tests:       4 failed, 6 passed, 10 total
+Snapshots:   0 total
+Time:        2.1 s
+Ran all test suites matching src/components/team_settings/team_info_tab.

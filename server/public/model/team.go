@@ -23,6 +23,12 @@ const (
 	TeamNameMinLength           = 2
 )
 
+// 로그인 랜딩 첫 화면 팀 기본값. 빈 값은 채널(기존 동작)이다.
+const (
+	LandingProductBoards    = "boards"
+	LandingProductPlaybooks = "playbooks"
+)
+
 type Team struct {
 	Id                  string  `json:"id"`
 	CreateAt            int64   `json:"create_at"`
@@ -42,6 +48,7 @@ type Team struct {
 	GroupConstrained    *bool   `json:"group_constrained"`
 	PolicyID            *string `json:"policy_id"` // Data Retention policy — unrelated to ABAC below
 	CloudLimitsArchived bool    `json:"cloud_limits_archived"`
+	LandingProduct      string  `json:"landing_product"` // ''(채널) | 'boards' | 'playbooks'
 
 	// Not persisted; derived by the store via EXISTS on AccessControlPolicies(Type='team').
 	// Use HasMembershipPolicyAction for enforcement — this is a read-path signal only.
@@ -102,6 +109,7 @@ type TeamPatch struct {
 	AllowOpenInvite     *bool   `json:"allow_open_invite"`
 	GroupConstrained    *bool   `json:"group_constrained"`
 	CloudLimitsArchived *bool   `json:"cloud_limits_archived"`
+	LandingProduct      *string `json:"landing_product"`
 }
 
 func (o *TeamPatch) Auditable() map[string]any {
@@ -109,6 +117,7 @@ func (o *TeamPatch) Auditable() map[string]any {
 		"allow_open_invite":     o.AllowOpenInvite,
 		"group_constrained":     o.GroupConstrained,
 		"cloud_limits_archived": o.CloudLimitsArchived,
+		"landing_product":       o.LandingProduct,
 	}
 }
 
@@ -193,6 +202,10 @@ func (o *Team) IsValid() *AppError {
 
 	if len(o.AllowedDomains) > TeamAllowedDomainsMaxLength {
 		return NewAppError("Team.IsValid", "model.team.is_valid.domains.app_error", nil, "id="+o.Id, http.StatusBadRequest)
+	}
+
+	if !(o.LandingProduct == "" || o.LandingProduct == LandingProductBoards || o.LandingProduct == LandingProductPlaybooks) {
+		return NewAppError("Team.IsValid", "model.team.is_valid.landing_product.app_error", nil, "id="+o.Id, http.StatusBadRequest)
 	}
 
 	return nil
@@ -309,6 +322,10 @@ func (o *Team) Patch(patch *TeamPatch) {
 
 	if patch.CloudLimitsArchived != nil {
 		o.CloudLimitsArchived = *patch.CloudLimitsArchived
+	}
+
+	if patch.LandingProduct != nil {
+		o.LandingProduct = *patch.LandingProduct
 	}
 }
 
