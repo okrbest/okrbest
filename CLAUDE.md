@@ -1,7 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-specs/030-direct-member-register/plan.md
+specs/031-landing-product-setting/plan.md
 <!-- SPECKIT END -->
 
 ## Workflow
