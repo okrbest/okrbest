@@ -57,9 +57,9 @@ name=`''`).
 **Independent Test**: 구성원 계정으로 보드 저장 → 재로그인 → 보드 도착.
 팀 기본값 기능 없이 검증 가능.
 
-- [ ] T009 [US1] 개인 설정 섹션 테스트 작성(RED) — `webapp/channels/src/components/user_settings/display/landing_product/landing_product.test.tsx` 신규. 케이스: 활성 제품만 라디오 노출(FR-007), "보드" 저장 시 `savePreferences`가 `{category: landing_product, name: '', value: 'boards'}`로 호출, "팀 기본값 따르기" 저장 시 `deletePreferences` 호출, 저장값이 비활성 제품이면 표시 상태는 기본값이되 저장값은 바뀌지 않음(FR-006 UI 측). **실패 출력 기록**
-- [ ] T010 [US1] 개인 설정 섹션 구현 — `webapp/channels/src/components/user_settings/display/landing_product/{index.ts, landing_product.tsx}` 신규. 라디오 4개(팀 기본값 따르기/채널/보드/플레이북), `SettingItem`/`SettingItemMax` + 독립 서브컴포넌트 선례(`limit_visible_gms_dms`). 노출 판정은 `useGetPluginsActivationState`. 신규 문자열은 `webapp/channels/src/i18n/en.json`·`ko.json` 같은 커밋에 동시 추가(원칙 V). T009 전부 통과
-- [ ] T011 [US1] 디스플레이 탭 배선 — `webapp/channels/src/components/user_settings/display/user_settings_display.tsx`에 섹션 등록(render 순서 포함), `webapp/channels/src/components/user_settings/display/index.ts`에 props 매핑. 기존 스냅샷 갱신
+- [X] T009 [US1] 개인 설정 섹션 테스트 작성(RED) — `webapp/channels/src/components/user_settings/display/landing_product/landing_product.test.tsx` 신규. 케이스: 활성 제품만 라디오 노출(FR-007), "보드" 저장 시 `savePreferences`가 `{category: landing_product, name: '', value: 'boards'}`로 호출, "팀 기본값 따르기" 저장 시 `deletePreferences` 호출, 저장값이 비활성 제품이면 표시 상태는 기본값이되 저장값은 바뀌지 않음(FR-006 UI 측). **실패 출력 기록**
+- [X] T010 [US1] 개인 설정 섹션 구현 — `webapp/channels/src/components/user_settings/display/landing_product/{index.ts, landing_product.tsx}` 신규. 라디오 4개(팀 기본값 따르기/채널/보드/플레이북), `SettingItem`/`SettingItemMax` + 독립 서브컴포넌트 선례(`limit_visible_gms_dms`). 노출 판정은 `useGetPluginsActivationState`. 신규 문자열은 `webapp/channels/src/i18n/en.json`·`ko.json` 같은 커밋에 동시 추가(원칙 V). T009 전부 통과
+- [X] T011 [US1] 디스플레이 탭 배선 — `webapp/channels/src/components/user_settings/display/user_settings_display.tsx`에 섹션 등록(render 순서 포함), `webapp/channels/src/components/user_settings/display/index.ts`에 props 매핑. 기존 스냅샷 갱신
 - [ ] T012 [US1] US1 수용 시나리오 실주행 — [quickstart.md](quickstart.md) 시나리오 1(SC-001·SC-002). 결과를 `specs/031-landing-product-setting/evidence/us1.md`에 기록. webapp dev 번들은 `npm run run`으로만; 재빌드 후 보드·플레이북 404면 플러그인 재활성화. US1 수용 시나리오 3(개인 설정이 팀 기본값을 덮음)은 팀 기본값이 필요하므로 T019에서 함께 검증
 
 **Checkpoint**: US1 단독으로 MVP 성립 — 여기까지만 배포해도 가치가 있다.
@@ -74,12 +74,12 @@ name=`''`).
 **Independent Test**: 팀 기본값=플레이북 저장 → 개인 설정 없는 구성원 로그인 →
 플레이북 도착.
 
-- [ ] T013 [P] [US2] 서버 모델 테스트 작성(RED) — `server/public/model/team_test.go`: `TeamPatch.LandingProduct` 반영, `IsValid`가 `''`/`boards`/`playbooks` 외 값을 거부. **실패 출력 기록**
-- [ ] T014 [US2] 서버 모델 구현(GREEN) — `server/public/model/team.go`: `Team.LandingProduct string` (json `landing_product`), `TeamPatch.LandingProduct *string`, `Patch()` 반영, `IsValid()` 검증. `Sanitize()` 변경 없음. T013 전부 통과
-- [ ] T015 [US2] DB 마이그레이션 — `server/channels/db/migrations/postgres/000235_add_teams_landing_product.{up,down}.sql` + `server/channels/db/migrations/migrations.list` 2줄. 내용은 [data-model.md](data-model.md) 엔티티 1. CODEOWNERS 보호 경로 — PR 설명에 명시
-- [ ] T016 [US2] 스토어 반영 — `server/channels/store/sqlstore/team_store.go` 명시적 컬럼 목록 3곳(select `:231` 부근, INSERT `:297-300`, UPDATE `:337`)에 `LandingProduct` 추가. `server/channels/store/storetest/team_store.go`에 저장·조회 왕복 테스트(실패 선행 — 모델만 있고 스토어 미반영 상태에서 RED 확인)
-- [ ] T017 [P] [US2] 팀 설정 섹션 테스트 작성(RED) — `webapp/channels/src/components/team_settings/team_info_tab/team_landing_section.test.tsx` 신규: 활성 제품만 노출, 저장 시 `patchTeam({id, landing_product})` 호출. **실패 출력 기록**
-- [ ] T018 [US2] 팀 설정 섹션 구현 — `webapp/channels/src/components/team_settings/team_info_tab/team_landing_section.tsx` 신규(`team_name_section` 선례, `SaveChangesPanel` 일괄 저장에 합류), `team_info_tab.tsx` 배선. i18n en/ko 동시 추가(원칙 V). T017 전부 통과
+- [X] T013 [P] [US2] 서버 모델 테스트 작성(RED) — `server/public/model/team_test.go`: `TeamPatch.LandingProduct` 반영, `IsValid`가 `''`/`boards`/`playbooks` 외 값을 거부. **실패 출력 기록**
+- [X] T014 [US2] 서버 모델 구현(GREEN) — `server/public/model/team.go`: `Team.LandingProduct string` (json `landing_product`), `TeamPatch.LandingProduct *string`, `Patch()` 반영, `IsValid()` 검증. `Sanitize()` 변경 없음. T013 전부 통과
+- [X] T015 [US2] DB 마이그레이션 — `server/channels/db/migrations/postgres/000235_add_teams_landing_product.{up,down}.sql` + `server/channels/db/migrations/migrations.list` 2줄. 내용은 [data-model.md](data-model.md) 엔티티 1. CODEOWNERS 보호 경로 — PR 설명에 명시
+- [X] T016 [US2] 스토어 반영 — `server/channels/store/sqlstore/team_store.go` 명시적 컬럼 목록 3곳(select `:231` 부근, INSERT `:297-300`, UPDATE `:337`)에 `LandingProduct` 추가. `server/channels/store/storetest/team_store.go`에 저장·조회 왕복 테스트(실패 선행 — 모델만 있고 스토어 미반영 상태에서 RED 확인)
+- [X] T017 [P] [US2] 팀 설정 섹션 테스트 작성(RED) — `webapp/channels/src/components/team_settings/team_info_tab/team_landing_section.test.tsx` 신규: 활성 제품만 노출, 저장 시 `patchTeam({id, landing_product})` 호출. **실패 출력 기록**
+- [X] T018 [US2] 팀 설정 섹션 구현 — `webapp/channels/src/components/team_settings/team_info_tab/team_landing_section.tsx` 신규(`team_name_section` 선례, `SaveChangesPanel` 일괄 저장에 합류), `team_info_tab.tsx` 배선. i18n en/ko 동시 추가(원칙 V). T017 전부 통과
 - [ ] T019 [US2] US2 수용 시나리오 실주행 — [quickstart.md](quickstart.md) 시나리오 2 + 권한 확인(일반 구성원은 변경 불가). 결과를 `evidence/us2.md`에 기록
 
 **Checkpoint**: 팀 기본값까지 동작 — 우선순위 전 단계가 실데이터로 검증 가능.
