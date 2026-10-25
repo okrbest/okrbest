@@ -277,6 +277,9 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
         LocalStorageStore.setWasLoggedIn(false);
     }
 
+    // 다음 로그인에서 첫 화면 판정이 다시 적용되도록 소비 상태를 되돌린다
+    resetLandingProductRedirect();
+
     dispatch(logout()).then(() => {
         if (shouldSignalLogout) {
             BrowserStore.signalLogout();
@@ -361,10 +364,25 @@ export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, tea
     return null;
 }
 
+// 랜딩 판정은 로그인(새 접속)당 1회만 적용한다 (FR-004 "로그인 직후").
+// 이후의 '/' 진입 — 레일의 Channels 버튼 등 — 은 기존 채널 동작을 타야 하므로,
+// 첫 판정에서 소비하고 로그아웃 때 리셋한다. 페이지 리로드는 모듈을 새로 읽어
+// 자연히 리셋된다.
+let landingProductRedirectConsumed = false;
+
+export function resetLandingProductRedirect() {
+    landingProductRedirectConsumed = false;
+}
+
 // 도착 팀이 확정된 뒤, 첫 화면 설정이 제품(보드·플레이북)을 가리키면 그쪽으로 보낸다.
 // 저장값이 제품을 가리킬 때만 product 등록 완료를 기다리므로, 설정이 없는 로그인
 // 경로에는 지연이 없다. false를 돌려주면 호출자가 기존 채널 경로를 그대로 탄다.
 async function maybeRedirectToLandingProduct(team: Team, searchParams?: URLSearchParams): Promise<boolean> {
+    if (landingProductRedirectConsumed) {
+        return false;
+    }
+    landingProductRedirectConsumed = true;
+
     if (!hasProductLandingCandidate(getState(), team.id)) {
         return false;
     }

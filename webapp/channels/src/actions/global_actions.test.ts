@@ -6,7 +6,7 @@ import type {UserProfile} from '@mattermost/types/users';
 
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
-import {redirectUserToDefaultTeam, toggleSideBarRightMenuAction, getTeamRedirectChannelIfIsAccesible} from 'actions/global_actions';
+import {redirectUserToDefaultTeam, resetLandingProductRedirect, toggleSideBarRightMenuAction, getTeamRedirectChannelIfIsAccesible} from 'actions/global_actions';
 import {close as closeLhs} from 'actions/views/lhs';
 import {closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import LocalStorageStore from 'stores/local_storage_store';
@@ -666,6 +666,7 @@ describe('actions/global_actions', () => {
         beforeEach(() => {
             jest.clearAllMocks();
             jest.mocked(waitForProductsInitialized).mockResolvedValue(true);
+            resetLandingProductRedirect();
             LocalStorageStore.setPreviousTeamId(userId, 'team2');
             LocalStorageStore.setPreviousChannelName(userId, 'team2', 'channel-in-team-2');
         });
@@ -706,6 +707,39 @@ describe('actions/global_actions', () => {
             expect(reduxStore.dispatch).not.toHaveBeenCalledWith(
                 expect.objectContaining({type: expect.stringContaining('PREFERENCES')}),
             );
+        });
+
+        it('랜딩 판정은 로그인당 1회만 적용된다 — 이후 "/" 진입(레일 Channels 클릭)은 채널로 간다', async () => {
+            const store = makeLandingState({
+                globalPreference: LandingProducts.BOARDS,
+                products: [boardsProduct],
+            });
+            getState.mockImplementation(store.getState);
+
+            await redirectUserToDefaultTeam();
+            expect(getHistory().push).toHaveBeenCalledWith('/boards');
+
+            (getHistory().push as jest.Mock).mockClear();
+
+            await redirectUserToDefaultTeam();
+            expect(getHistory().push).toHaveBeenCalledWith('/team2/channels/channel-in-team-2');
+            expect(getHistory().push).not.toHaveBeenCalledWith('/boards');
+        });
+
+        it('로그아웃으로 소비 상태가 리셋되면 다음 로그인에서 랜딩 판정이 다시 적용된다', async () => {
+            const store = makeLandingState({
+                globalPreference: LandingProducts.BOARDS,
+                products: [boardsProduct],
+            });
+            getState.mockImplementation(store.getState);
+
+            await redirectUserToDefaultTeam();
+            (getHistory().push as jest.Mock).mockClear();
+
+            resetLandingProductRedirect();
+
+            await redirectUserToDefaultTeam();
+            expect(getHistory().push).toHaveBeenCalledWith('/boards');
         });
 
         it('랜딩 설정이 없으면 product 등록을 기다리지 않고 기존 채널 경로로 간다', async () => {
