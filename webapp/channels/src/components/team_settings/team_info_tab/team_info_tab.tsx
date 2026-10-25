@@ -191,11 +191,11 @@ const InfoTab = ({team, areThereUnsavedChanges, maxFileSize, showTabSwitchError,
                     description={description}
                     handleDescriptionChanges={handleDescriptionChanges}
                 />
+                <TeamLandingSection
+                    landingProduct={landingProduct}
+                    handleLandingProductChanges={handleLandingProductChanges}
+                />
             </div>
-            <TeamLandingSection
-                landingProduct={landingProduct}
-                handleLandingProductChanges={handleLandingProductChanges}
-            />
             <TeamPictureSection
                 team={team}
                 file={teamIconFile}

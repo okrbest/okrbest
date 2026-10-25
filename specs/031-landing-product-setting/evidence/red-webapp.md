@@ -60,3 +60,4 @@ Ran all test suites matching src/components/team_settings/team_info_tab.
     ✕ "모든 팀에 적용"으로 저장하면 공통으로 저장하고 팀별 키를 삭제한다 (23 ms)
     ✓ 저장값의 제품이 비활성이면 접힌 화면에 기본값(팀 기본값 따르기)을 표시하고 저장값은 건드리지 않는다 (4 ms)
 Tests:       3 failed, 4 passed, 7 total
+Tests:       1 failed, 12 skipped, 13 total

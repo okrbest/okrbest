@@ -73,6 +73,7 @@ const TeamLandingSection = ({landingProduct, handleLandingProductChanges}: Props
 
     return (
         <RadioSettingItem
+            className='landing-setting-item'
             title={formatMessage(messages.title)}
             description={formatMessage(messages.description)}
             inputFieldData={inputFieldData}

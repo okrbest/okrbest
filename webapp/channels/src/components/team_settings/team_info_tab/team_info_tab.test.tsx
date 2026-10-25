@@ -126,6 +126,16 @@ describe('components/TeamSettings', () => {
         expect(patchTeam).toHaveBeenCalledWith({id: defaultProps.team?.id, display_name: 'new_team_name', description: defaultProps.team?.description, landing_product: ''});
     });
 
+    test('첫 화면 섹션은 이름·설명 컬럼 안에 있어야 한다 (flex 행 레이아웃 깨짐 방지)', () => {
+        renderWithContext(
+            <InfoTab {...defaultProps}/>,
+            {plugins: {plugins: {focalboard: {id: 'focalboard'}}, components: {Product: []}}} as any,
+        );
+
+        const radio = screen.getByRole('radio', {name: 'Boards'});
+        expect(radio.closest('.name-description-container')).not.toBeNull();
+    });
+
     test('should call patchTeam with landing_product when landing screen is changed and saved', async () => {
         renderWithContext(
             <InfoTab {...defaultProps}/>,
