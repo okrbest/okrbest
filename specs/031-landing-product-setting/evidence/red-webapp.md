@@ -61,3 +61,20 @@ Ran all test suites matching src/components/team_settings/team_info_tab.
     ✓ 저장값의 제품이 비활성이면 접힌 화면에 기본값(팀 기본값 따르기)을 표시하고 저장값은 건드리지 않는다 (4 ms)
 Tests:       3 failed, 4 passed, 7 total
 Tests:       1 failed, 12 skipped, 13 total
+
+# fix/landing-once-per-login RED — 랜딩 1회 적용·리셋 테스트 (resetLandingProductRedirect 미구현)
+    ✓ toggleSideBarRightMenuAction
+      ✓ should redirect to /select_team when no team is available (2 ms)
+      ✓ should redirect to last viewed channel in the last viewed team when the user have access to that team (1 ms)
+      ✓ should redirect to last channel on first team with channels when the user have no channels in the current team (2 ms)
+      ✓ should redirect to /select_team when the user have no channels in the any of his teams
+      ✓ should do nothing if there is not current user
+      ✓ should redirect to direct message if that's the most recently used
+      ✓ should redirect to group message if that's the most recently used
+      ✓ should redirect to last channel on first team when current team is no longer available (1 ms)
+      ✕ 공통 개인 설정이 보드이고 product가 등록되어 있으면 /boards로 보낸다
+      ✕ 개인 설정이 없어도 팀 기본값이 보드면 /boards로 보낸다
+      ✕ 설정이 보드인데 product 미등록에 대기 상한을 넘기면 채널로 보내고 저장값은 건드리지 않는다
+      ✕ 랜딩 판정은 로그인당 1회만 적용된다 — 이후 "/" 진입(레일 Channels 클릭)은 채널로 간다
+      ✕ 로그아웃으로 소비 상태가 리셋되면 다음 로그인에서 랜딩 판정이 다시 적용된다
+      ✕ 랜딩 설정이 없으면 product 등록을 기다리지 않고 기존 채널 경로로 간다 (1 ms)
