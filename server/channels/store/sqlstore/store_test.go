@@ -1021,7 +1021,7 @@ func TestGetDBSchemaVersion(t *testing.T) {
 
 			require.NotEmpty(t, assetNamesForDriver)
 			lastMigration := assetNamesForDriver[len(assetNamesForDriver)-1]
-			expectedVersion := strings.Split(lastMigration, "_")[0]
+			expectedVersion, _, _ := strings.Cut(lastMigration, "_")
 
 			version, err := store.GetDBSchemaVersion()
 			require.NoError(t, err)
@@ -1090,7 +1090,7 @@ func TestGetAppliedMigrations(t *testing.T) {
 			var migrationsFromFiles []model.AppliedMigration
 			for _, entry := range assetsList {
 				if strings.HasSuffix(entry.Name(), ".up.sql") {
-					versionString := strings.Split(entry.Name(), "_")[0]
+					versionString, _, _ := strings.Cut(entry.Name(), "_")
 					version, vErr := strconv.Atoi(versionString)
 					require.NoError(t, vErr)
 

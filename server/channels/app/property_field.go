@@ -19,8 +19,7 @@ func (a *App) CreatePropertyField(rctx request.CTX, field *model.PropertyField) 
 
 	createdField, err := a.Srv().propertyService.CreatePropertyField(rctx, field)
 	if err != nil {
-		var appErr *model.AppError
-		if errors.As(err, &appErr) {
+		if appErr, ok := errors.AsType[*model.AppError](err); ok {
 			return nil, appErr
 		}
 		return nil, model.NewAppError("CreatePropertyField", "app.property.create_field.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
