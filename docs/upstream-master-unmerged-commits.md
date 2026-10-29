@@ -3,14 +3,83 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-23 14:15
+- 갱신일: 2026-10-30 01:03
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 0개
+- 남은 커밋: 69개
 
-**마지막 반영 커밋:** `8003be3b` | [fix(e2e): restore CollapsedThreads in the per-test config reset (#39377)](https://github.com/mattermost/mattermost/commit/8003be3bb3120a3190957c55a46c89b81ec25f05) | 2026-10-23
+**마지막 반영 커밋:** `9422d11b` | [mmctl: migrate system command context.TODO() to cmd.Context() (#37371)](https://github.com/mattermost/mattermost/commit/9422d11b993fa19502880e12ae8c7946bb73a8a6) | 2026-10-23
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
+| cd3a263d | [Migrate channel action tiles to Compass TileButton (#39030)](https://github.com/mattermost/mattermost/commit/cd3a263d9621d61a98162a003f006b7b09cbc149) | 2026-10-23 |
+| d2ab0880 | [MM-67333: Update remote cluster response handling (#38710)](https://github.com/mattermost/mattermost/commit/d2ab0880b209f761071754bbcce57382a705652c) | 2026-10-24 |
+| c2f2eff3 | [\[MM-70757\] Docs: Site health dashboard (#39255)](https://github.com/mattermost/mattermost/commit/c2f2eff3b2684e1be94a24bbc48848bb437389dd) | 2026-10-24 |
+| 06e8471b | [\[MM-71218\] Count env var audit targets in IsAuditLoggingActive (#39243)](https://github.com/mattermost/mattermost/commit/06e8471b5782a7ea79d0271e4e9098bae2599809) | 2026-10-24 |
+| 39637f18 | [MM-71344 Plugin API: expose cluster node identity (#39399)](https://github.com/mattermost/mattermost/commit/39637f182d9a541d92a0841117e9c1da6d008c4c) | 2026-10-24 |
+| 80c85f72 | [\[MM-71342\] Evaluate AUDIT_LOG_OFF offline from the server's recorded audit state (#39395)](https://github.com/mattermost/mattermost/commit/80c85f72c5f4ddcbe3496ef5c238aa9d74a4641c) | 2026-10-24 |
+| 99135372 | [\[MM-71341\] Report audit logging state from the live audit logger instead of config (#39397)](https://github.com/mattermost/mattermost/commit/99135372ab4690d5fa27ec0e465895509723931e) | 2026-10-24 |
+| 07b2683c | [\[MM-71291\] Add a node selector to the System Console server logs (#39320)](https://github.com/mattermost/mattermost/commit/07b2683c77a739578f2e2309da373c6594f5d25d) | 2026-10-25 |
+| d9cfd5f4 | [\[MM-71343\] Fix flaky remotecluster ResponseHandling test reusing a broken connection (#39396)](https://github.com/mattermost/mattermost/commit/d9cfd5f44f097e3a19ff405f4e545f6d8ea8de59) | 2026-10-25 |
+| c4e83c68 | [\[MM-71349\] Report logger metrics for audit log targets (#39405)](https://github.com/mattermost/mattermost/commit/c4e83c682f37eeaa95f40e5185607f81eba419af) | 2026-10-25 |
+| 55d3bcf3 | [Fix flaky TestRemoteProviderDoAccept (#39292)](https://github.com/mattermost/mattermost/commit/55d3bcf3277cdd4a478567c6a48e654fa602028b) | 2026-10-25 |
+| f54f3f76 | [ci(e2e): triage red Playwright and Cypress runs against test history (#38601)](https://github.com/mattermost/mattermost/commit/f54f3f765d1034b67e091cbfb43cf391165044d5) | 2026-10-26 |
+| c374d298 | [\[MM-71259\] Stop recommending unlicensed fixes and share healthcheck helpers (#39289)](https://github.com/mattermost/mattermost/commit/c374d298b9271ba897514dd46e8baf30b3c80e35) | 2026-10-26 |
+| 1ac3eb8c | [docs: AI draft for MM-71344 Plugin API: expose cluster node identity (#39401)](https://github.com/mattermost/mattermost/commit/1ac3eb8c28b851d965c95ff36593bf39438ec7e5) | 2026-10-26 |
+| f563142f | [fix(e2e): repair group_message_creation_members.spec.ts on master (#39384)](https://github.com/mattermost/mattermost/commit/f563142fda8165258ac27455ee7e651c91eb6329) | 2026-10-26 |
+| 169cf307 | [chore: Update NOTICE.txt file with updated dependencies (#39417)](https://github.com/mattermost/mattermost/commit/169cf3071b363772db06a06da1096d677dc8c592) | 2026-10-26 |
+| bb499f9f | [ci(e2e): hand specs that keep failing on master to a repair agent (#38978)](https://github.com/mattermost/mattermost/commit/bb499f9f93c8824156fc9053a4de7109681abeb2) | 2026-10-26 |
+| 497e7628 | [Migrate LoadingSpinner to Compass Spinner (#39035)](https://github.com/mattermost/mattermost/commit/497e762886ebadbd969adb2550da9b3d327a5c11) | 2026-10-26 |
+| 6437bb74 | [docs: fix the v12 changelog overview link (#39409)](https://github.com/mattermost/mattermost/commit/6437bb74ec2c715c3233d08e563251fa4e24bdf5) | 2026-10-26 |
+| 3d8064fa | [Pin FIPS base images to the newest OpenSSL 3 digests (#39418)](https://github.com/mattermost/mattermost/commit/3d8064fafcd505fdcfae5d33bece5f1656eaa9df) | 2026-10-26 |
+| 6bdd8180 | [Add UpdatePostWithOptions so plugins can pass update options (#39282)](https://github.com/mattermost/mattermost/commit/6bdd81805f37dbf36c47d6a6e0f260a122453e59) | 2026-10-26 |
+| f98944a8 | [Filter recent mentions by team, channel, mention type and date (#38976)](https://github.com/mattermost/mattermost/commit/f98944a807d7f3bd1d36f64ada34071375da83bb) | 2026-10-26 |
+| 6344e93e | [Skip tracking parameters on links to the server's own origin (#39431)](https://github.com/mattermost/mattermost/commit/6344e93ed3653347acfd8ceb7f22b304c8b2f6d0) | 2026-10-26 |
+| 8eddc79c | [Open bundled documentation links in a new tab (#39430)](https://github.com/mattermost/mattermost/commit/8eddc79c2617a0a98ddce096b97feb22d042a6db) | 2026-10-26 |
+| f9f468b1 | [\[MM-63462\] Bump github.com/mattermost/logr/v2 to v2.0.24 (#38547)](https://github.com/mattermost/mattermost/commit/f9f468b1d7d943ed282851569f74dff039af9779) | 2026-10-26 |
+| 8b2fb370 | [docs: AI draft for ship offline documentation in the release tarball (#39252)](https://github.com/mattermost/mattermost/commit/8b2fb3709a1672973a3a1067ee044dadc96e7048) | 2026-10-27 |
+| 2070c4da | [Bumping prepackaged version of the Boards plugin to v10.1.0 (#39420)](https://github.com/mattermost/mattermost/commit/2070c4da3417d16c0ab54c09b6928d0eba87a930) | 2026-10-27 |
+| 43f954c2 | [Add Mobile v2.45.1 dot release docs (#39416)](https://github.com/mattermost/mattermost/commit/43f954c24c363fc61faaacf62816df0cc89ca3e5) | 2026-10-27 |
+| 84b0c547 | [Fix flaky TestMigrateLinkCPAFieldToGlobalAttributeTemplate_ConcurrentEditIsNotClobbered (#39208)](https://github.com/mattermost/mattermost/commit/84b0c547cad4bdc106c5b3fb84578cfd32c56ce0) | 2026-10-27 |
+| e190c0f1 | [Migrate product Buttons from shared to compass-ui (#38903)](https://github.com/mattermost/mattermost/commit/e190c0f1e490e87ef00bbb9d0efde5dfe7d68cb7) | 2026-10-27 |
+| 85158380 | [\[MM-71093\] Fix managed channel categories vanishing from the sidebar after the first restart (#39017)](https://github.com/mattermost/mattermost/commit/851583800f864ab98461ea25786ca79326ba11f1) | 2026-10-27 |
+| 4311c47a | [\[MM-70033\] Add a typed permissions model for property fields (#39077)](https://github.com/mattermost/mattermost/commit/4311c47a732546fd6648926204bf5ad910146b01) | 2026-10-27 |
+| bcd69221 | [\[MM-70033\] Store property field permissions and grants (#39078)](https://github.com/mattermost/mattermost/commit/bcd6922119425ba4d5ee0efbea7d208659b2bfe9) | 2026-10-27 |
+| a44c92ad | [\[MM-70033\] Decide property field access from the permissions object (#39079)](https://github.com/mattermost/mattermost/commit/a44c92ad459567504a185c8e417a2e50650bc17b) | 2026-10-27 |
+| 4527f4c1 | [mmctl scoped team/channel import: report users not found on destination server (#39344)](https://github.com/mattermost/mattermost/commit/4527f4c1c593369d639139982a33ed522314f637) | 2026-10-27 |
+| 5fdd0f06 | [Fix clean-docker removing stale Postgres 14 volume name (#39464)](https://github.com/mattermost/mattermost/commit/5fdd0f06d38231ca84a2bb2334b7d1363d6b7d71) | 2026-10-27 |
+| e1a4cf7b | [Add the GetThreadFollowers and SetThreadFollowing plugin APIs (#39462)](https://github.com/mattermost/mattermost/commit/e1a4cf7bf35870d8462bcda9cd005237803a8945) | 2026-10-27 |
+| a524a9d2 | [\[MM-70824\] Explain the graph attribute operators in the policy editor menu (#38940)](https://github.com/mattermost/mattermost/commit/a524a9d23073d3d0c9e31a5f9be123f2f908530f) | 2026-10-27 |
+| 7709b2f9 | [\[MM-70033\] Serve property field permissions to v3 property groups (#39080)](https://github.com/mattermost/mattermost/commit/7709b2f9a5b6739be5580218780740c54b210577) | 2026-10-27 |
+| c8559579 | [Validate reaction emoji names on bulk import (#37912)](https://github.com/mattermost/mattermost/commit/c85595794a0591a1035a16affe2e523105590902) | 2026-10-28 |
+| 501becc7 | [\[MM-70595\] Reject log targets inside server-managed directories (#39296)](https://github.com/mattermost/mattermost/commit/501becc7f6bd299f23c09d1716ba2ea3b54b077b) | 2026-10-28 |
+| 5923d963 | [Add the number property field type (#39459)](https://github.com/mattermost/mattermost/commit/5923d963fe1b7ab6e0e527a93235b9c859f22ea9) | 2026-10-28 |
+| e26664d8 | [\[MM-71303\] Fix empty OpenSearch/Elasticsearch post search when a highlight contains an illegal XML character (#39358)](https://github.com/mattermost/mattermost/commit/e26664d892d2715e9ac775ac10382e24d8215410) | 2026-10-28 |
+| a275dd6b | [Add the checkbox property field type (#39460)](https://github.com/mattermost/mattermost/commit/a275dd6b1293872d810cfdebca9893a148a53859) | 2026-10-28 |
+| fc65232a | [fix(docs): fix table rendering in env config settings docs page (#38757)](https://github.com/mattermost/mattermost/commit/fc65232a4cf5d32bdefa04655e36eb1bf0a7b2d6) | 2026-10-28 |
+| a70bb81b | [drip: AppError -> error: cloud file size limit (#39389)](https://github.com/mattermost/mattermost/commit/a70bb81b7fa169bdb144666fb9fdd1e0c3c6610a) | 2026-10-28 |
+| 6d6fc9b0 | [\[MM-71390\] Tolerate failed nodes in plain-text logs and fix log viewer filters (#39476)](https://github.com/mattermost/mattermost/commit/6d6fc9b0c64fd5bdcb59f028403351f096beff98) | 2026-10-28 |
+| 0c10fcbe | [Add TLS support for Redis connections (#39474)](https://github.com/mattermost/mattermost/commit/0c10fcbec524145e406b4ff8507e7048e903163a) | 2026-10-28 |
+| 40575a0b | [Update maximize-microsoft-investments.mdx (#39434)](https://github.com/mattermost/mattermost/commit/40575a0b581ecccad896e590ee842d9b8571ae6c) | 2026-10-28 |
+| 06292532 | [\[MM-71391\] Read server logs in blocks and stream log downloads (#39477)](https://github.com/mattermost/mattermost/commit/06292532434975c4beaaa469b8564f9e5a032b6e) | 2026-10-28 |
+| 25f5f13a | [Bump github.com/mattermost/logr/v2 to v2.0.25 (#39486)](https://github.com/mattermost/mattermost/commit/25f5f13a63ed3bf61c720d5ba1a4fa293fb50437) | 2026-10-28 |
+| 76c56ef7 | [Replace @deanwhillier/jest-matchmedia-mock with a local matchMedia mock (#39496)](https://github.com/mattermost/mattermost/commit/76c56ef772840461c48c523bf9906dda8b205e74) | 2026-10-28 |
+| bfc95839 | [drip: use errors.AsType for OAuth store errors (#39479)](https://github.com/mattermost/mattermost/commit/bfc95839427470ef8b70b234840fe81fe4b6c2b0) | 2026-10-28 |
+| 1bd58a17 | [Add an experimental product rail with Home, Channels and Boards views (#39383)](https://github.com/mattermost/mattermost/commit/1bd58a17467cdd4c08dff8e1138a791c94286a08) | 2026-10-28 |
+| 5e9feb81 | [Mark mobile file upload and download settings as Enterprise (#39473)](https://github.com/mattermost/mattermost/commit/5e9feb818baf65fb0d4fef8c9ac911fbe8b0f68c) | 2026-10-28 |
+| cf7496d1 | [Fix the secure file preview and PDF link navigation settings tables (#39475)](https://github.com/mattermost/mattermost/commit/cf7496d1359f57ab8884c8a7338df4896dc31931) | 2026-10-28 |
+| 2515ee2b | [MM-71401: Rebuild the scrambled site settings tables (#39483)](https://github.com/mattermost/mattermost/commit/2515ee2b33f02c93c36443c9beb6657e12a34e7c) | 2026-10-28 |
+| 8a53d645 | [MM-71401: Rebuild the scrambled authentication settings tables (#39482)](https://github.com/mattermost/mattermost/commit/8a53d645decc6f7ccc2892258334a8bdb4a3aa11) | 2026-10-28 |
+| b9fd23e5 | [MM-70703: Align file attachment permission checks (#39413)](https://github.com/mattermost/mattermost/commit/b9fd23e542a2f544033e2b385313bc43ab18e490) | 2026-10-29 |
+| fcafb9b8 | [fix(e2e): repair deletion-report.spec.ts on master (#39376)](https://github.com/mattermost/mattermost/commit/fcafb9b89c8f36264022269b5a69b62ccf6285b0) | 2026-10-29 |
+| e22bcdd3 | [fix(e2e): wait for a search-engine answer in the Elasticsearch/OpenSearch search specs (#39445)](https://github.com/mattermost/mattermost/commit/e22bcdd33153762788edac3e652ee3e4dc676083) | 2026-10-29 |
+| 78232608 | [Let plugin shared channel receive APIs run on any cluster node (#39504)](https://github.com/mattermost/mattermost/commit/782326082659f16524c08fd2b85f49cd11b83d32) | 2026-10-29 |
+| ea90a1c2 | [docs: add Ubuntu 26.04 LTS to supported APT install targets (#39498)](https://github.com/mattermost/mattermost/commit/ea90a1c2d53e4d5727daf20b95d40d6311bcdc74) | 2026-10-29 |
+| 0eb2eb7e | [drip: AppError -> error: login attempts (#39539)](https://github.com/mattermost/mattermost/commit/0eb2eb7ebcc914d5b1571f5a38d72444365b7eea) | 2026-10-29 |
+| 0cfb204f | [Bump github.com/andybalholm/brotli to v1.2.7 (#39543)](https://github.com/mattermost/mattermost/commit/0cfb204f04a0e7ab28b859047651419d814cc586) | 2026-10-29 |
+| 18b992d3 | [Make WebConn.ShouldSendEvent allocation-free with an immutable session bundle (#38992)](https://github.com/mattermost/mattermost/commit/18b992d329b9512c114cfb8729373a8078f88385) | 2026-10-29 |
+| 3525e8fa | [\[MM-70033\] Replace property permission mechanisms with a typed permissions model (#39081)](https://github.com/mattermost/mattermost/commit/3525e8faa84953de325bbaeb2f91efdd4a56af6e) | 2026-10-29 |
+| 1cf0caf2 | [Remove unused payment announcement bar (#39521)](https://github.com/mattermost/mattermost/commit/1cf0caf2d9a3a237582dd1178a9707ca7cb66512) | 2026-10-29 |
+| 49a923f5 | [Remove orphaned billing and purchase components (#39522)](https://github.com/mattermost/mattermost/commit/49a923f5c2158271a959e06a842ef4f3415f93b4) | 2026-10-29 |
 
 ## 제외된 커밋
 
@@ -762,6 +831,10 @@
 | 30919494 | [Migrate checkboxes to Compass Checkbox (full stack) (#39040)](https://github.com/mattermost/mattermost/commit/309194942d4c16e45f1820e5b5f054dd5cc5a31a) | webapp 전 영역의 체크박스(시스템 콘솔 채널 모더레이션·멤버 관리·데이터 보존 정책, 사용자 알림 설정, 인터랙티브 다이얼로그 등)를 @mattermost/compass-ui Checkbox로 바꾸는 Compass 이관(83파일 +4805/-3124, compass-ui 언급 46곳, 스냅샷 대량·SCSS 4개·e2e 로케이터 8개, 서버 변경 0건). b4c43b05(SectionNotice Compass 이관)와 같은 연작이다. 우리 트리에 compass-ui 의존성이 없다 — 도입 커밋 70658e18(#38153)을 2026-10-18에 exclude했고, 그때 사용자 결정으로 compass-ui 도입·이관 커밋은 모두 exclude한다. 사유는 (1) compass-ui가 npm·원본 저장소 어디에도 라이선스가 없어 번들 재배포가 불가하고, (2) upstream이 Compass로 옮기려는 사이드바·헤더 영역을 우리가 Slack식으로 자체 개편했기 때문이다(spec 014). 커밋 본질이 자체 체크박스를 Compass로 대체하는 것이라 adapt로 살릴 조각이 없다. MISSING PATHS 8개(classification_markings, filter_checkbox, global_attributes 등)도 우리가 받지 않은 기능 파일이다. compass-ui에 라이선스가 붙고 Compass 수용을 결정하면 재검토한다. |
 
 | 8003be3b | [fix(e2e): restore CollapsedThreads in the per-test config reset (#39377)](https://github.com/mattermost/mattermost/commit/8003be3bb3120a3190957c55a46c89b81ec25f05) | 제외한 5dec0b82(#39091 Playwright config·roles 리셋 개편)의 후속 수정이라 고칠 기구가 없다. upstream은 매 테스트 전 onPremServerConfig로 설정을 되돌리는데 그 목록에 CollapsedThreads가 빠져 스레드 접기를 끈 스펙의 상태가 뒤 스펙으로 새던 문제를 CollapsedThreads: ALWAYS_ON 1줄과 import로 막는다(1파일 +3, e2e-tests/playwright/lib/src/server/default_config.ts). 우리 트리에는 per-test 리셋이 없고, 5dec0b82가 없앤 전체 defaultServerConfig가 남아 242행에 이미 CollapsedThreads: CollapsedThreads.ALWAYS_ON(22행 import 포함)이 있으며 init.ts:39의 getOnPremServerConfig()로 서버에 적용된다. 반영해도 같은 값이 한 번 더 들어갈 뿐이고 주석은 없는 기구를 설명하게 된다. merge-tree CONFLICT는 5dec0b82 이후 모양의 import·문맥 차이다. 5dec0b82 계보를 반영할 때 함께 재검토한다. |
+
+| 2e80397b | [docs: document bot attributes (#39224)](https://github.com/mattermost/mattermost/commit/2e80397b61d7f0f07fbc127ebabbb07d19903618) | upstream 모노레포 제품 문서(docs/main/·docs/develop/) 9개 파일에 봇 속성 설명을 더하는 순수 문서 커밋인데, 터치 경로 전부가 우리 트리에 없다(MISSING PATHS 9/9, merge-tree modify/delete). 문서 트리를 모노레포로 들여온 1d3bbc63(#37330)을 제외했으므로 받을 기반 자체가 없는 문서 인프라 제외 계열(d4fdff72 등과 동일 갈래). 코드 접촉 0으로 기능 공백 없음. okrbest 문서 사이트를 구축하기로 하면 재검토한다. |
+
+| ea335551 | [Add registerChannelViewComponent so plugins can replace the channel center view (#39281)](https://github.com/mattermost/mattermost/commit/ea335551d7c25979d40e7ba533c7c052c4592a87) | 플러그인이 채널 중앙 뷰(포스트 목록+작성기)를 대체하게 하는 신규 webapp 플러그인 API registerChannelViewComponent(16파일 +813/-20). HEAD 기준 7개 파일 내용 충돌 — 핵심인 channel_view.tsx는 우리가 Slack식 채널 헤더 재구성(b1914c9d66)·북마크 RHS 전환(c95f0b09ff·6ce1d58c49)으로 의도적으로 재작성한 영역이고, registry.ts는 exclude한 커밋들이 추가한 메서드 약 300줄이 upstream에만 있어 삽입 문맥 자체가 다르다. okrbest에 이 API를 소비하는 플러그인이 없고(upstream의 주 용도는 비공개 agents 플러그인으로 추정), 이후 upstream 커밋 중 이 API를 참조하는 것도 아직 없다(-S 검색 0건). 재검토 조건: 채널 중앙 뷰를 대체하는 플러그인을 도입하기로 할 때 — 그 시점에는 우리 채널 뷰 구조(탭 줄·RHS)와의 공존 설계가 필요하므로 spec 파이프라인으로 들여온다. |
 
 ## spec 전환 커밋
 
