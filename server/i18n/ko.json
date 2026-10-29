@@ -637,7 +637,7 @@
   },
   {
     "id": "api.channel.remove_member.group_constrained.app_error",
-    "translation": "Unable to remove a user from a group-constrained channel."
+    "translation": "그룹으로 제한된 채널에서 사용자를 제거할 수 없습니다."
   },
   {
     "id": "api.channel.remove_member.removed",
@@ -3159,7 +3159,7 @@
   },
   {
     "id": "api.preference.delete_preferences.update_sidebar.app_error",
-    "translation": "Unable to update sidebar to match deleted preferences"
+    "translation": "삭제된 사용자 설정에 맞게 사이드바를 업데이트할 수 없습니다"
   },
   {
     "id": "api.preference.preferences_category.get.app_error",
@@ -4271,7 +4271,7 @@
   },
   {
     "id": "api.templates.signin_change_email.body.title",
-    "translation": "You updated your sign-in method"
+    "translation": "로그인 방식을 변경했습니다"
   },
   {
     "id": "api.templates.signin_change_email.subject",
@@ -4563,7 +4563,7 @@
   },
   {
     "id": "api.user.create_email_token.error",
-    "translation": "Failed to create token data for email verification"
+    "translation": "이메일 인증용 토큰 데이터를 생성하지 못했습니다"
   },
   {
     "id": "api.user.create_oauth_user.already_attached.app_error",
@@ -4591,7 +4591,7 @@
   },
   {
     "id": "api.user.create_user.accepted_domain.app_error",
-    "translation": "The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email."
+    "translation": "입력한 이메일이 허용된 도메인에 속하지 않습니다. 관리자에게 문의하거나 다른 이메일로 가입하세요."
   },
   {
     "id": "api.user.create_user.bad_token_email_data.app_error",
@@ -9676,6 +9676,10 @@
   {
     "id": "ent.cluster.save_config.error",
     "translation": "구성 파일에서 ReadOnlyConfig가 비활성화되지 않은 한, 고가용성이 활성화되면 시스템 콘솔이 읽기 전용으로 설정됩니다."
+  },
+  {
+    "id": "ent.cluster.send.error",
+    "translation": "클러스터 요청을 보내지 못했습니다"
   },
   {
     "id": "ent.cluster.timeout.error",

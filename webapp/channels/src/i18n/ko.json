@@ -2645,7 +2645,7 @@
   "admin.permissions.permission.use_channel_mentions.description": "@all, @channel 및 @here로 채널의 모든 구성원에게 알림",
   "admin.permissions.permission.use_channel_mentions.name": "채널 언급",
   "admin.permissions.permission.use_group_mentions.description": "그룹 멘션으로 그룹 구성원에게 알리기",
-  "admin.permissions.permission.use_group_mentions.name": "Group Mentions",
+  "admin.permissions.permission.use_group_mentions.name": "그룹 멘션",
   "admin.permissions.permission.view_team.description": "팀 보기",
   "admin.permissions.permission.view_team.name": "팀 보기",
   "admin.permissions.permissionSchemes": "권한 스키마",
