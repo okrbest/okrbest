@@ -872,8 +872,7 @@ func (a *App) importBot(rctx request.CTX, data *imports.BotImportData, dryRun bo
 	var nErr error
 	bot, nErr = a.Srv().Store().Bot().GetByUsername(*data.Username)
 	if nErr != nil {
-		var nfErr *store.ErrNotFound
-		if !errors.As(nErr, &nfErr) {
+		if _, ok := errors.AsType[*store.ErrNotFound](nErr); !ok {
 			return model.NewAppError("importBot", "app.import.import_bot.lookup_error", nil, "", http.StatusInternalServerError).Wrap(nErr)
 		}
 		bot = &model.Bot{}
@@ -2309,10 +2308,9 @@ func (a *App) importDirectChannel(rctx request.CTX, data *imports.DirectChannelI
 				SchemeGuest: u.IsGuest(),
 			}
 			if _, nErr := a.Srv().Store().Channel().SaveMember(rctx, toInsert); nErr != nil {
-				var cErr *store.ErrConflict
 				// A concurrent importer may have inserted the row in the meantime — the row
 				// exists, which is all we need before the UPDATE.
-				if !errors.As(nErr, &cErr) {
+				if _, ok := errors.AsType[*store.ErrConflict](nErr); !ok {
 					return model.NewAppError("BulkImport", "app.import.import_direct_channel.save_member.error", nil, "", http.StatusInternalServerError).Wrap(nErr)
 				}
 			} else {
@@ -2676,8 +2674,7 @@ func (a *App) importEmoji(rctx request.CTX, data *imports.EmojiImportData, dryRu
 
 	emoji, err := a.Srv().Store().Emoji().GetByName(rctx, *data.Name, true)
 	if err != nil {
-		var nfErr *store.ErrNotFound
-		if !errors.As(err, &nfErr) {
+		if _, ok := errors.AsType[*store.ErrNotFound](err); !ok {
 			return model.NewAppError("importEmoji", "app.emoji.get_by_name.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
 		}
 	}
