@@ -554,6 +554,7 @@ func testPostStoreSaveMultiple(t *testing.T, rctx request.CTX, ss store.Store) {
 		require.NoError(t, errT)
 
 		assert.Equal(t, int64(1), thread.ReplyCount)
+		assert.Equal(t, o2.CreateAt, thread.LastReplyAt)
 		assert.Equal(t, int(1), len(thread.Participants))
 		assert.Equal(t, model.StringArray{o2.UserId}, thread.Participants)
 
@@ -1465,16 +1466,16 @@ func testPostStoreDelete(t *testing.T, rctx request.CTX, ss store.Store) {
 		updatedRootPost, err := ss.Post().GetSingle(rctx, rootPost1.Id, false)
 		require.NoError(t, err)
 
-		beforeDeleteTime := updatedRootPost.UpdateAt
+		deleteTime := updatedRootPost.UpdateAt + 1000
 
 		// Delete the reply previous to last
-		err = ss.Post().Delete(rctx, replyPost2.Id, model.GetMillis(), "")
+		err = ss.Post().Delete(rctx, replyPost2.Id, deleteTime, "")
 		require.NoError(t, err)
 
 		updatedRootPost, err = ss.Post().GetSingle(rctx, rootPost1.Id, false)
 		require.NoError(t, err)
 
-		require.Greater(t, updatedRootPost.UpdateAt, beforeDeleteTime)
+		require.Equal(t, deleteTime, updatedRootPost.UpdateAt)
 	})
 
 	t.Run("thread with multiple replies, update thread last reply at", func(t *testing.T) {
@@ -1501,6 +1502,7 @@ func testPostStoreDelete(t *testing.T, rctx request.CTX, ss store.Store) {
 			UserId:    model.NewId(),
 			Message:   NewTestID(),
 			RootId:    rootPost1.Id,
+			CreateAt:  rootPost1.CreateAt + 1000,
 		})
 		require.NoError(t, err)
 
@@ -1510,6 +1512,7 @@ func testPostStoreDelete(t *testing.T, rctx request.CTX, ss store.Store) {
 			UserId:    model.NewId(),
 			Message:   NewTestID(),
 			RootId:    rootPost1.Id,
+			CreateAt:  rootPost1.CreateAt + 2000,
 		})
 		require.NoError(t, err)
 
@@ -1519,12 +1522,14 @@ func testPostStoreDelete(t *testing.T, rctx request.CTX, ss store.Store) {
 			UserId:    model.NewId(),
 			Message:   NewTestID(),
 			RootId:    rootPost1.Id,
+			CreateAt:  rootPost1.CreateAt + 3000,
 		})
 		require.NoError(t, err)
 
 		thread, err := ss.Thread().Get(rootPost1.Id)
 		require.NoError(t, err)
 		require.Equal(t, replyPost3.CreateAt, thread.LastReplyAt)
+		require.Equal(t, int64(3), thread.ReplyCount)
 
 		// Delete the reply previous to last
 		err = ss.Post().Delete(rctx, replyPost2.Id, model.GetMillis(), "")
@@ -1534,6 +1539,7 @@ func testPostStoreDelete(t *testing.T, rctx request.CTX, ss store.Store) {
 		require.NoError(t, err)
 		// last reply at should be unchanged
 		require.Equal(t, replyPost3.CreateAt, thread.LastReplyAt)
+		require.Equal(t, int64(2), thread.ReplyCount)
 
 		// Delete the last reply
 		err = ss.Post().Delete(rctx, replyPost3.Id, model.GetMillis(), "")
@@ -1543,6 +1549,7 @@ func testPostStoreDelete(t *testing.T, rctx request.CTX, ss store.Store) {
 		require.NoError(t, err)
 		// last reply at should have changed
 		require.Equal(t, replyPost1.CreateAt, thread.LastReplyAt)
+		require.Equal(t, int64(1), thread.ReplyCount)
 
 		// Delete the last reply
 		err = ss.Post().Delete(rctx, replyPost1.Id, model.GetMillis(), "")
@@ -1552,6 +1559,8 @@ func testPostStoreDelete(t *testing.T, rctx request.CTX, ss store.Store) {
 		require.NoError(t, err)
 		// last reply at should be 0
 		require.Equal(t, int64(0), thread.LastReplyAt)
+		require.Equal(t, int64(0), thread.ReplyCount)
+		require.Empty(t, thread.Participants)
 	})
 
 	t.Run("thread with file attachments", func(t *testing.T) {
