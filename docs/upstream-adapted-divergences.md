@@ -126,6 +126,7 @@
 | 새·수정 문구 일괄 번역 | [5c246f54](https://github.com/mattermost/mattermost/commit/5c246f54fd761f99828c7320d2d74ce0b1f3b119) (#38945) | `f5b9b0ed` 선례대로 조건부 추가만 받고, "우리 값 = upstream 옛 값"인 수정도 받았다. server ko 3건은 우리 값을 지켰고 ko 신규 2건을 OKR.BEST로 바꿨다 — 아래 참조 |
 | 하드코딩 영어 라벨 정리 + pt-BR 보강 | [0d4385d1](https://github.com/mattermost/mattermost/commit/0d4385d1259da280837c6b6826c784bc03468284) (#39113) | 코드는 그대로 받았다. en.json은 우리 판에 새 15키를 넣고, 카탈로그는 `5c246f54` 절의 조건으로 반영했다 — 아래 참조 |
 | SAML/OAuth 감사 이벤트 user_created | [678386ea](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) (#38006) | 서버 코드는 그대로 받았다. SAML 쪽은 구현체가 비공개 enterprise라 인터페이스만 바뀌고 동작하지 않는다. 감사 로그 스키마 문서를 버렸다 — 아래 참조 |
+| 플러그인 KV 접두어 필터링 | [2b3fb21f](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5) (#35441) | 코드는 upstream 그대로 받았다. 문서 사이트 계보를 제외해 `best-practices.md`가 없으므로 그 문서 절만 버렸다. API 주석의 "최소 서버 12.2"와 우리 12.1.0 사이에 차이가 남는다. |
 
 ---
 
@@ -4819,6 +4820,21 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 **되살릴 조건.** 셀프 호스팅 구매 흐름을 복원할 때 upstream `f619e1e3^`에서 복원한다.
 
 ---
+
+## 플러그인 KV 접두어 필터링 — 문서 절만 버렸다
+
+**upstream**: [`2b3fb21f`](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5)
+(Add KVListWithOptions for server-side prefix filtering in plugin KV store, #35441) — 29파일 +1030/-16, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** 코드는 수정 없이 받았다. 문서 파일만 뺐다.
+
+**남는 차이.** `KVListWithOptions` 주석은 "Minimum server version: 12.2"이고 501 동작도 "12.2 미만" 기준으로 설명한다. 우리 서버는 12.1.0인데 이 API가 이미 동작한다. 플러그인이 서버 버전으로 지원 여부를 판단하면 우리 서버를 미지원으로 본다. `ListKeys`는 버전을 보지 않고 501 응답으로 판단하므로 영향이 없다. 우리 버전이 12.2에 이르면 차이가 사라진다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/develop/integrate/plugins/components/server/best-practices.md` | 절 추가 +24줄 "How should plugins list key-value store keys with a prefix?" | 접두어 목록은 `KVListWithOptions`나 `ListKeys` + `WithPrefix`로 조회한다. `KVList`로 받아 플러그인에서 거르면 짧은 페이지에서 멈춘 반복문이 키를 놓치고 느리다. 접두어의 `%`·`_`는 글자 그대로 비교한다. `WithChecker`는 페이지 적용 뒤에 돌아 마지막 전 페이지도 짧을 수 있다. 12.2 미만에서 `KVListWithOptions`는 501을 돌려주고 `ListKeys`가 플러그인 쪽 필터링으로 대체한다. 페이지 순회 Go 예제가 함께 있다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
