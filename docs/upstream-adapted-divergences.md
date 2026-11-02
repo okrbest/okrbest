@@ -132,6 +132,7 @@
 | 봇 토큰 URL 제거 | [9535783e](https://github.com/mattermost/mattermost/commit/9535783ef9d3ab166da83e9ba3b8f7003d6449ca) (#39317) | 토큰 처리는 같다. upstream이 고친 `bot_save_flow.ts`·`bot_attributes.ts`는 제외 계보라 없어서 `add_bot.tsx`에 직접 넣었고, `confirm_integration.tsx`의 경고 배너 코드는 들이지 않았다. |
 | 서버 로그 사용자 지정 기간 | [47b81751](https://github.com/mattermost/mattermost/commit/47b81751a4e5c402aa61523e51ecbcf1f33bbfda) (#39509) | 기능은 그대로 받았다. Compass 토큰이 없어 `custom_range_modal.scss`를 고정 값으로 바꿨고, `docs/main` 문서 줄을 버렸다. |
 | Cloud Starter 조건 제거 | [5a9a4dff](https://github.com/mattermost/mattermost/commit/5a9a4dff1085a476f82621367b9ee63484e38f26) (#39531) | 포크에 있는 조건은 그대로 지웠다. `switch_product_menu`가 없어 그 3파일 변경을 버렸고, 제외 계보의 OpenID 항목은 들이지 않았다. |
+| recap 인용·프롬프트 강화 | [5f2ab3e2](https://github.com/mattermost/mattermost/commit/5f2ab3e2292d1721d61ec5f96b83b481a3bed03e) (#38204) | 세 가지 방어는 그대로 받았다. 제외 계보의 `SummarizePostsWithInstructions`가 없어 `SummarizePosts`에 맞췄고, 사용자 지시 블록과 그 테스트를 뺐다. |
 
 ---
 
@@ -4918,6 +4919,21 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | 같은 경로 `switch_product_user_groups_menuitem.tsx` | `isCloudStarterFree` 제거 | Starter 판정을 자체 호스팅 Starter로만 한다. | 같다 |
 | `admin_definition.tsx` 문맥 | `OpenIdSettings.AdditionalScopes`, `OpenIdSettings.CustomProfileAttributes` 항목 | 이 커밋이 조건을 지운 대상이다. 포크에 없는 항목이라 들이지 않았다. | 해당 OpenID 기능을 들일 때 |
 | `en.json` | `globalHeader.productSwitcherMenu.trialMenuItem.noFreeTrial.*` 삭제 | 포크에 없는 키다. 문맥의 다른 `productSwitcherMenu` 키도 들이지 않았다. | 제품 전환 메뉴 계보를 들일 때 |
+
+## recap 인용·프롬프트 강화 — 사용자 지시 블록을 뺐다
+
+**upstream**: [`5f2ab3e2`](https://github.com/mattermost/mattermost/commit/5f2ab3e2292d1721d61ec5f96b83b481a3bed03e)
+(Adjust recap citation and post-history handling, #38204) — 6파일 +439/-28, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** 포크 `SummarizePosts`에 대화 구분 표시, 시스템 메시지로 옮긴 형식 규칙, `sanitizePermalinkCitations`를 넣었다. 삭제 게시물 제외와 웹앱 `parsePermalink`는 upstream 그대로다. `recap_test.go`에는 upstream 판과 같게 `strings` import를 더했다.
+
+**버린 것.**
+
+| 위치 | upstream 코드 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `summarization.go` | `customInstructionsBlock` | 지시문을 다듬어 `\nAdditional user instructions:\n%s\n` 블록을 만들어 사용자 프롬프트 끝에 붙인다. 비어 있으면 붙이지 않는다. | Scheduled Recaps 계보(`25f3a75c`)를 들일 때 |
+| `summarization.go` | `SummarizePostsWithInstructions` 시그니처 | 이 커밋이 고친 대상 함수다. 포크 `SummarizePosts`에는 `customInstructions` 인자가 없다. | 같다 |
+| `summarization_test.go` | `custom instructions are included in prompt` 테스트 | `Focus on launch risks`를 넘겨 두 번째 메시지에 `Additional user instructions:`와 지시문이 들어가는지 검증한다. | 같다 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
