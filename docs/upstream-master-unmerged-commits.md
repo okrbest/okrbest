@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-02 15:34
+- 갱신일: 2026-11-02 17:04
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 94개
+- 남은 커밋: 91개
 
-**마지막 반영 커밋:** `99135372` | [\[MM-71341\] Report audit logging state from the live audit logger instead of config (#39397)](https://github.com/mattermost/mattermost/commit/99135372ab4690d5fa27ec0e465895509723931e) | 2026-10-24
+**마지막 반영 커밋:** `55d3bcf3` | [Fix flaky TestRemoteProviderDoAccept (#39292)](https://github.com/mattermost/mattermost/commit/55d3bcf3277cdd4a478567c6a48e654fa602028b) | 2026-10-25
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 07b2683c | [\[MM-71291\] Add a node selector to the System Console server logs (#39320)](https://github.com/mattermost/mattermost/commit/07b2683c77a739578f2e2309da373c6594f5d25d) | 2026-10-25 |
-| d9cfd5f4 | [\[MM-71343\] Fix flaky remotecluster ResponseHandling test reusing a broken connection (#39396)](https://github.com/mattermost/mattermost/commit/d9cfd5f44f097e3a19ff405f4e545f6d8ea8de59) | 2026-10-25 |
-| c4e83c68 | [\[MM-71349\] Report logger metrics for audit log targets (#39405)](https://github.com/mattermost/mattermost/commit/c4e83c682f37eeaa95f40e5185607f81eba419af) | 2026-10-25 |
-| 55d3bcf3 | [Fix flaky TestRemoteProviderDoAccept (#39292)](https://github.com/mattermost/mattermost/commit/55d3bcf3277cdd4a478567c6a48e654fa602028b) | 2026-10-25 |
 | f54f3f76 | [ci(e2e): triage red Playwright and Cypress runs against test history (#38601)](https://github.com/mattermost/mattermost/commit/f54f3f765d1034b67e091cbfb43cf391165044d5) | 2026-10-26 |
 | c374d298 | [\[MM-71259\] Stop recommending unlicensed fixes and share healthcheck helpers (#39289)](https://github.com/mattermost/mattermost/commit/c374d298b9271ba897514dd46e8baf30b3c80e35) | 2026-10-26 |
 | 1ac3eb8c | [docs: AI draft for MM-71344 Plugin API: expose cluster node identity (#39401)](https://github.com/mattermost/mattermost/commit/1ac3eb8c28b851d965c95ff36593bf39438ec7e5) | 2026-10-26 |
@@ -105,6 +101,7 @@
 | 4bda085f | [fix(e2e): click the policy channel row's Remove link, not the delete-section subtitle (#39546)](https://github.com/mattermost/mattermost/commit/4bda085f1aa79e03f398ffe986fc5e062b4a8108) | 2026-11-02 |
 | bfe09954 | [fix(e2e): restore PrivacySettings.ShowFullName and ShowEmailAddress in the per-test config reset (#39497)](https://github.com/mattermost/mattermost/commit/bfe09954b91d907ace9abff860ad4b0793f20afd) | 2026-11-02 |
 | 2400aa0a | [fix(e2e): click Compass Switch labels instead of forcing clicks on their inputs (#39372)](https://github.com/mattermost/mattermost/commit/2400aa0acd9f76ca2cf5440139159b30bf9d38a8) | 2026-11-02 |
+| 4028643a | [\[MM-71404\] Fetch only new server log entries in live tail and highlight them (#39507)](https://github.com/mattermost/mattermost/commit/4028643a0abe570b99fd6103c5cb2a25f67a5092) | 2026-11-02 |
 
 ## 제외된 커밋
 
