@@ -4090,3 +4090,23 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | 대상 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
 | `channels/app/delivery_tracking_config.go` | `warnIfDeliveryAuditTargetMissing`의 인라인 라이선스 검사를 `s.License().HasAdvancedLogging()`으로 치환(−4/+1) | 보류성 제외한 `0019ecc5`(#37882 게시물 전달 감사) 파일이라 없다(modify/delete) | `0019ecc5`를 반영할 때 |
+
+---
+
+## 감사 상태를 실제 audit logger에서 읽기 — 전달 감사 레벨과 파일을 버렸다
+
+**upstream**: [`99135372`](https://github.com/mattermost/mattermost/commit/99135372ab4690d5fa27ec0e465895509723931e)
+(Report audit logging state from the live audit logger instead of config, #39397) — 16파일 +460/-275, 2026-11-02 반영(사용자 결정 adapt)
+
+**받은 것.** 14파일. `audit.Audit.IsLevelEnabled`·`IsActive`, `PlatformService.SetAuditLoggingActiveFunc`(클라이언트 config 주입·hash 제외), ABAC 경고의 live 판정과 `s.Log()` 출력,
+`GenerateClientConfig`의 `AuditLoggingActive` 제거, `config/logger.go`의 `hasAuditTargetFor` → `IsAuditLoggingActive` 병합, `mlog.MLvlAuditGeneral`, 테스트.
+**우리 맞춤.** `MLvlAuditGeneral`은 우리 `MLvlAuditAll`과 같은 4개 레벨이다(audit-delivery가 없다). `levels_test.go`는 upstream의 "general = all − delivery" 대신 두 묶음이 같음을 확인한다.
+`logger.go`의 `auditLevelIDs` 주석에서 audit-delivery 설명을 뺐다.
+
+**버린 것.**
+
+| 대상 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `channels/app/delivery_tracking_config.go`·`_test.go` | 전달 감사 경고를 live logger(`s.Audit.IsLevelEnabled(LvlAuditDelivery)`)로 판정, 경고 문구 상수화, 변경 트리거 축소, 테스트 +103 | 보류성 제외한 `0019ecc5`(#37882 게시물 전달 감사) 파일이라 없다(modify/delete) | `0019ecc5`를 반영할 때 — 그때 `MLvlAuditGeneral`에서 `LvlAuditDelivery`를 빼고 `levels_test`를 upstream 형태로 되돌린다 |
+| `mlog/levels.go`의 `LvlAuditDelivery` 문맥 | 충돌 문맥(레벨 정의) | 같은 계보 | 같음 |
+| `app/config_test.go`·`audit/audit_test.go`의 "audit-delivery에만 묶인 대상" 케이스 각 1건 | delivery 전용 대상은 일반 감사가 아님을 확인 | 레벨이 없다 | 같음 |
