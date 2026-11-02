@@ -58,7 +58,18 @@ var (
 
 	// LvlAuditCLI is intended for auditing command-line interface operations. This level was
 	// originally designed for the legacy CLI. It's mostly unused now.
-	LvlAuditCLI  = Level{ID: 103, Name: "audit-cli"}
+	LvlAuditCLI = Level{ID: 103, Name: "audit-cli"}
+
+	// MLvlAuditGeneral is the audit levels that make up general audit logging. A target bound
+	// to any of them means audit logging is on. okrbest has no opt-in audit-delivery level, so
+	// it holds every audit level.
+	MLvlAuditGeneral = []Level{
+		LvlAuditAPI,
+		LvlAuditContent,
+		LvlAuditPerms,
+		LvlAuditCLI,
+	}
+
 	MLvlAuditAll = []Level{
 		LvlAuditAPI,
 		LvlAuditContent,
