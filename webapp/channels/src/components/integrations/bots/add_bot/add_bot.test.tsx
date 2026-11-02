@@ -23,6 +23,13 @@ describe('components/integrations/bots/AddBot', () => {
         updateUserRoles: jest.fn(),
     };
 
+    const baseProps = {
+        maxFileSize: 100,
+        maxLifetimeDays: 0,
+        team,
+        editingUserHasManageSystem: true,
+    };
+
     beforeAll(() => {
         jest.useFakeTimers().setSystemTime(FROZEN_NOW);
     });
@@ -82,6 +89,43 @@ describe('components/integrations/bots/AddBot', () => {
         expect(displayNameInput.value).toBe(bot.display_name);
         expect(descriptionInput).toBeInTheDocument();
         expect(descriptionInput.value).toBe(bot.description);
+    });
+
+    it('fills in the username from the display name when creating a bot', () => {
+        const {container} = renderWithContext(
+            <AddBot
+                {...baseProps}
+                actions={actions}
+            />,
+        );
+
+        const displayNameInput = container.querySelector('#displayName') as HTMLInputElement;
+        const usernameInput = container.querySelector('#username') as HTMLInputElement;
+        fireEvent.change(displayNameInput, {target: {value: 'Café Build Bot'}});
+        expect(usernameInput).toHaveValue('cafe-build-bot');
+
+        fireEvent.change(usernameInput, {target: {value: 'builder'}});
+        fireEvent.change(displayNameInput, {target: {value: 'Café Build Bot 2'}});
+        expect(usernameInput).toHaveValue('builder');
+
+        // Clearing the username resumes following the display name
+        fireEvent.change(usernameInput, {target: {value: ''}});
+        fireEvent.change(displayNameInput, {target: {value: 'Café Build Bot 3'}});
+        expect(usernameInput).toHaveValue('cafe-build-bot-3');
+    });
+
+    it('does not change the username from the display name when editing a bot', () => {
+        const bot = TestHelper.getBotMock({username: 'existing'});
+        const {container} = renderWithContext(
+            <AddBot
+                {...baseProps}
+                bot={bot}
+                actions={actions}
+            />,
+        );
+
+        fireEvent.change(container.querySelector('#displayName') as HTMLInputElement, {target: {value: 'Renamed'}});
+        expect(container.querySelector('#username')).toHaveValue('existing');
     });
 
     it('creates the default token without expiry when no maximum lifetime is configured', async () => {
