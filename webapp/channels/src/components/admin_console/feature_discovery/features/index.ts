@@ -11,7 +11,6 @@ import GuestAccessFeatureDiscovery from './guest_access';
 import LDAPFeatureDiscovery from './ldap';
 import MobileSecurityFeatureDiscovery from './mobile_security';
 import OpenIDFeatureDiscovery from './openid';
-import OpenIDCustomFeatureDiscovery from './openid_custom';
 import SAMLFeatureDiscovery from './saml';
 import SystemRolesFeatureDiscovery from './system_roles';
 
@@ -19,7 +18,6 @@ export {
     LDAPFeatureDiscovery,
     SAMLFeatureDiscovery,
     OpenIDFeatureDiscovery,
-    OpenIDCustomFeatureDiscovery,
     GitLabFeatureDiscovery,
     AnnouncementBannerFeatureDiscovery,
     ComplianceExportFeatureDiscovery,
