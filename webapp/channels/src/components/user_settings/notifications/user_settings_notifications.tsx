@@ -825,14 +825,14 @@ class NotificationsTab extends React.PureComponent<Props, State> {
         }
 
         let collapsedDescription = this.props.intl.formatMessage({id: 'user.settings.notifications.keywordsWithHighlight.none', defaultMessage: 'None'});
-        if (!this.props.isEnterpriseOrCloudOrSKUStarterFree && this.props.isEnterpriseReady && this.state.customKeysWithHighlight.length > 0) {
+        if (!this.props.isEnterpriseOrSKUStarterFree && this.props.isEnterpriseReady && this.state.customKeysWithHighlight.length > 0) {
             const customKeysWithHighlightStringArray = this.state.customKeysWithHighlight.map((key) => key.value);
             collapsedDescription = customKeysWithHighlightStringArray.map((key) => `"${key}"`).join(', ');
         }
 
         const collapsedEditButtonWhenDisabled = (
             <RestrictedIndicator
-                blocked={this.props.isEnterpriseOrCloudOrSKUStarterFree && this.props.isEnterpriseReady}
+                blocked={this.props.isEnterpriseOrSKUStarterFree && this.props.isEnterpriseReady}
                 feature={MattermostFeatures.HIGHLIGHT_WITHOUT_NOTIFICATION}
                 minimumPlanRequiredForFeature={LicenseSkus.Professional}
                 tooltipTitle={this.props.intl.formatMessage({
@@ -893,7 +893,7 @@ class NotificationsTab extends React.PureComponent<Props, State> {
                 describe={collapsedDescription}
                 updateSection={this.handleUpdateSection}
                 max={expandedSection}
-                isDisabled={this.props.isEnterpriseOrCloudOrSKUStarterFree && this.props.isEnterpriseReady}
+                isDisabled={this.props.isEnterpriseOrSKUStarterFree && this.props.isEnterpriseReady}
                 collapsedEditButtonWhenDisabled={collapsedEditButtonWhenDisabled}
             />);
     };
@@ -1184,7 +1184,7 @@ class NotificationsTab extends React.PureComponent<Props, State> {
                     {channelMentionAutoFollowSection}
                     <div className='divider-light'/>
                     {keywordsWithNotificationSection}
-                    {(!this.props.isEnterpriseOrCloudOrSKUStarterFree && this.props.isEnterpriseReady) && (
+                    {(!this.props.isEnterpriseOrSKUStarterFree && this.props.isEnterpriseReady) && (
                         <>
                             <div className='divider-light'/>
                             {keywordsWithHighlightSection}
@@ -1205,7 +1205,7 @@ class NotificationsTab extends React.PureComponent<Props, State> {
                     )}
 
                     {/*  We placed the disabled items in the last */}
-                    {(this.props.isEnterpriseOrCloudOrSKUStarterFree && this.props.isEnterpriseReady) && (
+                    {(this.props.isEnterpriseOrSKUStarterFree && this.props.isEnterpriseReady) && (
                         <>
                             <div className='divider-light'/>
                             {keywordsWithHighlightSection}

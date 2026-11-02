@@ -131,6 +131,7 @@
 | 서버 로그 서버 측 검색 | [d62af319](https://github.com/mattermost/mattermost/commit/d62af319e868519799ab91a6fa2fc201ddf6a549) (#39478) | 기능은 그대로 받았다. compass-ui `SectionNotice`를 포크의 `components/section_notice`로, 일반 텍스트 다운로드 버튼을 포크 `btn` 버튼으로 바꿨다. |
 | 봇 토큰 URL 제거 | [9535783e](https://github.com/mattermost/mattermost/commit/9535783ef9d3ab166da83e9ba3b8f7003d6449ca) (#39317) | 토큰 처리는 같다. upstream이 고친 `bot_save_flow.ts`·`bot_attributes.ts`는 제외 계보라 없어서 `add_bot.tsx`에 직접 넣었고, `confirm_integration.tsx`의 경고 배너 코드는 들이지 않았다. |
 | 서버 로그 사용자 지정 기간 | [47b81751](https://github.com/mattermost/mattermost/commit/47b81751a4e5c402aa61523e51ecbcf1f33bbfda) (#39509) | 기능은 그대로 받았다. Compass 토큰이 없어 `custom_range_modal.scss`를 고정 값으로 바꿨고, `docs/main` 문서 줄을 버렸다. |
+| Cloud Starter 조건 제거 | [5a9a4dff](https://github.com/mattermost/mattermost/commit/5a9a4dff1085a476f82621367b9ee63484e38f26) (#39531) | 포크에 있는 조건은 그대로 지웠다. `switch_product_menu`가 없어 그 3파일 변경을 버렸고, 제외 계보의 OpenID 항목은 들이지 않았다. |
 
 ---
 
@@ -4900,6 +4901,23 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 |---|---|---|---|
 | `docs/main/administration-guide/configure/reporting-configuration-settings.mdx` | 1줄 추가 | v12.2부터 **Duration > Custom range…**로 시작·종료 일시 사이의 구조화 로그를 볼 수 있고, 이때 실시간 보기는 쓸 수 없다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
 | `custom_range_modal.scss` | Compass 토큰 사용 | 위 다섯 토큰 참조 | compass-ui에 라이선스가 붙고 수용을 결정할 때 |
+
+## Cloud Starter 조건 제거 — 포크에 없는 파일과 항목만 뺐다
+
+**upstream**: [`5a9a4dff`](https://github.com/mattermost/mattermost/commit/5a9a4dff1085a476f82621367b9ee63484e38f26)
+(Remove unused Cloud Starter conditions, #39531) — 28파일 +72/-406, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** `admin_definition.tsx`에서는 `OpenIDCustomFeatureDiscovery` 항목만 지웠다. `en.json`은 포크에 있는 키 3개만 지웠다. 나머지는 upstream 그대로다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `global_header/left_controls/switch_product_menu/switch_product_cloud_trial_menuitem.tsx` | Cloud Starter 분기 제거 | 무료 체험 구독일 때만 메뉴 항목을 표시하고, 요금제 안내 클릭과 `noFreeTrial` 문구를 없앤다. | 제품 전환 메뉴 계보를 들일 때 |
+| 같은 경로 `switch_product_cloud_trial_menuitem.test.tsx` | 위 동작에 맞춰 수정 | Starter 관련 렌더링 검증을 뺀다. | 같다 |
+| 같은 경로 `switch_product_user_groups_menuitem.tsx` | `isCloudStarterFree` 제거 | Starter 판정을 자체 호스팅 Starter로만 한다. | 같다 |
+| `admin_definition.tsx` 문맥 | `OpenIdSettings.AdditionalScopes`, `OpenIdSettings.CustomProfileAttributes` 항목 | 이 커밋이 조건을 지운 대상이다. 포크에 없는 항목이라 들이지 않았다. | 해당 OpenID 기능을 들일 때 |
+| `en.json` | `globalHeader.productSwitcherMenu.trialMenuItem.noFreeTrial.*` 삭제 | 포크에 없는 키다. 문맥의 다른 `productSwitcherMenu` 키도 들이지 않았다. | 제품 전환 메뉴 계보를 들일 때 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
