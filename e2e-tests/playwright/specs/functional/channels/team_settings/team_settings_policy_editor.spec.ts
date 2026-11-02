@@ -291,7 +291,7 @@ test.describe('Team Settings Modal - Policy Editor', () => {
         await teamSettings.container.getByText(policy.name).click();
 
         // # Remove the channel to enable delete (click Remove link in channel list)
-        await teamSettings.container.getByText('Remove').first().click();
+        await teamSettings.policyChannelRemoveLink.click();
 
         // # Click Delete in the delete section
         await teamSettings.container
@@ -650,7 +650,7 @@ test.describe('Team Settings Modal - Policy Editor', () => {
         await teamSettings.container.getByText(policyName).click();
 
         // # Remove the channel to enable delete
-        const removeLink = teamSettings.container.getByText('Remove').first();
+        const removeLink = teamSettings.policyChannelRemoveLink;
         await expect(removeLink).toBeVisible({timeout: 10000});
         await removeLink.click();
 
