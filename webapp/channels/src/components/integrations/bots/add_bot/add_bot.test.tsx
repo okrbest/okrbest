@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {takePendingBotToken} from 'components/integrations/bots/bot_pending_token';
+
 import {fireEvent, renderWithContext, screen, waitFor} from 'tests/react_testing_utils';
 import {getHistory} from 'utils/browser_history';
 import {TestHelper} from 'utils/test_helper';
@@ -150,7 +152,34 @@ describe('components/integrations/bots/AddBot', () => {
         fireEvent.click(screen.getByText('Create Bot Account'));
 
         await waitFor(() => expect(createUserAccessToken).toHaveBeenCalledWith(bot.user_id, 'Default Token', undefined));
-        expect(getHistory().push).toHaveBeenCalledWith(`/${team.name}/integrations/confirm?type=bots&id=${bot.user_id}&token=default-secret`);
+        await waitFor(() => expect(getHistory().push).toHaveBeenCalled());
+        const redirectUrl = String((getHistory().push as jest.Mock).mock.calls[0][0]);
+        expect(redirectUrl).toBe(`/${team.name}/integrations/confirm?type=bots&id=${bot.user_id}`);
+        expect(redirectUrl).not.toMatch(/[?&]token=/);
+        expect(takePendingBotToken(bot.user_id)).toBe('default-secret');
+        expect(takePendingBotToken(bot.user_id)).toBeUndefined();
+    });
+
+    it.each([
+        ['token creation fails', {error: {message: 'x'}}],
+        ['the token is empty', {data: TestHelper.getUserAccessTokenMock({token: ''})}],
+    ])('stores no token and lands on the bots list when %s', async (_, tokenResult) => {
+        const bot = TestHelper.getBotMock({user_id: 'bot-user-id', username: 'testbot'});
+        const createBot = jest.fn().mockResolvedValue({data: bot});
+        const createUserAccessToken = jest.fn().mockResolvedValue(tokenResult);
+
+        renderWithContext(
+            <AddBot
+                {...baseProps}
+                actions={{...actions, createBot, createUserAccessToken}}
+            />,
+        );
+
+        fireEvent.change(screen.getByLabelText('Username'), {target: {value: 'testbot'}});
+        fireEvent.click(screen.getByText('Create Bot Account'));
+
+        await waitFor(() => expect(getHistory().push).toHaveBeenCalledWith(`/${team.name}/integrations/bots`));
+        expect(takePendingBotToken(bot.user_id)).toBeUndefined();
     });
 
     it('creates the default token with clamped expiry when a maximum lifetime is configured', async () => {
