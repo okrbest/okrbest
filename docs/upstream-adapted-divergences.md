@@ -127,6 +127,7 @@
 | 하드코딩 영어 라벨 정리 + pt-BR 보강 | [0d4385d1](https://github.com/mattermost/mattermost/commit/0d4385d1259da280837c6b6826c784bc03468284) (#39113) | 코드는 그대로 받았다. en.json은 우리 판에 새 15키를 넣고, 카탈로그는 `5c246f54` 절의 조건으로 반영했다 — 아래 참조 |
 | SAML/OAuth 감사 이벤트 user_created | [678386ea](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) (#38006) | 서버 코드는 그대로 받았다. SAML 쪽은 구현체가 비공개 enterprise라 인터페이스만 바뀌고 동작하지 않는다. 감사 로그 스키마 문서를 버렸다 — 아래 참조 |
 | 플러그인 KV 접두어 필터링 | [2b3fb21f](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5) (#35441) | 코드는 upstream 그대로 받았다. 문서 사이트 계보를 제외해 `best-practices.md`가 없으므로 그 문서 절만 버렸다. API 주석의 "최소 서버 12.2"와 우리 12.1.0 사이에 차이가 남는다. |
+| 서버 로그 실시간 보기 새 항목 | [4028643a](https://github.com/mattermost/mattermost/commit/4028643a0abe570b99fd6103c5cb2a25f67a5092) (#39507) | 기능은 그대로 받았다. compass-ui를 제외해 새 항목 버튼을 포크의 `btn` 클래스 버튼으로 바꿨다. |
 
 ---
 
@@ -4835,6 +4836,20 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
 | `docs/develop/integrate/plugins/components/server/best-practices.md` | 절 추가 +24줄 "How should plugins list key-value store keys with a prefix?" | 접두어 목록은 `KVListWithOptions`나 `ListKeys` + `WithPrefix`로 조회한다. `KVList`로 받아 플러그인에서 거르면 짧은 페이지에서 멈춘 반복문이 키를 놓치고 느리다. 접두어의 `%`·`_`는 글자 그대로 비교한다. `WithChecker`는 페이지 적용 뒤에 돌아 마지막 전 페이지도 짧을 수 있다. 12.2 미만에서 `KVListWithOptions`는 501을 돌려주고 `ListKeys`가 플러그인 쪽 필터링으로 대체한다. 페이지 순회 Go 예제가 함께 있다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+
+## 서버 로그 실시간 보기 — 새 항목 버튼만 Compass를 뺐다
+
+**upstream**: [`4028643a`](https://github.com/mattermost/mattermost/commit/4028643a0abe570b99fd6103c5cb2a25f67a5092)
+(Fetch only new server log entries in live tail and highlight them, #39507) — 23파일 +975/-114, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** `log_list.tsx`의 새 항목 버튼을 `btn btn-xs btn-primary` 버튼과 `icon-arrow-*` 아이콘으로 바꿨다. 나머지 기능·리듀서·테스트는 upstream 그대로다.
+
+**버린 것.**
+
+| 위치 | 버린 내용 | 되살릴 조건 |
+|---|---|---|
+| `log_list.tsx` import | `@mattermost/compass-ui`의 `Button`·`Icon`, `@mattermost/compass-icons`의 화살표·다운로드·새로고침 아이콘 | compass-ui에 라이선스가 붙고 수용을 결정할 때 |
+| `log_list.tsx` 새 항목 버튼 | `<Button emphasis='primary' size='x-small' leadingIcon=...>` | 위와 같다 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
