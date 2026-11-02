@@ -87,8 +87,9 @@ func MloggerConfigFromAuditConfig(auditSettings model.ExperimentalAuditSettings,
 			return nil, err
 		}
 
-		// apply audit specific levels
-		targetCfg.Levels = []mlog.Level{mlog.LvlAuditAPI, mlog.LvlAuditContent, mlog.LvlAuditPerms, mlog.LvlAuditCLI}
+		// apply audit specific levels. Cloned so the target can never alias, and mutate,
+		// the shared mlog slice.
+		targetCfg.Levels = slices.Clone(mlog.MLvlAuditGeneral)
 
 		// apply audit specific formatting
 		targetCfg.FormatOptions = json.RawMessage(`{"disable_timestamp": false, "disable_msg": true, "disable_stacktrace": true, "disable_level": true}`)
@@ -107,11 +108,11 @@ func MloggerConfigFromAuditConfig(auditSettings model.ExperimentalAuditSettings,
 	return cfg, nil
 }
 
-// auditLevelIDs is the set of mlog level IDs that represent audit output
-// (audit-api, audit-content, audit-permissions, audit-cli).
+// auditLevelIDs is the set of mlog level IDs for general audit logging (mlog.MLvlAuditGeneral),
+// which are also the levels bound to the built-in `_defAudit` file target.
 var auditLevelIDs = func() map[logr.LevelID]struct{} {
-	m := make(map[logr.LevelID]struct{}, len(mlog.MLvlAuditAll))
-	for _, l := range mlog.MLvlAuditAll {
+	m := make(map[logr.LevelID]struct{}, len(mlog.MLvlAuditGeneral))
+	for _, l := range mlog.MLvlAuditGeneral {
 		m[l.ID] = struct{}{}
 	}
 	return m
@@ -154,22 +155,18 @@ func EffectiveAuditConfig(auditSettings model.ExperimentalAuditSettings, configS
 	return cfg, nil
 }
 
-// IsAuditLoggingActive reports whether the server is actually emitting audit logs to at
-// least one sink, given the audit settings and whether advanced logging is licensed.
+// IsAuditLoggingActive reports whether the audit settings configure at least one sink for
+// audit logs, given whether advanced logging is licensed.
 //
 // It returns true when the effective audit config has at least one target bound to an
-// audit level. A config that routes nothing to an audit level returns false.
+// audit level. A config that routes nothing to an audit level returns false, and so does
+// any config the server would fail to apply, even though logr keeps the targets it added
+// before reaching the failing one.
+//
+// This only inspects config. A running server should ask its audit logger instead
+// (audit.Audit.IsActive), since targets that fail to start and config edits made since
+// startup are not reflected here.
 func IsAuditLoggingActive(auditSettings model.ExperimentalAuditSettings, allowAdvancedLogging bool) bool {
-	return hasAuditTargetFor(auditSettings, allowAdvancedLogging, func(l mlog.Level) bool {
-		_, ok := auditLevelIDs[l.ID]
-		return ok
-	})
-}
-
-// hasAuditTargetFor reports whether a target in the effective audit config is bound to a
-// level accepted by matches. Any config the server would fail to apply reports inactive, even
-// though logr keeps the targets it added before reaching the failing one.
-func hasAuditTargetFor(auditSettings model.ExperimentalAuditSettings, allowAdvancedLogging bool, matches func(mlog.Level) bool) bool {
 	var configSrc LogConfigSrc
 	if dsn := auditSettings.GetAdvancedLoggingConfig(); allowAdvancedLogging && !utils.IsEmptyJSON(dsn) {
 		src, err := newJSONSrc(dsn)
@@ -193,7 +190,10 @@ func hasAuditTargetFor(auditSettings model.ExperimentalAuditSettings, allowAdvan
 		if strings.EqualFold(target.Type, "none") {
 			continue
 		}
-		if slices.ContainsFunc(target.Levels, matches) {
+		if slices.ContainsFunc(target.Levels, func(l mlog.Level) bool {
+			_, ok := auditLevelIDs[l.ID]
+			return ok
+		}) {
 			return true
 		}
 	}
