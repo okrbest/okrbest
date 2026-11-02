@@ -130,6 +130,7 @@
 | 서버 로그 실시간 보기 새 항목 | [4028643a](https://github.com/mattermost/mattermost/commit/4028643a0abe570b99fd6103c5cb2a25f67a5092) (#39507) | 기능은 그대로 받았다. compass-ui를 제외해 새 항목 버튼을 포크의 `btn` 클래스 버튼으로 바꿨다. |
 | 서버 로그 서버 측 검색 | [d62af319](https://github.com/mattermost/mattermost/commit/d62af319e868519799ab91a6fa2fc201ddf6a549) (#39478) | 기능은 그대로 받았다. compass-ui `SectionNotice`를 포크의 `components/section_notice`로, 일반 텍스트 다운로드 버튼을 포크 `btn` 버튼으로 바꿨다. |
 | 봇 토큰 URL 제거 | [9535783e](https://github.com/mattermost/mattermost/commit/9535783ef9d3ab166da83e9ba3b8f7003d6449ca) (#39317) | 토큰 처리는 같다. upstream이 고친 `bot_save_flow.ts`·`bot_attributes.ts`는 제외 계보라 없어서 `add_bot.tsx`에 직접 넣었고, `confirm_integration.tsx`의 경고 배너 코드는 들이지 않았다. |
+| 서버 로그 사용자 지정 기간 | [47b81751](https://github.com/mattermost/mattermost/commit/47b81751a4e5c402aa61523e51ecbcf1f33bbfda) (#39509) | 기능은 그대로 받았다. Compass 토큰이 없어 `custom_range_modal.scss`를 고정 값으로 바꿨고, `docs/main` 문서 줄을 버렸다. |
 
 ---
 
@@ -4885,6 +4886,20 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `add_bot.test.tsx` | 속성 저장 테스트의 `CONFIRM_URL`과 대기 방식 수정 | `attributes` describe와 `bot_warnings` 쿼리 검증 전체가 포크에 없다. | 같다 |
 | `confirm_integration.tsx` 문맥 | `BotCreateWarnings` 상태·배너·`bot_warnings` 쿼리 정리 | 이 커밋의 변경이 아니라 충돌 문맥에 있던 코드다. 봇 저장 경고 배너를 표시한다. | 같다 |
 | `confirm_integration.test.tsx` | `bot create warnings` describe | 경고 배너와 URL 정리 테스트에 토큰 시드를 넣는다. 토큰 케이스만 `bot token` describe로 옮겼다. | 같다 |
+
+## 서버 로그 사용자 지정 기간 — Compass 토큰을 고정 값으로 바꿨다
+
+**upstream**: [`47b81751`](https://github.com/mattermost/mattermost/commit/47b81751a4e5c402aa61523e51ecbcf1f33bbfda)
+(Add a custom from/to time range to the Server Logs viewer, #39509) — 15파일 +793/-58, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** `custom_range_modal.scss`의 `--spacing-l`·`--spacing-xs`·`--font-size-100`·`--line-height-100`·`--font-weight-semibold`는 포크에 정의가 없다. 각각 16px·4px·12px·16px·600으로 바꿨다. 값은 근사치이며 브라우저에서 확인하지 않았다. 나머지 코드는 upstream 그대로다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/administration-guide/configure/reporting-configuration-settings.mdx` | 1줄 추가 | v12.2부터 **Duration > Custom range…**로 시작·종료 일시 사이의 구조화 로그를 볼 수 있고, 이때 실시간 보기는 쓸 수 없다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+| `custom_range_modal.scss` | Compass 토큰 사용 | 위 다섯 토큰 참조 | compass-ui에 라이선스가 붙고 수용을 결정할 때 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
