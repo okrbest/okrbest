@@ -1,22 +1,16 @@
 # upstream-master 미반영 커밋 목록
 
-`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-10-30 03:17
-- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 74개
+- 갱신일: 2026-11-02 15:34
+- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 94개
 
-**마지막 반영 커밋:** `cd3a263d` | [Migrate channel action tiles to Compass TileButton (#39030)](https://github.com/mattermost/mattermost/commit/cd3a263d9621d61a98162a003f006b7b09cbc149) | 2026-10-23
+**마지막 반영 커밋:** `99135372` | [\[MM-71341\] Report audit logging state from the live audit logger instead of config (#39397)](https://github.com/mattermost/mattermost/commit/99135372ab4690d5fa27ec0e465895509723931e) | 2026-10-24
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| d2ab0880 | [MM-67333: Update remote cluster response handling (#38710)](https://github.com/mattermost/mattermost/commit/d2ab0880b209f761071754bbcce57382a705652c) | 2026-10-24 |
-| c2f2eff3 | [\[MM-70757\] Docs: Site health dashboard (#39255)](https://github.com/mattermost/mattermost/commit/c2f2eff3b2684e1be94a24bbc48848bb437389dd) | 2026-10-24 |
-| 06e8471b | [\[MM-71218\] Count env var audit targets in IsAuditLoggingActive (#39243)](https://github.com/mattermost/mattermost/commit/06e8471b5782a7ea79d0271e4e9098bae2599809) | 2026-10-24 |
-| 39637f18 | [MM-71344 Plugin API: expose cluster node identity (#39399)](https://github.com/mattermost/mattermost/commit/39637f182d9a541d92a0841117e9c1da6d008c4c) | 2026-10-24 |
-| 80c85f72 | [\[MM-71342\] Evaluate AUDIT_LOG_OFF offline from the server's recorded audit state (#39395)](https://github.com/mattermost/mattermost/commit/80c85f72c5f4ddcbe3496ef5c238aa9d74a4641c) | 2026-10-24 |
-| 99135372 | [\[MM-71341\] Report audit logging state from the live audit logger instead of config (#39397)](https://github.com/mattermost/mattermost/commit/99135372ab4690d5fa27ec0e465895509723931e) | 2026-10-24 |
 | 07b2683c | [\[MM-71291\] Add a node selector to the System Console server logs (#39320)](https://github.com/mattermost/mattermost/commit/07b2683c77a739578f2e2309da373c6594f5d25d) | 2026-10-25 |
 | d9cfd5f4 | [\[MM-71343\] Fix flaky remotecluster ResponseHandling test reusing a broken connection (#39396)](https://github.com/mattermost/mattermost/commit/d9cfd5f44f097e3a19ff405f4e545f6d8ea8de59) | 2026-10-25 |
 | c4e83c68 | [\[MM-71349\] Report logger metrics for audit log targets (#39405)](https://github.com/mattermost/mattermost/commit/c4e83c682f37eeaa95f40e5185607f81eba419af) | 2026-10-25 |
@@ -85,6 +79,32 @@
 | c0b8b434 | [drip: use errors.AsType for sidebar category store errors (#39553)](https://github.com/mattermost/mattermost/commit/c0b8b4348d4833417fcf78326442c350c0c7f4e5) | 2026-10-29 |
 | 718b00b3 | [Remove unused Cloud usage limits UI (#39530)](https://github.com/mattermost/mattermost/commit/718b00b337cf399b69948c556f4c46f3c07f4edb) | 2026-10-29 |
 | 51e826ea | [Remove AdjustInProductLimits and the Cloud usage API (#39527)](https://github.com/mattermost/mattermost/commit/51e826eae1b103129fba36fd9b7d80f23eb62e0d) | 2026-10-29 |
+| e93c0987 | [Plugin API additions for Boards: Create new board modal, Channel Settings tab, tooltips (#39457)](https://github.com/mattermost/mattermost/commit/e93c0987030427bbf6f5d50625cd451f883d0d2b) | 2026-10-29 |
+| 68b173ab | [Keep the team sidebar and current team in global products with the product rail (#39552)](https://github.com/mattermost/mattermost/commit/68b173ab79292962e01f930b09f67941e7a6712f) | 2026-10-30 |
+| 9a78a71c | [Remove Cypress specs for removed billing flows (#39516)](https://github.com/mattermost/mattermost/commit/9a78a71c285e423a7fcf242db69b1e6f92244ed7) | 2026-10-29 |
+| 926a4c8a | [Remove Cloud team limit checks on team create and restore (#39525)](https://github.com/mattermost/mattermost/commit/926a4c8a835304596233aa5c9dc1029d9ac93dd7) | 2026-10-29 |
+| caaec8cd | [Add a button to quote text selected in a message (#39237)](https://github.com/mattermost/mattermost/commit/caaec8cda5e34866ccb2f7a4eb93e9dee585601c) | 2026-10-30 |
+| f7f54c09 | [Use compass-ui Icon in Button icon slots and fix follow-ups from the Button migration (#39559)](https://github.com/mattermost/mattermost/commit/f7f54c096818a49a0a45a4be608fa4eb91032397) | 2026-10-29 |
+| cdf79fef | [ci: update the test-system-io actions to 18a0baa (#39564)](https://github.com/mattermost/mattermost/commit/cdf79fef30561ec2c84c5b3eba60c231ff1232de) | 2026-10-30 |
+| 4bf16a6a | [MM-71424: Make Elasticsearch/OpenSearch TestConfig side-effect-free (#39512)](https://github.com/mattermost/mattermost/commit/4bf16a6a10a8095a319a120b90e80a033312c9ba) | 2026-10-30 |
+| e8d166d8 | [Compact the websocket channel membership structures (#38993)](https://github.com/mattermost/mattermost/commit/e8d166d8fcc6fdce43e7009dd1b1281bc288475e) | 2026-10-30 |
+| a8f8a6b5 | [Documentation updates for some missed areas. (#39511)](https://github.com/mattermost/mattermost/commit/a8f8a6b5230c0a16dd1e4b591fbc62913b163ad4) | 2026-10-30 |
+| 414ca16c | [Remove company information edit page (#39518)](https://github.com/mattermost/mattermost/commit/414ca16c11b37c3d2156b216e78e5ea83974384a) | 2026-10-30 |
+| a29df1bb | [Remove cloud customer update endpoints (#39519)](https://github.com/mattermost/mattermost/commit/a29df1bb0f1988246b920c45235d6146a3abe9ff) | 2026-10-30 |
+| 4df6bbc7 | [Remove unused cloud invoice endpoints (#39523)](https://github.com/mattermost/mattermost/commit/4df6bbc764dc5b4e199a6ef0caaa86c9d44c8218) | 2026-10-30 |
+| b4fb9d16 | [Remove Cloud Starter billing UI (#39529)](https://github.com/mattermost/mattermost/commit/b4fb9d16bd42105e2c4f79c77b6fd327166b883f) | 2026-10-30 |
+| 9aa8140f | [Fix openApiSync gaps for nested, helper, and multi-method routes (#39577)](https://github.com/mattermost/mattermost/commit/9aa8140f86f682dc3837645ab6a1af8eb828e6a1) | 2026-10-30 |
+| 7605721b | [Remove unused Cloud email templates (#39517)](https://github.com/mattermost/mattermost/commit/7605721bd7f005b1ad58ba248a7ecddbc2a7c23d) | 2026-10-30 |
+| 89f34ef2 | [Remove unused billing history page (#39524)](https://github.com/mattermost/mattermost/commit/89f34ef2ad223a5a871ea5a08c8660fa7b1fb10c) | 2026-10-30 |
+| f9f65b76 | [MM-71482: Update login token handling (#39578)](https://github.com/mattermost/mattermost/commit/f9f65b7604a142b86b206f819ee982d7218a6a7f) | 2026-10-30 |
+| bd812193 | [Remove Cloud file storage limit (#39526)](https://github.com/mattermost/mattermost/commit/bd812193069bde22867f1ea52f2f3185042bc291) | 2026-10-30 |
+| 3c0d58fc | [Remove unused archived file UI (#39532)](https://github.com/mattermost/mattermost/commit/3c0d58fcb667e8285e6f3c01e9a4ab04aa044370) | 2026-10-30 |
+| 18fb0968 | [\[MM-71476\] Fix timeout when deleting the last reply in a thread on large Posts tables (#39579)](https://github.com/mattermost/mattermost/commit/18fb0968a4b338810099afddd7db76241e442184) | 2026-10-30 |
+| f619e1e3 | [Remove dead self-serve purchase code (#39528)](https://github.com/mattermost/mattermost/commit/f619e1e3e032b535504ec3b058003b42175df69c) | 2026-10-30 |
+| 2b3fb21f | [Add KVListWithOptions for server-side prefix filtering in plugin KV store (#35441)](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5) | 2026-11-01 |
+| 4bda085f | [fix(e2e): click the policy channel row's Remove link, not the delete-section subtitle (#39546)](https://github.com/mattermost/mattermost/commit/4bda085f1aa79e03f398ffe986fc5e062b4a8108) | 2026-11-02 |
+| bfe09954 | [fix(e2e): restore PrivacySettings.ShowFullName and ShowEmailAddress in the per-test config reset (#39497)](https://github.com/mattermost/mattermost/commit/bfe09954b91d907ace9abff860ad4b0793f20afd) | 2026-11-02 |
+| 2400aa0a | [fix(e2e): click Compass Switch labels instead of forcing clicks on their inputs (#39372)](https://github.com/mattermost/mattermost/commit/2400aa0acd9f76ca2cf5440139159b30bf9d38a8) | 2026-11-02 |
 
 ## 제외된 커밋
 
@@ -842,6 +862,8 @@
 | ea335551 | [Add registerChannelViewComponent so plugins can replace the channel center view (#39281)](https://github.com/mattermost/mattermost/commit/ea335551d7c25979d40e7ba533c7c052c4592a87) | 플러그인이 채널 중앙 뷰(포스트 목록+작성기)를 대체하게 하는 신규 webapp 플러그인 API registerChannelViewComponent(16파일 +813/-20). HEAD 기준 7개 파일 내용 충돌 — 핵심인 channel_view.tsx는 우리가 Slack식 채널 헤더 재구성(b1914c9d66)·북마크 RHS 전환(c95f0b09ff·6ce1d58c49)으로 의도적으로 재작성한 영역이고, registry.ts는 exclude한 커밋들이 추가한 메서드 약 300줄이 upstream에만 있어 삽입 문맥 자체가 다르다. okrbest에 이 API를 소비하는 플러그인이 없고(upstream의 주 용도는 비공개 agents 플러그인으로 추정), 이후 upstream 커밋 중 이 API를 참조하는 것도 아직 없다(-S 검색 0건). 재검토 조건: 채널 중앙 뷰를 대체하는 플러그인을 도입하기로 할 때 — 그 시점에는 우리 채널 뷰 구조(탭 줄·RHS)와의 공존 설계가 필요하므로 spec 파이프라인으로 들여온다. |
 
 | cd3a263d | [Migrate channel action tiles to Compass TileButton (#39030)](https://github.com/mattermost/mattermost/commit/cd3a263d9621d61a98162a003f006b7b09cbc149) | 제외한 @mattermost/compass-ui 도입 계보(70658e18 #38153 — 2026-10-18 사용자 결정: npm·원본 저장소 모두 license 필드·LICENSE 없음(원칙 IV), 해당 UI 영역은 spec 014로 Slack식 자체 개편; 후속 922a900b·7532e0ba·2b64fd09·97bb58ec·b11aeee7·a0ce1806 제외) 위의 이관이라 받지 않는다. 내용은 채널 인트로 버튼(즐겨찾기·헤더·알림·멤버 추가)과 채널 정보 RHS 상단 버튼을 compass-ui TileButton/ActionButton으로 교체하고 패키지를 alpha.18→21로 범프, _action-button.scss 퇴역, compass 클래스 해시 변경에 따른 무관 스냅숏 갱신. 핵심이 compass-ui import라 패키지 없이 adapt하면 변경의 의미가 사라진다(97bb58ec와 같은 구조). 실측: 우리 package.json·lock·소스에 compass-ui 0건, cherry-pick 시 충돌 12건. 실측(2026-10-30): npm 최신 alpha.24에도 license 필드 없음. 재검토 조건: compass-ui에 라이선스가 명시되고 Compass 도입을 재결정할 때(70658e18부터, 그 시점 upstream 상태를 spec으로 영역별 일괄 반영). 미뤘다 일괄 도입 방침은 2026-10-30 사용자 확인. 분리 가능한 부수 개선(aria-haspopup·aria-pressed)은 필요 시 자체 커밋으로 별도 작업. |
+
+| c2f2eff3 | [\[MM-70757\] Docs: Site health dashboard (#39255)](https://github.com/mattermost/mattermost/commit/c2f2eff3b2684e1be94a24bbc48848bb437389dd) | 제외한 문서 사이트 계보(1d3bbc63 #37330 → dd69d06d·1b27d5d7) 위에 얹힌 Mattermost 공식 문서 페이지라 반영할 자리가 없다. 터치 경로 5개(docs/main/administration-guide/manage/site-health-dashboard.mdx 신규 +137, optimize-your-workspace·mmctl-command-line-tool·request-server-health-check.mdx 링크 추가, docs/site/scripts/gen-documentation-sidebar.mjs)가 전부 우리 트리에 없고 merge-tree CONFLICT 4건도 모두 modify/delete다. 내용은 docs.mattermost.com 기준 Mattermost 브랜드 문서라 리브랜드 충실성(constitution 원칙 IV)상 받을 수 없다. Health Dashboard 기능 코드 자체는 결정 A(2026-10-16)로 반영 중이며 이 제외와 무관하다. 재검토 조건은 okrbest 문서 사이트를 구축하기로 할 때다. |
 
 ## spec 전환 커밋
 
