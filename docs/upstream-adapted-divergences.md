@@ -4056,3 +4056,22 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `i18n/scripts/lib/server_plurals.json`의 `cs`·`da`·`fi`·`hr`·`lt`·`nb-NO`·`pt` | go-i18n 복수형 표 29개 로케일 | 우리는 21개 로케일만 둔다(`26c2875411` adapt 때 8개 실험 언어를 버린 사용자 결정). 카탈로그 없는 로케일이 있으면 `TestServerPluralTableMatchesGoI18n`이 실패한다 | 실험 언어를 되살릴 때 |
 | `i18n/style.json`의 `da`·`nb-NO` | 존댓말·반말 규칙 | 같은 사유 — `check_glossary`가 "no catalog has this locale"로 실패한다 | 같음 |
 | `i18n-ci-template.yml`의 `webapp-setup` `read-only: "true"` | CI 캐시 읽기 전용 복원 | 그 입력을 만든 `2d05d063`(#37182)을 제외해 우리 action에 입력이 없다 | `2d05d063` 계보를 반영할 때 |
+
+---
+
+## 환경변수 감사 대상 판정 — 게시물 전달 감사에 딸린 코드만 버렸다
+
+**upstream**: [`06e8471b`](https://github.com/mattermost/mattermost/commit/06e8471b5782a7ea79d0271e4e9098bae2599809)
+(Count env var audit targets in IsAuditLoggingActive, #39243) — 7파일 +573/-58, 2026-11-02 반영(사용자 결정 adapt)
+
+**받은 것.** 6파일. `config/logger.go`의 `AdditionalAuditTargetsEnv`·`AdditionalAuditConfig`·`EffectiveAuditConfig`·`hasAuditTargetFor`·`validateAuditTargets` 계열,
+`audit.go`의 `configureAudit` 단순화, `server.go` ABAC 경고 문구, `client_test.go`·healthcheck `audit_test.go` 조정, `logger_test.go`의 환경변수·대상 검증 테스트.
+**우리 맞춤.** `auditLevelIDs`는 우리 정의(`mlog.MLvlAuditAll` — audit-delivery 레벨이 없다)를 그대로 둔다. 테스트의 `noneAuditTargetJSON`·syslog dial 테스트·`TestAdditionalAuditConfig`에서 audit-delivery 레벨을 audit-api로 바꿨다.
+
+**버린 것.**
+
+| 대상 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `config/logger.go`의 `IsAuditLevelActive` | 특정 감사 레벨(주로 audit-delivery)이 실제 sink에 닿는지 판정, `hasAuditTargetFor` 위로 재작성 | 보류성 제외한 `0019ecc5`(#37882 게시물 전달 감사)가 만든 함수라 우리에게 없다. 호출처도 없다 | `0019ecc5`를 반영할 때 |
+| `channels/app/delivery_tracking_config.go` | 전달 감사 대상 누락 경고에 환경변수 안내 추가 | 같은 계보 파일이라 없다(modify/delete) | 같음 |
+| `logger_test.go`의 `deliveryTargetJSON`·`TestIsAuditLevelActive`(15건)·delivery 전용 케이스 2건 | audit-delivery 전용 대상 판정 테스트 | 같은 계보 — 대상 함수·레벨이 없다 | 같음 |
