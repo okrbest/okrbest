@@ -7,9 +7,11 @@ import type {Bot} from '@mattermost/types/bots';
 import type {IncomingWebhook, OAuthApp, OutgoingOAuthConnection, OutgoingWebhook} from '@mattermost/types/integrations';
 import type {IDMappedObjects} from '@mattermost/types/utilities';
 
+import {setPendingBotToken, takePendingBotToken} from 'components/integrations/bots/bot_pending_token';
 import ConfirmIntegration from 'components/integrations/confirm_integration/confirm_integration';
 
 import {renderWithContext, screen} from 'tests/react_testing_utils';
+import {getHistory} from 'utils/browser_history';
 import {TestHelper} from 'utils/test_helper';
 
 describe('components/integrations/ConfirmIntegration', () => {
@@ -162,5 +164,104 @@ describe('components/integrations/ConfirmIntegration', () => {
 
         // Bad type means redirect to error page
         expect(container).toMatchSnapshot();
+    });
+
+    describe('bot token', () => {
+        const replace = getHistory().replace as jest.Mock;
+        const confirmQuery = `?type=bots&id=${userId}`;
+        const botsListPath = `/${team.name}/integrations/bots`;
+        const otherToken = 'aaaaaaaaaaaaaaaaaaaaaaaaaa';
+
+        const confirmElement = (search: string) => (
+            <ConfirmIntegration
+                {...props}
+                location={{search}}
+            />
+        );
+        const renderConfirm = (search: string) => renderWithContext(confirmElement(search), initialState);
+        const seedBotToken = () => setPendingBotToken(userId, token);
+
+        beforeEach(() => {
+            replace.mockClear();
+        });
+
+        afterEach(() => {
+            takePendingBotToken(userId);
+            takePendingBotToken('other-id');
+            takePendingBotToken(userId.slice(0, -1));
+            takePendingBotToken(`${userId}x`);
+            takePendingBotToken('c5tpgt4iepf45jt768jz84djhd');
+        });
+
+        test('shows the pending token and ignores a token query param', () => {
+            seedBotToken();
+            renderConfirm(`${confirmQuery}&token=${otherToken}`);
+
+            expect(screen.getByText(token)).toBeInTheDocument();
+            expect(screen.queryByText(otherToken)).not.toBeInTheDocument();
+            expect(replace).not.toHaveBeenCalled();
+        });
+
+        test.each([
+            ['no pending token', () => undefined, confirmQuery],
+            ['a token query param', () => undefined, `${confirmQuery}&token=${token}`],
+            ['an encoded token query param', () => undefined, `${confirmQuery}&token=${encodeURIComponent(token)}`],
+            ['a Token query param', () => undefined, `${confirmQuery}&Token=${token}`],
+            ['an empty token query param', () => undefined, `${confirmQuery}&token=`],
+            ['an empty pending token', () => setPendingBotToken(userId, ''), confirmQuery],
+            ['a pending token for another id', () => setPendingBotToken('other-id', token), confirmQuery],
+            ['a pending token for a prefix of the id', () => setPendingBotToken(userId.slice(0, -1), token), confirmQuery],
+            ['a pending token for an id that starts with this id', () => setPendingBotToken(`${userId}x`, token), confirmQuery],
+        ])('%s sends the user to the bots list', (_, seed, search) => {
+            seed();
+            renderConfirm(search);
+
+            expect(screen.queryByText(token)).not.toBeInTheDocument();
+            expect(replace).toHaveBeenCalledWith(botsListPath);
+        });
+
+        test('the token is still shown when effects run twice on mount', () => {
+            seedBotToken();
+            renderWithContext(<React.StrictMode>{confirmElement(confirmQuery)}</React.StrictMode>, initialState);
+
+            expect(screen.getByText(token)).toBeInTheDocument();
+            expect(replace).not.toHaveBeenCalledWith(botsListPath);
+        });
+
+        test('a different bot id on the same mount shows that bot\'s own token', () => {
+            const secondUserId = 'c5tpgt4iepf45jt768jz84djhd';
+            const secondToken = 'zzzzzzzzzzzzzzzzzzzzzzzzzz';
+            const twoBots = {
+                [userId]: bot,
+                [secondUserId]: TestHelper.getBotMock({user_id: secondUserId, display_name: 'second bot'}),
+            };
+            const element = (search: string) => (
+                <ConfirmIntegration
+                    {...props}
+                    bots={twoBots}
+                    location={{search}}
+                />
+            );
+            seedBotToken();
+
+            const {rerender} = renderWithContext(element(confirmQuery), initialState);
+            expect(screen.getByText(token)).toBeInTheDocument();
+
+            setPendingBotToken(secondUserId, secondToken);
+            rerender(element(`?type=bots&id=${secondUserId}`));
+            expect(screen.getByText(secondToken)).toBeInTheDocument();
+            expect(screen.queryByText(token)).not.toBeInTheDocument();
+        });
+
+        test('a remount after the first visit goes to the bots list', () => {
+            seedBotToken();
+            const {unmount} = renderConfirm(confirmQuery);
+            expect(screen.getByText(token)).toBeInTheDocument();
+            unmount();
+
+            renderConfirm(confirmQuery);
+            expect(screen.queryByText(token)).not.toBeInTheDocument();
+            expect(replace).toHaveBeenCalledWith(botsListPath);
+        });
     });
 });

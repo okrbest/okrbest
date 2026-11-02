@@ -129,6 +129,7 @@
 | 플러그인 KV 접두어 필터링 | [2b3fb21f](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5) (#35441) | 코드는 upstream 그대로 받았다. 문서 사이트 계보를 제외해 `best-practices.md`가 없으므로 그 문서 절만 버렸다. API 주석의 "최소 서버 12.2"와 우리 12.1.0 사이에 차이가 남는다. |
 | 서버 로그 실시간 보기 새 항목 | [4028643a](https://github.com/mattermost/mattermost/commit/4028643a0abe570b99fd6103c5cb2a25f67a5092) (#39507) | 기능은 그대로 받았다. compass-ui를 제외해 새 항목 버튼을 포크의 `btn` 클래스 버튼으로 바꿨다. |
 | 서버 로그 서버 측 검색 | [d62af319](https://github.com/mattermost/mattermost/commit/d62af319e868519799ab91a6fa2fc201ddf6a549) (#39478) | 기능은 그대로 받았다. compass-ui `SectionNotice`를 포크의 `components/section_notice`로, 일반 텍스트 다운로드 버튼을 포크 `btn` 버튼으로 바꿨다. |
+| 봇 토큰 URL 제거 | [9535783e](https://github.com/mattermost/mattermost/commit/9535783ef9d3ab166da83e9ba3b8f7003d6449ca) (#39317) | 토큰 처리는 같다. upstream이 고친 `bot_save_flow.ts`·`bot_attributes.ts`는 제외 계보라 없어서 `add_bot.tsx`에 직접 넣었고, `confirm_integration.tsx`의 경고 배너 코드는 들이지 않았다. |
 
 ---
 
@@ -4865,6 +4866,25 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 |---|---|---|
 | `log_list.tsx` | `@mattermost/compass-ui`의 `SectionNotice`와 `Button`·`Icon` import | compass-ui에 라이선스가 붙고 수용을 결정할 때 |
 | `plain_log_list.tsx` | Compass `Button`으로 감싼 다운로드 버튼 | 위와 같다 |
+
+## 봇 토큰 URL 제거 — 제외한 봇 저장 흐름 대신 add_bot.tsx에 넣었다
+
+**upstream**: [`9535783e`](https://github.com/mattermost/mattermost/commit/9535783ef9d3ab166da83e9ba3b8f7003d6449ca)
+(Update bot account confirmation navigation, #39317) — 12파일 +232/-47, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** 봇 생성 뒤 토큰을 `setPendingBotToken`으로 메모리에 두고, 확인 페이지가 `takePendingBotToken`으로 한 번만 꺼낸다. upstream과 달리 `add_bot.tsx`가 저장과 이동을 직접 한다. 토큰이 비었거나 생성에 실패하면 봇 목록으로 간다. 테스트는 upstream 케이스를 포크 구조로 옮겼다. `bot_pending_token.ts`와 Cypress 4개는 upstream 그대로다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `add_bot/bot_attributes.ts` | `getBotCreateRedirectUrl` 인자를 `token`에서 `hasToken`으로 변경 | 리다이렉트 URL에서 `token=`을 빼고, 토큰 유무로만 확인 페이지와 목록을 나눈다. | 봇 속성 계보를 들일 때 |
+| `add_bot/bot_attributes.test.ts` | 위 함수 테스트 수정 | 새 인자 형식과 `token=` 없는 URL을 검증한다. | 같다 |
+| `add_bot/bot_save_flow.ts` | `saveBotCreate`에서 `setPendingBotToken` 호출 | 토큰이 있을 때만 보관하고 `Boolean(token)`을 리다이렉트에 넘긴다. | 같다 |
+| `add_bot/bot_save_flow.test.ts` | 케이스 추가 | 실패·빈 토큰은 보관하지 않고, 최신 봇 ID의 토큰만 남는지 검증한다. 빈 토큰이면 목록과 토큰 경고로 간다. | 같다 |
+| `add_bot.test.tsx` | 속성 저장 테스트의 `CONFIRM_URL`과 대기 방식 수정 | `attributes` describe와 `bot_warnings` 쿼리 검증 전체가 포크에 없다. | 같다 |
+| `confirm_integration.tsx` 문맥 | `BotCreateWarnings` 상태·배너·`bot_warnings` 쿼리 정리 | 이 커밋의 변경이 아니라 충돌 문맥에 있던 코드다. 봇 저장 경고 배너를 표시한다. | 같다 |
+| `confirm_integration.test.tsx` | `bot create warnings` describe | 경고 배너와 URL 정리 테스트에 토큰 시드를 넣는다. 토큰 케이스만 `bot token` describe로 옮겼다. | 같다 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 

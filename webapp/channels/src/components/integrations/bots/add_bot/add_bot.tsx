@@ -28,6 +28,7 @@ import {
 import TokenExpiryPicker from 'components/common/token_expiry_picker/token_expiry_picker';
 import ExternalLink from 'components/external_link';
 import FormError from 'components/form_error';
+import {setPendingBotToken} from 'components/integrations/bots/bot_pending_token';
 import SpinnerButton from 'components/spinner_button';
 
 import BotDefaultIcon from 'images/bot_default_icon.png';
@@ -129,6 +130,7 @@ export type State = {
 
 export default class AddBot extends React.PureComponent<Props, State> {
     previewBlob: string | null = null;
+
     // Whether the user typed their own username, which stops it from following the display name.
     private usernameEdited = false;
 
@@ -403,7 +405,6 @@ export default class AddBot extends React.PureComponent<Props, State> {
                 error = Utils.localizeMessage({id: 'bot.create_failed', defaultMessage: 'Failed to create bot'});
             }
 
-            let token = '';
             if (!error && data) {
                 if (this.state.pictureFile && this.state.pictureFile !== 'default') {
                     await this.props.actions.uploadProfileImage(data.user_id, this.state.pictureFile);
@@ -418,13 +419,14 @@ export default class AddBot extends React.PureComponent<Props, State> {
                 );
 
                 // On error just skip the confirmation because we have a bot without a token.
-                if (!tokenResult || tokenResult.error) {
+                const token = tokenResult && !tokenResult.error ? tokenResult.data?.token : undefined;
+                if (!token) {
                     this.updateRoles(data);
                     getHistory().push(`/${this.props.team.name}/integrations/bots`);
                     return;
                 }
 
-                token = tokenResult.data!.token!;
+                setPendingBotToken(data.user_id, token);
             }
 
             if (!error && data) {
@@ -432,7 +434,7 @@ export default class AddBot extends React.PureComponent<Props, State> {
             }
 
             if (data) {
-                getHistory().push(`/${this.props.team.name}/integrations/confirm?type=bots&id=${data.user_id}&token=${token}`);
+                getHistory().push(`/${this.props.team.name}/integrations/confirm?type=bots&id=${data.user_id}`);
                 return;
             }
         }
