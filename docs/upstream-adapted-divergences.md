@@ -4075,3 +4075,18 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `config/logger.go`의 `IsAuditLevelActive` | 특정 감사 레벨(주로 audit-delivery)이 실제 sink에 닿는지 판정, `hasAuditTargetFor` 위로 재작성 | 보류성 제외한 `0019ecc5`(#37882 게시물 전달 감사)가 만든 함수라 우리에게 없다. 호출처도 없다 | `0019ecc5`를 반영할 때 |
 | `channels/app/delivery_tracking_config.go` | 전달 감사 대상 누락 경고에 환경변수 안내 추가 | 같은 계보 파일이라 없다(modify/delete) | 같음 |
 | `logger_test.go`의 `deliveryTargetJSON`·`TestIsAuditLevelActive`(15건)·delivery 전용 케이스 2건 | audit-delivery 전용 대상 판정 테스트 | 같은 계보 — 대상 함수·레벨이 없다 | 같음 |
+
+---
+
+## Support Packet에 감사 상태 기록 — 전달 감사 파일의 hunk만 버렸다
+
+**upstream**: [`80c85f72`](https://github.com/mattermost/mattermost/commit/80c85f72c5f4ddcbe3496ef5c238aa9d74a4641c)
+(Evaluate AUDIT_LOG_OFF offline from the server's recorded audit state, #39395) — 13파일 +152/-10, 2026-11-02 반영(사용자 결정 adapt)
+
+**받은 것.** 12파일. `diagnostics.yaml`의 `config.audit_logging_configured` 기록, `AUDIT_LOG_OFF` 규칙의 기록값 우선 판정, `License.HasAdvancedLogging()`과 `server.go`·`client.go`·`platform/log.go` 치환, 테스트.
+
+**버린 것.**
+
+| 대상 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `channels/app/delivery_tracking_config.go` | `warnIfDeliveryAuditTargetMissing`의 인라인 라이선스 검사를 `s.License().HasAdvancedLogging()`으로 치환(−4/+1) | 보류성 제외한 `0019ecc5`(#37882 게시물 전달 감사) 파일이라 없다(modify/delete) | `0019ecc5`를 반영할 때 |
