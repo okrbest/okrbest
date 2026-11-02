@@ -4110,3 +4110,18 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `channels/app/delivery_tracking_config.go`·`_test.go` | 전달 감사 경고를 live logger(`s.Audit.IsLevelEnabled(LvlAuditDelivery)`)로 판정, 경고 문구 상수화, 변경 트리거 축소, 테스트 +103 | 보류성 제외한 `0019ecc5`(#37882 게시물 전달 감사) 파일이라 없다(modify/delete) | `0019ecc5`를 반영할 때 — 그때 `MLvlAuditGeneral`에서 `LvlAuditDelivery`를 빼고 `levels_test`를 upstream 형태로 되돌린다 |
 | `mlog/levels.go`의 `LvlAuditDelivery` 문맥 | 충돌 문맥(레벨 정의) | 같은 계보 | 같음 |
 | `app/config_test.go`·`audit/audit_test.go`의 "audit-delivery에만 묶인 대상" 케이스 각 1건 | delivery 전용 대상은 일반 감사가 아님을 확인 | 레벨이 없다 | 같음 |
+
+---
+
+## 서버 로그 노드 선택기 — 관리자 문서만 버렸다
+
+**upstream**: [`07b2683c`](https://github.com/mattermost/mattermost/commit/07b2683c77a739578f2e2309da373c6594f5d25d)
+(Add a node selector to the System Console server logs, #39320) — 16파일 +904/-44, 2026-11-02 반영(사용자 결정 adapt)
+
+**받은 것.** webapp 15파일 전부(`server_logs/` 노드 선택기·노드 열·클라이언트 시간 필터·SCSS, `getAllLogsWithNode`·`getLogNodes` selector, `LogNodeKey` 타입, `en.json` 5키, 테스트).
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/administration-guide/configure/reporting-configuration-settings.mdx` | 서버 로그 설명에 "cluster node" 필터 추가, v12.2+ HA 배포의 **Node** 선택기 안내 — 노드가 2개 이상 응답해야 선택기가 보임, 단일 노드 선택 후 새로고침하면 **All nodes**를 다시 골라야 함, 연결 안 되는 노드는 **Failed to fetch logs from node** 오류 항목 하나로 대체, **Download**는 요청을 처리한 노드의 로그 파일 | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
