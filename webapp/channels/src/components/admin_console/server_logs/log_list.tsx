@@ -9,10 +9,12 @@ import {FormattedMessage, defineMessages, useIntl} from 'react-intl';
 import {WithTooltip} from '@mattermost/shared/components/tooltip';
 import {LogNodeKey} from '@mattermost/types/admin';
 
+import {General} from 'mattermost-redux/constants';
 import {logEntryKey, logEntryTime} from 'mattermost-redux/utils/log_utils';
 
 import ExternalLink from 'components/external_link';
 import * as Menu from 'components/menu';
+import SectionNotice from 'components/section_notice';
 import Input from 'components/widgets/inputs/input/input';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
@@ -21,7 +23,7 @@ import {useLatest} from 'hooks/useLatest';
 import KeyboardHints from './keyboard_hints';
 import LogRow from './log_row';
 import type {LogObjectWithAdditionalInfo} from './types';
-import {formatLogValue, newestLogTimes} from './utils';
+import {LEVEL_GROUPS, levelGroup, newestLogTimes} from './utils';
 
 import './log_list.scss';
 
@@ -33,6 +35,9 @@ type TimePreset = {
 type Props = {
     loading: boolean;
     logs: LogObjectWithAdditionalInfo[];
+
+    // Nodes that returned a full page, leaving out their older entries
+    truncatedNodes: string[];
     onSearchChange: (term: string) => void;
     search: string;
 
@@ -68,13 +73,15 @@ type Props = {
 const PAGE_SIZES = [50, 100, 200, 500] as const;
 const DEFAULT_PAGE_SIZE = 200;
 
-// Filtering runs over every fetched log entry, so keep it off the keystroke path
+// Each search change queries the server, so keep it off the keystroke path
 const SEARCH_DEBOUNCE_MS = 200;
+
+// The server rejects longer terms (model.LogFilterSearchMaxLength)
+const SEARCH_MAX_LENGTH = 256;
 
 // Rows are focused programmatically by the keyboard navigation below
 const ROW_FOCUS_SELECTOR = '.LogRow__main';
 
-const LEVEL_ORDER = ['error', 'warn', 'info', 'debug'] as const;
 const LEVEL_LABELS = defineMessages({
     error: {id: 'admin.logs.level.error', defaultMessage: 'Error'},
     warn: {id: 'admin.logs.level.warn', defaultMessage: 'Warn'},
@@ -104,7 +111,7 @@ type StoredPrefs = {
 const DEFAULT_PREFS: StoredPrefs = {
     pageSize: DEFAULT_PAGE_SIZE,
     wrapText: true,
-    enabledLevels: [...LEVEL_ORDER],
+    enabledLevels: [...LEVEL_GROUPS],
     sortAsc: false,
     node: '',
 };
@@ -125,7 +132,7 @@ export function loadPrefs(): StoredPrefs {
     }
 
     const levels = Array.isArray(stored.enabledLevels) ? stored.enabledLevels.filter(
-        (level): level is string => LEVEL_ORDER.includes(level as typeof LEVEL_ORDER[number]),
+        (level): level is string => LEVEL_GROUPS.includes(level as typeof LEVEL_GROUPS[number]),
     ) : [];
 
     return {
@@ -184,21 +191,15 @@ function scopeLogs(logs: LogObjectWithAdditionalInfo[], selectedNode: string, cu
     return scoped.length === logs.length ? logs : scoped;
 }
 
-function filterLogs(logs: LogObjectWithAdditionalInfo[], enabledLevels: Set<string>, search: string, showNodes: boolean) {
-    let filtered = logs;
-
-    if (!LEVEL_ORDER.every((level) => enabledLevels.has(level))) {
-        filtered = filtered.filter((log) => enabledLevels.has(log.level));
+// Search runs on the server, which leaves only the level groups, also applied before a refetch returns
+function filterLogs(logs: LogObjectWithAdditionalInfo[], enabledLevels: Set<string>) {
+    if (LEVEL_GROUPS.every((group) => enabledLevels.has(group))) {
+        return logs;
     }
-
-    if (search) {
-        const lowerSearch = search.toLowerCase();
-        filtered = filtered.filter((log) => (showNodes && log[LogNodeKey]?.toLowerCase().includes(lowerSearch)) || Object.entries(log).some(([key, value]) =>
-            key !== 'level' && key !== 'timestamp' && formatLogValue(value).toLowerCase().includes(lowerSearch),
-        ));
-    }
-
-    return filtered;
+    return logs.filter((log) => {
+        const group = levelGroup(log.level);
+        return group !== undefined && enabledLevels.has(group);
+    });
 }
 
 function savePrefs(prefs: StoredPrefs) {
@@ -210,7 +211,7 @@ function savePrefs(prefs: StoredPrefs) {
 }
 
 export default function LogList({
-    loading, logs, onSearchChange, search,
+    loading, logs, truncatedNodes, onSearchChange, search,
     enabledLevels, onEnabledLevelsChange: setEnabledLevels,
     nodes, selectedNode, onSelectedNodeChange,
     onReload, downloadUrl,
@@ -231,7 +232,7 @@ export default function LogList({
     const [focusedKey, setFocusedKey] = useState<string | null>(null);
     const [wrapText, setWrapText] = useState(initialPrefs.wrapText);
 
-    // Kept local so typing repaints the input without waiting for the debounced filtering
+    // Kept local so typing repaints the input without waiting for the debounced query
     const [searchInput, setSearchInput] = useState(search);
 
     const showNodes = nodes.length >= 2;
@@ -313,29 +314,30 @@ export default function LogList({
     const levelCounts = useMemo(() => {
         const counts: Record<string, number> = {error: 0, warn: 0, info: 0, debug: 0};
         for (const log of scopedLogs) {
-            if (log.level in counts) {
-                counts[log.level]++;
+            const group = levelGroup(log.level);
+            if (group) {
+                counts[group]++;
             }
         }
         return counts;
     }, [scopedLogs]);
 
-    const allLevelsEnabled = useMemo(() => LEVEL_ORDER.every((level) => enabledLevels.has(level)), [enabledLevels]);
+    const allLevelsEnabled = useMemo(() => LEVEL_GROUPS.every((level) => enabledLevels.has(level)), [enabledLevels]);
 
     const processedLogs = useMemo(() => {
         // Ties fall back to file order so same-millisecond entries reverse too
         const direction = sortAsc ? 1 : -1;
-        return filterLogs(scopedLogs, enabledLevels, search, showNodes).
+        return filterLogs(scopedLogs, enabledLevels).
             map((log, index) => ({log, index, time: logEntryTime(log)})).
             sort((a, b) => direction * ((a.time - b.time) || (a.index - b.index))).
             map(({log}) => log);
-    }, [scopedLogs, enabledLevels, search, sortAsc, showNodes]);
+    }, [scopedLogs, enabledLevels, sortAsc]);
 
     // Only held entries the current filters would show are worth announcing
-    const heldCount = useMemo(() => filterLogs(heldLogs, enabledLevels, search, showNodes).length, [heldLogs, enabledLevels, search, showNodes]);
+    const heldCount = useMemo(() => filterLogs(heldLogs, enabledLevels).length, [heldLogs, enabledLevels]);
 
     const matchCount = search ? processedLogs.length : null;
-    const totalCount = scopedLogs.length;
+    const truncated = truncatedNodes.some((node) => !selectedNode || node === selectedNode);
 
     const totalPages = Math.max(1, Math.ceil(processedLogs.length / pageSize));
     const startIndex = page * pageSize;
@@ -394,14 +396,14 @@ export default function LogList({
     }, [setEnabledLevels]);
 
     const enableAllLevels = useCallback(() => {
-        setEnabledLevels(new Set<string>(LEVEL_ORDER));
+        setEnabledLevels(new Set<string>(LEVEL_GROUPS));
     }, [setEnabledLevels]);
 
     // Ctrl/Cmd-click a level pill to show only that level; ctrl/cmd-click it again to restore all.
     const soloLevel = useCallback((level: string) => {
         setEnabledLevels((prev) => {
             if (prev.size === 1 && prev.has(level)) {
-                return new Set<string>(LEVEL_ORDER);
+                return new Set<string>(LEVEL_GROUPS);
             }
             return new Set([level]);
         });
@@ -490,7 +492,7 @@ export default function LogList({
     }, [visibleLogs, rowKeys, focusedIndex, focusRow]);
 
     const activePresetLabel = timePresets.find((preset) => preset.minutes === activeTimePreset)?.label;
-    const enabledLevelCount = LEVEL_ORDER.filter((level) => enabledLevels.has(level)).length;
+    const enabledLevelCount = LEVEL_GROUPS.filter((level) => enabledLevels.has(level)).length;
 
     // One selector for on/off and the interval, so picking an interval turns polling on
     const setLiveTail = (interval: number | null) => {
@@ -512,6 +514,7 @@ export default function LogList({
                 ref={searchInputRef}
                 type='text'
                 name='serverLogsSearch'
+                maxLength={SEARCH_MAX_LENGTH}
                 containerClassName='LogViewer__search'
                 placeholder={intl.formatMessage({id: 'admin.logs.search.placeholder', defaultMessage: 'Search logs'})}
                 value={searchInput}
@@ -597,7 +600,7 @@ export default function LogList({
                     width: '260px',
                 }}
             >
-                {LEVEL_ORDER.map((level) => (
+                {LEVEL_GROUPS.map((level) => (
                     <Menu.Item
                         key={level}
                         id={`serverLogsLevel-${level}`}
@@ -766,7 +769,8 @@ export default function LogList({
         </div>
     );
 
-    if (loading && logs.length === 0) {
+    // A search refetches as it's typed, so it keeps the list in place rather than flashing the spinner
+    if (loading && logs.length === 0 && !search) {
         return (
             <div className='LogViewer'>
                 {filters}
@@ -790,6 +794,41 @@ export default function LogList({
             onKeyDown={handleKeyDown}
         >
             {filters}
+
+            {truncated && (
+                <div className='LogViewer__notice'>
+                    <SectionNotice
+                        type='info'
+                        title={showNodes && !selectedNode ? (
+                            <FormattedMessage
+                                id='admin.logs.truncated.titleNodes'
+                                defaultMessage='Only the latest {limit, number} entries from each node are shown'
+                                values={{limit: General.LOGS_PAGE_SIZE_DEFAULT}}
+                            />
+                        ) : (
+                            <FormattedMessage
+                                id='admin.logs.truncated.title'
+                                defaultMessage='Only the latest {limit, number} entries are shown'
+                                values={{limit: General.LOGS_PAGE_SIZE_DEFAULT}}
+                            />
+                        )}
+                    >
+                        {showNodes ? (
+                            <FormattedMessage
+                                id='admin.logs.truncated.descriptionNodes'
+                                defaultMessage="Older entries aren't loaded or counted."
+                            />
+                        ) : (
+
+                            // Download saves the log file of the node serving the request, so it's only offered with a single node
+                            <FormattedMessage
+                                id='admin.logs.truncated.description'
+                                defaultMessage="Older entries aren't loaded or counted. Download the log file to see them."
+                            />
+                        )}
+                    </SectionNotice>
+                </div>
+            )}
 
             <div className='LogViewer__header'>
                 <span className='LogViewer__header-level'>
@@ -927,13 +966,12 @@ export default function LogList({
                     )}
                     {!loading && matchCount !== null && (
                         <FormattedMessage
-                            id='admin.logs.showingMatching'
-                            defaultMessage='Showing {start, number} - {end, number} of {matches, number} entries matching your filters ({total, number} total)'
+                            id='admin.logs.showingMatches'
+                            defaultMessage='Showing {start, number} - {end, number} of {matches, number} entries matching your filters'
                             values={{
                                 start: processedLogs.length > 0 ? startIndex + 1 : 0,
                                 end: endIndex,
                                 matches: matchCount,
-                                total: totalCount,
                             }}
                         />
                     )}

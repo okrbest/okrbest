@@ -128,6 +128,7 @@
 | SAML/OAuth 감사 이벤트 user_created | [678386ea](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) (#38006) | 서버 코드는 그대로 받았다. SAML 쪽은 구현체가 비공개 enterprise라 인터페이스만 바뀌고 동작하지 않는다. 감사 로그 스키마 문서를 버렸다 — 아래 참조 |
 | 플러그인 KV 접두어 필터링 | [2b3fb21f](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5) (#35441) | 코드는 upstream 그대로 받았다. 문서 사이트 계보를 제외해 `best-practices.md`가 없으므로 그 문서 절만 버렸다. API 주석의 "최소 서버 12.2"와 우리 12.1.0 사이에 차이가 남는다. |
 | 서버 로그 실시간 보기 새 항목 | [4028643a](https://github.com/mattermost/mattermost/commit/4028643a0abe570b99fd6103c5cb2a25f67a5092) (#39507) | 기능은 그대로 받았다. compass-ui를 제외해 새 항목 버튼을 포크의 `btn` 클래스 버튼으로 바꿨다. |
+| 서버 로그 서버 측 검색 | [d62af319](https://github.com/mattermost/mattermost/commit/d62af319e868519799ab91a6fa2fc201ddf6a549) (#39478) | 기능은 그대로 받았다. compass-ui `SectionNotice`를 포크의 `components/section_notice`로, 일반 텍스트 다운로드 버튼을 포크 `btn` 버튼으로 바꿨다. |
 
 ---
 
@@ -4850,6 +4851,20 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 |---|---|---|
 | `log_list.tsx` import | `@mattermost/compass-ui`의 `Button`·`Icon`, `@mattermost/compass-icons`의 화살표·다운로드·새로고침 아이콘 | compass-ui에 라이선스가 붙고 수용을 결정할 때 |
 | `log_list.tsx` 새 항목 버튼 | `<Button emphasis='primary' size='x-small' leadingIcon=...>` | 위와 같다 |
+
+## 서버 로그 서버 측 검색 — 안내와 다운로드 버튼을 포크 컴포넌트로 바꿨다
+
+**upstream**: [`d62af319`](https://github.com/mattermost/mattermost/commit/d62af319e868519799ab91a6fa2fc201ddf6a549)
+(Search server logs on the server and flag truncated results, #39478) — 30파일 +981/-208, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** 잘림 안내는 `components/section_notice`를 쓴다. 이 컴포넌트에는 `className`과 `description`이 없어서 `LogViewer__notice` div로 감싸고 설명을 children으로 넘겼다. `plain_log_list.tsx`의 다운로드 버튼은 `ExternalLink` + `btn`을 유지하고 문구 ID만 `admin.logs.DownloadLogs`로 바꿨다. 서버 코드와 테스트는 upstream 그대로다.
+
+**버린 것.**
+
+| 위치 | 버린 내용 | 되살릴 조건 |
+|---|---|---|
+| `log_list.tsx` | `@mattermost/compass-ui`의 `SectionNotice`와 `Button`·`Icon` import | compass-ui에 라이선스가 붙고 수용을 결정할 때 |
+| `plain_log_list.tsx` | Compass `Button`으로 감싼 다운로드 버튼 | 위와 같다 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
