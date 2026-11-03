@@ -135,6 +135,7 @@
 | recap 인용·프롬프트 강화 | [5f2ab3e2](https://github.com/mattermost/mattermost/commit/5f2ab3e2292d1721d61ec5f96b83b481a3bed03e) (#38204) | 세 가지 방어는 그대로 받았다. 제외 계보의 `SummarizePostsWithInstructions`가 없어 `SummarizePosts`에 맞췄고, 사용자 지시 블록과 그 테스트를 뺐다. |
 | 대량 채널 삭제 색인 안내 | [ad8460ad](https://github.com/mattermost/mattermost/commit/ad8460ad4d1d81c47d5d64a996dba7af8f870180) (#39547) | API 문서와 mmctl 안내만 받았다. `docs/main` 4파일은 문서 사이트 계보 제외로 버렸다. |
 | 로그인 전 플러그인 노출 제한 | [e8c7307f](https://github.com/mattermost/mattermost/commit/e8c7307f42a870a545f07fcd68aaff81f1e68346) (#39433) | 보호 기능과 토글은 그대로 받았다. 문서 2파일과 업그레이드 스펙 3파일을 버렸고, 제외 계보의 마이그레이션 키와 e2e 헬퍼는 들이지 않았다. 스냅샷은 포크 라디오 마크업으로 재생성했다. |
+| 웹소켓 재연결 실패 원인 보고 | [8824cd2f](https://github.com/mattermost/mattermost/commit/8824cd2f9957a8e09a23342fb782242934f3e9c3) (#39388) | 코드·테스트·Grafana 대시보드는 그대로 받았다. `docs/main` 메트릭 문서 1파일은 문서 사이트 계보 제외로 버렸다. |
 
 ---
 
@@ -4970,6 +4971,19 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `migrations.go` 키 목록 문맥 | `managedCategory*`·`boardsProperty*`·`cpaToGlobalAttributes*` 키 | 이 커밋의 변경이 아니라 문맥이다. 포크에 없는 키라 들이지 않았다. | 해당 계보를 들일 때 |
 | `e2e-tests/playwright/lib/src/index.ts`·`server/index.ts` 문맥 | `upgradeServerImage`·`saveUpgradePhaseLogs`·`ensureDemoPlugin`·`defaultEnabledPluginIds`·`disableUnexpectedPlugins` export | 위와 같다. 새 웹앱 플러그인 헬퍼 export만 넣었다. | 같다 |
 | `plugin_management.ts` POM 문맥 | `pluginFileInput`, `uploadButton` | 이번 스펙에 쓰지 않아 들이지 않았다. | 플러그인 업로드 스펙을 들일 때 |
+
+## 웹소켓 재연결 실패 원인 보고 — docs/main 메트릭 문서를 버렸다
+
+**upstream**: [`8824cd2f`](https://github.com/mattermost/mattermost/commit/8824cd2f9957a8e09a23342fb782242934f3e9c3)
+(Report why websocket reconnects fail to resume, #39388) — 12파일 +1086/-42, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** 서버 코드, 테스트, mock, Grafana 대시보드는 upstream 그대로다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/administration-guide/scale/performance-monitoring-metrics.mdx` | 메트릭 설명 추가·수정 | `mattermost_websocket_reconnect_failures_total`은 이전 연결을 잇지 못해 새 연결과 재동기화가 필요한 재연결 수다. 레이블은 `origin_client`, `disconnect_err_code`, `reason`, `is_remote`다. `reason`은 `old_conn_still_open`(이전 연결이 아직 열림), `missed_events_evicted`(놓친 이벤트가 버퍼에서 사라짐), `conn_not_found`(어느 노드에도 없음), `cluster_lookup_failed`(다른 노드 조회 실패)다. `is_remote`는 이전 연결이 다른 노드에 있었으면 `true`다. `mattermost_websocket_reconnects_total`의 레이블은 `origin_client`, `disconnect_err_code`, `type`이고, `success`·`lossless`는 이벤트 손실 없이 이어졌다는 뜻, `failure`는 잇지 못했다는 뜻이다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
