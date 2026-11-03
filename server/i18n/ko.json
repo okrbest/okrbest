@@ -10090,10 +10090,6 @@
     "translation": "이 서버에서 {{.Backend}} 검색이 비활성화되어 있습니다"
   },
   {
-    "id": "ent.elasticsearch.search_posts.parse_matches_failed",
-    "translation": "검색 결과 일치 항목 파싱 실패"
-  },
-  {
     "id": "ent.elasticsearch.search_posts.search_failed",
     "translation": "검색을 완료하지 못했습니다"
   },
