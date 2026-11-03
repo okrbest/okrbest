@@ -3,33 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-03 16:38
+- 갱신일: 2026-11-03 18:27
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 78개
+- 남은 커밋: 62개
 
-**마지막 반영 커밋:** `7709b2f9` | [\[MM-70033\] Serve property field permissions to v3 property groups (#39080)](https://github.com/mattermost/mattermost/commit/7709b2f9a5b6739be5580218780740c54b210577) | 2026-10-27
+**마지막 반영 커밋:** `8a53d645` | [MM-71401: Rebuild the scrambled authentication settings tables (#39482)](https://github.com/mattermost/mattermost/commit/8a53d645decc6f7ccc2892258334a8bdb4a3aa11) | 2026-10-28
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| c8559579 | [Validate reaction emoji names on bulk import (#37912)](https://github.com/mattermost/mattermost/commit/c85595794a0591a1035a16affe2e523105590902) | 2026-10-28 |
-| 501becc7 | [\[MM-70595\] Reject log targets inside server-managed directories (#39296)](https://github.com/mattermost/mattermost/commit/501becc7f6bd299f23c09d1716ba2ea3b54b077b) | 2026-10-28 |
-| 5923d963 | [Add the number property field type (#39459)](https://github.com/mattermost/mattermost/commit/5923d963fe1b7ab6e0e527a93235b9c859f22ea9) | 2026-10-28 |
-| e26664d8 | [\[MM-71303\] Fix empty OpenSearch/Elasticsearch post search when a highlight contains an illegal XML character (#39358)](https://github.com/mattermost/mattermost/commit/e26664d892d2715e9ac775ac10382e24d8215410) | 2026-10-28 |
-| a275dd6b | [Add the checkbox property field type (#39460)](https://github.com/mattermost/mattermost/commit/a275dd6b1293872d810cfdebca9893a148a53859) | 2026-10-28 |
-| fc65232a | [fix(docs): fix table rendering in env config settings docs page (#38757)](https://github.com/mattermost/mattermost/commit/fc65232a4cf5d32bdefa04655e36eb1bf0a7b2d6) | 2026-10-28 |
-| a70bb81b | [drip: AppError -> error: cloud file size limit (#39389)](https://github.com/mattermost/mattermost/commit/a70bb81b7fa169bdb144666fb9fdd1e0c3c6610a) | 2026-10-28 |
-| 6d6fc9b0 | [\[MM-71390\] Tolerate failed nodes in plain-text logs and fix log viewer filters (#39476)](https://github.com/mattermost/mattermost/commit/6d6fc9b0c64fd5bdcb59f028403351f096beff98) | 2026-10-28 |
-| 0c10fcbe | [Add TLS support for Redis connections (#39474)](https://github.com/mattermost/mattermost/commit/0c10fcbec524145e406b4ff8507e7048e903163a) | 2026-10-28 |
-| 40575a0b | [Update maximize-microsoft-investments.mdx (#39434)](https://github.com/mattermost/mattermost/commit/40575a0b581ecccad896e590ee842d9b8571ae6c) | 2026-10-28 |
-| 06292532 | [\[MM-71391\] Read server logs in blocks and stream log downloads (#39477)](https://github.com/mattermost/mattermost/commit/06292532434975c4beaaa469b8564f9e5a032b6e) | 2026-10-28 |
-| 25f5f13a | [Bump github.com/mattermost/logr/v2 to v2.0.25 (#39486)](https://github.com/mattermost/mattermost/commit/25f5f13a63ed3bf61c720d5ba1a4fa293fb50437) | 2026-10-28 |
-| 76c56ef7 | [Replace @deanwhillier/jest-matchmedia-mock with a local matchMedia mock (#39496)](https://github.com/mattermost/mattermost/commit/76c56ef772840461c48c523bf9906dda8b205e74) | 2026-10-28 |
-| bfc95839 | [drip: use errors.AsType for OAuth store errors (#39479)](https://github.com/mattermost/mattermost/commit/bfc95839427470ef8b70b234840fe81fe4b6c2b0) | 2026-10-28 |
-| 1bd58a17 | [Add an experimental product rail with Home, Channels and Boards views (#39383)](https://github.com/mattermost/mattermost/commit/1bd58a17467cdd4c08dff8e1138a791c94286a08) | 2026-10-28 |
-| 5e9feb81 | [Mark mobile file upload and download settings as Enterprise (#39473)](https://github.com/mattermost/mattermost/commit/5e9feb818baf65fb0d4fef8c9ac911fbe8b0f68c) | 2026-10-28 |
-| cf7496d1 | [Fix the secure file preview and PDF link navigation settings tables (#39475)](https://github.com/mattermost/mattermost/commit/cf7496d1359f57ab8884c8a7338df4896dc31931) | 2026-10-28 |
-| 2515ee2b | [MM-71401: Rebuild the scrambled site settings tables (#39483)](https://github.com/mattermost/mattermost/commit/2515ee2b33f02c93c36443c9beb6657e12a34e7c) | 2026-10-28 |
-| 8a53d645 | [MM-71401: Rebuild the scrambled authentication settings tables (#39482)](https://github.com/mattermost/mattermost/commit/8a53d645decc6f7ccc2892258334a8bdb4a3aa11) | 2026-10-28 |
 | b9fd23e5 | [MM-70703: Align file attachment permission checks (#39413)](https://github.com/mattermost/mattermost/commit/b9fd23e542a2f544033e2b385313bc43ab18e490) | 2026-10-29 |
 | fcafb9b8 | [fix(e2e): repair deletion-report.spec.ts on master (#39376)](https://github.com/mattermost/mattermost/commit/fcafb9b89c8f36264022269b5a69b62ccf6285b0) | 2026-10-29 |
 | e22bcdd3 | [fix(e2e): wait for a search-engine answer in the Elasticsearch/OpenSearch search specs (#39445)](https://github.com/mattermost/mattermost/commit/e22bcdd33153762788edac3e652ee3e4dc676083) | 2026-10-29 |
@@ -89,6 +70,9 @@
 | 81eeff50 | [Keep AttributeView for 11.10 servers running against a 12.x database (#39267)](https://github.com/mattermost/mattermost/commit/81eeff505e895c0a87cb8f0b3f335dac4230e660) | 2026-11-02 |
 | 36ebc1f6 | [Add Preview/Code toggle for Markdown file previews and code blocks (#39378)](https://github.com/mattermost/mattermost/commit/36ebc1f6fc024e0c15d24e5dd925f7daf2ce88ad) | 2026-11-02 |
 | 2a6bf358 | [Drop removed matrix selections when a dialog refreshes on return (#39513)](https://github.com/mattermost/mattermost/commit/2a6bf358e4e621cdb10171db5e0e5c8a395513cf) | 2026-11-02 |
+| 2ad57b53 | [MM-71221: Keep the rich text editor in sync with the draft (#39452)](https://github.com/mattermost/mattermost/commit/2ad57b53b8030f5939d6504b44ed9949d4ed0843) | 2026-11-03 |
+| 09c24a0f | [ci(e2e): triage support paths, automatic re-run on infra failures, test-system-io actions update (#39590)](https://github.com/mattermost/mattermost/commit/09c24a0fdb244dd479790411712fa7538d41dba4) | 2026-11-03 |
+| 31bb5213 | [\[MM-71590\] Keep the Server Logs filters in the URL so a view can be shared (#39642)](https://github.com/mattermost/mattermost/commit/31bb52133e05f8e84fc53f4d70d08d863e5eb856) | 2026-11-03 |
 
 ## 제외된 커밋
 
@@ -880,6 +864,24 @@
 | a524a9d2 | [\[MM-70824\] Explain the graph attribute operators in the policy editor menu (#38940)](https://github.com/mattermost/mattermost/commit/a524a9d23073d3d0c9e31a5f9be123f2f908530f) | 제외한 graph(계층형) 속성 계보(9ef79330 #37851 graph custom attribute 타입·PropertyOptions/Edges 테이블 → 85372e3a #38481 webapp 계층형 속성 지원, 둘 다 property v2·Global Attributes 계보 위)의 정책 편집기 문구·표시 개선이라 설명할 대상이 없다. graph 속성 연산자 드롭다운을 제목 있는 세 그룹으로 나누고 연산자마다 부모·자식 기준 라벨·도움말·대응 정책 함수명을 붙인다(7파일 +728/-132, 연산자 식별자·저장 표현식 불변). 우리 operator_selector_menu.tsx에 graph 연산자 grep 0건, 수정 대상 table_editor_graph.test.tsx·e2e graph_operators.spec.ts가 그 계보 산물이라 부재(modify/delete), merge-tree CONFLICT 7건. 그룹·설명 레이아웃만 들이면 커밋 본문 표현대로 graph 외 어떤 속성 유형도 쓰지 않는 죽은 UI가 된다. graph 속성 계보를 되살릴 때 함께 재처리. |
 
 | 7709b2f9 | [\[MM-70033\] Serve property field permissions to v3 property groups (#39080)](https://github.com/mattermost/mattermost/commit/7709b2f9a5b6739be5580218780740c54b210577) | MM-70033 연작 4/4 — 1~3/4(4311c47a 권한 모델·bcd69221 저장·a44c92ad 판정) 제외로 내줄 권한 객체가 없다. property group 버전 3과 PropertyFieldPermissionsV3 feature flag(기본 off)를 추가해 v3 group이 호출자 가시 범위로 걸러진 권한 객체를 받고 패치하게 하며, 권한 제출에 field.write 요구·필드 생성 시 채널/팀/시스템 관리자만 제출(아니면 403)·CPA 생성은 거부, support packet golden·Playwright 기본 플래그 갱신(23파일 +1976/-80). 터치 경로 api4/properties.go·properties_test.go·property_options.go, app/property_field_v3.go·_test.go, model/property_permissions.go, e2e default_feature_flags.ts가 우리 트리에 없고(v3 property group 자체가 제외한 v2·v3 계보 산물) merge-tree CONFLICT. v2·v3 계보를 되살릴 때 연작 4편을 묶음으로 재검토. |
+
+| 5923d963 | [Add the number property field type (#39459)](https://github.com/mattermost/mattermost/commit/5923d963fe1b7ab6e0e527a93235b9c859f22ea9) | 제외한 Integrated Boards·property v2 계보의 확장이라 토대도 소비자도 없다. property field에 number 타입(유한 JSON 숫자)을 추가 — DB 마이그레이션 000238로 property_field_type enum에 'number', 전 group 값 쓰기를 검사하는 ValueTypeValidationHook(value_type_validation.go +217), access control group의 number 필드 거부, PropertyFieldType.IsValid·SupportsAccessControl, webapp FieldType(18파일 +623/-22). 본문 표현대로 Boards core 브랜치 #39373 포트(#39458)에서 분리된 Integrated Boards 카드 속성용. 터치 경로 api/v4/source/properties.yaml(48f2fd08 Integrated Boards MVP 산물)·app/properties/access_control_attribute_validation.go(9f1fe90b CPA v2 이전 산물)·user_attribute_utils.ts(14ee0ae9 봇 속성 산물)가 우리 트리에 없고 merge-tree CONFLICT. upstream 000236·000237(MM-70033, 제외)을 거친 번호라 우리 자체 000235 뒤로 재배치·migrations.list 재생성이 필요한데, 우리 Boards는 자체 플러그인이라 이 property 시스템을 쓰지 않는다. a275dd6b(checkbox 타입)와 같은 계열. 계보를 되살릴 때 재처리. |
+
+| a275dd6b | [Add the checkbox property field type (#39460)](https://github.com/mattermost/mattermost/commit/a275dd6b1293872d810cfdebca9893a148a53859) | 제외한 5923d963(number property field 타입)의 직접 후속이라 토대가 없다. property field에 checkbox 타입을 추가 — DB 마이그레이션 000239로 property_field_type enum에 'checkbox', ValueTypeValidationHook에 boolean 검사, access control group 거부 목록, webapp FieldType(16파일 +104/-41). 같은 Boards core 브랜치 #39373 포트(#39458)에서 분리된 Integrated Boards 카드 속성용 연작이라 본문 앞부분도 number 커밋 메시지를 그대로 담고 있다. 수정 대상 value_type_validation.go는 number 커밋 산물이고, api/v4/source/properties.yaml(48f2fd08)·app/properties/access_control_attribute_validation.go(9f1fe90b)·user_attribute_utils.ts(14ee0ae9)도 우리 트리에 없어 merge-tree CONFLICT. 마이그레이션 번호도 제외한 000236~000238 위에 이어진다. 우리 Boards는 자체 플러그인이라 소비자 없음. 계보를 되살릴 때 number와 함께 재처리. |
+
+| fc65232a | [fix(docs): fix table rendering in env config settings docs page (#38757)](https://github.com/mattermost/mattermost/commit/fc65232a4cf5d32bdefa04655e36eb1bf0a7b2d6) | 제외한 문서 사이트 계보(1d3bbc63 #37330, 원칙 IV)에 속한 docs/main/administration-guide/configure/environment-configuration-settings.mdx의 표 마크다운 수정(+4/-2)이라 받을 자리가 없다. 파일이 우리 트리에 없고 merge-tree modify/delete. 501becc7 adapt에서도 같은 파일을 버렸다. 코드 변경 없음. |
+
+| 40575a0b | [Update maximize-microsoft-investments.mdx (#39434)](https://github.com/mattermost/mattermost/commit/40575a0b581ecccad896e590ee842d9b8571ae6c) | 제외한 문서 사이트 계보(1d3bbc63 #37330, 원칙 IV)에 속한 Mattermost 사용 사례 가이드(docs/main/use-case-guide/maximize-microsoft-investments.mdx, +26/-48 — 문구 다듬기·중복 connected workspaces 안내 삭제)라 받을 자리가 없다. 파일이 우리 트리에 없고 merge-tree modify/delete. 내용도 Mattermost 제품 마케팅(MS Teams 연동 사용 사례) 문맥이라 OKR.BEST와 무관. 코드 변경 없음. |
+
+| 1bd58a17 | [Add an experimental product rail with Home, Channels and Boards views (#39383)](https://github.com/mattermost/mattermost/commit/1bd58a17467cdd4c08dff8e1138a791c94286a08) | 우리가 같은 영역을 자체 spec으로 의도적으로 재설계했다 — specs/017-slack-nav-rail(2026-10-08, product switcher 대신 Channels·Boards·Playbooks 버튼을 좌측 레일에 세로 나열, 팀 전환은 레일 상단 현재 팀 버튼·드롭다운) 및 후속 028-rail-icon-accents(41273bec)·cc5899c3(레일 Channels 버튼 랜딩 판정)·031-landing-product-setting. upstream은 ProductRail feature flag 뒤에 Home·Channels·Boards·Threads 레일, 사이드바 필터링, 항목별 마지막 위치 기억, 팀 사이드바 접기와 레일 상단 팀 스택, 헤더 제품 버튼의 사이트명 표시를 추가(webapp 44파일 +2798/-37). 수정 대상 global_header/left_controls/product_branding·switch_product_menu가 우리 재구성으로 없고(터치 경로 17개 부재, merge-tree CONFLICT), Boards 뷰는 제외한 MBE 확장점 registerChannelKind(grep 0건)와 Integrated Boards(board=채널, 48f2fd08 제외) 전제이며, compass-ui Checkbox import(라이선스 부재로 제외)도 있다. 마지막 위치 기억 등 아이디어가 필요하면 spec 017 후속으로 별도 기획. |
+
+| 5e9feb81 | [Mark mobile file upload and download settings as Enterprise (#39473)](https://github.com/mattermost/mattermost/commit/5e9feb818baf65fb0d4fef8c9ac911fbe8b0f68c) | 제외한 문서 사이트 계보(1d3bbc63 #37330, 원칙 IV)에 속한 docs/main/administration-guide/configure/site-configuration-settings.mdx에 'Allow file uploads/downloads on mobile' 두 설정의 Enterprise·Enterprise Advanced 요금제 배지를 붙이는 수정(+4)이라 받을 자리가 없다. 파일이 우리 트리에 없고 merge-tree modify/delete. 내용도 Mattermost 요금제 표기라 OKR.BEST와 무관. 코드 변경 없음. |
+
+| cf7496d1 | [Fix the secure file preview and PDF link navigation settings tables (#39475)](https://github.com/mattermost/mattermost/commit/cf7496d1359f57ab8884c8a7338df4896dc31931) | 제외한 문서 사이트 계보(1d3bbc63 #37330, 원칙 IV)에 속한 관리자 문서 2파일(docs/main/administration-guide/configure/environment-configuration-settings.mdx·site-configuration-settings.mdx, +8/-34)의 표 수정이라 받을 자리가 없다 — RST 변환으로 한 셀에 뭉개진 'Enable secure file preview on mobile' 표를 2열로 재구성하고, 그 설정과 'Allow PDF link navigation on mobile'의 config 경로를 FileSettings에서 실제 위치 NativeAppSettings(Environment > Mobile Security, v10.11부터)로 바로잡는다. 파일이 우리 트리에 없고 merge-tree modify/delete. 코드 변경 없음. |
+
+| 2515ee2b | [MM-71401: Rebuild the scrambled site settings tables (#39483)](https://github.com/mattermost/mattermost/commit/2515ee2b33f02c93c36443c9beb6657e12a34e7c) | 제외한 문서 사이트 계보(1d3bbc63 #37330, 원칙 IV)에 속한 docs/main/administration-guide/configure/site-configuration-settings.mdx의 MM-71401 표 재구성(+40/-20)이라 받을 자리가 없다 — custom brand text·최소 데스크톱 버전·max users per team 표를 다시 짜고, max users per team이 활성·비활성 사용자를 센다는 설명을 활성 팀 멤버만 센다(GetActiveMemberCount)로 정정. 파일이 우리 트리에 없고 merge-tree modify/delete. 코드 변경 없음. cf7496d1·8a53d645와 같은 계열. |
+
+| 8a53d645 | [MM-71401: Rebuild the scrambled authentication settings tables (#39482)](https://github.com/mattermost/mattermost/commit/8a53d645decc6f7ccc2892258334a8bdb4a3aa11) | 제외한 문서 사이트 계보(1d3bbc63 #37330, 원칙 IV)에 속한 docs/main/administration-guide/configure/authentication-configuration-settings.mdx의 MM-71401 표 재구성(+111/-76)이라 받을 자리가 없다 — 이메일 도메인 제한·MFA 등 표를 다시 짜고, MFA Enforce 표에서 HTML 안 Markdown 굵게 표기로 별표가 그대로 보이던 것을 고친다. 파일이 우리 트리에 없고 merge-tree modify/delete. 코드 변경 없음. cf7496d1·2515ee2b와 같은 계열. |
 
 ## spec 전환 커밋
 
