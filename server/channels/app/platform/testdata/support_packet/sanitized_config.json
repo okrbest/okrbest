@@ -501,6 +501,11 @@
         "RedisPassword": null,
         "RedisDB": null,
         "RedisCachePrefix": null,
+        "RedisEnableTLS": null,
+        "RedisTLSSkipVerify": null,
+        "RedisTLSCA": null,
+        "RedisTLSClientCert": null,
+        "RedisTLSClientKey": null,
         "DisableClientCache": null
     },
     "ClusterSettings": {
