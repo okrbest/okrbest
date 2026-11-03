@@ -4165,3 +4165,73 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `webapp/channels/src/i18n/en.json` +84줄 | 필터 UI 문구 | UI를 받지 않았다 | 같음 |
 | `e2e-tests/playwright/` 스펙 557줄·`mention_filters.ts` POM·`search_results_panel.ts`·`accessibility_sidebar_spec.ts` | 필터 E2E 12케이스, RHS 첫 포커스가 Filters로 바뀐 것 반영 | UI가 없다 | 같음 |
 | `docs/main/end-user-guide/collaborate/mention-people.mdx` | 필터 설명, 그룹 멘션 포함 안내 | 제외한 문서 사이트 계보(`1d3bbc63`) | 문서 사이트를 되살릴 때 |
+
+---
+
+## 관리 디렉터리 안 로그 대상 거부 — 관리자 문서만 버렸다
+
+**upstream**: [`501becc7`](https://github.com/mattermost/mattermost/commit/501becc7f6bd299f23c09d1716ba2ea3b54b077b)
+([MM-70595] Reject log targets inside server-managed directories, #39296) — 13파일 +577/-48, 2026-11-03 반영(사용자 결정 adapt, 우리 커밋 `ec90befbc2`)
+
+**받은 것.** server 11파일 전부(`config/logger.go` 관리 디렉터리 검사, `platform`의 기동 이후 적용 config 관리 디렉터리 기록·`SaveConfig`/`initLogging` 전달, logr `v2.0.25-0.20261027195236-6fac73ae3fcc`, `en.json` `app.save_config.log_path_outside_root.app_error` 문구 확장, 테스트).
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/administration-guide/configure/environment-configuration-settings.mdx` | 로그 경로 설명에 "관리 디렉터리 안 경로도 로깅 루트 밖과 같은 규칙(오류 로그, `EnforceLogPathRoot`일 때만 거부)" 추가 | 제외한 문서 사이트 계보(`1d3bbc63`)라 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+| `docs/main/deployment-guide/server/troubleshooting.mdx` | 관리 디렉터리 목록 — `PluginSettings.Directory`·`ClientDirectory`, `FileSettings.Directory`·`ExportDirectory`, `ComplianceSettings.Directory`, 로드한 config 파일 디렉터리(`--config`·`MM_CONFIG` 포함), 서버 실행 파일 디렉터리, `client`·`prepackaged_plugins`·`templates`·`fonts`·`i18n`. 기동 이후 적용된 모든 config 값으로 검사(재시작 후 반영되는 설정 때문), 로깅 루트를 포함하는 관리 디렉터리는 검사 제외, 해결은 로깅 루트 안·관리 디렉터리 밖으로 이동. 넓은 `MM_LOG_PATH`(예: `/opt`)로 플러그인 바이너리·설정·데이터를 덮어쓰는 것을 막는 목적 | 같음 | 같음 |
+
+---
+
+## ES·OpenSearch highlight 파싱 실패 — 쓰이지 않게 된 ko 문자열을 지웠다
+
+**upstream**: [`e26664d8`](https://github.com/mattermost/mattermost/commit/e26664d892d2715e9ac775ac10382e24d8215410)
+([MM-71303] Fix empty OpenSearch/Elasticsearch post search when a highlight contains an illegal XML character, #39358) — 8파일 +137/-8, 2026-11-03 반영(사용자 결정 adapt, 우리 커밋 `a274b76b4a`)
+
+**받은 것.** `server/enterprise/elasticsearch/` 7파일 전부(XML 1.0 금지 문자 제거, 한 건의 highlight 파싱 실패를 로그로 넘기고 검색 계속, 테스트)와 `en.json`의 키 삭제.
+
+**우리 맞춤.** upstream이 `en.json`에서 지운 키를 server `ko.json`에서도 지웠다. 남겨 두면 orphaned로 `i18n-check-empty`가 CI를 막는다. 코드 참조(`elasticsearch.go`·`opensearch.go`의 `NewAppError`)는 이 커밋으로 0건이 됐다.
+
+**지운 문자열.**
+
+| 키 | en (upstream이 삭제) | ko (우리가 삭제) |
+|---|---|---|
+| `ent.elasticsearch.search_posts.parse_matches_failed` | "Failed to parse search result matches" — description: "Error when the highlighted match data in message search results from the search backend cannot be parsed." | "검색 결과 일치 항목 파싱 실패" |
+
+**되살릴 조건.** upstream이 같은 키를 다시 쓰면 위 ko 문자열을 그대로 되돌린다.
+
+---
+
+## 반응 이모지 이름 import 검증 — 키 교체로 쓰이지 않게 된 ko 문자열을 지웠다
+
+**upstream**: [`c8559579`](https://github.com/mattermost/mattermost/commit/c85595794a0591a1035a16affe2e523105590902)
+(Validate reaction emoji names on bulk import, #37912) — 3파일 +49/-6, 2026-11-03 반영(사용자 결정 adapt, 우리 커밋 `721f3f92`)
+
+**받은 것.** 3파일 전부(`import_validators.go`가 `Reaction.IsValid`와 같은 빈 값·길이·문자셋 규칙 적용, 테스트, `en.json` 키 교체 `emoji_name_length.error` → `emoji_name_invalid.error`).
+
+**우리 맞춤.** upstream이 `en.json`에서 지운 키를 server `ko.json`에서도 지웠다(orphaned 방지). 새 키의 ko 번역은 i18n 후속으로 남겼다.
+
+**지운 문자열.**
+
+| 키 | en (upstream이 삭제) | ko (우리가 삭제) |
+|---|---|---|
+| `app.import.validate_reaction_import_data.emoji_name_length.error` | "Reaction EmojiName property is longer than the maximum permitted length." — description: "Bulk-import validation error when an emoji reaction's emoji name exceeds the maximum length; 'EmojiName' is a literal field name." | "반응 EmojiName 속성이 허용된 최대 길이를 초과했습니다." |
+
+**되살릴 조건.** 없음 — 대체 키 `app.import.validate_reaction_import_data.emoji_name_invalid.error`를 번역할 때 위 ko 표현을 참고한다.
+
+---
+
+## Redis TLS — 관리자 문서만 버렸다
+
+**upstream**: [`0c10fcbe`](https://github.com/mattermost/mattermost/commit/0c10fcbec524145e406b4ff8507e7048e903163a)
+(Add TLS support for Redis connections, #39474) — 12파일 +583, 2026-11-03 반영(사용자 결정 adapt, 우리 커밋 `8285a266bb`)
+
+**받은 것.** server·webapp 10파일 전부 — `CacheSettings.RedisEnableTLS`·`RedisTLSSkipVerify`·`RedisTLSCA`·`RedisTLSClientCert`·`RedisTLSClientKey`(기본 off·빈 값, cert·key 동시 지정 검증), `cache/redis_tls.go`, System Console 캐시 설정 5항목, support packet golden, `en.json`(server 1키·webapp 10키).
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/administration-guide/configure/environment-configuration-settings.mdx` (+75) | 설정 5개 표 — Enable Redis TLS(TLS 1.2 이상, 기본 false), Skip Redis TLS verification(서버 인증서 미검증, 운영 비권장), CA 인증서 경로(PEM, 비우면 OS 신뢰 CA), 클라이언트 인증서·키 경로(PEM, mTLS, 둘을 함께 지정). 인증서 경로는 각 서버 로컬 파일시스템의 절대 경로이며 Elasticsearch 인증서와 달리 파일 저장소에서 읽지 않아 클러스터 모든 서버에 있어야 함. 각 항목에 config.json 경로와 `MM_CACHESETTINGS_REDIS…` 환경 변수, "From Mattermost v12.2" | 제외한 문서 사이트 계보(`1d3bbc63`)라 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+| `docs/main/deployment-guide/scale/redis.mdx` (+39) | "Secure Redis connections with TLS" 절 — TLS는 캐시와 HA 클러스터 메시지 모두에 적용, 절차 6단계(Redis TLS 설정 → 인증서를 모든 서버 같은 경로에 복사 → Enable TLS → 필요 시 CA·클라이언트 인증서 → 저장 후 재시작), config.json 예시, 인증서를 못 읽거나 핸드셰이크 실패 시 서버 기동 실패, Skip verification 경고, 인증서 교체 후 재시작 필요, AWS ElastiCache(전송 중 암호화 시 TLS on, 주소는 IP 아닌 엔드포인트 호스트명, 공인 인증서라 CA 경로 불필요, mTLS 미지원이라 cert·key 비우고 AUTH 토큰은 Redis Password) | 같음 | 같음 |
