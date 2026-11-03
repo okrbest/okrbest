@@ -133,6 +133,7 @@
 | 서버 로그 사용자 지정 기간 | [47b81751](https://github.com/mattermost/mattermost/commit/47b81751a4e5c402aa61523e51ecbcf1f33bbfda) (#39509) | 기능은 그대로 받았다. Compass 토큰이 없어 `custom_range_modal.scss`를 고정 값으로 바꿨고, `docs/main` 문서 줄을 버렸다. |
 | Cloud Starter 조건 제거 | [5a9a4dff](https://github.com/mattermost/mattermost/commit/5a9a4dff1085a476f82621367b9ee63484e38f26) (#39531) | 포크에 있는 조건은 그대로 지웠다. `switch_product_menu`가 없어 그 3파일 변경을 버렸고, 제외 계보의 OpenID 항목은 들이지 않았다. |
 | recap 인용·프롬프트 강화 | [5f2ab3e2](https://github.com/mattermost/mattermost/commit/5f2ab3e2292d1721d61ec5f96b83b481a3bed03e) (#38204) | 세 가지 방어는 그대로 받았다. 제외 계보의 `SummarizePostsWithInstructions`가 없어 `SummarizePosts`에 맞췄고, 사용자 지시 블록과 그 테스트를 뺐다. |
+| 대량 채널 삭제 색인 안내 | [ad8460ad](https://github.com/mattermost/mattermost/commit/ad8460ad4d1d81c47d5d64a996dba7af8f870180) (#39547) | API 문서와 mmctl 안내만 받았다. `docs/main` 4파일은 문서 사이트 계보 제외로 버렸다. |
 
 ---
 
@@ -4934,6 +4935,22 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `summarization.go` | `customInstructionsBlock` | 지시문을 다듬어 `\nAdditional user instructions:\n%s\n` 블록을 만들어 사용자 프롬프트 끝에 붙인다. 비어 있으면 붙이지 않는다. | Scheduled Recaps 계보(`25f3a75c`)를 들일 때 |
 | `summarization.go` | `SummarizePostsWithInstructions` 시그니처 | 이 커밋이 고친 대상 함수다. 포크 `SummarizePosts`에는 `customInstructions` 인자가 없다. | 같다 |
 | `summarization_test.go` | `custom instructions are included in prompt` 테스트 | `Focus on launch risks`를 넘겨 두 번째 메시지에 `Additional user instructions:`와 지시문이 들어가는지 검증한다. | 같다 |
+
+## 대량 채널 삭제 색인 안내 — docs/main 4파일을 버렸다
+
+**upstream**: [`ad8460ad`](https://github.com/mattermost/mattermost/commit/ad8460ad4d1d81c47d5d64a996dba7af8f870180)
+(Document turning off Elasticsearch indexing before large bulk channel deletes, #39547) — 7파일 +35/-2, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** `api/v4/source/channels.yaml`, `mmctl channel delete` 도움말, `mmctl_channel_delete.rst`는 upstream 그대로다. 안내의 `docs.mattermost.com` 링크도 그대로 뒀다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/.../environment-configuration-settings.mdx` | 경고 추가 | 영구 삭제는 멤버마다 재색인해 약 100,000 멤버십에서 메모리를 고갈시킬 수 있다. 색인을 끄고 클러스터는 유지한 채 삭제한 뒤, 다시 켜고 전체 색인한다. 꺼 둔 동안 삭제한 채널의 문서는 색인에 남을 수 있지만 일반 검색은 DB를 거쳐 걸러 낸다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+| `docs/main/.../user-management-configuration-settings.mdx` | 삭제 안내 수정 | 삭제 안내에 색인 절차 링크를 더한다. | 같다 |
+| `docs/main/.../mmctl-command-line-tool.mdx` | 경고 추가 | 위와 같은 절차를 `mmctl channel delete` 항목에 적는다. | 같다 |
+| `docs/main/deployment-guide/scale/enterprise-search.mdx` | 경고 추가 | 대량 삭제 전 색인을 끄라고 안내한다. | 같다 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
