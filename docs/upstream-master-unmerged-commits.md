@@ -3,28 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-02 17:04
+- 갱신일: 2026-11-03 15:43
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 91개
+- 남은 커밋: 92개
 
-**마지막 반영 커밋:** `55d3bcf3` | [Fix flaky TestRemoteProviderDoAccept (#39292)](https://github.com/mattermost/mattermost/commit/55d3bcf3277cdd4a478567c6a48e654fa602028b) | 2026-10-25
+**마지막 반영 커밋:** `f9f468b1` | [\[MM-63462\] Bump github.com/mattermost/logr/v2 to v2.0.24 (#38547)](https://github.com/mattermost/mattermost/commit/f9f468b1d7d943ed282851569f74dff039af9779) | 2026-10-26
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| f54f3f76 | [ci(e2e): triage red Playwright and Cypress runs against test history (#38601)](https://github.com/mattermost/mattermost/commit/f54f3f765d1034b67e091cbfb43cf391165044d5) | 2026-10-26 |
-| c374d298 | [\[MM-71259\] Stop recommending unlicensed fixes and share healthcheck helpers (#39289)](https://github.com/mattermost/mattermost/commit/c374d298b9271ba897514dd46e8baf30b3c80e35) | 2026-10-26 |
-| 1ac3eb8c | [docs: AI draft for MM-71344 Plugin API: expose cluster node identity (#39401)](https://github.com/mattermost/mattermost/commit/1ac3eb8c28b851d965c95ff36593bf39438ec7e5) | 2026-10-26 |
-| f563142f | [fix(e2e): repair group_message_creation_members.spec.ts on master (#39384)](https://github.com/mattermost/mattermost/commit/f563142fda8165258ac27455ee7e651c91eb6329) | 2026-10-26 |
-| 169cf307 | [chore: Update NOTICE.txt file with updated dependencies (#39417)](https://github.com/mattermost/mattermost/commit/169cf3071b363772db06a06da1096d677dc8c592) | 2026-10-26 |
-| bb499f9f | [ci(e2e): hand specs that keep failing on master to a repair agent (#38978)](https://github.com/mattermost/mattermost/commit/bb499f9f93c8824156fc9053a4de7109681abeb2) | 2026-10-26 |
-| 497e7628 | [Migrate LoadingSpinner to Compass Spinner (#39035)](https://github.com/mattermost/mattermost/commit/497e762886ebadbd969adb2550da9b3d327a5c11) | 2026-10-26 |
-| 6437bb74 | [docs: fix the v12 changelog overview link (#39409)](https://github.com/mattermost/mattermost/commit/6437bb74ec2c715c3233d08e563251fa4e24bdf5) | 2026-10-26 |
-| 3d8064fa | [Pin FIPS base images to the newest OpenSSL 3 digests (#39418)](https://github.com/mattermost/mattermost/commit/3d8064fafcd505fdcfae5d33bece5f1656eaa9df) | 2026-10-26 |
-| 6bdd8180 | [Add UpdatePostWithOptions so plugins can pass update options (#39282)](https://github.com/mattermost/mattermost/commit/6bdd81805f37dbf36c47d6a6e0f260a122453e59) | 2026-10-26 |
-| f98944a8 | [Filter recent mentions by team, channel, mention type and date (#38976)](https://github.com/mattermost/mattermost/commit/f98944a807d7f3bd1d36f64ada34071375da83bb) | 2026-10-26 |
-| 6344e93e | [Skip tracking parameters on links to the server's own origin (#39431)](https://github.com/mattermost/mattermost/commit/6344e93ed3653347acfd8ceb7f22b304c8b2f6d0) | 2026-10-26 |
-| 8eddc79c | [Open bundled documentation links in a new tab (#39430)](https://github.com/mattermost/mattermost/commit/8eddc79c2617a0a98ddce096b97feb22d042a6db) | 2026-10-26 |
-| f9f468b1 | [\[MM-63462\] Bump github.com/mattermost/logr/v2 to v2.0.24 (#38547)](https://github.com/mattermost/mattermost/commit/f9f468b1d7d943ed282851569f74dff039af9779) | 2026-10-26 |
 | 8b2fb370 | [docs: AI draft for ship offline documentation in the release tarball (#39252)](https://github.com/mattermost/mattermost/commit/8b2fb3709a1672973a3a1067ee044dadc96e7048) | 2026-10-27 |
 | 2070c4da | [Bumping prepackaged version of the Boards plugin to v10.1.0 (#39420)](https://github.com/mattermost/mattermost/commit/2070c4da3417d16c0ab54c09b6928d0eba87a930) | 2026-10-27 |
 | 43f954c2 | [Add Mobile v2.45.1 dot release docs (#39416)](https://github.com/mattermost/mattermost/commit/43f954c24c363fc61faaacf62816df0cc89ca3e5) | 2026-10-27 |
@@ -102,6 +88,21 @@
 | bfe09954 | [fix(e2e): restore PrivacySettings.ShowFullName and ShowEmailAddress in the per-test config reset (#39497)](https://github.com/mattermost/mattermost/commit/bfe09954b91d907ace9abff860ad4b0793f20afd) | 2026-11-02 |
 | 2400aa0a | [fix(e2e): click Compass Switch labels instead of forcing clicks on their inputs (#39372)](https://github.com/mattermost/mattermost/commit/2400aa0acd9f76ca2cf5440139159b30bf9d38a8) | 2026-11-02 |
 | 4028643a | [\[MM-71404\] Fetch only new server log entries in live tail and highlight them (#39507)](https://github.com/mattermost/mattermost/commit/4028643a0abe570b99fd6103c5cb2a25f67a5092) | 2026-11-02 |
+| 841f199a | [Desktop App v5.13.8, v6.2.5 and v6.3.2 dot release docs (#39450)](https://github.com/mattermost/mattermost/commit/841f199a96e3f0d2eca47a7c38f1610270c2881b) | 2026-11-02 |
+| f3c8c6f0 | [chore: Update NOTICE.txt file with updated dependencies (#39591)](https://github.com/mattermost/mattermost/commit/f3c8c6f0088d2ede7a3f15cc35bfcd3b3b04789b) | 2026-11-02 |
+| 546185a5 | [Auto-fill bot and webhook usernames from the display name (#39485)](https://github.com/mattermost/mattermost/commit/546185a5a4ed315396a3710ab0503ffe904241eb) | 2026-11-02 |
+| 6b10d646 | [Bumping prepackaged Jira version to v5.1.0 (#39592)](https://github.com/mattermost/mattermost/commit/6b10d64658ae8fac36c7536d2c8fec122f90f652) | 2026-11-02 |
+| d62af319 | [\[MM-71392\] Search server logs on the server and flag truncated results (#39478)](https://github.com/mattermost/mattermost/commit/d62af319e868519799ab91a6fa2fc201ddf6a549) | 2026-11-02 |
+| 9535783e | [MM-71296: Update bot account confirmation navigation (#39317)](https://github.com/mattermost/mattermost/commit/9535783ef9d3ab166da83e9ba3b8f7003d6449ca) | 2026-11-02 |
+| 621cfdf4 | [Let plugins mark channels as boards, so the webapp calls them boards (#39463)](https://github.com/mattermost/mattermost/commit/621cfdf46948ae2229f4f3e0f0dee25ea84ebdf7) | 2026-11-02 |
+| 47b81751 | [\[MM-71403\] Add a custom from/to time range to the Server Logs viewer (#39509)](https://github.com/mattermost/mattermost/commit/47b81751a4e5c402aa61523e51ecbcf1f33bbfda) | 2026-11-02 |
+| 5a9a4dff | [Remove unused Cloud Starter conditions (#39531)](https://github.com/mattermost/mattermost/commit/5a9a4dff1085a476f82621367b9ee63484e38f26) | 2026-11-02 |
+| 73a31e97 | [\[MM-67309\] Allow removing link previews from Burn-on-Read messages (#39149)](https://github.com/mattermost/mattermost/commit/73a31e9760d1adc59e3b25212b82e1185d527a02) | 2026-11-02 |
+| 5f2ab3e2 | [MM-70517: Adjust recap citation and post-history handling (#38204)](https://github.com/mattermost/mattermost/commit/5f2ab3e2292d1721d61ec5f96b83b481a3bed03e) | 2026-11-02 |
+| 64c16ff0 | [MM-71283: update API client route segment handling (#39305)](https://github.com/mattermost/mattermost/commit/64c16ff0ea7f455ee648bfe906407def1274fbd3) | 2026-11-02 |
+| 81eeff50 | [Keep AttributeView for 11.10 servers running against a 12.x database (#39267)](https://github.com/mattermost/mattermost/commit/81eeff505e895c0a87cb8f0b3f335dac4230e660) | 2026-11-02 |
+| 36ebc1f6 | [Add Preview/Code toggle for Markdown file previews and code blocks (#39378)](https://github.com/mattermost/mattermost/commit/36ebc1f6fc024e0c15d24e5dd925f7daf2ce88ad) | 2026-11-02 |
+| 2a6bf358 | [Drop removed matrix selections when a dialog refreshes on return (#39513)](https://github.com/mattermost/mattermost/commit/2a6bf358e4e621cdb10171db5e0e5c8a395513cf) | 2026-11-02 |
 
 ## 제외된 커밋
 
@@ -861,6 +862,16 @@
 | cd3a263d | [Migrate channel action tiles to Compass TileButton (#39030)](https://github.com/mattermost/mattermost/commit/cd3a263d9621d61a98162a003f006b7b09cbc149) | 제외한 @mattermost/compass-ui 도입 계보(70658e18 #38153 — 2026-10-18 사용자 결정: npm·원본 저장소 모두 license 필드·LICENSE 없음(원칙 IV), 해당 UI 영역은 spec 014로 Slack식 자체 개편; 후속 922a900b·7532e0ba·2b64fd09·97bb58ec·b11aeee7·a0ce1806 제외) 위의 이관이라 받지 않는다. 내용은 채널 인트로 버튼(즐겨찾기·헤더·알림·멤버 추가)과 채널 정보 RHS 상단 버튼을 compass-ui TileButton/ActionButton으로 교체하고 패키지를 alpha.18→21로 범프, _action-button.scss 퇴역, compass 클래스 해시 변경에 따른 무관 스냅숏 갱신. 핵심이 compass-ui import라 패키지 없이 adapt하면 변경의 의미가 사라진다(97bb58ec와 같은 구조). 실측: 우리 package.json·lock·소스에 compass-ui 0건, cherry-pick 시 충돌 12건. 실측(2026-10-30): npm 최신 alpha.24에도 license 필드 없음. 재검토 조건: compass-ui에 라이선스가 명시되고 Compass 도입을 재결정할 때(70658e18부터, 그 시점 upstream 상태를 spec으로 영역별 일괄 반영). 미뤘다 일괄 도입 방침은 2026-10-30 사용자 확인. 분리 가능한 부수 개선(aria-haspopup·aria-pressed)은 필요 시 자체 커밋으로 별도 작업. |
 
 | c2f2eff3 | [\[MM-70757\] Docs: Site health dashboard (#39255)](https://github.com/mattermost/mattermost/commit/c2f2eff3b2684e1be94a24bbc48848bb437389dd) | 제외한 문서 사이트 계보(1d3bbc63 #37330 → dd69d06d·1b27d5d7) 위에 얹힌 Mattermost 공식 문서 페이지라 반영할 자리가 없다. 터치 경로 5개(docs/main/administration-guide/manage/site-health-dashboard.mdx 신규 +137, optimize-your-workspace·mmctl-command-line-tool·request-server-health-check.mdx 링크 추가, docs/site/scripts/gen-documentation-sidebar.mjs)가 전부 우리 트리에 없고 merge-tree CONFLICT 4건도 모두 modify/delete다. 내용은 docs.mattermost.com 기준 Mattermost 브랜드 문서라 리브랜드 충실성(constitution 원칙 IV)상 받을 수 없다. Health Dashboard 기능 코드 자체는 결정 A(2026-10-16)로 반영 중이며 이 제외와 무관하다. 재검토 조건은 okrbest 문서 사이트를 구축하기로 할 때다. |
+
+| 1ac3eb8c | [docs: AI draft for MM-71344 Plugin API: expose cluster node identity (#39401)](https://github.com/mattermost/mattermost/commit/1ac3eb8c28b851d965c95ff36593bf39438ec7e5) | 제외한 문서 사이트 계보(1d3bbc63 #37330 — Mattermost 제품 문서 사이트, 원칙 IV) 위에 얹힌 플러그인 개발자 문서 AI 초안이라 받을 자리가 없다. 터치 경로 docs/develop/integrate/plugins/components/server/ha.md(+64, 클러스터 노드 식별 Plugin API 설명)가 우리 트리에 없고(docs/develop/ 자체 부재) merge-tree도 modify/delete CONFLICT. 코드 변경 없음. 문서 사이트를 되살릴 때 재검토. c2f2eff3와 같은 계열. |
+
+| bb499f9f | [ci(e2e): hand specs that keep failing on master to a repair agent (#38978)](https://github.com/mattermost/mattermost/commit/bb499f9f93c8824156fc9053a4de7109681abeb2) | f54f3f76(#38601)을 adapt하며 버린 E2E triage 워크플로(71a0e96f, docs/upstream-adapted-divergences.md 'E2E triage 워크플로' 절) 위에 얹힌 후속이라 반영할 대상이 없다. 신규 e2e-tests-autofix-on-merge.yml(+138)은 master E2E run 후 mattermost-test-automation-toolkit의 e2e-master-watch로 연속 실패·flaky 스펙을 골라 Cursor 자동화(CURSOR_E2E_REPAIR_WEBHOOK_URL/KEY, .cursor/automations/e2e-master-repair.md)에 수리 PR을 맡기는 Mattermost 조직 전용 인프라다. cypress·playwright 템플릿 5줄씩은 master-watch에 넘길 출력이라 소비자가 없고, test_e2e_status_workflows.py(+7)는 우리 트리에 없다(modify/delete). merge-tree CONFLICT 3건. TSIO 계보(33ddd8a4·c3322b3a·8eb97fa6·1d1580cb)를 되살릴 때 함께 재검토. |
+
+| 497e7628 | [Migrate LoadingSpinner to Compass Spinner (#39035)](https://github.com/mattermost/mattermost/commit/497e762886ebadbd969adb2550da9b3d327a5c11) | Compass 디자인 시스템(@mattermost/compass-ui) 이관 커밋이라 70658e18(#38153) 제외 결정(2026-10-18)과 같은 사유로 제외 — 공용 LoadingSpinner의 Font Awesome pulse 아이콘과 'Loading •••' 세 점 로더(LoadingScreen·게시글 목록·검색 결과 더 보기)를 compass-ui Spinner로 바꾸고 size·inverted·stacked prop을 추가(webapp 87파일 +713/-555, 대부분 스냅샷). (1) compass-ui는 최신 0.1.0-alpha.26까지 npm license 필드가 비어 있어(2026-11-03 재확인) 번들 재배포 불가 (2) 우리 webapp/channels/package.json에 compass-ui 의존이 없어 그대로 받으면 빌드가 깨짐 (3) merge-tree CONFLICT 2건(plugin_metadata_panel.scss·new_channel_modal.tsx). 922a900b·2b64fd09·7532e0ba와 같은 계열. 라이선스가 붙고 Compass 수용을 결정하면 재검토. |
+
+| 6437bb74 | [docs: fix the v12 changelog overview link (#39409)](https://github.com/mattermost/mattermost/commit/6437bb74ec2c715c3233d08e563251fa4e24bdf5) | 제외한 문서 사이트 계보(1d3bbc63 #37330 — Mattermost 제품 문서 사이트, 원칙 IV)에 속한 Mattermost v12 릴리스 노트(docs/main/product-overview/mattermost-v12-changelog.mdx)의 링크 1줄 교체(블로그 글 → mattermost.com v12 개요 페이지)라 받을 자리가 없다. 파일이 우리 트리에 없고 merge-tree modify/delete CONFLICT. 내용도 Mattermost 제품 릴리스 문맥이라 OKR.BEST와 무관. 1ac3eb8c·c2f2eff3와 같은 계열. |
+
+| 8eddc79c | [Open bundled documentation links in a new tab (#39430)](https://github.com/mattermost/mattermost/commit/8eddc79c2617a0a98ddce096b97feb22d042a6db) | 제외한 번들 문서 계보(f434bd9d #38957 서버가 /_documentation으로 오프라인 문서 제공 → d2b72e47 #39314 리다이렉트 → 5a5cbfc3 #39335 도움말 메뉴 연결, 근원은 문서 사이트 1d3bbc63 원칙 IV 제외)의 후속이라 대상 경로가 없다. utils/url.tsx의 shouldOpenInNewTab 서버 처리 경로 목록에 '_documentation'을 추가(+3)하고 markdown/index.test.ts에 3케이스를 더하는 수정인데, 우리 server에는 _documentation 핸들러가 없어(grep 0건) 반영하면 404가 나는 경로를 새 탭으로 여는 규칙만 생긴다. merge-tree CONFLICT(url.tsx)는 우리 71f03e5c(메시지 링크를 새 창으로 띄우기)가 같은 함수를 바꾼 탓. 번들 문서 계보를 되살릴 때 함께 재처리. |
 
 ## spec 전환 커밋
 

@@ -4125,3 +4125,43 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
 | `docs/main/administration-guide/configure/reporting-configuration-settings.mdx` | 서버 로그 설명에 "cluster node" 필터 추가, v12.2+ HA 배포의 **Node** 선택기 안내 — 노드가 2개 이상 응답해야 선택기가 보임, 단일 노드 선택 후 새로고침하면 **All nodes**를 다시 골라야 함, 연결 안 되는 노드는 **Failed to fetch logs from node** 오류 항목 하나로 대체, **Download**는 요청을 처리한 노드의 로그 파일 | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+
+---
+
+## E2E triage 워크플로 — 이미지 pull 재시도만 받았다
+
+**upstream**: [`f54f3f76`](https://github.com/mattermost/mattermost/commit/f54f3f765d1034b67e091cbfb43cf391165044d5)
+(ci(e2e): triage red Playwright and Cypress runs against test history, #38601) — 14파일 +1257/-71, 2026-11-03 반영(사용자 결정 adapt, 우리 커밋 `71a0e96f`)
+
+**받은 것.** `e2e-tests/.ci/server.start.sh` — `create` 전에 `${MME2E_DC_SERVER} pull`을 `mme2e_wait_command_success`로 5회·30초 간격 재시도한다(레지스트리 5xx 대비).
+
+**버린 것.**
+
+| 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `.github/workflows/e2e-tests-lane-result.yml`(신규) | Cypress·Playwright 공용 재사용 워크플로 — lane 상태 게시, `e2e-test-triage`로 실패 분류(flaky·master에서도 깨짐·PR 탓·out of date·조사 필요), `e2e-test/triage` 요약 갱신, 웹훅, pass/fail 게이트 | `mattermost/mattermost-test-automation-toolkit@main`·TSIO·`ANTHROPIC_API_KEY`·`REPORT_WEBHOOK_URL` 의존. 우리 CI에 소비자·시크릿 없음 | 자체 E2E CI와 triage 인프라를 갖출 때 |
+| `.github/actions/e2e-status-lanes/action.yml`·`.github/e2e-status-lanes.json`(신규) | PR lane 목록(enterprise·fips·subpath) 단일 정의와 그 읽기 액션 | 위와 같음 | 같음 |
+| `.github/workflows/e2e-tests-status-wiring.yml`·`.github/scripts/test_e2e_status_workflows.py`(신규) | 위 배선을 검증하는 워크플로와 python 테스트(495줄) | 검증 대상이 없다 | 같음 |
+| `e2e-tests-ci.yml`·`-cypress(-template).yml`·`-playwright(-template).yml`·`-override-status.yml`·`-verified-label.yml`, `.github/e2e-tests-workflows.md` | lane-result 호출로 교체, verified label·override를 모든 lane으로 확장, subpath lane 별도 concurrency, `use-staging`으로 TSIO 인스턴스 선택 | TSIO 계보(33ddd8a4·c3322b3a·8eb97fa6·1d1580cb)를 제외해 8파일이 충돌. 후속 `bb499f9f`(#38978) 등 같은 워크플로를 고치는 커밋도 충돌한다 | TSIO 계보를 되살릴 때 함께 |
+
+---
+
+## 최근 멘션 필터 — server 두 조각만 받았다
+
+**upstream**: [`f98944a8`](https://github.com/mattermost/mattermost/commit/f98944a807d7f3bd1d36f64ada34071375da83bb)
+(Filter recent mentions by team, channel, mention type and date, #38976) — 48파일 +3299/-116, 2026-11-03 반영(사용자 결정 adapt, 우리 커밋 `49fd88eb`)
+
+**받은 것.**
+- `server/channels/app/group.go` — `CreateGroupWithUserIds`가 초기 멤버마다 `group_member_add` WS 이벤트를 보낸다. 나중에 멤버를 추가할 때와 같은 동작이다. `api4/group_test.go`의 `TestCreateGroupWithUserIdsNotifiesMembers`.
+- `server/channels/app/post.go` — `convertChannelNamesToChannelIds`가 이름 조회에 실패한 값이 유효한 id면 경고 로그를 남기지 않는다(동작은 그대로, store가 id로 매칭). `app/post_test.go`의 `TestSearchPostsForUser/in: a channel id` 9케이스.
+
+**버린 것.**
+
+| 대상 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `webapp/channels/src/components/search_results/mention_filters/`(신규 13파일), `utils/mention_search.ts`·`.test.ts` | 최근 멘션 패널 헤더의 Filters 버튼과 팝오버(팀·채널 다중·멘션 유형 direct/keyword/group·날짜 on:/after:), 적용 필터 칩, `buildMentionSearchQuery`(멘션 키를 따옴표로 감싼 뒤 in:/on:/after: 수식어 결합) | (1) 우리는 `888f6d78`(#203)에서 최근 멘션을 전용 API `GET /users/{id}/recentmentions`+`fetchRecentMentions(filter)`로 재설계해 upstream의 멘션 키 검색 경로(`getMentionSearchTerms`·`performSearch`)가 없다. 우리 필터는 `MentionFilter = 'personal_only' \| 'include_groups'`. (2) UI가 `@mattermost/compass-ui`(Button·Icon·Chip·Checkbox·Combobox·Radio)에 의존 — 라이선스 부재로 제외(2026-10-18) | 팀·채널·날짜 필터가 필요하면 우리 `/recentmentions` API에 파라미터를 붙이는 spec을 새로 연다 |
+| `actions/views/rhs.ts`·`reducers/views/rhs.ts`·`selectors/rhs.ts`·`types/store/rhs.ts`와 테스트 | `mentionFilters`·`mentionSearchTeam` RHS state, `updateMentionFilters`, 멘션 검색 팀 범위 유지·페이징 경로, 전역 @ 버튼이 좁혀진 패널을 닫지 않고 넓히게 수정 | 위 (1) — merge-tree CONFLICT | 같음 |
+| `search_results.tsx`·`sidebar_right/index.ts`·`rhs_search_popout.tsx`·`at_mentions_button`·`global_search_nav`·`new_search`·`search.tsx`·`no_results_indicator`·`use_search_results_actions`·`utils/popouts/popout_windows.ts`·SCSS 2개 | 필터 UI 배선, 팝아웃 URL로 필터·검색 팀 전달 | 위 (1)·(2), `rhs_search_popout.tsx`는 우리 `e3553e69`(검색 결과 RHS 팝아웃)와 충돌 | 같음 |
+| `webapp/channels/src/i18n/en.json` +84줄 | 필터 UI 문구 | UI를 받지 않았다 | 같음 |
+| `e2e-tests/playwright/` 스펙 557줄·`mention_filters.ts` POM·`search_results_panel.ts`·`accessibility_sidebar_spec.ts` | 필터 E2E 12케이스, RHS 첫 포커스가 Filters로 바뀐 것 반영 | UI가 없다 | 같음 |
+| `docs/main/end-user-guide/collaborate/mention-people.mdx` | 필터 설명, 그룹 멘션 포함 안내 | 제외한 문서 사이트 계보(`1d3bbc63`) | 문서 사이트를 되살릴 때 |
