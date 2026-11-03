@@ -1001,6 +1001,7 @@ export type PluginSettings = {
     MarketplaceURL: string;
     SignaturePublicKeyFiles: string[];
     ChimeraOAuthProxyURL: string;
+    RestrictUnauthenticatedWebappPlugins: boolean;
 };
 
 export type DisplaySettings = {

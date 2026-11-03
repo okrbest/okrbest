@@ -134,6 +134,7 @@
 | Cloud Starter 조건 제거 | [5a9a4dff](https://github.com/mattermost/mattermost/commit/5a9a4dff1085a476f82621367b9ee63484e38f26) (#39531) | 포크에 있는 조건은 그대로 지웠다. `switch_product_menu`가 없어 그 3파일 변경을 버렸고, 제외 계보의 OpenID 항목은 들이지 않았다. |
 | recap 인용·프롬프트 강화 | [5f2ab3e2](https://github.com/mattermost/mattermost/commit/5f2ab3e2292d1721d61ec5f96b83b481a3bed03e) (#38204) | 세 가지 방어는 그대로 받았다. 제외 계보의 `SummarizePostsWithInstructions`가 없어 `SummarizePosts`에 맞췄고, 사용자 지시 블록과 그 테스트를 뺐다. |
 | 대량 채널 삭제 색인 안내 | [ad8460ad](https://github.com/mattermost/mattermost/commit/ad8460ad4d1d81c47d5d64a996dba7af8f870180) (#39547) | API 문서와 mmctl 안내만 받았다. `docs/main` 4파일은 문서 사이트 계보 제외로 버렸다. |
+| 로그인 전 플러그인 노출 제한 | [e8c7307f](https://github.com/mattermost/mattermost/commit/e8c7307f42a870a545f07fcd68aaff81f1e68346) (#39433) | 보호 기능과 토글은 그대로 받았다. 문서 2파일과 업그레이드 스펙 3파일을 버렸고, 제외 계보의 마이그레이션 키와 e2e 헬퍼는 들이지 않았다. 스냅샷은 포크 라디오 마크업으로 재생성했다. |
 
 ---
 
@@ -4951,6 +4952,24 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `docs/main/.../user-management-configuration-settings.mdx` | 삭제 안내 수정 | 삭제 안내에 색인 절차 링크를 더한다. | 같다 |
 | `docs/main/.../mmctl-command-line-tool.mdx` | 경고 추가 | 위와 같은 절차를 `mmctl channel delete` 항목에 적는다. | 같다 |
 | `docs/main/deployment-guide/scale/enterprise-search.mdx` | 경고 추가 | 대량 삭제 전 색인을 끄라고 안내한다. | 같다 |
+
+## 로그인 전 플러그인 노출 제한 — 문서와 업그레이드 스펙을 버렸다
+
+**upstream**: [`e8c7307f`](https://github.com/mattermost/mattermost/commit/e8c7307f42a870a545f07fcd68aaff81f1e68346)
+(Restrict unauthenticated webapp plugin manifests to pre-auth plugins, #39433) — 35파일 +2398/-142, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** `plugin_management.test.tsx.snap`은 upstream의 Compass 라디오 클래스가 포크 마크업과 달라 재생성했다. 기존 스냅샷 줄은 바뀌지 않았고 새 설정 행만 늘었다. `plugin_management.ts` POM에는 토글 locator와 `saveButton`만 넣었다. 나머지 서버·웹앱 코드는 upstream 그대로다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/develop/integrate/plugins/components/webapp/index.md` | 절 추가 | `webapp.pre_auth`로 로그인 전 로드를 선언하는 방법과 매니페스트 예시. **Restrict Plugins Available Before Login**이 켜지면 표시한 플러그인만 비로그인 사용자에게 간다. v12.2부터다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+| `docs/main/administration-guide/configure/plugins-configuration-settings.mdx` | 설정 항목 추가 | 새 설정의 true/false 의미, 새 설치 기본 true, config 경로 `PluginSettings.RestrictUnauthenticatedWebappPlugins`. | 같다 |
+| `e2e-tests/playwright/upgrade-specs/` 3파일 | 업그레이드 검증 추가 | 기존 설치를 올리면 설정이 false로 유지되어 비로그인 플러그인 목록이 그대로인지 확인한다. | 롤링 업그레이드 계보(`fe9a36e8`)를 들일 때 |
+| `migrations.go` 키 목록 문맥 | `managedCategory*`·`boardsProperty*`·`cpaToGlobalAttributes*` 키 | 이 커밋의 변경이 아니라 문맥이다. 포크에 없는 키라 들이지 않았다. | 해당 계보를 들일 때 |
+| `e2e-tests/playwright/lib/src/index.ts`·`server/index.ts` 문맥 | `upgradeServerImage`·`saveUpgradePhaseLogs`·`ensureDemoPlugin`·`defaultEnabledPluginIds`·`disableUnexpectedPlugins` export | 위와 같다. 새 웹앱 플러그인 헬퍼 export만 넣었다. | 같다 |
+| `plugin_management.ts` POM 문맥 | `pluginFileInput`, `uploadButton` | 이번 스펙에 쓰지 않아 들이지 않았다. | 플러그인 업로드 스펙을 들일 때 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 

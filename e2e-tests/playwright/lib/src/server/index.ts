@@ -44,6 +44,16 @@ export {
     updateUserAttributes,
 } from './abac_helpers';
 export {installAndEnablePlugin, isPluginActive, getPluginStatus} from './plugin';
+export {
+    buildWebappPluginBundle,
+    ensureTestWebappPlugins,
+    postAuthTestPluginId,
+    preAuthTestPluginId,
+    removeTestWebappPlugins,
+    testWebappPluginMarkerTestId,
+    testWebappPluginRoute,
+} from './test_webapp_plugin';
+export type {WebappPluginBundleOptions} from './test_webapp_plugin';
 export {isWebhookTestServerReachable, setupWebhookTestServer} from './webhook_server';
 export {
     generateLdapUser,
