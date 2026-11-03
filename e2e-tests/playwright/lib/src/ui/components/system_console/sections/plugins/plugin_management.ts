@@ -12,12 +12,36 @@ import {ConfirmModal} from '@/ui/components/system_console/base_modal';
 export default class PluginManagement {
     readonly container: Locator;
 
+    readonly saveButton: Locator;
+
+    readonly restrictUnauthenticatedWebappPluginsTrue: Locator;
+    readonly restrictUnauthenticatedWebappPluginsFalse: Locator;
+    readonly restrictUnauthenticatedWebappPluginsHelpText: Locator;
+
     constructor(container: Locator) {
         this.container = container;
+
+        this.saveButton = container.getByRole('button', {name: 'Save'});
+
+        this.restrictUnauthenticatedWebappPluginsTrue = container.getByTestId(
+            'restrictUnauthenticatedWebappPluginstrue',
+        );
+        this.restrictUnauthenticatedWebappPluginsFalse = container.getByTestId(
+            'restrictUnauthenticatedWebappPluginsfalse',
+        );
+        this.restrictUnauthenticatedWebappPluginsHelpText = container.getByTestId(
+            'restrictUnauthenticatedWebappPluginshelp-text',
+        );
     }
 
     async toBeVisible() {
         await expect(this.container.getByText('Plugin Management', {exact: true})).toBeVisible();
+    }
+
+    async save() {
+        await expect(this.saveButton).toBeEnabled();
+        await this.saveButton.click();
+        await expect(this.saveButton).toBeDisabled();
     }
 
     /**

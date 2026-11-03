@@ -43,6 +43,7 @@ export default {
         'node:os',
         'node:url',
         'node:util',
+        'node:zlib',
         'mime-types',
         'testcontainers',
         'uuid',

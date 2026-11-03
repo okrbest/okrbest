@@ -46,8 +46,15 @@ export {
     ensureFeatureFlag,
     runMmctl,
     ensureMmctl,
+    buildWebappPluginBundle,
+    ensureTestWebappPlugins,
+    postAuthTestPluginId,
+    preAuthTestPluginId,
+    removeTestWebappPlugins,
+    testWebappPluginMarkerTestId,
+    testWebappPluginRoute,
 } from './server';
-export type {InbucketEmail, LdapUser, KeycloakUser, MmctlResult} from './server';
+export type {WebappPluginBundleOptions, InbucketEmail, LdapUser, KeycloakUser, MmctlResult} from './server';
 
 export {startStack, stopStack} from './containers';
 

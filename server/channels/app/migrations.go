@@ -18,19 +18,20 @@ import (
 )
 
 const (
-	EmojisPermissionsMigrationKey                  = "EmojisPermissionsMigrationComplete"
-	GuestRolesCreationMigrationKey                 = "GuestRolesCreationMigrationComplete"
-	SystemConsoleRolesCreationMigrationKey         = "SystemConsoleRolesCreationMigrationComplete"
-	CustomGroupAdminRoleCreationMigrationKey       = "CustomGroupAdminRoleCreationMigrationComplete"
-	SharedChannelManagerRoleCreationMigrationKey   = "SystemSharedChannelManagerRoleCreationMigrationComplete"
-	ContentExtractionConfigDefaultTrueMigrationKey = "ContentExtractionConfigDefaultTrueMigrationComplete"
-	PlaybookRolesCreationMigrationKey              = "PlaybookRolesCreationMigrationComplete"
-	FirstAdminSetupCompleteKey                     = model.SystemFirstAdminSetupComplete
-	remainingSchemaMigrationsKey                   = "RemainingSchemaMigrations"
-	postPriorityConfigDefaultTrueMigrationKey      = "PostPriorityConfigDefaultTrueMigrationComplete"
-	contentFlaggingSetupDoneKey                    = "content_flagging_setup_done"
-	contentFlaggingMigrationVersion                = "v5"
-	cpaDisplayNameBackfillKey                      = "cpa_display_name_backfill_done"
+	EmojisPermissionsMigrationKey                    = "EmojisPermissionsMigrationComplete"
+	GuestRolesCreationMigrationKey                   = "GuestRolesCreationMigrationComplete"
+	SystemConsoleRolesCreationMigrationKey           = "SystemConsoleRolesCreationMigrationComplete"
+	CustomGroupAdminRoleCreationMigrationKey         = "CustomGroupAdminRoleCreationMigrationComplete"
+	SharedChannelManagerRoleCreationMigrationKey     = "SystemSharedChannelManagerRoleCreationMigrationComplete"
+	ContentExtractionConfigDefaultTrueMigrationKey   = "ContentExtractionConfigDefaultTrueMigrationComplete"
+	PlaybookRolesCreationMigrationKey                = "PlaybookRolesCreationMigrationComplete"
+	FirstAdminSetupCompleteKey                       = model.SystemFirstAdminSetupComplete
+	remainingSchemaMigrationsKey                     = "RemainingSchemaMigrations"
+	postPriorityConfigDefaultTrueMigrationKey        = "PostPriorityConfigDefaultTrueMigrationComplete"
+	restrictUnauthenticatedWebappPluginsMigrationKey = "RestrictUnauthenticatedWebappPluginsMigrationComplete"
+	contentFlaggingSetupDoneKey                      = "content_flagging_setup_done"
+	contentFlaggingMigrationVersion                  = "v5"
+	cpaDisplayNameBackfillKey                        = "cpa_display_name_backfill_done"
 
 	contentFlaggingPropertyNameFlaggedPostId       = "flagged_post_id"
 	ContentFlaggingPropertyNameStatus              = "status"
@@ -607,6 +608,54 @@ func (s *Server) doPostPriorityConfigDefaultTrueMigration() error {
 	return nil
 }
 
+// doRestrictUnauthenticatedWebappPluginsConfigMigration keeps upgraded installations exposing all
+// webapp plugins to unauthenticated clients, so plugins relying on running before login keep
+// working. New installations keep the restrictive default.
+func (s *Server) doRestrictUnauthenticatedWebappPluginsConfigMigration() error {
+	// If the migration is already marked as completed, don't do it again.
+	if _, err := s.Store().System().GetByName(restrictUnauthenticatedWebappPluginsMigrationKey); err == nil {
+		return nil
+	} else if _, ok := errors.AsType[*store.ErrNotFound](err); !ok {
+		return fmt.Errorf("could not query migration: %w", err)
+	}
+
+	userCount, err := s.Store().User().Count(model.UserCountOptions{IncludeDeleted: true, IncludeBotAccounts: true})
+	if err != nil {
+		return fmt.Errorf("could not count users: %w", err)
+	}
+
+	if userCount > 0 {
+		s.platform.UpdateConfig(func(config *model.Config) {
+			config.PluginSettings.RestrictUnauthenticatedWebappPlugins = new(false)
+		})
+	}
+
+	system := model.System{
+		Name:  restrictUnauthenticatedWebappPluginsMigrationKey,
+		Value: "true",
+	}
+
+	if err := s.Store().System().SaveOrUpdate(&system); err != nil {
+		return fmt.Errorf("failed to mark restrict unauthenticated webapp plugins config migration as completed: %w", err)
+	}
+
+	return nil
+}
+
+// systemCallerContext is the request context a setup migration writes and reads
+// property fields with. The access control hook gates every PSAv2/v3 group and
+// refuses a caller that names nobody, so a migration installing or upgrading a
+// group's builtin field definitions has to identify itself. Each migration
+// passes its own subsystem identity and is admitted only on the group that
+// identity owns, so one subsystem's migration cannot touch another's schema.
+//
+// A PSAv1 group's migration needs none of this: the hook never reaches it, and
+// doSetupContentFlaggingProperties passes a nil context for that reason.
+func (s *Server) systemCallerContext(callerID string) request.CTX {
+	rctx := request.EmptyContext(s.Log())
+	return rctx.WithContext(model.WithCallerID(rctx.Context(), callerID))
+}
+
 func (s *Server) doSetupContentFlaggingProperties() error {
 	// This migration is designed in a way to allow adding more properties in the future.
 	// When a new property needs to be added, add it to the expectedPropertiesMap map and
@@ -983,6 +1032,7 @@ func (s *Server) doAppMigrations() {
 		{"First Admin Setup Complete Migration", s.doFirstAdminSetupCompleteMigration},
 		{"Remaining Schema Migrations", s.doRemainingSchemaMigrations},
 		{"Post Priority Config Default True Migration", s.doPostPriorityConfigDefaultTrueMigration},
+		{"Restrict Unauthenticated Webapp Plugins Config Migration", s.doRestrictUnauthenticatedWebappPluginsConfigMigration},
 		{"Content Flagging Properties Setup", s.doSetupContentFlaggingProperties},
 	}
 
