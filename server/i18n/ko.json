@@ -7138,10 +7138,6 @@
     "translation": "반응 CreateAt 속성은 0이 아니어야 합니다."
   },
   {
-    "id": "app.import.validate_reaction_import_data.emoji_name_length.error",
-    "translation": "반응 EmojiName 속성이 허용된 최대 길이를 초과했습니다."
-  },
-  {
     "id": "app.import.validate_reaction_import_data.emoji_name_missing.error",
     "translation": "필수 반응 속성이 누락되었습니다: EmojiName"
   },
