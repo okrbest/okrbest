@@ -3,30 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-04 14:50
+- 갱신일: 2026-11-05 00:42
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 55개
+- 남은 커밋: 43개
 
-**마지막 반영 커밋:** `f7f54c09` | [Use compass-ui Icon in Button icon slots and fix follow-ups from the Button migration (#39559)](https://github.com/mattermost/mattermost/commit/f7f54c096818a49a0a45a4be608fa4eb91032397) | 2026-10-29
+**마지막 반영 커밋:** `f619e1e3` | [Remove dead self-serve purchase code (#39528)](https://github.com/mattermost/mattermost/commit/f619e1e3e032b535504ec3b058003b42175df69c) | 2026-10-30
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| cdf79fef | [ci: update the test-system-io actions to 18a0baa (#39564)](https://github.com/mattermost/mattermost/commit/cdf79fef30561ec2c84c5b3eba60c231ff1232de) | 2026-10-30 |
-| 4bf16a6a | [MM-71424: Make Elasticsearch/OpenSearch TestConfig side-effect-free (#39512)](https://github.com/mattermost/mattermost/commit/4bf16a6a10a8095a319a120b90e80a033312c9ba) | 2026-10-30 |
-| e8d166d8 | [Compact the websocket channel membership structures (#38993)](https://github.com/mattermost/mattermost/commit/e8d166d8fcc6fdce43e7009dd1b1281bc288475e) | 2026-10-30 |
-| a8f8a6b5 | [Documentation updates for some missed areas. (#39511)](https://github.com/mattermost/mattermost/commit/a8f8a6b5230c0a16dd1e4b591fbc62913b163ad4) | 2026-10-30 |
-| 414ca16c | [Remove company information edit page (#39518)](https://github.com/mattermost/mattermost/commit/414ca16c11b37c3d2156b216e78e5ea83974384a) | 2026-10-30 |
-| a29df1bb | [Remove cloud customer update endpoints (#39519)](https://github.com/mattermost/mattermost/commit/a29df1bb0f1988246b920c45235d6146a3abe9ff) | 2026-10-30 |
-| 4df6bbc7 | [Remove unused cloud invoice endpoints (#39523)](https://github.com/mattermost/mattermost/commit/4df6bbc764dc5b4e199a6ef0caaa86c9d44c8218) | 2026-10-30 |
-| b4fb9d16 | [Remove Cloud Starter billing UI (#39529)](https://github.com/mattermost/mattermost/commit/b4fb9d16bd42105e2c4f79c77b6fd327166b883f) | 2026-10-30 |
-| 9aa8140f | [Fix openApiSync gaps for nested, helper, and multi-method routes (#39577)](https://github.com/mattermost/mattermost/commit/9aa8140f86f682dc3837645ab6a1af8eb828e6a1) | 2026-10-30 |
-| 7605721b | [Remove unused Cloud email templates (#39517)](https://github.com/mattermost/mattermost/commit/7605721bd7f005b1ad58ba248a7ecddbc2a7c23d) | 2026-10-30 |
-| 89f34ef2 | [Remove unused billing history page (#39524)](https://github.com/mattermost/mattermost/commit/89f34ef2ad223a5a871ea5a08c8660fa7b1fb10c) | 2026-10-30 |
-| f9f65b76 | [MM-71482: Update login token handling (#39578)](https://github.com/mattermost/mattermost/commit/f9f65b7604a142b86b206f819ee982d7218a6a7f) | 2026-10-30 |
-| bd812193 | [Remove Cloud file storage limit (#39526)](https://github.com/mattermost/mattermost/commit/bd812193069bde22867f1ea52f2f3185042bc291) | 2026-10-30 |
-| 3c0d58fc | [Remove unused archived file UI (#39532)](https://github.com/mattermost/mattermost/commit/3c0d58fcb667e8285e6f3c01e9a4ab04aa044370) | 2026-10-30 |
-| 18fb0968 | [\[MM-71476\] Fix timeout when deleting the last reply in a thread on large Posts tables (#39579)](https://github.com/mattermost/mattermost/commit/18fb0968a4b338810099afddd7db76241e442184) | 2026-10-30 |
-| f619e1e3 | [Remove dead self-serve purchase code (#39528)](https://github.com/mattermost/mattermost/commit/f619e1e3e032b535504ec3b058003b42175df69c) | 2026-10-30 |
 | 2b3fb21f | [Add KVListWithOptions for server-side prefix filtering in plugin KV store (#35441)](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5) | 2026-11-01 |
 | 4bda085f | [fix(e2e): click the policy channel row's Remove link, not the delete-section subtitle (#39546)](https://github.com/mattermost/mattermost/commit/4bda085f1aa79e03f398ffe986fc5e062b4a8108) | 2026-11-02 |
 | bfe09954 | [fix(e2e): restore PrivacySettings.ShowFullName and ShowEmailAddress in the per-test config reset (#39497)](https://github.com/mattermost/mattermost/commit/bfe09954b91d907ace9abff860ad4b0793f20afd) | 2026-11-02 |
@@ -66,6 +50,10 @@
 | 388cddcb | [fix(webapp): skip classification banner fetch while logged out (#39661)](https://github.com/mattermost/mattermost/commit/388cddcb2d6678b897732fac1363b0119ec4b765) | 2026-11-03 |
 | 99774251 | [config diff update (#38029)](https://github.com/mattermost/mattermost/commit/99774251ae03a69e6dbba9d990d9ac64e0e1e34f) | 2026-11-03 |
 | 4e1eec78 | [Update snapshots for compass-ui alpha.25 class names (#39670)](https://github.com/mattermost/mattermost/commit/4e1eec780dbd95e312a604b7dfb0cedc48b44abc) | 2026-11-03 |
+| 18c8573a | [Update minimum supported Chrome and Edge versions to 156+ (#39641)](https://github.com/mattermost/mattermost/commit/18c8573aa970b88edc29036ea6cb6cf876fff7dc) | 2026-11-04 |
+| 69d345c9 | [Render and edit post attributes on posts and in the RHS (#38735)](https://github.com/mattermost/mattermost/commit/69d345c93a527cc1361792cc967714fea9f99083) | 2026-11-04 |
+| c57388e7 | [\[MM-71123\] Allow 0 (unlimited) for MaxUsersPerTeam and MaxChannelsPerTeam (#39110)](https://github.com/mattermost/mattermost/commit/c57388e7c1a7751f3b2197766b4da22302362f7f) | 2026-11-04 |
+| 7b83e287 | [MM-71601: Update user password handling (#39653)](https://github.com/mattermost/mattermost/commit/7b83e287a8ab50fd9162290f179b73d73f079842) | 2026-11-04 |
 
 ## 제외된 커밋
 
@@ -885,6 +873,10 @@
 | e93c0987 | [Plugin API additions for Boards: Create new board modal, Channel Settings tab, tooltips (#39457)](https://github.com/mattermost/mattermost/commit/e93c0987030427bbf6f5d50625cd451f883d0d2b) | 제외한 263b3c11(registerChannelTypeOption)·4255e314(registerChannelSettingsTab)·e73df622 계보를 확장하는 공식 Boards용 확장점 — HEAD에 토대 심볼 0개, 11파일 충돌·5경로 부재. 이 저장소에 호출자 없음. WithTooltip 공개·placement만 떼어 받을 수 있으나 소비자 부재. 우리 Boards 플러그인에 필요해지면 계보를 묶어 spec으로 재검토 |
 
 | 68b173ab | [Keep the team sidebar and current team in global products with the product rail (#39552)](https://github.com/mattermost/mattermost/commit/68b173ab79292962e01f930b09f67941e7a6712f) | 제외한 1bd58a17(product rail, #39383)의 후속 수정 — 우리는 같은 영역을 specs/017-slack-nav-rail·028·031로 재설계. 대상 9경로가 HEAD에 없고, team_actions·team_sidebar·path의 변경도 모두 isProductRailEnabled/isProductRailShown 판단에 묶여 떼어 받을 일반 수정 없음 |
+
+| cdf79fef | [ci: update the test-system-io actions to 18a0baa (#39564)](https://github.com/mattermost/mattermost/commit/cdf79fef30561ec2c84c5b3eba60c231ff1232de) | test system IO 계보(91de3d23 → c77efb5a·020e9dab 등 exclude)의 핀 갱신 — 우리 .github에 test-system-io 문자열이 0건이라 올릴 핀이 없고 rolling-upgrades 템플릿은 파일 부재 |
+
+| a8f8a6b5 | [Documentation updates for some missed areas. (#39511)](https://github.com/mattermost/mattermost/commit/a8f8a6b5230c0a16dd1e4b591fbc62913b163ad4) | 제외한 문서 사이트 계보(1d3bbc63 #37330)의 docs/develop 플러그인 interactive dialogs 문서만 수정 — 대상 파일이 HEAD에 없음 |
 
 ## spec 전환 커밋
 
