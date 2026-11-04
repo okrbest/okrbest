@@ -4482,3 +4482,125 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | 스냅샷, SCSS, `e2e-tests/playwright/lib/src/ui/pages/recaps.ts` | 위 변경에 따른 갱신 |
 
 **되살릴 조건.** compass-ui 라이선스가 확인되어 제외 결정을 뒤집으면 upstream `f7f54c09`를 Compass 계보와 함께 다시 검토한다.
+
+---
+
+## 2026-11-04 sync — ko.json에서 지운 문자열
+
+이번 sync에서 upstream이 `en.json`에서 지운 키를 `ko.json`에서도 지웠다(orphaned 방지, CI `i18n-check-empty` 차단 해소). upstream 커밋: `1cf0caf2`·`49a923f5`·`718b00b3`(webapp), `78232608`·`51e826ea`·`926a4c8a`(server).
+
+**되살릴 조건.** upstream이 같은 키를 다시 쓰거나 해당 기능을 복원하면 아래 문자열을 되돌린다.
+
+### server
+
+| 키 | ko (우리가 삭제) |
+|---|---|
+| `api.cloud.teams_limit_reached.create` | 팀을 생성할 수 없습니다. 팀 최대 생성 한도에 도달했습니다. |
+| `api.cloud.teams_limit_reached.restore` | 팀 복원이 불가능합니다. 생성 가능한 팀 수의 한도에 도달했습니다. |
+| `api.command_share.service_inactive` | 공유 채널 서비스가 활성화되어 있지만 실행 중이 아닙니다. |
+| `app.teams.analytics_teams_count.app_error` | 팀 수를 가져올 수 없습니다. |
+| `app.usage.get_storage_usage.app_error` | 저장소 사용량을 가져올 수 없습니다. |
+
+### webapp
+
+| 키 | ko (우리가 삭제) |
+|---|---|
+| `admin.billing.deleteWorkspace.progressModal.title` | 워크스페이스를 삭제합니다 |
+| `admin.billing.deleteWorkspace.successModal.subtitle` | 워크스페이스가 삭제되었습니다. 고객이 되어 주셔서 감사했습니다. |
+| `admin.billing.deleteWorkspace.successModal.title` | 워크스페이스가 삭제되었습니다 |
+| `admin.billing.subscription.byClickingYouAgree` | {buttonContent}을(를) 클릭하면 <linkAgreement>{legalText}</linkAgreement>에 동의하게 됩니다 |
+| `admin.billing.subscription.cancelSubscriptionSection.contactUs` | 문의 |
+| `admin.billing.subscription.cancelSubscriptionSection.description` | 현재, 워크스페이스 삭제는 고객 지원 담당자의 도움이 있어야만 가능합니다. |
+| `admin.billing.subscription.cancelSubscriptionSection.title` | 구독 취소 |
+| `admin.billing.subscription.complianceScreenShippingSameAsBilling` | 배송지 주소가 청구지 주소와 동일합니다. |
+| `admin.billing.subscription.creditCardExpired` | 신용 카드가 만료되었습니다. 원할한 서비스 제공을 위해 결제 정보를 업데이트하세요. |
+| `admin.billing.subscription.downgrading` | 워크스페이스 다운그레이드 중 |
+| `admin.billing.subscription.mostRecentPaymentFailed` | 최근 결제가 실패했습니다 |
+| `admin.billing.subscription.privateCloudCard.contactSupport` | 고객센터에 문의 |
+| `admin.billing.subscription.proratedPayment.title` | 이제 {selectedProductName}에 가입되었습니다 |
+| `admin.billing.subscription.updatePaymentInfo` | 결제 정보 업데이트 |
+| `admin.billing.subscription.userCount.tooltipText` | 당신은 최소한 현재 활성화된 사용자 숫자만큼은 결제를 해야 합니다. |
+| `admin.billing.subscription.userCount.tooltipTitle` | 현재 사용자 숫자 |
+| `air_gapped_contact_sales_modal.body` | 영업팀에 연락하시려면 아래 링크를 이용해주세요. |
+| `air_gapped_contact_sales_modal.title` | 인터넷에 접속할 수 없는 것 같습니다 |
+| `cloud_signup.signup_consequences` | 오늘 신용카드로 결제됩니다. <a>결제 방식 확인하기.</a> |
+| `cloud_upgrade.error_min_seats` | 최소 10개의 시트가 필요합니다 |
+| `confirm_switch_to_yearly_modal.confirm` | 확인 |
+| `confirm_switch_to_yearly_modal.contact_sales` | 영업팀 문의 |
+| `confirm_switch_to_yearly_modal.subtitle` | 연간 요금제로 변경하면 되돌릴 수 없습니다. 월간 요금제에서 연간 요금제로 전환하시겠습니까? |
+| `confirm_switch_to_yearly_modal.subtitle2` | 자세한 내용은 영업팀에 문의하세요. |
+| `confirm_switch_to_yearly_modal.title` | 연간 요금제로 전환 확인 |
+| `create_post.file_limit_sticky_banner.admin_message` | 새로운 업로드는 자동으로 이전 파일을 보관합니다. 다시 보려면 이전 파일을 삭제하거나 <a>유료 플랜으로 업그레이드</a>하세요. |
+| `create_post.file_limit_sticky_banner.admin_message_airgapped` | 새 파일을 업로드하면 이전 파일이 자동으로 보관됩니다. 이전 파일을 다시 보려면 이전 파일을 삭제하면 됩니다. |
+| `create_post.file_limit_sticky_banner.messageTitle` | 무료 플랜은 {storageGB}의 파일로 제한됩니다. |
+| `create_post.file_limit_sticky_banner.non_admin_message` | 새로운 업로드는 자동으로 이전 파일을 보관합니다. 다시 보려면 <a>관리자에게 유료 플랜으로 업그레이드하도록 알려주세요.</a> |
+| `create_post.file_limit_sticky_banner.non_admin_message_airgapped` | 새 업로드는 이전 파일을 자동으로 보관합니다. 이전 파일을 다시 보려면 관리자에게 문의하세요. |
+| `create_post.file_limit_sticky_banner.snooze_tooltip` | {snoozeDays}일 동안 다시 알리지 않기 |
+| `create_team.createTeamRestricted.message` | 워크스페이스 플랜이 팀 수 제한에 도달했습니다. 30일 무료 평가판으로 무제한 팀을 생성하세요. 시스템 관리자에게 문의하세요. |
+| `create_team.createTeamRestricted.title` | Professional 기능 |
+| `delete_success_modal.button_text` | okrbest.com으로 이동 |
+| `error_modal.subtitle` | 요금제를 변경하는 동안 오류가 발생했습니다. 돌아가서 다시 시도하거나 지원팀에 문의하세요. |
+| `error_modal.title` | 요금제를 변경할 수 없습니다. |
+| `error_modal.try_again` | 다시 시도 |
+| `payment_form.address` | 주소 |
+| `payment_form.address_2` | 상세주소 |
+| `payment_form.city` | 도시 |
+| `payment_form.zipcode` | 우편 번호 |
+| `plan.cloud` | 클라우드 |
+| `plan.self_serve` | 셀프 서비스 |
+| `pricing_modal.plan_label_trialDays` | 평가판 {days}일 남음 |
+| `self_hosted_signup.air_gapped_content` | 인스턴스가 에어갭 상태이거나 인터넷에 연결되어 있지 않은 것 같습니다. 라이선스를 구매하려면 다음을 방문하세요 |
+| `self_hosted_signup.air_gapped_title` | 고객 포털을 통해 구매 |
+| `self_hosted_signup.close` | 닫기 |
+| `self_hosted_signup.error_invalid_number` | 유효한 사용자 수를 입력하세요 |
+| `self_hosted_signup.error_max_seats` | 라이선스 구매는 최대 {num}명까지만 가능합니다 |
+| `self_hosted_signup.error_min_seats` | 현재 워크스페이스에는 {num}명의 사용자가 있습니다 |
+| `self_hosted_signup.line_item_subtotal` | {num}명 × 12개월 |
+| `self_hosted_signup.screening_description` | 라이선스가 승인되면 3일 이내에 연락드리겠습니다. 그동안 무료 버전을 계속 사용하실 수 있습니다. |
+| `self_hosted_signup.screening_title` | 거래가 검토 중입니다 |
+| `self_hosted_signup.seats` | 사용자 수 |
+| `self_hosted_signup.signup_consequences` | 오늘 청구됩니다. 라이선스는 자동으로 적용됩니다. <a>청구 방식 확인하기</a> |
+| `self_hosted_signup.total` | 총액 |
+| `start_cloud_trial.modal.enter_trial_email.input.label` | 업무용 이메일 입력 |
+| `start_cloud_trial.modal.enter_trial_email.input.placeholder` | name@companyname.com |
+| `success_modal.return_to_workspace` | 워크스페이스로 돌아가기 |
+| `success_modal.subtitle` | 최종 청구서는 일할 계산됩니다. 이제 워크스페이스에 {plan} 제한이 적용됩니다. |
+| `three_days_left_trial.modal.limitsTitle` | 제한 |
+| `three_days_left_trial.modal.subtitleLimitsOverpassed` | 체험판이 3일 남았습니다. 무료 플랜의 데이터 제한을 초과하지 않으려면 Professional 또는 Enterprise 플랜으로 업그레이드하세요. |
+| `three_days_left_trial.modal.titleLimitsOverpassed` | 체험판 종료 전에 업그레이드하세요 |
+| `workspace_limits.file_storage` | 파일 저장소 |
+| `workspace_limits.file_storage.short` | 파일 |
+| `workspace_limits.file_storage.short.usage` | {actual} / {limit} |
+| `workspace_limits.file_storage.usage` | {limit} 중 {actual} ({percent}%) |
+| `workspace_limits.menu_limit.critical.files_storage` | {limit} 파일 저장소 제한에 가까워지고 있습니다. <a>{callToAction}</a> |
+| `workspace_limits.menu_limit.critical.messages_history` | 무료 {limit} 메시지 기록 제한에 가까워지고 있습니다. <a>{callToAction}</a> |
+| `workspace_limits.menu_limit.critical.messages_history_non_admin` | 메시지 제한에 거의 도달했습니다. 관리자가 무제한 메시지를 위해 요금제를 업그레이드할 수 있습니다. <a>{callToAction}</a> |
+| `workspace_limits.menu_limit.file_storage` | 파일 저장소 제한 |
+| `workspace_limits.menu_limit.messages` | 전체 메시지 |
+| `workspace_limits.menu_limit.notify_admin` | 관리자에게 알리기 |
+| `workspace_limits.menu_limit.over.files_storage` | {limit} 파일 저장소 제한을 초과했습니다. 최근 {limit}까지의 파일만 액세스할 수 있습니다. <a>{callToAction}</a> |
+| `workspace_limits.menu_limit.over.messages_history` | 무료 메시지 기록 제한을 초과했습니다. 기록에서 최근 {limit}개의 메시지까지만 볼 수 있습니다. <a>{callToAction}</a> |
+| `workspace_limits.menu_limit.over.messages_history_non_admin` | 메시지 제한을 초과했습니다. 관리자가 무제한 메시지를 위해 요금제를 업그레이드할 수 있습니다. <a>{callToAction}</a> |
+| `workspace_limits.menu_limit.reached.files_storage` | {limit} 파일 저장소 제한에 도달했습니다. 최근 {limit}까지의 파일만 액세스할 수 있습니다. <a>{callToAction}</a> |
+| `workspace_limits.menu_limit.reached.messages_history` | 무료 메시지 기록 제한에 도달했습니다. 기록에서 최근 {limit}개의 메시지까지만 볼 수 있습니다. <a>{callToAction}</a> |
+| `workspace_limits.menu_limit.reached.messages_history_non_admin` | 메시지 제한에 도달했습니다. 관리자가 무제한 메시지를 위해 요금제를 업그레이드할 수 있습니다. <a>{callToAction}</a> |
+| `workspace_limits.menu_limit.view_upgrade_options` | 업그레이드 옵션 보기 |
+| `workspace_limits.menu_limit.warn.files_storage` | {limit} 파일 저장소 제한에 가까워지고 있습니다. <a>{callToAction}</a> |
+| `workspace_limits.menu_limit.warn.messages_history` | 무료 {limit} 메시지 제한에 가까워지고 있습니다. <a>{callToAction}</a> |
+| `workspace_limits.message_history` | 메시지 기록 |
+| `workspace_limits.message_history.short` | 메시지 |
+| `workspace_limits.message_history.short.usage` | {actual} / {limit} |
+| `workspace_limits.message_history.usage` | {limit}개 중 {actual}개 메시지 ({percent}%) |
+| `workspace_limits.modals.close` | 닫기 |
+| `workspace_limits.modals.informational.description.freeLimits` | {planName}은(는) {messages} 메시지 기록과 {storage} 파일 저장소로 제한됩니다. |
+| `workspace_limits.modals.informational.title` | {planName} 제한 |
+| `workspace_limits.modals.limits_reached.description.message_history` | 보낸 메시지 기록을 더 이상 사용할 수 없지만 계속 메시지를 보낼 수 있습니다. 유료 요금제로 업그레이드하여 메시지 기록에 무제한으로 액세스하세요. |
+| `workspace_limits.modals.limits_reached.title` | {limitName} 제한에 도달함 |
+| `workspace_limits.modals.limits_reached.title.message_history` | 메시지 기록 |
+| `workspace_limits.modals.view_plan_options` | 요금제 옵션 보기 |
+| `workspace_limits.modals.view_plans` | 요금제 보기 |
+| `workspace_limits.teams_limit_reached.tool_tip` | 현재 요금제의 팀 제한에 도달했습니다. 이 팀의 보관을 해제하거나 다른 팀을 보관하려면 업그레이드를 고려하세요 |
+| `workspace_limits.teams_limit_reached.upgrade_to_unarchive` | 보관 해제를 위해 업그레이드 |
+| `workspace_limits.teams_limit_reached.view_upgrade_options` | 업그레이드 옵션 보기 |
+| `workspace_limits.upgrade` | {planName} 데이터 제한을 피하려면 업그레이드하세요 |
+| `workspace_limits.upgrade_reasons.free` | {planName}은(는) {messagesLimit} 메시지 기록과 {storageLimit} 파일 저장소로 제한됩니다. 공간을 확보하기 위해 항목을 삭제하거나 유료 요금제로 업그레이드할 수 있습니다. |

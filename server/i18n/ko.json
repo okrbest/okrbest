@@ -772,14 +772,6 @@
     "translation": "CWS에 대한 요청 처리 중 오류가 발생했습니다."
   },
   {
-    "id": "api.cloud.teams_limit_reached.create",
-    "translation": "팀을 생성할 수 없습니다. 팀 최대 생성 한도에 도달했습니다."
-  },
-  {
-    "id": "api.cloud.teams_limit_reached.restore",
-    "translation": "팀 복원이 불가능합니다. 생성 가능한 팀 수의 한도에 도달했습니다."
-  },
-  {
     "id": "api.command.admin_only.app_error",
     "translation": "연동은 관리자만 사용할 수 있습니다."
   },
@@ -1762,10 +1754,6 @@
   {
     "id": "api.command_share.service_disabled",
     "translation": "공유 채널 서비스가 비활성화되었습니다."
-  },
-  {
-    "id": "api.command_share.service_inactive",
-    "translation": "공유 채널 서비스가 활성화되어 있지만 실행 중이 아닙니다."
   },
   {
     "id": "api.command_share.share_channel.error",
@@ -8970,10 +8958,6 @@
     "translation": "사용자가 팀 목록에 속해 있는지 확인할 수 없습니다."
   },
   {
-    "id": "app.teams.analytics_teams_count.app_error",
-    "translation": "팀 수를 가져올 수 없습니다."
-  },
-  {
     "id": "app.terms_of_service.create.app_error",
     "translation": "이용약관을 저장할 수 없습니다."
   },
@@ -9264,10 +9248,6 @@
   {
     "id": "app.upload.upload_data.update.app_error",
     "translation": "업로드 세션을 업데이트할 수 없습니다."
-  },
-  {
-    "id": "app.usage.get_storage_usage.app_error",
-    "translation": "저장소 사용량을 가져올 수 없습니다."
   },
   {
     "id": "app.user.analytics_daily_active_users.app_error",
