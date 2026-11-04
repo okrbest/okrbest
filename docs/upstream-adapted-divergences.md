@@ -4235,3 +4235,250 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 |---|---|---|---|
 | `docs/main/administration-guide/configure/environment-configuration-settings.mdx` (+75) | 설정 5개 표 — Enable Redis TLS(TLS 1.2 이상, 기본 false), Skip Redis TLS verification(서버 인증서 미검증, 운영 비권장), CA 인증서 경로(PEM, 비우면 OS 신뢰 CA), 클라이언트 인증서·키 경로(PEM, mTLS, 둘을 함께 지정). 인증서 경로는 각 서버 로컬 파일시스템의 절대 경로이며 Elasticsearch 인증서와 달리 파일 저장소에서 읽지 않아 클러스터 모든 서버에 있어야 함. 각 항목에 config.json 경로와 `MM_CACHESETTINGS_REDIS…` 환경 변수, "From Mattermost v12.2" | 제외한 문서 사이트 계보(`1d3bbc63`)라 없다(modify/delete) | 문서 사이트를 되살릴 때 |
 | `docs/main/deployment-guide/scale/redis.mdx` (+39) | "Secure Redis connections with TLS" 절 — TLS는 캐시와 HA 클러스터 메시지 모두에 적용, 절차 6단계(Redis TLS 설정 → 인증서를 모든 서버 같은 경로에 복사 → Enable TLS → 필요 시 CA·클라이언트 인증서 → 저장 후 재시작), config.json 예시, 인증서를 못 읽거나 핸드셰이크 실패 시 서버 기동 실패, Skip verification 경고, 인증서 교체 후 재시작 필요, AWS ElastiCache(전송 중 암호화 시 TLS on, 주소는 IP 아닌 엔드포인트 호스트명, 공인 인증서라 CA 경로 불필요, mTLS 미지원이라 cert·key 비우고 AUTH 토큰은 Redis Password) | 같음 | 같음 |
+
+---
+
+## Cloud 결제 배너 제거 — 삭제한 컴포넌트와 문자열
+
+**upstream**: [`1cf0caf2`](https://github.com/mattermost/mattermost/commit/1cf0caf2d9a3a237582dd1178a9707ca7cb66512)
+(Remove unused payment announcement bar, #39521) — 7파일 +2/-236, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `bb05bd2990`)
+
+**받은 것.** 7파일 전부. Mattermost Cloud·결제 코드 제거 연작의 첫 커밋이다.
+
+**우리 맞춤.** `announcement_bar_controller.tsx`의 `AUTO_START_TRIAL_MODAL_ENABLED`는 보존했다. 충돌 2건은 삭제 쪽으로 풀었다. 우리 `updatePaymentInfo` 문구(`Update payment info`)가 upstream(`Update Payment Information`)과 달라서 난 충돌이다.
+
+**버린 것.**
+
+| 위치 | 버린 내용 |
+|---|---|
+| `components/announcement_bar/payment_announcement_bar/index.tsx` | `license.Cloud === 'true'`일 때 뜨는 배너. Cloud 고객 정보를 읽어 카드가 만료됐거나 최근 결제가 실패하면 경고하고, 결제 정보 페이지(`PAYMENT_INFO`)로 연결한다 |
+| `components/announcement_bar/payment_announcement_bar/index.test.tsx` | 위 배너 테스트 |
+| `announcement_bar_controller.tsx` | `paymentAnnouncementBar` 렌더링, 쓰지 않는 자리표시자 `notifyAdminDowngradeDelinquencyBar`·`toYearlyNudgeBannerDismissable`, `getCloudCustomer` prop |
+| `announcement_bar/index.ts` | `getCloudCustomer` 액션 연결 |
+| `utils/cloud_utils.ts` | `isCustomerCardExpired(customer)` — 카드 만료 연·월로 만료 여부 판정 |
+| `utils/constants.tsx` | `ConsolePages.PAYMENT_INFO` (`/admin_console/billing/payment_info`) |
+
+**지운 문자열.** `en.json`은 이 커밋에서 지웠다. `ko.json`은 sync 마감 때 함께 정리한다.
+
+| 키 | en (upstream이 삭제) |
+|---|---|
+| `admin.billing.subscription.creditCardExpired` | "Your credit card has expired. Update your payment information to avoid disruption." |
+| `admin.billing.subscription.mostRecentPaymentFailed` | "Your most recent payment failed" |
+| `admin.billing.subscription.updatePaymentInfo` | "Update payment info" (upstream 문구는 "Update Payment Information") |
+
+**되살릴 조건.** Mattermost Cloud 결제 화면을 다시 쓰기로 하면 upstream `1cf0caf2^`의 파일을 복원한다.
+
+---
+
+## 쓰지 않는 Cloud 결제·구매 컴포넌트 제거 — 포크 차이가 있던 파일까지 삭제했다
+
+**upstream**: [`49a923f5`](https://github.com/mattermost/mattermost/commit/49a923f5c2158271a959e06a842ef4f3415f93b4)
+(Remove orphaned billing and purchase components, #39522) — 56파일 -4002, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `6979087293`)
+
+**받은 것.** 56파일 전부. 53개 파일을 지우고, `en.json`·`cloud_utils.ts`·`constants.tsx`에서 관련 항목을 지웠다.
+
+**우리 맞춤.** `en.json` 충돌의 upstream 쪽에 우리에게 없는 키가 문맥으로 섞여 있어, HEAD 파일에서 삭제 대상 55개 키만 지웠다. `ko.json`은 sync 마감 때 함께 정리한다.
+
+**버린 것 — 삭제한 기능.**
+
+| 위치 (`webapp/channels/src/`) | 버린 내용 |
+|---|---|
+| `components/admin_console/billing/billing_subscriptions/` | `cancel_subscription`, `limits`, `limit_card` — 구독 취소 안내, 플랜 사용량 제한 카드 |
+| `components/admin_console/billing/delete_workspace/` | `progress_modal`, `success_modal` — 워크스페이스 삭제 진행·완료 모달 |
+| `components/payment_form/` | `address_form`, `card_image` — 결제 주소·카드 입력 일부 |
+| `components/seats_calculator/` | 좌석 수·금액 계산기 |
+| `components/downgrade_modal/`, `switch_to_yearly_plan_confirm_modal/` | 다운그레이드 진행, 연간 요금제 전환 확인 모달 |
+| `components/cloud_subscribe_result_modal/`, `screening_in_progress_modal/`, `icon_message_with_progress_bar/` | 구매 결과·심사 중 표시 |
+| `components/air_gapped_contact_sales_modal/`, `air_gapped_self_hosted_purchase_modal/`, `choose_different_shipping/` | 폐쇄망 구매, 배송지 변경 안내 |
+| `components/cloud_start_trial/input_business_email`, `common/plan_label/` | 업무용 이메일 입력, 플랜 표시 라벨 |
+| `components/common/hooks/` | `useControlModal`, `useGetMultiplesExceededCloudLimit` |
+| `components/common/svg_images_components/`, `images/air_gapped_contact_us_image.png` | 결제 일러스트 5종과 이미지 |
+| `selectors/cloud.ts` | `getExpandSeatsLink`, `getCloudDelinquentInvoices`, `isCloudDelinquencyGreaterThan90Days`, `isCwsMockMode` |
+| `utils/cloud_utils.ts` | `buildInvoiceSummaryPropsFromLineItems`, `openExternalPricingLink`, `daysToExpiration`, `daysToCancellation` |
+| `utils/constants.tsx` | `ModalIdentifiers`의 구매·다운그레이드·워크스페이스 삭제 항목 21개. `Preferences.START_TRIAL_MODAL`은 그대로 쓴다 |
+| `i18n/en.json` | 위 화면의 문자열 키 55개 (`admin.billing.*`, `workspace_limits.*`, `delete_success_modal.*` 등) |
+
+**버린 것 — 포크 차이.** 다음 10개 파일은 upstream과 달랐지만 자체 기능은 없었다. Compass UI를 제외해서 생긴 `@mattermost/shared` 대체 코드와 문구 차이다: `cancel_subscription.tsx`, `limit_card.tsx`, `limits.scss`, `limits.test.tsx`, `limits.tsx`, `progress_modal.scss`, `progress_modal.tsx`, `cloud_subscribe_result_modal/__snapshots__/success.test.tsx.snap`, `downgrade_modal/index.scss`, `downgrade_modal/index.tsx`.
+
+**되살릴 조건.** Mattermost Cloud 결제·구매 화면을 쓰기로 하면 upstream `49a923f5^`의 파일을 복원하고, Compass UI 대신 `@mattermost/shared`로 다시 맞춘다.
+
+---
+
+## 게시글 우선순위 대량 이전 — 미룬 팀·채널 이전 구조 없이 넣었다
+
+**upstream**: [`540a5d7b`](https://github.com/mattermost/mattermost/commit/540a5d7b5cca9ee22720d7a6f2ec8befefddc585)
+(Add post priority and acknowledgements to bulk import and export, #39551) — 8파일 +438, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `f5e615b28c`)
+
+**받은 것.** 8파일 전부. 버린 기능은 없다.
+
+**우리 맞춤.** spec으로 미룬 단일 팀·채널 이전(`41c482b4`, `4527f4c1`)이 없어서 코드 위치가 다르다.
+
+| 위치 | upstream | 우리 |
+|---|---|---|
+| `app/export.go` `exportAllPosts` | `exportPostsForFilter` 클로저 안의 반복문, `return appErr` | 기존 `for` 반복문, `return nil, appErr` |
+| `app/import_functions.go` `importReplies`·`importMultiplePostLines` | `deactivateMissingUsers`, `ImportReport` 인자 있음 | 인자 없음. 테스트 호출도 우리 인자로 고쳤다 |
+
+**후속 주의.** 단일 팀·채널 이전을 구현할 때 `exportAllPosts`의 우선순위 조회 코드도 클로저로 옮겨야 한다.
+
+**i18n 후속.** `server/i18n/en.json`에 추가된 키 6개의 ko 번역이 없다.
+
+---
+
+## hosted customer 상태 제거 — webapp만 지우고 서버 코드는 남았다
+
+**upstream**: [`19cd4917`](https://github.com/mattermost/mattermost/commit/19cd4917f67773a090f9ed33d02edf8f6a5479b6)
+(Remove unused hosted customer state, #39520) — 19파일 +3/-199, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `3468fe11c7`)
+
+**받은 것.** 19파일 전부.
+
+**우리 맞춤.** `overage_users_banner.test.tsx` import에서 `SelfHostedProducts`만 빼고, 우리 리브랜드 링크 검증이 쓰는 `LicenseLinks`는 남겼다.
+
+**버린 것.**
+
+| 위치 (`webapp/`) | 버린 내용 |
+|---|---|
+| `mattermost-redux/src/reducers/entities/hosted_customer.ts`, `action_types/hosted_customer.ts` | 자체 호스팅 구매용 `hostedCustomer` 리듀서와 액션 타입 |
+| `platform/types/src/hosted_customer.ts`, `store.ts` | `HostedCustomerState` 타입 |
+| `mattermost-redux/src/action_types/cloud.ts` | `RECEIVED_BOARDS_USAGE`, `RECEIVED_LICENSE_SELF_SERVE_STATS`, `LICENSE_SELF_SERVE_STATS_FAILED`, `LICENSE_SELF_SERVE_STATS_REQUEST`, `RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS` |
+| `reducers/entities/usage.ts` | `RECEIVED_BOARDS_USAGE` 분기. `boards` 필드는 남는다 |
+| `platform/client/src/client4.ts` | `getHostedCustomerRoute()` |
+| `platform/client/src/websocket_*.ts`, `utils/constants.tsx` | 이벤트 `hosted_customer_signup_progress_updated` 정의 |
+
+**서버 쪽 잔여.** `api4/hosted_customer.go`, `app/hosted_customer.go`, 서버의 `WebsocketEventHostedCustomerSignupProgressUpdated`는 이 커밋 범위가 아니어서 남아 있다.
+
+**되살릴 조건.** 자체 호스팅 구매 흐름을 다시 쓰기로 하면 upstream `19cd4917^`의 파일을 복원한다.
+
+---
+
+## Cloud 사용량 제한 UI 제거 — upstream 범위 밖 파일까지 지웠다
+
+**upstream**: [`718b00b3`](https://github.com/mattermost/mattermost/commit/718b00b337cf399b69948c556f4c46f3c07f4edb)
+(Remove unused Cloud usage limits UI, #39530) — 58파일 +67/-3978, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `c8046960fb`)
+
+**받은 것.** 사용량 제한 UI 삭제 전체. 자체 호스팅 동작은 바뀌지 않는다 — 팀 생성·복원 제한은 `license.Cloud`나 `isCloud` 조건에서만 작동했다.
+
+**우리 맞춤.**
+
+| 위치 | upstream | 우리 |
+|---|---|---|
+| `team_profile.tsx` | Compass `Button`·`Icon` | `@mattermost/shared` `Button`, `variant='destructive'`, `<i>` 아이콘 |
+| `advanced_text_editor.tsx` | WYSIWYG import 포함 | `FileLimitStickyBanner` 줄만 지웠다. 우리 에디터는 그대로다 |
+| `sidebar_team_menu.tsx` | Cloud 팀 제한 분기 수정 | 변경 없음. 포크에 해당 Cloud 코드가 없다 |
+| `switch_product_menu` 3개 파일 | 수정 | 우리 삭제(spec 017)를 유지 |
+| `utils/limits.tsx` | Compass `ProgressBarProps` import | import하지 않는다 |
+
+**upstream 범위를 넘어 지운 것.** 이번에 지운 훅에 의존하고 호출자가 없어서 함께 지웠다. upstream은 우리가 제외한 `913291dd`(#38561)에서 지웠다.
+
+| 파일 | 내용 |
+|---|---|
+| `widgets/menu/menu_items/menu_item_cloud_limit.tsx` (테스트·스냅샷 포함) | 제한 상태를 보여 주는 메뉴 항목 |
+| `widgets/menu/menu_items/useWords.tsx` (테스트 포함) | 제한 문구 생성 훅 |
+| `widgets/menu/menu.tsx` | `ItemCloudLimit` 정적 필드와 import |
+
+**남겨 둔 것.** `menu_item.scss`의 `.MenuItemCloudLimit` 스타일은 쓰이지 않지만 그대로 두었다.
+
+**버린 것.**
+
+| 위치 (`webapp/channels/src/`) | 버린 내용 |
+|---|---|
+| `components/cloud_usage_modal/` | 사용량 모달, `lhs_nearing_limit_modal`, `limit_line`, `workspace_limits_panel` |
+| `components/cloud_effects/`, `root.tsx` | 관리자 제한 도달 효과 |
+| `components/file_limit_sticky_banner/` | 파일 저장 한도 배너 |
+| `components/common/hooks/`, `common/hocs/cloud/` | `useGetUsageDeltas`, `useGetHighestThresholdCloudLimit`, `useShowAdminLimitReached`, `with_use_get_usage_deltas` |
+| `create_team`, `select_team`, `team_profile`, `mobile_sidebar_right` | Cloud 플랜 팀 수 제한 분기와 안내 문구 |
+| `three_days_left_trial_modal`, `menu_cloud_trial` | 제한 초과 시 다른 문구 표시 |
+| `actions/websocket_actions.ts` | `cloud_subscription_changed`의 limits 분기 |
+| `utils/limits.tsx` | `inK`, `toUsagePercent`, `anyUsageDeltaExceededLimit` |
+| `i18n/en.json` | 키 41개. `ko.json`은 sync 마감 때 함께 정리한다 |
+
+**되살릴 조건.** Mattermost Cloud 플랜 제한을 다시 쓰기로 하면 upstream `718b00b3^`와 `913291dd^`의 파일을 복원하고 `@mattermost/shared`로 맞춘다.
+
+---
+
+## Cloud 사용량 API 제거 — 지운 서버 API 기록
+
+**upstream**: [`51e826ea`](https://github.com/mattermost/mattermost/commit/51e826eae1b103129fba36fd9b7d80f23eb62e0d)
+(Remove AdjustInProductLimits and the Cloud usage API, #39527) — 16파일 +2/-779, 2026-11-04 반영(사용자 결정 cherry-pick, 우리 커밋 `9fe2407484`)
+
+**차이 없음.** 그대로 받았다. 사용자 요청으로 지운 내용만 기록한다.
+
+**버린 것.**
+
+| 위치 | 버린 내용 |
+|---|---|
+| `server/channels/api4/usage.go`, `api/v4/source/usage.yaml` | `GET /api/v4/usage/posts`, `/storage`, `/teams`와 OpenAPI 문서 |
+| `server/channels/app/cloud.go`, `app/team.go` | `AdjustInProductLimits`, `AdjustTeamsFromProductLimits` — 플랜 제한에 맞춰 팀을 보관·복원 |
+| `server/channels/app/usage.go` | `GetPostsUsage`, `GetStorageUsage`. `GetTeamsUsage`는 남는다 |
+| `server/channels/utils/utils.go` | `RoundOffToZeroesResolution` |
+| `server/public/model/client4.go` | `Client4.GetPostsUsage`, `GetStorageUsage`, `GetTeamsUsage`. 모델 타입은 Deprecated로 남는다 |
+| `server/i18n/en.json` | `app.teams.analytics_teams_count.app_error`, `app.usage.get_storage_usage.app_error`. `ko.json`은 sync 마감 때 함께 정리한다 |
+
+**webapp 잔여.** `client4.ts`의 `getPostsUsage`·`getFilesUsage`·`getTeamsUsage`와 호출 코드는 남아 있지만 모두 Cloud 라이선스 조건 안에 있다.
+
+**되살릴 조건.** 외부에서 `/api/v4/usage/*`가 필요해지면 upstream `51e826ea^`의 파일을 복원한다.
+
+---
+
+## 결제 Cypress 스펙 제거 — 지운 테스트 기록
+
+**upstream**: [`9a78a71c`](https://github.com/mattermost/mattermost/commit/9a78a71c285e423a7fcf242db69b1e6f92244ed7)
+(Remove Cypress specs for removed billing flows, #39516) — 14파일 +1/-2746, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `2c08926b64`)
+
+**우리 맞춤.** `self_hosted_purchase_spec.ts`의 삭제 충돌만 풀었다. 우리 변경은 `uiGetProductMenuButton` 1줄이었다.
+
+**버린 것.**
+
+| 위치 (`e2e-tests/cypress/tests/`) | 버린 내용 |
+|---|---|
+| `integration/channels/enterprise/cloud/billing/` | `after_subscription`, `cloud_pricing_modal`, `downgrade_feedback_modal`, `payment_free_trial`, `yearly_subscription` 스펙. `subscriptions_free_trial`의 구매 모달 케이스 |
+| `integration/channels/enterprise/self-hosted/` | `self_hosted_pricing_modal`, `self_hosted_purchase` 스펙 |
+| `integration/channels/system_console/workspace_deletion_spec.js` | 워크스페이스 삭제 스펙 |
+| `fixtures/client_billing.json`, `support/ui/cloud_billing.*` | 결제 픽스처, `cy.uiGetPaymentCardInput` |
+| `support/api_commands.ts` | `cy.simulateSubscription`. 같은 이름의 지역 함수를 쓰는 스펙은 영향 없다 |
+
+**되살릴 조건.** 결제 화면을 복원할 때 upstream `9a78a71c^`에서 함께 복원한다.
+
+---
+
+## Cloud 팀 수 제한 검사 제거 — 지운 서버 검사 기록
+
+**upstream**: [`926a4c8a`](https://github.com/mattermost/mattermost/commit/926a4c8a835304596233aa5c9dc1029d9ac93dd7)
+(Remove Cloud team limit checks on team create and restore, #39525) — 3파일 -141, 2026-11-04 반영(사용자 결정 cherry-pick, 우리 커밋 `6ef510f3c1`)
+
+**차이 없음.** 그대로 받았다. 사용자 요청으로 지운 내용만 기록한다.
+
+**버린 것.**
+
+| 위치 | 버린 내용 |
+|---|---|
+| `server/channels/api4/team.go` `createTeam`·`restoreTeam` | `License().IsCloud()`일 때 Cloud 팀 수 제한을 넘으면 400으로 거부하는 검사 |
+| `server/channels/api4/team_test.go` | 위 검사 테스트 |
+| `server/i18n/en.json` | `api.cloud.teams_limit_reached.create`, `.restore`. `ko.json`은 sync 마감 때 함께 정리한다 |
+
+**잔여.** `App.GetTeamsUsage`는 호출자가 없지만 upstream도 이 커밋에서 지우지 않아 남겨 두었다.
+
+**되살릴 조건.** Mattermost Cloud 플랜 제한을 다시 쓰기로 하면 upstream `926a4c8a^`의 검사를 복원한다.
+
+---
+
+## Compass 버튼 아이콘 후속 — 업로드 버그 수정만 받았다
+
+**upstream**: [`f7f54c09`](https://github.com/mattermost/mattermost/commit/f7f54c096818a49a0a45a4be608fa4eb91032397)
+(Use compass-ui Icon in Button icon slots and fix follow-ups from the Button migration, #39559) — 49파일 +688/-803, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `6829bdd1d3`)
+
+**받은 것.** `admin_console/file_upload_setting.tsx`의 로직 수정과 `file_upload_setting.test.tsx`. 파일이 없으면 업로드를 시작하지 않고, 실패하면 선택 상태를 비운다.
+
+**우리 맞춤.** upstream은 Compass `Button`의 `loading`을 쓴다. 우리는 `@mattermost/shared` `Button`에 `disabled={!isFileSelected || isUploading}`를 주고 기존 스피너를 유지한다.
+
+**버린 것.** Compass UI 제외 결정(`70658e18`, 라이선스 없음)과 선행 `e190c0f1` 제외에 따라 나머지 47파일을 받지 않았다.
+
+| 영역 | 버린 내용 |
+|---|---|
+| 버튼 호출 지점 | compass-ui `Icon`을 Button 아이콘 슬롯에 쓰도록 교체 (관리 콘솔, 프로필 팝오버, 이모지 목록, 투어 팁 등 20곳) |
+| `tour_tip.tsx` | `nextTrailingIcon`·`prevLeadingIcon`을 `...Glyph`로 변경 |
+| `recaps` | 빈 상태를 `recaps_empty_state`로 분리, `recaps.scheduled.emptyState.*` 키 2개 삭제 |
+| `scroll_to_bottom_toast` | 메시지를 `span`으로 감싸고 `inline-flex`로 정렬 |
+| `remove_file_setting.tsx` | `loading` prop 사용 |
+| 스냅샷, SCSS, `e2e-tests/playwright/lib/src/ui/pages/recaps.ts` | 위 변경에 따른 갱신 |
+
+**되살릴 조건.** compass-ui 라이선스가 확인되어 제외 결정을 뒤집으면 upstream `f7f54c09`를 Compass 계보와 함께 다시 검토한다.
