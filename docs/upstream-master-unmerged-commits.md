@@ -3,37 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-03 18:27
+- 갱신일: 2026-11-04 14:50
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 62개
+- 남은 커밋: 55개
 
-**마지막 반영 커밋:** `8a53d645` | [MM-71401: Rebuild the scrambled authentication settings tables (#39482)](https://github.com/mattermost/mattermost/commit/8a53d645decc6f7ccc2892258334a8bdb4a3aa11) | 2026-10-28
+**마지막 반영 커밋:** `f7f54c09` | [Use compass-ui Icon in Button icon slots and fix follow-ups from the Button migration (#39559)](https://github.com/mattermost/mattermost/commit/f7f54c096818a49a0a45a4be608fa4eb91032397) | 2026-10-29
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b9fd23e5 | [MM-70703: Align file attachment permission checks (#39413)](https://github.com/mattermost/mattermost/commit/b9fd23e542a2f544033e2b385313bc43ab18e490) | 2026-10-29 |
-| fcafb9b8 | [fix(e2e): repair deletion-report.spec.ts on master (#39376)](https://github.com/mattermost/mattermost/commit/fcafb9b89c8f36264022269b5a69b62ccf6285b0) | 2026-10-29 |
-| e22bcdd3 | [fix(e2e): wait for a search-engine answer in the Elasticsearch/OpenSearch search specs (#39445)](https://github.com/mattermost/mattermost/commit/e22bcdd33153762788edac3e652ee3e4dc676083) | 2026-10-29 |
-| 78232608 | [Let plugin shared channel receive APIs run on any cluster node (#39504)](https://github.com/mattermost/mattermost/commit/782326082659f16524c08fd2b85f49cd11b83d32) | 2026-10-29 |
-| ea90a1c2 | [docs: add Ubuntu 26.04 LTS to supported APT install targets (#39498)](https://github.com/mattermost/mattermost/commit/ea90a1c2d53e4d5727daf20b95d40d6311bcdc74) | 2026-10-29 |
-| 0eb2eb7e | [drip: AppError -> error: login attempts (#39539)](https://github.com/mattermost/mattermost/commit/0eb2eb7ebcc914d5b1571f5a38d72444365b7eea) | 2026-10-29 |
-| 0cfb204f | [Bump github.com/andybalholm/brotli to v1.2.7 (#39543)](https://github.com/mattermost/mattermost/commit/0cfb204f04a0e7ab28b859047651419d814cc586) | 2026-10-29 |
-| 18b992d3 | [Make WebConn.ShouldSendEvent allocation-free with an immutable session bundle (#38992)](https://github.com/mattermost/mattermost/commit/18b992d329b9512c114cfb8729373a8078f88385) | 2026-10-29 |
-| 3525e8fa | [\[MM-70033\] Replace property permission mechanisms with a typed permissions model (#39081)](https://github.com/mattermost/mattermost/commit/3525e8faa84953de325bbaeb2f91efdd4a56af6e) | 2026-10-29 |
-| 1cf0caf2 | [Remove unused payment announcement bar (#39521)](https://github.com/mattermost/mattermost/commit/1cf0caf2d9a3a237582dd1178a9707ca7cb66512) | 2026-10-29 |
-| 49a923f5 | [Remove orphaned billing and purchase components (#39522)](https://github.com/mattermost/mattermost/commit/49a923f5c2158271a959e06a842ef4f3415f93b4) | 2026-10-29 |
-| 540a5d7b | [Add post priority and acknowledgements to bulk import and export (#39551)](https://github.com/mattermost/mattermost/commit/540a5d7b5cca9ee22720d7a6f2ec8befefddc585) | 2026-10-29 |
-| 19cd4917 | [Remove unused hosted customer state (#39520)](https://github.com/mattermost/mattermost/commit/19cd4917f67773a090f9ed33d02edf8f6a5479b6) | 2026-10-29 |
-| 57002e48 | [drip: AppError -> error: login attempts (#39539)](https://github.com/mattermost/mattermost/commit/57002e487c38fd722a1166c8bda9dde92dbfc7e4) | 2026-10-29 |
-| c0b8b434 | [drip: use errors.AsType for sidebar category store errors (#39553)](https://github.com/mattermost/mattermost/commit/c0b8b4348d4833417fcf78326442c350c0c7f4e5) | 2026-10-29 |
-| 718b00b3 | [Remove unused Cloud usage limits UI (#39530)](https://github.com/mattermost/mattermost/commit/718b00b337cf399b69948c556f4c46f3c07f4edb) | 2026-10-29 |
-| 51e826ea | [Remove AdjustInProductLimits and the Cloud usage API (#39527)](https://github.com/mattermost/mattermost/commit/51e826eae1b103129fba36fd9b7d80f23eb62e0d) | 2026-10-29 |
-| e93c0987 | [Plugin API additions for Boards: Create new board modal, Channel Settings tab, tooltips (#39457)](https://github.com/mattermost/mattermost/commit/e93c0987030427bbf6f5d50625cd451f883d0d2b) | 2026-10-29 |
-| 68b173ab | [Keep the team sidebar and current team in global products with the product rail (#39552)](https://github.com/mattermost/mattermost/commit/68b173ab79292962e01f930b09f67941e7a6712f) | 2026-10-30 |
-| 9a78a71c | [Remove Cypress specs for removed billing flows (#39516)](https://github.com/mattermost/mattermost/commit/9a78a71c285e423a7fcf242db69b1e6f92244ed7) | 2026-10-29 |
-| 926a4c8a | [Remove Cloud team limit checks on team create and restore (#39525)](https://github.com/mattermost/mattermost/commit/926a4c8a835304596233aa5c9dc1029d9ac93dd7) | 2026-10-29 |
-| caaec8cd | [Add a button to quote text selected in a message (#39237)](https://github.com/mattermost/mattermost/commit/caaec8cda5e34866ccb2f7a4eb93e9dee585601c) | 2026-10-30 |
-| f7f54c09 | [Use compass-ui Icon in Button icon slots and fix follow-ups from the Button migration (#39559)](https://github.com/mattermost/mattermost/commit/f7f54c096818a49a0a45a4be608fa4eb91032397) | 2026-10-29 |
 | cdf79fef | [ci: update the test-system-io actions to 18a0baa (#39564)](https://github.com/mattermost/mattermost/commit/cdf79fef30561ec2c84c5b3eba60c231ff1232de) | 2026-10-30 |
 | 4bf16a6a | [MM-71424: Make Elasticsearch/OpenSearch TestConfig side-effect-free (#39512)](https://github.com/mattermost/mattermost/commit/4bf16a6a10a8095a319a120b90e80a033312c9ba) | 2026-10-30 |
 | e8d166d8 | [Compact the websocket channel membership structures (#38993)](https://github.com/mattermost/mattermost/commit/e8d166d8fcc6fdce43e7009dd1b1281bc288475e) | 2026-10-30 |
@@ -73,6 +50,22 @@
 | 2ad57b53 | [MM-71221: Keep the rich text editor in sync with the draft (#39452)](https://github.com/mattermost/mattermost/commit/2ad57b53b8030f5939d6504b44ed9949d4ed0843) | 2026-11-03 |
 | 09c24a0f | [ci(e2e): triage support paths, automatic re-run on infra failures, test-system-io actions update (#39590)](https://github.com/mattermost/mattermost/commit/09c24a0fdb244dd479790411712fa7538d41dba4) | 2026-11-03 |
 | 31bb5213 | [\[MM-71590\] Keep the Server Logs filters in the URL so a view can be shared (#39642)](https://github.com/mattermost/mattermost/commit/31bb52133e05f8e84fc53f4d70d08d863e5eb856) | 2026-11-03 |
+| ad8460ad | [Document turning off Elasticsearch indexing before large bulk channel deletes (#39547)](https://github.com/mattermost/mattermost/commit/ad8460ad4d1d81c47d5d64a996dba7af8f870180) | 2026-11-03 |
+| 77a94b45 | [Add the PropertyValuesHaveBeenUpdated plugin hook (#39461)](https://github.com/mattermost/mattermost/commit/77a94b45a35b5dd624feee349aa9f2b5715e026a) | 2026-11-03 |
+| 10dc5245 | [Agentic changelog phase 2 (from v12.2): scheduled runs, release-derived sections, doc links, link check and readiness report (#39380)](https://github.com/mattermost/mattermost/commit/10dc5245e531b218e024f6c06a2181901032eb8a) | 2026-11-03 |
+| 6875d008 | [\[MM-69946\] Harden outgoing webhook user assignment (#37932)](https://github.com/mattermost/mattermost/commit/6875d0081025fbfae56c4eb9772f854503193502) | 2026-11-03 |
+| e8c7307f | [Restrict unauthenticated webapp plugin manifests to pre-auth plugins (#39433)](https://github.com/mattermost/mattermost/commit/e8c7307f42a870a545f07fcd68aaff81f1e68346) | 2026-11-03 |
+| 13ce8add | [Migrate AdminPanel widgets to Compass AdminPanel (#39046)](https://github.com/mattermost/mattermost/commit/13ce8add0d37933d12872eee19379afb67c0f885) | 2026-11-03 |
+| 6e31410e | [Generate fallback property option IDs without md5 in migration 000223 (#39654)](https://github.com/mattermost/mattermost/commit/6e31410e3140b8246116b7d2b1f851f8ea31f7ae) | 2026-11-03 |
+| bf9a15c8 | [MM-70024: Improve atomicity in desktop SSO token validation (#37748)](https://github.com/mattermost/mattermost/commit/bf9a15c8e4a5e6f6f605fba4e4b49ed1569d5fe9) | 2026-11-03 |
+| b6a82d22 | [Add local-mode mmctl plugin keys commands for plugin signature public keys (#39502)](https://github.com/mattermost/mattermost/commit/b6a82d225092723c9b6a889f2664f8c3d7a7880c) | 2026-11-03 |
+| 2412cad8 | [Migrate icon-only buttons to Compass IconButton (#39029)](https://github.com/mattermost/mattermost/commit/2412cad805805beaf794549f5a25ac8b14683104) | 2026-11-03 |
+| 46ba1936 | [MM-71286: update mmctl download filename handling (#39306)](https://github.com/mattermost/mattermost/commit/46ba1936998899099da2756de82ae058455a41a8) | 2026-11-03 |
+| 965c282e | [Use Compass Combobox for user settings custom select and multiselect attributes (#39481)](https://github.com/mattermost/mattermost/commit/965c282e7d31a84c65d8d4c27c0f3d42971dabf3) | 2026-11-03 |
+| 8824cd2f | [Report why websocket reconnects fail to resume (#39388)](https://github.com/mattermost/mattermost/commit/8824cd2f9957a8e09a23342fb782242934f3e9c3) | 2026-11-03 |
+| 388cddcb | [fix(webapp): skip classification banner fetch while logged out (#39661)](https://github.com/mattermost/mattermost/commit/388cddcb2d6678b897732fac1363b0119ec4b765) | 2026-11-03 |
+| 99774251 | [config diff update (#38029)](https://github.com/mattermost/mattermost/commit/99774251ae03a69e6dbba9d990d9ac64e0e1e34f) | 2026-11-03 |
+| 4e1eec78 | [Update snapshots for compass-ui alpha.25 class names (#39670)](https://github.com/mattermost/mattermost/commit/4e1eec780dbd95e312a604b7dfb0cedc48b44abc) | 2026-11-03 |
 
 ## 제외된 커밋
 
@@ -883,6 +876,16 @@
 
 | 8a53d645 | [MM-71401: Rebuild the scrambled authentication settings tables (#39482)](https://github.com/mattermost/mattermost/commit/8a53d645decc6f7ccc2892258334a8bdb4a3aa11) | 제외한 문서 사이트 계보(1d3bbc63 #37330, 원칙 IV)에 속한 docs/main/administration-guide/configure/authentication-configuration-settings.mdx의 MM-71401 표 재구성(+111/-76)이라 받을 자리가 없다 — 이메일 도메인 제한·MFA 등 표를 다시 짜고, MFA Enforce 표에서 HTML 안 Markdown 굵게 표기로 별표가 그대로 보이던 것을 고친다. 파일이 우리 트리에 없고 merge-tree modify/delete. 코드 변경 없음. cf7496d1·2515ee2b와 같은 계열. |
 
+| ea90a1c2 | [docs: add Ubuntu 26.04 LTS to supported APT install targets (#39498)](https://github.com/mattermost/mattermost/commit/ea90a1c2d53e4d5727daf20b95d40d6311bcdc74) | 제외한 문서 사이트 계보(1d3bbc63 #37330, 원칙 IV)에 속한 docs/main/deployment-guide 문서만 수정 — okrbest에 docs/main 없음, 안내 대상도 Mattermost, Inc. APT 저장소라 무관 |
+
+| 3525e8fa | [\[MM-70033\] Replace property permission mechanisms with a typed permissions model (#39081)](https://github.com/mattermost/mattermost/commit/3525e8faa84953de325bbaeb2f91efdd4a56af6e) | MM-70033 property field 권한 연작의 cutover(앞선 4311c47a 등 제외). 제외한 property 시스템 v2·v3 계보(토대 48f2fd08·9f1fe90b) 위의 변경으로 101파일 중 49개가 HEAD에 없음, 마이그레이션 000240·000241 포함. 범용 파일 hunk도 새 access control hook에 호출자 ID를 넘기는 코드뿐이라 떼어 받을 일반 수정 없음 |
+
+| 57002e48 | [drip: AppError -> error: login attempts (#39539)](https://github.com/mattermost/mattermost/commit/57002e487c38fd722a1166c8bda9dde92dbfc7e4) | 빈 커밋 — 트리가 부모와 동일(파일 변경 없음). 실제 변경은 같은 제목의 0eb2eb7e(#39539)로 이미 반영 |
+
+| e93c0987 | [Plugin API additions for Boards: Create new board modal, Channel Settings tab, tooltips (#39457)](https://github.com/mattermost/mattermost/commit/e93c0987030427bbf6f5d50625cd451f883d0d2b) | 제외한 263b3c11(registerChannelTypeOption)·4255e314(registerChannelSettingsTab)·e73df622 계보를 확장하는 공식 Boards용 확장점 — HEAD에 토대 심볼 0개, 11파일 충돌·5경로 부재. 이 저장소에 호출자 없음. WithTooltip 공개·placement만 떼어 받을 수 있으나 소비자 부재. 우리 Boards 플러그인에 필요해지면 계보를 묶어 spec으로 재검토 |
+
+| 68b173ab | [Keep the team sidebar and current team in global products with the product rail (#39552)](https://github.com/mattermost/mattermost/commit/68b173ab79292962e01f930b09f67941e7a6712f) | 제외한 1bd58a17(product rail, #39383)의 후속 수정 — 우리는 같은 영역을 specs/017-slack-nav-rail·028·031로 재설계. 대상 9경로가 HEAD에 없고, team_actions·team_sidebar·path의 변경도 모두 isProductRailEnabled/isProductRailShown 판단에 묶여 떼어 받을 일반 수정 없음 |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -911,6 +914,8 @@
 | 4ca793bd | [Monthly maintenance (2026-10): Update webapp dependencies (#39222)](https://github.com/mattermost/mattermost/commit/4ca793bd9e78bc5b6055a7e0e4560849792f7dbe) | webapp-deps-2026-10 (별도 유지보수 작업: package.json 3개 버전 옮기기·TipTap/compass-ui 제외·npm install로 lock 재생성·스냅샷 검토·check-types/jest 기준선 비교) |
 
 | 4527f4c1 | [mmctl scoped team/channel import: report users not found on destination server (#39344)](https://github.com/mattermost/mattermost/commit/4527f4c1c593369d639139982a33ed522314f637) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 41c482b4의 후속. scoped import에서 대상 서버에 없는 사용자·팀 멤버십·채널 멤버십을 ImportReport.UnmatchedUsers(username·auth service·team·channel·reason·action)로 모아 import_process 워커가 import 파일 옆 CSV로 쓰고 job에 개수·경로 기록, mmctl import process·job show가 표시. 없는 팀은 getTeamsByNames 전부-아니면-전무 조회 대신 개별 해석해 team_not_found로 건너뛰고 기록(17파일 +786/-55). 41c482b4가 만드는 app/imports/import_report.go·import_resume_test.go·import_imported_users_test.go 위에 얹혀 지금은 merge-tree CONFLICT 10건. docs/main/.../bulk-loading-data.mdx는 문서 사이트 계보 제외로 버린다. spec 구현 시 함께 반영하고 구현 커밋 본문에 Upstream 링크 기재. |
+
+| caaec8cd | [Add a button to quote text selected in a message (#39237)](https://github.com/mattermost/mattermost/commit/caaec8cda5e34866ccb2f7a4eb93e9dee585601c) | 메시지 선택 영역 인용 버튼 (가칭) — 27파일 +2013 신규 기능. upstream은 Textbox·TipTap에 삽입하지만 우리 입력창은 LexicalTextEditor이고 ValueSyncPlugin이 초기값·비우기만 동기화하므로 Lexical 삽입·커서 코드를 새로 설계해야 한다. 선택 판정·버튼·draft 상태·quote.ts·Turndown 멘션 규칙은 재사용 가능. jsdom에서 Lexical 입력 재현 불가라 브라우저 검증 필요 |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
