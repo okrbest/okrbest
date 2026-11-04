@@ -139,6 +139,7 @@
 | 지원 Chrome·Edge 최소 버전 표기 | [18c8573a](https://github.com/mattermost/mattermost/commit/18c8573aa970b88edc29036ea6cb6cf876fff7dc) (#39641) | `en.json` 라벨은 그대로 받았다. `docs/main` 요구 사항 문서는 문서 사이트 계보 제외로 버렸다. |
 | 팀당 최대 사용자·채널 수 0 허용 | [c57388e7](https://github.com/mattermost/mattermost/commit/c57388e7c1a7751f3b2197766b4da22302362f7f) (#39110) | 코드·테스트·문구는 그대로 받았다. 포크에 없는 Space 채널 조건과 문맥(`EnableChannelCategorySorting`, ChannelAttributes·Space 테스트)을 뺐다. |
 | 안 읽은 채널까지 접는 사이드바 설정 | [71bd2fb0](https://github.com/mattermost/mattermost/commit/71bd2fb039327802ddeb2a1f157d7217860f9df1) (#39439) | 기능·테스트·Playwright 스펙은 그대로 받았다. `docs/main` 2파일은 문서 사이트 계보 제외로 버렸고, 제외 계보의 Boards 사이드바 문맥을 뺐다. |
+| 코드 블록 구문 강조 처리 | [06ab8d2c](https://github.com/mattermost/mattermost/commit/06ab8d2cffe974ec1595224681e34c360110cb0e) (#38680) | 강조 제한·태스크 분할·취소 처리는 그대로 받았다. spec으로 넘긴 마크다운 토글(`36ebc1f6`) 코드와 그 테스트를 뺐다. |
 
 ---
 
@@ -5032,6 +5033,21 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `docs/main/end-user-guide/preferences/customize-your-channel-sidebar.mdx` | 문장 수정 | 접은 카테고리에 안 읽은 채널이 남는 동작은 설정으로 바꿀 수 있다고 알린다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
 | `docs/main/end-user-guide/preferences/manage-your-display-options.mdx` | 절 추가 | Settings > Display의 새 설정을 설명한다. 기본은 꺼짐이고, 켜면 접은 카테고리의 안 읽은 채널과 멘션 채널까지 숨기며 현재 채널만 남는다. 모바일 앱에는 이 설정이 없어 접어도 안 읽은 채널이 보인다. | 같다 |
 | `channel_sidebar.ts` 문맥 | `getProductRailFilter`, `getBoardChannelIds`, `filterChannelIdsForSection` | 이 커밋의 변경이 아니다. 제품 레일의 Boards 구분 selector로, 포크에 없다. | Integrated Boards 계보(`48f2fd08`)를 들일 때 |
+
+## 코드 블록 구문 강조 처리 — 마크다운 토글 코드와 테스트를 뺐다
+
+**upstream**: [`06ab8d2c`](https://github.com/mattermost/mattermost/commit/06ab8d2cffe974ec1595224681e34c360110cb0e)
+(MM-69951: Update code block syntax highlighting handling, #38680) — 8파일 +829/-44, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** `syntax_highlighting.tsx`, `code_block.tsx`, 대형 입력 테스트, `message_channel` 헬퍼는 upstream 그대로다. `code_preview.tsx`에는 취소 처리와 제목 변경만 포크 구조에 맞춰 넣었다. 포크의 미리보기는 upstream과 달리 언어 라벨을 항상 그린다.
+
+**버린 것.** `markdown-preview-toggle`(`36ebc1f6` #39378)을 구현할 때 다시 맞춘다.
+
+| 위치 | upstream 코드 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `code_preview.tsx` | `isMarkdownFile`, `canToggleMarkdownPreview`, 렌더링 분기, `code-preview--fixed-size` 클래스 | 마크다운 파일은 두 보기 모두 고정 크기 상자를 쓰고 라벨을 그리지 않으며, 렌더링 보기면 `Markdown`으로 그린다. 문맥이지 이 커밋의 변경이 아니다. | 토글 구현 때 |
+| `code_preview.test.tsx` | `components/CodePreview markdown files` describe 전체(8건) | 원본 보기 강조, 렌더링 보기, 보기 전환 시 재요청 없음, 모바일은 원본, 고정 크기 상자, `canToggleMarkdownPreview` 판정을 확인한다. | 토글 구현 때 |
+| `code_block.test.tsx` | `ToggleableCodeBlock`, `markdown code blocks` describe 전체 | 마크다운 블록의 토글 표시, 저장한 보기 유지, 복사 시 원본 유지, 검색 결과에서 렌더링 금지, 중첩 토글 금지를 확인한다. | 토글 구현 때 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
