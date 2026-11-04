@@ -138,6 +138,7 @@
 | 웹소켓 재연결 실패 원인 보고 | [8824cd2f](https://github.com/mattermost/mattermost/commit/8824cd2f9957a8e09a23342fb782242934f3e9c3) (#39388) | 코드·테스트·Grafana 대시보드는 그대로 받았다. `docs/main` 메트릭 문서 1파일은 문서 사이트 계보 제외로 버렸다. |
 | 지원 Chrome·Edge 최소 버전 표기 | [18c8573a](https://github.com/mattermost/mattermost/commit/18c8573aa970b88edc29036ea6cb6cf876fff7dc) (#39641) | `en.json` 라벨은 그대로 받았다. `docs/main` 요구 사항 문서는 문서 사이트 계보 제외로 버렸다. |
 | 팀당 최대 사용자·채널 수 0 허용 | [c57388e7](https://github.com/mattermost/mattermost/commit/c57388e7c1a7751f3b2197766b4da22302362f7f) (#39110) | 코드·테스트·문구는 그대로 받았다. 포크에 없는 Space 채널 조건과 문맥(`EnableChannelCategorySorting`, ChannelAttributes·Space 테스트)을 뺐다. |
+| 안 읽은 채널까지 접는 사이드바 설정 | [71bd2fb0](https://github.com/mattermost/mattermost/commit/71bd2fb039327802ddeb2a1f157d7217860f9df1) (#39439) | 기능·테스트·Playwright 스펙은 그대로 받았다. `docs/main` 2파일은 문서 사이트 계보 제외로 버렸고, 제외 계보의 Boards 사이드바 문맥을 뺐다. |
 
 ---
 
@@ -5016,6 +5017,21 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `model/config.go` `TeamSettings` | `EnableChannelCategorySorting` 필드 | 포크에 없는 필드라 주석 변경만 받았다. | 해당 설정 계보를 들일 때 |
 | `app/channel_test.go` | `TestCreateChannelWithUserIgnoresRequiredAttributesWithNoValues` | 필수 채널 속성은 api4 핸들러에서만 강제하고 앱 계층 호출은 값 없이 통과한다는 테스트다. | 채널 속성 계보를 들일 때 |
 | `app/channel_test.go` | `TestCreateChannelSpaceRequiresEnableDocs` | `EnableDocs`가 꺼지면 Space 채널 생성을 막고, `CreateChannelWithUser`는 Space 채널을 거부한다는 테스트다. | Space 채널 계보를 들일 때 |
+
+## 안 읽은 채널까지 접는 사이드바 설정 — docs/main과 Boards 문맥을 버렸다
+
+**upstream**: [`71bd2fb0`](https://github.com/mattermost/mattermost/commit/71bd2fb039327802ddeb2a1f157d7217860f9df1)
+([GH-39438] Add a setting to fully collapse sidebar categories with unread channels, #39439) — 17파일 +1172/-6, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** `selectors/views/channel_sidebar.ts`에서 새 selector와 접힘 조건만 받았다. 나머지 코드, 테스트, 스냅샷, Playwright 스펙은 upstream 그대로다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/end-user-guide/preferences/customize-your-channel-sidebar.mdx` | 문장 수정 | 접은 카테고리에 안 읽은 채널이 남는 동작은 설정으로 바꿀 수 있다고 알린다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+| `docs/main/end-user-guide/preferences/manage-your-display-options.mdx` | 절 추가 | Settings > Display의 새 설정을 설명한다. 기본은 꺼짐이고, 켜면 접은 카테고리의 안 읽은 채널과 멘션 채널까지 숨기며 현재 채널만 남는다. 모바일 앱에는 이 설정이 없어 접어도 안 읽은 채널이 보인다. | 같다 |
+| `channel_sidebar.ts` 문맥 | `getProductRailFilter`, `getBoardChannelIds`, `filterChannelIdsForSection` | 이 커밋의 변경이 아니다. 제품 레일의 Boards 구분 selector로, 포크에 없다. | Integrated Boards 계보(`48f2fd08`)를 들일 때 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 

@@ -489,6 +489,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="one_click_reactions_enabledTitle"
             >
               Quick reactions on messages
@@ -1073,6 +1112,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             class="section-min__describe"
             id="channel_display_modeDesc"
           />
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
         </div>
         <div
           class="divider-dark"
@@ -1687,6 +1765,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="one_click_reactions_enabledTitle"
             >
               Quick reactions on messages
@@ -2286,6 +2403,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="one_click_reactions_enabledTitle"
             >
               Quick reactions on messages
@@ -2832,6 +2988,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="one_click_reactions_enabledTitle"
             >
               Quick reactions on messages
@@ -3295,6 +3490,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             class="section-min__describe"
             id="channel_display_modeDesc"
           />
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
         </div>
         <div
           class="divider-dark"
@@ -3894,6 +4128,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             class="section-min__describe"
             id="channel_display_modeDesc"
           />
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
         </div>
         <div
           class="divider-dark"
@@ -4520,6 +4793,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="one_click_reactions_enabledTitle"
             >
               Quick reactions on messages
@@ -5051,6 +5363,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             class="section-min__describe"
             id="channel_display_modeDesc"
           />
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
         </div>
         <div
           class="divider-dark"
@@ -5612,6 +5963,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="one_click_reactions_enabledTitle"
             >
               Quick reactions on messages
@@ -6143,6 +6533,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             class="section-min__describe"
             id="channel_display_modeDesc"
           />
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
         </div>
         <div
           class="divider-dark"
@@ -6712,6 +7141,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="one_click_reactions_enabledTitle"
             >
               Quick reactions on messages
@@ -7258,6 +7726,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           >
             <h4
               class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
               id="one_click_reactions_enabledTitle"
             >
               Quick reactions on messages
@@ -7750,6 +8257,45 @@ exports[`components/user_settings/display/UserSettingsDisplay should not show la
             class="section-min__describe"
             id="channel_display_modeDesc"
           />
+        </div>
+        <div
+          class="divider-dark"
+        />
+      </div>
+      <div>
+        <div
+          class="section-min"
+          data-testid="section-min"
+        >
+          <div
+            class="section-min__header"
+          >
+            <h4
+              class="section-min__title"
+              id="collapse_category_with_unreadsTitle"
+            >
+              Collapse category with unread channels
+            </h4>
+            <button
+              aria-expanded="false"
+              aria-labelledby="collapse_category_with_unreadsTitle collapse_category_with_unreadsEdit"
+              class="color--link style--none section-min__edit"
+              id="collapse_category_with_unreadsEdit"
+            >
+              <i
+                aria-hidden="true"
+                class="icon-pencil-outline"
+                title="Edit Icon"
+              />
+              Edit
+            </button>
+          </div>
+          <div
+            class="section-min__describe"
+            id="collapse_category_with_unreadsDesc"
+          >
+            Off
+          </div>
         </div>
         <div
           class="divider-dark"
