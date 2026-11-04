@@ -118,9 +118,6 @@ type Params struct {
 	NotificationId    string
 	BookmarksSince    int64
 
-	// Cloud
-	InvoiceId string
-
 	// Custom Profile Attributes
 	FieldId string
 
@@ -182,7 +179,6 @@ func ParamsFromRequest(r *http.Request) *Params {
 	params.SchemeId = props["scheme_id"]
 	params.GroupId = props["group_id"]
 	params.RemoteId = props["remote_id"]
-	params.InvoiceId = props["invoice_id"]
 	params.OutgoingOAuthConnectionID = props["outgoing_oauth_connection_id"]
 	params.ExcludeOffline, _ = strconv.ParseBool(query.Get("exclude_offline"))
 	params.InChannel = query.Get("in_channel")
