@@ -136,6 +136,7 @@
 | 대량 채널 삭제 색인 안내 | [ad8460ad](https://github.com/mattermost/mattermost/commit/ad8460ad4d1d81c47d5d64a996dba7af8f870180) (#39547) | API 문서와 mmctl 안내만 받았다. `docs/main` 4파일은 문서 사이트 계보 제외로 버렸다. |
 | 로그인 전 플러그인 노출 제한 | [e8c7307f](https://github.com/mattermost/mattermost/commit/e8c7307f42a870a545f07fcd68aaff81f1e68346) (#39433) | 보호 기능과 토글은 그대로 받았다. 문서 2파일과 업그레이드 스펙 3파일을 버렸고, 제외 계보의 마이그레이션 키와 e2e 헬퍼는 들이지 않았다. 스냅샷은 포크 라디오 마크업으로 재생성했다. |
 | 웹소켓 재연결 실패 원인 보고 | [8824cd2f](https://github.com/mattermost/mattermost/commit/8824cd2f9957a8e09a23342fb782242934f3e9c3) (#39388) | 코드·테스트·Grafana 대시보드는 그대로 받았다. `docs/main` 메트릭 문서 1파일은 문서 사이트 계보 제외로 버렸다. |
+| 지원 Chrome·Edge 최소 버전 표기 | [18c8573a](https://github.com/mattermost/mattermost/commit/18c8573aa970b88edc29036ea6cb6cf876fff7dc) (#39641) | `en.json` 라벨은 그대로 받았다. `docs/main` 요구 사항 문서는 문서 사이트 계보 제외로 버렸다. |
 
 ---
 
@@ -4985,6 +4986,19 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
 | `docs/main/administration-guide/scale/performance-monitoring-metrics.mdx` | 메트릭 설명 추가·수정 | `mattermost_websocket_reconnect_failures_total`은 이전 연결을 잇지 못해 새 연결과 재동기화가 필요한 재연결 수다. 레이블은 `origin_client`, `disconnect_err_code`, `reason`, `is_remote`다. `reason`은 `old_conn_still_open`(이전 연결이 아직 열림), `missed_events_evicted`(놓친 이벤트가 버퍼에서 사라짐), `conn_not_found`(어느 노드에도 없음), `cluster_lookup_failed`(다른 노드 조회 실패)다. `is_remote`는 이전 연결이 다른 노드에 있었으면 `true`다. `mattermost_websocket_reconnects_total`의 레이블은 `origin_client`, `disconnect_err_code`, `type`이고, `success`·`lossless`는 이벤트 손실 없이 이어졌다는 뜻, `failure`는 잇지 못했다는 뜻이다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+
+## 지원 Chrome·Edge 최소 버전 표기 — docs/main 요구 사항 문서를 버렸다
+
+**upstream**: [`18c8573a`](https://github.com/mattermost/mattermost/commit/18c8573aa970b88edc29036ea6cb6cf876fff7dc)
+(Update minimum supported Chrome and Edge versions to 156+, #39641) — 2파일 +8/-8, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** `server/i18n/en.json`의 `web.error.unsupported_browser.min_browser_version.chrome`·`.edge`는 upstream 그대로 `Version 156+`다. `ko.json`은 `버전 144+`로 뒤처져 있고 이번에 고치지 않았다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/main/deployment-guide/software-hardware-requirements.mdx` | 지원 표 수정 | PC 웹의 Chrome·Edge를 v150+에서 v156+로, 모바일 웹의 iOS·Android Chrome을 150+에서 156+로 올린다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
