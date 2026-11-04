@@ -213,12 +213,6 @@ const state: GlobalState = {
             },
             errors: {},
         },
-        hostedCustomer: {
-            products: {
-                products: {},
-                productsLoaded: false,
-            },
-        },
         usage: {
             files: {
                 totalStorage: 0,
