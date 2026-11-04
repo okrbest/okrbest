@@ -4604,3 +4604,304 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `workspace_limits.teams_limit_reached.view_upgrade_options` | 업그레이드 옵션 보기 |
 | `workspace_limits.upgrade` | {planName} 데이터 제한을 피하려면 업그레이드하세요 |
 | `workspace_limits.upgrade_reasons.free` | {planName}은(는) {messagesLimit} 메시지 기록과 {storageLimit} 파일 저장소로 제한됩니다. 공간을 확보하기 위해 항목을 삭제하거나 유료 요금제로 업그레이드할 수 있습니다. |
+
+---
+
+## 웹소켓 멤버십 자료구조 압축 — 전달 감사 없이 넣었다
+
+**upstream**: [`e8d166d8`](https://github.com/mattermost/mattermost/commit/e8d166d8fcc6fdce43e7009dd1b1281bc288475e)
+(Compact the websocket channel membership structures, #38993) — 12파일 +394/-113, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `17e53a32d3`)
+
+**받은 것.** `model.DecodeId`, `channelSet`, 허브 채널별 연결 집합의 슬라이스 표현(64개 이하), `ShouldSendEvent(msg, channelKey)`.
+
+**우리 맞춤.** 보류 제외한 게시물 전달 감사(`0019ecc5`)가 없어 `web_hub.go` 구조가 다르다.
+
+| 위치 | upstream | 우리 |
+|---|---|---|
+| `web_hub.go` 브로드캐스트 | `h.broadcastToConn(..., channelKey, deliveryMarker, ...)` | 기존 인라인 전송 반복문에서 `ShouldSendEvent(msg, channelKey)` 호출 |
+
+**버린 것.**
+
+| 위치 | 버린 내용 | 되살릴 조건 |
+|---|---|---|
+| `web_hub.go` `recordPostDelivery`, `broadcastToConn` | 전송 버퍼에 넣은 뒤에만 전달을 기록 | `0019ecc5` 계보를 도입할 때 |
+| `web_hub_delivery_test.go` | `ShouldSendEvent` 인자 변경분 | 같음 |
+
+**동작 주의.** `DecodeId`로 풀리지 않는 채널 ID의 이벤트는 경고 로그를 남기고 전달되지 않는다. 운영 DB는 `SELECT count(*) FROM channels WHERE id !~ '^[a-z0-9]{26}$'`로 근사 확인한다.
+
+**후속 주의.** `0019ecc5`를 도입할 때 `broadcastToConn`으로 다시 추출한다.
+
+---
+
+## 회사 정보 편집 페이지 제거
+
+**upstream**: [`414ca16c`](https://github.com/mattermost/mattermost/commit/414ca16c11b37c3d2156b216e78e5ea83974384a)
+(Remove company information edit page, #39518) — 9파일 +5/-842, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `25bae4b8bd`)
+
+**우리 맞춤.** 충돌을 삭제 쪽으로 풀었다. `@mattermost/shared` 링크 코드는 포크 기능이 아니라 Compass UI 제외로 생긴 차이다. upstream 문맥의 `BoardAttributes` import는 들이지 않았다.
+
+**버린 것.**
+
+| 위치 | 버린 내용 |
+|---|---|
+| `admin_console/billing/company_info_edit.tsx`, `.scss` | 회사 정보 편집 페이지와 라우트 `billing/company_info_edit` |
+| `company_info_display.tsx`, `.scss` | 추가·편집 링크. 읽기 전용 표시는 남는다 |
+| `mattermost-redux/src/actions/cloud.ts`, `client4.ts` | `updateCloudCustomer`, `updateCloudCustomerAddress` |
+| `company_information_free_trial_spec.ts` | Cypress 스펙 |
+| `i18n/en.json` | 키 15개. `ko.json`은 sync 마감 때 함께 정리한다 |
+
+**되살릴 조건.** Mattermost Cloud 결제 화면을 복원할 때 upstream `414ca16c^`에서 복원하고 `@mattermost/shared`로 맞춘다.
+
+---
+
+## Cloud 고객 수정 API 제거 — 지운 서버 API 기록
+
+**upstream**: [`a29df1bb`](https://github.com/mattermost/mattermost/commit/a29df1bb0f1988246b920c45235d6146a3abe9ff)
+(Remove cloud customer update endpoints, #39519) — 5파일 -258, 2026-11-04 반영(사용자 결정 cherry-pick, 우리 커밋 `21acc13c06`)
+
+**차이 없음.** 그대로 받았다. 사용자 요청으로 지운 내용만 기록한다: `PUT /api/v4/cloud/customer`, `PUT /api/v4/cloud/customer/address`, OpenAPI 문서, `CloudInterface`·`Client4`의 `UpdateCloudCustomer`·`UpdateCloudCustomerAddress`.
+
+**되살릴 조건.** 외부에서 이 API가 필요해지면 upstream `a29df1bb^`에서 복원한다.
+
+---
+
+## Cloud 청구서 API 제거 — 지운 서버 API 기록
+
+**upstream**: [`4df6bbc7`](https://github.com/mattermost/mattermost/commit/4df6bbc764dc5b4e199a6ef0caaa86c9d44c8218)
+(Remove unused cloud invoice endpoints, #39523) — 10파일 +19/-298, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `aac5e169f5`)
+
+**우리 맞춤.** `web/params.go` 충돌에서 upstream 문맥의 `ViewId`(제외 기능)는 들이지 않고 `InvoiceId`만 지웠다.
+
+**버린 것.** `GET /api/v4/cloud/subscription/invoices`, `/invoices/{invoice_id}/pdf`와 OpenAPI 문서, `CloudInterface.GetInvoicesForSubscription`·`GetInvoicePDF`, `Client4.GetInvoicesForSubscription`, `Context.RequireInvoiceId`, `Params.InvoiceId`. `model.Invoice`는 Deprecated로 남는다.
+
+**되살릴 조건.** Mattermost Cloud 결제 화면을 복원할 때 upstream `4df6bbc7^`에서 복원한다.
+
+---
+
+## Cloud Starter 빌링 UI 제거
+
+**upstream**: [`b4fb9d16`](https://github.com/mattermost/mattermost/commit/b4fb9d16bd42105e2c4f79c77b6fd327166b883f)
+(Remove Cloud Starter billing UI, #39529) — 11파일 +6/-680, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `3c03d2f9db`)
+
+**우리 맞춤.** 충돌을 삭제 쪽으로 풀었다. `announcement_bar_controller.tsx`의 `AUTO_START_TRIAL_MODAL_ENABLED`는 유지했다.
+
+**버린 것.**
+
+| 위치 (`webapp/channels/src/`) | 버린 내용 |
+|---|---|
+| `components/announcement_bar/cloud_trial_ended_announcement_bar/` | Cloud 체험 종료 배너와 테스트 |
+| `admin_console/billing/plan_details/` | Starter 기능 목록, `Cloud Free` 제품명, Starter 배지 분기 |
+| `billing_subscriptions/contact_sales_card.tsx` | Starter 전용 문구와 `onUpgradeMattermostCloud` |
+| `utils/constants.tsx` | `CLOUD_TRIAL_END_BANNER`, `HIDE` |
+| `i18n/en.json` | 키 14개. `ko.json`은 sync 마감 때 함께 정리한다 |
+
+**되살릴 조건.** Mattermost Cloud Starter 플랜 UI를 복원할 때 upstream `b4fb9d16^`에서 복원한다.
+
+---
+
+## 미사용 Cloud 이메일 템플릿 제거
+
+**upstream**: [`7605721b`](https://github.com/mattermost/mattermost/commit/7605721bd7f005b1ad58ba248a7ecddbc2a7c23d)
+(Remove unused Cloud email templates, #39517) — 23파일 -5030, 2026-11-04 반영(사용자 결정 cherry-pick, 우리 커밋 `22f8cd442e`)
+
+**우리 맞춤.** 없다. 그대로 적용했다. 삭제한 파일에는 포크 자체 수정이 없고, `server/` Go 코드와 Makefile에서 참조하지 않는다.
+
+**버린 것.**
+
+| 위치 (`server/templates/`) | 버린 내용 |
+|---|---|
+| `cloud_{7,14,30,45,90}_day_arrears` | 요금 연체 안내 메일 (html·mjml) |
+| `cloud_renewal_notification` | 갱신 안내 메일 (html·mjml) |
+| `cloud_upgrade_confirmation` | 업그레이드 확인 메일 (html·mjml) |
+| `payment_failed_body`, `payment_failed_no_card_body` | 결제 실패 메일 |
+| `partials/cloud_*` | 위 메일만 쓰던 조각 6개 |
+
+**되살릴 조건.** Mattermost Cloud 결제 메일을 복원할 때 upstream `7605721b^`에서 복원한다.
+
+---
+
+## 미사용 청구 내역 페이지 제거
+
+**upstream**: [`89f34ef2`](https://github.com/mattermost/mattermost/commit/89f34ef2ad223a5a871ea5a08c8660fa7b1fb10c)
+(Remove unused billing history page, #39524) — 25파일 +4/-2019, 2026-11-04 반영(사용자 결정 adapt, 우리 커밋 `43792009fc`)
+
+**우리 맞춤.** 충돌을 삭제 쪽으로 풀었다. `billing_summary.tsx`는 `compass-ui`의 `Button`을 들이지 않고 `buttonClassNames`를 유지했다. `admin_sidebar` 스냅샷은 우리 것을 유지했다. 우리 스냅샷에는 청구 내역 항목이 없다. `en.json`은 삭제 키만 지웠다.
+
+**버린 것.**
+
+| 위치 | 버린 내용 |
+|---|---|
+| `webapp/channels/src/components/admin_console/billing/` | `billing_history`·`billing_history_modal`·`billing_history_table`·`invoice_user_count`와 테스트·스타일 |
+| `billing/billing_summary/` | `InvoiceInfo`, `getPaymentStatus`, 인보이스 뷰 스타일 |
+| `components/cloud_invoice_preview/` | 인보이스 미리보기 모달 |
+| `admin_definition.tsx` | `billing/billing_history` 라우트 |
+| `mattermost-redux` | `getInvoices`, `getCloudInvoices`, 인보이스 액션 타입·reducer 상태 |
+| `webapp/platform/client/src/client4.ts` | `getInvoices`, `getInvoicePdfUrl` |
+| `e2e-tests/cypress/` | `billing_history_free_trial_spec.ts`, 콘솔 경로 목록의 Billing History 항목 |
+| `i18n/en.json` | 키 34개. `ko.json`은 sync 마감 때 함께 정리한다 |
+
+**되살릴 조건.** Mattermost Cloud 결제 화면을 복원할 때 upstream `89f34ef2^`에서 복원한다. 서버 API는 `4df6bbc7`에서 함께 복원해야 한다.
+
+---
+
+## Cloud 파일 저장 한도 제거
+
+**upstream**: [`bd812193`](https://github.com/mattermost/mattermost/commit/bd812193069bde22867f1ea52f2f3185042bc291)
+(Remove Cloud file storage limit, #39526) — 27파일 +28/-955, 2026-11-05 반영(사용자 결정 adapt, 우리 커밋 `7c3ace0dc4`)
+
+**우리 맞춤.** 우리가 이미 삭제한 `server/channels/app/migration_test.go`는 삭제를 유지했다. 나머지는 upstream 그대로다.
+
+**버린 것.**
+
+| 위치 (`server/`) | 버린 내용 |
+|---|---|
+| `channels/jobs/last_accessible_file/` | 스케줄러와 워커 |
+| `channels/app/file.go`, `file_helper.go` | `GetLastAccessibleFileTime`, `ComputeLastAccessibleFileTime`, 접근 불가 파일 필터 |
+| `channels/app/post.go` | `GetFileInfosForPost`의 `firstInaccessibleFileTime` 반환값 |
+| `channels/api4/file.go`, `api/v4/source/files.yaml` | `First-Inaccessible-File-Time` 헤더와 문서 |
+| `channels/store/` | `GetUptoNSizeFileTime`(레이어·mock 포함) |
+| `i18n/en.json` | 키 2개. `ko.json`은 sync 마감 때 함께 정리한다 |
+
+기존 DB의 `LastAccessibleFileTime` 행과 옛 잡 기록은 지우지 않는다. 읽는 코드가 없다.
+
+**되살릴 조건.** Mattermost Cloud 파일 저장 한도를 복원할 때 upstream `bd812193^`에서 복원한다.
+
+---
+
+## 미사용 보관 파일 UI 제거
+
+**upstream**: [`3c0d58fc`](https://github.com/mattermost/mattermost/commit/3c0d58fcb667e8285e6f3c01e9a4ab04aa044370)
+(Remove unused archived file UI, #39532) — 23파일 +120/-635, 2026-11-05 반영(사용자 결정 adapt, 우리 커밋 `505ed20835`)
+
+**우리 맞춤.** `file_preview_modal.tsx`는 자동 병합을 쓰지 않았다. 자동 병합이 upstream의 확대 렌더링까지 끌어와 코드가 겹쳤다. HEAD 판에서 `archived` 분기만 직접 지웠고, `panOffset` 확대 방식은 유지했다.
+
+**안 들인 것.** upstream 문맥에 있던 커서 기준 확대 코드(`translate`, `computeZoomAtCursor`, `prevFileIds`)다. 이 커밋과 무관하며 우리 확대 구현과 다르다.
+
+**버린 것.**
+
+| 위치 | 버린 내용 |
+|---|---|
+| `webapp/channels/src/components/archived_preview.tsx` | 보관 파일 미리보기 |
+| `components/file_attachment/archived_tooltip.tsx` | 보관 파일 툴팁 |
+| `file_attachment`, `file_attachment_list`, `file_preview`, `file_preview_modal` | `archived` 분기와 관련 테스트 |
+| `webapp/platform/types/src/files.ts` | `FileInfo.archived` |
+| `sass/components/_files.scss`, `_post.scss` | 보관 파일 스타일 |
+| `e2e-tests/cypress/` | `cloud_upload_files_spec.js` |
+| `i18n/en.json` | 키 4개. `ko.json`은 sync 마감 때 함께 정리한다 |
+
+`components/common/hooks/useGetLimits.ts`는 쓰는 곳이 없어지지만 upstream처럼 남겼다.
+
+**되살릴 조건.** Mattermost Cloud 파일 저장 한도를 복원할 때 `bd812193`과 함께 upstream `3c0d58fc^`에서 복원한다.
+
+---
+
+## 미사용 셀프 호스팅 구매 코드 제거
+
+**upstream**: [`f619e1e3`](https://github.com/mattermost/mattermost/commit/f619e1e3e032b535504ec3b058003b42175df69c)
+(Remove dead self-serve purchase code, #39528) — 16파일 +18/-252, 2026-11-05 반영(사용자 결정 cherry-pick, 우리 커밋 `ed91832434`)
+
+**우리 맞춤.** 없다. 그대로 적용했다. 삭제한 이름을 포크 고유 코드에서 쓰지 않는다.
+
+**버린 것.**
+
+| 위치 | 버린 내용 |
+|---|---|
+| `server/channels/api4/hosted_customer.go`, `api/v4/source/cloud.yaml` | `GET /api/v4/hosted_customer/signup_available`와 문서 |
+| `server/channels/jobs/hosted_purchase_screening/` | 스케줄러와 워커 |
+| `server/channels/app/hosted_customer.go` | `NotifySelfHostedSignupProgress` |
+| `server/channels/app/platform/license.go` | `SaveLicense`의 `SystemHostedPurchaseNeedsScreening` 삭제 |
+| `server/einterfaces/cloud.go` | `ChangeSubscription`, `GetSelfHostedProducts`, `InvalidateCaches` |
+| `server/public/model/client4.go` | `Client4.GetSelfHostedProducts` |
+| `server/i18n/en.json` | 키 1개. `ko.json`은 sync 마감 때 함께 정리한다 |
+
+`Client4.InvalidateCaches`는 관리자 캐시 초기화 API로, 이 삭제와 별개이며 남는다.
+
+**되살릴 조건.** 셀프 호스팅 구매 흐름을 복원할 때 upstream `f619e1e3^`에서 복원한다.
+
+---
+
+## 2026-11-05 sync에서 지운 `ko.json` 번역
+
+upstream이 `en.json`에서 지운 키를 `ko.json`에서도 지웠다. 고아 키는 `npm run i18n-check-empty`를 막는다. 코드 참조가 없음을 확인했다. 기능을 되살릴 때 아래 번역을 다시 쓴다.
+
+대상 커밋은 `414ca16c`, `b4fb9d16`, `89f34ef2`, `bd812193`, `3c0d58fc`, `f619e1e3`이다.
+
+### `webapp/channels/src/i18n/ko.json` (67개)
+
+| 키 | 번역 |
+|---|---|
+| `admin.billing.company_info.add` | 회사 정보 추가 |
+| `admin.billing.company_info.address` | 주소 |
+| `admin.billing.company_info.address_2` | 주소 2 |
+| `admin.billing.company_info.billingAddress` | 결제 주소 |
+| `admin.billing.company_info.city` | 도시명 |
+| `admin.billing.company_info.companyName` | 조직명 |
+| `admin.billing.company_info.numEmployees` | 조직원의 수 (선택) |
+| `admin.billing.company_info.zipcode` | 우편번호 |
+| `admin.billing.company_info_display.provideDetails` | 회사명과 주소를 입력하세요 |
+| `admin.billing.company_info_edit.cancel` | 취소 |
+| `admin.billing.company_info_edit.companyDetails` | 회사 상세 정보 |
+| `admin.billing.company_info_edit.company_address` | 회사 주소 |
+| `admin.billing.company_info_edit.sameAsBillingAddress` | 청구 주소와 동일 |
+| `admin.billing.company_info_edit.save` | 정보 저장 |
+| `admin.billing.company_info_edit.title` | 회사 정보 수정 |
+| `admin.billing.history.allPaymentsShowHere` | 모든 월별 결제 금액이 여기에 표시됩니다 |
+| `admin.billing.history.date` | 날짜 |
+| `admin.billing.history.description` | 설명 |
+| `admin.billing.history.fractionalAndRatedSeats` | {fractionalSeats} 미터식 좌석, {fullSeats} 전액 요금 좌석, {partialSeats} 부분 유료 좌석 |
+| `admin.billing.history.fractionalSeats` | {fractionalSeats} 좌석 |
+| `admin.billing.history.noBillingHistory` | 앞으로, 이곳에 결제내역이 표시됩니다. |
+| `admin.billing.history.onPremSeats` | {num} 좌석 |
+| `admin.billing.history.pageInfo` | 전체 {totalRecords} 중 {startRecord} - {endRecord} |
+| `admin.billing.history.paid` | 구매 완료 |
+| `admin.billing.history.paymentFailed` | 결제 실패 |
+| `admin.billing.history.pending` | 보류 중 |
+| `admin.billing.history.seatsAndRates` | {fullSeats} 전액 요금 좌석, {partialSeats} 부분 유료 좌석 |
+| `admin.billing.history.seeHowBillingWorks` | 청구 방식 보기 |
+| `admin.billing.history.status` | 상태 |
+| `admin.billing.history.title` | 결제 내역 |
+| `admin.billing.history.total` | 합계 |
+| `admin.billing.history.transactions` | 거래 내역 |
+| `admin.billing.subscription.invoice.next` | 다음 인보이스 |
+| `admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging` | 그룹 및 일대일 메시징, 파일 공유 및 검색 |
+| `admin.billing.subscription.planDetails.features.incidentCollaboration` | 공동작업 |
+| `admin.billing.subscription.planDetails.features.limitedFileStorage` | {limit} 파일 저장소로 제한 |
+| `admin.billing.subscription.planDetails.features.limitedMessageHistory` | {limit} 메시지의 메시지 기록으로 제한됨 |
+| `admin.billing.subscription.planDetails.features.mfa` | 다중 인증(MFA) |
+| `admin.billing.subscription.planDetails.features.multilanguage` | 다국어 번역 |
+| `admin.billing.subscription.planDetails.features.unlimitedUsers` | 무제한 사용자 |
+| `admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory` | 무제한 사용자 및 메시지 기록 |
+| `admin.billing.subscription.planDetails.productName.cloudFree` | 클라우드 무료 |
+| `admin.billing.subscription.privateCloudCard.cloudFree.description` | 게스트 계정, Office365 제품군 통합, GitLab SSO 및 고급 권한으로 프로세스를 최적화하세요. |
+| `admin.billing.subscription.privateCloudCard.cloudFree.title` | Cloud Professional로 업그레이드 |
+| `admin.billing.subscription.privateCloudCard.upgradeNow` | 지금 업그레이드 |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee` | 월 정액 요금 |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.paid` | 지불 완료 |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.partialCharges` | 부분 청구 |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.seatCount` |  x {seats} 좌석 |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.seatCountPartial` | {seats} 좌석 |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.seeBillingHistory` | 결제 내역보기 |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.taxes` | 세금 |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.title` | 마지막 인보이스 |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.total` | 합계 |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.viewInvoice` | 청구서 보기 |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.whatArePartialCharges` | 부분 청구 란 무엇입니까? |
+| `admin.billing.subscriptions.billing_summary.lastInvoice.whatArePartialCharges.message` | 해당 월의 전체 기간 동안 활성화되지 않은 사용자에게는 매월 비율에 따라 요금이 청구됩니다. |
+| `admin.billing.subscriptions.billing_summary.upcomingInvoice.has_more_line_items` | 외 {count}개 항목 |
+| `admin.sidebar.billing_history` | 결제 내역 |
+| `cloud.invoice_pdf_preview.download` | 기록을 위해 이 페이지를 <downloadLink>다운로드</downloadLink>하세요 |
+| `cloud_billing_history_modal.title` | 청구서 |
+| `free.banner.downgraded` | 워크스페이스에 제한이 적용되었으며 일부 데이터가 보관되었습니다 |
+| `more.details` | 세부사항 |
+| `workspace_limits.archived_file.archived` | 이 파일은 보관되었습니다 |
+| `workspace_limits.archived_file.archived_compact` | (보관됨) |
+| `workspace_limits.archived_file.tooltip_description` | 워크스페이스가 파일 저장소 제한인 {storageLimit}에 도달했습니다. 다시 보려면 유료 요금제로 업그레이드하세요 |
+| `workspace_limits.archived_file.tooltip_title` | 업그레이드하여 이 파일 보관 해제하기 |
+
+### `server/i18n/ko.json` (3개)
+
+| 키 | 번역 |
+|---|---|
+| `api.server.hosted_signup_unavailable.error` | 자체 호스팅 가입을 위한 포탈을 사용할 수 없습니다. |
+| `app.file.cloud.get.app_error` | 클라우드 플랜의 한도를 초과하여 파일을 가져올 수 없습니다. |
+| `app.last_accessible_file.app_error` | 마지막 접근 가능한 파일을 가져오는 중 오류가 발생했습니다. |
