@@ -137,6 +137,7 @@
 | 로그인 전 플러그인 노출 제한 | [e8c7307f](https://github.com/mattermost/mattermost/commit/e8c7307f42a870a545f07fcd68aaff81f1e68346) (#39433) | 보호 기능과 토글은 그대로 받았다. 문서 2파일과 업그레이드 스펙 3파일을 버렸고, 제외 계보의 마이그레이션 키와 e2e 헬퍼는 들이지 않았다. 스냅샷은 포크 라디오 마크업으로 재생성했다. |
 | 웹소켓 재연결 실패 원인 보고 | [8824cd2f](https://github.com/mattermost/mattermost/commit/8824cd2f9957a8e09a23342fb782242934f3e9c3) (#39388) | 코드·테스트·Grafana 대시보드는 그대로 받았다. `docs/main` 메트릭 문서 1파일은 문서 사이트 계보 제외로 버렸다. |
 | 지원 Chrome·Edge 최소 버전 표기 | [18c8573a](https://github.com/mattermost/mattermost/commit/18c8573aa970b88edc29036ea6cb6cf876fff7dc) (#39641) | `en.json` 라벨은 그대로 받았다. `docs/main` 요구 사항 문서는 문서 사이트 계보 제외로 버렸다. |
+| 팀당 최대 사용자·채널 수 0 허용 | [c57388e7](https://github.com/mattermost/mattermost/commit/c57388e7c1a7751f3b2197766b4da22302362f7f) (#39110) | 코드·테스트·문구는 그대로 받았다. 포크에 없는 Space 채널 조건과 문맥(`EnableChannelCategorySorting`, ChannelAttributes·Space 테스트)을 뺐다. |
 
 ---
 
@@ -4999,6 +5000,22 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
 | `docs/main/deployment-guide/software-hardware-requirements.mdx` | 지원 표 수정 | PC 웹의 Chrome·Edge를 v150+에서 v156+로, 모바일 웹의 iOS·Android Chrome을 150+에서 156+로 올린다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+
+## 팀당 최대 사용자·채널 수 0 허용 — 없는 Space·속성 문맥을 뺐다
+
+**upstream**: [`c57388e7`](https://github.com/mattermost/mattermost/commit/c57388e7c1a7751f3b2197766b4da22302362f7f)
+([MM-71123] Allow 0 (unlimited) for MaxUsersPerTeam and MaxChannelsPerTeam, #39110) — 14파일 +190/-55, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** 기본값 변경(50·2000 → 0)을 포함해 나머지는 upstream 그대로다.
+
+**버린 것.** 모두 이 커밋의 변경이 아니라 문맥이다.
+
+| 위치 | upstream 코드 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `sqlstore/channel_store.go` `saveChannelT` | `channel.Type != model.ChannelTypeSpace` 조건과 "Space channels are exempt" 주석 | Space 채널은 팀당 채널 수 제한에서 빠진다. 포크에 Space 채널이 없어 `maxChannelsPerTeam > 0`만 바꿨다. | Space 채널 계보를 들일 때 |
+| `model/config.go` `TeamSettings` | `EnableChannelCategorySorting` 필드 | 포크에 없는 필드라 주석 변경만 받았다. | 해당 설정 계보를 들일 때 |
+| `app/channel_test.go` | `TestCreateChannelWithUserIgnoresRequiredAttributesWithNoValues` | 필수 채널 속성은 api4 핸들러에서만 강제하고 앱 계층 호출은 값 없이 통과한다는 테스트다. | 채널 속성 계보를 들일 때 |
+| `app/channel_test.go` | `TestCreateChannelSpaceRequiresEnableDocs` | `EnableDocs`가 꺼지면 Space 채널 생성을 막고, `CreateChannelWithUser`는 Space 채널을 거부한다는 테스트다. | Space 채널 계보를 들일 때 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
