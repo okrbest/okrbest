@@ -43,6 +43,7 @@ function getDisplayStateFromProps(props: Props) {
         messageDisplay: props.messageDisplay,
         colorizeUsernames: props.colorizeUsernames,
         collapseDisplay: props.collapseDisplay,
+        collapseCategoryWithUnreads: props.collapseCategoryWithUnreads,
         collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
         lastActiveDisplay: props.lastActiveDisplay.toString(),
@@ -111,6 +112,7 @@ type Props = OwnProps & {
     messageDisplay: string;
     colorizeUsernames: string;
     collapseDisplay: string;
+    collapseCategoryWithUnreads: string;
     collapsedReplyThreads: string;
     collapsedReplyThreadsAllowUserPreference: boolean;
     clickToReply: string;
@@ -139,6 +141,7 @@ type State = {
     messageDisplay: string;
     colorizeUsernames: string;
     collapseDisplay: string;
+    collapseCategoryWithUnreads: string;
     collapsedReplyThreads: string;
     linkPreviewDisplay: string;
     lastActiveDisplay: string;
@@ -266,6 +269,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.COLLAPSE_DISPLAY,
             value: this.state.collapseDisplay,
         };
+        const collapseCategoryWithUnreadsPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.COLLAPSE_CATEGORY_WITH_UNREADS,
+            value: this.state.collapseCategoryWithUnreads,
+        };
         const collapsedReplyThreadsPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
@@ -305,6 +314,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             availabilityStatusOnPostsPreference,
             oneClickReactionsOnPostsPreference,
             colorizeUsernamesPreference,
+            collapseCategoryWithUnreadsPreference,
         ];
 
         await this.props.actions.savePreferences(userId, preferences);
@@ -1048,6 +1058,39 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             }),
         });
 
+        const collapseCategoryWithUnreadsSection = this.createSection({
+            section: Preferences.COLLAPSE_CATEGORY_WITH_UNREADS,
+            display: 'collapseCategoryWithUnreads',
+            value: this.state.collapseCategoryWithUnreads,
+            defaultDisplay: Preferences.COLLAPSE_CATEGORY_WITH_UNREADS_DEFAULT,
+            title: defineMessage({
+                id: 'user.settings.display.collapseCategoryWithUnreadsTitle',
+                defaultMessage: 'Collapse category with unread channels',
+            }),
+            firstOption: {
+                value: 'true',
+                radionButtonText: {
+                    label: defineMessage({
+                        id: 'user.settings.sidebar.on',
+                        defaultMessage: 'On',
+                    }),
+                },
+            },
+            secondOption: {
+                value: 'false',
+                radionButtonText: {
+                    label: defineMessage({
+                        id: 'user.settings.sidebar.off',
+                        defaultMessage: 'Off',
+                    }),
+                },
+            },
+            description: defineMessage({
+                id: 'user.settings.display.collapseCategoryWithUnreadsDescription',
+                defaultMessage: 'When enabled, collapsing a sidebar category hides all of its channels, including unread channels and channels with mentions. The channel you are viewing stays visible.',
+            }),
+        });
+
         let languagesSection;
         const userLocale = this.props.userLocale;
         const localeName = getLanguageInfo(userLocale).name;
@@ -1227,6 +1270,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {messageDisplaySection}
                     {clickToReply}
                     {channelDisplayModeSection}
+                    {collapseCategoryWithUnreadsSection}
                     {oneClickReactionsOnPostsSection}
                     {renderEmoticonsAsEmojiSection}
                     {languagesSection}
