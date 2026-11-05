@@ -3,21 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-05 23:36
+- 갱신일: 2026-11-06 00:19
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 7개
+- 남은 커밋: 0개
 
-**마지막 반영 커밋:** `06ab8d2c` | [MM-69951: Update code block syntax highlighting handling (#38680)](https://github.com/mattermost/mattermost/commit/06ab8d2cffe974ec1595224681e34c360110cb0e) | 2026-11-04
+**마지막 반영 커밋:** `bc15e733` | [Update latest minor version to 12.2.0 (#39729)](https://github.com/mattermost/mattermost/commit/bc15e733bd58e9e08c2aa04a1bc123c7821856c1) | 2026-11-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 24115350 | [E2E/Test Autofix: include collapse-category in Cypress display tab order (#39714)](https://github.com/mattermost/mattermost/commit/24115350280dc683a1d7d0bebb9cd02375522e73) | 2026-11-05 |
-| 3496ed22 | [MM-71621 Allow colon in remote usernames on the user-by-username route (#39689)](https://github.com/mattermost/mattermost/commit/3496ed225f6480155165033701f1f31513f6cefe) | 2026-11-05 |
-| 5c1fe9b4 | [ci(e2e): wait 60s for a lane's reports before publishing its status (#39682)](https://github.com/mattermost/mattermost/commit/5c1fe9b44b175221d57e9efc79b2ed24dfc3140b) | 2026-11-05 |
-| 052fe37d | [fix(e2e): repair channel_mentions.spec.ts on master (#39656)](https://github.com/mattermost/mattermost/commit/052fe37dfd252aca0edfa70d84ad148d0200512c) | 2026-11-05 |
-| 2986a364 | [\[MM-71588\] start the log scan at date_to instead of the end of the file (#39639)](https://github.com/mattermost/mattermost/commit/2986a3645aecade6ef33d85c3e7e3ae2e4e39788) | 2026-11-05 |
-| b1ce58c5 | [Add dot release docs for server v12.0.2, v11.11.4, v11.10.5, v11.7.15, v10.11.26 (#39644)](https://github.com/mattermost/mattermost/commit/b1ce58c5bd465cd26dddec539c1f920c0b3eee45) | 2026-11-05 |
-| 1b7e14fe | [MM-68613: document message column resize only on fresh installations (#39369)](https://github.com/mattermost/mattermost/commit/1b7e14febfa6b023e66664c4b8b51e5fa2d8398f) | 2026-11-05 |
 
 ## 제외된 커밋
 
@@ -877,6 +870,12 @@
 | 69d345c9 | [Render and edit post attributes on posts and in the RHS (#38735)](https://github.com/mattermost/mattermost/commit/69d345c93a527cc1361792cc967714fea9f99083) | 제외한 게시물 속성 계보(뿌리 36af1ee5 #37829, bb72eeb7 #38134, property v2 48f2fd08) 위의 신규 기능. PostAttributes 플래그와 components/post_attributes가 포크에 없고 수정 대상 94파일 중 57개가 없다 |
 
 | f822393f | [Fix PostAttributesButton after IconContainer was removed (#39692)](https://github.com/mattermost/mattermost/commit/f822393f9efe795901ff53be61af7829cc855c4f) | 제외한 게시물 속성 계보(69d345c9 #38735)의 후속 수정. post_attributes_button이 포크에 없고 수정 방식도 제외한 Compass IconButton에 의존한다 |
+
+| 5c1fe9b4 | [ci(e2e): wait 60s for a lane's reports before publishing its status (#39682)](https://github.com/mattermost/mattermost/commit/5c1fe9b44b175221d57e9efc79b2ed24dfc3140b) | 포크에 없는 사내 E2E 레인 워크플로(e2e-tests-lane-result.yml)의 대기 시간 변경. 같은 계보의 09c24a0f(#39590)를 제외했고 이 자동화를 돌리지 않는다 |
+
+| b1ce58c5 | [Add dot release docs for server v12.0.2, v11.11.4, v11.10.5, v11.7.15, v10.11.26 (#39644)](https://github.com/mattermost/mattermost/commit/b1ce58c5bd465cd26dddec539c1f920c0b3eee45) | docs/main 문서 사이트 계보(1d3bbc63 제외)의 Mattermost 공식 패치 릴리스 changelog·다운로드 안내. 7파일 모두 포크에 없다 |
+
+| 1b7e14fe | [MM-68613: document message column resize only on fresh installations (#39369)](https://github.com/mattermost/mattermost/commit/1b7e14febfa6b023e66664c4b8b51e5fa2d8398f) | docs/main 문서 사이트 계보(1d3bbc63 제외)의 안내 수정. 관련 코드 #39332는 포크에 있으며(da809e4b), 메시지 최대 길이는 새 설치만 262,144자이고 기존 설치는 열 크기를 유지한다 |
 
 ## spec 전환 커밋
 
