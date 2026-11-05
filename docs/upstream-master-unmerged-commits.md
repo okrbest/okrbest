@@ -3,33 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-05 14:18
+- 갱신일: 2026-11-05 21:25
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 31개
+- 남은 커밋: 18개
 
-**마지막 반영 커밋:** `2a6bf358` | [Drop removed matrix selections when a dialog refreshes on return (#39513)](https://github.com/mattermost/mattermost/commit/2a6bf358e4e621cdb10171db5e0e5c8a395513cf) | 2026-11-02
+**마지막 반영 커밋:** `4e1eec78` | [Update snapshots for compass-ui alpha.25 class names (#39670)](https://github.com/mattermost/mattermost/commit/4e1eec780dbd95e312a604b7dfb0cedc48b44abc) | 2026-11-03
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 2ad57b53 | [MM-71221: Keep the rich text editor in sync with the draft (#39452)](https://github.com/mattermost/mattermost/commit/2ad57b53b8030f5939d6504b44ed9949d4ed0843) | 2026-11-03 |
-| 09c24a0f | [ci(e2e): triage support paths, automatic re-run on infra failures, test-system-io actions update (#39590)](https://github.com/mattermost/mattermost/commit/09c24a0fdb244dd479790411712fa7538d41dba4) | 2026-11-03 |
-| 31bb5213 | [\[MM-71590\] Keep the Server Logs filters in the URL so a view can be shared (#39642)](https://github.com/mattermost/mattermost/commit/31bb52133e05f8e84fc53f4d70d08d863e5eb856) | 2026-11-03 |
-| ad8460ad | [Document turning off Elasticsearch indexing before large bulk channel deletes (#39547)](https://github.com/mattermost/mattermost/commit/ad8460ad4d1d81c47d5d64a996dba7af8f870180) | 2026-11-03 |
-| 77a94b45 | [Add the PropertyValuesHaveBeenUpdated plugin hook (#39461)](https://github.com/mattermost/mattermost/commit/77a94b45a35b5dd624feee349aa9f2b5715e026a) | 2026-11-03 |
-| 10dc5245 | [Agentic changelog phase 2 (from v12.2): scheduled runs, release-derived sections, doc links, link check and readiness report (#39380)](https://github.com/mattermost/mattermost/commit/10dc5245e531b218e024f6c06a2181901032eb8a) | 2026-11-03 |
-| 6875d008 | [\[MM-69946\] Harden outgoing webhook user assignment (#37932)](https://github.com/mattermost/mattermost/commit/6875d0081025fbfae56c4eb9772f854503193502) | 2026-11-03 |
-| e8c7307f | [Restrict unauthenticated webapp plugin manifests to pre-auth plugins (#39433)](https://github.com/mattermost/mattermost/commit/e8c7307f42a870a545f07fcd68aaff81f1e68346) | 2026-11-03 |
-| 13ce8add | [Migrate AdminPanel widgets to Compass AdminPanel (#39046)](https://github.com/mattermost/mattermost/commit/13ce8add0d37933d12872eee19379afb67c0f885) | 2026-11-03 |
-| 6e31410e | [Generate fallback property option IDs without md5 in migration 000223 (#39654)](https://github.com/mattermost/mattermost/commit/6e31410e3140b8246116b7d2b1f851f8ea31f7ae) | 2026-11-03 |
-| bf9a15c8 | [MM-70024: Improve atomicity in desktop SSO token validation (#37748)](https://github.com/mattermost/mattermost/commit/bf9a15c8e4a5e6f6f605fba4e4b49ed1569d5fe9) | 2026-11-03 |
-| b6a82d22 | [Add local-mode mmctl plugin keys commands for plugin signature public keys (#39502)](https://github.com/mattermost/mattermost/commit/b6a82d225092723c9b6a889f2664f8c3d7a7880c) | 2026-11-03 |
-| 2412cad8 | [Migrate icon-only buttons to Compass IconButton (#39029)](https://github.com/mattermost/mattermost/commit/2412cad805805beaf794549f5a25ac8b14683104) | 2026-11-03 |
-| 46ba1936 | [MM-71286: update mmctl download filename handling (#39306)](https://github.com/mattermost/mattermost/commit/46ba1936998899099da2756de82ae058455a41a8) | 2026-11-03 |
-| 965c282e | [Use Compass Combobox for user settings custom select and multiselect attributes (#39481)](https://github.com/mattermost/mattermost/commit/965c282e7d31a84c65d8d4c27c0f3d42971dabf3) | 2026-11-03 |
-| 8824cd2f | [Report why websocket reconnects fail to resume (#39388)](https://github.com/mattermost/mattermost/commit/8824cd2f9957a8e09a23342fb782242934f3e9c3) | 2026-11-03 |
-| 388cddcb | [fix(webapp): skip classification banner fetch while logged out (#39661)](https://github.com/mattermost/mattermost/commit/388cddcb2d6678b897732fac1363b0119ec4b765) | 2026-11-03 |
-| 99774251 | [config diff update (#38029)](https://github.com/mattermost/mattermost/commit/99774251ae03a69e6dbba9d990d9ac64e0e1e34f) | 2026-11-03 |
-| 4e1eec78 | [Update snapshots for compass-ui alpha.25 class names (#39670)](https://github.com/mattermost/mattermost/commit/4e1eec780dbd95e312a604b7dfb0cedc48b44abc) | 2026-11-03 |
 | 18c8573a | [Update minimum supported Chrome and Edge versions to 156+ (#39641)](https://github.com/mattermost/mattermost/commit/18c8573aa970b88edc29036ea6cb6cf876fff7dc) | 2026-11-04 |
 | 69d345c9 | [Render and edit post attributes on posts and in the RHS (#38735)](https://github.com/mattermost/mattermost/commit/69d345c93a527cc1361792cc967714fea9f99083) | 2026-11-04 |
 | c57388e7 | [\[MM-71123\] Allow 0 (unlimited) for MaxUsersPerTeam and MaxChannelsPerTeam (#39110)](https://github.com/mattermost/mattermost/commit/c57388e7c1a7751f3b2197766b4da22302362f7f) | 2026-11-04 |
@@ -42,6 +23,12 @@
 | 63882e32 | [MM-71261: Update LDAP troubleshooting script command construction (#39290)](https://github.com/mattermost/mattermost/commit/63882e32893bcb96c82e9870288cca0be0b4fdbb) | 2026-11-04 |
 | 06ab8d2c | [MM-69951: Update code block syntax highlighting handling (#38680)](https://github.com/mattermost/mattermost/commit/06ab8d2cffe974ec1595224681e34c360110cb0e) | 2026-11-04 |
 | 24115350 | [E2E/Test Autofix: include collapse-category in Cypress display tab order (#39714)](https://github.com/mattermost/mattermost/commit/24115350280dc683a1d7d0bebb9cd02375522e73) | 2026-11-05 |
+| 3496ed22 | [MM-71621 Allow colon in remote usernames on the user-by-username route (#39689)](https://github.com/mattermost/mattermost/commit/3496ed225f6480155165033701f1f31513f6cefe) | 2026-11-05 |
+| 5c1fe9b4 | [ci(e2e): wait 60s for a lane's reports before publishing its status (#39682)](https://github.com/mattermost/mattermost/commit/5c1fe9b44b175221d57e9efc79b2ed24dfc3140b) | 2026-11-05 |
+| 052fe37d | [fix(e2e): repair channel_mentions.spec.ts on master (#39656)](https://github.com/mattermost/mattermost/commit/052fe37dfd252aca0edfa70d84ad148d0200512c) | 2026-11-05 |
+| 2986a364 | [\[MM-71588\] start the log scan at date_to instead of the end of the file (#39639)](https://github.com/mattermost/mattermost/commit/2986a3645aecade6ef33d85c3e7e3ae2e4e39788) | 2026-11-05 |
+| b1ce58c5 | [Add dot release docs for server v12.0.2, v11.11.4, v11.10.5, v11.7.15, v10.11.26 (#39644)](https://github.com/mattermost/mattermost/commit/b1ce58c5bd465cd26dddec539c1f920c0b3eee45) | 2026-11-05 |
+| 1b7e14fe | [MM-68613: document message column resize only on fresh installations (#39369)](https://github.com/mattermost/mattermost/commit/1b7e14febfa6b023e66664c4b8b51e5fa2d8398f) | 2026-11-05 |
 
 ## 제외된 커밋
 
@@ -877,6 +864,26 @@
 | 621cfdf4 | [Let plugins mark channels as boards, so the webapp calls them boards (#39463)](https://github.com/mattermost/mattermost/commit/621cfdf46948ae2229f4f3e0f0dee25ea84ebdf7) | 공식 Integrated Boards 플러그인용 확장점과 보드 문구 묶음이다. 제외한 48f2fd08(#35796), 263b3c11(#36569), 4255e314(#35591), 직접 선행 e93c0987(#39457) 계보 위에 있어 HEAD에 토대 심볼이 없다(registerChannelTypeOption, registerChannelSettingsTab, channel_attributes/ 모두 0). 이 저장소에 호출자가 없고 113파일 규모다. 자체 Boards에 보드 문구가 필요해지면 별도 spec으로 설계한다. |
 
 | 81eeff50 | [Keep AttributeView for 11.10 servers running against a 12.x database (#39267)](https://github.com/mattermost/mattermost/commit/81eeff505e895c0a87cb8f0b3f335dac4230e660) | 11.10 서버 호환용 임시 마이그레이션이다. 고치는 대상인 000216(뷰 삭제)은 제외한 c3a5a087(#37755) 계보이고, 000242가 참조하는 PropertyOptions 테이블도 포크에 없다. 포크의 AttributeView는 000137 정의 그대로 유지되어 삭제된 적이 없다. property 시스템 v2 계보를 들일 때 함께 재검토한다. |
+
+| 2ad57b53 | [MM-71221: Keep the rich text editor in sync with the draft (#39452)](https://github.com/mattermost/mattermost/commit/2ad57b53b8030f5939d6504b44ed9949d4ed0843) | 제외한 TipTap 작성기 0fa2713b(#36143) 계보의 초안 동기화 수정이다. wysiwyg_editor/ 3파일과 스펙이 포크에 없다. 포크 Lexical 경로는 handleDraftChange가 draftRef를 즉시 갱신하고 채널 변경 정리 코드가 바로 저장해 주요 시나리오가 재현되지 않는다(코드 추적 기준). 늦은 비동기 콜백이 다른 채널의 대기 저장을 취소하는 경우만 남으며, 다음 입력이나 이동 때 저장되므로 영향이 작다. |
+
+| 09c24a0f | [ci(e2e): triage support paths, automatic re-run on infra failures, test-system-io actions update (#39590)](https://github.com/mattermost/mattermost/commit/09c24a0fdb244dd479790411712fa7538d41dba4) | test system IO·e2e triage 계보(c77efb5a, 020e9dab, cdf79fef 등 exclude)의 사내 CI 변경이다. 토대인 e2e-tests-lane-result.yml, test_e2e_status_workflows.py, rolling upgrade 템플릿이 포크에 없다. 제품 코드 변경이 없어 얻는 것이 없다. |
+
+| 77a94b45 | [Add the PropertyValuesHaveBeenUpdated plugin hook (#39461)](https://github.com/mattermost/mattermost/commit/77a94b45a35b5dd624feee349aa9f2b5715e026a) | 공식 Boards용 property 값 변경 훅이다. 제외한 property 시스템 v2(48f2fd08, 9f1fe90b) 위에 있어 읽기 필터 토대(runPostGetPropertyValues)와 SanitizePropertyValue가 HEAD에 없다. 필터 없이 옮기면 플러그인에 권한 밖 값이 전달된다. 이 저장소에 호출자가 없다. 자체 플러그인에 필요해지면 포크 권한 모델로 별도 설계한다. |
+
+| 10dc5245 | [Agentic changelog phase 2 (from v12.2): scheduled runs, release-derived sections, doc links, link check and readiness report (#39380)](https://github.com/mattermost/mattermost/commit/10dc5245e531b218e024f6c06a2181901032eb8a) | 제외한 changelog 자동화 53aaf6a4(#38113), 346c94f0(#38478) 계보의 2단계다. generate_changelog.py, generate-changelog.yml이 포크에 없고, Mattermost 릴리스 절차와 제외한 docs/main 문서 사이트를 대상으로 한다. 제품 코드 변경이 없어 얻는 것이 없다. |
+
+| 13ce8add | [Migrate AdminPanel widgets to Compass AdminPanel (#39046)](https://github.com/mattermost/mattermost/commit/13ce8add0d37933d12872eee19379afb67c0f885) | compass-ui AdminPanel 이관(147파일)이다. compass-ui는 npm·원본 저장소에 라이선스가 없어 번들하지 않기로 했다(70658e18 #38153 exclude). 포크에서는 compass-ui 없이 재현할 수 없고 시스템 콘솔 위젯은 그대로 동작한다. compass-ui를 수용할 때 함께 재검토한다. |
+
+| 6e31410e | [Generate fallback property option IDs without md5 in migration 000223 (#39654)](https://github.com/mattermost/mattermost/commit/6e31410e3140b8246116b7d2b1f851f8ea31f7ae) | 제외한 9ef79330(#37851, property 시스템 v2 계보)이 만든 000223 마이그레이션의 FIPS 수정이다. 대상 파일 2개가 포크에 없고, 포크 마이그레이션 up 스크립트에는 md5( 사용이 없다. property 시스템 v2 계보를 들일 때 함께 들인다. |
+
+| 2412cad8 | [Migrate icon-only buttons to Compass IconButton (#39029)](https://github.com/mattermost/mattermost/commit/2412cad805805beaf794549f5a25ac8b14683104) | compass-ui IconButton 이관(249파일)이다. compass-ui는 npm·원본 저장소에 라이선스가 없어 번들하지 않기로 했다(70658e18 #38153 exclude). 헤더·사이드바·게시물 영역은 자체 개편(spec 014)과 겹쳐 충돌 74건이다. compass-ui를 수용할 때 함께 재검토한다. |
+
+| 965c282e | [Use Compass Combobox for user settings custom select and multiselect attributes (#39481)](https://github.com/mattermost/mattermost/commit/965c282e7d31a84c65d8d4c27c0f3d42971dabf3) | Compass 이관: 사용자 설정 사용자 지정 속성을 Compass Combobox로 교체. compass-ui는 라이선스 문제로 제외(70658e18 #38153), 포크는 ReactSelect 유지. 사라진 옵션 ID 표시·유지 처리도 함께 제외 |
+
+| 388cddcb | [fix(webapp): skip classification banner fetch while logged out (#39661)](https://github.com/mattermost/mattermost/commit/388cddcb2d6678b897732fac1363b0119ec4b765) | 제외한 6083cc22(MM-68196 Global Classification 배너, #36231)의 버그 수정이라 고칠 코드가 없다. global_classification_banner 폴더가 포크에 없다 |
+
+| 4e1eec78 | [Update snapshots for compass-ui alpha.25 class names (#39670)](https://github.com/mattermost/mattermost/commit/4e1eec780dbd95e312a604b7dfb0cedc48b44abc) | compass-ui alpha.25 해시 클래스 이름으로 스냅샷만 갱신. compass-ui는 라이선스 문제로 제외(70658e18 #38153)했고 선행 965c282e도 제외했다. 포크 스냅샷에 해당 클래스가 없다 |
 
 ## spec 전환 커밋
 
