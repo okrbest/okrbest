@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-05 00:42
+- 갱신일: 2026-11-05 09:59
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 43개
+- 남은 커밋: 49개
 
-**마지막 반영 커밋:** `f619e1e3` | [Remove dead self-serve purchase code (#39528)](https://github.com/mattermost/mattermost/commit/f619e1e3e032b535504ec3b058003b42175df69c) | 2026-10-30
+**마지막 반영 커밋:** `2b3fb21f` | [Add KVListWithOptions for server-side prefix filtering in plugin KV store (#35441)](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5) | 2026-11-01
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 2b3fb21f | [Add KVListWithOptions for server-side prefix filtering in plugin KV store (#35441)](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5) | 2026-11-01 |
 | 4bda085f | [fix(e2e): click the policy channel row's Remove link, not the delete-section subtitle (#39546)](https://github.com/mattermost/mattermost/commit/4bda085f1aa79e03f398ffe986fc5e062b4a8108) | 2026-11-02 |
 | bfe09954 | [fix(e2e): restore PrivacySettings.ShowFullName and ShowEmailAddress in the per-test config reset (#39497)](https://github.com/mattermost/mattermost/commit/bfe09954b91d907ace9abff860ad4b0793f20afd) | 2026-11-02 |
 | 2400aa0a | [fix(e2e): click Compass Switch labels instead of forcing clicks on their inputs (#39372)](https://github.com/mattermost/mattermost/commit/2400aa0acd9f76ca2cf5440139159b30bf9d38a8) | 2026-11-02 |
@@ -54,6 +53,13 @@
 | 69d345c9 | [Render and edit post attributes on posts and in the RHS (#38735)](https://github.com/mattermost/mattermost/commit/69d345c93a527cc1361792cc967714fea9f99083) | 2026-11-04 |
 | c57388e7 | [\[MM-71123\] Allow 0 (unlimited) for MaxUsersPerTeam and MaxChannelsPerTeam (#39110)](https://github.com/mattermost/mattermost/commit/c57388e7c1a7751f3b2197766b4da22302362f7f) | 2026-11-04 |
 | 7b83e287 | [MM-71601: Update user password handling (#39653)](https://github.com/mattermost/mattermost/commit/7b83e287a8ab50fd9162290f179b73d73f079842) | 2026-11-04 |
+| efe002cf | [MM-71580: update file retrieval handling (#39628)](https://github.com/mattermost/mattermost/commit/efe002cf831b069c5cd781468ed0be230899d9e1) | 2026-11-04 |
+| f822393f | [Fix PostAttributesButton after IconContainer was removed (#39692)](https://github.com/mattermost/mattermost/commit/f822393f9efe795901ff53be61af7829cc855c4f) | 2026-11-04 |
+| 51c3eb9b | [MM-71579: Update channel membership handling for group sync (#39626)](https://github.com/mattermost/mattermost/commit/51c3eb9b72f99c4af35a3ff11b015c992fdd87ba) | 2026-11-04 |
+| 71bd2fb0 | [\[GH-39438\] Add a setting to fully collapse sidebar categories with unread channels (#39439)](https://github.com/mattermost/mattermost/commit/71bd2fb039327802ddeb2a1f157d7217860f9df1) | 2026-11-04 |
+| cddc1693 | [\[GH-38669\] Fix Connected Workspaces remote user domain validation (#39106)](https://github.com/mattermost/mattermost/commit/cddc1693235209722dd41118b949f863b9222419) | 2026-11-04 |
+| 63882e32 | [MM-71261: Update LDAP troubleshooting script command construction (#39290)](https://github.com/mattermost/mattermost/commit/63882e32893bcb96c82e9870288cca0be0b4fdbb) | 2026-11-04 |
+| 06ab8d2c | [MM-69951: Update code block syntax highlighting handling (#38680)](https://github.com/mattermost/mattermost/commit/06ab8d2cffe974ec1595224681e34c360110cb0e) | 2026-11-04 |
 
 ## 제외된 커밋
 
