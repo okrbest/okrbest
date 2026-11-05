@@ -3,25 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-05 21:25
+- 갱신일: 2026-11-05 23:36
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 18개
+- 남은 커밋: 7개
 
-**마지막 반영 커밋:** `4e1eec78` | [Update snapshots for compass-ui alpha.25 class names (#39670)](https://github.com/mattermost/mattermost/commit/4e1eec780dbd95e312a604b7dfb0cedc48b44abc) | 2026-11-03
+**마지막 반영 커밋:** `06ab8d2c` | [MM-69951: Update code block syntax highlighting handling (#38680)](https://github.com/mattermost/mattermost/commit/06ab8d2cffe974ec1595224681e34c360110cb0e) | 2026-11-04
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 18c8573a | [Update minimum supported Chrome and Edge versions to 156+ (#39641)](https://github.com/mattermost/mattermost/commit/18c8573aa970b88edc29036ea6cb6cf876fff7dc) | 2026-11-04 |
-| 69d345c9 | [Render and edit post attributes on posts and in the RHS (#38735)](https://github.com/mattermost/mattermost/commit/69d345c93a527cc1361792cc967714fea9f99083) | 2026-11-04 |
-| c57388e7 | [\[MM-71123\] Allow 0 (unlimited) for MaxUsersPerTeam and MaxChannelsPerTeam (#39110)](https://github.com/mattermost/mattermost/commit/c57388e7c1a7751f3b2197766b4da22302362f7f) | 2026-11-04 |
-| 7b83e287 | [MM-71601: Update user password handling (#39653)](https://github.com/mattermost/mattermost/commit/7b83e287a8ab50fd9162290f179b73d73f079842) | 2026-11-04 |
-| efe002cf | [MM-71580: update file retrieval handling (#39628)](https://github.com/mattermost/mattermost/commit/efe002cf831b069c5cd781468ed0be230899d9e1) | 2026-11-04 |
-| f822393f | [Fix PostAttributesButton after IconContainer was removed (#39692)](https://github.com/mattermost/mattermost/commit/f822393f9efe795901ff53be61af7829cc855c4f) | 2026-11-04 |
-| 51c3eb9b | [MM-71579: Update channel membership handling for group sync (#39626)](https://github.com/mattermost/mattermost/commit/51c3eb9b72f99c4af35a3ff11b015c992fdd87ba) | 2026-11-04 |
-| 71bd2fb0 | [\[GH-39438\] Add a setting to fully collapse sidebar categories with unread channels (#39439)](https://github.com/mattermost/mattermost/commit/71bd2fb039327802ddeb2a1f157d7217860f9df1) | 2026-11-04 |
-| cddc1693 | [\[GH-38669\] Fix Connected Workspaces remote user domain validation (#39106)](https://github.com/mattermost/mattermost/commit/cddc1693235209722dd41118b949f863b9222419) | 2026-11-04 |
-| 63882e32 | [MM-71261: Update LDAP troubleshooting script command construction (#39290)](https://github.com/mattermost/mattermost/commit/63882e32893bcb96c82e9870288cca0be0b4fdbb) | 2026-11-04 |
-| 06ab8d2c | [MM-69951: Update code block syntax highlighting handling (#38680)](https://github.com/mattermost/mattermost/commit/06ab8d2cffe974ec1595224681e34c360110cb0e) | 2026-11-04 |
 | 24115350 | [E2E/Test Autofix: include collapse-category in Cypress display tab order (#39714)](https://github.com/mattermost/mattermost/commit/24115350280dc683a1d7d0bebb9cd02375522e73) | 2026-11-05 |
 | 3496ed22 | [MM-71621 Allow colon in remote usernames on the user-by-username route (#39689)](https://github.com/mattermost/mattermost/commit/3496ed225f6480155165033701f1f31513f6cefe) | 2026-11-05 |
 | 5c1fe9b4 | [ci(e2e): wait 60s for a lane's reports before publishing its status (#39682)](https://github.com/mattermost/mattermost/commit/5c1fe9b44b175221d57e9efc79b2ed24dfc3140b) | 2026-11-05 |
@@ -884,6 +873,10 @@
 | 388cddcb | [fix(webapp): skip classification banner fetch while logged out (#39661)](https://github.com/mattermost/mattermost/commit/388cddcb2d6678b897732fac1363b0119ec4b765) | 제외한 6083cc22(MM-68196 Global Classification 배너, #36231)의 버그 수정이라 고칠 코드가 없다. global_classification_banner 폴더가 포크에 없다 |
 
 | 4e1eec78 | [Update snapshots for compass-ui alpha.25 class names (#39670)](https://github.com/mattermost/mattermost/commit/4e1eec780dbd95e312a604b7dfb0cedc48b44abc) | compass-ui alpha.25 해시 클래스 이름으로 스냅샷만 갱신. compass-ui는 라이선스 문제로 제외(70658e18 #38153)했고 선행 965c282e도 제외했다. 포크 스냅샷에 해당 클래스가 없다 |
+
+| 69d345c9 | [Render and edit post attributes on posts and in the RHS (#38735)](https://github.com/mattermost/mattermost/commit/69d345c93a527cc1361792cc967714fea9f99083) | 제외한 게시물 속성 계보(뿌리 36af1ee5 #37829, bb72eeb7 #38134, property v2 48f2fd08) 위의 신규 기능. PostAttributes 플래그와 components/post_attributes가 포크에 없고 수정 대상 94파일 중 57개가 없다 |
+
+| f822393f | [Fix PostAttributesButton after IconContainer was removed (#39692)](https://github.com/mattermost/mattermost/commit/f822393f9efe795901ff53be61af7829cc855c4f) | 제외한 게시물 속성 계보(69d345c9 #38735)의 후속 수정. post_attributes_button이 포크에 없고 수정 방식도 제외한 Compass IconButton에 의존한다 |
 
 ## spec 전환 커밋
 
