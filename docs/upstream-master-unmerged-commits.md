@@ -3,33 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-05 09:59
+- 갱신일: 2026-11-05 14:18
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 49개
+- 남은 커밋: 31개
 
-**마지막 반영 커밋:** `2b3fb21f` | [Add KVListWithOptions for server-side prefix filtering in plugin KV store (#35441)](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5) | 2026-11-01
+**마지막 반영 커밋:** `2a6bf358` | [Drop removed matrix selections when a dialog refreshes on return (#39513)](https://github.com/mattermost/mattermost/commit/2a6bf358e4e621cdb10171db5e0e5c8a395513cf) | 2026-11-02
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 4bda085f | [fix(e2e): click the policy channel row's Remove link, not the delete-section subtitle (#39546)](https://github.com/mattermost/mattermost/commit/4bda085f1aa79e03f398ffe986fc5e062b4a8108) | 2026-11-02 |
-| bfe09954 | [fix(e2e): restore PrivacySettings.ShowFullName and ShowEmailAddress in the per-test config reset (#39497)](https://github.com/mattermost/mattermost/commit/bfe09954b91d907ace9abff860ad4b0793f20afd) | 2026-11-02 |
-| 2400aa0a | [fix(e2e): click Compass Switch labels instead of forcing clicks on their inputs (#39372)](https://github.com/mattermost/mattermost/commit/2400aa0acd9f76ca2cf5440139159b30bf9d38a8) | 2026-11-02 |
-| 4028643a | [\[MM-71404\] Fetch only new server log entries in live tail and highlight them (#39507)](https://github.com/mattermost/mattermost/commit/4028643a0abe570b99fd6103c5cb2a25f67a5092) | 2026-11-02 |
-| 841f199a | [Desktop App v5.13.8, v6.2.5 and v6.3.2 dot release docs (#39450)](https://github.com/mattermost/mattermost/commit/841f199a96e3f0d2eca47a7c38f1610270c2881b) | 2026-11-02 |
-| f3c8c6f0 | [chore: Update NOTICE.txt file with updated dependencies (#39591)](https://github.com/mattermost/mattermost/commit/f3c8c6f0088d2ede7a3f15cc35bfcd3b3b04789b) | 2026-11-02 |
-| 546185a5 | [Auto-fill bot and webhook usernames from the display name (#39485)](https://github.com/mattermost/mattermost/commit/546185a5a4ed315396a3710ab0503ffe904241eb) | 2026-11-02 |
-| 6b10d646 | [Bumping prepackaged Jira version to v5.1.0 (#39592)](https://github.com/mattermost/mattermost/commit/6b10d64658ae8fac36c7536d2c8fec122f90f652) | 2026-11-02 |
-| d62af319 | [\[MM-71392\] Search server logs on the server and flag truncated results (#39478)](https://github.com/mattermost/mattermost/commit/d62af319e868519799ab91a6fa2fc201ddf6a549) | 2026-11-02 |
-| 9535783e | [MM-71296: Update bot account confirmation navigation (#39317)](https://github.com/mattermost/mattermost/commit/9535783ef9d3ab166da83e9ba3b8f7003d6449ca) | 2026-11-02 |
-| 621cfdf4 | [Let plugins mark channels as boards, so the webapp calls them boards (#39463)](https://github.com/mattermost/mattermost/commit/621cfdf46948ae2229f4f3e0f0dee25ea84ebdf7) | 2026-11-02 |
-| 47b81751 | [\[MM-71403\] Add a custom from/to time range to the Server Logs viewer (#39509)](https://github.com/mattermost/mattermost/commit/47b81751a4e5c402aa61523e51ecbcf1f33bbfda) | 2026-11-02 |
-| 5a9a4dff | [Remove unused Cloud Starter conditions (#39531)](https://github.com/mattermost/mattermost/commit/5a9a4dff1085a476f82621367b9ee63484e38f26) | 2026-11-02 |
-| 73a31e97 | [\[MM-67309\] Allow removing link previews from Burn-on-Read messages (#39149)](https://github.com/mattermost/mattermost/commit/73a31e9760d1adc59e3b25212b82e1185d527a02) | 2026-11-02 |
-| 5f2ab3e2 | [MM-70517: Adjust recap citation and post-history handling (#38204)](https://github.com/mattermost/mattermost/commit/5f2ab3e2292d1721d61ec5f96b83b481a3bed03e) | 2026-11-02 |
-| 64c16ff0 | [MM-71283: update API client route segment handling (#39305)](https://github.com/mattermost/mattermost/commit/64c16ff0ea7f455ee648bfe906407def1274fbd3) | 2026-11-02 |
-| 81eeff50 | [Keep AttributeView for 11.10 servers running against a 12.x database (#39267)](https://github.com/mattermost/mattermost/commit/81eeff505e895c0a87cb8f0b3f335dac4230e660) | 2026-11-02 |
-| 36ebc1f6 | [Add Preview/Code toggle for Markdown file previews and code blocks (#39378)](https://github.com/mattermost/mattermost/commit/36ebc1f6fc024e0c15d24e5dd925f7daf2ce88ad) | 2026-11-02 |
-| 2a6bf358 | [Drop removed matrix selections when a dialog refreshes on return (#39513)](https://github.com/mattermost/mattermost/commit/2a6bf358e4e621cdb10171db5e0e5c8a395513cf) | 2026-11-02 |
 | 2ad57b53 | [MM-71221: Keep the rich text editor in sync with the draft (#39452)](https://github.com/mattermost/mattermost/commit/2ad57b53b8030f5939d6504b44ed9949d4ed0843) | 2026-11-03 |
 | 09c24a0f | [ci(e2e): triage support paths, automatic re-run on infra failures, test-system-io actions update (#39590)](https://github.com/mattermost/mattermost/commit/09c24a0fdb244dd479790411712fa7538d41dba4) | 2026-11-03 |
 | 31bb5213 | [\[MM-71590\] Keep the Server Logs filters in the URL so a view can be shared (#39642)](https://github.com/mattermost/mattermost/commit/31bb52133e05f8e84fc53f4d70d08d863e5eb856) | 2026-11-03 |
@@ -60,6 +41,7 @@
 | cddc1693 | [\[GH-38669\] Fix Connected Workspaces remote user domain validation (#39106)](https://github.com/mattermost/mattermost/commit/cddc1693235209722dd41118b949f863b9222419) | 2026-11-04 |
 | 63882e32 | [MM-71261: Update LDAP troubleshooting script command construction (#39290)](https://github.com/mattermost/mattermost/commit/63882e32893bcb96c82e9870288cca0be0b4fdbb) | 2026-11-04 |
 | 06ab8d2c | [MM-69951: Update code block syntax highlighting handling (#38680)](https://github.com/mattermost/mattermost/commit/06ab8d2cffe974ec1595224681e34c360110cb0e) | 2026-11-04 |
+| 24115350 | [E2E/Test Autofix: include collapse-category in Cypress display tab order (#39714)](https://github.com/mattermost/mattermost/commit/24115350280dc683a1d7d0bebb9cd02375522e73) | 2026-11-05 |
 
 ## 제외된 커밋
 
@@ -884,6 +866,18 @@
 
 | a8f8a6b5 | [Documentation updates for some missed areas. (#39511)](https://github.com/mattermost/mattermost/commit/a8f8a6b5230c0a16dd1e4b591fbc62913b163ad4) | 제외한 문서 사이트 계보(1d3bbc63 #37330)의 docs/develop 플러그인 interactive dialogs 문서만 수정 — 대상 파일이 HEAD에 없음 |
 
+| bfe09954 | [fix(e2e): restore PrivacySettings.ShowFullName and ShowEmailAddress in the per-test config reset (#39497)](https://github.com/mattermost/mattermost/commit/bfe09954b91d907ace9abff860ad4b0793f20afd) | 포크 e2e-tests/playwright/lib/src/server/init.ts는 updateConfig(getOnPremServerConfig())로 전체 설정을 교체해 PrivacySettings 기본값(true)이 테스트마다 복원된다. 누수의 원인인 부분 패치 방식(getOnPremServerConfigPatch)은 제외한 fe9a36e8(#38367) 계보라 포크에 없다. 그 계보를 들이면 이 수정도 필요하다. |
+
+| 2400aa0a | [fix(e2e): click Compass Switch labels instead of forcing clicks on their inputs (#39372)](https://github.com/mattermost/mattermost/commit/2400aa0acd9f76ca2cf5440139159b30bf9d38a8) | 제외한 Compass Switch 이관 e3d074ff(#39038)이 넣은 check({force: true}) 패턴을 고치는 후속 커밋이다. 포크는 Compass Switch가 없고 해당 파일들에 force: true도 없다. channel_classification.spec.ts도 제외한 23b4d827(#36490) 계보라 없다. compass-ui를 수용할 때 함께 재검토한다. |
+
+| 841f199a | [Desktop App v5.13.8, v6.2.5 and v6.3.2 dot release docs (#39450)](https://github.com/mattermost/mattermost/commit/841f199a96e3f0d2eca47a7c38f1610270c2881b) | 제외한 문서 사이트 계보 1d3bbc63(#37330)의 docs/main 파일만 고친다. Mattermost 공식 데스크톱 앱 릴리스의 버전·링크·변경 이력이라 포크에 반영할 대상이 없다. |
+
+| f3c8c6f0 | [chore: Update NOTICE.txt file with updated dependencies (#39591)](https://github.com/mattermost/mattermost/commit/f3c8c6f0088d2ede7a3f15cc35bfcd3b3b04789b) | NOTICE.txt에 @mattermost/compass-ui 고지(10줄)만 추가하는 자동 커밋이다. 우리는 이 패키지를 번들하지 않는다(70658e18 #38153 제외). 선례는 7532e0ba(#38997)이다. compass-ui를 수용할 때 함께 들인다. |
+
+| 621cfdf4 | [Let plugins mark channels as boards, so the webapp calls them boards (#39463)](https://github.com/mattermost/mattermost/commit/621cfdf46948ae2229f4f3e0f0dee25ea84ebdf7) | 공식 Integrated Boards 플러그인용 확장점과 보드 문구 묶음이다. 제외한 48f2fd08(#35796), 263b3c11(#36569), 4255e314(#35591), 직접 선행 e93c0987(#39457) 계보 위에 있어 HEAD에 토대 심볼이 없다(registerChannelTypeOption, registerChannelSettingsTab, channel_attributes/ 모두 0). 이 저장소에 호출자가 없고 113파일 규모다. 자체 Boards에 보드 문구가 필요해지면 별도 spec으로 설계한다. |
+
+| 81eeff50 | [Keep AttributeView for 11.10 servers running against a 12.x database (#39267)](https://github.com/mattermost/mattermost/commit/81eeff505e895c0a87cb8f0b3f335dac4230e660) | 11.10 서버 호환용 임시 마이그레이션이다. 고치는 대상인 000216(뷰 삭제)은 제외한 c3a5a087(#37755) 계보이고, 000242가 참조하는 PropertyOptions 테이블도 포크에 없다. 포크의 AttributeView는 000137 정의 그대로 유지되어 삭제된 적이 없다. property 시스템 v2 계보를 들일 때 함께 재검토한다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -914,6 +908,8 @@
 | 4527f4c1 | [mmctl scoped team/channel import: report users not found on destination server (#39344)](https://github.com/mattermost/mattermost/commit/4527f4c1c593369d639139982a33ed522314f637) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 41c482b4의 후속. scoped import에서 대상 서버에 없는 사용자·팀 멤버십·채널 멤버십을 ImportReport.UnmatchedUsers(username·auth service·team·channel·reason·action)로 모아 import_process 워커가 import 파일 옆 CSV로 쓰고 job에 개수·경로 기록, mmctl import process·job show가 표시. 없는 팀은 getTeamsByNames 전부-아니면-전무 조회 대신 개별 해석해 team_not_found로 건너뛰고 기록(17파일 +786/-55). 41c482b4가 만드는 app/imports/import_report.go·import_resume_test.go·import_imported_users_test.go 위에 얹혀 지금은 merge-tree CONFLICT 10건. docs/main/.../bulk-loading-data.mdx는 문서 사이트 계보 제외로 버린다. spec 구현 시 함께 반영하고 구현 커밋 본문에 Upstream 링크 기재. |
 
 | caaec8cd | [Add a button to quote text selected in a message (#39237)](https://github.com/mattermost/mattermost/commit/caaec8cda5e34866ccb2f7a4eb93e9dee585601c) | 메시지 선택 영역 인용 버튼 (가칭) — 27파일 +2013 신규 기능. upstream은 Textbox·TipTap에 삽입하지만 우리 입력창은 LexicalTextEditor이고 ValueSyncPlugin이 초기값·비우기만 동기화하므로 Lexical 삽입·커서 코드를 새로 설계해야 한다. 선택 판정·버튼·draft 상태·quote.ts·Turndown 멘션 규칙은 재사용 가능. jsdom에서 Lexical 입력 재현 불가라 브라우저 검증 필요 |
+
+| 36ebc1f6 | [Add Preview/Code toggle for Markdown file previews and code blocks (#39378)](https://github.com/mattermost/mattermost/commit/36ebc1f6fc024e0c15d24e5dd925f7daf2ce88ad) | markdown-preview-toggle (가칭, compass-ui 없이 재구현 필요) |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
