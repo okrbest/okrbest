@@ -5020,3 +5020,20 @@ upstream이 `en.json`에서 지운 키를 `ko.json`에서도 지웠다. 고아 �
 | `api.server.hosted_signup_unavailable.error` | 자체 호스팅 가입을 위한 포탈을 사용할 수 없습니다. |
 | `app.file.cloud.get.app_error` | 클라우드 플랜의 한도를 초과하여 파일을 가져올 수 없습니다. |
 | `app.last_accessible_file.app_error` | 마지막 접근 가능한 파일을 가져오는 중 오류가 발생했습니다. |
+
+## 2026-11-05 두 번째 sync에서 지운 `ko.json` 번역
+
+upstream `4028643a` 다음 로그 뷰어 커밋(#39478)과 Cloud Starter 정리(#39531)가 `en.json`에서 지운 키다. CI의 orphaned 검사를 통과하려고 `ko.json`에서도 지웠다. 같은 키를 되살릴 때 아래 번역을 쓴다.
+
+### `webapp/channels/src/i18n/ko.json` (8개)
+
+| 키 | 번역 |
+|---|---|
+| `admin.logs.copiedLine` | 복사했습니다! |
+| `admin.logs.download` | 다운로드 |
+| `admin.logs.plain.loading` | 로그 불러오는 중 |
+| `admin.logs.reload` | 다시 로드 |
+| `admin.logs.showingMatching` | 필터와 일치하는 항목 {matches, number}개 중 {start, number} - {end, number} 표시 중(전체 {total, number}개) |
+| `admin.openid_custom_feature_discovery.copy` | Apple, Okta, OneLogin 등 OIDC 사양을 지원하는 모든 서비스와 인증 및 SSO(Single Sign-On)를 위해 OpenID Connect를 사용하세요. |
+| `admin.openid_custom_feature_discovery.title` | OKR.BEST Professional과 OpenID Connect 통합하기 |
+| `menu.cloudFree.postTrial.tryEnterprise` | 제한 없는 플랜과 고급 보안 기능에 관심이 있으신가요? <openModalLink>플랜 보기</openModalLink> |
