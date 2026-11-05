@@ -4969,6 +4969,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `docs/main/administration-guide/configure/plugins-configuration-settings.mdx` | 설정 항목 추가 | 새 설정의 true/false 의미, 새 설치 기본 true, config 경로 `PluginSettings.RestrictUnauthenticatedWebappPlugins`. | 같다 |
 | `e2e-tests/playwright/upgrade-specs/` 3파일 | 업그레이드 검증 추가 | 기존 설치를 올리면 설정이 false로 유지되어 비로그인 플러그인 목록이 그대로인지 확인한다. | 롤링 업그레이드 계보(`fe9a36e8`)를 들일 때 |
 | `migrations.go` 키 목록 문맥 | `managedCategory*`·`boardsProperty*`·`cpaToGlobalAttributes*` 키 | 이 커밋의 변경이 아니라 문맥이다. 포크에 없는 키라 들이지 않았다. | 해당 계보를 들일 때 |
+| `migrations.go` 함수 문맥 | `systemCallerContext` | 이 커밋의 변경이 아니라 `3525e8fa`(#39081)가 넣은 문맥이다. 호출하는 Boards·Session Attributes·Managed Category 마이그레이션이 포크에 없어 미사용 lint 오류가 났고, 후속 커밋으로 지웠다. 설정 마이그레이션이 property 필드를 쓰고 읽을 때 호출자 ID를 담은 컨텍스트를 만드는 함수다. | 해당 계보를 들일 때 |
 | `e2e-tests/playwright/lib/src/index.ts`·`server/index.ts` 문맥 | `upgradeServerImage`·`saveUpgradePhaseLogs`·`ensureDemoPlugin`·`defaultEnabledPluginIds`·`disableUnexpectedPlugins` export | 위와 같다. 새 웹앱 플러그인 헬퍼 export만 넣었다. | 같다 |
 | `plugin_management.ts` POM 문맥 | `pluginFileInput`, `uploadButton` | 이번 스펙에 쓰지 않아 들이지 않았다. | 플러그인 업로드 스펙을 들일 때 |
 

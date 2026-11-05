@@ -642,20 +642,6 @@ func (s *Server) doRestrictUnauthenticatedWebappPluginsConfigMigration() error {
 	return nil
 }
 
-// systemCallerContext is the request context a setup migration writes and reads
-// property fields with. The access control hook gates every PSAv2/v3 group and
-// refuses a caller that names nobody, so a migration installing or upgrading a
-// group's builtin field definitions has to identify itself. Each migration
-// passes its own subsystem identity and is admitted only on the group that
-// identity owns, so one subsystem's migration cannot touch another's schema.
-//
-// A PSAv1 group's migration needs none of this: the hook never reaches it, and
-// doSetupContentFlaggingProperties passes a nil context for that reason.
-func (s *Server) systemCallerContext(callerID string) request.CTX {
-	rctx := request.EmptyContext(s.Log())
-	return rctx.WithContext(model.WithCallerID(rctx.Context(), callerID))
-}
-
 func (s *Server) doSetupContentFlaggingProperties() error {
 	// This migration is designed in a way to allow adding more properties in the future.
 	// When a new property needs to be added, add it to the expectedPropertiesMap map and
