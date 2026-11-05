@@ -140,6 +140,7 @@
 | 팀당 최대 사용자·채널 수 0 허용 | [c57388e7](https://github.com/mattermost/mattermost/commit/c57388e7c1a7751f3b2197766b4da22302362f7f) (#39110) | 코드·테스트·문구는 그대로 받았다. 포크에 없는 Space 채널 조건과 문맥(`EnableChannelCategorySorting`, ChannelAttributes·Space 테스트)을 뺐다. |
 | 안 읽은 채널까지 접는 사이드바 설정 | [71bd2fb0](https://github.com/mattermost/mattermost/commit/71bd2fb039327802ddeb2a1f157d7217860f9df1) (#39439) | 기능·테스트·Playwright 스펙은 그대로 받았다. `docs/main` 2파일은 문서 사이트 계보 제외로 버렸고, 제외 계보의 Boards 사이드바 문맥을 뺐다. |
 | 코드 블록 구문 강조 처리 | [06ab8d2c](https://github.com/mattermost/mattermost/commit/06ab8d2cffe974ec1595224681e34c360110cb0e) (#38680) | 강조 제한·태스크 분할·취소 처리는 그대로 받았다. spec으로 넘긴 마크다운 토글(`36ebc1f6`) 코드와 그 테스트를 뺐다. |
+| 최신 마이너 버전 12.2.0 | [bc15e733](https://github.com/mattermost/mattermost/commit/bc15e733bd58e9e08c2aa04a1bc123c7821856c1) (#39729) | 버전 줄만 받았다. 문맥의 `compass-ui`와 포크보다 앞선 의존성 버전은 들이지 않았다. |
 
 ---
 
@@ -5048,6 +5049,21 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `code_preview.tsx` | `isMarkdownFile`, `canToggleMarkdownPreview`, 렌더링 분기, `code-preview--fixed-size` 클래스 | 마크다운 파일은 두 보기 모두 고정 크기 상자를 쓰고 라벨을 그리지 않으며, 렌더링 보기면 `Markdown`으로 그린다. 문맥이지 이 커밋의 변경이 아니다. | 토글 구현 때 |
 | `code_preview.test.tsx` | `components/CodePreview markdown files` describe 전체(8건) | 원본 보기 강조, 렌더링 보기, 보기 전환 시 재요청 없음, 모바일은 원본, 고정 크기 상자, `canToggleMarkdownPreview` 판정을 확인한다. | 토글 구현 때 |
 | `code_block.test.tsx` | `ToggleableCodeBlock`, `markdown code blocks` describe 전체 | 마크다운 블록의 토글 표시, 저장한 보기 유지, 복사 시 원본 유지, 검색 결과에서 렌더링 금지, 중첩 토글 금지를 확인한다. | 토글 구현 때 |
+
+## 최신 마이너 버전 12.2.0 — Compass와 앞선 의존성 문맥을 뺐다
+
+**upstream**: [`bc15e733`](https://github.com/mattermost/mattermost/commit/bc15e733bd58e9e08c2aa04a1bc123c7821856c1)
+(Update latest minor version to 12.2.0, #39729) — 8파일 +29/-28, 2026-11-05 반영(사용자 결정 adapt)
+
+**우리 맞춤.** 파일별 변경 줄 수는 upstream과 같다. `package-lock.json`은 `npm install`로 재생성하지 않고 워크스페이스 버전과 `@mattermost/{client,shared,types}` 줄만 고쳤다.
+
+**버린 것.** 모두 이 커밋의 변경이 아니라 충돌 구간의 문맥이다.
+
+| 위치 | upstream 값 | 포크 값 | 되살릴 조건 |
+|---|---|---|---|
+| `webapp/channels/package.json`·lock | `@mattermost/compass-ui` 0.1.0-alpha.25 | 없음(라이선스 문제로 제외) | Compass 제외를 풀 때 |
+| `webapp/channels/package.json`·lock | `@mattermost/desktop-api` 6.3.0-2 | 6.2.0-1 | 해당 의존성 커밋을 들일 때 |
+| `webapp/platform/components/package.json`·lock | `@babel/runtime-corejs3` ^7.29.10, `compass-icons` 0.1.64, `classnames` ^2.5.1, `compass-ui` | ^7.17.8, 0.1.61, ^2.3.1, 없음 | `4ca793bd` 등 의존성 갱신을 들일 때 |
 
 ## 2026-11-05 sync에서 지운 `ko.json` 번역
 
