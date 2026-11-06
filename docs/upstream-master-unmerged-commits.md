@@ -3,11 +3,11 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-06 00:19
+- 갱신일: 2026-11-06 11:09
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
 - 남은 커밋: 0개
 
-**마지막 반영 커밋:** `bc15e733` | [Update latest minor version to 12.2.0 (#39729)](https://github.com/mattermost/mattermost/commit/bc15e733bd58e9e08c2aa04a1bc123c7821856c1) | 2026-11-05
+**마지막 반영 커밋:** `4d0faf21` | [Use Compass Combobox for System Console and Bots custom select and multiselect attributes (#39574)](https://github.com/mattermost/mattermost/commit/4d0faf214848b5025687ab799086cffe973c4bf1) | 2026-11-05
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
@@ -876,6 +876,16 @@
 | b1ce58c5 | [Add dot release docs for server v12.0.2, v11.11.4, v11.10.5, v11.7.15, v10.11.26 (#39644)](https://github.com/mattermost/mattermost/commit/b1ce58c5bd465cd26dddec539c1f920c0b3eee45) | docs/main 문서 사이트 계보(1d3bbc63 제외)의 Mattermost 공식 패치 릴리스 changelog·다운로드 안내. 7파일 모두 포크에 없다 |
 
 | 1b7e14fe | [MM-68613: document message column resize only on fresh installations (#39369)](https://github.com/mattermost/mattermost/commit/1b7e14febfa6b023e66664c4b8b51e5fa2d8398f) | docs/main 문서 사이트 계보(1d3bbc63 제외)의 안내 수정. 관련 코드 #39332는 포크에 있으며(da809e4b), 메시지 최대 길이는 새 설치만 262,144자이고 기존 설치는 열 크기를 유지한다 |
+
+| dd5fe019 | [fix(e2e): wait for the select attribute menu to take clicks in user_settings.spec.ts (#39735)](https://github.com/mattermost/mattermost/commit/dd5fe019336a255d5d641ecbca8844fc91c745c8) | 제외한 965c282e(#39481, Compass Combobox 이관)가 추가한 테스트의 타이밍 수정. 해당 테스트와 Compass 팝업이 포크에 없다(compass-ui 라이선스 없음, 2026-10-18 제외 결정). |
+
+| c7ae9d59 | [\[MM-70661\] Load the Global Attributes listing from one search endpoint (#39500)](https://github.com/mattermost/mattermost/commit/c7ae9d590d359d295ed1d11454ca00f3c1c04b72) | 제외한 Global Attributes(Attribute Management) 계보(뿌리 38b66d22 #37580, property 시스템 v2 48f2fd08 위)의 목록 API·화면 개편이라 얹을 토대가 없다. 터치 파일 38개 중 27개가 포크에 없다. api.go·store.go 변경도 이 기능의 라우터와 메서드 추가뿐이다. |
+
+| 10e1a4be | [\[MM-70662\] Filter the Global Attributes listing by source (#39503)](https://github.com/mattermost/mattermost/commit/10e1a4be4f60f6eafd30552c84e6cac069c826b2) | 제외한 c7ae9d59(#39500, Global Attributes 목록 API·화면)의 출처 필터라 얹을 대상이 없다. 터치 파일 27개 중 24개가 포크에 없고, 나머지 3개(storetest·en.json·client4.test.ts)도 이 기능용 변경뿐이다. |
+
+| b4465ee1 | [\[MM-70663\] Filter the Global Attributes listing by resource type (#39506)](https://github.com/mattermost/mattermost/commit/b4465ee19e8e41adb504af7511e3fb4791846a1f) | 제외한 c7ae9d59(#39500)·10e1a4be(#39503) Global Attributes 목록·출처 필터의 후속인 리소스 유형 필터라 얹을 대상이 없다. 터치 파일 26개 중 23개가 포크에 없고, 나머지 3개(storetest·en.json·client4.test.ts)도 이 기능용 변경뿐이다. |
+
+| 4d0faf21 | [Use Compass Combobox for System Console and Bots custom select and multiselect attributes (#39574)](https://github.com/mattermost/mattermost/commit/4d0faf214848b5025687ab799086cffe973c4bf1) | Compass Combobox 이관(compass-ui alpha.26 올림 포함). compass-ui는 라이선스가 없어 제외했고(2026-10-18 결정), 앞 단계 965c282e(#39481)와 attribute_combobox 등 9개 파일도 포크에 없다. menu.tsx container prop은 포크에 쓸 곳이 없고, user_settings_general.tsx 변경은 Combobox 작업의 일부다. |
 
 ## spec 전환 커밋
 
