@@ -33,6 +33,16 @@ type SqlChannelStore struct {
 	channelMembersForTeamWithSchemeSelectQuery sq.SelectBuilder
 }
 
+// messageChannelTypes is the allow-list of channel types that participate in
+// regular messaging. Lookups, lists, and search use this so that any newly
+// introduced non-message channel type (e.g. boards) is excluded by default.
+var messageChannelTypes = []model.ChannelType{
+	model.ChannelTypeOpen,
+	model.ChannelTypePrivate,
+	model.ChannelTypeDirect,
+	model.ChannelTypeGroup,
+}
+
 type channelMember struct {
 	ChannelId          string
 	UserId             string

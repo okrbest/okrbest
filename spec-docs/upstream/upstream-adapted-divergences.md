@@ -145,6 +145,7 @@
 | Markdown 미리보기·코드 전환 | [36ebc1f6](https://github.com/mattermost/mattermost/commit/36ebc1f6fc024e0c15d24e5dd925f7daf2ce88ad) (#39378) | spec 032로 반영. compass-ui 대신 `components/compass_shim`, 포크 이미지 확대 코드 유지, 스냅샷 재생성 — 아래 참조 |
 | 플러그인 Channel Info·북마크 메뉴 항목 | [1a518841](https://github.com/mattermost/mattermost/commit/1a518841fb48410b0b5e2fcdd9ab892e962aaa17) (#39613) | 확장점 두 개와 테스트는 그대로 받았다. 충돌 문맥으로 섞인 제외 계보(채널 설정 탭·Boards·compass-ui IconButton) 코드를 뺐고, 새 테스트 레이블을 포크 "Bookmarks"에 맞췄다 — 아래 참조 |
 | 팀 상세 고급 CEL 편집기 | [60cf157a](https://github.com/mattermost/mattermost/commit/60cf157a9ac10dbf0cd0a47d96f937abc19e9b74) (#39062) | 서버 가드·편집기 전환·잠금은 받았다. 제외 계보 헬퍼 둘(`toCELEditorAttributes`·`referencesResourceAttributes`)을 로컬로 두고, Session Attributes·rank·Boards 문맥과 Compass Switch 토글 방식을 뺐다 — 아래 참조 |
+| 플러그인 API GetSharedChannelCursor | [1381b881](https://github.com/mattermost/mattermost/commit/1381b881f4908381a3dd50aa40aa8a1c955bd320) (#39756) | API·store·생성 코드는 그대로 받았다. 제외한 Space 계보가 정의한 `messageChannelTypes`를 sqlstore에 새로 두고, `ChannelTypeSpace` 서브테스트 하나를 뺐다 — 아래 참조 |
 
 ---
 
@@ -5279,3 +5280,22 @@ upstream `4028643a` 다음 로그 뷰어 커밋(#39478)과 Cloud Starter 정리(
 | `team/details/team_level_access_rules.test.tsx` | `the table editor gets no session attributes` | 같음 | 같음 |
 
 **판정에서 뺀 것.** 새 Playwright 스펙 셋(`team_advanced_rules.spec.ts`·`team_advanced_rules_flag_off.spec.ts`·`channel_settings_access_rules_locked.spec.ts`)은 들였지만 돌리지 않았다. Enterprise 라이선스와 ABAC 엔진이 있어야 동작한다.
+
+## 플러그인 API GetSharedChannelCursor — 제외 계보의 채널 타입 허용 목록을 새로 두고 Space 테스트를 뺐다
+
+**upstream**: [`1381b881`](https://github.com/mattermost/mattermost/commit/1381b881f4908381a3dd50aa40aa8a1c955bd320)
+(MM-71217: Add GetSharedChannelCursor plugin API, #39756) — 14파일 +471/-2, 2026-11-10 sync 반영(사용자 결정 adapt)
+
+merge-tree는 CLEAN이었지만 빌드가 깨졌다. 새 코드가 제외한 [`5f7f967a`](https://github.com/mattermost/mattermost/commit/5f7f967a7dbfbfe3fe7dae96ad6b7142268be5bc)(MM-69268 ChannelTypeSpace, #37321)의 식별자 두 개에 기댄다. 플러그인 API·app·store·생성 코드(retrylayer·timerlayer·mocks·RPC·plugintest)는 그대로 받았다. `make store-layers`·`store-mocks`·`plugin-mocks`·`pluginapi` 재생성 diff는 0이다.
+
+**우리 맞춤.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `sqlstore/channel_store.go` | `messageChannelTypes`는 `5f7f967a`가 정의했다(같은 파일, `nonMessageBackingChannelTypes`와 함께) | 같은 이름·같은 값(`O`·`P`·`D`·`G`)으로 새로 정의했다. 포크에 다른 채널 타입이 없어 `GetRemoteByIdsFromMaster`의 필터는 "채널이 존재하는가"로만 동작한다 | Space 계보 `5f7f967a`를 들일 때 이 정의를 지우고 upstream 정의를 쓴다 |
+
+**버린 것.**
+
+| 위치 | upstream 코드 | 버린 내용 요지 | 되살릴 조건 |
+|---|---|---|---|
+| `storetest/shared_channel_store.go` `testGetSharedChannelRemoteByIds` | `t.Run("Get shared channel remote by ids from master for non-message channel type", …)` 약 22줄 | 채널을 만들고 remote를 붙인 뒤 `Type`을 `model.ChannelTypeSpace`로 바꾼다. `GetRemoteByIds`(replica, 타입 무관)는 그 remote를 돌려주고, `GetRemoteByIdsFromMaster`는 메시지 채널 타입이 아니라서 `ErrNotFound`를 낸다는 테스트다. 포크에 `ChannelTypeSpace`가 없어 컴파일되지 않는다 | Space 계보 `5f7f967a`를 들일 때 upstream 테스트를 그대로 되살린다 |
