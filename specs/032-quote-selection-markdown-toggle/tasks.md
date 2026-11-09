@@ -137,7 +137,7 @@ US1과 US2~US4 사이에 공통 선행 작업은 없다. US2~US4의 선행 작�
 - [X] T036 [P] ledger 확인 — 구현 커밋 본문의 `Upstream:` 링크가 `upstream-sync.sh`의 처리 완료 패턴에 잡히는지 확인한다(master 병합 뒤 `update`가 미반영 목록에서 자동 차감). "spec 전환 커밋" 부록 줄은 관례대로 남긴다(구현을 마친 029·007 커밋도 부록에 남아 있고, 부록 줄은 처리 완료 표시 역할도 한다). 처음 과제 문구(두 줄 삭제)는 이 관례와 맞지 않아 고쳤다
 - [X] T037 [P] divergences 기록 — `docs/upstream-adapted-divergences.md`에 두 커밋 요약 행과 절을 추가: Lexical 인용 삽입(원문 노드, 포크 QUOTE transformer, Textbox 분기 결정), compass_shim 교체 4파일, 버린 파일(TipTap 2개, wysiwyg Playwright 스펙, mdx 2개, 제외 계보 문맥), 판정에서 뺀 Playwright 스펙과 이유, 원형에서 바꾼 테스트·스냅샷. "코드 블록 구문 강조 처리" 절 "버린 것" 표에 되살렸다고 적는다(메모리: sync 버린 코드 기록)
 - [X] T038 커밋 — `docs: 인용·Markdown 전환 반영 기록`(T034~T037 산출물 포함)
-- [ ] T039 마무리 — superpowers `finishing-a-development-branch`로 PR 여부를 사용자에게 확인. PR은 rebase merge, 본문에 두 Upstream 링크와 `specs/032-quote-selection-markdown-toggle/evidence/sc-results.md` 요약
+- [X] T039 마무리 — superpowers `finishing-a-development-branch`로 PR 여부를 사용자에게 확인. PR은 rebase merge, 본문에 두 Upstream 링크와 `specs/032-quote-selection-markdown-toggle/evidence/sc-results.md` 요약
 
 ---
 
