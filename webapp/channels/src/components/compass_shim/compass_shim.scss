@@ -1,0 +1,92 @@
+// okrbest: styles for the compass-ui IconButton/Icon stand-ins (icon_button.tsx). Sizes, radius and hover follow
+// upstream's Compass icon buttons as used in 36ebc1f6.
+
+// Compass motion tokens that upstream styles (markdown_view_toggle.scss) rely on and the fork doesn't define
+:root {
+    --duration-moderate: 200ms;
+    --ease-transition: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.compass-shim-icon-button {
+    --compass-shim-icon-button-size: 32px;
+    --compass-shim-icon-size: 18px;
+    --compass-shim-icon-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
+    --compass-shim-icon-button-hover-bg: rgba(var(--center-channel-color-rgb), 0.08);
+    --compass-shim-icon-button-active-bg: rgba(var(--button-bg-rgb), 0.08);
+    --compass-shim-icon-button-active-fg: var(--button-bg);
+
+    display: inline-flex;
+    width: var(--compass-shim-icon-button-size);
+    height: var(--compass-shim-icon-button-size);
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-s);
+    margin: 0;
+    background: transparent;
+    color: var(--icon-button-fg, var(--compass-shim-icon-button-fg));
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover:not(:disabled) {
+        background-color: var(--compass-shim-icon-button-hover-bg);
+        color: var(--icon-button-fg, var(--compass-shim-icon-button-fg));
+        text-decoration: none;
+    }
+
+    &:active:not(:disabled) {
+        background-color: var(--compass-shim-icon-button-active-bg);
+        color: var(--icon-button-fg, var(--compass-shim-icon-button-active-fg));
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &:focus-visible {
+        box-shadow: inset 0 0 0 2px var(--button-bg);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.32;
+    }
+
+    // small + compact: 28px, matches the code block overlay controls
+    &--padding-compact {
+        --compass-shim-icon-button-size: 28px;
+    }
+
+    // medium + compact: 36px, the file preview header and footer
+    &--size-medium {
+        --compass-shim-icon-button-size: 40px;
+        --compass-shim-icon-size: 20px;
+    }
+
+    &--size-medium#{&}--padding-compact {
+        --compass-shim-icon-button-size: 36px;
+    }
+
+    &--style-inverted {
+        --compass-shim-icon-button-fg: rgba(var(--sidebar-text-rgb), 0.64);
+        --compass-shim-icon-button-hover-bg: rgba(var(--sidebar-text-rgb), 0.16);
+        --compass-shim-icon-button-active-bg: rgba(var(--sidebar-text-rgb), 0.24);
+        --compass-shim-icon-button-active-fg: var(--sidebar-text);
+    }
+}
+
+.compass-shim-icon {
+    display: inline-flex;
+    width: var(--compass-shim-icon-size, 18px);
+    height: var(--compass-shim-icon-size, 18px);
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        width: 100%;
+        height: 100%;
+        fill: currentColor;
+    }
+}
