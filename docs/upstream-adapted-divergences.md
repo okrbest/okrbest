@@ -141,6 +141,8 @@
 | 안 읽은 채널까지 접는 사이드바 설정 | [71bd2fb0](https://github.com/mattermost/mattermost/commit/71bd2fb039327802ddeb2a1f157d7217860f9df1) (#39439) | 기능·테스트·Playwright 스펙은 그대로 받았다. `docs/main` 2파일은 문서 사이트 계보 제외로 버렸고, 제외 계보의 Boards 사이드바 문맥을 뺐다. |
 | 코드 블록 구문 강조 처리 | [06ab8d2c](https://github.com/mattermost/mattermost/commit/06ab8d2cffe974ec1595224681e34c360110cb0e) (#38680) | 강조 제한·태스크 분할·취소 처리는 그대로 받았다. spec으로 넘긴 마크다운 토글(`36ebc1f6`) 코드와 그 테스트를 뺐다. |
 | 최신 마이너 버전 12.2.0 | [bc15e733](https://github.com/mattermost/mattermost/commit/bc15e733bd58e9e08c2aa04a1bc123c7821856c1) (#39729) | 버전 줄만 받았다. 문맥의 `compass-ui`와 포크보다 앞선 의존성 버전은 들이지 않았다. |
+| 메시지 선택 영역 인용 | [caaec8cd](https://github.com/mattermost/mattermost/commit/caaec8cda5e34866ccb2f7a4eb93e9dee585601c) (#39237) | spec 032로 반영. TipTap·Textbox 대신 Lexical 입력창에 `appendQuote`를 만들고, 원문을 그대로 내보내는 노드와 빈 줄 `>` 인용 transformer를 더했다 — 아래 참조 |
+| Markdown 미리보기·코드 전환 | [36ebc1f6](https://github.com/mattermost/mattermost/commit/36ebc1f6fc024e0c15d24e5dd925f7daf2ce88ad) (#39378) | spec 032로 반영. compass-ui 대신 `components/compass_shim`, 포크 이미지 확대 코드 유지, 스냅샷 재생성 — 아래 참조 |
 
 ---
 
@@ -5042,7 +5044,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 
 **우리 맞춤.** `syntax_highlighting.tsx`, `code_block.tsx`, 대형 입력 테스트, `message_channel` 헬퍼는 upstream 그대로다. `code_preview.tsx`에는 취소 처리와 제목 변경만 포크 구조에 맞춰 넣었다. 포크의 미리보기는 upstream과 달리 언어 라벨을 항상 그린다.
 
-**버린 것.** `markdown-preview-toggle`(`36ebc1f6` #39378)을 구현할 때 다시 맞춘다.
+**버린 것.** `markdown-preview-toggle`(`36ebc1f6` #39378)을 구현할 때 다시 맞춘다. **2026-11-09 spec 032에서 아래 표의 세 항목을 모두 되살렸다**(`code_preview.tsx`·`code_preview.test.tsx`·`code_block.test.tsx`는 `upstream/master` 판과 같고, 포크 차이는 `LoadingSpinner size='24'` 한 줄뿐이다 — "Markdown 미리보기·코드 전환" 절 참조).
 
 | 위치 | upstream 코드 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
@@ -5167,3 +5169,56 @@ upstream `4028643a` 다음 로그 뷰어 커밋(#39478)과 Cloud Starter 정리(
 | `admin.openid_custom_feature_discovery.copy` | Apple, Okta, OneLogin 등 OIDC 사양을 지원하는 모든 서비스와 인증 및 SSO(Single Sign-On)를 위해 OpenID Connect를 사용하세요. |
 | `admin.openid_custom_feature_discovery.title` | OKR.BEST Professional과 OpenID Connect 통합하기 |
 | `menu.cloudFree.postTrial.tryEnterprise` | 제한 없는 플랜과 고급 보안 기능에 관심이 있으신가요? <openModalLink>플랜 보기</openModalLink> |
+
+## 메시지 선택 영역 인용 — Lexical 입력창에 인용 삽입을 새로 만들었다
+
+**upstream**: [`caaec8cd`](https://github.com/mattermost/mattermost/commit/caaec8cda5e34866ccb2f7a4eb93e9dee585601c)
+(Add a button to quote text selected in a message, #39237) — 27파일 +2013, 2026-11-09 반영(spec 032, 커밋 `ae761f9357`)
+
+**우리 맞춤.** 인용 버튼, 선택 판정, `quote.ts`, draft 상태(`pendingQuote`), 셀렉터, turndown 멘션 규칙은 upstream 그대로다. upstream은 인용문을 TipTap(`WysiwygEditorHandle.appendQuote`)이나 Textbox(draft 메시지 교체)에 넣는다. 포크 입력창은 Lexical 하나뿐이라 아래를 새로 만들었다.
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `lexical_editor/lexical_text_editor.tsx` | (없음) `WysiwygEditorHandle.appendQuote` | `LexicalTextEditorHandle.appendQuote` — 인용 블록 + 빈 문단, 커서는 빈 문단 | 포크가 Lexical을 쓰는 동안 유지 |
+| `lexical_editor/nodes/quoted_markdown_text_node.ts`(신규) | (없음) | 인용한 Markdown을 담는 `TextNode`. 일반 텍스트는 Lexical 0.40이 `*`·`_`·백틱을 이스케이프하므로 이 노드는 text-match transformer `QUOTED_MARKDOWN_TEXT`로 원문 그대로 내보낸다 | 같음 |
+| `lexical_editor/config/markdown_transformers.ts` | (없음) | 기본 `QUOTE` 대신 `CHANNELS_QUOTE` — 인용 안 빈 줄을 `> ` 대신 `>`로 내보낸다(upstream `formatQuote`와 같게). 사용자가 직접 친 인용에도 적용된다. 렌더링 결과는 같다 | 같음 |
+| `advanced_text_editor/use_pending_quote.tsx` | `wysiwygRef: RefObject<WysiwygEditorHandle>` | 타입만 `QuotableEditorHandle = Pick<LexicalTextEditorHandle, 'appendQuote'>`. 본문·시그니처·Textbox 분기는 그대로(다음 sync 충돌을 줄이려고) | upstream이 이 훅을 바꾸면 타입 줄만 다시 맞춘다 |
+| `advanced_text_editor/advanced_text_editor.tsx` | `usePendingQuote(…, textboxRef, wysiwygRef)` | `usePendingQuote(…, noTextboxRef, lexicalEditorRef)` — Textbox가 없으니 비어 있는 ref | 같음 |
+| `advanced_text_editor.test.tsx` 인용 3건 | `getByTestId('post_textbox')` + `toHaveValue('…> …')` | id로 찾고 인용 블록(`.markdown__quote`)·텍스트로 단언, Lexical microtask를 `await act`로 기다림 | 포크 입력창에 `data-testid`·textarea 값이 생기면 |
+
+**같음의 기준.** 전송 Markdown이 upstream `appendQuoteToMessage(기존, 선택)`과 같다. 끝 공백·끝 빈 줄만 다르다(upstream이 커서 줄로 붙이는 `\n\n`). `lexical_editor/utils/append_quote.test.ts` 7경우와 실주행(spec 032 evidence/us1.md)이 확인한다.
+
+**버린 것.**
+
+| 위치 | 내용 | 되살릴 조건 |
+|---|---|---|
+| `wysiwyg_editor/wysiwyg_editor.tsx`, `wysiwyg_editor_interactions.test.tsx` | TipTap `appendQuote`와 그 테스트 | TipTap 작성기(제외한 0fa2713b 계보)를 들일 때 |
+| `e2e-tests/playwright/.../wysiwyg_editor/quote_selection.spec.ts` | TipTap 인용 e2e | 같음 |
+| 충돌 문맥 | `advanced_text_editor.test.tsx`의 `composer placeholder` describe, `types/store/views.ts`의 `ProductRailSection`·`ProductRailTab` | 해당 계보를 들일 때 |
+
+**판정에서 뺀 것.** `e2e-tests/playwright/.../messaging/quote_selection.spec.ts`·`_helpers.ts`는 들였지만 돌리지 않는다. `post_textbox` testid의 `toHaveValue`를 단언하는데 포크 Lexical 입력창에는 그 testid가 없다(메모리 playwright-e2e-fork-gaps).
+
+## Markdown 미리보기·코드 전환 — compass-ui를 대체 컴포넌트로 바꿨다
+
+**upstream**: [`36ebc1f6`](https://github.com/mattermost/mattermost/commit/36ebc1f6fc024e0c15d24e5dd925f7daf2ce88ad)
+(Add Preview/Code toggle for Markdown file previews and code blocks, #39378) — 49파일 +2096/-211, 2026-11-09 반영(spec 032, 커밋 `7daa28e350`·`48c03eee81`)
+
+**우리 맞춤.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `components/compass_shim/`(신규) | `@mattermost/compass-ui` `IconButton`·`Icon` | 같은 이름·props(`size`·`padding`·`style`·`asChild`)의 대체 컴포넌트. 클래스 `compass-shim-icon-button--*`. 포크에 없는 Compass 토큰 `--duration-moderate`·`--ease-transition`을 `:root`에 정의 | compass-ui 수용 시 import 경로를 되돌리고 이 디렉터리를 지운다 |
+| `copy_button.tsx`, `file_preview_modal_main_actions.tsx`, `file_preview_modal_main_nav.tsx`, `markdown_view_toggle.tsx` | compass-ui import | import 경로만 `components/compass_shim/...` | 같음 |
+| `channels/eslint.config.mjs` | `react/style-prop-object` allow `['Timestamp', 'IconButton']` | 같게 맞췄다(포크는 `['Timestamp']`였다) | — |
+| `file_preview_modal.tsx` | 상태에 `translate`·`isDragging`, `getDefaultScaleForFile`(upstream 확대·이동 계보) | 포크 `fitScale`·`panOffset`·`fileIdentities`를 유지하고 `content: {fileId, text} \| null`만 얹었다 | upstream 확대·이동 계보를 들일 때 |
+| `file_preview_modal.test.tsx` | `drops the loaded content…`가 `fileId: 'f:a'` | 포크 `getFileIdentity` 형식 `id:a`로, 포크 `renderModal` 헬퍼로 옮겼다 | 같음 |
+| `file_preview_modal_header`·`file_preview_modal_main_nav` 스냅샷 | compass-ui 해시 클래스·`Icon` DOM | 대체 컴포넌트로 재생성(버튼 클래스·아이콘 감싸기만 다름) | compass-ui 수용 시 upstream 스냅샷으로 |
+| `code_preview.tsx` | `<LoadingSpinner size='24'/>` | `<LoadingSpinner/>`(#39035 Compass 계보 제외, 포크 컴포넌트에 `size` 없음) | #39035를 들일 때 |
+
+**버린 것.**
+
+| 위치 | 내용 | 되살릴 조건 |
+|---|---|---|
+| `docs/main/end-user-guide/collaborate/format-messages.mdx`, `share-files-in-messages.mdx` | 사용자 안내 문서에 미리보기·코드 전환 설명 추가 | 문서 사이트 계보를 들일 때 |
+| 충돌 문맥 | `file_preview_modal.test.tsx`의 `seeds default scale/translate…`(upstream 확대·이동 계보) | 그 계보를 들일 때 |
+
