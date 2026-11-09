@@ -3,14 +3,38 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-06 11:09
+- 갱신일: 2026-11-09 21:31
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 0개
+- 남은 커밋: 24개
 
-**마지막 반영 커밋:** `4d0faf21` | [Use Compass Combobox for System Console and Bots custom select and multiselect attributes (#39574)](https://github.com/mattermost/mattermost/commit/4d0faf214848b5025687ab799086cffe973c4bf1) | 2026-11-05
+**마지막 반영 커밋:** `60cf157a` | [Mm 71104 - Add advanced CEL editor to teams details page in the system console (#39062)](https://github.com/mattermost/mattermost/commit/60cf157a9ac10dbf0cd0a47d96f937abc19e9b74) | 2026-11-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
+| de4078ec | [\[MM-71426\] Health Dashboard PR17b: probe and node-down rules over every node (#39515)](https://github.com/mattermost/mattermost/commit/de4078ec11b8e4872f417be4de30195772a1f11b) | 2026-11-06 |
+| 8e5796ae | [MM-70906: Bound support packet diagnostics probes and the SMTP handshake (#39647)](https://github.com/mattermost/mattermost/commit/8e5796ae33eadb1a3c233e22657b6fab1b87f749) | 2026-11-06 |
+| 3cf7d6e6 | [MM-71226: Bump mattermost/pdf to aad8dd5 (#39775)](https://github.com/mattermost/mattermost/commit/3cf7d6e6bb31ad56021fb55955153578433290dd) | 2026-11-06 |
+| 4c5a637f | [MM-71542: Support CWS login for preview installations on self-hosted licenses (#39737)](https://github.com/mattermost/mattermost/commit/4c5a637ffa39ad1cfa20be7a508a467c1d17b640) | 2026-11-06 |
+| 0eafe631 | [MM-70985: update paging defaults and per-post metadata handling for post reads (#38809)](https://github.com/mattermost/mattermost/commit/0eafe63172090e239272cb196b9b8bcd2c4232d6) | 2026-11-06 |
+| b9eed09f | [Docs: Update ABAC and property system docs for v12.0 (#39297)](https://github.com/mattermost/mattermost/commit/b9eed09fde7e7216fbcca9c21db7a72636038850) | 2026-11-06 |
+| 20c15b9d | [Monthly maintenance (2026-11): Update webapp dependencies (#39583)](https://github.com/mattermost/mattermost/commit/20c15b9d2be5c7409a16b6831b5979de76812d4f) | 2026-11-06 |
+| 55456157 | [MM-71113, MM-71114: Send all reactions and acks of each synced post (#39755)](https://github.com/mattermost/mattermost/commit/5545615706a86dd90f3de2c516e40d59eafa82b2) | 2026-11-06 |
+| 0f03a2d9 | [Add filestore disk capacity health rules (#39731)](https://github.com/mattermost/mattermost/commit/0f03a2d9beb6a15cdf560dc0906ce1d00e68b124) | 2026-11-06 |
+| 76c61481 | [Docs: Add create_burn_on_read_post to ABAC action lists (#39634)](https://github.com/mattermost/mattermost/commit/76c61481bdb8e8a55fd3a1b32078d7f30bb5567a) | 2026-11-06 |
+| a689afe3 | [Add PUSH_PROXY_UNREACHABLE site health rule (#39725)](https://github.com/mattermost/mattermost/commit/a689afe302ec606ac086f0ba71737e3fa6754ac4) | 2026-11-06 |
+| 8af02bfe | [Fix flaky TestHydratePropertyValues (#39226)](https://github.com/mattermost/mattermost/commit/8af02bfe18b77c101b5a3224f2a76c91b5be8ce1) | 2026-11-06 |
+| 6d41bcd4 | [Skip flaky TestGetSupportPacketDiagnostics (#39781)](https://github.com/mattermost/mattermost/commit/6d41bcd447331afa7a222983073c47ff685c13ea) | 2026-11-07 |
+| e85f0ca4 | [MM-71116: Compare synced post message after rewriting mentions (#39757)](https://github.com/mattermost/mattermost/commit/e85f0ca425d6f4eeee9a3603b9f1aad85f692eeb) | 2026-11-06 |
+| 276dc653 | [\[MM-71617\] Add per-node memory health diagnostics (#39720)](https://github.com/mattermost/mattermost/commit/276dc653f647da6274609c0857263df50bc6c700) | 2026-11-07 |
+| a9c1fa82 | [\[MM-71618\] Add CPU pressure health diagnostics (#39721)](https://github.com/mattermost/mattermost/commit/a9c1fa82138ca094c56f1c810bda55b8ce2f1940) | 2026-11-07 |
+| f409d51b | [MM-71097: Hold the sync cursor when a plugin sync hook fails (#39759)](https://github.com/mattermost/mattermost/commit/f409d51bb90cd5f3267ef728b5e8c6c4a407897a) | 2026-11-07 |
+| 1381b881 | [MM-71217: Add GetSharedChannelCursor plugin API (#39756)](https://github.com/mattermost/mattermost/commit/1381b881f4908381a3dd50aa40aa8a1c955bd320) | 2026-11-07 |
+| ce429e80 | [MM-71115: Keep a shared channel cursor set while a sync batch is in flight (#39758)](https://github.com/mattermost/mattermost/commit/ce429e80c29df69091b3829fa3a7c11029de296d) | 2026-11-07 |
+| 80b1928b | [\[MM-71429\] Queue a shared channel catch-up sync when a node becomes leader (#39561)](https://github.com/mattermost/mattermost/commit/80b1928bef1d509913753d5fc8dcb1bf35fd3c19) | 2026-11-08 |
+| 95cc6d95 | [MM-70987: migrate from x/crypto/openpgp to ProtonMail/go-crypto (#39738)](https://github.com/mattermost/mattermost/commit/95cc6d956ab40eec82580f789501e5d30f49d100) | 2026-11-09 |
+| 7a6cca12 | [ci(e2e): disable Testcontainers Ryuk on Playwright full-suite workers (#39809)](https://github.com/mattermost/mattermost/commit/7a6cca1254ec5a5c1bc26016da8e1c1335f4ce43) | 2026-11-09 |
+| cb89ca4c | [chore: Update NOTICE.txt file with updated dependencies (#39816)](https://github.com/mattermost/mattermost/commit/cb89ca4c46c0f5e14678fd714d518ce71832c52a) | 2026-11-09 |
+| 86a1d5cd | [ci(e2e): a definitive verdict for every red E2E lane (#39803)](https://github.com/mattermost/mattermost/commit/86a1d5cd7972c11d764b62787674e2595270c2b7) | 2026-11-09 |
 
 ## 제외된 커밋
 
@@ -964,3 +988,5 @@
 | 91b4450e | [\[MM-70692\] New ABAC Permission Policy: Burn on Read (#38656)](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) | github.com/mattermost/enterprise/access_control — Burn-on-Read 작성 권한 정책(create_burn_on_read_post)의 판정 본체(PDP)가 비공개 모듈에 있다. 서버 검사·렌더 판정·콘솔 UI·초안 차단은 adapt로 받았으나 ABAC 비활성이라 HasPermissionToChannelAction이 항상 허용해 기능이 발동하지 않는다. 자체 구현 시 정책 엔진의 채널 리소스 action 평가가 필요. |
 | 678386ea | [\[MM-70287\] Add user_created to SAML/OAuth SSO audit events (#38006)](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) | SAML 로그인 JIT 계정 생성 여부(userWasCreated) 반환 — einterfaces.SamlInterface.DoLogin 시그니처만 반영(우리 트리엔 인터페이스·mock뿐), 실제 구현은 비공개 enterprise SAML 패키지. OAuth 쪽은 공개 코드라 동작한다. SAML 자체 구현 시 이 시그니처·주석 계약을 따른다. |
 | 85b7d85b | [Sync user attributes from OpenID Connect claims (#38939)](https://github.com/mattermost/mattermost/commit/85b7d85b57bb407ac695048dc231457ae5d01857) | OIDC claim → 사용자 속성 동기화. einterfaces.OAuthClaimsProvider(GetClaimValues) 구현은 비공개 github.com/mattermost/enterprise/oauth/openid에 있어야 한다 — 우리 OpenID 프로바이더 자체가 비공개 모듈. |
+| 1e7c1a16 | [\[MM-71425\] Health Dashboard PR17: per-node collection (#39514)](https://github.com/mattermost/mattermost/commit/1e7c1a1673ecc31b231f062c523d0bbe70e5a969) | `github.com/mattermost/enterprise/cluster` (비공개). cherry-pick으로 반영(429012cd1e). ClusterInterface.CollectHealthDiagnostics 선언·mock·FakeClusterInterface와 platform/health_collect.go(자기 노드 수집·응답 병합)는 들어왔으나, 다른 노드에 진단을 요청하는 gossip 구현은 비공개 enterprise 클러스터에만 있다. 포크엔 클러스터 구현이 없어 Health Dashboard는 자기 노드 하나만 수집한다(HealthDashboard 플래그 기본 false·Enterprise 라이선스 필요라 원래 비활성). |
+| 60cf157a | [Mm 71104 - Add advanced CEL editor to teams details page in the system console (#39062)](https://github.com/mattermost/mattermost/commit/60cf157a9ac10dbf0cd0a47d96f937abc19e9b74) | `github.com/mattermost/enterprise/access_control` (비공개). adapt로 반영(e80b8ebbc1). PolicyAdministrationPointInterface.CheckMembershipExpression 선언·mock, App 가드(checkMembershipRuleEditable·rejectAdvancedMembershipRules)와 webapp 편집기 잠금은 들어왔으나, 멤버십 규칙 검사·ExpressionToVisualAST 판정은 비공개 ABAC 엔진에만 있다. 포크엔 AccessControl 서비스가 없어 가드는 acs == nil로 빠지고 /cel/check membership은 501을 준다. |
