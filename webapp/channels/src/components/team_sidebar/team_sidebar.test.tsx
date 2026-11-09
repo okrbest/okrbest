@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {createMemoryHistory} from 'history';
 import React from 'react';
 
 import type {DeepPartial} from '@mattermost/types/utilities';
@@ -101,6 +102,36 @@ describe('components/team_sidebar', () => {
         // 채널 화면이므로 Channels가 활성이다
         expect(links[0]).toHaveAttribute('aria-current', 'page');
         expect(links[1]).not.toHaveAttribute('aria-current');
+    });
+
+    // 포크는 헤더의 product switcher를 제거했으므로(017 FR-007) 레일이 유일한 제품 전환
+    // 수단이다. upstream처럼 showTeamSidebar가 꺼진 제품에서 레일을 숨기면 그 화면에서
+    // 다른 제품·채널로 돌아갈 길이 없다. Agents 플러그인은 이 플래그를 넘기지 않아 기본값
+    // false로 등록된다.
+    test('showTeamSidebar가 꺼진 제품 화면에서도 레일을 표시한다', () => {
+        const state = getState();
+        (state as any).plugins = {
+            components: {
+                Product: [
+                    {
+                        id: 'agents-product-id',
+                        pluginId: 'mattermost-ai',
+                        switcherIcon: 'product-agents',
+                        switcherText: 'Agents',
+                        switcherLinkURL: '/agents',
+                        baseURL: '/agents',
+                        showTeamSidebar: false,
+                    },
+                ],
+            },
+        };
+        const history = createMemoryHistory({initialEntries: ['/agents']});
+
+        renderWithContext(<TeamSidebar/>, state, {history});
+
+        expect(document.querySelector('.team-sidebar')).toBeInTheDocument();
+        expect(screen.getByRole('link', {name: 'Agents'})).toHaveAttribute('aria-current', 'page');
+        expect(screen.getByRole('link', {name: 'Channels'})).not.toHaveAttribute('aria-current');
     });
 
     test('등록된 제품이 없으면 Channels 버튼만 나열한다', () => {

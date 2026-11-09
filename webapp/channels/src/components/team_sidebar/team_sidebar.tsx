@@ -148,10 +148,11 @@ export class TeamSidebar extends React.PureComponent<Props> {
 
         const plugins = [];
 
+        // OKR.BEST: upstream은 showTeamSidebar가 꺼진 제품(예: Agents — 플래그를 넘기지
+        // 않아 기본값 false)에서 팀 사이드바를 숨기지만, 포크는 헤더의 product switcher를
+        // 레일로 옮겼으므로(017 FR-007) 레일이 유일한 제품 전환 수단이다. 어떤 제품
+        // 화면에서도 레일을 숨기지 않는다 (017 US1·FR-003).
         const currentProduct = getCurrentProduct(this.props.products, this.props.location.pathname);
-        if (currentProduct && !currentProduct.showTeamSidebar) {
-            return null;
-        }
 
         // Slack식 기능 버튼 레일: Channels 고정 버튼 + 등록된 제품(Boards·Playbooks 등).
         // 목적지는 기존 product switcher와 동일 — Channels는 '/'(라우터가 기본 채널로 보냄),
