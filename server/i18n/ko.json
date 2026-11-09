@@ -4766,10 +4766,6 @@
     "translation": "{{.Service}} 사용자 객체에서 인증 데이터를 구문 분석할 수 없습니다."
   },
   {
-    "id": "api.user.login_cws.license.error",
-    "translation": "CWS 로그인이 금지되어 있습니다."
-  },
-  {
     "id": "api.user.login_ldap.not_available.app_error",
     "translation": "이 서버에서 LDAP을 사용할 수 없습니다."
   },
