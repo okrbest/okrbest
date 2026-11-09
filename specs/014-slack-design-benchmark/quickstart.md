@@ -85,4 +85,4 @@ node scripts/theme-diff.mjs            # 프리셋 5종 전환 대조 (SC-005)
 - 게이트 3종 출력 + 기준선 대비 신규 실패 0건
 - 대비 회귀 테스트의 "실패 → 통과" 출력 2벌
 - measurement-contract 판정표 SC-001~008 전 행 통과 (실측 파일 첨부)
-- `docs/upstream-adapted-divergences.md`에 발산 기록 추가
+- `spec-docs/upstream/upstream-adapted-divergences.md`에 발산 기록 추가

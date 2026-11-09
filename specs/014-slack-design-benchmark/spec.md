@@ -185,7 +185,7 @@ hover·활성 같은 배경 전환은 즉각적이고, 레이아웃이 움직이
 - **FR-016**: webapp 게이트를 통과하고 출력을 완료 근거로 남긴다 — `npm run check`, `npm run check-types`, `npm run test` (원칙 I). 구현 전 기준선 실패 목록을 저장하고 마감 때 diff로 회귀를 판정한다.
 - **FR-017**: `Copyright (c) 2015-present Mattermost, Inc.` 헤더를 유지한다 (원칙 IV).
 - **FR-018**: 사용자에게 보이는 문자열(새 테마 이름 등)을 추가하면 `en.json`·`ko.json`을 같은 변경에서 갱신한다 (원칙 V).
-- **FR-019**: upstream 파일과 갈라지는 변경은 `docs/upstream-adapted-divergences.md`에 기록한다. 구조적 스타일 변경은 upstream 파일 인라인 수정 대신 이 포크 전용 레이어로 격리해 머지 충돌을 줄인다.
+- **FR-019**: upstream 파일과 갈라지는 변경은 `spec-docs/upstream/upstream-adapted-divergences.md`에 기록한다. 구조적 스타일 변경은 upstream 파일 인라인 수정 대신 이 포크 전용 레이어로 격리해 머지 충돌을 줄인다.
 
 ### Key Entities
 

@@ -21,7 +21,7 @@ upstream은 두 문제를 `caaec8cd`(2026-10-30)와 `36ebc1f6`(2026-11-02)에서
 - 36ebc1f6은 compass-ui 버튼을 쓴다. 포크는 compass-ui를 라이선스 문제로 제외했다(2026-10-18 결정).
 - 36ebc1f6은 caaec8cd를 적용한 뒤의 turndown 변환 위에 만들어졌다. 그래서 둘을 함께 옮긴다.
 
-포크는 2026-11-05 sync에서 06ab8d2c(#38680, 코드 블록 구문 강조 처리)를 먼저 받았다. 그때 36ebc1f6의 토글 코드와 테스트를 뺐다. 이 기록은 `docs/upstream-adapted-divergences.md`의 "코드 블록 구문 강조 처리 — 마크다운 토글 코드와 테스트를 뺐다" 절에 있다. 이 spec에서 그 코드를 되살린다.
+포크는 2026-11-05 sync에서 06ab8d2c(#38680, 코드 블록 구문 강조 처리)를 먼저 받았다. 그때 36ebc1f6의 토글 코드와 테스트를 뺐다. 이 기록은 `spec-docs/upstream/upstream-adapted-divergences.md`의 "코드 블록 구문 강조 처리 — 마크다운 토글 코드와 테스트를 뺐다" 절에 있다. 이 spec에서 그 코드를 되살린다.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -150,7 +150,7 @@ upstream은 두 문제를 `caaec8cd`(2026-10-30)와 `36ebc1f6`(2026-11-02)에서
 - **FR-019**: 이전 파일 화살표 툴팁은 "이전"을 뜻하는 문구여야 한다.
 - **FR-020**: 포크의 파일 미리보기 기능(이미지 확대·축소, 끌기·휠·키보드 조작, 바깥 클릭 시 닫기)과 Slack식 내비게이션·랜딩·북마크 RHS 등 포크 변경을 그대로 유지해야 한다.
 - **FR-021**: 새 화면 문구는 영어 원문(`en.json`)과 한국어 번역(`ko.json`)을 함께 갖춰야 한다.
-- **FR-022**: 반영 커밋 본문에 `Upstream:` 링크를 넣어 `docs/upstream-master-unmerged-commits.md` 미반영 목록에서 자동 차감되게 하고("spec 전환 커밋" 부록 줄은 관례대로 기록으로 남긴다), 포크와 upstream이 갈라진 지점(Lexical 인용 삽입, compass-ui 대체, 버린 파일)을 `docs/upstream-adapted-divergences.md`에 남겨야 한다. 06ab8d2c 절의 "버린 것" 표에는 되살렸다고 적는다.
+- **FR-022**: 반영 커밋 본문에 `Upstream:` 링크를 넣어 `spec-docs/upstream/upstream-master-unmerged-commits.md` 미반영 목록에서 자동 차감되게 하고("spec 전환 커밋" 부록 줄은 관례대로 기록으로 남긴다), 포크와 upstream이 갈라진 지점(Lexical 인용 삽입, compass-ui 대체, 버린 파일)을 `spec-docs/upstream/upstream-adapted-divergences.md`에 남겨야 한다. 06ab8d2c 절의 "버린 것" 표에는 되살렸다고 적는다.
 
 ### Key Entities
 

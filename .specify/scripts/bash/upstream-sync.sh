@@ -19,7 +19,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
-LEDGER="$REPO_ROOT/docs/upstream-master-unmerged-commits.md"
+LEDGER="$REPO_ROOT/spec-docs/upstream/upstream-master-unmerged-commits.md"
 UPSTREAM_BRANCH="upstream-master"
 UPSTREAM_REMOTE_REF="upstream/master"
 UPSTREAM_URL="https://github.com/mattermost/mattermost"

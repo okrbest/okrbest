@@ -487,7 +487,7 @@ func (a *App) HasPermissionToReadChannel(rctx request.CTX, userID string, channe
 // on a team the user does not belong to stay unresolved, preventing cross-team disclosure.
 //
 // Upstream also resolves ChannelTypeOpenBoard here; okrbest has no board channel types
-// (see docs/upstream-inert-features.md), so only ChannelTypeOpen takes the team-membership path.
+// (see spec-docs/upstream/upstream-inert-features.md), so only ChannelTypeOpen takes the team-membership path.
 func (a *App) HasPermissionToResolveChannelMention(rctx request.CTX, userID string, channel *model.Channel) bool {
 	if ok, _ := a.HasPermissionToChannel(rctx, userID, channel.Id, model.PermissionReadChannelContent); ok {
 		return true

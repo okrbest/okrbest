@@ -116,7 +116,7 @@ webapp/
 e2e-tests/playwright/
 ├── lib/src/ui/components/channels/channel_settings/configuration_settings.ts  ★ 제외 계보 로케이터 빼기
 └── specs/functional/channels/channel_settings/join_leave_messages.spec.ts
-docs/upstream-adapted-divergences.md   ★ 버린 문맥 기록(sync 관례)
+spec-docs/upstream/upstream-adapted-divergences.md   ★ 버린 문맥 기록(sync 관례)
 ```
 
 **Structure Decision**: 기존 모노레포 구조를 그대로 쓴다. 새 디렉터리는 upstream 신규 파일 위치뿐이다.

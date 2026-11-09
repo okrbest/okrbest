@@ -1,6 +1,6 @@
 ---
 name: "speckit-sync"
-description: "upstream(mattermost/mattermost) 커밋을 오래된 순으로 LLM 정밀 분석하여 cherry-pick/adapt/exclude/spec으로 선별 반영하고, docs/upstream-master-unmerged-commits.md 목록을 갱신한다."
+description: "upstream(mattermost/mattermost) 커밋을 오래된 순으로 LLM 정밀 분석하여 cherry-pick/adapt/exclude/spec으로 선별 반영하고, spec-docs/upstream/upstream-master-unmerged-commits.md 목록을 갱신한다."
 argument-hint: "옵션 없이 실행하거나 처리할 커밋 수 힌트를 자연어로 전달"
 compatibility: "Requires git remote 'upstream' (mattermost/mattermost), local branch 'upstream-master', spec-kit project structure"
 metadata:
@@ -132,7 +132,7 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
 2. **ledger 커밋 (sync 브랜치 위에서)**:
    ```bash
    SYNC_BASE_BRANCH=HEAD .specify/scripts/bash/upstream-sync.sh update
-   git add docs/upstream-master-unmerged-commits.md
+   git add spec-docs/upstream/upstream-master-unmerged-commits.md
    git commit -m "docs: upstream sync 진행 (picked N, adapted M, excluded K)"
    ```
    `SYNC_BASE_BRANCH=HEAD`로 sync 브랜치 커밋까지 차감 계산해 남은 개수 감소를 병합 전에 검증한다.

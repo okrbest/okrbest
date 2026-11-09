@@ -150,7 +150,7 @@ L 항목은 그대로 착수하지 않는다. 이 문서에서 미리 쪼개 두
 1. **spec 1건 = 표면 1개.** 한 spec이 두 영역을 건드리면 분할한다. (022·027의 교훈 — 작게 쪼갠 작업이 검증도 빨랐다.)
 2. **계측이 설계보다 먼저다.** Slack 쪽 실측값이 없는 표면(작성창, 이모지 피커, 다크 테마 등)은 `okrbest-design` 하네스로 Slack을 먼저 계측하고 격차 표를 만든 뒤 spec을 쓴다.
 3. **019 토큰을 재사용한다.** 간격·크기·모서리는 `specs/019-slack-layout-tokens/usage-guide.md`의 토큰에서 고른다. 새 값이 필요하면 토큰 기준표를 먼저 갱신한다.
-4. **upstream 발산을 기록한다.** upstream 파일과 갈라지는 변경은 `docs/upstream-adapted-divergences.md`에 남긴다 (FR-019와 동일).
+4. **upstream 발산을 기록한다.** upstream 파일과 갈라지는 변경은 `spec-docs/upstream/upstream-adapted-divergences.md`에 남긴다 (FR-019와 동일).
 5. **구현 증거를 남긴다.** 기준선 게이트 diff, quickstart 실주행, SC 실측값 — constitution 원칙 I·III 그대로.
 
 ## 5. 우선순위 요약

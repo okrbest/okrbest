@@ -28,7 +28,7 @@ spec을 만들고, spec-kit 파이프라인(plan → tasks → implement)을 따
    낸다. 꼭 필요한 문자열만 선별해서 바꾼다.
 
 코드를 고칠 때는 기존 관례대로 `// okrbest:` 주석 마커를 남기고, 후속 sync에서
-충돌·오해를 부를 분기는 [docs/upstream-adapted-divergences.md](docs/upstream-adapted-divergences.md)에 등록한다.
+충돌·오해를 부를 분기는 [spec-docs/upstream/upstream-adapted-divergences.md](spec-docs/upstream/upstream-adapted-divergences.md)에 등록한다.
 
 ## 현재 상태
 
@@ -118,7 +118,7 @@ spec을 만들고, spec-kit 파이프라인(plan → tasks → implement)을 따
 - 이메일 로고는 0단계 `logo_email_*` 자산 교체로 해결된다.
 - 푸시 알림 제목은 `SiteName`을 따라간다. 푸시 프록시 주소
   (`GenericNotificationServer`)와 모바일 앱 이름은 5단계 소관.
-  운영 가이드는 [docs/mattermost-mobile-push-proxy-guide.md](docs/mattermost-mobile-push-proxy-guide.md) 참조.
+  운영 가이드는 [spec-docs/guides/mattermost-mobile-push-proxy-guide.md](spec-docs/guides/mattermost-mobile-push-proxy-guide.md) 참조.
 
 ## 5단계 — 배포와 외부 접점을 맞춘다
 

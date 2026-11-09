@@ -107,8 +107,8 @@ webapp/channels/src/
 └── i18n/en.json, ko.json                           # 키 4개
 e2e-tests/playwright/specs/functional/channels/messaging/quote_selection*.ts  # 들이되 판정 제외
 e2e-tests/cypress/...                               # 36ebc1f6 변경 그대로
-docs/upstream-master-unmerged-commits.md            # 두 커밋 삭제
-docs/upstream-adapted-divergences.md                # 갈라진 지점 기록, 06ab8d2c 절 갱신
+spec-docs/upstream/upstream-master-unmerged-commits.md            # 두 커밋 삭제
+spec-docs/upstream/upstream-adapted-divergences.md                # 갈라진 지점 기록, 06ab8d2c 절 갱신
 ```
 
 **Structure Decision**: webapp 단일 워크스페이스(`webapp/channels`) 변경이다. 서버·platform 패키지는 건드리지 않는다.

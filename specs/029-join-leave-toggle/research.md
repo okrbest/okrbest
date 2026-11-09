@@ -55,7 +55,7 @@ upstream이 건드리는 36파일마다 포크 전용 커밋(upstream PR 번호 
 | `channel_settings_configuration_tab.tsx` 충돌 5곳 | `hasClassificationChanges`·`canManageClassification`·`selectedClassificationId`·`initialClassificationState` | Classification 조건을 모두 빼고 JoinLeave 조건만 남긴다. 토글 렌더 블록(`canManageJoinLeaveMessages && …`)의 구분선 조건 `(canManageSharedChannels \|\| canManageClassification \|\| canManageBanner)`은 `(canManageSharedChannels \|\| canManageBanner)`로 줄인다 |
 | e2e `configuration_settings.ts` | 제외 계보 로케이터 문맥 | JoinLeave 로케이터만 넣는다. 스펙 `join_leave_messages.spec.ts`는 받는다(포크 Playwright 실행 격차는 알려진 문제) |
 
-버린 문맥은 sync 관례대로 `docs/upstream-adapted-divergences.md`에 남긴다.
+버린 문맥은 sync 관례대로 `spec-docs/upstream/upstream-adapted-divergences.md`에 남긴다.
 
 ## R5. 알림 히스토리(#167)·멘션 처리(#170)와 어떻게 맞물리나?
 

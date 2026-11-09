@@ -35,7 +35,7 @@ Two existing top-level globals are frozen legacy — do not extend them and do n
 Each has a contract type in `@mattermost/shared/types/global/` and a build-time drift check in `webapp/channels/src/plugins/published_*.ts`. Third-party plugins pin against these via `min_server_version` — treat every entry like a public API.
 
 - `window.WebappUtils.modals` — contract `PublishedModalUtils`; allowlist in `published_modals.ts`.
-- `window.WebappUtils.editor` — **not published in okrbest.** Upstream exposes it via `published_editor.ts`, which depends on the Tiptap WYSIWYG editor; okrbest uses Lexical instead, so the file and its contract types are absent. See "플러그인 공개 API" in `docs/upstream-adapted-divergences.md` before adding it.
+- `window.WebappUtils.editor` — **not published in okrbest.** Upstream exposes it via `published_editor.ts`, which depends on the Tiptap WYSIWYG editor; okrbest uses Lexical instead, so the file and its contract types are absent. See "플러그인 공개 API" in `spec-docs/upstream/upstream-adapted-divergences.md` before adding it.
 
 **Adding an entry**
 

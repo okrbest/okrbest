@@ -91,4 +91,4 @@ mmctl config get ServiceSettings.ExperimentalGroupUnreadChannels
 
 - 위 시나리오 전부 통과 + SC-### 실측값 기록.
 - 게이트 3종 통과 출력 + 기준선 대비 실패 목록 diff 제시.
-- `docs/upstream-adapted-divergences.md`에 upstream 접촉 7곳 기록.
+- `spec-docs/upstream/upstream-adapted-divergences.md`에 upstream 접촉 7곳 기록.

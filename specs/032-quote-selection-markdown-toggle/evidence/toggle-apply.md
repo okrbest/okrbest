@@ -23,7 +23,7 @@ $ diff <(git show upstream/master:webapp/channels/src/components/code_preview.ts
 
 나머지 4파일은 `upstream/master`와 같다(`diff` 출력 없음).
 
-`docs/upstream-adapted-divergences.md` "코드 블록 구문 강조 처리 — 마크다운 토글 코드와 테스트를 뺐다" 절의 "버린 것" 표 대조:
+`spec-docs/upstream/upstream-adapted-divergences.md` "코드 블록 구문 강조 처리 — 마크다운 토글 코드와 테스트를 뺐다" 절의 "버린 것" 표 대조:
 
 | 항목 | 상태 |
 |---|---|

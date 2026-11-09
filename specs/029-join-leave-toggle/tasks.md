@@ -17,7 +17,7 @@ description: "채널별 입장·퇴장 메시지 끄기 — 작업 목록"
 - **새 파일**은 그대로 꺼낸다: `git checkout $U -- <path>`
 - **기존 파일**은 해당 과제가 말하는 hunk만 손으로 옮긴다. 파일 전체를 `git checkout $U -- <path>`로 덮지 않는다. 포크 변경과 우리가 받지 않은 기능의 문맥이 섞여 있다(research R2·R4).
 - 과제가 "upstream 그대로"라고 하면 그 파일의 upstream hunk를 모두 옮긴다. ★가 붙은 과제는 research에 적힌 조정을 함께 한다.
-- 버린 upstream 문맥은 T053에서 `docs/upstream-adapted-divergences.md`에 모아 기록한다. 버릴 때마다 위치와 이유를 `specs/029-join-leave-toggle/dropped.md`(작업 메모, 커밋하지 않음)에 한 줄씩 적어 둔다.
+- 버린 upstream 문맥은 T053에서 `spec-docs/upstream/upstream-adapted-divergences.md`에 모아 기록한다. 버릴 때마다 위치와 이유를 `specs/029-join-leave-toggle/dropped.md`(작업 메모, 커밋하지 않음)에 한 줄씩 적어 둔다.
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -175,7 +175,7 @@ description: "채널별 입장·퇴장 메시지 끄기 — 작업 목록"
 
 - [X] T051 [P] e2e를 들인다: `git checkout $U -- e2e-tests/playwright/specs/functional/channels/channel_settings/join_leave_messages.spec.ts`, ★ `e2e-tests/playwright/lib/src/ui/components/channels/channel_settings/configuration_settings.ts`에는 JoinLeave 로케이터만 옮긴다. 포크 Playwright 실행 격차로 스펙이 돌지 않을 수 있다(메모리 `playwright-e2e-fork-gaps`) — 실행하면 결과를, 못 돌리면 `미실행`을 적는다 — **결과**: 두 파일 반영(배너 토큰 헬퍼는 제외 계보라 버림), Playwright 타입 검사 오류 0. 스펙 실행은 `미실행`(포크 Playwright 실행 격차)
 - [X] T052 upstream diff와의 차이를 점검한다: `git diff $U -- <upstream 36파일>`을 훑어, 차이가 research R3·R4와 `dropped.md`에 적힌 것뿐인지 확인한다. 설명 못 하는 차이가 있으면 고친다
-- [X] T053 [P] `docs/upstream-adapted-divergences.md`에 항목을 추가한다(표 1줄 + 절 1개): 받은 것, `dropped.md`의 버린 것(위치·upstream 코드·이유·되살릴 조건), 포크 조정(FilterUserIds 병합, `getPostsAround` 체인, 포크 테스트 4개), 검증 결과
+- [X] T053 [P] `spec-docs/upstream/upstream-adapted-divergences.md`에 항목을 추가한다(표 1줄 + 절 1개): 받은 것, `dropped.md`의 버린 것(위치·upstream 코드·이유·되살릴 조건), 포크 조정(FilterUserIds 병합, `getPostsAround` 체인, 포크 테스트 4개), 검증 결과
 - [X] T054 [P] `git diff --stat`에서 `webapp/package-lock.json`이 바뀌었으면 peer 키 churn인지 확인하고 버린다(메모리 `package-lock-peer-key-churn`)
 
 ### 완료 검증 (고정 — 지우지 않는다)

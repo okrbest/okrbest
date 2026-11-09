@@ -887,7 +887,7 @@ func TestHasPermissionToResolveChannelMention(t *testing.T) {
 			expected:                false,
 		},
 		// Upstream also covers ChannelTypeOpenBoard here; okrbest has no board channel
-		// types (see docs/upstream-inert-features.md), so that case is omitted.
+		// types (see spec-docs/upstream/upstream-inert-features.md), so that case is omitted.
 		{
 			name:                    "private, channel member -> resolves",
 			configComplianceEnabled: false,
