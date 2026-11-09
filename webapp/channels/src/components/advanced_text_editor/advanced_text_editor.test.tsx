@@ -9,7 +9,7 @@ import {PostPriority} from '@mattermost/types/posts';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {onSubmit} from 'actions/views/create_comment';
-import {removeDraft, updateDraft} from 'actions/views/drafts';
+import {quoteTextInDraft, removeDraft, updateDraft} from 'actions/views/drafts';
 
 import {useCreateBurnOnReadAccess} from 'components/common/hooks/useCreateBurnOnReadAccess';
 import type {FileUpload} from 'components/file_upload/file_upload';
@@ -1147,6 +1147,98 @@ describe('components/avanced_text_editor/advanced_text_editor', () => {
             expect(textbox).toHaveValue('aaa \uD83D\uDE0A bbb');
             expect(textbox.selectionStart).toEqual(7);
             expect(textbox.selectionEnd).toEqual(textbox.selectionEnd);
+        });
+    });
+
+    describe('quoting text from a post', () => {
+        const stateWithDraft = mergeObjects(initialState, {
+            entities: {
+                roles: {
+                    roles: {
+                        user_roles: {permissions: [Permissions.CREATE_POST]},
+                    },
+                },
+            },
+            storage: {
+                storage: {
+                    [StoragePrefixes.DRAFT + channelId]: {
+                        value: TestHelper.getPostDraftMock({
+                            message: 'original draft',
+                        }),
+                    },
+                },
+            },
+        });
+
+        it('should append the quote to the draft of the matching channel', () => {
+            const {store} = renderWithContext(
+                <AdvancedTextEditor
+                    {...baseProps}
+                />,
+                stateWithDraft,
+            );
+
+            act(() => {
+                store.dispatch(quoteTextInDraft(channelId, '', 'Diam sapien\npellentesque'));
+            });
+
+            // okrbest: our Lexical message box has the textbox id but no data-testid, and holds the quote as a
+            // blockquote instead of upstream's '> ' text (the Markdown it sends is covered by append_quote.test.ts)
+            const textbox = document.getElementById('post_textbox')!;
+            const quote = textbox.querySelector('.markdown__quote');
+            expect(textbox.firstElementChild).toHaveTextContent('original draft');
+            expect(quote).toHaveTextContent('Diam sapien');
+            expect(quote).toHaveTextContent('pellentesque');
+            expect(store.getState().views.drafts.pendingQuote).toBeNull();
+        });
+
+        it('should ignore a quote meant for another channel or thread', async () => {
+            const {store} = renderWithContext(
+                <AdvancedTextEditor
+                    {...baseProps}
+                />,
+                stateWithDraft,
+            );
+
+            // okrbest: Lexical renders the stored draft in a later microtask
+            await act(async () => {
+                store.dispatch(quoteTextInDraft(channelId, 'some_root_id', 'Diam sapien'));
+            });
+
+            const textbox = document.getElementById('post_textbox')!;
+            expect(textbox).toHaveTextContent(/^original draft$/);
+            expect(textbox.querySelector('.markdown__quote')).toBeNull();
+            expect(store.getState().views.drafts.pendingQuote).not.toBeNull();
+
+            await act(async () => {
+                store.dispatch(quoteTextInDraft(otherChannelId, '', 'Diam sapien'));
+            });
+
+            expect(textbox).toHaveTextContent(/^original draft$/);
+            expect(textbox.querySelector('.markdown__quote')).toBeNull();
+        });
+
+        it('should not quote into a message being edited', async () => {
+            const {store} = renderWithContext(
+                <AdvancedTextEditor
+                    {...baseProps}
+                    isInEditMode={true}
+                />,
+                stateWithDraft,
+            );
+
+            // okrbest: Lexical renders the stored draft in a later microtask
+            await act(async () => {});
+            const textbox = document.getElementById('edit_textbox')!;
+            const valueBefore = textbox.textContent;
+
+            await act(async () => {
+                store.dispatch(quoteTextInDraft(channelId, '', 'Diam sapien'));
+            });
+
+            expect(textbox.textContent).toBe(valueBefore);
+            expect(textbox).not.toHaveTextContent('Diam sapien');
+            expect(textbox.querySelector('.markdown__quote')).toBeNull();
         });
     });
 });

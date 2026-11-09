@@ -40,6 +40,7 @@ import {
 import LexicalTextEditor from 'components/lexical_editor/lexical_text_editor';
 import type {LexicalTextEditorHandle} from 'components/lexical_editor/lexical_text_editor';
 import {applyLexicalFormatting} from 'components/lexical_editor/utils/formatting_commands';
+import type TextboxClass from 'components/textbox/textbox';
 import {OnboardingTourSteps, OnboardingTourStepsForGuestUsers, TutorialTourName} from 'components/tours/constant';
 import {SendMessageTour} from 'components/tours/onboarding_tour';
 
@@ -77,6 +78,7 @@ import useBurnOnRead from './use_burn_on_read';
 import useEditorEmojiPicker from './use_editor_emoji_picker';
 import useKeyHandler from './use_key_handler';
 import useOrientationHandler from './use_orientation_handler';
+import usePendingQuote from './use_pending_quote';
 import usePluginItems from './use_plugin_items';
 import usePriority from './use_priority';
 import useRewrite from './use_rewrite';
@@ -222,6 +224,7 @@ const AdvancedTextEditor = ({
     const editorActionsRef = useRef<HTMLDivElement>(null);
     const editorBodyRef = useRef<HTMLDivElement>(null);
     const lexicalEditorRef = useRef<LexicalTextEditorHandle>(null);
+    const noTextboxRef = useRef<TextboxClass>(null);
     const loggedInAriaLabelTimeout = useRef<NodeJS.Timeout>(undefined);
     const saveDraftFrame = useRef<NodeJS.Timeout>(undefined);
     const draftRef = useRef(draftFromStore);
@@ -340,6 +343,10 @@ const AdvancedTextEditor = ({
     } = useRewrite(draft, handleDraftChange, lexicalEditorRef, focusTextbox, setServerError);
     const hasAIActionsMenu = (aiActionMenuItems?.length ?? 0) > 0 || (aiRewriteEnabled && Boolean(rewriteMenuProps));
     const isDisabled = Boolean(readOnlyChannel || (!enableSharedChannelsDMs && isDMOrGMRemote) || rewriteIsProcessing);
+
+    // okrbest: our only message box is the Lexical editor, which takes the place of upstream's wysiwygRef.
+    // There is no Textbox, so its ref stays empty.
+    usePendingQuote(draft, handleDraftChange, channelId, rootId, isInEditMode, isDisabled, rewriteIsProcessing, noTextboxRef, lexicalEditorRef);
 
     const [attachmentPreview, fileUploadJSX] = useUploadFiles(
         draft,

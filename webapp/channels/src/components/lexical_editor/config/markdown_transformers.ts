@@ -3,11 +3,13 @@
 
 import {
     ELEMENT_TRANSFORMERS,
+    QUOTE,
     TEXT_FORMAT_TRANSFORMERS,
     TEXT_MATCH_TRANSFORMERS,
     TRANSFORMERS,
 } from '@lexical/markdown';
-import type {Transformer} from '@lexical/markdown';
+import type {ElementTransformer, TextMatchTransformer, Transformer} from '@lexical/markdown';
+import {$isQuoteNode} from '@lexical/rich-text';
 import {
     $createTableCellNode,
     $createTableNode,
@@ -20,6 +22,8 @@ import {
 } from '@lexical/table';
 import type {LexicalNode} from 'lexical';
 import {$createParagraphNode, $createTextNode, $isElementNode} from 'lexical';
+
+import {$isQuotedMarkdownTextNode, QuotedMarkdownTextNode} from '../nodes/quoted_markdown_text_node';
 
 // @lexical/markdown 내부와 동일한 GFM 테이블 행 판별
 export const TABLE_ROW_REG_EXP = /^(?:\|)(.+)(?:\|)\s?$/;
@@ -149,6 +153,35 @@ const TABLE_TRANSFORMER: Transformer = {
     type: 'multiline-element',
 };
 
+// 인용 블록 export: 빈 줄을 upstream formatQuote(utils/quote.ts)처럼 `>` 하나로 쓴다.
+// 기본 QUOTE는 모든 줄에 `> `를 붙여 빈 줄 끝에 공백이 남는다. import·단축키 동작은 기본과 같다.
+export const CHANNELS_QUOTE: ElementTransformer = {
+    ...QUOTE,
+    export: (node, exportChildren) => {
+        if (!$isQuoteNode(node)) {
+            return null;
+        }
+        return exportChildren(node).split('\n').map((line) => (line ? `> ${line}` : '>')).join('\n');
+    },
+};
+
+// 인용 버튼으로 넣은 Markdown(QuotedMarkdownTextNode)은 이스케이프 없이 그대로 쓴다.
+// import·단축키로는 이 노드를 만들지 않는다(정규식이 아무것도 잡지 않는다).
+const NEVER_MATCHES = /(?!)/;
+export const QUOTED_MARKDOWN_TEXT: TextMatchTransformer = {
+    dependencies: [QuotedMarkdownTextNode],
+    export: (node) => ($isQuotedMarkdownTextNode(node) ? node.getTextContent() : null),
+    importRegExp: NEVER_MATCHES,
+    regExp: NEVER_MATCHES,
+    replace: () => {
+        // import하지 않는다
+    },
+    type: 'text-match',
+};
+
+const withChannelsQuote = (transformers: Transformer[]): Transformer[] =>
+    transformers.map((t) => (t === QUOTE ? CHANNELS_QUOTE : t));
+
 // 리스트 transformer를 제외한 element transformers (heading, code, quote만)
 // 리스트는 MarkdownShortcutPlugin의 element transformer와 ListPlugin의 indent/outdent가 충돌하므로 제외
 const ELEMENT_TRANSFORMERS_WITHOUT_LIST = ELEMENT_TRANSFORMERS.filter(
@@ -158,18 +191,22 @@ const ELEMENT_TRANSFORMERS_WITHOUT_LIST = ELEMENT_TRANSFORMERS.filter(
     },
 );
 
-export const CHANNELS_SHORTCUT_TRANSFORMERS: Transformer[] = [
+export const CHANNELS_SHORTCUT_TRANSFORMERS: Transformer[] = withChannelsQuote([
     ...ELEMENT_TRANSFORMERS_WITHOUT_LIST,
     ...TEXT_FORMAT_TRANSFORMERS,
     ...TEXT_MATCH_TRANSFORMERS,
-];
+]);
 
-export const CHANNELS_TRANSFORMERS: Transformer[] = [
+export const CHANNELS_TRANSFORMERS: Transformer[] = withChannelsQuote([
     TABLE_TRANSFORMER,
+    QUOTED_MARKDOWN_TEXT,
     ...TRANSFORMERS,
-];
+]);
 
 /** 에디터에 Lexical TableNode를 만들지 않고 평문 줄로 유지할 때(import·붙여넣기) 사용 */
-export const CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE: Transformer[] = [...TRANSFORMERS];
+export const CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE: Transformer[] = withChannelsQuote([
+    QUOTED_MARKDOWN_TEXT,
+    ...TRANSFORMERS,
+]);
 
 export {TRANSFORMERS};

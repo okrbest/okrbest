@@ -6554,6 +6554,7 @@
   "quick_switch_modal.help_mobile": "채널을 찾기 위해 입력해 주세요.",
   "quick_switch_modal.input": "빠른 전환 입력",
   "quick_switch_modal.switchChannels": "채널 변경",
+  "quote_selection_button.label": "선택 영역 인용",
   "reaction.a11y.clickToAdd": "클릭하면 추가됩니다.",
   "reaction.a11y.clickToRemove": "클릭하면 제거됩니다.",
   "reaction.add.ariaLabel": "반응 추가",
