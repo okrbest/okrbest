@@ -143,6 +143,7 @@
 | 최신 마이너 버전 12.2.0 | [bc15e733](https://github.com/mattermost/mattermost/commit/bc15e733bd58e9e08c2aa04a1bc123c7821856c1) (#39729) | 버전 줄만 받았다. 문맥의 `compass-ui`와 포크보다 앞선 의존성 버전은 들이지 않았다. |
 | 메시지 선택 영역 인용 | [caaec8cd](https://github.com/mattermost/mattermost/commit/caaec8cda5e34866ccb2f7a4eb93e9dee585601c) (#39237) | spec 032로 반영. TipTap·Textbox 대신 Lexical 입력창에 `appendQuote`를 만들고, 원문을 그대로 내보내는 노드와 빈 줄 `>` 인용 transformer를 더했다 — 아래 참조 |
 | Markdown 미리보기·코드 전환 | [36ebc1f6](https://github.com/mattermost/mattermost/commit/36ebc1f6fc024e0c15d24e5dd925f7daf2ce88ad) (#39378) | spec 032로 반영. compass-ui 대신 `components/compass_shim`, 포크 이미지 확대 코드 유지, 스냅샷 재생성 — 아래 참조 |
+| 플러그인 Channel Info·북마크 메뉴 항목 | [1a518841](https://github.com/mattermost/mattermost/commit/1a518841fb48410b0b5e2fcdd9ab892e962aaa17) (#39613) | 확장점 두 개와 테스트는 그대로 받았다. 충돌 문맥으로 섞인 제외 계보(채널 설정 탭·Boards·compass-ui IconButton) 코드를 뺐고, 새 테스트 레이블을 포크 "Bookmarks"에 맞췄다 — 아래 참조 |
 
 ---
 
@@ -5222,3 +5223,27 @@ upstream `4028643a` 다음 로그 뷰어 커밋(#39478)과 Cloud Starter 정리(
 | `docs/main/end-user-guide/collaborate/format-messages.mdx`, `share-files-in-messages.mdx` | 사용자 안내 문서에 미리보기·코드 전환 설명 추가 | 문서 사이트 계보를 들일 때 |
 | 충돌 문맥 | `file_preview_modal.test.tsx`의 `seeds default scale/translate…`(upstream 확대·이동 계보) | 그 계보를 들일 때 |
 
+
+## 플러그인 Channel Info·북마크 메뉴 항목 — 충돌 문맥의 제외 계보 코드를 뺐다
+
+**upstream**: [`1a518841`](https://github.com/mattermost/mattermost/commit/1a518841fb48410b0b5e2fcdd9ab892e962aaa17)
+(Let plugins add Channel Info and bookmark menu items, #39613) — 11파일 +489/-8, 2026-11-09 sync 반영
+
+이 커밋이 추가한 `registerChannelInfoMenuAction`·`registerChannelBookmarksMenuAction`, 선택자, 리듀서 슬롯, 타입, 메뉴 렌더링, 테스트는 한 줄도 빼지 않았다. 변경 줄 비교에서 upstream과 다른 곳은 아래 두 곳뿐이다. 소비처는 Agents 플러그인(`mattermost-ai`)의 Channel artifacts다. 우리 Agents 포크(`okrbest-plugin-agents`)가 이 기능을 들일 때 호스트 쪽 훅이 이미 준비되어 있다.
+
+**우리 맞춤.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `selectors/plugins.test.ts` import | `ChannelSettingsTabComponent` 포함 | 뺐다. 포크 `types/store/plugins`에 그 타입이 없다 | `4255e314`(#35591)를 들일 때 |
+| `channel_header_menu/menu_items/channel_bookmarks_submenu.test.tsx`(신규) | `getByText('Bookmarks Bar')`로 서브메뉴를 연다 | `getByText('Bookmarks')`. 포크 `d913a70cf8`이 서브메뉴 레이블을 "Bookmarks"로 통일했다 | 포크가 upstream 레이블로 돌아갈 때 |
+
+**버린 것.** 모두 3-way 충돌의 theirs 쪽에 문맥으로 끼어든 코드다. 이 커밋이 바꾼 줄이 아니다.
+
+| 위치 | 내용 | 출처(제외한 계보) | 되살릴 조건 |
+|---|---|---|---|
+| `plugins/registry.ts` | `registerChannelSettingsTab` 메서드 전체 | `4255e314` Support pluggable channel settings tabs (#35591) | `4255e314`를 들일 때(ledger 재검토 조건: 번들 플러그인이 이 훅을 쓰기 시작할 때) |
+| `selectors/plugins.ts` | `getChannelSettingsTabs` 선택자 | 같음 | 같음 |
+| `selectors/plugins.test.ts` | `describe('getChannelSettingsTabs')` 3건 | 같음 | 같음 |
+| `components/channel_info_rhs/menu.test.tsx` | `should display Board Settings for a board` 테스트(`boardChannelsState` 헬퍼 사용) | `621cfdf4` Let plugins mark channels as boards (#39463) | 그 계보를 들이거나 자체 Boards 보드 문구 spec을 만들 때 |
+| `components/channel_bookmarks/bookmarks_bar_menu.test.tsx` | `describe('BookmarksBarMenu — IconButton triggers')` 3건(`icon-button--size-x-small` 등 compass 클래스를 단언) | `2412cad8` Migrate icon-only buttons to Compass IconButton (#39029) | compass-ui를 받아들일 때 |
