@@ -6,7 +6,7 @@
 
 **Status**: Draft
 
-**Input**: upstream mattermost `aa03fae7`(MM-69026, "Add zoom and pan to the image file preview", #36775) 선별 반영 과정에서 spec으로 전환. ledger 항목은 `docs/upstream-master-unmerged-commits.md`의 `aa03fae7` 행.
+**Input**: upstream mattermost `aa03fae7`(MM-69026, "Add zoom and pan to the image file preview", #36775) 선별 반영 과정에서 spec으로 전환. ledger 항목은 `spec-docs/upstream/upstream-master-unmerged-commits.md`의 `aa03fae7` 행.
 
 ## 배경
 

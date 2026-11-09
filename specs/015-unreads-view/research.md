@@ -141,7 +141,7 @@ US4의 세 시나리오가 현행 동작으로 전부 성립한다. admin consol
 
 **Decision**: 신규 코드는 `components/unreads_view/`와
 `components/sidebar/unreads_link/` 두 디렉터리에 격리한다. upstream 파일
-수정은 다음 7곳의 삽입으로 한정하고 `docs/upstream-adapted-divergences.md`에
+수정은 다음 7곳의 삽입으로 한정하고 `spec-docs/upstream/upstream-adapted-divergences.md`에
 기록한다.
 
 | upstream 접촉 지점 | 수정 |

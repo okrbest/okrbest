@@ -38,7 +38,7 @@ Slack 수치(본문 15/22, 제목 18/900, 크기 6단)로 올리고, 의미색�
 초기 로드 증가는 woff2 + `font-display: swap`으로 완화 (한글 4굵기 합계 약 2MB)
 
 **Constraints**: upstream 선별 머지 마찰 최소화 — 값 변경은 최소 diff, 구조
-추가는 오버라이드 파티얼로 격리하고 `docs/upstream-adapted-divergences.md`에
+추가는 오버라이드 파티얼로 격리하고 `spec-docs/upstream/upstream-adapted-divergences.md`에
 기록. Apache-2.0(webapp) 저작권 헤더 유지. 폰트 라이선스(OFL) 고지 유지
 
 **Scale/Scope**: 채널 화면 1개 영역 — 사이드바·전역 헤더·채널 헤더·메시지
@@ -106,7 +106,7 @@ webapp/channels/src/
 ├── components/resizable_sidebar/         # 사이드바 폭 정책 (기본값 비례화)
 └── i18n/{en,ko}.json                     # 프리셋 이름
 
-docs/upstream-adapted-divergences.md      # 발산 기록 (FR-019)
+spec-docs/upstream/upstream-adapted-divergences.md      # 발산 기록 (FR-019)
 ```
 
 **Structure Decision**: 기존 webapp 구조를 그대로 쓴다. 신설은

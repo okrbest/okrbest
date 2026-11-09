@@ -647,7 +647,7 @@ box-shadow:
 3. **토큰 우선.** 길이 값은 3장 토큰에서 고른다. 새 값이 필요하면 근거를
    기록하고 기준표(이 문서 3장 + `_tokens.scss`)를 먼저 갱신한다.
 4. **발산 기록.** upstream 파일과 갈라지는 변경은
-   `docs/upstream-adapted-divergences.md`에 커밋·사유·복원 조건과 함께
+   `spec-docs/upstream/upstream-adapted-divergences.md`에 커밋·사유·복원 조건과 함께
    기록한다.
 5. **증거로 완료를 판정한다.** 구현 전 실패 출력(테스트), 기준선 대비 diff
    (게이트), 실측값(성공 기준) — 증거가 없으면 완료가 아니다.

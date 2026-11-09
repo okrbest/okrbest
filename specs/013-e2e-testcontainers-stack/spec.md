@@ -219,7 +219,7 @@ LDAP을 직접 쓴다. 다만 그 커밋들은 2026-09-17 이후라 당장 막�
 `.github/workflows/e2e-tests-playwright-template.yml`이 우리 쪽 +471/-243으로
 갈라져 있다(`91de3d23` SEC-10179 adapt에서 워크플로 757줄 미반영). **이번 범위에서
 그 갈라짐을 메우지 않는다.** upstream 커밋의 워크플로 변경(1파일 +21/-14)은 우리
-갈라진 파일에 맞춰 반영하거나 보류하고, 보류하면 `docs/upstream-adapted-divergences.md`에
+갈라진 파일에 맞춰 반영하거나 보류하고, 보류하면 `spec-docs/upstream/upstream-adapted-divergences.md`에
 복원 조건과 함께 남긴다.
 
 종단 판정은 이 머신에서 Docker 실주행으로 한다. Docker가 있고 컨테이너 9개가

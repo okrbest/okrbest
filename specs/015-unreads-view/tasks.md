@@ -122,7 +122,7 @@
 
 ## Phase 7: Polish & 완료 검증
 
-- [X] T026 [P] upstream 발산 기록 — 접촉 7곳(ui-contract §5)을 `docs/upstream-adapted-divergences.md`에 추가
+- [X] T026 [P] upstream 발산 기록 — 접촉 7곳(ui-contract §5)을 `spec-docs/upstream/upstream-adapted-divergences.md`에 추가
 - [X] T027 코드 정리 — 신규 파일 저작권 헤더(원칙 IV), 미사용 import, 주석 밀도 점검
 
 ### 완료 검증 (고정 — 지우지 않는다)

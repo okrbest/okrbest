@@ -44,7 +44,7 @@ describe('components/admin_console/permission_policies/policy_details/Permission
     // okrbest: upstream also seeds TrustProxyDeviceIdentityHeader and
     // EnforceDeviceIDConsistency here. Our AccessControlSettings has neither —
     // the device-identity lineage is not in this fork, same gap as 020de7a6.
-    // See docs/upstream-adapted-divergences.md.
+    // See spec-docs/upstream/upstream-adapted-divergences.md.
     const accessControlSettings: AccessControlSettings = {
         EnableAttributeBasedAccessControl: true,
         EnableUserManagedAttributes: false,
@@ -116,7 +116,7 @@ describe('components/admin_console/permission_policies/policy_details/Permission
     // operators (IS_EXACTLY / IS_AT_LEAST / IS_GREATER_THAN / IS_AT_MOST /
     // IS_LESS_THAN) and isSimpleCondition only accepts == and !=, so a ranked
     // expression legitimately opens in Advanced mode here. See
-    // docs/upstream-adapted-divergences.md.
+    // spec-docs/upstream/upstream-adapted-divergences.md.
     test('opens a multiselect "has any of" group in Simple mode (MM-69527)', async () => {
         renderWithExpression('user.attributes.department == "engineering" && ("engineering" in user.attributes.teams || "sales" in user.attributes.teams)');
 

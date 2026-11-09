@@ -5,7 +5,7 @@
 // Loaded last from styles.scss so additions here never race upstream partials
 // on specificity. Keep upstream files to minimal value edits; put new
 // selectors, tokens, and component finish here.
-// Divergence log: docs/upstream-adapted-divergences.md
+// Divergence log: spec-docs/upstream/upstream-adapted-divergences.md
 
 // ---------------------------------------------------------------------------
 // Motion tokens (R10) — Slack 실측: 배경 80ms 즉각, 레이아웃 160ms 감속,

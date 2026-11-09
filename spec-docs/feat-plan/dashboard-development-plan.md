@@ -175,7 +175,7 @@ Figma MCP 접근은 여전히 막혀 있으나(편집 권한 필요), 캡처 5�
    플러그인 API는 웹앱에서 플러그인 경로로 직접 호출한다 (쿠키 인증 공유).
 2. **2단계 (B군)**: `GET /api/v4/okrbest/dashboard/...` 집계 엔드포인트를 서버에
    신설한다 — 활동 시계열, 응답 속도, 팀별 조인 표, OKR 스냅샷. 포크 전용
-   네임스페이스에 두고 `docs/upstream-adapted-divergences.md`에 기록한다.
+   네임스페이스에 두고 `spec-docs/upstream/upstream-adapted-divergences.md`에 기록한다.
    플러그인 바이너리(focalboard·playbooks·todo)는 수정하지 않는다.
 
 ### 디자인 — 로드맵과의 관계

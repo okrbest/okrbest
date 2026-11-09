@@ -85,7 +85,7 @@
 
 **복원 조건**: okrbest가 서버 이미지를 레지스트리에 발행하면 가드를 그 이미지를
 가리키는 기본값으로 바꿀 수 있다. 그때 upstream 형태(`||` 폴백)로 되돌아간다.
-`docs/upstream-adapted-divergences.md`에 이 조건과 함께 기록한다.
+`spec-docs/upstream/upstream-adapted-divergences.md`에 이 조건과 함께 기록한다.
 
 **이미지 조달**: 로컬 빌드다. **2026-10-03에 실제로 성공시켜 검증했다** — 아래는
 돌려본 절차이고, 처음 쓴 레시피는 세 군데가 틀려서 고쳤다.
@@ -301,7 +301,7 @@ upstream이 함께 넣는 것: 스크립트 3개(`test:full`, `testcontainers:up
 **+471/-243**로 갈라졌다(`91de3d23` SEC-10179 adapt에서 워크플로 757줄 미반영).
 upstream 변경은 +21/-14다.
 
-**결정**: 적용하지 않는다. `docs/upstream-adapted-divergences.md`에 복원 조건과
+**결정**: 적용하지 않는다. `spec-docs/upstream/upstream-adapted-divergences.md`에 복원 조건과
 함께 남긴다.
 
 **근거**: 사용자 제약의 가장 직접적인 적용 대상이다. 그리고 CODEOWNERS 보호

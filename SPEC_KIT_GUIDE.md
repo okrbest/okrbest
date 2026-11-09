@@ -229,7 +229,7 @@ Cursor는 채팅에서 "speckit-sync 스킬로 upstream 동기화하자" 등으�
 
 - git remote `upstream` = `https://github.com/mattermost/mattermost.git`
 - 로컬 브랜치 `upstream-master` (upstream/master 추적)
-- 미반영 목록(ledger): [docs/upstream-master-unmerged-commits.md](docs/upstream-master-unmerged-commits.md)
+- 미반영 목록(ledger): [spec-docs/upstream/upstream-master-unmerged-commits.md](spec-docs/upstream/upstream-master-unmerged-commits.md)
 
 ### 6-2. 사용법
 
@@ -309,7 +309,8 @@ sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플
 | `.specify/` | constitution·템플릿·스크립트 | 커밋 |
 | `.claude/skills/speckit-*` · `.agents/skills/speckit-*` · `.cursor/skills/speckit-*` | Spec Kit 스킬 정의 (세 벌이 같아야 한다) | 커밋 |
 | `CLAUDE.md` / `AGENTS.md` / `.cursor/rules/*.mdc` | 에이전트 컨텍스트 | 커밋 |
-| `docs/superpowers/` | brainstorming 임시 초안 | .gitignore |
+| `spec-docs/` | 가이드·계획서·upstream sync 장부(`upstream/`·`guides/`·`feat-plan/`) | 커밋 |
+| `docs/superpowers/` | brainstorming 임시 초안 (superpowers 플러그인 고정 경로) | .gitignore |
 | `.worktrees/` | 격리 워크스페이스 | .gitignore |
 | `.claude/settings.local.json` | 개인 권한 설정 | 커밋 안 함 |
 

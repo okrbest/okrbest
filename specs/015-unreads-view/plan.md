@@ -45,7 +45,7 @@ quickstart.md 실주행. 원칙 I에 따라 구현 전 기준선 저장
 대부분 store 적중, 부족분만 `loadUnreads` 보충
 
 **Constraints**: upstream 선별 머지 마찰 최소화 — 신규 디렉터리 2곳으로 격리,
-upstream 파일 수정은 삽입 위주 7곳, `docs/upstream-adapted-divergences.md`에
+upstream 파일 수정은 삽입 위주 7곳, `spec-docs/upstream/upstream-adapted-divergences.md`에
 기록. 보기만으로 읽음 처리 금지(FR-007). Apache-2.0 저작권 헤더 유지
 
 **Scale/Scope**: 화면 1개, 사이드바 링크 1개, 라우트 1개. 신규 컴포넌트 5~7개,
@@ -118,7 +118,7 @@ webapp/channels/src/
 ├── sass/okrbest/_overrides.scss          # 수정 — 사이드바 링크·카드 스타일 추가
 └── i18n/{en,ko}.json                     # 수정 — 신설 문구
 
-docs/upstream-adapted-divergences.md      # 발산 기록
+spec-docs/upstream/upstream-adapted-divergences.md      # 발산 기록
 ```
 
 **Structure Decision**: 기존 webapp 구조를 그대로 쓴다. 신설은

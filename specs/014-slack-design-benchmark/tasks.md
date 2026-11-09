@@ -138,7 +138,7 @@
 
 ## Phase 8: Polish & 완료 검증
 
-- [X] T030 [P] 발산 기록 — `docs/upstream-adapted-divergences.md`에 인라인 수정 파일(`_sidebar-left.scss`, `_headers.scss`, `_post.scss`, `_css_variables.scss`, `_typography.scss`, `preferences.ts`, `theme_utils.ts`, `global_header.tsx`)과 오버라이드 레이어(`sass/okrbest/_overrides.scss`) 신설을 기록 (FR-019) — "spec 014" 절 신설: 인라인 수정 12파일 표 + 포크 신설 + 되돌릴 조건
+- [X] T030 [P] 발산 기록 — `spec-docs/upstream/upstream-adapted-divergences.md`에 인라인 수정 파일(`_sidebar-left.scss`, `_headers.scss`, `_post.scss`, `_css_variables.scss`, `_typography.scss`, `preferences.ts`, `theme_utils.ts`, `global_header.tsx`)과 오버라이드 레이어(`sass/okrbest/_overrides.scss`) 신설을 기록 (FR-019) — "spec 014" 절 신설: 인라인 수정 12파일 표 + 포크 신설 + 되돌릴 조건
 
 ### 완료 검증 (고정 — 지우지 않는다)
 

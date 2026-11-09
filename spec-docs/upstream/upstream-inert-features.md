@@ -3,7 +3,7 @@
 우리가 **제외한 계보** 때문에 코드는 들어왔지만 실제로는 발동하지 않는 upstream 기능을 모은다.
 향후 그 계보를 도입하거나 자체 구현할 때 여기서부터 확인한다.
 
-`docs/upstream-master-unmerged-commits.md`와 역할이 다르다 — 그쪽은 **미반영·제외·spec 전환**
+`spec-docs/upstream/upstream-master-unmerged-commits.md`와 역할이 다르다 — 그쪽은 **미반영·제외·spec 전환**
 커밋의 목록이고, `/speckit-sync`의 `upstream-sync.sh update`가 매번 재생성한다(부록 3종만 보존).
 이 문서는 스크립트가 건드리지 않으므로 **반영된 뒤에도 남는 상태**를 기록한다.
 
@@ -11,7 +11,7 @@ Mattermost 비공개 저장소(`github.com/mattermost/enterprise/*`) 의존으�
 여기가 아니라 ledger 하단 **"Mattermost 비공개 사설 모듈 커밋"** 부록에 있다.
 
 코드가 **동작하지만 upstream과 형태가 다른** 지점(adapt로 벌어진 차이)은
-`docs/upstream-adapted-divergences.md`에 있다.
+`spec-docs/upstream/upstream-adapted-divergences.md`에 있다.
 
 | 반영 커밋 | upstream | 비활성 사유 · 활성화 조건 |
 |---|---|---|
@@ -137,5 +137,5 @@ de7a2dc759  MM-69614: Add per-user audit logging for ABAC membership sync (#3777
 **adapt 시 버린 것.** 충돌 7파일에서 upstream 블록에 함께 들어 있던
 `TrustProxyDeviceIdentityHeader`·`EnforceDeviceIDConsistency` 둘은 받지 않았다 — 이 커밋의
 추가분이 아니라 우리 `AccessControlSettings`에 없는 기존 upstream 필드다(세션·기기 속성 계보,
-`docs/upstream-adapted-divergences.md`의 `666f5d95` 항목). 결과로 우리 구조체는 기존 3필드 +
+`spec-docs/upstream/upstream-adapted-divergences.md`의 `666f5d95` 항목). 결과로 우리 구조체는 기존 3필드 +
 신규 1필드다.

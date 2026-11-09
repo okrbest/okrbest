@@ -65,7 +65,7 @@ L592-606·L690-710, 기타 L183·221·299·455·512·519·841·867). 전역 헤�
 **Rationale**: 값 치환은 diff가 줄 단위라 upstream 머지 충돌이 작다. 오버라이드
 파티얼로 같은 선택자를 재선언하면 특이도 경쟁이 생기고 upstream이 선택자를 바꾸면
 조용히 풀린다. FR-019의 "인라인 수정 최소화"는 구조 변경에 대한 규칙이고, 값
-치환은 기록만 남기면 된다(`docs/upstream-adapted-divergences.md`).
+치환은 기록만 남기면 된다(`spec-docs/upstream/upstream-adapted-divergences.md`).
 
 **Alternatives considered**: 테마 값에 알파를 미리 섞은 밝은 회색을 넣는 방법 —
 글자색 토큰의 의미가 깨지고 반전 구현(R3)과 충돌, 기각.

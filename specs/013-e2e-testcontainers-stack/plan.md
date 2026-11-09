@@ -184,7 +184,7 @@ e2e-tests/playwright/
 7. **FR-002 가드** — TDD. 가드 없는 상태의 실패(upstream 이미지를 당긴다)를 먼저 본다.
 8. **서버 이미지 빌드** — quickstart 1단계.
 9. **종단 검증** — quickstart 2~11단계 실주행. 실측값을 적는다.
-10. **갈라짐 기록** — `docs/upstream-adapted-divergences.md`에 D2·D6·D7의 복원 조건.
+10. **갈라짐 기록** — `spec-docs/upstream/upstream-adapted-divergences.md`에 D2·D6·D7의 복원 조건.
 11. **ledger 차감 확인** — 커밋 본문 `Upstream:` 링크가 있어야 자동 차감된다(FR-018).
 
 6단계를 4·5단계 뒤로 둔 이유: 앞의 76개를 넣어 `tsc -b`를 돌리면 갈라진 7개가

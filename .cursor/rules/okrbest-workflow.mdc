@@ -69,5 +69,5 @@ BDD 키워드(Given/When/Then)는 원형 유지. 템플릿이 영어로 산출�
 
 upstream(mattermost/mattermost) 커밋 선별 반영은 `speckit-sync` 스킬
 (`.cursor/skills/speckit-sync/SKILL.md`)을 따른다. 미반영 목록(ledger)은
-`docs/upstream-master-unmerged-commits.md`, 도우미 스크립트는
+`spec-docs/upstream/upstream-master-unmerged-commits.md`, 도우미 스크립트는
 `.specify/scripts/bash/upstream-sync.sh`. 반영 커밋마다 사용자 승인 필수.

@@ -271,7 +271,7 @@ User Story 1~4 모두 독립적으로 동작.
       병합 완료됨(`bfefe629dc` 등). T029·T031(런타임 통합 검증)은 여전히 미완료 — 별도
       세션에서 Windows 개발자 모드 활성화 또는 CI 환경에서 재검증 권장.
 - [X] T033 `SYNC_BASE_BRANCH=HEAD .specify/scripts/bash/upstream-sync.sh update` 실행해
-      `docs/upstream-master-unmerged-commits.md`에서 `b5a816a`가 정상 차감되는지 확인 후 커밋 —
+      `spec-docs/upstream/upstream-master-unmerged-commits.md`에서 `b5a816a`가 정상 차감되는지 확인 후 커밋 —
       **완료(2026-07-31)**: 브랜치가 이미 `master`로 병합되어 실행. `b5a816a6`는 미반영
       목록에서 제거되었고 "spec 전환 커밋" 부록에만 이력으로 남음(정상).
 

@@ -52,7 +52,7 @@
 ## 5. upstream 접촉 지점 (research 결정 10의 계약화)
 
 아래 7곳 외 upstream 파일을 수정하지 않는다. 수정은 전부 삽입이며, 완료 시
-`docs/upstream-adapted-divergences.md`에 기록한다.
+`spec-docs/upstream/upstream-adapted-divergences.md`에 기록한다.
 
 1. `center_channel.tsx` — Route 삽입
 2. `root.tsx` — 라우트 정규식에 `unreads`

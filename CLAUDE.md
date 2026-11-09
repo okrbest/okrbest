@@ -30,7 +30,7 @@ split and combined workflow. Project rules live in
 rebase merge 전용이다.
 
 Upstream(mattermost/mattermost) 커밋 선별 반영은 `/speckit-sync`를 사용한다.
-미반영 목록(ledger)은 `docs/upstream-master-unmerged-commits.md`.
+미반영 목록(ledger)은 `spec-docs/upstream/upstream-master-unmerged-commits.md`.
 
 ## Brainstorming → /speckit-specify 핸드오프
 
