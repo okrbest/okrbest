@@ -144,6 +144,7 @@
 | 메시지 선택 영역 인용 | [caaec8cd](https://github.com/mattermost/mattermost/commit/caaec8cda5e34866ccb2f7a4eb93e9dee585601c) (#39237) | spec 032로 반영. TipTap·Textbox 대신 Lexical 입력창에 `appendQuote`를 만들고, 원문을 그대로 내보내는 노드와 빈 줄 `>` 인용 transformer를 더했다 — 아래 참조 |
 | Markdown 미리보기·코드 전환 | [36ebc1f6](https://github.com/mattermost/mattermost/commit/36ebc1f6fc024e0c15d24e5dd925f7daf2ce88ad) (#39378) | spec 032로 반영. compass-ui 대신 `components/compass_shim`, 포크 이미지 확대 코드 유지, 스냅샷 재생성 — 아래 참조 |
 | 플러그인 Channel Info·북마크 메뉴 항목 | [1a518841](https://github.com/mattermost/mattermost/commit/1a518841fb48410b0b5e2fcdd9ab892e962aaa17) (#39613) | 확장점 두 개와 테스트는 그대로 받았다. 충돌 문맥으로 섞인 제외 계보(채널 설정 탭·Boards·compass-ui IconButton) 코드를 뺐고, 새 테스트 레이블을 포크 "Bookmarks"에 맞췄다 — 아래 참조 |
+| 팀 상세 고급 CEL 편집기 | [60cf157a](https://github.com/mattermost/mattermost/commit/60cf157a9ac10dbf0cd0a47d96f937abc19e9b74) (#39062) | 서버 가드·편집기 전환·잠금은 받았다. 제외 계보 헬퍼 둘(`toCELEditorAttributes`·`referencesResourceAttributes`)을 로컬로 두고, Session Attributes·rank·Boards 문맥과 Compass Switch 토글 방식을 뺐다 — 아래 참조 |
 
 ---
 
@@ -5247,3 +5248,34 @@ upstream `4028643a` 다음 로그 뷰어 커밋(#39478)과 Cloud Starter 정리(
 | `selectors/plugins.test.ts` | `describe('getChannelSettingsTabs')` 3건 | 같음 | 같음 |
 | `components/channel_info_rhs/menu.test.tsx` | `should display Board Settings for a board` 테스트(`boardChannelsState` 헬퍼 사용) | `621cfdf4` Let plugins mark channels as boards (#39463) | 그 계보를 들이거나 자체 Boards 보드 문구 spec을 만들 때 |
 | `components/channel_bookmarks/bookmarks_bar_menu.test.tsx` | `describe('BookmarksBarMenu — IconButton triggers')` 3건(`icon-button--size-x-small` 등 compass 클래스를 단언) | `2412cad8` Migrate icon-only buttons to Compass IconButton (#39029) | compass-ui를 받아들일 때 |
+
+## 팀 상세 고급 CEL 편집기 — 제외 계보 헬퍼를 로컬로 두고 Session Attributes 부분을 뺐다
+
+**upstream**: [`60cf157a`](https://github.com/mattermost/mattermost/commit/60cf157a9ac10dbf0cd0a47d96f937abc19e9b74)
+(Mm 71104 - Add advanced CEL editor to teams details page in the system console, #39062) — 41파일 +4046/-178, 2026-11-09 sync 반영
+
+서버(`checkMembershipRuleEditable`·`rejectAdvancedMembershipRules`·`CheckMembershipExpression`·`checkExpression`의 `membership` 플래그·PAP 인터페이스·mock·`Client4`·API yaml)는 그대로 받았다. 우리 빌드는 ABAC 엔진(비공개 `github.com/mattermost/enterprise/access_control`)이 없어 `acs == nil` 경로로 빠지므로 가드는 발동하지 않는다(private-module 표에 기록). webapp 편집기 전환·고급 규칙 잠금·접근성 보강과 테스트도 받았다. squash 본문의 MM-71261(#39290)은 메시지뿐이고 코드는 `984b0dd973`으로 이미 반영되어 있다.
+
+**우리 맞춤.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `team/details/team_level_access_rules.tsx` | `editors/shared`의 `toCELEditorAttributes` | 같은 이름의 로컬 함수. 필터는 포크 `permission_policy_details`와 같다(사용자 관리 허용이거나 ldap·saml·admin·protected). `isNative`·`objectType`은 넣지 않는다 | native 속성 계보 `17c77e27`(#37174)를 들일 때 로컬 함수를 지우고 import로 되돌린다 |
+| 같음 | `membershipAttributes = useMemo(() => excludeSessionAttributes(userAttributes))` | `membershipAttributes = userAttributes` | Session Attributes 계보를 들일 때 |
+| 같음 | `@mattermost/types/properties_user` | `@mattermost/types/properties` | properties 타입 분리 계보를 들일 때 |
+| `team/details/team_rule_guards.ts`(신규) | `editors/shared`의 `referencesResourceAttributes` | 같은 동작의 로컬 함수와 `RESOURCE_ATTRIBUTES_PREFIX` | 채널 속성 계보 `c3a5a087`(#37755)를 들일 때 import로 되돌린다 |
+| `channel_settings_access_rules_tab.tsx` | `import {canTableEditorRender, excludeSessionAttributes}` | `import {canTableEditorRender}`(포크엔 원래 `excludeSessionAttributes` 호출이 없다) | Session Attributes 계보를 들일 때 |
+| `team/details/team_level_access_rules.test.tsx` | `the advanced editor gets no team scope, no resource attributes and no session attributes`에 `object_type: 'session'` 필드 주입 | session 필드를 빼고 `…no team scope and no resource attributes`로 이름을 바꿨다 | 같음 |
+| `e2e .../abac/teams/helpers.ts` `setToggle` | `toggle.check()/uncheck({force: true})`(Compass Switch) | `aria-pressed`를 읽어 `click()`(포크 토글은 버튼이다) | Compass Switch 이관 `e3d074ff`(#39038)을 들일 때 |
+
+**버린 것.** 앞의 셋은 3-way 충돌의 theirs 쪽에 문맥으로 끼어든 코드다.
+
+| 위치 | 내용 | 출처(제외한 계보) | 되살릴 조건 |
+|---|---|---|---|
+| `server/i18n/en.json` | `app.pap.rehydrate_rank.app_error` | PropertyFieldRank 계보 | rank 계보를 들일 때 |
+| `webapp/channels/src/i18n/en.json` | `channel_settings_modal.purpose.placeholder.board` | `621cfdf4`(#39463, Boards) | 그 계보를 들일 때 |
+| `editors/shared.test.tsx` | `excludeSessionAttributes`·`celPrefixForField`·`mergeSessionAttributes`·`isNativeMethodOperator`·`referencesResourceAttributes` 등 describe 약 340줄 | Session Attributes·native 속성·채널 속성 계보 | 각 계보를 들일 때 |
+| `channel_settings_access_rules_tab.test.tsx` | `describe('session attributes')`(2건) | Session Attributes 계보 | 같음 |
+| `team/details/team_level_access_rules.test.tsx` | `the table editor gets no session attributes` | 같음 | 같음 |
+
+**판정에서 뺀 것.** 새 Playwright 스펙 셋(`team_advanced_rules.spec.ts`·`team_advanced_rules_flag_off.spec.ts`·`channel_settings_access_rules_locked.spec.ts`)은 들였지만 돌리지 않았다. Enterprise 라이선스와 ABAC 엔진이 있어야 동작한다.

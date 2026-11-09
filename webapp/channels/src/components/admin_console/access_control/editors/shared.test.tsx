@@ -7,7 +7,7 @@ import type {UserPropertyField} from '@mattermost/types/properties';
 
 import {renderWithContext, screen} from 'tests/react_testing_utils';
 
-import {TestButton, hasUsableAttributes} from './shared';
+import {TestButton, hasUsableAttributes, isSimpleExpression} from './shared';
 
 describe('TestButton', () => {
     const baseProps = {
@@ -382,5 +382,23 @@ describe('hasUsableAttributes', () => {
         ];
 
         expect(hasUsableAttributes(userAttributes, false)).toBe(true);
+    });
+});
+
+describe('isSimpleExpression with multiselect "has any of" groups', () => {
+    test('a parenthesized group is simple', () => {
+        expect(isSimpleExpression('("A" in user.attributes.program || "B" in user.attributes.program)')).toBe(true);
+    });
+
+    test('a lone group without parentheses, as the server re-emits it, is simple', () => {
+        expect(isSimpleExpression('"A" in user.attributes.program || "B" in user.attributes.program')).toBe(true);
+    });
+
+    test('a group without parentheses next to && is not simple', () => {
+        expect(isSimpleExpression('"A" in user.attributes.program || "B" in user.attributes.program && user.attributes.dept == "Eng"')).toBe(false);
+    });
+
+    test('a bare OR of other conditions is not simple', () => {
+        expect(isSimpleExpression('user.attributes.dept == "Eng" || user.attributes.dept == "Sales"')).toBe(false);
     });
 });
