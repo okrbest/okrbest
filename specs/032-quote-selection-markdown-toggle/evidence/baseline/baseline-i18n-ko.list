@@ -1,0 +1,36 @@
+ko.json:admin.cacheSettings.redisEnableTLS: missing key
+ko.json:admin.cacheSettings.redisEnableTLSDesc: missing key
+ko.json:admin.cacheSettings.redisTLSCA: missing key
+ko.json:admin.cacheSettings.redisTLSCADesc: missing key
+ko.json:admin.cacheSettings.redisTLSClientCert: missing key
+ko.json:admin.cacheSettings.redisTLSClientCertDesc: missing key
+ko.json:admin.cacheSettings.redisTLSClientKey: missing key
+ko.json:admin.cacheSettings.redisTLSClientKeyDesc: missing key
+ko.json:admin.cacheSettings.redisTLSSkipVerify: missing key
+ko.json:admin.cacheSettings.redisTLSSkipVerifyDesc: missing key
+ko.json:admin.logs.allNodes: missing key
+ko.json:admin.logs.customRange.apply: missing key
+ko.json:admin.logs.customRange.errorOrder: missing key
+ko.json:admin.logs.customRange.from: missing key
+ko.json:admin.logs.customRange.timezone: missing key
+ko.json:admin.logs.customRange.title: missing key
+ko.json:admin.logs.customRange.to: missing key
+ko.json:admin.logs.header.node: missing key
+ko.json:admin.logs.liveTail.customRange: missing key
+ko.json:admin.logs.newEntries: missing key
+ko.json:admin.logs.node.dropdownAriaLabel: missing key
+ko.json:admin.logs.node.menuButtonAriaLabel: missing key
+ko.json:admin.logs.node: missing key
+ko.json:admin.logs.showingMatches: missing key
+ko.json:admin.logs.time.custom: missing key
+ko.json:admin.logs.truncated.description: missing key
+ko.json:admin.logs.truncated.descriptionNodes: missing key
+ko.json:admin.logs.truncated.title: missing key
+ko.json:admin.logs.truncated.titleNodes: missing key
+ko.json:admin.plugins.settings.restrictUnauthenticatedWebappPlugins: missing key
+ko.json:admin.plugins.settings.restrictUnauthenticatedWebappPluginsDesc: missing key
+ko.json:drafts.tooltipText: unknown variable/tag "br" not present in source
+ko.json:drafts.tooltipText: unknown variable/tag "draftCount" not present in source
+ko.json:drafts.tooltipText: unknown variable/tag "scheduledPostCount" not present in source
+ko.json:user.settings.display.collapseCategoryWithUnreadsDescription: missing key
+ko.json:user.settings.display.collapseCategoryWithUnreadsTitle: missing key

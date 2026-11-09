@@ -1,0 +1,31 @@
+● LexicalTextEditor markdown compatibility › should export valid markdown on change
+● LexicalTextEditor markdown compatibility › should render markdown: ### Heading
+● LexicalTextEditor markdown compatibility › should render markdown: **bold text**
+● LexicalTextEditor markdown compatibility › should render markdown: *italic text*
+● LexicalTextEditor markdown compatibility › should render markdown: - item 1
+● LexicalTextEditor markdown compatibility › should render markdown: 1. first
+● LexicalTextEditor markdown compatibility › should render markdown: > blockquote
+● LexicalTextEditor markdown compatibility › should render markdown: [link](https://example.com)
+● LexicalTextEditor markdown compatibility › should render markdown: `inline code`
+● LexicalTextEditor markdown compatibility › should render markdown: ~~strikethrough~~
+● LexicalTextEditor › should be disabled when disabled prop is true
+● LexicalTextEditor › should render with initial markdown value
+● LexicalTextEditor › should render without crashing
+● apply_mention_replacement › applyMentionReplacement › 단일 노드 ~공 단순 치환
+● apply_mention_replacement › applyMentionReplacement › 문장 시작 영문 @멘션 치환 시 뒤 텍스트를 보존한다
+● apply_mention_replacement › applyMentionReplacement › 영문 @멘션을 문장 시작에서 선택하면 멘션 노드로 치환된다
+● components/avanced_text_editor/advanced_text_editor › emoji picker › should add a space after the existing text if needed
+● components/avanced_text_editor/advanced_text_editor › emoji picker › should add emojis to the end of the text
+● components/avanced_text_editor/advanced_text_editor › emoji picker › should be able to add an emoji in the middle of the text
+● components/avanced_text_editor/advanced_text_editor › emoji picker › should be able to add an emoji in the middle of the text without adding an extra space
+● components/avanced_text_editor/advanced_text_editor › keyDown behavior › ESC should blur the input
+● components/avanced_text_editor/advanced_text_editor › keyDown behavior › ESC should blur the input and reset draft when in editing mode
+● components/avanced_text_editor/advanced_text_editor › should deleted a deleted draft when changing channels
+● components/avanced_text_editor/advanced_text_editor › should mount and send when rootId is omitted, as plugins may do via window.Components
+● components/avanced_text_editor/advanced_text_editor › should not adopt the previous channel draft when a submit resolves after a channel switch
+● components/avanced_text_editor/advanced_text_editor › should not adopt the previous thread draft when a submit resolves after a thread switch
+● components/avanced_text_editor/advanced_text_editor › should persist text typed during a channel switch only under the destination draft
+● components/avanced_text_editor/advanced_text_editor › should save a new draft when changing channels
+● components/avanced_text_editor/advanced_text_editor › should save an updated draft when changing channels
+● components/avanced_text_editor/advanced_text_editor › should set the textbox value to an existing draft on mount and when changing channels
+● components/avanced_text_editor/advanced_text_editor › should submit a destination-owned draft while the textbox still holds the previous channel value
