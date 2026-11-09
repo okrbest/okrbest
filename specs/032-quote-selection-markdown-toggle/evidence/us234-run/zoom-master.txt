@@ -1,0 +1,7 @@
+start 1 imgs; [400,500,406,"image_preview",0,0,"DIV.fade modal-image file-preview-modal in modal"]
+after Equal 1 imgs; [400,500,406,"image_preview",0,0,"DIV.fade modal-image file-preview-modal in modal"]
+after + 1 imgs; [400,500,406,"image_preview",0,0,"DIV.fade modal-image file-preview-modal in modal"]
+after 0 1 imgs; [400,500,406,"image_preview",0,0,"DIV.fade modal-image file-preview-modal in modal"]
+after blur + = 1 imgs; [400,500,406,"image_preview",0,0,"DIV.fade modal-image file-preview-modal in modal"]
+after 6 wheels 1 imgs; [686,357,299,"image_preview image_preview--pannable",0,0,"DIV.fade modal-image file-preview-modal in modal"]
+after drag 1 imgs; [686,357,299,"image_preview image_preview--pannable image_preview--dragging",0,0,"DIV.fade modal-image file-preview-modal in modal"]
