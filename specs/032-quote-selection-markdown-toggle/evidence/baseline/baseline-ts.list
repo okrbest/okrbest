@@ -1,0 +1,13 @@
+src/components/admin_console/admin_definition_ldap_wizard.tsx(263,9): error TS2322
+src/components/admin_console/admin_definition_ldap_wizard.tsx(384,9): error TS2322
+src/components/admin_console/admin_definition_ldap_wizard.tsx(40,9): error TS2322
+src/components/admin_console/admin_definition_ldap_wizard.tsx(608,9): error TS2322
+src/components/admin_console/admin_definition_ldap_wizard.tsx(656,9): error TS2322
+src/components/admin_console/admin_definition_ldap_wizard.tsx(657,9): error TS2322
+src/components/lexical_editor/nodes/emoji_node.test.ts(95,37): error TS2345
+src/components/lexical_editor/nodes/emoji_node.test.ts(96,34): error TS2345
+src/components/lexical_editor/plugins/markdown_paste_plugin.tsx(53,13): error TS2353
+src/components/post_view/post_view.test.tsx(30,82): error TS7006
+src/components/post_view/post_view.test.tsx(32,82): error TS7006
+src/components/resizable_sidebar/resizable_lhs/index.tsx(31,13): error TS2322
+src/components/resizable_sidebar/resizable_lhs/index.tsx(32,13): error TS2322
