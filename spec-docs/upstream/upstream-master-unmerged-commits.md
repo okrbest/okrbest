@@ -3,23 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-09 21:31
+- 갱신일: 2026-11-10 00:46
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 24개
+- 남은 커밋: 25개
 
-**마지막 반영 커밋:** `60cf157a` | [Mm 71104 - Add advanced CEL editor to teams details page in the system console (#39062)](https://github.com/mattermost/mattermost/commit/60cf157a9ac10dbf0cd0a47d96f937abc19e9b74) | 2026-11-06
+**마지막 반영 커밋:** `0f03a2d9` | [Add filestore disk capacity health rules (#39731)](https://github.com/mattermost/mattermost/commit/0f03a2d9beb6a15cdf560dc0906ce1d00e68b124) | 2026-11-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| de4078ec | [\[MM-71426\] Health Dashboard PR17b: probe and node-down rules over every node (#39515)](https://github.com/mattermost/mattermost/commit/de4078ec11b8e4872f417be4de30195772a1f11b) | 2026-11-06 |
-| 8e5796ae | [MM-70906: Bound support packet diagnostics probes and the SMTP handshake (#39647)](https://github.com/mattermost/mattermost/commit/8e5796ae33eadb1a3c233e22657b6fab1b87f749) | 2026-11-06 |
-| 3cf7d6e6 | [MM-71226: Bump mattermost/pdf to aad8dd5 (#39775)](https://github.com/mattermost/mattermost/commit/3cf7d6e6bb31ad56021fb55955153578433290dd) | 2026-11-06 |
-| 4c5a637f | [MM-71542: Support CWS login for preview installations on self-hosted licenses (#39737)](https://github.com/mattermost/mattermost/commit/4c5a637ffa39ad1cfa20be7a508a467c1d17b640) | 2026-11-06 |
-| 0eafe631 | [MM-70985: update paging defaults and per-post metadata handling for post reads (#38809)](https://github.com/mattermost/mattermost/commit/0eafe63172090e239272cb196b9b8bcd2c4232d6) | 2026-11-06 |
-| b9eed09f | [Docs: Update ABAC and property system docs for v12.0 (#39297)](https://github.com/mattermost/mattermost/commit/b9eed09fde7e7216fbcca9c21db7a72636038850) | 2026-11-06 |
-| 20c15b9d | [Monthly maintenance (2026-11): Update webapp dependencies (#39583)](https://github.com/mattermost/mattermost/commit/20c15b9d2be5c7409a16b6831b5979de76812d4f) | 2026-11-06 |
-| 55456157 | [MM-71113, MM-71114: Send all reactions and acks of each synced post (#39755)](https://github.com/mattermost/mattermost/commit/5545615706a86dd90f3de2c516e40d59eafa82b2) | 2026-11-06 |
-| 0f03a2d9 | [Add filestore disk capacity health rules (#39731)](https://github.com/mattermost/mattermost/commit/0f03a2d9beb6a15cdf560dc0906ce1d00e68b124) | 2026-11-06 |
 | 76c61481 | [Docs: Add create_burn_on_read_post to ABAC action lists (#39634)](https://github.com/mattermost/mattermost/commit/76c61481bdb8e8a55fd3a1b32078d7f30bb5567a) | 2026-11-06 |
 | a689afe3 | [Add PUSH_PROXY_UNREACHABLE site health rule (#39725)](https://github.com/mattermost/mattermost/commit/a689afe302ec606ac086f0ba71737e3fa6754ac4) | 2026-11-06 |
 | 8af02bfe | [Fix flaky TestHydratePropertyValues (#39226)](https://github.com/mattermost/mattermost/commit/8af02bfe18b77c101b5a3224f2a76c91b5be8ce1) | 2026-11-06 |
@@ -35,6 +26,16 @@
 | 7a6cca12 | [ci(e2e): disable Testcontainers Ryuk on Playwright full-suite workers (#39809)](https://github.com/mattermost/mattermost/commit/7a6cca1254ec5a5c1bc26016da8e1c1335f4ce43) | 2026-11-09 |
 | cb89ca4c | [chore: Update NOTICE.txt file with updated dependencies (#39816)](https://github.com/mattermost/mattermost/commit/cb89ca4c46c0f5e14678fd714d518ce71832c52a) | 2026-11-09 |
 | 86a1d5cd | [ci(e2e): a definitive verdict for every red E2E lane (#39803)](https://github.com/mattermost/mattermost/commit/86a1d5cd7972c11d764b62787674e2595270c2b7) | 2026-11-09 |
+| 8848564c | [MM-70927: Update binary websocket frame decoding (#38790)](https://github.com/mattermost/mattermost/commit/8848564c6fb129d84caa24ebf91c056bd9e11599) | 2026-11-09 |
+| 9ec63888 | [Let plugin search types take priority over keyword search (#39217)](https://github.com/mattermost/mattermost/commit/9ec63888c24025e8885dda49c53763b17dea3859) | 2026-11-09 |
+| 371e32a4 | [MM-71578: update file storage connection handling (#39627)](https://github.com/mattermost/mattermost/commit/371e32a4343f7473bba5b198f692bfd9942168ca) | 2026-11-09 |
+| 4dda50f0 | [MM-71537: Update mention parsing of punctuated words (#39624)](https://github.com/mattermost/mattermost/commit/4dda50f027ab046703073b97caca534acdcb6c46) | 2026-11-09 |
+| 7938c858 | [Raise session attribute minimum TTL and grace period to 1 minute (#39733)](https://github.com/mattermost/mattermost/commit/7938c8589ff5e201baa5dc2194aaedce0a6f384d) | 2026-11-09 |
+| 1d86e722 | [drip: go idioms: errors.AsType in app/bot (#39805)](https://github.com/mattermost/mattermost/commit/1d86e72244b415b502d4a6e6dd66024b48272b2b) | 2026-11-09 |
+| c1a8faaf | [MM-71073: Update file image mini-preview handling (#38932)](https://github.com/mattermost/mattermost/commit/c1a8faafe3101f65e5645a3a89437fe7d83dff70) | 2026-11-09 |
+| c4e7f8a3 | [Isolate messages from plugin-framed untrusted content (#39609)](https://github.com/mattermost/mattermost/commit/c4e7f8a369f186b305424df78958006d60b4c4a0) | 2026-11-09 |
+| a8e6db62 | [docs: rewrite the Desktop App deployment guide (#39669)](https://github.com/mattermost/mattermost/commit/a8e6db6221ab146c756fd7b639e3aee8b27434c5) | 2026-11-09 |
+| a2a9b488 | [\[MM-70289\] Keep typed text in the AI Rewrite prompt when an older value re-renders (#39807)](https://github.com/mattermost/mattermost/commit/a2a9b4887701251f29660f9f172bb95bd62176e2) | 2026-11-09 |
 
 ## 제외된 커밋
 
@@ -911,6 +912,8 @@
 
 | 4d0faf21 | [Use Compass Combobox for System Console and Bots custom select and multiselect attributes (#39574)](https://github.com/mattermost/mattermost/commit/4d0faf214848b5025687ab799086cffe973c4bf1) | Compass Combobox 이관(compass-ui alpha.26 올림 포함). compass-ui는 라이선스가 없어 제외했고(2026-10-18 결정), 앞 단계 965c282e(#39481)와 attribute_combobox 등 9개 파일도 포크에 없다. menu.tsx container prop은 포크에 쓸 곳이 없고, user_settings_general.tsx 변경은 Combobox 작업의 일부다. |
 
+| b9eed09f | [Docs: Update ABAC and property system docs for v12.0 (#39297)](https://github.com/mattermost/mattermost/commit/b9eed09fde7e7216fbcca9c21db7a72636038850) | 코드 변경 없는 문서 커밋(39파일 +3204/-764). api/v4 yaml 7파일은 대부분 제외 계보의 API 문서다 — properties.yaml(+544)은 HEAD에 없는 property v2 계보, definitions·channels·custom_profile_attributes yaml은 rank·graph 타입·채널 속성 property_values·managed_category_name(Managed Categories)·native/session 속성 설명이 섞여 충돌한다. 우리 기능(팀·채널 관리자 ABAC 권한) 설명만 골라내는 선별 adapt는 1,870줄 수작업 대비 얻는 것이 작아 받지 않는다. docs/ 32파일은 spec-docs/upstream/upstream-docs-restore-directive.md 작업에서 B 그룹 (나)(docs/ 부분만, Upstream-docs: 트레일러)로 반영한다 — 이 행은 그때 유지하고 반영 날짜를 덧붙인다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -943,6 +946,8 @@
 | caaec8cd | [Add a button to quote text selected in a message (#39237)](https://github.com/mattermost/mattermost/commit/caaec8cda5e34866ccb2f7a4eb93e9dee585601c) | 메시지 선택 영역 인용 버튼 (가칭) — 27파일 +2013 신규 기능. upstream은 Textbox·TipTap에 삽입하지만 우리 입력창은 LexicalTextEditor이고 ValueSyncPlugin이 초기값·비우기만 동기화하므로 Lexical 삽입·커서 코드를 새로 설계해야 한다. 선택 판정·버튼·draft 상태·quote.ts·Turndown 멘션 규칙은 재사용 가능. jsdom에서 Lexical 입력 재현 불가라 브라우저 검증 필요 |
 
 | 36ebc1f6 | [Add Preview/Code toggle for Markdown file previews and code blocks (#39378)](https://github.com/mattermost/mattermost/commit/36ebc1f6fc024e0c15d24e5dd925f7daf2ce88ad) | markdown-preview-toggle (가칭, compass-ui 없이 재구현 필요) |
+
+| 20c15b9d | [Monthly maintenance (2026-11): Update webapp dependencies (#39583)](https://github.com/mattermost/mattermost/commit/20c15b9d2be5c7409a16b6831b5979de76812d4f) | webapp-deps-2026-10-11 (4ca793bd 10월분과 한 작업으로 묶음: package.json 버전 옮기기·TipTap/compass-ui 제외·monaco 0.57 webpack 플러그인 경로·web-vitals 6 INP 타입·npm install로 lock 재생성·스냅샷 검토·check-types/jest 기준선 비교) |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
