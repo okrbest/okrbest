@@ -26,6 +26,7 @@ import {CHANNELS_MARKDOWN_IMPORT_WITHOUT_TABLE, CHANNELS_TRANSFORMERS, CHANNELS_
 import {ChannelMentionNode} from './nodes/channel_mention_node';
 import {EmojiNode} from './nodes/emoji_node';
 import {MentionNode} from './nodes/mention_node';
+import {QuotedMarkdownTextNode} from './nodes/quoted_markdown_text_node';
 import ChannelMentionPlugin from './plugins/channel_mention_plugin';
 import EmojiPlugin from './plugins/emoji_plugin';
 import FocusPlugin from './plugins/focus_plugin';
@@ -35,6 +36,7 @@ import MarkdownPastePlugin from './plugins/markdown_paste_plugin';
 import MentionPlugin from './plugins/mention_plugin';
 import OnChangeMarkdownPlugin from './plugins/on_change_plugin';
 import SlashCommandPlugin from './plugins/slash_command_plugin';
+import {$appendQuote} from './utils/append_quote';
 import {getPlainTextOffsetsFromContentEditable} from './utils/plain_text_selection_offsets';
 import {readChannelsMarkdownForSubmit} from './utils/read_channels_markdown_for_submit';
 
@@ -70,6 +72,10 @@ export type LexicalTextEditorHandle = {
 
     /** Enter 전송 직전 draft 와 동기화용 (OnChange 가 아직 반영되지 않은 경우 대비) */
     readMarkdownForSubmit: () => string | null;
+
+    // Appends the Markdown as a blockquote at the end of the document, followed by an
+    // empty paragraph that receives the caret (upstream WysiwygEditorHandle.appendQuote).
+    appendQuote: (markdown: string) => void;
 };
 
 // 에디터 값 동기화 플러그인 (초기값 설정 + 외부에서 빈 값으로 리셋 시 클리어)
@@ -207,6 +213,23 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
             }
             return readChannelsMarkdownForSubmit(ed);
         },
+        appendQuote: (markdown: string) => {
+            const ed = editorRef.current;
+
+            // EditablePlugin keeps the editor read-only while the message box is disabled
+            if (!ed || !ed.isEditable()) {
+                return;
+            }
+
+            let inserted = false;
+            ed.update(() => {
+                inserted = $appendQuote(markdown);
+            }, {discrete: true});
+
+            if (inserted) {
+                ed.focus();
+            }
+        },
     }), []);
 
     const initialConfig = useMemo(() => ({
@@ -226,6 +249,7 @@ const LexicalTextEditor = forwardRef<LexicalTextEditorHandle, LexicalTextEditorP
             MentionNode,
             ChannelMentionNode,
             EmojiNode,
+            QuotedMarkdownTextNode,
         ],
         onError: (error: Error) => {
             console.error('LexicalTextEditor error:', error);
