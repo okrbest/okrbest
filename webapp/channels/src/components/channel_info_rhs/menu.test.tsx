@@ -315,4 +315,45 @@ describe('channel_info_rhs/menu', () => {
         await act(async () => props.actions.getChannelStats());
         expect(screen.queryByText('Channel Settings')).not.toBeInTheDocument();
     });
+
+    test('should display and invoke plugin Channel Info menu items', async () => {
+        const pluginAction = jest.fn();
+        const channel = {id: 'ch1', type: Constants.OPEN_CHANNEL} as Channel;
+        const props = {
+            ...defaultProps,
+            channel,
+        };
+
+        renderWithContext(
+            <Menu
+                {...props}
+            />,
+            {
+                plugins: {
+                    components: {
+                        ChannelInfoMenu: [{
+                            id: 'plugin-artifacts',
+                            pluginId: 'mattermost-ai',
+                            icon: <i className='icon icon-code-tags'/>,
+                            text: 'Channel artifacts',
+                            action: pluginAction,
+                            shouldRender: () => true,
+                            badge: 3,
+                            opensSubpanel: true,
+                        }],
+                    },
+                },
+            },
+        );
+
+        await act(async () => {
+            props.actions.getChannelStats();
+        });
+
+        const item = screen.getByText('Channel artifacts');
+        expect(item).toBeInTheDocument();
+        expect(item.parentElement).toHaveTextContent('3');
+        await userEvent.click(item);
+        expect(pluginAction).toHaveBeenCalledWith('ch1');
+    });
 });

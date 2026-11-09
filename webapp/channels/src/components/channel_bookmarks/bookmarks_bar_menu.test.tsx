@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {waitFor} from '@testing-library/react';
 import React from 'react';
 
 import type {ChannelBookmark} from '@mattermost/types/channel_bookmarks';
 
-import {renderWithContext} from 'tests/react_testing_utils';
+import {renderWithContext, screen, userEvent} from 'tests/react_testing_utils';
 
 import BookmarksBarMenu from './bookmarks_bar_menu';
 
@@ -13,6 +14,7 @@ const mockDropTargetForElements: jest.Mock = jest.fn(() => () => undefined);
 
 jest.mock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
     dropTargetForElements: (arg: unknown) => mockDropTargetForElements(arg),
+    draggable: () => () => undefined,
 }));
 
 function makeBookmark(id: string): ChannelBookmark {
@@ -96,5 +98,58 @@ describe('BookmarksBarMenu — overflow drop target', () => {
 
         const config = mockDropTargetForElements.mock.calls[0][0] as unknown as DropTargetConfig;
         expect(config.canDrop({source: {data: {type: 'something-else'}}})).toBe(false);
+    });
+});
+
+describe('BookmarksBarMenu — plugin items', () => {
+    const action = jest.fn();
+    const pluginState = {
+        plugins: {
+            components: {
+                ChannelBookmarksMenu: [{
+                    id: 'artifacts',
+                    pluginId: 'ai',
+                    text: 'Add channel artifact',
+                    action,
+                    icon: <i className='icon'/>,
+                }],
+            },
+        },
+    };
+
+    beforeEach(() => {
+        action.mockClear();
+    });
+
+    test('runs the plugin action when the bookmark limit is not reached', async () => {
+        renderWithContext(
+            <BookmarksBarMenu
+                {...baseProps}
+                overflowItems={[]}
+                forceOpen={true}
+            />,
+            pluginState,
+        );
+
+        await userEvent.click(screen.getByRole('menuitem', {name: /Add channel artifact/}));
+        await waitFor(() => expect(action).toHaveBeenCalledWith('c1'));
+    });
+
+    test('does not run the plugin action when the bookmark limit is reached', async () => {
+        renderWithContext(
+            <BookmarksBarMenu
+                {...baseProps}
+                overflowItems={['a']}
+                bookmarks={{a: makeBookmark('a')}}
+                limitReached={true}
+                forceOpen={true}
+            />,
+            pluginState,
+        );
+
+        const item = screen.getByRole('menuitem', {name: /Add channel artifact/});
+        expect(item).toHaveAttribute('aria-disabled', 'true');
+        expect(item).toHaveStyle({pointerEvents: 'none'});
+        expect(action).not.toHaveBeenCalled();
     });
 });
