@@ -5,7 +5,13 @@ import classNames from 'classnames';
 import React, {useRef, useState} from 'react';
 import {FormattedMessage, defineMessages, useIntl} from 'react-intl';
 
+import CheckIcon from '@mattermost/compass-icons/components/check';
+import ContentCopyIcon from '@mattermost/compass-icons/components/content-copy';
 import {WithTooltip} from '@mattermost/shared/components/tooltip';
+
+import {Icon} from 'components/compass_shim/icon';
+import {IconButton} from 'components/compass_shim/icon_button';
+import type {IconButtonProps} from 'components/compass_shim/icon_button';
 
 import {copyToClipboard} from 'utils/utils';
 
@@ -13,6 +19,9 @@ type Props = {
     content: string;
     isForText?: boolean;
     className?: string;
+
+    // Render as a Compass IconButton instead of the inline code block control
+    iconButtonProps?: Pick<IconButtonProps, 'size' | 'style' | 'padding'>;
 };
 
 const CopyButton: React.FC<Props> = (props: Props) => {
@@ -21,7 +30,7 @@ const CopyButton: React.FC<Props> = (props: Props) => {
     const [isCopied, setIsCopied] = useState(false);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-    const copyText = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+    const copyText = (e: React.MouseEvent<HTMLElement, MouseEvent>): void => {
         e.preventDefault();
         setIsCopied(true);
 
@@ -48,6 +57,22 @@ const CopyButton: React.FC<Props> = (props: Props) => {
     const tooltipText = (
         <FormattedMessage {...tooltipMessage}/>
     );
+
+    if (props.iconButtonProps) {
+        return (
+            <WithTooltip
+                title={tooltipText}
+            >
+                <IconButton
+                    {...props.iconButtonProps}
+                    className={props.className}
+                    icon={<Icon glyph={isCopied ? <CheckIcon/> : <ContentCopyIcon/>}/>}
+                    onClick={copyText}
+                    aria-label={intl.formatMessage(tooltipMessage)}
+                />
+            </WithTooltip>
+        );
+    }
 
     const spanClassName = classNames('post-code__clipboard', props.className);
 
