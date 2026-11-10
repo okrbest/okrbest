@@ -3,33 +3,18 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-10 11:43
+- 갱신일: 2026-11-10 13:24
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 19개
+- 남은 커밋: 4개
 
-**마지막 반영 커밋:** `80b1928b` | [\[MM-71429\] Queue a shared channel catch-up sync when a node becomes leader (#39561)](https://github.com/mattermost/mattermost/commit/80b1928bef1d509913753d5fc8dcb1bf35fd3c19) | 2026-11-08
+**마지막 반영 커밋:** `565277ba` | [\[MM-71657\] Describe Support Packet options in the Commercial Support dialog (#39754)](https://github.com/mattermost/mattermost/commit/565277baadd2fbf1fc2218a66d9d617b8adb5be6) | 2026-11-09
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 95cc6d95 | [MM-70987: migrate from x/crypto/openpgp to ProtonMail/go-crypto (#39738)](https://github.com/mattermost/mattermost/commit/95cc6d956ab40eec82580f789501e5d30f49d100) | 2026-11-09 |
-| 7a6cca12 | [ci(e2e): disable Testcontainers Ryuk on Playwright full-suite workers (#39809)](https://github.com/mattermost/mattermost/commit/7a6cca1254ec5a5c1bc26016da8e1c1335f4ce43) | 2026-11-09 |
-| cb89ca4c | [chore: Update NOTICE.txt file with updated dependencies (#39816)](https://github.com/mattermost/mattermost/commit/cb89ca4c46c0f5e14678fd714d518ce71832c52a) | 2026-11-09 |
-| 86a1d5cd | [ci(e2e): a definitive verdict for every red E2E lane (#39803)](https://github.com/mattermost/mattermost/commit/86a1d5cd7972c11d764b62787674e2595270c2b7) | 2026-11-09 |
-| 8848564c | [MM-70927: Update binary websocket frame decoding (#38790)](https://github.com/mattermost/mattermost/commit/8848564c6fb129d84caa24ebf91c056bd9e11599) | 2026-11-09 |
-| 9ec63888 | [Let plugin search types take priority over keyword search (#39217)](https://github.com/mattermost/mattermost/commit/9ec63888c24025e8885dda49c53763b17dea3859) | 2026-11-09 |
-| 371e32a4 | [MM-71578: update file storage connection handling (#39627)](https://github.com/mattermost/mattermost/commit/371e32a4343f7473bba5b198f692bfd9942168ca) | 2026-11-09 |
-| 4dda50f0 | [MM-71537: Update mention parsing of punctuated words (#39624)](https://github.com/mattermost/mattermost/commit/4dda50f027ab046703073b97caca534acdcb6c46) | 2026-11-09 |
-| 7938c858 | [Raise session attribute minimum TTL and grace period to 1 minute (#39733)](https://github.com/mattermost/mattermost/commit/7938c8589ff5e201baa5dc2194aaedce0a6f384d) | 2026-11-09 |
-| 1d86e722 | [drip: go idioms: errors.AsType in app/bot (#39805)](https://github.com/mattermost/mattermost/commit/1d86e72244b415b502d4a6e6dd66024b48272b2b) | 2026-11-09 |
-| c1a8faaf | [MM-71073: Update file image mini-preview handling (#38932)](https://github.com/mattermost/mattermost/commit/c1a8faafe3101f65e5645a3a89437fe7d83dff70) | 2026-11-09 |
-| c4e7f8a3 | [Isolate messages from plugin-framed untrusted content (#39609)](https://github.com/mattermost/mattermost/commit/c4e7f8a369f186b305424df78958006d60b4c4a0) | 2026-11-09 |
-| a8e6db62 | [docs: rewrite the Desktop App deployment guide (#39669)](https://github.com/mattermost/mattermost/commit/a8e6db6221ab146c756fd7b639e3aee8b27434c5) | 2026-11-09 |
-| a2a9b488 | [\[MM-70289\] Keep typed text in the AI Rewrite prompt when an older value re-renders (#39807)](https://github.com/mattermost/mattermost/commit/a2a9b4887701251f29660f9f172bb95bd62176e2) | 2026-11-09 |
-| f265a203 | [MM-71581: update burn-on-read post field handling (#39655)](https://github.com/mattermost/mattermost/commit/f265a20315e2fa4f442d53d6d916d1eaa06e365d) | 2026-11-09 |
-| ec2fe0a3 | [MM-71711: Mark successful CWS login audit records as success (#39831)](https://github.com/mattermost/mattermost/commit/ec2fe0a361124f3f66e6d6385daff5318b780387) | 2026-11-09 |
-| a28b09d7 | [Upgrade the webapp to TypeScript 7.0 (#39697)](https://github.com/mattermost/mattermost/commit/a28b09d787b0697e294c1efe916f4765002a0636) | 2026-11-09 |
-| 565277ba | [\[MM-71657\] Describe Support Packet options in the Commercial Support dialog (#39754)](https://github.com/mattermost/mattermost/commit/565277baadd2fbf1fc2218a66d9d617b8adb5be6) | 2026-11-09 |
 | 5e269644 | [fix(e2e): repair team_menu.spec.ts arrow-key navigation on master (#39864)](https://github.com/mattermost/mattermost/commit/5e2696447db3745e51c7f26d612204ac28b931a5) | 2026-11-10 |
+| e0bf7e02 | [\[MM-67464\] Always send a referrer to the embedded YouTube player (#39865)](https://github.com/mattermost/mattermost/commit/e0bf7e021a8b47a50230b6539dbf204c4dd5c4f0) | 2026-11-09 |
+| 53a271ac | [\[MM-56489\] Fix System Console header title splitting apart when highlighted by search (#39866)](https://github.com/mattermost/mattermost/commit/53a271ac9ef709b8d107ade8901ca6edb794cbbf) | 2026-11-09 |
+| a21be640 | [docs: AI draft for \[MM-71426\] Health Dashboard PR17b: probe and node-down rules over every node (#39773)](https://github.com/mattermost/mattermost/commit/a21be640825fd13d4ba8804912c6469683e1f73d) | 2026-11-10 |
 
 ## 제외된 커밋
 
@@ -912,6 +897,12 @@
 
 | 8af02bfe | [Fix flaky TestHydratePropertyValues (#39226)](https://github.com/mattermost/mattermost/commit/8af02bfe18b77c101b5a3224f2a76c91b5be8ce1) | 테스트 전용 flaky 수정(+6). 대상 파일 server/channels/app/post_property_values_test.go와 테스트 대상 hydrateChannelPropertyValues는 bb72eeb7(#38134 게시물 속성 hydrate, ledger 제외 — 게시물 속성·property v2 계보)이 도입한 것이라 우리 트리에 없다(modify/delete 충돌, grep 0건). 반영 대상 없음. |
 
+| 7a6cca12 | [ci(e2e): disable Testcontainers Ryuk on Playwright full-suite workers (#39809)](https://github.com/mattermost/mattermost/commit/7a6cca1254ec5a5c1bc26016da8e1c1335f4ce43) | e2e-tests-playwright-template.yml의 testcontainers 모드(PW_TESTCONTAINERS_REUSE) 워커 env에 TESTCONTAINERS_RYUK_DISABLED를 더하는 CI 전용 커밋(+5, CODEOWNERS 보호 경로). 우리는 testcontainers 라이브러리를 a8c2307b spec 전환(specs/013-e2e-testcontainers-stack, PR #450)으로 들였지만 결정 (5)로 워크플로를 반영하지 않았다 — .github/ 전체에 PW_TESTCONTAINERS·testcontainers 0건이라 끼울 블록이 없고(충돌) 우리 CI에서 Ryuk가 돌지 않는다. 워크플로를 testcontainers 모드로 옮길 때 이 env를 함께 넣는다. |
+
+| 7938c858 | [Raise session attribute minimum TTL and grace period to 1 minute (#39733)](https://github.com/mattermost/mattermost/commit/7938c8589ff5e201baa5dc2194aaedce0a6f384d) | Session Attributes 최소 TTL·유예 시간을 1분으로 올리고 1분 미만 값을 끌어올리는 데이터 마이그레이션(app/migrations.go +61), 콘솔 30초 프리셋 삭제를 담은 커밋. 제외한 Session Attributes 계보(684ddb32 #36934, 후속 80eb4980·3b99b6c9 제외)의 후속이라 model/session_attributes.go와 webapp admin_console/session_attributes/ 3파일이 포크에 없다(modify/delete 충돌). migrations.go 추가분도 없는 타입·설정을 다뤄 컴파일되지 않는다. Session Attributes를 들일 때 684ddb32부터 함께 재검토한다. |
+
+| a8e6db62 | [docs: rewrite the Desktop App deployment guide (#39669)](https://github.com/mattermost/mattermost/commit/a8e6db6221ab146c756fd7b639e3aee8b27434c5) | docs/main 문서 사이트 계보(1d3bbc63 제외)의 Desktop App 배포 가이드 개편(OS별 페이지·정책·privacy·VDI 신설, silent install·MSI/GPO 등 삭제). 21파일 모두 docs/main이고 코드 변경 없음 — 포크에 docs/main이 없다. spec-docs/upstream/upstream-docs-restore-directive.md의 A 그룹(docs 전용) 대상으로, 복원 작업 때 cherry-pick한다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -946,6 +937,8 @@
 | 36ebc1f6 | [Add Preview/Code toggle for Markdown file previews and code blocks (#39378)](https://github.com/mattermost/mattermost/commit/36ebc1f6fc024e0c15d24e5dd925f7daf2ce88ad) | markdown-preview-toggle (가칭, compass-ui 없이 재구현 필요) |
 
 | 20c15b9d | [Monthly maintenance (2026-11): Update webapp dependencies (#39583)](https://github.com/mattermost/mattermost/commit/20c15b9d2be5c7409a16b6831b5979de76812d4f) | webapp-deps-2026-10-11 (4ca793bd 10월분과 한 작업으로 묶음: package.json 버전 옮기기·TipTap/compass-ui 제외·monaco 0.57 webpack 플러그인 경로·web-vitals 6 INP 타입·npm install로 lock 재생성·스냅샷 검토·check-types/jest 기준선 비교) |
+
+| a28b09d7 | [Upgrade the webapp to TypeScript 7.0 (#39697)](https://github.com/mattermost/mattermost/commit/a28b09d787b0697e294c1efe916f4765002a0636) | webapp-deps-2026-10-11 (4ca793bd·20c15b9d 다음 마지막 단계로 합류: TypeScript 5.9.3 → 7.0.2 네이티브 전환, typescript 별칭 @typescript/typescript6@6.0.2, tsconfig 6개, react-intl override, shared 타입 산출을 parcel types에서 tsc -p tsconfig.build.json + strip_css_imports.mjs로, components rollup, webapp-ci.yml 보호 경로 1줄, lock 재생성. 포크 TS는 5.6.3이라 선행 5.9.3 단계 없이는 package.json 6개·lock이 충돌. 기존 tsc -b 오류 5건(Lexical·MouseEventHandler 등)도 함께 점검) |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
