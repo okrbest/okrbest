@@ -3,18 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-10 13:24
+- 갱신일: 2026-11-10 13:38
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 4개
+- 남은 커밋: 0개
 
-**마지막 반영 커밋:** `565277ba` | [\[MM-71657\] Describe Support Packet options in the Commercial Support dialog (#39754)](https://github.com/mattermost/mattermost/commit/565277baadd2fbf1fc2218a66d9d617b8adb5be6) | 2026-11-09
+**마지막 반영 커밋:** `587083dd` | [\[MM-63780\] Fix missing divider above Performance Debugging in Advanced settings (#39859)](https://github.com/mattermost/mattermost/commit/587083dd0dd58c06dadd3fb4136d4ae502b0de64) | 2026-11-10
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 5e269644 | [fix(e2e): repair team_menu.spec.ts arrow-key navigation on master (#39864)](https://github.com/mattermost/mattermost/commit/5e2696447db3745e51c7f26d612204ac28b931a5) | 2026-11-10 |
-| e0bf7e02 | [\[MM-67464\] Always send a referrer to the embedded YouTube player (#39865)](https://github.com/mattermost/mattermost/commit/e0bf7e021a8b47a50230b6539dbf204c4dd5c4f0) | 2026-11-09 |
-| 53a271ac | [\[MM-56489\] Fix System Console header title splitting apart when highlighted by search (#39866)](https://github.com/mattermost/mattermost/commit/53a271ac9ef709b8d107ade8901ca6edb794cbbf) | 2026-11-09 |
-| a21be640 | [docs: AI draft for \[MM-71426\] Health Dashboard PR17b: probe and node-down rules over every node (#39773)](https://github.com/mattermost/mattermost/commit/a21be640825fd13d4ba8804912c6469683e1f73d) | 2026-11-10 |
 
 ## 제외된 커밋
 
@@ -902,6 +898,8 @@
 | 7938c858 | [Raise session attribute minimum TTL and grace period to 1 minute (#39733)](https://github.com/mattermost/mattermost/commit/7938c8589ff5e201baa5dc2194aaedce0a6f384d) | Session Attributes 최소 TTL·유예 시간을 1분으로 올리고 1분 미만 값을 끌어올리는 데이터 마이그레이션(app/migrations.go +61), 콘솔 30초 프리셋 삭제를 담은 커밋. 제외한 Session Attributes 계보(684ddb32 #36934, 후속 80eb4980·3b99b6c9 제외)의 후속이라 model/session_attributes.go와 webapp admin_console/session_attributes/ 3파일이 포크에 없다(modify/delete 충돌). migrations.go 추가분도 없는 타입·설정을 다뤄 컴파일되지 않는다. Session Attributes를 들일 때 684ddb32부터 함께 재검토한다. |
 
 | a8e6db62 | [docs: rewrite the Desktop App deployment guide (#39669)](https://github.com/mattermost/mattermost/commit/a8e6db6221ab146c756fd7b639e3aee8b27434c5) | docs/main 문서 사이트 계보(1d3bbc63 제외)의 Desktop App 배포 가이드 개편(OS별 페이지·정책·privacy·VDI 신설, silent install·MSI/GPO 등 삭제). 21파일 모두 docs/main이고 코드 변경 없음 — 포크에 docs/main이 없다. spec-docs/upstream/upstream-docs-restore-directive.md의 A 그룹(docs 전용) 대상으로, 복원 작업 때 cherry-pick한다. |
+
+| a21be640 | [docs: AI draft for \[MM-71426\] Health Dashboard PR17b: probe and node-down rules over every node (#39773)](https://github.com/mattermost/mattermost/commit/a21be640825fd13d4ba8804912c6469683e1f73d) | docs/main 문서 사이트 계보(1d3bbc63 제외)의 Site Health Dashboard 관리자 문서 갱신(노드별 probe·노드 다운 규칙 설명, 점검 표를 예시로 축소). 1파일 docs/main이고 코드 변경 없음 — 포크에 docs/main이 없다(modify/delete). 설명 대상 기능 1814b9ef13(PR17b)은 포크에 있다. spec-docs/upstream/upstream-docs-restore-directive.md의 A 그룹(docs 전용) 대상으로, 복원 작업 때 cherry-pick한다. |
 
 ## spec 전환 커밋
 
