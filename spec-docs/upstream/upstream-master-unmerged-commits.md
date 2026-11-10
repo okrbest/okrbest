@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-10 00:46
+- 갱신일: 2026-11-10 10:26
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 25개
+- 남은 커밋: 24개
 
-**마지막 반영 커밋:** `0f03a2d9` | [Add filestore disk capacity health rules (#39731)](https://github.com/mattermost/mattermost/commit/0f03a2d9beb6a15cdf560dc0906ce1d00e68b124) | 2026-11-06
+**마지막 반영 커밋:** `e85f0ca4` | [MM-71116: Compare synced post message after rewriting mentions (#39757)](https://github.com/mattermost/mattermost/commit/e85f0ca425d6f4eeee9a3603b9f1aad85f692eeb) | 2026-11-06
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 76c61481 | [Docs: Add create_burn_on_read_post to ABAC action lists (#39634)](https://github.com/mattermost/mattermost/commit/76c61481bdb8e8a55fd3a1b32078d7f30bb5567a) | 2026-11-06 |
-| a689afe3 | [Add PUSH_PROXY_UNREACHABLE site health rule (#39725)](https://github.com/mattermost/mattermost/commit/a689afe302ec606ac086f0ba71737e3fa6754ac4) | 2026-11-06 |
-| 8af02bfe | [Fix flaky TestHydratePropertyValues (#39226)](https://github.com/mattermost/mattermost/commit/8af02bfe18b77c101b5a3224f2a76c91b5be8ce1) | 2026-11-06 |
-| 6d41bcd4 | [Skip flaky TestGetSupportPacketDiagnostics (#39781)](https://github.com/mattermost/mattermost/commit/6d41bcd447331afa7a222983073c47ff685c13ea) | 2026-11-07 |
-| e85f0ca4 | [MM-71116: Compare synced post message after rewriting mentions (#39757)](https://github.com/mattermost/mattermost/commit/e85f0ca425d6f4eeee9a3603b9f1aad85f692eeb) | 2026-11-06 |
 | 276dc653 | [\[MM-71617\] Add per-node memory health diagnostics (#39720)](https://github.com/mattermost/mattermost/commit/276dc653f647da6274609c0857263df50bc6c700) | 2026-11-07 |
 | a9c1fa82 | [\[MM-71618\] Add CPU pressure health diagnostics (#39721)](https://github.com/mattermost/mattermost/commit/a9c1fa82138ca094c56f1c810bda55b8ce2f1940) | 2026-11-07 |
 | f409d51b | [MM-71097: Hold the sync cursor when a plugin sync hook fails (#39759)](https://github.com/mattermost/mattermost/commit/f409d51bb90cd5f3267ef728b5e8c6c4a407897a) | 2026-11-07 |
@@ -36,6 +31,10 @@
 | c4e7f8a3 | [Isolate messages from plugin-framed untrusted content (#39609)](https://github.com/mattermost/mattermost/commit/c4e7f8a369f186b305424df78958006d60b4c4a0) | 2026-11-09 |
 | a8e6db62 | [docs: rewrite the Desktop App deployment guide (#39669)](https://github.com/mattermost/mattermost/commit/a8e6db6221ab146c756fd7b639e3aee8b27434c5) | 2026-11-09 |
 | a2a9b488 | [\[MM-70289\] Keep typed text in the AI Rewrite prompt when an older value re-renders (#39807)](https://github.com/mattermost/mattermost/commit/a2a9b4887701251f29660f9f172bb95bd62176e2) | 2026-11-09 |
+| f265a203 | [MM-71581: update burn-on-read post field handling (#39655)](https://github.com/mattermost/mattermost/commit/f265a20315e2fa4f442d53d6d916d1eaa06e365d) | 2026-11-09 |
+| ec2fe0a3 | [MM-71711: Mark successful CWS login audit records as success (#39831)](https://github.com/mattermost/mattermost/commit/ec2fe0a361124f3f66e6d6385daff5318b780387) | 2026-11-09 |
+| a28b09d7 | [Upgrade the webapp to TypeScript 7.0 (#39697)](https://github.com/mattermost/mattermost/commit/a28b09d787b0697e294c1efe916f4765002a0636) | 2026-11-09 |
+| 565277ba | [\[MM-71657\] Describe Support Packet options in the Commercial Support dialog (#39754)](https://github.com/mattermost/mattermost/commit/565277baadd2fbf1fc2218a66d9d617b8adb5be6) | 2026-11-09 |
 
 ## 제외된 커밋
 
@@ -913,6 +912,10 @@
 | 4d0faf21 | [Use Compass Combobox for System Console and Bots custom select and multiselect attributes (#39574)](https://github.com/mattermost/mattermost/commit/4d0faf214848b5025687ab799086cffe973c4bf1) | Compass Combobox 이관(compass-ui alpha.26 올림 포함). compass-ui는 라이선스가 없어 제외했고(2026-10-18 결정), 앞 단계 965c282e(#39481)와 attribute_combobox 등 9개 파일도 포크에 없다. menu.tsx container prop은 포크에 쓸 곳이 없고, user_settings_general.tsx 변경은 Combobox 작업의 일부다. |
 
 | b9eed09f | [Docs: Update ABAC and property system docs for v12.0 (#39297)](https://github.com/mattermost/mattermost/commit/b9eed09fde7e7216fbcca9c21db7a72636038850) | 코드 변경 없는 문서 커밋(39파일 +3204/-764). api/v4 yaml 7파일은 대부분 제외 계보의 API 문서다 — properties.yaml(+544)은 HEAD에 없는 property v2 계보, definitions·channels·custom_profile_attributes yaml은 rank·graph 타입·채널 속성 property_values·managed_category_name(Managed Categories)·native/session 속성 설명이 섞여 충돌한다. 우리 기능(팀·채널 관리자 ABAC 권한) 설명만 골라내는 선별 adapt는 1,870줄 수작업 대비 얻는 것이 작아 받지 않는다. docs/ 32파일은 spec-docs/upstream/upstream-docs-restore-directive.md 작업에서 B 그룹 (나)(docs/ 부분만, Upstream-docs: 트레일러)로 반영한다 — 이 행은 그때 유지하고 반영 날짜를 덧붙인다. |
+
+| 76c61481 | [Docs: Add create_burn_on_read_post to ABAC action lists (#39634)](https://github.com/mattermost/mattermost/commit/76c61481bdb8e8a55fd3a1b32078d7f30bb5567a) | 코드 변경 없는 API 문서 커밋. 수정 대상 4곳(규칙 actions enum, 정책 검색 필터 enum, decisions/actions/search 설명 문단, ActionSearchRequest.actions enum)이 모두 선행 문서 개편 b9eed09f(#39297, ledger 제외)가 새로 쓴 문장·enum이라 우리 api/v4/source/access_control.yaml·definitions.yaml에 대상이 없어 충돌한다. 서버는 이미 create_burn_on_read_post를 지원한다(server/public/model/access_policy.go:52, app/access_control_decision.go:39, api4/post_utils.go:70). b9eed09f 제외 기준(ABAC 문서 선별 adapt는 비용 대비 실익 작음)과 같은 처리. |
+
+| 8af02bfe | [Fix flaky TestHydratePropertyValues (#39226)](https://github.com/mattermost/mattermost/commit/8af02bfe18b77c101b5a3224f2a76c91b5be8ce1) | 테스트 전용 flaky 수정(+6). 대상 파일 server/channels/app/post_property_values_test.go와 테스트 대상 hydrateChannelPropertyValues는 bb72eeb7(#38134 게시물 속성 hydrate, ledger 제외 — 게시물 속성·property v2 계보)이 도입한 것이라 우리 트리에 없다(modify/delete 충돌, grep 0건). 반영 대상 없음. |
 
 ## spec 전환 커밋
 
