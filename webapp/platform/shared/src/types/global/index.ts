@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import type {PublishedIsolatedFrameUtils} from './isolated_frames';
 import type {PublishedModalUtils} from './modals';
 
 export * from './modals';
+export * from './isolated_frames';
 export * from './suggestions';
 
 // Lets plugins type the window global without reaching into channels internals.
@@ -11,5 +13,6 @@ export * from './suggestions';
 export type WindowShared = {
     WebappUtils: {
         modals: PublishedModalUtils;
+        isolatedFrames: PublishedIsolatedFrameUtils;
     };
 };
