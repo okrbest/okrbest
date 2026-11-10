@@ -151,6 +151,7 @@
 | 플러그인 검색 유형 우선순위 | [9ec63888](https://github.com/mattermost/mattermost/commit/9ec63888c24025e8885dda49c53763b17dea3859) (#39217) | 변경은 전부 받았다. `registry.test.ts` 충돌 문맥(제외한 MBE 8a의 `registerChannelTypeOption` 테스트)을 버리고 새 describe 블록만 넣었다 — 아래 참조 |
 | 플러그인 iframe 메시지 격리 | [c4e7f8a3](https://github.com/mattermost/mattermost/commit/c4e7f8a369f186b305424df78958006d60b4c4a0) (#39609) | 방화벽과 `isolatedFrames` 공개 API를 받았다. 충돌 문맥의 `editor`·`components` 공개(우리가 빼기로 한 것)를 버렸다 — 아래 참조 |
 | Support Packet 옵션 설명 | [565277ba](https://github.com/mattermost/mattermost/commit/565277baadd2fbf1fc2218a66d9d617b8adb5be6) (#39754) | 문구·"What's included"·접근성 속성·en.json은 받았다. compass-ui `Checkbox`·`Button`·`Icon`을 포크 체크박스·shared `Button`·아이콘 폰트로 바꿔 다시 짰다 — 아래 참조 |
+| YouTube 임베드 referrer 고정 | [e0bf7e02](https://github.com/mattermost/mattermost/commit/e0bf7e021a8b47a50230b6539dbf204c4dd5c4f0) (#39865) | 변경은 전부 받았다. 콘솔 블록 충돌은 문맥 차이라 블록만 지웠고, en.json에서 빠진 키 2개를 `ko.json`에서도 지웠다 — 아래 참조 |
 
 ---
 
@@ -5392,3 +5393,36 @@ upstream은 이 모달을 이미 `@mattermost/compass-ui`로 옮긴 상태에서
 | `__snapshots__/…snap` | compass-ui 해시 클래스 DOM | 포크 구조로 재생성 | 같음 |
 
 **i18n.** webapp `en.json`에 16개 키가 추가됐다(`commercial_support_modal.basic_contents.*`, `.server_logs.*`, `.required`). 우리 ko는 손대지 않았다. 번역 후속 대상이다.
+
+## YouTube 임베드 referrer 고정 — 콘솔 토글을 지우고 ko.json 고아 키 2개를 지웠다
+
+**upstream**: [`e0bf7e02`](https://github.com/mattermost/mattermost/commit/e0bf7e021a8b47a50230b6539dbf204c4dd5c4f0)
+([MM-67464] Always send a referrer to the embedded YouTube player, #39865) — 6파일 +10/-82, 2026-11-10 sync 반영(사용자 결정 adapt)
+
+이 커밋의 변경은 하나도 버리지 않았다. iframe `referrerPolicy='strict-origin-when-cross-origin'` 고정, `youtubeReferrerPolicy` prop·셀렉터 제거, 테스트·스냅샷 정리, webapp `en.json` 2개 키 삭제를 upstream 그대로 받았다. 서버 `ExperimentalSettings.YoutubeReferrerPolicy` 필드(`model/config.go`, `config/client.go`)는 upstream처럼 그대로 남는다.
+
+**우리 맞춤.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `admin_console/admin_definition.tsx` 실험 기능 목록 | `ExperimentalSettings.YoutubeReferrerPolicy` bool 항목(7줄) 삭제. 앞뒤 문맥은 `delayChannelAutocomplete`·`EnableWatermark` | 포크는 바로 앞 항목 문맥이 달라 3-way가 실패했다. 같은 7줄 블록만 지웠다(결과는 upstream과 같다) | — |
+| `webapp/channels/src/i18n/ko.json` | (upstream은 ko를 건드리지 않는다) | en.json에서 빠진 키 2개를 지웠다. 그대로 두면 고아 키가 되어 `npm run i18n-check-empty`가 CI에서 실패한다 | 콘솔 토글을 되살릴 때 아래 번역을 다시 쓴다 |
+
+**지운 `ko.json` 번역** (`webapp/channels/src/i18n/ko.json`, 2개)
+
+| 키 | 지운 번역 |
+|---|---|
+| `admin.experimental.youtubeReferrerPolicy.title` | YouTube 참조자 정책: |
+| `admin.experimental.youtubeReferrerPolicy.desc` | 활성화하면 임베디드 YouTube 동영상의 참조자 정책이 "strict-origin-when-cross-origin"으로 설정되어 YouTube 동영상 미리보기가 사용 불가능으로 표시되는 문제를 해결하면서도, 분석, 로깅, 타사 통합과 같은 웹 기능을 지원하기 위한 참조 데이터를 보호합니다. 비활성화하면 참조자 정책이 "no-referrer"로 설정되어 소스 URL을 공개하지 않아 사용자 개인정보를 보호하지만, 분석 도구에서 사용자 참여도와 트래픽 소스를 추적하는 기능이 제한됩니다. |
+
+**지운 콘솔 항목** (`admin_definition.tsx`, upstream과 같은 7줄)
+
+```tsx
+{
+    type: 'bool',
+    key: 'ExperimentalSettings.YoutubeReferrerPolicy',
+    label: defineMessage({id: 'admin.experimental.youtubeReferrerPolicy.title', defaultMessage: 'YouTube Referrer Policy:'}),
+    help_text: defineMessage({id: 'admin.experimental.youtubeReferrerPolicy.desc', defaultMessage: 'When true, the referrer policy for embedded YouTube videos will be set to "strict-origin-when-cross-origin" … When false, the referrer policy will be set to "no-referrer" …'}),
+    isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+},
+```
