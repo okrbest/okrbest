@@ -1230,8 +1230,6 @@
   "admin.experimental.moveThreadToAnotherTeamEnable.title": "다른 팀으로 스레드 이동 활성화",
   "admin.experimental.threadAutoFollow.desc": "스레드 토론을 활성화하려면 이 설정이 필요합니다. 활성화되면 사용자가 시작하거나 참여하거나 멘션된 스레드가 자동으로 팔로우됩니다. 스레드와 스레드 참여자를 추적하는 `Threads` 테이블과 각 사용자의 팔로우된 스레드와 읽음/읽지 않음 상태를 추적하는 `ThreadMembership` 테이블이 데이터베이스에 추가됩니다. 비활성화되면 스레드 토론을 지원하는 모든 백엔드 작업이 비활성화됩니다.",
   "admin.experimental.threadAutoFollow.title": "스레드 자동 팔로우",
-  "admin.experimental.youtubeReferrerPolicy.desc": "활성화하면 임베디드 YouTube 동영상의 참조자 정책이 \"strict-origin-when-cross-origin\"으로 설정되어 YouTube 동영상 미리보기가 사용 불가능으로 표시되는 문제를 해결하면서도, 분석, 로깅, 타사 통합과 같은 웹 기능을 지원하기 위한 참조 데이터를 보호합니다. 비활성화하면 참조자 정책이 \"no-referrer\"로 설정되어 소스 URL을 공개하지 않아 사용자 개인정보를 보호하지만, 분석 도구에서 사용자 참여도와 트래픽 소스를 추적하는 기능이 제한됩니다.",
-  "admin.experimental.youtubeReferrerPolicy.title": "YouTube 참조자 정책:",
   "admin.false": "비활성화",
   "admin.featureDiscovery.WarningDescription": "모든 Enterprise 기능에 대한 전체 액세스 권한을 제공하도록 라이선스가 업데이트되고 있습니다. 라이선스 업데이트가 완료되면 이 페이지가 자동으로 새로고침됩니다. 잠시만 기다려주세요 ",
   "admin.featureDiscovery.WarningTitle": "평가판이 시작되었으며 라이선스가 업데이트되고 있습니다.",
