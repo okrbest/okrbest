@@ -3,19 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-10 10:26
+- 갱신일: 2026-11-10 11:31
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 24개
+- 남은 커밋: 20개
 
-**마지막 반영 커밋:** `e85f0ca4` | [MM-71116: Compare synced post message after rewriting mentions (#39757)](https://github.com/mattermost/mattermost/commit/e85f0ca425d6f4eeee9a3603b9f1aad85f692eeb) | 2026-11-06
+**마지막 반영 커밋:** `ce429e80` | [MM-71115: Keep a shared channel cursor set while a sync batch is in flight (#39758)](https://github.com/mattermost/mattermost/commit/ce429e80c29df69091b3829fa3a7c11029de296d) | 2026-11-07
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 276dc653 | [\[MM-71617\] Add per-node memory health diagnostics (#39720)](https://github.com/mattermost/mattermost/commit/276dc653f647da6274609c0857263df50bc6c700) | 2026-11-07 |
-| a9c1fa82 | [\[MM-71618\] Add CPU pressure health diagnostics (#39721)](https://github.com/mattermost/mattermost/commit/a9c1fa82138ca094c56f1c810bda55b8ce2f1940) | 2026-11-07 |
-| f409d51b | [MM-71097: Hold the sync cursor when a plugin sync hook fails (#39759)](https://github.com/mattermost/mattermost/commit/f409d51bb90cd5f3267ef728b5e8c6c4a407897a) | 2026-11-07 |
-| 1381b881 | [MM-71217: Add GetSharedChannelCursor plugin API (#39756)](https://github.com/mattermost/mattermost/commit/1381b881f4908381a3dd50aa40aa8a1c955bd320) | 2026-11-07 |
-| ce429e80 | [MM-71115: Keep a shared channel cursor set while a sync batch is in flight (#39758)](https://github.com/mattermost/mattermost/commit/ce429e80c29df69091b3829fa3a7c11029de296d) | 2026-11-07 |
 | 80b1928b | [\[MM-71429\] Queue a shared channel catch-up sync when a node becomes leader (#39561)](https://github.com/mattermost/mattermost/commit/80b1928bef1d509913753d5fc8dcb1bf35fd3c19) | 2026-11-08 |
 | 95cc6d95 | [MM-70987: migrate from x/crypto/openpgp to ProtonMail/go-crypto (#39738)](https://github.com/mattermost/mattermost/commit/95cc6d956ab40eec82580f789501e5d30f49d100) | 2026-11-09 |
 | 7a6cca12 | [ci(e2e): disable Testcontainers Ryuk on Playwright full-suite workers (#39809)](https://github.com/mattermost/mattermost/commit/7a6cca1254ec5a5c1bc26016da8e1c1335f4ce43) | 2026-11-09 |
@@ -35,6 +30,7 @@
 | ec2fe0a3 | [MM-71711: Mark successful CWS login audit records as success (#39831)](https://github.com/mattermost/mattermost/commit/ec2fe0a361124f3f66e6d6385daff5318b780387) | 2026-11-09 |
 | a28b09d7 | [Upgrade the webapp to TypeScript 7.0 (#39697)](https://github.com/mattermost/mattermost/commit/a28b09d787b0697e294c1efe916f4765002a0636) | 2026-11-09 |
 | 565277ba | [\[MM-71657\] Describe Support Packet options in the Commercial Support dialog (#39754)](https://github.com/mattermost/mattermost/commit/565277baadd2fbf1fc2218a66d9d617b8adb5be6) | 2026-11-09 |
+| 5e269644 | [fix(e2e): repair team_menu.spec.ts arrow-key navigation on master (#39864)](https://github.com/mattermost/mattermost/commit/5e2696447db3745e51c7f26d612204ac28b931a5) | 2026-11-10 |
 
 ## 제외된 커밋
 
