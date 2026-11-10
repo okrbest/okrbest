@@ -148,6 +148,7 @@
 | 플러그인 API GetSharedChannelCursor | [1381b881](https://github.com/mattermost/mattermost/commit/1381b881f4908381a3dd50aa40aa8a1c955bd320) (#39756) | API·store·생성 코드는 그대로 받았다. 제외한 Space 계보가 정의한 `messageChannelTypes`를 sqlstore에 새로 두고, `ChannelTypeSpace` 서브테스트 하나를 뺐다 — 아래 참조 |
 | E2E lane 확정 판정 | [86a1d5cd](https://github.com/mattermost/mattermost/commit/86a1d5cd7972c11d764b62787674e2595270c2b7) (#39803) | `e2e-tests/.ci/server.start.sh`만 받았다. 제외한 TSIO 계보의 `.github/` 9파일을 버렸다 — 아래 참조 |
 | 웹소켓 바이너리 프레임 디코딩 | [8848564c](https://github.com/mattermost/mattermost/commit/8848564c6fb129d84caa24ebf91c056bd9e11599) (#38790) | 서버 보안 수정·테스트·Cypress 스펙은 받았다. 제외한 Session Attributes 계보의 Playwright 페이지 객체 하나를 버렸다 — 아래 참조 |
+| 플러그인 검색 유형 우선순위 | [9ec63888](https://github.com/mattermost/mattermost/commit/9ec63888c24025e8885dda49c53763b17dea3859) (#39217) | 변경은 전부 받았다. `registry.test.ts` 충돌 문맥(제외한 MBE 8a의 `registerChannelTypeOption` 테스트)을 버리고 새 describe 블록만 넣었다 — 아래 참조 |
 
 ---
 
@@ -5335,3 +5336,18 @@ merge-tree는 CLEAN이었지만 빌드가 깨졌다. 새 코드가 제외한 [`5
 | 위치 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
 | `e2e-tests/playwright/lib/src/ui/components/system_console/sections/system_attributes/session_attributes.ts` (+5/-1) | `SessionAttributes` 점 메뉴를 닫을 때 Escape를 두 번 누르고, 메뉴가 남아 있으면 본문 (1,1)을 강제 클릭한다. `toBeHidden` 대기를 3초에서 5초로 늘린다 | 파일이 포크에 없다. 제외한 Session Attributes 계보(684ddb32 #36934)가 만든 페이지 객체다(modify/delete 충돌) | Session Attributes 계보를 들일 때 |
+
+## 플러그인 검색 유형 우선순위 — registry.test.ts 충돌 문맥의 MBE 8a 테스트를 버렸다
+
+**upstream**: [`9ec63888`](https://github.com/mattermost/mattermost/commit/9ec63888c24025e8885dda49c53763b17dea3859)
+(Let plugin search types take priority over keyword search, #39217) — 13파일 +222/-40, 2026-11-10 sync 반영(사용자 결정 adapt)
+
+이 커밋의 변경은 하나도 버리지 않았다. `registerSearchComponents`의 `priority` 옵션, 셀렉터 `getPrimarySearchButtons`·`getSecondarySearchButtons`·`getDefaultSearchType`, 검색 유형 선택기 정렬과 `aria-checked`, placeholder "by keyword", Cypress 접근성 스펙 1줄, 테스트를 upstream 그대로 받았다. 반영 결과 통계도 upstream과 같다.
+
+**우리 맞춤.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `webapp/channels/src/plugins/registry.test.ts` | 3-way 문맥에 `describe('PluginRegistry — registerChannelTypeOption')` 등 약 700줄이 있고, 이 커밋은 `registerProduct` describe 뒤에 `describe('PluginRegistry — registerSearchComponents')` 36줄을 더한다 | 우리 파일은 그대로 두고 `describe('PluginRegistry lifetime')` 바로 앞에 같은 36줄을 넣었다 | 버린 문맥은 제외한 MBE 8a `263b3c11`(#36569, `registerChannelTypeOption`)의 테스트다. 그 계보를 들일 때 upstream 파일 순서로 맞춘다 |
+
+**i18n.** webapp `en.json`의 `search_bar.search_messages`("Search messages by keyword")와 `search_bar.search_files`("Search files by keyword") 영문이 바뀌었다. 우리 ko(각각 "메시지, 파일, 채널 검색...", "파일 검색")는 손대지 않았다. 번역 재검토 대상이다.
