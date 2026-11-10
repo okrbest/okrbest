@@ -146,6 +146,7 @@
 | 플러그인 Channel Info·북마크 메뉴 항목 | [1a518841](https://github.com/mattermost/mattermost/commit/1a518841fb48410b0b5e2fcdd9ab892e962aaa17) (#39613) | 확장점 두 개와 테스트는 그대로 받았다. 충돌 문맥으로 섞인 제외 계보(채널 설정 탭·Boards·compass-ui IconButton) 코드를 뺐고, 새 테스트 레이블을 포크 "Bookmarks"에 맞췄다 — 아래 참조 |
 | 팀 상세 고급 CEL 편집기 | [60cf157a](https://github.com/mattermost/mattermost/commit/60cf157a9ac10dbf0cd0a47d96f937abc19e9b74) (#39062) | 서버 가드·편집기 전환·잠금은 받았다. 제외 계보 헬퍼 둘(`toCELEditorAttributes`·`referencesResourceAttributes`)을 로컬로 두고, Session Attributes·rank·Boards 문맥과 Compass Switch 토글 방식을 뺐다 — 아래 참조 |
 | 플러그인 API GetSharedChannelCursor | [1381b881](https://github.com/mattermost/mattermost/commit/1381b881f4908381a3dd50aa40aa8a1c955bd320) (#39756) | API·store·생성 코드는 그대로 받았다. 제외한 Space 계보가 정의한 `messageChannelTypes`를 sqlstore에 새로 두고, `ChannelTypeSpace` 서브테스트 하나를 뺐다 — 아래 참조 |
+| E2E lane 확정 판정 | [86a1d5cd](https://github.com/mattermost/mattermost/commit/86a1d5cd7972c11d764b62787674e2595270c2b7) (#39803) | `e2e-tests/.ci/server.start.sh`만 받았다. 제외한 TSIO 계보의 `.github/` 9파일을 버렸다 — 아래 참조 |
 
 ---
 
@@ -5299,3 +5300,24 @@ merge-tree는 CLEAN이었지만 빌드가 깨졌다. 새 코드가 제외한 [`5
 | 위치 | upstream 코드 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
 | `storetest/shared_channel_store.go` `testGetSharedChannelRemoteByIds` | `t.Run("Get shared channel remote by ids from master for non-message channel type", …)` 약 22줄 | 채널을 만들고 remote를 붙인 뒤 `Type`을 `model.ChannelTypeSpace`로 바꾼다. `GetRemoteByIds`(replica, 타입 무관)는 그 remote를 돌려주고, `GetRemoteByIdsFromMaster`는 메시지 채널 타입이 아니라서 `ErrNotFound`를 낸다는 테스트다. 포크에 `ChannelTypeSpace`가 없어 컴파일되지 않는다 | Space 계보 `5f7f967a`를 들일 때 upstream 테스트를 그대로 되살린다 |
+
+## E2E lane 확정 판정 — server.start.sh만 받고 TSIO 워크플로 9파일을 버렸다
+
+**upstream**: [`86a1d5cd`](https://github.com/mattermost/mattermost/commit/86a1d5cd7972c11d764b62787674e2595270c2b7)
+(ci(e2e): a definitive verdict for every red E2E lane, #39803) — 10파일 +319/-73, 2026-11-10 sync 반영(사용자 결정 adapt)
+
+`e2e-tests/.ci/server.start.sh`(+15/-1)는 upstream 그대로 받았다. 끝내 healthy가 되지 않은 컨테이너의 상태와 로그 마지막 200줄을 덤프하는 `mme2e_dump_unhealthy`를 넣고, webhook-interactions 헬스 대기를 2회×10초에서 12회×5초로 늘린다. 우리 `e2e-tests/Makefile`의 `start-server`가 이 스크립트를 쓴다. 같은 계보의 `f54f3f76`(#38601)도 `5d781f8116`에서 같은 방식으로 받았다.
+
+**버린 것.** 모두 test-system-io(TSIO) 오케스트레이션 계보다(91de3d23 adapt 이후 33ddd8a4·c3322b3a·8eb97fa6·1d1580cb·2d05d063·49891e2f·bd0d8866·c77efb5a 제외, ledger 참조). MM_E2E_* 시크릿과 Mattermost 내부 저장소의 액션(mattermost-test-automation-toolkit, mattermost-test-system-io)에 기댄다.
+
+| 위치 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `.github/workflows/e2e-tests-lane-result.yml` (+29/-18) | lane 잡 목록을 triage에 넘겨 보고서 유실·테스트 밖 실패에 원인과 다음 조치를 붙인다. upgrade lane도 이 워크플로로 상태를 게시한다 | 파일이 포크에 없다 | TSIO 계보를 들일 때 |
+| `.github/workflows/e2e-tests-playwright-rolling-upgrades-template.yml` (+92/-20) | upgrade lane에 triage 입력·PR 전체 체크 갱신·커밋 상태 잠금, 캐시 미스 시 설치, 단일 커밋 checkout | 파일이 포크에 없다 | 같음 |
+| `.github/workflows/e2e-tests-playwright-rolling-upgrades.yml` (+1) | 위 템플릿 호출 입력 | 파일이 포크에 없다 | 같음 |
+| `.github/workflows/e2e-tests-rerun.yml` (+4/-1) | 재실행 시 triage가 prepare-run에서 시작하게 한다 | 파일이 포크에 없다 | 같음 |
+| `.github/workflows/e2e-tests-playwright-template.yml` (+35/-6) | 워커에 `deadline-minutes` 전달, 프로젝트별 브라우저(firefox) 설치, 오래된 재실행 시도는 report-only | 포크 워크플로가 갈라져 충돌한다. CODEOWNERS 보호 경로 | 같음 |
+| `.github/workflows/e2e-tests-cypress-template.yml` (+18/-6) | 워커에 `deadline-minutes` 전달 | 같음 | 같음 |
+| `.github/workflows/e2e-tests-playwright.yml` (+1) | 템플릿 호출 입력 | 충돌한다 | 같음 |
+| `.github/e2e-tests-workflows.md` (+17/-11) | enforce 기본값, 테스트 밖 lane red의 오케스트레이션 근거, 오래된 재실행, upgrade lane 게시 경로 설명 | 위 워크플로를 설명하는 문서라 포크와 맞지 않는다 | 같음 |
+| `.github/scripts/test_e2e_status_workflows.py` (+107/-10) | 상태 배선 계약 테스트 갱신, upgrade lane 배선 검증 | 파일이 포크에 없다 | 같음 |
