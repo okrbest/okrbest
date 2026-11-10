@@ -149,6 +149,7 @@
 | E2E lane 확정 판정 | [86a1d5cd](https://github.com/mattermost/mattermost/commit/86a1d5cd7972c11d764b62787674e2595270c2b7) (#39803) | `e2e-tests/.ci/server.start.sh`만 받았다. 제외한 TSIO 계보의 `.github/` 9파일을 버렸다 — 아래 참조 |
 | 웹소켓 바이너리 프레임 디코딩 | [8848564c](https://github.com/mattermost/mattermost/commit/8848564c6fb129d84caa24ebf91c056bd9e11599) (#38790) | 서버 보안 수정·테스트·Cypress 스펙은 받았다. 제외한 Session Attributes 계보의 Playwright 페이지 객체 하나를 버렸다 — 아래 참조 |
 | 플러그인 검색 유형 우선순위 | [9ec63888](https://github.com/mattermost/mattermost/commit/9ec63888c24025e8885dda49c53763b17dea3859) (#39217) | 변경은 전부 받았다. `registry.test.ts` 충돌 문맥(제외한 MBE 8a의 `registerChannelTypeOption` 테스트)을 버리고 새 describe 블록만 넣었다 — 아래 참조 |
+| 플러그인 iframe 메시지 격리 | [c4e7f8a3](https://github.com/mattermost/mattermost/commit/c4e7f8a369f186b305424df78958006d60b4c4a0) (#39609) | 방화벽과 `isolatedFrames` 공개 API를 받았다. 충돌 문맥의 `editor`·`components` 공개(우리가 빼기로 한 것)를 버렸다 — 아래 참조 |
 
 ---
 
@@ -5351,3 +5352,20 @@ merge-tree는 CLEAN이었지만 빌드가 깨졌다. 새 코드가 제외한 [`5
 | `webapp/channels/src/plugins/registry.test.ts` | 3-way 문맥에 `describe('PluginRegistry — registerChannelTypeOption')` 등 약 700줄이 있고, 이 커밋은 `registerProduct` describe 뒤에 `describe('PluginRegistry — registerSearchComponents')` 36줄을 더한다 | 우리 파일은 그대로 두고 `describe('PluginRegistry lifetime')` 바로 앞에 같은 36줄을 넣었다 | 버린 문맥은 제외한 MBE 8a `263b3c11`(#36569, `registerChannelTypeOption`)의 테스트다. 그 계보를 들일 때 upstream 파일 순서로 맞춘다 |
 
 **i18n.** webapp `en.json`의 `search_bar.search_messages`("Search messages by keyword")와 `search_bar.search_files`("Search files by keyword") 영문이 바뀌었다. 우리 ko(각각 "메시지, 파일, 채널 검색...", "파일 검색")는 손대지 않았다. 번역 재검토 대상이다.
+
+## 플러그인 iframe 메시지 격리 — 충돌 문맥의 editor·components 공개를 버렸다
+
+**upstream**: [`c4e7f8a3`](https://github.com/mattermost/mattermost/commit/c4e7f8a369f186b305424df78958006d60b4c4a0)
+(Isolate messages from plugin-framed untrusted content, #39609) — 9파일 +356/-1, 2026-11-10 sync 반영(사용자 결정 adapt)
+
+이 커밋의 변경은 하나도 버리지 않았다. 메시지 방화벽(`utils/isolated_frame_firewall.ts`, `root.tsx` 맨 위 설치), 공개 API `window.WebappUtils.isolatedFrames`(`published_isolated_frames.ts`, 계약 타입 `isolated_frames.ts`), 테스트 2개, `AGENTS.md` 항목을 upstream 그대로 받았다. 반영 결과 통계도 upstream과 같다.
+
+**버린 것.** 세 파일의 3-way 충돌에서 theirs 쪽에 문맥으로 끼어든 줄이다. 이 커밋의 변경이 아니라, 우리가 "플러그인 공개 API — 모달은 받고 에디터 공개는 뺐다" 절에서 빼기로 한 공개 항목이다.
+
+| 위치 | upstream 문맥 | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `webapp/channels/src/plugins/export.ts` | 타입 import의 `PublishedComponents`·`PublishedEditorUtils`, `./published_components`·`./published_editor` import, `WindowWithLibraries`와 `window.WebappUtils`의 `editor`·`components` 항목 | `PublishedIsolatedFrameUtils`와 `isolatedFrames` 항목만 더했다 | 에디터·컴포넌트 공개 계보를 들일 때 |
+| `webapp/platform/shared/src/types/global/index.ts` | `./components`·`./editor` 타입 import, `export * from './editor'`, `WindowShared`의 `editor`·`components` | `./isolated_frames` import·export와 `isolatedFrames`만 더했다 | 같음 |
+| `webapp/AGENTS.md` | `WebappUtils.editor`(contract `PublishedEditorUtils`)·`WebappUtils.components` 항목 | 우리 "editor — not published in okrbest" 안내는 그대로 두고 `isolatedFrames` 항목만 더했다 | 같음 |
+
+**확인한 것.** 방화벽은 등록된 프레임에서 온 메시지와, origin이 `'null'`이면서 출처 프레임이 사라진 메시지만 가로챈다. 포크의 `message` 리스너(`utils/desktop_api.ts`, `utils/popouts/browser_popouts.ts`·`use_browser_popout.ts`, `components/login/login.tsx`)는 실제 origin을 가진 메시지를 받으므로 영향이 없다. `tsc -b` 오류는 기준선과 같은 5건이고 새 오류는 0건이다.

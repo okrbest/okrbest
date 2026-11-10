@@ -36,6 +36,7 @@ Each has a contract type in `@mattermost/shared/types/global/` and a build-time 
 
 - `window.WebappUtils.modals` — contract `PublishedModalUtils`; allowlist in `published_modals.ts`.
 - `window.WebappUtils.editor` — **not published in okrbest.** Upstream exposes it via `published_editor.ts`, which depends on the Tiptap WYSIWYG editor; okrbest uses Lexical instead, so the file and its contract types are absent. See "플러그인 공개 API" in `spec-docs/upstream/upstream-adapted-divergences.md` before adding it.
+- `window.WebappUtils.isolatedFrames` — contract `PublishedIsolatedFrameUtils`; allowlist in `published_isolated_frames.ts`. Backed by the message firewall in `channels/src/utils/isolated_frame_firewall.ts`, which `root.tsx` installs before any other module runs; keep it first.
 
 **Adding an entry**
 
