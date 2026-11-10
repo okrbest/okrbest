@@ -147,6 +147,7 @@
 | 팀 상세 고급 CEL 편집기 | [60cf157a](https://github.com/mattermost/mattermost/commit/60cf157a9ac10dbf0cd0a47d96f937abc19e9b74) (#39062) | 서버 가드·편집기 전환·잠금은 받았다. 제외 계보 헬퍼 둘(`toCELEditorAttributes`·`referencesResourceAttributes`)을 로컬로 두고, Session Attributes·rank·Boards 문맥과 Compass Switch 토글 방식을 뺐다 — 아래 참조 |
 | 플러그인 API GetSharedChannelCursor | [1381b881](https://github.com/mattermost/mattermost/commit/1381b881f4908381a3dd50aa40aa8a1c955bd320) (#39756) | API·store·생성 코드는 그대로 받았다. 제외한 Space 계보가 정의한 `messageChannelTypes`를 sqlstore에 새로 두고, `ChannelTypeSpace` 서브테스트 하나를 뺐다 — 아래 참조 |
 | E2E lane 확정 판정 | [86a1d5cd](https://github.com/mattermost/mattermost/commit/86a1d5cd7972c11d764b62787674e2595270c2b7) (#39803) | `e2e-tests/.ci/server.start.sh`만 받았다. 제외한 TSIO 계보의 `.github/` 9파일을 버렸다 — 아래 참조 |
+| 웹소켓 바이너리 프레임 디코딩 | [8848564c](https://github.com/mattermost/mattermost/commit/8848564c6fb129d84caa24ebf91c056bd9e11599) (#38790) | 서버 보안 수정·테스트·Cypress 스펙은 받았다. 제외한 Session Attributes 계보의 Playwright 페이지 객체 하나를 버렸다 — 아래 참조 |
 
 ---
 
@@ -5321,3 +5322,16 @@ merge-tree는 CLEAN이었지만 빌드가 깨졌다. 새 코드가 제외한 [`5
 | `.github/workflows/e2e-tests-playwright.yml` (+1) | 템플릿 호출 입력 | 충돌한다 | 같음 |
 | `.github/e2e-tests-workflows.md` (+17/-11) | enforce 기본값, 테스트 밖 lane red의 오케스트레이션 근거, 오래된 재실행, upgrade lane 게시 경로 설명 | 위 워크플로를 설명하는 문서라 포크와 맞지 않는다 | 같음 |
 | `.github/scripts/test_e2e_status_workflows.py` (+107/-10) | 상태 배선 계약 테스트 갱신, upgrade lane 배선 검증 | 파일이 포크에 없다 | 같음 |
+
+## 웹소켓 바이너리 프레임 디코딩 — Session Attributes Playwright 페이지 객체를 버렸다
+
+**upstream**: [`8848564c`](https://github.com/mattermost/mattermost/commit/8848564c6fb129d84caa24ebf91c056bd9e11599)
+(MM-70927: Update binary websocket frame decoding, #38790) — 4파일 +544/-8, 2026-11-10 sync 반영(사용자 결정 adapt)
+
+서버 변경(`web_conn.go` +39/-7 `decodeBinaryRequest`·`binaryFramePool`, `web_conn_test.go` +476)과 Cypress 스펙(`disallow_username_profile_override_spec.js` +24)은 upstream 그대로 받았다.
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `e2e-tests/playwright/lib/src/ui/components/system_console/sections/system_attributes/session_attributes.ts` (+5/-1) | `SessionAttributes` 점 메뉴를 닫을 때 Escape를 두 번 누르고, 메뉴가 남아 있으면 본문 (1,1)을 강제 클릭한다. `toBeHidden` 대기를 3초에서 5초로 늘린다 | 파일이 포크에 없다. 제외한 Session Attributes 계보(684ddb32 #36934)가 만든 페이지 객체다(modify/delete 충돌) | Session Attributes 계보를 들일 때 |
