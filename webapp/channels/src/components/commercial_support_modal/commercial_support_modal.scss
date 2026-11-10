@@ -18,6 +18,46 @@
         padding-left: 12px;
         font-weight: 500;
     }
+
+    &__option + &__option {
+        margin-top: var(--spacing-m, 16px);
+    }
+
+    &__option_header {
+        display: flex;
+        align-items: baseline;
+        gap: var(--spacing-s, 8px);
+    }
+
+    &__option_required {
+        flex-shrink: 0;
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+        font-size: 12px;
+    }
+
+    &__option_details {
+        padding-left: 25px;
+        margin-top: 4px;
+    }
+
+    &__option_description {
+        margin: 0;
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    &__whats_included_toggle {
+        margin-top: 8px;
+    }
+
+    &__whats_included_list {
+        padding-left: 24px;
+        margin: 8px 0 0;
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+        font-size: 12px;
+        line-height: 16px;
+    }
 }
 
 .modal-header .modal-title {

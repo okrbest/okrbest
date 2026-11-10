@@ -29,20 +29,41 @@ exports[`components/CommercialSupportModal should match snapshot 1`] = `
         <div
           class="CommercialSupportModal__option"
         >
-          <input
-            checked=""
-            class="CommercialSupportModal__options__checkbox"
-            disabled=""
-            id="basic.server.logs"
-            name="basic.server.logs"
-            type="checkbox"
-          />
-          <label
-            class="CommercialSupportModal__options_checkbox_label"
-            for="basic.server.logs"
+          <div
+            class="CommercialSupportModal__option_header"
           >
-            Server Logs
-          </label>
+            <input
+              aria-describedby="basic.server.logs-required basic.server.logs-description"
+              checked=""
+              class="CommercialSupportModal__options__checkbox"
+              disabled=""
+              id="basic.server.logs"
+              name="basic.server.logs"
+              type="checkbox"
+            />
+            <label
+              class="CommercialSupportModal__options_checkbox_label"
+              for="basic.server.logs"
+            >
+              Server logs
+            </label>
+            <span
+              class="CommercialSupportModal__option_required"
+              id="basic.server.logs-required"
+            >
+              (required)
+            </span>
+          </div>
+          <div
+            class="CommercialSupportModal__option_details"
+          >
+            <p
+              class="CommercialSupportModal__option_description"
+              id="basic.server.logs-description"
+            >
+              Recent server log files, including any advanced and audit log files. May contain usernames, email addresses, IP addresses, and error details.
+            </p>
+          </div>
         </div>
         <div
           class="CommercialSupportModal__download"

@@ -150,6 +150,7 @@
 | 웹소켓 바이너리 프레임 디코딩 | [8848564c](https://github.com/mattermost/mattermost/commit/8848564c6fb129d84caa24ebf91c056bd9e11599) (#38790) | 서버 보안 수정·테스트·Cypress 스펙은 받았다. 제외한 Session Attributes 계보의 Playwright 페이지 객체 하나를 버렸다 — 아래 참조 |
 | 플러그인 검색 유형 우선순위 | [9ec63888](https://github.com/mattermost/mattermost/commit/9ec63888c24025e8885dda49c53763b17dea3859) (#39217) | 변경은 전부 받았다. `registry.test.ts` 충돌 문맥(제외한 MBE 8a의 `registerChannelTypeOption` 테스트)을 버리고 새 describe 블록만 넣었다 — 아래 참조 |
 | 플러그인 iframe 메시지 격리 | [c4e7f8a3](https://github.com/mattermost/mattermost/commit/c4e7f8a369f186b305424df78958006d60b4c4a0) (#39609) | 방화벽과 `isolatedFrames` 공개 API를 받았다. 충돌 문맥의 `editor`·`components` 공개(우리가 빼기로 한 것)를 버렸다 — 아래 참조 |
+| Support Packet 옵션 설명 | [565277ba](https://github.com/mattermost/mattermost/commit/565277baadd2fbf1fc2218a66d9d617b8adb5be6) (#39754) | 문구·"What's included"·접근성 속성·en.json은 받았다. compass-ui `Checkbox`·`Button`·`Icon`을 포크 체크박스·shared `Button`·아이콘 폰트로 바꿔 다시 짰다 — 아래 참조 |
 
 ---
 
@@ -5369,3 +5370,25 @@ merge-tree는 CLEAN이었지만 빌드가 깨졌다. 새 코드가 제외한 [`5
 | `webapp/AGENTS.md` | `WebappUtils.editor`(contract `PublishedEditorUtils`)·`WebappUtils.components` 항목 | 우리 "editor — not published in okrbest" 안내는 그대로 두고 `isolatedFrames` 항목만 더했다 | 같음 |
 
 **확인한 것.** 방화벽은 등록된 프레임에서 온 메시지와, origin이 `'null'`이면서 출처 프레임이 사라진 메시지만 가로챈다. 포크의 `message` 리스너(`utils/desktop_api.ts`, `utils/popouts/browser_popouts.ts`·`use_browser_popout.ts`, `components/login/login.tsx`)는 실제 origin을 가진 메시지를 받으므로 영향이 없다. `tsc -b` 오류는 기준선과 같은 5건이고 새 오류는 0건이다.
+
+## Support Packet 옵션 설명 — compass-ui 컴포넌트를 포크 컴포넌트로 바꿔 다시 짰다
+
+**upstream**: [`565277ba`](https://github.com/mattermost/mattermost/commit/565277baadd2fbf1fc2218a66d9d617b8adb5be6)
+([MM-71657] Describe Support Packet options in the Commercial Support dialog, #39754) — 5파일 +504/-78, 2026-11-10 sync 반영(사용자 결정 adapt)
+
+upstream은 이 모달을 이미 `@mattermost/compass-ui`로 옮긴 상태에서 이 커밋을 얹었다. 포크는 compass-ui를 받지 않는다(70658e18, 2026-10-18 결정). 그래서 4파일이 모두 충돌했고, 동작과 문구는 그대로 두고 렌더 구조만 포크 컴포넌트로 다시 썼다.
+
+**그대로 받은 것.** 메시지 정의 전부(`messages` 6개, `basicContentsIncludedItems` 10개)와 webapp `en.json` 16개 키(번역자 설명 포함), `renderOptionLabel`(내장 옵션 라벨을 번역하고 플러그인 라벨은 그대로 둔다), `renderOptionDescription`, `toggleBasicContentsIncluded`, `aria-describedby`·`aria-expanded`·`aria-controls`, `SERVER_LOGS_ID` 상수화, 새 테스트 3개(문구·순서 동일).
+
+**우리 맞춤.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `commercial_support_modal.tsx` 옵션 체크박스 | compass-ui `<Checkbox className='…__option_checkbox' aria-describedby>`의 children으로 라벨 | 포크 기존 `<input type='checkbox' className='…__options__checkbox'>` + `<label htmlFor>`를 유지하고 `aria-describedby`를 `input`에 달았다. `(required)` span은 같은 헤더 div 안에 둔다 | compass-ui 수용 시 |
+| 같음, "What's included" 토글 | compass-ui `<Button emphasis='link' size='small' leadingIcon={<Icon glyph={<ChevronDownIcon/>…}/>}>` | shared `<Button type='button' emphasis='link' size='sm'>` 안에 `<i className='icon icon-chevron-down'/'icon-chevron-right' aria-hidden>`(모달의 다운로드 버튼과 같은 아이콘 폰트 방식) | 같음 |
+| 같음, 옵션 목록 | `<div className='CommercialSupportModal__options'>`로 감싼다(upstream 앞선 compass 이관에서 생김) | 포크는 감싸지 않은 기존 구조를 유지 | 같음 |
+| `commercial_support_modal.scss` | `&__options { gap: var(--spacing-m) }`, `&__option_checkbox { width: auto }`, `--spacing-*`·`--font-size-75`·`--line-height-75`·`--icon-size-16` 토큰 | 포크에 그 토큰이 없어 고정값(12px/16px, 들여쓰기 25px)과 fallback(`var(--spacing-m, 16px)`)으로 같은 모양을 냈다. 옵션 간격은 `&__option + &__option`으로 준다 | compass 토큰을 들일 때 |
+| `commercial_support_modal.test.tsx` | `baseProps.packetContents`가 Basic contents + Server logs 두 항목 | 포크 `baseProps`(Server Logs 하나, mandatory)는 그대로 두고, 새 테스트 3개는 `builtInPacketContents`·명시 props를 넘긴다. upstream 앞선 compass 이관이 넣은 `should render packet content checkboxes with mandatory disabled`·`should toggle optional packet content checkbox`는 포크에 원래 없고, 이 커밋은 그 둘의 라벨만 고친다(받을 대상 없음) | 같음 |
+| `__snapshots__/…snap` | compass-ui 해시 클래스 DOM | 포크 구조로 재생성 | 같음 |
+
+**i18n.** webapp `en.json`에 16개 키가 추가됐다(`commercial_support_modal.basic_contents.*`, `.server_logs.*`, `.required`). 우리 ko는 손대지 않았다. 번역 후속 대상이다.
