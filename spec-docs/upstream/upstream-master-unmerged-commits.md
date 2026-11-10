@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-10 11:31
+- 갱신일: 2026-11-10 11:43
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 20개
+- 남은 커밋: 19개
 
-**마지막 반영 커밋:** `ce429e80` | [MM-71115: Keep a shared channel cursor set while a sync batch is in flight (#39758)](https://github.com/mattermost/mattermost/commit/ce429e80c29df69091b3829fa3a7c11029de296d) | 2026-11-07
+**마지막 반영 커밋:** `80b1928b` | [\[MM-71429\] Queue a shared channel catch-up sync when a node becomes leader (#39561)](https://github.com/mattermost/mattermost/commit/80b1928bef1d509913753d5fc8dcb1bf35fd3c19) | 2026-11-08
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 80b1928b | [\[MM-71429\] Queue a shared channel catch-up sync when a node becomes leader (#39561)](https://github.com/mattermost/mattermost/commit/80b1928bef1d509913753d5fc8dcb1bf35fd3c19) | 2026-11-08 |
 | 95cc6d95 | [MM-70987: migrate from x/crypto/openpgp to ProtonMail/go-crypto (#39738)](https://github.com/mattermost/mattermost/commit/95cc6d956ab40eec82580f789501e5d30f49d100) | 2026-11-09 |
 | 7a6cca12 | [ci(e2e): disable Testcontainers Ryuk on Playwright full-suite workers (#39809)](https://github.com/mattermost/mattermost/commit/7a6cca1254ec5a5c1bc26016da8e1c1335f4ce43) | 2026-11-09 |
 | cb89ca4c | [chore: Update NOTICE.txt file with updated dependencies (#39816)](https://github.com/mattermost/mattermost/commit/cb89ca4c46c0f5e14678fd714d518ce71832c52a) | 2026-11-09 |
