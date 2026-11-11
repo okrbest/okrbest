@@ -28,4 +28,4 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
           BUCKET_NAME: ${{ vars.DOCS_PREVIEW_BUCKET_NAME }}
         run: |
-          aws s3 rm "s3://${BUCKET_NAME}/mattermost/pr-${PR_NUMBER}/" --recursive
+          aws s3 rm "s3://${BUCKET_NAME}/okrbest/pr-${PR_NUMBER}/" --recursive

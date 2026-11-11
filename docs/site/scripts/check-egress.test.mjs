@@ -54,6 +54,22 @@ describe('scanSources', () => {
     assert.equal(hits.length, 0);
   });
 
+  it('allows canonical and og meta on docs.okrbest.com (okrbest site host)', () => {
+    const hits = scanSources({
+      html: {
+        'index.html': `<!DOCTYPE html>
+<html>
+<head>
+  <link rel="canonical" href="https://docs.okrbest.com/_documentation/">
+  <meta property="og:image" content="https://docs.okrbest.com/_documentation/img/x.svg">
+</head>
+<body></body>
+</html>`,
+      },
+    });
+    assert.equal(hits.length, 0);
+  });
+
   it('flags script[src]', () => {
     const hits = scanSources({
       html: {'index.html': '<script src="https://cdn.example.com/foo.js"></script>'},

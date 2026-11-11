@@ -66,7 +66,7 @@ jobs:
         with:
           client-id: ${{ vars.DOCS_AI_APP_CLIENT_ID }}
           private-key: ${{ secrets.DOCS_AI_APP_PRIVATE_KEY }}
-          repositories: mattermost
+          repositories: okrbest
           # Narrow below the App installation grant (cannot exceed it).
           permission-contents: write
           permission-pull-requests: write
@@ -226,7 +226,7 @@ jobs:
       - name: Configure git identity
         if: steps.gate.outputs.run == 'true'
         env:
-          GIT_USERNAME: ${{ vars.DOCS_AI_GIT_USERNAME || 'mattermost-docs-ai[bot]' }}
+          GIT_USERNAME: ${{ vars.DOCS_AI_GIT_USERNAME || 'okrbest-docs-ai[bot]' }}
           GIT_EMAIL: ${{ vars.DOCS_AI_GIT_EMAIL || '41898282+github-actions[bot]@users.noreply.github.com' }}
         run: |
           git config user.name "$GIT_USERNAME"

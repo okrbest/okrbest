@@ -58,7 +58,7 @@ than by the word alone.
 - `<PlanAvailability slug="…">` with a valid slug, at the top, when the content is
   plan-gated
 - Callout severity matching consequence, not emphasis
-- Internal links as absolute site paths, no `.mdx`, no hardcoded `docs.mattermost.com`
+- Internal links as absolute site paths, no `.mdx`, no hardcoded `docs.okrbest.com` or `docs.mattermost.com`
 - Fenced code blocks declaring a language
 - `>` and `<` escaped in prose
 - Heading levels sequential, body starting at `##`

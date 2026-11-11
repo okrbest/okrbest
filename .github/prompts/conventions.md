@@ -97,7 +97,7 @@ Internal links use absolute site paths, with no `.mdx` extension:
 [File storage](/administration-guide/configure/environment-configuration-settings#file-storage)
 ```
 
-- Never hardcode `https://docs.mattermost.com/...` for a page in this repo.
+- Never hardcode `https://docs.okrbest.com/...` (or the upstream `https://docs.mattermost.com/...`) for a page in this repo.
 - Never use relative `.mdx` paths — the site resolves absolute routes.
 - External links are ordinary Markdown links.
 
