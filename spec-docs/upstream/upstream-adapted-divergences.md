@@ -40,15 +40,15 @@
 | 팀 ABAC 플래그 기본 활성 | [7130ae59](https://github.com/mattermost/mattermost/commit/7130ae598f8291bd5d5e39473bd2df370b69c3d8) (#37781) | 서버 기본값은 받고 PropertyFieldRank 테스트와 e2e 플래그 한 줄을 버렸다. 비활성 근거에서 플래그가 빠졌다 — 아래 참조 |
 | 플러그인 ABAC API | [c7eff700](https://github.com/mattermost/mattermost/commit/c7eff70026ee233a5163fde42f5082134e66b795) (#37509) | API 표면 8개는 받고 네이티브 속성·PSAv2 계보에 걸린 셋을 걷어냈다. 정책 엔진이 없어 비활성 — 아래 참조 |
 | UserStore.Get을 request context로 | [9f0ae6a2](https://github.com/mattermost/mattermost/commit/9f0ae6a220f5da8f4303ee80f2237f395ff9bed4) (#37646) | 56파일 중 제외한 Integrated Boards의 `app/board.go` 1줄만 못 받았다. 단독으로는 빌드되지 않아 `523292f0`과 짝으로 받았다 — 아래 참조 |
-| 내장 Slack 가져오기 API·CLI 제거 | [f112b9a7](https://github.com/mattermost/mattermost/commit/f112b9a7159b25c630a52b05dc27dfc2f9b5d694) (#37999) | 코드 제거는 전부 받았다. docs mdx 3개는 우리가 지운 파일이라 버렸고, Cypress 권한 스냅샷은 우리 줄에서 `import_team`만 뺐다. server ko 27키가 orphaned로 남는다 — 아래 참조 |
+| 내장 Slack 가져오기 API·CLI 제거 | [f112b9a7](https://github.com/mattermost/mattermost/commit/f112b9a7159b25c630a52b05dc27dfc2f9b5d694) (#37999) | 코드 제거는 전부 받았다. docs mdx 3개는 우리가 지운 파일이라 버렸고(→ 2026-11-11 복원), Cypress 권한 스냅샷은 우리 줄에서 `import_team`만 뺐다. server ko 27키가 orphaned로 남는다 — 아래 참조 |
 | atmos/camo 이미지 프록시 제거 | [eb3966e3](https://github.com/mattermost/mattermost/commit/eb3966e30bf4e13a0fdef43bb87429c54a6b7e25) (#37284) | 코드는 그대로 받고 webapp ko 5키를 함께 지웠다. server ko 3키 orphaned·1키 문구 변경이 남는다. 운영 설정이 `atmos/camo`면 기동이 막히던 위험은 `6d0f48dd`로 해소(local로 자동 이전) — 아래 참조 |
 | Manage Attributes 삭제 액션 | [5bd5b3b8](https://github.com/mattermost/mattermost/commit/5bd5b3b899f7ce2eb5d981015db2a37077746a8c) (#37875) | 본체(Global Attributes 삭제 모달·표)는 제외 계보라 버리고, 섞인 공용 수정 둘(`getPluginDisplayName`, 고아 필드 훅 이전)만 받았다 — 아래 참조 |
-| 다이얼로그 deprecated date/datetime 필드 제거 | [78d12039](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a) (#37759) | 코드는 그대로 받고 우리가 지운 docs 2개의 갱신(업그레이드 노트 포함)을 버렸다 — 아래 참조 |
-| 사용자 입력 표시 설정을 Posts로 승격 | [0bff02c8](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) (#38023) | 코드는 그대로, docs 2개는 버렸다. en id 이동을 따라 ko 5키를 새 id로 옮기고 나뉜 예시 키 1개를 채웠다 — 아래 참조 |
-| Channel Viewed 웹소켓 설정을 Web Server로 승격 | [4c6c5a06](https://github.com/mattermost/mattermost/commit/4c6c5a063fefa1ec4484f62e1a209ec79711da13) (#38026) | 코드는 그대로, docs 2개는 버렸고 ko 2키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리 |
-| 계정 비활성화·자리 비움 시간초과를 Users and Teams로 승격 | [82d81775](https://github.com/mattermost/mattermost/commit/82d8177517a5648119ad38e072200a247e3d7dba) (#38025) | docs 3개는 버렸고 리브랜드 충돌은 upstream 삭제를 따랐다. ko 5키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리 |
+| 다이얼로그 deprecated date/datetime 필드 제거 | [78d12039](https://github.com/mattermost/mattermost/commit/78d120399f1b5e9474e9b453fdc909fabf65801a) (#37759) | 코드는 그대로 받고 우리가 지운 docs 2개의 갱신(업그레이드 노트 포함)을 버렸다(→ 2026-11-11 복원) — 아래 참조 |
+| 사용자 입력 표시 설정을 Posts로 승격 | [0bff02c8](https://github.com/mattermost/mattermost/commit/0bff02c8148abbea87f260c28839ae2ab4da3aee) (#38023) | 코드는 그대로, docs 2개는 버렸다(→ 2026-11-11 복원). en id 이동을 따라 ko 5키를 새 id로 옮기고 나뉜 예시 키 1개를 채웠다 — 아래 참조 |
+| Channel Viewed 웹소켓 설정을 Web Server로 승격 | [4c6c5a06](https://github.com/mattermost/mattermost/commit/4c6c5a063fefa1ec4484f62e1a209ec79711da13) (#38026) | 코드는 그대로, docs 2개는 버렸고(→ 2026-11-11 복원) ko 2키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리 |
+| 계정 비활성화·자리 비움 시간초과를 Users and Teams로 승격 | [82d81775](https://github.com/mattermost/mattermost/commit/82d8177517a5648119ad38e072200a247e3d7dba) (#38025) | docs 3개는 버렸고(→ 2026-11-11 복원) 리브랜드 충돌은 upstream 삭제를 따랐다. ko 5키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리 |
 | Hardened Mode를 Web Server로 승격 | [245e311a](https://github.com/mattermost/mattermost/commit/245e311a41a789a282cf13b4685084fe07c89947) (#38022) | 설정 키가 `EnableHardenedMode`로 바뀐다(마이그레이션 포함). 새 en 문구의 "Mattermost"를 OKR.BEST로 바꿨고 ko 2키를 옮겼다 — `0bff02c8` 항목 아래 참조 |
-| Email 로그인 버튼 색상 설정 제거 | [925a09a5](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) (#38021) | 코드는 그대로, docs 1개는 버렸고 webapp ko 6키를 지웠다 — 아래 참조 |
+| Email 로그인 버튼 색상 설정 제거 | [925a09a5](https://github.com/mattermost/mattermost/commit/925a09a5f22180b3250c2bd0c2a006cfea65aee5) (#38021) | 코드는 그대로, docs 1개는 버렸고(→ 2026-11-11 복원) webapp ko 6키를 지웠다 — 아래 참조 |
 | 신고 메시지 노출 범위 보고서 | [fb87397d](https://github.com/mattermost/mattermost/commit/fb87397dbaeacf2578ab5f9ab69a0ee3860f9e80) (#37809) | 34파일을 받으며 제외한 개명 계보(`f1b9aa05`)에 걸린 id 1개·문구 2줄·테스트 3줄을 우리 용어로 바꾸고, en은 신규 키만 골라 받았다 — 아래 참조 |
 | store 메서드에 요청 로거 | [a7c68624](https://github.com/mattermost/mattermost/commit/a7c686249728bf75e6b3da69b2227fd68065181b) (#37648) | `post_store.go` 충돌에서 제외한 CJK 검색 함수 둘을 버리고 `search()` 시그니처에 `logger`만 더했다 — 아래 참조 |
 | React Bootstrap·react-overlays 업데이트 | [9127a7d9](https://github.com/mattermost/mattermost/commit/9127a7d9b9c5529d9cc8da1fa5a3f210804400e8) (#37758) | 스냅숏 5개를 포크 렌더링으로 다시 생성했고 lock은 우리 것을 기준으로 `npm install`해 peer churn 3줄을 되돌렸다 — 아래 참조 |
@@ -57,25 +57,25 @@
 | 테마·온보딩 설정을 Customization으로 승격 | [95cabdfb](https://github.com/mattermost/mattermost/commit/95cabdfb3b1380b44ca18e7878244f99fb19d2e5) (#38027) | 옮긴 블록에 포크의 `slate` 옵션·`OKR.BEST` 문구를 되살리고 AllowedThemes 유효 이름에 `slate`를 더했다. ko 16키를 새 id로 옮겼다 — 아래 참조 |
 | 플러그인 업로드 드롭존 UX | [7099dac6](https://github.com/mattermost/mattermost/commit/7099dac602f41688b1ffbd60a73a4ad54bbf6970) (#37569) | 코드·스냅숏은 그대로, en에서 지워진 `admin.plugin.choose`·`admin.plugin.upload`를 ko에서도 지웠다(orphaned 방지). 신규 13키 ko는 미번역 |
 | UserSettingsModal findDOMNode 제거 | [6707ec44](https://github.com/mattermost/mattermost/commit/6707ec446dcc63d4207353b833bb5a5132f40928) (#38008) | 테스트 파일의 mock 수정분은 제외 계보(`4255e314`)에만 있는 mock이라 버리고 새 접기 테스트만 더했다 — 아래 참조 |
-| Postgres 테스트 비밀번호 mostest_password | [752e5d17](https://github.com/mattermost/mattermost/commit/752e5d1755b5f5cc13e024c87eba3ed3622998af) (#38060) | docs 7개를 버리고 포크 문서 `DEVELOPMENT.md`의 안내 3곳을 맞추며 기존 컨테이너 전환 명령을 더했다 — 아래 참조 |
+| Postgres 테스트 비밀번호 mostest_password | [752e5d17](https://github.com/mattermost/mattermost/commit/752e5d1755b5f5cc13e024c87eba3ed3622998af) (#38060) | docs 7개를 버리고(→ 2026-11-11 복원) 포크 문서 `DEVELOPMENT.md`의 안내 3곳을 맞추며 기존 컨테이너 전환 명령을 더했다 — 아래 참조 |
 | 서버 의존성 업데이트 (MM-70307) | [83113218](https://github.com/mattermost/mattermost/commit/83113218589ebbd3a3bbc37b56b05dc73429d328) (#38086) | `github.com/blang/semver/v4`를 우리 tidy 결정대로 계속 뺐다 — upstream 대비 go.mod 1줄·go.sum 2줄 차이 — 아래 참조 |
 | 앱 마이그레이션을 master DB에 고정 | [c5835cd2](https://github.com/mattermost/mattermost/commit/c5835cd2b10e8c0ba0f7b71b9d7035721dbab36e) (#38084) | 잠금 6줄·mock 2줄·새 테스트는 받고, 충돌 문맥에 있던 제외 계보의 setup 마이그레이션 3개와 그 테스트 3개는 버렸다 — 아래 참조 |
 | property field 읽기를 request context로 이관 | [a3e171f7](https://github.com/mattermost/mattermost/commit/a3e171f730781dc87e5eb0f36d556f9eb39fc22a) (#37636) | 섞인 일반 정리(deprecated `WithMaster` 헬퍼 삭제) 4파일만 받고, property 본체 27파일은 제외 계보(`3fa87760` Linked Properties)라 버렸다 — 아래 참조 |
 | user_agent_platform 세션 속성에 Android 추가 | [5d5d4e27](https://github.com/mattermost/mattermost/commit/5d5d4e27523ed2d7a1fe4ea31210b173414e6d2d) (#38059) | 일반 함수 `getPlatformName`의 Android 판별만 받고, Session Attributes 스키마·SA·마이그레이션 테스트와 스키마 drift guard 테스트는 버렸다 — 아래 참조 |
 | 채널 설정이 공백 섞인 저장값에 미저장 경고를 띄우는 버그 | [9b4ab46c](https://github.com/mattermost/mattermost/commit/9b4ab46cc200e8e07fbec8475d2354dce5fcff60) (#38115) | 변경 감지 통합은 받고 Managed Categories 두 줄을 뺐다. 우리 `handleSave`의 저장 후 fallback을 `''`→저장값으로 고쳤고 DM 헤더 테스트 1개는 버렸다 — 아래 참조 |
-| Global Relay 사용자 지정 EML 헤더 설정 | [4608b024](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) (#38010) | 설정·검증·콘솔 UI는 받았으나 헤더를 쓰는 EML 작성기가 비공개 모듈이라 비활성(private-module 등재). docs 1개를 버리고 새 스냅숏 1개를 포크 렌더링으로 재생성 — 아래 참조 |
-| Playwright 1.62 업그레이드 | [85b0227d](https://github.com/mattermost/mattermost/commit/85b0227d1d741e436b7e179cc839820a91279921) (#38014) | docs 3개를 버렸다. e2e FeatureFlags는 우리 서버에 있는 플래그만 받아 6개를 뺐고, lock은 우리 것을 기준으로 다시 만들었다 — 아래 참조 |
+| Global Relay 사용자 지정 EML 헤더 설정 | [4608b024](https://github.com/mattermost/mattermost/commit/4608b024513c2faaaad978499c395619a9d90861) (#38010) | 설정·검증·콘솔 UI는 받았으나 헤더를 쓰는 EML 작성기가 비공개 모듈이라 비활성(private-module 등재). docs 1개를 버리고(→ 2026-11-11 복원) 새 스냅숏 1개를 포크 렌더링으로 재생성 — 아래 참조 |
+| Playwright 1.62 업그레이드 | [85b0227d](https://github.com/mattermost/mattermost/commit/85b0227d1d741e436b7e179cc839820a91279921) (#38014) | docs 3개를 버렸다(→ 2026-11-11 복원). e2e FeatureFlags는 우리 서버에 있는 플래그만 받아 6개를 뺐고, lock은 우리 것을 기준으로 다시 만들었다 — 아래 참조 |
 | v12 미사용 설정 필드 제거 | [87c84ef1](https://github.com/mattermost/mattermost/commit/87c84ef1772e85e45c4a338b199a4b668fffb4aa) (#37743) | 11개 모두 받았다. 충돌은 `TeamSettings` 정렬 1곳. 제외·spec 커밋 206개 중 이 필드를 기능적으로 쓰는 커밋은 없다 — 아래 참조 |
 | 채널 전환 뒤 이전 채널로 전송되는 버그 | [441e45a9](https://github.com/mattermost/mattermost/commit/441e45a91441f48151337ff991acfbb3af382ec3) (#37928) | 수정은 받고 우리 `draftRef` 즉시 갱신에도 같은 가드를 걸었다(가드 테스트 신규). upstream jest 4건은 Lexical 하네스에서 입력이 안 들어가 red로 남는다 — 아래 참조 |
 | App.GetUser·HasPermissionTo를 request context로 이관 | [c57bd5a8](https://github.com/mattermost/mattermost/commit/c57bd5a8466ffb943748b02e8ce27d56f40df569) (#37923) | rctx 치환은 받고, 충돌 블록 8곳과 없는 파일 4개(Scheduled Recaps 한도·property v2 계보)는 버렸다. 포크 전용 호출자 6곳에 rctx를 넘겼다 — 아래 참조 |
-| 이메일 알림 설정을 Notifications로 승격 | [dd83cc14](https://github.com/mattermost/mattermost/commit/dd83cc144d2e4bda6768a0ddbbdec3d3711f5138) (#38024) | 코드는 그대로, docs 2개는 버렸고 en 충돌은 우리 OKR.BEST 문구를 지켰다. ko 8키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리, 버린 docs 내용은 아래 참조 |
+| 이메일 알림 설정을 Notifications로 승격 | [dd83cc14](https://github.com/mattermost/mattermost/commit/dd83cc144d2e4bda6768a0ddbbdec3d3711f5138) (#38024) | 코드는 그대로, docs 2개는 버렸고(→ 2026-11-11 복원) en 충돌은 우리 OKR.BEST 문구를 지켰다. ko 8키를 새 id로 옮겼다 — `0bff02c8` 항목과 같은 처리, 버린 docs 내용은 아래 참조 |
 | 비영문 번역 파일 변경을 경고로 완화 | [7b21e93e](https://github.com/mattermost/mattermost/commit/7b21e93e0d3d3e084ca0dc203c61f6e21e518ae3) (#38218) | upstream 경고 형태를 받고 우리 ko.json 제외 2줄은 남겼다. 우리 sync 브랜치 예외 `if:`는 버렸다 — 아래 참조 |
 | react-transition-group findDOMNode 제거 | [6e36dad9](https://github.com/mattermost/mattermost/commit/6e36dad9ba4210112560d64dc200c78cb7e722f0) (#38236) | 코드 16파일은 그대로, 우리가 지운 product_menu 스냅숏 1개(1290줄 갱신)를 버렸다 — 아래 참조 |
 | ABAC 플러그인 정책 self-inclusion·편집기 null 안전성 | [cfab0366](https://github.com/mattermost/mattermost/commit/cfab036615ea572067701083eb64c170a77099e9) (#37926) | server는 전부 받고 gob 테스트 import 1줄을 보탰다. 편집기 null 가드는 우리 인라인 스키마에 이식했고 `buildCELSchemas` 테스트·채널 선택 단계 변경은 버렸다 — 아래 참조 |
 | React 19 업그레이드 | [4322d9e9](https://github.com/mattermost/mattermost/commit/4322d9e9a2dbef25b3860ec2279afd6634ceb61f) (#38311) | 의존성·진입점·플러그인 호환·codemod는 받았다. 제외 계보 파일 5개의 변경을 버렸고, 포크 Lexical 편집기·이미지 확대·게시물 목록은 우리 코드에 React 19 ref 타입만 입혔다 — 아래 참조 |
-| 콘텐츠 검토자 파일 다운로드 정책 적용 | [012e6dda](https://github.com/mattermost/mattermost/commit/012e6dda5d685760f8e91c1f9fb54b3a9a789079) (#38245) | 서버 코드는 받되 `postReviewerMessage`는 우리 rctx 없는 호출 형태를 유지했다. 세션 속성 테스트 1개를 우리 세션 속성 구조에 맞게 다시 썼고, docs 1개를 버렸다 — 아래 참조 |
-| 게시물 신원 props 기본 제거 후 검증 경로에서 재주입(v12) | [5dd13c95](https://github.com/mattermost/mattermost/commit/5dd13c953b2dcd7534154cc5c473559d5ee6d37a) (#37872) | 서버 코드·테스트 23파일은 그대로 받고, 우리 트리에 없는 문서 3개를 버렸다 — 아래 참조 |
-| 플러그인 HTTP context 전파 | [afc8def8](https://github.com/mattermost/mattermost/commit/afc8def801504c8ec5db8f60f3c42d16dfcc0493) (#38354) | 서버 코드·테스트 9파일은 그대로 받고, 우리가 지운 `docs/develop/` 문서 1개(플러그인 요청 취소 가이드)를 버렸다 — 아래 참조 |
+| 콘텐츠 검토자 파일 다운로드 정책 적용 | [012e6dda](https://github.com/mattermost/mattermost/commit/012e6dda5d685760f8e91c1f9fb54b3a9a789079) (#38245) | 서버 코드는 받되 `postReviewerMessage`는 우리 rctx 없는 호출 형태를 유지했다. 세션 속성 테스트 1개를 우리 세션 속성 구조에 맞게 다시 썼고, docs 1개를 버렸다(→ 2026-11-11 복원) — 아래 참조 |
+| 게시물 신원 props 기본 제거 후 검증 경로에서 재주입(v12) | [5dd13c95](https://github.com/mattermost/mattermost/commit/5dd13c953b2dcd7534154cc5c473559d5ee6d37a) (#37872) | 서버 코드·테스트 23파일은 그대로 받고, 우리 트리에 없는 문서 3개를 버렸다(→ 2026-11-11 복원) — 아래 참조 |
+| 플러그인 HTTP context 전파 | [afc8def8](https://github.com/mattermost/mattermost/commit/afc8def801504c8ec5db8f60f3c42d16dfcc0493) (#38354) | 서버 코드·테스트 9파일은 그대로 받고, 우리가 지운 `docs/develop/` 문서 1개(플러그인 요청 취소 가이드)를 버렸다(→ 2026-11-11 복원) — 아래 참조 |
 | 시스템 콘솔 사이드바 헤더 메뉴 잘림 | [bff707df](https://github.com/mattermost/mattermost/commit/bff707dff4e0e4e669b17246f7507784ced7d375) (#38418) | scss·새 스펙은 그대로. Playwright 헤더 POM에는 `menu`·`openMenu()`만 넣고 충돌 문맥의 About 메뉴 항목(제외 계보)은 넣지 않았다 — 아래 참조 |
 | 번역 용어집 i18n/glossary | [fa302bf9](https://github.com/mattermost/mattermost/commit/fa302bf9e62335d78c9a4a6f71e8beb19b678be4) (#38410) | 21개 언어 용어집은 그대로 받고 `ko.json`의 브랜드 항목 2개만 리브랜드 기준으로 고쳤다 — 아래 참조 |
 | 플러그인 파일 동작 정책 API | [db126654](https://github.com/mattermost/mattermost/commit/db12665463b46b44e161a3fdb69e52fd7dd95acd) (#38321) | 생산 코드·생성 코드는 그대로. 새 테스트의 `SessionAttribute().Refresh` 호출에서 `updatedAt` 인자를 뺐다(제외한 Session Attributes 계보 시그니처) — 아래 참조 |
@@ -87,15 +87,15 @@
 | FileInfo·Channels 대량 색인 쿼리 최적화 | [a66e9c03](https://github.com/mattermost/mattermost/commit/a66e9c034bb00a06984373d12ac6fd8bedd27aa3) (#38206) | 행 비교 최적화는 받고, 충돌 문맥의 보드 채널 타입 필터 1줄(제외 계보)은 넣지 않았다 — 아래 참조 |
 | floating-ui·MUI(v5 내)·react-day-picker 업그레이드 | [502cf7e3](https://github.com/mattermost/mattermost/commit/502cf7e3e5379ce054bee24e279ec1779911aa38) (#38337) | 의존성·코드·lock·e2e는 그대로 받고, `sidebar_channel_menu` 스냅숏의 해시 갱신만 버렸다(우리 해시가 달라 기준선 실패 중) — 아래 참조 |
 | i18n 원문 4종의 영어 문법 제거 | [43b2ae87](https://github.com/mattermost/mattermost/commit/43b2ae87e06b06abe01f9382ec26899c54c31728) (#38228) | 코드·다른 로캘은 그대로. ko.json은 우리 파일 위에 upstream ko 변경을 다시 적용했고, `admin_definition_helpers.tsx`의 eslint-disable 주석 1줄은 넣지 않았다 — 아래 참조 |
-| EnableExperimentalLocales와 실험적 로캘 제거 | [e9379690](https://github.com/mattermost/mattermost/commit/e9379690d5873cbf65049fabaab22f1317696868) (#38219) | 코드·로캘 삭제는 그대로 받고 ko.json에서 지워진 2키를 우리 문구째 지웠다. docs 2개를 버렸다 — 아래 참조 |
+| EnableExperimentalLocales와 실험적 로캘 제거 | [e9379690](https://github.com/mattermost/mattermost/commit/e9379690d5873cbf65049fabaab22f1317696868) (#38219) | 코드·로캘 삭제는 그대로 받고 ko.json에서 지워진 2키를 우리 문구째 지웠다. docs 2개를 버렸다(→ 2026-11-11 복원) — 아래 참조 |
 | 외부 링크 검사기 301 추적·GET 재시도·Zendesk 건너뛰기 | [d78e09b9](https://github.com/mattermost/mattermost/commit/d78e09b9a57ed794c32ac0c2c0067ebacc2037c3) (#38319) | 전부 받고, `shouldSkipUrlCheck`의 `FORMS_MATTERMOST_PATTERN` 검사 1줄만 뺐다(제외 계보 상수) — 아래 참조 |
 | Cypress·Playwright E2E 스펙 안정화 | [01fd4cfe](https://github.com/mattermost/mattermost/commit/01fd4cfe26b5fdb11f37a6785ebe7fe8594638ba) (#38300) | 19파일은 받고, 제외·spec 계보에 걸린 Playwright 3파일의 변경을 버렸다 — 아래 참조 |
-| OpenSearch 플러그인 감지(AWS) 수정 | [0760aee3](https://github.com/mattermost/mattermost/commit/0760aee32b79fe98997a76b9363648e0ea3a5dae) (#38280) | server 8파일은 그대로 받았고, 우리가 지운 `docs/main/` 문서 1개(로그 표 1줄)를 버렸다 — 아래 참조 |
+| OpenSearch 플러그인 감지(AWS) 수정 | [0760aee3](https://github.com/mattermost/mattermost/commit/0760aee32b79fe98997a76b9363648e0ea3a5dae) (#38280) | server 8파일은 그대로 받았고, 우리가 지운 `docs/main/` 문서 1개(로그 표 1줄)를 버렸다(→ 2026-11-11 복원) — 아래 참조 |
 | React 경고 props·refs·keys 정리 | [f6f27191](https://github.com/mattermost/mattermost/commit/f6f2719165ffb132e351342add570f3b1b6fd07a) (#38238) | Tag forwardRef·suggestion dispatch 제거·워크스페이스 key는 받았다. 채널 헤더 메뉴 `isReadonly` 제거 2파일은 우리가 먼저 지워 버렸다 — 아래 참조 |
 | 플러그인 시작 실패가 웹앱을 막지 않게 | [98371929](https://github.com/mattermost/mattermost/commit/98371929edae113a6af7a7f73b964c1a6378168b) (#38486) | 로더·레지스트리 수정은 그대로 받고, `registry.ts`의 제외 계보(MBE 8a~8h·채널 설정 탭) 메서드 충돌 3곳과 `registry.test.ts`의 해당 스위트 8개를 버렸다. 테스트 파일은 lifetime 스위트만 담아 새로 만들었다 — 아래 참조 |
-| 플러그인에 호스트 JSX 런타임 노출 | [e97df5b6](https://github.com/mattermost/mattermost/commit/e97df5b6e18a227cf9aa3cf47317f44672d9eaef) (#38489) | 코드 3파일은 그대로 받고 `docs/develop/` 플러그인 개발자 문서 2개(제외한 문서 사이트 계보)를 버렸다. 포크 플러그인 빌드 설정에 쓸 요지를 남긴다 — 아래 참조 |
+| 플러그인에 호스트 JSX 런타임 노출 | [e97df5b6](https://github.com/mattermost/mattermost/commit/e97df5b6e18a227cf9aa3cf47317f44672d9eaef) (#38489) | 코드 3파일은 그대로 받고 `docs/develop/` 플러그인 개발자 문서 2개(제외한 문서 사이트 계보)를 버렸다(→ 2026-11-11 복원). 포크 플러그인 빌드 설정에 쓸 요지를 남긴다 — 아래 참조 |
 | 남은 JS 테스트 TS 이관 | [d1666572](https://github.com/mattermost/mattermost/commit/d16665723616ee8b63a127816cbad2022668354f) (#38493) | 34개 이관은 받고, 제외 계보(Managed Categories·채널 설정 탭)의 테스트 2개와 import 1개를 버렸다. 자동 병합된 포크 전용 테스트 3곳에 타입을 맞췄다 — 아래 참조 |
-| Global Relay 발신자 주소 설정 | [69f0f2c2](https://github.com/mattermost/mattermost/commit/69f0f2c22cfb346566bc02ad67347bd65a7cabdf) (#38451) | 설정·검증·콘솔 UI는 그대로 받고 docs/main mdx 1개를 버렸다. 설정을 쓰는 EML 작성기가 비공개 모듈이라 발동하지 않는다 — 아래 참조 |
+| Global Relay 발신자 주소 설정 | [69f0f2c2](https://github.com/mattermost/mattermost/commit/69f0f2c22cfb346566bc02ad67347bd65a7cabdf) (#38451) | 설정·검증·콘솔 UI는 그대로 받고 docs/main mdx 1개를 버렸다(→ 2026-11-11 복원). 설정을 쓰는 EML 작성기가 비공개 모듈이라 발동하지 않는다 — 아래 참조 |
 | 채널별 입장·퇴장 메시지 끄기 (spec 029) | [5de31f8e](https://github.com/mattermost/mattermost/commit/5de31f8e868f61636ee9d556176cd6ab5f956f2b) (#37314) | sync에서 spec으로 넘겨 반영. 36파일을 upstream 줄 그대로 들이고, 포크 FilterUserIds를 같은 쿼리에 나란히 붙였다. 제외 계보 문맥 8곳을 버렸고 포크 테스트 3개는 포크 전용 새 파일에 뒀다 — 아래 참조 |
 | sort → slices 이관 | [68c4bb52](https://github.com/mattermost/mattermost/commit/68c4bb52e5e094d7c26f627f949973040c9c56a7) (#38473) | 이관과 govet `sortSlices`는 받았다. 보류했던 `concurrentIndex` vet 규칙도 Makefile을 upstream과 맞추며 함께 켰다. 제외 계보(CPA v2·property) 2곳을 버리고 우리 CPA v1 정렬 1곳을 직접 옮겼다 — 아래 참조 |
 | Health Dashboard PR08 health_findings 저장소 | [579c0bd9](https://github.com/mattermost/mattermost/commit/579c0bd96b61629b83ea379a276859f3d85d2f25) (#38632) | 마이그레이션 000231·000232와 SQL 저장소는 그대로 받았다. 충돌 문맥의 000230(제외 계보)과 mock store의 `View()` 접근자를 버렸고, 000230은 빈 번호로 남는다 — 아래 참조 |
@@ -106,18 +106,18 @@
 | Health Dashboard PR02 Support Packet typed struct | [7c457d07](https://github.com/mattermost/mattermost/commit/7c457d07c849ec41486f39bc2291e6e15a0e6c0d) (#38732) | 코드·golden 6개는 그대로 받고, 설정 구조체 모양을 담는 `sanitized_config.json` golden만 우리 `model.Config`·`FeatureFlags`로 다시 생성했다 — 아래 참조 |
 | ABAC 게시물 ETag에 세션 속성 epoch | [cbdd84fb](https://github.com/mattermost/mattermost/commit/cbdd84fbfba4ccd6324f0d335a66d07a9cfbf530) (#38821) | ETag 쪽(시그니처 rctx화·세션 epoch·호출부 7곳)은 그대로 받고, `SessionAttributeStore.GetEpoch`는 우리 초기판 store(`Refresh(id, attrs)` 2인자, 키별 timestamp 없음)에 맞게 다시 썼다 — 아래 참조 |
 | Attribute Management 목록 권한·분류 게이트·동기화 출처 전파 | [f747d624](https://github.com/mattermost/mattermost/commit/f747d6242a6d32eb9ac406f0b992384bf2f7857d) (#38830) | 본체 12파일(제외한 Global Attributes 계보, `manage_attributes` 링크 포함)은 버리고, 섞인 server en.json description 1줄(`eaeebdc9` 이모지 키)만 받았다 — 아래 참조 |
-| ABAC 권한 정책 Burn-on-Read | [91b4450e](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) (#38656) | server 전부(`HasPermissionToChannelAction` 개명 포함)와 webapp 훅·초안·예약·콘솔은 받고, 우리 Lexical ATE에 `isDraftSendable`을 이식했다. docs 4·TipTap 2·없는 list spec 1과 컴파일되지 않는 BoR ABAC e2e 4개를 버렸다. PDP가 비공개 모듈이라 비활성(private-module 등재) — 아래 참조 |
+| ABAC 권한 정책 Burn-on-Read | [91b4450e](https://github.com/mattermost/mattermost/commit/91b4450e49cd6e6b427fac629a71705aed793a75) (#38656) | server 전부(`HasPermissionToChannelAction` 개명 포함)와 webapp 훅·초안·예약·콘솔은 받고, 우리 Lexical ATE에 `isDraftSendable`을 이식했다. docs 4·TipTap 2·없는 list spec 1과 컴파일되지 않는 BoR ABAC e2e 4개를 버렸다. docs 4는 2026-11-11에 되살렸다. PDP가 비공개 모듈이라 비활성(private-module 등재) — 아래 참조 |
 | 21개 언어 카탈로그 누락 채우기 | [f5b9b0ed](https://github.com/mattermost/mattermost/commit/f5b9b0ed4742ffac6dba6bb0f20680fe92b93b87) (#38904) | 파일을 통째로 받지 않고, 이 커밋이 추가한 키 중 우리 en에 있고·우리 로캘에 없고·en 원문이 같은 것만 42파일에 더했다. 기존 값은 하나도 바꾸지 않았다. ko 신규 24건은 OKR.BEST로 리브랜드 — 아래 참조 |
-| 실험적 언어 8개 복원 | [70c1732d](https://github.com/mattermost/mattermost/commit/70c1732d783fde4cbc7a88632721f4e134a57ec4) (#38944) | 검사기 완화(extra key → 경고)와 테스트 예시 교체 6파일만 받고, 8개 언어 카탈로그·용어집·등록 코드·en description·docs는 버렸다(2026-10-19 사용자 결정) — 아래 참조 |
+| 실험적 언어 8개 복원 | [70c1732d](https://github.com/mattermost/mattermost/commit/70c1732d783fde4cbc7a88632721f4e134a57ec4) (#38944) | 검사기 완화(extra key → 경고)와 테스트 예시 교체 6파일만 받고, 8개 언어 카탈로그·용어집·등록 코드·en description·docs는 버렸다(2026-10-19 사용자 결정, docs는 2026-11-11 복원) — 아래 참조 |
 | autotranslation 플레이크·AI Actions 중복 버튼 | [af4c3cfd](https://github.com/mattermost/mattermost/commit/af4c3cfde668e006981efa29ba740791eb03fb13) (#38965) | `ai_actions_menu.tsx`와 `autotranslation.spec.ts`는 그대로 받고, 우리에게 없는 `autotranslation_ui.spec.ts` 수정을 버렸다 — 아래 참조 |
 | Playwright 플래그 헬퍼·실패 테스트 수정 | [05a293c6](https://github.com/mattermost/mattermost/commit/05a293c603f9909565a8793148a5f7a08b4d3274) (#38981) | `ensureFeatureFlag` 맵 지원·`skipIfFeatureFlagNotSet` 삭제 등 9파일을 받고, `channel_banner.spec.ts`(우리에게 없는 ChannelAttributes 플래그)·루트 `AGENTS.md`와 제외 계보 스펙 28개를 버렸다 — 아래 참조 |
 | Calls 전화 걸기 메뉴 | [e8d7f37e](https://github.com/mattermost/mattermost/commit/e8d7f37e923dc4d3582cdb83aefee751eab7bdba) (#38941) | compass-ui 메뉴 트리거를 일반 버튼으로, `properties_user` import를 `properties`로, `menu.tsx`는 타입 확장만 이식. 기능은 Calls v1.12.5라 비활성 — 아래 참조 |
 | 업그레이드 경로 ABAC 시딩 건너뛰기 | [c307d634](https://github.com/mattermost/mattermost/commit/c307d634d6ed9d090385e2b7dc5981c36e233805) (#39084) | 스펙이 `ensureUserAttributes`로 속성을 직접 준비하는 2줄만 받고, 우리에게 없는 업그레이드 하네스 쪽 4파일을 버렸다 — 아래 참조 |
-| ServiceNow 플러그인 제외 | [07b79a10](https://github.com/mattermost/mattermost/commit/07b79a1087cdcf654ffa335f29a3394feb318a2a) (#39105) | 번들 목록·설정 마법사·아이콘·en 키 2개 삭제는 받고 ko 키 2개를 함께 지웠다. Makefile은 우리 번들 버전(playbooks v2.11.1 등)을 유지. docs 11파일을 버렸다 — 아래 참조 |
+| ServiceNow 플러그인 제외 | [07b79a10](https://github.com/mattermost/mattermost/commit/07b79a1087cdcf654ffa335f29a3394feb318a2a) (#39105) | 번들 목록·설정 마법사·아이콘·en 키 2개 삭제는 받고 ko 키 2개를 함께 지웠다. Makefile은 우리 번들 버전(playbooks v2.11.1 등)을 유지. docs 11파일을 버렸다(→ 2026-11-11 복원) — 아래 참조 |
 | WebserverMode `uncompressed` 통일 | [359fc924](https://github.com/mattermost/mattermost/commit/359fc92417a9da2f671b5d6c04c71c202faf7963) (#39116) | 서버 검증·보정·ko 포함 26파일은 받고, 우리에게 없는 실험적 언어 server 카탈로그 7개의 메시지 1줄씩을 버렸다 — 아래 참조 |
 | SystemPolicyIndicator 완결 문장화 | [047fffb3](https://github.com/mattermost/mattermost/commit/047fffb3138c394c981c1ceb3bb559e42a1446ce) (#38967) | 컴포넌트·en·21개 언어는 받고, ko는 옛 키 11개(우리가 다듬은 6개 포함)를 지우고 새 키 12개에 upstream ko 번역을 넣었다. 없는 언어 7개를 버렸다 — 아래 참조 |
 | webapp 영어 오타·문법 수정 | [6b5a174f](https://github.com/mattermost/mattermost/commit/6b5a174f733f3193f8b532a3259396b6c33d9c94) (#39127) | 리브랜드 줄 충돌은 우리 문구(OKR.BEST) 위에 오타 수정만 옮겼다. 키보드 단축키 콜론 1건과 없는 Playwright 스펙 2개를 버렸다 — 아래 참조 |
-| 파일 검색 끄기 설정 노출 | [c205c6c6](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98) (#39059) | upstream이 가리는 헤더 Files 버튼이 우리에게 없어, 우리 Slack식 헤더의 Files 탭에 같은 `canSearchFiles` 조건을 걸었다(테스트 동반). docs 2개·옛 헤더 테스트 hunk를 버렸다 — 아래 참조 |
+| 파일 검색 끄기 설정 노출 | [c205c6c6](https://github.com/mattermost/mattermost/commit/c205c6c6aa4cdf09e6ded827c52c8b0dc5113d98) (#39059) | upstream이 가리는 헤더 Files 버튼이 우리에게 없어, 우리 Slack식 헤더의 Files 탭에 같은 `canSearchFiles` 조건을 걸었다(테스트 동반). docs 2개·옛 헤더 테스트 hunk를 버렸다(docs는 2026-11-11 복원) — 아래 참조 |
 | Health Dashboard PR28 Site health 화면 | [85b6fc1a](https://github.com/mattermost/mattermost/commit/85b6fc1ac751261a3c9e3c6ba21072a00e80160f) (#38943) | 화면·redux·서버 렌더 필드는 그대로 받았다. `client4.ts` 충돌 문맥의 delivery tracking 경로·메서드 3개(제외한 `0019ecc5` 계보)를 버렸다 — 아래 참조 |
 | Health Dashboard PR30 Site health·Workspace Optimization 택일 | [86b88d6f](https://github.com/mattermost/mattermost/commit/86b88d6f2532aedc18085af23273bdc32adb085c) (#39076) | 제품 코드는 그대로 받았다. 새 `admin_sidebar.test.tsx` 3건이 항상 펼쳐진 사이드바를 전제해, 우리 쪽에서는 Reporting URL에서 렌더하도록 고쳤다 — 아래 참조 |
 | server 영어 오타·문법 수정 | [43b5abce](https://github.com/mattermost/mattermost/commit/43b5abce4e03e89a054e54f95f4634e25409686d) (#39144) | 57건 문구를 모두 받았다. 그중 3건은 제외한 개명 계보(`f1b9aa05`) 때문에 우리 `app.content_flagging.*` 키로 옮겼고, 충돌 문맥의 `app.data_spillage.*` 키는 버렸다 — 아래 참조 |
@@ -125,20 +125,20 @@
 | 로그 경로 루트 강제(기능 플래그) | [abf088ca](https://github.com/mattermost/mattermost/commit/abf088ca912c4b1f0969804596eb3820faf56f5a) (#38634) | 서버 코드는 그대로 받았다. 충돌 문맥의 `PostDeliveryTracking`(제외한 `0019ecc5`)과 `TestIsAuditLevelActive`를 버리고, 그 커밋이 넣던 `slices` import를 `config/logger.go`에 직접 추가했다 — 아래 참조 |
 | 새·수정 문구 일괄 번역 | [5c246f54](https://github.com/mattermost/mattermost/commit/5c246f54fd761f99828c7320d2d74ce0b1f3b119) (#38945) | `f5b9b0ed` 선례대로 조건부 추가만 받고, "우리 값 = upstream 옛 값"인 수정도 받았다. server ko 3건은 우리 값을 지켰고 ko 신규 2건을 OKR.BEST로 바꿨다 — 아래 참조 |
 | 하드코딩 영어 라벨 정리 + pt-BR 보강 | [0d4385d1](https://github.com/mattermost/mattermost/commit/0d4385d1259da280837c6b6826c784bc03468284) (#39113) | 코드는 그대로 받았다. en.json은 우리 판에 새 15키를 넣고, 카탈로그는 `5c246f54` 절의 조건으로 반영했다 — 아래 참조 |
-| SAML/OAuth 감사 이벤트 user_created | [678386ea](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) (#38006) | 서버 코드는 그대로 받았다. SAML 쪽은 구현체가 비공개 enterprise라 인터페이스만 바뀌고 동작하지 않는다. 감사 로그 스키마 문서를 버렸다 — 아래 참조 |
-| 플러그인 KV 접두어 필터링 | [2b3fb21f](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5) (#35441) | 코드는 upstream 그대로 받았다. 문서 사이트 계보를 제외해 `best-practices.md`가 없으므로 그 문서 절만 버렸다. API 주석의 "최소 서버 12.2"와 우리 12.1.0 사이에 차이가 남는다. |
+| SAML/OAuth 감사 이벤트 user_created | [678386ea](https://github.com/mattermost/mattermost/commit/678386eaf2023eb7753840dcae089126f59f0b98) (#38006) | 서버 코드는 그대로 받았다. SAML 쪽은 구현체가 비공개 enterprise라 인터페이스만 바뀌고 동작하지 않는다. 감사 로그 스키마 문서를 버렸다(→ 2026-11-11 복원) — 아래 참조 |
+| 플러그인 KV 접두어 필터링 | [2b3fb21f](https://github.com/mattermost/mattermost/commit/2b3fb21fe39e6d8178625aabd8b9176596ad4cf5) (#35441) | 코드는 upstream 그대로 받았다. 문서 사이트 계보를 제외해 `best-practices.md`가 없으므로 그 문서 절만 버렸다(→ 2026-11-11 복원). API 주석의 "최소 서버 12.2"와 우리 12.1.0 사이에 차이가 남는다. |
 | 서버 로그 실시간 보기 새 항목 | [4028643a](https://github.com/mattermost/mattermost/commit/4028643a0abe570b99fd6103c5cb2a25f67a5092) (#39507) | 기능은 그대로 받았다. compass-ui를 제외해 새 항목 버튼을 포크의 `btn` 클래스 버튼으로 바꿨다. |
 | 서버 로그 서버 측 검색 | [d62af319](https://github.com/mattermost/mattermost/commit/d62af319e868519799ab91a6fa2fc201ddf6a549) (#39478) | 기능은 그대로 받았다. compass-ui `SectionNotice`를 포크의 `components/section_notice`로, 일반 텍스트 다운로드 버튼을 포크 `btn` 버튼으로 바꿨다. |
 | 봇 토큰 URL 제거 | [9535783e](https://github.com/mattermost/mattermost/commit/9535783ef9d3ab166da83e9ba3b8f7003d6449ca) (#39317) | 토큰 처리는 같다. upstream이 고친 `bot_save_flow.ts`·`bot_attributes.ts`는 제외 계보라 없어서 `add_bot.tsx`에 직접 넣었고, `confirm_integration.tsx`의 경고 배너 코드는 들이지 않았다. |
-| 서버 로그 사용자 지정 기간 | [47b81751](https://github.com/mattermost/mattermost/commit/47b81751a4e5c402aa61523e51ecbcf1f33bbfda) (#39509) | 기능은 그대로 받았다. Compass 토큰이 없어 `custom_range_modal.scss`를 고정 값으로 바꿨고, `docs/main` 문서 줄을 버렸다. |
+| 서버 로그 사용자 지정 기간 | [47b81751](https://github.com/mattermost/mattermost/commit/47b81751a4e5c402aa61523e51ecbcf1f33bbfda) (#39509) | 기능은 그대로 받았다. Compass 토큰이 없어 `custom_range_modal.scss`를 고정 값으로 바꿨고, `docs/main` 문서 줄을 버렸다(→ 2026-11-11 복원). |
 | Cloud Starter 조건 제거 | [5a9a4dff](https://github.com/mattermost/mattermost/commit/5a9a4dff1085a476f82621367b9ee63484e38f26) (#39531) | 포크에 있는 조건은 그대로 지웠다. `switch_product_menu`가 없어 그 3파일 변경을 버렸고, 제외 계보의 OpenID 항목은 들이지 않았다. |
 | recap 인용·프롬프트 강화 | [5f2ab3e2](https://github.com/mattermost/mattermost/commit/5f2ab3e2292d1721d61ec5f96b83b481a3bed03e) (#38204) | 세 가지 방어는 그대로 받았다. 제외 계보의 `SummarizePostsWithInstructions`가 없어 `SummarizePosts`에 맞췄고, 사용자 지시 블록과 그 테스트를 뺐다. |
-| 대량 채널 삭제 색인 안내 | [ad8460ad](https://github.com/mattermost/mattermost/commit/ad8460ad4d1d81c47d5d64a996dba7af8f870180) (#39547) | API 문서와 mmctl 안내만 받았다. `docs/main` 4파일은 문서 사이트 계보 제외로 버렸다. |
-| 로그인 전 플러그인 노출 제한 | [e8c7307f](https://github.com/mattermost/mattermost/commit/e8c7307f42a870a545f07fcd68aaff81f1e68346) (#39433) | 보호 기능과 토글은 그대로 받았다. 문서 2파일과 업그레이드 스펙 3파일을 버렸고, 제외 계보의 마이그레이션 키와 e2e 헬퍼는 들이지 않았다. 스냅샷은 포크 라디오 마크업으로 재생성했다. |
-| 웹소켓 재연결 실패 원인 보고 | [8824cd2f](https://github.com/mattermost/mattermost/commit/8824cd2f9957a8e09a23342fb782242934f3e9c3) (#39388) | 코드·테스트·Grafana 대시보드는 그대로 받았다. `docs/main` 메트릭 문서 1파일은 문서 사이트 계보 제외로 버렸다. |
-| 지원 Chrome·Edge 최소 버전 표기 | [18c8573a](https://github.com/mattermost/mattermost/commit/18c8573aa970b88edc29036ea6cb6cf876fff7dc) (#39641) | `en.json` 라벨은 그대로 받았다. `docs/main` 요구 사항 문서는 문서 사이트 계보 제외로 버렸다. |
+| 대량 채널 삭제 색인 안내 | [ad8460ad](https://github.com/mattermost/mattermost/commit/ad8460ad4d1d81c47d5d64a996dba7af8f870180) (#39547) | API 문서와 mmctl 안내만 받았다. `docs/main` 4파일은 당시 문서 사이트 계보 제외로 버렸고, 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋). |
+| 로그인 전 플러그인 노출 제한 | [e8c7307f](https://github.com/mattermost/mattermost/commit/e8c7307f42a870a545f07fcd68aaff81f1e68346) (#39433) | 보호 기능과 토글은 그대로 받았다. 문서 2파일(→ 2026-11-11 복원)과 업그레이드 스펙 3파일을 버렸고, 제외 계보의 마이그레이션 키와 e2e 헬퍼는 들이지 않았다. 스냅샷은 포크 라디오 마크업으로 재생성했다. |
+| 웹소켓 재연결 실패 원인 보고 | [8824cd2f](https://github.com/mattermost/mattermost/commit/8824cd2f9957a8e09a23342fb782242934f3e9c3) (#39388) | 코드·테스트·Grafana 대시보드는 그대로 받았다. `docs/main` 메트릭 문서 1파일은 당시 문서 사이트 계보 제외로 버렸고, 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋). |
+| 지원 Chrome·Edge 최소 버전 표기 | [18c8573a](https://github.com/mattermost/mattermost/commit/18c8573aa970b88edc29036ea6cb6cf876fff7dc) (#39641) | `en.json` 라벨은 그대로 받았다. `docs/main` 요구 사항 문서는 당시 문서 사이트 계보 제외로 버렸고, 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋). |
 | 팀당 최대 사용자·채널 수 0 허용 | [c57388e7](https://github.com/mattermost/mattermost/commit/c57388e7c1a7751f3b2197766b4da22302362f7f) (#39110) | 코드·테스트·문구는 그대로 받았다. 포크에 없는 Space 채널 조건과 문맥(`EnableChannelCategorySorting`, ChannelAttributes·Space 테스트)을 뺐다. |
-| 안 읽은 채널까지 접는 사이드바 설정 | [71bd2fb0](https://github.com/mattermost/mattermost/commit/71bd2fb039327802ddeb2a1f157d7217860f9df1) (#39439) | 기능·테스트·Playwright 스펙은 그대로 받았다. `docs/main` 2파일은 문서 사이트 계보 제외로 버렸고, 제외 계보의 Boards 사이드바 문맥을 뺐다. |
+| 안 읽은 채널까지 접는 사이드바 설정 | [71bd2fb0](https://github.com/mattermost/mattermost/commit/71bd2fb039327802ddeb2a1f157d7217860f9df1) (#39439) | 기능·테스트·Playwright 스펙은 그대로 받았다. `docs/main` 2파일은 당시 문서 사이트 계보 제외로 버렸다가 2026-11-11 복원에서 되살렸고(`Upstream-docs` 커밋), 제외 계보의 Boards 사이드바 문맥을 뺐다. |
 | 코드 블록 구문 강조 처리 | [06ab8d2c](https://github.com/mattermost/mattermost/commit/06ab8d2cffe974ec1595224681e34c360110cb0e) (#38680) | 강조 제한·태스크 분할·취소 처리는 그대로 받았다. spec으로 넘긴 마크다운 토글(`36ebc1f6`) 코드와 그 테스트를 뺐다. |
 | 최신 마이너 버전 12.2.0 | [bc15e733](https://github.com/mattermost/mattermost/commit/bc15e733bd58e9e08c2aa04a1bc123c7821856c1) (#39729) | 버전 줄만 받았다. 문맥의 `compass-ui`와 포크보다 앞선 의존성 버전은 들이지 않았다. |
 | 메시지 선택 영역 인용 | [caaec8cd](https://github.com/mattermost/mattermost/commit/caaec8cda5e34866ccb2f7a4eb93e9dee585601c) (#39237) | spec 032로 반영. TipTap·Textbox 대신 Lexical 입력창에 `appendQuote`를 만들고, 원문을 그대로 내보내는 노드와 빈 줄 `>` 인용 transformer를 더했다 — 아래 참조 |
@@ -769,7 +769,7 @@ Enterprise 미만에서 숨는다. 라이선스가 없으면 비활성이다.
 | 3 | `signup/signup.tsx` | 사용자명만 미리 채우고 잠금, 이름은 "…으로 가입합니다" 문구로만 표시 | **우리 이름(필수)·성 입력칸에 미리 지정된 값을 채우고 잠금** | 자체 커밋 `7bfd555b77`이 가입 화면에 이름(필수)·성(선택)·표시 이름(선택) 입력칸을 넣었다. 서버(`app/user.go` `CreateUserWithToken`)는 초대 토큰의 이름을 클라이언트 값보다 우선 적용하므로, 그대로 두면 "홍길동으로 가입합니다"라고 보여 주면서 이름을 다시 필수로 요구하고 입력값은 버려진다. 이름·성을 각각 따로 판단한다(하나만 지정되면 그 칸만 잠김). upstream의 안내 문구 줄은 그대로 둔다 |
 | 4 | `signup.test.tsx` | "미리 지정된 사용자명이 이미 쓰이면 잘못된 초대 화면" 테스트 | 우리 필수 이름칸을 채우고 제출 | 채우지 않으면 제출 전 검증에서 멈춰 서버 오류 경로에 닿지 않는다. 우리 동작 확인 테스트 2건 추가 |
 | 5 | `admin_console/system_user_detail/system_user_detail.tsx` | 주석 "select/multiselect/rank" | "select/multiselect" | 제외한 `017a7102`(rank 필드 타입). 코드는 upstream 그대로 |
-| 6 | `docs/main/*.mdx` 3개 | 설정·초대·프로필 문서 갱신 | 버림 | 제외한 문서 사이트 계보(`1d3bbc63`) |
+| 6 | `docs/main/*.mdx` 3개 | 설정·초대·프로필 문서 갱신 | 버림 → 2026-11-11 복원(`Upstream-docs` 커밋) | 제외한 문서 사이트 계보(`1d3bbc63`) |
 
 **i18n.** webapp 새 키 23개, server 새 키 15개, 삭제 키 없음. 게이트 밖 문구(사용자 상세의 이름·성 편집 등)는
 번역 전까지 영어로 보인다 — 세션 마감 i18n 후속 목록으로 넘긴다.
@@ -1342,9 +1342,9 @@ UI가 없고, 관련 파일 이력은 전부 upstream 커밋이며, `spec-docs/`
 
 | 자리 | upstream | 우리 처리 | 이유 |
 |---|---|---|---|
-| `docs/main/administration-guide/comply/embedded-json-audit-log-schema.mdx` | `importTeam` 감사 이벤트 스키마 8줄 삭제 | **버림** (파일 부재 유지) | 포크가 `docs/main/` 트리를 지웠다 (modify/delete) |
-| `docs/main/administration-guide/manage/command-line-tools.mdx` | `mattermost import slack` 명령 설명 18줄 삭제 | **버림** | 같은 이유 |
-| `docs/main/administration-guide/onboard/advanced-permissions-backend-infrastructure.mdx` | `import_team` 권한 설명 8줄 삭제 | **버림** | 같은 이유 |
+| `docs/main/administration-guide/comply/embedded-json-audit-log-schema.mdx` | `importTeam` 감사 이벤트 스키마 8줄 삭제 | **버림 → 2026-11-11 복원**(`Upstream-docs` 커밋) | 포크가 `docs/main/` 트리를 지웠다 (modify/delete) |
+| `docs/main/administration-guide/manage/command-line-tools.mdx` | `mattermost import slack` 명령 설명 18줄 삭제 | **버림 → 2026-11-11 복원**(`Upstream-docs` 커밋) | 같은 이유 |
+| `docs/main/administration-guide/onboard/advanced-permissions-backend-infrastructure.mdx` | `import_team` 권한 설명 8줄 삭제 | **버림 → 2026-11-11 복원**(`Upstream-docs` 커밋) | 같은 이유 |
 | `e2e-tests/cypress/tests/support/api/default_roles_permissions.js` | upstream 스냅샷 줄로 교체 (`system_admin`·`team_admin`) | **우리 줄에서 `import_team` 단어만 삭제** | upstream 부모 스냅샷에는 `sysconsole_read_ai_recaps`·`sysconsole_write_ai_recaps`가 있고 우리에겐 없다. upstream 줄을 그대로 받으면 우리에게 없는 권한 둘이 끼어든다. 단어 집합 diff로 `import_team` 2개만 빠진 것을 확인했다 |
 | `webapp/channels/src/i18n/ko.json` | (커밋에 없음) | `admin.permissions.permission.import_team.{name,description}` 2키 **삭제** | en에서 지워진 키라 ko에 남으면 webapp orphaned가 생겨 `i18n-check-empty`가 CI를 막는다. 번역 추가가 아니라 삭제 추종이다 |
 | `server/i18n/ko.json` | (커밋에 없음) | **손대지 않음** — 27키 orphaned로 남음 | server orphaned는 CI 판정 대상이 아니다(기준선 59키). 아래 목록 참조 |
@@ -1358,8 +1358,8 @@ UI가 없고, 관련 파일 이력은 전부 upstream 커밋이며, `spec-docs/`
 
 ### 되돌릴 조건
 
-- 포크가 `docs/main/`을 되살리면 위 mdx 3개에서 upstream 삭제분(Slack CLI 설명, `importTeam` 감사 이벤트,
-  `import_team` 권한 설명)을 같이 지운다.
+- 2026-11-11 문서 사이트 계보 복원에서 위 mdx 3개의 upstream 삭제분(Slack CLI 설명, `importTeam` 감사 이벤트,
+  `import_team` 권한 설명)을 함께 반영했다(`Upstream-docs` 커밋).
 - `ai_recaps` 권한 계보를 반영하면 Cypress 스냅샷을 upstream 줄과 맞춘다. 그때 `import_team`이 다시 들어오지
   않았는지 확인한다.
 - server ko orphaned를 일괄 정리할 때 위 27키를 함께 지운다.
@@ -1451,12 +1451,12 @@ property-field DELETE API에 연결하는 기능이다. 그 화면(`admin_consol
 
 | 자리 | upstream | 우리 처리 | 이유 |
 |---|---|---|---|
-| `docs/develop/integrate/plugins/interactive-dialogs/index.md` | date·datetime 필드 표에서 deprecated 행 삭제 | **버림** (파일 부재 유지) | 포크가 `docs/develop/`를 지웠다 (modify/delete) |
-| `docs/main/administration-guide/upgrade/important-upgrade-notes.mdx` | v12.0 업그레이드 노트 1행 추가 — 위 "무시된다" 경고와 같은 내용 | **버림** | 포크가 `docs/main/`을 지웠다. 운영자 공지가 필요하면 위 문단을 쓴다 |
+| `docs/develop/integrate/plugins/interactive-dialogs/index.md` | date·datetime 필드 표에서 deprecated 행 삭제 | **버림 → 2026-11-11 복원**(`Upstream-docs` 커밋) | 포크가 `docs/develop/`를 지웠다 (modify/delete) |
+| `docs/main/administration-guide/upgrade/important-upgrade-notes.mdx` | v12.0 업그레이드 노트 1행 추가 — 위 "무시된다" 경고와 같은 내용 | **버림 → 2026-11-11 복원**(`Upstream-docs` 커밋) | 포크가 `docs/main/`을 지웠다. 운영자 공지가 필요하면 위 문단을 쓴다 |
 
 ### 되돌릴 조건
 
-- 포크가 개발자·운영 문서를 되살리면 위 두 갱신을 함께 넣는다.
+- 2026-11-11 문서 사이트 계보 복원에서 위 두 갱신을 함께 넣었다(`Upstream-docs` 커밋).
 
 ## 사용자 입력 표시 설정을 Posts로 승격 — ko 키를 지우지 않고 옮겼다
 
@@ -1472,7 +1472,7 @@ property-field DELETE API에 연결하는 기능이다. 그 화면(`admin_consol
 
 | 자리 | upstream | 우리 처리 | 이유 |
 |---|---|---|---|
-| `docs/main/administration-guide/configure/experimental-configuration-settings.mdx`·`site-configuration-settings.mdx` | 설정 설명을 Experimental 문서에서 Site Configuration 문서로 이동 | **버림** | 포크가 `docs/main/`을 지웠다 (modify/delete) |
+| `docs/main/administration-guide/configure/experimental-configuration-settings.mdx`·`site-configuration-settings.mdx` | 설정 설명을 Experimental 문서에서 Site Configuration 문서로 이동 | **버림 → 2026-11-11 복원**(`Upstream-docs` 커밋) | 포크가 `docs/main/`을 지웠다 (modify/delete) |
 | `webapp/channels/src/i18n/ko.json` | (커밋에 없음) | `admin.experimental.{enableUserTypingMessages.desc,enableUserTypingMessages.title,timeBetweenUserTypingUpdatesMilliseconds.desc,.example,.title}` 5키를 `admin.posts.*`로 **이름만 옮김** | 지우면 orphaned는 풀리지만 옮겨진 설정이 한국어 UI에서 영어로 보인다. 번역 추가가 아니라 id 변경 추종이다 |
 | 같은 파일 `admin.posts.timeBetweenUserTypingUpdatesMilliseconds.title` | en이 "User Typing Timeout:" → "User Typing Timeout (milliseconds):" | "사용자 입력 시간초과 :" → "사용자 입력 시간초과 (밀리초) :" | en의 단위 추가를 최소한으로 따랐다 |
 | 같은 파일 `admin.experimental.UsersStatusAndProfileFetchingPollIntervalMilliseconds.example` (신규) | en이 공유하던 예시 키를 설정별로 나눔 | 기존 공유 번역 "예시: \"5000\""을 넣음 | 이 키가 없으면 해당 예시가 영어로 보인다 |
@@ -1487,13 +1487,13 @@ property-field DELETE API에 연결하는 기능이다. 그 화면(`admin_consol
 **같은 처리 — `4c6c5a06`** (Graduate Enable Channel Viewed WebSocket Messages to Environment > Web Server, #38026,
 2026-10-08 반영): `ServiceSettings.EnableChannelViewedMessages`가 Experimental에서 Environment > Web Server로 옮겨지고
 `access` 태그가 `environment_web_server`로 바뀌었다. 우리가 지운 `docs/main/.../environment-configuration-settings.mdx`·
-`experimental-configuration-settings.mdx` 갱신은 버렸다. ko는 `admin.experimental.enableChannelViewedMessages.{title,desc}`를
+`experimental-configuration-settings.mdx` 갱신은 당시 버렸고, 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋). ko는 `admin.experimental.enableChannelViewedMessages.{title,desc}`를
 `admin.service.enableChannelViewedMessages{,Description}`로 문구 변경 없이 옮겼다. 새 `admin_definition_channel_viewed_messages`
 테스트 통과. `admin_console_index` 2건은 기준선 실패라 그 안의 새 검색 단언은 검증되지 않았다.
 
 **같은 처리 — `82d81775`** (Graduate account deactivation and user status away timeout to Site Configuration > Users and Teams,
 #38025, 2026-10-09 반영): `TeamSettings.EnableUserDeactivation`·`UserStatusAwayTimeout`이 Experimental에서 Users and Teams로
-옮겨지고 `access` 태그가 `site_users_and_teams`로 바뀌었다. 우리가 지운 `docs/main/` mdx 3개 갱신은 버렸다.
+옮겨지고 `access` 태그가 `site_users_and_teams`로 바뀌었다. 우리가 지운 `docs/main/` mdx 3개 갱신은 당시 버렸고, 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋).
 충돌 2곳(`admin_definition.tsx`·`en.json`)은 옛 자리 비움 설명의 리브랜드 문구("away from OKR.BEST")가 삭제 블록과 겹친 것이다.
 upstream 삭제를 따랐다. 새 en 문구에는 제품명이 없다. ko는 5키를 새 id로 옮겼다.
 
@@ -1512,7 +1512,7 @@ upstream 삭제를 따랐다. 새 en 문구에는 제품명이 없다. ko는 5�
 Hardened Mode가 Experimental에서 Environment > Web Server로 옮겨지고 `access` 태그가 `environment_web_server`로 바뀌었다.
 **설정 키 이름이 바뀐다** — `ServiceSettings.ExperimentalEnableHardenedMode` → `EnableHardenedMode`. 옛 필드는 deprecated(`json:",omitempty"`)로
 남고 `SetDefaults`가 새 키가 nil일 때 옛 값을 옮긴다(`TestServiceSettingsHardenedModeMigration` 4개 통과). 옛 키를 읽던 서버 3곳은 upstream이
-모두 바꿨고, 포크에만 있는 사용처는 없다. 우리가 지운 `docs/main/` mdx 2개는 버렸다.
+모두 바꿨고, 포크에만 있는 사용처는 없다. 우리가 지운 `docs/main/` mdx 2개는 당시 버렸고, 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋).
 
 | 자리 | upstream | 우리 처리 | 이유 |
 |---|---|---|---|
@@ -1541,7 +1541,7 @@ Cloud에서 숨는다. 포크 코드에서 옛 `sysconsole_*_experimental_featur
 | `admin.experimental.emailBatchingInterval.{title,desc,example}` | `admin.environment.notifications.emailBatchingInterval.{label,help,placeholder}` | 문구 유지 |
 | `admin.experimental.useChannelInEmailNotifications.{title,desc}` | `admin.environment.notifications.useChannelInEmailNotifications.{label,help}` | 문구 유지 |
 
-**버린 docs 내용** (우리가 지운 `docs/main/` 경로, 1d3bbc63 문서 사이트 계보 제외). 문서 사이트를 되살리면 아래를 다시 반영한다.
+**버린 docs 내용** (우리가 지운 `docs/main/` 경로, 1d3bbc63 문서 사이트 계보 제외). 2026-11-11 문서 사이트 계보 복원에서 아래를 모두 다시 반영했다(`Upstream-docs` 커밋).
 
 | 파일 | upstream 변경 | 버린 내용 요지 |
 |---|---|---|
@@ -1638,7 +1638,7 @@ suggestion 기준선 실패(`at_mention_provider` '@h', `suggestion_box` reset s
 
 | 자리 | upstream | 우리 처리 | 이유 |
 |---|---|---|---|
-| `docs/main/administration-guide/configure/experimental-configuration-settings.mdx` | 색상 설정 3개 설명 삭제 | **버림** | 포크가 `docs/main/`을 지웠다 (modify/delete) |
+| `docs/main/administration-guide/configure/experimental-configuration-settings.mdx` | 색상 설정 3개 설명 삭제 | **버림 → 2026-11-11 복원**(`Upstream-docs` 커밋) | 포크가 `docs/main/`을 지웠다 (modify/delete) |
 | `webapp/channels/src/i18n/ko.json` | (커밋에 없음) | `admin.experimental.emailSettingsLoginButton{,Border,Text}Color.{desc,title}` 6키 **삭제** | en에서 지워진 키라 남기면 webapp orphaned로 CI가 막힌다. 설정이 없어져 옮길 곳이 없다 |
 
 ## mlog 필드 키 snake_case 강제 — 우리에게만 남은 1줄을 고쳤다
@@ -1774,7 +1774,7 @@ localcachelayer(Reaction)·app(ScheduledPost·Emoji·UpdateUser·GuardedHook) �
 | `admin.customization.allowedThemesDesc` | 유효 이름 5개 나열 | `slate`를 더해 6개 | 같은 이유 — `Preferences.THEMES` 키에 slate가 있다 |
 | `admin.customization.enableTutorialDesc` | "open Mattermost" | "open OKR.BEST" | 리브랜드(원칙 IV). 옛 id에 있던 우리 문구를 새 id로 옮겼다 |
 | `ko.json` | (upstream은 en만 바꿈) | 옛 id 16개를 새 id로 이동(slate 포함, 문구 그대로) | en만 바꾸면 orphaned로 CI가 막힌다. `0bff02c8`·`4c6c5a06` 항목과 같은 처리 |
-| `docs/main/.../experimental-·site-configuration-settings.mdx` | 설정 설명 이동 | 버림 | 우리가 지운 문서 사이트(`1d3bbc63`) 경로 |
+| `docs/main/.../experimental-·site-configuration-settings.mdx` | 설정 설명 이동 | 버림 → 2026-11-11 복원(`Upstream-docs` 커밋) | 우리가 지운 문서 사이트(`1d3bbc63`) 경로 |
 
 ko 미번역: 새 키 `admin.customization.allowedThemes{Title,Desc,Placeholder}` 3개.
 검증: 관련 jest 19 suites 99개, `public/model`, api4 `TestGetConfig|TestUpdateConfig|TestPatchConfig` 통과.
@@ -1807,7 +1807,7 @@ HEAD·master에서 각각 돌려 실패 목록이 같음(22 suites·121종, 전�
 
 | 자리 | upstream | 우리 처리 | 이유 |
 |---|---|---|---|
-| `docs/develop/**`·`docs/main/**` 7개 | 비밀번호 문자열 치환 | 버림 | 우리가 지운 문서 사이트 경로 |
+| `docs/develop/**`·`docs/main/**` 7개 | 비밀번호 문자열 치환 | 버림 → 2026-11-11 복원(`Upstream-docs` 커밋) | 우리가 지운 문서 사이트 경로 |
 | `DEVELOPMENT.md`(포크 문서) | — | Postgres 안내 3곳(`CREATE ROLE`, DSN 예시, 기본값 설명)을 `mostest_password`로 고치고, 기존 컨테이너를 `docker exec -e PGPASSWORD=mostest … ALTER ROLE`로 전환하는 방법을 더했다. MySQL DSN 예시는 `mostest` 그대로 | upstream이 모르는 우리 문서. MySQL은 이 커밋(Postgres·lib/pq) 범위 밖 |
 
 로컬 환경: `mattermost-postgres`의 `mmuser` 비밀번호를 같은 날 `ALTER ROLE`로 바꾸고 git 추적 밖의 `server/config/config.json`
@@ -1951,7 +1951,7 @@ jest 테스트, Playwright 스펙 `unsaved_changes_on_open.spec.ts`. 통합 덕�
 
 | 자리 | upstream | 우리 처리 | 이유 |
 |---|---|---|---|
-| `docs/main/.../compliance-configuration-settings.mdx` | 설정 설명 30줄 | 버림 | 우리가 지운 문서 사이트(`1d3bbc63`) 경로 |
+| `docs/main/.../compliance-configuration-settings.mdx` | 설정 설명 30줄 | 버림 → 2026-11-11 복원(`Upstream-docs` 커밋) | 우리가 지운 문서 사이트(`1d3bbc63`) 경로 |
 | `message_export_settings.test.tsx.snap`의 새 스냅숏 "enabled, globalrelay, custom customer type" | upstream 렌더링(`mattermost.com/pl/compliance-export?utm_…` 링크, 라벨 `Global Relay EML`) | `jest -u`로 **포크 렌더링 기준 재생성** — 링크 `https://okr.best/pl/compliance-export`, 라벨 `GlobalRelay EML`. 차이는 이 두 줄뿐 | 링크는 리브랜드. 라벨은 아래 후속 항목 |
 
 **후속(이 커밋과 무관하게 발견).** `admin.complianceExport.exportFormat.globalrelay`의 문구가 우리는 `GlobalRelay EML`,
@@ -1979,7 +1979,7 @@ MoveThreads Cypress 스펙 4개 삭제(우리도 `6086676938`에서 플래그를
 
 | 자리 | upstream | 우리 처리 | 이유 |
 |---|---|---|---|
-| `docs/main/.../abac-channel-access-rules.mdx`, `abac-team-channel-policies.mdx`, `abac-team-membership.mdx` | ABAC 문서에 사용자 속성 갱신 주기(`AttributeRefreshIntervalSeconds`) 설명 추가 | 버림 | 우리가 지운 문서 사이트(`1d3bbc63`) 경로 |
+| `docs/main/.../abac-channel-access-rules.mdx`, `abac-team-channel-policies.mdx`, `abac-team-membership.mdx` | ABAC 문서에 사용자 속성 갱신 주기(`AttributeRefreshIntervalSeconds`) 설명 추가 | 버림 → 2026-11-11 복원(`Upstream-docs` 커밋) | 우리가 지운 문서 사이트(`1d3bbc63`) 경로 |
 | `e2e-tests/playwright/lib/src/server/default_config.ts` FeatureFlags 충돌 3곳 | v11.11 서버 기준 플래그 목록으로 교체 | 우리 `server/public/model/feature_flags.go`에 **있는** 플래그만 받고 값은 우리 `SetDefaults` 기본값을 썼다 | 이 파일은 "서버 `make config-reset` 결과"를 본뜬다. 기준은 upstream 서버가 아니라 우리 서버다 |
 | 같은 파일, 버린 플래그 | `ClassificationMarkings: true`, `GlobalAttributes: false`, `EnableDocs: false`, `ManagedChannelCategories: false`, `PostAttributes: false`, `PropertyFieldRank: true` | 넣지 않음 | 우리 서버에 없는 플래그다(분류 표시·Global Attributes·Managed Categories·property 계보를 제외) |
 | 같은 파일, 받은 플래그 | `AttributeValueMasking`·`ChannelPermissionPolicies`·`PolicySimulation`·`TeamMembershipAccessControl` (true), `AggregatePluginMetrics`·`SessionAttributes`·`DiscoverableChannels` (false) | 그대로 받음 | 우리 서버에 있고 기본값도 같다 |
@@ -2038,7 +2038,7 @@ ledger 제외·spec 전환 부록의 커밋 206개 diff에서 11개 필드를 �
 
 | 커밋 | 부록 | 필드와의 관계 |
 |---|---|---|
-| `1d3bbc63`·`6417c934`·`eee6722e`·`f091e95e` | 제외 | `docs/` 문서 사이트가 필드 이름을 언급할 뿐이다. 우리는 그 문서 사이트가 없다 |
+| `1d3bbc63`·`6417c934`·`eee6722e`·`f091e95e` | 제외 | `docs/` 문서 사이트가 필드 이름을 언급할 뿐이다. 당시 우리는 그 문서 사이트가 없었다(2026-11-11 복원) |
 | `2ada8d76` 공개 채널 메시지 검색 | spec | ES 구조체 정렬이 바뀌며 `BulkIndexingTimeWindowSeconds` 줄이 같이 움직였다. 기능은 이 필드를 쓰지 않는다 |
 | `e3fbf871` Go 1.26.2 | spec(010, 이행 완료) | `NewPointer(x)`→`new(x)` 기계적 치환이 이 필드 줄에도 걸렸다 |
 
@@ -2245,7 +2245,7 @@ upstream에 없는 코드라 커밋이 치환하지 못했다. 모두 rctx가 �
 선행 커밋 929a2e9e(#37873)는 이미 `2ff56a0ba5`로 반영돼 있어 서버 쪽은 자동 병합됐다. ko.json에는 지워진 `analysis_icu_required` 키가 원래 없어 orphaned가 생기지 않는다.
 `create_template_posts_if_not_exists.template_create_failed`는 영문 원문이 길어졌는데 ko는 옛 문구 그대로다(i18n 후속 대상).
 
-**버린 docs 내용** (우리가 지운 `docs/main/` 경로, 1d3bbc63 문서 사이트 계보 제외). 문서 사이트를 되살리면 아래를 다시 반영한다.
+**버린 docs 내용** (우리가 지운 `docs/main/` 경로, 1d3bbc63 문서 사이트 계보 제외). 2026-11-11 문서 사이트 계보 복원에서 아래를 모두 다시 반영했다(`Upstream-docs` 커밋).
 
 | 파일 | upstream 변경 | 버린 내용 요지 |
 |---|---|---|
@@ -2257,7 +2257,7 @@ httptest 기반 `TestStart*`·`TestCJK*`·`TestWrap*`(ES·OpenSearch)와 `TestRu
 
 ### 되돌릴 조건
 
-- 문서 사이트(1d3bbc63 계보)를 들이면 위 docs 1행을 다시 반영한다.
+- 2026-11-11 문서 사이트 계보 복원에서 위 docs 1행을 다시 반영했다(`Upstream-docs` 커밋).
 
 ## Cypress·Playwright E2E 스펙 안정화 — 제외·spec 계보에 걸린 3파일은 버렸다
 
@@ -2349,7 +2349,7 @@ React 18 HEAD와 같은 범위로 돌려 실패 목록을 diff했다 — 양쪽 
 
 대조 실험: 이 테스트의 `cfg.FeatureFlags.SessionAttributes`를 false로 바꾸면 포함 케이스가 실패한다(세션 속성이 판정 대상에 실리지 않음) — 테스트가 실제로 세션 속성 전달을 검증한다.
 
-**버린 docs 내용** (우리 트리에 없는 `docs/main/`, 제외한 문서 사이트 계보 1d3bbc63).
+**버린 docs 내용** (우리 트리에 없는 `docs/main/`, 제외한 문서 사이트 계보 1d3bbc63). 2026-11-11 문서 사이트 계보 복원에서 아래를 다시 반영했다(`Upstream-docs` 커밋).
 
 | 파일 | upstream 변경 | 버린 내용 요지 |
 |---|---|---|
@@ -2367,7 +2367,7 @@ React 18 HEAD와 같은 범위로 돌려 실패 목록을 diff했다 — 양쪽 
 읽기 경로용 `SanitizeNonIdentityProps()`, 슬래시 명령·웹훅·알림·채널·사용자·sharedchannel 수신 경로 조정, 플러그인 API `CreatePost`·`UpdatePost`(플러그인이 넣은 override_*도 제거).
 PAT로 `from_webhook`+`override_username`을 위조해 다른 사람처럼 보이게 하던 경로가 막힌다. 포크 전용 코드에는 이 키를 쓰는 곳이 없다(grep 확인).
 
-**버린 docs 내용** (우리 트리에 없는 `docs/develop/`·`docs/main/`, 제외한 문서 사이트 계보 1d3bbc63).
+**버린 docs 내용** (우리 트리에 없는 `docs/develop/`·`docs/main/`, 제외한 문서 사이트 계보 1d3bbc63). 2026-11-11 문서 사이트 계보 복원에서 아래를 다시 반영했다(`Upstream-docs` 커밋).
 
 | 파일 | upstream 변경 | 버린 내용 요지 |
 |---|---|---|
@@ -2388,7 +2388,7 @@ slashcommands 전체, sharedchannel 전체, api4 `TestCreatePost`·`TestUpdatePo
 `plugin/api.go`·`pluginapi/plugins.go` 주석, 테스트(`context_rpc_test.go`·`response_transfer_test.go`·`plugin_api_test.go`).
 대상 플러그인이 옛 런타임으로 빌드됐으면 legacy 동작(context 미전달)을 유지한다 — 우리 Boards·Agents 포크 플러그인은 재빌드 전까지 이 경로다.
 
-**버린 docs 내용** (우리 트리에 없는 `docs/develop/`, 제외한 문서 사이트 계보 1d3bbc63). 문서 사이트를 되살리거나 플러그인 개발 가이드를 따로 둘 때 다시 반영한다.
+**버린 docs 내용** (우리 트리에 없는 `docs/develop/`, 제외한 문서 사이트 계보 1d3bbc63). 2026-11-11 문서 사이트 계보 복원에서 아래를 다시 반영했다(`Upstream-docs` 커밋).
 
 | 파일 | upstream 변경 | 버린 내용 요지 |
 |---|---|---|
@@ -2652,7 +2652,7 @@ webapp tsc 오류 목록이 반영 전과 같다(11건). 변경 5파일 eslint �
 우리 번역 문구("참으로 설정하면 사용자가 실험적인(예: 개발 중인) 언어를 선택할 수 있습니다", "실험적 언어 활성화")가 upstream ko와 달라 충돌했다.
 두 키를 지웠다(남기면 orphaned). 다른 ko 문자열은 건드리지 않았다.
 
-**버린 docs 내용** (우리가 지운 `docs/main/` 경로, 1d3bbc63 문서 사이트 계보 제외). 문서 사이트를 되살리면 아래를 다시 반영한다.
+**버린 docs 내용** (우리가 지운 `docs/main/` 경로, 1d3bbc63 문서 사이트 계보 제외). 2026-11-11 문서 사이트 계보 복원에서 아래를 모두 다시 반영했다(`Upstream-docs` 커밋).
 
 | 파일 | upstream 변경 | 버린 내용 요지 |
 |---|---|---|
@@ -2734,7 +2734,7 @@ production React 19에는 `jsxDEV`가 없어서, 그 자리를 `jsx`/`jsxs`로 �
 
 | 위치 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/develop/integrate/plugins/components/webapp/index.md` | 끝에 "React and JSX runtime compatibility" 절 추가(아래 문서로 연결, Mattermost 12.0 이상 요구) | 제외한 `1d3bbc63`(#37330 문서 사이트 이관) 계보라 파일이 없다(modify/delete). 원칙 IV | 문서 사이트를 들이지 않는 한 없음 |
+| `docs/develop/integrate/plugins/components/webapp/index.md` | 끝에 "React and JSX runtime compatibility" 절 추가(아래 문서로 연결, Mattermost 12.0 이상 요구) | 제외한 `1d3bbc63`(#37330 문서 사이트 이관) 계보라 파일이 없다(modify/delete). 원칙 IV | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 | `docs/develop/integrate/plugins/components/webapp/react-jsx-runtime.md` (신규 41줄) | 플러그인 개발자용 React 19 호환 안내 | 같은 계보. 요지는 아래에 남긴다 | 같음 |
 
 **버린 문서의 요지 — 포크 플러그인(Playbooks·Boards 등)을 React 19 호스트에 맞출 때 쓴다.**
@@ -2803,7 +2803,7 @@ production React 19에는 `jsxDEV`가 없어서, 그 자리를 `jsx`/`jsxs`로 �
 
 | 위치 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/administration-guide/configure/compliance-configuration-settings.mdx` | "Global Relay sender address" 절 추가. 요지: 내보내는 모든 EML의 From과 SMTP envelope sender로 쓰는 고정 주소이고, 비우면(기본) 첫 채널 참여자의 username으로 From을 정한다. 참여자 이메일은 To 헤더에 남아 아카이브가 참여자를 색인할 수 있다. 설정 키는 `.MessageExportSettings.GlobalRelaySettings.SenderAddress`(문자열) | 제외한 `1d3bbc63`(#37330 문서 사이트 이관) 계보라 파일이 없다(modify/delete). 원칙 IV | 없음 |
+| `docs/main/administration-guide/configure/compliance-configuration-settings.mdx` | "Global Relay sender address" 절 추가. 요지: 내보내는 모든 EML의 From과 SMTP envelope sender로 쓰는 고정 주소이고, 비우면(기본) 첫 채널 참여자의 username으로 From을 정한다. 참여자 이메일은 To 헤더에 남아 아카이브가 참여자를 색인할 수 있다. 설정 키는 `.MessageExportSettings.GlobalRelaySettings.SenderAddress`(문자열) | 제외한 `1d3bbc63`(#37330 문서 사이트 이관) 계보라 파일이 없다(modify/delete). 원칙 IV | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 **검증.** 2026-10-15. `go test ./public/model -run 'Config|GlobalRelay|MessageExport'` 통과.
 webapp `message_export_settings.test.tsx`(Node 24)는 14건과 스냅숏 5개가 모두 통과했다.
@@ -3360,7 +3360,7 @@ webapp — `useCreateBurnOnReadAccess`(MVP 셀렉터 `canUserSendBurnOnRead` 제
 
 | 파일 | 버린 이유 | 되살릴 조건 |
 |---|---|---|
-| `docs/main/**/*.mdx` 4개 | 제외한 문서 사이트 계보(`1d3bbc63`) | 해당 없음 |
+| `docs/main/**/*.mdx` 4개 | 제외한 문서 사이트 계보(`1d3bbc63`) | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 | `e2e …/wysiwyg_editor.ts`, `…/wysiwyg_editor/composing.spec.ts` | 제외한 TipTap 편집기 계보 | TipTap 도입 시 |
 | `e2e …/abac/policies/permission_policies_list.spec.ts` | 우리 트리에 없는 스펙(1줄 변경) | 그 스펙을 들일 때 |
 | `e2e …/abac/burn_on_read/` 4개(edge_cases·policy_scope·scheduled_post·helpers) | 우리 트리에서 컴파일되지 않는다 — `licenseTier`(우리 playwright-lib에 없음), `@mattermost/types/properties_user`(제외한 `076370e6` 계보), `support.ts`의 `getUserAttributeFieldByName`·`adminClient` 옵션 부재 | 위 lib·support 헬퍼를 들인 뒤 upstream 최신본으로 받는다 |
@@ -3427,7 +3427,7 @@ jest suite가 돌지 않는 것을 찾아 재설치했다(lock 변경 없음).
 |---|---|---|
 | 8개 언어(da·cs·hr·lt·nb-NO·pt·fi·be) server·webapp 카탈로그 16개, `i18n/glossary/<lang>.json` 8개, 등록 코드(`webapp i18n.ts`·`imports.ts`, server `supportedLocales`) | 지원 언어 확대는 제품 결정이다. 앞서 받은 `e9379690`(실험적 언어 제거)의 상태를 유지한다. 카탈로그에는 우리 en에 없는 제외 계보 키와 "Mattermost" 표기(da만 308곳)가 그대로 있다 | 이 언어들을 지원하기로 하면 이 커밋의 카탈로그를 `f5b9b0ed` 조건(우리 en에 있고 원문이 같은 키만)으로 걸러 받고 등록 코드를 들인다 |
 | `webapp/channels/src/i18n/en.json` description 9개 | 전부 Classification Markings·채널 속성 배너 키라 우리 en에 없다(제외 계보) | 해당 계보 도입 시 |
-| docs mdx 3개 | 문서 사이트 계보(`1d3bbc63`) | 해당 없음 |
+| docs mdx 3개 | 문서 사이트 계보(`1d3bbc63`) | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 **효과.** 로컬 실측(2026-10-19): webapp `check_icu --warn-missing-keys` 오류 1,404 → 244, server `make i18n-verify` 오류 806 → 20.
 줄어든 것은 전부 extra-key 오류다(제외 계보 키가 다른 언어 파일에 남은 것). 남은 오류는 ICU 변수·태그 불일치 등 실제 결함이다.
@@ -3498,7 +3498,7 @@ reload 전후에 설정을 다시 적용해 병렬 worker의 `initSetup()` 초�
 | `call_options_menu/use_phone_call_options.ts`·`call_options_menu.test.tsx` | `@mattermost/types/properties_user`에서 `UserPropertyField` | `@mattermost/types/properties` | `properties_user` 분리는 exclude한 `076370e6`(Board Attributes, PSAv2) 계보 산물 |
 | `webapp/channels/src/components/menu/menu.tsx` | 같은 커밋이 타입 확장(+10/-2) | 타입 확장만 손으로 넣었다 — `ButtonHTMLAttributes`·`ComponentType`·`Ref` import, `MenuButtonComponentProps`, `as`에 컴포넌트 허용, `children` 선택 | 우리 `menu.tsx`에 다른 계보 변경(`onMouseDown`·`allowTriggerInteraction`·`minWidth` 등)이 없어 문맥 충돌. 렌더 코드는 원래 `as`를 JSX 컴포넌트로 쓴다 |
 
-**버린 것.** `docs/main/end-user-guide/collaborate/make-calls.mdx`(+30, 전화 걸기 사용 안내) — 제외한 `1d3bbc63` 문서 사이트 계보.
+**버린 것.** `docs/main/end-user-guide/collaborate/make-calls.mdx`(+30, 전화 걸기 사용 안내) — 제외한 `1d3bbc63` 문서 사이트 계보. 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋).
 
 **검증.** `check-types` 기준선과 같은 13건, 접촉 파일 eslint 오류 0. jest 16 suite 중 실패 8건은 전부 레이블 `Start Call` 조회 실패다 —
 우리 `profile_popover_call_button_wrapper`가 여전히 `webapp.mattermost.feature.start_call`("Start call")을 쓰고, upstream은 `db55f9fa43`에서 `user_profile.call.start`("Start Call")로 바꿨다(그 hunk 누락).
@@ -3543,11 +3543,11 @@ reload 전후에 설정을 다시 적용해 병렬 worker의 `initSetup()` 초�
 
 기존 설치에서 이미 켠 ServiceNow 플러그인은 그대로 남는다(번들 제외는 새 설치·설정 마법사에만 영향). 플러그인 저장소는 Apache-2.0·비보관(2026-10-20 확인)이라 라이선스 사유가 아니라 upstream의 제품 결정이다.
 
-**버린 것** — 제외한 `1d3bbc63`(docs/ 이관, 원칙 IV) 문서 사이트 계보라 전부 우리에게 없다.
+**버린 것** — 제외한 `1d3bbc63`(docs/ 이관, 원칙 IV) 문서 사이트 계보라 당시 전부 버렸다. 2026-11-11 문서 사이트 계보 복원에서 모두 되살렸다(`Upstream-docs` 커밋).
 
 | 파일 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/integrations-guide/servicenow.mdx` | 파일 삭제(-153) | ServiceNow 연동 가이드 전체 | 해당 없음(문서 사이트 미수용) |
+| `docs/main/integrations-guide/servicenow.mdx` | 파일 삭제(-153) | ServiceNow 연동 가이드 전체 | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 | `docs/main/administration-guide/configure/plugins-configuration-settings.mdx` | -7 | 시스템 콘솔 플러그인 설정의 ServiceNow 항목 | 같음 |
 | `docs/main/administration-guide/onboard/migrate-from-slack.mdx` | 1줄 수정 | Slack Marketplace 앱 대체표의 예시 목록에서 ServiceNow 제거 | 같음 |
 | `docs/main/end-user-guide/collaborate/extend-mattermost-with-integrations.mdx`, `integrations-guide/popular-integrations.mdx`, `product-overview/cloud-supported-integrations.mdx` | 각 -1 | 연동 목록의 ServiceNow 줄 | 같음 |
@@ -3666,7 +3666,7 @@ upstream 오타 수정("Users sessions" → "User sessions")이 겹친 것이다
 |---|---|---|---|
 | `webapp/channels/src/components/channel_header/channel_header.tsx` | `{this.props.isFileAttachmentsEnabled &&` 헤더 Files 버튼을 `canSearchFiles`로 | 그 버튼이 우리 헤더에 없다(위 맞춤으로 대체) | 해당 없음 |
 | `webapp/channels/src/components/channel_header/channel_header.test.tsx` | 옛 채널 파일 스냅샷 테스트 3개 주변 문맥 + 새 테스트 "should not render the channel files button when file search is disabled" | 우리는 `b1914c9d`에서 그 테스트들을 지웠고, 새 테스트가 찾는 `channelHeaderFilesButton`이 우리에게 없어 늘 통과하는 빈 검사가 된다(대신 탭 테스트를 추가) | 해당 없음 |
-| `docs/main/administration-guide/configure/experimental-configuration-settings.mdx`·`site-configuration-settings.mdx` | EnableFileSearch 설명을 실험 설정 문서에서 파일 공유 설정 문서로 이동 | 제외한 `1d3bbc63` 문서 사이트 계보 | 해당 없음 |
+| `docs/main/administration-guide/configure/experimental-configuration-settings.mdx`·`site-configuration-settings.mdx` | EnableFileSearch 설명을 실험 설정 문서에서 파일 공유 설정 문서로 이동 | 제외한 `1d3bbc63` 문서 사이트 계보 | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 **검증.** jest 55 suite(헤더·탭·채널 정보 RHS·새 검색·검색 힌트·검색 결과·rhs/command/post 액션·채널 뷰) 통과, 헤더 스냅샷 13건 유지, eslint 0 오류, 서버 빌드·`go test ./config/` 통과.
 
@@ -3788,7 +3788,7 @@ jest(`npm run test`, TZ=UTC) 30 suite 중 28 통과·스냅샷 55건 통과. 나
 | `server/config/logger_test.go` | `TestIsAuditLevelActive`(`0019ecc5`) 뒤에 새 테스트 3개 | 새 테스트 3개(`TestIsLogPathEnforcementEnabled`·`TestValidateLogPaths`·`TestValidateLogFilePathSymlinkResolution`)만 — 우리에게 `IsAuditLevelActive`가 없다 | 같음 |
 | `server/config/logger.go` | import에 `maps`만 추가(`slices`는 `0019ecc5`가 이미 넣음) | `maps`·`slices` 둘 다 추가 — `slices.Sorted(maps.Keys(...))`가 필요 | `0019ecc5`를 받을 때 그 커밋의 `slices` import 추가는 이미 있는 것으로 처리 |
 
-**버린 것.** `e2e-tests/playwright/lib/src/server/default_feature_flags.ts`(제외한 `5dec0b82`가 만든 파일), 문서 2개(`1d3bbc63` 계보). 되살릴 조건: 각 계보를 받을 때.
+**버린 것.** `e2e-tests/playwright/lib/src/server/default_feature_flags.ts`(제외한 `5dec0b82`가 만든 파일), 문서 2개(`1d3bbc63` 계보). 되살릴 조건: 각 계보를 받을 때. 문서 2개는 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋).
 
 **후속 sync 주의.** 이 커밋 직후 `TestGetAdvancedLogs/path_validation_prevents_reading_files_outside_log_directory`가 결정적으로 실패한다 — 새로 검사하는
 `LogSettings.FileLocation` 경고가 테스트가 읽는 로그 파일에 덧붙는다. upstream도 같았고 `20aadca1`(#39198)로 고쳤다. 우리는 사용자 결정으로 그 커밋을 순서를 당겨 바로 다음에 반영했다.
@@ -3864,7 +3864,7 @@ SAML을 자체 구현하게 되면 `DoLogin`이 생성 여부를 돌려주도록
 
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/administration-guide/comply/embedded-json-audit-log-schema.mdx` | `completeSaml`·`completeOAuth` 감사 이벤트 설명에 "`meta.user_created`는 JIT로 새 계정을 만든 로그인에서 true" 문장 추가(2줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 해당 없음 |
+| `docs/main/administration-guide/comply/embedded-json-audit-log-schema.mdx` | `completeSaml`·`completeOAuth` 감사 이벤트 설명에 "`meta.user_created`는 JIT로 새 계정을 만든 로그인에서 true" 문장 추가(2줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 **검증.** `go build ./...`, `go vet ./channels/app/ ./channels/web/ ./einterfaces/...`, `go test ./channels/app/ -run 'OAuth|CreateOAuthUser|LoginByOAuth'`, `./channels/web/ -run 'Saml|OAuth'` 통과.
 
@@ -3882,7 +3882,7 @@ SAML을 자체 구현하게 되면 `DoLogin`이 생성 여부를 돌려주도록
 
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/deployment-guide/scale/enterprise-search.mdx` | "기본 DB 검색은 게시물 약 250만 건부터 성능 저하"를 "약 200만 건"으로 고침(1줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+| `docs/main/deployment-guide/scale/enterprise-search.mdx` | "기본 DB 검색은 게시물 약 250만 건부터 성능 저하"를 "약 200만 건"으로 고침(1줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 ---
 
@@ -3915,7 +3915,7 @@ LDAP 테스트 연결에서 `*AppError`가 아닌 오류가 나면 응답 오류
 
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/deployment-guide/software-hardware-requirements.mdx` | PC 웹 브라우저 지원 표의 Firefox 행(자체 호스팅·Cloud)을 v140+에서 v153+로(2줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+| `docs/main/deployment-guide/software-hardware-requirements.mdx` | PC 웹 브라우저 지원 표의 Firefox 행(자체 호스팅·Cloud)을 v140+에서 v153+로(2줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 ---
 
@@ -3951,7 +3951,7 @@ en.json `admin.email.mtpnsHelp`도 같은 방식(defaultMessage·description의 
 
 **받은 것.** `api/v4/source/actions.yaml`에서 `checkbox_group`·`checkbox_matrix`의 "minimum server version"을 11.10에서 12.0으로(2줄). 기능(28227e2962 #37656)은 이미 받았다.
 
-**버린 것.** 모두 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete). 문서 사이트를 되살릴 때 다시 반영한다.
+**버린 것.** 모두 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete). 2026-11-11 문서 사이트 계보 복원에서 모두 다시 반영했다(`Upstream-docs` 커밋).
 
 | 파일 | upstream 변경 |
 |---|---|
@@ -4024,7 +4024,7 @@ sync와 분리해 별도 브랜치에서 TDD로 `PermanentDeleteByUser`를 추�
 
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/administration-guide/configure/reporting-configuration-settings.mdx` | 서버 로그 화면 설명을 새 UI에 맞춰 고침(5줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+| `docs/main/administration-guide/configure/reporting-configuration-settings.mdx` | 서버 로그 화면 설명을 새 UI에 맞춰 고침(5줄) | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 **검증.** 2026-10-22. jest `admin_console/server_logs` 8 스위트 152건 통과, 변경 TS eslint 오류 0·SCSS stylelint 통과,
 `i18n-extract:check` 통과, `i18n-check-empty` ko orphaned 8(기존 그대로)·missing 84(새 키 80 추가).
@@ -4042,7 +4042,7 @@ sync와 분리해 별도 브랜치에서 TDD로 `PermanentDeleteByUser`를 추�
 
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/develop/integrate/plugins/interactive-dialogs/index.md` | (+123) 다이얼로그 `size`(`small`·`medium`·`large`, 기본 small, 서버 12.1+) 설명과 "Dialog width" 절, collapsible의 `subtype: "grid"`(서버 12.1+) "Grid layout" 절 — 자식 컨테이너가 행·그 자식이 셀, 열 머리는 첫 행에서 가져오고 셀은 위치로 열에 맞춘다(행에서 요소를 빼면 뒤 요소가 왼쪽으로 밀림, 짧은 행은 오른쪽 채움, 긴 행은 표를 넓힘), 셀 이름은 grid 전체에서 유일해야 셀별 오류가 정확히 붙는다(`cell_<row>_<column>` 권장), 알 수 없는 subtype은 서버 로그에 남기고 세로 배치로 되돌아감 | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+| `docs/develop/integrate/plugins/interactive-dialogs/index.md` | (+123) 다이얼로그 `size`(`small`·`medium`·`large`, 기본 small, 서버 12.1+) 설명과 "Dialog width" 절, collapsible의 `subtype: "grid"`(서버 12.1+) "Grid layout" 절 — 자식 컨테이너가 행·그 자식이 셀, 열 머리는 첫 행에서 가져오고 셀은 위치로 열에 맞춘다(행에서 요소를 빼면 뒤 요소가 왼쪽으로 밀림, 짧은 행은 오른쪽 채움, 긴 행은 표를 넓힘), 셀 이름은 grid 전체에서 유일해야 셀별 오류가 정확히 붙는다(`cell_<row>_<column>` 권장), 알 수 없는 subtype은 서버 로그에 남기고 세로 배치로 되돌아감 | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 ---
 
@@ -4153,7 +4153,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/administration-guide/configure/reporting-configuration-settings.mdx` | 서버 로그 설명에 "cluster node" 필터 추가, v12.2+ HA 배포의 **Node** 선택기 안내 — 노드가 2개 이상 응답해야 선택기가 보임, 단일 노드 선택 후 새로고침하면 **All nodes**를 다시 골라야 함, 연결 안 되는 노드는 **Failed to fetch logs from node** 오류 항목 하나로 대체, **Download**는 요청을 처리한 노드의 로그 파일 | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+| `docs/main/administration-guide/configure/reporting-configuration-settings.mdx` | 서버 로그 설명에 "cluster node" 필터 추가, v12.2+ HA 배포의 **Node** 선택기 안내 — 노드가 2개 이상 응답해야 선택기가 보임, 단일 노드 선택 후 새로고침하면 **All nodes**를 다시 골라야 함, 연결 안 되는 노드는 **Failed to fetch logs from node** 오류 항목 하나로 대체, **Download**는 요청을 처리한 노드의 로그 파일 | 제외한 `1d3bbc63` 문서 사이트 계보라 파일이 없다(modify/delete) | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 ---
 
@@ -4193,7 +4193,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 | `search_results.tsx`·`sidebar_right/index.ts`·`rhs_search_popout.tsx`·`at_mentions_button`·`global_search_nav`·`new_search`·`search.tsx`·`no_results_indicator`·`use_search_results_actions`·`utils/popouts/popout_windows.ts`·SCSS 2개 | 필터 UI 배선, 팝아웃 URL로 필터·검색 팀 전달 | 위 (1)·(2), `rhs_search_popout.tsx`는 우리 `e3553e69`(검색 결과 RHS 팝아웃)와 충돌 | 같음 |
 | `webapp/channels/src/i18n/en.json` +84줄 | 필터 UI 문구 | UI를 받지 않았다 | 같음 |
 | `e2e-tests/playwright/` 스펙 557줄·`mention_filters.ts` POM·`search_results_panel.ts`·`accessibility_sidebar_spec.ts` | 필터 E2E 12케이스, RHS 첫 포커스가 Filters로 바뀐 것 반영 | UI가 없다 | 같음 |
-| `docs/main/end-user-guide/collaborate/mention-people.mdx` | 필터 설명, 그룹 멘션 포함 안내 | 제외한 문서 사이트 계보(`1d3bbc63`) | 문서 사이트를 되살릴 때 |
+| `docs/main/end-user-guide/collaborate/mention-people.mdx` | 필터 설명, 그룹 멘션 포함 안내 | 제외한 문서 사이트 계보(`1d3bbc63`) | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 ---
 
@@ -4208,7 +4208,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/administration-guide/configure/environment-configuration-settings.mdx` | 로그 경로 설명에 "관리 디렉터리 안 경로도 로깅 루트 밖과 같은 규칙(오류 로그, `EnforceLogPathRoot`일 때만 거부)" 추가 | 제외한 문서 사이트 계보(`1d3bbc63`)라 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+| `docs/main/administration-guide/configure/environment-configuration-settings.mdx` | 로그 경로 설명에 "관리 디렉터리 안 경로도 로깅 루트 밖과 같은 규칙(오류 로그, `EnforceLogPathRoot`일 때만 거부)" 추가 | 제외한 문서 사이트 계보(`1d3bbc63`)라 없다(modify/delete) | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 | `docs/main/deployment-guide/server/troubleshooting.mdx` | 관리 디렉터리 목록 — `PluginSettings.Directory`·`ClientDirectory`, `FileSettings.Directory`·`ExportDirectory`, `ComplianceSettings.Directory`, 로드한 config 파일 디렉터리(`--config`·`MM_CONFIG` 포함), 서버 실행 파일 디렉터리, `client`·`prepackaged_plugins`·`templates`·`fonts`·`i18n`. 기동 이후 적용된 모든 config 값으로 검사(재시작 후 반영되는 설정 때문), 로깅 루트를 포함하는 관리 디렉터리는 검사 제외, 해결은 로깅 루트 안·관리 디렉터리 밖으로 이동. 넓은 `MM_LOG_PATH`(예: `/opt`)로 플러그인 바이너리·설정·데이터를 덮어쓰는 것을 막는 목적 | 같음 | 같음 |
 
 ---
@@ -4262,7 +4262,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 
 | 파일 | upstream 변경 | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/administration-guide/configure/environment-configuration-settings.mdx` (+75) | 설정 5개 표 — Enable Redis TLS(TLS 1.2 이상, 기본 false), Skip Redis TLS verification(서버 인증서 미검증, 운영 비권장), CA 인증서 경로(PEM, 비우면 OS 신뢰 CA), 클라이언트 인증서·키 경로(PEM, mTLS, 둘을 함께 지정). 인증서 경로는 각 서버 로컬 파일시스템의 절대 경로이며 Elasticsearch 인증서와 달리 파일 저장소에서 읽지 않아 클러스터 모든 서버에 있어야 함. 각 항목에 config.json 경로와 `MM_CACHESETTINGS_REDIS…` 환경 변수, "From Mattermost v12.2" | 제외한 문서 사이트 계보(`1d3bbc63`)라 없다(modify/delete) | 문서 사이트를 되살릴 때 |
+| `docs/main/administration-guide/configure/environment-configuration-settings.mdx` (+75) | 설정 5개 표 — Enable Redis TLS(TLS 1.2 이상, 기본 false), Skip Redis TLS verification(서버 인증서 미검증, 운영 비권장), CA 인증서 경로(PEM, 비우면 OS 신뢰 CA), 클라이언트 인증서·키 경로(PEM, mTLS, 둘을 함께 지정). 인증서 경로는 각 서버 로컬 파일시스템의 절대 경로이며 Elasticsearch 인증서와 달리 파일 저장소에서 읽지 않아 클러스터 모든 서버에 있어야 함. 각 항목에 config.json 경로와 `MM_CACHESETTINGS_REDIS…` 환경 변수, "From Mattermost v12.2" | 제외한 문서 사이트 계보(`1d3bbc63`)라 없다(modify/delete) | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 | `docs/main/deployment-guide/scale/redis.mdx` (+39) | "Secure Redis connections with TLS" 절 — TLS는 캐시와 HA 클러스터 메시지 모두에 적용, 절차 6단계(Redis TLS 설정 → 인증서를 모든 서버 같은 경로에 복사 → Enable TLS → 필요 시 CA·클라이언트 인증서 → 저장 후 재시작), config.json 예시, 인증서를 못 읽거나 핸드셰이크 실패 시 서버 기동 실패, Skip verification 경고, 인증서 교체 후 재시작 필요, AWS ElastiCache(전송 중 암호화 시 TLS on, 주소는 IP 아닌 엔드포인트 호스트명, 공인 인증서라 CA 경로 불필요, mTLS 미지원이라 cert·key 비우고 AUTH 토큰은 Redis Password) | 같음 | 같음 |
 
 ---
@@ -4862,7 +4862,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 
 | 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/develop/integrate/plugins/components/server/best-practices.md` | 절 추가 +24줄 "How should plugins list key-value store keys with a prefix?" | 접두어 목록은 `KVListWithOptions`나 `ListKeys` + `WithPrefix`로 조회한다. `KVList`로 받아 플러그인에서 거르면 짧은 페이지에서 멈춘 반복문이 키를 놓치고 느리다. 접두어의 `%`·`_`는 글자 그대로 비교한다. `WithChecker`는 페이지 적용 뒤에 돌아 마지막 전 페이지도 짧을 수 있다. 12.2 미만에서 `KVListWithOptions`는 501을 돌려주고 `ListKeys`가 플러그인 쪽 필터링으로 대체한다. 페이지 순회 Go 예제가 함께 있다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+| `docs/develop/integrate/plugins/components/server/best-practices.md` | 절 추가 +24줄 "How should plugins list key-value store keys with a prefix?" | 접두어 목록은 `KVListWithOptions`나 `ListKeys` + `WithPrefix`로 조회한다. `KVList`로 받아 플러그인에서 거르면 짧은 페이지에서 멈춘 반복문이 키를 놓치고 느리다. 접두어의 `%`·`_`는 글자 그대로 비교한다. `WithChecker`는 페이지 적용 뒤에 돌아 마지막 전 페이지도 짧을 수 있다. 12.2 미만에서 `KVListWithOptions`는 501을 돌려주고 `ListKeys`가 플러그인 쪽 필터링으로 대체한다. 페이지 순회 Go 예제가 함께 있다. | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 ## 서버 로그 실시간 보기 — 새 항목 버튼만 Compass를 뺐다
 
@@ -4922,7 +4922,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 
 | 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/administration-guide/configure/reporting-configuration-settings.mdx` | 1줄 추가 | v12.2부터 **Duration > Custom range…**로 시작·종료 일시 사이의 구조화 로그를 볼 수 있고, 이때 실시간 보기는 쓸 수 없다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+| `docs/main/administration-guide/configure/reporting-configuration-settings.mdx` | 1줄 추가 | v12.2부터 **Duration > Custom range…**로 시작·종료 일시 사이의 구조화 로그를 볼 수 있고, 이때 실시간 보기는 쓸 수 없다. | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 | `custom_range_modal.scss` | Compass 토큰 사용 | 위 다섯 토큰 참조 | compass-ui에 라이선스가 붙고 수용을 결정할 때 |
 
 ## Cloud Starter 조건 제거 — 포크에 없는 파일과 항목만 뺐다
@@ -4968,7 +4968,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 
 | 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/.../environment-configuration-settings.mdx` | 경고 추가 | 영구 삭제는 멤버마다 재색인해 약 100,000 멤버십에서 메모리를 고갈시킬 수 있다. 색인을 끄고 클러스터는 유지한 채 삭제한 뒤, 다시 켜고 전체 색인한다. 꺼 둔 동안 삭제한 채널의 문서는 색인에 남을 수 있지만 일반 검색은 DB를 거쳐 걸러 낸다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+| `docs/main/.../environment-configuration-settings.mdx` | 경고 추가 | 영구 삭제는 멤버마다 재색인해 약 100,000 멤버십에서 메모리를 고갈시킬 수 있다. 색인을 끄고 클러스터는 유지한 채 삭제한 뒤, 다시 켜고 전체 색인한다. 꺼 둔 동안 삭제한 채널의 문서는 색인에 남을 수 있지만 일반 검색은 DB를 거쳐 걸러 낸다. | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 | `docs/main/.../user-management-configuration-settings.mdx` | 삭제 안내 수정 | 삭제 안내에 색인 절차 링크를 더한다. | 같다 |
 | `docs/main/.../mmctl-command-line-tool.mdx` | 경고 추가 | 위와 같은 절차를 `mmctl channel delete` 항목에 적는다. | 같다 |
 | `docs/main/deployment-guide/scale/enterprise-search.mdx` | 경고 추가 | 대량 삭제 전 색인을 끄라고 안내한다. | 같다 |
@@ -4984,7 +4984,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 
 | 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/develop/integrate/plugins/components/webapp/index.md` | 절 추가 | `webapp.pre_auth`로 로그인 전 로드를 선언하는 방법과 매니페스트 예시. **Restrict Plugins Available Before Login**이 켜지면 표시한 플러그인만 비로그인 사용자에게 간다. v12.2부터다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+| `docs/develop/integrate/plugins/components/webapp/index.md` | 절 추가 | `webapp.pre_auth`로 로그인 전 로드를 선언하는 방법과 매니페스트 예시. **Restrict Plugins Available Before Login**이 켜지면 표시한 플러그인만 비로그인 사용자에게 간다. v12.2부터다. | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 | `docs/main/administration-guide/configure/plugins-configuration-settings.mdx` | 설정 항목 추가 | 새 설정의 true/false 의미, 새 설치 기본 true, config 경로 `PluginSettings.RestrictUnauthenticatedWebappPlugins`. | 같다 |
 | `e2e-tests/playwright/upgrade-specs/` 3파일 | 업그레이드 검증 추가 | 기존 설치를 올리면 설정이 false로 유지되어 비로그인 플러그인 목록이 그대로인지 확인한다. | 롤링 업그레이드 계보(`fe9a36e8`)를 들일 때 |
 | `migrations.go` 키 목록 문맥 | `managedCategory*`·`boardsProperty*`·`cpaToGlobalAttributes*` 키 | 이 커밋의 변경이 아니라 문맥이다. 포크에 없는 키라 들이지 않았다. | 해당 계보를 들일 때 |
@@ -5003,7 +5003,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 
 | 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/administration-guide/scale/performance-monitoring-metrics.mdx` | 메트릭 설명 추가·수정 | `mattermost_websocket_reconnect_failures_total`은 이전 연결을 잇지 못해 새 연결과 재동기화가 필요한 재연결 수다. 레이블은 `origin_client`, `disconnect_err_code`, `reason`, `is_remote`다. `reason`은 `old_conn_still_open`(이전 연결이 아직 열림), `missed_events_evicted`(놓친 이벤트가 버퍼에서 사라짐), `conn_not_found`(어느 노드에도 없음), `cluster_lookup_failed`(다른 노드 조회 실패)다. `is_remote`는 이전 연결이 다른 노드에 있었으면 `true`다. `mattermost_websocket_reconnects_total`의 레이블은 `origin_client`, `disconnect_err_code`, `type`이고, `success`·`lossless`는 이벤트 손실 없이 이어졌다는 뜻, `failure`는 잇지 못했다는 뜻이다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+| `docs/main/administration-guide/scale/performance-monitoring-metrics.mdx` | 메트릭 설명 추가·수정 | `mattermost_websocket_reconnect_failures_total`은 이전 연결을 잇지 못해 새 연결과 재동기화가 필요한 재연결 수다. 레이블은 `origin_client`, `disconnect_err_code`, `reason`, `is_remote`다. `reason`은 `old_conn_still_open`(이전 연결이 아직 열림), `missed_events_evicted`(놓친 이벤트가 버퍼에서 사라짐), `conn_not_found`(어느 노드에도 없음), `cluster_lookup_failed`(다른 노드 조회 실패)다. `is_remote`는 이전 연결이 다른 노드에 있었으면 `true`다. `mattermost_websocket_reconnects_total`의 레이블은 `origin_client`, `disconnect_err_code`, `type`이고, `success`·`lossless`는 이벤트 손실 없이 이어졌다는 뜻, `failure`는 잇지 못했다는 뜻이다. | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 ## 지원 Chrome·Edge 최소 버전 표기 — docs/main 요구 사항 문서를 버렸다
 
@@ -5016,7 +5016,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 
 | 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/deployment-guide/software-hardware-requirements.mdx` | 지원 표 수정 | PC 웹의 Chrome·Edge를 v150+에서 v156+로, 모바일 웹의 iOS·Android Chrome을 150+에서 156+로 올린다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+| `docs/main/deployment-guide/software-hardware-requirements.mdx` | 지원 표 수정 | PC 웹의 Chrome·Edge를 v150+에서 v156+로, 모바일 웹의 iOS·Android Chrome을 150+에서 156+로 올린다. | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 
 ## 팀당 최대 사용자·채널 수 0 허용 — 없는 Space·속성 문맥을 뺐다
 
@@ -5045,7 +5045,7 @@ mmgotool 고정 테스트, `check_icu.mjs`·`icu_rules.mjs` 보강, `make i18n-v
 
 | 위치 | upstream 변경 | 버린 내용 요지 | 되살릴 조건 |
 |---|---|---|---|
-| `docs/main/end-user-guide/preferences/customize-your-channel-sidebar.mdx` | 문장 수정 | 접은 카테고리에 안 읽은 채널이 남는 동작은 설정으로 바꿀 수 있다고 알린다. | 문서 사이트 계보(`1d3bbc63`)를 들일 때 |
+| `docs/main/end-user-guide/preferences/customize-your-channel-sidebar.mdx` | 문장 수정 | 접은 카테고리에 안 읽은 채널이 남는 동작은 설정으로 바꿀 수 있다고 알린다. | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 | `docs/main/end-user-guide/preferences/manage-your-display-options.mdx` | 절 추가 | Settings > Display의 새 설정을 설명한다. 기본은 꺼짐이고, 켜면 접은 카테고리의 안 읽은 채널과 멘션 채널까지 숨기며 현재 채널만 남는다. 모바일 앱에는 이 설정이 없어 접어도 안 읽은 채널이 보인다. | 같다 |
 | `channel_sidebar.ts` 문맥 | `getProductRailFilter`, `getBoardChannelIds`, `filterChannelIdsForSection` | 이 커밋의 변경이 아니다. 제품 레일의 Boards 구분 selector로, 포크에 없다. | Integrated Boards 계보(`48f2fd08`)를 들일 때 |
 
@@ -5231,7 +5231,7 @@ upstream `4028643a` 다음 로그 뷰어 커밋(#39478)과 Cloud Starter 정리(
 
 | 위치 | 내용 | 되살릴 조건 |
 |---|---|---|
-| `docs/main/end-user-guide/collaborate/format-messages.mdx`, `share-files-in-messages.mdx` | 사용자 안내 문서에 미리보기·코드 전환 설명 추가 | 문서 사이트 계보를 들일 때 |
+| `docs/main/end-user-guide/collaborate/format-messages.mdx`, `share-files-in-messages.mdx` | 사용자 안내 문서에 미리보기·코드 전환 설명 추가 | 2026-11-11 문서 사이트 계보 복원에서 되살렸다(`Upstream-docs` 커밋) |
 | 충돌 문맥 | `file_preview_modal.test.tsx`의 `seeds default scale/translate…`(upstream 확대·이동 계보) | 그 계보를 들일 때 |
 
 
@@ -5465,3 +5465,133 @@ upstream은 이 모달을 이미 `@mattermost/compass-ui`로 옮긴 상태에서
 **기록해 둘 결과.** S2 뒤 `channels/dist`가 166.9MB → 199.6MB로 커졌다. monaco 0.57이 `languages: []`와 상관없이
 TypeScript 언어 워커(`esm/vs/languages/features/typescript/`)를 별도 워커 청크로 넣어서다. `@mattermost/compass-icons`는
 components `package.json`에서 0.1.61로 남는다(upstream 0.1.64는 이 세 커밋 밖의 변경).
+
+## 문서 사이트 계보 복원 — `docs/`는 upstream 미러로 받고 저장소·도메인 값만 바꿨다
+
+**upstream**: 뿌리 [`1d3bbc63`](https://github.com/mattermost/mattermost/commit/1d3bbc638b140e19541cdc4acb73d5dafa22c6ac)
+(feat(docs): move docs-experimental content into monorepo docs/, #37330)부터 `587083dd`(2026-11-10, ledger 마지막
+반영 커밋)까지 `docs/`와 문서 인프라를 건드린 커밋 196개. 작업 지시는 `spec-docs/upstream/upstream-docs-restore-directive.md`.
+2026-11-11 반영.
+
+**제외를 철회한 근거.** 2026-11-10 사용자 결정(지시문 §2-1).
+
+- D1 본문 모델은 upstream 미러다. `docs/main`·`docs/develop` 본문을 고치지 않는다. 본문의
+  `docs.mattermost.com` 절대 링크 2,034개도 그대로 둔다.
+- D2 원칙 IV는 `docs/` 폴더에 한정해 다시 판정했다. `docs/` 안의 "Mattermost"는 upstream 문서의 출처를
+  가리킨다. UI·이메일·서버 문자열에는 기존 규칙이 그대로 적용된다(`spec-docs/rebrand.md` 상표 절).
+- D3 워크플로 파일은 전부 받고 자동 트리거는 인프라를 확보할 때까지 끈다.
+- D4 Agents 문서 서브모듈은 유지하고 URL만 `okrbest/okrbest-plugin-agents`로 바꾼다.
+
+**반영 방식과 수.**
+
+| 그룹 | 수 | 정의 | 방식 |
+|---|---|---|---|
+| A | 110 | `docs/`만 바꾼 커밋 | `cherry-pick -x` |
+| B (가) | 7 | `docs/`와 문서 인프라를 함께 바꾼 커밋(`1d3bbc63` `dd69d06d` `33eb5b1a` `5fbb2a32` `d584e926` `9fa53220` `c57df45d`) | `cherry-pick -x`. `1d3bbc63`의 `.gitignore` 충돌은 우리 내용 뒤에 upstream 블록을 붙여 풀었다 |
+| B (나) | 13 | 코드 부분은 다른 계보로 제외한 커밋 | `docs/` 부분만 `git apply`, `Upstream-docs:` 트레일러 |
+| C | 53 | 반영 당시 `docs/` 부분을 버린 커밋 | `docs/` 부분만 `git apply`, `Upstream-docs:` 트레일러 |
+| D | 13 | `docs/`는 안 건드리고 문서 인프라만 만든 커밋 | `cherry-pick -x` |
+
+D는 지시문 표에 없던 그룹이다. `docs-cd.yml`(`1b27d5d7`), AI 문서 봇(`3a1f5f0d` `27c501d2` `5427f6b0`
+`e32d8734` `4f932a45` `356bdc7d`), 미리보기 수정(`2d8a5f94` `24a5dd28` `8828e5a2` `f292f95d`),
+`docs-editor-review-label.yml`(`86ee66a9`), `docs-ime-render.yml` 수정(`9026858e`)이 여기에 든다.
+지시문 §5.4~§5.7이 받으라고 한 파일을 이 커밋들이 만든다.
+
+B (나) 13개: `4255e314`(channel_settings_modal), `2ba31db3`·`751b8cb6`(프리패키지 플러그인 버전),
+`b2ce71db`(be 카탈로그, 포크에 원래 없음), `f434bd9d`(오프라인 문서 동봉, 아래 보류 참조),
+`fbc17416`·`85b7d85b`(property v2), `e3d074ff`(compass-ui), `4527f4c1`(server import),
+`c7ae9d59`·`10e1a4be`·`b4465ee1`(Global Attributes), `b9eed09f`(제외 계보 API 문서).
+
+반영하지 않은 문서 인프라 커밋은 docs-impact-review·docs-needed 계열 24개다(`45f54a0e` 외).
+별도 저장소 mattermost/docs를 보던 구형이고, upstream이 `27c501d2`(#38177)의 `docs-gap.yml`로
+대체하며 지웠다. ledger 사유를 "upstream이 대체한 구형"으로 고쳤다.
+
+**지금 바꾼 값.** 저장소·도메인·인프라를 가리키는 값만 바꿨다. 커밋 "docs(site): Mattermost 귀속 저장소·도메인
+참조를 okrbest 값으로 치환".
+
+| 파일 | 키 | upstream | okrbest |
+|---|---|---|---|
+| `docs/site/docusaurus.config.ts` | `url` | `https://docs.mattermost.com` | `https://docs.okrbest.com` |
+| 〃 | `organizationName`·`projectName` | `mattermost` | `okrbest` |
+| 〃 | `editUrl` 3곳 | `github.com/mattermost/mattermost/tree/master/docs/…` | `github.com/okrbest/okrbest/tree/master/docs/…` |
+| 〃 | navbar·footer GitHub `href` | `github.com/mattermost/mattermost` | `github.com/okrbest/okrbest` |
+| 〃 | Algolia `indexName` | `mattermost-docs` | `okrbest-docs` |
+| `docs/site/scripts/check-egress.mjs` | `DOCS_HOST` | `docs.mattermost.com` | `docs.okrbest.com`. 미러 본문 때문에 `docs.mattermost.com`도 `DOCS_META_HOSTS`로 함께 허용 |
+| `docs/site/scripts/check-egress.test.mjs` | 테스트 | — | `docs.okrbest.com` canonical·og 허용 테스트 1건 추가 |
+| `.gitmodules` | agents 서브모듈 `url` | `mattermost/mattermost-plugin-agents` | `okrbest/okrbest-plugin-agents`. 경로와 gitlink(`c234d175`)는 그대로, okrbest 저장소 master의 조상이다 |
+| `docs-preview-template.yml`·`docs-preview-cleanup.yml` | 버킷 접두어 | `mattermost/pr-N/` | `okrbest/pr-N/` |
+| `docs-writer-merged-pr.yml` | App 토큰 `repositories` | `mattermost` | `okrbest` |
+| 〃 | `GIT_USERNAME` 기본값 | `mattermost-docs-ai[bot]` | `okrbest-docs-ai[bot]` |
+| `.github/prompts/` 3파일 | 사이트 도메인 | `docs.mattermost.com` | `docs.okrbest.com` |
+
+AWS 리전 `us-east-1`은 포크 워크플로와 같아 그대로 뒀다. `docs-cd.yml`의 OIDC 역할(`role-to-assume`)도
+그대로 뒀다. 역할을 만들지 않기로 하면 포크 관례(액세스 키 시크릿)로 바꾼다.
+
+**리브랜딩 과제로 넘긴 것.** 보이는 브랜드는 upstream 그대로 미러한다.
+
+- `docusaurus.config.ts`: `title`('Mattermost Documentation'), `tagline`('Mission in Motion'), `favicon`,
+  로고 `alt`, Forum `href`(forum.mattermost.com), 푸터 `copyright`
+- `docs/site/static/img/brand/` SVG 4개(`icon-denim`·`icon-white`·`logo-horizontal-denim`·`logo-horizontal-white`),
+  `docs/site/src/css`의 denim 테마 색. 교체 기준은 REBRAND.md 자산과 `webapp/channels/src/sass/okrbest/` 변수
+- `docs/site/src`에서 "mattermost"가 나오는 15개 파일: `components/CompassIcon/index.tsx`,
+  `components/DeploymentArchitectureBuilder/{data.ts,index.tsx,styles.module.css}`,
+  `components/DeploymentAvailability/index.tsx`, `components/EditionAvailability/index.tsx`,
+  `components/IMEDiagram/content/entadv.ts`, `components/PlanAvailability/index.tsx`,
+  `components/PluginGoDocs/types.ts`, `components/SecurityUpdates/feed.ts`,
+  `components/TryMattermostCTA/index.tsx`, `css/custom.css`, `css/tokens.css`, `theme/MDXComponents.tsx`,
+  `theme/SearchPage/index.tsx`. 요금제·보안 공지 피드·체험 신청 URL이 여기 있다
+- `docs/styles/Mattermost/` Vale 용어 규칙. 우리 규칙이 필요하면 `docs/styles/OKRBEST/`를 더한다
+- `.github/prompts`·`.github/scripts/docs-ai`의 제품명 "Mattermost". writer의 `From Mattermost vX.Y`
+  버전 앵커 정규식(`writer/files.mjs`)과 테스트, 본문 관례가 묶여 있어 함께 바꿔야 한다
+
+**비워 둔 변수·시크릿.** 키 이름만 upstream과 맞췄다. 값이 들어오면 해당 워크플로 트리거를 되살린다.
+
+| 워크플로 | 필요한 값 |
+|---|---|
+| `docs-cd.yml` | `vars.DOCS_DEPLOY_ROLE_ARN`, `vars.DOCS_BUCKET_NAME`, `vars.DOCS_CF_DISTRIBUTION_ID` |
+| `docs-ci.yaml`·`docs-cd.yml` (선택) | `vars.ALGOLIA_APP_ID`, `vars.ALGOLIA_SEARCH_API_KEY`. 없으면 검색 없이 빌드된다 |
+| `docs-preview.yml`·`docs-preview-cleanup.yml`·`docs-preview-fork.yml` | `secrets.AWS_DOCS_PR_PREVIEW_KEY_ID`, `secrets.AWS_DOCS_PR_PREVIEW_SECRET_ACCESS_KEY`, `vars.DOCS_PREVIEW_BUCKET_NAME` |
+| `docs-gap.yml`·`docs-review.yml`·`docs-writer-merged-pr.yml` | `secrets.ANTHROPIC_API_KEY`(이미 있음), `vars.DOCS_AI_GAP_MODEL`·`DOCS_AI_REVIEW_MODEL`·`DOCS_AI_ROUTER_MODEL`·`DOCS_AI_WRITER_MODEL`(기본값 `claude-sonnet-4-6`은 구형, 현재 모델 ID로 설정), `vars.DOCS_AI_MAX_REVISIONS`(선택) |
+| `docs-writer-merged-pr.yml` | `vars.DOCS_AI_APP_CLIENT_ID`, `secrets.DOCS_AI_APP_PRIVATE_KEY`(okrbest 조직 GitHub App), `vars.DOCS_AI_BOT_LOGIN`·`DOCS_AI_GIT_USERNAME`·`DOCS_AI_GIT_EMAIL`(선택) |
+| `docs-editor-review-label.yml` | 값 없음. 저장소에 `2: Editor Review` 라벨이 있어야 한다 |
+
+**트리거를 끈 워크플로.** 커밋 "ci(docs): 문서 워크플로 자동 트리거를 인프라 확보 전까지 끈다".
+`on:` 블록의 `push`·`pull_request`를 주석으로 남기고 `workflow_dispatch`만 둔다.
+
+| 워크플로 | 끈 트리거 | 복원 조건 |
+|---|---|---|
+| `docs-ci.yaml` | `pull_request`·`push` | 값 없이 돈다. 가장 먼저 되살릴 후보 |
+| `docs-ime-render.yml` | `pull_request` | 값 없이 돈다(GITHUB_TOKEN만 쓴다) |
+| `docs-editor-review-label.yml` | `pull_request` | 라벨 생성 |
+| `docs-cd.yml` | `push` | 배포 버킷·CloudFront·IAM 확보 |
+| `docs-preview.yml`·`docs-preview-cleanup.yml` | `pull_request` | 미리보기 버킷·자격 확보 |
+| `docs-gap.yml` | `pull_request` | 모델 변수 설정 |
+| `docs-writer-merged-pr.yml` | `pull_request` | GitHub App·모델 변수 확보 |
+
+원래 수동·호출 전용인 `docs-review.yml`·`docs-preview-fork.yml`·`docs-preview-template.yml`은 그대로다.
+
+**보류.** [`f434bd9d`](https://github.com/mattermost/mattermost/commit/f434bd9d)(docs: ship offline documentation in the
+release tarball, #38957)는 `docs/` 부분(`docs/scripts/build-offline-bundle.py`·README)만 받았다. 서버 코드 5파일
+(`server/build/release.mk`, `server/channels/web/docs.go`·`docs_test.go`·`static.go`,
+`server/cmd/mattermost/commands/docs.go`, +442줄)은 받지 않았다. 미러 상태의 Mattermost 브랜드 문서가 고객
+설치본 `/_documentation`에 노출되어 D2 예외가 제품 배포본으로 넓어지기 때문이다. 복원 조건은 `docs/` 리브랜딩
+완료와 릴리스 파이프라인(okrbest-deploy)의 문서 빌드·`DOCS_BUNDLE` 전달이다. 그때 후속 문서 핸들러 커밋과 함께
+다시 본다(지시문 §5.9).
+
+**검증(2026-11-11).**
+
+- `git diff 587083dd HEAD -- docs/ .github/prompts .github/scripts/docs-ai '.github/workflows/docs-*' .gitmodules`:
+  치환 커밋 전 차이 0. 치환 뒤에는 위 표의 파일만 다르다
+- 서브모듈 `git submodule update --init`이 okrbest-plugin-agents에서 `c234d175`를 받고,
+  `npm run stage:agents-docs`가 문서 12개·이미지 6개를 스테이징했다
+- `docs/site`: `npm run typecheck` 오류 0, `npm run test:egress` 32/32, `npm run build` 성공,
+  `npm run check:egress` "3346 html, 1 css, 1349 js, 0 external loads"
+- 빌드 결과 `index.html`의 editUrl은 `github.com/okrbest/okrbest`만, canonical은 `docs.okrbest.com`이다.
+  "Mattermost Documentation"은 이월이라 남는다
+- 빌드 경고로 깨진 링크 24개(14페이지)가 나온다. 모두 upstream 본문 링크이고 `onBrokenLinks: 'warn'`이라
+  빌드를 막지 않는다
+- `.github/scripts/docs-ai` `npm test` 185/185
+
+**후속 과제.** 본문의 `docs.mattermost.com` 절대 링크 2,034개·`forum.mattermost.com` 132개·
+`developers.mattermost.com` 22개 처리(바꾸면 이후 본문 커밋이 adapt가 된다), `okrbest/okrbest-docs`(Sphinx)
+보관, 위 리브랜딩 과제. 지시문 §10.
