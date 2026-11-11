@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {renderWithContext, screen} from 'tests/react_testing_utils';
+import {renderWithContext, screen, userEvent, waitFor} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
 import ChannelHeaderPlug, {maxComponentsBeforeDropdown} from './channel_header_plug';
@@ -94,6 +94,30 @@ describe('plugins/ChannelHeaderPlug', () => {
         // Ideally, this would identify the dropdown button better, but this uses a custom dropdown which is
         // not at all accessible
         expect(screen.getByRole('button', {name: components.length.toString()})).toBeVisible();
+    });
+
+    test('should show the Plugins tooltip when hovering the dropdown toggle', async () => {
+        jest.useFakeTimers();
+
+        const components = [];
+        for (let i = 0; i < maxComponentsBeforeDropdown + 1; i++) {
+            components.push(makeTestPlug(i));
+        }
+
+        renderWithContext(
+            <ChannelHeaderPlug
+                {...baseProps}
+                components={components}
+            />,
+        );
+
+        await userEvent.hover(screen.getByText(components.length.toString()), {advanceTimers: jest.advanceTimersByTime});
+
+        await waitFor(() => {
+            expect(screen.getByText('Plugins')).toBeInTheDocument();
+        });
+
+        jest.useRealTimers();
     });
 
     test('should not render anything when the App Bar is visible', () => {
