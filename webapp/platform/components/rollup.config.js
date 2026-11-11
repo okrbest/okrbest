@@ -3,7 +3,7 @@
 
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
-import typescript from '@rollup/plugin-typescript';
+import {transform} from '@swc/core';
 import scss from 'rollup-plugin-scss';
 
 import packagejson from './package.json';
@@ -20,6 +20,31 @@ const externals = [
     'mattermost-redux',
     'reselect',
 ];
+
+// Type checking and declarations come from tsc (see the build script), so this only strips types.
+function swc() {
+    return {
+        name: 'swc',
+        transform(code, id) {
+            if (!(/\.tsx?$/).test(id)) {
+                return null;
+            }
+
+            return transform(code, {
+                filename: id,
+                sourceMaps: true,
+                jsc: {
+                    parser: {syntax: 'typescript', tsx: id.endsWith('.tsx')},
+                    target: 'esnext',
+                    transform: {
+                        react: {runtime: 'classic'},
+                        useDefineForClassFields: true,
+                    },
+                },
+            });
+        },
+    };
+}
 
 export default [
     {
@@ -42,9 +67,7 @@ export default [
                 extensions: ['.ts', '.tsx'],
             }),
             commonjs(),
-            typescript({
-                outputToFilesystem: true,
-            }),
+            swc(),
         ],
         external: externals,
         watch: {

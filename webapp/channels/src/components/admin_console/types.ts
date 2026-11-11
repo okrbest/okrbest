@@ -200,7 +200,7 @@ export type AdminDefinitionConfigSchemaSettings = {
 export type AdminDefinitionConfigSchemaSection = {
     key: string;
     title?: string | MessageDescriptor;
-    subtitle?: string;
+    subtitle?: string | MessageDescriptor;
     description?: string | MessageDescriptor;
     license_sku?: string;
     settings: AdminDefinitionSetting[];

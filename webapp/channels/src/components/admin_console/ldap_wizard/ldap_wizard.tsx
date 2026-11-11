@@ -57,7 +57,7 @@ export type LDAPAdminDefinitionConfigSchemaSettings = AdminDefinitionSubSectionS
 };
 
 export type LDAPAdminDefinitionConfigSchemaSection = Omit<AdminDefinitionConfigSchemaSection, 'settings'> & {
-    sectionTitle?: string;
+    sectionTitle?: string | MessageDescriptor;
     settings: LDAPDefinitionSetting[];
 };
 
