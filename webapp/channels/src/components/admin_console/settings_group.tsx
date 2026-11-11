@@ -5,12 +5,14 @@ import React, {memo} from 'react';
 import type {MessageDescriptor} from 'react-intl';
 import {FormattedMessage} from 'react-intl';
 
+import {isMessageDescriptor} from 'utils/i18n';
+
 type Props = {
     id?: string;
     show?: boolean;
     header?: React.ReactNode;
     title?: string | MessageDescriptor;
-    subtitle?: React.ReactNode;
+    subtitle?: React.ReactNode | MessageDescriptor;
     children?: React.ReactNode;
     container?: boolean;
 };
@@ -51,7 +53,9 @@ const SettingsGroup = ({
     let sectionSubtitle = null;
     if (!header && subtitle) {
         sectionSubtitle = (
-            <div className={'section-subtitle'}>{subtitle}</div>
+            <div className={'section-subtitle'}>
+                {isMessageDescriptor(subtitle) ? <FormattedMessage {...subtitle}/> : subtitle}
+            </div>
         );
     }
 
