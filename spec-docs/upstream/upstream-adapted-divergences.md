@@ -152,6 +152,9 @@
 | 플러그인 iframe 메시지 격리 | [c4e7f8a3](https://github.com/mattermost/mattermost/commit/c4e7f8a369f186b305424df78958006d60b4c4a0) (#39609) | 방화벽과 `isolatedFrames` 공개 API를 받았다. 충돌 문맥의 `editor`·`components` 공개(우리가 빼기로 한 것)를 버렸다 — 아래 참조 |
 | Support Packet 옵션 설명 | [565277ba](https://github.com/mattermost/mattermost/commit/565277baadd2fbf1fc2218a66d9d617b8adb5be6) (#39754) | 문구·"What's included"·접근성 속성·en.json은 받았다. compass-ui `Checkbox`·`Button`·`Icon`을 포크 체크박스·shared `Button`·아이콘 폰트로 바꿔 다시 짰다 — 아래 참조 |
 | YouTube 임베드 referrer 고정 | [e0bf7e02](https://github.com/mattermost/mattermost/commit/e0bf7e021a8b47a50230b6539dbf204c4dd5c4f0) (#39865) | 변경은 전부 받았다. 콘솔 블록 충돌은 문맥 차이라 블록만 지웠고, en.json에서 빠진 키 2개를 `ko.json`에서도 지웠다 — 아래 참조 |
+| webapp 의존성 2026-10 (spec 033) | [4ca793bd](https://github.com/mattermost/mattermost/commit/4ca793bd9e78bc5b6055a7e0e4560849792f7dbe) (#39222) | TipTap 10건·jest-matchmedia-mock override를 건너뛰고, upstream `.snap`을 쓰지 않고 포크에서 다시 만들었다. `channel_header_plug` 툴팁 회귀 테스트를 포크가 더했다 — 아래 참조 |
+| webapp 의존성 2026-11 (spec 033) | [20c15b9d](https://github.com/mattermost/mattermost/commit/20c15b9d2be5c7409a16b6831b5979de76812d4f) (#39583) | TipTap 10건을 건너뛰고 `cel_editor/editor.tsx`에 `editContext: false`를 손으로 넣었다 — 아래 참조 |
+| webapp TypeScript 7.0 (spec 033) | [a28b09d7](https://github.com/mattermost/mattermost/commit/a28b09d787b0697e294c1efe916f4765002a0636) (#39697) | `rollup.config.js`는 `externals` 유지, `i18n-extract`는 포크 문자열 유지, `styles.d.ts`에서 compass-ui 2줄 제외. TS7이 드러낸 LDAP 마법사 subtitle 결함을 포크에서 고쳤다 — 아래 참조 |
 
 ---
 
@@ -5426,3 +5429,39 @@ upstream은 이 모달을 이미 `@mattermost/compass-ui`로 옮긴 상태에서
     isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
 },
 ```
+
+## webapp 의존성 2026-10·11과 TypeScript 7.0 — 버전은 upstream 그대로, TipTap·compass-ui만 뺐다
+
+**upstream**: [`4ca793bd`](https://github.com/mattermost/mattermost/commit/4ca793bd9e78bc5b6055a7e0e4560849792f7dbe)
+(Monthly maintenance (2026-10), #39222), [`20c15b9d`](https://github.com/mattermost/mattermost/commit/20c15b9d2be5c7409a16b6831b5979de76812d4f)
+(Monthly maintenance (2026-11), #39583), [`a28b09d7`](https://github.com/mattermost/mattermost/commit/a28b09d787b0697e294c1efe916f4765002a0636)
+(Upgrade the webapp to TypeScript 7.0, #39697) — sync에서 spec으로 넘겨 `specs/033-webapp-deps-ts7`로 처리(2026-11-11)
+
+`package.json` 버전은 upstream 변경 전 값이 포크와 같을 때만 upstream 변경 후 값으로 옮겼다
+(`specs/033-webapp-deps-ts7/tools/bump_upstream_deps.py`). lockfile은 upstream 파일을 쓰지 않고
+고정 npm(11.6.2)으로 다시 만들었다. 단계마다 peer 표시 변화가 upstream lockfile과 같다.
+
+**버린 것.**
+
+| 단계 | 버린 것 | 이유 | 되살릴 조건 |
+|---|---|---|---|
+| S1 `4ca793bd` | `@tiptap/*` 10건 버전 | 포크는 메시지 입력기로 Lexical을 쓴다. TipTap 패키지가 없다 | TipTap WYSIWYG 수용 시 |
+| S1 | 루트 `overrides.@deanwhillier/jest-matchmedia-mock` | 포크가 `b04f29a892`에서 이 패키지를 로컬 matchMedia mock으로 바꿨다 | — |
+| S1 | `advanced_text_editor/wysiwyg_editor/` 4파일(`wysiwyg_editor_interactions.test.tsx`, `wysiwyg_image.test.ts`, `wysiwyg_markdown.test.ts`, `wysiwyg_markdown.ts`) | 같음(TipTap) | TipTap 수용 시 |
+| S1 | upstream `.snap` 37개 | compass-ui·TipTap 전제 마크업이 섞여 있다. 포크에서 다시 만들었고 31개가 바뀌었다(전부 upstream 목록 안, styled-components 해시와 katex 0.19 클래스 접두어·소수 반올림뿐). `files_filter_menu.test.tsx.snap`은 포크에 없다 | — |
+| S2 `20c15b9d` | `@tiptap/*` 10건 버전 | S1과 같다 | TipTap 수용 시 |
+| S3 `a28b09d7` | `styles.d.ts`의 `declare module '@mattermost/compass-ui/styles'`·`'…/styles/standalone'` 2줄 | 포크는 compass-ui를 받지 않는다(`70658e18`). 선언이 있으면 compass-ui import가 타입 검사를 조용히 통과한다 | compass-ui 수용 시 |
+
+**우리 맞춤.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `channels/src/plugins/channel_header_plug/channel_header_plug.test.tsx` (S1) | 테스트 추가 없음 | "Plugins" 툴팁 회귀 테스트 1건을 더했다. React 19.3에서 Fragment 자식이면 툴팁이 뜨지 않고 `onPointerDown` 경고가 난다. upstream `<span>` 변경 전 실패·후 통과 | — |
+| `access_control/editors/cel_editor/editor.tsx` (S2) | `MONACO_EDITOR_OPTIONS`에 주석 4줄 + `editContext: false` | 포크 파일이 upstream 부모와 +41/−91 달라 `git apply`가 실패했다. 같은 자리에 같은 6줄을 손으로 넣었다. jsdom에 EditContext가 없어 테스트로 재현하지 못했다(upstream도 무테스트) | — |
+| `platform/components/rollup.config.js` (S3) | `@rollup/plugin-typescript` → `@swc/core` `swc()`, `external: isExternal` | `swc()` 교체만 받고 `external: externals`를 유지했다. `isExternal()`은 제외한 compass-ui 이관(`e190c0f1`, #38903) 소속이다 | compass-ui 이관 수용 시 `isExternal` 함께 |
+| `channels/package.json` `scripts.i18n-extract` (S3) | 작은따옴표, `../platform/components/src` 포함, `--ignore '../**/*.d.ts'` 추가 | 포크 문자열(큰따옴표, components 경로 없음, `localizeAndFormatMessage` 추가)을 유지하고 `--ignore "../**/*.d.ts"`만 넣었다 | — |
+| `admin_console/settings_group.tsx`, `admin_console/types.ts`, `ldap_wizard/ldap_wizard.tsx` (S3) | 변경 없음(upstream LDAP 마법사 섹션 `subtitle`·`sectionTitle`은 문자열) | 포크 `f2513ec08f`가 이 값들을 `defineMessage`로 번역해서 생긴 결함을 고쳤다. `SettingsGroup`이 `subtitle`을 그대로 자식으로 그려 React가 던졌고, 타입은 `string`이라 TS5는 TS2322 6건, TS7은 TS2353 6건을 더 냈다. `SettingsGroup`이 MessageDescriptor `subtitle`을 `FormattedMessage`로 그리고, `AdminDefinitionConfigSchemaSection.subtitle`·`LDAPAdminDefinitionConfigSchemaSection.sectionTitle`을 `string \| MessageDescriptor`로 넓혔다. 회귀 테스트 `settings_group.test.tsx` | upstream이 같은 타입을 바꾸면 그쪽에 맞춘다 |
+
+**기록해 둘 결과.** S2 뒤 `channels/dist`가 166.9MB → 199.6MB로 커졌다. monaco 0.57이 `languages: []`와 상관없이
+TypeScript 언어 워커(`esm/vs/languages/features/typescript/`)를 별도 워커 청크로 넣어서다. `@mattermost/compass-icons`는
+components `package.json`에서 0.1.61로 남는다(upstream 0.1.64는 이 세 커밋 밖의 변경).
