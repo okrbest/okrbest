@@ -161,6 +161,7 @@
 | 로그인 세션의 비활성·봇 거부 | [40d4abaa](https://github.com/mattermost/mattermost/commit/40d4abaa10aac26bfa5ae86e5993b2f6390ebff9) (#39251) | 코드는 그대로 받았다. 새 테스트 `TestCompleteOAuthDeactivatedUser`만 제외한 OIDC 계보(#38939)의 `OAuthAuthorization` 대신 포크 `CompleteOAuth(…, body, props, nil)` 시그니처로 고쳤다 — 아래 참조 |
 | 플러그인에서 서버 로그로 연결 | [0ab1ee51](https://github.com/mattermost/mattermost/commit/0ab1ee517228f811b828c62504ed5a03354fb65c) (#39694) | 링크·권한 판정·테스트·en.json은 받았다. 충돌 문맥의 Session Attributes import와 compass-ui `Button`·`Icon`·`Switch` import를 버리고 View logs를 포크 링크 버튼으로 만들었다 — 아래 참조 |
 | 게스트 웹소켓의 CPA 값 이벤트 거르기 | [e5fedb1a](https://github.com/mattermost/mattermost/commit/e5fedb1afe01aacfc661bc09607ae63b08eda130) (#37909) | CPA 경로·캐시 검사·SuiteIFace는 받았다. property 시스템 v2(제외한 48f2fd08)의 `WebsocketEventPropertyValuesUpdated` 경로와 그 테스트, 문맥으로 끌려온 api4 테스트 약 1276줄을 버렸다 — 아래 참조 |
+| 공유 채널 post sync 생성 단계 정렬 | [3dcc438e](https://github.com/mattermost/mattermost/commit/3dcc438efa148574474bd224157dc094195b33c9) (#39905) | sqlstore 쿼리는 그대로 받았다. 새 storetest 하나가 제외한 Integrated Boards 계보의 `PostTypeCard`·`ExcludedPostTypes`를 써서, 삭제된 purpose change 게시물로 바꿨다 — 아래 참조 |
 
 ---
 
@@ -5517,6 +5518,21 @@ merge-tree는 5건 충돌로 봤지만 실제 적용에서는 2건만 남았다(
 | 같은 파일 | 3-way 병합이 끌어온 upstream CPA 테스트 약 1276줄(`TestPatchCPAValuesForBotTarget` 등) | 이 커밋의 변경이 아니라 제외 계보 테스트가 hunk 문맥에 걸린 것이다(우리 쪽 파일을 유지) | — |
 
 **검증.** `platform` 패키지 전체, `TestCPAValuesWebSocketEventsForGuests` 3 서브테스트 통과, `go vet` 통과.
+
+## 공유 채널 post sync 생성 단계 정렬 — 테스트의 카드 게시물을 포크 타입으로 바꿨다
+
+**upstream**: [`3dcc438e`](https://github.com/mattermost/mattermost/commit/3dcc438efa148574474bd224157dc094195b33c9)
+([MM-71095] Page shared channel post sync create pass by CreateAt, #39905) — 2파일 +196/-7, 2026-11-12 sync 반영(cherry-pick 뒤 storetest 빌드 실패로 adapt 전환)
+
+merge-tree는 CLEAN이었고 서버 빌드도 통과했다. 그러나 `storetest`가 `undefined: model.PostTypeCard`, `unknown field ExcludedPostTypes`로 빌드되지 않았다. 둘 다 제외한 Integrated Boards(48f2fd08) 계보가 `GetPostsSinceForSyncOptions`와 게시물 타입에 더한 것이다.
+
+**그대로 받은 것.** `sqlstore/post_store.go`의 생성 단계 `(CreateAt, Id)` 정렬, CreateAt 하한, 삭제 포함 시 live·deleted 분리 페이징. storetest 새 서브테스트 3개(`GetPostsSinceCreateForSync` 아래). 수정 전 store 코드로 돌리면 "Posts modified after creation are paged in CreateAt order"·"CreateAt collisions" 2개가 실패하고, 수정 후 3개 모두 통과한다.
+
+**고친 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `storetest/post_store.go` "Posts modified after creation…" | 끼워 넣는 제외 타입 게시물 중 삭제된 하나가 `model.PostTypeCard`이고, 옵션에 `ExcludedPostTypes: []string{model.PostTypeCard}` | 삭제된 `model.PostTypePurposeChange`로 바꾸고 `ExcludedPostTypes`를 뺐다. purpose change는 `ExcludeChannelMetadataSystemPosts`가 거르므로 "삭제된 제외 타입이 결과에 섞이지 않는다"는 검사 의도가 그대로다. `// okrbest:` 주석 | Integrated Boards 계보 수용 시 |
 
 ## YouTube 임베드 referrer 고정 — 콘솔 토글을 지우고 ko.json 고아 키 2개를 지웠다
 
