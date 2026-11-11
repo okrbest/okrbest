@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // Fail the build when HTML/CSS/JS would fetch an off-origin resource.
-// Closed allowlist: security-updates feed + docs.mattermost.com meta/canonical.
+// Closed allowlist: security-updates feed + docs.okrbest.com meta/canonical.
+// okrbest: the mirrored upstream body still points at docs.mattermost.com, so both
+// hosts are allowed for meta/canonical (DOCS_META_HOSTS).
 
 import {readdirSync, readFileSync, statSync} from 'node:fs';
 import {dirname, join, relative, resolve} from 'node:path';
@@ -11,7 +13,9 @@ const DEFAULT_ROOT = resolve(HERE, '..', 'build');
 
 export const FEED_URL =
   'https://securityupdates.mattermost.com/security_updates.json';
-export const DOCS_HOST = 'docs.mattermost.com';
+export const DOCS_HOST = 'docs.okrbest.com';
+export const UPSTREAM_DOCS_HOST = 'docs.mattermost.com';
+export const DOCS_META_HOSTS = new Set([DOCS_HOST, UPSTREAM_DOCS_HOST]);
 export const EMPTY_BUILD_MESSAGE =
   'docs/site/build is missing or empty; run npm run build first';
 
@@ -89,7 +93,7 @@ function isAllowedDocsMeta(url) {
     return false;
   }
   try {
-    return new URL(reported).hostname === DOCS_HOST;
+    return DOCS_META_HOSTS.has(new URL(reported).hostname);
   } catch {
     return false;
   }
@@ -534,7 +538,7 @@ export function formatReport(rootLabel, violations) {
   lines.push('Allowlisted (closed):');
   lines.push(`  - fetch ${FEED_URL}`);
   lines.push(
-    `  - <link rel=canonical> and og:*/twitter:* meta on https://${DOCS_HOST}`,
+    `  - <link rel=canonical> and og:*/twitter:* meta on https://${DOCS_HOST} or https://${UPSTREAM_DOCS_HOST}`,
   );
   lines.push('  - <a href> / <area href> (never fetched; includes editUrl)');
   lines.push(

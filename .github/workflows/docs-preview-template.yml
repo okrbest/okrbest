@@ -80,7 +80,7 @@ jobs:
       - name: Build Docusaurus site (preview)
         working-directory: docs/site
         env:
-          BASE_URL: /mattermost/pr-${{ inputs.PR_NUMBER }}/
+          BASE_URL: /okrbest/pr-${{ inputs.PR_NUMBER }}/
         run: npm run build
 
       - name: Configure AWS credentials
@@ -91,13 +91,12 @@ jobs:
           aws-region: us-east-1
 
       - name: Upload preview to S3
-        # Repo-scoped prefix (mattermost/) — this bucket is shared
-        # with mattermost/docs previews during the migration transition, and
-        # PR numbers are per-repo, not global.
+        # Repo-scoped prefix (okrbest/) — keeps previews separable if the
+        # bucket is ever shared with another repository; PR numbers are
+        # per-repo, not global.
         #
-        # No explicit --cache-control, matching mattermost/docs's existing
-        # preview workflow (shallwefootball/s3-upload-action doesn't set one
-        # either).
+        # No explicit --cache-control (upstream mirrored the legacy docs
+        # preview workflow, which didn't set one either).
         env:
           PR_NUMBER: ${{ inputs.PR_NUMBER }}
           BUCKET_NAME: ${{ vars.DOCS_PREVIEW_BUCKET_NAME }}
@@ -107,7 +106,7 @@ jobs:
             exit 1
           fi
           aws s3 sync docs/site/build/ \
-            "s3://${BUCKET_NAME}/mattermost/pr-${PR_NUMBER}/" \
+            "s3://${BUCKET_NAME}/okrbest/pr-${PR_NUMBER}/" \
             --delete \
             --no-progress
 
@@ -117,7 +116,7 @@ jobs:
           BUCKET_NAME: ${{ vars.DOCS_PREVIEW_BUCKET_NAME }}
           PR_NUMBER: ${{ inputs.PR_NUMBER }}
         run: |
-          echo "url=http://${BUCKET_NAME}.s3-website-us-east-1.amazonaws.com/mattermost/pr-${PR_NUMBER}/" >> "$GITHUB_OUTPUT"
+          echo "url=http://${BUCKET_NAME}.s3-website-us-east-1.amazonaws.com/okrbest/pr-${PR_NUMBER}/" >> "$GITHUB_OUTPUT"
 
       # Details (⋯) on this check links to the preview URL via target_url.
       - name: Set success commit status

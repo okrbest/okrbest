@@ -1,4 +1,4 @@
 [submodule "docs/vendor/mattermost-plugin-agents"]
 	path = docs/vendor/mattermost-plugin-agents
-	url = https://github.com/mattermost/mattermost-plugin-agents.git
+	url = https://github.com/okrbest/okrbest-plugin-agents.git
 	branch = master
