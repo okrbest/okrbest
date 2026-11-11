@@ -13,7 +13,7 @@
 
 ## 지켜야 하는 것
 
-1. **하위 경로 진입점**: `exports["./*"].types`의 `./dist/*/index.d.ts`가 하위 모듈마다 있어야 한다. 현재 `dist/`의 하위 모듈은 `components`, `context`, `testing`, `types`, `utils`이다. S3 뒤에도 같은 디렉터리마다 `index.d.ts`가 있어야 한다.
+1. **하위 경로 진입점**: `exports["./*"].types`의 `./dist/*/index.d.ts`가 하위 모듈마다 있어야 한다. 진입점은 `@mattermost/shared/components/tooltip`처럼 하위 모듈 단위다. 기준선 `dist`의 진입점 `index.d.ts` 9개(`context`, `testing`, `types/global`, `utils/i18n`, `utils/user_agent`, `components/{button,emoji,shortcut_key,tooltip}`)를 S3 뒤에도 모두 만들어야 한다(구현 중 확인한 실제 구조로 고친 문구).
 2. **CSS import 없음**: `dist/**/*.d.ts` 어디에도 `^import ['"].*\.s?css['"];` 줄이 없어야 한다. 남아 있으면 TypeScript 6+ 소비자가 `skipLibCheck` 없이 TS2882를 받는다.
 3. **테스트 파일 제외**: `*.test.ts`, `*.test.tsx`의 선언은 `dist`에 나오지 않는다(`tsconfig.build.json`의 `exclude`).
 4. **peer 범위**: `peerDependencies.typescript`는 `^4.3.0 || ^5.0.0 || ^6.0.0 || ^7.0.0`이다. 기존 소비자(TypeScript 5)를 끊지 않는다.

@@ -70,7 +70,7 @@ npx tsc -v                                   # Version 7.0.2
 node -e "console.log(require('typescript/package.json').version)"   # 6.0.2 (도구용 API)
 node -e "const l=require('./package-lock.json').packages; console.log(!!l['node_modules/@typescript/typescript-linux-x64'], !!l['node_modules/@typescript/typescript-darwin-arm64'])"   # true true
 npm run build --workspace=platform/shared
-ls platform/shared/dist/{components,context,testing,types,utils}/index.d.ts   # 5개 모두 있다
+(cd platform/shared/dist && find . -name index.d.ts | sort)   # 기준선과 같은 9개: context, testing, types/global, utils/{i18n,user_agent}, components/{button,emoji,shortcut_key,tooltip}
 grep -rlE "^import ['\"][^'\"]+\.s?css['\"];" platform/shared/dist --include='*.d.ts' | wc -l   # 0
 ```
 
