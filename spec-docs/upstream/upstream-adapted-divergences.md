@@ -5594,4 +5594,4 @@ release tarball, #38957)는 `docs/` 부분(`docs/scripts/build-offline-bundle.py
 
 **후속 과제.** 본문의 `docs.mattermost.com` 절대 링크 2,034개·`forum.mattermost.com` 132개·
 `developers.mattermost.com` 22개 처리(바꾸면 이후 본문 커밋이 adapt가 된다), `okrbest/okrbest-docs`(Sphinx)
-보관, 위 리브랜딩 과제. 지시문 §10.
+보관, 위 리브랜딩 과제. 지시문 §10. 진행 상황은 `spec-docs/upstream/docs-site-followups.md`에서 추적한다.
