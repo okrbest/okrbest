@@ -4,10 +4,14 @@ name: Docs Gap Analysis
 # analyze (model, read-only) and report (label/comment writer) are separate jobs.
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    branches:
-      - master
+  # okrbest: 자동 트리거(pull_request)는 인프라를 확보할 때까지 끈다.
+  # 복원 조건과 목록: spec-docs/upstream/upstream-adapted-divergences.md "문서 사이트 계보 복원".
+  # 필요한 값: secrets.ANTHROPIC_API_KEY, vars.DOCS_AI_GAP_MODEL
+  # pull_request:
+  #   types: [opened, synchronize, reopened, ready_for_review]
+  #   branches:
+  #     - master
+  workflow_dispatch:
 
 permissions:
   contents: read
