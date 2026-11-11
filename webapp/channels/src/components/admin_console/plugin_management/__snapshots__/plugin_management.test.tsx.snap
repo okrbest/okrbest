@@ -41,7 +41,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -54,7 +54,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -96,7 +96,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -108,7 +108,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -151,7 +151,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -164,7 +164,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -197,7 +197,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -209,7 +209,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -298,7 +298,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -311,7 +311,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -353,7 +353,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -366,7 +366,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -504,7 +504,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -517,7 +517,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -559,7 +559,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -571,7 +571,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -614,7 +614,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -627,7 +627,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -660,7 +660,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -672,7 +672,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -761,7 +761,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacetrue"
@@ -773,7 +773,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -816,7 +816,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       checked=""
@@ -830,7 +830,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -1043,7 +1043,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1056,7 +1056,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -1098,7 +1098,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -1110,7 +1110,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1153,7 +1153,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1166,7 +1166,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -1199,7 +1199,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -1211,7 +1211,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1300,7 +1300,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1313,7 +1313,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -1355,7 +1355,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableRemoteMarketplacetrue"
@@ -1367,7 +1367,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1507,7 +1507,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1520,7 +1520,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -1562,7 +1562,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1575,7 +1575,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturefalse"
@@ -1617,7 +1617,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1630,7 +1630,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -1663,7 +1663,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -1675,7 +1675,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1773,7 +1773,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1786,7 +1786,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -1828,7 +1828,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1841,7 +1841,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -1979,7 +1979,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -1992,7 +1992,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -2034,7 +2034,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -2046,7 +2046,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2089,7 +2089,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2102,7 +2102,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -2135,7 +2135,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -2147,7 +2147,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2236,7 +2236,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2249,7 +2249,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -2291,7 +2291,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2304,7 +2304,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -2443,7 +2443,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2456,7 +2456,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -2498,7 +2498,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -2510,7 +2510,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2553,7 +2553,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2566,7 +2566,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -2599,7 +2599,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -2611,7 +2611,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2700,7 +2700,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2713,7 +2713,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -2755,7 +2755,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2768,7 +2768,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -2906,7 +2906,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enabletrue"
@@ -2918,7 +2918,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -2961,7 +2961,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -2974,7 +2974,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       checked=""
@@ -3018,7 +3018,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       checked=""
@@ -3032,7 +3032,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -3066,7 +3066,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -3079,7 +3079,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       checked=""
@@ -3182,7 +3182,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       checked=""
@@ -3196,7 +3196,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -3239,7 +3239,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       checked=""
@@ -3253,7 +3253,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -3374,7 +3374,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -3387,7 +3387,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -3429,7 +3429,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -3441,7 +3441,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -3484,7 +3484,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -3497,7 +3497,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -3530,7 +3530,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -3542,7 +3542,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -3631,7 +3631,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -3644,7 +3644,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -3686,7 +3686,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -3699,7 +3699,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -3837,7 +3837,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -3850,7 +3850,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -3892,7 +3892,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -3904,7 +3904,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -3947,7 +3947,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -3960,7 +3960,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -3993,7 +3993,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -4005,7 +4005,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -4103,7 +4103,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -4116,7 +4116,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -4158,7 +4158,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       checked=""
@@ -4172,7 +4172,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl kxVoZJ"
+                    class="Label-hkyaVO gPsTqy"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -4321,7 +4321,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -4334,7 +4334,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -4376,7 +4376,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -4388,7 +4388,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -4431,7 +4431,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -4444,7 +4444,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -4477,7 +4477,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -4489,7 +4489,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -4578,7 +4578,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -4591,7 +4591,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -4633,7 +4633,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -4646,7 +4646,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -5067,7 +5067,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5080,7 +5080,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -5122,7 +5122,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -5134,7 +5134,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5177,7 +5177,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5190,7 +5190,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -5223,7 +5223,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -5235,7 +5235,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5324,7 +5324,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5337,7 +5337,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -5379,7 +5379,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5392,7 +5392,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -5611,7 +5611,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5624,7 +5624,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -5666,7 +5666,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -5678,7 +5678,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5721,7 +5721,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5734,7 +5734,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -5767,7 +5767,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -5779,7 +5779,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5868,7 +5868,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5881,7 +5881,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -5923,7 +5923,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -5936,7 +5936,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -6155,7 +6155,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -6168,7 +6168,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -6210,7 +6210,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -6222,7 +6222,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -6265,7 +6265,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -6278,7 +6278,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -6311,7 +6311,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -6323,7 +6323,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -6412,7 +6412,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -6425,7 +6425,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -6467,7 +6467,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -6480,7 +6480,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
@@ -6699,7 +6699,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -6712,7 +6712,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enablefalse"
@@ -6754,7 +6754,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="requirePluginSignaturetrue"
@@ -6766,7 +6766,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -6809,7 +6809,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -6822,7 +6822,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="automaticPrepackagedPluginsfalse"
@@ -6855,7 +6855,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="restrictUnauthenticatedWebappPluginstrue"
@@ -6867,7 +6867,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -6956,7 +6956,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -6969,7 +6969,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableMarketplacefalse"
@@ -7011,7 +7011,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   class="col-sm-8"
                 >
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       checked=""
@@ -7024,7 +7024,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                     True
                   </label>
                   <label
-                    class="Label-eJcoMl iShgPr"
+                    class="Label-hkyaVO eTxFro"
                   >
                     <input
                       data-testid="enableRemoteMarketplacefalse"
