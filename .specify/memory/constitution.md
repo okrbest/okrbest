@@ -1,23 +1,18 @@
 <!--
 Sync Impact Report
-- Version change: 1.3.0 → 1.4.0 (MINOR — 원칙 VI 실질 확장: 브랜치 선행 생성 신설 + 병합 방식 문구 명확화)
+- Version change: 1.4.0 → 1.4.1 (PATCH — 사실 문구 정정: webapp 툴체인 버전)
 - Modified principles:
-  - VI. 집중 브랜치 + Conventional Commits + PR — 두 가지를 바꾼다.
-    (1) 병합 방식(rebase merge 한정, squash·merge commit 금지)을 sync 예외 문단에서
-        일반 조항으로 승격. 저장소 병합 설정(merge commit·squash 비활성)과
-        SPEC_KIT_GUIDE 요약("rebase 전용")이 이미 전체 PR에 적용하고 있었으므로
-        문구 명확화에 해당한다.
-    (2) "브랜치는 구현 시작 전에 만든다"를 신설. 기존 문면은 커밋 시점만 규제해서,
-        master 체크아웃 위에서 편집하다 커밋 직전에 브랜치를 만드는 패턴이 합법이었다.
-        spec 파이프라인을 타지 않는 버그 수정 경로에서 실제로 재현된 간극을 봉합한다
-        (실질 확장 — MINOR).
+  - I. 패키지별 품질 게이트 — webapp의 "TypeScript 5.6"을 실제 값으로 고친다.
+    spec 033(upstream a28b09d7)으로 타입 검사는 TypeScript 7.0 네이티브 컴파일러,
+    도구가 쓰는 typescript 패키지는 6.0이 됐다. 게이트 명령(`tsc -b`)은 그대로다.
+- Modified sections:
+  - 기술·범위 제약 — "TS 5.6", "Node는 .nvmrc(20.11) 기준. webapp engine: Node >=18.10.0,
+    npm ^9 || ^10"을 실제 값(.nvmrc 24.11.1, engines·packageManager의 npm 11.6.2 고정)으로 고친다.
+    규칙 내용은 바뀌지 않는다.
 - Added sections: 없음
 - Removed sections: 없음
 - Templates requiring updates:
-  - ✅ CLAUDE.md / AGENTS.md (Workflow 절에 압축본 추가 — 이번 개정에서 반영)
-  - ✅ .cursor/rules/okrbest-workflow.mdc (구현 규율 절에 압축본 추가 — 이번 개정에서 반영)
-  - ✅ SPEC_KIT_GUIDE.md (constitution 요약 ⑥ 갱신 — 이번 개정에서 반영)
-  - ✅ .specify/templates/* (병합·브랜치 방식 언급 없음, 수정 불필요)
+  - ✅ .specify/templates/* (툴체인 버전 언급 없음, 수정 불필요)
 - Follow-up TODOs: 없음
 - 배선 검사: bash .specify/scripts/bash/check-workflow-wiring.sh
 -->
@@ -38,7 +33,8 @@ spec 주도 작업에 적용된다. 문서 언어는 한국어, 코드 식별자
 - `server/` (Go 1.26.2): `make check-style`(golangci-lint + vet) + `make test-server`
   통과. 생성 mock은 `make mocks`로 재생성하여 최신 상태로 커밋하고, `go mod tidy`가
   클린해야 한다. CI 집행: `.github/workflows/server-ci.yml`.
-- `webapp/` (React + TypeScript 5.6): `npm run check`(eslint + stylelint) +
+- `webapp/` (React + TypeScript 7.0 — 타입 검사는 TypeScript 7 네이티브 컴파일러, 도구 API는
+  TypeScript 6.0): `npm run check`(eslint + stylelint) +
   `npm run check-types`(`tsc -b`) + `npm run test`(Jest) 통과. CI 집행:
   `.github/workflows/webapp-ci.yml`.
 
@@ -180,10 +176,11 @@ upstream 커밋은 spec 분기로 본 파이프라인에 합류한다.
 
 ## 기술·범위 제약
 
-- 모노레포: `server/`(Go 1.26.2, go workspaces), `webapp/`(React + TS 5.6,
+- 모노레포: `server/`(Go 1.26.2, go workspaces), `webapp/`(React + TypeScript 7.0,
   npm workspaces), `api/`(API 레퍼런스), `e2e-tests/`(Playwright + Cypress),
   `tools/mmgotool/`(i18n 도구).
-- Node는 `.nvmrc`(20.11) 기준. webapp engine: Node `>=18.10.0`, npm `^9 || ^10`.
+- Node는 `.nvmrc`(24.11.1) 기준. webapp은 `engines`·`packageManager`로 Node `24.11.1`,
+  npm `11.6.2`를 고정하고 `webapp/.npmrc`의 `engine-strict`로 다른 툴체인을 거부한다.
 - 비밀값·자격증명은 커밋 금지 (`.env` 등은 .gitignore). `.specify/`에도 금지.
 - 이 저장소는 `mattermost/mattermost`의 포크이며 원격은
   `okrbest/okrbest`(GitHub)다. 업스트림 구조 변경은 최소화하여 머지 충돌을 줄인다.
@@ -207,4 +204,4 @@ PATCH: 문구 명확화). 모든 PR·리뷰는 원칙 준수를 확인해야 하
 위반이 아니게 되어 지켜지지 않는다. 원칙을 쓰거나 고칠 때 스스로 묻는다 — 이 원칙을
 어겼는지 무엇으로 확인하나? 답이 없으면 그 원칙은 장식이다.
 
-**Version**: 1.4.0 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-10-21
+**Version**: 1.4.1 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-11-11
