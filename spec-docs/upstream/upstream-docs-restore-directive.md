@@ -3,6 +3,8 @@
 작성일 2026-11-09 (3차 개정 2026-11-10: §2-1 결정 반영). 기준 커밋: master `9aa6b4e280`, upstream-master `ea90a1c2d5`.
 장부: `spec-docs/upstream/upstream-master-unmerged-commits.md`.
 
+> **2026-11-11 완료.** PR #605·#604로 병합했다. 남은 일은 `spec-docs/upstream/docs-site-followups.md`에서 추적한다.
+
 ## 0. 처리 원칙
 
 **Mattermost 조직에 귀속된 저장소·설정값은 제외 사유가 아니다.** 그런 항목을 만나면
