@@ -2474,6 +2474,48 @@ func TestCompleteOAuthUserCreated(t *testing.T) {
 	})
 }
 
+func TestCompleteOAuthDeactivatedUser(t *testing.T) {
+	mainHelper.Parallel(t)
+	th := Setup(t).InitBasic(t)
+
+	th.App.UpdateConfig(func(cfg *model.Config) {
+		*cfg.GitLabSettings.Enable = true
+	})
+
+	id := model.GetMillis()
+	username := "o" + model.NewId()
+	email := model.NewId() + "@simulator.amazonses.com"
+	// okrbest: upstream passes an *OAuthAuthorization, which came with the excluded
+	// OIDC claims sync (#38939). The fork's CompleteOAuth still takes the user info body
+	// and a token user.
+	gitlabAuth := func() io.ReadCloser {
+		js, err := json.Marshal(oauthgitlab.GitLabUser{Id: id, Username: username, Email: email, Name: "Test User"})
+		require.NoError(t, err)
+		return io.NopCloser(bytes.NewReader(js))
+	}
+	props := map[string]string{"action": model.OAuthActionLogin}
+
+	user, _, appErr := th.App.CompleteOAuth(th.Context, model.UserAuthServiceGitlab, gitlabAuth(), props, nil)
+	require.Nil(t, appErr)
+
+	_, appErr = th.App.UpdateActive(th.Context, user, false)
+	require.Nil(t, appErr)
+
+	// A successful OAuth login reactivates the account before DoLogin runs.
+	user, _, appErr = th.App.CompleteOAuth(th.Context, model.UserAuthServiceGitlab, gitlabAuth(), props, nil)
+	require.Nil(t, appErr)
+	assert.Zero(t, user.DeleteAt)
+
+	stored, appErr := th.App.GetUser(th.Context, user.Id)
+	require.Nil(t, appErr)
+	assert.Zero(t, stored.DeleteAt)
+
+	session, appErr := th.App.DoLogin(th.Context, httptest.NewRecorder(), &http.Request{}, user, model.LoginOptions{IsOAuthUser: true})
+	require.Nil(t, appErr)
+	require.NotNil(t, session)
+	assert.Equal(t, user.Id, session.UserId)
+}
+
 // TestOAuthStoreErrorClassification covers the store-error branches in the OAuth
 // helpers: a store *AppError is returned as-is, ErrInvalidInput and ErrNotFound map
 // to their specific app errors, and any other error falls through to the generic one.
