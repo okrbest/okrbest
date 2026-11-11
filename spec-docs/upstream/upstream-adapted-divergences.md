@@ -158,6 +158,7 @@
 | Support Packet 다운로드 수정·Client4 이동 | [2d2d4e7a](https://github.com/mattermost/mattermost/commit/2d2d4e7a4e7cfa7a45dc2fdf70c98a44da86f4ca) (#39739) | 다운로드 로직·Client4·테스트·en.json은 그대로 받았다. 충돌 문맥의 compass-ui import 4줄과 `__options` 래퍼 div를 버렸다. 테스트 파일을 upstream 것으로 받아 #39754 때 남긴 `baseProps`·스냅샷 차이가 사라졌다 — 아래 참조 |
 | 검색 팝아웃 `searchTeamId` 검증 | [9a6b5574](https://github.com/mattermost/mattermost/commit/9a6b557455b8894434eb7e842486fde38ac46587) (#39625) | `ID_PATH_REGEX`와 팝아웃 검증은 받았다. 제외한 멘션 필터 webapp(f98944a8)의 `mention_search.ts` 수정과 테스트의 mention 모드 케이스를 버렸다 — 아래 참조 |
 | config-change-checker 기준점 (changelog 묶음) | [14e1f11f](https://github.com/mattermost/mattermost/commit/14e1f11f7e2d7aaeb24aa2fb4f4b864d987d848f) (#39685) | `check_config_changes_ci.py`·테스트·워크플로 1줄은 받았다. 같이 묶인 changelog 생성 자동화 3파일(제외한 53aaf6a4 계보)을 버렸다 — 아래 참조 |
+| 로그인 세션의 비활성·봇 거부 | [40d4abaa](https://github.com/mattermost/mattermost/commit/40d4abaa10aac26bfa5ae86e5993b2f6390ebff9) (#39251) | 코드는 그대로 받았다. 새 테스트 `TestCompleteOAuthDeactivatedUser`만 제외한 OIDC 계보(#38939)의 `OAuthAuthorization` 대신 포크 `CompleteOAuth(…, body, props, nil)` 시그니처로 고쳤다 — 아래 참조 |
 
 ---
 
@@ -5458,6 +5459,21 @@ upstream 결과본과 포크 결과본의 차이는 위 세 곳과 #39754 절의
 | `.github/scripts/generate_changelog.py` (+384/-89 상당) | opt-out 라벨 PR 건너뛰기, 빠진 노트만 재시도해 섹션에 병합, 그래도 빠진 노트는 "Not placed by the model" 목록으로 보고하고 changelog-sources에서 빼 다음 실행에서 재시도, Go Version 절 노트 ID 단위 정리, `body_changed` 출력 | 파일이 포크에 없다. changelog 생성 자동화를 들인 53aaf6a4(#38113)를 Mattermost 릴리스 운영 전용으로 제외했고 346c94f0도 같은 계보로 제외했다 | changelog 자동화 계보 복원 시 |
 | `.github/scripts/test_generate_changelog.py` | 위 동작의 테스트 372줄 | 같음 | 같음 |
 | `.github/workflows/generate-changelog.yml` | `body_changed`일 때 PR 본문만 고치는 publish 스텝 | 같음 | 같음 |
+
+## 로그인 세션의 비활성·봇 거부 — OAuth 테스트 하나를 포크 시그니처로 고쳤다
+
+**upstream**: [`40d4abaa`](https://github.com/mattermost/mattermost/commit/40d4abaa10aac26bfa5ae86e5993b2f6390ebff9)
+(MM-71227: Update login session handling, #39251) — 4파일 +296, 2026-11-12 sync 반영(cherry-pick 뒤 테스트 빌드 실패로 adapt 전환)
+
+merge-tree는 CLEAN이었고 cherry-pick도 충돌 없이 됐다. 그러나 app 테스트 패키지가 `undefined: OAuthAuthorization`으로 빌드되지 않았다. 그 타입은 85b7d85b(#38939, OIDC claim 동기화)가 `CompleteOAuth` 시그니처를 바꾸며 들였는데, 포크는 그 커밋의 `docs/`만 받고 코드는 제외했다.
+
+**그대로 받은 것.** `app/login.go`의 `DoLogin` 맨 앞 `checkUserNotDisabled`·`checkUserNotBot` 호출, `login_test.go`의 `TestDoLogin_RespectsUserDeleteAt`, `api4/user_test.go` 추가분. `login.go`를 수정 전으로 되돌리면 `TestDoLogin_RespectsUserDeleteAt`가 실패하고, 수정 후 통과한다.
+
+**고친 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `app/oauth_test.go` `TestCompleteOAuthDeactivatedUser` | `gitlabAuth()`가 `*OAuthAuthorization{UserInfo: …}`를 돌려주고 `CompleteOAuth(ctx, service, auth, props)` | `gitlabAuth()`가 `io.ReadCloser`를 돌려주고 `CompleteOAuth(ctx, service, body, props, nil)`. `// okrbest:` 주석 | OIDC claim 동기화(#38939) 코드 수용 시 |
 
 ## YouTube 임베드 referrer 고정 — 콘솔 토글을 지우고 ko.json 고아 키 2개를 지웠다
 
