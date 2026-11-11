@@ -1126,6 +1126,7 @@ export class SchemaAdminSettings extends React.PureComponent<SchemaAdminSettings
                 }
             };
             const errorCallback = (error: any) => {
+                this.setState({[`${setting.key}Error`]: error.message});
                 if (callback && typeof callback === 'function') {
                     callback(error.message);
                 }
@@ -1146,7 +1147,7 @@ export class SchemaAdminSettings extends React.PureComponent<SchemaAdminSettings
                 disabled={this.isDisabled(setting)}
                 fileType={setting.fileType}
                 onSubmit={uploadFile}
-                error={this.state.idpCertificateFileError}
+                error={this.state[`${setting.key}Error`]}
             />
         );
     };
