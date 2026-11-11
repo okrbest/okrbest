@@ -1,13 +1,17 @@
 name: docs-cd
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - "docs/**"
-      - "api/v4/source/**"
-      - "api/playbooks/**"
+  # okrbest: 자동 트리거(push)는 인프라를 확보할 때까지 끈다.
+  # 복원 조건과 목록: spec-docs/upstream/upstream-adapted-divergences.md "문서 사이트 계보 복원".
+  # 필요한 값: vars.DOCS_DEPLOY_ROLE_ARN, vars.DOCS_BUCKET_NAME, vars.DOCS_CF_DISTRIBUTION_ID (선택: vars.ALGOLIA_APP_ID, vars.ALGOLIA_SEARCH_API_KEY)
+  # push:
+  #   branches:
+  #     - master
+  #   paths:
+  #     - "docs/**"
+  #     - "api/v4/source/**"
+  #     - "api/playbooks/**"
+  workflow_dispatch:
 
 # One deploy at a time. A newer push cancels an in-flight deploy — acceptable
 # for a static site where the newer content supersedes the older.

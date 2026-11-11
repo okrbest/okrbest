@@ -1,18 +1,22 @@
 name: Docs CI
 
 on:
-  pull_request:
-    paths:
-      - "docs/**"
-      - "api/v4/source/**"
-      - "api/playbooks/**"
-  push:
-    branches:
-      - master
-    paths:
-      - "docs/**"
-      - "api/v4/source/**"
-      - "api/playbooks/**"
+  # okrbest: 자동 트리거(pull_request, push)는 인프라를 확보할 때까지 끈다.
+  # 복원 조건과 목록: spec-docs/upstream/upstream-adapted-divergences.md "문서 사이트 계보 복원".
+  # 필요한 값: 없음 (선택: vars.ALGOLIA_APP_ID, vars.ALGOLIA_SEARCH_API_KEY) — 인프라 없이도 돌 수 있어 먼저 되살릴 후보
+  # pull_request:
+  #   paths:
+  #     - "docs/**"
+  #     - "api/v4/source/**"
+  #     - "api/playbooks/**"
+  # push:
+  #   branches:
+  #     - master
+  #   paths:
+  #     - "docs/**"
+  #     - "api/v4/source/**"
+  #     - "api/playbooks/**"
+  workflow_dispatch:
 
 permissions:
   contents: read

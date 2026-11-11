@@ -3,13 +3,17 @@ name: Docs Editor Review Label
 # Auto-apply "2: Editor Review" when a non-draft PR changes docs/**.
 # API OpenAPI changes are intentionally excluded; drafts are skipped until ready_for_review.
 on:
-  pull_request:
-    types: [opened, reopened, synchronize, ready_for_review]
-    paths:
-      - "docs/**"
-      - "!docs/site/**"
-      - "!docs/vendor/**"
+  # okrbest: 자동 트리거(pull_request)는 인프라를 확보할 때까지 끈다.
+  # 복원 조건과 목록: spec-docs/upstream/upstream-adapted-divergences.md "문서 사이트 계보 복원".
+  # 필요한 값: 없음. 저장소에 "2: Editor Review" 라벨이 있어야 한다
+  # pull_request:
+  #   types: [opened, reopened, synchronize, ready_for_review]
+  #   paths:
+  #     - "docs/**"
+  #     - "!docs/site/**"
+  #     - "!docs/vendor/**"
       
+  workflow_dispatch:
 
 permissions: {}
 

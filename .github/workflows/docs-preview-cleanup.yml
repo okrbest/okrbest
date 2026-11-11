@@ -1,11 +1,15 @@
 name: docs-preview-cleanup
 
 on:
-  pull_request:
-    types: [closed]
-    paths:
-      - 'docs/**'
-      - 'api/**'
+  # okrbest: 자동 트리거(pull_request)는 인프라를 확보할 때까지 끈다.
+  # 복원 조건과 목록: spec-docs/upstream/upstream-adapted-divergences.md "문서 사이트 계보 복원".
+  # 필요한 값: secrets.AWS_DOCS_PR_PREVIEW_KEY_ID, secrets.AWS_DOCS_PR_PREVIEW_SECRET_ACCESS_KEY, vars.DOCS_PREVIEW_BUCKET_NAME
+  # pull_request:
+  #   types: [closed]
+  #   paths:
+  #     - 'docs/**'
+  #     - 'api/**'
+  workflow_dispatch:
 
 permissions:
   contents: read

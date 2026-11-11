@@ -7,13 +7,17 @@ name: docs-ime-render
 # sees it in their diff and it lands via the same merge as the code.
 
 on:
-  pull_request:
-    paths:
-      - "docs/site/src/components/IMEDiagram/**"
-      - "docs/site/scripts/render-ime.mjs"
-      - "docs/site/static/img/ime/logos/**"
-      - "docs/site/static/img/ime/banner-bg.jpg"
-      - ".github/workflows/docs-ime-render.yml"
+  # okrbest: 자동 트리거(pull_request)는 인프라를 확보할 때까지 끈다.
+  # 복원 조건과 목록: spec-docs/upstream/upstream-adapted-divergences.md "문서 사이트 계보 복원".
+  # 필요한 값: 없음 (GITHUB_TOKEN만 쓴다)
+  # pull_request:
+  #   paths:
+  #     - "docs/site/src/components/IMEDiagram/**"
+  #     - "docs/site/scripts/render-ime.mjs"
+  #     - "docs/site/static/img/ime/logos/**"
+  #     - "docs/site/static/img/ime/banner-bg.jpg"
+  #     - ".github/workflows/docs-ime-render.yml"
+  workflow_dispatch:
 
 # One render per PR at a time. Newer pushes cancel the in-flight run
 # so we don't queue up stale renders behind a rapid succession of
