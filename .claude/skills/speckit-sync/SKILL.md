@@ -169,3 +169,7 @@ okrbest는 mattermost/mattermost의 heavily-diverged 포크다. upstream 커밋�
 - **i18n 파일이 커밋에 포함된 경우** (Translations update(Weblate) 커밋 등): 우리 ko.json과 상시 충돌한다 — 그 커밋을 처리하는 자리에서 해결하고, adapt 시 우리 ko.json 문자열을 보존한다 (constitution 원칙 V).
 - **i18n 파일이 커밋에 없는 경우** (upstream이 `en.json`만 변경해 ko 번역 추가·제거가 필요해진 경우 등): ko.json을 손대지 않고 sync를 계속 진행한다. 필요 항목만 기록해 두었다가 세션 마감 요약 보고에 "i18n 후속 필요" 목록으로 사용자에게 안내하고, 실제 반영은 별도 작업으로 넘긴다 (constitution 원칙 V의 sync 예외). 커밋마다 보정 커밋을 붙이지 않는다.
 - 라이선스·리브랜드 충실성 (constitution 원칙 IV): copyright 헤더·NOTICE.txt 관련 upstream 변경은 그대로 반영, 우리 리브랜드 문자열은 보존.
+- **`docs/` 문서 사이트 계보 (2026-11-11 복원)**: 모노레포 `docs/`는 upstream 미러다. 세부 근거와 치환표는 `spec-docs/upstream/upstream-adapted-divergences.md`의 "문서 사이트 계보 복원" 절에 있다.
+  - (ㄱ) `docs/main`·`docs/develop` 본문 커밋은 **cherry-pick이 기본**이다. 본문은 고치지 않는다. 본문의 "Mattermost"는 upstream 출처 지칭이라 원칙 IV 위반이 아니다(`docs/` 안에만 해당, `spec-docs/rebrand.md` 상표 절).
+  - (ㄴ) 문서 인프라·설정 커밋(`docs/site` 설정, `.github/workflows/docs-*`, `.github/prompts`, `.github/scripts/docs-ai`, `.gitmodules`)은 **"Mattermost 귀속 저장소·도메인·인프라 값을 okrbest 값으로 치환해 받는다"가 기본 판정**이다. 제외 사유가 아니다. 치환 기준은 위 절의 표다. 자동 트리거는 인프라 확보 전까지 꺼 둔 상태를 유지한다. 제품명·로고·슬로건 같은 보이는 브랜드는 바꾸지 않는다(리브랜딩 별도 과제).
+  - (ㄷ) 코드 부분은 다른 계보로 제외하면서 `docs/` 부분만 받을 때, 또는 이미 반영한 커밋에서 버렸던 `docs/` 부분을 나중에 받을 때는 `git diff --binary --full-index <hash>^ <hash> -- docs/ | git apply --index --3way`로 적용하고 트레일러를 **`Upstream-docs: <URL>`**로 쓴다. `Upstream: <URL>`이나 `-x`를 쓰면 `upstream-sync.sh`가 코드까지 반영한 것으로 집계해 제외 목록에서 지운다.
