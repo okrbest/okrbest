@@ -159,6 +159,7 @@
 | 검색 팝아웃 `searchTeamId` 검증 | [9a6b5574](https://github.com/mattermost/mattermost/commit/9a6b557455b8894434eb7e842486fde38ac46587) (#39625) | `ID_PATH_REGEX`와 팝아웃 검증은 받았다. 제외한 멘션 필터 webapp(f98944a8)의 `mention_search.ts` 수정과 테스트의 mention 모드 케이스를 버렸다 — 아래 참조 |
 | config-change-checker 기준점 (changelog 묶음) | [14e1f11f](https://github.com/mattermost/mattermost/commit/14e1f11f7e2d7aaeb24aa2fb4f4b864d987d848f) (#39685) | `check_config_changes_ci.py`·테스트·워크플로 1줄은 받았다. 같이 묶인 changelog 생성 자동화 3파일(제외한 53aaf6a4 계보)을 버렸다 — 아래 참조 |
 | 로그인 세션의 비활성·봇 거부 | [40d4abaa](https://github.com/mattermost/mattermost/commit/40d4abaa10aac26bfa5ae86e5993b2f6390ebff9) (#39251) | 코드는 그대로 받았다. 새 테스트 `TestCompleteOAuthDeactivatedUser`만 제외한 OIDC 계보(#38939)의 `OAuthAuthorization` 대신 포크 `CompleteOAuth(…, body, props, nil)` 시그니처로 고쳤다 — 아래 참조 |
+| 플러그인에서 서버 로그로 연결 | [0ab1ee51](https://github.com/mattermost/mattermost/commit/0ab1ee517228f811b828c62504ed5a03354fb65c) (#39694) | 링크·권한 판정·테스트·en.json은 받았다. 충돌 문맥의 Session Attributes import와 compass-ui `Button`·`Icon`·`Switch` import를 버리고 View logs를 포크 링크 버튼으로 만들었다 — 아래 참조 |
 
 ---
 
@@ -5474,6 +5475,26 @@ merge-tree는 CLEAN이었고 cherry-pick도 충돌 없이 됐다. 그러나 app 
 | 위치 | upstream | 포크 | 되살릴 조건 |
 |---|---|---|---|
 | `app/oauth_test.go` `TestCompleteOAuthDeactivatedUser` | `gitlabAuth()`가 `*OAuthAuthorization{UserInfo: …}`를 돌려주고 `CompleteOAuth(ctx, service, auth, props)` | `gitlabAuth()`가 `io.ReadCloser`를 돌려주고 `CompleteOAuth(ctx, service, body, props, nil)`. `// okrbest:` 주석 | OIDC claim 동기화(#38939) 코드 수용 시 |
+
+## 플러그인에서 서버 로그로 연결 — compass-ui 버튼과 Session Attributes 문맥을 버렸다
+
+**upstream**: [`0ab1ee51`](https://github.com/mattermost/mattermost/commit/0ab1ee517228f811b828c62504ed5a03354fb65c)
+([MM-71814] Link plugins to their server logs, #39694) — 12파일 +285/-27, 2026-11-12 sync 반영(사용자 결정 adapt)
+
+merge-tree는 5건 충돌로 봤지만 실제 적용에서는 2건만 남았다(`docs/main` 등은 자동 병합).
+
+**그대로 받은 것.** `server_logs/url_filters.ts`의 `canViewServerLogs`·`canViewPluginLogs`·`pluginLogsPath`, `admin_definition.tsx`의 Server Logs `isHidden`을 `canViewServerLogs`로 바꾼 것, `plugin_management.tsx`의 플러그인별 View logs 링크와 `consoleAccess` prop, `schema_admin_settings.tsx`의 `logsPath` 전달, `enable_plugin_button.tsx`의 `logsPath` prop과 `BlockableLink`(저장 안 된 변경 경고 유지), 테스트 4파일, Playwright `server_logs.spec.ts`, `docs/main` 1파일, en.json `admin.plugin.viewLogs` 등.
+
+**버리거나 바꾼 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `admin_definition.tsx` import | `canViewServerLogs`와 같은 hunk의 `SessionAttributesPage` import | `canViewServerLogs`만 넣었다. Session Attributes 콘솔 페이지는 제외 계보(684ddb32 등)다 | Session Attributes 수용 시 |
+| `enable_plugin_button.tsx` import | compass-ui `Button`·`Icon`·`Switch` | 버렸다. 활성화 스위치는 포크 `Toggle` 그대로다. `TextBoxOutlineIcon`은 이미 쓰는 compass-icons에서 가져왔다 | compass-ui 수용 시 |
+| 같음, View logs | `<Button asChild emphasis='tertiary' size='small' leadingIcon={<Icon glyph={<TextBoxOutlineIcon/>}/>}><BlockableLink …>` | `<BlockableLink className='btn btn-tertiary btn-sm'>` 안에 `<TextBoxOutlineIcon size={16}/>` + 문구. `// okrbest:` 주석 | 같음 |
+| `enable_plugin_button.test.tsx` "links to the plugin logs…" | `getByRole('switch', {name: 'Disable plugin'})` | `getByRole('button', …)` — 포크 `Toggle`은 `aria-pressed` 버튼이다. 같은 파일의 기존 테스트도 `button`으로 찾는다 | 같음 |
+
+**검증.** `custom_plugin_settings`·`plugin_management`·`server_logs`·`schema_admin_settings`·`admin_definition` jest 27 스위트 493건 통과(수정 전에는 위 `switch` 줄 1건 실패), 바뀐 두 파일 eslint 오류 0.
 
 ## YouTube 임베드 referrer 고정 — 콘솔 토글을 지우고 ko.json 고아 키 2개를 지웠다
 
