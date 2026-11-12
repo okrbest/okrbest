@@ -3,33 +3,36 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-11 18:47
+- 갱신일: 2026-11-12 11:40
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 19개
+- 남은 커밋: 22개
 
-**마지막 반영 커밋:** `587083dd` | [\[MM-63780\] Fix missing divider above Performance Debugging in Advanced settings (#39859)](https://github.com/mattermost/mattermost/commit/587083dd0dd58c06dadd3fb4136d4ae502b0de64) | 2026-11-10
+**마지막 반영 커밋:** `d504067d` | [\[MM-71780\] Allow forwarding a post to an unjoined public channel (#39904)](https://github.com/mattermost/mattermost/commit/d504067db55e8f888d03ccecbeb2845ef98a8eea) | 2026-11-10
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 8d56568b | [MM-71416, MM-71428, MM-71211: Send follower shared channel sync tasks to the leader (#39760)](https://github.com/mattermost/mattermost/commit/8d56568b95998872248d9615cdb41da270c63cec) | 2026-11-10 |
-| 03d4daeb | [\[MM-71221\] Send the typed text when Enter lands right after the rich text editor's debounce (#39806)](https://github.com/mattermost/mattermost/commit/03d4daebe8567d3754128b5e368b6cf9abcd795e) | 2026-11-10 |
-| 2d2d4e7a | [Fix Support Packet download in Commercial Support modal and move it to Client4 (#39739)](https://github.com/mattermost/mattermost/commit/2d2d4e7a4e7cfa7a45dc2fdf70c98a44da86f4ca) | 2026-11-10 |
-| 659b9553 | [Refresh the NGINX reverse proxy documentation (#39776)](https://github.com/mattermost/mattermost/commit/659b955343b1cef25050237c17d57e5536f863b2) | 2026-11-10 |
-| 59e11ae1 | [MM-71041, MM-71065: Update reference-style link handling in the shared markdown parser (#38900)](https://github.com/mattermost/mattermost/commit/59e11ae107acc31c28083b0d7ae6c2f7e264aad6) | 2026-11-10 |
-| fec19a9f | [\[MM-70868\] Return 404 instead of 403 when a post handler cannot find the post (#39861)](https://github.com/mattermost/mattermost/commit/fec19a9f842aa01ea971ca604440f1a9f7a930e3) | 2026-11-10 |
-| df27bac6 | [MM-71544: Configurable cloud preview landing path and welcome modal fallback (#39862)](https://github.com/mattermost/mattermost/commit/df27bac6d423df620491726b8641e15fab730632) | 2026-11-10 |
-| 827ceda8 | [drip: go idioms: errors.AsType in app/command (#39870)](https://github.com/mattermost/mattermost/commit/827ceda8f809a4208847f781990d45bead605f5a) | 2026-11-10 |
-| 509ae929 | [MM-71667: Add outage catch-up and cursor rewind scenarios to the shared channel test tool (#39778)](https://github.com/mattermost/mattermost/commit/509ae92900647a45638619ffb8c4d934d20e3847) | 2026-11-10 |
-| 38b159bd | [Export Client4 request helpers for fully-qualified URLs (#39863)](https://github.com/mattermost/mattermost/commit/38b159bd36691b8b2bad6f4e3f758f85e47e18ed) | 2026-11-10 |
-| 9a6b5574 | [MM-71543: Update search popout team handling (#39625)](https://github.com/mattermost/mattermost/commit/9a6b557455b8894434eb7e842486fde38ac46587) | 2026-11-10 |
-| 79c0484a | [Bump @mattermost/compass-ui to 0.1.0-alpha.28 (#39896)](https://github.com/mattermost/mattermost/commit/79c0484a31c3c1c77e23709a5affae12ef9b6f83) | 2026-11-10 |
-| e02cd89c | [\[MM-71767\] Fix scheduled post inline edit keeping cancelled drafts and closing on save errors (#39880)](https://github.com/mattermost/mattermost/commit/e02cd89c6fd6dbea32ee296a63bd1fb58af32bd9) | 2026-11-10 |
-| d504067d | [\[MM-71780\] Allow forwarding a post to an unjoined public channel (#39904)](https://github.com/mattermost/mattermost/commit/d504067db55e8f888d03ccecbeb2845ef98a8eea) | 2026-11-10 |
 | 470f9d77 | [\[MM-71420\] Check MaxUsersPerTeam before bulk import instead of per line (#39868)](https://github.com/mattermost/mattermost/commit/470f9d770b2d646bbd5db6efcd819f9f11eeff27) | 2026-11-11 |
 | 5b953716 | [\[MM-70315\] Reload SAML SP when certificates are rotated (#38383)](https://github.com/mattermost/mattermost/commit/5b9537164d5fe2129eea0d34b7280bc24f066c7c) | 2026-11-11 |
 | e5544191 | [MM-70987: reject SHA-1 detached signatures via go-crypto openpgp/v2 (#39840)](https://github.com/mattermost/mattermost/commit/e55441911322e945c0d1a8ff2a3e613637f9a7e5) | 2026-11-11 |
 | 17bc5a22 | [MM-40523: Follow server logs with mmctl logs -f (#39646)](https://github.com/mattermost/mattermost/commit/17bc5a225a72311a2ef4343e121e075a67db3b6e) | 2026-11-11 |
 | dc3d33de | [\[MM-71813\] Filter server logs by plugin (#39693)](https://github.com/mattermost/mattermost/commit/dc3d33de8897f41bc12ffb1e92818d874cdddd47) | 2026-11-11 |
+| 14e1f11f | [Don't fail the changelog run when the model drops a release note (#39685)](https://github.com/mattermost/mattermost/commit/14e1f11f7e2d7aaeb24aa2fb4f4b864d987d848f) | 2026-11-11 |
+| 1f4cce67 | [\[MM-71770\] Add a unique packet_id to Support Packet metadata (#39876)](https://github.com/mattermost/mattermost/commit/1f4cce675a4c4c5b31d94459f40584e68df1e2e8) | 2026-11-11 |
+| 40d4abaa | [MM-71227: Update login session handling (#39251)](https://github.com/mattermost/mattermost/commit/40d4abaa10aac26bfa5ae86e5993b2f6390ebff9) | 2026-11-11 |
+| 0ab1ee51 | [\[MM-71814\] Link plugins to their server logs (#39694)](https://github.com/mattermost/mattermost/commit/0ab1ee517228f811b828c62504ed5a03354fb65c) | 2026-11-11 |
+| 80bea182 | [drip: go idioms: errors.AsType in app/webhook (#39912)](https://github.com/mattermost/mattermost/commit/80bea182cbfd9f890c9e37e76fdd0a5a4082eef1) | 2026-11-11 |
+| ab38c357 | [Use scram-sha-256 in the pg_hba.conf example for new installs (#39910)](https://github.com/mattermost/mattermost/commit/ab38c357fe322887d1530ed2eeebb30a7556d426) | 2026-11-11 |
+| 31ee3552 | [Document the SCRAM-SHA-256 requirement for FIPS PostgreSQL auth (#39909)](https://github.com/mattermost/mattermost/commit/31ee3552064ad72a5f2c7d4d672b3e232c6f5b3b) | 2026-11-11 |
+| e5fedb1a | [MM-69954: Update websocket event handling for guest sessions (#37909)](https://github.com/mattermost/mattermost/commit/e5fedb1afe01aacfc661bc09607ae63b08eda130) | 2026-11-11 |
+| bff98af5 | [\[MM-71421\] Keep typed minus sign in System Console number settings (#39907)](https://github.com/mattermost/mattermost/commit/bff98af5760f41f62d59035998e6be3e6aaeacd7) | 2026-11-11 |
+| f0a478b5 | [Fix flaky TestUploadLicenseFile/try_to_get_one_through_trial,_with_TE_build (#39780)](https://github.com/mattermost/mattermost/commit/f0a478b5878e4a47ecbe4d04fa78cad2fb2cc43f) | 2026-11-11 |
+| 4a3125ae | [MM-71792: Use dedicated database names in the shared channel test tool (#39901)](https://github.com/mattermost/mattermost/commit/4a3125aeff821605a7a79651cb81516a20ed4d90) | 2026-11-11 |
+| c2deb8dc | [\[MM-71680\] Add Posts dead tuples health rule (#39732)](https://github.com/mattermost/mattermost/commit/c2deb8dcbe7be1e3d8a25096a64dfa935fabf8d4) | 2026-11-11 |
+| 0630f96d | [drip: AppError -> error: bot login check (#39580)](https://github.com/mattermost/mattermost/commit/0630f96d9f3006f113d024693a6bfc3805673b30) | 2026-11-11 |
+| 238dcf33 | [Fix master build: convert checkUserNotBot error in DoLogin (#39955)](https://github.com/mattermost/mattermost/commit/238dcf33c6186729afa22ce76afa44a313c5f119) | 2026-11-11 |
+| d99a529b | [Bot accounts scope for permission policies (#39330)](https://github.com/mattermost/mattermost/commit/d99a529bd732d2b87c9b35b0dccb0efdc7d8e202) | 2026-11-11 |
+| ff1a406d | [MM-71488: Add HA cluster support to the sharedchannel-test tool (#39635)](https://github.com/mattermost/mattermost/commit/ff1a406d9349d54c43498baf6da1f9856da814ac) | 2026-11-11 |
+| 3dcc438e | [\[MM-71095\] Page shared channel post sync create pass by CreateAt (#39905)](https://github.com/mattermost/mattermost/commit/3dcc438efa148574474bd224157dc094195b33c9) | 2026-11-11 |
 
 ## 제외된 커밋
 
@@ -659,6 +662,10 @@
 | 7a6cca12 | [ci(e2e): disable Testcontainers Ryuk on Playwright full-suite workers (#39809)](https://github.com/mattermost/mattermost/commit/7a6cca1254ec5a5c1bc26016da8e1c1335f4ce43) | e2e-tests-playwright-template.yml의 testcontainers 모드(PW_TESTCONTAINERS_REUSE) 워커 env에 TESTCONTAINERS_RYUK_DISABLED를 더하는 CI 전용 커밋(+5, CODEOWNERS 보호 경로). 우리는 testcontainers 라이브러리를 a8c2307b spec 전환(specs/013-e2e-testcontainers-stack, PR #450)으로 들였지만 결정 (5)로 워크플로를 반영하지 않았다 — .github/ 전체에 PW_TESTCONTAINERS·testcontainers 0건이라 끼울 블록이 없고(충돌) 우리 CI에서 Ryuk가 돌지 않는다. 워크플로를 testcontainers 모드로 옮길 때 이 env를 함께 넣는다. |
 
 | 7938c858 | [Raise session attribute minimum TTL and grace period to 1 minute (#39733)](https://github.com/mattermost/mattermost/commit/7938c8589ff5e201baa5dc2194aaedce0a6f384d) | Session Attributes 최소 TTL·유예 시간을 1분으로 올리고 1분 미만 값을 끌어올리는 데이터 마이그레이션(app/migrations.go +61), 콘솔 30초 프리셋 삭제를 담은 커밋. 제외한 Session Attributes 계보(684ddb32 #36934, 후속 80eb4980·3b99b6c9 제외)의 후속이라 model/session_attributes.go와 webapp admin_console/session_attributes/ 3파일이 포크에 없다(modify/delete 충돌). migrations.go 추가분도 없는 타입·설정을 다뤄 컴파일되지 않는다. Session Attributes를 들일 때 684ddb32부터 함께 재검토한다. |
+
+| 03d4daeb | [\[MM-71221\] Send the typed text when Enter lands right after the rich text editor's debounce (#39806)](https://github.com/mattermost/mattermost/commit/03d4daebe8567d3754128b5e368b6cf9abcd795e) | 제외한 0fa2713b(MM-67755 WYSIWYG/TipTap 에디터) 계보 — 수정 대상 wysiwyg_editor.tsx가 우리 트리에 없음(modify/delete 충돌). TipTap의 SERIALIZE_DEBOUNCE_MS(100ms) 타이머 보고를 flushSync로 감싸는 1줄 수정과 WYSIWYG 모드 전용 회귀 테스트 28줄. 우리 입력창 LexicalTextEditor의 OnChangeMarkdownPlugin(webapp/channels/src/components/lexical_editor/plugins/on_change_plugin.tsx)은 registerUpdateListener 안에서 debounce 없이 동기로 onChange를 호출하므로 Enter가 이전 draft를 보내는 같은 결함이 없다. |
+
+| 79c0484a | [Bump @mattermost/compass-ui to 0.1.0-alpha.28 (#39896)](https://github.com/mattermost/mattermost/commit/79c0484a31c3c1c77e23709a5affae12ef9b6f83) | compass-ui 계보 제외(70658e18, 2026-10-18 결정 — 라이선스 없음·Slack식 자체 디자인). webapp·channels·platform/components package.json 3곳의 @mattermost/compass-ui alpha.26→alpha.28 버전업인데 우리 package.json·package-lock.json에 compass-ui 항목이 0건이라 올릴 대상이 없다. 스냅샷 200여 개는 compass CSS module 해시 갱신이고, workspace-optimization/dashboard.test.tsx 1줄은 compass AdminPanel의 제목 클릭 토글 동작 변화를 반영한 것이라 포크 DOM·컴포넌트와 무관하다. |
 
 ## spec 전환 커밋
 
