@@ -7,11 +7,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import type {Dispatch} from 'redux';
 
-import {DotsHorizontalIcon, OpenInNewIcon, TrashCanOutlineIcon} from '@mattermost/compass-icons/components';
+import {DotsHorizontalIcon, OpenInNewIcon, TextBoxOutlineIcon, TrashCanOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {disablePlugin, enablePlugin, removePlugin} from 'mattermost-redux/actions/admin';
 import type {ActionResult} from 'mattermost-redux/types/actions';
 
+import BlockableLink from 'components/admin_console/blockable_link';
 import ConfirmModal from 'components/confirm_modal';
 import * as Menu from 'components/menu';
 import Toggle from 'components/toggle';
@@ -28,6 +29,9 @@ type Props = {
     disabled: boolean;
     homepageUrl?: string;
     id: string;
+
+    // The plugin's entries in the server logs, for admins who can open them
+    logsPath?: string;
     saveNeeded?: false | string;
     value: boolean;
 };
@@ -43,7 +47,7 @@ export function getPluginIdFromEnableSettingId(settingId: string) {
     return settingId.slice(pluginStatePrefix.length, -pluginStateSuffix.length).replace(/\+/g, '.');
 }
 
-export function PluginEnableButton({actions, disabled, homepageUrl, id, saveNeeded = false, value}: Props) {
+export function PluginEnableButton({actions, disabled, homepageUrl, id, logsPath, saveNeeded = false, value}: Props) {
     const {formatMessage} = useIntl();
     const [submittingAction, setSubmittingAction] = useState<'toggle' | 'remove' | ''>('');
     const [showRemoveModal, setShowRemoveModal] = useState(false);
@@ -205,6 +209,21 @@ export function PluginEnableButton({actions, disabled, homepageUrl, id, saveNeed
                         onToggle={handleTogglePlugin}
                     />
                 </div>
+
+                {/* Viewing the logs changes nothing, so it stays available to admins who can't change the plugin */}
+                {/* okrbest: upstream wraps the link in a compass-ui Button, which we do not ship. */}
+                {logsPath && (
+                    <BlockableLink
+                        to={logsPath}
+                        className='btn btn-tertiary btn-sm'
+                    >
+                        <TextBoxOutlineIcon size={16}/>
+                        <FormattedMessage
+                            id='admin.plugin.viewLogs'
+                            defaultMessage='View logs'
+                        />
+                    </BlockableLink>
+                )}
                 <Menu.Container
                     menuButton={{
                         id: `plugin-actions-menu-button-${pluginId}`,
