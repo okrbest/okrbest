@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import moment from 'moment';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {defineMessages, FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {extractFilenameFromContentDisposition} from '@mattermost/client';
+import {ClientError} from '@mattermost/client';
+import {buildQueryString} from '@mattermost/client/lib/helpers';
 import {Button} from '@mattermost/shared/components/button';
 import type {SupportPacketContent} from '@mattermost/types/admin';
 import type {UserProfile} from '@mattermost/types/users';
@@ -115,11 +115,31 @@ type State = {
     showBannerWarning: boolean;
     packetContents: SupportPacketContent[];
     loading: boolean;
-    error?: string;
+
+    /**
+     * Error text from the server, or true when the download failed without a usable message.
+     */
+    error?: string | true;
     showBasicContentsIncluded: boolean;
 };
 
+// Delay before releasing the downloaded file from memory. Revoking the object URL
+// synchronously after click() can cancel the download in some browsers.
+const REVOKE_OBJECT_URL_DELAY_MS = 40 * 1000;
+
+// Returns the server's error text, or true to show the generic message (e.g. for network errors).
+function getDownloadError(err: unknown): string | true {
+    if (err instanceof ClientError) {
+        return [err.message, err.detailed_error].filter(Boolean).join(': ') || true;
+    }
+    return true;
+}
+
 export default class CommercialSupportModal extends React.PureComponent<Props, State> {
+    // The download keeps going after the modal closes, so the file is still saved.
+    // Once unmounted, only the state updates are skipped.
+    private unmounted = false;
+
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -129,6 +149,10 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
             loading: false,
             showBasicContentsIncluded: false,
         };
+    }
+
+    componentWillUnmount() {
+        this.unmounted = true;
     }
 
     componentDidUpdate = (prevProps: Props) => {
@@ -155,6 +179,16 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                 (currentIndex === index && !content.mandatory) ? {...content, selected: !content.selected} : content
             )),
         });
+    };
+
+    getSupportPacketOptions = () => {
+        const {packetContents} = this.state;
+        return {
+            basicServerLogs: packetContents.some((content) => content.id === SERVER_LOGS_ID && content.selected),
+            pluginPackets: packetContents.
+                filter((content) => content.id !== SERVER_LOGS_ID && !content.mandatory && content.selected).
+                map((content) => content.id),
+        };
     };
 
     toggleBasicContentsIncluded = () => {
@@ -233,56 +267,51 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
         return null;
     };
 
-    genereateDownloadURLWithParams = (): string => {
-        const url = new URL(Client4.getSystemRoute() + '/support_packet');
-        this.state.packetContents.forEach((content) => {
-            if (content.id === SERVER_LOGS_ID) {
-                url.searchParams.set('basic_server_logs', String(content.selected));
-            } else if (!content.mandatory && content.selected) {
-                url.searchParams.append('plugin_packets', content.id);
-            }
-        });
-        return url.toString();
-    };
-
-    extractFilename = (input: string | null): string => {
-        // construct the expected filename in case of an error in the header
-        const formattedDate = (moment(new Date())).format('YYYY-MM-DDTHH-mm');
-        const presumedFileName = `mm_support_packet_${formattedDate}.zip`;
-
-        return extractFilenameFromContentDisposition(input, presumedFileName);
-    };
-
     downloadSupportPacket = async () => {
         this.setState({loading: true, error: undefined});
-        const res = await fetch(this.genereateDownloadURLWithParams(), {
-            method: 'GET',
-            headers: {'Content-Type': 'application/zip'},
-        });
-        if (!res.ok) {
-            const data = await res.json();
-            const error = data.message + ': ' + data.detailed_error;
+
+        let packet: {blob: Blob; filename: string} | undefined;
+        let error: State['error'];
+        try {
+            packet = await Client4.getSupportPacket(this.getSupportPacketOptions());
+        } catch (err) {
+            error = getDownloadError(err);
+        }
+
+        if (!this.unmounted) {
             this.setState({loading: false, error});
+        }
+        if (!packet) {
             return;
         }
 
-        const blob = await res.blob();
-        this.setState({loading: false});
-
-        const href = window.URL.createObjectURL(blob);
+        const href = window.URL.createObjectURL(packet.blob);
         const link = document.createElement('a');
         link.href = href;
-        link.setAttribute('download', this.extractFilename(res.headers.get('content-disposition')));
+        link.setAttribute('download', packet.filename);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
+        setTimeout(() => window.URL.revokeObjectURL(href), REVOKE_OBJECT_URL_DELAY_MS);
+    };
+
+    getSupportLink = (): string => {
+        const {isCloud, currentUser} = this.props;
+        if (!isCloud) {
+            return 'https://support.mattermost.com/hc/en-us/requests/new';
+        }
+
+        return 'https://customers.mattermost.com/cloud/contact-us' + buildQueryString({
+            name: [currentUser.first_name, currentUser.last_name].filter(Boolean).join(' '),
+            email: currentUser.email,
+            inquiry: 'technical',
+        });
     };
 
     render() {
-        const {showBannerWarning} = this.state;
-        const {isCloud, currentUser} = this.props;
-
-        const supportLink = isCloud ? `https://customers.mattermost.com/cloud/contact-us?name=${currentUser.first_name} ${currentUser.last_name}&email=${currentUser.email}&inquiry=technical` : 'https://support.mattermost.com/hc/en-us/requests/new';
+        const {showBannerWarning, error} = this.state;
+        const supportLink = this.getSupportLink();
         return (
             <Modal
                 id='commercialSupportModal'
@@ -307,6 +336,7 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                             values={{
                                 supportLink: (chunks) => (
                                     <ExternalLink
+                                        key='supportLink'
                                         href={supportLink}
                                         location='commercialSupportModal'
                                     >
@@ -323,8 +353,15 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                                         id='commercial_support_modal.warning.banner'
                                         defaultMessage='Before downloading the Support Packet, set <strong>Output Logs to File</strong> to <strong>true</strong> and set <strong>File Log Level</strong> to <strong>DEBUG</strong> <debugLink>here</debugLink>.'
                                         values={{
-                                            strong: (chunks) => <strong>{chunks}</strong>,
-                                            debugLink: (chunks) => <Link to='/admin_console/environment/logging'>{chunks}</Link>,
+                                            strong: (chunks) => <strong key='strong'>{chunks}</strong>,
+                                            debugLink: (chunks) => (
+                                                <Link
+                                                    key='debugLink'
+                                                    to='/admin_console/environment/logging'
+                                                >
+                                                    {chunks}
+                                                </Link>
+                                            ),
                                         }}
                                     />
                                 }
@@ -381,9 +418,16 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                             );
                         })}
                         <div className='CommercialSupportModal__download'>
-                            {this.state.error && (
+                            {error && (
                                 <div className='CommercialSupportModal__error'>
-                                    <span className='error-text'>{this.state.error}</span>
+                                    <span className='error-text'>
+                                        {error === true ? (
+                                            <FormattedMessage
+                                                id='commercial_support_modal.download_error'
+                                                defaultMessage='Unable to download the Support Packet. Please try again.'
+                                            />
+                                        ) : error}
+                                    </span>
                                 </div>
                             )}
                             <Button
