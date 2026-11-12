@@ -3,36 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-12 11:40
+- 갱신일: 2026-11-12 14:29
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 22개
+- 남은 커밋: 1개
 
-**마지막 반영 커밋:** `d504067d` | [\[MM-71780\] Allow forwarding a post to an unjoined public channel (#39904)](https://github.com/mattermost/mattermost/commit/d504067db55e8f888d03ccecbeb2845ef98a8eea) | 2026-11-10
+**마지막 반영 커밋:** `3dcc438e` | [\[MM-71095\] Page shared channel post sync create pass by CreateAt (#39905)](https://github.com/mattermost/mattermost/commit/3dcc438efa148574474bd224157dc094195b33c9) | 2026-11-11
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 470f9d77 | [\[MM-71420\] Check MaxUsersPerTeam before bulk import instead of per line (#39868)](https://github.com/mattermost/mattermost/commit/470f9d770b2d646bbd5db6efcd819f9f11eeff27) | 2026-11-11 |
-| 5b953716 | [\[MM-70315\] Reload SAML SP when certificates are rotated (#38383)](https://github.com/mattermost/mattermost/commit/5b9537164d5fe2129eea0d34b7280bc24f066c7c) | 2026-11-11 |
-| e5544191 | [MM-70987: reject SHA-1 detached signatures via go-crypto openpgp/v2 (#39840)](https://github.com/mattermost/mattermost/commit/e55441911322e945c0d1a8ff2a3e613637f9a7e5) | 2026-11-11 |
-| 17bc5a22 | [MM-40523: Follow server logs with mmctl logs -f (#39646)](https://github.com/mattermost/mattermost/commit/17bc5a225a72311a2ef4343e121e075a67db3b6e) | 2026-11-11 |
-| dc3d33de | [\[MM-71813\] Filter server logs by plugin (#39693)](https://github.com/mattermost/mattermost/commit/dc3d33de8897f41bc12ffb1e92818d874cdddd47) | 2026-11-11 |
-| 14e1f11f | [Don't fail the changelog run when the model drops a release note (#39685)](https://github.com/mattermost/mattermost/commit/14e1f11f7e2d7aaeb24aa2fb4f4b864d987d848f) | 2026-11-11 |
-| 1f4cce67 | [\[MM-71770\] Add a unique packet_id to Support Packet metadata (#39876)](https://github.com/mattermost/mattermost/commit/1f4cce675a4c4c5b31d94459f40584e68df1e2e8) | 2026-11-11 |
-| 40d4abaa | [MM-71227: Update login session handling (#39251)](https://github.com/mattermost/mattermost/commit/40d4abaa10aac26bfa5ae86e5993b2f6390ebff9) | 2026-11-11 |
-| 0ab1ee51 | [\[MM-71814\] Link plugins to their server logs (#39694)](https://github.com/mattermost/mattermost/commit/0ab1ee517228f811b828c62504ed5a03354fb65c) | 2026-11-11 |
-| 80bea182 | [drip: go idioms: errors.AsType in app/webhook (#39912)](https://github.com/mattermost/mattermost/commit/80bea182cbfd9f890c9e37e76fdd0a5a4082eef1) | 2026-11-11 |
-| ab38c357 | [Use scram-sha-256 in the pg_hba.conf example for new installs (#39910)](https://github.com/mattermost/mattermost/commit/ab38c357fe322887d1530ed2eeebb30a7556d426) | 2026-11-11 |
-| 31ee3552 | [Document the SCRAM-SHA-256 requirement for FIPS PostgreSQL auth (#39909)](https://github.com/mattermost/mattermost/commit/31ee3552064ad72a5f2c7d4d672b3e232c6f5b3b) | 2026-11-11 |
-| e5fedb1a | [MM-69954: Update websocket event handling for guest sessions (#37909)](https://github.com/mattermost/mattermost/commit/e5fedb1afe01aacfc661bc09607ae63b08eda130) | 2026-11-11 |
-| bff98af5 | [\[MM-71421\] Keep typed minus sign in System Console number settings (#39907)](https://github.com/mattermost/mattermost/commit/bff98af5760f41f62d59035998e6be3e6aaeacd7) | 2026-11-11 |
-| f0a478b5 | [Fix flaky TestUploadLicenseFile/try_to_get_one_through_trial,_with_TE_build (#39780)](https://github.com/mattermost/mattermost/commit/f0a478b5878e4a47ecbe4d04fa78cad2fb2cc43f) | 2026-11-11 |
-| 4a3125ae | [MM-71792: Use dedicated database names in the shared channel test tool (#39901)](https://github.com/mattermost/mattermost/commit/4a3125aeff821605a7a79651cb81516a20ed4d90) | 2026-11-11 |
-| c2deb8dc | [\[MM-71680\] Add Posts dead tuples health rule (#39732)](https://github.com/mattermost/mattermost/commit/c2deb8dcbe7be1e3d8a25096a64dfa935fabf8d4) | 2026-11-11 |
-| 0630f96d | [drip: AppError -> error: bot login check (#39580)](https://github.com/mattermost/mattermost/commit/0630f96d9f3006f113d024693a6bfc3805673b30) | 2026-11-11 |
-| 238dcf33 | [Fix master build: convert checkUserNotBot error in DoLogin (#39955)](https://github.com/mattermost/mattermost/commit/238dcf33c6186729afa22ce76afa44a313c5f119) | 2026-11-11 |
-| d99a529b | [Bot accounts scope for permission policies (#39330)](https://github.com/mattermost/mattermost/commit/d99a529bd732d2b87c9b35b0dccb0efdc7d8e202) | 2026-11-11 |
-| ff1a406d | [MM-71488: Add HA cluster support to the sharedchannel-test tool (#39635)](https://github.com/mattermost/mattermost/commit/ff1a406d9349d54c43498baf6da1f9856da814ac) | 2026-11-11 |
-| 3dcc438e | [\[MM-71095\] Page shared channel post sync create pass by CreateAt (#39905)](https://github.com/mattermost/mattermost/commit/3dcc438efa148574474bd224157dc094195b33c9) | 2026-11-11 |
+| 8718ca0a | [chore(e2e): upgrade Cypress dependencies (#39914)](https://github.com/mattermost/mattermost/commit/8718ca0ac356f027eb9b3b3cf23be437e7c42cfc) | 2026-11-12 |
 
 ## 제외된 커밋
 
@@ -667,6 +646,8 @@
 
 | 79c0484a | [Bump @mattermost/compass-ui to 0.1.0-alpha.28 (#39896)](https://github.com/mattermost/mattermost/commit/79c0484a31c3c1c77e23709a5affae12ef9b6f83) | compass-ui 계보 제외(70658e18, 2026-10-18 결정 — 라이선스 없음·Slack식 자체 디자인). webapp·channels·platform/components package.json 3곳의 @mattermost/compass-ui alpha.26→alpha.28 버전업인데 우리 package.json·package-lock.json에 compass-ui 항목이 0건이라 올릴 대상이 없다. 스냅샷 200여 개는 compass CSS module 해시 갱신이고, workspace-optimization/dashboard.test.tsx 1줄은 compass AdminPanel의 제목 클릭 토글 동작 변화를 반영한 것이라 포크 DOM·컴포넌트와 무관하다. |
 
+| d99a529b | [Bot accounts scope for permission policies (#39330)](https://github.com/mattermost/mattermost/commit/d99a529bd732d2b87c9b35b0dccb0efdc7d8e202) | 권한 정책 판정 엔진이 비공개(github.com/mattermost/enterprise/access_control)라 포크 빌드에서 ch.AccessControl이 nil — ba1cec51(#36472)로 받은 권한 정책 화면 자체가 동작하지 않고, system_bot 역할 해석도 엔진 몫이라 봇 범위 UI(rule_editor_card·roles.ts·bot_scope·cel_lexer, permission_policy_details 개편)를 받아도 비활성이다. 게다가 실제 적용 시 12파일 26 hunk가 충돌하며 상당수가 제외한 Session Attributes 계보(57fe965a #37362 permission-policy picker 통합 등 — attribute_selector_menu.test.tsx는 그 계보가 만든 파일) 문맥이다. 서버는 model/access_policy.go의 AccessControlPolicyRoleSystemBot 상수와 역할 검증 헬퍼 추출(동작 동일)뿐이라 잃는 동작이 없다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -703,6 +684,8 @@
 | 20c15b9d | [Monthly maintenance (2026-11): Update webapp dependencies (#39583)](https://github.com/mattermost/mattermost/commit/20c15b9d2be5c7409a16b6831b5979de76812d4f) | webapp-deps-2026-10-11 (4ca793bd 10월분과 한 작업으로 묶음: package.json 버전 옮기기·TipTap/compass-ui 제외·monaco 0.57 webpack 플러그인 경로·web-vitals 6 INP 타입·npm install로 lock 재생성·스냅샷 검토·check-types/jest 기준선 비교) |
 
 | a28b09d7 | [Upgrade the webapp to TypeScript 7.0 (#39697)](https://github.com/mattermost/mattermost/commit/a28b09d787b0697e294c1efe916f4765002a0636) | webapp-deps-2026-10-11 (4ca793bd·20c15b9d 다음 마지막 단계로 합류: TypeScript 5.9.3 → 7.0.2 네이티브 전환, typescript 별칭 @typescript/typescript6@6.0.2, tsconfig 6개, react-intl override, shared 타입 산출을 parcel types에서 tsc -p tsconfig.build.json + strip_css_imports.mjs로, components rollup, webapp-ci.yml 보호 경로 1줄, lock 재생성. 포크 TS는 5.6.3이라 선행 5.9.3 단계 없이는 package.json 6개·lock이 충돌. 기존 tsc -b 오류 5건(Lexical·MouseEventHandler 등)도 함께 점검) |
+
+| 470f9d77 | [\[MM-71420\] Check MaxUsersPerTeam before bulk import instead of per line (#39868)](https://github.com/mattermost/mattermost/commit/470f9d770b2d646bbd5db6efcd819f9f11eeff27) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 41c482b4의 후속. bulk import가 MaxUsersPerTeam을 줄마다 강제하던 것을 없애고(SaveMultipleMembers 상한 0 + warnIfTeamsOverMemberLimit 경고), zip의 JSONL을 먼저 훑어 팀별 증가 인원을 세는 preflight checkTeamMemberLimits로 바꾼다(--skip-preflight면 경고로 강등). checkTeamMemberLimits가 41c482b4의 sourceTeamName·destinationTeam·rewriteTeamName·deactivateMissingUsers·importedUsers를 인자로 받고 그 커밋의 version 줄 검사 블록에서 호출되며, mmctl·bulk_export.go·rst 변경은 41c482b4가 만드는 --skip-preflight 설명문 수정이라 지금은 merge-tree CONFLICT 8건. 동시 워커 경쟁으로 상한 초과·중간 중단되는 결함은 포크에도 있다(MaxUsersPerTeam=0이면 무관). spec 구현 시 함께 반영하고 구현 커밋 본문에 Upstream 링크 기재 |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
@@ -750,3 +733,5 @@
 | 85b7d85b | [Sync user attributes from OpenID Connect claims (#38939)](https://github.com/mattermost/mattermost/commit/85b7d85b57bb407ac695048dc231457ae5d01857) | OIDC claim → 사용자 속성 동기화. einterfaces.OAuthClaimsProvider(GetClaimValues) 구현은 비공개 github.com/mattermost/enterprise/oauth/openid에 있어야 한다 — 우리 OpenID 프로바이더 자체가 비공개 모듈. (`docs/` 부분은 2026-11-11에 반영, 코드 부분만 제외 유지) |
 | 1e7c1a16 | [\[MM-71425\] Health Dashboard PR17: per-node collection (#39514)](https://github.com/mattermost/mattermost/commit/1e7c1a1673ecc31b231f062c523d0bbe70e5a969) | `github.com/mattermost/enterprise/cluster` (비공개). cherry-pick으로 반영(429012cd1e). ClusterInterface.CollectHealthDiagnostics 선언·mock·FakeClusterInterface와 platform/health_collect.go(자기 노드 수집·응답 병합)는 들어왔으나, 다른 노드에 진단을 요청하는 gossip 구현은 비공개 enterprise 클러스터에만 있다. 포크엔 클러스터 구현이 없어 Health Dashboard는 자기 노드 하나만 수집한다(HealthDashboard 플래그 기본 false·Enterprise 라이선스 필요라 원래 비활성). |
 | 60cf157a | [Mm 71104 - Add advanced CEL editor to teams details page in the system console (#39062)](https://github.com/mattermost/mattermost/commit/60cf157a9ac10dbf0cd0a47d96f937abc19e9b74) | `github.com/mattermost/enterprise/access_control` (비공개). adapt로 반영(e80b8ebbc1). PolicyAdministrationPointInterface.CheckMembershipExpression 선언·mock, App 가드(checkMembershipRuleEditable·rejectAdvancedMembershipRules)와 webapp 편집기 잠금은 들어왔으나, 멤버십 규칙 검사·ExpressionToVisualAST 판정은 비공개 ABAC 엔진에만 있다. 포크엔 AccessControl 서비스가 없어 가드는 acs == nil로 빠지고 /cel/check membership은 501을 준다. |
+| 5b953716 | [\[MM-70315\] Reload SAML SP when certificates are rotated (#38383)](https://github.com/mattermost/mattermost/commit/5b9537164d5fe2129eea0d34b7280bc24f066c7c) | github.com/mattermost/enterprise/saml (비공개). OSS 배선(saveSamlCertificateConfig·Channels.configureSaml·ClusterEventReloadSaml·PEM 검증 400)과 콘솔 업로드 오류 표시 수정은 반영했으나, 인증서 교체 시 SP를 다시 구성하는 ConfigureSP 실체는 enterprise 빌드 태그로만 들어오는 비공개 모듈이라 포크 빌드에서는 a.Saml()이 nil이고 reload는 no-op이다. |
+| d99a529b | [Bot accounts scope for permission policies (#39330)](https://github.com/mattermost/mattermost/commit/d99a529bd732d2b87c9b35b0dccb0efdc7d8e202) | github.com/mattermost/enterprise/access_control (비공개). 권한 정책의 Bot accounts 범위(system_bot 역할) — 엔진이 봇 subject에 system_bot을 시스템 역할보다 먼저 해석해야 의미가 있다. 자체 ABAC 엔진 구현 시 Session Attributes 계보와 함께 재검토. |
