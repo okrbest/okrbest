@@ -155,6 +155,7 @@
 | webapp 의존성 2026-10 (spec 033) | [4ca793bd](https://github.com/mattermost/mattermost/commit/4ca793bd9e78bc5b6055a7e0e4560849792f7dbe) (#39222) | TipTap 10건·jest-matchmedia-mock override를 건너뛰고, upstream `.snap`을 쓰지 않고 포크에서 다시 만들었다. `channel_header_plug` 툴팁 회귀 테스트를 포크가 더했다 — 아래 참조 |
 | webapp 의존성 2026-11 (spec 033) | [20c15b9d](https://github.com/mattermost/mattermost/commit/20c15b9d2be5c7409a16b6831b5979de76812d4f) (#39583) | TipTap 10건을 건너뛰고 `cel_editor/editor.tsx`에 `editContext: false`를 손으로 넣었다 — 아래 참조 |
 | webapp TypeScript 7.0 (spec 033) | [a28b09d7](https://github.com/mattermost/mattermost/commit/a28b09d787b0697e294c1efe916f4765002a0636) (#39697) | `rollup.config.js`는 `externals` 유지, `i18n-extract`는 포크 문자열 유지, `styles.d.ts`에서 compass-ui 2줄 제외. TS7이 드러낸 LDAP 마법사 subtitle 결함을 포크에서 고쳤다 — 아래 참조 |
+| Support Packet 다운로드 수정·Client4 이동 | [2d2d4e7a](https://github.com/mattermost/mattermost/commit/2d2d4e7a4e7cfa7a45dc2fdf70c98a44da86f4ca) (#39739) | 다운로드 로직·Client4·테스트·en.json은 그대로 받았다. 충돌 문맥의 compass-ui import 4줄과 `__options` 래퍼 div를 버렸다. 테스트 파일을 upstream 것으로 받아 #39754 때 남긴 `baseProps`·스냅샷 차이가 사라졌다 — 아래 참조 |
 
 ---
 
@@ -5396,6 +5397,31 @@ upstream은 이 모달을 이미 `@mattermost/compass-ui`로 옮긴 상태에서
 | `__snapshots__/…snap` | compass-ui 해시 클래스 DOM | 포크 구조로 재생성 | 같음 |
 
 **i18n.** webapp `en.json`에 16개 키가 추가됐다(`commercial_support_modal.basic_contents.*`, `.server_logs.*`, `.required`). 우리 ko는 손대지 않았다. 번역 후속 대상이다.
+
+> **2026-11-12 갱신.** 아래 #39739 adapt에서 테스트 파일을 upstream 것으로 받았다. 위 표의 `commercial_support_modal.test.tsx` 줄(포크 `baseProps`)과 `__snapshots__/…snap` 줄은 더 이상 해당하지 않는다. upstream이 스냅샷 테스트를 지웠고, compass 이관 때 생긴 체크박스 테스트 2개는 포크 `<input>`+`<label>`에서도 통과한다.
+
+## Support Packet 다운로드 수정·Client4 이동 — 충돌 문맥의 compass-ui 코드를 버렸다
+
+**upstream**: [`2d2d4e7a`](https://github.com/mattermost/mattermost/commit/2d2d4e7a4e7cfa7a45dc2fdf70c98a44da86f4ca)
+(Fix Support Packet download in Commercial Support modal and move it to Client4, #39739) — 6파일 +410/-352, 2026-11-12 sync 반영(사용자 결정 adapt)
+
+이 커밋은 compass-ui를 새로 들이지 않는다. 충돌 3건은 모두 upstream이 앞서 compass-ui로 옮긴 모달 코드가 hunk 문맥에 걸려서 났다. 동작 수정은 하나도 빼지 않았다.
+
+**그대로 받은 것.** `webapp/platform/client/src/client4.ts`의 `getSupportPacket()`과 `doFetchWithResponse`의 Content-Type 판정(파라미터를 떼고 `application/octet-stream`도 blob으로 읽는다), `client4.test.ts` 72줄, `en.json` 키 `commercial_support_modal.download_error`. 모달에서는 `getDownloadError`, `REVOKE_OBJECT_URL_DELAY_MS`(40초 뒤 object URL 해제), `unmounted` 플래그와 `componentWillUnmount`, `getSupportPacketOptions`, `getSupportLink`(`buildQueryString`으로 이름·이메일 인코딩), `ExternalLink`·`strong`·`Link`의 `key`, `error === true`일 때 보이는 일반 오류 문구. `genereateDownloadURLWithParams`·`extractFilename`·`moment` import 제거. 테스트 파일 전체와 스냅샷 파일 삭제.
+
+**버린 것.**
+
+| 위치 | upstream 결과본에 있는 것 | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `commercial_support_modal.tsx` import | `@mattermost/compass-icons/components`의 `ChevronDownIcon`·`ChevronRightIcon`·`DownloadOutlineIcon`, `@mattermost/compass-ui/components/`의 `button`·`checkbox`·`icon` 4줄 | 이 커밋이 실제로 바꾼 import(`ClientError`·`buildQueryString` 추가, `extractFilenameFromContentDisposition`·`moment` 제거)만 반영했다. shared `Button`·`LoadingSpinner` import는 유지한다 | compass-ui 수용 시 |
+| 같음, 옵션 목록 | `<div className='CommercialSupportModal__options'>` 래퍼 + compass `Checkbox` | 포크 `<input type='checkbox'>`+`<label htmlFor>` 구조를 유지한다(#39754 절 참조) | 같음 |
+| 같음, 다운로드 버튼 | compass `Button`의 `loading`·`leadingIcon` prop | 포크 `LoadingSpinner`/`icon-download-outline` 아이콘 폰트를 유지한다 | 같음 |
+
+upstream 결과본과 포크 결과본의 차이는 위 세 곳과 #39754 절의 "What's included" 토글뿐이다(`diff`로 확인).
+
+**검증.** `commercial_support_modal` jest 22건, `platform/client` `client4.test.ts` 30건 통과. `platform/client` `tsc --noEmit` 오류 0.
+
+**i18n.** `commercial_support_modal.download_error` 1개가 en에만 있다(missing). 번역 후속 대상이다.
 
 ## YouTube 임베드 referrer 고정 — 콘솔 토글을 지우고 ko.json 고아 키 2개를 지웠다
 
