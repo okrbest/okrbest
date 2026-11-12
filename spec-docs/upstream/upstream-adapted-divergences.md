@@ -156,6 +156,7 @@
 | webapp 의존성 2026-11 (spec 033) | [20c15b9d](https://github.com/mattermost/mattermost/commit/20c15b9d2be5c7409a16b6831b5979de76812d4f) (#39583) | TipTap 10건을 건너뛰고 `cel_editor/editor.tsx`에 `editContext: false`를 손으로 넣었다 — 아래 참조 |
 | webapp TypeScript 7.0 (spec 033) | [a28b09d7](https://github.com/mattermost/mattermost/commit/a28b09d787b0697e294c1efe916f4765002a0636) (#39697) | `rollup.config.js`는 `externals` 유지, `i18n-extract`는 포크 문자열 유지, `styles.d.ts`에서 compass-ui 2줄 제외. TS7이 드러낸 LDAP 마법사 subtitle 결함을 포크에서 고쳤다 — 아래 참조 |
 | Support Packet 다운로드 수정·Client4 이동 | [2d2d4e7a](https://github.com/mattermost/mattermost/commit/2d2d4e7a4e7cfa7a45dc2fdf70c98a44da86f4ca) (#39739) | 다운로드 로직·Client4·테스트·en.json은 그대로 받았다. 충돌 문맥의 compass-ui import 4줄과 `__options` 래퍼 div를 버렸다. 테스트 파일을 upstream 것으로 받아 #39754 때 남긴 `baseProps`·스냅샷 차이가 사라졌다 — 아래 참조 |
+| 검색 팝아웃 `searchTeamId` 검증 | [9a6b5574](https://github.com/mattermost/mattermost/commit/9a6b557455b8894434eb7e842486fde38ac46587) (#39625) | `ID_PATH_REGEX`와 팝아웃 검증은 받았다. 제외한 멘션 필터 webapp(f98944a8)의 `mention_search.ts` 수정과 테스트의 mention 모드 케이스를 버렸다 — 아래 참조 |
 
 ---
 
@@ -5422,6 +5423,23 @@ upstream 결과본과 포크 결과본의 차이는 위 세 곳과 #39754 절의
 **검증.** `commercial_support_modal` jest 22건, `platform/client` `client4.test.ts` 30건 통과. `platform/client` `tsc --noEmit` 오류 0.
 
 **i18n.** `commercial_support_modal.download_error` 1개가 en에만 있다(missing). 번역 후속 대상이다.
+
+## 검색 팝아웃 `searchTeamId` 검증 — 멘션 필터 쪽 코드와 테스트를 버렸다
+
+**upstream**: [`9a6b5574`](https://github.com/mattermost/mattermost/commit/9a6b557455b8894434eb7e842486fde38ac46587)
+(MM-71543: Update search popout team handling, #39625) — 4파일 +69/-9, 2026-11-12 sync 반영(사용자 결정 adapt)
+
+팝아웃 URL의 `searchTeamId`는 검색 API 경로(`/teams/{teamId}/posts/search`)에 들어간다. 검증하지 않으면 `..%2Fusers%2F…` 같은 값으로 요청 경로를 바꿀 수 있다. 포크 팝아웃(spec 008, e3553e69dc)에도 같은 결함이 있었다. 수정 전 테스트 29건 중 16건이 실패했고, 수정 후 29건이 통과했다.
+
+**그대로 받은 것.** `utils/path.ts`의 `ID_PATH_REGEX` export, `rhs_search_popout.tsx`의 검증 2줄(빈 문자열이나 26자 소문자·숫자 ID만 쓰고, 나머지는 `null`로 보아 현재 팀으로 대체), 테스트의 `validSearchTeamId` 상수와 `'other-team'` 케이스 수정, 경계값 18개(search 모드).
+
+**버린 것.**
+
+| 위치 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `webapp/channels/src/utils/mention_search.ts` | 로컬 `CHANNEL_ID_REGEX`를 지우고 `ID_PATH_REGEX`를 쓴다 | 포크에 파일이 없다. f98944a8(#38976) adapt 때 멘션 필터 webapp을 버렸다(위 "최근 멘션 필터" 절) | 멘션 필터 webapp 수용 시 |
+| `rhs_search_popout.tsx` | `mentionFiltersFromSearchParams` import 문맥(충돌 원인) | 포크 팝아웃은 멘션 필터를 읽지 않는다 | 같음 |
+| `rhs_search_popout.test.tsx` | 경계값 18개를 mention 모드로도 돌려 `updateMentionFilters(defaultMentionFilters, expected)`를 확인한다. 멘션 필터 복원 테스트의 팀 id를 `validSearchTeamId`로 바꾼다 | `updateMentionFilters`·`defaultMentionFilters`가 포크에 없다. 테스트 목록을 search 모드 전용으로 줄이고 `// okrbest:` 주석을 달았다 | 같음 |
 
 ## YouTube 임베드 referrer 고정 — 콘솔 토글을 지우고 ko.json 고아 키 2개를 지웠다
 
