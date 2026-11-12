@@ -160,6 +160,7 @@
 | config-change-checker 기준점 (changelog 묶음) | [14e1f11f](https://github.com/mattermost/mattermost/commit/14e1f11f7e2d7aaeb24aa2fb4f4b864d987d848f) (#39685) | `check_config_changes_ci.py`·테스트·워크플로 1줄은 받았다. 같이 묶인 changelog 생성 자동화 3파일(제외한 53aaf6a4 계보)을 버렸다 — 아래 참조 |
 | 로그인 세션의 비활성·봇 거부 | [40d4abaa](https://github.com/mattermost/mattermost/commit/40d4abaa10aac26bfa5ae86e5993b2f6390ebff9) (#39251) | 코드는 그대로 받았다. 새 테스트 `TestCompleteOAuthDeactivatedUser`만 제외한 OIDC 계보(#38939)의 `OAuthAuthorization` 대신 포크 `CompleteOAuth(…, body, props, nil)` 시그니처로 고쳤다 — 아래 참조 |
 | 플러그인에서 서버 로그로 연결 | [0ab1ee51](https://github.com/mattermost/mattermost/commit/0ab1ee517228f811b828c62504ed5a03354fb65c) (#39694) | 링크·권한 판정·테스트·en.json은 받았다. 충돌 문맥의 Session Attributes import와 compass-ui `Button`·`Icon`·`Switch` import를 버리고 View logs를 포크 링크 버튼으로 만들었다 — 아래 참조 |
+| 게스트 웹소켓의 CPA 값 이벤트 거르기 | [e5fedb1a](https://github.com/mattermost/mattermost/commit/e5fedb1afe01aacfc661bc09607ae63b08eda130) (#37909) | CPA 경로·캐시 검사·SuiteIFace는 받았다. property 시스템 v2(제외한 48f2fd08)의 `WebsocketEventPropertyValuesUpdated` 경로와 그 테스트, 문맥으로 끌려온 api4 테스트 약 1276줄을 버렸다 — 아래 참조 |
 
 ---
 
@@ -5495,6 +5496,27 @@ merge-tree는 5건 충돌로 봤지만 실제 적용에서는 2건만 남았다(
 | `enable_plugin_button.test.tsx` "links to the plugin logs…" | `getByRole('switch', {name: 'Disable plugin'})` | `getByRole('button', …)` — 포크 `Toggle`은 `aria-pressed` 버튼이다. 같은 파일의 기존 테스트도 `button`으로 찾는다 | 같음 |
 
 **검증.** `custom_plugin_settings`·`plugin_management`·`server_logs`·`schema_admin_settings`·`admin_definition` jest 27 스위트 493건 통과(수정 전에는 위 `switch` 줄 1건 실패), 바뀐 두 파일 eslint 오류 0.
+
+## 게스트 웹소켓의 CPA 값 이벤트 거르기 — property 시스템 v2 경로를 버렸다
+
+**upstream**: [`e5fedb1a`](https://github.com/mattermost/mattermost/commit/e5fedb1afe01aacfc661bc09607ae63b08eda130)
+(MM-69954: Update websocket event handling for guest sessions, #37909) — 6파일 +647/-3, 2026-11-12 sync 반영(사용자 결정 adapt)
+
+게스트는 채널을 같이 쓰는 사용자만 볼 수 있다. 그런데 사용자 속성 값 이벤트를 `ShouldSendEventToGuest`가 거르지 않아, 게스트가 볼 수 없는 사용자의 CPA 값을 받았다. 포크에도 같은 노출이 있었다 — 아래 api4 테스트를 수정 전 `web_conn.go`로 돌리면 서브테스트 3개가 모두 "guest must not receive value events…"류로 실패하고, 수정 후 통과한다.
+
+**그대로 받은 것.** `platform/web_conn.go`의 `WebsocketEventCPAValuesUpdated` case(`user_id` 검증), `canSeeUserCached`(연결 사용자의 `ViewUsersRestrictions`를 30초 캐시하고 채널 멤버십을 메모리에서 비교, 팀 단위 가시성이면 `UserCanSeeOtherUser`로 위임), `sharesChannel`, 캐시 필드와 `InvalidateCache` 초기화, `web_hub.go`의 `SuiteIFace.GetViewUsersRestrictions`(구현은 포크 `app/user.go`에 이미 있다), mock·`helper_test.go`, `web_conn_test.go`의 CPA·캐시 테스트(`TestWebConnCanSeeUserCached` 전체).
+
+**버리거나 바꾼 것.**
+
+| 위치 | upstream 변경 | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `web_conn.go` `ShouldSendEventToGuest` | `WebsocketEventPropertyValuesUpdated` case — `object_type`이 user일 때 `target_id`로 같은 검사, 그 밖의 object type은 통과, 필드 전체 초기화 이벤트는 통과 | `WebsocketEventPropertyValuesUpdated`·`PropertyFieldObjectType*`는 property 시스템 v2(제외한 48f2fd08 계보)의 식별자라 포크 model에 없다(받으면 컴파일 실패). 포크는 그 이벤트를 발행하지 않는다. `// okrbest:` 주석 | property 시스템 v2 수용 시 |
+| `web_conn.go` | `isPropertyFieldValuesClearedEvent` 헬퍼 | 위 case 전용 | 같음 |
+| `web_conn_test.go` `TestWebConnShouldSendEventToGuest` | `propertyEvent`·`fieldClearedEvent` 헬퍼와 서브테스트 6개 | 같음. CPA 서브테스트 3개와 "unrelated events"는 남겼다 | 같음 |
+| `api4/custom_profile_attributes_test.go` `TestCPAValuesWebSocketEventsForGuests` | 값 하나를 바꿀 때 CPA·property v2 이벤트 2개를 기대(`len(...) == 2`), "guest receives field-wide value clears" 서브테스트 | CPA 이벤트 1개만 기대하도록 세는 방식을 바꾸고 field-wide 서브테스트를 뺐다. 파일 상단 import에 `assert`를 더했다 | 같음 |
+| 같은 파일 | 3-way 병합이 끌어온 upstream CPA 테스트 약 1276줄(`TestPatchCPAValuesForBotTarget` 등) | 이 커밋의 변경이 아니라 제외 계보 테스트가 hunk 문맥에 걸린 것이다(우리 쪽 파일을 유지) | — |
+
+**검증.** `platform` 패키지 전체, `TestCPAValuesWebSocketEventsForGuests` 3 서브테스트 통과, `go vet` 통과.
 
 ## YouTube 임베드 referrer 고정 — 콘솔 토글을 지우고 ko.json 고아 키 2개를 지웠다
 
