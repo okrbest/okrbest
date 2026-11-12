@@ -13,6 +13,7 @@ import (
 
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -1261,5 +1262,148 @@ func TestPatchCPAValuesForUser(t *testing.T) {
 			require.Equal(t, "Admin Managed Batch", managedValue)
 			require.Equal(t, "Admin Regular Batch", regularValue)
 		}, "batch update with managed fields succeeds for admin")
+	})
+}
+
+// okrbest: upstream also expects WebsocketEventPropertyValuesUpdated (property system v2,
+// excluded 48f2fd08 lineage) next to each CPA event, and a field-wide clear subtest built on
+// it. The fork publishes only the CPA event, so each value change is one event here.
+func TestCPAValuesWebSocketEventsForGuests(t *testing.T) {
+	mainHelper.Parallel(t)
+
+	th := Setup(t).InitBasic(t)
+	th.App.Srv().SetLicense(model.NewTestLicenseSKU(model.LicenseShortSkuEnterprise))
+	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.GuestAccountsSettings.Enable = true })
+
+	textField, resp, err := th.SystemAdminClient.CreateCPAField(context.Background(), &model.PropertyField{
+		Name: celSafeName(),
+		Type: model.PropertyFieldTypeText,
+	})
+	CheckCreatedStatus(t, resp)
+	require.NoError(t, err)
+
+	// The guest shares the basic team and channels with BasicUser, but no team
+	// or channel with otherUser.
+	guest, guestClient := th.CreateGuestAndClient(t)
+	otherUser := th.CreateUser(t)
+	guestWS := th.CreateConnectedWebSocketClientWithClient(t, guestClient)
+
+	patchValue := func(userID string) {
+		t.Helper()
+		_, resp, err := th.SystemAdminClient.PatchCPAValuesForUser(context.Background(), userID, map[string]json.RawMessage{
+			textField.ID: json.RawMessage(`"` + model.NewId() + `"`),
+		})
+		CheckOKStatus(t, resp)
+		require.NoError(t, err)
+	}
+
+	// eventUserID returns the user a CPA values event is about.
+	eventUserID := func(event *model.WebSocketEvent) string {
+		if event.EventType() != model.WebsocketEventCPAValuesUpdated {
+			return ""
+		}
+		userID, _ := event.GetData()["user_id"].(string)
+		return userID
+	}
+
+	t.Run("guest only receives value events for users it can see", func(t *testing.T) {
+		patchValue(otherUser.Id)
+		patchValue(th.BasicUser.Id)
+		patchValue(guest.Id)
+
+		// Events reach a connection in publish order, so once the event for
+		// the guest's own values arrives, any event for otherUser would have too.
+		received := map[string]int{}
+		require.Eventually(t, func() bool {
+			for {
+				select {
+				case event := <-guestWS.EventChannel:
+					if userID := eventUserID(event); userID != "" {
+						received[userID]++
+					}
+				default:
+					return received[guest.Id] == 1
+				}
+			}
+		}, 5*time.Second, 100*time.Millisecond)
+
+		assert.Zero(t, received[otherUser.Id], "guest must not receive value events for a user it cannot see")
+		assert.Equal(t, 1, received[th.BasicUser.Id], "guest should receive the value event for a user it can see")
+	})
+
+	t.Run("guest stops receiving value events once it loses the shared channels", func(t *testing.T) {
+		for _, channel := range []*model.Channel{th.BasicChannel, th.BasicPrivateChannel} {
+			resp, err := th.SystemAdminClient.RemoveUserFromChannel(context.Background(), channel.Id, guest.Id)
+			CheckOKStatus(t, resp)
+			require.NoError(t, err)
+		}
+
+		patchValue(th.BasicUser.Id)
+		patchValue(guest.Id)
+
+		sawOwn := false
+		require.Eventually(t, func() bool {
+			for {
+				select {
+				case event := <-guestWS.EventChannel:
+					switch eventUserID(event) {
+					case th.BasicUser.Id:
+						require.Fail(t, "guest received a value event for a user it no longer shares a channel with")
+					case guest.Id:
+						sawOwn = true
+					}
+				default:
+					return sawOwn
+				}
+			}
+		}, 5*time.Second, 100*time.Millisecond)
+	})
+
+	t.Run("guest stops receiving value events once the target user leaves the shared channels", func(t *testing.T) {
+		otherGuest, otherGuestClient := th.CreateGuestAndClient(t)
+		otherGuestWS := th.CreateConnectedWebSocketClientWithClient(t, otherGuestClient)
+
+		// Wait for the event so none is left over to be mistaken for a
+		// post-revocation event.
+		patchValue(th.BasicUser.Id)
+		receivedBefore := false
+		require.Eventually(t, func() bool {
+			for {
+				select {
+				case event := <-otherGuestWS.EventChannel:
+					if eventUserID(event) == th.BasicUser.Id {
+						receivedBefore = true
+					}
+				default:
+					return receivedBefore
+				}
+			}
+		}, 5*time.Second, 100*time.Millisecond, "guest should receive the value event for a user sharing its channels")
+
+		for _, channel := range []*model.Channel{th.BasicChannel, th.BasicPrivateChannel} {
+			resp, err := th.SystemAdminClient.RemoveUserFromChannel(context.Background(), channel.Id, th.BasicUser.Id)
+			CheckOKStatus(t, resp)
+			require.NoError(t, err)
+		}
+
+		patchValue(th.BasicUser.Id)
+		patchValue(otherGuest.Id)
+
+		sawOwn := false
+		require.Eventually(t, func() bool {
+			for {
+				select {
+				case event := <-otherGuestWS.EventChannel:
+					switch eventUserID(event) {
+					case th.BasicUser.Id:
+						require.Fail(t, "guest received a value event for a user that left the shared channels")
+					case otherGuest.Id:
+						sawOwn = true
+					}
+				default:
+					return sawOwn
+				}
+			}
+		}, 5*time.Second, 100*time.Millisecond)
 	})
 }
