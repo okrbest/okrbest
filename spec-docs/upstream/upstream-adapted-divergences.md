@@ -5732,3 +5732,39 @@ release tarball, #38957)는 `docs/` 부분(`docs/scripts/build-offline-bundle.py
 **후속 과제.** 본문의 `docs.mattermost.com` 절대 링크 2,034개·`forum.mattermost.com` 132개·
 `developers.mattermost.com` 22개 처리(바꾸면 이후 본문 커밋이 adapt가 된다), `okrbest/okrbest-docs`(Sphinx)
 보관, 위 리브랜딩 과제. 지시문 §10. 진행 상황은 `spec-docs/upstream/docs-site-followups.md`에서 추적한다.
+
+## Cypress 의존성 갱신 — 포크에 남긴 S3·리포트 의존 6개를 지키고 lock은 upstream에 이식했다
+
+**upstream**: [`8718ca0a`](https://github.com/mattermost/mattermost/commit/8718ca0ac356f027eb9b3b3cf23be437e7c42cfc)
+(chore(e2e): upgrade Cypress dependencies, #39914) — 3파일 +235/-443, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+`package.json`·`package-lock.json`에서 merge-tree CONFLICT가 났다. 원인은 하나다. upstream은
+[`bd0d8866`](https://github.com/mattermost/mattermost/commit/bd0d8866d623e77e48b36befca1ba66e0372c54f)(#37413)에서
+S3 리포트 업로드와 그 의존을 지웠다. 우리는 그 커밋을 exclude해서 `e2e-tests/cypress/utils/artifacts.js`와 의존이 남아 있다.
+
+**그대로 받은 것.**
+
+- 직접 의존 6개 제거: `@cypress/request`, `@types/lodash`, `chai`, `jiti`, `mime`, `mocha-multi-reporters`.
+  포크에서도 쓰지 않는다. `chai`는 Cypress가 전역으로 주므로 `tests/support/chai.ts`에 import가 없고,
+  리포터는 `cypress-multi-reporters`를 쓴다
+- 버전 갱신 전부: cypress 15.20.1→15.21.1, axios 1.19.0→1.21.1, express 5.2.1→5.3.0(proxy-addr critical 권고 해소),
+  eslint·globals·mochawesome·pg·uuid·yargs 등
+- `e2e-tests/.ci/server.generate.sh`의 `cypress/browsers` 이미지 태그(node-24.22.1·chrome-156)
+
+**고친 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `e2e-tests/cypress/package.json` | `@aws-sdk/client-s3`·`@aws-sdk/lib-storage`·`async`·`@types/async`·`recursive-readdir`·`@types/recursive-readdir`가 없다 | 6줄을 기존 버전 그대로 남겼다(`artifacts.js`가 쓴다) | bd0d8866의 S3 제거를 받거나 별도 정리 과제로 지울 때 같이 지운다 |
+| `e2e-tests/cypress/package-lock.json` | upstream 재생성본 | upstream lock을 출발점으로 삼고, 기존 lock에서 포크 고유 항목 44개(AWS SDK·smithy 계열, async, recursive-readdir 등)를 버전 그대로 이식한 뒤 `npm install --package-lock-only`를 안정될 때까지(2회) 돌렸다. upstream에 있는 항목은 전부 upstream과 바이트 단위로 같다. 새로 생긴 것은 `@aws-sdk/lib-storage/node_modules/buffer@5.6.0` 하나다(루트 `buffer`가 5.7.1로 올라가 lib-storage의 고정 버전을 중첩 설치) | 위와 같다 |
+
+기존 lock 위에서 바로 재생성하는 방법은 버렸다. npm이 기존 전이 의존 버전(@babel·acorn·body-parser 등 30여 개)을 그대로 붙잡아
+upstream lock과 어긋났기 때문이다. upstream lock만으로 재생성하면 AWS SDK 전이 의존이 새로 풀려
+(`@smithy/core` 3.26→3.40 등) 이번 커밋 범위 밖의 변경이 섞였다.
+
+**검증(2026-11-16, Node v24).**
+
+- `CYPRESS_INSTALL_BINARY=0 npm ci --ignore-scripts` 성공
+- `npm run check`(eslint) 오류 0, 경고 5(기존 max-lines)
+- `npm run check-types` 오류 10건. master 의존성으로 같은 디렉터리에서 다시 재도 같은 10건이 나온다(diff 0, 기준선)
+- `npm audit`에 critical 없음(low 8·moderate 4·high 2)
