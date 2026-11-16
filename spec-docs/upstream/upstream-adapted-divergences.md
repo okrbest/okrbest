@@ -6048,3 +6048,28 @@ CI `i18n-check-empty`는 webapp 카탈로그만 보므로 막히지 않는다. �
 | 위치 | upstream | 포크 | 되살릴 조건 |
 |---|---|---|---|
 | `.github/workflows/docs-editor-review-label.yml` `on.pull_request.paths` | `docs/**`(site·vendor 제외) → `docs/main/**`·`gen-documentation-sidebar.mjs`·`sidebars/documentation.ts` | 자동 트리거를 주석으로 꺼 둔 상태라 주석 블록 안 목록을 새 값으로 바꿨다. 포크가 더한 `workflow_dispatch`는 유지 | 트리거 복원 시 주석을 푼다 |
+
+## 번역 서버 링크 제거 — 포크 콘솔 구조에 맞춰 옮기고 ko.json 고아 키 2개를 지웠다
+
+**upstream**: [`5bb4671a`](https://github.com/mattermost/mattermost/commit/5bb4671a26106b22175b3716af08f9a842845fca)
+([MM-71873] Remove translate.mattermost.com links from webapp, #40023) — 5파일 +13/-39, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+포크는 문구를 "OKR.BEST Translation Server"로 리브랜드했지만 링크는 `translate.mattermost.com`(운영 중단)을 가리키고 있었다. upstream처럼 지웠다.
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `admin_console/localization/localization.tsx` | compass `AdminPanel` 구조로 바뀐 파일에서 문구·링크 제거 | 포크는 `SectionHeader`·`SectionContent` 구조를 유지한다(3-way 문맥의 AdminPanel은 받지 않았다). 이 커밋 변경만 옮겼다 — 메시지 id `availableLocalesDescription` → `availableLocalesHelpText`, 문구 끝 번역 서버 문장 삭제, `link` value·`ExternalLink` import 삭제 | — |
+| `manage_languages.tsx`·`en.json` | 문장·링크·키 삭제 | 포크 리브랜드 문자열 때문에 충돌했을 뿐 삭제 대상은 같다. upstream대로 지웠다 | — |
+| `manage_languages.test.tsx` | 새 테스트가 "Select which language Mattermost displays…"를 찾는다 | 포크 문구 "Select which language OKR.BEST displays…"로 바꿨다(`// okrbest:` 주석) | — |
+| `webapp/channels/src/i18n/ko.json` | (upstream은 ko를 건드리지 않는다) | en에서 빠진 키 2개를 지웠다. 그대로 두면 orphaned로 `i18n-check-empty`가 CI에서 실패한다. 새 키 `availableLocalesHelpText` 번역은 후속 작업 | 번역 서버 안내를 되살릴 때 아래 번역을 다시 쓴다 |
+
+**지운 `ko.json` 번역**
+
+| 키 | 지운 번역 |
+|---|---|
+| `admin.general.localization.availableLocalesDescription` | `<strong>설정 > 표시 > 언어</strong>`에서 사용할 언어를 설정합니다(지원되는 모든 언어를 사용하려면 비워두세요.) 새 언어를 수동으로 추가하는 경우에는 이 설정을 저장하기 전에 `<strong>기본 클라이언트 언어</strong>`를 추가해야 합니다.\n\n번역을 도와주시겠어요? `<link>OKR.BEST Translation Server</link>`에 가입한 후 기여해 주세요. |
+| `user.settings.languages.promote2` | 번역에 도움을 주고 싶으신가요? `<link>OKR.BEST 번역 서버</link>`에 참여하여 기여하세요. |
+
+**지운 포크 문구**(`manage_languages.tsx`): `Would you like to help with translations? Join the <link>OKR.BEST Translation Server</link> to contribute.` (링크 `http://translate.mattermost.com`)
+
+**검증(2026-11-16, /tmp worktree).** jest `manage_languages`·`localization` 2 스위트 7건 통과, `i18n-check-empty` 통과, eslint 문제 0, `check-types` 기준선과 같다.
