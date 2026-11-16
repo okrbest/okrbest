@@ -5941,3 +5941,17 @@ redux 액션·리듀서·셀렉터와 테스트, `client4.ts`(AbortSignal), `@ma
     </div>
 )}
 ```
+
+## Membership Policies 목록 검색 e2e — 페이지 객체 locator를 포크 마크업에 맞췄다
+
+**upstream**: [`db408425`](https://github.com/mattermost/mattermost/commit/db408425b40f6843c87b64ac3e8af52396ad6783)
+(fix(e2e): search the Membership Policies list instead of assuming page 1, #39875) — 4파일 +51/-6, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+**그대로 받은 것.** `apostrophe_values.spec.ts`의 `searchPolicy` 사용, 새 페이지 객체 `system_attributes/membership_policies.ts`(locator 하나 빼고),
+`system_console.ts`의 `membershipPolicies` 등록 3줄.
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `membership_policies.ts` `container` | `getByRole('region', {name: 'Membership Policies', exact: true})` | `locator('.PolicyTable')`. `// okrbest:` 주석. upstream `policies.tsx`는 compass `AdminPanel`이 region을 만들지만, 포크 `policies.tsx`는 compass-ui를 빼고 `<div className='PolicyTable'>`·`<h1>` 구조라 그 region이 없다. 검색 입력(placeholder `Search`)은 포크 `DataGrid`에도 있어 그대로 맞는다 | compass-ui `AdminPanel` 수용 시 |
+| `system_console.ts` | 충돌 문맥에 `SessionAttributes`·`BoardAttributes`·`GlobalAttributes` import·필드가 함께 온다 | 받지 않았다. 제외한 property v2 계보(Global/Board Attributes, Session Attributes)의 페이지 객체다 | 그 계보 수용 시 |
+| `specs/functional/system_console/abac/policies/ranked_operators.spec.ts` | 같은 `searchPolicy` 교체 | 파일이 포크에 없다(rank 속성 계보 제외) | rank 속성 계보 수용 시 |
