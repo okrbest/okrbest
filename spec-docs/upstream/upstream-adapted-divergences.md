@@ -5829,3 +5829,16 @@ prop 추가, Playwright `post_dot_menu.ts` `quoteMenuItem`, `intro_channel.spec.
 | `post_dot_menu_quote.spec.ts` | `WYSIWYG editor` describe(테스트 1개)와 `setWysiwygUserPreference`·`WysiwygEditor` import | 포크 Playwright lib에 없다. 선택 영역 인용 스펙도 같은 블록을 버렸다 | TipTap 수용 시 |
 
 `ko.json`의 `post_info.quote` 번역은 이 커밋에서 넣지 않았다(sync i18n 예외, 세션 마감 보고에 올린다).
+
+## 로그인 활성 검사의 error 전환 — scoped import 테스트 파일 hunk를 버렸다
+
+**upstream**: [`c83f84c1`](https://github.com/mattermost/mattermost/commit/c83f84c1aa34fcad50febc8faa907665a7e79b9e)
+(drip: AppError -> error: user active check, #39962) — 3파일 +9/-9, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+`authentication.go`·`login.go`는 그대로 받았다. `checkUserNotDisabled`가 `error`를 돌려주고 호출부 4곳이 `model.AsAppError`로 감싼다.
+
+**버린 것.**
+
+| 위치 | upstream | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `server/channels/app/import_imported_users_test.go` | `TestScopedImportImportedUsersActive`·`Inactive`의 `assert.Nil`/`NotNil` → `assert.NoError`/`Error` 2줄 | 파일이 포크에 없다. scoped import 계보(41c482b4, spec 전환)가 만든 파일이다 | 그 spec을 구현해 파일을 들일 때 `error` 반환에 맞춰 이 단언을 쓴다 |
