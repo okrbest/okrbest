@@ -5971,3 +5971,17 @@ detail의 `session_id`·`remote_id`·`token_id`·`user_id`, `web_conn.go` `sessi
 
 **i18n.** server `ko.json`의 `api.context.invalid_token.error`("유효하지 않은 세션 토큰={{.Token}}, err={{.Error}}")가 orphaned가 된다.
 CI `i18n-check-empty`는 webapp 카탈로그만 보므로 막히지 않는다. 새 키 `api.context.invalid_session.error` 번역과 함께 sync 예외 규칙대로 후속 작업으로 넘겼다.
+
+## Calls 가이드 링크·오프라인 번들 모양 검사 — 꺼 둔 Docs CI 트리거에는 주석으로만 경로를 더했다
+
+**upstream**: [`75dd22f3`](https://github.com/mattermost/mattermost/commit/75dd22f30ce352a1b13f161bba66d48e2f78134d)
+(docs: fix Calls deployment guide links that break the offline docs build, #39990) — 2파일 +13/-8, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+`calls-deployment-guide.mdx` 링크 6개, `docs-ci.yaml`의 egress 재빌드 `BASE_URL: /_documentation/`·단계 이름·주석은 그대로 받았다.
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `.github/workflows/docs-ci.yaml` `on.pull_request.paths`·`on.push.paths` | `".github/workflows/docs-ci.yaml"` 추가 | 포크는 자동 트리거를 주석으로 꺼 두었다(문서 사이트 계보 복원 절). 주석 블록 안 두 `paths` 목록에 같은 줄을 넣어, 트리거를 되살리면 upstream과 같아지게 했다 | 트리거 복원 시 주석을 푼다 |
+
+**검증(2026-11-16).** `BASE_URL=/_documentation/ DOCUSAURUS_SSR_CONCURRENCY=2 npm run build` 성공. 깨진 링크 경고는 property-system 2개(기존,
+`onBrokenLinks: 'warn'` 사유)뿐이다. `npm run check:egress` "3346 html, 1 css, 1349 js, 0 external loads".
