@@ -5985,3 +5985,55 @@ CI `i18n-check-empty`는 webapp 카탈로그만 보므로 막히지 않는다. �
 
 **검증(2026-11-16).** `BASE_URL=/_documentation/ DOCUSAURUS_SSR_CONCURRENCY=2 npm run build` 성공. 깨진 링크 경고는 property-system 2개(기존,
 `onBrokenLinks: 'warn'` 사유)뿐이다. `npm run check:egress` "3346 html, 1 css, 1349 js, 0 external loads".
+
+## webapp 스냅샷 테스트 전면 제거 — 충돌 31파일은 포크 테스트를 지키고 스냅샷만 걷어냈다
+
+**upstream**: [`cdd96ece`](https://github.com/mattermost/mattermost/commit/cdd96ece41a21f1880f3e877d1abb2eba950187e)
+(Remove all webapp snapshot tests, #39970) — 807파일 +541/-217310, 2026-11-16 sync 반영(사용자 결정 adapt). 포크 결과 802파일 +706/-185285.
+
+**그대로 받은 것.** 충돌 없는 파일 전부(스냅샷 단언·스냅샷 전용 케이스 삭제, 이름 바꾸기, 단언 채우기), ESLint `no-restricted-properties`
+스냅샷 matcher 금지(`webapp/channels`·`platform/components`·`platform/shared` eslint config), `test:updatesnapshot` 스크립트·jest
+`snapshotFormat` 제거, `react_testing_utils.tsx`·테스트 문서 정리.
+
+**충돌 해소 원칙.**
+
+- modify/delete 218건(217건 `.snap`, 포크 스냅샷이 리브랜드·포크 UI로 달랐다. 나머지 1건은 upstream이 빈 파일이 되어 지운 `search_results/files_filter_menu.test.tsx`): upstream대로 지웠다.
+- deleted in HEAD 1건(`widgets/modals/components/checkbox_setting_item.test.tsx`, 포크가 이미 지운 테스트): 지운 상태를 유지했다.
+- 내용 충돌 31건: 포크 테스트 내용(포크 전용 테스트·한국어 이름·리브랜드 문자열·포크 UI 단언)을 지키고 upstream 규칙대로 스냅샷 단언과
+  스냅샷 전용 케이스만 걷어냈다. upstream이 스냅샷 대신 넣은 동작 단언은 포크 컴포넌트에서 참일 때만 받았다. 충돌 문맥으로 끼어든 제외 계보
+  테스트(boards `channelKind`, `ChannelIconOverride`, Session Attributes, Compass AdminPanel·Checkbox·Switch, mention filters, managed category,
+  imported inactive 태그 등)는 받지 않았다.
+- 테스트가 하나도 안 남아 빈 스위트가 되는 파일(jest가 실패한다)은 포크 동작에서 참인 테스트를 하나 남기거나 옮겨 썼다. 단, `user_profile.test.tsx`는
+  upstream처럼 지웠다(포크 테스트 5개가 모두 스냅샷 전용, upstream 대체 테스트는 포크에 없는 imported inactive 태그 검사).
+
+**포크 쪽으로 판단한 곳**(받지 않은 upstream 대체 테스트, 또는 포크 동작에 맞춰 옮겨 쓴 테스트)
+
+| 파일(`webapp/channels/src/components/` 아래) | 포크 처리 |
+|---|---|
+| `admin_console/admin_sidebar` | Session Attributes 순서 테스트 버림(섹션 없음). 포크 Site health·Workspace Optimization 테스트 유지 |
+| `admin_console/team_channel_settings/channel/details/channel_details` | session attributes 제외 테스트 버림. 빈 스위트 방지로 "should render channel configuration with members section" 새로 씀 |
+| `admin_console/team_channel_settings/team/details/team_modes` | upstream "omits separator…" 유지, "keeps separator … when ABAC row follows" 버림(e3d074ff Compass Switch 계보, 포크는 `last={syncChecked}`). e3d074ff 수용 시 다시 충돌한다 |
+| `suggestion/search_channel_suggestion` | plugin override 아이콘 테스트 버림. fallback 테스트를 "should render globe icon for open channel"로 옮겨 씀 |
+| `post_view/post_add_channel_member`, `post_view/combined_system_message`, `channel_view`, `edit_channel_purpose_modal` | board 관련 테스트 버림(boards 계보 없음) |
+| `channel_selector_modal` | `ChannelIconOverride` 테스트 3개 버림 |
+| `card` | `disableExpandAnimation` 테스트 2개 버림. 빈 스위트 방지로 upstream `transitionend` 테스트 유지(포크 `card_body.tsx`에 같은 동작) |
+| `channel_invite_modal/team_warning_banner` | board 문구 테스트를 채널 문구 테스트로 옮겨 씀 |
+| `admin_console/license_settings` | Compass panel-card·banner 테스트 2개 버림(13ce8add) |
+| `sidebar/sidebar_category` | upstream "Favorites category should not render" 거부(포크 Slack식 사이드바는 반대로 보여 준다) |
+| `admin_console/data_retention_settings/global_policy_form` | `#global_policy.AdminPanel` 단언 버림(포크 마크업은 `className='global_policy'`) |
+| `channel_header` | 스냅샷 전용 13개 삭제. pin·files·members 활성 상태, files 비활성, board 테스트 버림(포크에 Pin·Files 버튼 없음). 포크 "우측 운영 아이콘(US2)" 블록 유지 |
+| `admin_console/access_control/policy_details/channel_list` | Compass Checkbox 전제(`data-testid`·`aria-checked`) 테스트 2개를 포크 체크박스(`id`·`indeterminate`·`toBeChecked`)로 옮겨 씀 |
+| `global_header/center_controls/global_search_nav` | mention filters 전제 테스트를 포크 동작("opens mentions when another view is showing")으로 옮겨 씀 |
+| `sidebar/sidebar_channel/sidebar_channel_menu` | managed category 테스트 버림(`isChannelInManagedCategory` 없음) |
+| `widgets/admin_console/admin_panel_togglable` | Compass collapse 클래스 단언을 포크 `closed` 클래스 기준으로 옮겨 씀 |
+| `sidebar/channel_filter` | 포크 쪽 그대로(Slack식 "Filter" 드롭다운 테스트). upstream `.SidebarFilters_filterButton` 토글 테스트는 포크 UI에 맞지 않는다 |
+| `admin_console/group_settings/group_details/group_profile_and_settings` | 포크 문자열 "Enable Group Mention"(단수) 유지 |
+
+**검증(2026-11-16, /tmp worktree, 변경 전 HEAD를 별도 worktree에서 같은 파일 집합으로 측정).**
+
+- 스냅샷 matcher(`toMatchSnapshot`·`toMatchInlineSnapshot`·`toThrowErrorMatching*`)·충돌 마커·`__snapshots__` 디렉터리 0건
+- jest(수정·충돌 테스트 299 스위트): 변경 전 3222건 중 실패 16 → 변경 후 2566건 중 실패 4. 새 실패 0. 남은 4건은 `about_build_modal`의
+  기존 실패(리브랜드 문자열 "Mattermost Entry"·"Mattermost Team Edition" 불일치)로, 그중 3건은 upstream이 이름만 "should render for … edition"으로 바꿨다.
+  사라진 12건은 `sidebar_channel_menu` 10건(실패 원인이 스냅샷 단언이었다)·`custom_terms_of_service_settings`·`invite_members` 스냅샷 단언이다
+- `platform/components` 수정 테스트 2 스위트 통과
+- channels eslint 오류 106건(기준선과 diff 0, 새 `no-restricted-properties` 위반 0), `platform/components`·`shared` eslint 개수 기준선과 같음, `check-types` 기준선과 같음

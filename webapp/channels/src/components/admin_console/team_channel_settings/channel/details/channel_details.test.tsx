@@ -7,7 +7,7 @@ import type {Channel} from '@mattermost/types/channels';
 import type {Group} from '@mattermost/types/groups';
 import type {Scheme} from '@mattermost/types/schemes';
 
-import {renderWithContext} from 'tests/react_testing_utils';
+import {renderWithContext, screen} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
 import ChannelDetails from './channel_details';
@@ -116,18 +116,8 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
         getProfilesByIds: jest.fn().mockResolvedValue({data: []}),
     };
 
-    test('should match snapshot', () => {
-        const additionalProps = {
-            channelPermissions: [],
-            guestAccountsEnabled: true,
-            channelModerationEnabled: true,
-            channelGroupsEnabled: true,
-            abacSupported: true,
-            isDisabled: false,
-        };
-
-        let container;
-        ({container} = renderWithContext(
+    test('should render channel configuration with members section', () => {
+        renderWithContext(
             <ChannelDetails
                 teamScheme={teamScheme}
                 groups={groups}
@@ -137,107 +127,16 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
                 channel={testChannel}
                 channelID={testChannel.id}
                 allGroups={allGroups}
-                {...additionalProps}
+                channelPermissions={[]}
+                guestAccountsEnabled={true}
+                channelModerationEnabled={true}
+                channelGroupsEnabled={true}
+                abacSupported={true}
+                isDisabled={false}
             />,
-        ));
-        expect(container).toMatchSnapshot();
+        );
 
-        ({container} = renderWithContext(
-            <ChannelDetails
-                teamScheme={teamScheme}
-                groups={groups}
-                team={undefined}
-                totalGroups={groups.length}
-                actions={actions}
-                channel={testChannel}
-                channelID={testChannel.id}
-                allGroups={allGroups}
-                {...additionalProps}
-            />,
-        ));
-        expect(container).toMatchSnapshot();
-    });
-    test('should match snapshot for Professional', () => {
-        const additionalProps = {
-            channelPermissions: [],
-            guestAccountsEnabled: true,
-            channelModerationEnabled: true,
-            channelGroupsEnabled: false,
-            isDisabled: false,
-            abacSupported: false,
-        };
-
-        let container;
-        ({container} = renderWithContext(
-            <ChannelDetails
-                teamScheme={teamScheme}
-                groups={groups}
-                team={team}
-                totalGroups={groups.length}
-                actions={actions}
-                channel={testChannel}
-                channelID={testChannel.id}
-                allGroups={allGroups}
-                {...additionalProps}
-            />,
-        ));
-        expect(container).toMatchSnapshot();
-
-        ({container} = renderWithContext(
-            <ChannelDetails
-                teamScheme={teamScheme}
-                groups={groups}
-                team={undefined}
-                totalGroups={groups.length}
-                actions={actions}
-                channel={testChannel}
-                channelID={testChannel.id}
-                allGroups={allGroups}
-                {...additionalProps}
-            />,
-        ));
-        expect(container).toMatchSnapshot();
-    });
-
-    test('should match snapshot for Enterprise', () => {
-        const additionalProps = {
-            channelPermissions: [],
-            guestAccountsEnabled: true,
-            channelModerationEnabled: true,
-            channelGroupsEnabled: false,
-            isDisabled: false,
-            abacSupported: true,
-        };
-
-        let container;
-        ({container} = renderWithContext(
-            <ChannelDetails
-                teamScheme={teamScheme}
-                groups={groups}
-                team={team}
-                totalGroups={groups.length}
-                actions={actions}
-                channel={testChannel}
-                channelID={testChannel.id}
-                allGroups={allGroups}
-                {...additionalProps}
-            />,
-        ));
-        expect(container).toMatchSnapshot();
-
-        ({container} = renderWithContext(
-            <ChannelDetails
-                teamScheme={teamScheme}
-                groups={groups}
-                team={undefined}
-                totalGroups={groups.length}
-                actions={actions}
-                channel={testChannel}
-                channelID={testChannel.id}
-                allGroups={allGroups}
-                {...additionalProps}
-            />,
-        ));
-        expect(container).toMatchSnapshot();
+        expect(screen.getByText('Channel Configuration')).toBeInTheDocument();
+        expect(screen.getByText('ChannelMembers')).toBeInTheDocument();
     });
 });

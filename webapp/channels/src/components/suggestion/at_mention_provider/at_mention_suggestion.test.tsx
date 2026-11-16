@@ -48,8 +48,6 @@ describe('at mention suggestion', () => {
             />,
         );
 
-        expect(container).toMatchSnapshot();
-
         const ellipsis = container.querySelector('.suggestion-list__ellipsis');
         expect(ellipsis?.textContent).toContain('@c');
         expect(ellipsis?.textContent).toContain('(you)');
@@ -63,8 +61,6 @@ describe('at mention suggestion', () => {
                 item={userid2}
             />,
         );
-
-        expect(container).toMatchSnapshot();
 
         const ellipsis = container.querySelector('.suggestion-list__ellipsis');
         expect(ellipsis?.textContent).toBe('@c');

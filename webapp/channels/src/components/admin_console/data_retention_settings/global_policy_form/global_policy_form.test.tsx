@@ -27,12 +27,11 @@ describe('components/PluginManagement', () => {
         },
     };
 
-    test('should match snapshot', () => {
+    test('should render', () => {
         const props = {...defaultProps};
-        const {container} = renderWithContext(<GlobalPolicyForm {...props}/>);
+        renderWithContext(<GlobalPolicyForm {...props}/>);
 
         expect(screen.getByText('Global Retention Policy')).toBeInTheDocument();
         expect(screen.getByText('Applies to all teams and channels, but does not apply to custom retention policies.')).toBeInTheDocument();
-        expect(container).toMatchSnapshot();
     });
 });

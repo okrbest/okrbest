@@ -5,7 +5,7 @@ import React from 'react';
 
 import type {ChannelWithTeamData} from '@mattermost/types/channels';
 
-import {renderWithContext} from 'tests/react_testing_utils';
+import {fireEvent, renderWithContext, screen, waitFor} from 'tests/react_testing_utils';
 
 import ChannelList from './channel_list';
 
@@ -16,6 +16,24 @@ describe('components/admin_console/access_control/channel_list', () => {
     const mockOnRemoveCallback = jest.fn();
     const mockOnUndoRemoveCallback = jest.fn();
     const mockOnAddCallback = jest.fn();
+    const mockOnPolicyActiveStatusChange = jest.fn();
+
+    const channel1 = {
+        id: 'channel1',
+        name: 'channel1',
+        display_name: 'Channel 1',
+        team_display_name: 'Team 1',
+        type: 'O',
+        policy_auto_add: true,
+    } as ChannelWithTeamData;
+    const channel2 = {
+        id: 'channel2',
+        name: 'channel2',
+        display_name: 'Channel 2',
+        team_display_name: 'Team 2',
+        type: 'P',
+        policy_auto_add: false,
+    } as ChannelWithTeamData;
 
     const defaultProps = {
         channels: [],
@@ -28,6 +46,7 @@ describe('components/admin_console/access_control/channel_list', () => {
         onAddCallback: mockOnAddCallback,
         channelsToRemove: {},
         channelsToAdd: {},
+        onPolicyActiveStatusChange: mockOnPolicyActiveStatusChange,
         actions: {
             searchChannels: jest.fn().mockResolvedValue({
                 data: {
@@ -49,61 +68,52 @@ describe('components/admin_console/access_control/channel_list', () => {
         mockOnRemoveCallback.mockReset();
         mockOnUndoRemoveCallback.mockReset();
         mockOnAddCallback.mockReset();
+        mockOnPolicyActiveStatusChange.mockReset();
     });
 
-    test('should match snapshot with no channels', () => {
-        // The Filter component has an existing prop type issue with TeamFilterDropdown
-        // that only surfaces during full rendering (not shallow). Suppress for this test.
-        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
+    // 포크는 Compass Checkbox 전환을 제외해 네이티브 체크박스를 쓴다 — data-testid 대신 id로 찾는다
+    test('should render header checkbox with stable id and indeterminate when auto-add is mixed', async () => {
         const props = {
             ...defaultProps,
-            channels: [],
-            totalCount: 0,
-            policyId: '',
-        };
-        try {
-            const {container} = renderWithContext(<ChannelList {...props}/>);
-            expect(container).toMatchSnapshot();
-        } finally {
-            errorSpy.mockRestore();
-        }
-    });
-
-    test('should match snapshot with channels', () => {
-        const props = {
-            ...defaultProps,
+            channels: [channel1, channel2],
             totalCount: 2,
-            policyId: 'policy1',
-            actions: {
-                ...defaultProps.actions,
-            },
         };
-        const {container} = renderWithContext(<ChannelList {...props}/>);
-        expect(container).toMatchSnapshot();
+
+        renderWithContext(<ChannelList {...props}/>);
+
+        await waitFor(() => {
+            expect(document.getElementById('auto-add-header-checkbox')).toBeInTheDocument();
+        });
+
+        const headerCheckbox = document.getElementById('auto-add-header-checkbox') as HTMLInputElement;
+        expect(headerCheckbox).toBe(screen.getByRole('checkbox', {name: 'Auto-add members'}));
+        expect(headerCheckbox).not.toBeChecked();
+        expect(headerCheckbox.indeterminate).toBe(true);
     });
 
-    test('should match snapshot with channels to remove', () => {
+    test('should toggle per-row and header auto-add checkboxes', async () => {
         const props = {
             ...defaultProps,
+            channels: [channel1, channel2],
             totalCount: 2,
-            policyId: 'policy1',
-            channelsToRemove: {
-                channel1: {id: 'channel1', name: 'Channel 1', display_name: 'Channel 1', team_display_name: 'Team 1', type: 'O'} as ChannelWithTeamData,
-            },
         };
-        const {container} = renderWithContext(<ChannelList {...props}/>);
-        expect(container).toMatchSnapshot();
-    });
 
-    test('should match snapshot with channels to add', () => {
-        const props = {
-            ...defaultProps,
-            channelsToAdd: {
-                channel3: {id: 'channel3', name: 'channel3', display_name: 'Channel 3', team_display_name: 'Team 1', type: 'O'} as ChannelWithTeamData,
-            },
-        };
-        const {container} = renderWithContext(<ChannelList {...props}/>);
-        expect(container).toMatchSnapshot();
+        renderWithContext(<ChannelList {...props}/>);
+
+        await waitFor(() => {
+            expect(document.getElementById('auto-add-checkbox-channel1')).toBeInTheDocument();
+        });
+
+        fireEvent.click(document.getElementById('auto-add-checkbox-channel1')!);
+        expect(mockOnPolicyActiveStatusChange).toHaveBeenCalledWith([
+            {id: 'channel1', active: false},
+        ]);
+
+        mockOnPolicyActiveStatusChange.mockClear();
+        fireEvent.click(document.getElementById('auto-add-header-checkbox')!);
+        expect(mockOnPolicyActiveStatusChange).toHaveBeenCalledWith([
+            {id: 'channel1', active: true},
+            {id: 'channel2', active: true},
+        ]);
     });
 });
