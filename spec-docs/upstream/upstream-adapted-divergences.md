@@ -5873,3 +5873,71 @@ eslint 오류 0, `npm run check-types` 오류 7건은 기준선과 같다(diff 0
 | 위치 | upstream | 포크 | 되살릴 조건 |
 |---|---|---|---|
 | `permission_system_scheme_settings/__snapshots__/permission_system_scheme_settings.test.tsx.snap` | upstream 트리에서 다시 생성한 스냅샷 | 포크 스냅샷(리브랜드·role 표시명·b0aeaa3c 테스트가 upstream과 다르다)을 기준으로 `npm run test -- … -u`로 다시 생성했다. `git diff -w`로 보면 삭제 0줄, 추가는 `permission-group-permissions-content` wrapper div와 닫는 태그뿐이다 | — (cdd96ece가 webapp 스냅샷 테스트를 지우면 함께 사라진다) |
+
+## 서버 로그 스캔 시간·크기 상한 — scanLimited 안내를 포크 SectionNotice로 옮기고, 잘림 안내 삭제를 받았다
+
+**upstream**: [`c89ca100`](https://github.com/mattermost/mattermost/commit/c89ca100dc71e394dd8b707a44595637a85e2114)
+([MM-71587] Bound Server Logs scans with a time and size budget, #39645) — 23파일 +767/-133, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+**그대로 받은 것.** 서버 `platform/log.go`·`log_reader.go`(20초·1 GiB 상한, `scan_limited` 항목)와 테스트, `api/v4/source/system.yaml`,
+redux 액션·리듀서·셀렉터와 테스트, `client4.ts`(AbortSignal), `@mattermost/types` `admin.ts`, `logs.tsx`·`index.ts`·`types.ts`,
+`log_list.scss` `&__notice-line`, `log_list.tsx`의 하단 건수 `N+` 표시(`showingCapped`·`showingMatchesCapped`), Playwright 스펙,
+`en.json` 키 9개 추가·4개 삭제.
+
+**고친 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `log_list.tsx` scanLimited 안내 | compass-ui `SectionNotice`에 `className='LogViewer__notice'`·`description` prop | 포크 `components/section_notice`에는 두 prop이 없다. `<div className='LogViewer__notice'>`로 감싸고 description 내용(노드별 줄 + 안내 문구)을 children으로 넘겼다. `// okrbest:` 주석. d62af319 때와 같은 처리다 | compass-ui 수용 시 |
+
+**삭제한 것(upstream이 지웠고 포크도 따랐다).** upstream 부속 커밋 [MM-71392] "Drop the Server Logs truncation banner"가 잘림
+안내 배너를 없애고 하단 건수 뒤에 `+`를 붙이는 방식으로 바꿨다. 포크의 배너는 d62af319 adapt 때 포크 `SectionNotice`로 옮긴 형태였고,
+이번에 통째로 지웠다. `General` import(`LOGS_PAGE_SIZE_DEFAULT` 용)도 같이 빠졌다. `ko.json`에는 이 4개 키 번역이 없어 orphaned는 생기지 않는다.
+
+지운 `en.json` 키(4개)
+
+| 키 | 지운 원문 |
+|---|---|
+| `admin.logs.truncated.title` | Only the latest {limit, number} entries are shown |
+| `admin.logs.truncated.titleNodes` | Only the latest {limit, number} entries from each node are shown |
+| `admin.logs.truncated.description` | Older entries aren't loaded or counted. Download the log file to see them. |
+| `admin.logs.truncated.descriptionNodes` | Older entries aren't loaded or counted. |
+
+지운 포크 배너(`log_list.tsx`, 변경 전 946행부터)
+
+```tsx
+{truncated && (
+    <div className='LogViewer__notice'>
+        <SectionNotice
+            type='info'
+            title={showNodes && !selectedNode ? (
+                <FormattedMessage
+                    id='admin.logs.truncated.titleNodes'
+                    defaultMessage='Only the latest {limit, number} entries from each node are shown'
+                    values={{limit: General.LOGS_PAGE_SIZE_DEFAULT}}
+                />
+            ) : (
+                <FormattedMessage
+                    id='admin.logs.truncated.title'
+                    defaultMessage='Only the latest {limit, number} entries are shown'
+                    values={{limit: General.LOGS_PAGE_SIZE_DEFAULT}}
+                />
+            )}
+        >
+            {showNodes ? (
+                <FormattedMessage
+                    id='admin.logs.truncated.descriptionNodes'
+                    defaultMessage="Older entries aren't loaded or counted."
+                />
+            ) : (
+
+                // Download saves the log file of the node serving the request, so it's only offered with a single node
+                <FormattedMessage
+                    id='admin.logs.truncated.description'
+                    defaultMessage="Older entries aren't loaded or counted. Download the log file to see them."
+                />
+            )}
+        </SectionNotice>
+    </div>
+)}
+```
