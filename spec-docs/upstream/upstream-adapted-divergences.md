@@ -5862,3 +5862,14 @@ prop 추가, Playwright `post_dot_menu.ts` `quoteMenuItem`, `intro_channel.spec.
 
 **검증(2026-11-16, /tmp worktree).** jest `sidebar_header`·`backstage`·`permission_schemes_settings` 18 스위트 166건 통과,
 eslint 오류 0, `npm run check-types` 오류 7건은 기준선과 같다(diff 0).
+
+## 권한 그룹 펼침 잘림 수정 — 시스템 스킴 스냅샷은 포크 상태로 다시 생성했다
+
+**upstream**: [`bc151c65`](https://github.com/mattermost/mattermost/commit/bc151c65fae68c10806e29c352439c2dc16eb1d7)
+(MM-71832: Stop clipping rows in expanded permission groups, #39956) — 4파일 +7840/-7202, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+버린 코드는 없다. `permission_group.tsx`의 wrapper div, `_permissions.scss`의 grid 애니메이션, `permission_group.test.tsx.snap`은 그대로 받았다.
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `permission_system_scheme_settings/__snapshots__/permission_system_scheme_settings.test.tsx.snap` | upstream 트리에서 다시 생성한 스냅샷 | 포크 스냅샷(리브랜드·role 표시명·b0aeaa3c 테스트가 upstream과 다르다)을 기준으로 `npm run test -- … -u`로 다시 생성했다. `git diff -w`로 보면 삭제 0줄, 추가는 `permission-group-permissions-content` wrapper div와 닫는 태그뿐이다 | — (cdd96ece가 webapp 스냅샷 테스트를 지우면 함께 사라진다) |
