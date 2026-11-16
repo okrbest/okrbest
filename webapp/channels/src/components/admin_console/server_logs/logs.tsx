@@ -19,7 +19,7 @@ import AdminHeader from 'components/widgets/admin_console/admin_header';
 import LogFormatMenu from './log_format_menu';
 import LogList, {loadPrefs} from './log_list';
 import PlainLogList from './plain_log_list';
-import type {CustomTimeRange, LogObjectWithAdditionalInfo, PluginOption, TimeRange} from './types';
+import type {CustomTimeRange, LogObjectWithAdditionalInfo, PluginOption, ScanLimitedLogNode, TimeRange} from './types';
 import {parseUrlFilters, withUrlFilters} from './url_filters';
 import useAccumulated from './use_accumulated';
 import useLogPolling from './use_log_polling';
@@ -31,13 +31,14 @@ type Props = {
     logs: LogObjectWithAdditionalInfo[];
     logNodes: string[];
     truncatedLogNodes: string[];
+    scanLimitedLogNodes?: ScanLimitedLogNode[];
     plainLogs: string[];
     isPlainLogs: boolean;
 
     // Installed plugins, as loaded by the admin sidebar. None when plugins are off or the admin can't list them
     plugins: Record<string, PluginRedux>;
     actions: {
-        getLogs: (logFilter: LogFilter) => Promise<ActionResult | undefined>;
+        getLogs: (logFilter: LogFilter, signal?: AbortSignal) => Promise<ActionResult | undefined>;
         getNewLogs: (logFilter: LogFilter) => Promise<ActionResult | undefined>;
         getPlainLogs: (
             page?: number | undefined,
@@ -117,7 +118,9 @@ function getInitialFormat(configIsPlainLogs: boolean, hasUrlFilters: boolean): b
     return false;
 }
 
-export default function Logs({logs, logNodes, truncatedLogNodes, plainLogs, isPlainLogs: configIsPlainLogs, plugins, actions}: Props) {
+const NO_SCAN_LIMITED_NODES: ScanLimitedLogNode[] = [];
+
+export default function Logs({logs, logNodes, truncatedLogNodes, scanLimitedLogNodes = NO_SCAN_LIMITED_NODES, plainLogs, isPlainLogs: configIsPlainLogs, plugins, actions}: Props) {
     const history = useHistory();
     const [urlFilters] = useState(() => parseUrlFilters(history.location.search, PRESET_MINUTES));
     const [isPlainLogs, setIsPlainLogs] = useState(() => getInitialFormat(configIsPlainLogs, Object.keys(urlFilters).length > 0));
@@ -222,6 +225,11 @@ export default function Logs({logs, logNodes, truncatedLogNodes, plainLogs, isPl
     const latestFetchRef = useRef(0);
     const pendingFetchesRef = useRef(0);
 
+    // A full reload replaces the previous one's result, so it aborts that request rather than
+    // waiting in the queue for a slow scan to finish
+    const reloadAbortRef = useRef<AbortController | null>(null);
+    useEffect(() => () => reloadAbortRef.current?.abort(), []);
+
     // `silent` polls leave the loading state alone so the viewer never flashes a spinner
     const reload = useCallback((options?: {silent?: boolean}) => {
         const silent = options?.silent === true;
@@ -230,8 +238,12 @@ export default function Logs({logs, logNodes, truncatedLogNodes, plainLogs, isPl
         }
 
         const id = silent ? latestFetchRef.current : ++latestFetchRef.current;
+        let signal: AbortSignal | undefined;
         if (!silent) {
             setLoading(true);
+            reloadAbortRef.current?.abort();
+            reloadAbortRef.current = new AbortController();
+            signal = reloadAbortRef.current.signal;
         }
 
         // A preset has no end, so the server ends the range at its own clock rather than the browser's
@@ -272,7 +284,7 @@ export default function Logs({logs, logNodes, truncatedLogNodes, plainLogs, isPl
                 search,
                 fields: selectedPlugins.length ? {[PLUGIN_ID_FIELD]: selectedPlugins} : undefined,
             };
-            const result = await (silent ? actions.getNewLogs(query) : actions.getLogs(query));
+            const result = await (silent ? actions.getNewLogs(query) : actions.getLogs(query, signal));
             if (!result?.error) {
                 lastFetchStartRef.current = startedAt;
             }
@@ -351,6 +363,7 @@ export default function Logs({logs, logNodes, truncatedLogNodes, plainLogs, isPl
             loading={loading}
             logs={logs}
             truncatedNodes={truncatedLogNodes}
+            scanLimitedNodes={scanLimitedLogNodes}
             onSearchChange={setSearch}
             search={search}
             enabledLevels={enabledLevels}
