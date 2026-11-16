@@ -192,6 +192,59 @@ describe('components/sidebar/sidebar_header/sidebar_team_menu', () => {
         expect(screen.queryByText('Integrations')).not.toBeInTheDocument();
     });
 
+    // upstream b0aeaa3c(MM-71370)는 제품 전환 메뉴의 Integrations 항목에 이 조건을 더했다.
+    // 포크는 그 항목을 팀 메뉴 관리 섹션으로 옮겼으므로 같은 조건을 여기서 검사한다.
+    describe('관리 섹션 — Outgoing OAuth 연결 권한만 있는 사용자', () => {
+        function stateWith({enabled, systemPermissions = [], teamPermissions = []}: {
+            enabled: boolean;
+            systemPermissions?: string[];
+            teamPermissions?: string[];
+        }): DeepPartial<GlobalState> {
+            return {
+                ...initialState,
+                entities: {
+                    ...initialState.entities,
+                    general: {
+                        ...initialState.entities!.general,
+                        config: {
+                            ...initialState.entities!.general!.config,
+                            EnableOutgoingOAuthConnections: enabled ? 'true' : 'false',
+                        },
+                    },
+                    roles: {
+                        roles: {
+                            system_user: {permissions: [Permissions.CREATE_TEAM, ...systemPermissions]},
+                            team_user: {permissions: teamPermissions},
+                        },
+                    },
+                },
+            };
+        }
+
+        async function openMenu(state: DeepPartial<GlobalState>) {
+            renderWithContext(<SidebarTeamMenu {...baseProps}/>, state);
+            await userEvent.click(screen.getByText(currentTeam.display_name));
+            await waitFor(() => {
+                expect(screen.getByText(/About/)).toBeInTheDocument();
+            });
+        }
+
+        test('기능이 켜져 있고 시스템 권한이 있으면 Integrations를 보여준다', async () => {
+            await openMenu(stateWith({enabled: true, systemPermissions: [Permissions.MANAGE_OUTGOING_OAUTH_CONNECTIONS]}));
+            expect(screen.getByText('Integrations')).toBeInTheDocument();
+        });
+
+        test('권한이 팀 role로만 주어지면 Integrations를 숨긴다', async () => {
+            await openMenu(stateWith({enabled: true, teamPermissions: [Permissions.MANAGE_OUTGOING_OAUTH_CONNECTIONS]}));
+            expect(screen.queryByText('Integrations')).not.toBeInTheDocument();
+        });
+
+        test('기능이 꺼져 있으면 권한이 있어도 Integrations를 숨긴다', async () => {
+            await openMenu(stateWith({enabled: false, systemPermissions: [Permissions.MANAGE_OUTGOING_OAUTH_CONNECTIONS]}));
+            expect(screen.queryByText('Integrations')).not.toBeInTheDocument();
+        });
+    });
+
     test('should open team menu when clicked', async () => {
         renderWithContext(
             <SidebarTeamMenu {...baseProps}/>,
