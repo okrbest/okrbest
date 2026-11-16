@@ -3,15 +3,40 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-12 14:29
+- 갱신일: 2026-11-16 14:01
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1개
+- 남은 커밋: 26개
 
-**마지막 반영 커밋:** `3dcc438e` | [\[MM-71095\] Page shared channel post sync create pass by CreateAt (#39905)](https://github.com/mattermost/mattermost/commit/3dcc438efa148574474bd224157dc094195b33c9) | 2026-11-11
+**마지막 반영 커밋:** `4e8166e9` | [Use Compass Combobox for rank attributes in System Console and Bots (#39889)](https://github.com/mattermost/mattermost/commit/4e8166e9716149fc7793dc7db689024b4ebaa999) | 2026-11-12
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 8718ca0a | [chore(e2e): upgrade Cypress dependencies (#39914)](https://github.com/mattermost/mattermost/commit/8718ca0ac356f027eb9b3b3cf23be437e7c42cfc) | 2026-11-12 |
+| c8949834 | [MM-70925: Update multipart form data handling in file uploads (#38819)](https://github.com/mattermost/mattermost/commit/c89498341b76fa0f226bed383f7fe17e39608272) | 2026-11-13 |
+| d8a487e7 | [MM-71509: update session lookup messages (#39603)](https://github.com/mattermost/mattermost/commit/d8a487e792643177d37e2fb2ba4a49fd9430bfd2) | 2026-11-13 |
+| 75dd22f3 | [docs: fix Calls deployment guide links that break the offline docs build (#39990)](https://github.com/mattermost/mattermost/commit/75dd22f30ce352a1b13f161bba66d48e2f78134d) | 2026-11-13 |
+| cdd96ece | [Remove all webapp snapshot tests (#39970)](https://github.com/mattermost/mattermost/commit/cdd96ece41a21f1880f3e877d1abb2eba950187e) | 2026-11-13 |
+| baa5eb60 | [MM-58698: Use postgres driver for postgresql:// config DSNs (#39983)](https://github.com/mattermost/mattermost/commit/baa5eb60f17fb0f5057c0875cca0faf74ffffcaa) | 2026-11-13 |
+| 290e950e | [drip: go idioms: errors.AsType in app/terms_of_service (#39989)](https://github.com/mattermost/mattermost/commit/290e950e44535944d24c7bdb763f0f8f0fee65ed) | 2026-11-13 |
+| 3eff6e1a | [drip: AppError -> error: user preflight authentication (#39988)](https://github.com/mattermost/mattermost/commit/3eff6e1aeb4bdff574e16c6bc8feb74694e740f8) | 2026-11-13 |
+| 902f2288 | [MM-70934: Update websocket request parameter handling and connection lifecycle (#38810)](https://github.com/mattermost/mattermost/commit/902f228879b5382db15786465f1e669ce7e8885c) | 2026-11-13 |
+| 2cc82f09 | [\[MM-71872\] Clear SMTPPort in packaged release config.json (#40011)](https://github.com/mattermost/mattermost/commit/2cc82f095a107ea51a7209aa74b75b5c13b1cec3) | 2026-11-13 |
+| 8d0e30c0 | [Report plugins as starting until OnActivate returns (#39387)](https://github.com/mattermost/mattermost/commit/8d0e30c0e6cafedfc3c781f5f5bc992d03bdf98a) | 2026-11-13 |
+| dc6bec2c | [ci(docs): apply Editor Review only for TOC changes and new pages (#40010)](https://github.com/mattermost/mattermost/commit/dc6bec2c0dc3883d772a9ea36083e9613d5a1fb3) | 2026-11-13 |
+| 6cf751b8 | [fix(docs-ai): open writer docs PRs ready for review, not as drafts (#40008)](https://github.com/mattermost/mattermost/commit/6cf751b8309442a09fb9af5d6ebde7c1d9654c34) | 2026-11-13 |
+| f0cd002e | [\[MM-71710\] Fix clipped deployment sizing diagram at mid-range widths (#39817)](https://github.com/mattermost/mattermost/commit/f0cd002e5c70298c511b0217710de00f3a5c7073) | 2026-11-13 |
+| c9e53127 | [\[MM-71856\] Add biometric_authenticated mobile session attribute (#39985)](https://github.com/mattermost/mattermost/commit/c9e53127e80324e93ef5aeba1799f0c89fb4be84) | 2026-11-13 |
+| 6240b2f2 | [Update inline link and character reference scanning in the markdown parser (#39741)](https://github.com/mattermost/mattermost/commit/6240b2f26fc7ce2a2379fc88b3a6bdbe73dd1842) | 2026-11-13 |
+| 5bb4671a | [\[MM-71873\] Remove translate.mattermost.com links from webapp (#40023)](https://github.com/mattermost/mattermost/commit/5bb4671a26106b22175b3716af08f9a842845fca) | 2026-11-13 |
+| 9d59b084 | [Fix post list height shift for posts with multiple image attachments (#39016)](https://github.com/mattermost/mattermost/commit/9d59b0846b65b5eaef9cbc5ada104644887462cd) | 2026-11-13 |
+| e8da91da | [\[MM-71856\] Note Mobile v2.47 requirement for biometric_authenticated (#40026)](https://github.com/mattermost/mattermost/commit/e8da91da9abf28e30bd22775ce9dfbbcea44e1dc) | 2026-11-13 |
+| 694518d6 | [docs: add Out-of-Band Communications use case page (#40032)](https://github.com/mattermost/mattermost/commit/694518d6a4cc1b64852a920e6b37b47b56ae3dbf) | 2026-11-13 |
+| 2c67adc2 | [Require manage_system to update some environment config settings (#40024)](https://github.com/mattermost/mattermost/commit/2c67adc216fa6895058a626a02216000ee879ab5) | 2026-11-13 |
+| 52486856 | [MM-71131: update integration action URL handling (#39114)](https://github.com/mattermost/mattermost/commit/524868566730ae8a7979fac5598107da30d8e044) | 2026-11-13 |
+| ce2b23d1 | [Write config.json atomically (#38731)](https://github.com/mattermost/mattermost/commit/ce2b23d1f8f221e817060c3145dbb00c3f825023) | 2026-11-14 |
+| 826a939d | [Report plugin reattach failures and deactivation of webapp-only plugins (#39688)](https://github.com/mattermost/mattermost/commit/826a939d8364aea6a746cee241a8e3aed037945f) | 2026-11-13 |
+| c95090ed | [\[MM-71868\] Stop logging normal fresh-server states as warnings and errors (#40012)](https://github.com/mattermost/mattermost/commit/c95090ed63c4dcc07c1914d8b90490504280e673) | 2026-11-13 |
+| 95380997 | [\[MM-71633\] Sync the first post of a shared DM created on a cluster follower (#39716)](https://github.com/mattermost/mattermost/commit/9538099732bde16c3aba8642f83a730a42c177c8) | 2026-11-13 |
+| a69dda3f | [MM-71833: Keep paging shared channel sync when the updated-posts page is full (#39959)](https://github.com/mattermost/mattermost/commit/a69dda3fe70c50a68591539d86095b18031abc7f) | 2026-11-14 |
 
 ## 제외된 커밋
 
@@ -647,6 +672,18 @@
 | 79c0484a | [Bump @mattermost/compass-ui to 0.1.0-alpha.28 (#39896)](https://github.com/mattermost/mattermost/commit/79c0484a31c3c1c77e23709a5affae12ef9b6f83) | compass-ui 계보 제외(70658e18, 2026-10-18 결정 — 라이선스 없음·Slack식 자체 디자인). webapp·channels·platform/components package.json 3곳의 @mattermost/compass-ui alpha.26→alpha.28 버전업인데 우리 package.json·package-lock.json에 compass-ui 항목이 0건이라 올릴 대상이 없다. 스냅샷 200여 개는 compass CSS module 해시 갱신이고, workspace-optimization/dashboard.test.tsx 1줄은 compass AdminPanel의 제목 클릭 토글 동작 변화를 반영한 것이라 포크 DOM·컴포넌트와 무관하다. |
 
 | d99a529b | [Bot accounts scope for permission policies (#39330)](https://github.com/mattermost/mattermost/commit/d99a529bd732d2b87c9b35b0dccb0efdc7d8e202) | 권한 정책 판정 엔진이 비공개(github.com/mattermost/enterprise/access_control)라 포크 빌드에서 ch.AccessControl이 nil — ba1cec51(#36472)로 받은 권한 정책 화면 자체가 동작하지 않고, system_bot 역할 해석도 엔진 몫이라 봇 범위 UI(rule_editor_card·roles.ts·bot_scope·cel_lexer, permission_policy_details 개편)를 받아도 비활성이다. 게다가 실제 적용 시 12파일 26 hunk가 충돌하며 상당수가 제외한 Session Attributes 계보(57fe965a #37362 permission-policy picker 통합 등 — attribute_selector_menu.test.tsx는 그 계보가 만든 파일) 문맥이다. 서버는 model/access_policy.go의 AccessControlPolicyRoleSystemBot 상수와 역할 검증 헬퍼 추출(동작 동일)뿐이라 잃는 동작이 없다. |
+
+| 25af7961 | [Enable PropertyFieldPermissionsV3 feature flag by default (#39978)](https://github.com/mattermost/mattermost/commit/25af7961170259c084aadddc40ed8a8b7dccd9e3) | PropertyFieldPermissionsV3 기본값 on 전환 — 플래그 자체가 포크에 없다. 플래그를 추가한 7709b2f9(MM-70033 연작 4/4)와 1~3/4(4311c47a 권한 모델·bcd69221 저장·a44c92ad 판정)를 property 시스템 v2·v3 계보 제외(토대 48f2fd08 Integrated Boards, 우리 Boards 플러그인과 경합)로 모두 제외했다. 터치 3파일 중 api4/properties_global_attributes_test.go·e2e default_feature_flags.ts는 포크에 없고(modify/delete), model/feature_flags.go에는 바꿀 줄이 없다. 재검토 조건은 MM-70033 연작 수용 시. |
+
+| 9e3a32bc | [fix(e2e): restore search engine and tutorial settings in the per-test config reset (#39871)](https://github.com/mattermost/mattermost/commit/9e3a32bc209217ea014bb34fe5711f949d332dab) | 8003be3b와 같은 사유 — 제외한 5dec0b82(#39091 Playwright config·roles 리셋 개편)의 per-test 리셋 목록(onPremServerConfig)에 ElasticsearchSettings(색인·검색·자동완성 false)·ServiceSettings.EnableTutorial(true)을 더하는 후속 수정인데, 우리 트리에는 per-test 리셋이 없고 5dec0b82가 없앤 전체 defaultServerConfig가 남아 이미 같은 값(e2e-tests/playwright/lib/src/server/default_config.ts 205행 EnableTutorial: true, 672~680행 ElasticsearchSettings false)이 init.ts에서 한 번 적용된다. 반영해도 값이 중복될 뿐이고 주석은 없는 기구를 설명한다. merge-tree CONFLICT는 8003be3b의 CollapsedThreads 문맥 차이. 5dec0b82 계보를 반영할 때 8003be3b와 함께 재검토한다. |
+
+| 68ba30a6 | [Let the global attributes test toggle the V3 permissions flag (#39986)](https://github.com/mattermost/mattermost/commit/68ba30a6975f2f69d759c58a91b30d4c9fcd44ee) | 25af7961(제외)의 후속 테스트 수정 — v2 응답 형태 서브테스트가 PropertyFieldPermissionsV3를 실제로 끌 수 있게 Setup을 SetupConfig로 바꾼다(1파일 +2/-1). 대상 api4/properties_global_attributes_test.go는 Global Attributes(property v2 계보, 토대 48f2fd08) 제외로 포크에 없고(modify/delete), 플래그도 MM-70033 연작(4311c47a·bcd69221·a44c92ad·7709b2f9) 제외로 없다. 재검토 조건은 그 계보 수용 시. |
+
+| aa538f07 | [Use Compass Combobox for New Channel select, multiselect and rank attributes (#39751)](https://github.com/mattermost/mattermost/commit/aa538f07d53ab7ba8e895e28a7c3050b13206a1a) | Compass Combobox 이관 연작 — 새 채널 모달 채널 속성 폼과 사용자 설정 rank 속성을 compass-ui Combobox 기반 AttributeCombobox로 바꾼다(17파일). compass-ui는 라이선스가 없어 제외했고(2026-10-18 결정, 70658e18) 포크는 ReactSelect를 유지한다. 대상 컴포넌트가 모두 포크에 없다 — property_fields/attribute_combobox(965c282e #39481 제외), channel_attributes(채널 속성 계보 e86491ad foundation → 4ce99ddd 제외, property v2 위), property_fields/user_attribute_fields(4d0faf21 #39574 제외). merge-tree는 17파일 전부 modify/delete. |
+
+| 23402384 | [Match the graph attribute picker to the Compass multiselect (#39977)](https://github.com/mattermost/mattermost/commit/23402384135680d7b3fba6eef6b5f0ba09e3065e) | 계층형(graph) 속성 picker를 Compass multiselect 모양(칩·caret·invalid·포커스 링)에 맞춘다(14파일 +810/-90). 대상 property_fields/hierarchical_value_menu 10파일은 계층형 속성 계보(9ef79330 서버·85372e3a webapp, property v2·Global Attributes 위) 제외로 포크에 없고, user_attribute_fields·bots/add_bot/bot_attributes_section.scss도 없다. 포크에 있는 admin_console/system_user_detail/system_user_detail.test.tsx의 변경은 포크에 없는 graph 테스트 블록(chipRemove 헬퍼 import, Remove Alpha 클릭 2곳, G23 테스트)에만 걸려 받을 hunk가 없다. compass-ui 제외(2026-10-18 결정)에도 해당. |
+
+| 4e8166e9 | [Use Compass Combobox for rank attributes in System Console and Bots (#39889)](https://github.com/mattermost/mattermost/commit/4e8166e9716149fc7793dc7db689024b4ebaa999) | Compass Combobox 이관 연작 마지막 — 시스템 콘솔 사용자 상세·봇 화면의 rank 속성 선택기를 cpa-rank-select 메뉴 버튼에서 AttributeCombobox(rank)로 바꾼다(7파일). compass-ui 라이선스 없음으로 제외(2026-10-18 결정), 선행 965c282e·4d0faf21·aa538f07 제외. 대상 중 property_fields/user_attribute_fields 3파일·bot_attributes.spec.ts·user_ranked_value_picker.spec.ts는 포크에 없고(rank 속성 계보 제외), 남은 2파일도 받을 내용이 없다 — admin_console/system_user_detail/system_user_detail.scss가 지우는 .cpa-rank-select 블록과 Playwright user_detail.ts가 고치는 CPA combobox·Ranked CPA picker 절이 포크에 원래 없다(webapp에 cpa-rank-select 0건). |
 
 ## spec 전환 커밋
 
