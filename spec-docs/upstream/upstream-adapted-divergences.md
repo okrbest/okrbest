@@ -6037,3 +6037,14 @@ CI `i18n-check-empty`는 webapp 카탈로그만 보므로 막히지 않는다. �
   사라진 12건은 `sidebar_channel_menu` 10건(실패 원인이 스냅샷 단언이었다)·`custom_terms_of_service_settings`·`invite_members` 스냅샷 단언이다
 - `platform/components` 수정 테스트 2 스위트 통과
 - channels eslint 오류 106건(기준선과 diff 0, 새 `no-restricted-properties` 위반 0), `platform/components`·`shared` eslint 개수 기준선과 같음, `check-types` 기준선과 같음
+
+## 문서 Editor Review 라벨 범위 축소 — 꺼 둔 트리거의 paths는 주석 안에서 바꿨다
+
+**upstream**: [`dc6bec2c`](https://github.com/mattermost/mattermost/commit/dc6bec2c0dc3883d772a9ea36083e9613d5a1fb3)
+(ci(docs): apply Editor Review only for TOC changes and new pages, #40010) — 1파일 +39/-8, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+상단 설명 주석과 라벨 단계 스크립트(`gh api`로 목차 변경·`docs/main` 새 페이지를 찾을 때만 라벨)는 그대로 받았다.
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `.github/workflows/docs-editor-review-label.yml` `on.pull_request.paths` | `docs/**`(site·vendor 제외) → `docs/main/**`·`gen-documentation-sidebar.mjs`·`sidebars/documentation.ts` | 자동 트리거를 주석으로 꺼 둔 상태라 주석 블록 안 목록을 새 값으로 바꿨다. 포크가 더한 `workflow_dispatch`는 유지 | 트리거 복원 시 주석을 푼다 |
