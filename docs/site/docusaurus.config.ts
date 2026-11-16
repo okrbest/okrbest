@@ -54,17 +54,20 @@ const config: Config = {
   organizationName: 'okrbest',
   projectName: 'okrbest',
 
-  // Broken-link / broken-image policy. During the Phase 4 (developer docs)
-  // and Phase 5 (main docs) migrations, content references images and
-  // anchors that haven't been migrated yet — `warn` keeps the build green
-  // while the unconverted set shows up as warnings we can grep for.
-  // Tighten to `throw` after each migration phase completes.
+  // Only site-relative links are validated; absolute https://docs.mattermost.com
+  // links are checked separately by scripts/check-absolute-docs-links.mjs.
+  // okrbest: upstream throws here. We keep `warn` because the mirrored
+  // property-system.md links to /api/reference/properties and
+  // /api/reference/custom-profile-attributes, which our API reference does not
+  // generate (property v2 API excluded). Switch back to `throw` when that lands.
   onBrokenLinks: 'warn',
+  // Tighten to `throw` once the remaining migrated-content anchors are fixed.
+  onBrokenAnchors: 'warn',
 
   markdown: {
     mermaid: true,
     hooks: {
-      onBrokenMarkdownLinks: 'warn',
+      onBrokenMarkdownLinks: 'throw',
       onBrokenMarkdownImages: 'warn',
     },
   },

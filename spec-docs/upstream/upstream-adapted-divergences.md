@@ -5768,3 +5768,38 @@ upstream lock과 어긋났기 때문이다. upstream lock만으로 재생성하�
 - `npm run check`(eslint) 오류 0, 경고 5(기존 max-lines)
 - `npm run check-types` 오류 10건. master 의존성으로 같은 디렉터리에서 다시 재도 같은 10건이 나온다(diff 0, 기준선)
 - `npm audit`에 critical 없음(low 8·moderate 4·high 2)
+
+## 문서 깨진 링크 정리와 CI 차단 — 절대 링크 검사에 okrbest 호스트를 더하고 onBrokenLinks는 warn으로 뒀다
+
+**upstream**: [`2cce4231`](https://github.com/mattermost/mattermost/commit/2cce4231cbe50fb4a5cf4b276c1fe8345e6551d7)
+(docs: fix broken internal links and fail CI on new ones, #39953) — 32파일 +223/-65, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+merge-tree는 CLEAN이었다. 문서 인프라 기본 판정(ㄴ)에 따라 Mattermost 귀속 도메인 값을 손봤고,
+property v2 API를 exclude한 탓에 생기는 깨진 링크 때문에 빌드 정책 한 줄을 upstream과 다르게 뒀다.
+
+**그대로 받은 것.** `docs/develop`·`docs/main` 본문 24파일의 링크·앵커 수정, `PluginGoDocs`·`PluginJsDocs`·
+`PluginManifestDocs`의 `collectAnchor` 등록, IME 다이어그램 갱신, `onBrokenMarkdownLinks: 'throw'`,
+`onBrokenAnchors: 'warn'`, `package.json`의 `check:absolute-links` 스크립트, `docs-ci.yaml`의 검사 단계.
+
+**고친 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `docs/site/scripts/check-absolute-docs-links.mjs` `ABSOLUTE_LINK` | `docs.mattermost.com`만 잡는다 | `docs\.(?:okrbest\|mattermost)\.com`으로 두 호스트를 잡는다. 실패 메시지도 두 호스트를 적는다. `// okrbest:` 주석. `check-egress.mjs`의 `DOCS_HOST`·`UPSTREAM_DOCS_HOST` 처리와 같은 기준이다 | 본문 절대 링크를 okrbest로 바꾸는 후속 과제 때 `mattermost` 쪽을 뺄지 다시 본다 |
+| `.github/workflows/docs-ci.yaml` 단계 이름 | `Check absolute docs.mattermost.com links` | `Check absolute docs.okrbest.com / docs.mattermost.com links` | 위와 같다 |
+| `docs/site/docusaurus.config.ts` `onBrokenLinks` | `'throw'` | `'warn'`. `// okrbest:` 주석 | property v2 API(`api/v4/source/properties.yaml`, `introduction.yaml`의 `properties`·`custom profile attributes` 태그)를 받으면 `'throw'`로 되돌린다 |
+
+`onBrokenLinks`를 `throw`로 두면 빌드가 실패한다. 남는 깨진 링크는
+`docs/develop/integrate/plugins/components/server/property-system.md:279`의 `/api/reference/properties`·
+`/api/reference/custom-profile-attributes` 두 개다. 이 본문은 59f7cfbc에서 `docs/` 부분만 받았다. 그런데 링크 대상 태그
+페이지가 포크 API 레퍼런스에서는 생성되지 않는다. `properties.yaml`이 없고, `custom_profile_attributes.yaml`은 있지만
+`introduction.yaml` `tags:`에 태그가 등록되어 있지 않다. 본문은 미러 원칙(D1)대로 고치지 않았다.
+그 대가로 새로 깨진 사이트 내부 링크를 빌드가 막지 못한다(빌드 로그에 경고로만 남는다).
+
+**검증(2026-11-16, Node v24).** 서브모듈 `docs/vendor/mattermost-plugin-agents`를 `c234d175`로 초기화한 뒤 실행했다.
+
+- `npm run typecheck` 오류 0
+- `DOCUSAURUS_SSR_CONCURRENCY=2 npm run build` 성공. 기본 동시 실행 수로는 SSG 단계에서 `ENOMEM`으로 죽는다(환경 문제)
+- 깨진 링크 경고가 24개(11-11 기준)에서 위 2개로 줄었다. broken anchor 경고는 남는다(upstream도 `warn`)
+- `npm run postbuild` 후 `BASE_URL=/ npm run check:absolute-links`: "2006 absolute link(s) across 584 content files, 0 unresolved"
+- `npm run test:egress` 32/32, `npm run check:egress` "3346 html, 1 css, 1349 js, 0 external loads"
