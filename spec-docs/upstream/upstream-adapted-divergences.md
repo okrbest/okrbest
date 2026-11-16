@@ -5955,3 +5955,19 @@ redux 액션·리듀서·셀렉터와 테스트, `client4.ts`(AbortSignal), `@ma
 | `membership_policies.ts` `container` | `getByRole('region', {name: 'Membership Policies', exact: true})` | `locator('.PolicyTable')`. `// okrbest:` 주석. upstream `policies.tsx`는 compass `AdminPanel`이 region을 만들지만, 포크 `policies.tsx`는 compass-ui를 빼고 `<div className='PolicyTable'>`·`<h1>` 구조라 그 region이 없다. 검색 입력(placeholder `Search`)은 포크 `DataGrid`에도 있어 그대로 맞는다 | compass-ui `AdminPanel` 수용 시 |
 | `system_console.ts` | 충돌 문맥에 `SessionAttributes`·`BoardAttributes`·`GlobalAttributes` import·필드가 함께 온다 | 받지 않았다. 제외한 property v2 계보(Global/Board Attributes, Session Attributes)의 페이지 객체다 | 그 계보 수용 시 |
 | `specs/functional/system_console/abac/policies/ranked_operators.spec.ts` | 같은 `searchPolicy` 교체 | 파일이 포크에 없다(rank 속성 계보 제외) | rank 속성 계보 수용 시 |
+
+## 세션 조회 실패 메시지 정리 — 포크에 없는 session attributes 테스트 단언을 버렸다
+
+**upstream**: [`d8a487e7`](https://github.com/mattermost/mattermost/commit/d8a487e792643177d37e2fb2ba4a49fd9430bfd2)
+(MM-71509: update session lookup messages, #39603) — 13파일 +248/-57, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+aeca0518(토큰 로그 제거)의 후속이다. `session.go`의 `redactedTokenParams` 제거와 `api.context.invalid_session.error` 전환,
+detail의 `session_id`·`remote_id`·`token_id`·`user_id`, `web_conn.go` `sessionLogFields`, store 문구, 테스트(`session_test.go`·
+`web/handlers_test.go` 등), server `en.json`을 그대로 받았다.
+
+| 위치 | upstream | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `server/channels/app/session_attributes_test.go` 432행 부근 | `TestProcessSessionAttributesRequest`의 `getErr.Id` 단언을 `invalid_token.error` → `invalid_session.error`로 | 포크 파일에 그 단언이 있는 테스트가 없다. 3-way 충돌 문맥으로 제외 계보(클라이언트 속성 헤더·TLS device ID·`TrustProxyDeviceIdentityHeader`) 서브테스트 수십 줄이 함께 온다 | session attributes 확장 계보 수용 시 이 단언을 새 id로 쓴다 |
+
+**i18n.** server `ko.json`의 `api.context.invalid_token.error`("유효하지 않은 세션 토큰={{.Token}}, err={{.Error}}")가 orphaned가 된다.
+CI `i18n-check-empty`는 webapp 카탈로그만 보므로 막히지 않는다. 새 키 `api.context.invalid_session.error` 번역과 함께 sync 예외 규칙대로 후속 작업으로 넘겼다.
