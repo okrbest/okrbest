@@ -3,15 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-16 16:19
+- 갱신일: 2026-11-16 16:36
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 2개
+- 남은 커밋: 1개
 
-**마지막 반영 커밋:** `95380997` | [\[MM-71633\] Sync the first post of a shared DM created on a cluster follower (#39716)](https://github.com/mattermost/mattermost/commit/9538099732bde16c3aba8642f83a730a42c177c8) | 2026-11-13
+**마지막 반영 커밋:** `a69dda3f` | [MM-71833: Keep paging shared channel sync when the updated-posts page is full (#39959)](https://github.com/mattermost/mattermost/commit/a69dda3fe70c50a68591539d86095b18031abc7f) | 2026-11-14
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| a69dda3f | [MM-71833: Keep paging shared channel sync when the updated-posts page is full (#39959)](https://github.com/mattermost/mattermost/commit/a69dda3fe70c50a68591539d86095b18031abc7f) | 2026-11-14 |
 | f210e159 | [v12.1.0, Mobile v2.46, and Desktop v6.4 Changelogs (#39286)](https://github.com/mattermost/mattermost/commit/f210e1596bcc8a086d54e90f4e18d7664a97ed2b) | 2026-11-16 |
 
 ## 제외된 커밋
