@@ -25987,6 +25987,10 @@
     "defaultMessage": "2 hours",
     "description": "Reminder submenu option to be reminded about the message in two hours; compact menu item."
   },
+  "post_info.quote": {
+    "defaultMessage": "Quote",
+    "description": "Menu item in the message actions menu that inserts the message's text, formatted as a Markdown quote, into the message box so the user can respond to it; 'Quote' is a verb."
+  },
   "post_info.reply": {
     "defaultMessage": "Reply",
     "description": "Menu item in the message actions menu that opens the thread to reply; 'Reply' is a verb."
