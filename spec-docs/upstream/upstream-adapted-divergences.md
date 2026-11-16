@@ -5803,3 +5803,29 @@ property v2 API를 exclude한 탓에 생기는 깨진 링크 때문에 빌드 �
 - 깨진 링크 경고가 24개(11-11 기준)에서 위 2개로 줄었다. broken anchor 경고는 남는다(upstream도 `warn`)
 - `npm run postbuild` 후 `BASE_URL=/ npm run check:absolute-links`: "2006 absolute link(s) across 584 content files, 0 unresolved"
 - `npm run test:egress` 32/32, `npm run check:egress` "3346 html, 1 css, 1349 js, 0 external loads"
+
+## 메시지 메뉴의 Quote — Post Attributes·quarantine 문맥 코드와 TipTap 3파일을 버렸다
+
+**upstream**: [`6db12d1e`](https://github.com/mattermost/mattermost/commit/6db12d1e896135977cbc319a2d61beac52f9a42e)
+(Add "Quote" to the post dot menu, #39484) — 12파일 +403/-11, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+선택 영역 인용(`14d1483e0c`, upstream caaec8cd adapt)의 후속이다. 메뉴 항목은 그때 받은 `quoteTextFromPost`·
+`canQuoteFromPost`·pending quote 경로를 그대로 탄다. 포크의 `usePendingQuote`가 Lexical `appendQuote`로 이어지므로
+포크 입력창에서도 동작한다.
+
+**그대로 받은 것.** `dot_menu.tsx`의 Quote 항목·단축키 Q·`canQuotePost`, `index.ts`의 `canQuote`·`quoteTextFromPost`,
+`en.json` `post_info.quote`, `dot_menu.test.tsx`의 `quote` describe 3개, `dot_menu_empty`·`dot_menu_mobile` 테스트의
+prop 추가, Playwright `post_dot_menu.ts` `quoteMenuItem`, `intro_channel.spec.ts` 포커스 순서.
+
+**버린 것.**
+
+| 위치 | upstream | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `dot_menu.tsx` | `FormatListBulletedIcon` import, `showPostAttributes`와 `secondSectionHasItems`의 그 조건 | 3-way 충돌 문맥으로 끼어든 Post Attributes 계보 코드다. 이 커밋의 변경이 아니다 | Post Attributes 계보 수용 시 |
+| `index.ts` | `hasPostAttributes` 계산 블록(`getPostAttributeFields`·`canEditPostAttributeValue` 등) | 위와 같다 | 위와 같다 |
+| `dot_menu.test.tsx` | `the Attributes menu item` describe 전체, import의 `PostTypes` | 위와 같다(`waitFor`는 quote 테스트가 써서 받았다) | 위와 같다 |
+| `en.json` | `post_info.quarantine` | 충돌 문맥으로 끼어든 콘텐츠 모더레이션 계보 키다 | 콘텐츠 모더레이션 계보 수용 시 |
+| `advanced_text_editor/wysiwyg_editor/` 3파일(`wysiwyg_editor.tsx`·`wysiwyg_markdown.ts`·`wysiwyg_editor_interactions.test.tsx`) | 빈 TipTap 에디터에 인용을 넣을 때 caret을 인용 아래 빈 문단에 두고 debounce를 즉시 flush한다 | TipTap을 받지 않았다. 포크 입력창은 Lexical이고 인용은 `LexicalTextEditorHandle.appendQuote`가 넣는다 | TipTap 수용 시 |
+| `post_dot_menu_quote.spec.ts` | `WYSIWYG editor` describe(테스트 1개)와 `setWysiwygUserPreference`·`WysiwygEditor` import | 포크 Playwright lib에 없다. 선택 영역 인용 스펙도 같은 블록을 버렸다 | TipTap 수용 시 |
+
+`ko.json`의 `post_info.quote` 번역은 이 커밋에서 넣지 않았다(sync i18n 예외, 세션 마감 보고에 올린다).
