@@ -468,7 +468,13 @@ function AdminToolsSection({currentTeam}: {currentTeam: Team}) {
     const canManageMarketplace = useSelector((state: GlobalState) => haveISystemPermissionFromRoles(state, {permission: Permissions.SYSCONSOLE_WRITE_PLUGINS}));
 
     const someIntegrationEnabled = enableIncomingWebhooks || enableOutgoingWebhooks || enableCommands || enableOAuthServiceProvider || canManageSystemBots;
-    const showIntegrations = someIntegrationEnabled && (canManageTeamIntegrations || canManageSystemBots);
+
+    // MM-71370: Outgoing OAuth 연결 관리 권한만 있어도 Integrations로 들어갈 수 있다(시스템 권한 한정).
+    const canManageOutgoingOAuthConnections = useSelector((state: GlobalState) => (
+        config.EnableOutgoingOAuthConnections === 'true' &&
+        haveISystemPermissionFromRoles(state, {permission: Permissions.MANAGE_OUTGOING_OAUTH_CONNECTIONS})
+    ));
+    const showIntegrations = (someIntegrationEnabled && (canManageTeamIntegrations || canManageSystemBots)) || canManageOutgoingOAuthConnections;
 
     const openUserGroupsModal = useCallback(() => {
         dispatch(openModal({

@@ -5842,3 +5842,23 @@ prop 추가, Playwright `post_dot_menu.ts` `quoteMenuItem`, `intro_channel.spec.
 | 위치 | upstream | 버린 이유 | 되살릴 조건 |
 |---|---|---|---|
 | `server/channels/app/import_imported_users_test.go` | `TestScopedImportImportedUsersActive`·`Inactive`의 `assert.Nil`/`NotNil` → `assert.NoError`/`Error` 2줄 | 파일이 포크에 없다. scoped import 계보(41c482b4, spec 전환)가 만든 파일이다 | 그 spec을 구현해 파일을 들일 때 `error` 반환에 맞춰 이 단언을 쓴다 |
+
+## System Scheme의 Outgoing OAuth 권한 저장 — 제품 전환 메뉴 수정을 팀 메뉴로 옮겼다
+
+**upstream**: [`b0aeaa3c`](https://github.com/mattermost/mattermost/commit/b0aeaa3c872f8070ded017a9e3dc18fc7576a798)
+([MM-71370] Fix Manage Outgoing OAuth Credentials not saving in System Scheme, #39706) — 8파일 +189/-5, 2026-11-16 sync 반영(사용자 결정 adapt)
+
+**그대로 받은 것.** `utils/constants.tsx` `PermissionsScope`의 `MANAGE_OUTGOING_OAUTH_CONNECTIONS: 'system_scope'`(본 수정),
+`permissions_tree.test.tsx`·`permission_system_scheme_settings.test.tsx`의 새 테스트, `backstage/index.ts`의 조건 추가와
+`mapStateToProps` export, 새 `backstage/index.test.ts`.
+
+**옮긴 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `global_header/left_controls/switch_product_menu/` 3파일(`switch_product_menu.tsx`·`switch_product_integrations_menuitem.tsx`·그 테스트) | 제품 전환 메뉴 Integrations 항목에 `haveEnabledOutgoingOAuthConnections && 시스템 권한 MANAGE_OUTGOING_OAUTH_CONNECTIONS` 조건을 더하고 테스트 3개를 추가 | 파일을 받지 않았다. 포크는 spec 017(`f95ba5a8d7`)에서 제품 전환 메뉴를 없앴고(913291dd exclude), Integrations 항목은 `sidebar/sidebar_header/sidebar_team_menu.tsx` `AdminToolsSection`으로 옮겨 있다 | 제품 전환 메뉴를 되살릴 때 |
+| `sidebar/sidebar_header/sidebar_team_menu.tsx` `showIntegrations` | (upstream에 없는 파일) | `canManageOutgoingOAuthConnections`(`EnableOutgoingOAuthConnections === 'true'` && `haveISystemPermissionFromRoles(MANAGE_OUTGOING_OAUTH_CONNECTIONS)`)를 OR로 더했다. 기존 조건은 그대로다 | — |
+| `sidebar_team_menu.test.tsx` | (위 테스트 3개) | 같은 세 경우(켜짐+시스템 권한 → 보임, 팀 role로만 → 숨김, 꺼짐 → 숨김)를 팀 메뉴 기준으로 옮겼다. 구현 전 "보임" 1건만 실패하는 것을 확인했다 | — |
+
+**검증(2026-11-16, /tmp worktree).** jest `sidebar_header`·`backstage`·`permission_schemes_settings` 18 스위트 166건 통과,
+eslint 오류 0, `npm run check-types` 오류 7건은 기준선과 같다(diff 0).
