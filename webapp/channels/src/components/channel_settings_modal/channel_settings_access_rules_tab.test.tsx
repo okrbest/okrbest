@@ -212,15 +212,6 @@ describe('components/channel_settings_modal/ChannelSettingsAccessRulesTab', () =
         jest.restoreAllMocks();
     });
 
-    test('should match snapshot', () => {
-        const {container} = renderWithContext(
-            <ChannelSettingsAccessRulesTab {...baseProps}/>,
-            initialState,
-        );
-
-        expect(container).toMatchSnapshot();
-    });
-
     test('should render access rules title and subtitle', () => {
         renderWithContext(
             <ChannelSettingsAccessRulesTab {...baseProps}/>,

@@ -3,21 +3,27 @@
 
 import React from 'react';
 
-import {renderWithContext} from 'tests/react_testing_utils';
+import {renderWithContext, screen} from 'tests/react_testing_utils';
 
 import {TeamModes} from './team_modes';
 
 describe('admin_console/team_channel_settings/team/TeamModes', () => {
-    test('should match snapshot', () => {
-        const {container} = renderWithContext(
+    test('omits separator under Sync Group Members when synced and no following row', () => {
+        renderWithContext(
             <TeamModes
                 onToggle={jest.fn()}
-                syncChecked={false}
+                syncChecked={true}
                 allAllowedChecked={false}
                 allowedDomains={''}
-                allowedDomainsChecked={true}
+                allowedDomainsChecked={false}
+                isLicensedForLDAPGroups={true}
+                abacSupported={false}
             />,
         );
-        expect(container).toMatchSnapshot();
+
+        expect(screen.queryByTestId('policy-enforce-toggle')).not.toBeInTheDocument();
+
+        const syncRow = screen.getByTestId('syncGroupSwitch');
+        expect(syncRow.nextElementSibling).toBeNull();
     });
 });

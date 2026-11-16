@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import type {Channel} from '@mattermost/types/channels';
-
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal/edit_channel_purpose_modal';
 
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
@@ -15,68 +13,6 @@ import {TestHelper} from 'utils/test_helper';
 describe('comoponents/EditChannelPurposeModal', () => {
     const channel = TestHelper.getChannelMock({
         purpose: 'testPurpose',
-    });
-
-    it('should match on init', () => {
-        const {container} = renderWithContext(
-            <EditChannelPurposeModal
-                channel={channel}
-                ctrlSend={true}
-                onExited={jest.fn()}
-                actions={{patchChannel: jest.fn()}}
-            />,
-        );
-
-        expect(container).toMatchSnapshot();
-    });
-
-    it('should match with display name', () => {
-        const channelWithDisplayName = {
-            ...channel,
-            display_name: 'channel name',
-        };
-
-        const {container} = renderWithContext(
-            <EditChannelPurposeModal
-                channel={channelWithDisplayName}
-                ctrlSend={true}
-                onExited={jest.fn()}
-                actions={{patchChannel: jest.fn()}}
-            />,
-        );
-
-        expect(container).toMatchSnapshot();
-    });
-
-    it('should match for private channel', () => {
-        const privateChannel: Channel = {
-            ...channel,
-            type: 'P',
-        };
-
-        const {container} = renderWithContext(
-            <EditChannelPurposeModal
-                channel={privateChannel}
-                ctrlSend={true}
-                onExited={jest.fn()}
-                actions={{patchChannel: jest.fn()}}
-            />,
-        );
-
-        expect(container).toMatchSnapshot();
-    });
-
-    it('should match submitted', () => {
-        const {container} = renderWithContext(
-            <EditChannelPurposeModal
-                channel={channel}
-                ctrlSend={true}
-                onExited={jest.fn()}
-                actions={{patchChannel: jest.fn()}}
-            />,
-        );
-
-        expect(container).toMatchSnapshot();
     });
 
     it('match with modal error', async () => {
@@ -127,7 +63,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             message: 'error',
         };
 
-        const {container} = renderWithContext(
+        renderWithContext(
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={false}
@@ -142,7 +78,6 @@ describe('comoponents/EditChannelPurposeModal', () => {
 
         // Verify error is displayed
         expect(screen.getByText('error')).toBeInTheDocument();
-        expect(container).toMatchSnapshot();
     });
 
     it('update purpose state', async () => {

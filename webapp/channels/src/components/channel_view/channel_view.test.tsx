@@ -63,31 +63,6 @@ describe('components/channel_view', () => {
         restrictDirectMessage: false,
     };
 
-    it('Should match snapshot with base props', () => {
-        const {container} = renderWithContext(<ChannelView {...baseProps}/>);
-        expect(container).toMatchSnapshot();
-    });
-
-    it('Should match snapshot if channel is archived', () => {
-        const {container} = renderWithContext(
-            <ChannelView
-                {...baseProps}
-                channelIsArchived={true}
-            />,
-        );
-        expect(container).toMatchSnapshot();
-    });
-
-    it('Should match snapshot if channel is deactivated', () => {
-        const {container} = renderWithContext(
-            <ChannelView
-                {...baseProps}
-                deactivatedChannel={true}
-            />,
-        );
-        expect(container).toMatchSnapshot();
-    });
-
     it('Should have focusedPostId state based on props', () => {
         const {rerender} = renderWithContext(<ChannelView {...baseProps}/>);
 

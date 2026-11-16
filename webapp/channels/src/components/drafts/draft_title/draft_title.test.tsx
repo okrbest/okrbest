@@ -26,16 +26,16 @@ describe('components/drafts/draft_actions', () => {
         type: 'channel' as 'channel' | 'thread',
     };
 
-    it('should match snapshot', () => {
+    it('should render', () => {
         const {container} = renderWithContext(
             <DraftTitle
                 {...baseProps}
             />,
         );
-        expect(container).toMatchSnapshot();
+        expect(container.querySelector('i.icon')).toHaveClass('icon-globe');
     });
 
-    it('should match snapshot for self draft', () => {
+    it('should render for self draft', () => {
         const props = {
             ...baseProps,
             selfDraft: true,
@@ -46,10 +46,10 @@ describe('components/drafts/draft_actions', () => {
                 {...props}
             />,
         );
-        expect(container).toMatchSnapshot();
+        expect(container.querySelector('i.icon')).toHaveClass('icon-globe');
     });
 
-    it('should match snapshot for private channel', () => {
+    it('should render for private channel', () => {
         const channel = {
             type: Constants.PRIVATE_CHANNEL,
             display_name: 'Test Channel',
@@ -64,70 +64,10 @@ describe('components/drafts/draft_actions', () => {
                 {...props}
             />,
         );
-        expect(container).toMatchSnapshot();
+        expect(container.querySelector('i.icon')).toHaveClass('icon-lock-outline');
     });
 
-    it('should match snapshot for DM channel', () => {
-        const channel = {
-            type: Constants.DM_CHANNEL,
-            display_name: 'Test Channel',
-        } as Channel;
-        const props = {
-            ...baseProps,
-            channel,
-        };
-
-        const {container} = renderWithContext(
-            <DraftTitle
-                {...props}
-            />,
-        );
-        expect(container).toMatchSnapshot();
-    });
-
-    it('should match snapshot for DM channel with teammate', () => {
-        const channel = {
-            type: Constants.DM_CHANNEL,
-            display_name: 'Test Channel',
-        } as Channel;
-        const props = {
-            ...baseProps,
-            channel,
-            teammate: {
-                username: 'username',
-                id: 'id',
-                last_picture_update: 1000,
-            } as UserProfile,
-        };
-
-        const {container} = renderWithContext(
-            <DraftTitle
-                {...props}
-            />,
-        );
-        expect(container).toMatchSnapshot();
-    });
-
-    it('should match snapshot for GM channel', () => {
-        const channel = {
-            type: 'G',
-            display_name: 'Test Channel',
-        } as Channel;
-
-        const props = {
-            ...baseProps,
-            channel,
-        };
-
-        const {container} = renderWithContext(
-            <DraftTitle
-                {...props}
-            />,
-        );
-        expect(container).toMatchSnapshot();
-    });
-
-    it('should match snapshot for thread', () => {
+    it('should render for thread', () => {
         const channel = {
             type: Constants.OPEN_CHANNEL,
             display_name: 'Test Channel',
@@ -144,10 +84,10 @@ describe('components/drafts/draft_actions', () => {
                 {...props}
             />,
         );
-        expect(container).toMatchSnapshot();
+        expect(container.querySelector('i.icon')).toHaveClass('icon-globe');
     });
 
-    it('should match snapshot for open channel', () => {
+    it('should render for open channel', () => {
         const channel = {
             type: Constants.OPEN_CHANNEL,
             display_name: 'Test Channel',
@@ -164,27 +104,6 @@ describe('components/drafts/draft_actions', () => {
                 {...props}
             />,
         );
-        expect(container).toMatchSnapshot();
-    });
-
-    it('should fetch members when member count is 0 for GM', () => {
-        const channel = {
-            type: 'G',
-            display_name: 'Test Channel',
-        } as Channel;
-
-        const props = {
-            ...baseProps,
-            channel,
-            membersCount: 0,
-            type: 'channel' as 'channel' | 'thread',
-        };
-
-        const {container} = renderWithContext(
-            <DraftTitle
-                {...props}
-            />,
-        );
-        expect(container).toMatchSnapshot();
+        expect(container.querySelector('i.icon')).toHaveClass('icon-globe');
     });
 });

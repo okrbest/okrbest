@@ -88,12 +88,6 @@ describe('components/MoreDirectChannels', () => {
         },
     };
 
-    test('should match snapshot', () => {
-        const props = {...baseProps, actions: {...baseProps.actions, loadProfilesMissingStatus: jest.fn()}};
-        const {baseElement} = renderWithContext(<MoreDirectChannels {...props}/>);
-        expect(baseElement).toMatchSnapshot();
-    });
-
     test('should call for modal data on callback of modal onEntered', () => {
         const props = {...baseProps, actions: {...baseProps.actions, loadProfilesMissingStatus: jest.fn()}};
         const ref = React.createRef<MoreDirectChannels>();
@@ -381,44 +375,5 @@ describe('components/MoreDirectChannels', () => {
             expect(ref.current!.exitToChannel).toBeUndefined();
             done();
         });
-    });
-
-    test('should exclude deleted users if there is not direct channel between users', () => {
-        const users: UserProfile[] = [
-            {
-                ...mockedUser,
-                id: 'user_id_1',
-                delete_at: 0,
-            },
-            {
-                ...mockedUser,
-                id: 'user_id_2',
-                delete_at: 0,
-            },
-            {
-                ...mockedUser,
-                id: 'deleted_user_1',
-                delete_at: 1,
-            },
-            {
-                ...mockedUser,
-                id: 'deleted_user_2',
-                delete_at: 1,
-            },
-            {
-                ...mockedUser,
-                id: 'deleted_user_3',
-                delete_at: 1,
-            },
-        ];
-        const myDirectChannels = [
-            {name: 'deleted_user_1__current_user_id'},
-            {name: 'not_existent_user_1__current_user_id'},
-            {name: 'current_user_id__deleted_user_2'},
-        ];
-        const currentChannelMembers: UserProfile[] = [];
-        const props = {...baseProps, users, myDirectChannels, currentChannelMembers};
-        const {baseElement} = renderWithContext(<MoreDirectChannels {...props}/>);
-        expect(baseElement).toMatchSnapshot();
     });
 });

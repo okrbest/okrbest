@@ -55,7 +55,7 @@ describe('components/post_view/AddMembersButton', () => {
 
     jest.spyOn(teams, 'getCurrentTeamId').mockReturnValue('team-id');
 
-    test('should match snapshot, less than limit', () => {
+    test('should render less than limit', () => {
         const props = {
             totalUsers: 10,
             usersLimit: 100,
@@ -69,7 +69,7 @@ describe('components/post_view/AddMembersButton', () => {
         expect(screen.queryByText('Invite others to the workspace')).toBeInTheDocument();
     });
 
-    test('should match snapshot, more than limit', () => {
+    test('should render more than limit', () => {
         const props = {
             totalUsers: 100,
             usersLimit: 10,
@@ -83,7 +83,7 @@ describe('components/post_view/AddMembersButton', () => {
         expect(screen.queryByText('Add people')).toBeInTheDocument();
     });
 
-    test('should match snapshot, setHeader and pluginButtons', () => {
+    test('should render setHeader and pluginButtons', () => {
         const PLUGIN_TEXT = 'Create a board plugin';
         const pluginButtons = (
             <button>

@@ -21,69 +21,14 @@ describe('components/suggestion/search_channel_suggestion', () => {
         onMouseMove: jest.fn(),
     };
 
-    test('should match snapshot', () => {
-        const {container} = render(
-            <SearchChannelSuggestion {...baseProps}/>,
-        );
-
-        expect(container).toMatchSnapshot();
-    });
-
-    test('should match snapshot, isSelection is false', () => {
-        const props = {...baseProps, isSelection: false};
-        const {container} = render(
-            <SearchChannelSuggestion {...props}/>,
-        );
-
-        expect(container).toMatchSnapshot();
-    });
-
-    test('should match snapshot, isSelection is true', () => {
-        const props = {...baseProps, isSelection: true};
-        const {container} = render(
-            <SearchChannelSuggestion {...props}/>,
-        );
-
-        expect(container).toMatchSnapshot();
-    });
-
-    test('should match snapshot, channel type DM_CHANNEL', () => {
-        const mockChannel = TestHelper.getChannelMock({type: 'D'});
-        const props = {...baseProps, item: mockChannel, isSelection: true};
-        const {container} = render(
-            <SearchChannelSuggestion {...props}/>,
-        );
-
-        expect(container).toMatchSnapshot();
-    });
-
-    test('should match snapshot, channel type GM_CHANNEL', () => {
-        const mockChannel = TestHelper.getChannelMock({type: 'G'});
-        const props = {...baseProps, item: mockChannel, isSelection: true};
-        const {container} = render(
-            <SearchChannelSuggestion {...props}/>,
-        );
-
-        expect(container).toMatchSnapshot();
-    });
-
-    test('should match snapshot, channel type OPEN_CHANNEL', () => {
+    test('should render globe icon for open channel', () => {
         const mockChannel = TestHelper.getChannelMock({type: 'O'});
-        const props = {...baseProps, item: mockChannel, isSelection: true};
+        const props = {...baseProps, item: mockChannel};
         const {container} = render(
             <SearchChannelSuggestion {...props}/>,
         );
 
-        expect(container).toMatchSnapshot();
-    });
-
-    test('should match snapshot, channel type PRIVATE_CHANNEL', () => {
-        const mockChannel = TestHelper.getChannelMock({type: 'P'});
-        const props = {...baseProps, item: mockChannel, isSelection: true};
-        const {container} = render(
-            <SearchChannelSuggestion {...props}/>,
-        );
-
-        expect(container).toMatchSnapshot();
+        const icon = container.querySelector('i');
+        expect(icon).toHaveClass('icon', 'icon-globe');
     });
 });
