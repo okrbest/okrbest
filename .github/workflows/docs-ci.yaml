@@ -6,6 +6,7 @@ on:
   # 필요한 값: 없음 (선택: vars.ALGOLIA_APP_ID, vars.ALGOLIA_SEARCH_API_KEY) — 인프라 없이도 돌 수 있어 먼저 되살릴 후보
   # pull_request:
   #   paths:
+  #     - ".github/workflows/docs-ci.yaml"
   #     - "docs/**"
   #     - "api/v4/source/**"
   #     - "api/playbooks/**"
@@ -13,6 +14,7 @@ on:
   #   branches:
   #     - master
   #   paths:
+  #     - ".github/workflows/docs-ci.yaml"
   #     - "docs/**"
   #     - "api/v4/source/**"
   #     - "api/playbooks/**"
@@ -69,11 +71,14 @@ jobs:
 
       # Hosted Algolia injects SearchBar preconnects; do not scan that artifact.
       # Rebuild without ALGOLIA_* (prebuild already ran) for the offline shape.
-      - name: Rebuild without Algolia for egress scan
+      # BASE_URL matches the offline bundle the server ships (mattermost/delivery-platform
+      # builds it with BASE_URL=/_documentation/), so links that only break under that
+      # base URL fail here instead of in the release pipeline.
+      - name: Rebuild offline bundle shape for egress scan
         working-directory: docs/site
         run: npx docusaurus build && npm run postbuild
         env:
-          BASE_URL: /
+          BASE_URL: /_documentation/
 
       - name: Scan built site for egress
         working-directory: docs/site
