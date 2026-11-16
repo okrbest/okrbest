@@ -3,40 +3,16 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-16 14:01
+- 갱신일: 2026-11-16 16:19
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 26개
+- 남은 커밋: 2개
 
-**마지막 반영 커밋:** `4e8166e9` | [Use Compass Combobox for rank attributes in System Console and Bots (#39889)](https://github.com/mattermost/mattermost/commit/4e8166e9716149fc7793dc7db689024b4ebaa999) | 2026-11-12
+**마지막 반영 커밋:** `95380997` | [\[MM-71633\] Sync the first post of a shared DM created on a cluster follower (#39716)](https://github.com/mattermost/mattermost/commit/9538099732bde16c3aba8642f83a730a42c177c8) | 2026-11-13
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| c8949834 | [MM-70925: Update multipart form data handling in file uploads (#38819)](https://github.com/mattermost/mattermost/commit/c89498341b76fa0f226bed383f7fe17e39608272) | 2026-11-13 |
-| d8a487e7 | [MM-71509: update session lookup messages (#39603)](https://github.com/mattermost/mattermost/commit/d8a487e792643177d37e2fb2ba4a49fd9430bfd2) | 2026-11-13 |
-| 75dd22f3 | [docs: fix Calls deployment guide links that break the offline docs build (#39990)](https://github.com/mattermost/mattermost/commit/75dd22f30ce352a1b13f161bba66d48e2f78134d) | 2026-11-13 |
-| cdd96ece | [Remove all webapp snapshot tests (#39970)](https://github.com/mattermost/mattermost/commit/cdd96ece41a21f1880f3e877d1abb2eba950187e) | 2026-11-13 |
-| baa5eb60 | [MM-58698: Use postgres driver for postgresql:// config DSNs (#39983)](https://github.com/mattermost/mattermost/commit/baa5eb60f17fb0f5057c0875cca0faf74ffffcaa) | 2026-11-13 |
-| 290e950e | [drip: go idioms: errors.AsType in app/terms_of_service (#39989)](https://github.com/mattermost/mattermost/commit/290e950e44535944d24c7bdb763f0f8f0fee65ed) | 2026-11-13 |
-| 3eff6e1a | [drip: AppError -> error: user preflight authentication (#39988)](https://github.com/mattermost/mattermost/commit/3eff6e1aeb4bdff574e16c6bc8feb74694e740f8) | 2026-11-13 |
-| 902f2288 | [MM-70934: Update websocket request parameter handling and connection lifecycle (#38810)](https://github.com/mattermost/mattermost/commit/902f228879b5382db15786465f1e669ce7e8885c) | 2026-11-13 |
-| 2cc82f09 | [\[MM-71872\] Clear SMTPPort in packaged release config.json (#40011)](https://github.com/mattermost/mattermost/commit/2cc82f095a107ea51a7209aa74b75b5c13b1cec3) | 2026-11-13 |
-| 8d0e30c0 | [Report plugins as starting until OnActivate returns (#39387)](https://github.com/mattermost/mattermost/commit/8d0e30c0e6cafedfc3c781f5f5bc992d03bdf98a) | 2026-11-13 |
-| dc6bec2c | [ci(docs): apply Editor Review only for TOC changes and new pages (#40010)](https://github.com/mattermost/mattermost/commit/dc6bec2c0dc3883d772a9ea36083e9613d5a1fb3) | 2026-11-13 |
-| 6cf751b8 | [fix(docs-ai): open writer docs PRs ready for review, not as drafts (#40008)](https://github.com/mattermost/mattermost/commit/6cf751b8309442a09fb9af5d6ebde7c1d9654c34) | 2026-11-13 |
-| f0cd002e | [\[MM-71710\] Fix clipped deployment sizing diagram at mid-range widths (#39817)](https://github.com/mattermost/mattermost/commit/f0cd002e5c70298c511b0217710de00f3a5c7073) | 2026-11-13 |
-| c9e53127 | [\[MM-71856\] Add biometric_authenticated mobile session attribute (#39985)](https://github.com/mattermost/mattermost/commit/c9e53127e80324e93ef5aeba1799f0c89fb4be84) | 2026-11-13 |
-| 6240b2f2 | [Update inline link and character reference scanning in the markdown parser (#39741)](https://github.com/mattermost/mattermost/commit/6240b2f26fc7ce2a2379fc88b3a6bdbe73dd1842) | 2026-11-13 |
-| 5bb4671a | [\[MM-71873\] Remove translate.mattermost.com links from webapp (#40023)](https://github.com/mattermost/mattermost/commit/5bb4671a26106b22175b3716af08f9a842845fca) | 2026-11-13 |
-| 9d59b084 | [Fix post list height shift for posts with multiple image attachments (#39016)](https://github.com/mattermost/mattermost/commit/9d59b0846b65b5eaef9cbc5ada104644887462cd) | 2026-11-13 |
-| e8da91da | [\[MM-71856\] Note Mobile v2.47 requirement for biometric_authenticated (#40026)](https://github.com/mattermost/mattermost/commit/e8da91da9abf28e30bd22775ce9dfbbcea44e1dc) | 2026-11-13 |
-| 694518d6 | [docs: add Out-of-Band Communications use case page (#40032)](https://github.com/mattermost/mattermost/commit/694518d6a4cc1b64852a920e6b37b47b56ae3dbf) | 2026-11-13 |
-| 2c67adc2 | [Require manage_system to update some environment config settings (#40024)](https://github.com/mattermost/mattermost/commit/2c67adc216fa6895058a626a02216000ee879ab5) | 2026-11-13 |
-| 52486856 | [MM-71131: update integration action URL handling (#39114)](https://github.com/mattermost/mattermost/commit/524868566730ae8a7979fac5598107da30d8e044) | 2026-11-13 |
-| ce2b23d1 | [Write config.json atomically (#38731)](https://github.com/mattermost/mattermost/commit/ce2b23d1f8f221e817060c3145dbb00c3f825023) | 2026-11-14 |
-| 826a939d | [Report plugin reattach failures and deactivation of webapp-only plugins (#39688)](https://github.com/mattermost/mattermost/commit/826a939d8364aea6a746cee241a8e3aed037945f) | 2026-11-13 |
-| c95090ed | [\[MM-71868\] Stop logging normal fresh-server states as warnings and errors (#40012)](https://github.com/mattermost/mattermost/commit/c95090ed63c4dcc07c1914d8b90490504280e673) | 2026-11-13 |
-| 95380997 | [\[MM-71633\] Sync the first post of a shared DM created on a cluster follower (#39716)](https://github.com/mattermost/mattermost/commit/9538099732bde16c3aba8642f83a730a42c177c8) | 2026-11-13 |
 | a69dda3f | [MM-71833: Keep paging shared channel sync when the updated-posts page is full (#39959)](https://github.com/mattermost/mattermost/commit/a69dda3fe70c50a68591539d86095b18031abc7f) | 2026-11-14 |
+| f210e159 | [v12.1.0, Mobile v2.46, and Desktop v6.4 Changelogs (#39286)](https://github.com/mattermost/mattermost/commit/f210e1596bcc8a086d54e90f4e18d7664a97ed2b) | 2026-11-16 |
 
 ## 제외된 커밋
 
@@ -684,6 +660,8 @@
 | 23402384 | [Match the graph attribute picker to the Compass multiselect (#39977)](https://github.com/mattermost/mattermost/commit/23402384135680d7b3fba6eef6b5f0ba09e3065e) | 계층형(graph) 속성 picker를 Compass multiselect 모양(칩·caret·invalid·포커스 링)에 맞춘다(14파일 +810/-90). 대상 property_fields/hierarchical_value_menu 10파일은 계층형 속성 계보(9ef79330 서버·85372e3a webapp, property v2·Global Attributes 위) 제외로 포크에 없고, user_attribute_fields·bots/add_bot/bot_attributes_section.scss도 없다. 포크에 있는 admin_console/system_user_detail/system_user_detail.test.tsx의 변경은 포크에 없는 graph 테스트 블록(chipRemove 헬퍼 import, Remove Alpha 클릭 2곳, G23 테스트)에만 걸려 받을 hunk가 없다. compass-ui 제외(2026-10-18 결정)에도 해당. |
 
 | 4e8166e9 | [Use Compass Combobox for rank attributes in System Console and Bots (#39889)](https://github.com/mattermost/mattermost/commit/4e8166e9716149fc7793dc7db689024b4ebaa999) | Compass Combobox 이관 연작 마지막 — 시스템 콘솔 사용자 상세·봇 화면의 rank 속성 선택기를 cpa-rank-select 메뉴 버튼에서 AttributeCombobox(rank)로 바꾼다(7파일). compass-ui 라이선스 없음으로 제외(2026-10-18 결정), 선행 965c282e·4d0faf21·aa538f07 제외. 대상 중 property_fields/user_attribute_fields 3파일·bot_attributes.spec.ts·user_ranked_value_picker.spec.ts는 포크에 없고(rank 속성 계보 제외), 남은 2파일도 받을 내용이 없다 — admin_console/system_user_detail/system_user_detail.scss가 지우는 .cpa-rank-select 블록과 Playwright user_detail.ts가 고치는 CPA combobox·Ranked CPA picker 절이 포크에 원래 없다(webapp에 cpa-rank-select 0건). |
+
+| c9e53127 | [\[MM-71856\] Add biometric_authenticated mobile session attribute (#39985)](https://github.com/mattermost/mattermost/commit/c9e53127e80324e93ef5aeba1799f0c89fb4be84) | Session Attributes MVF(684ddb32 #36934) 제외 계보 — 모바일 세션 속성 biometric_authenticated(상수·표시명·SessionAttributeSystemFields 항목, 기본 TTL·유예 5분)를 추가하는데 대상 server/public/model/session_attributes.go·_test.go가 포크에 없다(80eb4980·20c4cc42·9a9bbe28·7938c858 등 같은 계보 전부 제외). docs/main/.../session-attributes.mdx 표 1줄은 문서 미러(D1) 규칙대로 Upstream-docs 커밋으로 따로 받았다. 재검토 조건은 Session Attributes 계보 수용 시. |
 
 ## spec 전환 커밋
 
