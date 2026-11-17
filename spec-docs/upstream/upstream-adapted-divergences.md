@@ -6128,3 +6128,18 @@ webapp 9파일(`size_aware_image`, `image_block`, `post_attachment_opengraph`, `
 | `post_height.spec.ts` `makePost` 호출 | `siteUrl: testConfig.siteURL` | 포크의 `testConfig.internalBaseURL`을 유지했다. 컨테이너 안 서버 주소를 쓰는 포크 lib 구조다 | — |
 
 **검증(2026-11-17).** jest `size_aware_image`·`image_block`·`markdown_image`·`post_attachment_opengraph` 6 스위트 79건 통과. 변경 파일 eslint 오류 0(경고 12건은 변경 전과 같다). playwright `tsc --noEmit`에서 `post_height.spec.ts` 오류 0(전체 12건은 abac 스펙의 기존 오류). e2e 실주행은 포크 격차(post_textbox testid 부재)로 채널 스펙이 원래 실패해서 판정에 쓰지 않았다.
+
+## user-survey 플러그인 번들 제거 — 지울 줄은 같고, 문맥의 포크 플러그인 버전은 그대로 뒀다
+
+**upstream**: [`98563b9f`](https://github.com/mattermost/mattermost/commit/98563b9f40417e68b5345634133ab89b6bbab6c5)
+(Remove mattermost-plugin-user-survey from prepackaged plugins, #40074) — 1파일 -1, 2026-11-17 sync 반영(사용자 결정 adapt)
+
+`server/Makefile` `PLUGIN_PACKAGES`에서 `mattermost-plugin-user-survey-v1.1.1`을 지웠다. 지운 줄은 upstream과 같다. 서버·webapp·CI에 user-survey 참조는 없다.
+
+**받지 않은 것.** upstream 변경에서 버린 줄은 없다. merge-tree CONFLICT는 위아래 문맥 줄에서 왔고, 그 줄은 포크 값을 지켰다.
+
+| 위치 | upstream 문맥 | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `server/Makefile` `PLUGIN_PACKAGES` | playbooks `v2.12.1`, agents `v2.9.0`, boards `v10.1.0`, msteams-meetings `v3.0.0` | playbooks `v2.11.1`, agents `v2.4.2`, boards `v9.3.0`, msteams-meetings `v2.4.1`을 유지했다. 공식 번들이 같은 ID의 포크 플러그인을 덮어써서 버전업 커밋을 exclude한 계보다. msteams-meetings는 라이선스 확인 대기 중이다 | 포크 플러그인 ID를 분리하거나 공식 번들로 돌아가기로 할 때 |
+
+**검증(2026-11-17).** `make -n prepackaged-plugins`의 내려받기 목록에서 user-survey가 빠졌다(0건). 나머지 13개 플러그인과 버전은 그대로다.
