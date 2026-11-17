@@ -234,7 +234,7 @@ func (a *App) ProcessRecapChannel(rctx request.CTX, recapID, channelID, userID, 
 	// No posts to summarize - return success with 0 messages
 	if len(posts) == 0 {
 		if appErr := a.saveRecapChannelRecord(recapID, channel.Id, channel.DisplayName, nil, nil, sourcePostIDs); appErr != nil {
-			return result, appErr
+			return result, model.AsAppError(appErr)
 		}
 		result.Success = true
 		return result, nil
@@ -250,13 +250,13 @@ func (a *App) ProcessRecapChannel(rctx request.CTX, recapID, channelID, userID, 
 	summary, err := a.SummarizePosts(rctx, userID, posts, channel.DisplayName, team.Name, agentID)
 	if err != nil {
 		if saveErr := a.saveRecapChannelRecord(recapID, channel.Id, channel.DisplayName, nil, nil, sourcePostIDs); saveErr != nil {
-			return result, saveErr
+			return result, model.AsAppError(saveErr)
 		}
 		return result, err
 	}
 
 	if appErr := a.saveRecapChannelRecord(recapID, channelID, channel.DisplayName, summary.Highlights, summary.ActionItems, sourcePostIDs); appErr != nil {
-		return result, appErr
+		return result, model.AsAppError(appErr)
 	}
 
 	result.MessageCount = len(posts)
@@ -264,7 +264,7 @@ func (a *App) ProcessRecapChannel(rctx request.CTX, recapID, channelID, userID, 
 	return result, nil
 }
 
-func (a *App) saveRecapChannelRecord(recapID, channelID, channelName string, highlights, actionItems, sourcePostIDs []string) *model.AppError {
+func (a *App) saveRecapChannelRecord(recapID, channelID, channelName string, highlights, actionItems, sourcePostIDs []string) error {
 	recapChannel := &model.RecapChannel{
 		Id:            model.NewId(),
 		RecapId:       recapID,

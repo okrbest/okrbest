@@ -5338,9 +5338,9 @@ func TestRejectMaskedTokens_NewPolicy(t *testing.T) {
 			policy := &model.AccessControlPolicy{Rules: tt.rules}
 			err := rejectMaskedTokens(policy)
 			if tt.wantErr {
-				require.NotNil(t, err, "expected rejectMaskedTokens to return an error")
+				require.Error(t, err, "expected rejectMaskedTokens to return an error")
 			} else {
-				require.Nil(t, err)
+				require.NoError(t, err)
 			}
 		})
 	}

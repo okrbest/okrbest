@@ -1442,7 +1442,7 @@ func (a *App) importReaction(data *imports.ReactionImportData, post *model.Post)
 	return nil
 }
 
-func (a *App) importPostPriority(post *model.Post, priority *model.PostPriority, acknowledgements *[]imports.PostAcknowledgementImportData, users map[string]*model.User) *model.AppError {
+func (a *App) importPostPriority(post *model.Post, priority *model.PostPriority, acknowledgements *[]imports.PostAcknowledgementImportData, users map[string]*model.User) error {
 	if priority == nil {
 		return nil
 	}
@@ -1999,7 +1999,7 @@ func (a *App) importMultiplePostLines(rctx request.CTX, lines []imports.LineImpo
 		if line.Post.ThreadFollowers != nil {
 			threadMemberships, lineNumber, err := a.extractThreadMembers(&line, users, post)
 			if err != nil {
-				return lineNumber, err
+				return lineNumber, model.AsAppError(err)
 			}
 
 			if post.Id == "" {
@@ -2138,7 +2138,7 @@ func (a *App) importMultiplePostLines(rctx request.CTX, lines []imports.LineImpo
 		}
 
 		if err := a.importPostPriority(postWithData.post, postWithData.postData.Priority, postWithData.postData.Acknowledgements, users); err != nil {
-			return postWithData.lineNumber, err
+			return postWithData.lineNumber, model.AsAppError(err)
 		}
 
 		if postWithData.postData.Replies != nil && len(*postWithData.postData.Replies) > 0 {
@@ -2559,7 +2559,7 @@ func (a *App) importMultipleDirectPostLines(rctx request.CTX, lines []imports.Li
 		if line.DirectPost.ThreadFollowers != nil {
 			threadMemberships, lineNumber, err := a.extractThreadMembers(&line, users, post)
 			if err != nil {
-				return lineNumber, err
+				return lineNumber, model.AsAppError(err)
 			}
 
 			if post.Id == "" {
@@ -2686,7 +2686,7 @@ func (a *App) importMultipleDirectPostLines(rctx request.CTX, lines []imports.Li
 		}
 
 		if err := a.importPostPriority(postWithData.post, postWithData.directPostData.Priority, postWithData.directPostData.Acknowledgements, users); err != nil {
-			return postWithData.lineNumber, err
+			return postWithData.lineNumber, model.AsAppError(err)
 		}
 
 		if postWithData.directPostData.Replies != nil {
@@ -2770,7 +2770,7 @@ func (a *App) importEmoji(rctx request.CTX, data *imports.EmojiImportData, dryRu
 	return nil
 }
 
-func (a *App) extractThreadMembers(line *imports.LineImportWorkerData, users map[string]*model.User, post *model.Post) ([]*model.ThreadMembership, int, *model.AppError) {
+func (a *App) extractThreadMembers(line *imports.LineImportWorkerData, users map[string]*model.User, post *model.Post) ([]*model.ThreadMembership, int, error) {
 	threadMemberships := []*model.ThreadMembership{}
 
 	var importedFollowers []imports.ThreadFollowerImportData
