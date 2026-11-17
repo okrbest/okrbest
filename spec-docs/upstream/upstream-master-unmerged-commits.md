@@ -3,23 +3,18 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-17 13:52
+- 갱신일: 2026-11-17 16:22
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 9개
+- 남은 커밋: 4개
 
-**마지막 반영 커밋:** `3c6e3e09` | [Changelog generator: fixes from the v12.2.0 dry run (#39932)](https://github.com/mattermost/mattermost/commit/3c6e3e099092e92155b1a3d1084b227b70b88305) | 2026-11-16
+**마지막 반영 커밋:** `7a143a58` | [\[MM-65981\] Make AD/LDAP wizard settings searchable in System Console (#40084)](https://github.com/mattermost/mattermost/commit/7a143a586c71eedf3575208d49386342745f1b20) | 2026-11-16
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 83b0f078 | [Bump Go version to v1.27.3 (#39301)](https://github.com/mattermost/mattermost/commit/83b0f0782ee00aebb75c04c4663681e0f8c77ab1) | 2026-11-16 |
-| 47848ece | [\[MM-69773\] Fix layout shift when wide images in posts finish loading (#39961)](https://github.com/mattermost/mattermost/commit/47848ecede87387ae2d8303339ff10e2169d8ffd) | 2026-11-16 |
-| 34431fea | [Skip flaky TestBulkImportMaxUsersPerTeam subtest (#40025)](https://github.com/mattermost/mattermost/commit/34431fea27aaec9a52dbddcaa22c8fee6555b408) | 2026-11-16 |
-| 0ac736c4 | [\[MM-69577\] Enforce create_direct_channel permission when search in:@user filter would create a DM (#39951)](https://github.com/mattermost/mattermost/commit/0ac736c4b1eaa3fab9f85cad49b0e1b63fcb797b) | 2026-11-16 |
-| 734ba8e8 | [\[MM-65974\] Fix candidate list collapsing in System Console Add Members to Team modal (#39860)](https://github.com/mattermost/mattermost/commit/734ba8e8c642e458caae542f8567326738e85550) | 2026-11-16 |
-| 2f346fb2 | [mmctl: tighten handling of download file names (#40076)](https://github.com/mattermost/mattermost/commit/2f346fb2aafea960cc8fee1614286e216c3ca4ad) | 2026-11-16 |
-| 88e9c3ee | [drip: go idioms: errors.AsType in app/channel_bookmark, compliance, upload, authentication (#40053)](https://github.com/mattermost/mattermost/commit/88e9c3eeeab46029b76a2f7933baae0940e367df) | 2026-11-16 |
-| 98563b9f | [Remove mattermost-plugin-user-survey from prepackaged plugins (#40074)](https://github.com/mattermost/mattermost/commit/98563b9f40417e68b5345634133ab89b6bbab6c5) | 2026-11-16 |
-| 7a143a58 | [\[MM-65981\] Make AD/LDAP wizard settings searchable in System Console (#40084)](https://github.com/mattermost/mattermost/commit/7a143a586c71eedf3575208d49386342745f1b20) | 2026-11-16 |
+| 0b0b65f9 | [\[MM-71931\] Drop redundant severity badges from Site health findings (#40068)](https://github.com/mattermost/mattermost/commit/0b0b65f906286fdb3b1d73910f3f458fd3923dd7) | 2026-11-17 |
+| 8d2ffac7 | [\[MM-71930\] Reword METRICS_OFF health finding around performance history (#40066)](https://github.com/mattermost/mattermost/commit/8d2ffac7abd3a1cae677b117aa8b52e414ae77c2) | 2026-11-17 |
+| 27945cb7 | [\[MM-71213\] Fix SMTP client error handling (#39967)](https://github.com/mattermost/mattermost/commit/27945cb79196fb6ff0d2fafa744cd13c47662a48) | 2026-11-17 |
+| 82ceaa95 | [\[MM-71903\] Keep onboarding invite illustration clear of the step content (#40048)](https://github.com/mattermost/mattermost/commit/82ceaa9567666511f36812ea0e7b09c656296eaf) | 2026-11-17 |
 
 ## 제외된 커밋
 
@@ -708,6 +703,8 @@
 | a28b09d7 | [Upgrade the webapp to TypeScript 7.0 (#39697)](https://github.com/mattermost/mattermost/commit/a28b09d787b0697e294c1efe916f4765002a0636) | webapp-deps-2026-10-11 (4ca793bd·20c15b9d 다음 마지막 단계로 합류: TypeScript 5.9.3 → 7.0.2 네이티브 전환, typescript 별칭 @typescript/typescript6@6.0.2, tsconfig 6개, react-intl override, shared 타입 산출을 parcel types에서 tsc -p tsconfig.build.json + strip_css_imports.mjs로, components rollup, webapp-ci.yml 보호 경로 1줄, lock 재생성. 포크 TS는 5.6.3이라 선행 5.9.3 단계 없이는 package.json 6개·lock이 충돌. 기존 tsc -b 오류 5건(Lexical·MouseEventHandler 등)도 함께 점검) |
 
 | 470f9d77 | [\[MM-71420\] Check MaxUsersPerTeam before bulk import instead of per line (#39868)](https://github.com/mattermost/mattermost/commit/470f9d770b2d646bbd5db6efcd819f9f11eeff27) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 41c482b4의 후속. bulk import가 MaxUsersPerTeam을 줄마다 강제하던 것을 없애고(SaveMultipleMembers 상한 0 + warnIfTeamsOverMemberLimit 경고), zip의 JSONL을 먼저 훑어 팀별 증가 인원을 세는 preflight checkTeamMemberLimits로 바꾼다(--skip-preflight면 경고로 강등). checkTeamMemberLimits가 41c482b4의 sourceTeamName·destinationTeam·rewriteTeamName·deactivateMissingUsers·importedUsers를 인자로 받고 그 커밋의 version 줄 검사 블록에서 호출되며, mmctl·bulk_export.go·rst 변경은 41c482b4가 만드는 --skip-preflight 설명문 수정이라 지금은 merge-tree CONFLICT 8건. 동시 워커 경쟁으로 상한 초과·중간 중단되는 결함은 포크에도 있다(MaxUsersPerTeam=0이면 무관). spec 구현 시 함께 반영하고 구현 커밋 본문에 Upstream 링크 기재 |
+
+| 34431fea | [Skip flaky TestBulkImportMaxUsersPerTeam subtest (#40025)](https://github.com/mattermost/mattermost/commit/34431fea27aaec9a52dbddcaa22c8fee6555b408) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 470f9d77(#39868)이 만든 TestBulkImportMaxUsersPerTeam 하위 테스트 'an import without a zip archive warns that the limit is not checked'를 MM-71878 원인 조사 동안 t.Skip한다. 테스트가 포크에 없어 지금은 반영할 대상이 없다. spec 구현 시 470f9d77과 함께 skip을 넣거나 MM-71878 근본 수정을 받는다 |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
