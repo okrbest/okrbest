@@ -1079,6 +1079,7 @@ export const DocLinks = {
     ENABLE_HARDENED_MODE: 'https://okr.best/pl/enable-hardened-mode',
     FORMAT_MESSAGES: 'https://okr.best/pl/format-messages',
     FILE_STORAGE: 'https://okr.best/pl/configure-file-storage',
+    FIPS_MFA_TOTP: 'https://docs.okrbest.com/deployment-guide/server/containers/fips-stig#multi-factor-authentication-totp',
     GUEST_ACCOUNTS: 'https://docs.okrbest.com/onboard/guest-accounts.html',
     HIGH_AVAILABILITY_CLUSTER: 'https://okr.best/pl/high-availability-cluster',
     IN_PRODUCT_NOTICES: 'https://okr.best/pl/in-product-notices',

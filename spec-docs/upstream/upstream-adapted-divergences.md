@@ -6091,3 +6091,24 @@ CI `i18n-check-empty`는 webapp 카탈로그만 보므로 막히지 않는다. �
 | `.github/workflows/generate-changelog.yml` (+9), `.github/workflows/changelog-scripts-test.yml` (+1) | dry run 요약을 잡 로그에도 출력한다. 테스트 워크플로 경로를 더한다 | 같은 계보. 보호 경로 | 같은 조건 |
 
 **검증(2026-11-17).** `.github/scripts`에서 `python3 -m unittest test_check_config_changes_ci` 16건 통과.
+
+## Go 1.27.3 업그레이드 — mock은 포크 트리에서 다시 만들고, go.mod는 `go` 줄만 올렸다
+
+**upstream**: [`83b0f078`](https://github.com/mattermost/mattermost/commit/83b0f0782ee00aebb75c04c4663681e0f8c77ab1)
+(Bump Go version to v1.27.3, #39301) — 151파일 +410/-216, 2026-11-17 sync 반영(사용자 결정 adapt)
+
+툴체인 고정값, golangci-lint v2.15.0·mockery v2.53.8, Go 1.27 대응 테스트 수정, FIPS 빌드 이미지(Chainguard `go-openssl-fips`), TOTP의 `fips140.WithoutEnforcement` 래퍼(`mfa/totp.go`), 시스템 콘솔 MFA 페이지의 FIPS 경고 배너, FIPS·SAML 문서는 upstream대로 받았다.
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `.cursor/Dockerfile`·`.cursor/README.md` | Go 버전 1.27.3, README 버전 표기 삭제 | 버렸다. Cursor Agent 계보(11b55b77)를 제외해 파일이 없다. 직전 Go 업그레이드 de205c85ba와 같은 처리 | 그 계보를 들일 때 |
+| `server/go.mod` | `go 1.27.3`과 require 블록 정리(indirect 블록 병합, `golang-lru/v2` 직접 의존으로 이동) | `go` 줄만 올렸다. 포크 require는 이미 달라(`blang/semver/v4` 없음 등) 충돌했다. `go mod tidy`는 비공개 `mattermost/enterprise` 모듈 때문에 돌지 않는다 | — |
+| mock 111파일 | mockery v2.53.8로 다시 만든 결과(헤더·import 순서) | upstream 파일을 복사하지 않고 `GOTOOLCHAIN=go1.27.3 make mocks`로 포크 인터페이스에서 다시 만들었다(110파일, 같은 종류의 변경만) | — |
+| `storetest/mocks/DeliveryTrackingStore.go`·`ScheduledRecapStore.go`·`ViewStore.go`, `einterfaces/mocks/OAuthClaimsProvider.go` | 헤더 갱신 | 버렸다. 인터페이스가 포크에 없다 | 해당 계보를 들일 때 make mocks가 만든다 |
+| `channels/app/oauth.go` | `AuthorizeOAuthUser`가 토큰 응답을 1MB 상한으로 먼저 다 읽고 `json.Unmarshal` | 같은 변경을 옮겼다. 포크 `AuthorizeOAuthUser`는 반환값이 4개(`OAuthAuthorization` 구조체 계보 미반영)라 문맥이 달라 충돌했다 | — |
+| `channels/app/oauth_test.go` | 새 하위 테스트 "with an oversized token response"가 반환값 3개를 받는다 | 반환값 4개로 맞췄다 | — |
+| `webapp/channels/src/utils/constants.tsx` | `FIPS_MFA_TOTP: 'https://docs.mattermost.com/...fips-stig#multi-factor-authentication-totp'` | 포크 DocLinks 리브랜드에 맞춰 `https://docs.okrbest.com/...`로 바꿨다 | — |
+
+**i18n 후속.** `admin.mfa.fipsBannerDesc`가 en에만 추가됐다(missing, CI 통과). ko 번역은 별도 작업.
+
+**검증(2026-11-17, GOTOOLCHAIN=go1.27.3).** `go build ./...`, `go vet ./...`, `make vet`·`plugin-checker` 통과. `go fix -diff -embedlit=false -errorsastype=false -stringscut=false ./...` 출력 0줄. `golangci-lint run -j 1 ./... ./public/...` 0 issues. 테스트: `platform/shared/mfa`, `channels/app/imaging`, `channels/app/platform` 통과. `channels/app -run 'OAuth|Authentication|Login|Password|…|PluginSignature'` 통과. `channels/api4 -run 'TestWebSocket|TestLogin|TestMfa…'` 통과. `elasticsearch TestWrapElasticsearchTemplateError` 통과(나머지 ES 테스트 9건은 로컬 ES 서버 부재로 실패한 환경 문제다). webapp `admin_definition*` jest 14 스위트 79건 통과, eslint 오류 0.
