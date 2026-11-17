@@ -51,6 +51,7 @@ import (
 	"github.com/mattermost/mattermost/server/v8/channels/jobs/export_process"
 	"github.com/mattermost/mattermost/server/v8/channels/jobs/export_users_to_csv"
 	"github.com/mattermost/mattermost/server/v8/channels/jobs/extract_content"
+	"github.com/mattermost/mattermost/server/v8/channels/jobs/health_check"
 	"github.com/mattermost/mattermost/server/v8/channels/jobs/import_delete"
 	"github.com/mattermost/mattermost/server/v8/channels/jobs/import_process"
 	"github.com/mattermost/mattermost/server/v8/channels/jobs/last_accessible_post"
@@ -774,6 +775,9 @@ func (s *Server) Shutdown() {
 		s.Log().Warn("Failed to shut down config store", mlog.Err(err))
 	}
 
+	// Before the cluster stops, so a run never collects without the other nodes.
+	s.Channels().stopHealthCheckWorkers()
+
 	if s.platform.Cluster() != nil {
 		s.platform.Cluster().StopInterNodeCommunication()
 	}
@@ -923,6 +927,11 @@ func (s *Server) Start() error {
 	if s.joinCluster && s.platform.Cluster() != nil {
 		s.registerClusterHandlers()
 		s.platform.Cluster().StartInterNodeCommunication()
+	}
+
+	// After the cluster join, so a run can always reach the other nodes.
+	if s.runEssentialJobs {
+		s.Channels().startHealthCheckWorkers()
 	}
 
 	if err := s.ensureInstallationDate(); err != nil {
@@ -1715,6 +1724,10 @@ func (s *Server) initJobs() {
 		notify_admin.MakeInstallPluginScheduler(s.Jobs, s.License(), model.JobTypeInstallPluginNotifyAdmin),
 	)
 
+	// No framework worker: app servers run health_check in their own worker set because
+	// job servers don't join the cluster, see Channels.startHealthCheckWorkers.
+	s.Jobs.RegisterJobType(model.JobTypeHealthCheck, nil, health_check.MakeScheduler(s.Jobs, s.License))
+
 	s.Jobs.RegisterJobType(
 		model.JobTypeCleanupDesktopTokens,
 		cleanup_desktop_tokens.MakeWorker(s.Jobs),
@@ -1956,15 +1969,6 @@ func runLeaderTasks(a *App) {
 		}
 		fn := func() { a.ProcessScheduledPosts(rctx) }
 		return model.CreateRecurringTaskFromNextIntervalTime("Process Scheduled Posts", fn, jobInterval)
-	})
-
-	a.ch.healthCheckTask.runOnLeader(a, "Health Check", func() *model.ScheduledTask {
-		fn := func() {
-			if err := a.RunHealthCheck(rctx); err != nil {
-				a.Log().Error("Health check failed", mlog.Err(err))
-			}
-		}
-		return model.CreateRecurringTask("Health Check", fn, healthCheckInterval)
 	})
 }
 
