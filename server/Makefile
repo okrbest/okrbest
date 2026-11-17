@@ -164,7 +164,6 @@ PLUGIN_PACKAGES += mattermost-plugin-playbooks-v2.11.1
 PLUGIN_PACKAGES += mattermost-plugin-zoom-v2.0.0
 PLUGIN_PACKAGES += mattermost-plugin-agents-v2.4.2
 PLUGIN_PACKAGES += mattermost-plugin-boards-v9.3.0
-PLUGIN_PACKAGES += mattermost-plugin-user-survey-v1.1.1
 PLUGIN_PACKAGES += mattermost-plugin-mscalendar-v2.0.0
 PLUGIN_PACKAGES += mattermost-plugin-msteams-meetings-v2.4.1
 PLUGIN_PACKAGES += mattermost-plugin-metrics-v0.7.0
