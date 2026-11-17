@@ -6112,3 +6112,19 @@ CI `i18n-check-empty`는 webapp 카탈로그만 보므로 막히지 않는다. �
 **i18n 후속.** `admin.mfa.fipsBannerDesc`가 en에만 추가됐다(missing, CI 통과). ko 번역은 별도 작업.
 
 **검증(2026-11-17, GOTOOLCHAIN=go1.27.3).** `go build ./...`, `go vet ./...`, `make vet`·`plugin-checker` 통과. `go fix -diff -embedlit=false -errorsastype=false -stringscut=false ./...` 출력 0줄. `golangci-lint run -j 1 ./... ./public/...` 0 issues. 테스트: `platform/shared/mfa`, `channels/app/imaging`, `channels/app/platform` 통과. `channels/app -run 'OAuth|Authentication|Login|Password|…|PluginSignature'` 통과. `channels/api4 -run 'TestWebSocket|TestLogin|TestMfa…'` 통과. `elasticsearch TestWrapElasticsearchTemplateError` 통과(나머지 ES 테스트 9건은 로컬 ES 서버 부재로 실패한 환경 문제다). webapp `admin_definition*` jest 14 스위트 79건 통과, eslint 오류 0.
+
+## 넓은 이미지 로딩 중 레이아웃 이동 수정 — e2e 스펙의 subpath 프로젝트와 siteURL은 포크 문맥을 지켰다
+
+**upstream**: [`47848ece`](https://github.com/mattermost/mattermost/commit/47848ecede87387ae2d8303339ff10e2169d8ffd)
+([MM-69773] Fix layout shift when wide images in posts finish loading, #39961) — 15파일 +604/-24, 2026-11-17 sync 반영(사용자 결정 adapt)
+
+webapp 9파일(`size_aware_image`, `image_block`, `post_attachment_opengraph`, `_files.scss`, jest 4개)과 e2e 자산 5개는 upstream 그대로 받았다. `post_height.spec.ts`도 upstream 변경을 받았다. 고쳐진 큰 이미지 케이스 2개(`large Markdown image`, `large image preview`)의 `skipProjects` 줄을 upstream처럼 지워 다시 켰다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `post_height.spec.ts` `post with an SVG Markdown image` | `skipProjects: ['chrome', 'firefox', 'ipad', 'subpath']` | `'subpath'`를 넣지 않았다. subpath 프로젝트는 제외한 d430bb29(#38833, testcontainers subpath e2e) 계보라 포크 playwright 설정에 없다. 충돌은 이 차이에서 왔다 | d430bb29 계보를 들일 때 `'subpath'`를 더한다 |
+| `post_height.spec.ts` `makePost` 호출 | `siteUrl: testConfig.siteURL` | 포크의 `testConfig.internalBaseURL`을 유지했다. 컨테이너 안 서버 주소를 쓰는 포크 lib 구조다 | — |
+
+**검증(2026-11-17).** jest `size_aware_image`·`image_block`·`markdown_image`·`post_attachment_opengraph` 6 스위트 79건 통과. 변경 파일 eslint 오류 0(경고 12건은 변경 전과 같다). playwright `tsc --noEmit`에서 `post_height.spec.ts` 오류 0(전체 12건은 abac 스펙의 기존 오류). e2e 실주행은 포크 격차(post_textbox testid 부재)로 채널 스펙이 원래 실패해서 판정에 쓰지 않았다.
