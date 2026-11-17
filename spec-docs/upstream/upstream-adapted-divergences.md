@@ -6073,3 +6073,21 @@ CI `i18n-check-empty`는 webapp 카탈로그만 보므로 막히지 않는다. �
 **지운 포크 문구**(`manage_languages.tsx`): `Would you like to help with translations? Join the <link>OKR.BEST Translation Server</link> to contribute.` (링크 `http://translate.mattermost.com`)
 
 **검증(2026-11-16, /tmp worktree).** jest `manage_languages`·`localization` 2 스위트 7건 통과, `i18n-check-empty` 통과, eslint 문제 0, `check-types` 기준선과 같다.
+
+## changelog 생성기 dry run 수정 — config-change-checker 2파일만 받고 생성기 5파일은 버렸다
+
+**upstream**: [`3c6e3e09`](https://github.com/mattermost/mattermost/commit/3c6e3e099092e92155b1a3d1084b227b70b88305)
+(Changelog generator: fixes from the v12.2.0 dry run, #39932) — 7파일 +697/-27, 2026-11-17 sync 반영(사용자 결정 adapt)
+
+한 커밋에 두 계보가 섞여 있다. 포크가 PR마다 돌리는 config-change-checker 수정만 받았다. `_route_prefixes`가 서브라우터 접두어를 `APIRoot`(`/api/v4`)·`APIRoot5`(`/api/v5`)까지 거슬러 붙인다. 전에는 `GET /api/v4/usage/posts`가 `GET /posts`처럼 잘려 보고됐다. `router_endpoints()`도 같이 받았다. 포크에서는 호출하는 곳이 없고, 새 테스트가 검증한다.
+
+**버린 것.**
+
+| 위치 | upstream | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `.github/scripts/generate_changelog.py` (+298) | DB 스키마 요약에 릴리스 이름을 쓴다. 문장형 노트에 "Added"를 붙이지 않는다. 마이그레이션 이름만 있는 노트는 Database Schema Changes로 합친다. 문서 페이지 링크를 모든 섹션에 넣는다. 동작을 바꾸는 의존성 교체는 Compatibility로 보낸다. milestone 밖 문서 PR을 이전 릴리스 브랜치 분기점부터 찾는다 | 파일이 포크에 없다. 제외한 changelog 자동화 계보(53aaf6a4 #38113, 346c94f0 #38478, 10dc5245 #39380)다. Mattermost 소유 GitHub App 자격증명(`CHANGELOG_READ/WRITE_*`)과 비공개 enterprise 저장소 접근이 있어야 돈다 | 자체 changelog 자동화를 도입하기로 하면 53aaf6a4부터 계보째 다시 검토한다 |
+| `.github/scripts/test_generate_changelog.py` (+341) | 위 동작의 테스트 | 같은 계보 | 같은 조건 |
+| `.github/scripts/changelog_release.py` (+17) | API 변경 줄의 전체 경로를 라우터에서 읽는다. 경로를 못 찾는 줄은 노트에서 빼고 보고서에 표시한다 | 같은 계보 | 같은 조건 |
+| `.github/workflows/generate-changelog.yml` (+9), `.github/workflows/changelog-scripts-test.yml` (+1) | dry run 요약을 잡 로그에도 출력한다. 테스트 워크플로 경로를 더한다 | 같은 계보. 보호 경로 | 같은 조건 |
+
+**검증(2026-11-17).** `.github/scripts`에서 `python3 -m unittest test_check_config_changes_ci` 16건 통과.
