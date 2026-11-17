@@ -1,17 +1,30 @@
 # upstream-master 미반영 커밋 목록
 
-`HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
+`master`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-16 16:36
-- 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1개
+- 갱신일: 2026-11-17 13:18
+- 기준: `git log master..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
+- 남은 커밋: 14개
 
 **마지막 반영 커밋:** `a69dda3f` | [MM-71833: Keep paging shared channel sync when the updated-posts page is full (#39959)](https://github.com/mattermost/mattermost/commit/a69dda3fe70c50a68591539d86095b18031abc7f) | 2026-11-14
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
 | f210e159 | [v12.1.0, Mobile v2.46, and Desktop v6.4 Changelogs (#39286)](https://github.com/mattermost/mattermost/commit/f210e1596bcc8a086d54e90f4e18d7664a97ed2b) | 2026-11-16 |
+| 81d72d8b | [\[MM-71163\] Docs: Metrics plugin enabled by default with Performance Monitoring (#39867)](https://github.com/mattermost/mattermost/commit/81d72d8b3ea976bc64695ebd9ee51c61d53e4430) | 2026-11-16 |
+| 562fabec | [drip: AppError -> error: user postflight authentication (#40047)](https://github.com/mattermost/mattermost/commit/562fabecaf4eff41963b0801e06287982300969c) | 2026-11-16 |
+| 41bac632 | [Fix blog link (#40065)](https://github.com/mattermost/mattermost/commit/41bac632294fe98ae424018750dba872eea32788) | 2026-11-16 |
+| 3c6e3e09 | [Changelog generator: fixes from the v12.2.0 dry run (#39932)](https://github.com/mattermost/mattermost/commit/3c6e3e099092e92155b1a3d1084b227b70b88305) | 2026-11-16 |
+| 83b0f078 | [Bump Go version to v1.27.3 (#39301)](https://github.com/mattermost/mattermost/commit/83b0f0782ee00aebb75c04c4663681e0f8c77ab1) | 2026-11-16 |
+| 47848ece | [\[MM-69773\] Fix layout shift when wide images in posts finish loading (#39961)](https://github.com/mattermost/mattermost/commit/47848ecede87387ae2d8303339ff10e2169d8ffd) | 2026-11-16 |
+| 34431fea | [Skip flaky TestBulkImportMaxUsersPerTeam subtest (#40025)](https://github.com/mattermost/mattermost/commit/34431fea27aaec9a52dbddcaa22c8fee6555b408) | 2026-11-16 |
+| 0ac736c4 | [\[MM-69577\] Enforce create_direct_channel permission when search in:@user filter would create a DM (#39951)](https://github.com/mattermost/mattermost/commit/0ac736c4b1eaa3fab9f85cad49b0e1b63fcb797b) | 2026-11-16 |
+| 734ba8e8 | [\[MM-65974\] Fix candidate list collapsing in System Console Add Members to Team modal (#39860)](https://github.com/mattermost/mattermost/commit/734ba8e8c642e458caae542f8567326738e85550) | 2026-11-16 |
+| 2f346fb2 | [mmctl: tighten handling of download file names (#40076)](https://github.com/mattermost/mattermost/commit/2f346fb2aafea960cc8fee1614286e216c3ca4ad) | 2026-11-16 |
+| 88e9c3ee | [drip: go idioms: errors.AsType in app/channel_bookmark, compliance, upload, authentication (#40053)](https://github.com/mattermost/mattermost/commit/88e9c3eeeab46029b76a2f7933baae0940e367df) | 2026-11-16 |
+| 98563b9f | [Remove mattermost-plugin-user-survey from prepackaged plugins (#40074)](https://github.com/mattermost/mattermost/commit/98563b9f40417e68b5345634133ab89b6bbab6c5) | 2026-11-16 |
+| 7a143a58 | [\[MM-65981\] Make AD/LDAP wizard settings searchable in System Console (#40084)](https://github.com/mattermost/mattermost/commit/7a143a586c71eedf3575208d49386342745f1b20) | 2026-11-16 |
 
 ## 제외된 커밋
 
