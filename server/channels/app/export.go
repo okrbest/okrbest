@@ -137,12 +137,12 @@ func (a *App) BulkExport(rctx request.CTX, writer io.Writer, outPath string, job
 
 	rctx.Logger().Info("Bulk export: exporting version")
 	if err := a.exportVersion(writer); err != nil {
-		return err
+		return model.AsAppError(err)
 	}
 
 	if opts.IncludeRolesAndSchemes {
 		if err := a.exportRolesAndSchemes(rctx, job, writer); err != nil {
-			return err
+			return model.AsAppError(err)
 		}
 	}
 
@@ -268,7 +268,7 @@ func (a *App) exportAttachments(rctx request.CTX, attachments []imports.Attachme
 	return warnings, nil
 }
 
-func (a *App) exportWriteLine(w io.Writer, line *imports.LineImportData) *model.AppError {
+func (a *App) exportWriteLine(w io.Writer, line *imports.LineImportData) error {
 	b, err := json.Marshal(line)
 	if err != nil {
 		return model.NewAppError("BulkExport", "app.export.export_write_line.json_marshall.error", nil, "", http.StatusBadRequest).Wrap(err)
@@ -281,7 +281,7 @@ func (a *App) exportWriteLine(w io.Writer, line *imports.LineImportData) *model.
 	return nil
 }
 
-func (a *App) exportVersion(writer io.Writer) *model.AppError {
+func (a *App) exportVersion(writer io.Writer) error {
 	version := 1
 
 	info := &imports.VersionInfoImportData{
@@ -299,7 +299,7 @@ func (a *App) exportVersion(writer io.Writer) *model.AppError {
 	return a.exportWriteLine(writer, versionLine)
 }
 
-func (a *App) exportRolesAndSchemes(rctx request.CTX, job *model.Job, writer io.Writer) *model.AppError {
+func (a *App) exportRolesAndSchemes(rctx request.CTX, job *model.Job, writer io.Writer) error {
 	// We export schemes first since they'll already include their attached roles
 	// which we map to avoid exporting them twice later in exportRoles.
 	schemeRolesMap := make(map[string]bool)
@@ -327,7 +327,7 @@ func (a *App) exportRolesAndSchemes(rctx request.CTX, job *model.Job, writer io.
 	return nil
 }
 
-func (a *App) exportRoles(rctx request.CTX, job *model.Job, writer io.Writer, schemeRoles map[string]bool, allRoles []*model.Role) *model.AppError {
+func (a *App) exportRoles(rctx request.CTX, job *model.Job, writer io.Writer, schemeRoles map[string]bool, allRoles []*model.Role) error {
 	var cnt int
 	for _, role := range allRoles {
 		// We skip any roles that will be included as part of custom schemes.
@@ -344,7 +344,7 @@ func (a *App) exportRoles(rctx request.CTX, job *model.Job, writer io.Writer, sc
 	return nil
 }
 
-func (a *App) exportSchemes(rctx request.CTX, job *model.Job, writer io.Writer, scope string, schemeRolesMap map[string]bool, allRoles []*model.Role) *model.AppError {
+func (a *App) exportSchemes(rctx request.CTX, job *model.Job, writer io.Writer, scope string, schemeRolesMap map[string]bool, allRoles []*model.Role) error {
 	rolesMap := make(map[string]*model.Role, len(allRoles))
 	for _, role := range allRoles {
 		rolesMap[role.Name] = role
@@ -426,7 +426,7 @@ func (a *App) exportAllTeams(rctx request.CTX, job *model.Job, writer io.Writer)
 
 			teamLine := importLineFromTeam(team)
 			if err := a.exportWriteLine(writer, teamLine); err != nil {
-				return nil, err
+				return nil, model.AsAppError(err)
 			}
 		}
 	}
@@ -463,7 +463,7 @@ func (a *App) exportAllChannels(rctx request.CTX, job *model.Job, writer io.Writ
 
 			channelLine := importLineFromChannel(channel)
 			if err := a.exportWriteLine(writer, channelLine); err != nil {
-				return err
+				return model.AsAppError(err)
 			}
 		}
 	}
@@ -563,7 +563,7 @@ func (a *App) exportAllUsers(rctx request.CTX, job *model.Job, writer io.Writer,
 			userLine.User.Teams = members
 
 			if err := a.exportWriteLine(writer, userLine); err != nil {
-				return profilePictures, err
+				return profilePictures, model.AsAppError(err)
 			}
 		}
 	}
@@ -617,7 +617,7 @@ func (a *App) exportAllBots(rctx request.CTX, job *model.Job, writer io.Writer, 
 			}
 
 			if err := a.exportWriteLine(writer, botLine); err != nil {
-				return profilePictures, err
+				return profilePictures, model.AsAppError(err)
 			}
 		}
 
@@ -790,7 +790,7 @@ func (a *App) exportAllPosts(rctx request.CTX, job *model.Job, writer io.Writer,
 			}
 
 			if err := a.exportWriteLine(writer, postLine); err != nil {
-				return nil, err
+				return nil, model.AsAppError(err)
 			}
 		}
 	}
@@ -981,7 +981,7 @@ func (a *App) exportCustomEmoji(rctx request.CTX, job *model.Job, writer io.Writ
 
 				emojiImportObject := importLineFromEmoji(emoji, filePath)
 				if err := a.exportWriteLine(writer, emojiImportObject); err != nil {
-					return nil, err
+					return nil, model.AsAppError(err)
 				}
 			}
 		}
@@ -1094,7 +1094,7 @@ func (a *App) exportAllDirectChannels(rctx request.CTX, job *model.Job, writer i
 
 			channelLine := importLineFromDirectChannel(channel, favoritedBy, shownBy)
 			if err := a.exportWriteLine(writer, channelLine); err != nil {
-				return err
+				return model.AsAppError(err)
 			}
 		}
 	}
@@ -1263,7 +1263,7 @@ func (a *App) exportAllDirectPosts(rctx request.CTX, job *model.Job, writer io.W
 			}
 
 			if err := a.exportWriteLine(writer, postLine); err != nil {
-				return nil, err
+				return nil, model.AsAppError(err)
 			}
 		}
 	}
