@@ -1163,7 +1163,7 @@ func (a *App) registerTeamMember(rctx request.CTX, team *model.Team, registratio
 	}
 
 	if passwordErr := a.IsPasswordValid(rctx, registration.Password); passwordErr != nil {
-		result.Error = passwordErr
+		result.Error = model.AsAppError(passwordErr)
 		return result
 	}
 	if !users.CheckUserDomain(&model.User{Email: email}, team.AllowedDomains) {
