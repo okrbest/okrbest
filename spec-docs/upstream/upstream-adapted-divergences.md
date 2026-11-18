@@ -6254,3 +6254,18 @@ builder 이미지의 `prepackaged_plugins` 30→24개(세 플러그인 6개 파�
 | `health_dashboard.tsx` `runButton` | `size='small'`, `loading={running}`, `leadingIcon={<Icon glyph={<RefreshIcon/>}/>}` | `size='sm'`, `type='button'`, 자식으로 `<RefreshIcon size={16}/>`. 실행 중 버튼 안 스피너가 없다. `disabled`와 "Running checks…" 문구로 상태를 알린다 | 같다 |
 
 **검증(2026-11-19).** jest `admin_console/health_dashboard` 4 스위트 94건 통과(수정 전에는 `health_dashboard.test.tsx`가 모듈 해석 실패로 로드되지 않았다). 변경 파일 eslint 오류 0. 서버 빌드, `jobs`·`jobs/health_check`, `app`·`api4` `-run Health`, sqlstore `TestJobStore|TestHealthFindingStore` 44건, mmctl `-tags unit` `TestMmctlUnitSuite/TestHealth` 42건 통과.
+
+## 채널 초대 칩 표시 이름 — 코드는 다 받고, 테스트만 포크 이름 형식에 맞췄다
+
+**upstream**: [`5b113dca`](https://github.com/mattermost/mattermost/commit/5b113dcae735eaafaf9651fdee90515f7a0c8a25)
+(MM-62006 Use display setting for invite chips, #36520) — 3파일 +43/-1, 2026-11-19 sync 반영(사용자 결정 adapt)
+
+`MultiSelect`의 `valueLabelRenderer` prop과 채널 초대 모달의 `renderValueLabel`은 upstream 그대로 받았다. 칩이 `getDisplayName`(닉네임 우선) 대신 `displayUsername(option, teammateNameDisplaySetting)`을 따른다. 포크는 `5bfd6df5d5`에서 초대 모달(`invite_view.tsx`) 칩을 이미 같은 방식으로 바꿨으니 방향이 같다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `channel_invite_modal.test.tsx` 신규 테스트 단언 3곳 | SHOW_USERNAME에서 목록·칩이 `user-with-nick`, 화면 어디에도 `Unexpected Nickname`이 없다 | 목록·칩이 `user-with-nick (Unexpected Nickname)`, 칩(`.react-select__value__name`)에 닉네임만 있지 않다. 포크 `displayUsername`이 SHOW_USERNAME을 `아이디 - 성명 (닉네임)` 형식으로 그린다(`user_utils.ts`) | 포크가 `displayUsername` 커스텀 형식을 거둘 때 upstream 값으로 되돌린다 |
+
+**검증(2026-11-19).** jest `channel_invite_modal`·`multiselect` 5 스위트 34건 통과. 운영 코드 2파일을 빼고 돌리면 수정한 테스트가 칩 단언에서 실패한다. 변경 파일 eslint 오류 0.
