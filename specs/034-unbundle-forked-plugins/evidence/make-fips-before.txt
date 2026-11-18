@@ -1,0 +1,1 @@
+for plugin_package in mattermost-plugin-playbooks-v2.11.1%2B329b65c-fips mattermost-plugin-agents-v2.4.2%2B1305067-fips mattermost-plugin-boards-v9.3.0%2Bd454327-fips 

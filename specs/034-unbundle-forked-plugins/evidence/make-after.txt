@@ -1,0 +1,1 @@
+for plugin_package in  mattermost-plugin-calls-v1.12.6 mattermost-plugin-github-v3.0.0 mattermost-plugin-gitlab-v2.0.0 mattermost-plugin-jira-v5.1.0 mattermost-plugin-zoom-v2.0.0 mattermost-plugin-mscalendar-v2.0.0 mattermost-plugin-msteams-meetings-v2.4.1 mattermost-plugin-metrics-v0.7.0 mattermost-plugin-channel-export-v1.3.0 mattermost-plugin-dataminr-v2.0.0 
