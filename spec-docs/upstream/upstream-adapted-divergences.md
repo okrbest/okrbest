@@ -6238,3 +6238,19 @@ builder 이미지의 `prepackaged_plugins` 30→24개(세 플러그인 6개 파�
 | `e2e-tests/playwright/lib/src/server/default_feature_flags.ts` | `HealthDashboard: 'false'` → `'true'` | 파일이 없다. 제외한 5dec0b82(#39091, Playwright config 리셋 개편)가 만든 생성 파일이다. modify/delete 충돌은 여기서 났다 | 5dec0b82 계보를 들일 때 생성기로 다시 만든다 |
 
 **검증(2026-11-19).** `public/model` FeatureFlag 테스트, `jobs/health_check`, `app`·`api4` `-run Health`, `app/platform` support packet, `platform/shared/healthcheck/...` 모두 통과. support packet golden(`sanitized_config.json`의 `"HealthDashboard": false`)은 upstream도 고치지 않았고 테스트가 통과한다. playwright `tsc --noEmit` 오류 12건은 기존 abac 스펙 기준선 그대로, site_health 스펙 0건.
+
+## Health Dashboard 즉시 실행 — 버튼만 compass-ui 대신 shared Button으로 만들었다
+
+**upstream**: [`f3624d99`](https://github.com/mattermost/mattermost/commit/f3624d99d7bdbef59f00b9500adaf30271a2f053)
+([MM-71427] Health Dashboard: run the health check on demand, #39648) — 26파일 +1325/-55, 2026-11-19 sync 반영(사용자 결정 adapt)
+
+서버(잡 즉시 실행, jobs API 허용, 스케줄러·store 보정), `mmctl health run`, webapp 실행 버튼·상태 폴링·실패 배너는 upstream 그대로 받았다. 텍스트 충돌은 없었다. 다만 upstream 버튼이 제외한 Compass UI 계보(`@mattermost/compass-ui`)를 import해서 jest·tsc·빌드가 모듈을 찾지 못했다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `health_dashboard.tsx` import | `Button`(`@mattermost/compass-ui/components/button`), `Icon`(`@mattermost/compass-ui/components/icon`) | `Button`(`@mattermost/shared/components/button`). `commercial_support_modal.tsx`와 같은 방식이다 | Compass UI 계보를 들일 때 upstream 값으로 되돌린다 |
+| `health_dashboard.tsx` `runButton` | `size='small'`, `loading={running}`, `leadingIcon={<Icon glyph={<RefreshIcon/>}/>}` | `size='sm'`, `type='button'`, 자식으로 `<RefreshIcon size={16}/>`. 실행 중 버튼 안 스피너가 없다. `disabled`와 "Running checks…" 문구로 상태를 알린다 | 같다 |
+
+**검증(2026-11-19).** jest `admin_console/health_dashboard` 4 스위트 94건 통과(수정 전에는 `health_dashboard.test.tsx`가 모듈 해석 실패로 로드되지 않았다). 변경 파일 eslint 오류 0. 서버 빌드, `jobs`·`jobs/health_check`, `app`·`api4` `-run Health`, sqlstore `TestJobStore|TestHealthFindingStore` 44건, mmctl `-tags unit` `TestMmctlUnitSuite/TestHealth` 42건 통과.
