@@ -3,7 +3,7 @@ name: docs-cd
 on:
   # okrbest: 자동 트리거(push)는 인프라를 확보할 때까지 끈다.
   # 복원 조건과 목록: spec-docs/upstream/upstream-adapted-divergences.md "문서 사이트 계보 복원".
-  # 필요한 값: vars.DOCS_DEPLOY_ROLE_ARN, vars.DOCS_BUCKET_NAME, vars.DOCS_CF_DISTRIBUTION_ID (선택: vars.ALGOLIA_APP_ID, vars.ALGOLIA_SEARCH_API_KEY)
+  # 필요한 값: vars.DOCS_DEPLOY_ROLE_ARN, vars.DOCS_BUCKET_NAME, vars.DOCS_CF_DISTRIBUTION_ID (선택: vars.ALGOLIA_APP_ID, vars.ALGOLIA_SEARCH_API_KEY, vars.ONETRUST_DOMAIN_SCRIPT)
   # push:
   #   branches:
   #     - master
@@ -66,6 +66,9 @@ jobs:
         env:
           ALGOLIA_APP_ID: ${{ vars.ALGOLIA_APP_ID }}
           ALGOLIA_SEARCH_API_KEY: ${{ vars.ALGOLIA_SEARCH_API_KEY }}
+          # OneTrust domain script for the hosted docs site. Hosted site only.
+          # okrbest: upstream은 mattermost.com 소유 ID를 하드코딩한다. 우리 계정이 없어 변수로 받는다(비면 배너 없음).
+          ONETRUST_DOMAIN_SCRIPT: ${{ vars.ONETRUST_DOMAIN_SCRIPT }}
         run: npm run build
 
       - name: cd/configure-aws-credentials
