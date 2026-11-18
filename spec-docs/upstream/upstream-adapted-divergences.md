@@ -5661,6 +5661,7 @@ B (나) 13개: `4255e314`(channel_settings_modal), `2ba31db3`·`751b8cb6`(프리
 | 〃 | `GIT_USERNAME` 기본값 | `mattermost-docs-ai[bot]` | `okrbest-docs-ai[bot]` |
 | `.github/prompts/` 3파일 | 사이트 도메인 | `docs.mattermost.com` | `docs.okrbest.com` |
 | `docs-cd.yml` | `ONETRUST_DOMAIN_SCRIPT` (e125d79f, #40098, 2026-11-18 반영) | mattermost.com 소유 OneTrust ID `720431b2-…` 하드코딩 | `${{ vars.ONETRUST_DOMAIN_SCRIPT }}`. 우리 동의 관리 계정이 없어 비워 두고, 비면 배너·Cookie settings 버튼이 빠진다 |
+| 〃 | `GTM_CONTAINER_ID` (2505339d, #40101, 2026-11-18 반영) | docs.mattermost.com GTM 컨테이너 `GTM-K874RWM` 하드코딩 | `${{ vars.GTM_CONTAINER_ID }}`. 우리 분석 계정이 없어 비워 두고, 비면(또는 OneTrust가 비면) GTM이 실리지 않는다 |
 
 AWS 리전 `us-east-1`은 포크 워크플로와 같아 그대로 뒀다. `docs-cd.yml`의 OIDC 역할(`role-to-assume`)도
 그대로 뒀다. 역할을 만들지 않기로 하면 포크 관례(액세스 키 시크릿)로 바꾼다.
@@ -5689,6 +5690,7 @@ AWS 리전 `us-east-1`은 포크 워크플로와 같아 그대로 뒀다. `docs-
 | `docs-cd.yml` | `vars.DOCS_DEPLOY_ROLE_ARN`, `vars.DOCS_BUCKET_NAME`, `vars.DOCS_CF_DISTRIBUTION_ID` |
 | `docs-ci.yaml`·`docs-cd.yml` (선택) | `vars.ALGOLIA_APP_ID`, `vars.ALGOLIA_SEARCH_API_KEY`. 없으면 검색 없이 빌드된다 |
 | `docs-cd.yml` (선택) | `vars.ONETRUST_DOMAIN_SCRIPT`. 우리 OneTrust 도메인 스크립트 ID. 없으면 쿠키 배너 없이 빌드된다 |
+| `docs-cd.yml` (선택) | `vars.GTM_CONTAINER_ID`. 우리 GTM 컨테이너 ID(`GTM-…` 형식, 아니면 빌드 실패). OneTrust 값과 함께 있어야 실린다 |
 | `docs-preview.yml`·`docs-preview-cleanup.yml`·`docs-preview-fork.yml` | `secrets.AWS_DOCS_PR_PREVIEW_KEY_ID`, `secrets.AWS_DOCS_PR_PREVIEW_SECRET_ACCESS_KEY`, `vars.DOCS_PREVIEW_BUCKET_NAME` |
 | `docs-gap.yml`·`docs-review.yml`·`docs-writer-merged-pr.yml` | `secrets.ANTHROPIC_API_KEY`(이미 있음), `vars.DOCS_AI_GAP_MODEL`·`DOCS_AI_REVIEW_MODEL`·`DOCS_AI_ROUTER_MODEL`·`DOCS_AI_WRITER_MODEL`(기본값 `claude-sonnet-4-6`은 구형, 현재 모델 ID로 설정), `vars.DOCS_AI_MAX_REVISIONS`(선택) |
 | `docs-writer-merged-pr.yml` | `vars.DOCS_AI_APP_CLIENT_ID`, `secrets.DOCS_AI_APP_PRIVATE_KEY`(okrbest 조직 GitHub App), `vars.DOCS_AI_BOT_LOGIN`·`DOCS_AI_GIT_USERNAME`·`DOCS_AI_GIT_EMAIL`(선택) |
