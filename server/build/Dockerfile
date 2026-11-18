@@ -45,6 +45,16 @@ RUN rm -f /mattermost/bin/mattermost \
 # && rm -rf /mattermost/i18n/*
 #  && rm -f /mattermost/config/config.json
 
+# okrbest: 업스트림 패키지에 든 공식 Playbooks·Boards·Agents를 지운다.
+# 우리 포크 플러그인과 ID(playbooks·focalboard·mattermost-ai)가 같아, 서버가 시작할 때마다
+# 버전이 더 높은 공식판이 파일 저장소에서 복원한 포크를 덮어쓴다(specs/034-unbundle-forked-plugins).
+# tarball 레이어 뒤의 별도 RUN이라 Dockerfile이 바뀌면 캐시된 tarball을 다시 받지 않고 이 단계만 다시 돈다.
+# 지운 뒤에도 남아 있으면(이름 규칙 변경 등) 빌드를 멈춘다.
+RUN rm -f /mattermost/prepackaged_plugins/mattermost-plugin-{playbooks,boards,agents}-v* \
+  && if ls /mattermost/prepackaged_plugins | grep -E '^mattermost-plugin-(playbooks|boards|agents)-'; then \
+       echo "forked plugin bundles still present in prepackaged_plugins" >&2; exit 1; \
+     fi
+
 # 앱 바이너리와 클라이언트는 여기서 복사하지 않는다 (최종 스테이지에서 별도 레이어로 복사).
 # builder 단계에서 덮어쓰면 아래 `COPY --from=builder /mattermost` 레이어 전체가 매 빌드마다
 # 바뀌어 수백 MB가 매번 push된다.
