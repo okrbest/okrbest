@@ -45,13 +45,14 @@ RUN rm -f /mattermost/bin/mattermost \
 # && rm -rf /mattermost/i18n/*
 #  && rm -f /mattermost/config/config.json
 
-# okrbest: 업스트림 패키지에 든 공식 Playbooks·Boards·Agents를 지운다.
-# 우리 포크 플러그인과 ID(playbooks·focalboard·mattermost-ai)가 같아, 서버가 시작할 때마다
+# okrbest: 업스트림 패키지에 든 공식 Playbooks·Boards·Agents·Google Calendar를 지운다.
+# 우리 포크 플러그인과 ID(playbooks·focalboard·mattermost-ai·com.mattermost.gcal)가 같아, 서버가 시작할 때마다
 # 버전이 더 높은 공식판이 파일 저장소에서 복원한 포크를 덮어쓴다(specs/034-unbundle-forked-plugins).
+# Google Calendar는 2026-11 기준 번들에 없지만 들어오는 순간 같은 문제가 생기므로 미리 막는다.
 # tarball 레이어 뒤의 별도 RUN이라 Dockerfile이 바뀌면 캐시된 tarball을 다시 받지 않고 이 단계만 다시 돈다.
 # 지운 뒤에도 남아 있으면(이름 규칙 변경 등) 빌드를 멈춘다.
-RUN rm -f /mattermost/prepackaged_plugins/mattermost-plugin-{playbooks,boards,agents}-v* \
-  && if ls /mattermost/prepackaged_plugins | grep -E '^mattermost-plugin-(playbooks|boards|agents)-'; then \
+RUN rm -f /mattermost/prepackaged_plugins/mattermost-plugin-{playbooks,boards,agents,google-calendar}-v* \
+  && if ls /mattermost/prepackaged_plugins | grep -E '^mattermost-plugin-(playbooks|boards|agents|google-calendar)-'; then \
        echo "forked plugin bundles still present in prepackaged_plugins" >&2; exit 1; \
      fi
 
