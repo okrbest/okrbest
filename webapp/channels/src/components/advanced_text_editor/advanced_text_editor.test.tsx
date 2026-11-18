@@ -54,6 +54,7 @@ jest.mock('utils/exec_commands.ts', () => ({
             textbox.selectionEnd = textbox.selectionStart;
         }
     },
+    replaceTextboxValue: () => false,
 }));
 
 const mockedRemoveDraft = jest.mocked(removeDraft);
