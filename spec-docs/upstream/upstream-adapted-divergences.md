@@ -6158,3 +6158,42 @@ webapp 9파일(`size_aware_image`, `image_block`, `post_attachment_opengraph`, `
 | `server/Makefile` `PLUGIN_PACKAGES` | playbooks `v2.12.1`, agents `v2.9.0`, boards `v10.1.0`, msteams-meetings `v3.0.0` | playbooks `v2.11.1`, agents `v2.4.2`, boards `v9.3.0`, msteams-meetings `v2.4.1`을 유지했다. 공식 번들이 같은 ID의 포크 플러그인을 덮어써서 버전업 커밋을 exclude한 계보다. msteams-meetings는 라이선스 확인 대기 중이다 | 포크 플러그인 ID를 분리하거나 공식 번들로 돌아가기로 할 때 |
 
 **검증(2026-11-17).** `make -n prepackaged-plugins`의 내려받기 목록에서 user-survey가 빠졌다(0건). 나머지 13개 플러그인과 버전은 그대로다.
+
+**이후 변경(2026-11-18).** spec 034로 playbooks·agents·boards 줄을 목록에서 뺐다. 위 표의 "포크" 열은 그 전 상태다. 아래 "포크 플러그인 3종 공식 번들 제거" 절을 본다.
+
+## 포크 플러그인 3종 공식 번들 제거 — 운영 이미지와 Makefile 두 경로를 모두 막았다
+
+**근거**: [specs/034-unbundle-forked-plugins](../../specs/034-unbundle-forked-plugins/spec.md) — upstream 커밋이 아니라 포크 결정이다(2026-11-18).
+
+**무엇이 문제였나.** 우리 Playbooks(`playbooks`)·Boards(`focalboard`)·Agents(`mattermost-ai`)는
+공식 플러그인과 ID가 같은 포크다. 서버는 시작할 때 파일 저장소의 포크를 설치한 뒤, 함께 실린
+공식판이 버전이 더 높으면 지우고 공식판을 깐다(`processPrepackagedPlugin`). 공식판은 우리 서버·DB와
+맞지 않아 활성화에 실패하거나(Boards 9.3.0 nil 패닉, 10.1.0 마이그레이션 실패) 우리 기능을 잃는다.
+운영에서는 배포·재시작 때마다 세 플러그인을 재배포해야 했다.
+
+**공식판이 들어오던 두 경로와 바꾼 것.**
+
+| 경로 | 운영에 쓰나 | 바꾼 것 |
+|---|---|---|
+| `server/build/Dockerfile` — `MM_PACKAGE`(upstream 최신 릴리스 tarball)의 `prepackaged_plugins/`를 그대로 물려받는다 | 쓴다(`okrbest-deploy` dev·prd·starter) | builder 단계 끝에 `mattermost-plugin-{playbooks,boards,agents}-v*`를 지우는 `RUN`을 더했다. 남아 있으면 빌드를 멈춘다 |
+| `server/Makefile` `PLUGIN_PACKAGES` — `prepackaged-plugins`·`fetch-prepackaged-plugins`가 내려받는다 | 쓰지 않는다(`make package` 경로) | 일반 목록에서 세 줄을 지웠다. FIPS 블록은 세 줄뿐이라 `PLUGIN_PACKAGES  =`로 비우고 블록은 남겼다(지우면 FIPS가 일반 목록을 받는다) |
+
+**ledger와의 관계.** 세 플러그인의 번들 버전 올림 커밋 14건(`41e59bf1`, `863d581f`, `f84dd257`,
+`1bfa2e51`, `dc41b72f`, `10804f80`, `f21b0299`, `1361e922`, `443c6fdf`, `289d5e5e`, `cb4254cc`,
+`05553d08`, `26ee3a47`, `751b8cb6`)은 이미 "제외된 커밋" 부록에 있다. 여러 행의 재검토 조건("번들 정책이 정해지면
+그 정책에 따른다")이 이 절로 확정됐다. 결정은 **번들에서 뺀다**이다. ledger 행은 고치지 않았다.
+
+**이후 sync 규칙.**
+
+- 세 플러그인의 번들 버전 올림·추가 커밋은 계속 exclude한다. 사유는 이 절을 가리킨다.
+- `PLUGIN_PACKAGES` 주변 줄을 바꾸는 upstream 커밋(다른 플러그인 추가·제거)은 받는다. 충돌은 세 줄이
+  우리 쪽에 없어서 생긴다. 세 줄을 되살리지 말고 문맥만 맞춘다.
+- `server/build/Dockerfile`은 이미 포크 전용 구조다(okrbest-deploy 공통). upstream Dockerfile 변경을 받을 때
+  삭제 `RUN`을 지우지 않는다.
+
+**되살릴 조건.** 포크 플러그인 ID를 공식판과 다르게 바꾸거나, 공식 번들로 돌아가기로 할 때.
+
+**검증(2026-11-18).** `make -n prepackaged-plugins` 일반 13→10개, FIPS 3→0개. 12.1.0 tarball로 만든
+builder 이미지의 `prepackaged_plugins` 30→24개(세 플러그인 6개 파일만 빠짐). 격리 로컬 서버에서
+고치기 전 이미지로는 재시작 1회에 포크 Boards 9.2.4가 공식 10.1.0으로 바뀌고 활성화에 실패했다.
+고친 이미지로는 재시작 3회 모두 9.2.4가 유지됐다. 원문은 spec 034의 `tasks.md`·`evidence/`에 있다.
