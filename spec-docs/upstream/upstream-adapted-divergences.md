@@ -163,6 +163,9 @@
 | 게스트 웹소켓의 CPA 값 이벤트 거르기 | [e5fedb1a](https://github.com/mattermost/mattermost/commit/e5fedb1afe01aacfc661bc09607ae63b08eda130) (#37909) | CPA 경로·캐시 검사·SuiteIFace는 받았다. property 시스템 v2(제외한 48f2fd08)의 `WebsocketEventPropertyValuesUpdated` 경로와 그 테스트, 문맥으로 끌려온 api4 테스트 약 1276줄을 버렸다 — 아래 참조 |
 | 공유 채널 post sync 생성 단계 정렬 | [3dcc438e](https://github.com/mattermost/mattermost/commit/3dcc438efa148574474bd224157dc094195b33c9) (#39905) | sqlstore 쿼리는 그대로 받았다. 새 storetest 하나가 제외한 Integrated Boards 계보의 `PostTypeCard`·`ExcludedPostTypes`를 써서, 삭제된 purpose change 게시물로 바꿨다 — 아래 참조 |
 | `*model.AppError` 반환 차단 vet | [b2ca98da](https://github.com/mattermost/mattermost/commit/b2ca98da90500cbe206b990b14dcffd7cabda47c) (#40085) | 분석기·Makefile은 그대로 받았다. `apperror_baseline.txt`는 upstream 1409줄 대신 `make update-apperror-baseline`으로 포크 트리에서 다시 만들었다(1366줄). 포크 전용 함수 38개(조직도·알림 히스토리·CPA 등)를 더하고, 제외 계보 함수 81개(Scheduled Recaps·Board·property v2·Session Attributes 등)를 뺐다. 이후 baseline을 고치는 upstream 커밋은 충돌 파일을 버리고 같은 타깃으로 재생성한다. 포크 새 함수도 반환형을 `error`로 선언해야 한다 |
+| Health check를 `health_check` 잡으로 | [7b6b9c16](https://github.com/mattermost/mattermost/commit/7b6b9c16304eef49caa792111600b6a999631081) (#39549) | 변경은 전부 받았다. `model/job.go` `AllJobTypes` 충돌 문맥에 끼어든 `JobTypeScheduledRecap` 한 줄(제외한 Scheduled Recaps 25f3a75cb7 계보)을 버리고 `JobTypeHealthCheck`만 넣었다 |
+| 웹훅 payload 로그 기본 끔 | [0f3c7230](https://github.com/mattermost/mattermost/commit/0f3c7230f41dd96925f8bc0741e7167f92f29b7e) (#39753) | 변경은 전부 받았다. 버린 코드는 없다. `admin_definition.tsx` 도움말 줄 충돌은 db55f9fa43 일부 미반영으로 우리 줄에 없던 `eslint-disable-line formatjs/enforce-placeholders` 주석 차이라 upstream 줄을 그대로 받았다. 기본값만 `false`로 바뀌고 저장된 `true`는 유지된다 |
+| NOTICE.txt 갱신 2026-11-17 | [dc2aaa5f](https://github.com/mattermost/mattermost/commit/dc2aaa5ff1d62947d561f5d2158f3ea012ffe461) (#40100) | upstream 새 판을 받고 `@mattermost/compass-ui` 섹션 하나를 버렸다(compass-ui 제외 계보, 라이선스 표기 없음). 이전 갱신과 같은 원칙(upstream 판 − compass-ui)이다. 다음 갱신도 같은 방식으로 푼다 |
 
 ---
 
