@@ -172,6 +172,7 @@
 | 끝난 잡의 목록 재조회 중단 | [3f535d17](https://github.com/mattermost/mattermost/commit/3f535d172f4f8e9495798e3e1e60068835000a07) (#40103) | 변경은 전부 받았다. `websocket_actions.ts` import 충돌 문맥에 끼어든 `import DesktopApp from 'utils/desktop_api'` 한 줄(제외한 Session Attributes 684ddb32a9 계보 위치)을 버렸다. 포크는 같은 import를 다른 줄에 이미 갖고 있다 |
 | mmctl config history·rollback | [a70cbc03](https://github.com/mattermost/mattermost/commit/a70cbc03f62c929412f8ae7abbf7350eabac2db9) (#39238) | 코드·API·테스트는 전부 받았다. `server/i18n/en.json`은 충돌 문맥(제외한 f1b9aa05의 Content Flagging→Data Spillage 개명 키)을 버리고, upstream이 새로 더한 키 5개만 upstream의 앞 키 뒤에 끼워 넣었다. 새 app 함수 3개가 appErrorReturn 검사를 깨는 것은 upstream도 같았고 dc47b881(#40126)이 고친다 |
 | 메시지 입력창 서식 undo | [e3f3c5b4](https://github.com/mattermost/mattermost/commit/e3f3c5b4ebc0a4e72d24b7c253c68a54fcd8d6a4) (#40136) | `utils/exec_commands.ts`의 `replaceTextboxValue`와 예약 게시물 편집·전달 모달 코멘트(포크도 textarea `Textbox`) 적용, 테스트, Playwright 스펙은 받았다. 메인 입력창 `advanced_text_editor.tsx`의 `applyMarkdown` 변경(wysiwyg·textarea 분기 포함)과 그 import를 버렸다. 포크 메인 입력창은 Lexical(spec 032)이라 서식이 `applyLexicalFormatting`으로 들어가고 Lexical history가 undo를 맡는다. Playwright 스펙은 메인 입력창 대상이라 포크에서 돌지 않는다 |
+| Let's Encrypt 발급을 Site URL 호스트로 제한 | [5760cb6c](https://github.com/mattermost/mattermost/commit/5760cb6c141abfa7e590df6e4be495886145320b) (#40139) | 코드·새 테스트·문구는 받았다. `server_test.go` 충돌 문맥에 섞인 `TestBuiltinAccessControlPropertyGroupVersion`(제외한 property v3 계보)을 버렸다. 도움말 두 메시지는 upstream 새 문구 전체로 받아, 포크 f0c6b474ea 재추출 때 빠졌던 `\n \n` 줄바꿈도 upstream과 같아졌다 |
 
 ---
 
