@@ -6269,3 +6269,21 @@ builder 이미지의 `prepackaged_plugins` 30→24개(세 플러그인 6개 파�
 | `channel_invite_modal.test.tsx` 신규 테스트 단언 3곳 | SHOW_USERNAME에서 목록·칩이 `user-with-nick`, 화면 어디에도 `Unexpected Nickname`이 없다 | 목록·칩이 `user-with-nick (Unexpected Nickname)`, 칩(`.react-select__value__name`)에 닉네임만 있지 않다. 포크 `displayUsername`이 SHOW_USERNAME을 `아이디 - 성명 (닉네임)` 형식으로 그린다(`user_utils.ts`) | 포크가 `displayUsername` 커스텀 형식을 거둘 때 upstream 값으로 되돌린다 |
 
 **검증(2026-11-19).** jest `channel_invite_modal`·`multiselect` 5 스위트 34건 통과. 운영 코드 2파일을 빼고 돌리면 수정한 테스트가 칩 단언에서 실패한다. 변경 파일 eslint 오류 0.
+
+## App 메서드 error 반환 정리 — Health 부분만 받고, 제외한 게시물 속성 hunk를 버렸다
+
+**upstream**: [`3e8334d7`](https://github.com/mattermost/mattermost/commit/3e8334d7715d4869ebb32a16d8053df8831c73b0)
+(Fix master check-style: return error from new App methods, #40162) — 8파일 +52/-42, 2026-11-19 sync 반영(사용자 결정 adapt)
+
+vet `appErrorReturn` 규칙에 걸린 새 App 메서드 3개의 반환 타입을 `error`로 바꾸는 커밋이다. `StartHealthCheckRun`(반영한 `f3624d99`)은 그대로 받았다. nil일 수 있는 `*AppError`를 job과 함께 돌려주던 분기를 나눈 수정과 `CreateJob` 호출부 `model.AsAppError`도 함께 받았다. 나머지 두 메서드는 제외한 `2a515687`(#39796, 게시물 속성) 코드라 포크에 없다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `api4/post_utils.go` `postAttributeValuesForCreate` | `PreparePostPropertyValuesForCreate` 결과를 `error`로 받고 `model.AsAppError`로 감싼다 | 함수가 없다 | 게시물 속성 계보(`2a515687` 등)를 들일 때 함께 받는다 |
+| `app/plugin_api.go` `CreatePost` | 같은 변환 | `PostAttributes` 분기가 없다 | 같다 |
+| `app/post.go` `CreatePost` | `setPostPropertyValuesOnCreate` 결과를 `error`로 받는다 | 속성 값 저장 블록이 없다 | 같다 |
+| `app/post_property_values.go`·`_test.go` | 두 메서드 시그니처를 `error`로 바꾼다 | 파일이 없다(modify/delete) | 같다 |
+
+**검증(2026-11-19).** `go build ./channels/...`, `go vet ./channels/app/ ./channels/api4/` 통과. `app -run 'Health|CreateJob'`, `api4 -run 'Health|Job'` 통과.
