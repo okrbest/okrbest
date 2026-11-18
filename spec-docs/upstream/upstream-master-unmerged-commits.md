@@ -3,18 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-17 16:22
+- 갱신일: 2026-11-18 12:10
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 4개
+- 남은 커밋: 1개
 
-**마지막 반영 커밋:** `7a143a58` | [\[MM-65981\] Make AD/LDAP wizard settings searchable in System Console (#40084)](https://github.com/mattermost/mattermost/commit/7a143a586c71eedf3575208d49386342745f1b20) | 2026-11-16
+**마지막 반영 커밋:** `5760cb6c` | [\[MM-71631\] Restrict Let's Encrypt certificate issuance to the Site URL hostname (#40139)](https://github.com/mattermost/mattermost/commit/5760cb6c141abfa7e590df6e4be495886145320b) | 2026-11-17
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 0b0b65f9 | [\[MM-71931\] Drop redundant severity badges from Site health findings (#40068)](https://github.com/mattermost/mattermost/commit/0b0b65f906286fdb3b1d73910f3f458fd3923dd7) | 2026-11-17 |
-| 8d2ffac7 | [\[MM-71930\] Reword METRICS_OFF health finding around performance history (#40066)](https://github.com/mattermost/mattermost/commit/8d2ffac7abd3a1cae677b117aa8b52e414ae77c2) | 2026-11-17 |
-| 27945cb7 | [\[MM-71213\] Fix SMTP client error handling (#39967)](https://github.com/mattermost/mattermost/commit/27945cb79196fb6ff0d2fafa744cd13c47662a48) | 2026-11-17 |
-| 82ceaa95 | [\[MM-71903\] Keep onboarding invite illustration clear of the step content (#40048)](https://github.com/mattermost/mattermost/commit/82ceaa9567666511f36812ea0e7b09c656296eaf) | 2026-11-17 |
+| 19c11116 | [Fix channel intro layout shift while the total user count loads (#40119)](https://github.com/mattermost/mattermost/commit/19c111167b214a3576c5a360dd7bba220b0e3441) | 2026-11-18 |
 
 ## 제외된 커밋
 
