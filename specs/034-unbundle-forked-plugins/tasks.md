@@ -105,6 +105,10 @@ description: "서버 배포물에서 포크 플러그인의 공식판을 빼는 
 - [X] T016 Conventional Commits로 커밋한다. 문서(`docs:`), 빌드 변경(`fix:`)처럼 성격별로 나눈다. PR은 사용자 확인 뒤에 rebase merge 전용으로 연다. PR 본문에 운영 주의를 적는다: 수정본 배포 전에는 재시작하지 않는다, 배포 뒤 플러그인 관리 화면에서 quickstart Q4로 확인한다
   - **결과**: 브랜치 `034-unbundle-forked-plugins`에 3커밋(`docs:` spec 산출물, `fix:` Dockerfile·Makefile, `docs:` divergence 정책 절). push·PR은 사용자 확인 뒤에 한다.
 
+- [X] T017 [US1] (추가 범위, 2026-11-18 사용자 결정) `server/build/Dockerfile` 삭제 `RUN`과 남은 파일 검사에 `google-calendar`를 더한다. 우리 Google Calendar 포크(`com.mattermost.gcal`)가 공식판과 ID가 같다(FR-009)
+  - **고치기 전**: 고친 뒤 이미지에 가짜 `mattermost-plugin-google-calendar-v1.0.0-linux-amd64.tar.gz(.sig)`를 넣고 기존 단계를 돌렸다 → `build step passed`, gcal 파일 2개가 남았다(놓친다).
+  - **고친 뒤**: 같은 조건에서 새 단계 → 통과, gcal 파일 0개. 실제 `docker build` exit 0, tarball 캐시 재사용, 결과 목록은 이전 24개와 같다(12.1.0에는 gcal 번들이 없음).
+
 ---
 
 ## 의존 관계와 실행 순서

@@ -6175,7 +6175,7 @@ webapp 9파일(`size_aware_image`, `image_block`, `post_attachment_opengraph`, `
 
 | 경로 | 운영에 쓰나 | 바꾼 것 |
 |---|---|---|
-| `server/build/Dockerfile` — `MM_PACKAGE`(upstream 최신 릴리스 tarball)의 `prepackaged_plugins/`를 그대로 물려받는다 | 쓴다(`okrbest-deploy` dev·prd·starter) | builder 단계 끝에 `mattermost-plugin-{playbooks,boards,agents}-v*`를 지우는 `RUN`을 더했다. 남아 있으면 빌드를 멈춘다 |
+| `server/build/Dockerfile` — `MM_PACKAGE`(upstream 최신 릴리스 tarball)의 `prepackaged_plugins/`를 그대로 물려받는다 | 쓴다(`okrbest-deploy` dev·prd·starter) | builder 단계 끝에 `mattermost-plugin-{playbooks,boards,agents,google-calendar}-v*`를 지우는 `RUN`을 더했다(Google Calendar는 예방). 남아 있으면 빌드를 멈춘다 |
 | `server/Makefile` `PLUGIN_PACKAGES` — `prepackaged-plugins`·`fetch-prepackaged-plugins`가 내려받는다 | 쓰지 않는다(`make package` 경로) | 일반 목록에서 세 줄을 지웠다. FIPS 블록은 세 줄뿐이라 `PLUGIN_PACKAGES  =`로 비우고 블록은 남겼다(지우면 FIPS가 일반 목록을 받는다) |
 
 **ledger와의 관계.** 세 플러그인의 번들 버전 올림 커밋 14건(`41e59bf1`, `863d581f`, `f84dd257`,
@@ -6190,6 +6190,11 @@ webapp 9파일(`size_aware_image`, `image_block`, `post_attachment_opengraph`, `
   우리 쪽에 없어서 생긴다. 세 줄을 되살리지 말고 문맥만 맞춘다.
 - `server/build/Dockerfile`은 이미 포크 전용 구조다(okrbest-deploy 공통). upstream Dockerfile 변경을 받을 때
   삭제 `RUN`을 지우지 않는다.
+- **Google Calendar도 같다.** 우리 Google Calendar 포크(`com.mattermost.gcal`)는 공식판과 ID가 같다. 2026-11-18
+  기준 upstream 번들에는 없지만 Dockerfile 삭제 대상에 미리 넣었다(`mattermost-plugin-google-calendar-v*`).
+  upstream이 `PLUGIN_PACKAGES`에 Google Calendar를 추가하는 커밋은 exclude한다. Gmail 포크
+  (`mattermost-plugin-gmail`)는 같은 ID의 공식판이 없어 해당하지 않는다.
+- 새 포크 플러그인을 만들 때 공식판과 ID가 같으면 이 목록(Dockerfile 삭제 대상)에 더한다.
 
 **되살릴 조건.** 포크 플러그인 ID를 공식판과 다르게 바꾸거나, 공식 번들로 돌아가기로 할 때.
 
