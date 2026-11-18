@@ -1,0 +1,12 @@
+== r1
+{"timestamp":"2026-11-18 16:35:31.258 +09:00","level":"info","msg":"Installing extracted plugin","plugin_id":"focalboard","version":"9.2.4"}
+{"timestamp":"2026-11-18 16:35:31.620 +09:00","level":"debug","msg":"Plugin activated","plugin_id":"focalboard","version":"9.2.4"}
+{"timestamp":"2026-11-18 16:35:31.621 +09:00","level":"info","msg":"Boards product successfully started.","plugin_id":"focalboard"}
+== r2
+{"timestamp":"2026-11-18 16:35:38.522 +09:00","level":"info","msg":"Installing extracted plugin","plugin_id":"focalboard","version":"9.2.4"}
+{"timestamp":"2026-11-18 16:35:38.882 +09:00","level":"debug","msg":"Plugin activated","plugin_id":"focalboard","version":"9.2.4"}
+{"timestamp":"2026-11-18 16:35:38.883 +09:00","level":"info","msg":"Boards product successfully started.","plugin_id":"focalboard"}
+== r3
+{"timestamp":"2026-11-18 16:35:44.391 +09:00","level":"info","msg":"Installing extracted plugin","plugin_id":"focalboard","version":"9.2.4"}
+{"timestamp":"2026-11-18 16:35:44.746 +09:00","level":"debug","msg":"Plugin activated","plugin_id":"focalboard","version":"9.2.4"}
+{"timestamp":"2026-11-18 16:35:44.747 +09:00","level":"info","msg":"Boards product successfully started.","plugin_id":"focalboard"}
