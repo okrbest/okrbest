@@ -155,15 +155,15 @@ MMCTL_PACKAGES=$(shell $(GO) list ./... | grep -E 'server/v8/cmd/mmctl')
 TEMPLATES_DIR=templates
 
 # Plugins Packages
+# okrbest: playbooks·agents·boards 공식판은 싣지 않는다. 우리 포크 플러그인과 ID가 같아
+# 서버가 시작할 때 버전이 더 높은 공식판이 포크를 덮어쓴다(specs/034-unbundle-forked-plugins).
+# upstream의 세 플러그인 버전 올림 커밋은 sync에서 exclude한다.
 PLUGIN_PACKAGES ?= $(PLUGIN_PACKAGES:)
 PLUGIN_PACKAGES += mattermost-plugin-calls-v1.12.6
 PLUGIN_PACKAGES += mattermost-plugin-github-v3.0.0
 PLUGIN_PACKAGES += mattermost-plugin-gitlab-v2.0.0
 PLUGIN_PACKAGES += mattermost-plugin-jira-v5.1.0
-PLUGIN_PACKAGES += mattermost-plugin-playbooks-v2.11.1
 PLUGIN_PACKAGES += mattermost-plugin-zoom-v2.0.0
-PLUGIN_PACKAGES += mattermost-plugin-agents-v2.4.2
-PLUGIN_PACKAGES += mattermost-plugin-boards-v9.3.0
 PLUGIN_PACKAGES += mattermost-plugin-mscalendar-v2.0.0
 PLUGIN_PACKAGES += mattermost-plugin-msteams-meetings-v2.4.1
 PLUGIN_PACKAGES += mattermost-plugin-metrics-v0.7.0
@@ -175,9 +175,9 @@ PLUGIN_PACKAGES += mattermost-plugin-dataminr-v2.0.0
 # download the package from to work. This will no longer be needed when we unify
 # the way we pre-package FIPS and non-FIPS plugins.
 ifeq ($(FIPS_ENABLED),true)
-	PLUGIN_PACKAGES  = mattermost-plugin-playbooks-v2.11.1%2B329b65c-fips
-	PLUGIN_PACKAGES += mattermost-plugin-agents-v2.4.2%2B1305067-fips
-	PLUGIN_PACKAGES += mattermost-plugin-boards-v9.3.0%2Bd454327-fips
+	# okrbest: FIPS 목록은 playbooks·agents·boards 셋뿐이라 비었다. 블록을 지우면 FIPS 빌드가
+	# 위의 일반 목록을 받으므로 빈 값으로 남긴다(specs/034-unbundle-forked-plugins).
+	PLUGIN_PACKAGES  =
 endif
 
 EE_PACKAGES=$(shell $(GO) list $(BUILD_ENTERPRISE_DIR)/...)
