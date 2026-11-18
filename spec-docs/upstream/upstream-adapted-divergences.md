@@ -166,6 +166,7 @@
 | Health check를 `health_check` 잡으로 | [7b6b9c16](https://github.com/mattermost/mattermost/commit/7b6b9c16304eef49caa792111600b6a999631081) (#39549) | 변경은 전부 받았다. `model/job.go` `AllJobTypes` 충돌 문맥에 끼어든 `JobTypeScheduledRecap` 한 줄(제외한 Scheduled Recaps 25f3a75cb7 계보)을 버리고 `JobTypeHealthCheck`만 넣었다 |
 | 웹훅 payload 로그 기본 끔 | [0f3c7230](https://github.com/mattermost/mattermost/commit/0f3c7230f41dd96925f8bc0741e7167f92f29b7e) (#39753) | 변경은 전부 받았다. 버린 코드는 없다. `admin_definition.tsx` 도움말 줄 충돌은 db55f9fa43 일부 미반영으로 우리 줄에 없던 `eslint-disable-line formatjs/enforce-placeholders` 주석 차이라 upstream 줄을 그대로 받았다. 기본값만 `false`로 바뀌고 저장된 `true`는 유지된다 |
 | NOTICE.txt 갱신 2026-11-17 | [dc2aaa5f](https://github.com/mattermost/mattermost/commit/dc2aaa5ff1d62947d561f5d2158f3ea012ffe461) (#40100) | upstream 새 판을 받고 `@mattermost/compass-ui` 섹션 하나를 버렸다(compass-ui 제외 계보, 라이선스 표기 없음). 이전 갱신과 같은 원칙(upstream 판 − compass-ui)이다. 다음 갱신도 같은 방식으로 푼다 |
+| drip: errors.AsType (view·session·post_ack) | [e945ce34](https://github.com/mattermost/mattermost/commit/e945ce3434cb8a68343ceb21abaaa904472c42c5) (#40088) | `session.go`·`post_acknowledgements.go`와 그 분류 테스트 둘은 받았다. 제외한 Views/Board 계보의 `app/view.go` 수정과 새 테스트 파일의 `TestViewStoreErrorClassification`(서브테스트 6개)을 버렸다. 파일명 `session_view_ack_error_classification_test.go`는 upstream과 맞추려 그대로 뒀다 |
 
 ---
 
