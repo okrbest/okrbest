@@ -6202,3 +6202,22 @@ webapp 9파일(`size_aware_image`, `image_block`, `post_attachment_opengraph`, `
 builder 이미지의 `prepackaged_plugins` 30→24개(세 플러그인 6개 파일만 빠짐). 격리 로컬 서버에서
 고치기 전 이미지로는 재시작 1회에 포크 Boards 9.2.4가 공식 10.1.0으로 바뀌고 활성화에 실패했다.
 고친 이미지로는 재시작 3회 모두 9.2.4가 유지됐다. 원문은 spec 034의 `tasks.md`·`evidence/`에 있다.
+
+## 채널 인트로 레이아웃 이동 수정 — 코드는 다 받고, 테스트 2곳만 포크 인트로에 맞췄다
+
+**upstream**: [`19c11116`](https://github.com/mattermost/mattermost/commit/19c111167b214a3576c5a360dd7bba220b0e3441)
+(Fix channel intro layout shift while the total user count loads, #40119) — 6파일 +447/-7, 2026-11-19 sync 반영(사용자 결정 adapt)
+
+사용자 수(`total_users_count`)를 받기 전에는 인트로가 10명 이상용 레이아웃으로 그려졌다가 줄어드는 버그를 고친다. `post_list`는 마운트할 때 사용자 수를 요청하고, 인트로가 처음 보일 때는 값이 올 때까지(최대 2초) 로딩 화면을 유지한다. `channel_intro_message`는 값을 모르면 액션 버튼을 그리지 않는다.
+
+**버린 것.** upstream 코드에서 버린 줄은 없다. `post_list/index.tsx`·`post_list.tsx` 충돌은 포크 멤버 필터(#156/#159)·봇 메시지 필터(#164) 코드와 자리가 붙어 생겼고, 양쪽을 모두 남겼다.
+
+**포크에 맞춘 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `post_list/index.tsx` autotranslation selector | 문맥 줄 `isMyChannelAutotranslated` | 포크의 `isChannelAutotranslated`를 유지하고 `getChannel` import만 더했다. upstream 변경 대상이 아닌 문맥 줄이다 | — |
+| `channel_intro_message.test.tsx` import | `Permissions`가 이미 import돼 있다 | `import {Permissions} from 'mattermost-redux/constants'`를 더했다. upstream은 제외한 cd3a263d96(#39030, Compass TileButton 이관)에서 이 import를 넣었다 | — |
+| `channel_intro_message.test.tsx` `total user count` 알림 버튼 단언 2곳 | `{name: 'Notifications'}` | `{name: 'Notification Preferences'}`. 포크 알림 버튼은 `ToggleModalButton`에 `aria-label` 'Notification Preferences'를 쓴다. upstream은 Compass TileButton 기준이다 | cd3a263d96 계보(Compass UI)를 들일 때 upstream 값으로 되돌린다 |
+
+**검증(2026-11-19).** jest `post_list`·`channel_intro_message` 3 스위트 53건 통과. 수정 전 소스로 돌리면 새 테스트 13건이 실패한다(`post_list` 7, `channel_intro_message` 6). 변경 파일 eslint 오류 0(경고 16건). e2e 스펙 `channel_intro_layout.spec.ts`는 upstream 그대로 받았다. 의존하는 `watchElementSize`·`centerView.channelIntro`는 포크 playwright-lib에 있다. 실주행은 포크 격차로 채널 스펙이 원래 실패해서 판정에 쓰지 않았다.
