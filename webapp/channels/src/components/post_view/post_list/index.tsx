@@ -6,11 +6,12 @@ import {bindActionCreators} from 'redux';
 import type {Dispatch} from 'redux';
 
 import {markChannelAsRead} from 'mattermost-redux/actions/channels';
+import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 import {RequestStatus, Preferences} from 'mattermost-redux/constants';
-import {isChannelAutotranslated} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, isChannelAutotranslated} from 'mattermost-redux/selectors/entities/channels';
 import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost, isPostsChunkIncludingUnreadsPosts, getLimitedViews, getAllPosts} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {getUsers} from 'mattermost-redux/selectors/entities/users';
+import {getUsers, getTotalUsersStats as getTotalUsersStatsSelector} from 'mattermost-redux/selectors/entities/users';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
@@ -25,6 +26,7 @@ import {
 import {getMemberFilterUserIds} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 
+import {Constants} from 'utils/constants';
 import {getLatestPostId} from 'utils/post_utils';
 
 import type {GlobalState} from 'types/store';
@@ -32,6 +34,12 @@ import type {GlobalState} from 'types/store';
 import PostList from './post_list';
 
 const isFirstLoad = (state: GlobalState, channelId: string) => !state.entities.posts.postsInChannel[channelId];
+
+// The intro for these channels picks its action buttons based on the total user count
+const isChannelIntroUsingTotalUsers = (state: GlobalState, channelId: string) => {
+    const channelType = getChannel(state, channelId)?.type;
+    return channelType !== Constants.DM_CHANNEL && channelType !== Constants.GM_CHANNEL;
+};
 const memoizedGetLatestPostId = memoizeResult((postIds: string[]) => getLatestPostId(postIds));
 
 // This function is added as a fail safe for the channel sync issue we have.
@@ -62,6 +70,7 @@ function makeMapStateToProps() {
         const isPrefetchingInProcess = channelViewState.channelPrefetchStatus[channelId] === RequestStatus.STARTED;
         const limitedViews = getLimitedViews(state);
         const hasInaccessiblePosts = Boolean(limitedViews.channels[channelId]) || limitedViews.channels[channelId] === 0;
+        const isTotalUsersCountUnknown = getTotalUsersStatsSelector(state).total_users_count === undefined;
 
         const focusedPost = getPost(state, focusedPostId || '');
 
@@ -138,6 +147,8 @@ function makeMapStateToProps() {
             hasInaccessiblePosts,
             filterUserIds,
             isChannelAutotranslated: isChannelAutotranslated(state, channelId),
+            isTotalUsersCountUnknown,
+            needsTotalUsersStats: atOldestPost && isTotalUsersCountUnknown && isChannelIntroUsingTotalUsers(state, channelId),
         };
     };
 }
@@ -152,6 +163,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             syncPostsInChannel,
             markChannelAsRead,
             updateNewMessagesAtInChannel,
+            getTotalUsersStats,
         }, dispatch),
         dispatch,
     };

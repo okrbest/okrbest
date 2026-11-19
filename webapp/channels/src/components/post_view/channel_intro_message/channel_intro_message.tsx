@@ -351,7 +351,9 @@ function createOffTopicIntroMessage(
         />
     );
 
-    if (inviteUsers) {
+    if (totalUsers === undefined) {
+        actionButtons = null;
+    } else if (inviteUsers) {
         actionButtons = (
             <div className='channel-intro__actions'>
                 {actionButtons = channelInviteButton}
@@ -467,7 +469,9 @@ function createDefaultIntroMessage(
         );
     }
 
-    if (inviteUsers) {
+    if (totalUsers === undefined) {
+        actionButtons = null;
+    } else if (inviteUsers) {
         actionButtons = (
             <div className='channel-intro__actions'>
                 {actionButtons = teamInviteLink}
@@ -654,7 +658,9 @@ function createStandardIntroMessage(
         />
     );
 
-    if (inviteUsers) {
+    if (totalUsers === undefined) {
+        actionButtons = null;
+    } else if (inviteUsers) {
         actionButtons = (
             <div className='channel-intro__actions'>
                 {actionButtons = teamInviteLink}
