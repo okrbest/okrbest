@@ -6221,3 +6221,20 @@ builder 이미지의 `prepackaged_plugins` 30→24개(세 플러그인 6개 파�
 | `channel_intro_message.test.tsx` `total user count` 알림 버튼 단언 2곳 | `{name: 'Notifications'}` | `{name: 'Notification Preferences'}`. 포크 알림 버튼은 `ToggleModalButton`에 `aria-label` 'Notification Preferences'를 쓴다. upstream은 Compass TileButton 기준이다 | cd3a263d96 계보(Compass UI)를 들일 때 upstream 값으로 되돌린다 |
 
 **검증(2026-11-19).** jest `post_list`·`channel_intro_message` 3 스위트 53건 통과. 수정 전 소스로 돌리면 새 테스트 13건이 실패한다(`post_list` 7, `channel_intro_message` 6). 변경 파일 eslint 오류 0(경고 16건). e2e 스펙 `channel_intro_layout.spec.ts`는 upstream 그대로 받았다. 의존하는 `watchElementSize`·`centerView.channelIntro`는 포크 playwright-lib에 있다. 실주행은 포크 격차로 채널 스펙이 원래 실패해서 판정에 쓰지 않았다.
+
+## HealthDashboard 플래그 기본 on — 포크에 없는 Playwright 기본 플래그 파일 hunk를 버렸다
+
+**upstream**: [`fdbd92cc`](https://github.com/mattermost/mattermost/commit/fdbd92cceeb88cd89fe31422fd0819d903c7ede3)
+([MM-72002] Turn the HealthDashboard feature flag on by default, #40117) — 9파일 +62/-33, 2026-11-19 sync 반영(사용자 결정 adapt)
+
+`FeatureFlags.HealthDashboard` 기본값을 `true`로 받았다. 서버 2파일, `docs/main` mdx 4개, e2e `site_health.spec.ts` 수정과 `site_health_flag_off.spec.ts` 신규는 upstream 그대로다.
+
+**우리 서버 동작은 바뀌지 않는다.** 잡 스케줄러(`jobs/health_check/scheduler.go`), API(`requireHealthDashboard`), webapp 메뉴(`siteHealthHidden`) 모두 플래그와 함께 Professional 이상 라이선스를 요구한다. 포크는 유료 라이선스 없이 운영하는 전제라(`spec-docs/enterprise-self-development.md`) 잡을 만들지 않고, API는 501, Site health 메뉴는 숨는다. 라이선스를 올린 서버에서는 Site health가 켜지고 매시간 외부 서비스 연결을 시험한다. 끌 때는 `MM_FEATUREFLAGS_HEALTHDASHBOARD=false`를 쓴다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `e2e-tests/playwright/lib/src/server/default_feature_flags.ts` | `HealthDashboard: 'false'` → `'true'` | 파일이 없다. 제외한 5dec0b82(#39091, Playwright config 리셋 개편)가 만든 생성 파일이다. modify/delete 충돌은 여기서 났다 | 5dec0b82 계보를 들일 때 생성기로 다시 만든다 |
+
+**검증(2026-11-19).** `public/model` FeatureFlag 테스트, `jobs/health_check`, `app`·`api4` `-run Health`, `app/platform` support packet, `platform/shared/healthcheck/...` 모두 통과. support packet golden(`sanitized_config.json`의 `"HealthDashboard": false`)은 upstream도 고치지 않았고 테스트가 통과한다. playwright `tsc --noEmit` 오류 12건은 기존 abac 스펙 기준선 그대로, site_health 스펙 0건.
