@@ -3,15 +3,29 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-18 12:10
+- 갱신일: 2026-11-19 11:27
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1개
+- 남은 커밋: 15개
 
-**마지막 반영 커밋:** `5760cb6c` | [\[MM-71631\] Restrict Let's Encrypt certificate issuance to the Site URL hostname (#40139)](https://github.com/mattermost/mattermost/commit/5760cb6c141abfa7e590df6e4be495886145320b) | 2026-11-17
+**마지막 반영 커밋:** `19c11116` | [Fix channel intro layout shift while the total user count loads (#40119)](https://github.com/mattermost/mattermost/commit/19c111167b214a3576c5a360dd7bba220b0e3441) | 2026-11-18
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 19c11116 | [Fix channel intro layout shift while the total user count loads (#40119)](https://github.com/mattermost/mattermost/commit/19c111167b214a3576c5a360dd7bba220b0e3441) | 2026-11-18 |
+| 4364dab1 | [\[MM-72000\] Show JOB_STUCK idle time in days once a job has been idle for two days (#40115)](https://github.com/mattermost/mattermost/commit/4364dab1146596d5b93b667ada5c0dae201b0f14) | 2026-11-18 |
+| 5049a60d | [\[MM-72003\] Stop the latest release check when Enable Security Alerts is off, and cache failures (#40132)](https://github.com/mattermost/mattermost/commit/5049a60d22715d5b19e58da46e409eb2ad61fa69) | 2026-11-18 |
+| fdbd92cc | [\[MM-72002\] Turn the HealthDashboard feature flag on by default (#40117)](https://github.com/mattermost/mattermost/commit/fdbd92cceeb88cd89fe31422fd0819d903c7ede3) | 2026-11-18 |
+| 9962b4ed | [docs: clarify APT repo and setup script support Ubuntu only (#40019)](https://github.com/mattermost/mattermost/commit/9962b4ed550ec6b615c79e6f965ec4ca7b4187fd) | 2026-11-18 |
+| 2a515687 | [\[MM-70535\] Allow creating posts with attribute values (#39796)](https://github.com/mattermost/mattermost/commit/2a515687396b256400091eb948522fef80310072) | 2026-11-18 |
+| f3624d99 | [\[MM-71427\] Health Dashboard: run the health check on demand (#39648)](https://github.com/mattermost/mattermost/commit/f3624d99d7bdbef59f00b9500adaf30271a2f053) | 2026-11-18 |
+| bb90d1da | [MM-71485: update websocket connection registration (#39684)](https://github.com/mattermost/mattermost/commit/bb90d1da13318862ed033372405171fc7213db14) | 2026-11-18 |
+| 5b113dca | [MM-62006 Use display setting for invite chips (#36520)](https://github.com/mattermost/mattermost/commit/5b113dcae735eaafaf9651fdee90515f7a0c8a25) | 2026-11-18 |
+| 96e3547b | [MM-71539: Update channel bookmark list handling (#39623)](https://github.com/mattermost/mattermost/commit/96e3547bc761179bf389c15eb309a83aa1725f15) | 2026-11-18 |
+| 3e8334d7 | [Fix master check-style: return error from new App methods (#40162)](https://github.com/mattermost/mattermost/commit/3e8334d7715d4869ebb32a16d8053df8831c73b0) | 2026-11-18 |
+| 5935272b | [\[MM-71984\] Stop fetching channel classification field on non-Enterprise Advanced licenses (#40099)](https://github.com/mattermost/mattermost/commit/5935272b728e48ad47790559f19853352e34a21d) | 2026-11-18 |
+| 4325b162 | [drip: AppError -> error: user MFA check and password validity (#40144)](https://github.com/mattermost/mattermost/commit/4325b16251bd1f8cc70898c828a8d6a573339df5) | 2026-11-18 |
+| 7a4ca6f6 | [drip: go idioms: errors.AsType in app/draft, job, notify_admin, preference, report, login (#40145)](https://github.com/mattermost/mattermost/commit/7a4ca6f6c426816e3722d22ea0faf8ad24050e01) | 2026-11-18 |
+| 2ecd00c2 | [\[MM-72028\] Add timeout to security update check requests (#40134)](https://github.com/mattermost/mattermost/commit/2ecd00c22200b745b59fd113366da99c56e15115) | 2026-11-18 |
+| c54e21d0 | [Fix master check-style: return error from deleteReplacedBookmarkFile (#40184)](https://github.com/mattermost/mattermost/commit/c54e21d0f37b7c829b6c27d73cc85ee3e209ad0f) | 2026-11-19 |
 
 ## 제외된 커밋
 
