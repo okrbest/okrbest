@@ -3,29 +3,15 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-19 11:27
+- 갱신일: 2026-11-19 15:18
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 15개
+- 남은 커밋: 1개
 
-**마지막 반영 커밋:** `19c11116` | [Fix channel intro layout shift while the total user count loads (#40119)](https://github.com/mattermost/mattermost/commit/19c111167b214a3576c5a360dd7bba220b0e3441) | 2026-11-18
+**마지막 반영 커밋:** `c54e21d0` | [Fix master check-style: return error from deleteReplacedBookmarkFile (#40184)](https://github.com/mattermost/mattermost/commit/c54e21d0f37b7c829b6c27d73cc85ee3e209ad0f) | 2026-11-19
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 4364dab1 | [\[MM-72000\] Show JOB_STUCK idle time in days once a job has been idle for two days (#40115)](https://github.com/mattermost/mattermost/commit/4364dab1146596d5b93b667ada5c0dae201b0f14) | 2026-11-18 |
-| 5049a60d | [\[MM-72003\] Stop the latest release check when Enable Security Alerts is off, and cache failures (#40132)](https://github.com/mattermost/mattermost/commit/5049a60d22715d5b19e58da46e409eb2ad61fa69) | 2026-11-18 |
-| fdbd92cc | [\[MM-72002\] Turn the HealthDashboard feature flag on by default (#40117)](https://github.com/mattermost/mattermost/commit/fdbd92cceeb88cd89fe31422fd0819d903c7ede3) | 2026-11-18 |
-| 9962b4ed | [docs: clarify APT repo and setup script support Ubuntu only (#40019)](https://github.com/mattermost/mattermost/commit/9962b4ed550ec6b615c79e6f965ec4ca7b4187fd) | 2026-11-18 |
-| 2a515687 | [\[MM-70535\] Allow creating posts with attribute values (#39796)](https://github.com/mattermost/mattermost/commit/2a515687396b256400091eb948522fef80310072) | 2026-11-18 |
-| f3624d99 | [\[MM-71427\] Health Dashboard: run the health check on demand (#39648)](https://github.com/mattermost/mattermost/commit/f3624d99d7bdbef59f00b9500adaf30271a2f053) | 2026-11-18 |
-| bb90d1da | [MM-71485: update websocket connection registration (#39684)](https://github.com/mattermost/mattermost/commit/bb90d1da13318862ed033372405171fc7213db14) | 2026-11-18 |
-| 5b113dca | [MM-62006 Use display setting for invite chips (#36520)](https://github.com/mattermost/mattermost/commit/5b113dcae735eaafaf9651fdee90515f7a0c8a25) | 2026-11-18 |
-| 96e3547b | [MM-71539: Update channel bookmark list handling (#39623)](https://github.com/mattermost/mattermost/commit/96e3547bc761179bf389c15eb309a83aa1725f15) | 2026-11-18 |
-| 3e8334d7 | [Fix master check-style: return error from new App methods (#40162)](https://github.com/mattermost/mattermost/commit/3e8334d7715d4869ebb32a16d8053df8831c73b0) | 2026-11-18 |
-| 5935272b | [\[MM-71984\] Stop fetching channel classification field on non-Enterprise Advanced licenses (#40099)](https://github.com/mattermost/mattermost/commit/5935272b728e48ad47790559f19853352e34a21d) | 2026-11-18 |
-| 4325b162 | [drip: AppError -> error: user MFA check and password validity (#40144)](https://github.com/mattermost/mattermost/commit/4325b16251bd1f8cc70898c828a8d6a573339df5) | 2026-11-18 |
-| 7a4ca6f6 | [drip: go idioms: errors.AsType in app/draft, job, notify_admin, preference, report, login (#40145)](https://github.com/mattermost/mattermost/commit/7a4ca6f6c426816e3722d22ea0faf8ad24050e01) | 2026-11-18 |
-| 2ecd00c2 | [\[MM-72028\] Add timeout to security update check requests (#40134)](https://github.com/mattermost/mattermost/commit/2ecd00c22200b745b59fd113366da99c56e15115) | 2026-11-18 |
-| c54e21d0 | [Fix master check-style: return error from deleteReplacedBookmarkFile (#40184)](https://github.com/mattermost/mattermost/commit/c54e21d0f37b7c829b6c27d73cc85ee3e209ad0f) | 2026-11-19 |
+| 0e1a76d9 | [\[MM-71995\] Reword DB_POSTGRES_UNSUPPORTED to say the server still runs on older PostgreSQL (#40113)](https://github.com/mattermost/mattermost/commit/0e1a76d966d26e21b5a424d4337e8e1eff2c7f09) | 2026-11-19 |
 
 ## 제외된 커밋
 
@@ -675,6 +661,10 @@
 | 4e8166e9 | [Use Compass Combobox for rank attributes in System Console and Bots (#39889)](https://github.com/mattermost/mattermost/commit/4e8166e9716149fc7793dc7db689024b4ebaa999) | Compass Combobox 이관 연작 마지막 — 시스템 콘솔 사용자 상세·봇 화면의 rank 속성 선택기를 cpa-rank-select 메뉴 버튼에서 AttributeCombobox(rank)로 바꾼다(7파일). compass-ui 라이선스 없음으로 제외(2026-10-18 결정), 선행 965c282e·4d0faf21·aa538f07 제외. 대상 중 property_fields/user_attribute_fields 3파일·bot_attributes.spec.ts·user_ranked_value_picker.spec.ts는 포크에 없고(rank 속성 계보 제외), 남은 2파일도 받을 내용이 없다 — admin_console/system_user_detail/system_user_detail.scss가 지우는 .cpa-rank-select 블록과 Playwright user_detail.ts가 고치는 CPA combobox·Ranked CPA picker 절이 포크에 원래 없다(webapp에 cpa-rank-select 0건). |
 
 | c9e53127 | [\[MM-71856\] Add biometric_authenticated mobile session attribute (#39985)](https://github.com/mattermost/mattermost/commit/c9e53127e80324e93ef5aeba1799f0c89fb4be84) | Session Attributes MVF(684ddb32 #36934) 제외 계보 — 모바일 세션 속성 biometric_authenticated(상수·표시명·SessionAttributeSystemFields 항목, 기본 TTL·유예 5분)를 추가하는데 대상 server/public/model/session_attributes.go·_test.go가 포크에 없다(80eb4980·20c4cc42·9a9bbe28·7938c858 등 같은 계보 전부 제외). docs/main/.../session-attributes.mdx 표 1줄은 문서 미러(D1) 규칙대로 Upstream-docs 커밋으로 따로 받았다. 재검토 조건은 Session Attributes 계보 수용 시. |
+
+| 2a515687 | [\[MM-70535\] Allow creating posts with attribute values (#39796)](https://github.com/mattermost/mattermost/commit/2a515687396b256400091eb948522fef80310072) | 제외한 게시물 속성(post attributes) 계보(뿌리 36af1ee5 #37829, bb72eeb7 #38134, property v2 토대 48f2fd08, 69d345c9 #38735)의 후속이다. 게시물 생성 시 속성 값 저장(API 검증·생성 권한·CreatePost 저장/롤백·플러그인 API·shared channel 수신 시 값 제거)인데, 포크에는 model.PostMetadata.PropertyValues 필드와 app/post_property_values.go가 없어 얹을 토대가 없다(modify/delete, post.go·posts.yaml 충돌). 버린 일반 수정: app/post.go CreatePost에서 pendingPostID를 미리 읽어 두는 5줄 — MessageWillBePosted 플러그인이 PendingPostId 없는 새 post로 바꾸면 실패 시 defer가 엉뚱한 키로 중복 방지 캐시를 지운다. 포크 post.go에도 같은 잠재 버그가 있으나 일반 플러그인은 받은 post를 고쳐 돌려줘 실영향은 낮다. 재검토 조건: 게시물 속성 계보를 되살릴 때, 또는 플러그인 교체 post로 pending post 중복 증상이 보일 때. |
+
+| 5935272b | [\[MM-71984\] Stop fetching channel classification field on non-Enterprise Advanced licenses (#40099)](https://github.com/mattermost/mattermost/commit/5935272b728e48ad47790559f19853352e34a21d) | 제외한 분류 표시(Classification Markings) 계보의 후속 버그 수정이라 반영할 대상이 없다 — 고치는 useClassificationMarkings.ts·useChannelClassificationBanner.ts와 테스트 4파일이 포크에 없다(modify/delete). 이 훅은 제외한 23b4d827(#36490)이 만들었고, 계보 전체(2b7b398a·6083cc22·23b4d827 등)가 제외한 property 시스템 v2(48f2fd08, #35796) 위에 있다. Enterprise에서 채널마다 생기는 unhandled rejection 버그도 포크에는 없다. 재검토 조건: 분류 표시 계보를 되살릴 때 함께 받는다. |
 
 ## spec 전환 커밋
 
