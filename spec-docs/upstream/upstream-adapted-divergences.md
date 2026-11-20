@@ -6334,3 +6334,26 @@ vet `appErrorReturn` 규칙에 걸린 새 App 메서드 3개의 반환 타입을
 | `export.go` `exportAllPosts` | 3-way theirs에 upstream 함수 구조(반환값 1개)가 섞여 들어왔다 | 포크 구조(`return nil, err`)를 지키고 `followersErr`·`model.AsAppError(err)` 변환만 넣었다 | 없음 |
 
 **검증(2026-11-20).** `go vet ./channels/app/` 통과. mattermost-govet `-appErrorReturn` 기준선 검사 exit 0. `app -run Export` 통과.
+
+## 예약 메시지 Today 시각·오류 처리 — Lexical 제출 합성을 지키고, compass-ui의 로딩 prop을 버렸다
+
+**upstream**: [`2d9ef16b`](https://github.com/mattermost/mattermost/commit/2d9ef16b91fe9c46d72ac0ba41a39c2c283a4c96)
+(CS-1: Fix scheduled post "Today" picking a past time and swallowed schedule errors, #40174) — 14파일 +638/-61, 2026-11-20 sync 반영(사용자 결정 adapt)
+
+`getRoundedTime`·Today 선택 수정(`datetime_input`), `use_submit`의 `SubmitResult` 반환과 `create_post.scheduling_blocked_by_error`, 예약 후 afterSubmit 오류 격리, 성공 시에만 "Message Sent" 알림, 모달의 pending 가드·오류 초기화·`isConfirmDisabled`는 그대로 받았다.
+
+**고친 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `advanced_text_editor.tsx` `handleSubmitWithErrorHandling` | `handleSubmit(submittingDraft, ...)` 결과를 반환한다 | 포크의 Lexical 합성(`readMarkdownForSubmit`로 최신 본문을 읽어 `merged` draft 생성, `9fae005295`·`73f763f5c2`)을 지키고 `handleSubmit(merged, ...)` 결과에 upstream 알림·반환 구조를 붙였다 | 없음 |
+| `use_submit.tsx` import | `utils/i18n` 추가 | 포크의 `utils/markdown_normalize` import와 함께 둔다 | 없음 |
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `date_time_picker_modal.tsx` `isConfirmLoading` prop, `scheduled_post_custom_time_modal.tsx`의 전달 | 진행 중 Schedule 버튼에 스피너를 띄운다 | 뺐다. GenericModal의 `isConfirmLoading`은 제외한 compass-ui 이관 `e190c0f1`(#38903) 소산이라 포크 GenericModal에 없다(tsc TS2322). 버튼 비활성은 남는다 | compass-ui 계보를 들이거나 포크 GenericModal에 로딩 상태를 넣을 때 |
+| `scheduled_post_custom_time_modal.test.tsx` 스피너 단언 3줄(`within(...).getByRole('status')` 등)과 `within` import | 진행 중 스피너 표시·해제를 검사한다 | 뺐다. 비활성·재활성 단언은 남겼다 | 같다 |
+
+**검증(2026-11-20, Node v24).** jest `advanced_text_editor`·`datetime_input`·`drafts/draft_row`·`date_time_picker_modal` 24 스위트 301건 중 실패 15건. 적용 전 같은 디렉터리 기준선도 같은 15건이다(`advanced_text_editor.test.tsx`, jsdom Lexical 한계, diff 0). 변경 파일 eslint 오류 0(`advanced_text_editor.tsx`의 기존 4건은 적용 전과 같다). tsc 오류 7건은 모두 이 커밋이 건드리지 않은 파일(lexical_editor·post_view·resizable_lhs)이다.
