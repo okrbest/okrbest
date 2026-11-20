@@ -6318,3 +6318,19 @@ vet `appErrorReturn` 규칙에 걸린 새 App 메서드 3개의 반환 타입을
 | `store_error_classification_integration_test.go` `TestCreateBoardChannelStoreErrorClassification` | BO 채널 생성 오류 5종 분류 검사 | 함수를 뺐다. `FeatureFlags.IntegratedBoards`·`model.ChannelTypeOpenBoard`·`SaveBoardChannel` mock이 없다 | 같다 |
 
 **검증(2026-11-20).** `go vet ./channels/app/` 통과. `app -run 'StoreErrorClassification|TestGetAudits|PluginKey|TestKV|PostAction'` 통과.
+
+## DM 채널 export의 error 반환 전환 — 미반영 scoped export 블록 없이 포크 호출부에 옮겼다
+
+**upstream**: [`604b4674`](https://github.com/mattermost/mattermost/commit/604b467454dd3471d6b32ac6a3de3e525a8f1e55)
+(drip: AppError -> error: direct channel export, #40188) — 2파일 +22/-26, 2026-11-20 sync 반영(사용자 결정 adapt)
+
+`exportAllDirectChannels`·`buildThreadFollowers`·`buildPostAttachments`·`buildFavoritedByList`·`buildShownByList`의 반환을 `error`로 바꾸고, 호출부를 `model.AsAppError`로 감싸며, `apperror_baseline.txt`에서 5줄을 지우는 내용은 그대로 받았다. 변환 결과는 upstream과 줄 수까지 같다(+22/-26).
+
+**고친 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `export.go` `BulkExport`의 `exportAllDirectChannels` 호출 | `if len(teamNames) == 0 { ... }` 블록 안에 있다(scoped export) | 블록 없이 기존 위치에서 같은 변환만 했다. 블록과 custom emoji 범위 분기는 spec 전환한 `41c482b4`(단일 팀·채널 이전, #37868) 소산이다 | `41c482b4` spec 구현 때 블록이 들어오며 upstream 형태가 된다 |
+| `export.go` `exportAllPosts` | 3-way theirs에 upstream 함수 구조(반환값 1개)가 섞여 들어왔다 | 포크 구조(`return nil, err`)를 지키고 `followersErr`·`model.AsAppError(err)` 변환만 넣었다 | 없음 |
+
+**검증(2026-11-20).** `go vet ./channels/app/` 통과. mattermost-govet `-appErrorReturn` 기준선 검사 exit 0. `app -run Export` 통과.
