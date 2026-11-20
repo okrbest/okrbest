@@ -183,8 +183,8 @@ func (a *App) BulkExport(rctx request.CTX, writer io.Writer, outPath string, job
 	}
 
 	rctx.Logger().Info("Bulk export: exporting direct channels")
-	if appErr = a.exportAllDirectChannels(rctx, job, writer, opts.IncludeArchivedChannels); appErr != nil {
-		return appErr
+	if err := a.exportAllDirectChannels(rctx, job, writer, opts.IncludeArchivedChannels); err != nil {
+		return model.AsAppError(err)
 	}
 
 	rctx.Logger().Info("Bulk export: exporting direct posts")
@@ -755,9 +755,9 @@ func (a *App) exportAllPosts(rctx request.CTX, job *model.Job, writer io.Writer,
 				return nil, err
 			}
 
-			followers, err := a.buildThreadFollowers(rctx, post.Id)
-			if err != nil {
-				return nil, err
+			followers, followersErr := a.buildThreadFollowers(rctx, post.Id)
+			if followersErr != nil {
+				return nil, model.AsAppError(followersErr)
 			}
 
 			if len(followers) > 0 {
@@ -780,7 +780,7 @@ func (a *App) exportAllPosts(rctx request.CTX, job *model.Job, writer io.Writer,
 			if len(post.FileIds) > 0 {
 				postAttachments, err := a.buildPostAttachments(post.Id)
 				if err != nil {
-					return nil, err
+					return nil, model.AsAppError(err)
 				}
 				postLine.Post.Attachments = &postAttachments
 
@@ -815,9 +815,9 @@ func (a *App) buildPostReplies(rctx request.CTX, postID string, withAttachments 
 			}
 		}
 		if len(reply.FileIds) > 0 {
-			postAttachments, appErr := a.buildPostAttachments(reply.Id)
-			if appErr != nil {
-				return nil, nil, appErr
+			postAttachments, err := a.buildPostAttachments(reply.Id)
+			if err != nil {
+				return nil, nil, model.AsAppError(err)
 			}
 			replyImportObject.Attachments = &postAttachments
 			if withAttachments && len(postAttachments) > 0 {
@@ -831,7 +831,7 @@ func (a *App) buildPostReplies(rctx request.CTX, postID string, withAttachments 
 	return replies, attachments, nil
 }
 
-func (a *App) buildThreadFollowers(_ request.CTX, postID string) ([]imports.ThreadFollowerImportData, *model.AppError) {
+func (a *App) buildThreadFollowers(_ request.CTX, postID string) ([]imports.ThreadFollowerImportData, error) {
 	var followers []imports.ThreadFollowerImportData
 
 	threadFollowers, nErr := a.Srv().Store().Thread().GetThreadMembershipsForExport(postID)
@@ -924,7 +924,7 @@ func (a *App) buildPostPriorities(rctx request.CTX, postIDs []string) (map[strin
 	return priorities, acknowledgements, nil
 }
 
-func (a *App) buildPostAttachments(postID string) ([]imports.AttachmentImportData, *model.AppError) {
+func (a *App) buildPostAttachments(postID string) ([]imports.AttachmentImportData, error) {
 	infos, nErr := a.Srv().Store().FileInfo().GetForPost(postID, false, false, false)
 	if nErr != nil {
 		return nil, model.NewAppError("buildPostAttachments", "app.file_info.get_for_post.app_error", nil, "", http.StatusInternalServerError).Wrap(nErr)
@@ -1030,7 +1030,7 @@ func (a *App) copyEmojiImages(rctx request.CTX, emojiId string, emojiImagePath s
 	return nil
 }
 
-func (a *App) exportAllDirectChannels(rctx request.CTX, job *model.Job, writer io.Writer, includeArchivedChannels bool) *model.AppError {
+func (a *App) exportAllDirectChannels(rctx request.CTX, job *model.Job, writer io.Writer, includeArchivedChannels bool) error {
 	afterId := strings.Repeat("0", 26)
 	cnt := 0
 	for {
@@ -1094,7 +1094,7 @@ func (a *App) exportAllDirectChannels(rctx request.CTX, job *model.Job, writer i
 
 			channelLine := importLineFromDirectChannel(channel, favoritedBy, shownBy)
 			if err := a.exportWriteLine(writer, channelLine); err != nil {
-				return model.AsAppError(err)
+				return err
 			}
 		}
 	}
@@ -1102,7 +1102,7 @@ func (a *App) exportAllDirectChannels(rctx request.CTX, job *model.Job, writer i
 	return nil
 }
 
-func (a *App) buildFavoritedByList(rctx request.CTX, channelID string) ([]string, *model.AppError) {
+func (a *App) buildFavoritedByList(rctx request.CTX, channelID string) ([]string, error) {
 	prefs, err := a.Srv().Store().Preference().GetCategoryAndName(model.PreferenceCategoryFavoriteChannel, channelID)
 	if err != nil {
 		return nil, model.NewAppError("buildFavoritedByList", "app.preference.get_category.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
@@ -1125,7 +1125,7 @@ func (a *App) buildFavoritedByList(rctx request.CTX, channelID string) ([]string
 	return userIDs, nil
 }
 
-func (a *App) buildShownByList(rctx request.CTX, channel *model.DirectChannelForExport) ([]string, *model.AppError) {
+func (a *App) buildShownByList(rctx request.CTX, channel *model.DirectChannelForExport) ([]string, error) {
 	shownBy := make([]string, 0)
 	switch channel.Type {
 	case model.ChannelTypeGroup:
@@ -1225,9 +1225,10 @@ func (a *App) exportAllDirectPosts(rctx request.CTX, job *model.Job, writer io.W
 			var postAttachments []imports.AttachmentImportData
 			var err *model.AppError
 			if len(post.FileIds) > 0 {
-				postAttachments, err = a.buildPostAttachments(post.Id)
-				if err != nil {
-					return nil, err
+				var attachmentsErr error
+				postAttachments, attachmentsErr = a.buildPostAttachments(post.Id)
+				if attachmentsErr != nil {
+					return nil, model.AsAppError(attachmentsErr)
 				}
 
 				if withAttachments && len(postAttachments) > 0 {
@@ -1253,9 +1254,9 @@ func (a *App) exportAllDirectPosts(rctx request.CTX, job *model.Job, writer io.W
 				postLine.DirectPost.Attachments = &postAttachments
 			}
 
-			followers, err := a.buildThreadFollowers(rctx, post.Id)
-			if err != nil {
-				return nil, err
+			followers, followersErr := a.buildThreadFollowers(rctx, post.Id)
+			if followersErr != nil {
+				return nil, model.AsAppError(followersErr)
 			}
 
 			if len(followers) > 0 {
