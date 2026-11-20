@@ -267,17 +267,16 @@ func GetTranslationsAndLocaleFromRequest(r *http.Request) (TranslateFunc, string
 	// This is for checking against locales like pt_BR or zn_CN
 	headerLocaleFull, _, _ := strings.Cut(r.Header.Get("Accept-Language"), ",")
 	// This is for checking against locales like en, es
-	headerLocale, _, _ := strings.Cut(strings.Split(r.Header.Get("Accept-Language"), ",")[0], "-")
-	defaultLocale := defaultClientLocale
+	headerLocale, _, _ := strings.Cut(headerLocaleFull, "-")
 	if locales[headerLocaleFull] != "" {
 		translations := tfuncWithFallback(headerLocaleFull)
 		return translations, headerLocaleFull
 	} else if locales[headerLocale] != "" {
 		translations := tfuncWithFallback(headerLocale)
 		return translations, headerLocale
-	} else if locales[defaultLocale] != "" {
-		translations := tfuncWithFallback(defaultLocale)
-		return translations, headerLocale
+	} else if locales[defaultClientLocale] != "" {
+		translations := tfuncWithFallback(defaultClientLocale)
+		return translations, defaultClientLocale
 	}
 
 	translations := tfuncWithFallback(defaultLocale)

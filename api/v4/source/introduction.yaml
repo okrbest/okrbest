@@ -470,7 +470,7 @@ tags:
   - name: agents
     description: Endpoints for interacting with AI agents and LLM services.
   - name: health
-    description: Endpoints for getting and muting the findings of the server's built-in health checks.
+    description: Endpoints for getting, exporting and muting the findings of the server's built-in health checks.
 servers:
   - url: "{your-mattermost-url}"
     variables:
