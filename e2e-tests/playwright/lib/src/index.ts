@@ -129,6 +129,7 @@ export {
     hasAutotranslationLicense,
     hasSharedChannelsLicense,
     hasCustomPermissionsSchemesLicense,
+    licenseTier,
 } from './license_helpers';
 
 // ABAC (Attribute-Based Access Control) helpers
