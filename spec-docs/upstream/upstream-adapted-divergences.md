@@ -6357,3 +6357,26 @@ vet `appErrorReturn` 규칙에 걸린 새 App 메서드 3개의 반환 타입을
 | `scheduled_post_custom_time_modal.test.tsx` 스피너 단언 3줄(`within(...).getByRole('status')` 등)과 `within` import | 진행 중 스피너 표시·해제를 검사한다 | 뺐다. 비활성·재활성 단언은 남겼다 | 같다 |
 
 **검증(2026-11-20, Node v24).** jest `advanced_text_editor`·`datetime_input`·`drafts/draft_row`·`date_time_picker_modal` 24 스위트 301건 중 실패 15건. 적용 전 같은 디렉터리 기준선도 같은 15건이다(`advanced_text_editor.test.tsx`, jsdom Lexical 한계, diff 0). 변경 파일 eslint 오류 0(`advanced_text_editor.tsx`의 기존 4건은 적용 전과 같다). tsc 오류 7건은 모두 이 커밋이 건드리지 않은 파일(lexical_editor·post_view·resizable_lhs)이다.
+
+## 플러그인 ABAC 일괄 판정·엔진 부재 시 Get/Delete fallback — 제외한 property v2·graph 속성 계보 참조를 걷어냈다
+
+**upstream**: [`f5de7974`](https://github.com/mattermost/mattermost/commit/f5de7974950be46a8e63c95c7c4a774331cd33d2)
+(Plugin API: EvaluateAccessControlBatch, CheckAccessControlExpressionForSearch, and ABAC-unavailable Get/Delete fallback, #39895) — 15파일 +1213/-41, 2026-11-20 sync 반영(사용자 결정 adapt)
+
+새 Plugin API 2개(`EvaluateAccessControlBatch`·`CheckAccessControlExpressionForSearch`), `AccessControlPolicyStore.GetTypesByIDs`와 생성 레이어, 엔진이 없거나 라이선스가 모자랄 때의 store fallback(Get/Delete), develop 문서, 서버 `en.json` 5키를 받았다. 포크 빌드는 판정 엔진이 없어(`ch.AccessControl` nil) fallback이 사실상 기본 경로다. 비공개 모듈 표에도 올렸다.
+
+**고친 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `plugin_access_control_test.go` `breakSubjectBuild` | `model.AccessControlPropertyGroupName` 조회를 깨뜨린다 | `model.CustomProfileAttributesPropertyGroupName`. 포크 subject 빌더는 CPA 그룹을 읽는다(기존 adapt와 같은 기준) | property v2(`9f1fe90b`)를 들일 때 |
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `plugin_access_control.go` `DeletePluginAccessControlPolicy` fallback의 `acs.InvalidateAllPolicyCaches(rctx)` | 엔진이 있으면 store 삭제 뒤 캐시를 비운다 | 블록을 지웠다. 인터페이스 메서드가 제외한 graph 속성 계보 `9ef79330`(#37851) 소산이라 포크 `AccessControlServiceInterface`에 없다. 포크는 엔진이 nil이라 이 분기에 들어가지 않는다 | `9ef79330` 계보나 자체 엔진을 들일 때 |
+| 같은 파일 테스트의 `mockACS.On("InvalidateAllPolicyCaches", ...)` 2줄 | 위 호출 기대 | 지웠다 | 같다 |
+| 같은 파일 `TestPluginAPIAccessControlCallsNameThePlugin`(약 100줄) | 3-way theirs에 섞여 들어온 문맥 | 넣지 않았다. 제외한 `3525e8fa`(#39081) 소산이라 이 커밋의 변경이 아니다 | `3525e8fa` 계보를 들일 때 |
+
+**검증(2026-11-20).** `go vet ./channels/app/ ./channels/store/...`·public `./plugin/...` 통과, mattermost-govet `-appErrorReturn` exit 0. `app -run 'PluginAccess|PluginAPIAccessControl|EvaluatePluginAccess|AccessControlPlugin'`·`sqlstore -run TestAccessControlPolicyStore`·public `plugin` 통과.
