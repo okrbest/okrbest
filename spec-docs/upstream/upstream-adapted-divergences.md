@@ -6380,3 +6380,23 @@ vet `appErrorReturn` 규칙에 걸린 새 App 메서드 3개의 반환 타입을
 | 같은 파일 `TestPluginAPIAccessControlCallsNameThePlugin`(약 100줄) | 3-way theirs에 섞여 들어온 문맥 | 넣지 않았다. 제외한 `3525e8fa`(#39081) 소산이라 이 커밋의 변경이 아니다 | `3525e8fa` 계보를 들일 때 |
 
 **검증(2026-11-20).** `go vet ./channels/app/ ./channels/store/...`·public `./plugin/...` 통과, mattermost-govet `-appErrorReturn` exit 0. `app -run 'PluginAccess|PluginAPIAccessControl|EvaluatePluginAccess|AccessControlPlugin'`·`sqlstore -run TestAccessControlPolicyStore`·public `plugin` 통과.
+
+## job 타입별 권한 표 — 제외한 Scheduled Recap의 job 타입 두 줄을 버렸다
+
+**upstream**: [`1d8fd26f`](https://github.com/mattermost/mattermost/commit/1d8fd26f0bc803ed5d49602b54373349e77b0520)
+([MM-69559] Map permissions for every job type and make internal jobs read-only, #39722) — 11파일 +477/-242, 2026-11-23 sync 반영(사용자 결정 adapt)
+
+`app/job.go`의 권한 switch 3개를 `app/job_permissions.go` 표 하나로 합치는 변경은 upstream 그대로 받았다. 함께 받은 것은 `model.AllJobTypes`(사용 중인 job 타입 전부)·`CreatableJobTypes` 신설, 내부 job의 목록 제외·상태 변경 불가, mmctl `job create` 자동완성, `jobs.yaml` 문서다. `cleanup_expired_access_tokens`·`notify_expiring_access_tokens`가 내부 job이 되면서 위임 관리자 역할(`read_jobs`·`manage_jobs`)이 이 두 job에 접근하지 못하는 것도 upstream 의도대로 받았다.
+
+충돌은 `model/job.go` 한 곳이었다. upstream 목록에 있는 `JobTypeScheduledRecap`이 포크에 없어서 났다. 이 상수를 빼면 포크의 job 타입 상수 블록은 upstream과 같다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `server/public/model/job.go` `AllJobTypes` | `JobTypeScheduledRecap,` 항목 | 없음. 상수 `JobTypeScheduledRecap = "scheduled_recap"` 자체가 포크에 없다. 제외한 Scheduled Recap 계보(a0850b9b 제외 사유의 `api4/scheduled_recap.go` 부재와 같은 계보)가 만든 상수다 | Scheduled Recap 계보를 들일 때 상수와 함께 되살린다 |
+| `server/channels/app/job_permissions.go` 권한 표 | `model.JobTypeScheduledRecap: internalJobPermissions,` | 없음. 같은 이유다 | 같다 |
+
+upstream 결과물과 비교하면 두 파일의 차이는 위 세 줄(상수 선언 포함)뿐이다.
+
+**검증(2026-11-23).** 서버 `go build ./...`, `go vet`(model·app·api4·mmctl) 통과. `public/model -run Job`(AllJobTypes 누락 검사 포함), `app -run Job`, `api4 -run Job`, `channels/jobs` 전체, mmctl `-tags unit` `TestMmctlUnitSuite -testify.m Job` 통과.
