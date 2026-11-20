@@ -6287,3 +6287,18 @@ vet `appErrorReturn` 규칙에 걸린 새 App 메서드 3개의 반환 타입을
 | `app/post_property_values.go`·`_test.go` | 두 메서드 시그니처를 `error`로 바꾼다 | 파일이 없다(modify/delete) | 같다 |
 
 **검증(2026-11-19).** `go build ./channels/...`, `go vet ./channels/app/ ./channels/api4/` 통과. `app -run 'Health|CreateJob'`, `api4 -run 'Health|Job'` 통과.
+
+## healthcheck 설계 문서화 — CODEOWNERS 개인 소유자 줄을 버렸다
+
+**upstream**: [`2dae77ca`](https://github.com/mattermost/mattermost/commit/2dae77ca7214faae986383fb5c0af689c8ae1d63)
+(Document the healthcheck engine's design decisions in its package doc, #40111) — 4파일 +116/-20, 2026-11-20 sync 반영(사용자 결정 adapt)
+
+`healthcheck/doc.go` 설계 문서와 `imports_test.go`(healthcheck 하위 전체의 server import 검사, `server/v8/config`만 예외)는 그대로 받았다. `packet/reader_test.go`의 옛 import 테스트 삭제도 받았다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `CODEOWNERS` | `/server/platform/shared/healthcheck/ @hanzei` 추가 | 줄을 넣지 않았다. 포크는 `@okrbest/okrbest` 단일 팀으로 CODEOWNERS를 관리한다(`7a3a625dc6`). `@hanzei`는 우리 저장소에 없는 upstream 작성자 개인 계정이다. 팀명으로 바꾸면 이후 Health Dashboard sync PR마다 `--admin` 병합이 필요해진다. ProdSec 줄(`155bffdc65`)은 보안 리뷰 의도가 있어 팀명으로 바꿔 받았지만, 이 줄은 개인 소유권이라 옮길 의도가 없다 | 포크가 healthcheck 패키지에 별도 리뷰 담당을 두기로 할 때 `@okrbest/okrbest`로 넣는다 |
+
+**검증(2026-11-20).** `go test ./platform/shared/healthcheck/...` 전부 통과, `TestImportsStayOutOfTheServer` 통과. `go vet` 오류 0.
