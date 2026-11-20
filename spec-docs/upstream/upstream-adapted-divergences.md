@@ -6302,3 +6302,19 @@ vet `appErrorReturn` 규칙에 걸린 새 App 메서드 3개의 반환 타입을
 | `CODEOWNERS` | `/server/platform/shared/healthcheck/ @hanzei` 추가 | 줄을 넣지 않았다. 포크는 `@okrbest/okrbest` 단일 팀으로 CODEOWNERS를 관리한다(`7a3a625dc6`). `@hanzei`는 우리 저장소에 없는 upstream 작성자 개인 계정이다. 팀명으로 바꾸면 이후 Health Dashboard sync PR마다 `--admin` 병합이 필요해진다. ProdSec 줄(`155bffdc65`)은 보안 리뷰 의도가 있어 팀명으로 바꿔 받았지만, 이 줄은 개인 소유권이라 옮길 의도가 없다 | 포크가 healthcheck 패키지에 별도 리뷰 담당을 두기로 할 때 `@okrbest/okrbest`로 넣는다 |
 
 **검증(2026-11-20).** `go test ./platform/shared/healthcheck/...` 전부 통과, `TestImportsStayOutOfTheServer` 통과. `go vet` 오류 0.
+
+## errors.AsType 관용구 정리(audit·plugin KV·post action) — 제외한 Integrated Boards의 board.go hunk를 버렸다
+
+**upstream**: [`1c9208b4`](https://github.com/mattermost/mattermost/commit/1c9208b4a2f1e09ad65542fae55f7ca283d399db)
+(drip: go idioms: errors.AsType in app/audit, board, plugin_key_value_store, integration_action_setup, #40189) — 5파일 +269/-50, 2026-11-20 sync 반영(사용자 결정 adapt)
+
+`audit.go`·`integration_action_setup.go`·`plugin_key_value_store.go`의 `errors.As` switch → `errors.AsType` early return 전환은 그대로 받았다(동작 동일). 새 테스트 파일 `store_error_classification_integration_test.go`의 `TestAuditPluginKeyStoreErrorClassification`·`TestPostActionSetupStoreErrorClassification`도 받았다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `app/board.go` `CreateBoardChannel` | `SaveBoardChannel` 오류 분류를 `errors.AsType` 4단으로 바꾼다 | 파일이 없다(modify/delete). 제외한 Integrated Boards 계보(`48f2fd08`·`323841e9`) 소산 | Integrated Boards 계보를 들일 때 함께 받는다 |
+| `store_error_classification_integration_test.go` `TestCreateBoardChannelStoreErrorClassification` | BO 채널 생성 오류 5종 분류 검사 | 함수를 뺐다. `FeatureFlags.IntegratedBoards`·`model.ChannelTypeOpenBoard`·`SaveBoardChannel` mock이 없다 | 같다 |
+
+**검증(2026-11-20).** `go vet ./channels/app/` 통과. `app -run 'StoreErrorClassification|TestGetAudits|PluginKey|TestKV|PostAction'` 통과.
