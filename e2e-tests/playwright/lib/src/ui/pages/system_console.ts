@@ -11,6 +11,7 @@ import SystemConsoleHeader from '@/ui/components/system_console/header';
 import EditionAndLicense from '@/ui/components/system_console/sections/about/edition_and_license';
 import TeamStatistics from '@/ui/components/system_console/sections/reporting/team_statistics';
 import ServerLogs from '@/ui/components/system_console/sections/reporting/server_logs';
+import SiteHealth from '@/ui/components/system_console/sections/reporting/site_health';
 import Users from '@/ui/components/system_console/sections/user_management/users';
 import DelegatedGranularAdministration from '@/ui/components/system_console/sections/user_management/delegated_granular_administration';
 import PermissionsSystemScheme from '@/ui/components/system_console/sections/user_management/permissions_system_scheme';
@@ -41,6 +42,7 @@ export default class SystemConsolePage {
     readonly editionAndLicense: EditionAndLicense;
 
     // Reporting
+    readonly siteHealth: SiteHealth;
     readonly teamStatistics: TeamStatistics;
     readonly serverLogs: ServerLogs;
 
@@ -91,6 +93,7 @@ export default class SystemConsolePage {
         this.editionAndLicense = new EditionAndLicense(adminConsoleWrapper);
 
         // Reporting
+        this.siteHealth = new SiteHealth(adminConsoleWrapper);
         this.teamStatistics = new TeamStatistics(adminConsoleWrapper);
         this.serverLogs = new ServerLogs(adminConsoleWrapper);
 
@@ -140,6 +143,11 @@ export default class SystemConsolePage {
     async gotoPluginManagement() {
         await this.page.goto('/admin_console/plugins/plugin_management');
         await this.page.waitForLoadState('networkidle');
+    }
+
+    async gotoSiteHealth() {
+        await this.page.goto('/admin_console/reporting/site_health');
+        await this.siteHealth.toBeVisible();
     }
 
     /**
