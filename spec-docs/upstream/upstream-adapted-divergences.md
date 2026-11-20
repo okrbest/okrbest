@@ -6432,3 +6432,18 @@ merge-tree 충돌 표시에는 제외 계보 함수(`isEligibleForGlobalAttribut
 **버린 것.** 없다. 기준선 파일의 upstream 문맥 줄은 포크 기준선에 원래 없는 항목이라 받지 않았다.
 
 **검증(2026-11-23).** 서버 `go build ./...`, `make vet`(appErrorReturn 기준선 검사 포함) 통과. `app -run 'Analytics|SupportPacket'`, `api4 -run Analytics` 통과.
+
+## health findings 내보내기 API — 코드는 다 받고, i18n.go의 locale 계산 줄 충돌만 upstream 줄로 풀었다
+
+**upstream**: [`44d6a1e3`](https://github.com/mattermost/mattermost/commit/44d6a1e339e147c77bcf87d198c2f311de3db7a3)
+([MM-72039] Add an API endpoint to export health findings as HTML or Markdown, #40151) — 18파일 +363/-16, 2026-11-23 sync 반영(사용자 결정 adapt)
+
+내보내기 엔드포인트(`api4/health_dashboard.go`), `client4.go`, 감사 이벤트, `health.yaml`·`introduction.yaml`, en.json 5줄, `docs/` 감사 로그 스키마, 리포트 템플릿의 `<html lang>`·`<title>{{.FileName}}</title>`과 골든 testdata 6개는 upstream 그대로 받았다. 템플릿과 골든의 `<div class="product">OKR.BEST</div>`(#40149 adapt)는 자동 병합에서 유지됐다.
+
+충돌은 `server/public/shared/i18n/i18n.go` `GetTranslationsAndLocaleFromRequest`의 한 곳이었다. upstream은 #39221(golangci-lint 유지보수)에서 `headerLocale` 계산을 `strings.Cut(headerLocaleFull, "-")`로 바꿨는데, 포크의 같은 커밋 반영본(`e5799543ef`)에는 결과가 같은 옛 `strings.Cut(strings.Split(...)[0], "-")`이 남아 있었다. upstream 줄을 받고 지역 변수 `defaultLocale := defaultClientLocale`을 지웠다.
+
+**동작 변화(upstream 의도).** 지원하지 않는 Accept-Language로 기본 locale에 떨어질 때 반환 locale이 요청 헤더 값 대신 실제로 쓴 `defaultClientLocale`이 된다. 마지막 대체 분기의 `tfuncWithFallback(defaultLocale)`는 지역 변수 대신 패키지 상수 `"en"`을 가리키게 됐다. 이 분기는 `defaultClientLocale` 번역 파일도 없을 때만 탄다.
+
+**버린 것.** 없다. upstream 결과물과 남은 차이는 지원 locale 목록의 7개 항목(da·cs·hr·lt·nb-NO·pt·fi)으로, 이 커밋 이전부터 포크와 달랐다.
+
+**검증(2026-11-23).** 서버 `go build ./...`, `public/shared/i18n` 테스트, `platform/shared/healthcheck/report` 골든, `api4 -run TestHealth` 통과. 템플릿·골든 7개 파일의 OKR.BEST 표기 유지 확인.
