@@ -6419,3 +6419,16 @@ merge-tree 충돌 표시에는 제외 계보 함수(`isEligibleForGlobalAttribut
 | `server/channels/app/property_sync.go` `PropertySyncer.SyncUser` | `errors.As` → `errors.AsType[*model.AppError]` | 파일이 없다(modify/delete). 제외한 속성 외부 원천 동기화 계보다 | 그 계보를 들일 때 같다 |
 
 **검증(2026-11-23).** `go build ./channels/app/`, `go vet ./channels/app/` 통과. `app -run SharedChannel` 통과.
+
+## analytics의 error 반환 전환 — 코드는 다 받고, vet 기준선은 포크 파일에서 줄만 지웠다
+
+**upstream**: [`30e36c77`](https://github.com/mattermost/mattermost/commit/30e36c77a0c8d9e7e4150323cf12a5b45aff86d2)
+(drip: AppError -> error: analytics, #40225) — 3파일 +16/-24, 2026-11-23 sync 반영(사용자 결정 adapt)
+
+`app/analytics.go`의 8개 함수(`GetAnalytics`·`GetAnalyticsForSupportPacket`·`getAnalytics`·`getStandardAnalytics`·`getBotPostCountsAnalytics`·`getPostCountsAnalytics`·`getUserCountsWithPostsAnalytics`·`getExtraCountsAnalytics`)를 `error` 반환으로 바꾼 코드와 `api4/system.go` `getAnalytics`의 `c.SetError(err)` 호출부는 upstream 그대로 받았다. 포크에서 `GetAnalytics`를 부르는 곳은 이 호출부 하나뿐이다.
+
+충돌은 `server/channels/app/apperror_baseline.txt` 한 곳이었다. upstream 기준선에는 제외 계보 함수 항목(`getCallerGraphOptionIDs` 등)이 있고 포크에는 없어서 hunk 문맥이 맞지 않았다. upstream 쪽 3-way 결과를 받지 않고 포크 파일(`--ours`)에서 위 8개 함수 줄만 지웠다. 같은 연작 #40086·#40144·#40188을 받을 때와 같은 처리다.
+
+**버린 것.** 없다. 기준선 파일의 upstream 문맥 줄은 포크 기준선에 원래 없는 항목이라 받지 않았다.
+
+**검증(2026-11-23).** 서버 `go build ./...`, `make vet`(appErrorReturn 기준선 검사 포함) 통과. `app -run 'Analytics|SupportPacket'`, `api4 -run Analytics` 통과.
