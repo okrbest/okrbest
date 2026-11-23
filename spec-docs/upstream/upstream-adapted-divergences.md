@@ -6400,3 +6400,22 @@ vet `appErrorReturn` 규칙에 걸린 새 App 메서드 3개의 반환 타입을
 upstream 결과물과 비교하면 두 파일의 차이는 위 세 줄(상수 선언 포함)뿐이다.
 
 **검증(2026-11-23).** 서버 `go build ./...`, `go vet`(model·app·api4·mmctl) 통과. `public/model -run Job`(AllJobTypes 누락 검사 포함), `app -run Job`, `api4 -run Job`, `channels/jobs` 전체, mmctl `-tags unit` `TestMmctlUnitSuite -testify.m Job` 통과.
+
+## errors.AsType 관용구 정리(property·shared channel) — shared_channel.go만 받고, 제외 계보 3곳 hunk를 버렸다
+
+**upstream**: [`4ad2fa2a`](https://github.com/mattermost/mattermost/commit/4ad2fa2a08e05e4c8f77f1f57b7b585591ebe0c1)
+(drip: go idioms: errors.AsType in app property and shared channel helpers, #40229) — 4파일 +9/-12, 2026-11-23 sync 반영(사용자 결정 adapt)
+
+`errors.As(err, &x)`를 `errors.AsType[T](err)`로 바꾸는 동작 불변 정리다. 포크에 있는 `app/shared_channel.go`의 `isNotFoundError` hunk(+2/-2)만 `git diff ... -- server/channels/app/shared_channel.go | git apply --index`로 받았다. 포크의 이 함수는 upstream 변경 전 코드와 같았다.
+
+merge-tree 충돌 표시에는 제외 계보 함수(`isEligibleForGlobalAttributesMigration`·`isPlainCPAField`·새 시그니처의 `createPropertyField`)가 문맥으로 끌려 들어왔다. 3-way 결과를 그대로 받지 않고 파일 단위로 적용했다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `server/channels/app/properties/migrations.go` `isPermanentPropertyFieldFailure` | `errors.As` → `errors.AsType[*model.AppError]` | 함수가 없다. 제외한 Global Attributes(Attribute Management) 계보(38b66d22 #37580 등)의 CPA→템플릿 마이그레이션 코드다 | Global Attributes 계보를 들일 때 upstream 최신 코드로 함께 받는다 |
+| `server/channels/app/properties/property_field.go` `groupConvertsAttrs` | `switch`+`errors.As` → `if`+`errors.AsType[*store.ErrNotFound]` | 함수가 없다. 제외한 property 시스템 v2(48f2fd08)·ABAC 속성 변환 계보 코드다 | property v2 계보를 들일 때 같다 |
+| `server/channels/app/property_sync.go` `PropertySyncer.SyncUser` | `errors.As` → `errors.AsType[*model.AppError]` | 파일이 없다(modify/delete). 제외한 속성 외부 원천 동기화 계보다 | 그 계보를 들일 때 같다 |
+
+**검증(2026-11-23).** `go build ./channels/app/`, `go vet ./channels/app/` 통과. `app -run SharedChannel` 통과.
