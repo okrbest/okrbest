@@ -3,44 +3,17 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-23 11:00
+- 갱신일: 2026-11-23 15:05
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 30개
+- 남은 커밋: 3개
 
-**마지막 반영 커밋:** `ef50a13e` | [\[MM-72091\] Add e2e tests for Site health with real findings (#40185)](https://github.com/mattermost/mattermost/commit/ef50a13e7e3ee3e99cde650987f07cbb89b12aed) | 2026-11-20
+**마지막 반영 커밋:** `35ad3b8b` | [\[MM-63239\] Match paragraph spacing to consecutive post spacing (#40194)](https://github.com/mattermost/mattermost/commit/35ad3b8ba3910799290faf2593948561cea17af1) | 2026-11-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 33feb7bd | [Fix flaky TestCreateAccessControlPolicy/CreateChannelPolicy_with_permission_rules_accepted_when_both_flags_are_on (#40203)](https://github.com/mattermost/mattermost/commit/33feb7bd6dbfa9f8e0c1dd1c5b7917169aeb2040) | 2026-11-20 |
-| 6109a66e | [Fix flaky TestCreateAccessControlPolicy (#40202)](https://github.com/mattermost/mattermost/commit/6109a66e66c48df2e1c516ccfea0bda9a50e2d05) | 2026-11-20 |
-| b71170f8 | [Add optional ingress-sharedsecret dev service for pre-auth secret testing (#40072)](https://github.com/mattermost/mattermost/commit/b71170f8c818f23b0e21b502ec3afc6c7484a76c) | 2026-11-20 |
-| 5d2d0d94 | [\[MM-72047\] Allow running the health check on demand on Professional licenses (#40156)](https://github.com/mattermost/mattermost/commit/5d2d0d944535bc0ecade01e080f1fa04b65ea535) | 2026-11-20 |
-| da40b329 | [MM-70717 - Warn admins before required channel attributes and let them fix values from System Console (#38885)](https://github.com/mattermost/mattermost/commit/da40b3298ba45dd22a61082fc96b7a4123b7687f) | 2026-11-20 |
-| 691933e7 | [\[MM-72031\] Add OPEN_SIGNUP_UNVERIFIED Health Dashboard rule (#40141)](https://github.com/mattermost/mattermost/commit/691933e71d0135a6c4c98244d1304ed1b9c70118) | 2026-11-20 |
-| 917da7e2 | [Entities: mark tokens at read time without rewriting posts or storing spans (#39668)](https://github.com/mattermost/mattermost/commit/917da7e2711694e73c08332da8d8c63de30fd50e) | 2026-11-20 |
-| 8b86f8af | [Skip flaky TestHealthSnapshotLiveOfflineParity (#40234)](https://github.com/mattermost/mattermost/commit/8b86f8af55a75edbb96b6fa414ea3bbb61e3f1aa) | 2026-11-20 |
-| 846d9cca | [\[MM-72026\] Remove unused NodeSnapshot.SchemaVersion and fix cluster sync log (#40124)](https://github.com/mattermost/mattermost/commit/846d9ccaf2f3362d7ab90c3215297e4a1ac4ae71) | 2026-11-20 |
-| b05d2bdc | [\[MM-72037\] Add shared health report with HTML and Markdown renderers (#40149)](https://github.com/mattermost/mattermost/commit/b05d2bdce25209e8687040a53848c69fecbe6218) | 2026-11-20 |
-| 2bc54cc8 | [\[MM-70068\] Set post attributes in the message composer (#40218)](https://github.com/mattermost/mattermost/commit/2bc54cc80a1b1a20213cf47992f8fd403a261d1a) | 2026-11-20 |
-| 84783c05 | [\[MM-71938\] Reject mismatched SAML SP key pair uploads and reload after IdP certificate removal (#40104)](https://github.com/mattermost/mattermost/commit/84783c0548a1fb350b2c1c144c305f788ed52755) | 2026-11-20 |
-| 1d8fd26f | [\[MM-69559\] Map permissions for every job type and make internal jobs read-only (#39722)](https://github.com/mattermost/mattermost/commit/1d8fd26f0bc803ed5d49602b54373349e77b0520) | 2026-11-20 |
-| 4ad2fa2a | [drip: go idioms: errors.AsType in app property and shared channel helpers (#40229)](https://github.com/mattermost/mattermost/commit/4ad2fa2a08e05e4c8f77f1f57b7b585591ebe0c1) | 2026-11-20 |
-| 30e36c77 | [drip: AppError -> error: analytics (#40225)](https://github.com/mattermost/mattermost/commit/30e36c77a0c8d9e7e4150323cf12a5b45aff86d2) | 2026-11-20 |
-| f7850cc6 | [Add repository CodeRabbit config and review-bot triage rules (#40087)](https://github.com/mattermost/mattermost/commit/f7850cc6692c6455b8e738555f62a025fac9f29b) | 2026-11-20 |
-| 9a30500d | [Skip flaky TestDoSecurityUpdateCheck/emails_admins_and_marks_a_bulletin_for_the_running_version_as_seen (#40248)](https://github.com/mattermost/mattermost/commit/9a30500dd79125dfa97db34c95bac8b858c51f7d) | 2026-11-20 |
-| 58f4f133 | [Fix jitter when typing on the create account page (#40177)](https://github.com/mattermost/mattermost/commit/58f4f133fab19c8feb8039c1f6ef2f6097ee49b6) | 2026-11-20 |
-| 3351a605 | [\[MM-72038\] Add mmctl health export for HTML and Markdown reports (#40150)](https://github.com/mattermost/mattermost/commit/3351a605fd5d1efb5e58fdf993a287814ceb288d) | 2026-11-20 |
-| e6cbe618 | [test: fix flaky TestHealthSnapshotLiveOfflineParity (#40242)](https://github.com/mattermost/mattermost/commit/e6cbe618ab9150bc905fcbc5884b28c145ad80d4) | 2026-11-20 |
-| 44d6a1e3 | [\[MM-72039\] Add an API endpoint to export health findings as HTML or Markdown (#40151)](https://github.com/mattermost/mattermost/commit/44d6a1e339e147c77bcf87d198c2f311de3db7a3) | 2026-11-20 |
-| 580d0dab | [\[MM-72040\] Add an Export menu to Site health (#40231)](https://github.com/mattermost/mattermost/commit/580d0dab33a670f2e3e396cd7275308928c333b0) | 2026-11-20 |
-| 8381b545 | [Product rail: pin and reorder items, Threads back in Channels, and Boards, badge and team sidebar fixes (#40251)](https://github.com/mattermost/mattermost/commit/8381b54525f08e0c3776d9ff79c558d13ec200d5) | 2026-11-20 |
-| f88f88cf | [Return a writable header from the plugin response writer after cancellation (#40255)](https://github.com/mattermost/mattermost/commit/f88f88cff6bc984076c605806621e8f5ff3717bc) | 2026-11-20 |
-| 1026fc9a | [\[MM-71895\] Property values: write marker (#40122)](https://github.com/mattermost/mattermost/commit/1026fc9aeb1a4cf565a2c8c6be41bf486e26cf9d) | 2026-11-20 |
-| 86a2ab5d | [Reserve the core server caller ID from plugin loading (#39259)](https://github.com/mattermost/mattermost/commit/86a2ab5d9d8f2d8ff8b0260e0f59d7b1dd3bc0e0) | 2026-11-20 |
-| ab07ef22 | [\[MM-72005\] Resolve FILESTORE_S3_SSL_OFF for loopback S3 endpoints (#40118)](https://github.com/mattermost/mattermost/commit/ab07ef22ca7c90c8545e1b51f7bf1a52037a81b4) | 2026-11-20 |
-| 3d4ea21e | [\[MM-71324\] Update Okta SAML setup notes (#40244)](https://github.com/mattermost/mattermost/commit/3d4ea21e36f57f426a19c270b350ae270c4da4a6) | 2026-11-21 |
-| 35ad3b8b | [\[MM-63239\] Match paragraph spacing to consecutive post spacing (#40194)](https://github.com/mattermost/mattermost/commit/35ad3b8ba3910799290faf2593948561cea17af1) | 2026-11-20 |
 | 2d6c2852 | [\[MM-71867\] Save the Site URL sent with the onboarding request (#40022)](https://github.com/mattermost/mattermost/commit/2d6c2852eaebf2e23336332b8feeacf9db0ea0e8) | 2026-11-21 |
+| d81e78ca | [ci(e2e): guard lane-result steps when composite_identity_json is empty (#40277)](https://github.com/mattermost/mattermost/commit/d81e78cab1a94c386dd0a702e06a87239cfa1e57) | 2026-11-23 |
+| 00451ec3 | [\[MM-72030\] Add TLS_VERIFY_OUTGOING_OFF health rule (#40147)](https://github.com/mattermost/mattermost/commit/00451ec30d8046dc8f4d78ee4a208e0a0f3801d0) | 2026-11-23 |
 
 ## 제외된 커밋
 
@@ -701,6 +674,20 @@
 
 | 7b5e61f3 | [Show board wording in the sidebar when the Boards rail item is selected (#39952)](https://github.com/mattermost/mattermost/commit/7b5e61f3afa8f24af1a23cab711e74ad471a3d27) | 제외한 1bd58a17(experimental product rail, #39383)·68b173ab 계보의 후속이라 토대가 없다 — 우리는 같은 영역을 자체 spec 017-slack-nav-rail(Channels·Boards·Playbooks 세로 레일, 레일 상단 팀 버튼)·028-rail-icon-accents·031-landing-product-setting으로 재설계했다. 수정 대상 product_rail/product_rail.{tsx,scss,test.tsx}·selectors/views/product_rail.{ts,test.ts} 등 터치 경로 7개가 HEAD에 없고(modify/delete CONFLICT), sidebar_category·channel_navigator·add_channels_cta_button 변경도 레일 상태(useProductRailKind)로 Boards/board 문구를 고르는 코드라 떼어 받을 실체가 없다. Boards 문구 전환은 제외한 MBE 확장점 registerChannelKind와 Integrated Boards(board=채널, 48f2fd08) 전제인데, 우리 Boards는 focalboard 기반 자체 플러그인이라 board 종류 채널 개념이 없다. 레일 정리 아이디어(Threads 빈 화면 배경·플러그인 순서)가 필요하면 spec 017 후속으로 별도 기획. |
 
+| 33feb7bd | [Fix flaky TestCreateAccessControlPolicy/CreateChannelPolicy_with_permission_rules_accepted_when_both_flags_are_on (#40203)](https://github.com/mattermost/mattermost/commit/33feb7bd6dbfa9f8e0c1dd1c5b7917169aeb2040) | 제외한 a0850b9b(Feature access channel policy, #39570) 계보의 flaky 테스트 수정이라 반영할 실체가 없다. flake 원인인 채널 생성 websocket 전파의 channel_read_access 훅·ActionHasPermissionPolicy(einterfaces)와, 수정에 쓰는 newMockAccessControlService·ungovernedChannelAccess 헬퍼가 모두 a0850b9b가 도입한 것으로 포크 트리에 없다(git log -S 확인). 받으면 api4 테스트 패키지가 컴파일되지 않고 merge-tree도 CONFLICT. 포크에는 이 flake가 생길 수 없다. 재검토 조건 — a0850b9b를 되살릴 때 함께 받는다. |
+
+| 6109a66e | [Fix flaky TestCreateAccessControlPolicy (#40202)](https://github.com/mattermost/mattermost/commit/6109a66e66c48df2e1c516ccfea0bda9a50e2d05) | 33feb7bd(#40203)와 같은 flake의 짝 수정 — 형제 서브테스트의 bare mock을 newMockAccessControlService()로 바꾸는데, 이 헬퍼와 패닉 원인인 ActionHasPermissionPolicy·channel_read_access 훅이 제외한 a0850b9b(#39570)에만 있어 포크에 없다. 받으면 api4 테스트 컴파일 실패. 재검토 조건 — a0850b9b를 되살릴 때 함께 받는다. |
+
+| da40b329 | [MM-70717 - Warn admins before required channel attributes and let them fix values from System Console (#38885)](https://github.com/mattermost/mattermost/commit/da40b3298ba45dd22a61082fc96b7a4123b7687f) | 필수 채널 속성 경고·누락 값 수정(System Console)·채널 관리자 DM 알림 기능으로, 제외한 세 계보 위에 선다 — 채널 속성 기반 e86491ad(#37881)·4ce99ddd(#37933), Global Attributes(Attribute Management) 콘솔 38b66d22(#37580)·844d3370·ddee8289·5650f8eb, property 시스템 v2 48f2fd08. 수정(M) 대상 중 33개가 HEAD에 없다(admin_console/global_attributes/ 18개, api4/properties.go·properties_test.go, api/v4/source/properties.yaml, global_attributes·channel_attributes e2e 등), 신규 31파일도 그 위에 붙는다. 규모 98파일 +10813/-278, merge-tree CONFLICT, 보호 경로 migrations(000243 ChannelMembers scheme admin 부분 인덱스 — 이 기능 쿼리 전용이라 단독 반영 실익 없음) 접촉. 보관 해제 모달·채널 상세 등 포크에 있는 파일의 변경도 useMissingRequiredChannelAttributes 훅 의존이라 떼어 받을 일반 수정이 없다. 재검토 조건 — 채널 속성·Global Attributes 계보를 되살릴 때 함께 받는다. |
+
+| 2bc54cc8 | [\[MM-70068\] Set post attributes in the message composer (#40218)](https://github.com/mattermost/mattermost/commit/2bc54cc80a1b1a20213cf47992f8fd403a261d1a) | 제외한 게시물 속성(post attributes) 계보의 후속 — 뿌리 36af1ee5(#37829)·bb72eeb7(#38134)·69d345c9(#38735)·f822393f(#39692)·2a515687(#39796), 그 아래 property 시스템 v2(48f2fd08). 수정 대상 webapp/.../components/post_attributes/ 디렉터리와 advanced_text_editor/post_attributes_button이 HEAD에 없다(merge-tree CONFLICT, 54파일 +8610/-497). 칩·버튼·검색을 @mattermost/compass-ui(Button·Chip·IconButton·Icon·SearchInput)로 그려 compass-ui 제외 결정과도 겹친다. 포크에 있는 advanced_text_editor·send_button·burn_on_read_button·use_submit 변경도 staged 속성 상태 전용이고, 범용 DisabledReasonTooltip도 이 기능만 쓴다. 재검토 조건 — 게시물 속성 계보를 compass-ui 없이 되살릴 때. |
+
+| f7850cc6 | [Add repository CodeRabbit config and review-bot triage rules (#40087)](https://github.com/mattermost/mattermost/commit/f7850cc6692c6455b8e738555f62a025fac9f29b) | upstream 저장소의 AI 리뷰 봇 운영 설정이라 포크에서 동작할 대상이 없다. .coderabbit.yaml(신규 113줄)은 mattermost/mattermost용이며 inheritance: true로 Mattermost 조직 수준 설정을 상속하는데, okrbest 저장소에는 CodeRabbit이 설치돼 있지 않다(PR #617·#603·#584에 봇 리뷰·코멘트 0건, .github·AGENTS 문서에 coderabbit·bugbot 언급 없음). AGENTS.md(+30줄 봇 대응 절차·@coderabbitai 명령표)는 포크가 spec-kit·superpowers 워크플로로 새로 쓴 문서라 삽입 위치의 PR 템플릿 절이 없어 CONFLICT이고, 받으면 에이전트가 없는 봇 명령을 PR에 남길 수 있다. 재검토 조건 — okrbest 저장소에 CodeRabbit을 설치할 때 포크 맥락에 맞춰 받는다. |
+
+| 8381b545 | [Product rail: pin and reorder items, Threads back in Channels, and Boards, badge and team sidebar fixes (#40251)](https://github.com/mattermost/mattermost/commit/8381b54525f08e0c3776d9ff79c558d13ec200d5) | 제외한 product rail 계보(1bd58a17 #39383 experimental product rail·68b173ab·7b5e61f3 #39952)의 직계 후속 개편(항목 숨김·More 메뉴·드래그 재정렬 preference, Threads 위치, 레일 팀 메뉴 hover). 포크는 같은 영역을 자체 spec 017-slack-nav-rail·028-rail-icon-accents·031-landing-product-setting으로 재설계했다. 수정 대상 product_rail/*·actions\|selectors\|reducers/views/product_rail* 10개 경로가 HEAD에 없고(merge-tree CONFLICT, 21파일 +2172/-347), 포크에 있는 channel_controller·sidebar_list·team_sidebar·_team-sidebar.scss·constants.tsx 변경도 레일 상태 분기·preference 키 전용이다. 공용 Menu의 openOnHover(+135)는 범용이나 사용처가 레일 팀 메뉴뿐이라 떼어 받을 실익이 없다. Boards 클릭 시 첫 board 열기는 upstream Integrated Boards(board=채널, 48f2fd08) 전제라 focalboard 기반 자체 Boards와 맞지 않는다. 재검토 조건 — 레일 숨김·재정렬이 필요하면 spec 017 후속으로 별도 기획하고 이 커밋을 참고한다. |
+
+| 1026fc9a | [\[MM-71895\] Property values: write marker (#40122)](https://github.com/mattermost/mattermost/commit/1026fc9aeb1a4cf565a2c8c6be41bf486e26cf9d) | 제외한 채널 속성 계보(e86491ad → 4ce99ddd → 75a26632 MM-70180 #38267 → …)의 내부 배선. property 값 쓰기에 종류 표식(standard·create·fill_missing)을 다는 write_marker.go(+49)를 만들고 유일한 사용처 setChannelPropertyValuesOnCreate에 WriteCreate를 붙이는데, 이 함수와 rctxWithSessionCallerID는 75a26632가 만든 것으로 포크 app/channel.go에 없다(merge-tree CONFLICT channel.go·channel_test.go). write_marker.go만 받으면 붙이는 곳도 읽는 곳(set-on-create 검사, 같은 계보 후속)도 없는 죽은 코드가 된다. 재검토 조건 — 채널 속성 계보를 되살릴 때 함께 받는다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -741,6 +728,8 @@
 | 470f9d77 | [\[MM-71420\] Check MaxUsersPerTeam before bulk import instead of per line (#39868)](https://github.com/mattermost/mattermost/commit/470f9d770b2d646bbd5db6efcd819f9f11eeff27) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 41c482b4의 후속. bulk import가 MaxUsersPerTeam을 줄마다 강제하던 것을 없애고(SaveMultipleMembers 상한 0 + warnIfTeamsOverMemberLimit 경고), zip의 JSONL을 먼저 훑어 팀별 증가 인원을 세는 preflight checkTeamMemberLimits로 바꾼다(--skip-preflight면 경고로 강등). checkTeamMemberLimits가 41c482b4의 sourceTeamName·destinationTeam·rewriteTeamName·deactivateMissingUsers·importedUsers를 인자로 받고 그 커밋의 version 줄 검사 블록에서 호출되며, mmctl·bulk_export.go·rst 변경은 41c482b4가 만드는 --skip-preflight 설명문 수정이라 지금은 merge-tree CONFLICT 8건. 동시 워커 경쟁으로 상한 초과·중간 중단되는 결함은 포크에도 있다(MaxUsersPerTeam=0이면 무관). spec 구현 시 함께 반영하고 구현 커밋 본문에 Upstream 링크 기재 |
 
 | 34431fea | [Skip flaky TestBulkImportMaxUsersPerTeam subtest (#40025)](https://github.com/mattermost/mattermost/commit/34431fea27aaec9a52dbddcaa22c8fee6555b408) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 470f9d77(#39868)이 만든 TestBulkImportMaxUsersPerTeam 하위 테스트 'an import without a zip archive warns that the limit is not checked'를 MM-71878 원인 조사 동안 t.Skip한다. 테스트가 포크에 없어 지금은 반영할 대상이 없다. spec 구현 시 470f9d77과 함께 skip을 넣거나 MM-71878 근본 수정을 받는다 |
+
+| 917da7e2 | [Entities: mark tokens at read time without rewriting posts or storing spans (#39668)](https://github.com/mattermost/mattermost/commit/917da7e2711694e73c08332da8d8c63de30fd50e) | entities-framework (가칭, 착수 보류 — FeatureFlags.Entities 기본 off·사용 플러그인 없음, 26파일 충돌) |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
