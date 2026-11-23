@@ -3,15 +3,46 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-19 15:18
+- 갱신일: 2026-11-23 10:04
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 1개
+- 남은 커밋: 32개
 
-**마지막 반영 커밋:** `c54e21d0` | [Fix master check-style: return error from deleteReplacedBookmarkFile (#40184)](https://github.com/mattermost/mattermost/commit/c54e21d0f37b7c829b6c27d73cc85ee3e209ad0f) | 2026-11-19
+**마지막 반영 커밋:** `b5d8d39f` | [\[MM-72034\] Stop mmctl config get crashing on cloud-restricted strings (#40135)](https://github.com/mattermost/mattermost/commit/b5d8d39fbaa4ce9c64965d40960fa2b004a7d307) | 2026-11-19
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 0e1a76d9 | [\[MM-71995\] Reword DB_POSTGRES_UNSUPPORTED to say the server still runs on older PostgreSQL (#40113)](https://github.com/mattermost/mattermost/commit/0e1a76d966d26e21b5a424d4337e8e1eff2c7f09) | 2026-11-19 |
+| 0e9a14d3 | [MM-71851: Apply cloud preview landing path for non-trial licenses and drop the welcome modal fallback (#39984)](https://github.com/mattermost/mattermost/commit/0e9a14d3f13c3b262fba8f56729f43aeacf37f7f) | 2026-11-19 |
+| ef50a13e | [\[MM-72091\] Add e2e tests for Site health with real findings (#40185)](https://github.com/mattermost/mattermost/commit/ef50a13e7e3ee3e99cde650987f07cbb89b12aed) | 2026-11-20 |
+| 33feb7bd | [Fix flaky TestCreateAccessControlPolicy/CreateChannelPolicy_with_permission_rules_accepted_when_both_flags_are_on (#40203)](https://github.com/mattermost/mattermost/commit/33feb7bd6dbfa9f8e0c1dd1c5b7917169aeb2040) | 2026-11-20 |
+| 6109a66e | [Fix flaky TestCreateAccessControlPolicy (#40202)](https://github.com/mattermost/mattermost/commit/6109a66e66c48df2e1c516ccfea0bda9a50e2d05) | 2026-11-20 |
+| b71170f8 | [Add optional ingress-sharedsecret dev service for pre-auth secret testing (#40072)](https://github.com/mattermost/mattermost/commit/b71170f8c818f23b0e21b502ec3afc6c7484a76c) | 2026-11-20 |
+| 5d2d0d94 | [\[MM-72047\] Allow running the health check on demand on Professional licenses (#40156)](https://github.com/mattermost/mattermost/commit/5d2d0d944535bc0ecade01e080f1fa04b65ea535) | 2026-11-20 |
+| da40b329 | [MM-70717 - Warn admins before required channel attributes and let them fix values from System Console (#38885)](https://github.com/mattermost/mattermost/commit/da40b3298ba45dd22a61082fc96b7a4123b7687f) | 2026-11-20 |
+| 691933e7 | [\[MM-72031\] Add OPEN_SIGNUP_UNVERIFIED Health Dashboard rule (#40141)](https://github.com/mattermost/mattermost/commit/691933e71d0135a6c4c98244d1304ed1b9c70118) | 2026-11-20 |
+| 917da7e2 | [Entities: mark tokens at read time without rewriting posts or storing spans (#39668)](https://github.com/mattermost/mattermost/commit/917da7e2711694e73c08332da8d8c63de30fd50e) | 2026-11-20 |
+| 8b86f8af | [Skip flaky TestHealthSnapshotLiveOfflineParity (#40234)](https://github.com/mattermost/mattermost/commit/8b86f8af55a75edbb96b6fa414ea3bbb61e3f1aa) | 2026-11-20 |
+| 846d9cca | [\[MM-72026\] Remove unused NodeSnapshot.SchemaVersion and fix cluster sync log (#40124)](https://github.com/mattermost/mattermost/commit/846d9ccaf2f3362d7ab90c3215297e4a1ac4ae71) | 2026-11-20 |
+| b05d2bdc | [\[MM-72037\] Add shared health report with HTML and Markdown renderers (#40149)](https://github.com/mattermost/mattermost/commit/b05d2bdce25209e8687040a53848c69fecbe6218) | 2026-11-20 |
+| 2bc54cc8 | [\[MM-70068\] Set post attributes in the message composer (#40218)](https://github.com/mattermost/mattermost/commit/2bc54cc80a1b1a20213cf47992f8fd403a261d1a) | 2026-11-20 |
+| 84783c05 | [\[MM-71938\] Reject mismatched SAML SP key pair uploads and reload after IdP certificate removal (#40104)](https://github.com/mattermost/mattermost/commit/84783c0548a1fb350b2c1c144c305f788ed52755) | 2026-11-20 |
+| 1d8fd26f | [\[MM-69559\] Map permissions for every job type and make internal jobs read-only (#39722)](https://github.com/mattermost/mattermost/commit/1d8fd26f0bc803ed5d49602b54373349e77b0520) | 2026-11-20 |
+| 4ad2fa2a | [drip: go idioms: errors.AsType in app property and shared channel helpers (#40229)](https://github.com/mattermost/mattermost/commit/4ad2fa2a08e05e4c8f77f1f57b7b585591ebe0c1) | 2026-11-20 |
+| 30e36c77 | [drip: AppError -> error: analytics (#40225)](https://github.com/mattermost/mattermost/commit/30e36c77a0c8d9e7e4150323cf12a5b45aff86d2) | 2026-11-20 |
+| f7850cc6 | [Add repository CodeRabbit config and review-bot triage rules (#40087)](https://github.com/mattermost/mattermost/commit/f7850cc6692c6455b8e738555f62a025fac9f29b) | 2026-11-20 |
+| 9a30500d | [Skip flaky TestDoSecurityUpdateCheck/emails_admins_and_marks_a_bulletin_for_the_running_version_as_seen (#40248)](https://github.com/mattermost/mattermost/commit/9a30500dd79125dfa97db34c95bac8b858c51f7d) | 2026-11-20 |
+| 58f4f133 | [Fix jitter when typing on the create account page (#40177)](https://github.com/mattermost/mattermost/commit/58f4f133fab19c8feb8039c1f6ef2f6097ee49b6) | 2026-11-20 |
+| 3351a605 | [\[MM-72038\] Add mmctl health export for HTML and Markdown reports (#40150)](https://github.com/mattermost/mattermost/commit/3351a605fd5d1efb5e58fdf993a287814ceb288d) | 2026-11-20 |
+| e6cbe618 | [test: fix flaky TestHealthSnapshotLiveOfflineParity (#40242)](https://github.com/mattermost/mattermost/commit/e6cbe618ab9150bc905fcbc5884b28c145ad80d4) | 2026-11-20 |
+| 44d6a1e3 | [\[MM-72039\] Add an API endpoint to export health findings as HTML or Markdown (#40151)](https://github.com/mattermost/mattermost/commit/44d6a1e339e147c77bcf87d198c2f311de3db7a3) | 2026-11-20 |
+| 580d0dab | [\[MM-72040\] Add an Export menu to Site health (#40231)](https://github.com/mattermost/mattermost/commit/580d0dab33a670f2e3e396cd7275308928c333b0) | 2026-11-20 |
+| 8381b545 | [Product rail: pin and reorder items, Threads back in Channels, and Boards, badge and team sidebar fixes (#40251)](https://github.com/mattermost/mattermost/commit/8381b54525f08e0c3776d9ff79c558d13ec200d5) | 2026-11-20 |
+| f88f88cf | [Return a writable header from the plugin response writer after cancellation (#40255)](https://github.com/mattermost/mattermost/commit/f88f88cff6bc984076c605806621e8f5ff3717bc) | 2026-11-20 |
+| 1026fc9a | [\[MM-71895\] Property values: write marker (#40122)](https://github.com/mattermost/mattermost/commit/1026fc9aeb1a4cf565a2c8c6be41bf486e26cf9d) | 2026-11-20 |
+| 86a2ab5d | [Reserve the core server caller ID from plugin loading (#39259)](https://github.com/mattermost/mattermost/commit/86a2ab5d9d8f2d8ff8b0260e0f59d7b1dd3bc0e0) | 2026-11-20 |
+| ab07ef22 | [\[MM-72005\] Resolve FILESTORE_S3_SSL_OFF for loopback S3 endpoints (#40118)](https://github.com/mattermost/mattermost/commit/ab07ef22ca7c90c8545e1b51f7bf1a52037a81b4) | 2026-11-20 |
+| 3d4ea21e | [\[MM-71324\] Update Okta SAML setup notes (#40244)](https://github.com/mattermost/mattermost/commit/3d4ea21e36f57f426a19c270b350ae270c4da4a6) | 2026-11-21 |
+| 35ad3b8b | [\[MM-63239\] Match paragraph spacing to consecutive post spacing (#40194)](https://github.com/mattermost/mattermost/commit/35ad3b8ba3910799290faf2593948561cea17af1) | 2026-11-20 |
+| 2d6c2852 | [\[MM-71867\] Save the Site URL sent with the onboarding request (#40022)](https://github.com/mattermost/mattermost/commit/2d6c2852eaebf2e23336332b8feeacf9db0ea0e8) | 2026-11-21 |
 
 ## 제외된 커밋
 
@@ -666,6 +697,12 @@
 
 | 5935272b | [\[MM-71984\] Stop fetching channel classification field on non-Enterprise Advanced licenses (#40099)](https://github.com/mattermost/mattermost/commit/5935272b728e48ad47790559f19853352e34a21d) | 제외한 분류 표시(Classification Markings) 계보의 후속 버그 수정이라 반영할 대상이 없다 — 고치는 useClassificationMarkings.ts·useChannelClassificationBanner.ts와 테스트 4파일이 포크에 없다(modify/delete). 이 훅은 제외한 23b4d827(#36490)이 만들었고, 계보 전체(2b7b398a·6083cc22·23b4d827 등)가 제외한 property 시스템 v2(48f2fd08, #35796) 위에 있다. Enterprise에서 채널마다 생기는 unhandled rejection 버그도 포크에는 없다. 재검토 조건: 분류 표시 계보를 되살릴 때 함께 받는다. |
 
+| a0850b9b | [Feature access channel policy (#39570)](https://github.com/mattermost/mattermost/commit/a0850b9b03d9af7197ace06082094530a7990017) | ABAC 채널 접근 정책(channel_read_access) 액션과 그 강제 적용 — 판정 엔진이 비공개 github.com/mattermost/enterprise/access_control에만 있어(server/enterprise/external_imports.go, //go:build enterprise) 포크 빌드에서 ch.AccessControl이 nil이고, 받아도 모든 게이트가 RBAC만으로 통과해 기능 0이다. ba1cec51(adapt, 배관만·비활성)·d99a529b·91b4450e·c8b1cc00·1f4f1b4c(exclude)와 같은 계보. 토대도 없다 — 수정 대상 api4/properties.go·property_options.go·view.go·scheduled_recap.go·localcachelayer/property_field_layer.go가 우리 트리에 없다(제외한 property v2 계보 48f2fd08·9f1fe90b와 Views·Scheduled Recap 계보 소산). 규모 203파일 +14628/-632(app 60·api4 37·webapp 56·store 21)로 adapt 기준을 수십 배 초과, merge-tree CONFLICT(api4/channel.go·post.go·access_control_test.go·content_flagging_report_test.go·definitions.yaml·Playwright), 보호 경로 server/enterprise/metrics/metrics.go 접촉. 부채 주의 — 이 커밋은 SessionHasPermissionToChannel(s)·ByPost·HasPermissionToReadChannel·ResolveChannelMention·ChannelMemberCount·GetPostIfAuthorized를 RBACOnly 형제 + 래퍼로 쪼개고, 채널 목록·검색·websocket 전파·푸시에 거부 필터를 단다. 이후 upstream이 이 게이트·브로드캐스트를 건드리는 커밋은 우리 쪽 옛 구조와 충돌하거나 RBACOnly 이름을 참조할 수 있으니 그때 이 커밋을 기준으로 해소한다. 재검토 조건 — 자체 ABAC 판정 엔진을 도입하고 property v2 분할 반영을 끝냈을 때. |
+
+| 50dbdde0 | [docs: reorganize and list the Agents docs by audience (#39565)](https://github.com/mattermost/mattermost/commit/50dbdde0ffd3be2585e341ef9c5ddf424e35f00c) | Agents 문서 독자별 재배치는 플러그인 저장소의 문서 전면 개편(mattermost-plugin-agents #1157·#1170)을 전제로 한다. 서브모듈 docs/vendor/mattermost-plugin-agents를 c234d175 → 2aa570f3으로 올리는데, 우리 .gitmodules는 okrbest/okrbest-plugin-agents를 가리키고 2aa570f3은 그 저장소에 없다(fetch 시 'upload-pack: not our ref 2aa570f3' 확인) — 받으면 submodule update가 깨진다. 본문도 새 플러그인 문서에 기댄다: 우리 c234d175의 docs/에는 admin_guide·user_guide·providers·aws_bedrock_setup·sovereign_ai·upgrading_to_2.0·usage_tips·load-testing·features/만 있어, agents-context-management.mdx의 _what_agents_see_partial.mdx import가 실패해 문서 빌드가 깨지고, 링크·CardGrid·redirect가 가리키는 새 페이지 20여 개(managing_agents·summaries_and_search·mcp_integrations·personal_agent·skills 등)가 없다. redirect(usage_tips·features/*·custom_prompts → 새 페이지)는 지금 있는 페이지를 없는 페이지로 보낸다. scripts 변경(NAV_CHILDREN 4→26, INLINE_PARTIALS에 what_agents_see)도 새 페이지 목록이 본체라 떼어 받을 실익이 없다. 문서 사이트 자동 트리거는 꺼져 있어 운영 영향 없음. 재검토 조건 — okrbest-plugin-agents가 upstream #1170 문서 개편을 받고 서브모듈을 그 커밋으로 올릴 때. 같은 계보의 후속 Agents 문서 커밋도 같은 기준으로 판정한다. |
+
+| 7b5e61f3 | [Show board wording in the sidebar when the Boards rail item is selected (#39952)](https://github.com/mattermost/mattermost/commit/7b5e61f3afa8f24af1a23cab711e74ad471a3d27) | 제외한 1bd58a17(experimental product rail, #39383)·68b173ab 계보의 후속이라 토대가 없다 — 우리는 같은 영역을 자체 spec 017-slack-nav-rail(Channels·Boards·Playbooks 세로 레일, 레일 상단 팀 버튼)·028-rail-icon-accents·031-landing-product-setting으로 재설계했다. 수정 대상 product_rail/product_rail.{tsx,scss,test.tsx}·selectors/views/product_rail.{ts,test.ts} 등 터치 경로 7개가 HEAD에 없고(modify/delete CONFLICT), sidebar_category·channel_navigator·add_channels_cta_button 변경도 레일 상태(useProductRailKind)로 Boards/board 문구를 고르는 코드라 떼어 받을 실체가 없다. Boards 문구 전환은 제외한 MBE 확장점 registerChannelKind와 Integrated Boards(board=채널, 48f2fd08) 전제인데, 우리 Boards는 focalboard 기반 자체 플러그인이라 board 종류 채널 개념이 없다. 레일 정리 아이디어(Threads 빈 화면 배경·플러그인 순서)가 필요하면 spec 017 후속으로 별도 기획. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -755,3 +792,5 @@
 | 60cf157a | [Mm 71104 - Add advanced CEL editor to teams details page in the system console (#39062)](https://github.com/mattermost/mattermost/commit/60cf157a9ac10dbf0cd0a47d96f937abc19e9b74) | `github.com/mattermost/enterprise/access_control` (비공개). adapt로 반영(e80b8ebbc1). PolicyAdministrationPointInterface.CheckMembershipExpression 선언·mock, App 가드(checkMembershipRuleEditable·rejectAdvancedMembershipRules)와 webapp 편집기 잠금은 들어왔으나, 멤버십 규칙 검사·ExpressionToVisualAST 판정은 비공개 ABAC 엔진에만 있다. 포크엔 AccessControl 서비스가 없어 가드는 acs == nil로 빠지고 /cel/check membership은 501을 준다. |
 | 5b953716 | [\[MM-70315\] Reload SAML SP when certificates are rotated (#38383)](https://github.com/mattermost/mattermost/commit/5b9537164d5fe2129eea0d34b7280bc24f066c7c) | github.com/mattermost/enterprise/saml (비공개). OSS 배선(saveSamlCertificateConfig·Channels.configureSaml·ClusterEventReloadSaml·PEM 검증 400)과 콘솔 업로드 오류 표시 수정은 반영했으나, 인증서 교체 시 SP를 다시 구성하는 ConfigureSP 실체는 enterprise 빌드 태그로만 들어오는 비공개 모듈이라 포크 빌드에서는 a.Saml()이 nil이고 reload는 no-op이다. |
 | d99a529b | [Bot accounts scope for permission policies (#39330)](https://github.com/mattermost/mattermost/commit/d99a529bd732d2b87c9b35b0dccb0efdc7d8e202) | github.com/mattermost/enterprise/access_control (비공개). 권한 정책의 Bot accounts 범위(system_bot 역할) — 엔진이 봇 subject에 system_bot을 시스템 역할보다 먼저 해석해야 의미가 있다. 자체 ABAC 엔진 구현 시 Session Attributes 계보와 함께 재검토. |
+| a0850b9b | [Feature access channel policy (#39570)](https://github.com/mattermost/mattermost/commit/a0850b9b03d9af7197ace06082094530a7990017) | github.com/mattermost/enterprise/access_control — 채널 접근(channel_read_access) 정책 판정 본체. 권한 게이트 AND 결합·목록/검색/websocket/푸시 필터·webapp 접근 상실 처리는 공개 코드지만 엔진(ch.AccessControl) 없이 비활성. property v2·Views 계보 선행 필요 |
+| f5de7974 | [Plugin API: EvaluateAccessControlBatch, CheckAccessControlExpressionForSearch, and ABAC-unavailable Get/Delete fallback (#39895)](https://github.com/mattermost/mattermost/commit/f5de7974950be46a8e63c95c7c4a774331cd33d2) | github.com/mattermost/enterprise/access_control — 플러그인 ABAC 일괄 판정(EvaluateAccessControlBatch)·검색용 표현식 검사(CheckAccessControlExpressionForSearch)의 판정 본체. 포크는 엔진 nil이라 Get/Delete store fallback과 GetTypesByIDs 존재 확인만 동작 |
