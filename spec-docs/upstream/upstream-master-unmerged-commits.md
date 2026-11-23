@@ -3,16 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-23 10:04
+- 갱신일: 2026-11-23 11:00
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 32개
+- 남은 커밋: 30개
 
-**마지막 반영 커밋:** `b5d8d39f` | [\[MM-72034\] Stop mmctl config get crashing on cloud-restricted strings (#40135)](https://github.com/mattermost/mattermost/commit/b5d8d39fbaa4ce9c64965d40960fa2b004a7d307) | 2026-11-19
+**마지막 반영 커밋:** `ef50a13e` | [\[MM-72091\] Add e2e tests for Site health with real findings (#40185)](https://github.com/mattermost/mattermost/commit/ef50a13e7e3ee3e99cde650987f07cbb89b12aed) | 2026-11-20
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 0e9a14d3 | [MM-71851: Apply cloud preview landing path for non-trial licenses and drop the welcome modal fallback (#39984)](https://github.com/mattermost/mattermost/commit/0e9a14d3f13c3b262fba8f56729f43aeacf37f7f) | 2026-11-19 |
-| ef50a13e | [\[MM-72091\] Add e2e tests for Site health with real findings (#40185)](https://github.com/mattermost/mattermost/commit/ef50a13e7e3ee3e99cde650987f07cbb89b12aed) | 2026-11-20 |
 | 33feb7bd | [Fix flaky TestCreateAccessControlPolicy/CreateChannelPolicy_with_permission_rules_accepted_when_both_flags_are_on (#40203)](https://github.com/mattermost/mattermost/commit/33feb7bd6dbfa9f8e0c1dd1c5b7917169aeb2040) | 2026-11-20 |
 | 6109a66e | [Fix flaky TestCreateAccessControlPolicy (#40202)](https://github.com/mattermost/mattermost/commit/6109a66e66c48df2e1c516ccfea0bda9a50e2d05) | 2026-11-20 |
 | b71170f8 | [Add optional ingress-sharedsecret dev service for pre-auth secret testing (#40072)](https://github.com/mattermost/mattermost/commit/b71170f8c818f23b0e21b502ec3afc6c7484a76c) | 2026-11-20 |
