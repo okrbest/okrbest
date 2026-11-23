@@ -25,6 +25,7 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import {useWebSocketClient} from 'utils/use_websocket/hooks';
 
 import {EmptyState, TabEmptyState} from './empty_state';
+import ExportMenu from './export_menu';
 import FindingGroups from './finding_groups';
 import FindingTabs, {tabId} from './finding_tabs';
 import GroupByControl from './group_by_control';
@@ -38,6 +39,9 @@ export type Props = {
     findings: HealthFinding[];
     mutedFindings: HealthFinding[];
     lastEvaluatedAt: number;
+
+    // Whether the viewer has manage_system, which exporting the findings needs.
+    canManage: boolean;
 
     // Jobs in the store by ID. job_updated WebSocket events keep them up to date.
     jobs: Record<string, Job>;
@@ -111,7 +115,12 @@ const unmuteErrorMessage = defineMessage({
     defaultMessage: 'The finding could not be unmuted, so it is still muted. Try again.',
 });
 
-const HealthDashboard = ({findings, mutedFindings, lastEvaluatedAt, jobs, actions}: Props) => {
+const exportErrorMessage = defineMessage({
+    id: 'admin.health_dashboard.export.error',
+    defaultMessage: 'The health findings could not be exported. Try again.',
+});
+
+const HealthDashboard = ({findings, mutedFindings, lastEvaluatedAt, canManage, jobs, actions}: Props) => {
     const [loading, setLoading] = useState(true);
     const [failed, setFailed] = useState(false);
     const [now, setNow] = useState(Date.now);
@@ -122,6 +131,7 @@ const HealthDashboard = ({findings, mutedFindings, lastEvaluatedAt, jobs, action
     const [muteError, setMuteError] = useState<MessageDescriptor | null>(null);
     const [starting, setStarting] = useState(false);
     const [runError, setRunError] = useState<MessageDescriptor | null>(null);
+    const [exportFailed, setExportFailed] = useState(false);
     const [dismissedRunId, setDismissedRunId] = useState<string | null>(null);
     const [, setStaleCheck] = useState(0);
     const wsClient = useWebSocketClient();
@@ -330,9 +340,20 @@ const HealthDashboard = ({findings, mutedFindings, lastEvaluatedAt, jobs, action
                             values={{time: <RelativeTime value={lastEvaluatedAt}/>}}
                         />
                     </p>
-                    {runButton}
+                    <div className='HealthDashboard__actions'>
+                        {runButton}
+                        {canManage && <ExportMenu onError={setExportFailed}/>}
+                    </div>
                 </div>
                 {runErrorBanner}
+                {exportFailed && (
+                    <AlertBanner
+                        mode='danger'
+                        className='HealthDashboard__exportError'
+                        onDismiss={() => setExportFailed(false)}
+                        message={<FormattedMessage {...exportErrorMessage}/>}
+                    />
+                )}
                 <div className='HealthDashboard__toolbar'>
                     <FindingTabs
                         idPrefix={idPrefix}
