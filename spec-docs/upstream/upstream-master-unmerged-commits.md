@@ -3,17 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-23 15:05
+- 갱신일: 2026-11-23 15:37
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 3개
+- 남은 커밋: 0개
 
-**마지막 반영 커밋:** `35ad3b8b` | [\[MM-63239\] Match paragraph spacing to consecutive post spacing (#40194)](https://github.com/mattermost/mattermost/commit/35ad3b8ba3910799290faf2593948561cea17af1) | 2026-11-20
+**마지막 반영 커밋:** `00451ec3` | [\[MM-72030\] Add TLS_VERIFY_OUTGOING_OFF health rule (#40147)](https://github.com/mattermost/mattermost/commit/00451ec30d8046dc8f4d78ee4a208e0a0f3801d0) | 2026-11-23
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| 2d6c2852 | [\[MM-71867\] Save the Site URL sent with the onboarding request (#40022)](https://github.com/mattermost/mattermost/commit/2d6c2852eaebf2e23336332b8feeacf9db0ea0e8) | 2026-11-21 |
-| d81e78ca | [ci(e2e): guard lane-result steps when composite_identity_json is empty (#40277)](https://github.com/mattermost/mattermost/commit/d81e78cab1a94c386dd0a702e06a87239cfa1e57) | 2026-11-23 |
-| 00451ec3 | [\[MM-72030\] Add TLS_VERIFY_OUTGOING_OFF health rule (#40147)](https://github.com/mattermost/mattermost/commit/00451ec30d8046dc8f4d78ee4a208e0a0f3801d0) | 2026-11-23 |
 
 ## 제외된 커밋
 
@@ -687,6 +684,8 @@
 | 8381b545 | [Product rail: pin and reorder items, Threads back in Channels, and Boards, badge and team sidebar fixes (#40251)](https://github.com/mattermost/mattermost/commit/8381b54525f08e0c3776d9ff79c558d13ec200d5) | 제외한 product rail 계보(1bd58a17 #39383 experimental product rail·68b173ab·7b5e61f3 #39952)의 직계 후속 개편(항목 숨김·More 메뉴·드래그 재정렬 preference, Threads 위치, 레일 팀 메뉴 hover). 포크는 같은 영역을 자체 spec 017-slack-nav-rail·028-rail-icon-accents·031-landing-product-setting으로 재설계했다. 수정 대상 product_rail/*·actions\|selectors\|reducers/views/product_rail* 10개 경로가 HEAD에 없고(merge-tree CONFLICT, 21파일 +2172/-347), 포크에 있는 channel_controller·sidebar_list·team_sidebar·_team-sidebar.scss·constants.tsx 변경도 레일 상태 분기·preference 키 전용이다. 공용 Menu의 openOnHover(+135)는 범용이나 사용처가 레일 팀 메뉴뿐이라 떼어 받을 실익이 없다. Boards 클릭 시 첫 board 열기는 upstream Integrated Boards(board=채널, 48f2fd08) 전제라 focalboard 기반 자체 Boards와 맞지 않는다. 재검토 조건 — 레일 숨김·재정렬이 필요하면 spec 017 후속으로 별도 기획하고 이 커밋을 참고한다. |
 
 | 1026fc9a | [\[MM-71895\] Property values: write marker (#40122)](https://github.com/mattermost/mattermost/commit/1026fc9aeb1a4cf565a2c8c6be41bf486e26cf9d) | 제외한 채널 속성 계보(e86491ad → 4ce99ddd → 75a26632 MM-70180 #38267 → …)의 내부 배선. property 값 쓰기에 종류 표식(standard·create·fill_missing)을 다는 write_marker.go(+49)를 만들고 유일한 사용처 setChannelPropertyValuesOnCreate에 WriteCreate를 붙이는데, 이 함수와 rctxWithSessionCallerID는 75a26632가 만든 것으로 포크 app/channel.go에 없다(merge-tree CONFLICT channel.go·channel_test.go). write_marker.go만 받으면 붙이는 곳도 읽는 곳(set-on-create 검사, 같은 계보 후속)도 없는 죽은 코드가 된다. 재검토 조건 — 채널 속성 계보를 되살릴 때 함께 받는다. |
+
+| d81e78ca | [ci(e2e): guard lane-result steps when composite_identity_json is empty (#40277)](https://github.com/mattermost/mattermost/commit/d81e78cab1a94c386dd0a702e06a87239cfa1e57) | f54f3f76(#38601)을 adapt하며 버린 E2E lane-result 재사용 워크플로(.github/workflows/e2e-tests-lane-result.yml)의 후속 수정 — composite_identity_json이 비면 lane 상태 게시·triage 캐시·triage·요약 갱신 5단계를 건너뛰게 한다. 파일이 포크에 없다(modify/delete CONFLICT). 버린 사유는 mattermost-test-automation-toolkit@main·TSIO·ANTHROPIC_API_KEY·REPORT_WEBHOOK_URL 의존으로 우리 CI에 소비자·시크릿이 없다는 것(spec-docs/upstream/upstream-adapted-divergences.md f54f3f76 절). 같은 파일의 09c24a0f(#39590)·5c1fe9b4(#39682)도 같은 기준으로 제외. 재검토 조건 — 자체 E2E CI와 triage 인프라를 갖출 때. |
 
 ## spec 전환 커밋
 
