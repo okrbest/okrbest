@@ -6447,3 +6447,19 @@ merge-tree 충돌 표시에는 제외 계보 함수(`isEligibleForGlobalAttribut
 **버린 것.** 없다. upstream 결과물과 남은 차이는 지원 locale 목록의 7개 항목(da·cs·hr·lt·nb-NO·pt·fi)으로, 이 커밋 이전부터 포크와 달랐다.
 
 **검증(2026-11-23).** 서버 `go build ./...`, `public/shared/i18n` 테스트, `platform/shared/healthcheck/report` 골든, `api4 -run TestHealth` 통과. 템플릿·골든 7개 파일의 OKR.BEST 표기 유지 확인.
+
+## Site health Export 메뉴 — 트리거 버튼만 compass-ui 대신 shared Button으로 만들었다
+
+**upstream**: [`580d0dab`](https://github.com/mattermost/mattermost/commit/580d0dab33a670f2e3e396cd7275308928c333b0)
+([MM-72040] Add an Export menu to Site health, #40231) — 9파일 +461/-3, 2026-11-23 sync 반영(사용자 결정 adapt)
+
+Export 메뉴(HTML·Markdown 다운로드, 숨은 sandbox iframe 인쇄), `manage_system` 권한 표시 조건, `Client4.exportHealthFindings`, 화면 scss·index, en.json, jest, e2e HTML 다운로드 테스트, `docs/main` 설명은 upstream 그대로 받았다. 텍스트 충돌은 없었다. 다만 새 파일 `export_menu.tsx`가 제외한 Compass UI 계보(`@mattermost/compass-ui`)를 import해서 jest가 `Cannot find module '@mattermost/compass-ui/components/button'`로 스위트를 불러오지 못했다. 같은 화면의 즉시 실행 버튼(`f3624d99`, #39648)과 같은 방식으로 고쳤다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `export_menu.tsx` import | `Button`(`@mattermost/compass-ui/components/button`), `Icon`(`@mattermost/compass-ui/components/icon`) | `Button`(`@mattermost/shared/components/button`). compass-icons의 `ChevronDownIcon` 등은 그대로 쓴다 | Compass UI 계보를 들일 때 upstream 값으로 되돌린다 |
+| `export_menu.tsx` `ExportMenuTrigger` | `size='small'`, `trailingIcon={<Icon glyph={<ChevronDownIcon/>}/>}` | `type='button'`, `size='sm'`, 자식 끝에 `<ChevronDownIcon size={16}/>`. shared `Button`에는 `trailingIcon` prop이 없다. `forwardRef`라 메뉴 트리거 ref 전달은 같다 | 같다 |
+
+**검증(2026-11-23).** 수정 전 jest `export_menu`가 모듈 해석 실패로 0건 실행. 수정 후 jest `admin_console/health_dashboard` 5 스위트 101건 통과, 변경 디렉터리 eslint 오류 0, webapp `check-types` 오류 7건은 master 기준선과 같다, Playwright `tsc` 오류 11건도 기준선과 같다.
