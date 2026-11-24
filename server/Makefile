@@ -159,7 +159,7 @@ TEMPLATES_DIR=templates
 # 서버가 시작할 때 버전이 더 높은 공식판이 포크를 덮어쓴다(specs/034-unbundle-forked-plugins).
 # upstream의 세 플러그인 버전 올림 커밋은 sync에서 exclude한다.
 PLUGIN_PACKAGES ?= $(PLUGIN_PACKAGES:)
-PLUGIN_PACKAGES += mattermost-plugin-calls-v1.12.6
+PLUGIN_PACKAGES += mattermost-plugin-calls-v1.12.7
 PLUGIN_PACKAGES += mattermost-plugin-github-v3.0.0
 PLUGIN_PACKAGES += mattermost-plugin-gitlab-v2.0.0
 PLUGIN_PACKAGES += mattermost-plugin-jira-v5.1.0
