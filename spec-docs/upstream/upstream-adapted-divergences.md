@@ -6497,3 +6497,16 @@ Site URL 단계(`site_url.tsx`·`site_url_status.tsx`·`site_url.scss`·테스�
 | `organization.scss` `__progress-path` | `left: -55px` → `-40px`(180px 그림을 x=50에 맞춤) | `-55px` 유지 — `CompanySVG`가 205px라 기존 값이 맞다 | 같다 |
 
 **검증(2026-11-26).** jest `components/preparing_workspace` 5 스위트 71건 통과(신규 site_url·preparing_workspace 테스트 포함), 새 파일 eslint 경고·오류 0, stylelint 통과, webapp `check-types` 오류 7건은 master 기준선과 같다(전부 변경 무관 파일).
+
+## macOS Support Packet 진단 — 제외한 a0850b9b의 cgroupV2Info 타입 이동을 함께 받았다
+
+**upstream**: [`cdf96172`](https://github.com/mattermost/mattermost/commit/cdf96172f0c363b4ca26c8aefcf42db5af2eee5b)
+([MM-72211] Collect load average, swap, and available memory in macOS Support Packets, #40280) — 7파일 +350/-15, 2026-11-26 sync 반영(사용자 결정 adapt)
+
+커밋 내용(`container_limits_darwin.go`·테스트, `_other` 파일의 빌드 태그 `!linux && !darwin`, `support_packet.go`·테스트·testdata)은 upstream 그대로 받았다. merge-tree는 CLEAN이었지만 `GOOS=darwin` 빌드가 `cgroupV2Info redeclared`로 깨졌다. upstream은 제외한 [`a0850b9b`](https://github.com/mattermost/mattermost/commit/a0850b9b03d9af7197ace06082094530a7990017)(Feature access channel policy, #39570 — ABAC 채널 접근 정책)에서 `cgroupV2Info`를 공통 `container_limits.go`에서 `container_limits_linux.go`로 옮기고 `container_limits_other.go`에 빈 struct를 뒀는데, 포크에는 이 이동이 없어 새 darwin 파일의 빈 struct와 겹쳤다.
+
+**더 받은 것.** `a0850b9b`의 `container_limits.go`·`container_limits_linux.go`·`container_limits_other.go` hunk(3파일 +8/-5, 타입 이동만)를 그대로 적용했다. ABAC 기능 코드는 들어오지 않는다. `a0850b9b` 제외 행은 그대로 둔다 — 나중에 그 커밋을 들이면 이 3파일은 이미 같은 상태다.
+
+**버린 것.** 없다.
+
+**검증(2026-11-26).** `go vet ./channels/app/platform/`를 linux·darwin·windows에서 통과(수정 전 darwin은 redeclared 오류), `platform` 패키지 테스트 통과.
