@@ -183,6 +183,10 @@ CLAUDE.md
 !.cursor/rules/
 # Cursor가 만드는 스크래치 — 정본은 specs/<NNN>/
 .cursor/plans/
+# spec-kit CLI의 카탈로그 다운로드 캐시와 설치 잠금 파일 (specify workflow·extension 명령이 만든다)
+.specify/workflows/.cache/
+.specify/extensions/.cache/
+.specify/.workflow-install.lock
 
 # Python bytecode / cache
 # .claude/skills/ 예외로 스킬 소스는 추적하지만, 실행 시 생기는 __pycache__·*.pyc 는 제외한다.

@@ -39,7 +39,9 @@ cd "$REPO_ROOT" || exit 2
 # 검사 대상 surface — 새 에이전트를 추가하면 여기에 한 줄 넣는다
 SURFACES=(".claude" ".agents" ".cursor")
 
-WIRING_MARKER="okrbest-wiring: v1"
+WIRING_MARKER="okrbest-wiring: v2"
+PRESET_SRC=".specify/okrbest-preset"
+PRESET_INSTALLED=".specify/presets/okrbest"
 
 FAIL=0
 PASS=0
@@ -79,7 +81,7 @@ for s in "${SURFACES[@]}"; do
     if grep -qF "$WIRING_MARKER" "$f"; then
         ok "$f 배선됨"
     else
-        bad "$f 배선 없음" "WORKFLOW_PORTING_GUIDE.md 4-2절의 네 곳을 넣고 '<!-- $WIRING_MARKER -->' 마커를 남긴다"
+        bad "$f 배선 없음" "bash .specify/scripts/bash/reinstall-okrbest-preset.sh (WORKFLOW_PORTING_GUIDE.md 4-2절)"
     fi
 done
 
@@ -136,17 +138,30 @@ done
 # ---------------------------------------------------------------------------
 section "4. tasks 템플릿에 검증 과제가 고정됐나"
 
+# /speckit-tasks가 실제로 쓰는 템플릿을 본다. spec-kit 1.4부터 overrides → presets → core
+# 순서로 합성하므로 .specify/templates/ 원본만 보면 preset 판을 놓친다.
+RESOLVER=".specify/scripts/bash/resolve-template.sh"
 TASKS_TEMPLATE=".specify/templates/tasks-template.md"
-if [ -f "$TASKS_TEMPLATE" ]; then
+if [ -f "$RESOLVER" ]; then
+    tasks_label="tasks-template (resolve-template.sh로 합성한 판)"
+    tasks_content="$(bash "$RESOLVER" tasks-template 2>/dev/null)"
+elif [ -f "$TASKS_TEMPLATE" ]; then
+    tasks_label="$TASKS_TEMPLATE"
+    tasks_content="$(cat "$TASKS_TEMPLATE")"
+else
+    tasks_label=""
+    tasks_content=""
+fi
+if [ -z "$tasks_content" ]; then
+    bad "tasks 템플릿을 찾지 못했다"
+else
     for needle in "품질 게이트" "종단 검증" "SC 검증"; do
-        if grep -q "$needle" "$TASKS_TEMPLATE"; then
-            ok "$TASKS_TEMPLATE: '$needle' 과제 있음"
+        if grep -q "$needle" <<<"$tasks_content"; then
+            ok "$tasks_label: '$needle' 과제 있음"
         else
-            bad "$TASKS_TEMPLATE: '$needle' 과제 없음" "Phase N Polish에 고정한다"
+            bad "$tasks_label: '$needle' 과제 없음" "preset 원본 $PRESET_SRC/templates/tasks-template.md의 Polish에 고정한다"
         fi
     done
-else
-    bad "$TASKS_TEMPLATE 없음"
 fi
 
 # ---------------------------------------------------------------------------
@@ -257,7 +272,55 @@ for s in "${SURFACES[@]}"; do
 done
 
 # ---------------------------------------------------------------------------
-section "9. 기본 브랜치 보호 (ruleset + classic 둘 다 본다)"
+section "9. preset 원본과 설치본이 같나"
+
+# 커스터마이즈의 원본은 $PRESET_SRC 하나다. 설치본만 고치면 다음 'preset add'에서
+# 사라지고, 원본만 고치면 설치하기 전까지 스킬에 반영되지 않는다.
+if [ ! -d "$PRESET_SRC" ]; then
+    bad "$PRESET_SRC 없음" "커스터마이즈 원본이 빠졌다"
+elif [ ! -d "$PRESET_INSTALLED" ]; then
+    bad "$PRESET_INSTALLED 없음" "bash .specify/scripts/bash/reinstall-okrbest-preset.sh"
+# .composed/는 CLI가 core와 preset을 합쳐 만든 결과물이라 원본에 없다.
+elif diff -rq -x .composed "$PRESET_SRC" "$PRESET_INSTALLED" >/dev/null 2>&1; then
+    ok "$PRESET_INSTALLED가 원본과 같다"
+else
+    bad "$PRESET_INSTALLED가 원본과 다르다: $(diff -rq -x .composed "$PRESET_SRC" "$PRESET_INSTALLED" 2>&1 | head -2 | tr '\n' ' ')" \
+        "bash .specify/scripts/bash/reinstall-okrbest-preset.sh"
+fi
+
+# ---------------------------------------------------------------------------
+section "10. spec-kit 관리 파일이 manifest와 같나"
+
+# 생성된 스킬을 직접 고치면 다음 업그레이드에서 덮어써진다. 커스터마이즈는 preset으로만 한다.
+if ! command -v specify >/dev/null 2>&1; then
+    skip "specify CLI 없음"
+else
+    status_json="$(specify integration status --json 2>/dev/null)"
+    if [ -z "$status_json" ]; then
+        skip "specify integration status 실패"
+    else
+        read -r modified missing installed <<<"$(python3 -c '
+import json, sys
+d = json.load(sys.stdin)
+print(d.get("modified_managed_files", -1), d.get("missing_managed_files", -1),
+      ",".join(sorted(d.get("installed_integrations", []))))' <<<"$status_json")"
+        if [ "$modified" = "0" ] && [ "$missing" = "0" ]; then
+            ok "수정·누락된 관리 파일 없음"
+        else
+            bad "관리 파일 수정 $modified건, 누락 $missing건" \
+                "specify integration status로 목록을 보고, 고친 내용은 preset 원본으로 옮긴다"
+        fi
+        for want in claude codex cursor-agent; do
+            case ",$installed," in
+                *",$want,"*) ok "통합 $want 설치 기록 있음" ;;
+                *) bad "통합 $want 설치 기록 없음" "기록이 없으면 'integration upgrade'가 그 surface를 건너뛴다" ;;
+            esac
+        done
+    fi
+fi
+
+# ---------------------------------------------------------------------------
+section "11. 기본 브랜치 보호 (ruleset + classic 둘 다 본다)"
 
 if [ "$CHECK_REMOTE" = false ]; then
     skip "--no-remote로 건너뜀"

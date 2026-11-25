@@ -1,4 +1,9 @@
-context_file: AGENTS.md
+# okrbest는 세 에이전트 surface를 함께 쓴다. /speckit-plan 뒤 after_plan 훅이 세 파일의
+# SPECKIT 블록을 함께 갱신해야 에이전트마다 가리키는 plan이 갈라지지 않는다.
+context_files:
+  - CLAUDE.md
+  - AGENTS.md
+  - .cursor/rules/specify-rules.mdc
 context_markers:
   start: <!-- SPECKIT START -->
   end: <!-- SPECKIT END -->

@@ -1,0 +1,20 @@
+schema_version: "1.0"
+preset:
+  id: "okrbest"
+  name: "okrbest 구현 규율 배선"
+  version: "1.0.0"
+  description: "speckit-implement에 구현 규율(3-bis)·완료 검증을 걸고, tasks 템플릿에 검증 과제를 고정한다"
+requires:
+  speckit_version: ">=1.4.5"
+provides:
+  templates:
+    - type: "command"
+      name: "speckit.implement"
+      file: "commands/speckit.implement.outline.md"
+      strategy: "replace-section"
+      selector: "outline"
+      description: "Outline 절을 okrbest 배선판으로 바꾼다 (3-bis, 9·10단계, 완료 판정)"
+    - type: "template"
+      name: "tasks-template"
+      file: "templates/tasks-template.md"
+      description: "Polish 단계에 품질 게이트·종단 검증·SC 검증 과제를 고정한다"
