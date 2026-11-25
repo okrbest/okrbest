@@ -332,16 +332,23 @@ invokes the individual skills at its discipline-loading step. See
 **문체·언어 규칙은 압축본과 참조만 싣습니다.** 전문은 constitution에 두세요(3-3절).
 세 파일에 전문을 복사하면 갈라집니다.
 
-`/speckit-plan`은 기본적으로 **자기 surface의 컨텍스트 파일 하나만** SPECKIT 마커
-블록을 갱신합니다. 셋이 갈라지므로 세 벌 모두 세 파일을 갱신하도록 고칩니다 —
-한 줄이면 됩니다.
+SPECKIT 마커 블록(현재 plan 경로)은 agent-context 확장이 `/speckit-specify`·`/speckit-plan`
+뒤 훅으로 갱신합니다. 기본값은 파일 하나뿐이라 셋이 갈라집니다.
+`.specify/extensions/agent-context/agent-context-config.yml`에 세 파일을 모두 적습니다.
 
-```diff
--   - Update the plan reference between the `<!-- SPECKIT START -->` and `<!-- SPECKIT END -->` markers in `CLAUDE.md` to point to …
-+   - Update the plan reference between the markers to point to … Update **all three**
-+     agent context files so the surfaces do not drift: `CLAUDE.md`, `AGENTS.md`,
-+     `.cursor/rules/specify-rules.mdc`
+```yaml
+context_files:
+  - CLAUDE.md
+  - AGENTS.md
+  - .cursor/rules/specify-rules.mdc
+context_markers:
+  start: <!-- SPECKIT START -->
+  end: <!-- SPECKIT END -->
 ```
+
+spec-kit 0.11까지는 `speckit-plan` 스킬 본문을 고쳐 세 파일을 갱신하게 했습니다.
+1.4부터 plan 스킬에는 이 단계가 없고, 스킬을 고치면 업그레이드 때 덮어써집니다.
+설정 파일은 업그레이드 뒤에도 남습니다.
 
 ---
 
@@ -373,44 +380,83 @@ invokes the individual skills at its discipline-loading step. See
 - `Tests before code: **If you need to** write tests…` — "필요하면"이 면제 조항
 - `Validate that tests pass` — 기준선 대비 요구 없음. 기준선이 더러운 저장소에서 무의미
 
-### 4-2. `speckit-implement` 스킬에 네 곳을 넣는다
+### 4-2. `speckit-implement`에 네 곳을 넣는다 (preset으로)
 
-**쓰는 에이전트 수만큼 고칩니다** — `.claude/skills/`, `.agents/skills/`(Codex),
-`.cursor/skills/`(Cursor). 스킬은 프로젝트마다 vendoring되므로 저장소별로 고치면 됩니다.
-본문은 세 벌이 같아야 하고, 갈라지는 곳은 ①의 규율 호출 문단 하나뿐입니다.
+spec-kit 원본 `speckit-implement`에는 구현 규율을 거는 단계가 없습니다. 아래 네 곳을
+넣습니다. **생성된 스킬 파일(`.claude/skills/…`·`.agents/skills/…`·`.cursor/skills/…`)을
+직접 고치지 않습니다.** `integration upgrade --force`·`integration install`·`init --force`가
+덮어씁니다. spec-kit 1.4부터는 preset에 담습니다(okrbest: `.specify/okrbest-preset/`).
 
-배선했는지 기계로 보이게 각 벌에 마커 한 줄을 남깁니다 — `<!-- okrbest-wiring: v1 -->`
-같은 주석이면 됩니다. 4-5절 스크립트가 이걸 셉니다.
+```text
+<preset>/
+├── preset.yml
+├── commands/speckit.implement.outline.md   # 원본 Outline 절 + 아래 네 곳
+└── templates/tasks-template.md             # 4-3절
+```
+
+```yaml
+schema_version: "1.0"
+preset:
+  id: "okrbest"
+  version: "1.0.0"
+requires:
+  speckit_version: ">=1.4.5"
+provides:
+  templates:
+    - type: "command"
+      name: "speckit.implement"
+      file: "commands/speckit.implement.outline.md"
+      strategy: "replace-section"
+      selector: "outline"
+    - type: "template"
+      name: "tasks-template"
+      file: "templates/tasks-template.md"
+```
+
+- `replace-section`은 `## Outline` 절 본문만 바꿉니다. 훅 절과 Done When은 원본을 따르므로
+  upstream의 훅 수정이 그대로 들어옵니다. 같은 명령에 절을 둘 이상 선언하면 거부되므로
+  (같은 `(name, type)` 쌍), Done When에 더할 항목은 Outline 9단계 끝의 "완료 판정"에 둡니다.
+- 명령 파일은 spec-kit 원본 템플릿 표기(`{SCRIPT}`, `__SPECKIT_COMMAND_TASKS__`)를 씁니다.
+  통합마다 `/speckit-tasks`·`$speckit-tasks`로 렌더링됩니다. 템플릿 파일은 렌더링되지
+  않으므로 `/speckit-tasks`처럼 씁니다.
+- Outline 원본은 새 core `templates/commands/implement.md`에서 떼어 와 3-way merge로
+  아래 네 곳을 얹습니다. spec-kit을 올릴 때마다 이 merge를 다시 합니다.
+- preset은 surface마다 본문을 다르게 둘 수 없습니다. ①의 규율 호출 문단은 세 surface
+  공통 문장으로 씁니다.
+- Outline 본문 맨 앞에 마커 주석(`<!-- okrbest-wiring: v2 … -->`)을 남깁니다. 4-5절
+  스크립트가 세 surface에서 이 마커를 셉니다.
+
+설치와 확인:
+
+```bash
+bash .specify/scripts/bash/reinstall-okrbest-preset.sh   # 끝에 "수정 0건, 누락 0건"이 나와야 한다
+```
+
+스크립트가 하는 일은 이렇습니다. preset을 지웠다가 `specify preset add --dev`로 다시 깔고,
+통합마다 `specify integration use <키>` → `specify integration upgrade <키> --force`를 돌린
+뒤 원래 기본 통합으로 되돌립니다. preset은 **활성 통합 하나에만** 배달되고, `use`만으로는
+manifest 해시가 갱신되지 않는 경우가 있어서 이렇게 합니다(아래 8-2절).
+
+preset 원본은 `.specify/presets/` 밖에 둡니다. `.specify/presets/<id>/`는 CLI가 복사한
+설치본이고, `.composed/`는 CLI가 원본 명령과 합쳐 만든 결과물입니다.
 
 **① 문서 로드 단계 뒤 — 규율 호출과 문서 매핑**
-
-플러그인이 있는 surface(Claude Code·Codex):
 
 ```markdown
 3-bis. **구현 규율 로드** (필수 — 다음 단계 전):
 
-   `Skill` 도구로 호출한다. 자동 적용되지 않는다.
+   아래 둘을 호출해 지침을 로드한다. 자동 적용되지 않는다.
    - `superpowers:test-driven-development`
    - `superpowers:verification-before-completion`
 
    예상 밖 실패를 만나면 그 자리에서 `superpowers:systematic-debugging`을 부른다.
+
+   **superpowers 플러그인이 없는 환경**(플러그인을 설치하지 않은 Cursor 등)에서는
+   `.cursor/rules/<규칙>.mdc`의 "구현 규율" 절을 여기서 다시 읽고 아래 증거 표와 함께
+   적용한다.
 ```
 
-플러그인 설치가 개발자마다 다른 surface(Cursor 등) — 같은 자리에 이걸 넣습니다:
-
-```markdown
-   **superpowers 플러그인을 설치했다면** 아래 두 스킬을 불러 지침을 로드한다.
-
-   - `test-driven-development`
-   - `verification-before-completion`
-
-   **설치하지 않았다면** `.cursor/rules/<규칙>.mdc`의 "구현 규율" 절을 여기서
-   다시 읽고 아래 증거 표와 함께 적용한다.
-   어느 쪽이든 **자동 적용되지 않는다** — 플러그인이나 규칙 파일이 로드돼 있다는
-   사실만으로는 증거가 남지 않는다.
-```
-
-아래는 **세 벌 공통**입니다.
+이어서 같은 단계에 넣습니다.
 
 ```markdown
    방금 읽은 문서를 규율로 바꾼다. 각 행의 증거가 없으면 그 과제는 완료가 아니다.
@@ -452,14 +498,16 @@ invokes the individual skills at its discipline-loading step. See
 +   - 종단 검증 — 빌드·배포한 뒤 quickstart.md를 실제 환경에서 훑는다
 +   - SC 검증 — spec.md의 각 SC-###를 실측값으로 확인한다
 +   - 결과를 tasks.md 하단에 표로 기록한다
++   - 완료 판정 — 위 결과를 체크리스트로 확인한다 (Done When 보강 항목)
 ```
 
 **④ 세션 마감 절 추가** (5절 참조)
 
 ### 4-3. tasks 템플릿에 검증 과제를 고정한다
 
-스킬만 고치면 `tasks.md`가 그 과제를 안 만들 수 있습니다.
-`.specify/templates/tasks-template.md`의 마지막 Phase에 넣습니다.
+스킬만 고치면 `tasks.md`가 그 과제를 안 만들 수 있습니다. preset의
+`templates/tasks-template.md`(원본 tasks 템플릿 사본) 마지막 Phase에 넣습니다.
+`.specify/templates/tasks-template.md`를 직접 고치면 업그레이드 때 덮어써집니다.
 
 ```markdown
 - [ ] TXXX 품질 게이트 — 실패 목록이 기준선과 같은지 diff로 보인다
@@ -485,19 +533,21 @@ okrbest-plugin-boards의 005 기능에서 이 과제를 넣어 뒀기에 게이�
 배선을 세 벌 넣어도 다음 사람이 한 벌만 고치면 갈라집니다. 사람 눈 체크리스트(5절)로는
 안 잡힙니다 — 세 벌을 매번 열어 보지 않기 때문입니다. 검사를 스크립트로 옮깁니다.
 
-`.specify/scripts/bash/check-workflow-wiring.sh`. 종료 코드로 판정하고, 아홉 가지를 봅니다.
+`.specify/scripts/bash/check-workflow-wiring.sh`. 종료 코드로 판정하고, 열한 가지를 봅니다.
 
 | # | 검사 | 잡는 것 |
 |---|---|---|
 | 1 | 세 벌에 배선 마커가 있나 | 배선 누락 |
 | 2 | 원본의 빠져나갈 구멍이 남았나 (`Follow TDD approach`, `If you need to`) | 부분 배선 |
 | 3 | surface 간 `speckit-*` **스킬 목록**이 같나 | 한쪽에만 생긴 스킬 |
-| 4 | tasks 템플릿에 검증 과제 3종이 있나 | 4-3절 누락 |
+| 4 | `/speckit-tasks`가 실제로 쓰는 tasks 템플릿(`resolve-template.sh`로 합성)에 검증 과제 3종이 있나 | 4-3절 누락, preset 미설치 |
 | 5 | 에이전트 파일이 "자동 적용되지 않는다"를 적었나 + brainstorming의 `writing-plans` 핸드오프를 막나 | 3-1절·3-2절 우선순위 문단 누락 |
 | 6 | **금지 문장이 남았나** ("자동으로 지켜지는", "자동 작동", "Claude Code·Codex 전용") | 아래 참고 |
 | 7 | constitution에 문체 규칙과 증거 요구 문구가 있나 | 2-2·3-3절 누락 |
 | 8 | `.gitignore` 스크래치 경로 + superpowers 임시 산출물이 추적되나 + **surface 디렉터리가 통째로 무시되나** | 2-3절 누락, 설계 문서 커밋, 새 스킬이 조용히 빠지는 함정 |
-| 9 | 기본 브랜치 보호 + rebase 전용 머지 | 6절 누락 |
+| 9 | preset 원본과 설치본(`.specify/presets/<id>/`)이 같나 | 원본만 고치고 재설치 안 함, 설치본만 고침 |
+| 10 | `specify integration status`의 수정·누락 관리 파일이 0건이고 세 통합이 모두 설치 기록에 있나 | 생성된 스킬 직접 수정, 기록 없는 통합이 업그레이드에서 빠짐 |
+| 11 | 기본 브랜치 보호 + rebase 전용 머지 | 6절 누락 |
 
 **6번이 이 스크립트에서 가장 중요합니다.** okrbest에서 팀원용 가이드가 "구현 중
 **자동으로 지켜지는** 규율"이라고 가르치고 있었습니다. 에이전트는 `CLAUDE.md`를 읽고
@@ -514,7 +564,7 @@ CI에 묶을지는 선택입니다. `.github/`가 CODEOWNERS 보호 경로면 �
 ### 5-1. 스크립트가 보는 것
 
 정적 항목은 4-5절 스크립트가 전부 봅니다. 손으로 훑지 마세요 — surface가 셋이면
-매번 아홉 파일을 열어야 하고, 그래서 안 봅니다.
+매번 열 개 넘는 파일을 열어야 하고, 그래서 안 봅니다.
 
 ```bash
 bash .specify/scripts/bash/check-workflow-wiring.sh
@@ -557,7 +607,8 @@ surface를 한 벌만 검사하지 마세요. okrbest에서 `.claude`만 검사�
 | 경로 | git |
 |---|---|
 | `.specify/` (memory·templates·scripts) | 커밋 |
-| `.claude/skills/speckit-*` · `.agents/skills/speckit-*` · `.cursor/skills/speckit-*` | 커밋 (세 벌이 같아야 한다) |
+| `.claude/skills/speckit-*` · `.agents/skills/speckit-*` · `.cursor/skills/speckit-*` | 커밋 (spec-kit이 생성한다. 직접 고치지 않고 preset으로 바꾼다) |
+| `.specify/okrbest-preset/` (커스터마이즈 원본), `.specify/presets/` (설치본) | 커밋 |
 | `CLAUDE.md` / `AGENTS.md` / `.cursor/rules/*.mdc` / `SPEC_KIT_GUIDE.md` | 커밋 |
 | `specs/<NNN-기능>/` | 커밋 (정본) |
 | `.claude/settings.local.json` (개인 권한 설정) | 커밋 안 함 |
@@ -664,10 +715,11 @@ gh api -X PATCH repos/{owner}/{repo} \
 | spec-kit 업그레이드 후 TDD·검증이 안 걸림 | `init --force`·`integration install`·`integration upgrade --force`가 4절 배선을 덮어썼다. 8-2절 절차로 다시 넣고 4-5절 스크립트로 확인 |
 | `specify integration upgrade`가 아무것도 안 바꾸고 exit 1 | 수정된 관리 파일이 있어서 멈춘 것이다(정상). 8-2절 |
 | Codex에서 speckit 명령 안 먹음 | 접두사 `$` 확인, codex 통합을 설치했는지 확인(`specify integration list`) |
-| implement 중 TDD·검증이 안 지켜짐 | `speckit-implement` 스킬에 4-2절 배선 누락. 원본 224줄에는 superpowers 언급이 0회다 |
+| implement 중 TDD·검증이 안 지켜짐 | `speckit-implement`에 4-2절 배선이 없다. 원본에는 superpowers 언급이 0회다. preset이 설치됐는지, `use` 순환을 했는지 4-5절 스크립트로 확인 |
 | 배선했는데 특정 도구에서만 안 걸림 | 그 도구의 surface를 안 고쳤다. `.claude`만 고치고 `.agents`·`.cursor`를 두는 일이 흔하다. 4-5절 스크립트로 확인 |
 | 배선했는데도 에이전트가 "규율은 자동"이라 함 | 팀원용 가이드에 "자동으로 지켜지는" 류 문장이 남았다. 배선을 상쇄한다. 4-5절 6번 검사 |
-| 에이전트마다 SPECKIT 마커 블록 내용이 다름 | `/speckit-plan`이 자기 파일만 갱신한다. 3-4절 diff로 세 파일을 모두 갱신하게 고친다 |
+| 에이전트마다 SPECKIT 마커 블록 내용이 다름 | agent-context 설정에 파일이 하나만 있다. 3-4절대로 `context_files`에 세 파일을 적는다 |
+| 스킬을 고쳤는데 업그레이드 뒤 사라짐 | 생성된 스킬 파일을 직접 고쳤다. preset 원본으로 옮기고 다시 설치한다(4-2절) |
 | 게이트를 통과했는데 결함이 남음 | 종단 검증 단계 누락. 4-3절 과제를 tasks 템플릿에 고정 |
 | 테스트를 썼는데 아무것도 못 잡음 | 구현 후에 써서 첫 실행부터 통과한 것. 되돌려 실패를 확인하거나 미검증 표시 |
 | PR 없이 기본 브랜치에 직접 커밋됨 | 브랜치 보호 미설정. 6절 ① |
@@ -703,7 +755,7 @@ okrbest는 6.2.0 시점에 배선했고, 7.0.2로 올리면서 위 네 곳을 �
 ### 8-2. spec-kit 스캐폴딩은 어떻게 올리나
 
 CLI(`specify self upgrade`)와 달리 스캐폴딩 업그레이드는 4절 배선을 덮어쓸 수 있습니다.
-아래는 2026-11에 okrbest 사본으로 0.11.1 → 1.4.5를 실행해 확인한 사실입니다.
+아래는 2026-11-26에 okrbest 저장소에서 0.11.1 → 1.4.5를 실제로 실행한 결과입니다.
 
 **명령마다 무엇을 덮어쓰나**
 
@@ -716,49 +768,68 @@ CLI(`specify self upgrade`)와 달리 스캐폴딩 업그레이드는 4절 배�
 | `specify init --here --force` | 스킬·템플릿을 덮어쓴다. constitution은 보존한다 |
 
 `integration upgrade`는 `.specify/integration.json`에 설치 기록이 있는 통합만 받습니다.
-okrbest는 cursor-agent만 기록돼 있어서 claude·codex surface는 `install`로 다시 깔아야 합니다.
+0.11.1 시절 okrbest에는 cursor-agent만 기록돼 있어서 claude·codex는 `install`로 다시
+깔았습니다. 지금은 세 통합이 모두 기록돼 있으므로 다음부터는 통합마다 `upgrade --force`면
+됩니다(4-5절 10번 검사가 기록을 확인).
 
 **커스터마이즈는 어디로 옮기나**
 
-- 템플릿(4-3절 tasks 템플릿 등)은 `.specify/templates/overrides/`로 옮깁니다. 스크립트가
-  실행할 때 원본보다 먼저 찾습니다. 0.11.1 스크립트도 overrides를 지원합니다. 옮기면
-  4-5절 검사 스크립트 4번의 경로도 고칩니다.
-- 스킬(4-2절 `speckit-implement` 배선)은 preset의 `commands/`로 옮기고
-  `specify preset add --dev <디렉터리>`로 설치합니다. 절 하나만 바꾸는 `replace-section`
-  전략도 있습니다.
+- okrbest는 커스터마이즈를 preset 하나(`.specify/okrbest-preset/`)에 모았습니다.
+  `speckit-implement`는 `replace-section`으로 Outline 절만, tasks 템플릿은 통째로 바꿉니다
+  (4-2·4-3절). 템플릿만 바꿀 때는 `.specify/templates/overrides/`에 두는 방법도 있습니다.
+  overrides가 preset보다 먼저 해석됩니다.
+- 0.11.1에서 `speckit-plan`을 고쳐 세 에이전트 파일을 갱신하던 것은 버리고,
+  agent-context의 `context_files`로 옮겼습니다(3-4절).
 - **preset은 활성 통합 하나에만 배달됩니다.** `specify integration use claude` →
   `use codex` → `use cursor-agent`처럼 통합마다 한 번씩 활성화해야 세 surface에 모두
   들어갑니다. 비활성 통합을 나중에 upgrade하면 preset 판이 원본으로 덮어써지므로,
   업그레이드 뒤에는 `use` 순환과 4-5절 검사를 다시 합니다.
+- `use`는 스킬을 preset 판으로 다시 만들지만 manifest 해시는 갱신하지 않을 때가 있습니다.
+  okrbest에서 두 번 겪었습니다. 처음 설치 때는 마지막 활성 통합(cursor-agent)이, preset
+  내용을 바꿔 재설치했을 때는 claude·codex가 "수정됨"으로 보고됐습니다. 통합마다
+  `use` → `upgrade --force`를 돌리면 preset이 다시 등록되고 수정 0건이 됩니다.
+  `.specify/scripts/bash/reinstall-okrbest-preset.sh`가 이 순서를 돌립니다.
 - surface마다 본문을 다르게 두는 preset 수단은 찾지 못했습니다. Cursor용 3-bis 분기
   문단은 세 surface에 공통 문장으로 써야 합니다.
 
 **0.11.1 → 1.4.5 변경 중 이 워크플로에 닿는 것**
 
-- `speckit-taskstoissues`가 코어에서 빠졌습니다. 계속 쓰려면 `specify extension add github`.
+- `speckit-taskstoissues`가 코어에서 빠졌습니다. `upgrade --force`는 기록된 통합(cursor)에서만
+  지우고, `install`한 claude·codex에는 남겨 둡니다. okrbest는 쓴 적이 없어 직접 지웠습니다.
+  계속 쓰려면 `specify extension add github`.
 - `speckit-converge`가 새로 생겼습니다. tasks.md 끝에 `Phase N: Convergence`를
-  덧붙입니다. 4-3절의 Polish 검증 과제와 어떤 순서로 돌지는 아직 검증하지 않았습니다.
+  덧붙입니다. 구현을 마친 뒤 남은 작업을 찾는 선택 명령입니다. 4-3절의 Polish 검증
+  과제와 어떤 순서로 돌지는 아직 실주행으로 검증하지 않았습니다.
 - `/speckit-plan`에서 에이전트 파일을 갱신하는 단계가 빠졌습니다. agent-context 확장의
-  `context_files`가 맡습니다(2-1절).
+  `context_files`가 맡습니다(3-4절). `extension update`는 agent-context 스킬을 surface에서
+  지우지만, `use` 순환이 다시 만듭니다.
 - mandatory 확장 훅은 이제 안내 블록만 출력하지 않고 실제로 실행한 뒤 기다립니다.
 - 체크리스트 상태 표기가 Checked/Unchecked로 바뀌었고, 체크리스트는 리뷰어 소유가
   됐습니다.
-- 새 `.specify/.gitignore`가 `feature.json`을 무시합니다. 이 파일을 추적하는 저장소는
-  추적을 계속할지, 무시 규칙을 따를지 정합니다.
+- 새 `.specify/.gitignore`가 `feature.json`을 무시합니다. 이 파일은 관리 파일이라 고치면
+  `integration status`가 수정으로 보고합니다. okrbest는 `feature.json`을 이미 추적하고 있어
+  무시 규칙이 적용되지 않으므로 그대로 둡니다.
+- CLI가 저장소 안에 캐시와 잠금 파일을 만듭니다(`.specify/workflows/.cache/`,
+  `.specify/extensions/.cache/`, `.specify/.workflow-install.lock`). 루트 `.gitignore`에 넣습니다.
 - 모든 SKILL.md frontmatter에 `metadata.version`이 붙어, 릴리스마다 모든 스킬 파일의
   해시가 바뀝니다.
 - 번들 워크플로(`.specify/workflows/speckit/workflow.yml`)는 upgrade로 갱신되지 않습니다.
-  `specify workflow remove` 후 `add`(네트워크 필요)로 바꿉니다.
+  `specify workflow remove speckit` 후 `specify workflow add speckit`(네트워크 필요)으로
+  1.0.0 → 1.0.2가 됩니다.
 
-**어떤 순서로 올리나** (사본에서 끝까지 실행해 `integration status`의 수정 파일 0건을 확인한 순서)
+**어떤 순서로 올리나** (okrbest에서 실행해 `integration status` 수정 0건, 4-5절 검사 51건 통과를 확인한 순서)
 
 1. 작업 브랜치를 만들고 `specify integration status`로 수정된 관리 파일을 기록합니다.
-2. 커스터마이즈를 overrides(템플릿)와 preset(스킬)으로 옮깁니다.
+   4-5절 검사도 돌려 실패 목록을 남깁니다.
+2. preset 원본의 Outline을 새 core `implement.md`의 Outline과 3-way merge합니다(4-2절).
+   기준은 이전 버전 원본, 한쪽은 preset 원본, 다른 쪽은 새 core입니다.
 3. 설치 기록이 있는 통합은 `specify integration upgrade <키> --force`, 기록이 없는 통합은
    `specify integration install <키> --script sh`로 올립니다.
-4. `specify extension update`로 확장을 올립니다(네트워크 필요, y/N 확인).
-5. `specify preset add --dev <디렉터리>` 뒤 통합마다 `specify integration use <키>`를 한 번씩
-   실행합니다.
+4. `echo y | specify extension update`로 확장을 올립니다(네트워크 필요).
+5. `bash .specify/scripts/bash/reinstall-okrbest-preset.sh`로 preset을 다시 설치하고 세
+   surface를 맞춥니다.
 6. 사라진 스킬(`speckit-taskstoissues` 등)이 surface마다 남았는지 보고 정리합니다(4-5절 3번 검사).
-7. `specify integration status`, 4-5절 검사 스크립트, `/speckit-implement` 3-bis 실주행으로
-   확인합니다.
+7. 번들 워크플로를 `workflow remove` → `workflow add`로 갱신합니다(선택).
+8. `specify integration status`, 4-5절 검사, 공용 스크립트 점검(`check-prerequisites.sh`,
+   `resolve-template.sh`, 자체 스크립트 테스트)으로 확인합니다. `/speckit-implement` 3-bis
+   실주행은 다음 기능 구현 때 확인합니다.

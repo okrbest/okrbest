@@ -223,6 +223,7 @@ bash .specify/scripts/bash/check-workflow-wiring.sh
 | `/speckit-tasks` | 작업 분해 | 필수 |
 | `/speckit-analyze` | 문서 일관성 점검 | implement 전 (권장) |
 | `/speckit-implement` | 구현 실행 | 필수 |
+| `/speckit-converge` | 코드베이스를 spec·plan·tasks와 대조해 남은 작업을 tasks.md에 덧붙임 | implement 뒤 빠진 것이 의심될 때 (선택) |
 | `/speckit-checklist` | 품질 체크리스트 생성 | 필요 시 |
 | `/speckit-constitution` | 프로젝트 원칙 편집 | 원칙 변경 시에만 |
 | `/speckit-sync` | upstream 커밋 선별 반영 (okrbest 전용 — 상세: 6절) | upstream 동기화 세션 |
@@ -324,7 +325,8 @@ sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플
 |---|---|---|
 | `specs/<NNN-기능>/` | spec·plan·tasks 등 명세 문서 (**공식 기준**) | 커밋 |
 | `.specify/` | constitution·템플릿·스크립트 | 커밋 |
-| `.claude/skills/speckit-*` · `.agents/skills/speckit-*` · `.cursor/skills/speckit-*` | Spec Kit 스킬 정의 (세 벌이 같아야 한다) | 커밋 |
+| `.specify/okrbest-preset/` | 구현 배선(`speckit-implement` Outline)과 tasks 템플릿 커스터마이즈의 **원본**. 고친 뒤 `bash .specify/scripts/bash/reinstall-okrbest-preset.sh`로 다시 설치한다 | 커밋 |
+| `.claude/skills/speckit-*` · `.agents/skills/speckit-*` · `.cursor/skills/speckit-*` | spec-kit이 생성한 스킬. **직접 고치지 않는다** — 업그레이드 때 덮어써진다. 커스터마이즈는 preset 원본에서 | 커밋 |
 | `CLAUDE.md` / `AGENTS.md` / `.cursor/rules/*.mdc` | 에이전트 컨텍스트 | 커밋 |
 | `spec-docs/` | 가이드·계획서·upstream sync 장부(`upstream/`·`guides/`·`feat-plan/`) | 커밋 |
 | `docs/superpowers/` | brainstorming 설계 문서(`specs/…-design.md`). 스킬은 커밋하라고 하지만 이 저장소에서는 `/speckit-specify` 입력용 임시 문서다 | .gitignore |
@@ -364,7 +366,8 @@ sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플
 | implement 중 TDD·검증이 안 지켜짐 | 배선이 빠졌는지 먼저 봅니다. `bash .specify/scripts/bash/check-workflow-wiring.sh` |
 | 게이트를 통과했는데 결함이 남음 | 종단 검증을 건너뛴 것. `quickstart.md`를 실제 환경에서 훑습니다 (4절) |
 | 테스트를 썼는데 아무것도 못 잡음 | 구현 후에 써서 첫 실행부터 통과한 것. 되돌려 실패를 확인하거나 `미검증`으로 표시 |
-| 에이전트마다 SPECKIT 블록 내용이 다름 | `/speckit-plan`이 세 파일을 모두 갱신합니다. 안 맞으면 위 스크립트로 확인 |
+| 에이전트마다 SPECKIT 블록 내용이 다름 | agent-context 확장이 `/speckit-specify`·`/speckit-plan` 뒤 세 파일을 갱신합니다(`.specify/extensions/agent-context/agent-context-config.yml`의 `context_files`). 수동 갱신은 `/speckit-agent-context-update` |
+| `speckit-implement` 스킬을 고쳤는데 사라짐 | 생성된 스킬을 직접 고쳤다. `.specify/okrbest-preset/`을 고치고 `bash .specify/scripts/bash/reinstall-okrbest-preset.sh`로 다시 설치합니다 |
 | Spec Kit 버전 확인 | `specify version` |
 | Spec Kit 업그레이드 | 관리자가 수행. 먼저 `specify integration status`(읽기 전용)로 수정된 관리 파일을 봅니다. ⚠️ `integration upgrade --force`·`integration install`·`init --force`는 구현 배선과 tasks 템플릿을 덮어씁니다. constitution과 `specs/`는 보존됩니다(1.4.5 기준). 절차: [WORKFLOW_PORTING_GUIDE.md 8절](WORKFLOW_PORTING_GUIDE.md) |
 | Superpowers 업데이트 뒤 동작이 달라짐 | 새 세션/`/clear` 후 설치본의 `RELEASE-NOTES.md`를 읽고 배선 검사를 돌립니다. 절차: [WORKFLOW_PORTING_GUIDE.md 8절](WORKFLOW_PORTING_GUIDE.md) |

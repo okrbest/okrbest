@@ -58,6 +58,9 @@ Cursor에도 superpowers 플러그인을 설치할 수 있다(`/add-plugin super
 
 배선 확인: `bash .specify/scripts/bash/check-workflow-wiring.sh`
 
+배선 원본은 spec-kit preset `.specify/okrbest-preset/`이다. 생성된 `speckit-*` 스킬
+파일은 직접 고치지 않는다(업그레이드 때 덮어써진다).
+
 ## 명세 문서 언어와 문체
 
 `specs/<NNN-feature>/`의 spec.md·plan.md·tasks.md·checklists 등 spec-kit 산출물은
