@@ -144,6 +144,10 @@ You **MUST** consider the user input before proceeding (if not empty).
    게이트가 우리 변경과 무관한 기존 결함으로 중단되면, 그 사실을 기준선 목록으로
    보인다. 서술로 대신하지 않는다.
 
+   superpowers TDD 스킬이 말하는 "프로젝트 테스트 명령"은 위 접촉 패키지 게이트다.
+   완료 보고에는 게이트가 보인 실패를 모두 이름으로 적고, 기준선 목록과 diff해
+   우리가 만든 회귀와 기존 결함을 나눈다.
+
 4. **Project Setup Verification**:
    - **REQUIRED**: Create/verify ignore files based on actual project setup:
 

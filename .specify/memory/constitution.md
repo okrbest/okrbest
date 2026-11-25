@@ -1,19 +1,28 @@
 <!--
 Sync Impact Report
-- Version change: 1.4.0 → 1.4.1 (PATCH — 사실 문구 정정: webapp 툴체인 버전)
+- Version change: 1.4.1 → 1.5.0 (MINOR — 원칙 VII 실질 확장: superpowers 7.0.2 반영)
 - Modified principles:
-  - I. 패키지별 품질 게이트 — webapp의 "TypeScript 5.6"을 실제 값으로 고친다.
-    spec 033(upstream a28b09d7)으로 타입 검사는 TypeScript 7.0 네이티브 컴파일러,
-    도구가 쓰는 typescript 패키지는 6.0이 됐다. 게이트 명령(`tsc -b`)은 그대로다.
+  - VII. Spec 주도 개발 워크플로
+    - 사실 정정: Codex에는 superpowers SessionStart 훅이 없고 스킬 발견으로
+      `using-superpowers`가 로드된다(superpowers v6.1.1부터). Cursor도 플러그인을
+      설치할 수 있다(`/add-plugin superpowers`).
+    - 추가: TDD 스킬의 "프로젝트 테스트 명령"(v6.4.1부터 요구)을 원칙 I의 접촉 패키지
+      게이트로 정하고, 보고는 기준선 실패 목록 diff로 한다.
+    - 추가: brainstorming(v7)의 `writing-plans` HARD-GATE와 "바로 구현" 판정보다
+      spec-kit 핸드오프가 우선한다. 설계 문서 커밋 금지와 확인 방법
+      (`git ls-files docs/superpowers`)을 적는다.
 - Modified sections:
-  - 기술·범위 제약 — "TS 5.6", "Node는 .nvmrc(20.11) 기준. webapp engine: Node >=18.10.0,
-    npm ^9 || ^10"을 실제 값(.nvmrc 24.11.1, engines·packageManager의 npm 11.6.2 고정)으로 고친다.
-    규칙 내용은 바뀌지 않는다.
+  - 개발 워크플로 — 핸드오프 규칙의 정본 위치를 원칙 VII로 고친다.
 - Added sections: 없음
 - Removed sections: 없음
 - Templates requiring updates:
-  - ✅ .specify/templates/* (툴체인 버전 언급 없음, 수정 불필요)
-- Follow-up TODOs: 없음
+  - ✅ .specify/templates/* (superpowers 언급 없음, 수정 불필요)
+  - ✅ .claude·.agents·.cursor/skills/speckit-implement/SKILL.md (3-bis)
+  - ✅ CLAUDE.md, AGENTS.md, .cursor/rules/okrbest-workflow.mdc
+  - ✅ SPEC_KIT_GUIDE.md, WORKFLOW_PORTING_GUIDE.md
+- Follow-up TODOs:
+  - spec-kit 스캐폴딩 0.11.1 → 1.4.5 업그레이드는 별도 PR로 한다
+    (절차: WORKFLOW_PORTING_GUIDE.md 8-2절).
 - 배선 검사: bash .specify/scripts/bash/check-workflow-wiring.sh
 -->
 
@@ -127,9 +136,11 @@ squash하면 커밋별 `Upstream:` 참조가 소실되어 반영 추적이 끊�
 명세 정본은 `specs/<NNN-feature>/`에 커밋한다. 기존 `spec-docs/feat-plan/`은
 레거시 관례로 보존하되 신규 기능 명세는 `specs/`에 작성한다.
 
-**구현 규율은 자동으로 걸리지 않는다 — 이 문단이 그 사실의 정본이다.** superpowers
-SessionStart 훅은 `using-superpowers` 하나만 주입한다. 개별 규율은
-`speckit-implement`의 "구현 규율 로드"(3-bis) 단계에서 호출해야 지침이 로드된다.
+**구현 규율은 자동으로 걸리지 않는다 — 이 문단이 그 사실의 정본이다.** superpowers가
+세션 시작 때 로드하는 스킬은 `using-superpowers` 하나뿐이다. Claude Code와 Cursor는
+SessionStart 훅으로 이 스킬을 주입하고, Codex는 훅 없이 스킬 발견으로 로드한다.
+개별 규율은 `speckit-implement`의 "구현 규율 로드"(3-bis) 단계에서 호출해야 지침이
+로드된다.
 
 | 규율 | 어디서 걸리나 | 남길 증거 |
 |---|---|---|
@@ -137,9 +148,28 @@ SessionStart 훅은 `using-superpowers` 하나만 주입한다. 개별 규율은
 | 증거 기반 완료 선언 (`verification-before-completion`) | 3-bis에서 `Skill` 호출 | 게이트 출력 + 기준선 diff |
 | 근본 원인 우선 디버깅 (`systematic-debugging`) | 예상 밖 실패를 만난 자리 | 원인 규명 기록 |
 
-Cursor에는 superpowers 플러그인이 없다(Claude Code·Codex 전용). Cursor로 작업할
-때는 `.cursor/rules/okrbest-workflow.mdc`의 구현 규율 절이 같은 요구를 담는다.
-어느 도구를 쓰든 남겨야 하는 증거는 같다.
+superpowers TDD 스킬은 완료 전에 "프로젝트 테스트 명령"을 돌려 모든 실패를 이름으로
+보고하라고 요구한다. 이 저장소에서 그 명령은 원칙 I의 접촉 패키지 게이트다. 보고는
+기준선 실패 목록과의 diff로 하며, 우리가 만든 회귀와 기존 결함을 나눠 적는다.
+
+Cursor도 superpowers 플러그인을 설치할 수 있다(`/add-plugin superpowers`). 플러그인을
+설치한 Cursor는 Claude Code와 같은 스킬을 부른다. 플러그인이 없는 Cursor에서는
+`.cursor/rules/okrbest-workflow.mdc`의 구현 규율 절이 같은 요구를 담는다. 어느 도구를
+쓰든 남겨야 하는 증거는 같다.
+
+**brainstorming은 spec-kit 파이프라인 앞에서 멈춘다.** superpowers `brainstorming`은
+설계 문서가 승인되면 `writing-plans`만 부르라고 지시하고(HARD-GATE), 요청이 명확하면
+바로 구현하라고 판정하기도 한다. 이 저장소에서는 두 지시를 따르지 않는다.
+
+- 승인된 설계는 사용자 선택 단계(① `/speckit-specify`로 진행 ② 더 다듬기 ③ 중단/보류)를
+  거쳐 `/speckit-specify`로 넘어간다. `writing-plans`·`executing-plans`·
+  `subagent-driven-development`는 쓰지 않는다. spec-kit의 plan·tasks·implement가 그
+  역할을 맡는다.
+- brainstorming이 "바로 하면 되는 작업"으로 판정해도 기능·API 변경이면
+  `/speckit-specify`로 간다. 작은 수정이면 원칙 VI대로 브랜치부터 만든다.
+- 설계 문서(`docs/superpowers/specs/`)는 커밋하지 않는다(.gitignore). 정본은
+  `specs/<NNN-feature>/spec.md`다. 위반 여부는 `git ls-files docs/superpowers`가 비어
+  있는지로 확인한다.
 
 superpowers는 원칙 I·III을 운영화하고, spec-kit은 spec/plan 산출물을 소유한다.
 배선이 걸려 있는지는 `bash .specify/scripts/bash/check-workflow-wiring.sh`로 확인한다.
@@ -189,7 +219,8 @@ upstream 커밋은 spec 분기로 본 파이프라인에 합류한다.
 
 작은 수정은 브랜치 + PR로 직행. 기능·API 변경은 spec-kit 파이프라인으로 명세를
 먼저 만든다. 복잡한 기능은 superpowers `brainstorming`으로 의도를 정리한 뒤
-`/speckit-specify`로 넘긴다(핸드오프 규칙은 CLAUDE.md/AGENTS.md 참조). 기본 머지
+`/speckit-specify`로 넘긴다(핸드오프 규칙은 원칙 VII, 에이전트별 압축본은
+CLAUDE.md/AGENTS.md 참조). 기본 머지
 대상은 `master`이며 리뷰된 PR + CI 통과가 조건이다.
 
 ## Governance
@@ -204,4 +235,4 @@ PATCH: 문구 명확화). 모든 PR·리뷰는 원칙 준수를 확인해야 하
 위반이 아니게 되어 지켜지지 않는다. 원칙을 쓰거나 고칠 때 스스로 묻는다 — 이 원칙을
 어겼는지 무엇으로 확인하나? 답이 없으면 그 원칙은 장식이다.
 
-**Version**: 1.4.1 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-11-11
+**Version**: 1.5.0 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-11-26

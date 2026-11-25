@@ -23,11 +23,11 @@
 | 형태 | 저장소에 커밋된 스킬 (clone하면 있음) | 사용자 전역 플러그인 (각자 설치) |
 | 호출 | 수동 `/speckit-*` | `/speckit-implement`의 3-bis 단계가 `Skill`로 호출 |
 
-> ⚠️ **규율은 저절로 걸리지 않습니다.** SessionStart 훅이 주입하는 것은
-> `using-superpowers` 하나뿐입니다. `test-driven-development` 같은 개별 스킬은
-> 호출해야 지침이 로드됩니다. 그래서 `/speckit-implement` 스킬에 호출 단계(3-bis)를
-> 넣어 두었습니다 — 세 surface 모두. 사실의 정본은
-> [constitution 원칙 VII](.specify/memory/constitution.md)입니다.
+> ⚠️ **규율은 저절로 걸리지 않습니다.** superpowers가 세션 시작 때 로드하는 스킬은
+> `using-superpowers` 하나뿐입니다(Claude Code·Cursor는 SessionStart 훅, Codex는 스킬
+> 발견). `test-driven-development` 같은 개별 스킬은 호출해야 지침이 로드됩니다.
+> 그래서 `/speckit-implement` 스킬에 호출 단계(3-bis)를 넣어 두었습니다 — 세 surface
+> 모두. 사실의 정본은 [constitution 원칙 VII](.specify/memory/constitution.md)입니다.
 
 ---
 
@@ -38,9 +38,9 @@
 `AGENTS.md`, `.cursor/rules/`) — 프로젝트 쪽 준비는 끝난 상태. 각자 개인
 환경에 아래 **두 가지만 1회씩** 설치하면 됩니다.
 
-> **Cursor IDE Agent만 쓰는 경우**: 추가 설치 없음. Superpowers 플러그인은
-> Claude Code·Codex 전용이며, Cursor에서는 같은 구현 규율(TDD·검증·근본 원인
-> 디버깅)이 `.cursor/rules/okrbest-workflow.mdc`로 적용됩니다.
+> **Cursor IDE Agent만 쓰는 경우**: Superpowers 플러그인 설치를 권장합니다(아래
+> 표). 설치하지 않아도 같은 구현 규율(TDD·검증·근본 원인 디버깅)이
+> `.cursor/rules/okrbest-workflow.mdc`로 적용되지만, 플러그인 스킬보다 지침이 짧습니다.
 
 ### 2-1. `specify` CLI (Spec Kit) — 각자 1회
 
@@ -64,8 +64,11 @@ specify version   # 설치 확인
 |---|---|
 | Claude Code | `/plugin install superpowers@claude-plugins-official` |
 | Codex CLI | `/plugins` → `superpowers` 검색 → Install |
+| Cursor IDE Agent | 채팅에서 `/add-plugin superpowers` |
 
-설치 후 **새 세션을 시작하거나 `/clear`** 하세요 (SessionStart 훅 적용 조건).
+설치 후 **새 세션을 시작하거나 `/clear`** 하세요. Claude Code·Cursor는 이때
+SessionStart 훅이 걸리고, Codex는 새 세션에서 스킬 목록을 다시 읽습니다.
+플러그인을 업데이트한 뒤에도 같습니다.
 
 **확인:** 새 세션에서 `brainstorming`, `test-driven-development` 스킬이 보이면 준비 끝.
 
@@ -91,13 +94,19 @@ specify version   # 설치 확인
 이 기능 brainstorming부터 하자: <아이디어>
 ```
 
-에이전트가 한 번에 하나씩 질문하며 의도·요구사항·설계를 정리합니다.
-설계가 정리되면 에이전트가 다음 선택지를 제시합니다 — **여러분이 고르면 됩니다**:
+에이전트는 먼저 프로젝트와 여러분이 가리킨 자료를 읽고, 왜 이 기능이 필요한지부터
+묻습니다. 이미 답이 있는 것은 묻지 않습니다. 이어서 구현 방식 두세 가지를 장단점과
+함께 내놓고 하나를 추천합니다. 여러분이 고르면 설계 문서
+(`docs/superpowers/specs/YYYY-MM-DD-<주제>-design.md`)를 쓰고 승인을 받습니다.
+
+설계 문서가 승인되면 에이전트가 다음 선택지를 제시합니다 — **여러분이 고르면 됩니다**:
 
 > ① `/speckit-specify`로 진행 ② 더 다듬기 ③ 중단/보류
 
-①을 고르면 정리된 설계가 명세로 넘어갑니다. (에이전트가 선택지 없이 멋대로
-다음 단계로 가면 → 8절 문제 해결 참고)
+①을 고르면 승인된 설계 문서가 명세의 입력으로 넘어갑니다. superpowers 스킬은 원래
+이 자리에서 `writing-plans`를 부르지만, 이 저장소에서는 spec-kit이 계획을 맡으므로
+부르지 않습니다. (에이전트가 선택지 없이 `writing-plans`로 가거나 바로 구현을
+시작하면 → 8절 문제 해결 참고)
 
 ### 1. 명세 작성 — specify
 
@@ -172,7 +181,7 @@ specify version   # 설치 확인
 | 환경 | 규율의 출처 |
 |---|---|
 | Claude Code · Codex CLI | superpowers 플러그인. 3-bis에서 `test-driven-development`·`verification-before-completion`을 호출. 예상 밖 실패를 만나면 `systematic-debugging` |
-| Cursor IDE Agent | 플러그인이 없습니다. 3-bis가 [`.cursor/rules/okrbest-workflow.mdc`](.cursor/rules/okrbest-workflow.mdc)의 구현 규율 절을 다시 읽게 합니다 |
+| Cursor IDE Agent | 플러그인을 설치했으면 Claude Code와 같습니다. 설치하지 않았으면 3-bis가 [`.cursor/rules/okrbest-workflow.mdc`](.cursor/rules/okrbest-workflow.mdc)의 구현 규율 절을 다시 읽게 합니다 |
 
 어느 도구를 쓰든 **남겨야 하는 증거는 같습니다**. 도구가 다르다고 기준이 낮아지지
 않습니다.
@@ -181,7 +190,9 @@ specify version   # 설치 확인
 
 - **기준선을 먼저 잰다** — 구현 전에 게이트를 돌려 실패 목록을 저장합니다. 회귀는
   실패 *개수*가 아니라 *목록 diff*로 판정합니다. 이 저장소는 기준선이 깨끗하지 않아서
-  개수 비교가 무의미합니다.
+  개수 비교가 무의미합니다. superpowers TDD 스킬이 "프로젝트 테스트 명령을 돌려 모든
+  실패를 이름으로 보고하라"고 할 때, 그 명령은 접촉 패키지 게이트이고 보고는 이
+  목록 diff입니다.
 - **종단 검증은 게이트와 별개다** — 게이트를 다 통과해도 화면을 조작해야만 드러나는
   결함은 남습니다. `quickstart.md`를 실제 환경에서 훑는 단계가 따로 있습니다.
 - **못 돌렸으면 `미실행`으로 적는다** — 환경이 없어 검증을 못 했으면 그렇게 적습니다.
@@ -310,7 +321,8 @@ sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플
 | `.claude/skills/speckit-*` · `.agents/skills/speckit-*` · `.cursor/skills/speckit-*` | Spec Kit 스킬 정의 (세 벌이 같아야 한다) | 커밋 |
 | `CLAUDE.md` / `AGENTS.md` / `.cursor/rules/*.mdc` | 에이전트 컨텍스트 | 커밋 |
 | `spec-docs/` | 가이드·계획서·upstream sync 장부(`upstream/`·`guides/`·`feat-plan/`) | 커밋 |
-| `docs/superpowers/` | brainstorming 임시 초안 (superpowers 플러그인 고정 경로) | .gitignore |
+| `docs/superpowers/` | brainstorming 설계 문서(`specs/…-design.md`). 스킬은 커밋하라고 하지만 이 저장소에서는 `/speckit-specify` 입력용 임시 문서다 | .gitignore |
+| `.superpowers/` | brainstorming 시각 도구 화면·작업 공간 | .gitignore |
 | `.worktrees/` | 격리 워크스페이스 | .gitignore |
 | `.claude/settings.local.json` | 개인 권한 설정 | 커밋 안 함 |
 
@@ -337,8 +349,10 @@ sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플
 | 증상 | 해결 |
 |---|---|
 | Superpowers 스킬이 안 보임 | 설치 후 새 세션/`/clear` 했는지 확인. 그래도 안 되면 재설치 (`/plugin`·`/plugins`) |
-| brainstorming이 선택지 제시 없이 멋대로 다음 단계(`writing-plans` 등)로 감 | "멈추고, 정리된 설계로 `/speckit-specify` 실행해줘"라고 지시. 사용자 지시가 스킬 기본 동작보다 우선 |
-| brainstorming 초안이 커밋되려 함 | `docs/superpowers/`는 임시 작업 폴더(.gitignore). 공식 기준 문서는 `specs/<NNN>/spec.md` — 커밋 대상에서 제외 지시 |
+| brainstorming이 설계 승인 뒤 선택지 없이 `writing-plans`를 부름 | 스킬의 HARD-GATE가 그렇게 지시합니다. "멈추고, 승인된 설계로 `/speckit-specify` 실행해줘"라고 지시. CLAUDE.md 핸드오프 규칙이 스킬 기본 동작보다 우선 |
+| brainstorming이 "바로 하면 되는 작업"이라며 명세 없이 구현을 시작함 | 기능·API 변경이면 멈추고 `/speckit-specify`로 갑니다. 작은 수정이면 브랜치부터 만들었는지 확인 |
+| brainstorming 설계 문서가 커밋되려 함 | 스킬은 커밋하라고 하지만 `docs/superpowers/`는 .gitignore 대상입니다. 공식 기준 문서는 `specs/<NNN>/spec.md` — 커밋 대상에서 제외 지시 |
+| 규율이 왜 안 걸렸는지 세션을 되짚고 싶음 | superpowers `diagnosing-superpowers` 스킬에 "이 세션에서 superpowers가 왜 그렇게 동작했는지 찾아줘"라고 요청. 대화 기록을 읽고 근거를 `path:line`으로 보고합니다 |
 | spec에 `[NEEDS CLARIFICATION]`이 남음 | `/speckit-clarify` 실행 |
 | Codex에서 명령이 안 먹음 | 접두사 `$` 확인 (`$speckit-specify`) |
 | implement 중 TDD·검증이 안 지켜짐 | 배선이 빠졌는지 먼저 봅니다. `bash .specify/scripts/bash/check-workflow-wiring.sh` |

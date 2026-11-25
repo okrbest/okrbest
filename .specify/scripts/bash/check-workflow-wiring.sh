@@ -163,14 +163,30 @@ for f in "${AGENT_FILES[@]}"; do
     else
         bad "$f: '자동 적용되지 않는다'가 없다" "훅은 using-superpowers만 주입한다는 사실을 적는다"
     fi
+
+    # superpowers v7 brainstorming은 설계 승인 뒤 writing-plans만 부르라고 한다(HARD-GATE).
+    # 에이전트 파일이 이를 명시적으로 막지 않으면 spec-kit 파이프라인을 건너뛴다.
+    if grep -q 'writing-plans`를 부르지 않' "$f"; then
+        ok "$f: brainstorming의 writing-plans 핸드오프를 막는다"
+    else
+        bad "$f: brainstorming → writing-plans 차단 문장이 없다" \
+            "constitution 원칙 VII의 'brainstorming은 spec-kit 파이프라인 앞에서 멈춘다' 압축본을 넣는다"
+    fi
 done
 
 # ---------------------------------------------------------------------------
 section "6. 반대로 작동하는 문장이 남았나"
 
-# 팀원용 가이드가 '규율은 자동'이라고 가르치면 배선이 상쇄된다
-BANNED_PATTERNS=('자동으로 지켜지는' '자동 작동' '자동으로 작동' '별도 호출 없이')
-for f in "SPEC_KIT_GUIDE.md" "CLAUDE.md" "AGENTS.md" ".cursor/rules/okrbest-workflow.mdc"; do
+# 팀원용 가이드가 '규율은 자동'이라고 가르치면 배선이 상쇄된다.
+# 'Claude Code·Codex 전용'은 superpowers가 Cursor 플러그인을 내기 전의 사실이다.
+# 남아 있으면 Cursor 사용자가 플러그인을 설치하지 않는다.
+BANNED_PATTERNS=('자동으로 지켜지는' '자동 작동' '자동으로 작동' '별도 호출 없이' 'Claude Code·Codex 전용')
+BANNED_FILES=("SPEC_KIT_GUIDE.md" "CLAUDE.md" "AGENTS.md" ".cursor/rules/okrbest-workflow.mdc"
+    ".specify/memory/constitution.md")
+for s in "${SURFACES[@]}"; do
+    BANNED_FILES+=("$s/skills/speckit-implement/SKILL.md")
+done
+for f in "${BANNED_FILES[@]}"; do
     [ -f "$f" ] || continue
     hits=""
     for p in "${BANNED_PATTERNS[@]}"; do
@@ -181,7 +197,7 @@ for f in "SPEC_KIT_GUIDE.md" "CLAUDE.md" "AGENTS.md" ".cursor/rules/okrbest-work
     if [ -z "$hits" ]; then
         ok "$f: 금지 문장 없음"
     else
-        bad "$f: 금지 문장 발견 —$hits" "규율은 자동이 아니다. 문장을 지우거나 고친다"
+        bad "$f: 금지 문장 발견 —$hits" "규율은 자동이 아니고, superpowers는 Cursor에도 설치된다. constitution 원칙 VII에 맞춰 고친다"
     fi
 done
 
@@ -210,13 +226,23 @@ fi
 # ---------------------------------------------------------------------------
 section "8. .gitignore 스크래치 경로"
 
-for p in "docs/superpowers/" ".worktrees"; do
+for p in "docs/superpowers/" ".superpowers/" ".worktrees"; do
     if grep -q "^${p%/}" .gitignore 2>/dev/null; then
         ok ".gitignore: $p 있음"
     else
         bad ".gitignore: $p 없음"
     fi
 done
+
+# brainstorming은 설계 문서를 커밋하라고 지시한다. ignore 규칙은 `git add -f`나
+# ignore 이전에 추가된 파일을 막지 못하므로 추적 목록을 직접 본다.
+tracked_sp="$(git ls-files docs/superpowers .superpowers 2>/dev/null)"
+if [ -z "$tracked_sp" ]; then
+    ok "superpowers 임시 산출물이 추적되지 않는다"
+else
+    bad "superpowers 임시 산출물이 커밋돼 있다: $(echo "$tracked_sp" | head -3 | tr '\n' ' ')" \
+        "정본은 specs/<NNN>/spec.md다. git rm --cached로 추적을 끊는다"
+fi
 
 # surface 디렉터리가 통째로 ignore되면 새 스킬이 조용히 커밋에서 빠진다.
 # okrbest에서 `.cursor/` 전체가 ignore돼 있어 새로 만든 스킬이 안 잡혔다.

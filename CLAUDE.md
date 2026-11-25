@@ -14,8 +14,8 @@ root-cause debugging. See [SPEC_KIT_GUIDE.md](SPEC_KIT_GUIDE.md) for the role
 split and combined workflow. Project rules live in
 `.specify/memory/constitution.md`.
 
-**이 규율은 자동 적용되지 않는다.** SessionStart 훅은 `using-superpowers` 하나만
-주입한다. 개별 스킬은 `Skill` 도구로 호출해야 지침이 로드되며, 호출 지점은
+**이 규율은 자동 적용되지 않는다.** superpowers SessionStart 훅은 `using-superpowers`
+하나만 주입한다. 개별 스킬은 `Skill` 도구로 호출해야 지침이 로드되며, 호출 지점은
 `/speckit-implement`의 구현 규율 로드(3-bis) 단계다. 사실의 정본은
 [constitution 원칙 VII](.specify/memory/constitution.md). 배선 확인은
 `bash .specify/scripts/bash/check-workflow-wiring.sh`.
@@ -45,6 +45,17 @@ Upstream(mattermost/mattermost) 커밋 선별 반영은 `/speckit-sync`를 사�
 - 설계가 정리되면 전환을 눈에 보이게 제시하고 사용자가 고른다:
   ① `/speckit-specify`로 진행  ② 더 다듬기  ③ 중단/보류.
 - 핸드오프 시점과 넘길 내용(정리된 설계)을 사용자가 확인한 뒤 결정한다.
+
+**이 규칙은 superpowers `brainstorming`의 기본 동작보다 우선한다** (정본: constitution 원칙 VII).
+
+- 설계 문서가 승인돼도 `writing-plans`를 부르지 않는다. 스킬의 HARD-GATE가
+  "`writing-plans`만 부른다"고 지시해도 위 선택 단계로 간다. `executing-plans`·
+  `subagent-driven-development`도 쓰지 않는다. 계획·작업·구현은 `/speckit-plan`·
+  `/speckit-tasks`·`/speckit-implement`가 맡는다.
+- brainstorming이 "바로 하면 되는 작업"으로 판정해도 기능·API 변경이면
+  `/speckit-specify`로 간다. 작은 수정이면 브랜치부터 만든다.
+- 설계 문서는 `docs/superpowers/specs/`에 쓰되 커밋하지 않는다(.gitignore).
+  `/speckit-specify`를 부를 때 그 파일 경로를 입력으로 넘긴다.
 
 ## 명세 문서 언어와 문체 (Spec artifact language)
 

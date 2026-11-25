@@ -103,14 +103,22 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 3-bis. **구현 규율 로드** (필수 — 다음 단계로 넘어가기 전에 수행한다):
 
-   Cursor에는 superpowers 플러그인이 없다(Claude Code·Codex 전용). 대신
-   `.cursor/rules/okrbest-workflow.mdc`의 "구현 규율" 절을 **여기서 다시 읽고**
-   아래 증거 표와 함께 적용한다. **자동 적용되지 않는다** — 규칙 파일이 로드돼
-   있다는 사실만으로는 증거가 남지 않는다.
+   **superpowers 플러그인을 설치했다면**(`/add-plugin superpowers`) 아래 두 스킬을
+   불러 지침을 로드한다. 예상 밖 실패를 만나면 그 자리에서 `systematic-debugging`을
+   부른다.
+
+   - `test-driven-development`
+   - `verification-before-completion`
+
+   **설치하지 않았다면** `.cursor/rules/okrbest-workflow.mdc`의 "구현 규율" 절을
+   **여기서 다시 읽고** 아래 증거 표와 함께 적용한다.
 
    - 실패하는 테스트 먼저 → 실패 출력을 남긴다
    - 증거를 보인 뒤 완료 선언
    - 예상 밖 실패를 만나면 땜질 전에 근본 원인을 조사한다
+
+   어느 쪽이든 **자동 적용되지 않는다** — 플러그인이나 규칙 파일이 로드돼 있다는
+   사실만으로는 증거가 남지 않는다.
 
    방금 읽은 문서를 규율로 바꾼다. 각 행의 증거가 없으면 그 과제는 완료가 아니다.
 
@@ -140,6 +148,10 @@ You **MUST** consider the user input before proceeding (if not empty).
 
    게이트가 우리 변경과 무관한 기존 결함으로 중단되면, 그 사실을 기준선 목록으로
    보인다. 서술로 대신하지 않는다.
+
+   superpowers TDD 스킬이 말하는 "프로젝트 테스트 명령"은 위 접촉 패키지 게이트다.
+   완료 보고에는 게이트가 보인 실패를 모두 이름으로 적고, 기준선 목록과 diff해
+   우리가 만든 회귀와 기존 결함을 나눈다.
 
 4. **Project Setup Verification**:
    - **REQUIRED**: Create/verify ignore files based on actual project setup:
