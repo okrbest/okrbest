@@ -51,10 +51,16 @@ uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
 specify version   # 설치 확인
 ```
 
-버전 확인·업그레이드 용도의 전역 CLI입니다. `/speckit-*` 스킬 자체는 저장소에
-커밋된 스크립트로 동작하므로, CLI가 없어도 일상 명령은 대부분 돌아갑니다.
-스캐폴딩 버전 변경(업그레이드·재init)은 관리자가 관리합니다 — 개인이 임의로
-`specify init --force`를 실행하지 마세요.
+버전 확인·업그레이드 용도의 전역 CLI입니다. CLI 자체는 `specify self upgrade`로
+올립니다(`--dry-run`으로 미리 보기). `/speckit-*` 스킬은 저장소에 커밋된 스크립트로
+동작하므로, CLI 버전이 저장소 스캐폴딩 버전(`.specify/integration.json`의 `version`)과
+달라도 일상 명령은 돌아갑니다.
+
+스캐폴딩 버전 변경은 관리자가 관리합니다. 개인이 임의로 `specify integration upgrade`·
+`specify integration install`·`specify init --force`를 실행하지 마세요. 세 명령 모두
+구현 배선(`speckit-implement`)과 tasks 템플릿의 검증 과제를 덮어쓸 수 있고,
+`integration install`은 경고도 하지 않습니다. 절차는
+[WORKFLOW_PORTING_GUIDE.md 8절](WORKFLOW_PORTING_GUIDE.md)에 있습니다.
 
 ### 2-2. Superpowers 플러그인 — 각자 1회
 
@@ -360,8 +366,13 @@ sync 세션 중에는 반영 커밋마다 커밋이 만들어집니다(워크플
 | 테스트를 썼는데 아무것도 못 잡음 | 구현 후에 써서 첫 실행부터 통과한 것. 되돌려 실패를 확인하거나 `미검증`으로 표시 |
 | 에이전트마다 SPECKIT 블록 내용이 다름 | `/speckit-plan`이 세 파일을 모두 갱신합니다. 안 맞으면 위 스크립트로 확인 |
 | Spec Kit 버전 확인 | `specify version` |
-| Spec Kit 업그레이드 | 관리자가 수행. ⚠️ `specify init . --force` 재실행 시 `constitution.md`가 템플릿으로 **덮어써짐**. 반드시 백업 후 진행 |
+| Spec Kit 업그레이드 | 관리자가 수행. 먼저 `specify integration status`(읽기 전용)로 수정된 관리 파일을 봅니다. ⚠️ `integration upgrade --force`·`integration install`·`init --force`는 구현 배선과 tasks 템플릿을 덮어씁니다. constitution과 `specs/`는 보존됩니다(1.4.5 기준). 절차: [WORKFLOW_PORTING_GUIDE.md 8절](WORKFLOW_PORTING_GUIDE.md) |
+| Superpowers 업데이트 뒤 동작이 달라짐 | 새 세션/`/clear` 후 설치본의 `RELEASE-NOTES.md`를 읽고 배선 검사를 돌립니다. 절차: [WORKFLOW_PORTING_GUIDE.md 8절](WORKFLOW_PORTING_GUIDE.md) |
 
-- 원본 도구 로컬 경로: Spec Kit `/home/sdh/dev-tools/spec-kit`, Superpowers `/home/sdh/dev-tools/superpowers`
+- 설치본 확인: Spec Kit `specify version`, Superpowers
+  `~/.claude/plugins/cache/claude-plugins-official/superpowers/<버전>/`
+- 원본 도구 로컬 체크아웃(관리자용): Spec Kit `/home/sdh/dev-tools/spec-kit`,
+  Superpowers `/home/sdh/dev-tools/superpowers`. 설치본보다 오래됐을 수 있으니
+  버전을 대조하고 씁니다.
 - 처음부터 설치·다른 프로젝트 적용: [WORKFLOW_PORTING_GUIDE.md](WORKFLOW_PORTING_GUIDE.md)
 

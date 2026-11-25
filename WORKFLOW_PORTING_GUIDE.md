@@ -57,10 +57,13 @@
 
 ```bash
 uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z
-specify version   # 확인 (이 저장소 기준 0.10.3)
+specify version   # 확인
 ```
 
 최신 태그는 [spec-kit Releases](https://github.com/github/spec-kit/releases)에서 확인합니다.
+설치한 CLI는 `specify self upgrade`로 올립니다(`--dry-run`으로 미리 보기). CLI 버전과
+프로젝트 스캐폴딩 버전(`.specify/integration.json`의 `version`)은 따로 움직입니다.
+스캐폴딩을 올리는 절차는 8절에 있습니다.
 
 ### 1-2. Superpowers 플러그인
 
@@ -118,15 +121,26 @@ specify version   # 확인 (이 저장소 기준 0.10.3)
 프로젝트 루트에서 사용할 에이전트별로 실행합니다(같은 디렉터리에 공존 가능):
 
 ```bash
-specify init . --integration claude --script sh --force   # → .claude/skills/, CLAUDE.md
-specify init . --integration codex  --script sh --force   # → .agents/skills/, AGENTS.md
+# spec-kit 1.4.5에서 확인한 순서
+specify init --here --force --integration claude --script sh   # → .specify/, .claude/skills/
+specify integration install codex --script sh                  # → .agents/skills/
+specify integration install cursor-agent --script sh           # → .cursor/skills/ (Cursor를 쓰면)
+specify extension add agent-context                            # SPECKIT 블록 동기화 (opt-in, 번들 확장)
 ```
 
-두 명령 모두 공유 인프라 `.specify/`(스크립트·템플릿·memory)를 설치합니다.
-`claude`·`codex` CLI가 PATH에 없으면 `--ignore-agent-tools` 추가.
+첫 `init`이 공유 인프라 `.specify/`(스크립트·템플릿·memory)를 설치하고, 나머지 통합은
+`integration install`로 더합니다. 기존 프로젝트 디렉터리는 비어 있지 않으므로 `--here`에
+`--force`가 필요합니다(병합). 에이전트 CLI가 PATH에 없으면 `--ignore-agent-tools`,
+비대화형으로 돌리려면 `--non-interactive`를 붙입니다.
 
-> ⚠️ 이미 spec-kit이 설치된 프로젝트에서 `--force` 재실행 시
-> `constitution.md`가 템플릿으로 **덮어써집니다**. 업그레이드 전 반드시 백업.
+1.4.x부터 agent-context 확장은 init이 설치하지 않고, `/speckit-plan`도 에이전트 파일을
+갱신하지 않습니다. SPECKIT 블록을 쓰려면 위처럼 확장을 직접 설치하고, 여러 파일을
+갱신하려면 `.specify/extensions/agent-context/agent-context-config.yml`의
+`context_files`에 나열합니다.
+
+> ⚠️ 이미 spec-kit이 설치된 프로젝트에서 `init --force`나 `integration install`을
+> 다시 돌리면 수정한 스킬·템플릿(4절 배선 포함)이 덮어써집니다. constitution은
+> 보존됩니다(1.4.5에서 확인). 기존 프로젝트는 8절 절차로 올립니다.
 
 ### 2-2. Constitution 작성
 
@@ -647,8 +661,9 @@ gh api -X PATCH repos/{owner}/{repo} \
 | brainstorming 산출물이 커밋됨 | v7 스킬은 커밋하라고 지시한다. `.gitignore`에 `docs/superpowers/` 누락이거나 `git add -f`로 들어갔다. `git rm --cached`로 추적을 끊는다 |
 | 규율이 왜 안 걸렸는지 세션 단위로 따지고 싶음 | superpowers `diagnosing-superpowers` 스킬. 대화 기록을 읽어 근거를 `path:line`으로 보고한다 |
 | 새로 만든 스킬이 커밋에 안 들어감 | surface 디렉터리가 통째로 ignore됐다. 기존 파일은 추적 중이라 티가 안 난다. 2-3절의 `.cursor/*` + `!` 예외 형태로 고친다 |
-| `specify init --force` 후 constitution이 템플릿으로 초기화 | 백업에서 복원. 업그레이드 전 항상 백업 |
-| Codex에서 speckit 명령 안 먹음 | 접두사 `$` 확인, `--integration codex`로 init 했는지 확인 |
+| spec-kit 업그레이드 후 TDD·검증이 안 걸림 | `init --force`·`integration install`·`integration upgrade --force`가 4절 배선을 덮어썼다. 8-2절 절차로 다시 넣고 4-5절 스크립트로 확인 |
+| `specify integration upgrade`가 아무것도 안 바꾸고 exit 1 | 수정된 관리 파일이 있어서 멈춘 것이다(정상). 8-2절 |
+| Codex에서 speckit 명령 안 먹음 | 접두사 `$` 확인, codex 통합을 설치했는지 확인(`specify integration list`) |
 | implement 중 TDD·검증이 안 지켜짐 | `speckit-implement` 스킬에 4-2절 배선 누락. 원본 224줄에는 superpowers 언급이 0회다 |
 | 배선했는데 특정 도구에서만 안 걸림 | 그 도구의 surface를 안 고쳤다. `.claude`만 고치고 `.agents`·`.cursor`를 두는 일이 흔하다. 4-5절 스크립트로 확인 |
 | 배선했는데도 에이전트가 "규율은 자동"이라 함 | 팀원용 가이드에 "자동으로 지켜지는" 류 문장이 남았다. 배선을 상쇄한다. 4-5절 6번 검사 |
@@ -660,3 +675,90 @@ gh api -X PATCH repos/{owner}/{repo} \
 | PR로 머지하는데 `Upstream:` 참조가 사라짐 | squash 머지. 6절 ②로 rebase만 남긴다 |
 | 한국어인데 번역투가 심함 | 언어만 정하고 문체를 안 정함. 3-3절 |
 
+
+---
+
+## 8. 도구 업그레이드
+
+두 도구는 따로 올라갑니다. superpowers는 개발자마다 플러그인으로 올리고, spec-kit은
+CLI는 개발자마다, 스캐폴딩은 저장소 단위로 올립니다. 어느 쪽이든 올린 뒤에는 4-5절 검사
+스크립트를 돌립니다.
+
+### 8-1. superpowers를 올렸다면 무엇을 확인하나
+
+플러그인을 업데이트하면 새 세션을 열고(`/clear`), 설치본의 `RELEASE-NOTES.md`
+(`~/.claude/plugins/cache/claude-plugins-official/superpowers/<버전>/`)를 읽습니다. 결합
+워크플로와 맞물리는 지점은 네 곳입니다.
+
+| 확인할 것 | 고칠 자리 | 7.0.2 기준 상태 |
+|---|---|---|
+| `brainstorming`이 끝에 부르는 스킬 | 3-2절 우선순위 문단 | HARD-GATE로 `writing-plans`만 지정. "바로 하면 되는 작업" 판정 경로가 있다 |
+| 설계 문서 경로와 커밋 지시 | 2-3절 `.gitignore` | `docs/superpowers/specs/`에 쓰고 커밋하라고 지시한다 |
+| 세션 시작 때 스킬을 로드하는 경로 | 1-2절, 3-1절의 "자동 아님" 문장 | Claude Code·Cursor는 SessionStart 훅, Codex는 스킬 발견 |
+| TDD·검증 스킬의 완료 기준 | 4-2절 3-bis의 게이트 정의 | TDD가 "프로젝트 테스트 명령을 돌려 실패를 이름으로 보고"하라고 요구한다 |
+
+okrbest는 6.2.0 시점에 배선했고, 7.0.2로 올리면서 위 네 곳을 모두 고쳤습니다
+(constitution 1.5.0).
+
+### 8-2. spec-kit 스캐폴딩은 어떻게 올리나
+
+CLI(`specify self upgrade`)와 달리 스캐폴딩 업그레이드는 4절 배선을 덮어쓸 수 있습니다.
+아래는 2026-11에 okrbest 사본으로 0.11.1 → 1.4.5를 실행해 확인한 사실입니다.
+
+**명령마다 무엇을 덮어쓰나**
+
+| 명령 | 동작 |
+|---|---|
+| `specify integration status` | 읽기 전용. manifest 해시와 다른 관리 파일을 보고한다. 항상 이것부터 돌린다 |
+| `specify integration upgrade <키>` | 수정된 관리 파일이 하나라도 있으면 아무것도 바꾸지 않고 exit 1. dry-run 옵션은 없다 |
+| `specify integration upgrade <키> --force` | 스킬·공유 템플릿·스크립트를 덮어쓰고, 이전 manifest에만 있던 파일을 지운다. constitution과 `specs/`는 보존한다 |
+| `specify integration install <키>` | 설치 기록이 없는 통합에 쓴다. 수정된 SKILL.md를 **경고 없이** 덮어쓴다 |
+| `specify init --here --force` | 스킬·템플릿을 덮어쓴다. constitution은 보존한다 |
+
+`integration upgrade`는 `.specify/integration.json`에 설치 기록이 있는 통합만 받습니다.
+okrbest는 cursor-agent만 기록돼 있어서 claude·codex surface는 `install`로 다시 깔아야 합니다.
+
+**커스터마이즈는 어디로 옮기나**
+
+- 템플릿(4-3절 tasks 템플릿 등)은 `.specify/templates/overrides/`로 옮깁니다. 스크립트가
+  실행할 때 원본보다 먼저 찾습니다. 0.11.1 스크립트도 overrides를 지원합니다. 옮기면
+  4-5절 검사 스크립트 4번의 경로도 고칩니다.
+- 스킬(4-2절 `speckit-implement` 배선)은 preset의 `commands/`로 옮기고
+  `specify preset add --dev <디렉터리>`로 설치합니다. 절 하나만 바꾸는 `replace-section`
+  전략도 있습니다.
+- **preset은 활성 통합 하나에만 배달됩니다.** `specify integration use claude` →
+  `use codex` → `use cursor-agent`처럼 통합마다 한 번씩 활성화해야 세 surface에 모두
+  들어갑니다. 비활성 통합을 나중에 upgrade하면 preset 판이 원본으로 덮어써지므로,
+  업그레이드 뒤에는 `use` 순환과 4-5절 검사를 다시 합니다.
+- surface마다 본문을 다르게 두는 preset 수단은 찾지 못했습니다. Cursor용 3-bis 분기
+  문단은 세 surface에 공통 문장으로 써야 합니다.
+
+**0.11.1 → 1.4.5 변경 중 이 워크플로에 닿는 것**
+
+- `speckit-taskstoissues`가 코어에서 빠졌습니다. 계속 쓰려면 `specify extension add github`.
+- `speckit-converge`가 새로 생겼습니다. tasks.md 끝에 `Phase N: Convergence`를
+  덧붙입니다. 4-3절의 Polish 검증 과제와 어떤 순서로 돌지는 아직 검증하지 않았습니다.
+- `/speckit-plan`에서 에이전트 파일을 갱신하는 단계가 빠졌습니다. agent-context 확장의
+  `context_files`가 맡습니다(2-1절).
+- mandatory 확장 훅은 이제 안내 블록만 출력하지 않고 실제로 실행한 뒤 기다립니다.
+- 체크리스트 상태 표기가 Checked/Unchecked로 바뀌었고, 체크리스트는 리뷰어 소유가
+  됐습니다.
+- 새 `.specify/.gitignore`가 `feature.json`을 무시합니다. 이 파일을 추적하는 저장소는
+  추적을 계속할지, 무시 규칙을 따를지 정합니다.
+- 모든 SKILL.md frontmatter에 `metadata.version`이 붙어, 릴리스마다 모든 스킬 파일의
+  해시가 바뀝니다.
+- 번들 워크플로(`.specify/workflows/speckit/workflow.yml`)는 upgrade로 갱신되지 않습니다.
+  `specify workflow remove` 후 `add`(네트워크 필요)로 바꿉니다.
+
+**어떤 순서로 올리나** (사본에서 끝까지 실행해 `integration status`의 수정 파일 0건을 확인한 순서)
+
+1. 작업 브랜치를 만들고 `specify integration status`로 수정된 관리 파일을 기록합니다.
+2. 커스터마이즈를 overrides(템플릿)와 preset(스킬)으로 옮깁니다.
+3. 설치 기록이 있는 통합은 `specify integration upgrade <키> --force`, 기록이 없는 통합은
+   `specify integration install <키> --script sh`로 올립니다.
+4. `specify extension update`로 확장을 올립니다(네트워크 필요, y/N 확인).
+5. `specify preset add --dev <디렉터리>` 뒤 통합마다 `specify integration use <키>`를 한 번씩
+   실행합니다.
+6. 사라진 스킬(`speckit-taskstoissues` 등)이 surface마다 남았는지 보고 정리합니다(4-5절 3번 검사).
+7. `specify integration status`, 4-5절 검사 스크립트, `/speckit-implement` 3-bis 실주행으로
+   확인합니다.
