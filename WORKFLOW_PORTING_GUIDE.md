@@ -25,9 +25,9 @@
 | Spec Kit 스캐폴딩 (`.specify/`, 그리고 쓰는 에이전트마다 `.claude/skills/speckit-*` · `.agents/skills/speckit-*` · `.cursor/skills/speckit-*`) | 프로젝트 저장소 (커밋) | `specify init` 으로 새로 생성 |
 | Constitution (`.specify/memory/constitution.md`) | 프로젝트 저장소 (커밋) | `/speckit-constitution` 으로 새 프로젝트에 맞게 작성 |
 | 에이전트 행동 규칙 (핸드오프·언어 정책) | `CLAUDE.md` / `AGENTS.md` / `.cursor/rules/*.mdc` (커밋) | 이 저장소의 섹션을 **복사 후 수정** |
-| Superpowers 플러그인 | 사용자 전역 (`~/.claude`) | 개발자마다 1회 설치 — 저장소에 안 들어감. **Cursor에는 없다** |
+| Superpowers 플러그인 | 사용자 전역 (`~/.claude`) | 개발자마다 1회 설치 — 저장소에 안 들어감. Claude Code·Codex·Cursor 모두 설치 가능 |
 | 개인 전역 원칙 | `~/.claude/CLAUDE.md` | 개인 환경에 1회 반영 (선택) |
-| 임시 파일(스크래치) 무시 규칙 | `.gitignore` (커밋) | 2줄 추가 |
+| 임시 파일(스크래치) 무시 규칙 | `.gitignore` (커밋) | 3줄 추가 |
 | **구현 규율 배선** (`speckit-implement` 스킬 패치 — surface 수만큼) | 프로젝트 저장소 (커밋) | 4절 — 원본에는 없다 |
 | **검증 과제 고정** (`tasks-template.md`) | 프로젝트 저장소 (커밋) | 4-3절 |
 | **surface 동기화 검사 스크립트** | 프로젝트 저장소 (커밋) | 4-5절 — surface가 둘 이상이면 필수 |
@@ -69,19 +69,27 @@ specify version   # 확인 (이 저장소 기준 0.10.3)
 - **Claude Code:** `/plugin install superpowers@claude-plugins-official`
 - **Codex CLI:** `/plugins` → `superpowers` 검색 → Install
   (subagent용 `~/.codex/config.toml`에 `[features] multi_agent = true` 필요)
+- **Cursor IDE Agent:** 채팅에서 `/add-plugin superpowers`
 
-설치 후 **새 세션 시작 또는 `/clear`** 해야 SessionStart 훅이 적용됩니다.
+설치 후 **새 세션 시작 또는 `/clear`** 해야 적용됩니다.
 새 세션에서 `test-driven-development`, `brainstorming` 스킬이 보이면 정상.
 
-**훅이 자동으로 주입하는 것은 `using-superpowers` 하나뿐입니다.** 그 안에 "적용되는
-스킬을 호출하라"는 지시가 들어 있을 뿐, `test-driven-development` 같은 개별 스킬은
-`Skill` 도구로 불러야 지침이 로드됩니다. 플러그인 소스에서 확인한 사실입니다
-(`hooks/session-start`가 `skills/using-superpowers/SKILL.md`만 읽어 주입).
+**세션 시작 때 자동으로 로드되는 것은 `using-superpowers` 하나뿐입니다.** 그 안에
+"적용되는 스킬을 호출하라"는 지시가 들어 있을 뿐, `test-driven-development` 같은 개별
+스킬은 불러야 지침이 로드됩니다. 로드 경로는 도구마다 다릅니다(superpowers 7.0.2
+기준, 플러그인 소스와 RELEASE-NOTES에서 확인).
+
+| 도구 | `using-superpowers` 로드 경로 |
+|---|---|
+| Claude Code | SessionStart 훅(`hooks/hooks.json` → `hooks/session-start`가 SKILL.md만 읽어 주입) |
+| Cursor | SessionStart 훅(`hooks/hooks-cursor.json`) |
+| Codex | 훅 없음(v6.1.1부터). 스킬 설명의 "Use when starting any conversation"을 보고 모델이 로드 |
+
 이 차이가 4절의 배선이 필요한 이유입니다.
 
-**Cursor에는 플러그인 자체가 없습니다.** superpowers는 Claude Code·Codex 전용입니다.
-Cursor를 쓰는 팀은 같은 규율을 `.cursor/rules/`의 규칙 파일에 담고, `speckit-implement`
-배선이 그 절을 다시 읽게 만듭니다(4-2절 ①의 surface 분기). 증거 요구는 도구와 무관하게
+**플러그인을 설치하지 않은 Cursor 환경도 다룹니다.** 그런 팀은 같은 규율을
+`.cursor/rules/`의 규칙 파일에 담고, `speckit-implement` 배선이 플러그인이 있으면 스킬을,
+없으면 그 절을 다시 읽게 만듭니다(4-2절 ①의 surface 분기). 증거 요구는 도구와 무관하게
 같아야 합니다 — 도구가 다르다고 기준이 낮아지면 그 도구로 한 작업만 검증이 샙니다.
 
 ### 1-3. (선택) 개인 전역 원칙
@@ -165,11 +173,13 @@ okrbest-plugin-boards에서 원칙별 준수 실태를 측정한 결과가 명�
 # superpowers (local scratch; spec-kit specs/ is canonical)
 .worktrees/
 docs/superpowers/
+.superpowers/
 ```
 
-superpowers `brainstorming`은 기본적으로 `docs/superpowers/`에 설계 초안을
-쓰려고 하고, `using-git-worktrees`는 `.worktrees/`를 만듭니다. 둘 다
-임시 파일이며 기준이 되는 원본(정본)은 `specs/<NNN>/`이므로 추적하지 않습니다.
+superpowers `brainstorming`은 `docs/superpowers/specs/`에 설계 문서를 쓰고 커밋하라고
+지시하며, 시각 도구 화면은 `.superpowers/`에 둡니다. `using-git-worktrees`는
+`.worktrees/`를 만듭니다. 모두 임시 파일이며 기준이 되는 원본(정본)은
+`specs/<NNN>/`이므로 추적하지 않습니다.
 
 `.worktrees/`는 예방 차원입니다 — okrbest-plugin-boards는 기능 5개를 진행하는 동안
 워크트리를 한 번도 쓰지 않았습니다. 브랜치 하나로 충분합니다. 줄을 남겨 두되
@@ -218,8 +228,8 @@ This repository combines **spec-kit** (specification pipeline) and **superpowers
 (implementation discipline). spec-kit owns the spec/plan artifacts under `specs/`
 (`/speckit-specify`, `/speckit-plan`, `/speckit-tasks`); superpowers governs
 implementation — test-driven development, verification-before-completion, and
-root-cause debugging. These skills are **not applied automatically**: the
-SessionStart hook injects only `using-superpowers`, and `/speckit-implement`
+root-cause debugging. These skills are **not applied automatically**: superpowers
+loads only `using-superpowers` at session start, and `/speckit-implement`
 invokes the individual skills at its discipline-loading step. See
 [SPEC_KIT_GUIDE.md](SPEC_KIT_GUIDE.md) for the role split and combined workflow.
 ```
@@ -247,16 +257,32 @@ invokes the individual skills at its discipline-loading step. See
 - 설계가 정리되면 전환을 눈에 보이게 제시하고 사용자가 고른다:
   ① `/speckit-specify`로 진행  ② 더 다듬기  ③ 중단/보류.
 - 핸드오프 시점과 넘길 내용(정리된 설계)을 사용자가 확인한 뒤 결정한다.
+
+**이 규칙은 superpowers `brainstorming`의 기본 동작보다 우선한다** (정본: constitution 원칙 VII).
+
+- 설계 문서가 승인돼도 `writing-plans`를 부르지 않는다. 스킬의 HARD-GATE가
+  "`writing-plans`만 부른다"고 지시해도 위 선택 단계로 간다. `executing-plans`·
+  `subagent-driven-development`도 쓰지 않는다. 계획·작업·구현은 `/speckit-plan`·
+  `/speckit-tasks`·`/speckit-implement`가 맡는다.
+- brainstorming이 "바로 하면 되는 작업"으로 판정해도 기능·API 변경이면
+  `/speckit-specify`로 간다. 작은 수정이면 브랜치부터 만든다.
+- 설계 문서는 `docs/superpowers/specs/`에 쓰되 커밋하지 않는다(.gitignore).
+  `/speckit-specify`를 부를 때 그 파일 경로를 입력으로 넘긴다.
 ```
 
-**왜 필요한가:** superpowers `brainstorming`은 spec-kit을 모르며, 끝나면
-자기 식대로 `writing-plans`를 호출하고 `docs/superpowers/`에 문서를 커밋하려
-합니다. 이 규칙이 두 기본 동작을 덮어씁니다(사용자 지시 > 스킬 규칙):
+**왜 필요한가:** superpowers `brainstorming`은 spec-kit을 모릅니다. v7부터는 설계
+문서 승인 뒤의 다음 단계를 HARD-GATE로 못박아 "`writing-plans`만 부른다"고 적고,
+요청이 명확하면 질문 없이 바로 구현하라고 판정합니다. 이 규칙이 세 기본 동작을
+덮어씁니다(사용자 지시 > 스킬 규칙):
 
-| 분기점 | brainstorming 기본값 | 결합 워크플로에서는 |
+| 분기점 | brainstorming 기본값 (v7.0.2) | 결합 워크플로에서는 |
 |---|---|---|
-| 다음 단계 | `writing-plans` 호출 | `/speckit-specify`로 명시적 전환 |
-| 설계 문서 | `docs/superpowers/`에 커밋 | gitignore 임시 파일. 정본은 `specs/<NNN>/spec.md` |
+| 다음 단계 | 설계 문서 승인 → `writing-plans`만 호출 | 사용자 선택 단계 → `/speckit-specify` |
+| 명확한 요청 | "바로 한다" | 기능·API 변경이면 `/speckit-specify`, 작은 수정이면 브랜치부터 |
+| 설계 문서 | `docs/superpowers/specs/`에 커밋 | gitignore 임시 파일. 정본은 `specs/<NNN>/spec.md` |
+
+우선순위 문단을 빼면 에이전트가 HARD-GATE 문구를 따라 `writing-plans`로 갈 수
+있습니다. 검사 스크립트(4-5절)가 이 문단이 있는지 확인합니다.
 
 ### 3-3. (선택) 명세 문서 언어와 문체 정책
 
@@ -356,12 +382,18 @@ invokes the individual skills at its discipline-loading step. See
    예상 밖 실패를 만나면 그 자리에서 `superpowers:systematic-debugging`을 부른다.
 ```
 
-플러그인이 없는 surface(Cursor 등) — 같은 자리에 이걸 넣습니다:
+플러그인 설치가 개발자마다 다른 surface(Cursor 등) — 같은 자리에 이걸 넣습니다:
 
 ```markdown
-   Cursor에는 superpowers 플러그인이 없다. 대신 `.cursor/rules/<규칙>.mdc`의
-   "구현 규율" 절을 여기서 다시 읽고 아래 증거 표와 함께 적용한다.
-   **자동 적용되지 않는다** — 규칙 파일이 로드돼 있다는 사실만으로는 증거가 남지 않는다.
+   **superpowers 플러그인을 설치했다면** 아래 두 스킬을 불러 지침을 로드한다.
+
+   - `test-driven-development`
+   - `verification-before-completion`
+
+   **설치하지 않았다면** `.cursor/rules/<규칙>.mdc`의 "구현 규율" 절을 여기서
+   다시 읽고 아래 증거 표와 함께 적용한다.
+   어느 쪽이든 **자동 적용되지 않는다** — 플러그인이나 규칙 파일이 로드돼 있다는
+   사실만으로는 증거가 남지 않는다.
 ```
 
 아래는 **세 벌 공통**입니다.
@@ -447,10 +479,10 @@ okrbest-plugin-boards의 005 기능에서 이 과제를 넣어 뒀기에 게이�
 | 2 | 원본의 빠져나갈 구멍이 남았나 (`Follow TDD approach`, `If you need to`) | 부분 배선 |
 | 3 | surface 간 `speckit-*` **스킬 목록**이 같나 | 한쪽에만 생긴 스킬 |
 | 4 | tasks 템플릿에 검증 과제 3종이 있나 | 4-3절 누락 |
-| 5 | 에이전트 파일이 "자동 적용되지 않는다"를 적었나 | 3-1절 누락 |
-| 6 | **금지 문장이 남았나** ("자동으로 지켜지는", "자동 작동") | 아래 참고 |
+| 5 | 에이전트 파일이 "자동 적용되지 않는다"를 적었나 + brainstorming의 `writing-plans` 핸드오프를 막나 | 3-1절·3-2절 우선순위 문단 누락 |
+| 6 | **금지 문장이 남았나** ("자동으로 지켜지는", "자동 작동", "Claude Code·Codex 전용") | 아래 참고 |
 | 7 | constitution에 문체 규칙과 증거 요구 문구가 있나 | 2-2·3-3절 누락 |
-| 8 | `.gitignore` 스크래치 경로 + **surface 디렉터리가 통째로 무시되나** | 2-3절 누락, 새 스킬이 조용히 빠지는 함정 |
+| 8 | `.gitignore` 스크래치 경로 + superpowers 임시 산출물이 추적되나 + **surface 디렉터리가 통째로 무시되나** | 2-3절 누락, 설계 문서 커밋, 새 스킬이 조용히 빠지는 함정 |
 | 9 | 기본 브랜치 보호 + rebase 전용 머지 | 6절 누락 |
 
 **6번이 이 스크립트에서 가장 중요합니다.** okrbest에서 팀원용 가이드가 "구현 중
@@ -474,8 +506,9 @@ CI에 묶을지는 선택입니다. `.github/`가 CODEOWNERS 보호 경로면 �
 bash .specify/scripts/bash/check-workflow-wiring.sh
 ```
 
-배선 마커·빠져나갈 구멍·스킬 목록 동기화·검증 과제 3종·"자동 아님" 문장·금지 문장·
-constitution 증거 문구·`.gitignore`·브랜치 보호까지 종료 코드 하나로 판정합니다.
+배선 마커·빠져나갈 구멍·스킬 목록 동기화·검증 과제 3종·"자동 아님" 문장·
+brainstorming 핸드오프 차단·금지 문장·constitution 증거 문구·`.gitignore`·추적된
+superpowers 산출물·브랜치 보호까지 종료 코드 하나로 판정합니다.
 
 surface를 한 벌만 검사하지 마세요. okrbest에서 `.claude`만 검사하는 원래 체크리스트로는
 `.agents`·`.cursor`가 통째로 빠진 것을 못 잡았습니다.
@@ -488,10 +521,10 @@ surface를 한 벌만 검사하지 마세요. okrbest에서 `.claude`만 검사�
 
 - [ ] `specify version` 동작
 - [ ] 새 세션에서 superpowers 스킬(`brainstorming`, `test-driven-development`) 보임
-      (Claude Code·Codex만. Cursor는 해당 없음)
+      (Cursor는 플러그인을 설치한 경우만)
 - [ ] `constitution.md`가 템플릿이 아니라 실제 프로젝트 규칙으로 채워짐
 - [ ] **동작 테스트 1 (핸드오프):** 복잡한 기능을 "brainstorming부터 하자"로
-      시작 → 설계 정리 후 에이전트가 `writing-plans`로 새지 않고
+      시작 → 설계 문서 승인 후 에이전트가 `writing-plans`로 새지 않고
       ①specify ②더 다듬기 ③보류 선택지를 제시하는지 확인
 - [ ] **동작 테스트 2 (파이프라인):** `/speckit-specify <간단한 기능>` →
       기능 브랜치 + `specs/001-*/spec.md` 생성 확인
@@ -514,7 +547,7 @@ surface를 한 벌만 검사하지 마세요. okrbest에서 `.claude`만 검사�
 | `CLAUDE.md` / `AGENTS.md` / `.cursor/rules/*.mdc` / `SPEC_KIT_GUIDE.md` | 커밋 |
 | `specs/<NNN-기능>/` | 커밋 (정본) |
 | `.claude/settings.local.json` (개인 권한 설정) | 커밋 안 함 |
-| `docs/superpowers/`, `.worktrees/` | .gitignore |
+| `docs/superpowers/`, `.superpowers/`, `.worktrees/` | .gitignore |
 | superpowers 플러그인 | 저장소 밖 (사용자 전역) |
 
 `.specify/`에 자격증명·비밀값 금지.
@@ -609,8 +642,10 @@ gh api -X PATCH repos/{owner}/{repo} \
 | 증상 | 원인/해결 |
 |---|---|
 | superpowers 스킬이 안 보임 | 플러그인 설치 후 새 세션/`/clear` 안 함. 재시작. 그래도 안 되면 재설치 |
-| brainstorming이 끝나자마자 spec 없이 계획으로 직행 | CLAUDE.md 핸드오프 섹션 누락. 3-2절 블록 추가 |
-| brainstorming 산출물이 커밋됨 | `.gitignore`에 `docs/superpowers/` 누락 |
+| brainstorming이 끝나자마자 spec 없이 계획으로 직행 | CLAUDE.md 핸드오프 섹션 또는 우선순위 문단 누락. v7 brainstorming은 HARD-GATE로 `writing-plans`를 지정한다. 3-2절 블록 추가 |
+| brainstorming이 "바로 하면 된다"며 명세 없이 구현 | 3-2절 우선순위 문단 누락. 기능·API 변경이면 `/speckit-specify`로 되돌린다 |
+| brainstorming 산출물이 커밋됨 | v7 스킬은 커밋하라고 지시한다. `.gitignore`에 `docs/superpowers/` 누락이거나 `git add -f`로 들어갔다. `git rm --cached`로 추적을 끊는다 |
+| 규율이 왜 안 걸렸는지 세션 단위로 따지고 싶음 | superpowers `diagnosing-superpowers` 스킬. 대화 기록을 읽어 근거를 `path:line`으로 보고한다 |
 | 새로 만든 스킬이 커밋에 안 들어감 | surface 디렉터리가 통째로 ignore됐다. 기존 파일은 추적 중이라 티가 안 난다. 2-3절의 `.cursor/*` + `!` 예외 형태로 고친다 |
 | `specify init --force` 후 constitution이 템플릿으로 초기화 | 백업에서 복원. 업그레이드 전 항상 백업 |
 | Codex에서 speckit 명령 안 먹음 | 접두사 `$` 확인, `--integration codex`로 init 했는지 확인 |

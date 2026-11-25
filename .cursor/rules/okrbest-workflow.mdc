@@ -25,9 +25,16 @@ spec-kit 스킬은 `.cursor/skills/speckit-*`에 있으며, 산출물 `specs/<NN
 - 설계가 정리되면 전환을 눈에 보이게 제시하고 사용자가 고른다:
   ① `speckit-specify`로 진행  ② 더 다듬기  ③ 중단/보류.
 
+superpowers 플러그인의 `brainstorming` 스킬을 쓸 때도 이 규칙이 우선한다(정본:
+constitution 원칙 VII). 설계 문서가 승인돼도 `writing-plans`를 부르지 않고 위 선택
+단계로 간다. 스킬이 "바로 하면 되는 작업"으로 판정해도 기능·API 변경이면
+`speckit-specify`로 간다. 설계 문서(`docs/superpowers/specs/`)는 커밋하지 않는다.
+
 ## 구현 규율 — 무엇을 증거로 남기나
 
-Cursor에는 superpowers 플러그인이 없다(Claude Code·Codex 전용). 이 절이 같은 규율을
+Cursor에도 superpowers 플러그인을 설치할 수 있다(`/add-plugin superpowers`). 설치했다면
+`speckit-implement`의 3-bis 단계에서 `test-driven-development`·
+`verification-before-completion` 스킬을 부른다. 설치하지 않았다면 이 절이 같은 규율을
 담는다. **이 규율은 자동 적용되지 않는다** — 규칙 파일이 로드돼 있다는 사실만으로는
 증거가 남지 않는다. `speckit-implement` 스킬의 구현 규율 로드(3-bis) 단계가 이 절을
 다시 읽게 한다.

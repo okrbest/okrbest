@@ -103,8 +103,9 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 3-bis. **구현 규율 로드** (필수 — 다음 단계로 넘어가기 전에 수행한다):
 
-   `Skill` 도구로 아래 둘을 호출한다. **자동 적용되지 않는다** — SessionStart 훅은
-   `using-superpowers` 하나만 주입하며, 개별 스킬은 호출해야 지침이 로드된다.
+   아래 둘을 호출해 지침을 로드한다. **자동 적용되지 않는다** — Codex에는 superpowers
+   SessionStart 훅이 없고, 스킬 발견으로 `using-superpowers` 하나만 로드된다. 개별
+   스킬은 호출해야 지침이 로드된다.
 
    - `superpowers:test-driven-development`
    - `superpowers:verification-before-completion`
@@ -140,6 +141,10 @@ You **MUST** consider the user input before proceeding (if not empty).
 
    게이트가 우리 변경과 무관한 기존 결함으로 중단되면, 그 사실을 기준선 목록으로
    보인다. 서술로 대신하지 않는다.
+
+   superpowers TDD 스킬이 말하는 "프로젝트 테스트 명령"은 위 접촉 패키지 게이트다.
+   완료 보고에는 게이트가 보인 실패를 모두 이름으로 적고, 기준선 목록과 diff해
+   우리가 만든 회귀와 기존 결함을 나눈다.
 
 4. **Project Setup Verification**:
    - **REQUIRED**: Create/verify ignore files based on actual project setup:
