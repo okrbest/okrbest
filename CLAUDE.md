@@ -19,6 +19,8 @@ split and combined workflow. Project rules live in
 `/speckit-implement`의 구현 규율 로드(3-bis) 단계다. 사실의 정본은
 [constitution 원칙 VII](.specify/memory/constitution.md). 배선 확인은
 `bash .specify/scripts/bash/check-workflow-wiring.sh`.
+배선 원본은 spec-kit preset `.specify/okrbest-preset/`이다. 생성된 `speckit-*` 스킬
+파일은 직접 고치지 않는다(업그레이드 때 덮어써진다).
 
 구현 중 남길 증거 — 테스트 과제는 **구현 전 실패 출력**, 게이트는 **기준선 대비 실패
 목록 diff**, 종단 판정은 quickstart.md 실주행과 SC-### 실측값. 증거가 없으면 완료가

@@ -1,28 +1,21 @@
 <!--
 Sync Impact Report
-- Version change: 1.4.1 → 1.5.0 (MINOR — 원칙 VII 실질 확장: superpowers 7.0.2 반영)
+- Version change: 1.5.0 → 1.5.1 (PATCH — 원칙 VII 운영 사실 추가: 배선 원본 위치)
 - Modified principles:
-  - VII. Spec 주도 개발 워크플로
-    - 사실 정정: Codex에는 superpowers SessionStart 훅이 없고 스킬 발견으로
-      `using-superpowers`가 로드된다(superpowers v6.1.1부터). Cursor도 플러그인을
-      설치할 수 있다(`/add-plugin superpowers`).
-    - 추가: TDD 스킬의 "프로젝트 테스트 명령"(v6.4.1부터 요구)을 원칙 I의 접촉 패키지
-      게이트로 정하고, 보고는 기준선 실패 목록 diff로 한다.
-    - 추가: brainstorming(v7)의 `writing-plans` HARD-GATE와 "바로 구현" 판정보다
-      spec-kit 핸드오프가 우선한다. 설계 문서 커밋 금지와 확인 방법
-      (`git ls-files docs/superpowers`)을 적는다.
-- Modified sections:
-  - 개발 워크플로 — 핸드오프 규칙의 정본 위치를 원칙 VII로 고친다.
+  - VII. Spec 주도 개발 워크플로 — spec-kit 스캐폴딩을 0.11.1에서 1.4.5로 올리면서
+    구현 배선을 생성된 스킬 파일에서 preset `.specify/okrbest-preset/`으로 옮겼다.
+    생성된 스킬을 직접 고치지 않는다는 문장과 확인 방법(`specify integration status`
+    수정 0건)을 적는다. 규율 내용은 바뀌지 않는다.
+- Modified sections: 없음
 - Added sections: 없음
 - Removed sections: 없음
 - Templates requiring updates:
-  - ✅ .specify/templates/* (superpowers 언급 없음, 수정 불필요)
-  - ✅ .claude·.agents·.cursor/skills/speckit-implement/SKILL.md (3-bis)
+  - ✅ .specify/okrbest-preset/templates/tasks-template.md (기존 검증 과제 그대로 이관)
+  - ✅ .specify/templates/* (1.4.5 core로 갱신, 직접 수정하지 않는다)
   - ✅ CLAUDE.md, AGENTS.md, .cursor/rules/okrbest-workflow.mdc
   - ✅ SPEC_KIT_GUIDE.md, WORKFLOW_PORTING_GUIDE.md
 - Follow-up TODOs:
-  - spec-kit 스캐폴딩 0.11.1 → 1.4.5 업그레이드는 별도 PR로 한다
-    (절차: WORKFLOW_PORTING_GUIDE.md 8-2절).
+  - /speckit-implement 3-bis 실주행 확인(다음 기능 구현 때)
 - 배선 검사: bash .specify/scripts/bash/check-workflow-wiring.sh
 -->
 
@@ -173,6 +166,9 @@ Cursor도 superpowers 플러그인을 설치할 수 있다(`/add-plugin superpow
 
 superpowers는 원칙 I·III을 운영화하고, spec-kit은 spec/plan 산출물을 소유한다.
 배선이 걸려 있는지는 `bash .specify/scripts/bash/check-workflow-wiring.sh`로 확인한다.
+배선 원본은 spec-kit preset `.specify/okrbest-preset/`이다. 생성된 `speckit-*` 스킬 파일을
+직접 고치면 다음 업그레이드에서 사라진다. 위반 여부는 `specify integration status`의 수정
+관리 파일이 0건인지로 확인한다(배선 검사 10번).
 
 예외: upstream 선별 반영(`/speckit-sync`)의 cherry-pick/adapt 커밋은 커밋별
 의도 분석·대화형 승인을 거치므로 spec 파이프라인 요건의 예외다. 대규모·큰 영향
@@ -235,4 +231,4 @@ PATCH: 문구 명확화). 모든 PR·리뷰는 원칙 준수를 확인해야 하
 위반이 아니게 되어 지켜지지 않는다. 원칙을 쓰거나 고칠 때 스스로 묻는다 — 이 원칙을
 어겼는지 무엇으로 확인하나? 답이 없으면 그 원칙은 장식이다.
 
-**Version**: 1.5.0 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-11-26
+**Version**: 1.5.1 | **Ratified**: 2026-07-23 | **Last Amended**: 2026-11-26
