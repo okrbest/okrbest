@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "presets": {
+    "okrbest": {
+      "version": "1.0.0",
+      "source": "local",
+      "manifest_hash": "sha256:5d9fc907067c22bdace59970bad826fe0828178a6fada9aa665708b85c668a70",
+      "enabled": true,
+      "priority": 10,
+      "registered_commands": {
+        "cursor-agent": [
+          "speckit.implement"
+        ],
+        "claude": [
+          "speckit.implement"
+        ],
+        "codex": [
+          "speckit.implement"
+        ]
+      },
+      "registered_skills": {
+        "cursor-agent": [
+          "speckit-implement"
+        ],
+        "claude": [
+          "speckit-implement"
+        ],
+        "codex": [
+          "speckit-implement"
+        ]
+      },
+      "installed_at": "2026-11-25T21:31:16.519456+00:00"
+    }
+  }
+}
