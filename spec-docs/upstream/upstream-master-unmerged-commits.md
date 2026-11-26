@@ -3,14 +3,42 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-23 15:37
+- 갱신일: 2026-11-26 13:06
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 0개
+- 남은 커밋: 28개
 
-**마지막 반영 커밋:** `00451ec3` | [\[MM-72030\] Add TLS_VERIFY_OUTGOING_OFF health rule (#40147)](https://github.com/mattermost/mattermost/commit/00451ec30d8046dc8f4d78ee4a208e0a0f3801d0) | 2026-11-23
+**마지막 반영 커밋:** `c63a7a96` | [Move post attributes into the access_control property group (#40288)](https://github.com/mattermost/mattermost/commit/c63a7a96e31a308d851a3840c5dcc27ffe955f71) | 2026-11-23
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
+| b1d2e89e | [ci(e2e): wait for late FIPS images, retry rate-limited lane status publication, and fix rolling-upgrade lanes (#40106)](https://github.com/mattermost/mattermost/commit/b1d2e89ece652db49abed2f97b1f9f3c7a0ca461) | 2026-11-24 |
+| cdf96172 | [\[MM-72211\] Collect load average, swap, and available memory in macOS Support Packets (#40280)](https://github.com/mattermost/mattermost/commit/cdf96172f0c363b4ca26c8aefcf42db5af2eee5b) | 2026-11-24 |
+| a5407d51 | [E2E/Playwright: seed Department in edit_policies_rules on upgraded servers (#40305)](https://github.com/mattermost/mattermost/commit/a5407d514c6864b3600839c32a5510039899483a) | 2026-11-24 |
+| d841da9f | [update Calls to v1.12.7 (#40293)](https://github.com/mattermost/mattermost/commit/d841da9fa075d8e514ed74959dcee7e69a4db162) | 2026-11-24 |
+| e09cb338 | [MM-71575: update office document text extraction (#39633)](https://github.com/mattermost/mattermost/commit/e09cb338213d5a28cccc7be026d97b6a63ea0634) | 2026-11-24 |
+| 99674fc1 | [MM-71593: update advanced logging configuration (#39643)](https://github.com/mattermost/mattermost/commit/99674fc1770389c7cc007e6d4ce4f0f147bd57c4) | 2026-11-24 |
+| 753e9547 | [\[MM-71922\] Update websocket reconnect handling (#40196)](https://github.com/mattermost/mattermost/commit/753e9547f02df6d64eac6cd9202bfea56eca6400) | 2026-11-24 |
+| a5541040 | [Mobile v2.46.1 docs (#40235)](https://github.com/mattermost/mattermost/commit/a5541040c12ddedfd0f3f0e795bf3171aa8eb678) | 2026-11-24 |
+| 0b805f40 | [Fix grammar and formatting in README.md (#38353)](https://github.com/mattermost/mattermost/commit/0b805f4003273ddfb304c59d1b9b4e7e0fdd3241) | 2026-11-24 |
+| 7fff358c | [Update mobile-security.mdx (#40300)](https://github.com/mattermost/mattermost/commit/7fff358cf83fbc241466e38253de664654a7194c) | 2026-11-24 |
+| c09a18e1 | [drip: go idioms: errors.AsType in app/group (first half) (#40278)](https://github.com/mattermost/mattermost/commit/c09a18e173e80ce2722bd1a11862e1393907ba8f) | 2026-11-24 |
+| 61db2a76 | [drip: AppError -> error: channel system messages (#40268)](https://github.com/mattermost/mattermost/commit/61db2a76fcb505339001cd68a381b4ec8068401e) | 2026-11-24 |
+| bf229d5e | [Heavier weight for post header names and unread LHS channels (#40350)](https://github.com/mattermost/mattermost/commit/bf229d5e6a45a1b6e0dd28cbed463808232a9868) | 2026-11-24 |
+| e605f8be | [mmctl: reject path-prefixed names in import delete (#40301)](https://github.com/mattermost/mattermost/commit/e605f8be702e8385c65f4221686245dd9395cea9) | 2026-11-24 |
+| 6876fc44 | [\[MM-68574\] Skip Shared Channels remote users during bulk import (#40220)](https://github.com/mattermost/mattermost/commit/6876fc440c9d26d6dafd5fcf30c37b5490e9fffc) | 2026-11-24 |
+| fde4020c | [Fix typos in plugin registry JSDoc comments (#40296)](https://github.com/mattermost/mattermost/commit/fde4020cdd01e7415369473171419a763bbe8802) | 2026-11-24 |
+| d4e0c0cc | [ci(e2e): skip redundant lane summary refresh after triage and pass ANTHROPIC_API_KEY to rolling upgrades (#40310)](https://github.com/mattermost/mattermost/commit/d4e0c0cce0420ed2b7fb6833ca33176795a2cd25) | 2026-11-25 |
+| 724208f8 | [\[MM-72029\] Move Enable Security Alerts to Site Configuration > Notices as Check for Security and Release Updates (#40241)](https://github.com/mattermost/mattermost/commit/724208f8c7974988d33cb1085af6ea821f7a1258) | 2026-11-25 |
+| 020fe126 | [\[MM-72096\] Add an mmctl e2e test that health check --packet matches live findings (#40197)](https://github.com/mattermost/mattermost/commit/020fe1267374bc5d7fb5e1b32006f0f38e3e7c30) | 2026-11-25 |
+| 6d6605ed | [MM-70632: drip: go 1.27: generic State.Get\[T\] in plugin flow (#40279)](https://github.com/mattermost/mattermost/commit/6d6605edbbf341b588b5b4e9974ef049ddb1099a) | 2026-11-25 |
+| 989be0bf | [\[MM-71992\] Read-only Site health for delegated admins who can read Site Statistics (#40114)](https://github.com/mattermost/mattermost/commit/989be0bf157e0ad1629cbb45aea9087618749ab2) | 2026-11-25 |
+| 9f612c22 | [chore: Update NOTICE.txt file with updated dependencies (#40361)](https://github.com/mattermost/mattermost/commit/9f612c22b00b25c0a9f9865640b2c22ff8b83663) | 2026-11-25 |
+| 3d76b973 | [Point coding agents at the ABAC rules (#39540)](https://github.com/mattermost/mattermost/commit/3d76b9733121ec8bef3cfbfe989d9534e8c53934) | 2026-11-25 |
+| 5702c81c | [MM-71538: Update guest magic link invitation handling (#39616)](https://github.com/mattermost/mattermost/commit/5702c81cdb0937624f28fed57eb6238149465a6a) | 2026-11-25 |
+| 77ae0898 | [MM-72165 Update logr to v2.0.26 (#40371)](https://github.com/mattermost/mattermost/commit/77ae0898b14cd156629831d883d3988f3c99f3d2) | 2026-11-25 |
+| 697694cb | [docs: clarify scope and default of Enable website link previews (#40207)](https://github.com/mattermost/mattermost/commit/697694cb5e1e9619f120633f4d4c784e1f297e55) | 2026-11-25 |
+| c76cbf34 | [CS-3: Make custom status clear control in the account menu a real button (#40302)](https://github.com/mattermost/mattermost/commit/c76cbf3449d0bc10360fed6097ab0a95fb6b35d5) | 2026-11-25 |
+| 46b6a214 | [drip: go idioms: errors.AsType in app/group (syncables and members) (#40359)](https://github.com/mattermost/mattermost/commit/46b6a2146c52940dba2d46fe4cfe8383283471ed) | 2026-11-25 |
 
 ## 제외된 커밋
 
@@ -686,6 +714,16 @@
 | 1026fc9a | [\[MM-71895\] Property values: write marker (#40122)](https://github.com/mattermost/mattermost/commit/1026fc9aeb1a4cf565a2c8c6be41bf486e26cf9d) | 제외한 채널 속성 계보(e86491ad → 4ce99ddd → 75a26632 MM-70180 #38267 → …)의 내부 배선. property 값 쓰기에 종류 표식(standard·create·fill_missing)을 다는 write_marker.go(+49)를 만들고 유일한 사용처 setChannelPropertyValuesOnCreate에 WriteCreate를 붙이는데, 이 함수와 rctxWithSessionCallerID는 75a26632가 만든 것으로 포크 app/channel.go에 없다(merge-tree CONFLICT channel.go·channel_test.go). write_marker.go만 받으면 붙이는 곳도 읽는 곳(set-on-create 검사, 같은 계보 후속)도 없는 죽은 코드가 된다. 재검토 조건 — 채널 속성 계보를 되살릴 때 함께 받는다. |
 
 | d81e78ca | [ci(e2e): guard lane-result steps when composite_identity_json is empty (#40277)](https://github.com/mattermost/mattermost/commit/d81e78cab1a94c386dd0a702e06a87239cfa1e57) | f54f3f76(#38601)을 adapt하며 버린 E2E lane-result 재사용 워크플로(.github/workflows/e2e-tests-lane-result.yml)의 후속 수정 — composite_identity_json이 비면 lane 상태 게시·triage 캐시·triage·요약 갱신 5단계를 건너뛰게 한다. 파일이 포크에 없다(modify/delete CONFLICT). 버린 사유는 mattermost-test-automation-toolkit@main·TSIO·ANTHROPIC_API_KEY·REPORT_WEBHOOK_URL 의존으로 우리 CI에 소비자·시크릿이 없다는 것(spec-docs/upstream/upstream-adapted-divergences.md f54f3f76 절). 같은 파일의 09c24a0f(#39590)·5c1fe9b4(#39682)도 같은 기준으로 제외. 재검토 조건 — 자체 E2E CI와 triage 인프라를 갖출 때. |
+
+| ccc5ac4d | [\[MM-72044\] Drop client-supplied property values when a post is edited (#40176)](https://github.com/mattermost/mattermost/commit/ccc5ac4ddd1058155aa8911724f6a67768193a25) | [게시물 속성 계보와 함께 재검토] UpdatePost가 수정 요청의 Metadata.PropertyValues·PropertyValuesUnavailable을 nil로 지워 post_edited 브로드캐스트로 미저장 속성 값이 새지 않게 하는 보안 수정(post.go +4, post_property_values_test.go +64). 두 필드는 제외한 게시물 속성(post attributes) 계보(뿌리 36af1ee5 #37829, bb72eeb7 #38134, 2a515687 #39796)가 만든 것이라 포크 model/post_metadata.go에 없고(grep 0건), 테스트 파일도 없어 merge-tree modify/delete. 반영하면 미정의 필드로 빌드 실패. 포크엔 속성 값 개념이 없어 막을 누출 경로도 없다. 게시물 속성 계보를 들일 때 이 행을 지우고 반드시 함께 반영한다. |
+
+| be59ffe2 | [\[MM-71540\] Hide "informational only" classification notice in channel settings when clearance is enabled (#39615)](https://github.com/mattermost/mattermost/commit/be59ffe2ebc45352e5d68b8aab24128d114b10ad) | 제외한 Classification Markings 계보(2b7b398a #35934 콘솔 페이지, 6083cc22 #36231 전역 분류 설정·배너 — property 시스템 v2 48f2fd08·9f1fe90b 위)의 후속 UI 조정이라 반영할 대상이 없다. 채널 설정 Configuration 탭의 'Classification markings are informational only' 안내를 clearance 활성(ABAC + 분류 템플릿 연결 사용자 필드) 시 숨기는 새 훅 useClassificationClearance(+290/-12, webapp 4파일). 포크 channel_settings_configuration_tab.tsx에 classification 코드가 없고(grep 0건) 훅이 쓰는 fetchPropertyFields(PropertyFieldsScope)도 property v2 API라 없다 — merge-tree CONFLICT(탭·테스트). Classification 계보를 들일 때 함께 반영한다. |
+
+| a3f2632f | [MM-71691 - Show channel admins when a channel is missing required attribute values (#39899)](https://github.com/mattermost/mattermost/commit/a3f2632f4007fa8a6abefdfbe7f1333d641b72f2) | 제외한 채널 속성 계보(e86491ad foundation #37881 → 4ce99ddd assignment → 75a26632 display·banner·editing → 035e5461 polish → bea18569 ChannelAttributesRequired 플래그 → d283cc63 graph 값, 모두 property 시스템 v2 48f2fd08 위)의 후속 신규 기능이라 반영할 토대가 없다. 필수 채널 속성 값이 빠진 채널을 시스템 콘솔에 나열·수정하게 하고 채널 관리자에게 봇 메시지·헤더 표시로 알린다. 67파일 +5022/-257로 adapt 기준을 수십 배 초과, HEAD 부재 경로 20개 이상(webapp components/channel_attributes/, 콘솔 channel_attributes_settings.tsx, app/channel_attribute_availability.go·missing_notify.go, e2e channel_attributes/), merge-tree CONFLICT(api4/channel.go·app/channel.go·en.json·Playwright). 채널 속성 계보를 들일 때 함께 반영한다. |
+
+| c6eef5d7 | [MM-71670: Show masked rank options at or below the user's highest rank (#40178)](https://github.com/mattermost/mattermost/commit/c6eef5d7c0eeef79d8bad4a4a308861c1e8eab83) | 제외한 rank 필드 타입 017a7102(#36809)와 그 바탕인 property 시스템 v2(48f2fd08·9f1fe90b)·분류 표시 계보의 후속이라 반영할 대상이 없다. 마스킹된 rank·graph 필드에서 호출자의 최고 rank 이하 옵션만 보이게 하고, holdings가 다른 옵션 목록을 읽으면 옵션·값을 숨기며 store에 옵션 rank 조회를 더한다. 16파일 +1536/-79, merge-tree CONFLICT(access_control_masking.go·테스트, properties/access_control.go 등 6개, retrylayer.go), HEAD 부재 5경로(properties/masking.go·option_coverage.go 등). 포크 access_control_masking.go에 rank 코드 없음(grep 0건), ABAC 판정 엔진도 비공개 enterprise 모듈. rank·property v2 계보를 들일 때 함께 반영한다. |
+
+| c63a7a96 | [Move post attributes into the access_control property group (#40288)](https://github.com/mattermost/mattermost/commit/c63a7a96e31a308d851a3840c5dcc27ffe955f71) | [게시물 속성 계보와 함께 재검토] 제외한 게시물 속성(post attributes) 계보(뿌리 36af1ee5 #37829, bb72eeb7 #38134, 2a515687 #39796, ccc5ac4d #40176 — property 시스템 v2 위)의 재배치 커밋이라 옮길 대상이 없다. 게시물 필드·값을 post_attributes 그룹에서 access_control 그룹으로 옮기고, 비-system 게시물 필드 거부, 게시물 필드 50개 상한, Enterprise 라이선스 없을 때 access_control hydration 501, DB 마이그레이션 000244(post_attributes 그룹·값 hard-delete)를 더한다. 65파일 +3552/-851, merge-tree CONFLICT(api/v4/source/posts.yaml, Playwright post_attributes/ 다수), HEAD 부재 경로 15개 이상(api4/post_property_values_*_test.go, e2e post_attributes/). 포크엔 post_attributes 그룹이 없다. 게시물 속성 계보를 들일 때 이 커밋(마이그레이션 000244 포함)까지 함께 반영한다. |
 
 ## spec 전환 커밋
 
