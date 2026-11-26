@@ -3,30 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-26 13:06
+- 갱신일: 2026-11-26 15:47
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 28개
+- 남은 커밋: 13개
 
-**마지막 반영 커밋:** `c63a7a96` | [Move post attributes into the access_control property group (#40288)](https://github.com/mattermost/mattermost/commit/c63a7a96e31a308d851a3840c5dcc27ffe955f71) | 2026-11-23
+**마지막 반영 커밋:** `fde4020c` | [Fix typos in plugin registry JSDoc comments (#40296)](https://github.com/mattermost/mattermost/commit/fde4020cdd01e7415369473171419a763bbe8802) | 2026-11-24
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| b1d2e89e | [ci(e2e): wait for late FIPS images, retry rate-limited lane status publication, and fix rolling-upgrade lanes (#40106)](https://github.com/mattermost/mattermost/commit/b1d2e89ece652db49abed2f97b1f9f3c7a0ca461) | 2026-11-24 |
-| cdf96172 | [\[MM-72211\] Collect load average, swap, and available memory in macOS Support Packets (#40280)](https://github.com/mattermost/mattermost/commit/cdf96172f0c363b4ca26c8aefcf42db5af2eee5b) | 2026-11-24 |
-| a5407d51 | [E2E/Playwright: seed Department in edit_policies_rules on upgraded servers (#40305)](https://github.com/mattermost/mattermost/commit/a5407d514c6864b3600839c32a5510039899483a) | 2026-11-24 |
-| d841da9f | [update Calls to v1.12.7 (#40293)](https://github.com/mattermost/mattermost/commit/d841da9fa075d8e514ed74959dcee7e69a4db162) | 2026-11-24 |
-| e09cb338 | [MM-71575: update office document text extraction (#39633)](https://github.com/mattermost/mattermost/commit/e09cb338213d5a28cccc7be026d97b6a63ea0634) | 2026-11-24 |
-| 99674fc1 | [MM-71593: update advanced logging configuration (#39643)](https://github.com/mattermost/mattermost/commit/99674fc1770389c7cc007e6d4ce4f0f147bd57c4) | 2026-11-24 |
-| 753e9547 | [\[MM-71922\] Update websocket reconnect handling (#40196)](https://github.com/mattermost/mattermost/commit/753e9547f02df6d64eac6cd9202bfea56eca6400) | 2026-11-24 |
-| a5541040 | [Mobile v2.46.1 docs (#40235)](https://github.com/mattermost/mattermost/commit/a5541040c12ddedfd0f3f0e795bf3171aa8eb678) | 2026-11-24 |
-| 0b805f40 | [Fix grammar and formatting in README.md (#38353)](https://github.com/mattermost/mattermost/commit/0b805f4003273ddfb304c59d1b9b4e7e0fdd3241) | 2026-11-24 |
-| 7fff358c | [Update mobile-security.mdx (#40300)](https://github.com/mattermost/mattermost/commit/7fff358cf83fbc241466e38253de664654a7194c) | 2026-11-24 |
-| c09a18e1 | [drip: go idioms: errors.AsType in app/group (first half) (#40278)](https://github.com/mattermost/mattermost/commit/c09a18e173e80ce2722bd1a11862e1393907ba8f) | 2026-11-24 |
-| 61db2a76 | [drip: AppError -> error: channel system messages (#40268)](https://github.com/mattermost/mattermost/commit/61db2a76fcb505339001cd68a381b4ec8068401e) | 2026-11-24 |
-| bf229d5e | [Heavier weight for post header names and unread LHS channels (#40350)](https://github.com/mattermost/mattermost/commit/bf229d5e6a45a1b6e0dd28cbed463808232a9868) | 2026-11-24 |
-| e605f8be | [mmctl: reject path-prefixed names in import delete (#40301)](https://github.com/mattermost/mattermost/commit/e605f8be702e8385c65f4221686245dd9395cea9) | 2026-11-24 |
-| 6876fc44 | [\[MM-68574\] Skip Shared Channels remote users during bulk import (#40220)](https://github.com/mattermost/mattermost/commit/6876fc440c9d26d6dafd5fcf30c37b5490e9fffc) | 2026-11-24 |
-| fde4020c | [Fix typos in plugin registry JSDoc comments (#40296)](https://github.com/mattermost/mattermost/commit/fde4020cdd01e7415369473171419a763bbe8802) | 2026-11-24 |
 | d4e0c0cc | [ci(e2e): skip redundant lane summary refresh after triage and pass ANTHROPIC_API_KEY to rolling upgrades (#40310)](https://github.com/mattermost/mattermost/commit/d4e0c0cce0420ed2b7fb6833ca33176795a2cd25) | 2026-11-25 |
 | 724208f8 | [\[MM-72029\] Move Enable Security Alerts to Site Configuration > Notices as Check for Security and Release Updates (#40241)](https://github.com/mattermost/mattermost/commit/724208f8c7974988d33cb1085af6ea821f7a1258) | 2026-11-25 |
 | 020fe126 | [\[MM-72096\] Add an mmctl e2e test that health check --packet matches live findings (#40197)](https://github.com/mattermost/mattermost/commit/020fe1267374bc5d7fb5e1b32006f0f38e3e7c30) | 2026-11-25 |
@@ -39,6 +23,7 @@
 | 697694cb | [docs: clarify scope and default of Enable website link previews (#40207)](https://github.com/mattermost/mattermost/commit/697694cb5e1e9619f120633f4d4c784e1f297e55) | 2026-11-25 |
 | c76cbf34 | [CS-3: Make custom status clear control in the account menu a real button (#40302)](https://github.com/mattermost/mattermost/commit/c76cbf3449d0bc10360fed6097ab0a95fb6b35d5) | 2026-11-25 |
 | 46b6a214 | [drip: go idioms: errors.AsType in app/group (syncables and members) (#40359)](https://github.com/mattermost/mattermost/commit/46b6a2146c52940dba2d46fe4cfe8383283471ed) | 2026-11-25 |
+| 1ecd5915 | [MM-69375: Run recurring leader tasks under a cluster mutex (#39743)](https://github.com/mattermost/mattermost/commit/1ecd5915463622e47d41d3a493539851261c6eef) | 2026-11-26 |
 
 ## 제외된 커밋
 
@@ -725,6 +710,14 @@
 
 | c63a7a96 | [Move post attributes into the access_control property group (#40288)](https://github.com/mattermost/mattermost/commit/c63a7a96e31a308d851a3840c5dcc27ffe955f71) | [게시물 속성 계보와 함께 재검토] 제외한 게시물 속성(post attributes) 계보(뿌리 36af1ee5 #37829, bb72eeb7 #38134, 2a515687 #39796, ccc5ac4d #40176 — property 시스템 v2 위)의 재배치 커밋이라 옮길 대상이 없다. 게시물 필드·값을 post_attributes 그룹에서 access_control 그룹으로 옮기고, 비-system 게시물 필드 거부, 게시물 필드 50개 상한, Enterprise 라이선스 없을 때 access_control hydration 501, DB 마이그레이션 000244(post_attributes 그룹·값 hard-delete)를 더한다. 65파일 +3552/-851, merge-tree CONFLICT(api/v4/source/posts.yaml, Playwright post_attributes/ 다수), HEAD 부재 경로 15개 이상(api4/post_property_values_*_test.go, e2e post_attributes/). 포크엔 post_attributes 그룹이 없다. 게시물 속성 계보를 들일 때 이 커밋(마이그레이션 000244 포함)까지 함께 반영한다. |
 
+| b1d2e89e | [ci(e2e): wait for late FIPS images, retry rate-limited lane status publication, and fix rolling-upgrade lanes (#40106)](https://github.com/mattermost/mattermost/commit/b1d2e89ece652db49abed2f97b1f9f3c7a0ca461) | Mattermost 사내 E2E CI 묶음(FIPS 이미지 Docker Hub 30분 polling, lane 상태 게시 rate limit 재시도, rolling-upgrade 워커 Ryuk 비활성·ABAC 기준선 seed) — 우리가 돌리지 않는 자동화라 받을 실익이 없다. 토대 파일 e2e-tests-lane-result.yml·e2e-tests-status-wiring.yml·e2e-tests-playwright-rolling-upgrades-template.yml·server-image-check.yml·test_e2e_status_workflows.py·upgrade-specs/to/upgrade_to.spec.ts가 포크에 없다. 같은 계보 09c24a0f(#39590)·5c1fe9b4(#39682)·d81e78ca(#40277)와 롤링 업그레이드 하네스 fe9a36e8(#38367)·0f35dda9(#38873)를 제외했다. FIPS 이미지는 mattermost 소유 DockerHub 자격증명 의존. 16파일 +919/-62, merge-tree CONFLICT(워크플로 7개), CODEOWNERS 보호 경로 10개 접촉. |
+
+| a5407d51 | [E2E/Playwright: seed Department in edit_policies_rules on upgraded servers (#40305)](https://github.com/mattermost/mattermost/commit/a5407d514c6864b3600839c32a5510039899483a) | 대상 파일 e2e-tests/playwright/specs/functional/system_console/abac/policy_management/edit_policies_rules.spec.ts가 포크에 없다(제외한 b052f346 #36054 fullyParallel 샤딩 E2E 개편이 만든 파일) — merge-tree modify/delete. 고치는 문제도 제외한 롤링 업그레이드 하네스(fe9a36e8 #38367, b1d2e89e #40106)의 --no-deps 워커에서 Department 속성 seed가 빠지는 상황이다. 1파일 +7(ensureUserAttributes 호출). |
+
+| 0b805f40 | [Fix grammar and formatting in README.md (#38353)](https://github.com/mattermost/mattermost/commit/0b805f4003273ddfb304c59d1b9b4e7e0fdd3241) | 루트 README.md를 한국어 OKR.BEST 버전으로 전면 재작성해 영문 문법 수정 3곳(open-core, webhooks, Table of Contents)의 대상 문장이 없다 — merge-tree CONFLICT. 남은 Ubuntu 20.04 설치 링크 한 줄(installing-ubuntu-2004-LTS → installing-ubuntu-20.04-LTS)은 docs.mattermost.com 옛 install 경로라 양쪽 다 리다이렉트 의존이어서 바꿀 실익이 불분명하다(사용자 결정). |
+
+| bf229d5e | [Heavier weight for post header names and unread LHS channels (#40350)](https://github.com/mattermost/mattermost/commit/bf229d5e6a45a1b6e0dd28cbed463808232a9868) | [타이포그래피는 spec 014가 소유] upstream 굵기 조정(Open Sans 가변 폰트 wght 601-800 woff2 14개 추가, 작성자 이름·안 읽은 LHS 채널·b/strong·markdown 제목·스레드 헤더를 630으로, 기존 700/bold 선언을 600으로 명시)이 포크 spec 014(Slack 디자인 벤치마크, b0e83b60dd)의 굵기 체계 '400 본문 / 600 보조 강조 / 900 제목·이름'(FR-009, Open Sans 900 슬롯에 ExtraBold 800 등록)과 정면으로 겹친다. 포크가 고정한 Noto Sans KR은 400·600·900뿐이라 630 요청 시 CSS 매칭이 900(Black)을 골라 한글 이름·strong이 어느 쪽 의도와도 다르게 렌더링된다. 85파일 +203/-128, merge-tree CONFLICT(_typography.scss·_post.scss·_markdown.scss·data_grid·dashboard 등), HEAD 부재(제외 계보의 entity_rhs/entity_card.tsx·global_header/left_controls·product_rail). 이후 upstream 굵기 조정 커밋도 spec 014 기준으로 판단한다. |
+
 ## spec 전환 커밋
 
 | 커밋 해시 | 커밋 제목 | spec |
@@ -767,6 +760,8 @@
 | 34431fea | [Skip flaky TestBulkImportMaxUsersPerTeam subtest (#40025)](https://github.com/mattermost/mattermost/commit/34431fea27aaec9a52dbddcaa22c8fee6555b408) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 470f9d77(#39868)이 만든 TestBulkImportMaxUsersPerTeam 하위 테스트 'an import without a zip archive warns that the limit is not checked'를 MM-71878 원인 조사 동안 t.Skip한다. 테스트가 포크에 없어 지금은 반영할 대상이 없다. spec 구현 시 470f9d77과 함께 skip을 넣거나 MM-71878 근본 수정을 받는다 |
 
 | 917da7e2 | [Entities: mark tokens at read time without rewriting posts or storing spans (#39668)](https://github.com/mattermost/mattermost/commit/917da7e2711694e73c08332da8d8c63de30fd50e) | entities-framework (가칭, 착수 보류 — FeatureFlags.Entities 기본 off·사용 플러그인 없음, 26파일 충돌) |
+
+| 6876fc44 | [\[MM-68574\] Skip Shared Channels remote users during bulk import (#40220)](https://github.com/mattermost/mattermost/commit/6876fc440c9d26d6dafd5fcf30c37b5490e9fffc) | 단일 팀·채널 인스턴스 간 이전 (가칭) — 41c482b4의 후속. Shared Channels 서버 export의 원격 사용자(name:remote)를 bulk import가 잘못된 username으로 거부해 job 전체가 실패하던 문제를 고친다: imports.IsRemoteUsername으로 원격 사용자 줄과 대상에 없는 원격 사용자를 참조하는 게시물·답글·반응·플래그·ack·스레드 팔로어·DM/GM을 건너뛰고, team member limit preflight에서 원격 사용자를 세지 않는다. 원격 사용자 건너뛰기 분기가 41c482b4·4527f4c1·470f9d77의 scoped import 코드(report.Remap, deactivateMissingUsers, checkTeamMemberLimits·preCreateSSOUsers)에 얽혀 있어 단독 반영 불가(merge-tree CONFLICT import.go·import_functions.go·import_test.go). spec 구현 시 함께 반영. docs/ 부분(bulk-loading-data.mdx)은 Upstream-docs로 선반영. |
 
 ## Mattermost 비공개 사설 모듈 커밋
 
