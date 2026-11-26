@@ -1757,7 +1757,7 @@ func (a *App) UnassignPoliciesFromChannels(rctx request.CTX, policyID string, ch
 
 	for _, channelID := range channelIDs {
 		if _, ok := childPolicies[channelID]; !ok {
-			mlog.Warn("Policy is not assigned to the parent policy", mlog.String("channel_id", channelID), mlog.String("parent_policy_id", policyID))
+			rctx.Logger().Warn("Policy is not assigned to the parent policy", mlog.String("channel_id", channelID), mlog.String("parent_policy_id", policyID))
 			continue
 		}
 
@@ -1872,7 +1872,7 @@ func (a *App) UnassignPoliciesFromTeams(rctx request.CTX, policyID string, teamI
 
 	for _, teamID := range teamIDs {
 		if _, ok := childPolicies[teamID]; !ok {
-			mlog.Warn("Policy is not assigned to the parent policy", mlog.String("team_id", teamID), mlog.String("parent_policy_id", policyID))
+			rctx.Logger().Warn("Policy is not assigned to the parent policy", mlog.String("team_id", teamID), mlog.String("parent_policy_id", policyID))
 			continue
 		}
 
@@ -1923,7 +1923,7 @@ func (a *App) SearchAccessControlPolicies(rctx request.CTX, opts model.AccessCon
 
 		normlizedPolicy, appErr := acs.NormalizePolicy(rctx, policy)
 		if appErr != nil {
-			mlog.Error("Failed to normalize policy", mlog.String("policy_id", policy.ID), mlog.Err(appErr))
+			rctx.Logger().Error("Failed to normalize policy", mlog.String("policy_id", policy.ID), mlog.Err(appErr))
 			continue
 		}
 		policies[i] = normlizedPolicy

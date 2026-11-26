@@ -61,7 +61,7 @@ func (s *Server) doAdvancedPermissionsMigration(rctx request.CTX) error {
 		return fmt.Errorf("could not query migration: %w", err)
 	}
 
-	mlog.Info("Migrating roles to database.")
+	rctx.Logger().Info("Migrating roles to database.")
 	roles := model.MakeDefaultRoles()
 
 	var multiErr *multierror.Error
@@ -70,7 +70,7 @@ func (s *Server) doAdvancedPermissionsMigration(rctx request.CTX) error {
 		if err == nil {
 			continue
 		}
-		mlog.Warn("Couldn't save the role for advanced permissions migration, this can be an expected case", mlog.Err(err))
+		rctx.Logger().Warn("Couldn't save the role for advanced permissions migration, this can be an expected case", mlog.Err(err))
 
 		// If this failed for reasons other than the role already existing, don't mark the migration as done.
 		fetchedRole, err := s.Store().Role().GetByName(rctx, role.Name)
@@ -143,7 +143,7 @@ func (s *Server) doEmojisPermissionsMigration(rctx request.CTX) error {
 	var systemAdminRole *model.Role
 	var err *model.AppError
 
-	mlog.Info("Migrating emojis config to database.")
+	rctx.Logger().Info("Migrating emojis config to database.")
 
 	// Emoji creation is set to all by default
 	role, err = s.GetRoleByName(rctx, model.SystemUserRoleId)
@@ -811,7 +811,7 @@ func (s *Server) doSetupCPADisplayNameBackfill(rctx request.CTX) error {
 		return fmt.Errorf("failed to backfill CPA display_name: %w", err)
 	}
 
-	mlog.Info("CPA display_name backfill migration completed",
+	rctx.Logger().Info("CPA display_name backfill migration completed",
 		mlog.Int("backfilled", backfilled),
 		mlog.Int("skipped", skipped),
 	)

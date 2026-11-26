@@ -115,7 +115,7 @@ func createSchedulePost(c *Context, w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(createdScheduledPost); err != nil {
-		mlog.Error("failed to encode scheduled post to return API response", mlog.Err(err))
+		c.Logger.Error("failed to encode scheduled post to return API response", mlog.Err(err))
 		return
 	}
 }
@@ -159,7 +159,7 @@ func getTeamScheduledPosts(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewEncoder(w).Encode(response); err != nil {
-		mlog.Error("failed to encode scheduled posts to return API response", mlog.Err(err))
+		c.Logger.Error("failed to encode scheduled posts to return API response", mlog.Err(err))
 		return
 	}
 }
@@ -266,7 +266,7 @@ func updateScheduledPost(c *Context, w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(updatedScheduledPost); err != nil {
-		mlog.Error("failed to encode scheduled post to return API response", mlog.Err(err))
+		c.Logger.Error("failed to encode scheduled post to return API response", mlog.Err(err))
 		return
 	}
 }
@@ -316,7 +316,7 @@ func deleteScheduledPost(c *Context, w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(deletedScheduledPost); err != nil {
-		mlog.Error("failed to encode scheduled post to return API response", mlog.Err(err))
+		c.Logger.Error("failed to encode scheduled post to return API response", mlog.Err(err))
 		return
 	}
 }
