@@ -17,6 +17,7 @@ import DelegatedGranularAdministration from '@/ui/components/system_console/sect
 import PermissionsSystemScheme from '@/ui/components/system_console/sections/user_management/permissions_system_scheme';
 import MobileSecurity from '@/ui/components/system_console/sections/environment/mobile_security';
 import Localization from '@/ui/components/system_console/sections/site_configuration/localization';
+import Notices from '@/ui/components/system_console/sections/site_configuration/notices';
 import Notifications from '@/ui/components/system_console/sections/site_configuration/notifications';
 import UsersAndTeams from '@/ui/components/system_console/sections/site_configuration/users_and_teams';
 import SystemProperties from '@/ui/components/system_console/sections/system_attributes/system_properties';
@@ -56,6 +57,7 @@ export default class SystemConsolePage {
 
     // Site Configuration
     readonly localization: Localization;
+    readonly notices: Notices;
     readonly notifications: Notifications;
     readonly usersAndTeams: UsersAndTeams;
 
@@ -107,6 +109,7 @@ export default class SystemConsolePage {
 
         // Site Configuration
         this.localization = new Localization(adminConsoleWrapper);
+        this.notices = new Notices(adminConsoleWrapper);
         this.notifications = new Notifications(adminConsoleWrapper);
         this.usersAndTeams = new UsersAndTeams(adminConsoleWrapper);
 
@@ -186,6 +189,11 @@ export default class SystemConsolePage {
     async gotoMfaSettings() {
         await this.page.goto(new URL('/admin_console/authentication/mfa', testConfig.baseURL).href);
         await this.mfaSettings.toBeVisible();
+    }
+
+    async gotoNotices() {
+        await this.page.goto('/admin_console/site_config/notices');
+        await this.notices.toBeVisible();
     }
 
     async gotoPublicLinks() {

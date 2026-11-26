@@ -1155,8 +1155,6 @@
   "admin.environment.smtp.connectionSecurity.option.tls": "TLS (권장사항)",
   "admin.environment.smtp.connectionSecurity.title": "연결 보안:",
   "admin.environment.smtp.connectionSmtpTest": "연결 테스트",
-  "admin.environment.smtp.enableSecurityFixAlert.description": "이 설정이 활성화되면, 시스템 관리자는 최근 12시간 사이에 발견된 보안과 관련된 결함 수정을 전자우편 알림으로 받게 됩니다. 전자우편 알림이 활성화되어야 합니다.",
-  "admin.environment.smtp.enableSecurityFixAlert.title": "보안 경고 활성화:",
   "admin.environment.smtp.skipServerCertificateVerification.description": "활성화하면 OKR.BEST가 이메일 서버 인증서를 확인하지 않습니다.",
   "admin.environment.smtp.skipServerCertificateVerification.title": "인증서 검증 생략하기:",
   "admin.environment.smtp.skipServerCertificateVerificationProductionWarning.text": "OKR.BEST가 SMTP 서버의 TLS 인증서를 검증하지 않으므로 이메일 전송이 중간자 공격에 노출됩니다. 문제를 해결하는 동안에만 활성화하세요.",
