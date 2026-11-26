@@ -6510,3 +6510,18 @@ Site URL 단계(`site_url.tsx`·`site_url_status.tsx`·`site_url.scss`·테스�
 **버린 것.** 없다.
 
 **검증(2026-11-26).** `go vet ./channels/app/platform/`를 linux·darwin·windows에서 통과(수정 전 darwin은 redeclared 오류), `platform` 패키지 테스트 통과.
+
+## office 문서 텍스트 추출 — 주석 충돌은 upstream 쪽으로, 포크에 남은 테스트 헬퍼를 새 슬롯 API에 맞췄다
+
+**upstream**: [`e09cb338`](https://github.com/mattermost/mattermost/commit/e09cb338213d5a28cccc7be026d97b6a63ea0634)
+(MM-71575: update office document text extraction, #39633) — 5파일 +1423/-26, 2026-11-26 sync 반영(사용자 결정 adapt)
+
+`office.go`(신규), `concurrency.go`(`tryAcquireExtractionSlot`이 해제 함수를 돌려주고 `releaseExtractionSlot` 제거), `documents.go`, `docextractor_test.go`의 새 office 테스트는 upstream 그대로 받았다.
+
+충돌은 `docextractor.go`의 주석 3곳(`ExtractSettings.Ctx`·`Timeout`, `Extract` 함수 설명)이었다. 포크 주석은 "context-aware 추출기는 pdfExtractor뿐"이라는 설명이었고, upstream은 office 추출기도 context를 지키게 되어 "추출 context를 지켜보는 추출기는 읽기를 멈춘다"로 일반화했다. 새 동작에 맞는 upstream 주석을 받았다.
+
+**포크에서 더 고친 것.** 포크 `docextractor_test.go`에는 upstream이 #38009(`73562bd0`)에서 지운 `waitForExtractionSlotsIdle` 헬퍼가 남아 있다(포크 반영본 `78ce507702`가 #37527의 헬퍼를 유지, 테스트 3곳에서 사용). 옛 API(`tryAcquireExtractionSlot() bool` + `releaseExtractionSlot()`)를 써서 vet가 깨졌으므로, 새 API에 맞춰 받은 해제 함수를 모았다가 호출하도록 고쳤다.
+
+**버린 것.** 포크 쪽 옛 주석 3곳뿐이다.
+
+**검증(2026-11-26).** `go vet`·`go test ./platform/services/docextractor/` 통과(`-run TestExtract -count=3` 반복 포함), 서버 `go build ./...` 통과.

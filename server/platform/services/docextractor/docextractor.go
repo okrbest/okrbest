@@ -25,11 +25,10 @@ const (
 
 // ExtractSettings defines the features enabled/disable during the document text extraction.
 type ExtractSettings struct {
-	// Ctx is the parent context for the extraction. When set, cancelling it
-	// releases the caller's wait immediately, even without a Timeout, and
-	// propagates to context-aware extractors (e.g. the Go-native PDF extractor
-	// stops at the next page boundary). Other extractors run to completion on
-	// a detached goroutine. If nil, context.Background() is used.
+	// Ctx, when set, cancels the caller's wait for extraction to complete.
+	// Extractors that watch this context stop reading once it is cancelled.
+	// Other converters keep running on a detached goroutine; only the caller's
+	// wait is unblocked for those.
 	Ctx              context.Context
 	ArchiveRecursion bool
 	MaxFileSize      int64
@@ -39,13 +38,13 @@ type ExtractSettings struct {
 	MMPreviewURL    string
 	MMPreviewSecret string
 	// Timeout bounds how long a caller waits for a single extraction. A value
-	// <= 0 disables it. On expiry the context passed to the extractor is
-	// cancelled: context-aware extractors (pdfExtractor) stop at the next page
-	// boundary, while the docconv converters keep running to completion on a
-	// detached goroutine but no longer hold the caller's worker slot. A global
-	// cap on concurrent extractions (including those detached goroutines)
-	// prevents sustained uploads from accumulating unbounded work. The
-	// per-extraction input bound is MaxFileSize.
+	// <= 0 disables it. NOTE: this bounds wall-clock wait time, not CPU work.
+	// On timeout the caller stops waiting. Extraction that watches the
+	// extraction context stops reading; other converters may continue on a
+	// detached goroutine. A global cap on concurrent extractions (including
+	// those goroutines) prevents sustained uploads from accumulating
+	// unbounded converter work.
+	// The per-extraction input bound is MaxFileSize.
 	Timeout time.Duration
 	// ReaderCloser, when set, transfers ownership of closing the input reader
 	// to this package. It is closed only after extraction has actually
@@ -97,13 +96,14 @@ func ExtractWithExtraExtractors(logger mlog.LoggerIFace, filename string, r io.R
 
 // extractWithTimeout runs the extraction and stops waiting for it once
 // settings.Timeout elapses or settings.Ctx is cancelled. The extraction runs
-// on a detached goroutine under a child context that is cancelled when this
-// function returns: context-aware extractors (pdfExtractor) honour that and
-// stop promptly; others run to completion in the background. A global
-// concurrency cap applies to every in-flight extraction, including detached
-// goroutines, so timed-out work cannot accumulate beyond the limit.
+// on a goroutine so the caller can return on timeout or cancellation while
+// releasing its worker slot. Extractors that watch the extraction context
+// stop reading; others may keep running. A global concurrency cap applies to
+// every in-flight extraction, including those goroutines, so timed-out work
+// cannot accumulate beyond the limit.
 func extractWithTimeout(e Extractor, filename string, r io.ReadSeeker, settings ExtractSettings) (string, error) {
-	if !tryAcquireExtractionSlot() {
+	releaseSlot, acquired := tryAcquireExtractionSlot()
+	if !acquired {
 		if settings.ReaderCloser != nil {
 			settings.ReaderCloser.Close()
 		}
@@ -119,7 +119,7 @@ func extractWithTimeout(e Extractor, filename string, r io.ReadSeeker, settings 
 	// Use the fast synchronous path only when neither a timeout nor a
 	// cancellable context is in play.
 	if settings.Timeout <= 0 && settings.Ctx == nil {
-		defer releaseExtractionSlot()
+		defer releaseSlot()
 		if settings.ReaderCloser != nil {
 			defer settings.ReaderCloser.Close()
 		}
@@ -143,7 +143,7 @@ func extractWithTimeout(e Extractor, filename string, r io.ReadSeeker, settings 
 	}
 	resultCh := make(chan extractResult, 1)
 	go func() {
-		defer releaseExtractionSlot()
+		defer releaseSlot()
 		// This goroutine owns the reader for the lifetime of the extraction.
 		// After the timeout or cancellation fires the caller returns, but the
 		// converter may still be reading r here, so the reader is closed only
