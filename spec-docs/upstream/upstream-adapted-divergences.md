@@ -6525,3 +6525,16 @@ Site URL 단계(`site_url.tsx`·`site_url_status.tsx`·`site_url.scss`·테스�
 **버린 것.** 포크 쪽 옛 주석 3곳뿐이다.
 
 **검증(2026-11-26).** `go vet`·`go test ./platform/services/docextractor/` 통과(`-run TestExtract -count=3` 반복 포함), 서버 `go build ./...` 통과.
+
+## 채널 시스템 메시지의 error 반환 전환 — 코드는 다 받고, vet 기준선 충돌만 포크 파일에서 줄을 지워 풀었다
+
+**upstream**: [`61db2a76`](https://github.com/mattermost/mattermost/commit/61db2a76fcb505339001cd68a381b4ec8068401e)
+(drip: AppError -> error: channel system messages, #40268) — 2파일 +20/-29, 2026-11-26 sync 반영(사용자 결정 adapt)
+
+`channel.go`의 9개 함수 반환 타입 전환과 호출부 수정은 자동 병합으로 그대로 받았다. 포크 자체 기능 `6fb605eab9`(채널별 입장·퇴장 시스템 메시지 끄기)도 같은 파일이지만 호출부가 모두 `channel.go` 안이라 함께 맞았다.
+
+충돌은 `apperror_baseline.txt` 한 곳이었다. 포크 기준선은 포크 코드로 다시 만든 것이라 upstream과 몇 줄 다르다 — 충돌 블록의 upstream 쪽 문맥 줄 `preCreateSSOUser`는 포크 기준선에 원래 없다. 블록을 통째로 지워 upstream이 지우는 9줄을 모두 빼고, 포크에 없던 줄은 넣지 않았다.
+
+**버린 것.** 없다.
+
+**검증(2026-11-26).** 서버 `go build ./...`, `make vet`(appErrorReturn 기준선 검사 포함) 통과, `make update-apperror-baseline`으로 다시 만든 기준선이 해소본과 같음, 채널 관련 app 테스트와 포크 입장·퇴장 메시지 테스트(`post_membership_messages_test.go`·`notification_history_join_leave_test.go`) 통과.
