@@ -6463,3 +6463,20 @@ Export 메뉴(HTML·Markdown 다운로드, 숨은 sandbox iframe 인쇄), `manag
 | `export_menu.tsx` `ExportMenuTrigger` | `size='small'`, `trailingIcon={<Icon glyph={<ChevronDownIcon/>}/>}` | `type='button'`, `size='sm'`, 자식 끝에 `<ChevronDownIcon size={16}/>`. shared `Button`에는 `trailingIcon` prop이 없다. `forwardRef`라 메뉴 트리거 ref 전달은 같다 | 같다 |
 
 **검증(2026-11-23).** 수정 전 jest `export_menu`가 모듈 해석 실패로 0건 실행. 수정 후 jest `admin_console/health_dashboard` 5 스위트 101건 통과, 변경 디렉터리 eslint 오류 0, webapp `check-types` 오류 7건은 master 기준선과 같다, Playwright `tsc` 오류 11건도 기준선과 같다.
+
+## 요청 경로 로거 전환 — 제외한 Scheduled Recap·Global Attributes 계보의 hunk를 버렸다
+
+**upstream**: [`72bef7f8`](https://github.com/mattermost/mattermost/commit/72bef7f84497e86c6000500571284e5e30ac2d78)
+([MM-71981] Use request-scoped loggers instead of global mlog calls in request paths, #40096) — 10파일 +93/-45, 2026-11-26 sync 반영(사용자 결정 adapt)
+
+`api4/scheduled_post.go`·`system.go`(`postLog`의 `user_id` 필드 제거 포함)·`system_test.go`(`TestPostLog` 서브테스트 2건과 헬퍼), `app/access_control.go`·`channel.go`·`post.go`·`email/email.go`·`users/users.go`는 upstream 그대로 받았다. `app/migrations.go`는 포크에 있는 `doAdvancedPermissionsMigration`·`doEmojisPermissionsMigration`·`doSetupCPADisplayNameBackfill`의 로거 hunk 4개만 받았다.
+
+**버린 것.**
+
+| 위치 | upstream | 버린 이유 | 되살릴 조건 |
+|---|---|---|---|
+| `jobs/scheduled_recap/scheduler.go` | `ScheduleJob`의 `mlog.Error/Warn/Debug` 3곳 → `rctx.Logger()` | 파일이 포크에 없다(Scheduled Recaps `25f3a75c` 보류성 제외) | `25f3a75c`를 들일 때 upstream 최신본을 받으면 함께 온다 |
+| `app/migrations.go` `doSetupCPAToGlobalAttributesMigration` | `mlog.Info/Warn` 3곳 → `rctx.Logger()` | 함수가 포크에 없다(Global Attributes 계보 `38b66d22` 등 제외). 3-way 병합이 함수 본문 전체를 문맥으로 끌어와 충돌로 보였다 | Global Attributes 계보를 들일 때 |
+| `app/migrations.go` `doSetupPropertyPermissionsBackfill` | `mlog.Info/Error` 2곳 → `rctx.Logger()` | 함수가 포크에 없다(property v2 계보 제외). 같은 충돌 블록에 `cacheManagedCategoryIDs`도 문맥으로 섞여 있었고 함께 버렸다 | property v2 계보를 들일 때 |
+
+**검증(2026-11-26).** 서버 `go build ./channels/...`, 접촉 패키지 `go vet`, `api4 -run TestPostLog`(신규 2건 포함), `app/users`·`app/email` 테스트 통과.
