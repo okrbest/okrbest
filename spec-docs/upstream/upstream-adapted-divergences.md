@@ -6538,3 +6538,21 @@ Site URL 단계(`site_url.tsx`·`site_url_status.tsx`·`site_url.scss`·테스�
 **버린 것.** 없다.
 
 **검증(2026-11-26).** 서버 `go build ./...`, `make vet`(appErrorReturn 기준선 검사 포함) 통과, `make update-apperror-baseline`으로 다시 만든 기준선이 해소본과 같음, 채널 관련 app 테스트와 포크 입장·퇴장 메시지 테스트(`post_membership_messages_test.go`·`notification_history_join_leave_test.go`) 통과.
+
+## Site health 읽기 전용 위임 관리자 — Re-run 버튼은 shared Button을 유지하고 tooltip·권한 조건만 옮겼다
+
+**upstream**: [`989be0bf`](https://github.com/mattermost/mattermost/commit/989be0bf157e0ad1629cbb45aea9087618749ab2)
+([MM-71992] Read-only Site health for delegated admins who can read Site Statistics, #40114) — 20파일 +545/-116, 2026-11-26 sync 반영(사용자 결정 adapt)
+
+서버(`api4/health_dashboard.go`의 `sysconsole_read_reporting_site_statistics` 허용·mute는 `manage_system` 유지, `jobs/jobs.go`·`app/job_permissions.go`), API 문서 yaml, `docs/main`, Playwright, webapp의 `admin_definition.tsx`·`finding_row.tsx`·`finding_section.tsx`·`empty_state.tsx`·`muted_findings.tsx`·테스트, en.json(키 1 추가·문구 3 변경)은 upstream 그대로 받았다.
+
+충돌은 `health_dashboard.tsx`의 2곳이었다. 포크는 즉시 실행 버튼을 제외한 Compass UI 대신 `@mattermost/shared` Button으로 만들어 두었고(#39648 adapt), upstream은 그 버튼을 compass-ui 기준으로 고치며 `WithTooltip`으로 감싸고 `disabled={running || !canManage}`를 더했다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `health_dashboard.tsx` import | `Button`·`Icon`(`@mattermost/compass-ui/...`) | `Button`(`@mattermost/shared/components/button`) 유지, `WithTooltip`(`@mattermost/shared/components/tooltip`)은 upstream대로 추가 | Compass UI 계보를 들일 때 |
+| `runButton` | compass-ui `size='small'`·`loading`·`leadingIcon` | shared `size='sm'`·`type='button'`·자식 `RefreshIcon` 유지. upstream의 `WithTooltip`(`title={runNotAllowedMessage}`, `disabled={canManage}`)과 `disabled={running \|\| !canManage}`는 그대로 옮겼다 | 같다 |
+
+**검증(2026-11-26).** 서버 `go build ./...`, `api4 -run 'TestHealth|TestGetJob|TestJob'`, `jobs`, `app -run 'Job|Health'` 통과. jest `admin_console/health_dashboard`·`admin_definition`·`admin_sidebar` 21 스위트 200건 통과, 변경 파일 eslint 오류 0.
