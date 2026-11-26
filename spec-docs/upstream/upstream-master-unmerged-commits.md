@@ -3,26 +3,14 @@
 `HEAD`에 반영되지 않은 `upstream-master`(mattermost/mattermost) 커밋 목록 (오래된 순).
 `/speckit-sync` 스킬이 이 목록을 갱신·소비한다. 반영 완료된 커밋은 목록에서 제거된다.
 
-- 갱신일: 2026-11-26 15:47
+- 갱신일: 2026-11-26 17:18
 - 기준: `git log HEAD..upstream-master` − 처리 완료(cherry-pick/adapt 커밋 본문의 upstream 참조, 하단 부록의 제외·spec 전환)
-- 남은 커밋: 13개
+- 남은 커밋: 1개
 
-**마지막 반영 커밋:** `fde4020c` | [Fix typos in plugin registry JSDoc comments (#40296)](https://github.com/mattermost/mattermost/commit/fde4020cdd01e7415369473171419a763bbe8802) | 2026-11-24
+**마지막 반영 커밋:** `46b6a214` | [drip: go idioms: errors.AsType in app/group (syncables and members) (#40359)](https://github.com/mattermost/mattermost/commit/46b6a2146c52940dba2d46fe4cfe8383283471ed) | 2026-11-25
 
 | 커밋 해시 | 커밋 제목 | 커밋 일자 |
 |---|---|---|
-| d4e0c0cc | [ci(e2e): skip redundant lane summary refresh after triage and pass ANTHROPIC_API_KEY to rolling upgrades (#40310)](https://github.com/mattermost/mattermost/commit/d4e0c0cce0420ed2b7fb6833ca33176795a2cd25) | 2026-11-25 |
-| 724208f8 | [\[MM-72029\] Move Enable Security Alerts to Site Configuration > Notices as Check for Security and Release Updates (#40241)](https://github.com/mattermost/mattermost/commit/724208f8c7974988d33cb1085af6ea821f7a1258) | 2026-11-25 |
-| 020fe126 | [\[MM-72096\] Add an mmctl e2e test that health check --packet matches live findings (#40197)](https://github.com/mattermost/mattermost/commit/020fe1267374bc5d7fb5e1b32006f0f38e3e7c30) | 2026-11-25 |
-| 6d6605ed | [MM-70632: drip: go 1.27: generic State.Get\[T\] in plugin flow (#40279)](https://github.com/mattermost/mattermost/commit/6d6605edbbf341b588b5b4e9974ef049ddb1099a) | 2026-11-25 |
-| 989be0bf | [\[MM-71992\] Read-only Site health for delegated admins who can read Site Statistics (#40114)](https://github.com/mattermost/mattermost/commit/989be0bf157e0ad1629cbb45aea9087618749ab2) | 2026-11-25 |
-| 9f612c22 | [chore: Update NOTICE.txt file with updated dependencies (#40361)](https://github.com/mattermost/mattermost/commit/9f612c22b00b25c0a9f9865640b2c22ff8b83663) | 2026-11-25 |
-| 3d76b973 | [Point coding agents at the ABAC rules (#39540)](https://github.com/mattermost/mattermost/commit/3d76b9733121ec8bef3cfbfe989d9534e8c53934) | 2026-11-25 |
-| 5702c81c | [MM-71538: Update guest magic link invitation handling (#39616)](https://github.com/mattermost/mattermost/commit/5702c81cdb0937624f28fed57eb6238149465a6a) | 2026-11-25 |
-| 77ae0898 | [MM-72165 Update logr to v2.0.26 (#40371)](https://github.com/mattermost/mattermost/commit/77ae0898b14cd156629831d883d3988f3c99f3d2) | 2026-11-25 |
-| 697694cb | [docs: clarify scope and default of Enable website link previews (#40207)](https://github.com/mattermost/mattermost/commit/697694cb5e1e9619f120633f4d4c784e1f297e55) | 2026-11-25 |
-| c76cbf34 | [CS-3: Make custom status clear control in the account menu a real button (#40302)](https://github.com/mattermost/mattermost/commit/c76cbf3449d0bc10360fed6097ab0a95fb6b35d5) | 2026-11-25 |
-| 46b6a214 | [drip: go idioms: errors.AsType in app/group (syncables and members) (#40359)](https://github.com/mattermost/mattermost/commit/46b6a2146c52940dba2d46fe4cfe8383283471ed) | 2026-11-25 |
 | 1ecd5915 | [MM-69375: Run recurring leader tasks under a cluster mutex (#39743)](https://github.com/mattermost/mattermost/commit/1ecd5915463622e47d41d3a493539851261c6eef) | 2026-11-26 |
 
 ## 제외된 커밋
@@ -717,6 +705,10 @@
 | 0b805f40 | [Fix grammar and formatting in README.md (#38353)](https://github.com/mattermost/mattermost/commit/0b805f4003273ddfb304c59d1b9b4e7e0fdd3241) | 루트 README.md를 한국어 OKR.BEST 버전으로 전면 재작성해 영문 문법 수정 3곳(open-core, webhooks, Table of Contents)의 대상 문장이 없다 — merge-tree CONFLICT. 남은 Ubuntu 20.04 설치 링크 한 줄(installing-ubuntu-2004-LTS → installing-ubuntu-20.04-LTS)은 docs.mattermost.com 옛 install 경로라 양쪽 다 리다이렉트 의존이어서 바꿀 실익이 불분명하다(사용자 결정). |
 
 | bf229d5e | [Heavier weight for post header names and unread LHS channels (#40350)](https://github.com/mattermost/mattermost/commit/bf229d5e6a45a1b6e0dd28cbed463808232a9868) | [타이포그래피는 spec 014가 소유] upstream 굵기 조정(Open Sans 가변 폰트 wght 601-800 woff2 14개 추가, 작성자 이름·안 읽은 LHS 채널·b/strong·markdown 제목·스레드 헤더를 630으로, 기존 700/bold 선언을 600으로 명시)이 포크 spec 014(Slack 디자인 벤치마크, b0e83b60dd)의 굵기 체계 '400 본문 / 600 보조 강조 / 900 제목·이름'(FR-009, Open Sans 900 슬롯에 ExtraBold 800 등록)과 정면으로 겹친다. 포크가 고정한 Noto Sans KR은 400·600·900뿐이라 630 요청 시 CSS 매칭이 900(Black)을 골라 한글 이름·strong이 어느 쪽 의도와도 다르게 렌더링된다. 85파일 +203/-128, merge-tree CONFLICT(_typography.scss·_post.scss·_markdown.scss·data_grid·dashboard 등), HEAD 부재(제외 계보의 entity_rhs/entity_card.tsx·global_header/left_controls·product_rail). 이후 upstream 굵기 조정 커밋도 spec 014 기준으로 판단한다. |
+
+| d4e0c0cc | [ci(e2e): skip redundant lane summary refresh after triage and pass ANTHROPIC_API_KEY to rolling upgrades (#40310)](https://github.com/mattermost/mattermost/commit/d4e0c0cce0420ed2b7fb6833ca33176795a2cd25) | 제외한 b1d2e89e(#40106)의 직접 후속인 Mattermost 사내 E2E 레인 자동화 조정(triage 뒤 lane summary 재갱신 생략, rolling-upgrade 워크플로에 secrets.ANTHROPIC_API_KEY 전달). 대상 6파일 중 e2e-tests-lane-result.yml·e2e-tests-playwright-rolling-upgrades(-template).yml·test_e2e_status_workflows.py 4개가 포크에 없어 merge-tree modify/delete 4건, 남은 e2e-tests-playwright.yml 1줄도 lane 게시 연결이다. 같은 계보 09c24a0f·5c1fe9b4·d81e78ca·fe9a36e8 제외. 보호 경로 4개 접촉. |
+
+| 3d76b973 | [Point coding agents at the ABAC rules (#39540)](https://github.com/mattermost/mattermost/commit/3d76b9733121ec8bef3cfbfe989d9534e8c53934) | 루트 AGENTS.md에 '접근 제어 코드 위치와 비공개 ../enterprise/abac/rules/ 규칙을 보라'는 13줄 섹션 추가. 포크 AGENTS.md는 spec-kit·superpowers 워크플로용 자체 관리 파일이라(constitution v1.5.x·spec 029~034 커밋) merge-tree CONFLICT이고, 가리키는 비공개 mattermost/enterprise 저장소가 없으며 포크 빌드에선 ABAC 판정 엔진도 동작하지 않는다. 선례 5ddd76ec(AGENTS.CLOUD.md) 제외. 커밋 중간의 .claude/rules/abac 생성본은 최종 diff에서 빠졌다. |
 
 ## spec 전환 커밋
 
