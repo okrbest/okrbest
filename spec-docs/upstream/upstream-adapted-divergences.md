@@ -6480,3 +6480,20 @@ Export 메뉴(HTML·Markdown 다운로드, 숨은 sandbox iframe 인쇄), `manag
 | `app/migrations.go` `doSetupPropertyPermissionsBackfill` | `mlog.Info/Error` 2곳 → `rctx.Logger()` | 함수가 포크에 없다(property v2 계보 제외). 같은 충돌 블록에 `cacheManagedCategoryIDs`도 문맥으로 섞여 있었고 함께 버렸다 | property v2 계보를 들일 때 |
 
 **검증(2026-11-26).** 서버 `go build ./channels/...`, 접촉 패키지 `go vet`, `api4 -run TestPostLog`(신규 2건 포함), `app/users`·`app/email` 테스트 통과.
+
+## 온보딩 Site URL 단계 — compass-ui 일러스트를 compass-icons GlobeIcon으로 바꾸고, Organization 단계 그림 교체를 버렸다
+
+**upstream**: [`4b9313df`](https://github.com/mattermost/mattermost/commit/4b9313dfbbca32c21817b8a1baab4de86ceb3c70)
+([MM-71867] Add a Site URL step to the onboarding wizard, #40033) — 11파일 +1134/-12, 2026-11-26 sync 반영(사용자 결정 adapt)
+
+Site URL 단계(`site_url.tsx`·`site_url_status.tsx`·`site_url.scss`·테스트 2개), `preparing_workspace.tsx`의 단계 배선, `steps.ts`, `platform/types/src/setup.ts`의 `site_url`, en.json 48줄은 upstream 그대로 받았다. en.json 문구의 "Mattermost" 3곳은 rebrand.md 기준 en.json 영문 변경이 미착수라 그대로 뒀다. 서버 쪽 짝(#40022 저장, #40094 타임아웃)은 이미 반영했다. 텍스트 충돌은 없었지만 새 파일이 제외한 Compass UI 계보(`@mattermost/compass-ui`)를 import해 그대로는 모듈 해석에 실패한다.
+
+**버린 것.**
+
+| 위치 | upstream | 포크 | 되살릴 조건 |
+|---|---|---|---|
+| `site_url.tsx` 일러스트 | `Illustration`(`@mattermost/compass-ui/components/illustration`) 180x124 안에 `GlobeSvg`(`@mattermost/compass-ui/illustrations/globe`) | `GlobeIcon`(`@mattermost/compass-icons/components`, size 96)을 `SiteUrl__illustration`(180x124, flex 가운데, `--button-bg` 색) div에 넣었다. 상자 크기가 같아 연결선 위치(`left: -40px`)는 그대로 맞는다 | Compass UI 계보를 들일 때 upstream 값으로 되돌린다 |
+| `organization.tsx` | `CompanySVG`(205x180)를 compass-ui `OfficeSvg`(180x139)로 교체 | 기존 `CompanySVG` 유지 | 같다 |
+| `organization.scss` `__progress-path` | `left: -55px` → `-40px`(180px 그림을 x=50에 맞춤) | `-55px` 유지 — `CompanySVG`가 205px라 기존 값이 맞다 | 같다 |
+
+**검증(2026-11-26).** jest `components/preparing_workspace` 5 스위트 71건 통과(신규 site_url·preparing_workspace 테스트 포함), 새 파일 eslint 경고·오류 0, stylelint 통과, webapp `check-types` 오류 7건은 master 기준선과 같다(전부 변경 무관 파일).
